@@ -1,7 +1,8 @@
 // Tasks page (internal) — a simple planner (kanban) YOU own: add cards, drag them
-// between columns, edit or delete. Saved in this browser under its own key. Seeded
-// once with what's on the go right now so the board reflects reality from the first
-// open; after that it's yours to shape.
+// between columns, edit or delete. Saved in this browser under its own key. On open
+// it reads the LIVE plan folders (docs/plans/doing + done, via the heartbeat API) and
+// fills in one "Docs" card per unfinished plan — so the board reflects what's actually
+// on disk right now, not a hand-typed snapshot. Your own cards sit alongside, untouched.
 //
 // (The old "Build phases" board lived here too — the prototype→production checklist
 // with build-status chips, your verdict ticks and the copy-continue/verify prompts.
@@ -38,26 +39,6 @@ function laneColor(name) {
   return KB_LANE_COLORS[h % KB_LANE_COLORS.length];
 }
 
-// First-open seed — a snapshot of everything on the go on 2026-07-05. Edit freely;
-// "Reset to current state" restores exactly this.
-const KB_SEED = [
-  { col: "doing", lane: "Agent", title: "Agent-native codebase", note: "P2 maps + P1 cassette replay + P3 decision tables + P4 parity test all green-lit 2026-07-08, $0 total. Last: P5 prompt↔gate coupling registry." },
-  { col: "doing", lane: "Product", title: "Manager-ready rail", note: "Phase 1 built — customers get Home · New 1:1 · Team · Past 1:1s; internal tools hidden. Awaiting your walk. Phase 2 (Bricolage/4px/date) next." },
-  { col: "doing", lane: "Live data", title: "Live-data cleanup", note: "Phases 1–2 done — every screen on /api/v1. Phase 3 next: delete ~54 dead legacy routes." },
-  { col: "doing", lane: "Logs", title: "Error log screen", note: "Superadmin Error log (Local/Live), one Neon. Phase 2 built — awaiting walk. Next: Phase 3 browser crashes." },
-  { col: "doing", lane: "Users", title: "User management P3", note: "Deactivate / reactivate a user; live session killed immediately. Phase 2 (change role) closed." },
-  { col: "doing", lane: "Live data", title: "Page heartbeat", note: "Real UPDATE buttons. Phase 1 done (Guide). Next: Phase 2 Universe ring · Phase 3 Tasks-board reality check." },
-  { col: "todo", lane: "Design", title: "Design cleanups", note: "Inline-hex cleanup (8 files), dropdown/progress/error consolidation, star states batch on the sheet." },
-  { col: "todo", lane: "Engine", title: "Run QA fixes (prompt)", note: "Phases 2–4 — prompt changes, need a paid walk." },
-  { col: "ideas", lane: "Engine", title: "Planner grounding", note: "Parked — awaiting scope pick (A/B/C/all)." },
-  { col: "ideas", lane: "Product", title: "Briefing readability", note: "Parked idea." },
-  { col: "done", lane: "Design", title: "Design system (Sero × Flowbite)", note: "Closed 2026-07-05 — Flowbite 2.5.2 + Carl's colours, component sheet + DESIGN.md is law." },
-  { col: "done", lane: "Product", title: "Mobile responsive", note: "Closed 2026-07-05 — all 38 screens work at phone width, desktop untouched." },
-  { col: "done", lane: "Engine", title: "Test engine hub", note: "Closed 2026-07-05 — Personas/Regression/Compare merged into one page." },
-  { col: "done", lane: "Users", title: "Roles: admin/manager/member", note: "Renamed + migrated live on Neon." },
-  { col: "done", lane: "Product", title: "Pre-go-live PG1–PG8", note: "Team, Past 1:1s, ratings, and a superadmin window on the alpha." },
-];
-
 let kb = { cards: [] };
 let kbEditing = null;
 let kbSelected = null; // card id shown in the right-side detail panel
@@ -65,9 +46,8 @@ function loadKb() {
   try {
     const raw = localStorage.getItem(KB_KEY);
     if (raw) { kb = JSON.parse(raw); return; }
-  } catch { /* fall through to seed */ }
-  kb = { cards: KB_SEED.map((c, i) => ({ id: "seed" + i, ...c })) };
-  saveKb();
+  } catch { /* fall through to an empty board */ }
+  kb = { cards: [] }; // no hardcoded seed — syncDocsOnOpen() fills the board from live folders
 }
 function saveKb() { try { localStorage.setItem(KB_KEY, JSON.stringify(kb)); } catch {} }
 
@@ -553,6 +533,21 @@ const TASKS_STYLE = `<style>
   .tk-sync__actions { margin-top:16px; text-align:right; }
 </style>`;
 
+// Quiet version of Update, run once when the page opens: pull the live plan folders
+// in as Docs cards with no modal — just the same slide-in / pulse on the board. If the
+// API isn't reachable, leave the board exactly as it is (your own cards still show).
+async function syncDocsOnOpen(root) {
+  let todos = null;
+  try {
+    const hb = await getHeartbeat();
+    if (hb && hb.todos) todos = hb.todos;
+  } catch { /* offline — nothing to sync, board stays as-is */ }
+  if (!todos) return;
+  const active = Array.isArray(todos.active) ? todos.active : [];
+  const doneSlugs = Array.isArray(todos.done) ? todos.done : [];
+  await reconcileDocs(root, active, doneSlugs);
+}
+
 export function mount(root) {
   loadKb();
 
@@ -564,7 +559,7 @@ export function mount(root) {
           <h1 class="h1">Tasks</h1>
           <button class="btn btn--ghost js-back" type="button">Back</button>
         </div>
-        <div class="page-header__lede"><b>Your planner</b> — a board you own: add a card in any column, drag it across as it moves, click ${icon(Pencil, { size: 14 })} to add a lane or a note. Hit <b>Update from docs</b> to pull unfinished plans in as “Docs” cards. Saved in this browser.</div>
+        <div class="page-header__lede"><b>Your planner</b> — a board you own: add a card in any column, drag it across as it moves, click ${icon(Pencil, { size: 14 })} to add a lane or a note. It fills itself from the live plan folders on open; hit <b>Update from docs</b> to re-check. Saved in this browser.</div>
       </header>
 
       <section class="kb">
@@ -575,7 +570,7 @@ export function mount(root) {
           </div>
           <div class="kb-head__actions">
             <button class="btn btn--sm js-kb-update" type="button">${icon(RefreshCw, { size: 16 })} Update from docs</button>
-            <button class="btn btn--sm btn--ghost js-kb-reset" type="button">Reset to current state</button>
+            <button class="btn btn--sm btn--ghost js-kb-reset" type="button">Reset from docs</button>
           </div>
         </div>
         <div class="kb-board"></div>
@@ -584,13 +579,15 @@ export function mount(root) {
   `;
 
   renderKb(root);
+  syncDocsOnOpen(root); // fill the board from the live plan folders on open
   root.querySelector(".js-kb-update").addEventListener("click", () => runUpdate(root));
   root.querySelector(".js-kb-reset").addEventListener("click", () => {
-    if (!window.confirm("Reset the board to the current-state cards? Any cards you added will be lost.")) return;
+    if (!window.confirm("Clear the board and rebuild it from the live plan folders? Any cards you added by hand will be lost.")) return;
     try { localStorage.removeItem(KB_KEY); } catch {}
     kbEditing = null;
     loadKb();
     renderKb(root);
+    syncDocsOnOpen(root);
   });
 
   const back = () => setState({ stage: STAGES.START });

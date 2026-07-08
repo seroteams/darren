@@ -194,13 +194,13 @@
   <div style="margin-top:24px">
     <span class="pill"><b>5</b> meeting types</span>
     <span class="pill"><b>6</b> pipeline stages</span>
-    <span class="pill"><b>4,375</b> questions</span>
+    <span class="pill"><b>4,400+</b> questions</span>
     <span class="pill"><b>21</b> focus areas</span>
     <span class="pill"><b>4</b> axes</span>
-    <span class="pill"><b>14</b> trust checks</span>
-    <span class="pill"><b>24</b> role profiles</span>
+    <span class="pill"><b>18</b> trust checks</span>
+    <span class="pill"><b>31</b> role profiles</span>
     <span class="pill hot"><b>NEW:</b> read the real prompts</span>
-    <span class="pill hot"><b>NEW:</b> a real sign-in product</span>
+    <span class="pill hot"><b>NEW:</b> runs land in a real database</span>
   </div>
   <p class="lead" style="margin-top:26px; font-size:14.5px;">Use <b>→</b> / <b>←</b> arrow keys or the buttons below. Press <b>T</b> for contents. A shareable, customer-facing changelog lives alongside this in <code>sero-changelog.html</code>.</p>
 </section>
@@ -259,6 +259,10 @@
   <h2>What's shipped, newest first</h2>
   <p style="margin-top:-.4rem;opacity:.7;font-size:.9rem">Hand-written, refreshed by us at each phase close — the story of what shipped, <strong>not</strong> live status. For where the build is right now, see <code>STATUS.md</code>.</p>
   <div class="log">
+    <div class="logitem"><div class="logdate">Jul 8</div><div class="logbody"><h4>Every 1:1 lands in a real database <span class="badge">NEW</span></h4><p>New track: move ALL app data into Postgres for a live + local split (two Neon databases, with a safety catch so local code can never touch live data). Phase 1 (tables + self-migrating boot) green-lit; Phase 2 built: every run now <strong>dual-writes</strong> — the run row plus all stage prompt/reply artifacts land in the database AND on disk, so nothing can be lost during the cutover. 88/88 tests, $0 spent. 5 phases to go: read cutover, questions, small stores, import ~250 old runs, retire the files.</p></div></div>
+    <div class="logitem"><div class="logdate">Jul 7</div><div class="logbody"><h4>Honesty audit from reading every run <span class="badge">FIX</span></h4><p>Read all 169 runs' manager inputs. Found and fixed a real gate blind spot: the smoke test checked only 6 of the briefing's 8 required keys — the two <strong>honesty fields</strong> (confidence, don't-assume) could vanish with every test green. Now it reads the engine's own key list, so it can't drift. Also closed the "does thin input still give a good brief?" check: brief 🟢 · summary 🟢 · questions 🟡 (one vague-note risk parked).</p></div></div>
+    <div class="logitem"><div class="logdate">Jul 6–7</div><div class="logbody"><h4>Runner gates + four new trust checks <span class="badge">NEW</span></h4><p>Three phases of hard gates on the live planner: every queue item shape-checked, the queue itself shape-checked, and the evaluation input locked against planner note-tags leaking through. New named checks joined the suite — <code>FOCUS_SHAPE_LEAK</code>, <code>EVIDENCE_ANCHOR</code>, <code>INFERRED_STATE_LEAK</code>, <code>THIN_INPUT_SUPPRESSION</code> — now <strong>18 named trust checks</strong>. Plus: the overnight <strong>night test</strong> QA pass, reading text lifted to 16px, and the docs tidied into <code>docs/workstreams</code>.</p></div></div>
+    <div class="logitem"><div class="logdate">Jul 6</div><div class="logbody"><h4>People roster — 1:1s belong to a real person <span class="badge">NEW</span></h4><p>A real <code>people</code> table replaces free-text names: every 1:1 stamps who it's about (old runs backfilled), New 1:1 starts from a person picker, Team groups by roster identity, and a linked member's Home lists the 1:1s about them — list-only, never the manager's notes. All 5 phases green-lit in 2 days, $0. Same day, the continuity/"moat" track was <strong>ripped out clean</strong> at Carl's call — no code or plan files remain, tests green.</p></div></div>
     <div class="logitem"><div class="logdate">Jul 5</div><div class="logbody"><h4>One API, no dead doors <span class="badge">CLEANUP</span></h4><p>A full "is everything really connected?" audit confirmed all 38 screens run on live data — and caught that the old API paths from before the v1 migration were still half in use. Now every call the app makes goes through the one real <code>/api/v1</code> API, and the ~54 leftover legacy routes were deleted from the server (proven live: old paths answer "not found", new paths still work). The to-do folder was tidied to match reality on the way.</p></div></div>
     <div class="logitem"><div class="logdate">Jul 5</div><div class="logbody"><h4>The whole app works on a phone <span class="badge">NEW</span></h4><p>Mobile-responsive track, all 5 phases in one day: on a phone the left rail becomes a slide-in menu behind a <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-0.125em" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg> button, the in-run stage bar goes compact, and every screen — login through the live 1:1 flow to the admin tables — fits the screen with thumb-sized buttons and no sideways scrolling. Tapping into a field no longer zooms the page (iOS), wide admin tables keep the person's name pinned while you scroll the rest, and the desktop look is untouched. A hidden real bug (the Guide page overflowing) was caught and fixed on the way.</p></div></div>
     <div class="logitem"><div class="logdate">Jul 4</div><div class="logbody"><h4>A safe admin key to watch the alpha <span class="badge">GROUNDWORK</span></h4><p>Pre-go-live PG6 (behind the scenes, no screen yet): Carl's account gains a <strong>read-only</strong> key to see across all alpha companies, so adoption can be watched and the friendly managers followed up. It's tightly gated — the identity is checked on the server (never trusting the browser), the code can only ever <strong>read</strong> (it never even sees passwords), and <strong>every use is logged</strong>. A normal owner, a logged-out visitor, and even the developer shortcut login are all refused. Proven by 13 tests. The screens that use it come next (PG7/PG8).</p></div></div>
@@ -537,8 +541,8 @@
 <!-- 19 HARD GATES -->
 <section class="slide">
   <div class="kicker">17 · The safety gates</div>
-  <h2>Eleven hard rules that fail the build</h2>
-  <p class="lead"><code>npm run gate</code> replays human-approved "golden" cases through the live pipeline. Any one of these failing means the change doesn't ship (<code>evals/trust-checks.js</code>).</p>
+  <h2>The hard rules that fail the build</h2>
+  <p class="lead"><code>npm run gate</code> replays human-approved "golden" cases through the live pipeline. Any one of these failing means the change doesn't ship (<code>evals/trust-checks.ts</code> — <b>18 named checks</b> and growing).</p>
   <table>
     <tr><th>Gate</th><th>What it stops</th></tr>
     <tr><td><span class="gate">PRIVATE_NOTE_LEAK</span></td><td>The manager's private judgments surfacing word-for-word where the employee could see them.</td></tr>
@@ -550,6 +554,8 @@
     <tr><td><span class="gate">WRONG_MEETING_TYPE</span></td><td>A question bank that ignores the meeting's arc.</td></tr>
     <tr><td><span class="gate">SCHEMA_INVALID</span></td><td>Structurally broken output — missing parts, scores out of range.</td></tr>
     <tr><td><span class="gate">QUESTION_INTEGRITY</span></td><td>Duplicate questions, forbidden phrasings, debug text, or questions from nowhere.</td></tr>
+    <tr><td><span class="gate">FOCUS_SHAPE_LEAK / EVIDENCE_ANCHOR</span></td><td><b>New (Jul):</b> focus-point copy breaking its shape rules; claims that don't anchor to real evidence in the transcript.</td></tr>
+    <tr><td><span class="gate">INFERRED_STATE_LEAK / THIN_INPUT_SUPPRESSION</span></td><td><b>New (Jul):</b> the briefing asserting a state of mind nobody stated; thin manager input getting silently swallowed instead of surfaced.</td></tr>
   </table>
 </section>
 
@@ -578,7 +584,7 @@
   <div class="cards c2">
     <div class="card"><h3>Prompt-level rules</h3><p>Focus labels can't start with question words. A banned-phrase list keeps out consultant-speak. Notes with content must yield ≥1 note-driven focus. ≥half the bank must reference <strong>this specific person</strong>.</p></div>
     <div class="card"><h3>Code-level enforcement</h3><p>Drill / clarifier / tangent caps. Shallow-answer zeroing. The grounding gate. The arc-leak filter. Safe fallbacks for broken questions. These don't ask — they enforce.</p></div>
-    <div class="card"><h3 class="warn">Advisory (warn + log)</h3><p><span class="gate warn">UNGROUNDED_PREMISE</span>, <span class="gate warn">AXIS_SILENT_SESSION</span>, <span class="gate warn">RULE_ECHO_MEANING</span> — surfaced for us to inspect, not hard-blocking yet. <strong>14 named checks</strong>: 11 hard-fail + 3 advisory.</p></div>
+    <div class="card"><h3 class="warn">Advisory (warn + log)</h3><p><span class="gate warn">UNGROUNDED_PREMISE</span>, <span class="gate warn">AXIS_SILENT_SESSION</span>, <span class="gate warn">RULE_ECHO_MEANING</span> — surfaced for us to inspect, not hard-blocking yet. <strong>18 named checks</strong> in the suite, 3 of them advisory.</p></div>
     <div class="card"><h3 class="alt">The standing rule</h3><p><strong>No silent masking.</strong> When the model produces something off, Sero <strong>flags</strong> it — it never quietly rewrites text to hide a problem. Surfacing the truth beats a clean-looking lie.</p></div>
   </div>
 </section>
@@ -593,7 +599,7 @@
     <div class="card"><h3>Per run</h3><p><code>transcript.json</code>, <code>axis-state.json</code>, notes, session state, and the run's cost in tokens and dollars.</p></div>
     <div class="card"><h3 class="alt">See before sent</h3><p>The new <strong>"Sent" tab</strong> shows the exact filled payload <em>before</em> the AI runs — no API call. The <strong>Notes · Sent · Reply</strong> tabs sit on every stage.</p></div>
   </div>
-  <div class="note"><b>One thing to remember:</b> <code>response.json</code> is the <b>raw</b> model output, before the guards run — judge the product on what shipped, not the raw draft. Reviewed runs also carry a <code>review.json</code> verdict.</div>
+  <div class="note"><b>One thing to remember:</b> <code>response.json</code> is the <b>raw</b> model output, before the guards run — judge the product on what shipped, not the raw draft. Reviewed runs also carry a <code>review.json</code> verdict. <b>And new (Jul 8):</b> every run now <b>dual-writes to Postgres</b> as well — the run row plus all stage artifacts land in the database (Neon, live + local), with disk still canonical until the cutover finishes.</div>
 </section>
 
 <!-- 23 QA COCKPIT -->
@@ -634,12 +640,12 @@
   <div class="cards c3">
     <div class="card"><h3>npm run gate</h3><p><strong>The trust gate.</strong> Replays <strong>8 golden scenarios</strong> and runs all hard checks. Pass/fail. Before any change is "done". <em>~$3 full, ~$0.35 a single case.</em></p></div>
     <div class="card"><h3>npm run smoke</h3><p><strong>End-to-end check.</strong> Pushes a whole scenario start to finish to prove the plumbing connects.</p></div>
-    <div class="card"><h3>npm test / typecheck</h3><p><strong>Free & fast.</strong> ~69/69 unit tests plus a strict TypeScript check — the everyday safety net.</p></div>
+    <div class="card"><h3>npm test / typecheck</h3><p><strong>Free & fast.</strong> 88/88 unit tests plus a strict TypeScript check — the everyday safety net. Plus the overnight <strong>night test</strong>: an unattended full-app QA pass with a report by morning.</p></div>
   </div>
   <ul class="big">
     <li><strong>The prompt-notes loop:</strong> human-written rules in <code>*.notes.yaml</code> (must/must-not, length & count ranges) are checked against output <em>offline</em>. Fail → read why, tweak the prompt, re-check — <strong>without burning API</strong>.</li>
     <li><strong>Free offline nets:</strong> <code>npm run replay</code> (<strong>7 regression fixtures</strong>) and offline trust-check tests. These are the default.</li>
-    <li><strong>Cost discipline:</strong> no paid run without an explicit yes and a stated cost first. <strong>No self-certifying</strong> — the gate runs and is reported before anything is called done.</li>
+    <li><strong>Cost discipline:</strong> free checks first, always; a task may use <strong>one</strong> paid run when a free check genuinely can't prove it — a second needs an explicit yes, cost stated. <strong>No self-certifying</strong> — the gate runs and is reported before anything is called done.</li>
   </ul>
 </section>
 
@@ -649,13 +655,13 @@
   <h2>The Darren Method</h2>
   <p class="lead">Anything bigger than a one-file tweak is planned and built one careful step at a time:</p>
   <div class="flow">
-    <div class="step"><span class="num">1</span><h4>Plan</h4><p>A folder under <code>docs/todo/&lt;name&gt;/</code>: a PLAN.md plus one file per phase, each ending in test scenarios.</p></div>
+    <div class="step"><span class="num">1</span><h4>Plan</h4><p>A folder under <code>docs/workstreams/&lt;name&gt;/</code>: a plan.md plus one file per phase, each ending in test scenarios.</p></div>
     <div class="step"><span class="num">2</span><h4>Baseline</h4><p>Run checks <em>before</em> touching anything, so old failures aren't blamed on new work.</p></div>
     <div class="step"><span class="num">3</span><h4>One phase</h4><p>Build exactly one phase. No racing ahead.</p></div>
     <div class="step"><span class="num">4</span><h4>You test</h4><p>The product owner walks the scenarios and green-lights. The builder never self-certifies.</p></div>
     <div class="step"><span class="num">5</span><h4>Commit & next</h4><p>Approved work commits immediately. Only then does the next phase start.</p></div>
   </div>
-  <div class="note"><b>One board tracks it all:</b> <code>SERO_BOARD.md</code> is the single source of truth — <b>Now / Next / Parked / Cut / Done</b>, with commit hashes. Finished folders move to <code>docs/todo/done/</code>; mid-phase ideas get <b>parked</b>, never bolted on.</div>
+  <div class="note"><b>Two trackers, one truth:</b> <code>SERO_BOARD.md</code> is the strategic board (<b>Now / Next / Parked / Cut / Done</b>, with commit hashes) and <code>STATUS.md</code> is the tactical "where are we right now" view with a ▶ Your-move banner. Finished folders move to <code>docs/archive/done/</code>; mid-phase ideas get <b>parked</b>, never bolted on. The rituals themselves now live as <b>skills</b> — darren-method, checkpoint, phase-close, safe-commit, night-test — so every session follows the same playbook.</div>
 </section>
 
 <!-- 27 CHEAT SHEET -->
@@ -669,10 +675,10 @@
         <b>5</b> meeting types · <b>2</b> relational · <b>21</b> focus areas (3/7/11)<br>
         <b>9</b> questions per run (4 intro + 5 dynamic)<br>
         <b>4</b> axes, all start at <b>0</b>, deltas −3/−1/0/+1/+3, clamp ±10<br>
-        <b>4,375</b> questions · <b>24</b> role profiles · <b>9</b> prompts<br>
-        <b>14</b> trust checks (11 hard + 3 advisory)<br>
-        <b>8</b> golden · <b>7</b> replay · <b>8</b> review dimensions · <b>~69/69</b> tests<br>
-        <b>~$0.35</b>/run · <b>~$3</b> full gate
+        <b>4,147</b> library + <b>300</b> runtime questions · <b>31</b> role profiles · <b>7</b> prompts<br>
+        <b>18</b> trust checks (3 advisory)<br>
+        <b>8</b> golden · <b>7</b> replay · <b>8</b> review dimensions · <b>88/88</b> tests<br>
+        <b>~$0.35</b>/run · <b>~$3</b> full gate · free first, 1 paid run max per task
       </p>
     </div>
     <div class="card">
@@ -682,7 +688,7 @@
         <code>npm run cli</code> — terminal run<br>
         <code>npm run gate</code> — trust gate (before "done")<br>
         <code>npm run typecheck</code> — strict TypeScript check<br>
-        <code>npm test</code> — ~69 unit tests (free)<br>
+        <code>npm test</code> — 88 unit tests (free)<br>
         <code>npm run replay</code> — offline regression (free)<br>
         <code>npm run smoke</code> / <code>eval</code> — end-to-end / quality (paid)
       </p>
@@ -694,8 +700,8 @@
         <code>admin/</code> — the console · <code>content/prompts/</code> — the prompts<br>
         <code>content/questions/</code> — the library · <code>content/data/role-profiles/</code><br>
         <code>content/axes.json</code> · <code>content/config/models.json</code><br>
-        <code>logs/&lt;month&gt;/&lt;run-id&gt;/</code> — every run · <code>evals/golden/</code> — gate cases<br>
-        <code>SERO_BOARD.md</code> — the single source of truth
+        <code>logs/&lt;month&gt;/&lt;run-id&gt;/</code> — every run (+ Postgres dual-write) · <code>evals/golden/</code><br>
+        <code>SERO_BOARD.md</code> — strategy · <code>STATUS.md</code> — right now · <code>docs/workstreams/</code> — plans
       </p>
     </div>
     <div class="card">
@@ -703,7 +709,7 @@
       <p>
         <b>No silent masking</b> — flag problems, never hide them<br>
         <b>No hidden perf reviews</b> — relational arcs stay relational<br>
-        <b>No paid run without a yes</b> — state the cost first<br>
+        <b>Free first; one paid run max per task</b> — a second needs a yes<br>
         <b>No self-certifying</b> — the gate runs before "done"<br>
         <b>Plain language</b> · <b>one phase at a time</b>
       </p>

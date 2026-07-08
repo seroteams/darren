@@ -11,7 +11,7 @@ Loads a single run for review. Output primes discussion — does not propose fix
 
 ## Inputs
 
-One arg: absolute path to a run directory (e.g. `C:\Users\User\Documents\Sero\darren\logs\may\2026_May01_07-47-cdfe`).
+One arg: absolute path to a run directory (e.g. `C:\Users\User\Documents\Sero\serolocal\logs\may\2026_May01_07-47-cdfe`).
 
 If arg missing: ask which run. Do not guess.
 

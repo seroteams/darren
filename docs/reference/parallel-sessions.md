@@ -1,6 +1,6 @@
 # Running multiple Claude sessions without collisions
 
-**The problem.** Several Claude sessions in the *same* folder (`Sero/darren`) share one git
+**The problem.** Several Claude sessions in the *same* folder (`Sero/serolocal`) share one git
 working tree and one git index. That causes two real failures we hit on 2026-07-05:
 
 - **Co-mingled commits** — one session's `git commit` sweeps in another session's *staged*
@@ -16,18 +16,18 @@ different worktrees can't clobber or co-mingle each other. When a branch is done
 
 ## Start a session in its own worktree
 
-From the main copy (`Sero/darren`):
+From the main copy (`Sero/serolocal`):
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/new-worktree.ps1 <name>
 ```
 
 e.g. `... new-worktree.ps1 error-log` creates:
-- folder `../darren-error-log`
+- folder `../serolocal-error-log`
 - branch `work/error-log`
 - with `.env` copied and `node_modules` linked (so tests/build/dev run right away).
 
-Then start the Claude session with that folder as its working directory (`cd ../darren-error-log`).
+Then start the Claude session with that folder as its working directory (`cd ../serolocal-error-log`).
 Give each concurrent track its own name.
 
 ## Dev servers (ports)
@@ -43,7 +43,7 @@ When a worktree's branch is built + tested, from the **main copy**:
 
 ```powershell
 git merge work/<name>
-git worktree remove ../darren-<name>
+git worktree remove ../serolocal-<name>
 git branch -d work/<name>
 ```
 

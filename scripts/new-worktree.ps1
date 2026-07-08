@@ -7,11 +7,11 @@
 #
 # Usage:
 #   powershell -ExecutionPolicy Bypass -File scripts/new-worktree.ps1 <name>
-# e.g.  ... new-worktree.ps1 error-log   ->   ../darren-error-log  on branch  work/error-log
+# e.g.  ... new-worktree.ps1 error-log   ->   ../serolocal-error-log  on branch  work/error-log
 #
 # When the branch is done + tested, merge it back from the MAIN copy and drop the worktree:
 #   git merge work/<name>
-#   git worktree remove ../darren-<name>
+#   git worktree remove ../serolocal-<name>
 #   git branch -d work/<name>
 
 param([Parameter(Mandatory = $true)][string]$Name)
@@ -19,7 +19,7 @@ $ErrorActionPreference = "Stop"
 
 $repo = (git rev-parse --show-toplevel).Trim()
 $parent = Split-Path $repo -Parent
-$dir = Join-Path $parent "darren-$Name"
+$dir = Join-Path $parent "serolocal-$Name"
 $branch = "work/$Name"
 
 if (Test-Path $dir) { Write-Error "Folder already exists: $dir"; exit 1 }
