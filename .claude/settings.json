@@ -18,5 +18,17 @@
       "Read(//c/Users/User/.claude/**)"
     ]
   },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd /c type \"%CLAUDE_PROJECT_DIR%\\.claude\\hooks\\guardrails-reminder.txt\""
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {}
 }
