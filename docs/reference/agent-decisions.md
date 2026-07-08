@@ -3,7 +3,7 @@
 > **What this is:** the three judgments that ended every workstream with "ask Carl" — written
 > down so an agent resolves the common cases alone and only true edge cases escalate.
 > Captured from Carl's actual past rulings (sources linked per table). Created in the
-> [agent-native](../plans/doing/agent-native/plan.md) track, Phase 3 (2026-07-08).
+> [agent-native](../plans/done/agent-native/plan.md) track, Phase 3 (2026-07-08).
 >
 > **Rank:** [guardrails.md](guardrails.md) still governs — these tables *implement* guardrails
 > 4 (money) and 3 (honesty), they never override them. When a table and a newer ruling by Carl

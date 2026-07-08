@@ -12,19 +12,15 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-**🔨 Open (2026-07-08): [agent-native](docs/plans/doing/agent-native/plan.md) — make the codebase agent-native.**
-From the principal-architect audit: agents should reproduce, build, test and verify changes on their own,
-for $0, without stopping to ask Carl for money/directions/small judgment calls. 5 phases, run order 2→1→3→4→5:
-② fix stale agent maps **✅** (stale `.cursor` map rewritten + [engine-map.md](docs/reference/engine-map.md)) ·
-① offline cassette replay **✅ green-lit 2026-07-08 — the flagship landed**: the whole 5-stage pipeline replays
-offline from any saved run folder (~5s, $0.00, no API key; `scripts/replay-pipeline.js` + `scripts/repro-from-bundle.js`
-answers REPRODUCES: yes/no on a bug bundle — live-proven on a real July run with an identical verdict) ·
-③ decision tables **✅ green-lit 2026-07-08** ([agent-decisions.md](docs/reference/agent-decisions.md) — the
-paid-run tree, the flag/retry/refuse honesty policy, and the good-enough rubric; B2 + stonewall stay Carl's
-parked calls) · ④ orchestrator parity **✅ green-lit 2026-07-08** (pipeline order declared once in
-`stage-sequence.ts` + an offline test that names the exact drift — the half-changed-pipeline trap closed) ·
-⑤ prompt↔gate coupling registry (last one).
-Whole track $0 so far — the predicted seed spend proved unnecessary. Tactical: [STATUS.md](STATUS.md).
+**✅ Closed (2026-07-08): [agent-native](docs/plans/done/agent-native/plan.md) — the codebase is agent-native.**
+From the principal-architect audit, all 5 phases green-lit in ONE day, **$0 total spend**: ② true agent maps
+([engine-map.md](docs/reference/engine-map.md) + the rotten always-on `.cursor` rule rewritten) · ① **offline
+cassette replay, the flagship** — any saved run folder replays the whole 5-stage pipeline through the real engine
+(~5s, $0, no API key), and `repro-from-bundle` answers REPRODUCES: yes/no on a user's bug bundle · ③ Carl's three
+recurring judgment calls as decision tables ([agent-decisions.md](docs/reference/agent-decisions.md); B2 + stonewall
+stay his parked calls) · ④ web↔CLI orchestrator parity guarded by an offline test · ⑤ prompt↔gate couplings
+registered + tested. Agents can now reproduce a bug, change code, and verify end-to-end for free — asking Carl
+only for green lights and true product calls. Parked follow-ups in the plan. Not a feature; workshop tooling.
 
 **✅ Closed (2026-07-07, risk closed 2026-07-08): [CTOCheckJuly](docs/plans/done/cto-check-july/README.md)** —
 did *thin* manager input give a good brief, questions & summary? **Answer: YES** — brief 🟢 + summary 🟢 +

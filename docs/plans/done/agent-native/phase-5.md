@@ -1,6 +1,14 @@
 # Phase 5 — Prompt↔gate coupling registry
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Run order:** 5th
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested) · **Run order:** 5th
+
+## ✅ GREEN-LIT 2026-07-08 — Carl walked it; closes the track (commit hash in the tracker stamp)
+
+## Built (2026-07-08)
+- **`content/prompts/rule-registry.ts`** (new) — 7 verified couplings, each row: the rule → the literal prompt anchor text → the gate identifier that enforces it → proven-by golden cases. Rows: focus-reason opener (`FOCUS_REASON_OPENER`), consultant-deck reason bans (`FOCUS_BANNED_REASON_PATTERNS`), focus-label second-person guard (`FOCUS_LABEL_SECOND_PERSON`), question jargon bans (`JARGON_PATTERNS`), relational-arc competency exclusion (`runQuestionArcGate`), briefing internal-vocab bans (`MANAGER_BRIEFING_BANS`), no-inference ruling (`INFERRED_STATE_LEAK` in `evals/trust-checks.ts`). Header tells the next agent: edit prompt + gate together, then the row.
+- **`scripts/test-rule-registry.js`** (new, auto-runs in `npm test`) — per row: prompt anchor still present, gate identifier still in its file, golden ids real. Failure messages say the consequence ("this rule is now UNENFORCED").
+- **Every row verified against the actual sources before writing** — only couplings that exist on BOTH sides went in. Deliberately excluded: detector-only constants with no prompt twin (`RULE_ECHO_PHRASES`, `CROSS_SESSION_VOCAB` — incident archaeology, nothing to couple), and the briefing plain-language ban list (prompt-side only, no code gate today — a candidate for a future gate, parked).
+- **Drift demo (scenario 2, already run):** renamed `FOCUS_REASON_OPENER` in golden-checks.ts → registry test red naming the row and file; reverted → green. Honest note: my FIRST demo rename (definition only) stayed green *correctly* — the identifier still existed at its use sites; a full rename went red. The test checks identifier presence, not definition sites.
 
 ## Goal
 When an agent edits a prompt rule, it can see the gate regex that enforces it — and a test breaks if the two silently drift apart.

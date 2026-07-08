@@ -12,26 +12,13 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 
 ## ▶ Your move
 
-> **🔨 [agent-native](docs/plans/doing/agent-native/plan.md) — track (2026-07-08): make the codebase agent-native (agents verify/reproduce for $0, fewer "ask Carl" stops). P2 ✅ + P1 ✅ (flagship) + P3 ✅ + P4 ✅ · P5 last.**
-> **P4 ✅ green-lit (2026-07-08, $0):** pipeline order now declared ONCE (`backend/engine/stage-sequence.ts`,
-> exported from the facade) + an offline parity test (`backend/tests/pipeline/test-stage-parity.js`, in `npm test`)
-> that goes red naming the exact drift if the web or CLI orchestrator drops/renames/reorders a stage — the
-> half-changed-pipeline trap is closed. Drift demo run (red → revert → green). `npm test` **95/95**.
-> **P3 ✅:** [agent-decisions.md](docs/reference/agent-decisions.md) — the paid-run tree, flag/retry/refuse policy,
-> good-enough rubric (B2 + stonewall stay YOUR parked decisions). **P1 ✅:** offline cassette replay
-> (`scripts/replay-pipeline.js`, `scripts/repro-from-bundle.js`). **P2 ✅:** true maps + engine-map.md.
-> From the principal-architect audit. **5 phases, run order 2→1→3→4→5:** ② stale maps ✅ · ① cassette
-> replay ✅ · ③ decision tables for the 3 Carl-gated calls · ④ web↔CLI parity test · ⑤ prompt↔gate registry.
-> **P1 ✅ green-lit (2026-07-08, $0 — the "seed cassette" spend turned out unnecessary):** the whole 5-stage
-> pipeline now replays **offline from any saved run folder** — `node scripts/replay-pipeline.js logs/<month>/<run-id>`
-> → cassette → real engine → deterministic verdict, in ~5s at $0.00 with no API key; and
-> `node scripts/repro-from-bundle.js <bundle>` answers **REPRODUCES: yes/no** for a bug report. Live-proven on a
-> real July run (identical verdict, incl. its INFERRED_STATE_LEAK fail — faithful reproduction). Runs before
-> ~Jul 01 lack per-turn planner raws (script says so). Seam: `backend/engine/cassette.ts` + `callAI`.
-> **P2 ✅ (`2a67ec93`):** stale `.cursor` map rewritten, 18 dead comment refs fixed, new
-> [docs/reference/engine-map.md](docs/reference/engine-map.md).
-> `npm test` **94/94** · typecheck clean · lint's 44 problems pre-existing (noted in plan.md).
-> **▶ Your move:** say "start phase 5" (prompt↔gate coupling registry — the last phase of the track).
+> **✅ [agent-native](docs/plans/done/agent-native/plan.md) — TRACK CLOSED 2026-07-08: all 5 phases green-lit in one day, $0 spend.**
+> The codebase is now agent-native: **maps** are true (engine-map.md + fixed `.cursor` rule) · the **whole pipeline
+> replays offline** from any saved run (`scripts/replay-pipeline.js`, ~5s/$0; `scripts/repro-from-bundle.js` answers
+> REPRODUCES yes/no on a bug bundle) · your three recurring **judgment calls are written tables**
+> ([agent-decisions.md](docs/reference/agent-decisions.md)) · **web↔CLI drift** and **prompt↔gate drift** both break
+> `npm test` with named errors. Tests 92→**96**, all offline. Folder → [done/](docs/plans/done/agent-native/plan.md);
+> parked follow-ups listed in its plan.md. **▶ Your move:** nothing — track closed.
 
 > **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 BUILT + double-checked, awaiting Carl's walk. Runbook: [TONIGHT.md](TONIGHT.md).**
 > Carl's ask: "develop locally and easily get it live" — Render free plan (Frankfurt), blueprint auto-deploys

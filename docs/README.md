@@ -56,11 +56,10 @@ See [board.md](board.md) for state. Active plans in [doing/](plans/doing/), one 
 [user-management](plans/doing/user-management/plan.md) ·
 [run-qa-fixes-jul04](plans/doing/run-qa-fixes-jul04/plan.md) ·
 [engine-improvements](plans/doing/engine-improvements/plan.md) ·
-[agent-native](plans/doing/agent-native/plan.md) ·
 [postgres-runtime-data](plans/doing/postgres-runtime-data/plan.md) ·
 [render-deploy](plans/doing/render-deploy/).
 
-Parked plans sit in [future/](plans/future/); completed ones move to [done/](plans/done/) (34 so far — auth, postgres, roles, design-system, cto-check-july, live-data-cleanup, …).
+Parked plans sit in [future/](plans/future/); completed ones move to [done/](plans/done/) (35 so far — auth, postgres, roles, design-system, cto-check-july, live-data-cleanup, agent-native, …).
 
 ## archive/ — superseded + completed
 

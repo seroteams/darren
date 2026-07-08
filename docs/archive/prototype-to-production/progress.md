@@ -84,6 +84,15 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-08** — **agent-native P5 (prompt↔gate coupling registry) green-lit — TRACK CLOSED, 5/5 phases
+  in one day, $0.** `content/prompts/rule-registry.ts` names the 7 prompt rules that have a hardcoded gate
+  twin; its test breaks `npm test` naming the pair when either side is edited alone (was: a confusing paid
+  gate failure). Two lessons: **① only register couplings verified on BOTH sides** — the sweep found one
+  prompt rule (briefing plain-language bans) with NO code gate at all; that's a finding to park, not a row
+  to fake. **② an incomplete rename staying green is the test being RIGHT** — the first demo rename touched
+  only the definition, the identifier legitimately still existed at use sites; verify the demo breaks
+  reality before trusting red. Track total: tests 92→96, all offline; the audit's five structural gaps
+  (wrong maps, paid-only verification, tribal judgment, dual-orchestrator drift, invisible couplings) all closed.
 - **2026-07-08** — **agent-native P4 (orchestrator parity guard) green-lit.** The twice-wired pipeline
   (web SSE handlers + CLI stage drivers) now has its order declared once (`backend/engine/stage-sequence.ts`)
   and an offline test that names the exact drift when either side changes alone. Lesson: **assert what's
