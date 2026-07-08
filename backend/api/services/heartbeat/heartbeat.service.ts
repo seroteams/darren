@@ -11,7 +11,7 @@ export interface HeartbeatScreen {
   desc: string; // the file's own header-comment first sentence — never hand-written here
 }
 
-// One unfinished plan folder under docs/workstreams/, as read from its PLAN.md.
+// One unfinished plan folder under docs/plans/doing/, as read from its PLAN.md.
 export interface TodoPlan {
   slug: string;
   title: string;
@@ -22,8 +22,8 @@ export interface TodoPlan {
 }
 
 export interface TodoStatus {
-  active: TodoPlan[]; // plans still in docs/workstreams/ (not archived)
-  done: string[]; // slugs sitting in docs/archive/done/
+  active: TodoPlan[]; // plans still in docs/plans/doing/ (not archived)
+  done: string[]; // slugs sitting in docs/plans/done/
 }
 
 export interface HeartbeatBody {

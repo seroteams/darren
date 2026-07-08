@@ -9,8 +9,8 @@ import { ROOT } from "../../../engine/paths.mts";
 import { isObjectRecord } from "../../../shared/guards.ts";
 
 const STAGES_DIR = path.join(ROOT, "admin", "src", "stages");
-const WORKSTREAMS_DIR = path.join(ROOT, "docs", "workstreams");
-const DONE_DIR = path.join(ROOT, "docs", "archive", "done");
+const WORKSTREAMS_DIR = path.join(ROOT, "docs", "plans", "doing");
+const DONE_DIR = path.join(ROOT, "docs", "plans", "done");
 const HEAD_BYTES = 2048; // plenty for a header comment, cheap for 30 files
 
 export interface HeartbeatRepo {
@@ -19,9 +19,9 @@ export interface HeartbeatRepo {
   scriptNames(): string[];
   axesRaw(): unknown;
   questionCountRaw(): unknown;
-  todoSlugs(): string[]; // active plan folders under docs/workstreams/
-  doneSlugs(): string[]; // finished plan folders under docs/archive/done/
-  planText(slug: string): string; // raw docs/workstreams/<slug>/plan.md, "" when missing
+  todoSlugs(): string[]; // active plan folders under docs/plans/doing/
+  doneSlugs(): string[]; // finished plan folders under docs/plans/done/
+  planText(slug: string): string; // raw docs/plans/doing/<slug>/plan.md, "" when missing
 }
 
 function dirNames(dir: string): string[] {
