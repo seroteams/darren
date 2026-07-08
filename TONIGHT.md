@@ -13,15 +13,11 @@
 
 ## Your checklist for tonight
 
-### ☐ 1. Check my Phase 1 work (2 minutes)
-- Open **http://localhost:3001/api/v1/health** → you should see `{"ok":true}`
-- Click around the app like normal — nothing should feel different
-- Then tell me: **"green light"**
+### ☑ 1. Check my Phase 1 work — ✅ DONE (green-lit + committed)
 
-### ☐ 2. Wait ~5 minutes while I do my part
-I commit Phase 1, then build Phase 2: the `render.yaml` blueprint + your `RENDER_SETUP.md` step-by-step checklist. I'll hand it to you when it's ready.
+### ☑ 2. Blueprint + checklist — ✅ DONE (green-lit + committed; GitHub is up to date)
 
-### ☐ 3. Do the Render steps (~15 minutes, one time only)
+### ☐ 3. Do the Render steps (~15 minutes, one time only) ← **YOU ARE HERE — follow [RENDER_SETUP.md](RENDER_SETUP.md)**
 Follow `RENDER_SETUP.md` top to bottom. The short version:
 1. Create a Render account → connect GitHub
 2. New ➜ Blueprint ➜ pick `seroteams/darren`
