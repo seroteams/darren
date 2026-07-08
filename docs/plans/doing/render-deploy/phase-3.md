@@ -1,6 +1,9 @@
 # Phase 3 — Go live
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 DEPLOYED + VERIFIED — awaiting Carl's paid live walk to close
+
+## Deployed (2026-07-08 night)
+Carl walked RENDER_SETUP.md: signed up (card $1 verify), New → Blueprint → `seroteams/darren`, pasted the 4 secrets (DATABASE_URL = the LIVE Neon value — verified by host match: `ep-small-morning…` = live, not `ep-summer-morning…` local), Deploy Blueprint. Service `sero` built in 84s → **live** at **https://sero-obwq.onrender.com**. Agent verified via Render API (deploy `live`) + real hits (`/api/v1/health` `{"ok":true}`, homepage HTML, `/login` 200). Render API key + service id `srv-d977l5navr4c73d7epkg` stored in `.secrets/`. Left to close: Carl's own paid live run (scenario 2).
 
 ## Goal
 The app is live at a public URL, and the agent can see Render's deploys and logs by itself.

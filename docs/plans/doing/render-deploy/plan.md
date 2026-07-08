@@ -34,6 +34,9 @@
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
+## 🎉 LIVE — https://sero-obwq.onrender.com (2026-07-08 night)
+Deploy went green. P1 ✅, P2 ✅, **P3 deployed + agent-verified live** (Render API `live` + real health/homepage/deep-link 200s; booted against Sero Live Neon, env-guard passed). Only Carl's own paid live run (~$0.35) remains to close P3 formally. Render API key + service id in `.secrets/` (gitignored). **Next: P4 — /commit + /release skills.** Follow-ups: rotate the live DB password (passed through chat); optional custom domain.
+
 ## Current state
 Triple-checked 2026-07-08 for Carl's night run: production-mode boot proven locally (Render's PORT + built SPA + deep links + health), origin-guard deploy-blocker fixed test-first, [TONIGHT.md](../../../../TONIGHT.md) runbook at repo root (temporary — delete at close-out). Folder moved to docs/plans/doing/ in the repo-wide reorg (links fixed).
 Phase 1 ✅ green-lit + committed 2026-07-08 (`1b67f792`). Baseline before changes: `npm test` 88/88, typecheck clean (free checks — gate not run: no engine/prompt changes here, the one paid run is reserved for Phase 3's live walk). After build + double-check: **96/96** (whole-tree) · typecheck · build clean · health + origin fence proven on real boots.
