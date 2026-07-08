@@ -23,17 +23,20 @@
 |---|---|---|---|
 | 1 | Backend: claim + daily cap | `POST /api/v1/sessions/:id/claim` + `GUEST_RUNS_PER_DAY` file-backed cap + board reversal note | ✅ |
 | 2 | Guest lane frontend | "Try it — no account needed" on login → intake; logged-out boot/router lane; mid-run reload works | ✅ |
-| 3 | Save prompt + claim wiring | Briefing save card for guests → register/login → auto-claim → run in Past 1:1s | 🔨 |
+| 3 | Save prompt + claim wiring | Briefing save card for guests → register/login → auto-claim → run in Past 1:1s | ✅ (walk waived) |
 | 4 | Superadmin "Guest runs" screen | List of ownerless finished runs + read-only briefing view, superadmin-only | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ (2026-07-05) · Phase 2 ✅ green-lit 2026-07-08 ("yeah looks good and move to phase 3") · Phase 3 🔨 starting.**
-Phase 2 walked with both guest doors live (`/` start screen + `/login` link — the start-screen track
-landed in between); rail leak fixed `093981e1`; intake person picker guest-safe (free-text fallback).
-Next: Phase 3 — the save-at-end card + claim wiring. Its walk contains the plan's ONLY paid moment
-(one full guest run, ~$0.35–0.60) and waits for Carl's explicit go on that run.
+**P1 ✅ · P2 ✅ walked (2026-07-08) · P3 ✅ closed 2026-07-08 with the WALK WAIVED (Carl's "B") · P4 (Guest runs screen) ⬜ last.**
+P3 shipped the save-at-end flow: guest briefing shows "Want to keep this 1:1?" (no rating/QA controls),
+register/login auto-claims the marked run and lands on it; failed claim can never strand a login
+(walked live). ⚠️ Honesty note: the paid end-to-end walk (fresh run → save card → register → run in
+Past 1:1s as one flow) was WAIVED, not done — the attempt was derailed by an unrelated API hang
+(Postgres pool starvation, flagged to postgres-runtime-data); that risk rides until a real guest saves
+a run. A half-spent guest run (2026_Jul08_22-39-…, bank generated, turn 0) is parked on disk and can
+resume a future walk cheaply. Next: Phase 4 — the superadmin "Guest runs" screen (free build).
 Phase 2: test-first (`isGuestStage` red→green); 73/73 tests · both typechecks clean. Browser-proven logged-out
 (via 127.0.0.1, which skips the login cookie): guest link on login (14px) → intake at /new → reload stays →
 /interview with no session → login → /tasks as guest → login → no rail/badge for guests → logged-in login

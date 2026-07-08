@@ -1,6 +1,19 @@
 # Phase 3 — Save prompt + claim wiring
 
-**Part of:** [PLAN.md](plan.md) · **Status:** 🔨 built 2026-07-08 — awaiting Carl's walk (scenario 1 free-proven; 2–3 wait for the paid go)
+**Part of:** [PLAN.md](plan.md) · **Status:** ✅ closed 2026-07-08 — Carl chose "walk waived" ("B")
+
+## ✅ GREEN-LIT 2026-07-08 — WALK WAIVED (scenarios 2–3 never walked live)
+Carl closed the phase without the paid end-to-end walk (his call as owner, option B; precedent:
+run-qa-fixes P1). What IS proven: the free proofs in the build record below (unit tests, the
+guest save card rendered on a real ownerless briefing, scenario 1 walked live in a browser,
+claim endpoint proven in Phase 1). What is NOT proven and rides as risk until a real guest
+uses it: the save card at the end of a freshly-generated briefing, and register → auto-claim →
+run in Past 1:1s, as one live flow. The walk attempt was derailed by an unrelated API failure
+(Postgres pool starvation, flagged to the postgres-runtime-data track); the attempted guest run
+(2026_Jul08_22-39-…) sits ownerless at turn 0 with a generated bank — usable to resume a future
+walk cheaply. Two "done" claims during the evening were checked against disk + DB and had not
+happened (likely another parallel chat's walk) — recorded here so the waiver is explicit, not
+an oversight.
 
 ## Build record (2026-07-08, $0)
 Test-first: 5 new tests in [guest.test.ts](../../../../admin/src/guest.test.ts) (red→green) for
@@ -29,7 +42,7 @@ A guest who finishes a run is invited to keep it: create an account (or log in) 
 ## Done when
 - [x] Free QA green first (scenario 1). ✅ 2026-07-08 (live in the browser, see build record)
 - [x] `npm test` + `npm run typecheck` green. ✅ 96/96 · both typechecks
-- [ ] Product owner has walked the scenarios below — including the ONE approved paid walk — and said go.
+- [x] Product owner has walked the scenarios below — including the ONE approved paid walk — and said go. ⚠️ WAIVED 2026-07-08 ("B") — see the green-lit header: scenarios 2–3 were never walked live.
 
 ## Test scenarios — for the product owner
 Scenario 1 is free. Scenarios 2–3 are ONE paid end-to-end walk (~$0.35–0.60 of OpenAI spend) — **it does not run until you say go for that specific walk.** Next phase waits for your green light.
