@@ -22,24 +22,23 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > `npm test` with named errors. Tests 92→**96**, all offline. Folder → [done/](docs/plans/done/agent-native/plan.md);
 > parked follow-ups listed in its plan.md. **▶ Your move:** nothing — track closed.
 
-> **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 BUILT + double-checked, awaiting Carl's walk. Runbook: [TONIGHT.md](TONIGHT.md).**
+> **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 ✅ green-lit + committed · P2 next. Runbook: [TONIGHT.md](TONIGHT.md).**
 > Carl's ask: "develop locally and easily get it live" — Render free plan (Frankfurt), blueprint auto-deploys
 > every push to `main`, agent watches deploys via a Render API key in `.secrets/` (never committed).
 > **4 phases:** ① pre-flight (Node pinned, `/api/v1/health`, `.secrets/` ignored) · ② `render.yaml` +
 > `RENDER_SETUP.md` checklist · ③ Carl sets Render up, agent verifies live · ④ `/commit` + `/release` skills.
-> **P1 🔨 BUILT (2026-07-08, $0) + double-checked on Carl's ask (running it tonight):** Node pinned to 24
+> **P1 ✅ green-lit + committed (`1b67f792`, 2026-07-08, $0):** Node pinned to 24
 > (`.node-version` + engines), public `GET /api/v1/health` answers `{"ok":true}` (test-first; proven on a real
 > boot), `.secrets/` gitignored. **Double-check caught a deploy-blocker:** the origin guard only allowed
 > `localhost` — on Render every browser save/start would 403. Fixed test-first ([origin.ts](backend/api/middleware/origin.ts),
 > same-origin passes, foreign sites still 403; proven on a scratch boot both ways). Also pinned down for tonight:
 > Render's `DATABASE_URL` = `.env`'s parked **LIVE_DATABASE_URL** (Sero Live Neon) + `APP_ENV=live`, and the
-> blueprint build is `npm ci --include=dev` (plain ci skips vite under NODE_ENV=production). Baseline was 88/88;
-> now `npm test` **91/91** · typecheck + build clean. Free-plan trade-offs Carl accepted: sleeps after 15 min
+> blueprint build is `npm ci --include=dev` (plain ci skips vite under NODE_ENV=production). `npm test` **96/96**
+> (whole-tree) · typecheck + build clean. Free-plan trade-offs Carl accepted: sleeps after 15 min
 > idle, disk wiped per deploy (run-log detail + generated questions reset; users/logins/run list safe in Neon).
-> **▶ Your move:** walk P1 — open `http://localhost:3001/api/v1/health`, expect `{"ok":true}`; click around,
-> nothing else changed. Green light → commit + P2 (blueprint + your checklist).
+> **▶ Your move:** say "start P2" → the `render.yaml` blueprint + your `RENDER_SETUP.md` checklist.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — NEW track (2026-07-08): move ALL app data into the database, for the live + local split. P1 ✅ committed · P2 BUILT, awaiting your walk.**
+> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — NEW track (2026-07-08): move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ green-lit + committed · P3 next.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -47,13 +46,12 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > local = Sero Local Neon, live = Sero Live Neon (created 2026-07-08, URL parked in `.env`).
 > **P1 ✅ green-lit + committed (`a11f3594`):** new tables on Neon (`0009`+`0010`, dead `runs` dropped),
 > self-migrating boot, live/local safety catch (proven both ways).
-> **P2 🔨 BUILT (2026-07-08, $0):** every new run now dual-writes to Postgres AND disk — the run row (with
+> **P2 ✅ green-lit + committed (`57d44b4b`, 2026-07-08, $0):** every new run now dual-writes to Postgres AND disk — the run row (with
 > fast index columns) + all pipeline stage prompt/response artifacts. Disk stays canonical (echo on), so
 > nothing can be lost; a `RUN_FILE_ECHO` switch turns disk off in live. FK dropped (`0011`) so the CLI lane
 > writes too. Proven **free**: a scripted run's row + all 7 stage artifacts landed in Neon, then cleaned up.
-> `npm test` **88/88** · typecheck clean. Per-turn Q&A files + log-sidecars deferred (honest note in phase-2.md).
-> **▶ Your move:** walk P2 — run a real 1:1 in the app; it should look identical (files still written), and I
-> can show you the run + artifacts in Neon. Optional: 1 small paid gate case (~$0.35). Green light → commit + P3.
+> `npm test` **96/96** · typecheck clean. Per-turn Q&A files + log-sidecars deferred (honest note in phase-2.md).
+> **▶ Your move:** say "start P3" → read cutover (the app trusts the DB; org/member privacy walls become SQL — strictest QA).
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list
@@ -114,16 +112,13 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > customer-only stages out of the admin build (also kills QA finding F-005 — hidden persona-bench DOM
 > in the customer bundle). Then Phase 4 (serve + fence = the bundle-proof). One at a time.
 
-> **🔨 [manager-ready](docs/plans/doing/manager-ready/plan.md) — Phase 1 ✅ green-lit + committed · Phase 2 BUILT, awaiting walk (2026-07-05).**
-> **P1 ✅ ("looks good continue"):** managers get their own rail — **Home · New 1:1 · Team · Past 1:1s** — and
-> bounce off internal tools; admin + member rails untouched; 69/69 tests.
-> **P2 BUILT — the design polish, awaiting your walk (not committed):** headings now render in **Bricolage
-> Grotesque** (the Figma personality, finally in the app), **buttons sharpened to 4px**, **one date format
-> everywhere** ("Mon 18 Nov 2024", shared `formatDate`, locale-proof), two 12px text remnants fixed. Live-verified:
-> h1 font, 4px radius, date sample; 69/69 · typechecks clean. **Walk:** open any page — do the headings feel like
-> your Figma? Check button corners + Library dates. Scenarios: [phase-2.md](docs/plans/doing/manager-ready/phase-2.md).
-> ⚠️ Commit note: `design.css` also holds the mobile track's uncommitted CSS — on your green light their phases
-> should commit first (or one commit declares both).
+> **✅ [manager-ready](docs/plans/done/manager-ready/plan.md) — TRACK CLOSED 2026-07-08 (both phases green-lit, $0 spend).**
+> Managers (the paying customers) get their own clean rail — **Home · New 1:1 · Team · Past 1:1s** — and bounce
+> off internal tools (P1, green-lit 2026-07-05). The design polish landed too (P2, green-lit 2026-07-08 after a
+> measured live walk): **Bricolage Grotesque headings**, **4px buttons**, **one date format** ("Mon 18 Nov 2024",
+> shared `formatDate` — since adopted by intake + member-home as well), 12px remnants fixed. All work was already
+> committed (`bf7e62f7`, `c6eca72f`) and survived the styles/design/ split; `npm test` 96/96 on close.
+> Folder → [done/](docs/plans/done/manager-ready/plan.md). **▶ Your move:** nothing — track closed.
 
 > **🔨 [page-heartbeat](docs/plans/doing/page-heartbeat/plan.md) — real UPDATE buttons. Phase 1 ✅ · Phase 3 BUILT + committed, awaiting your walk (re-checked 2026-07-08) · Phase 2 ⬜.**
 > From the 25-page audit: Guide, Universe and the Tasks board were hand-typed snapshots of the app.
@@ -193,4 +188,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-08 (trimmed: closed tracks moved out to the done/ archive; this file now holds only live + awaiting-walk work)
+- Last updated: 2026-07-08 (render-deploy P1 + postgres-runtime-data P2 green-lit + committed — `1b67f792`, `57d44b4b`)
