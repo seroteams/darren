@@ -4,7 +4,7 @@
 
 import { STAGES, isAdmin } from "../state.js";
 import { login, me } from "../../../shared/api.js";
-import { startGuestRun } from "../guest.ts";
+import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 
 // Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
 // admin/public/login/ — one is picked at random per visit. Exported so the
@@ -85,6 +85,9 @@ export async function mount(root, { setState }) {
       // visibility) the same as a fresh boot does; fall back to the login user if it fails.
       let identity = user;
       try { identity = await me(); } catch { /* keep the login user */ }
+      // A guest saving their finished run (guest-run Phase 3): claim it and land on
+      // it. A failed claim falls through to the normal landing — never a dead end.
+      if (await completeClaimAfterAuth(identity, setState)) return;
       // A plain member lands on their own clean Home (member-nav Phase 1); only an
       // admin/owner gets the internal start page. Mirrors the boot routing in main.js
       // so login and a fresh reload land in the same place.

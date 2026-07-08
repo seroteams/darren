@@ -36,6 +36,12 @@ export async function logout() {
   return postJson("/api/v1/auth/logout", {});
 }
 
+// Hand an ownerless (guest) finished run to the logged-in caller (guest-run Phase 1
+// endpoint). Owned-by-someone-else answers 404; re-claim by the owner is a no-op.
+export async function claimSession(id) {
+  return postJson(`/api/v1/sessions/${encodeURIComponent(id)}/claim`, {});
+}
+
 // Who am I? 200 { userId, orgId, roles, isSuperadmin } when logged in; throws (401) when
 // not. isSuperadmin is a server-computed flag the nav uses to show the Registered item.
 export async function me() {

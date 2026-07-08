@@ -5,6 +5,7 @@
 
 import { STAGES, isAdmin } from "../state.js";
 import { register, login } from "../../../shared/api.js";
+import { completeClaimAfterAuth } from "../guest.ts";
 
 export async function mount(root, { setState }) {
   root.innerHTML = `
@@ -74,6 +75,9 @@ export async function mount(root, { setState }) {
       // role like login.js does, so a first-time member reaches their Home (not an admin
       // screen the router immediately bounces). A self-signup owner still lands on START.
       const { user } = await login({ email, password });
+      // A guest saving their finished run (guest-run Phase 3): claim it and land on
+      // it. A failed claim falls through to the normal landing — never a dead end.
+      if (await completeClaimAfterAuth(user, setState)) return;
       setState({ user, stage: isAdmin(user) ? STAGES.START : STAGES.MEMBER_HOME });
     } catch (e2) {
       showError(e2.message || "Could not create your account.");

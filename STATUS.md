@@ -87,7 +87,7 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > `npm test` + a fixtures-only replay). Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > are logged in the PLAN as a likely *separate* follow-up, not phases here.
 
-> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ green-lit 2026-07-08 · Phase 3 (save-at-end) 🔨 STARTING.**
+> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ green-lit 2026-07-08 · P3 (save-at-end) 🔨 BUILT, awaiting your walk.**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
 > **P2 ✅ (walked 2026-07-08, "yeah looks good"):** guest lane frontend — by walk time there were TWO guest
 > doors (the `/` start screen from the closed start-screen track + the "Try it" link on `/login`), both →
@@ -95,9 +95,13 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > (leak fixed `093981e1`); logged-in flows untouched. 73/73 at build · both typechecks.
 > **P1 ✅ (claim endpoint + daily guest cap):** `GUEST_RUNS_PER_DAY` (default 10) shared daily budget +
 > `POST /api/v1/sessions/:id/claim` hands an ownerless run to the newly logged-in caller.
-> **P3 🔨 (starting 2026-07-08):** the save-at-end card — after the briefing a guest sees "Want to keep
-> this?" → register/log in → auto-claim → run lands in Past 1:1s. Build is free (TDD); the walk has the
-> plan's ONLY paid moment: one full guest run (~$0.35–0.60), waits for your explicit go. Then ④ Guest runs screen.
+> **P3 🔨 BUILT (2026-07-08, $0) — awaiting your walk:** after the briefing a guest sees "Want to keep
+> this 1:1?" → Create a free account / Log in → auto-claim → lands straight on the saved run; guests see
+> no star rating or Finish & review. Test-first (5 new claim tests, red→green); 96/96 · both typechecks.
+> Browser-proven free: an old ownerless run's briefing shows the save card; the register button marks the
+> run; scenario 1 walked live (bogus marker + login → normal home, claim 404 swallowed, no dead end).
+> **▶ Your move:** scenarios 2–3 in [phase-3.md](docs/plans/doing/guest-run/phase-3.md) are ONE paid
+> end-to-end guest walk (~$0.35–0.60) — say go and walk it. Then ④ Guest runs screen.
 
 > **🔨 [frontend-admin-split](docs/plans/doing/frontend-admin-split/plan.md) — P2 ✅ · P2b ✅ green-lit (2026-07-08) · Phase 3 (slim the admin app) STARTING.**
 > **Why it's live again:** render-deploy serves `admin/dist` at the public URL, so this track is what

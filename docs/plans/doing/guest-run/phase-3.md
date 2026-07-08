@@ -1,6 +1,18 @@
 # Phase 3 — Save prompt + claim wiring
 
-**Part of:** [PLAN.md](plan.md) · **Status:** ⬜
+**Part of:** [PLAN.md](plan.md) · **Status:** 🔨 built 2026-07-08 — awaiting Carl's walk (scenario 1 free-proven; 2–3 wait for the paid go)
+
+## Build record (2026-07-08, $0)
+Test-first: 5 new tests in [guest.test.ts](../../../../admin/src/guest.test.ts) (red→green) for
+`markRunForClaim` + `completeClaimAfterAuth` — no marker = untouched login; success = markers
+cleared + land on the run; failure = marker cleared, no navigation, caller falls back. After:
+`npm test` 96/96 (files) · both typechecks clean. Browser-proven free on a scratch API+Vite pair
+(:3081/:3085, cookie-free via 127.0.0.1): a rehydrated ownerless run's briefing shows the save
+card and NO star rating / Finish & review / Copy QA (rail hidden); "Create a free account" sets
+the marker and lands on /register; scenario 1 walked live — bogus marker + real login → normal
+manager home, no error, marker cleared, the claim 404 visible in the network log and swallowed.
+Also confirmed free: anonymous GET of an ownerless session answers 200 (the org/user walls pass
+null↔null), and an org-ful run stays 404 to guests — the wall working, not a regression.
 
 ## Goal
 A guest who finishes a run is invited to keep it: create an account (or log in) and the run automatically becomes theirs, landing in their Past 1:1s.
@@ -15,8 +27,8 @@ A guest who finishes a run is invited to keep it: create an account (or log in) 
 - Email verification, guest feedback.
 
 ## Done when
-- [ ] Free QA green first (scenario 1).
-- [ ] `npm test` + `npm run typecheck` green.
+- [x] Free QA green first (scenario 1). ✅ 2026-07-08 (live in the browser, see build record)
+- [x] `npm test` + `npm run typecheck` green. ✅ 96/96 · both typechecks
 - [ ] Product owner has walked the scenarios below — including the ONE approved paid walk — and said go.
 
 ## Test scenarios — for the product owner

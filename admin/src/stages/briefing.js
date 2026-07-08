@@ -2,6 +2,7 @@ import { STAGES, isInternalAdmin } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
 import { postVerdict, rateMyRun, getMyRun } from "../../../shared/api.js";
+import { markRunForClaim } from "../guest.ts";
 import { escapeCopy as escape } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
 import { icon } from "../ui/icon.js";
@@ -124,6 +125,18 @@ export async function mount(root, { store, setState, resetSession }) {
       </section>` : ""}
 
       <footer class="briefing-finish pt-2 l-stack l-stack--2">
+        ${!store.user ? `
+        <div class="card-flat space-y-3 js-guest-save">
+          <div class="eyebrow">Want to keep this 1:1?</div>
+          <div class="l-cluster l-cluster--2 items-center">
+            <button type="button" class="btn js-guest-register">Create a free account</button>
+            <span class="text-ink-dim">— we'll save it for you</span>
+          </div>
+          <p class="text-ink-dim text-sm">
+            Already have an account?
+            <button type="button" class="link js-guest-login">Log in</button>
+          </p>
+        </div>` : `
         ${store.scripted ? "" : `
         <div class="rate-inflow card-flat space-y-2 js-rate-inflow">
           <div class="eyebrow" id="rate-inflow-label">Did this help you run the 1:1?</div>
@@ -138,7 +151,7 @@ export async function mount(root, { store, setState, resetSession }) {
           <button class="btn js-restart">Finish &amp; review this run</button>
           <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
           <span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>
-        </div>
+        </div>`}
       </footer>
     </div>
   `;
@@ -380,19 +393,35 @@ export async function mount(root, { store, setState, resetSession }) {
     copyFullBriefing(b, store.ctx, root.querySelector(".js-copy-all-briefing"));
   });
 
+  // Guest save card (guest-run Phase 3): a guest has no rating, no Finish, no QA
+  // tools — just "keep this 1:1?". Mark the finished run before leaving for
+  // register/login; the auth success paths claim it and land on the saved run.
+  const saveCard = root.querySelector(".js-guest-save");
+  if (saveCard) {
+    const saveVia = (stage) => {
+      markRunForClaim(store.sessionId);
+      setState({ stage });
+    };
+    saveCard.querySelector(".js-guest-register").addEventListener("click", () => saveVia(STAGES.REGISTER));
+    saveCard.querySelector(".js-guest-login").addEventListener("click", () => saveVia(STAGES.LOGIN));
+  }
+
   // The run debrief (API time / cost / CLI replay / QA prompt) is internal QA tooling —
   // only the internal admin role sees it. A manager just finishes the run and goes home.
+  // Absent for guests (the save card replaces the whole finish cluster).
   const finishBtn = root.querySelector(".js-restart");
   const seesDebrief = isInternalAdmin(store.user);
-  if (!seesDebrief) finishBtn.textContent = "Finish";
-  finishBtn.addEventListener("click", () => {
-    if (seesDebrief) {
-      setState({ stage: STAGES.RUN_DEBRIEF });
-      return;
-    }
-    resetSession();
-    setState({ stage: STAGES.START });
-  });
+  if (finishBtn) {
+    if (!seesDebrief) finishBtn.textContent = "Finish";
+    finishBtn.addEventListener("click", () => {
+      if (seesDebrief) {
+        setState({ stage: STAGES.RUN_DEBRIEF });
+        return;
+      }
+      resetSession();
+      setState({ stage: STAGES.START });
+    });
+  }
 
   // In-flow rating (pre-go-live PG3): a gentle one-tap "how useful?" at the end of a real
   // 1:1 (skipped for the scripted test lane). Rates the just-finished run by its id; Skip

@@ -148,6 +148,21 @@
       "port": 3083
     },
     {
+      "name": "sero-web-guest-p3",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3081",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3085",
+        "--strictPort",
+        "--host"
+      ],
+      "port": 3085
+    },
+    {
       "name": "sero-prod-iso",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
