@@ -452,10 +452,11 @@ export async function mount(root, { store, setState, resetSession }) {
     noteInput.addEventListener("change", save);
   }
 
-  // "Copy review prompt" — only shown when there are notes to discuss.
+  // "Copy QA prompt" — internal QA tooling (same as the run debrief above): only the
+  // internal admin sees it, and only when there are notes to discuss. Managers never see it.
   const copyBtn = root.querySelector(".js-copy-review");
   const copyConfirm = root.querySelector(".js-copy-confirm");
-  if ((store.notes || []).length && store.sessionDir) {
+  if (seesDebrief && (store.notes || []).length && store.sessionDir) {
     copyBtn.classList.remove("hidden");
     copyBtn.addEventListener("click", async () => {
       const notesPath = `${String(store.sessionDir).replace(/\\/g, "/")}/notes.md`;
