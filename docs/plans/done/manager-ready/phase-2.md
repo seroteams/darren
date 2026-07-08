@@ -1,4 +1,9 @@
-# Phase 2 — Design polish (BUILT + committed `c6eca72f` — awaiting Carl's walk)
+# Phase 2 — Design polish
+
+## ✅ GREEN-LIT 2026-07-08
+Carl signed off after the live walk. Measured proof: h1 = Bricolage Grotesque Variable,
+`.btn` radius = 4px, live "Mon 6 Jul 2026" date on New 1:1, nothing under 14px outside the
+dev-only debug strip. Built + committed `c6eca72f` (2026-07-05); `npm test` 96/96.
 
 **The manager journey's last three gaps + one remnant.** (The old design.css hot-file warning
 is resolved — the file was committed and has since been split into `styles/design/`.)

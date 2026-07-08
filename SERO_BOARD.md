@@ -31,6 +31,12 @@ intent", "thin notes") were already handled — closed by evidence, no build. Th
 in the plan, each blocked on a Carl decision or spend: **#1** stonewall exit (turn-loop behaviour) · **B2** refuse a
 weak brief (live-path) · **#4** paid coverage past the bi-weekly. Not a feature; engine-honesty tooling.
 
+**✅ Closed (2026-07-08): [manager-ready](docs/plans/done/manager-ready/plan.md) — the paying customer's rail + the last design polish.**
+Managers get their own clean rail (Home · New 1:1 · Team · Past 1:1s) and bounce off internal tools; the app now
+wears the Figma personality — Bricolage headings, 4px buttons, one date format ("Mon 18 Nov 2024") everywhere,
+no customer-facing text under 14px. Both phases Carl-walked; $0 spend. Parked in the plan: backend gating of
+internal endpoints managers can still hit.
+
 **✅ Closed (2026-07-08): [hide-ai-words](docs/plans/done/hide-ai-words/plan.md) — managers can hide / restore the AI's role words.**
 On "Words of each role": hover a word → trash it; it collects in a "Hidden words (N)" put-back area. Engine-honest:
 the AI's generated file is never rewritten — the overlay sidecar records the manager's choice, fully reversible —
@@ -49,7 +55,7 @@ phases (① carry-forward pre-fill on prep · ② one-tap outcome capture) **and
 pulled out cleanly. The **people-roster Phase 4 refactor** they'd been tangled with in the same merge was
 **kept** — that stays. No continuity code or plan files remain; `npm test` + both typechecks green after
 removal. Next real step: **close out pre-go-live PG9**, then the built-but-awaiting-walk tracks
-(guest-run, manager-ready, frontend-admin-split). **feedback-inbox ✅ closed 2026-07-08.**
+(guest-run, frontend-admin-split). **feedback-inbox ✅ closed 2026-07-08 · manager-ready ✅ closed 2026-07-08.**
 
 **✅ Closed (2026-07-06): People roster — managers formally have members; 1:1s owned by that pair.**
 Grew out of Carl's "members should only see their own 1:1s": the fence was already sound but

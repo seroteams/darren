@@ -6,24 +6,22 @@ polish (Bricolage headings, 4px buttons, one date format).
 **Decisions (Carl, 2026-07-05):** Polish + manager rail · 4px buttons app-wide (match Figma).
 **Full plan:** `.claude/plans/for-this-figma-bridge-logical-snowglobe.md` (Carl's machine).
 
-## Current state
+## Current state — ✅ TRACK CLOSED 2026-07-08
 - **Phase 1 — ✅ GREEN-LIT by Carl 2026-07-05 ("looks good continue").** Committed (built-first,
   honest message). Test-first 67/67 → 69/69; per-role rails browser-verified.
-- **Phase 2 — 🔨 BUILT + committed (`c6eca72f`, 2026-07-05), awaiting Carl's walk.** Test-first
-  `formatDate` in `ui/time.ts`; Bricolage Grotesque Variable installed + imported;
-  `.text-display/.h1/.h2` now use `--type-family-display`; `--sero-radius-button` 8→4px;
-  3 `toLocaleDateString` call sites → shared `formatDate`; two 12px `.text-xs` remnants in
-  start.js → `text-sm`. Browser-verified live: h1 renders Bricolage, buttons 4px, dates
-  "Mon 18 Nov 2024". Re-checked 2026-07-08: all P2 work survived the later CSS restructure
-  (tokens now in `admin/src/styles/design/tokens.css`), `npm test` 96/96. The old design.css
-  sweep warning is resolved — the file was committed and has since been split. Only Carl's
-  walk remains (QA scenarios in phase-2.md); green light = close out the track.
+- **Phase 2 — ✅ GREEN-LIT by Carl 2026-07-08 ("signed off").** Built + committed `c6eca72f`
+  (2026-07-05); survived the later CSS restructure into `admin/src/styles/design/`. Walked live
+  2026-07-08 with measured proof: h1 computed font = Bricolage Grotesque Variable, `.btn`
+  border-radius = 4px, live "Mon 6 Jul 2026" date on New 1:1, page-wide sweep found nothing
+  under 14px outside the dev-only debug strip. `npm test` 96/96. Bonus finds during the walk:
+  the P1 rail guard bounced a manager off /library exactly as designed, and `formatDate` has
+  since been adopted by intake + member-home too.
 
 ## Phases
 | # | Phase | What Carl gets | Status |
 |---|---|---|---|
 | 1 | [Manager rail](phase-1.md) | Managers see Home · New 1:1 · Team · Past 1:1s — not the workshop | ✅ |
-| 2 | [Design polish](phase-2.md) | Bricolage headings, 4px buttons, "Mon 18 Nov 2024" dates, 12px fix | 🔨 |
+| 2 | [Design polish](phase-2.md) | Bricolage headings, 4px buttons, "Mon 18 Nov 2024" dates, 12px fix | ✅ |
 
 ## Key facts
 - `isAdmin()` (state.js) = manager OR admin → gates console *access*; keep as-is. New
