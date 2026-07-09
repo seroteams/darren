@@ -114,6 +114,16 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-09** — **guest-run → TRACK CLOSED (4/4). P4 (superadmin Guest runs screen) built test-first
+  and signed off by DELEGATION** — Carl: "Sign this off if you can"; the agent's live verification stands
+  in for the walk and the phase file records exactly what was and wasn't seen (walls proven at three
+  layers; a populated list in DB mode wasn't seeable — empty until postgres P6 imports the old runs or a
+  new guest finishes). **Lessons:** ① a rail row needs THREE registrations in app-nav (LINKS item, onNav
+  dispatch, ACTIVE_BY_STAGE) — the missing onNav entry made the click a silent no-op; caught live, not by
+  tests. ② A feature that lists historical data must be checked against the CURRENT storage mode — the
+  spec (written pre-read-cutover) assumed the file walk; the DB-mode list is empty until the import phase,
+  and saying so in the phase file beats a surprised owner. ③ Delegated sign-offs are fine when explicit —
+  record the delegation verbatim and the residual risk in the same breath.
 - **2026-07-08** — **guest-run Phase 3 (save-at-end + auto-claim) closed with the WALK WAIVED (Carl's "B").**
   Built test-first the same evening P2 was walked; free proofs strong (5 claim tests, save card rendered
   on a real ownerless briefing, scenario 1 walked live — a broken save can't strand a login). The paid

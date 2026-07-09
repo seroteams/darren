@@ -24,12 +24,18 @@
 | 1 | Backend: claim + daily cap | `POST /api/v1/sessions/:id/claim` + `GUEST_RUNS_PER_DAY` file-backed cap + board reversal note | ✅ |
 | 2 | Guest lane frontend | "Try it — no account needed" on login → intake; logged-out boot/router lane; mid-run reload works | ✅ |
 | 3 | Save prompt + claim wiring | Briefing save card for guests → register/login → auto-claim → run in Past 1:1s | ✅ (walk waived) |
-| 4 | Superadmin "Guest runs" screen | List of ownerless finished runs + read-only briefing view, superadmin-only | 🔨 |
+| 4 | Superadmin "Guest runs" screen | List of ownerless finished runs + read-only briefing view, superadmin-only | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**P1 ✅ · P2 ✅ walked (2026-07-08) · P3 ✅ closed 2026-07-08 with the WALK WAIVED (Carl's "B") · P4 (Guest runs screen) ⬜ last.**
+**✅ TRACK CLOSED 2026-07-09 — all 4 phases done. P1 walked · P2 walked · P3 walk waived (Carl's "B") · P4 sign-off delegated ("Sign this off if you can").**
+Total spend: ~$0.15 (one partial guest run during the derailed P3 walk attempt — parked, resumable). What
+rides until a real guest uses it: the full save flow live (P3 waiver) and clicking a real run on the Guest
+runs screen (empty in DB mode until postgres P6 imports the old runs). Folder moved to done/.
+
+**Previous state (pre-close):**
+P1 ✅ · P2 ✅ walked (2026-07-08) · P3 ✅ closed 2026-07-08 with the WALK WAIVED (Carl's "B") · P4 ✅ delegated.
 P3 shipped the save-at-end flow: guest briefing shows "Want to keep this 1:1?" (no rating/QA controls),
 register/login auto-claims the marked run and lands on it; failed claim can never strand a login
 (walked live). ⚠️ Honesty note: the paid end-to-end walk (fresh run → save card → register → run in

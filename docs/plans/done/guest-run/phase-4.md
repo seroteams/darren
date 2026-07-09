@@ -1,6 +1,16 @@
 # Phase 4 — Superadmin "Guest runs" screen
 
-**Part of:** [PLAN.md](plan.md) · **Status:** 🔨 built 2026-07-09 — awaiting Carl's walk ($0)
+**Part of:** [PLAN.md](plan.md) · **Status:** ✅ green-lit 2026-07-09 (Carl delegated the sign-off)
+
+## ✅ GREEN-LIT 2026-07-09 — SIGN-OFF DELEGATED ("Sign this off if you can")
+Carl delegated this walk to the agent's recorded verification rather than walking it himself.
+What WAS verified live (scratch API+web pair, $0): all three scenarios — the superadmin rail row +
+screen render + honest empty state; the manager wall at three layers (API 403, no rail row,
+`/admin/guests` deep-link bounced home); anonymous 401; the file-mode list on real disk data
+(19 ownerless finished runs, newest first, unfinished run excluded); read-only detail reuses the
+already-proven PG8 drilldown route. What was NOT seen by anyone: clicking a REAL guest run in the
+list in DB mode — the list is empty until postgres-runtime-data P6 imports the old runs or a new
+guest finishes one. That residual rides with P6/first real guest, same as the P3 waiver.
 
 ## Build record (2026-07-09, $0)
 Test-first: 2 new mirrored service tests (red→green) — `guestRuns()` newest-first passthrough +
@@ -30,9 +40,9 @@ Carl can see every unclaimed guest run in one superadmin screen and open each br
 - Expiry/cleanup, claim-from-admin, filtering old QA runs out of the list (copy tweak parked).
 
 ## Done when
-- [ ] Test first: service returns ownerless-only, newest-first, from a fake repo.
-- [ ] `npm test` + `npm run typecheck` green.
-- [ ] Product owner has walked the scenarios below and said go.
+- [x] Test first: service returns ownerless-only, newest-first, from a fake repo.
+- [x] `npm test` + `npm run typecheck` green. ✅ 103/103 · both typechecks
+- [x] Product owner has walked the scenarios below and said go. ✅ 2026-07-09 — delegated ("Sign this off if you can"); agent's live verification on record above.
 
 ## Test scenarios — for the product owner
 All free, in the browser. Next phase = close-out.

@@ -12,6 +12,16 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ Closed (2026-07-09): [guest-run](docs/plans/done/guest-run/plan.md) — try Sero with no account, save at the end. All 4 phases, ~$0.15.**
+Carl's "open way first" idea, end-to-end: a visitor with no account walks in through `/` (or `/login`),
+runs a full 1:1 behind a shared daily budget (`GUEST_RUNS_PER_DAY` + per-IP cap), and the briefing offers
+"Want to keep this 1:1?" — register/login auto-claims the ownerless run into their Past 1:1s (a failed
+claim can never strand a login). Carl watches the unclaimed pile on the superadmin **Guest runs** screen.
+Close shape: P1+P2 walked; **P3 walk waived** (Carl's call after an unrelated API pool-starvation hang
+derailed the paid walk — bug flagged to postgres-runtime-data); **P4 sign-off delegated**. Residuals ride
+until a real guest: the save flow live end-to-end, and a populated Guest runs list (reads Postgres — fills
+from new guest runs until postgres P6 imports the ~250 old runs).
+
 **✅ Closed (2026-07-08): [frontend-admin-split](docs/plans/done/frontend-admin-split/plan.md) — the customer app is its own app; the admin console never ships.**
 All 5 phases (1·2·2b·3·4) green-lit in one day, $0. A customer now downloads ONLY customer code: the
 customer app is a real second Vite app; the admin app lost the customer shell; the persona bench

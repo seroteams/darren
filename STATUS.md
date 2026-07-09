@@ -120,29 +120,16 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > **▶ Your move:** nothing — track closed. Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > stay parked in the plan as a likely separate follow-up.
 
-> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ · P3 ✅ (walk waived) · P4 (Guest runs screen) 🔨 BUILT 2026-07-09, awaiting your walk — the track's last phase.**
-> Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
-> **P2 ✅ (walked 2026-07-08, "yeah looks good"):** guest lane frontend — by walk time there were TWO guest
-> doors (the `/` start screen from the closed start-screen track + the "Try it" link on `/login`), both →
-> intake; mid-run reload keeps a guest in their run; guests bounce off everything internal; no rail/badge
-> (leak fixed `093981e1`); logged-in flows untouched. 73/73 at build · both typechecks.
-> **P1 ✅ (claim endpoint + daily guest cap):** `GUEST_RUNS_PER_DAY` (default 10) shared daily budget +
-> `POST /api/v1/sessions/:id/claim` hands an ownerless run to the newly logged-in caller.
-> **P3 ✅ closed (2026-07-08, walk waived):** the save-at-end flow shipped — guest briefing shows "Want
-> to keep this 1:1?" (no rating/QA controls), register/login auto-claims and lands on the run, a failed
-> claim never strands a login (walked live). Test-first (5 claim tests); 96/96 · both typechecks; save
-> card seen on a real ownerless briefing. ⚠️ The paid end-to-end walk was WAIVED (your "B") after the
-> attempt was derailed by an unrelated API hang (Postgres pool starvation — flagged to
-> postgres-runtime-data); "fresh run → save → register → Past 1:1s" as one live flow rides unproven
-> until a real guest saves. A half-spent guest run (bank done, turn 0) is parked to resume a walk cheaply.
-> **P4 🔨 BUILT (2026-07-09, $0):** superadmin **Guest runs** screen — every unclaimed guest run, newest
-> first, read-only briefings (reuses the proven drilldown route). Rail row next to Error log, superadmin
-> only. Test-first (2 service tests); 103/103 · both typechecks. Walls proven live: superadmin 200 ·
-> manager 403 + no rail row + `/admin/guests` bounces home · anonymous 401. ⚠️ Read-cutover note: the
-> list reads Postgres, so old disk-only guest runs won't show until the postgres import phase (P6) —
-> it fills from NEW guest runs; today you'll see the honest empty state.
-> **▶ Your move:** walk the 3 scenarios in [phase-4.md](docs/plans/doing/guest-run/phase-4.md) (all free).
-> Green light closes the whole track.
+> **✅ [guest-run](docs/plans/done/guest-run/plan.md) — TRACK CLOSED 2026-07-09: all 4 phases, ~$0.15 total spend.**
+> Your "open way first" idea, delivered end-to-end: a no-account visitor walks in through `/` or `/login`,
+> runs a full 1:1 (shared daily budget `GUEST_RUNS_PER_DAY` + per-IP cap), sees "Want to keep this 1:1?"
+> on the briefing, and register/login auto-claims the run into their Past 1:1s; you watch the unclaimed
+> pile on the superadmin **Guest runs** screen (`/admin/guests`, walls proven live: manager 403 + no rail
+> row + deep-link bounce, anonymous 401). Closes: P1 walked · P2 walked · **P3 walk waived** (your "B",
+> after the pool-starvation derailment) · **P4 sign-off delegated** ("Sign this off if you can").
+> ⚠️ Two honest residuals ride until a real guest: the full save flow live (P3), and a populated Guest
+> runs list — it reads Postgres, so it fills from NEW guest runs until postgres P6 imports the old ones.
+> Folder → [done/](docs/plans/done/guest-run/plan.md). **▶ Your move:** nothing — track closed.
 
 > **✅ [frontend-admin-split](docs/plans/done/frontend-admin-split/plan.md) — TRACK CLOSED 2026-07-08: all 5 phases (1·2·2b·3·4) green-lit in one day, $0 spend.**
 > The split is real and ENFORCED: the customer app is its own built app (`:3002` dev) · the admin app
