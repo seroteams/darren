@@ -96,7 +96,7 @@ export async function question(c: RequestContext): Promise<void> {
 export async function start(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
   const identity = await buildIdentity(c.req);
-  if (identity.userId === null) guestCap.take();
+  if (identity.userId === null) await guestCap.take();
   else requireAdmin(identity);
   const personId = await resolvePerson(identity, body); // people-roster Phase 2
   c.json(201, service.start(body, identity.orgId, identity.userId, personId));
