@@ -16,6 +16,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { eq } from "drizzle-orm";
 import { loadEnv } from "../backend/engine/env.ts";
 
 loadEnv();
@@ -81,7 +82,6 @@ async function main(): Promise<void> {
   const { queueArtifact, flushArtifactWrites } = await import("../backend/db/run-artifacts-store.ts");
   const { getDb, closeDb } = await import("../backend/db/client.ts");
   const { sessions: sessionsTable } = await import("../backend/db/schema.ts");
-  const { eq } = await import("drizzle-orm");
   const { isObjectRecord } = await import("../backend/shared/guards.ts");
 
   const readJson = (file: string): unknown => {
