@@ -62,8 +62,8 @@ Key decisions (full detail in the phase files):
 | 2 | [Write path](phase-2.md) — every new run saves to the DB too | Fill the DB while disk stays canonical — nothing can be lost; closes the CLI bypass hole | ✅ |
 | 3 | [Read cutover](phase-3.md) — the app trusts the DB | Only after P2 proves writes; the org/member privacy walls get rewritten as SQL → strictest testing | ✅ |
 | 4 | [Questions](phase-4.md) — the invented-question pool | Powers "never ask the same question twice" — own failure mode, own QA | ✅ |
-| 5 | [Small stores](phase-5.md) — profiles, aliases, audit, learning data | Each tiny and low-risk; one grouped phase, not five ceremonies | 🔨 built, awaiting QA |
-| 6 | [Import old runs](phase-6.md) — all ~250 historical runs | Needs the shelves (P1) + proven reading (P3); purely additive, skippable | ⬜ |
+| 5 | [Small stores](phase-5.md) — profiles, aliases, audit, learning data | Each tiny and low-risk; one grouped phase, not five ceremonies | ✅ |
+| 6 | [Import old runs](phase-6.md) — all ~250 historical runs | Needs the shelves (P1) + proven reading (P3); purely additive, skippable | 🔨 built + local import done, awaiting QA (live import = Carl's separate go) |
 | 7 | [Retire the files](phase-7.md) — stop writing files in live | Last on purpose: file copies ARE the undo button until every phase has sign-off | ⬜ |
 
 **Safety thread:** files keep being written until Phase 7. At any point before then, one switch
@@ -79,7 +79,12 @@ flips back to files.
   `upsertSession` funnel; proven free (run row + all stage artifacts land in Neon). FK dropped
   (migration 0011) so artifacts are lane-agnostic. 96/96 tests, typecheck clean, $0. Per-turn files
   + sidecars deferred (see phase-2.md). Next: Phase 3 (read cutover).
-- **2026-07-09 — Phase 5 🔨 BUILT, awaiting Carl's walk.** Six store cutovers, one commit each (aliases,
+- **2026-07-09 — Phase 6 🔨 BUILT + LOCAL IMPORT DONE, awaiting Carl's walk.** 100 old runs + 1,787
+  artifacts + 4,912 questions imported into local Neon; idempotent (second run identical); 7 runs with
+  vanished demo orgs skipped honestly (FK = the fence working); an imported June run reads through the pg
+  store (briefing, turns, stage tabs). The LIVE import waits for Carl's separate explicit go. 105/105 · $0.
+- **2026-07-09 — Phase 5 ✅ GREEN-LIT (Carl: "a", walk waived — his call). Phase 6 (import) starting.**
+- **2026-07-09 — Phase 5 built.** Six store cutovers, one commit each (aliases,
   guest cap → `app_state` [survives Render's disk wipe], superadmin audit → `audit_log`, arc overlays,
   role profiles + word overlay [cache-hit test = no LLM re-spend], lexicon traces). Two verified no-ops:
   people-profiles is dead code (roster replaced it; flagged for cleanup) and the feedback.jsonl writer was

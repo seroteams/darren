@@ -1,6 +1,9 @@
 # Phase 5 — Small stores: the odds and ends
 
-**Status:** 🔨 BUILT 2026-07-09 ($0, test-first, one commit per store) — awaiting Carl's walk
+**Status:** ✅ GREEN-LIT 2026-07-09 — Carl: "a" (close, walk waived — his explicit call; the
+free proofs stood in: 104/104, DB-mode boot, self-migration + cache-hit tests).
+
+## ✅ GREEN-LIT 2026-07-09
 
 ## Build results (2026-07-09)
 

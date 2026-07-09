@@ -1,6 +1,34 @@
 # Phase 6 — Import the old runs (Carl chose: all ~250)
 
-**Status:** ⬜ not started (blocked by Phase 5 green light) · **SKIPPABLE by design**
+**Status:** 🔨 BUILT + LOCAL IMPORT DONE 2026-07-09 ($0) — awaiting Carl's walk; the LIVE
+import stays behind his separate explicit go (QA 4)
+
+## Build + local import results (2026-07-09)
+
+[scripts/backfill-runs.ts](../../../scripts/backfill-runs.ts) — walks `logs/<month>/`,
+upserts the session row via the live funnel, folds review/rating/archive sidecars into
+columns, and imports every other file as a `run_artifacts` row (prompts + raw model
+responses stay TEXT so parse failures surface; mapping rules locked by
+[test-backfill-mapping.js](../../../scripts/test-backfill-mapping.js)). Idempotent by the
+unique keys; deletes nothing; guarded so importing the helpers never runs the import
+(the gate.js lesson). Flags as specced (`--dry-run --month --limit --only --questions --stores`).
+
+**The local import ran for real:**
+- **100 runs imported** (july 49 · june 49 · may 2) + **1,787 artifact files** — DB now
+  holds 2,201 artifacts and 4,912 generated questions.
+- **158 dirs skipped** — no `session-state.json` (CLI/smoke lanes; the app never listed
+  them either). 100 + 158 + 7 ≈ the "~250" folders.
+- **7 runs skipped honestly** — their org row no longer exists in this DB (old demo/test
+  orgs); the FK refused them, which is the fence working. Reported, not forced in.
+- **Idempotency proven:** second full run → identical counts, zero failures.
+- **An imported June run reads through the pg store**: headline, briefing, 9 turns, all
+  5 stage tabs.
+- Companion passes: `--questions` (4,912 kept, alias conflicts keep existing) ·
+  `--stores` (aliases/cap/traces; audit pass correctly refused to append into a
+  non-empty `audit_log`; role/arc overlays self-migrate at boot instead).
+
+`npm test` **105/105** · $0. **NOT DONE on purpose:** the LIVE import (QA 4) — runs only
+on Carl's separate explicit go, with `ALLOW_ENV_MISMATCH=1` stated first.
 
 ## Why this phase (and why this late)
 

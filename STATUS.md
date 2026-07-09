@@ -47,7 +47,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
 > **▶ Your move:** nothing — track closed. Sero is on the internet.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1–P4 ✅ · P5 (small stores) 🔨 BUILT 2026-07-09, awaiting your walk · then P6 import + P7 retire.**
+> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database. P1–P5 ✅ · P6 (import) 🔨 BUILT + LOCAL IMPORT DONE 2026-07-09, awaiting your walk · P7 (retire files) last.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -89,9 +89,16 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > verified no-ops: people-profiles is dead code (roster replaced it — cleanup chip raised) and the old
 > feedback writer was already gone. **After P5, no app data is file-only.** `npm test` **104/104** ·
 > typecheck clean · real DB-mode boot proven. Every store still echoes to files = the rollback.
-> **▶ Your move:** walk [phase-5.md](docs/plans/doing/postgres-runtime-data/phase-5.md) QA (all free — edit a
-> word overlay / arc, I rename `content/data` aside, restart, the edits survive; guest cap still counts;
-> superadmin access leaves an audit row) — or say "close P5" and I start P6 (import the ~250 old runs).
+> **P5 ✅ closed 2026-07-09 (Carl: "a" — walk waived, his call).**
+> **P6 🔨 BUILT + LOCAL IMPORT DONE (2026-07-09, $0):** [backfill-runs.ts](scripts/backfill-runs.ts) imported
+> **100 old runs + 1,787 artifacts + 4,912 questions** into local Neon — your full Library history is in the
+> database. Honest numbers: 158 dirs skipped (no session-state — CLI/smoke lanes the app never listed) and
+> 7 runs skipped because their old demo org no longer exists (the FK fence refused them, correctly).
+> Idempotent — a second full run changed nothing. An imported June run reads perfectly through the new
+> store (briefing, 9 turns, all stage tabs). `npm test` **105/105**.
+> **▶ Your move:** ① glance at your Library — the old runs are back (that closes P6's local half) ·
+> ② the LIVE import is a separate explicit go ("import live") — it uses the one deliberate
+> ALLOW_ENV_MISMATCH escape · ③ or say "start P7" (retire files) — P6 live-import can ride later.
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list
@@ -211,4 +218,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-09 (postgres-runtime-data P5 small stores BUILT — after P5 no app data is file-only; P3+P4 closed earlier today; render-deploy track closed by its session)
+- Last updated: 2026-07-09 (postgres P5 closed + P6 built: 100 old runs imported to local Neon, idempotent, awaiting Carl's look; live import = his separate go)
