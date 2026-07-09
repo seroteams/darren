@@ -188,6 +188,24 @@ Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits 
 
 ## 2. Next — after Now is green
 
+### Code-health tracks (from the 2026-07-09 CTO deep audit)
+
+The full four-corner audit (engine · api+db · web apps · scripts) found the codebase **healthy** —
+strict TS in engine+backend, clean layer boundaries, no dead routes, no unused deps, indexes match
+queries, tests 109/109. Quick wins were done same-day (dead code/asset removed, live deploy 1.9MB→1.2MB
+via no public sourcemaps, `frontend/dist` untracked; commit `41c420d5`), and a safe backend speed batch
+landed (parallel boot-cache warm, batched recent-runs artifact read, deduped client-IP; `93258629`,
+proven against real Neon). The remaining debt is three deliberately-scheduled tracks — Carl's call
+2026-07-09, run one at a time AFTER testers are on live:
+
+| Track | What | Size | Notes |
+|---|---|---|---|
+| **shared-folder-split** | End the tangled cross-import — the customer app reaches into `admin/src` for 33 modules and `admin/src/main.js` imports `frontend`'s member-home back. Lift the ~30 co-used stages+ui into a top-level `shared/`, one router + one nav. | L | Biggest long-term clarity win; the two apps' bidirectional dependency is the real structural debt. |
+| **admin-typescript** | Convert the ~55 remaining plain-`.js` files in `admin/src` to strict TS (engine+backend already 100%; the `.ts` neighbours prove the migration is half-done). | L | House-rule compliance; do incrementally, file-by-file with tests. |
+| **split-giant-files** | Break up the 700–916-line multi-concern files: `reviewer.ts` (916), `role-profile.ts` (748), `run-history.ts` (733), `runs-store.ts` (731), `sessions.service.ts` (712), the 5 big admin stage files. Also **fold in the two deferred DB speed-ups** — narrow the superadmin/guest list queries off the full `state` jsonb onto the indexed columns, and de-N+1 `pgFindLatestRunWithLock` — since they live in `runs-store.ts` and are safest done with its restructure (near-zero payoff at alpha scale, real risk in the fence file, so NOT bolted on now). | L | Split view/data/handlers per module; parity test is the safety net for `runs-store`. |
+
+Also parked from the audit (small, do anytime): compress the 5 login hero JPGs (~450KB→~100KB) · a `content/questions/_runtime/**` gitignore rule so generated questions stop cluttering `git status` (must NOT hide authored banks) · parallelize the 64s test runner.
+
 | Item | Scope |
 |---|---|
 | **Next-stage build** | **✅ ALL 8 PHASES DONE 2026-06-16** → `done/`. Hardening core (contracts, persistence/resume, deterministic fallback) + feature passes (issue pills + observed shift, prep quality, prep timeline UI, runner polish, shared/private split). One carve-out — cross-session follow-up auto-injection — **un-parked 2026-06-21**, later built as the continuity track and then **removed 2026-07-06** (see the active line above). |
