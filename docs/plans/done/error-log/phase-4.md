@@ -12,7 +12,7 @@ Phases 2–3 give you the *list*. To actually work a pile of errors you need the
 - **Row-click detail** — a drawer/expand on the Error log page showing the full record: stack trace, method + path, status, request id, user-agent, org/user. Read from a `GET /api/v1/admin/errors/:id` (superadmin-gated), same recipe as the User-detail drilldown.
 - **Filters** — a few chips on the table: **environment (All / Local / Live)**, source (All / API / Browser), and **Unresolved only**. Handled client-side over the loaded rows (small N) — no new search infra. (The Local/Live filter is Carl's "see just my local, or just the live Sero" ask.)
 - **Mark resolved** — a `resolved_at` column (added in Phase 0's schema, unused until now) + a `PATCH /api/v1/admin/errors/:id/resolve` toggle. Resolved rows drop out of the default "Unresolved" view but aren't deleted.
-- **Auto-purge** — a small script mirroring [scripts/purge-logs.js](../../../../scripts/purge-logs.js) (and its `logs:purge` npm entry): delete `error_logs` rows older than a set window (e.g. 30 days). Run by hand for now; note it in the how-it-works log.
+- **Auto-purge** — a small script mirroring [scripts/purge-runs.ts](../../../../scripts/purge-runs.ts) (which replaced the retired `purge-logs.js`): delete `error_logs` rows older than a set window (e.g. 30 days). Run by hand for now; note it in the how-it-works log.
 - **Tests first** for the resolve toggle and the purge cutoff (nothing inside the window is deleted).
 
 ## Not in this phase

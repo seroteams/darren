@@ -7,4 +7,3 @@ const b=["done","briefing","next"];function x(i){const n=new Map;let c=null,r=nu
       <span class="prefix">Working</span><span class="subline"></span><span class="dots" aria-hidden="true"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
     </div>
   `;const c=n.querySelector(".prefix"),r=n.querySelector(".subline");function t(o){n.classList.remove("thinking-enter"),n.offsetWidth;const d=!!o;r.textContent=d?`  ${o}`:"",c.hidden=d,n.classList.add("thinking-enter")}t(i);function l(){return new Promise(o=>{n.querySelector(".orb").classList.add("orb--exit"),n.classList.add("is-exiting"),setTimeout(o,250)})}return{el:n,setLabel:t,exit:l}}export{m as c,x as o};
-//# sourceMappingURL=orb-BvJ65ChT.js.map

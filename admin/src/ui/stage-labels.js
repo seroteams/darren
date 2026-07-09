@@ -12,7 +12,6 @@ export const STAGE_DISPLAY = Object.freeze({
   RUN_DEBRIEF: "Session review",
   LEXICON_REVIEW: "Coaching phrases",
   ROLE_LEXICONS: "Role words",
-  REGRESSION: "Regression",
   PERSONAS: "Personas",
   ERROR: "Error",
 });

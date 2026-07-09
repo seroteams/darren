@@ -225,7 +225,7 @@ Nothing below is actively being worked — scaffolded ideas in `docs/plans/`, wa
 | Plan | State |
 |---|---|
 | [run-qa-fixes-jul04](docs/plans/future/run-qa-fixes-jul04/plan.md) | Moved to future/ 2026-07-09 (tie-off audit): Phase 1 ✅ done 2026-07-04; Phases 2–4 parked — each needs a ~$0.35 paid walk, revisit with real tester feedback |
-| pool-hang fix (`c98d8324` → folded into main as `9e92b14f`) | ✅ DONE — folded in after P7 per this handoff (P7 gates AND the coalescing queue coexist, 109/109) and **pushed + LIVE 2026-07-09 on Carl's explicit go** (deploy `d3a8b4f3`, health green). The worktree branch `claude/unruffled-gauss-88b854` is now safe to delete (owner session's call) |
+| pool-hang fix (`c98d8324` → folded into main as `9e92b14f`) | ✅ DONE — folded in after P7 per this handoff (P7 gates AND the coalescing queue coexist, 109/109) and **pushed + LIVE 2026-07-09 on Carl's explicit go** (deploy `d3a8b4f3`, health green). The worktree branch `claude/unruffled-gauss-88b854` was deleted 2026-07-09 (tie-off audit) |
 | [planner-grounding](docs/plans/future/planner-grounding/plan.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/plans/future/briefing-readability-p0/plan.md) | parked |
 

@@ -80,14 +80,6 @@ function serialize(state: AxisState): Record<string, { score: number; history: A
   return out;
 }
 
-function coverageGap(
-  state: AxisState,
-): Array<{ id: string; touches: number; score: number }> {
-  return Object.values(state)
-    .map((s) => ({ id: s.id, touches: s.history.length, score: s.score }))
-    .sort((a, b) => a.touches - b.touches);
-}
-
 function validateAxisState(state: AxisState): void {
   if (!state || typeof state !== "object" || Array.isArray(state)) {
     throw new Error("axis state is missing or not an object");
@@ -111,7 +103,6 @@ export {
   applyDeltas,
   summarize,
   serialize,
-  coverageGap,
   validateAxisState,
   SCORE_CLAMP,
   AXIS_IDS,

@@ -10,7 +10,7 @@ export type StageName =
   | "INTAKE" | "ONEPAGE" | "FOCUS_POINTS"
   | "PREPARATION" | "BANK" | "QUESTIONING" | "EVAL" | "BRIEFING"
   | "LEXICON_REVIEW" | "RUN_DEBRIEF" | "COMPARE" | "LIBRARY" | "ROLE_LEXICONS"
-  | "MEETING_ARCS" | "REGRESSION" | "PERSONAS" | "REVIEW_RUN" | "GUIDE"
+  | "MEETING_ARCS" | "PERSONAS" | "REVIEW_RUN" | "GUIDE"
   | "TASKS" | "UNIVERSE" | "ADMIN_REGISTERED" | "ADMIN_USER" | "ERROR";
 
 export const STAGES: Readonly<Record<StageName, StageName>>;
