@@ -28,7 +28,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "rebuild-question-index": "node scripts/rebuild-question-index.js --prune",
-    "logs:purge": "node scripts/purge-logs.js",
+    "logs:purge": "node scripts/purge-runs.ts",
     "errors:purge": "node scripts/purge-error-logs.js",
     "sweep": "node scripts/sweep.js"
   },

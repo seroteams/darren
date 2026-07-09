@@ -64,6 +64,6 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 ## Cleanup levers (why the big folders are big on purpose)
 
 - **`logs/` grows fast** — it's mostly git-ignored; prune old runs with
-  `node scripts/purge-logs.js`. Only `logs/may/` is tracked, as the regression baseline.
+  `node scripts/purge-runs.ts`. Only `logs/may/` is tracked, as the regression baseline.
 - **`content/questions/` is ~4k files by design** — indexed by `_index.json`; rebuild
   after adding/moving any with `npm run rebuild-question-index`.

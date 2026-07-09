@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 // Rebuild questions/_index.json and optionally prune exact duplicate YAML files.
 //
+// FILE-MODE ONLY (postgres-runtime-data P7): in DB mode the generated-question pool and
+// its "never reuse" alias set live in Postgres (generated_questions), so _index.json is
+// unused. This stays as the DB-less-dev index and the rollback tool for flipping reads
+// back to files.
+//
 // Run: node scripts/rebuild-question-index.js [--prune]
 //
 // --prune  Delete exact duplicate questions (same name, description, purpose,

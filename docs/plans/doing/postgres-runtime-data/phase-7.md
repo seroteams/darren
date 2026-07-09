@@ -24,9 +24,12 @@ done the rest:
   dev + the echo-on rollback keep writing exactly as before.
 - **Tests:** 3 persist gates + 3 repo-writer gates (red→green). `npm test` **107/107** · typecheck clean.
 
-**Still to do (frozen tooling — not in the live path, doesn't gate "zero files"):** `scripts/purge-runs.ts`
-(DB delete + disk cleanup, replacing `purge-logs.js`); rewrite `seed-runs.ts` + `backfill-people.ts`
-to mutate via SQL; mark `rebuild-question-index.js` file-mode-only; `.gitignore`/docs refresh.
+**Tooling done 2026-07-09 ($0, typecheck clean):** `seed-runs.ts` + `backfill-people.ts` now mutate
+via the DB, not disk (`0ac6f060`); new `scripts/purge-runs.ts` deletes archived runs from the DB
+(+ their disk echo) and the machine-made no-state dirs, `logs:purge` repointed to it and the
+superseded `purge-logs.js` retired; `rebuild-question-index.js` marked file-mode-only; `.gitignore`
+needed no change (run dirs already ignored). **Remaining before close:** Carl's walk — a live 1:1 →
+zero new files, after the next `/release` ships this phase.
 
 
 
