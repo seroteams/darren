@@ -47,7 +47,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
 > **▶ Your move:** nothing — track closed. Sero is on the internet.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ · P3 ✅ · P4 ✅ (2026-07-09, walk waived) · P5 (small stores) building.**
+> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1–P4 ✅ · P5 (small stores) 🔨 BUILT 2026-07-09, awaiting your walk · then P6 import + P7 retire.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -82,7 +82,16 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > a DB-mode cassette replay ($0, real engine) landed 10 pool questions + 36 `_runtime` records with fresh
 > alias suffixes — dedup consulted the full alias universe. `npm test` **102/102** · typecheck clean.
 > **P4 ✅ closed 2026-07-09 (Carl: "A" — walk waived; the paid gate case was not run, his call).**
-> **▶ Your move:** nothing — P5 (small stores: profiles, aliases, audit, learning data) is building now.
+> **P5 🔨 BUILT (2026-07-09, $0, one commit per store):** people aliases · guest cap (→ `app_state` — the old
+> file counter handed out a FRESH free-guest budget on every Render deploy; now it survives) · superadmin
+> audit (→ append-only `audit_log` rows) · arc overlays + role profiles (boot-hydrated caches, disk edits
+> self-migrate, cache-hit test = the cutover can never trigger paid regeneration) · lexicon traces. Two
+> verified no-ops: people-profiles is dead code (roster replaced it — cleanup chip raised) and the old
+> feedback writer was already gone. **After P5, no app data is file-only.** `npm test` **104/104** ·
+> typecheck clean · real DB-mode boot proven. Every store still echoes to files = the rollback.
+> **▶ Your move:** walk [phase-5.md](docs/plans/doing/postgres-runtime-data/phase-5.md) QA (all free — edit a
+> word overlay / arc, I rename `content/data` aside, restart, the edits survive; guest cap still counts;
+> superadmin access leaves an audit row) — or say "close P5" and I start P6 (import the ~250 old runs).
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list
@@ -111,7 +120,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > **▶ Your move:** nothing — track closed. Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > stay parked in the plan as a likely separate follow-up.
 
-> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ · P3 ✅ closed 2026-07-08 (WALK WAIVED, your "B") · P4 (Guest runs screen) is the last phase.**
+> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ · P3 ✅ (walk waived) · P4 (Guest runs screen) 🔨 BUILT 2026-07-09, awaiting your walk — the track's last phase.**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
 > **P2 ✅ (walked 2026-07-08, "yeah looks good"):** guest lane frontend — by walk time there were TWO guest
 > doors (the `/` start screen from the closed start-screen track + the "Try it" link on `/login`), both →
@@ -126,7 +135,14 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > attempt was derailed by an unrelated API hang (Postgres pool starvation — flagged to
 > postgres-runtime-data); "fresh run → save → register → Past 1:1s" as one live flow rides unproven
 > until a real guest saves. A half-spent guest run (bank done, turn 0) is parked to resume a walk cheaply.
-> **▶ Your move:** say "go P4" → the superadmin **Guest runs** screen (free build) — the track's last phase.
+> **P4 🔨 BUILT (2026-07-09, $0):** superadmin **Guest runs** screen — every unclaimed guest run, newest
+> first, read-only briefings (reuses the proven drilldown route). Rail row next to Error log, superadmin
+> only. Test-first (2 service tests); 103/103 · both typechecks. Walls proven live: superadmin 200 ·
+> manager 403 + no rail row + `/admin/guests` bounces home · anonymous 401. ⚠️ Read-cutover note: the
+> list reads Postgres, so old disk-only guest runs won't show until the postgres import phase (P6) —
+> it fills from NEW guest runs; today you'll see the honest empty state.
+> **▶ Your move:** walk the 3 scenarios in [phase-4.md](docs/plans/doing/guest-run/phase-4.md) (all free).
+> Green light closes the whole track.
 
 > **✅ [frontend-admin-split](docs/plans/done/frontend-admin-split/plan.md) — TRACK CLOSED 2026-07-08: all 5 phases (1·2·2b·3·4) green-lit in one day, $0 spend.**
 > The split is real and ENFORCED: the customer app is its own built app (`:3002` dev) · the admin app
@@ -208,4 +224,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-09 (postgres-runtime-data P3 read cutover ✅ green-lit — the app trusts the DB; 2 real bugs caught on walk-prep; P4 questions next)
+- Last updated: 2026-07-09 (postgres-runtime-data P5 small stores BUILT — after P5 no app data is file-only; P3+P4 closed earlier today; render-deploy track closed by its session)

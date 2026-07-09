@@ -1,6 +1,26 @@
 # Phase 5 — Small stores: the odds and ends
 
-**Status:** ⬜ not started (blocked by Phase 4 green light)
+**Status:** 🔨 BUILT 2026-07-09 ($0, test-first, one commit per store) — awaiting Carl's walk
+
+## Build results (2026-07-09)
+
+| Store | Result | Commit |
+|---|---|---|
+| People aliases | ✅ `people_aliases` row per manager; async TeamRepo; file echo; non-uuid (dev side-door) callers stay on files | `32227df1` |
+| Guest daily cap | ✅ `app_state` key `guest-cap` — **survives Render's per-deploy disk wipe** (the file counter re-issued a fresh budget every release); injectable CapStore proves increments/reset/refusal without a DB | `a591ecfe` |
+| Superadmin audit | ✅ one append-only `audit_log` row per cross-company access (JSONL echo kept); an unrecordable access still fails the request | `a591ecfe` |
+| Arc overlays | ✅ `arc_overlays` behind a boot-hydrated sync cache; **disk edits self-migrate at hydration** | `14d1b971` |
+| Role profiles + word overlay | ✅ `role_profiles` (doc + overlay column) behind a boot-hydrated cache; self-migrating, **cache-hit test locks "no regeneration = no LLM spend"**; per-run snapshot now dual-writes | `729e764c` |
+| Lexicon traces | ✅ `lexicon_candidates` row per session; sync commit path served by a recent-traces map, async generate path falls back to the DB row (no re-billing after a live restart) | `d7f97865` |
+| People profiles | **No cutover needed — the store is dead code.** Only `slugify` is imported anywhere; the people-roster track (2026-07-06) replaced the derived-people feature. Flagged for a separate cleanup, not deleted here (house rule). This also closes P3's `collectPersonRuns` deferral — the path has no callers. | — |
+| Tester feedback writer | **Verified dead** — only a schema comment references feedback.jsonl; `feedback_notes` has been the store since feedback-inbox. Nothing to delete. | — |
+
+**After this phase, no app data is file-only.** Static content (seed/intro questions,
+lexicon YAMLs, prompts, config) stays git files by design.
+
+**Checks:** `npm test` **104/104** (new arc-overlay + role-profile cache tests) ·
+typecheck clean · a real DB-mode boot runs migrations + all three hydrations and
+serves (scratch port, $0) · every store's file echo kept as the rollback.
 
 ## Why this phase
 
