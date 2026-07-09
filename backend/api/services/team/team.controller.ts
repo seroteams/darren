@@ -24,19 +24,19 @@ async function rosterCaller(c: RequestContext): Promise<{ orgId: string; manager
 }
 
 export async function aliases(c: RequestContext): Promise<void> {
-  c.json(200, teamService.getAliases(await callerUserId(c)));
+  c.json(200, await teamService.getAliases(await callerUserId(c)));
 }
 
 export async function merge(c: RequestContext): Promise<void> {
   const userId = await callerUserId(c);
   const body = (await c.readBody()) as { from?: unknown; into?: unknown };
-  c.json(200, teamService.merge(userId, body?.from, body?.into));
+  c.json(200, await teamService.merge(userId, body?.from, body?.into));
 }
 
 export async function rename(c: RequestContext): Promise<void> {
   const userId = await callerUserId(c);
   const body = (await c.readBody()) as { key?: unknown; name?: unknown };
-  c.json(200, teamService.rename(userId, body?.key, body?.name));
+  c.json(200, await teamService.rename(userId, body?.key, body?.name));
 }
 
 // ── People roster (people-roster Phase 1) ──────────────────────────────────────

@@ -48,9 +48,9 @@ async function main(): Promise<void> {
   console.log(`Backfilling roster people${DRY_RUN ? " (dry run — no writes)" : ""}.\n`);
 
   const aliasCache = new Map<string, PeopleAliases>();
-  const getAliases = (userId: string): PeopleAliases => {
+  const getAliases = async (userId: string): Promise<PeopleAliases> => {
     let a = aliasCache.get(userId);
-    if (!a) { a = teamService.getAliases(userId); aliasCache.set(userId, a); }
+    if (!a) { a = await teamService.getAliases(userId); aliasCache.set(userId, a); }
     return a;
   };
 
@@ -82,7 +82,7 @@ async function main(): Promise<void> {
 
     if (asString(state.personId)) { skippedAlready++; continue; } // already linked — idempotent
 
-    const targetName = aliasedPersonName(getAliases(userId), name);
+    const targetName = aliasedPersonName(await getAliases(userId), name);
 
     if (DRY_RUN) {
       const keys = await previewRosterKeys(orgId, userId);
