@@ -57,7 +57,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
 > **▶ Your move:** nothing — track closed. Sero is on the internet.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database. P1–P5 ✅ · P6 (import) 🔨 LOCAL + LIVE IMPORTS DONE 2026-07-09, awaiting your walk · P7 (retire files) last.**
+> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database. P1–P6 ✅ · P7 (retire files) 🔨 next — the last phase.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -100,7 +100,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > feedback writer was already gone. **After P5, no app data is file-only.** `npm test` **104/104** ·
 > typecheck clean · real DB-mode boot proven. Every store still echoes to files = the rollback.
 > **P5 ✅ closed 2026-07-09 (Carl: "a" — walk waived, his call).**
-> **P6 🔨 BUILT + LOCAL IMPORT DONE (2026-07-09, $0):** [backfill-runs.ts](scripts/backfill-runs.ts) imported
+> **P6 ✅ closed 2026-07-09 (Carl: "a" — local Library glance, walk waived; imports re-verified free at close: local 102 sessions / 2,207 artifacts, live 70 / 1,248, pool 4,912 both).** [backfill-runs.ts](scripts/backfill-runs.ts) imported
 > **100 old runs + 1,787 artifacts + 4,912 questions** into local Neon — your full Library history is in the
 > database. Honest numbers: 158 dirs skipped (no session-state — CLI/smoke lanes the app never listed) and
 > 7 runs skipped because their old demo org no longer exists (the FK fence refused them, correctly).
@@ -112,8 +112,9 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > local-only test accounts skipped honestly. Verified read-only through the member fence.
 > ⚠️ **The live SITE shows this only after the next /release** — it still runs pre-cutover code that reads
 > Render's (empty) disk. The data is already waiting in the live DB.
-> **▶ Your move:** ① glance at your local Library (old runs back) → "close P6" · ② say "/release" to ship
-> P3–P6 so the live site reads the DB (recommended together with closing) · ③ then "start P7" (retire files).
+> **▶ Your move:** P6 ✅ closed. ① say **"/release"** to ship P3–P6 so the live site reads the DB (68 live
+> runs + the question pool are already waiting) · ② then **"start P7"** to retire the files — its own phase
+> (flagged: P7 removes the file rollback net, so strictest QA + your walk before it lands).
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list
@@ -233,4 +234,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-09 (P6: local AND live imports done on Carl's go — 68 runs + question pool in live Neon; live site needs the next /release to show it)
+- Last updated: 2026-07-09 (P6 ✅ closed — imports re-verified read-only in both Neon DBs at close; next = /release, then P7 retire-files)

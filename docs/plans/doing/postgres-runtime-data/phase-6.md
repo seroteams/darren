@@ -1,7 +1,17 @@
 # Phase 6 — Import the old runs (Carl chose: all ~250)
 
-**Status:** 🔨 BUILT + LOCAL IMPORT DONE 2026-07-09 ($0) — awaiting Carl's walk; the LIVE
-import stays behind his separate explicit go (QA 4)
+**Status:** ✅ GREEN-LIT 2026-07-09 (Carl: "a" — walk = local Library glance, formal walk waived;
+live import done on his separate go). Local + live imports re-verified free/read-only at close.
+
+## ✅ GREEN-LIT 2026-07-09
+
+Carl green-lit P6 after glancing at his local Library (formal browser walk waived — his call). At
+close, both Neon DBs were re-verified read-only (free, no writes, no OpenAI): local **102 sessions /
+2,207 artifacts**, live **70 sessions / 1,248 artifacts**, `generated_questions` **4,912 on both** —
+every figure meets or exceeds the phase's import counts (the extra rows are runs made since P2's
+dual-write on 2026-07-08). ⚠️ Residual: the live SITE surfaces the imported history only after the
+next `/release` (it still runs pre-cutover code that reads Render's empty disk). Next phase: **P7 —
+retire the files** (the last one; files are the rollback until it lands).
 
 ## Build + local import results (2026-07-09)
 

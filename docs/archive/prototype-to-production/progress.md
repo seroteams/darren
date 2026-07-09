@@ -9,6 +9,7 @@
 ---
 
 ## Where we are now
+- **2026-07-09** — **postgres-runtime-data P6 ✅ (all old runs imported into the DB, both environments) — lesson: verify the artifact, not the tracker.** `scripts/backfill-runs.ts` imported the full Library history into Postgres — local Neon (102 sessions / 2,207 artifacts) and, on Carl's separate go, live Neon (70 / 1,248); the 4,912-question pool landed identically on both. Cross-environment ownership remapped by email (local ids don't exist on live); ownerless runs kept ownerless (guest pile); unmappable owned runs skipped honestly, never guessed. **The lesson:** at close I re-counted both DBs read-only rather than trusting the tracker's "imports done" line — the numbers matched/exceeded the plan (the extra rows are runs made since P2's dual-write), which is what let P6 close with confidence. ⚠️ The live *site* still needs the next `/release` to read the DB. Next: P7 retires the files (the rollback net).
 - **2026-07-09** — **thread-follow P1 ✅ (pin the follow-up) — and the honest catch that shaped the phase split.**
   The 8–9 Jul night test scored thread-following 55–65/100 on every run: people volunteer a thread and the
   coverage engine / drill cap march the pre-planned queue over it. Root cause is gate *order* in

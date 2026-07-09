@@ -63,7 +63,7 @@ Key decisions (full detail in the phase files):
 | 3 | [Read cutover](phase-3.md) — the app trusts the DB | Only after P2 proves writes; the org/member privacy walls get rewritten as SQL → strictest testing | ✅ |
 | 4 | [Questions](phase-4.md) — the invented-question pool | Powers "never ask the same question twice" — own failure mode, own QA | ✅ |
 | 5 | [Small stores](phase-5.md) — profiles, aliases, audit, learning data | Each tiny and low-risk; one grouped phase, not five ceremonies | ✅ |
-| 6 | [Import old runs](phase-6.md) — all ~250 historical runs | Needs the shelves (P1) + proven reading (P3); purely additive, skippable | 🔨 built + local import done, awaiting QA (live import = Carl's separate go) |
+| 6 | [Import old runs](phase-6.md) — all ~250 historical runs | Needs the shelves (P1) + proven reading (P3); purely additive, skippable | ✅ (local + live imports done; re-verified free at close — Carl green-lit 2026-07-09, walk waived) |
 | 7 | [Retire the files](phase-7.md) — stop writing files in live | Last on purpose: file copies ARE the undo button until every phase has sign-off | ⬜ |
 
 **Safety thread:** files keep being written until Phase 7. At any point before then, one switch
@@ -79,10 +79,12 @@ flips back to files.
   `upsertSession` funnel; proven free (run row + all stage artifacts land in Neon). FK dropped
   (migration 0011) so artifacts are lane-agnostic. 96/96 tests, typecheck clean, $0. Per-turn files
   + sidecars deferred (see phase-2.md). Next: Phase 3 (read cutover).
-- **2026-07-09 — Phase 6 🔨 BUILT + LOCAL IMPORT DONE, awaiting Carl's walk.** 100 old runs + 1,787
+- **2026-07-09 — Phase 6 ✅ GREEN-LIT (Carl: "a" — local Library glance, walk waived).** 100 old runs + 1,787
   artifacts + 4,912 questions imported into local Neon; idempotent (second run identical); 7 runs with
   vanished demo orgs skipped honestly (FK = the fence working); an imported June run reads through the pg
-  store (briefing, turns, stage tabs). The LIVE import waits for Carl's separate explicit go. 105/105 · $0.
+  store (briefing, turns, stage tabs). LIVE import also done (68 runs + 1,222 artifacts). Both DBs
+  re-verified read-only at close — local 102 sessions / 2,207 artifacts, live 70 / 1,248; `generated_questions`
+  4,912 on both. 105/105 · $0. ⚠️ Live SITE shows the imports only after the next `/release` (pre-cutover code).
 - **2026-07-09 — Phase 5 ✅ GREEN-LIT (Carl: "a", walk waived — his call). Phase 6 (import) starting.**
 - **2026-07-09 — Phase 5 built.** Six store cutovers, one commit each (aliases,
   guest cap → `app_state` [survives Render's disk wipe], superadmin audit → `audit_log`, arc overlays,
