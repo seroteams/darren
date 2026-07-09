@@ -187,17 +187,16 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > ("Pipeline step added/removed: Shadow review"), baseline survives the reload via a snapshot.
 > Folder → [done/](docs/plans/done/page-heartbeat/plan.md). **▶ Your move:** nothing — track closed.
 
-> **🔨 [user-management](docs/plans/doing/user-management/plan.md) Phase 3 — deactivate / reactivate a user: STARTING (2026-07-05).**
-> Nullable `deactivatedAt` on `users` + `POST …/deactivate` & `…/reactivate`; login must reject deactivated users;
-> **live session killed immediately** (kicked now, not just blocked next login); guardrails (no self, no superadmin,
-> no org's last active lead); audit all. Baseline before touching: `npm test` **65/65** green.
-> **Phase 1 ✅** — flat **User management** table (`d2bf9ec2` + `53f1f132`), companies as white cards (`af1992f3`);
-> role pills; row opens the drilldown. **Phase 2 ✅** (`ac0359a7`, verified + closed 2026-07-05) — change role via
-> `PATCH /api/v1/admin/users/:id/role`, superadmin-gated + origin-guarded, blocks demoting a company's last
-> manager/admin (409). **Phase 0 finding:** the `runs` table has NO `userId` column (owner via `state.userId` on
-> disk), so Phase 4 "keep-but-orphan runs" needs **no migration**; the real FKs to clear on delete are
-> `auth_sessions` + `invitations.invitedBy`; **no email infra** → Phase 5 uses a copyable reset link.
-> Phases 0 (write findings), 3–5 still ⬜.
+> **✅ [user-management](docs/plans/done/user-management/plan.md) — TRACK CLOSED, ALPHA-COMPLETE 2026-07-09.**
+> Superadmin can now fully manage every registered tester: **Phase 1** flat User-management table · **Phase 2**
+> change role (`PATCH …/role`) · **Phase 3** deactivate/reactivate (login blocked + live sessions killed now) ·
+> **Phase 4** delete a user (`DELETE …/:id`) — runs kept-but-orphaned in one transaction (owner cleared in both the
+> `sessions.user_id` column AND the `state.userId` jsonb), every FK cleared, 4 guardrails (self / superadmin / last
+> active lead / still-manages-a-roster), proven test-first + a real local-Neon integration check. **Phase 5**
+> (reset-password/invite) **🅿️ parked by Carl** — lowest value now, highest risk (a public no-login endpoint);
+> build when real users need self-service recovery + a security check. Walks waived this session (Carl's call);
+> `npm test` **109/109** · root+admin typecheck + admin build clean. Folder → [done/](docs/plans/done/user-management/plan.md).
+> **▶ Your move:** nothing — track closed.
 
 > **📄 [GTM validation one-pager](docs/reference/gtm-validation-plan.md) — DRAFTED (2026-07-05), needs your names.**
 > The corridor-test plan Darren asked for: who the first 2–3 friendly managers are (criteria + a blank
@@ -238,4 +237,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-09 (postgres-runtime-data TRACK CLOSED — all 7 phases; pool-hang fix pushed on Carl's go; live deploy `d3a8b4f3`, health green; no loose ends)
+- Last updated: 2026-07-09 (user-management TRACK CLOSED alpha-complete — Phase 4 delete built test-first + real-DB verified, Phase 5 reset-password parked by Carl; 109/109; also: CTO deep audit + quick wins + backend speed batch landed)
