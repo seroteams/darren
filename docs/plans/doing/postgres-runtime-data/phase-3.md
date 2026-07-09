@@ -1,6 +1,10 @@
 # Phase 3 — Read cutover: the app trusts the DB, not the files
 
-**Status:** 🔨 BUILT 2026-07-09 ($0, test-first) — awaiting Carl's walk
+**Status:** ✅ GREEN-LIT 2026-07-09 — Carl: "close" (browser walk waived, his explicit call
+after the pace flag; every wall + read was verified over real HTTP with `logs/` parked, see
+the walk-prep findings below). $0 total spend.
+
+## ✅ GREEN-LIT 2026-07-09
 
 ## Build results (2026-07-09)
 

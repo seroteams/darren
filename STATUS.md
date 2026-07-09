@@ -8,6 +8,15 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 
 📍 **Feedback inbox — ✅ CLOSED 2026-07-08:** both phases (inbox screen + per-row Delete) green-lit by Carl ("close it") and moved to [done/](docs/plans/done/feedback-inbox/plan.md). Was already built + committed; wiring re-confirmed intact after the `0006`→`0011` DB drift.
 
+📍 **Checkpoint 2026-07-08 (night) — 🎉 SERO IS LIVE ON THE INTERNET.** Render deploy went green tonight at
+**https://sero-obwq.onrender.com** — verified live via the Render API + real health/homepage/deep-link checks,
+running tonight's build (`10c08ad`) against the Sero Live Neon DB. render-deploy P1+P2+P3 essentially done; only
+Carl's own paid live run (log in on phone → one 1:1, ~$0.35) remains before P3 closes formally. Render API key +
+service id stored in `.secrets/` (gitignored). **Next session: render-deploy P4 = the `/commit` + `/release`
+skills** (the two-word local→live workflow). Open follow-ups: rotate the live DB password (it passed through chat),
+optional cleaner custom domain. ⚠️ This STATUS edit is **left uncommitted on purpose** — the file also carries a
+parallel session's pre-go-live-close edits; committing would sweep their work (safe-commit rule).
+
 📍 **Checkpoint 2026-07-08:** agent toolbox landed + committed — 4 new skills (**checkpoint · phase-close · safe-commit · night-test**), guardrails hook wired (and fixed), reviewrun builds its own context block, CLAUDE.md slimmed to pointers, [cheat sheet](docs/reference/claude-cheat-sheet.html) + [usage retrospective](docs/reports/2026-07-08-claude-usage-retrospective.html). Commits `73ceac7b`→`956b4bb4`. Nothing awaiting a walk — the toolbox is live now.
 
 ---
@@ -22,29 +31,23 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > `npm test` with named errors. Tests 92→**96**, all offline. Folder → [done/](docs/plans/done/agent-native/plan.md);
 > parked follow-ups listed in its plan.md. **▶ Your move:** nothing — track closed.
 
-> **🔨 [render-deploy](docs/plans/doing/render-deploy/plan.md) — TONIGHT'S TRACK (2026-07-08): host Sero on Render.com + the /commit → /release workflow. P1 ✅ · P2 ✅ green-lit + committed · P3 = Carl's turn (do the Render setup). Runbook: [TONIGHT.md](TONIGHT.md).**
-> Carl's ask: "develop locally and easily get it live" — Render free plan (Frankfurt), blueprint auto-deploys
-> every push to `main`, agent watches deploys via a Render API key in `.secrets/` (never committed).
-> **4 phases:** ① pre-flight (Node pinned, `/api/v1/health`, `.secrets/` ignored) · ② `render.yaml` +
-> `RENDER_SETUP.md` checklist · ③ Carl sets Render up, agent verifies live · ④ `/commit` + `/release` skills.
-> **P1 ✅ green-lit + committed (`1b67f792`, 2026-07-08, $0):** Node pinned to 24
-> (`.node-version` + engines), public `GET /api/v1/health` answers `{"ok":true}` (test-first; proven on a real
-> boot), `.secrets/` gitignored. **Double-check caught a deploy-blocker:** the origin guard only allowed
-> `localhost` — on Render every browser save/start would 403. Fixed test-first ([origin.ts](backend/api/middleware/origin.ts),
-> same-origin passes, foreign sites still 403; proven on a scratch boot both ways). Also pinned down for tonight:
-> Render's `DATABASE_URL` = `.env`'s parked **LIVE_DATABASE_URL** (Sero Live Neon) + `APP_ENV=live`, and the
-> blueprint build is `npm ci --include=dev` (plain ci skips vite under NODE_ENV=production). `npm test` **96/96**
-> (whole-tree) · typecheck + build clean. Free-plan trade-offs Carl accepted: sleeps after 15 min
-> idle, disk wiped per deploy (run-log detail + generated questions reset; users/logins/run list safe in Neon).
-> **P2 ✅ green-lit + committed (`95a7a817` + close-out `4fc008b6`, 2026-07-08, $0):** [render.yaml](render.yaml)
-> blueprint (free Node service, Frankfurt, build/start/health wired, auto-deploy on push, 4 secrets `sync:false`
-> — names only) + [RENDER_SETUP.md](RENDER_SETUP.md) click-by-click. Fields verified vs the real app + env-guard;
-> no secret values in git; no app code touched. Carl walked both scenarios ("go").
-> **▶ Your move — Phase 3 is yours:** follow [RENDER_SETUP.md](RENDER_SETUP.md) (~15 min: sign up → Blueprint →
-> paste the 4 secrets, DATABASE_URL = the LIVE Neon value → deploy → make a Render API key). Paste me the key →
-> I store it in `.secrets/` and verify the live deploy (the one ~$0.35 paid check, your go).
+> **✅ [render-deploy](docs/plans/done/render-deploy/plan.md) — TRACK CLOSED 2026-07-08: Sero is LIVE at https://sero-obwq.onrender.com, all 4 phases green-lit.**
+> Carl's ask: "develop locally and easily get it live" — delivered end-to-end. Render free plan (Frankfurt), a
+> `render.yaml` blueprint **auto-deploys on every push to `main`**, and two skills make it two words:
+> **`/commit`** (save locally, never push) + **`/release`** (free checks → push → watch the Render API until live →
+> plain-words report; fix only with Carl's yes). The agent watches deploys via a Render API key in `.secrets/`.
+> - **P1** (`1b67f792`) — Node pinned to 24, public `GET /api/v1/health`, `.secrets/` gitignored. Double-check
+>   caught + fixed a deploy-blocker: the origin guard was localhost-only (would 403 every browser save on Render).
+> - **P2** (`95a7a817`/`4fc008b6`) — `render.yaml` blueprint + `RENDER_SETUP.md` click-by-click; secrets `sync:false`.
+> - **P3** — deployed + Carl's paid live run passed (log in + one 1:1 on the live site).
+> - **P4** (`eb722d60`) — `/commit` + `/release` skills; Carl ran `/release` (100/100 checks, correctly skipped
+>   other sessions' unsaved work, confirmed latest commit already live). "close it".
+> Folder → [done/](docs/plans/done/render-deploy/plan.md). **Parked follow-ups:** rotate the live DB password
+> (Carl deferred); pre-approve `git push`+Render-curl in settings.json (auto-mode blocked — approve the prompt on
+> first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
+> **▶ Your move:** nothing — track closed. Sero is on the internet.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — NEW track (2026-07-08): move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ green-lit + committed · P3 next.**
+> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ · P3 ✅ GREEN-LIT 2026-07-09 (walk waived, Carl's call) · P4 (questions) next.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -57,7 +60,22 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > nothing can be lost; a `RUN_FILE_ECHO` switch turns disk off in live. FK dropped (`0011`) so the CLI lane
 > writes too. Proven **free**: a scripted run's row + all 7 stage artifacts landed in Neon, then cleaned up.
 > `npm test` **96/96** · typecheck clean. Per-turn Q&A files + log-sidecars deferred (honest note in phase-2.md).
-> **▶ Your move:** say "start P3" → read cutover (the app trusts the DB; org/member privacy walls become SQL — strictest QA).
+> **P3 🔨 BUILT (2026-07-09, $0, test-first) — the read cutover:** every run read (Library, member "Past 1:1s",
+> superadmin views, stage tabs, compare, pipeline status, suggest-fix) now answers from **Postgres** when
+> `DATABASE_URL` is set; the file walk stays the DB-less mode AND the one-line rollback. Write path completed
+> first (per-turn files + transcript/axis/cost + pipeline-lock dual-write on all three lanes, echo-gated — also
+> stops live writing turn files to Render's throwaway disk). Privacy is **double-fenced**: SQL narrows on indexed
+> columns, then the engine's own wall functions re-check every row on the authoritative state — a drifted column
+> can hide a run, never leak one. Proven free: **parity test deep-equals 11 reads across both stores on real
+> Neon (all green)** + 7 DB-less fencing tests per list variant. `npm test` **101/101** · typecheck clean ·
+> offline replay PASS. Honest deferrals in phase-3.md (Map-miss DB fallback → P7; person-profile → P5).
+> **P3 ✅ closed 2026-07-09 (Carl: "close"; browser walk waived — flagged + his explicit call).** Walk-prep on
+> the real wiring caught **2 bugs the tests missed** (non-uuid dev ids would 500 the Library; a claimed guest
+> run kept the placeholder org → invisible in fenced lists) — fixed `bd3f2da7`; every wall then verified over
+> real HTTP with `logs/` parked (member: empty list, 404 on probe, 403 on admin routes).
+> ⚠️ Standing note: until P6 imports the old runs, local lists show only runs made since P2's dual-write
+> (2026-07-08) — the ~250 older disk runs are safe on disk, just not listed yet.
+> **▶ Your move:** say "start P4" → the invented-question pool moves into the DB (UNIQUE alias = the dedup gate).
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list
@@ -86,7 +104,7 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > **▶ Your move:** nothing — track closed. Overnight-QA *behaviour* findings (thread-follow drift, growth-arc stage-skip)
 > stay parked in the plan as a likely separate follow-up.
 
-> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ green-lit 2026-07-08 · P3 (save-at-end) 🔨 BUILT, awaiting your walk.**
+> **🔨 [guest-run](docs/plans/doing/guest-run/plan.md) — P1 ✅ · P2 ✅ · P3 ✅ closed 2026-07-08 (WALK WAIVED, your "B") · P4 (Guest runs screen) is the last phase.**
 > Your "open way first" idea: no-account visitor runs a full 1:1, saves it at the end by registering/logging in.
 > **P2 ✅ (walked 2026-07-08, "yeah looks good"):** guest lane frontend — by walk time there were TWO guest
 > doors (the `/` start screen from the closed start-screen track + the "Try it" link on `/login`), both →
@@ -94,13 +112,14 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 > (leak fixed `093981e1`); logged-in flows untouched. 73/73 at build · both typechecks.
 > **P1 ✅ (claim endpoint + daily guest cap):** `GUEST_RUNS_PER_DAY` (default 10) shared daily budget +
 > `POST /api/v1/sessions/:id/claim` hands an ownerless run to the newly logged-in caller.
-> **P3 🔨 BUILT (2026-07-08, $0) — awaiting your walk:** after the briefing a guest sees "Want to keep
-> this 1:1?" → Create a free account / Log in → auto-claim → lands straight on the saved run; guests see
-> no star rating or Finish & review. Test-first (5 new claim tests, red→green); 96/96 · both typechecks.
-> Browser-proven free: an old ownerless run's briefing shows the save card; the register button marks the
-> run; scenario 1 walked live (bogus marker + login → normal home, claim 404 swallowed, no dead end).
-> **▶ Your move:** scenarios 2–3 in [phase-3.md](docs/plans/doing/guest-run/phase-3.md) are ONE paid
-> end-to-end guest walk (~$0.35–0.60) — say go and walk it. Then ④ Guest runs screen.
+> **P3 ✅ closed (2026-07-08, walk waived):** the save-at-end flow shipped — guest briefing shows "Want
+> to keep this 1:1?" (no rating/QA controls), register/login auto-claims and lands on the run, a failed
+> claim never strands a login (walked live). Test-first (5 claim tests); 96/96 · both typechecks; save
+> card seen on a real ownerless briefing. ⚠️ The paid end-to-end walk was WAIVED (your "B") after the
+> attempt was derailed by an unrelated API hang (Postgres pool starvation — flagged to
+> postgres-runtime-data); "fresh run → save → register → Past 1:1s" as one live flow rides unproven
+> until a real guest saves. A half-spent guest run (bank done, turn 0) is parked to resume a walk cheaply.
+> **▶ Your move:** say "go P4" → the superadmin **Guest runs** screen (free build) — the track's last phase.
 
 > **✅ [frontend-admin-split](docs/plans/done/frontend-admin-split/plan.md) — TRACK CLOSED 2026-07-08: all 5 phases (1·2·2b·3·4) green-lit in one day, $0 spend.**
 > The split is real and ENFORCED: the customer app is its own built app (`:3002` dev) · the admin app
@@ -152,20 +171,14 @@ Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only ho
 
 ---
 
-## Now active: [pre-go-live](docs/plans/doing/pre-go-live/overview.md) — the standing line
+## ✅ [pre-go-live](docs/plans/done/pre-go-live/overview.md) — TRACK CLOSED 2026-07-08 (9/9)
 
-The manager's Team & Runs, ratings, and a superadmin window on the alpha. **9 phases, one at a time.**
-**PG1–PG8 ✅ closed (through 2026-07-04)** — member "Past 1:1s" + reopen + rate, the auto-built Team, each
-person's "Since last time" recap, the read-only cross-company **superadmin key**, the **Registered** superadmin
-screen (PG7, `c95a0052` + `a1781799`), and the admin user → teams → runs drilldown (PG8). Full detail lives in
-[docs/plans/doing/pre-go-live/progress.md](docs/plans/doing/pre-go-live/progress.md).
-
-**PG9 (roster + polish) is built but NOT yet closed — the last open pre-go-live phase.** On **Team**, a **Tidy up**
-mode lets you **merge** two cards for the same person (history + average combine) and **rename** a person; it sticks
-after reload. Awaiting your walk (or say "close pg9" to close it like PG8). Free checks: `npm test` **60/60** ·
-typecheck + admin build green; routes verified live (gated). QA sheets:
-[PG8](docs/plans/doing/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md) ·
-[PG9](docs/plans/doing/pre-go-live/009-roster-polish/99-qa-signoff.md). No hosting. Budget used ~$0.35/$3.
+**PG9 (roster + polish) green-lit 2026-07-08** in Carl's blanket go — the last open phase, so the whole
+pre-go-live build is done: manager Runs list, reopen, ratings, auto-built Team, person detail +
+"Since last time", superadmin key, Registered screen, admin drilldown, and Tidy-up merge/rename
+(now backed by the real roster since the people-roster track). Re-verified on close: whole-tree
+`npm test` **98/98** · typecheck + builds green · total track spend ~$0.35/$3.
+Folder → [done/](docs/plans/done/pre-go-live/overview.md).
 
 ---
 
@@ -188,4 +201,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-08 (render-deploy P2 green-lit + committed — `95a7a817`/`4fc008b6`; Phase 3 = Carl's Render setup)
+- Last updated: 2026-07-09 (postgres-runtime-data P3 read cutover ✅ green-lit — the app trusts the DB; 2 real bugs caught on walk-prep; P4 questions next)

@@ -9,6 +9,14 @@
 ---
 
 ## Where we are now
+- **2026-07-09** — **postgres-runtime-data P3 (read cutover) ✅ — and the lesson that keeps paying: verify on
+  the REAL wiring, not just tests.** 101/101 unit/parity tests were green, yet staging Carl's walk over real
+  HTTP caught two bugs they missed: the dev side-door's non-uuid ids would have 500'd the Library (raw SQL on
+  a uuid column throws where the file store matched nothing), and `upsertSession` never updated `org_id` on
+  conflict — so a guest run claimed after login silently vanished from every org-fenced list. Pattern for all
+  storage cutovers: double-fence (SQL narrows, the engine's own wall functions re-check each row) means a
+  drifted column can hide but never leak; and a deep-equal parity test between old and new stores catches
+  shape drift before a human does.
 - **2026-07-08 (night)** — **Sero is HOSTED. render-deploy P1–P3 done; live at https://sero-obwq.onrender.com.**
   Render free plan (Frankfurt) via a `render.yaml` blueprint that auto-deploys on every push to `main`. Lessons
   worth keeping: (1) the pre-existing origin guard was **localhost-only** — it would have 403'd every browser
