@@ -1,7 +1,8 @@
 # docs — index
 
-The map of everything under `docs/`. **Where are we right now?** → [board.md](board.md) (plans) ·
-[`STATUS.md`](../STATUS.md) (tactical) · [`SERO_BOARD.md`](../SERO_BOARD.md) (strategic).
+The map of everything under `docs/`. **Where are we right now?** → [`STATUS.md`](../STATUS.md)
+(tactical) · [`SERO_BOARD.md`](../SERO_BOARD.md) (strategic) · the **Tasks** screen in the admin
+app (live plan board, auto-built from the plan folders).
 
 Four rooms:
 
@@ -44,22 +45,13 @@ Four rooms:
 
 ## plans/ — build work
 
-See [board.md](board.md) for state. Active plans in [doing/](plans/doing/), one folder per plan:
-[pre-go-live](plans/doing/pre-go-live/overview.md) ·
-[plan-turn-runner-gates](plans/doing/plan-turn-runner-gates/plan.md) ·
-[guest-run](plans/doing/guest-run/plan.md) ·
-[feedback-inbox](plans/doing/feedback-inbox/plan.md) ·
-[manager-ready](plans/doing/manager-ready/plan.md) ·
-[frontend-admin-split](plans/doing/frontend-admin-split/plan.md) ·
-[page-heartbeat](plans/doing/page-heartbeat/plan.md) ·
-[hide-ai-words](plans/doing/hide-ai-words/plan.md) ·
-[user-management](plans/doing/user-management/plan.md) ·
-[run-qa-fixes-jul04](plans/doing/run-qa-fixes-jul04/plan.md) ·
-[engine-improvements](plans/doing/engine-improvements/plan.md) ·
-[postgres-runtime-data](plans/doing/postgres-runtime-data/plan.md) ·
-[render-deploy](plans/doing/render-deploy/).
+One folder per plan, filed by state — the folders ARE the source of truth (don't hand-list
+them here; the list drifts). Live view: the **Tasks** screen in the admin app + [`STATUS.md`](../STATUS.md).
 
-Parked plans sit in [future/](plans/future/); completed ones move to [done/](plans/done/) (35 so far — auth, postgres, roles, design-system, cto-check-july, live-data-cleanup, agent-native, …).
+- **[doing/](plans/doing/)** — actively in-flight. Currently one track: **thread-follow**.
+- **[future/](plans/future/)** — parked / not started (briefing-readability-p0, design-cleanups,
+  planner-grounding, questions-outcome-moat, run-qa-fixes-jul04).
+- **[done/](plans/done/)** — completed, signed-off tracks (the large majority; git history has the rest).
 
 ## archive/ — superseded + completed
 

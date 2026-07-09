@@ -12,6 +12,13 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**🔨 ACTIVE: [thread-follow](docs/plans/doing/thread-follow/plan.md) — make the engine follow the person's answer, not just march its queue.** The one systemic weak muscle from the 8–9 Jul night test (thread-following scored 55–65/100): people volunteer a real thread and the coverage engine / drill cap marches over it. **P1 ✅ green-lit + committed 2026-07-09** (drill-cap pins a runtime thread-follow at slot 0). **P2 🔨 next** — relax the mint-bail so a genuine new thread follows even under drill pressure; one paid gate case (~$0.35) proves the metric moves without new leakage. The sole `doing/` track; live per-phase state in [STATUS.md](STATUS.md).
+
+**✅ Closed (2026-07-09): [user-management](docs/plans/done/user-management/plan.md) — superadmin can fully manage testers (table · role · deactivate · delete). Phases 1–4 done; Phase 5 (reset-password) parked.**
+Delete a user (Phase 4, 2026-07-09) keeps their past 1:1s under the company but orphaned, clears every foreign key in one transaction, and holds 4 guardrails (self / superadmin / last active lead / still-manages-a-roster). Test-first + a real local-Neon check; walks waived (Carl's call). Phase 5 (a public reset-password link) parked: lowest value now, highest risk — build when real users need self-service recovery + a security check.
+
+**✅ Closed (2026-07-09): [postgres-runtime-data](docs/plans/done/postgres-runtime-data/plan.md) — Postgres is the single store in both live + local; a live 1:1 writes zero app-data files. All 7 phases.**
+
 **✅ Closed (2026-07-09): [guest-run](docs/plans/done/guest-run/plan.md) — try Sero with no account, save at the end. All 4 phases, ~$0.15.**
 Carl's "open way first" idea, end-to-end: a visitor with no account walks in through `/` (or `/login`),
 runs a full 1:1 behind a shared daily budget (`GUEST_RUNS_PER_DAY` + per-IP cap), and the briefing offers
@@ -108,8 +115,8 @@ touched screens follow it; **no bulk re-skin** (Carl's call). Plan → [done/](d
 one at a time: the manager's own **Runs** list + reopen, **rate a 1:1** (1–5★, Carl sees all), **Team**
 auto-built from past 1:1s + person detail, and a **superadmin** read-only window on the whole alpha
 (who's registered → their teams → their runs). Playbook
-[docs/plans/doing/pre-go-live/overview.md](docs/plans/doing/pre-go-live/overview.md), live state
-[docs/plans/doing/pre-go-live/progress.md](docs/plans/doing/pre-go-live/progress.md), tactical [STATUS.md](STATUS.md).
+[docs/plans/done/pre-go-live/overview.md](docs/plans/done/pre-go-live/overview.md), live state
+[docs/plans/done/pre-go-live/progress.md](docs/plans/done/pre-go-live/progress.md), tactical [STATUS.md](STATUS.md).
 **Supersedes** the deferred member-nav Phase 2 and 009's deferred "real Team content" (folded in).
 **PG1–PG7 ✅ done** (Runs list, reopen, rate a 1:1, Team auto-built + "Past 1:1s", the per-person page with
 "Since last time" + "Prep next 1:1", the read-only cross-company superadmin gate, and the **Registered**
@@ -128,7 +135,7 @@ done; hosting (2) + continuity (8) folded into the pre-go-live track above
   anonymous-start path decided (kept open + walled for the alpha, close before widening). Human-expert
   security review **waived/deferred** for the small alpha (accepted risk — book before widening).
   **Reversal (2026-07-05, guest-run):** "close before widening" is consciously reversed — anonymous start
-  is now a product feature (guest try-out for invited demos, [docs/plans/doing/guest-run/](docs/plans/doing/guest-run/plan.md)).
+  is now a product feature (guest try-out for invited demos, [docs/plans/done/guest-run/](docs/plans/done/guest-run/plan.md)).
   The front door followed (start-screen, ✅ closed 2026-07-06): `/` is a guest-first start screen for
   invited testers; login lives at `/login` ([plan → done/](docs/plans/done/start-screen/plan.md)).
   Compensating controls: shared daily start budget (`GUEST_RUNS_PER_DAY`, default 10) + the per-IP limit +

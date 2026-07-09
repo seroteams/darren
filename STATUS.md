@@ -52,9 +52,9 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > - **P3** — deployed + Carl's paid live run passed (log in + one 1:1 on the live site).
 > - **P4** (`eb722d60`) — `/commit` + `/release` skills; Carl ran `/release` (100/100 checks, correctly skipped
 >   other sessions' unsaved work, confirmed latest commit already live). "close it".
-> Folder → [done/](docs/plans/done/render-deploy/plan.md). **Parked follow-ups:** rotate the live DB password
-> (Carl deferred); pre-approve `git push`+Render-curl in settings.json (auto-mode blocked — approve the prompt on
-> first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
+> Folder → [done/](docs/plans/done/render-deploy/plan.md). **Parked follow-ups:** pre-approve `git push`+Render-curl
+> in settings.json (auto-mode blocked — approve the prompt on first `/release`); custom domain; Starter plan when
+> demos need no-sleep. *(`TONIGHT.md` deleted at close-out.)*
 > **▶ Your move:** nothing — track closed. Sero is on the internet.
 
 > **✅ [postgres-runtime-data](docs/plans/done/postgres-runtime-data/plan.md) — TRACK CLOSED 2026-07-09: all 7 phases ✅, $0 track spend. Postgres is the single source of truth in both environments; a live 1:1 writes ZERO files.**

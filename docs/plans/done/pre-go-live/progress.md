@@ -1,8 +1,11 @@
 # Pre-go-live — PROGRESS (living log)
 
-**This is the single source of truth for where the pre-go-live track is.** The agent reads it on every
-"what next?" and updates it after every action. The [OVERVIEW](OVERVIEW.md) is the fixed playbook; this
-file is what changes.
+> **✅ TRACK CLOSED 2026-07-08 — 9/9 phases green-lit (PG9 closed in Carl's blanket go).** This is an
+> archived log; the entries below are historical. The live trackers are [STATUS.md](../../../../STATUS.md)
+> + [SERO_BOARD.md](../../../../SERO_BOARD.md). Folder now lives in `docs/plans/done/`.
+
+**This was the single source of truth for where the pre-go-live track was** (while it was live). The
+[OVERVIEW](OVERVIEW.md) is the fixed playbook; this file logged the changes.
 
 Status words: `not-started` (not broken down) · `planned` · `in-progress` · `awaiting-qa` · `done`.
 

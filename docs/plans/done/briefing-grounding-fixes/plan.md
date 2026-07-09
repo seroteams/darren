@@ -1,5 +1,10 @@
 # Briefing grounding fixes
 
+> **Status: Phase 1 ✅ shipped + signed off (2026-07-01); Phases 2–4 are PARKED follow-ups, not active.**
+> Filed in `done/` because its one delivered phase is closed — the remaining phases are backlog (each a
+> prompt change needing a paid run), the same "done with a parked tail" shape as engine-improvements.
+> Un-park a phase as a fresh Darren-Method step when wanted. Live trackers: [STATUS.md](../../../../STATUS.md) · [SERO_BOARD.md](../../../../SERO_BOARD.md).
+
 **Goal:** Stop the manager briefing from over-claiming and mis-attributing — scores stop maxing out off one repeated point, manager notes stop being quoted as the employee's words, banned wording is blocked, and one-topic briefings stay short.
 **Driver:** Carl
 **Created:** 2026-06-19
