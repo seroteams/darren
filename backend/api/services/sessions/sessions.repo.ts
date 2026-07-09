@@ -33,6 +33,14 @@ import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 import { asRecord } from "../../../shared/guards.ts";
 import { upsertSession } from "../../../db/sessions-store.ts";
+import { hasDatabaseUrl } from "../../../db/client.ts";
+import { shouldEchoToDisk } from "../../../db/run-artifacts-store.ts";
+
+// Retire the files (postgres-runtime-data P7): the run-dir writers below are all
+// log-only dev-tooling artifacts (diagnostics + a render of session.notes, which
+// itself lives in the DB). In live (DB mode, echo off) they write nothing, so a full
+// 1:1 leaves zero new files; DB-less dev and echo-on keep them for the local tooling.
+const skipDiskLog = (): boolean => hasDatabaseUrl() && !shouldEchoToDisk();
 
 /** The cached role-profile doc (or null when none is cached) — exactly what the
  *  engine's loadRoleProfile returns, named here so services + tests can refer to it. */
@@ -109,10 +117,12 @@ export const fileSessionsRepo: SessionsRepo = {
   },
   loadRoleProfile: (ctx) => loadRoleProfile(ctx),
   appendEligibilityLog: (dir, entries) => {
+    if (skipDiskLog()) return;
     appendEligibilityLog(path.join(dir, ELIGIBILITY_LOG_FILE), entries);
   },
   loadPersona: (personaId) => loadPersona(personaId),
   writeScriptCoverage: (dir, coverage) => {
+    if (skipDiskLog()) return;
     try {
       fs.writeFileSync(path.join(dir, SCRIPT_COVERAGE_FILE), JSON.stringify(coverage, null, 2));
     } catch (e) {
@@ -120,6 +130,7 @@ export const fileSessionsRepo: SessionsRepo = {
     }
   },
   appendAmendLog: (dir, entry) => {
+    if (skipDiskLog()) return;
     const file = path.join(dir, AMEND_LOG_FILE);
     let log: unknown[] = [];
     try {
@@ -138,6 +149,7 @@ export const fileSessionsRepo: SessionsRepo = {
     }
   },
   writeNotesFile: (dir, markdown) => {
+    if (skipDiskLog()) return;
     try {
       fs.writeFileSync(path.join(dir, NOTES_FILE), markdown);
     } catch (e) {
@@ -145,6 +157,7 @@ export const fileSessionsRepo: SessionsRepo = {
     }
   },
   appendLexiconDecisions: (dir, records) => {
+    if (skipDiskLog()) return;
     const line = records.map((r) => JSON.stringify({ ts: Date.now(), ...asRecord(r) })).join("\n") + "\n";
     fs.appendFileSync(path.join(dir, LEXICON_DECISIONS_FILE), line, "utf8");
   },

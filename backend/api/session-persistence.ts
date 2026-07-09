@@ -6,6 +6,8 @@ import { initState } from "../engine/axes.ts";
 import { createTracker } from "../engine/cost.ts";
 import type { Session } from "../shared/session.types.ts";
 import { isObjectRecord } from "../shared/guards.ts";
+import { hasDatabaseUrl } from "../db/client.ts";
+import { shouldEchoToDisk } from "../db/run-artifacts-store.ts";
 
 const STATE_FILE = "session-state.json";
 
@@ -65,6 +67,10 @@ function serialize(s: Session): PersistedSession {
 }
 
 function persist(session: Session): void {
+  // Retire the files (postgres-runtime-data P7): in DB mode Postgres is the store,
+  // so skip the disk write unless the dev echo is on. DB-less mode always writes —
+  // disk IS the store there, and the echo copy is the one-flip rollback path.
+  if (hasDatabaseUrl() && !shouldEchoToDisk()) return;
   try {
     fs.writeFileSync(
       path.join(session.dir, STATE_FILE),

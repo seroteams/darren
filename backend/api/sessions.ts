@@ -64,7 +64,10 @@ function createWebSession(ctx: MeetingContext, introQueue: Question[], orgId: st
 
 function getSession(id: string): Session | undefined {
   let s = sessions.get(id);
-  if (!s) s = restoreFromDisk(id, sessions) ?? undefined;
+  // Retire the files (postgres-runtime-data P7): in DB mode the live Map + the boot
+  // restore (loadSessionsFromDb) are the store, so a miss is genuinely unknown/expired
+  // — no disk read. Disk restore stays the DB-less path.
+  if (!s && !hasDatabaseUrl()) s = restoreFromDisk(id, sessions) ?? undefined;
   if (s) s.lastSeenAt = Date.now();
   return s;
 }
@@ -82,18 +85,16 @@ function dropSession(id: string): void {
 }
 
 function startSweep(): void {
-  // Boot restore, DB-FIRST (postgres-runtime-data Phase 3): with Postgres
-  // configured the database is the source of truth — its sessions load first,
-  // and the disk pass afterwards only fills gaps (both loaders skip ids already
-  // in the Map). A DB hiccup logs and falls back to the disk-only restore.
-  // DB-less mode is unchanged: disk restore only.
+  // Boot restore (postgres-runtime-data Phase 3 → P7): with Postgres configured the
+  // database is the source of truth and the ONLY restore — P7 dropped the disk
+  // gap-fill pass, so live never walks Render's throwaway disk. DB-less mode is
+  // unchanged: disk restore only.
   if (hasDatabaseUrl()) {
     loadSessionsFromDb(sessions, SESSION_TTL_MS)
       .then((n) => {
         if (n) console.log(`[sessions] restored ${n} session(s) from Postgres`);
       })
-      .catch((e) => console.warn("[sessions] Postgres restore failed:", e instanceof Error ? e.message : String(e)))
-      .finally(() => loadPersistedSessions(sessions, SESSION_TTL_MS));
+      .catch((e) => console.warn("[sessions] Postgres restore failed:", e instanceof Error ? e.message : String(e)));
   } else {
     loadPersistedSessions(sessions, SESSION_TTL_MS);
   }

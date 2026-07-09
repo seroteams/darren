@@ -1,6 +1,34 @@
 # Phase 7 — Retire the files
 
-**Status:** ⬜ not started (blocked by Phase 6 green light)
+**Status:** 🔨 BUILT (behavior core) 2026-07-09 ($0, test-first) — awaiting Carl's walk. A full
+live 1:1 now writes ZERO new app-data files. The frozen tooling-script rewrites (purge-runs /
+seed-runs / backfill-people) remain — they're not in the live path and don't affect that goal.
+
+## Built 2026-07-09 (behavior core — test-first, $0)
+
+The plan's one-liner ("echo off in live → verify zero files") hid that several disk writers were
+still unconditional. Audited every run-dir writer and echo-gated them; earlier phases had already
+done the rest:
+
+- **Already done by earlier phases:** echo is off in live (render.yaml `APP_ENV=live` →
+  `shouldEchoToDisk()` false); per-turn artifacts + transcript/axis/cost echo-gated (P3);
+  question YAMLs + `_index.json` upkeep DB-mode-gated (P4). No change needed.
+- **`persist()` echo-gated** (`session-persistence.ts`) — the every-turn `session-state.json`
+  writer skipped in live; DB (`upsertSession`) stays the store. This was the big leak.
+- **Five log-only run-dir writers echo-gated** (`sessions.repo.ts` — eligibility log, script
+  coverage, amend log, notes render, lexicon-decisions trace) via a shared `skipDiskLog()`; the
+  data is in the DB or is dev-only diagnostics.
+- **Disk-first fallbacks removed in DB mode** (`sessions.ts`) — `getSession` miss no longer reads
+  disk (the boot `loadSessionsFromDb` + live Map are the store); boot no longer walks disk.
+- **File mode fully intact:** every gate is `hasDatabaseUrl() && !shouldEchoToDisk()`, so DB-less
+  dev + the echo-on rollback keep writing exactly as before.
+- **Tests:** 3 persist gates + 3 repo-writer gates (red→green). `npm test` **107/107** · typecheck clean.
+
+**Still to do (frozen tooling — not in the live path, doesn't gate "zero files"):** `scripts/purge-runs.ts`
+(DB delete + disk cleanup, replacing `purge-logs.js`); rewrite `seed-runs.ts` + `backfill-people.ts`
+to mutate via SQL; mark `rebuild-question-index.js` file-mode-only; `.gitignore`/docs refresh.
+
+
 
 ## Why this phase (and why last)
 
