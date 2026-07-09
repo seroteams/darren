@@ -15,6 +15,8 @@ import { runEnvironmentGuard } from "./db/env-guard.ts";
 import { flushArtifactWrites } from "./db/run-artifacts-store.ts";
 import { hydrateQuestionCache, flushQuestionWrites } from "./db/questions-store.ts";
 import { hydrateArcOverlays, flushArcOverlayWrites } from "./db/arc-overlays-store.ts";
+import { hydrateRoleProfiles, flushRoleProfileWrites } from "./db/role-profiles-store.ts";
+import { PROFILES_DIR } from "./engine/role-profile.ts";
 import { OVERLAYS_DIR } from "./engine/arc-overlay.ts";
 import { hasDatabaseUrl } from "./db/client.ts";
 import { closeDb } from "./db/client.ts";
@@ -113,6 +115,7 @@ async function main() {
   if (hasDatabaseUrl()) {
     await hydrateQuestionCache();
     await hydrateArcOverlays(OVERLAYS_DIR);
+    await hydrateRoleProfiles(PROFILES_DIR);
   }
 
   const { ask, close: closeAsker } = createAsker();
@@ -321,6 +324,7 @@ main()
     await flushArtifactWrites();
     await flushQuestionWrites();
     await flushArcOverlayWrites();
+    await flushRoleProfileWrites();
     await closeDb();
   })
   .catch((e: unknown) => {

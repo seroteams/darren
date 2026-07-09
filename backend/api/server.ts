@@ -14,6 +14,8 @@ import { runEnvironmentGuard, EnvGuardError } from "../db/env-guard.ts";
 import { flushArtifactWrites } from "../db/run-artifacts-store.ts";
 import { hydrateQuestionCache, flushQuestionWrites } from "../db/questions-store.ts";
 import { hydrateArcOverlays, flushArcOverlayWrites } from "../db/arc-overlays-store.ts";
+import { hydrateRoleProfiles, flushRoleProfileWrites } from "../db/role-profiles-store.ts";
+import { PROFILES_DIR } from "../engine/role-profile.ts";
 import { OVERLAYS_DIR } from "../engine/arc-overlay.ts";
 import { hasDatabaseUrl } from "../db/client.ts";
 
@@ -127,6 +129,7 @@ async function main(): Promise<void> {
   if (hasDatabaseUrl()) {
     await hydrateQuestionCache();
     await hydrateArcOverlays(OVERLAYS_DIR);
+    await hydrateRoleProfiles(PROFILES_DIR);
   }
 
   startSweep();
@@ -521,6 +524,7 @@ async function main(): Promise<void> {
     void flushArtifactWrites();
     void flushQuestionWrites();
     void flushArcOverlayWrites();
+    void flushRoleProfileWrites();
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(0), 5000).unref?.();
   };

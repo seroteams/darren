@@ -10,6 +10,16 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { DATA_DIR, PROMPTS_DIR } from "./paths.mts";
+import { hasDatabaseUrl } from "../db/client.ts";
+import { shouldEchoToDisk, queueArtifact } from "../db/run-artifacts-store.ts";
+import {
+  roleProfileGet,
+  roleProfileHas,
+  roleProfileList,
+  roleProfileOverlayGet,
+  roleProfileSaveDoc,
+  roleProfileSaveOverlay,
+} from "../db/role-profiles-store.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const PROFILES_DIR = path.join(DATA_DIR, "role-profiles");
@@ -183,12 +193,24 @@ function loadRoleProfile({ role, seniority }: { role?: unknown; seniority?: unkn
   const key = keyOf({ role, seniority });
   if (!key) return null;
   let doc: unknown;
-  try {
-    doc = JSON.parse(fs.readFileSync(profilePath(key), "utf8"));
-  } catch {
-    return null;
+  if (hasDatabaseUrl()) {
+    // DB mode (postgres-runtime-data Phase 5): the boot-hydrated cache is the
+    // store; pre-cutover disk profiles self-migrated at hydration.
+    doc = roleProfileGet(key);
+  } else {
+    try {
+      doc = JSON.parse(fs.readFileSync(profilePath(key), "utf8"));
+    } catch {
+      return null;
+    }
   }
   return validShape(doc) ? doc : null;
+}
+
+// The base profile's existence check behind the overlay mutations — cache in
+// DB mode, the cache file on disk otherwise.
+function profileExists(key: string): boolean {
+  return hasDatabaseUrl() ? roleProfileHas(key) : fs.existsSync(profilePath(key));
 }
 
 // List every cached role profile's words for the Job lexicons page. Read-only,
@@ -196,24 +218,31 @@ function loadRoleProfile({ role, seniority }: { role?: unknown; seniority?: unkn
 // old-version file is skipped, never thrown. Sorted by role title for browsing.
 // User-added words (the overlay) are merged in, tagged source:"you".
 function listRoleProfiles() {
-  let files: string[];
-  try {
-    files = fs.readdirSync(PROFILES_DIR);
-  } catch {
-    return [];
-  }
+  // DB mode: the hydrated cache is the library; file mode scans the dir.
+  const entries: Array<{ key: string; raw: unknown }> = hasDatabaseUrl()
+    ? roleProfileList().map((e) => ({ key: e.key, raw: e.doc }))
+    : (() => {
+        let files: string[];
+        try {
+          files = fs.readdirSync(PROFILES_DIR);
+        } catch {
+          return [];
+        }
+        return files
+          .filter((f) => f.endsWith(".json") && !f.endsWith(".overlay.json"))
+          .map((f) => {
+            try {
+              return { key: f.replace(/\.json$/, ""), raw: JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf8")) as unknown };
+            } catch {
+              return null;
+            }
+          })
+          .filter((e): e is { key: string; raw: unknown } => e !== null);
+      })();
   const out = [];
-  for (const f of files) {
-    if (f.endsWith(".overlay.json")) continue; // user-words sidecar, not a profile
-    if (!f.endsWith(".json")) continue;
-    let doc: unknown;
-    try {
-      doc = JSON.parse(fs.readFileSync(path.join(PROFILES_DIR, f), "utf8"));
-    } catch {
-      continue;
-    }
+  for (const { key, raw } of entries) {
+    const doc = raw;
     if (!validShape(doc)) continue;
-    const key = f.replace(/\.json$/, "");
     const overlay = loadOverlay(key);
     const hiddenSet = new Set(overlay.hidden_terms);
     const aiTerms = Array.isArray(doc.profile.terminology)
@@ -273,10 +302,14 @@ function overlayPath(key: string): string {
 function loadOverlay(key: string): { added_terms: OverlayTerm[]; hidden_terms: string[] } {
   if (!validKey(key)) return { added_terms: [], hidden_terms: [] };
   let doc: unknown;
-  try {
-    doc = JSON.parse(fs.readFileSync(overlayPath(key), "utf8"));
-  } catch {
-    return { added_terms: [], hidden_terms: [] };
+  if (hasDatabaseUrl()) {
+    doc = roleProfileOverlayGet(key); // overlay column on the profile row
+  } else {
+    try {
+      doc = JSON.parse(fs.readFileSync(overlayPath(key), "utf8"));
+    } catch {
+      return { added_terms: [], hidden_terms: [] };
+    }
   }
   const rec = asRecord(doc);
   const rawTerms = rec.added_terms;
@@ -290,10 +323,12 @@ function loadOverlay(key: string): { added_terms: OverlayTerm[]; hidden_terms: s
 }
 
 function writeOverlay(key: string, added_terms: OverlayTerm[], hidden_terms: string[]): void {
-  writeAtomic(
-    overlayPath(key),
-    JSON.stringify({ version: OVERLAY_VERSION, key, added_terms, hidden_terms }, null, 2),
-  );
+  const doc = { version: OVERLAY_VERSION, key, added_terms, hidden_terms };
+  if (hasDatabaseUrl()) {
+    roleProfileSaveOverlay(key, doc);
+    if (!shouldEchoToDisk()) return;
+  }
+  writeAtomic(overlayPath(key), JSON.stringify(doc, null, 2));
 }
 
 // Pure list helpers for the hidden set — case-insensitive, deduped, blank-safe.
@@ -312,7 +347,7 @@ function removeHiddenTerm(hidden: string[], term: unknown): string[] {
 // library already knows). Dedupes case-insensitively. Throws { status } on bad
 // input so the handler can map it to an HTTP code.
 function addOverlayTerm(key: string, { term, meaning }: { term?: unknown; meaning?: unknown } = {}): OverlayTerm {
-  if (!validKey(key) || !fs.existsSync(profilePath(key))) {
+  if (!validKey(key) || !profileExists(key)) {
     throw Object.assign(new Error("Unknown role"), { status: 404 });
   }
   const cleanTerm = String(term || "").trim().slice(0, 60);
@@ -344,7 +379,7 @@ function removeOverlayTerm(key: string, term: unknown): OverlayTerm[] {
 // set. The base profile must exist. The generated profile is untouched, so the
 // word can be brought back with unhideOverlayTerm. Returns the new hidden set.
 function hideOverlayTerm(key: string, term: unknown): string[] {
-  if (!validKey(key) || !fs.existsSync(profilePath(key))) {
+  if (!validKey(key) || !profileExists(key)) {
     throw Object.assign(new Error("Unknown role"), { status: 404 });
   }
   const cleanTerm = String(term || "").trim();
@@ -493,6 +528,10 @@ async function generate({
     profile,
   };
 
+  if (hasDatabaseUrl()) {
+    roleProfileSaveDoc(key, doc);
+    if (!shouldEchoToDisk()) return doc;
+  }
   fs.mkdirSync(PROFILES_DIR, { recursive: true });
   writeAtomic(profilePath(key), JSON.stringify(doc, null, 2));
   return doc;
@@ -514,25 +553,31 @@ interface RoleProfileOutcome {
 // Every run's log folder gets the profile it actually used — cache hits
 // included — so a run is self-contained for review. Logging must never break
 // a run, hence the blanket try/catch.
-function snapshotToSession(session: { dir?: string } | null | undefined, outcome: RoleProfileOutcome): void {
+function snapshotToSession(session: { id?: string; dir?: string } | null | undefined, outcome: RoleProfileOutcome): void {
   if (!session || !session.dir) return;
   try {
+    const sessionKey = session.id ?? path.basename(session.dir);
+    const inputsDoc =
+      outcome.status !== "generated"
+        ? { key: outcome.key, status: outcome.status, ...(outcome.error ? { error: outcome.error } : {}) }
+        : null;
+    // Dual-write like every other run artifact (Phase 5): DB always, disk echo-gated.
+    if (outcome.doc) {
+      queueArtifact({ sessionKey, stage: "00b-role-profile", name: "profile.json", kind: "json", content: outcome.doc });
+    }
+    // The generated path already wrote inputs.json/prompt.md/response.json via
+    // logStage; only fill inputs.json for the paths that skipped generation.
+    if (inputsDoc) {
+      queueArtifact({ sessionKey, stage: "00b-role-profile", name: "inputs.json", kind: "json", content: inputsDoc });
+    }
+    if (!shouldEchoToDisk()) return;
     const dir = path.join(session.dir, "00b-role-profile");
     fs.mkdirSync(dir, { recursive: true });
     if (outcome.doc) {
       fs.writeFileSync(path.join(dir, "profile.json"), JSON.stringify(outcome.doc, null, 2));
     }
-    // The generated path already wrote inputs.json/prompt.md/response.json via
-    // logStage; only fill inputs.json for the paths that skipped generation.
-    if (outcome.status !== "generated") {
-      fs.writeFileSync(
-        path.join(dir, "inputs.json"),
-        JSON.stringify(
-          { key: outcome.key, status: outcome.status, ...(outcome.error ? { error: outcome.error } : {}) },
-          null,
-          2
-        )
-      );
+    if (inputsDoc) {
+      fs.writeFileSync(path.join(dir, "inputs.json"), JSON.stringify(inputsDoc, null, 2));
     }
   } catch {
     // never let log writing interrupt the run
@@ -558,10 +603,14 @@ async function ensureRoleProfile(
   }
 
   let existing: unknown = null;
-  try {
-    existing = JSON.parse(fs.readFileSync(profilePath(key), "utf8"));
-  } catch {
-    existing = null;
+  if (hasDatabaseUrl()) {
+    existing = roleProfileGet(key); // cache hit = zero LLM calls, same as the file hit
+  } else {
+    try {
+      existing = JSON.parse(fs.readFileSync(profilePath(key), "utf8"));
+    } catch {
+      existing = null;
+    }
   }
   if (isFresh(existing)) {
     const outcome: RoleProfileOutcome = { status: "cached", key, doc: existing };
