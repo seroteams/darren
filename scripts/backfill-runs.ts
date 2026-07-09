@@ -31,6 +31,14 @@ const DRY = args.has("--dry-run");
 const ONLY = kv.get("only") ?? null;
 const MONTH = kv.get("month") ?? null;
 const LIMIT = kv.get("limit") ? Number(kv.get("limit")) : Infinity;
+// Cross-environment import (the live pull): local user ids don't exist in the
+// live DB, so ownership is REMAPPED BY EMAIL — a JSON file of
+// { "<source-user-id>": "<email>" } (made from the source DB); each email is
+// resolved against the TARGET DB's users table. Runs whose owner can't be
+// mapped are skipped + reported, never guessed. personId is nulled on remap
+// (roster rows aren't carried over). The remap is stamped into the state for
+// provenance.
+const USER_MAP_FILE = kv.get("user-map") ?? null;
 
 // logs/ dirs that are dev-tool output, not runs — mirrors run-history SKIP_DIRS
 // plus the report folders.
@@ -89,10 +97,26 @@ async function main(): Promise<void> {
   // Runs whose stored orgId has no organizations row (old demo/test orgs cleaned
   // from this DB) can't be inserted — the FK would refuse. Skip + report honestly:
   // no real caller could fence-list them today either (their org matches nobody).
-  const { organizations } = await import("../backend/db/schema.ts");
+  const { organizations, users } = await import("../backend/db/schema.ts");
   const knownOrgs = new Set(
     (await getDb().select({ id: organizations.id }).from(organizations)).map((r) => r.id),
   );
+
+  // Email remap (live pull): source-user-id → email → target {userId, orgId}.
+  let remap: Map<string, { userId: string; orgId: string }> | null = null;
+  if (USER_MAP_FILE) {
+    const idToEmail = JSON.parse(fs.readFileSync(USER_MAP_FILE, "utf8")) as Record<string, string>;
+    const targetUsers = await getDb()
+      .select({ id: users.id, email: users.email, orgId: users.orgId })
+      .from(users);
+    const byEmail = new Map(targetUsers.map((u) => [u.email.toLowerCase(), u]));
+    remap = new Map();
+    for (const [sourceId, email] of Object.entries(idToEmail)) {
+      const hit = byEmail.get(String(email).toLowerCase());
+      if (hit) remap.set(sourceId, { userId: hit.id, orgId: hit.orgId });
+    }
+    console.log(`  remap: ${remap.size}/${Object.keys(idToEmail).length} source users matched in the target DB by email`);
+  }
 
   async function importRun(month: string, runDir: string): Promise<void> {
     const id = path.basename(runDir);
@@ -106,7 +130,27 @@ async function main(): Promise<void> {
       totals.skippedNoState++;
       return;
     }
-    if (typeof state.orgId === "string" && state.orgId && !knownOrgs.has(state.orgId)) {
+    if (remap) {
+      // Live pull: rewrite ownership onto the mapped target account, with
+      // provenance stamped. Owned-but-unmappable runs are skipped (never guess);
+      // ownerless runs (orgId+userId null) pass through as ownerless.
+      const sourceUser = typeof state.userId === "string" ? state.userId : null;
+      if (sourceUser) {
+        const target = remap.get(sourceUser);
+        if (!target) {
+          totals.orphanedOrg++;
+          return;
+        }
+        // (serialize() carries only the known Session fields, so provenance
+        // lives in the phase-6 doc + import report, not a state stamp.)
+        state.orgId = target.orgId;
+        state.userId = target.userId;
+        state.personId = null; // roster rows aren't carried across environments
+      } else if (typeof state.orgId === "string" && state.orgId && !knownOrgs.has(state.orgId)) {
+        totals.orphanedOrg++;
+        return;
+      }
+    } else if (typeof state.orgId === "string" && state.orgId && !knownOrgs.has(state.orgId)) {
       totals.orphanedOrg++;
       return;
     }

@@ -27,8 +27,26 @@ unique keys; deletes nothing; guarded so importing the helpers never runs the im
   `--stores` (aliases/cap/traces; audit pass correctly refused to append into a
   non-empty `audit_log`; role/arc overlays self-migrate at boot instead).
 
-`npm test` **105/105** · $0. **NOT DONE on purpose:** the LIVE import (QA 4) — runs only
-on Carl's separate explicit go, with `ALLOW_ENV_MISMATCH=1` stated first.
+`npm test` **105/105** · $0.
+
+## LIVE import (2026-07-09 — Carl's explicit go: "make sure you pull this into the live database too")
+
+Cross-environment ownership is REMAPPED BY EMAIL (`--user-map`): local user ids don't
+exist on live, so each run's owner resolves local-id → email → live account; owned-but-
+unmappable runs are skipped, never guessed; ownerless runs stay ownerless (they land in
+the superadmin Guest-runs pile). `personId` is nulled on remap (roster rows aren't
+carried across environments). Dry-run first, then the real import under the one
+deliberate `ALLOW_ENV_MISMATCH=1` escape:
+
+- **68 runs + 1,222 artifacts + the question pool imported into the LIVE Neon DB.**
+- 2 of 12 local accounts matched live by email (carl@seroteams.com +
+  carl@webcoursesbangkok.com); 39 runs owned by local-only test accounts skipped.
+- Verified read-only on live: carl@seroteams.com owns 15 runs (5 finished); 53
+  ownerless runs (19 finished) in the guest pile; an imported bi-weekly run answers
+  through the member fence with its briefing.
+- ⚠️ **The live SITE still runs pre-cutover code** — it reads (empty) files on Render,
+  so the imported history shows on sero-obwq.onrender.com only after the next
+  `/release` ships P3–P6. The data is already waiting in the live DB.
 
 ## Why this phase (and why this late)
 
