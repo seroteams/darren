@@ -9,7 +9,7 @@
 // log-only artifacts that stay on disk.
 
 import { eq } from "drizzle-orm";
-import { getDb } from "./client.ts";
+import { getDb, hasDatabaseUrl } from "./client.ts";
 import { organizations, sessions as sessionsTable } from "./schema.ts";
 import { serialize, hydrateSession } from "../api/session-persistence.ts";
 import type { PersistedSession } from "../api/session-persistence.ts";
@@ -78,6 +78,70 @@ export async function readSession(key: string): Promise<Session | null> {
   if (!row) return null;
   const state = row.state as PersistedSession;
   return hydrateSession(state, state.dir);
+}
+
+/** A per-key write queue that COALESCES: at most one write per key in flight,
+ *  and while one runs only the LATEST queued item is kept — every session upsert
+ *  writes the full current state, so intermediates are redundant. This bounds the
+ *  mirror's pool usage to one client per active session no matter how often
+ *  persist() fires. (Regression 2026-07-08: one unbounded fire-and-forget upsert
+ *  per persist() call let same-row writes pile up, each holding a pool client,
+ *  until the pool starved and every DB request hung.) */
+export interface WriteQueue<T> {
+  enqueue(key: string, item: T): void;
+  /** Wait until every queued write has settled. */
+  flush(): Promise<void>;
+}
+
+export function createWriteQueue<T>(
+  write: (item: T) => Promise<void>,
+  onError: (key: string, e: unknown) => void = (key, e) =>
+    console.warn(`[sessions.pg] mirror write failed (${key}):`, e instanceof Error ? e.message : String(e)),
+): WriteQueue<T> {
+  const inFlight = new Map<string, Promise<void>>();
+  const pending = new Map<string, T>();
+
+  function start(key: string, item: T): void {
+    const run = write(item)
+      .catch((e) => onError(key, e))
+      .then(() => {
+        inFlight.delete(key);
+        const next = pending.get(key);
+        if (next !== undefined) {
+          pending.delete(key);
+          start(key, next);
+        }
+      });
+    inFlight.set(key, run);
+  }
+
+  return {
+    enqueue(key, item) {
+      if (inFlight.has(key)) {
+        pending.set(key, item); // supersede any queued intermediate state
+        return;
+      }
+      start(key, item);
+    },
+    async flush() {
+      // A finishing write may start the pending one — loop until truly drained.
+      while (inFlight.size > 0) await Promise.allSettled([...inFlight.values()]);
+    },
+  };
+}
+
+const sessionWrites = createWriteQueue<Session>((s) => upsertSession(s));
+
+/** Queue a session mirror upsert (the sync facade pgSessionsRepo calls). Coalesced
+ *  per session; errors are logged and swallowed; no-op without a database. */
+export function queueSessionUpsert(session: Session): void {
+  if (!hasDatabaseUrl()) return;
+  sessionWrites.enqueue(session.id, session);
+}
+
+/** Wait for queued session mirrors to settle (tests + server shutdown). */
+export function flushSessionWrites(): Promise<void> {
+  return sessionWrites.flush();
 }
 
 /** Delete a session row by its slug id (test cleanup / future hard-delete). */

@@ -16,6 +16,7 @@ import { hydrateQuestionCache, flushQuestionWrites } from "../db/questions-store
 import { hydrateArcOverlays, flushArcOverlayWrites } from "../db/arc-overlays-store.ts";
 import { hydrateRoleProfiles, flushRoleProfileWrites } from "../db/role-profiles-store.ts";
 import { flushTraceWrites } from "../engine/lexicon/candidates-io.ts";
+import { flushSessionWrites } from "../db/sessions-store.ts";
 import { PROFILES_DIR } from "../engine/role-profile.ts";
 import { OVERLAYS_DIR } from "../engine/arc-overlay.ts";
 import { hasDatabaseUrl } from "../db/client.ts";
@@ -520,13 +521,14 @@ async function main(): Promise<void> {
 
   const shutdown = (signal: string) => {
     console.log(`\n[${signal}] graceful shutdown (5s) ...`);
-    // Drain queued run-artifact + question writes before exit so nothing in
-    // flight is lost.
+    // Drain queued run-artifact + question + session-mirror writes before exit
+    // so nothing in flight is lost.
     void flushArtifactWrites();
     void flushQuestionWrites();
     void flushArcOverlayWrites();
     void flushRoleProfileWrites();
     void flushTraceWrites();
+    void flushSessionWrites();
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(0), 5000).unref?.();
   };

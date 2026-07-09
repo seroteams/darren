@@ -32,7 +32,7 @@ import type { Persona } from "../../persona-script.ts";
 import type { Session, MeetingContext } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 import { asRecord } from "../../../shared/guards.ts";
-import { upsertSession } from "../../../db/sessions-store.ts";
+import { queueSessionUpsert } from "../../../db/sessions-store.ts";
 import { hasDatabaseUrl } from "../../../db/client.ts";
 import { shouldEchoToDisk } from "../../../db/run-artifacts-store.ts";
 
@@ -168,23 +168,21 @@ export const fileSessionsRepo: SessionsRepo = {
 // durable store changes. The live in-memory Map stays the synchronous hot store,
 // so get/drop and every disk log-only method delegate unchanged to fileSessionsRepo;
 // only create + persist additionally mirror the session into Postgres. The mirror
-// is fire-and-forget with a logged failure (like the log-only writes — a DB hiccup
-// never breaks a live turn). A boot-restore (db/sessions-store loadSessionsFromDb)
-// reloads the Map from Postgres so a session can survive a server restart.
+// goes through the coalescing write queue (db/sessions-store): at most one upsert
+// per session in flight, latest state wins, failures logged and swallowed — a DB
+// hiccup never breaks a live turn, and rapid persists can't starve the pool. A
+// boot-restore (db/sessions-store loadSessionsFromDb) reloads the Map from
+// Postgres so a session can survive a server restart.
 export const pgSessionsRepo: SessionsRepo = {
   ...fileSessionsRepo,
   create: (ctx, introQueue, orgId, userId, personId) => {
     const session = fileSessionsRepo.create(ctx, introQueue, orgId, userId, personId);
-    upsertSession(session).catch((e) =>
-      console.warn("[sessions.pg] create mirror failed:", e instanceof Error ? e.message : String(e)),
-    );
+    queueSessionUpsert(session);
     return session;
   },
   persist: (session) => {
     fileSessionsRepo.persist(session);
-    upsertSession(session).catch((e) =>
-      console.warn("[sessions.pg] persist mirror failed:", e instanceof Error ? e.message : String(e)),
-    );
+    queueSessionUpsert(session);
   },
 };
 
