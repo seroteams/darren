@@ -57,7 +57,12 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
 > **▶ Your move:** nothing — track closed. Sero is on the internet.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database. P1–P6 ✅ · P7 (retire files) 🔨 next — the last phase.**
+> **✅ [postgres-runtime-data](docs/plans/done/postgres-runtime-data/plan.md) — TRACK CLOSED 2026-07-09: all 7 phases ✅, $0 track spend. Postgres is the single source of truth in both environments; a live 1:1 writes ZERO files.**
+> P7 closed on Carl's blanket "finish it" go: every disk writer echo-gated, DB-mode disk fallbacks
+> removed, tooling on SQL (`purge-runs.ts` replaces `purge-logs.js`). Free offline proof: full live-config
+> write surface → zero files, zero dirs. 109/109 · shipped live `25fb3926` (health green). Rollback
+> (echo-on + file mode) stays in the code. ⚠️ Honest residual: the live-site walk (run → delete →
+> restart-resume) hasn't been eyeballed — unit locks + the offline proof cover the paths.
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -112,9 +117,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > local-only test accounts skipped honestly. Verified read-only through the member fence.
 > ⚠️ **The live SITE shows this only after the next /release** — it still runs pre-cutover code that reads
 > Render's (empty) disk. The data is already waiting in the live DB.
-> **▶ Your move:** P6 ✅ closed. ① say **"/release"** to ship P3–P6 so the live site reads the DB (68 live
-> runs + the question pool are already waiting) · ② then **"start P7"** to retire the files — its own phase
-> (flagged: P7 removes the file rollback net, so strictest QA + your walk before it lands).
+> **▶ Your move:** nothing — track closed and live. One loose end below: the pool-hang fix push.
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list
@@ -222,7 +225,7 @@ Nothing below is actively being worked — scaffolded ideas in `docs/plans/`, wa
 | Plan | State |
 |---|---|
 | [run-qa-fixes-jul04](docs/plans/future/run-qa-fixes-jul04/plan.md) | Moved to future/ 2026-07-09 (tie-off audit): Phase 1 ✅ done 2026-07-04; Phases 2–4 parked — each needs a ~$0.35 paid walk, revisit with real tester feedback |
-| pool-hang fix (branch `claude/unruffled-gauss-88b854`, commit `c98d8324`) | Rescued finding 2026-07-09: bounds DB pool waits + coalesces the session mirror (the "all requests hang" bug). Conflicts with in-flight P7 work — hand to the postgres chat to fold in after P7; do NOT delete the branch |
+| pool-hang fix (`c98d8324` → folded into main as `9e92b14f`) | ✅ FOLDED IN 2026-07-09 by the postgres chat after P7, per this handoff: cherry-picked + conflict resolved (P7 gates AND the coalescing queue coexist), 109/109 green. ⚠️ Sits LOCAL-ONLY (main ahead 1) — the auto-mode permission gate wants Carl's explicit word to push a resurrected commit to the live deploy. Say "push the pool fix" → it ships + auto-deploys. Branch can be deleted after that push |
 | [planner-grounding](docs/plans/future/planner-grounding/plan.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/plans/future/briefing-readability-p0/plan.md) | parked |
 
@@ -235,4 +238,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-09 (P6 ✅ closed — imports re-verified read-only in both Neon DBs at close; next = /release, then P7 retire-files)
+- Last updated: 2026-07-09 (postgres-runtime-data TRACK CLOSED — all 7 phases, live on `25fb3926`; loose end: pool-hang fix folded in but awaiting Carl's word to push)

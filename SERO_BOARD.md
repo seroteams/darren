@@ -76,8 +76,17 @@ pulled out cleanly. The **people-roster Phase 4 refactor** they'd been tangled w
 **kept** — that stays. No continuity code or plan files remain; `npm test` + both typechecks green after
 removal. Update 2026-07-08 (Carl's blanket go): **pre-go-live PG9 ✅ → track closed 9/9 · frontend-admin-split ✅
 closed · plan-turn-runner-gates ✅ closed**; guest-run P3's paid walk runs in its own session.
-**feedback-inbox ✅ closed 2026-07-08 · manager-ready ✅ closed 2026-07-08.** Next: postgres-runtime-data
-P3 (read cutover) + Carl's Render setup = the live alpha.
+**feedback-inbox ✅ closed 2026-07-08 · manager-ready ✅ closed 2026-07-08.** Update 2026-07-09:
+**postgres-runtime-data ✅ closed — all 7 phases** (block below); the live alpha now runs fully on the database.
+
+**✅ Closed (2026-07-09): Postgres runtime data — ALL app data lives in the database, live + local.**
+Carl's ask: "move all data into the database — we will have a live and local environment." Delivered
+in 7 phases over 2 days, $0 track spend: schema + live/local safety catch (a copied .env can never
+write to prod) · dual-write · read cutover with double-fenced privacy SQL · question pool with
+`UNIQUE(alias)` dedup · small stores · full history import (local 102 runs / live 70, ownership
+remapped by email) · files retired (a live 1:1 writes ZERO files — proven offline, free). File mode
+survives as the DB-less dev substrate + one-flip rollback. Plan → [done/](docs/plans/done/postgres-runtime-data/plan.md).
+Loose end parked in STATUS: the rescued pool-hang fix is folded in locally, awaiting Carl's push word.
 
 **✅ Closed (2026-07-06): People roster — managers formally have members; 1:1s owned by that pair.**
 Grew out of Carl's "members should only see their own 1:1s": the fence was already sound but

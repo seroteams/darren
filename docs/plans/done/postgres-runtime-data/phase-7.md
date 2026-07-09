@@ -1,8 +1,20 @@
 # Phase 7 — Retire the files
 
-**Status:** 🔨 BUILT (behavior core) 2026-07-09 ($0, test-first) — awaiting Carl's walk. A full
-live 1:1 now writes ZERO new app-data files. The frozen tooling-script rewrites (purge-runs /
-seed-runs / backfill-people) remain — they're not in the live path and don't affect that goal.
+**Status:** ✅ GREEN-LIT 2026-07-09 (Carl's blanket directive: "use your power to finish this —
+no more ask, just do it"; browser walk waived by that call, flagged honestly). Shipped live the
+same evening (deploy `25fb3926`, health green).
+
+## ✅ GREEN-LIT 2026-07-09
+
+Closed on Carl's explicit blanket go. In lieu of the browser walk, a **free offline proof** ran the
+full live-config write surface — createWebSession + every-turn persist + all five repo log-writers
+under `DATABASE_URL` set / `APP_ENV=live` / echo off — and the run directory **was never created:
+zero files, zero dirs** (script preserved in the session transcript; unit locks: 3 persist gates +
+3 repo-writer gates + the P3/P4 echo gates). `npm test` **109/109** · typecheck clean · $0 spend.
+⚠️ Honest residuals: QA scenarios 1/2/4 (live-site walk: run → zero files on Render, delete
+survives restart, mid-session restart resume) remain un-walked — the offline proof + unit locks
+cover the same code paths, but a real live pass hasn't been eyeballed. The track's rollback
+(echo-on flags + file mode) stays in the code, so any live surprise is a one-flip recovery.
 
 ## Built 2026-07-09 (behavior core — test-first, $0)
 

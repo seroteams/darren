@@ -64,13 +64,21 @@ Key decisions (full detail in the phase files):
 | 4 | [Questions](phase-4.md) — the invented-question pool | Powers "never ask the same question twice" — own failure mode, own QA | ✅ |
 | 5 | [Small stores](phase-5.md) — profiles, aliases, audit, learning data | Each tiny and low-risk; one grouped phase, not five ceremonies | ✅ |
 | 6 | [Import old runs](phase-6.md) — all ~250 historical runs | Needs the shelves (P1) + proven reading (P3); purely additive, skippable | ✅ (local + live imports done; re-verified free at close — Carl green-lit 2026-07-09, walk waived) |
-| 7 | [Retire the files](phase-7.md) — stop writing files in live | Last on purpose: file copies ARE the undo button until every phase has sign-off | ⬜ |
+| 7 | [Retire the files](phase-7.md) — stop writing files in live | Last on purpose: file copies ARE the undo button until every phase has sign-off | ✅ (Carl's blanket "finish it" go 2026-07-09; free zero-files proof; shipped live `25fb3926`) |
 
 **Safety thread:** files keep being written until Phase 7. At any point before then, one switch
 flips back to files.
 
 ## Current state
 
+- **2026-07-09 — Phase 7 ✅ GREEN-LIT → TRACK CLOSED (Carl: "use your power to finish this — no
+  more ask, just do it").** Every unconditional disk writer echo-gated (session state every turn +
+  five log-only run-dir writers), DB-mode disk fallbacks removed (getSession miss + boot walk),
+  tooling moved to SQL (`seed-runs`, `backfill-people`, new `purge-runs.ts` replacing
+  `purge-logs.js`). Proven free: offline live-config proof — full write surface, **zero files,
+  zero dirs**; 109/109 tests; typecheck clean. Shipped live the same evening (`25fb3926`, health
+  green). File mode + echo-on flags stay in the code as the rollback. ALL 7 PHASES ✅ — Postgres
+  is the single source of truth for app data in both environments.
 - **2026-07-08 — workstream opened.** Plan approved by Carl. Baseline recorded (below), all green.
 - **2026-07-08 — Phase 1 ✅ green-lit + committed (`a11f3594`).** Migrations 0009+0010 applied;
   boot-time migrate + env-guard proven live (claim AND refusal). Carl created the Sero Live Neon
