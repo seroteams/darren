@@ -221,7 +221,8 @@ Nothing below is actively being worked — scaffolded ideas in `docs/plans/`, wa
 
 | Plan | State |
 |---|---|
-| [run-qa-fixes-jul04](docs/plans/doing/run-qa-fixes-jul04/plan.md) | Phase 1 (C1 — strip tester notes) ✅ approved 2026-07-04 (`02d825c2`, walk waived); Phases 2–4 ⬜ (prompt changes — need a paid walk) |
+| [run-qa-fixes-jul04](docs/plans/future/run-qa-fixes-jul04/plan.md) | Moved to future/ 2026-07-09 (tie-off audit): Phase 1 ✅ done 2026-07-04; Phases 2–4 parked — each needs a ~$0.35 paid walk, revisit with real tester feedback |
+| pool-hang fix (branch `claude/unruffled-gauss-88b854`, commit `c98d8324`) | Rescued finding 2026-07-09: bounds DB pool waits + coalesces the session mirror (the "all requests hang" bug). Conflicts with in-flight P7 work — hand to the postgres chat to fold in after P7; do NOT delete the branch |
 | [planner-grounding](docs/plans/future/planner-grounding/plan.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/plans/future/briefing-readability-p0/plan.md) | parked |
 
