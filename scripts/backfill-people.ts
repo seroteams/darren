@@ -2,16 +2,15 @@
 // people table (people-roster) matches the history the Team page was already showing. For
 // each run owned by a real user, we resolve the run's free-typed ctx.name through that
 // manager's Team merges/renames (the alias sidecar) to a single canonical person, find-or-
-// create that roster row, and stamp its id into the run's session-state.json (+ the DB
-// mirror). Idempotent: a run that already carries a personId is skipped, and the roster
+// create that roster row, and stamp its id into the run's session state IN THE DATABASE
+// (postgres-runtime-data P7 — no disk state-file write). Idempotent: a run that already
+// carries a personId is skipped, and the roster
 // dedupes by normalized name, so re-running changes nothing. Refuses to run in production.
 //
 //   node scripts/backfill-people.ts --dry-run   # preview only, writes nothing
 //   node scripts/backfill-people.ts             # stamp for real
 
 import "../backend/api/env-boot.ts"; // load .env (DATABASE_URL) before the db client reads it
-import fs from "node:fs";
-import path from "node:path";
 import { closeDb, hasDatabaseUrl } from "../backend/db/client.ts";
 import { walkRuns } from "../backend/engine/run-history.ts";
 import { teamService } from "../backend/api/services/team/team.service.ts";
@@ -23,19 +22,7 @@ import type { PersistedSession } from "../backend/api/session-persistence.ts";
 import { upsertSession } from "../backend/db/sessions-store.ts";
 import { asRecord, asString, isObjectRecord } from "../backend/shared/guards.ts";
 
-const STATE_FILE = "session-state.json";
 const DRY_RUN = process.argv.includes("--dry-run");
-
-/** Atomically add personId to a run's state file (temp + rename, like setArchived). */
-function stampStateFile(dir: string, personId: string): PersistedSession {
-  const file = path.join(dir, STATE_FILE);
-  const state = JSON.parse(fs.readFileSync(file, "utf8")) as Record<string, unknown>;
-  state.personId = personId;
-  const tmp = file + ".tmp";
-  fs.writeFileSync(tmp, JSON.stringify(state, null, 2));
-  fs.renameSync(tmp, file);
-  return state as unknown as PersistedSession;
-}
 
 async function main(): Promise<void> {
   if (process.env.NODE_ENV === "production") {
@@ -104,10 +91,11 @@ async function main(): Promise<void> {
     const after = (await peopleService.list(orgId, userId)).people.length;
     if (after > before) created++; else reused++;
 
-    const updated = stampStateFile(dir, personId);
+    // P7: stamp personId straight into the DB row — no disk state-file write.
+    const updated = { ...(state as unknown as PersistedSession), personId };
     stamped++;
     try {
-      await upsertSession(hydrateSession(updated, dir)); // keep the DB mirror in step with disk
+      await upsertSession(hydrateSession(updated, dir));
     } catch (e) {
       mirrorFailed++;
       console.warn(`    ⚠ DB mirror failed for ${id}: ${e instanceof Error ? e.message : String(e)}`);

@@ -14,9 +14,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { eq } from "drizzle-orm";
 import { getDb, closeDb, hasDatabaseUrl } from "../backend/db/client.ts";
-import { users } from "../backend/db/schema.ts";
+import { users, runArtifacts } from "../backend/db/schema.ts";
 import { createSession } from "../backend/engine/session.ts";
 import { findRunDir } from "../backend/engine/run-history.ts";
+import { upsertSession } from "../backend/db/sessions-store.ts";
+import { hydrateSession } from "../backend/api/session-persistence.ts";
+import type { PersistedSession } from "../backend/api/session-persistence.ts";
 
 const EMAIL = process.env.SEED_RUNS_EMAIL || "member@seroteams.com";
 const STATE_FILE = "session-state.json";
@@ -41,6 +44,28 @@ function readState(dir: string): Record<string, unknown> | null {
   } catch {
     return null;
   }
+}
+
+/** Copy a source run's stage artifacts to the new session id, so the seeded run's
+ *  detail tabs render from the DB like a real run. No-op when the source has none. */
+async function cloneArtifacts(fromKey: string, toKey: string, orgId: string | null): Promise<void> {
+  const db = getDb();
+  const rows = await db.select().from(runArtifacts).where(eq(runArtifacts.sessionKey, fromKey));
+  if (!rows.length) return;
+  await db
+    .insert(runArtifacts)
+    .values(
+      rows.map((r) => ({
+        sessionKey: toKey,
+        orgId,
+        stage: r.stage,
+        name: r.name,
+        kind: r.kind,
+        content: r.content,
+        contentText: r.contentText,
+      })),
+    )
+    .onConflictDoNothing();
 }
 
 async function main(): Promise<void> {
@@ -74,8 +99,7 @@ async function main(): Promise<void> {
       continue;
     }
 
-    const { id, dir } = createSession();       // fresh id + folder under this month
-    fs.cpSync(srcDir, dir, { recursive: true }); // copy everything; briefing lives in state
+    const { id, dir } = createSession();       // fresh id + dir for the run's log_dir reference
     const when = now - src.daysAgo * DAY;
     const cloned = {
       ...source,
@@ -88,7 +112,11 @@ async function main(): Promise<void> {
       completedAt: when,
       runLabel: "seed",
     };
-    fs.writeFileSync(path.join(dir, STATE_FILE), JSON.stringify(cloned, null, 2));
+    // P7: seed straight into the DATABASE (the app reads runs from Postgres now) — the
+    // session row + its briefing (in state), plus a copy of the source run's stage
+    // artifacts under the new id so the detail tabs render. No disk state-file / folder.
+    await upsertSession(hydrateSession(cloned as unknown as PersistedSession, dir));
+    await cloneArtifacts(src.id, id, orgId);
 
     const c = (source.ctx || {}) as Record<string, string>;
     console.log(`  + ${[c.name, c.role, c.meetingType].filter(Boolean).join(" · ")}  (${src.daysAgo}d ago)`);
