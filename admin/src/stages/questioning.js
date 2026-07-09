@@ -204,7 +204,7 @@ export async function mount(root, { store, setState }) {
         let prev;
         try {
           prev = await goBack(store.sessionId);
-        } catch (e) {
+        } catch {
           backBtn.disabled = false;
           footerHost.innerHTML = "";
           const warn = document.createElement("div");

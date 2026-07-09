@@ -15,6 +15,7 @@ module.exports = [
     ignores: [
       "node_modules/**",
       "admin/dist/**",
+      "frontend/dist/**",
       ".claude/**", // vendored skills, not our code
       "docs/archive/**",
       "logs/**",
@@ -24,7 +25,7 @@ module.exports = [
   js.configs.recommended,
   {
     files: ["**/*.js"],
-    ignores: ["admin/**", "**/*.esm.js", "vite.config.js"],
+    ignores: ["admin/**", "frontend/**", "shared/**", "**/*.esm.js", "vite.config.js"],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: "commonjs",
@@ -37,7 +38,8 @@ module.exports = [
     rules: sharedRules,
   },
   {
-    files: ["**/*.esm.js", "**/*.mjs", "vite.config.js"],
+    // Node/ESM: build config, including the customer app's own vite/tailwind/postcss configs.
+    files: ["**/*.esm.js", "**/*.mjs", "vite.config.js", "frontend/*.config.js"],
     ignores: ["admin/**"],
     languageOptions: {
       ecmaVersion: 2023,
@@ -47,7 +49,8 @@ module.exports = [
     rules: sharedRules,
   },
   {
-    files: ["admin/**/*.js"],
+    // Browser/ESM: the admin + customer web clients and the shared browser modules.
+    files: ["admin/**/*.js", "frontend/src/**/*.js", "shared/**/*.js"],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: "module",

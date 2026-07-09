@@ -16,7 +16,7 @@ You are running an **unattended, exhaustive overnight QA pass** of the entire Se
 Record the state before touching anything:
 - `git status` (note it's dirty — that's expected).
 - `npm test` (full offline suite — `node scripts/run-tests.js`), `npm run typecheck`, `npm run typecheck:admin`, `npm run lint`.
-- Fixture replays (free): `node scripts/replay-scenario.js <id> --fixtures-only` for `biweekly-priya`, `performance-tom`, `growth-ahmed`, `feels-off-james`.
+- Fixture replays (free): `node scripts/replay-scenario.js <id> --fixtures-only` for `priya-biweekly-checkin`, `tom-performance-feedback`, `ahmed-growth-career-plan`, `james-something-feels-off`. (These are the `replay-scenario.js` batch ids — NOT the gate case ids in Phase 4, which are `biweekly-priya` etc.)
 Log exact failing names for anything red. This is the baseline — pre-existing failures are NOT tonight's regressions, but list them.
 
 ---
@@ -24,12 +24,14 @@ Log exact failing names for anything red. This is the baseline — pre-existing 
 ## Phase 1 — API layer (free endpoints)
 Start `sero-api` (port 3001) via preview. Hit each endpoint with fetch/curl and record **status code + response shape (or error)**. Prefix `/api/v1`.
 
-**Health / catalog (GET, expect 200):**
-`/heartbeat` · `/pipeline/status` · `/meeting-types` · `/personas` · `/persona-runs/current` · `/library` · `/arcs` · `/role-lexicons` · `/lexicon/promotions/pending`
+**Health / catalog (GET, expect 200 when authed):**
+`/heartbeat` · `/pipeline/status` · `/meeting-types` · `/personas` · `/persona-runs/current` · `/arcs` · `/role-lexicons` · `/lexicon/promotions/pending`
+(`/library` is a **302 redirect**, not a JSON endpoint — check the SPA page in Phase 2, not here. `/meeting-types` + `/personas` also answer 200 while logged OUT — note that, it's the guest lane.)
 
 **Runs (GET):** `/runs/recent` · `/runs/finished` · `/runs/mine` · `/runs/clonable` · `/runs/about-me`
 
-**Team (GET):** `/team/people` · `/team/linkable-users` · `/team/aliases`
+**Team (GET):** `/team/people` · `/team/linkable-users`
+(There is no `/team/aliases` REST route — aliases are a per-manager sidecar under `content/data/people-aliases/`; a GET/POST to it 404s. Don't expect it.)
 
 **Admin (GET — expect these to REQUIRE admin):** `/admin/errors` · `/admin/feedback` · `/admin/registered` · `/admin/users/:id/runs`
 
@@ -42,7 +44,7 @@ Start `sero-api` (port 3001) via preview. Hit each endpoint with fetch/curl and 
 **Auth-gating check (security-relevant):** while logged OUT, call an admin endpoint (e.g. `/admin/registered`) and a manager endpoint → expect **401/403, not data**. Record any endpoint that leaks data unauthenticated as a ❌.
 
 **Writes (free but mutate — smoke ONE each on throwaway data, then note):**
-`POST /feedback` (submit dummy feedback) · `POST /errors` (log a dummy client error). For `/team/rename`, `/team/merge`, `/team/aliases`, `/role-lexicons/term*`, `/lexicon/promotions` — verify they reject unauthenticated, but do NOT run destructive merges on real data.
+`POST /feedback` (submit dummy feedback) · `POST /errors` (log a dummy client error). For `/team/rename`, `/team/merge`, `/role-lexicons/term*`, `/lexicon/promotions` — verify they reject unauthenticated, but do NOT run destructive merges on real data.
 
 **Do NOT call tonight (paid / pipeline):** `POST /sessions` (except the 4 in Phase 4), `/checks/run`, `/regression/run`, `/suggest-fix`.
 

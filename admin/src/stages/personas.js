@@ -99,7 +99,7 @@ export async function mount(root, opts = {}) {
     .map((p) => cardHtml(p, suiteIds.has(p.id), runsByPersona.get(p.id) || []))
     .join("");
 
-  wireCards(resultHost, personas);
+  wireCards(resultHost);
 
   // If a run is already going (e.g. the page was reopened mid-run), pick it up.
   try {
@@ -194,9 +194,9 @@ function fmtDate(ms) {
   return formatDate(ms);
 }
 
-function wireCards(resultHost, personas) {
+function wireCards(resultHost) {
   resultHost.querySelectorAll(".js-run").forEach((btn) => {
-    btn.addEventListener("click", () => onRun(resultHost, btn.dataset.persona, personas));
+    btn.addEventListener("click", () => onRun(resultHost, btn.dataset.persona));
   });
   resultHost.querySelectorAll(".js-see-result").forEach((btn) => {
     btn.addEventListener("click", () => setState({ stage: STAGES.REVIEW_RUN, reviewRunId: btn.dataset.run }));
@@ -267,7 +267,7 @@ async function mountSafetyStrip(host, opts) {
   await check();
 }
 
-async function onRun(resultHost, personaId, personas) {
+async function onRun(resultHost, personaId) {
   setRunningLock(resultHost, true);
   const card = resultHost.querySelector(`.js-card[data-persona="${cssEscape(personaId)}"]`);
   const progress = card?.querySelector(".js-progress");
