@@ -31,6 +31,8 @@ Four rooms:
 | [reviewrun-output-spec.md](reference/reviewrun-output-spec.md) | Canonical spec for `/reviewrun` output. |
 | [night-test-prompt.md](reference/night-test-prompt.md) | The overnight-QA operator prompt. |
 | [gtm-validation-plan.md](reference/gtm-validation-plan.md) | The first corridor-test plan (needs names). |
+| [design.md](reference/design.md) | Sero design-token spec (colours, type, spacing). |
+| [features.md](reference/features.md) | Feature inventory snapshot (active work lives in SERO_BOARD.md). |
 
 ## reports/ — point-in-time outputs
 
