@@ -16,6 +16,7 @@ import { flushArtifactWrites } from "./db/run-artifacts-store.ts";
 import { hydrateQuestionCache, flushQuestionWrites } from "./db/questions-store.ts";
 import { hydrateArcOverlays, flushArcOverlayWrites } from "./db/arc-overlays-store.ts";
 import { hydrateRoleProfiles, flushRoleProfileWrites } from "./db/role-profiles-store.ts";
+import { flushTraceWrites } from "./engine/lexicon/candidates-io.ts";
 import { PROFILES_DIR } from "./engine/role-profile.ts";
 import { OVERLAYS_DIR } from "./engine/arc-overlay.ts";
 import { hasDatabaseUrl } from "./db/client.ts";
@@ -325,6 +326,7 @@ main()
     await flushQuestionWrites();
     await flushArcOverlayWrites();
     await flushRoleProfileWrites();
+    await flushTraceWrites();
     await closeDb();
   })
   .catch((e: unknown) => {

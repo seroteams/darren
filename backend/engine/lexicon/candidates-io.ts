@@ -1,7 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import * as YAML from "yaml";
+import { eq } from "drizzle-orm";
 import { LEXICONS_DIR } from "../paths.mts";
+import { getDb, hasDatabaseUrl } from "../../db/client.ts";
+import { lexiconCandidates } from "../../db/schema.ts";
+import { shouldEchoToDisk } from "../../db/run-artifacts-store.ts";
 import { isObjectRecord } from "../../shared/guards.ts";
 
 const SUGGESTED_DIR = path.join(LEXICONS_DIR, "_suggested");
@@ -114,6 +118,15 @@ function appendCandidates(filePath: string, scope: CandidateScope, accepted: Acc
   return changed;
 }
 
+// Per-session learning-loop traces (postgres-runtime-data Phase 5): one
+// lexicon_candidates row per session when a database is configured, the JSON
+// file kept as the echo. The review flow's commit path is synchronous, so a
+// recent-traces map serves same-process reads; the async generate path also
+// falls back to the DB row (readTraceStored) so a cached review survives a
+// live restart, where no file exists.
+const recentTraces = new Map<string, unknown>();
+let traceChain: Promise<unknown> = Promise.resolve();
+
 function writeTrace({
   sessionId,
   scope,
@@ -129,8 +142,7 @@ function writeTrace({
   rejected: unknown;
   userInput: unknown;
 }): string {
-  fs.mkdirSync(SUGGESTED_DIR, { recursive: true });
-  const tracePath = path.join(SUGGESTED_DIR, `${sessionId}.json`);
+  const tracePath = tracePathFor(sessionId);
   const trace = {
     sessionId,
     timestamp: new Date().toISOString(),
@@ -142,6 +154,21 @@ function writeTrace({
     rejected,
     userInput,
   };
+  recentTraces.set(sessionId, trace);
+  if (hasDatabaseUrl()) {
+    traceChain = traceChain
+      .then(() =>
+        getDb()
+          .insert(lexiconCandidates)
+          .values({ sessionKey: sessionId, doc: trace })
+          .onConflictDoUpdate({ target: lexiconCandidates.sessionKey, set: { doc: trace, updatedAt: new Date() } }),
+      )
+      .catch((e) =>
+        console.warn(`[lexicon-candidates] trace write failed (${sessionId}):`, e instanceof Error ? e.message : String(e)),
+      );
+    if (!shouldEchoToDisk()) return tracePath;
+  }
+  fs.mkdirSync(SUGGESTED_DIR, { recursive: true });
   fs.writeFileSync(tracePath, JSON.stringify(trace, null, 2));
   return tracePath;
 }
@@ -150,7 +177,11 @@ function tracePathFor(sessionId: string): string {
   return path.join(SUGGESTED_DIR, `${sessionId}.json`);
 }
 
+// Sync read: same-process map first, then the file echo. The commit path uses
+// this (it runs right after generate in the same process).
 function readTrace(sessionId: string): unknown {
+  const inMemory = recentTraces.get(sessionId);
+  if (inMemory !== undefined) return inMemory;
   try {
     const trace: unknown = JSON.parse(fs.readFileSync(tracePathFor(sessionId), "utf8"));
     return trace;
@@ -159,11 +190,39 @@ function readTrace(sessionId: string): unknown {
   }
 }
 
+// Async read with the DB row as the last resort — the generate path awaits
+// this so a cached review isn't re-billed after a live restart (no files there).
+async function readTraceStored(sessionId: string): Promise<unknown> {
+  const local = readTrace(sessionId);
+  if (local !== null) return local;
+  if (!hasDatabaseUrl()) return null;
+  try {
+    const rows = await getDb()
+      .select({ doc: lexiconCandidates.doc })
+      .from(lexiconCandidates)
+      .where(eq(lexiconCandidates.sessionKey, sessionId))
+      .limit(1);
+    const doc = rows[0]?.doc ?? null;
+    if (doc !== null) recentTraces.set(sessionId, doc);
+    return doc;
+  } catch (e) {
+    console.warn(`[lexicon-candidates] trace read failed (${sessionId}):`, e instanceof Error ? e.message : String(e));
+    return null;
+  }
+}
+
+/** Wait for queued trace writes to settle (shares the exit flush points). */
+async function flushTraceWrites(): Promise<void> {
+  await traceChain;
+}
+
 export {
   appendCandidates,
   ensureCandidateDoc,
   writeTrace,
   readTrace,
+  readTraceStored,
+  flushTraceWrites,
   tracePathFor,
   SUGGESTED_DIR,
 };

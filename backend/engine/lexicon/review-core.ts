@@ -5,7 +5,7 @@ import { callAI, parseAIJson } from "../ai-client.ts";
 import { modelFor } from "../models.ts";
 import { loadLexicon, lexiconScopeFor, resolveLexiconScope, isLexiconReviewScope, candidatePath } from "../lexicon.ts";
 import { RESPONSE_SCHEMA } from "./schema.ts";
-import { appendCandidates, writeTrace, readTrace, tracePathFor } from "./candidates-io.ts";
+import { appendCandidates, writeTrace, readTrace, readTraceStored, tracePathFor } from "./candidates-io.ts";
 import { promptFor } from "../one-on-one-types/index.ts";
 import { fillPlaceholders } from "../prompt-utils.ts";
 import { isObjectRecord } from "../../shared/guards.ts";
@@ -173,7 +173,7 @@ async function generateSuggestions({
   if (!shouldReview(ctx)) return { skipped: true, reason: "out-of-scope" };
 
   if (!force) {
-    const cached = readTrace(session.id);
+    const cached = await readTraceStored(session.id);
     if (isObjectRecord(cached) && Array.isArray(cached.allSuggestions)) {
       const cachedSuggestions: unknown[] = cached.allSuggestions;
       return {
