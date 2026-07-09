@@ -323,6 +323,32 @@ function listRunsForSuperadmin(): { userId: string | null; lastSeenAt: number; s
     }));
 }
 
+// The unclaimed guest pile (guest-run Phase 4): OWNERLESS finished runs — no userId AND
+// no orgId. A claimed run gains a userId and leaves the list. Unfenced on purpose —
+// cross-tenant, reachable only behind the superadmin repo/route. DB-less twin of
+// pgListGuestRuns (db/runs-store).
+function listOwnerlessFinishedRuns() {
+  const runs = walkRuns().filter(
+    ({ state }) => state && state.briefing && state.userId == null && state.orgId == null,
+  );
+  runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
+  return runs.map(({ id, dir, state }) => {
+    const ctx = asRecord(state.ctx);
+    return {
+      id,
+      headline: buildHeadline(ctx),
+      ctx: {
+        name: asString(ctx.name),
+        role: asString(ctx.role),
+        seniority: asString(ctx.seniority),
+        meetingType: asString(ctx.meetingType),
+      },
+      lastSeenAt: asNumber(state.lastSeenAt),
+      rating: ratingOf(dir),
+    };
+  });
+}
+
 // One user's finished runs, newest-first, attributed by userId across ALL companies
 // (pre-go-live PG8 drilldown). Unfenced on org — reachable only behind the superadmin
 // repo/route. Same member-safe row shape as listFinishedRunsForMember (headline, ctx,
@@ -679,6 +705,7 @@ export {
   listFinishedRunsAboutPerson,
   listRunsForSuperadmin,
   listFinishedRunsForUser,
+  listOwnerlessFinishedRuns,
   memberRunView,
   superadminRunView,
   walkRuns,

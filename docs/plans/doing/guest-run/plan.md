@@ -24,7 +24,7 @@
 | 1 | Backend: claim + daily cap | `POST /api/v1/sessions/:id/claim` + `GUEST_RUNS_PER_DAY` file-backed cap + board reversal note | ✅ |
 | 2 | Guest lane frontend | "Try it — no account needed" on login → intake; logged-out boot/router lane; mid-run reload works | ✅ |
 | 3 | Save prompt + claim wiring | Briefing save card for guests → register/login → auto-claim → run in Past 1:1s | ✅ (walk waived) |
-| 4 | Superadmin "Guest runs" screen | List of ownerless finished runs + read-only briefing view, superadmin-only | ⬜ |
+| 4 | Superadmin "Guest runs" screen | List of ownerless finished runs + read-only briefing view, superadmin-only | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -36,7 +36,10 @@ register/login auto-claims the marked run and lands on it; failed claim can neve
 Past 1:1s as one flow) was WAIVED, not done — the attempt was derailed by an unrelated API hang
 (Postgres pool starvation, flagged to postgres-runtime-data); that risk rides until a real guest saves
 a run. A half-spent guest run (2026_Jul08_22-39-…, bank generated, turn 0) is parked on disk and can
-resume a future walk cheaply. Next: Phase 4 — the superadmin "Guest runs" screen (free build).
+resume a future walk cheaply.
+**P4 🔨 BUILT 2026-07-09 ($0) — awaiting Carl's walk** (test-first, walls proven live: superadmin
+200 / manager 403 + rail row hidden + deep-link bounce / anonymous 401; see phase-4.md, incl. the
+read-cutover note: the list fills from NEW guest runs until the postgres import phase lands).
 Phase 2: test-first (`isGuestStage` red→green); 73/73 tests · both typechecks clean. Browser-proven logged-out
 (via 127.0.0.1, which skips the login cookie): guest link on login (14px) → intake at /new → reload stays →
 /interview with no session → login → /tasks as guest → login → no rail/badge for guests → logged-in login

@@ -1,6 +1,21 @@
 # Phase 4 — Superadmin "Guest runs" screen
 
-**Part of:** [PLAN.md](plan.md) · **Status:** ⬜
+**Part of:** [PLAN.md](plan.md) · **Status:** 🔨 built 2026-07-09 — awaiting Carl's walk ($0)
+
+## Build record (2026-07-09, $0)
+Test-first: 2 new mirrored service tests (red→green) — `guestRuns()` newest-first passthrough +
+empty-safe. Whole tree after: `npm test` 103/103 (files) · both typechecks clean. Live-proven free
+on a scratch API+web pair (:3081/:3085): route walls — superadmin 200 · manager **403** ·
+anonymous **401**; the rail shows **Guest runs** next to Error log for the superadmin only; a
+manager's rail has no row and the `/admin/guests` deep link bounces to home; the screen renders
+and the read-only briefing reuses the proven PG8 drilldown route. File-mode list proven on real
+disk data: 19 ownerless finished runs, newest first, the unfinished parked guest run correctly
+excluded.
+⚠️ **Know before you walk:** with a database configured (your machine), the list reads from
+Postgres (the read cutover) — old disk-only guest runs (the 19) will NOT show until the
+postgres-runtime-data import phase (P6) lands. The list fills from NEW guest runs (dual-written).
+So today you'll see the honest empty state unless a fresh guest run has finished — scenario 1's
+"you see the pile" fully lights up after P6 or the first real guest.
 
 ## Goal
 Carl can see every unclaimed guest run in one superadmin screen and open each briefing read-only — guest runs are alpha feedback gold, not invisible files on disk.

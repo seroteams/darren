@@ -110,6 +110,12 @@ export async function getAdminRun(id) {
   return json(await fetch(`/api/v1/admin/runs/${encodeURIComponent(id)}`));
 }
 
+// The unclaimed guest pile (guest-run Phase 4) — superadmin-only; a normal
+// manager/admin gets 401/403 (json() throws). Shape: { runs: [...] }.
+export async function getGuestRuns() {
+  return json(await fetch("/api/v1/admin/guest-runs"));
+}
+
 // Superadmin, change a user's account role (user-management Phase 2). PATCH so it reads as a
 // partial update; the server validates the role + guards the "last manager/admin" case.
 export async function setUserRole(id, role) {

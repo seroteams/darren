@@ -76,6 +76,8 @@ export interface SuperadminService {
   listRegistered(now?: Date): Promise<{ companies: RegisteredCompany[]; summary: AlphaSummary }>;
   /** One user's finished runs, newest-first (PG8 drilldown). Read-only, superadmin-only. */
   userRuns(userId: string): Promise<{ runs: UserRunRow[] }>;
+  /** The unclaimed guest pile (guest-run Phase 4): ownerless finished runs, newest-first. */
+  guestRuns(): Promise<{ runs: UserRunRow[] }>;
   /** One finished run's read-only briefing detail (PG8 Step 3). null if unknown/unfinished. */
   runDetail(runId: string): Promise<SuperadminRunDetail | null>;
   /** Set a user's account role (user-management Phase 2). Validates the role, blocks a change
@@ -165,6 +167,10 @@ export function createSuperadminService(
     },
     async userRuns(userId) {
       const runs = await repo.listRunsForUser(userId);
+      return { runs: [...runs].sort((a, b) => b.lastSeenAt - a.lastSeenAt) };
+    },
+    async guestRuns() {
+      const runs = await repo.listGuestRuns();
       return { runs: [...runs].sort((a, b) => b.lastSeenAt - a.lastSeenAt) };
     },
     async runDetail(runId) {

@@ -13,7 +13,7 @@ import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
-  Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu,
+  Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -49,6 +49,7 @@ const ICON = {
   feedback: icon(MessageSquare),
   errors: icon(TriangleAlert),
   inbox: icon(Inbox),
+  guests: icon(UserRoundSearch),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -89,6 +90,7 @@ const LINKS = [
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
   { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
   { key: "errors", label: "Error log", stage: STAGES.ADMIN_ERROR_LOG, icon: ICON.errors, admin: true, superadmin: true, group: "Admin" },
+  { key: "guests", label: "Guest runs", stage: STAGES.ADMIN_GUEST_RUNS, icon: ICON.guests, admin: true, superadmin: true, group: "Admin" },
   { key: "inbox", label: "Feedback inbox", stage: STAGES.ADMIN_FEEDBACK, icon: ICON.inbox, admin: true, superadmin: true, group: "Admin" },
 ];
 
@@ -216,6 +218,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
     inbox: () => setState && setState({ stage: STAGES.ADMIN_FEEDBACK }),
+    guests: () => setState && setState({ stage: STAGES.ADMIN_GUEST_RUNS }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
     privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
     about: () => setState && setState({ stage: STAGES.ABOUT }),
@@ -252,6 +255,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.ADMIN_USER]: "registered",
     [STAGES.ADMIN_ERROR_LOG]: "errors",
     [STAGES.ADMIN_FEEDBACK]: "inbox",
+    [STAGES.ADMIN_GUEST_RUNS]: "guests",
     [STAGES.GUIDE]: "guide",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",

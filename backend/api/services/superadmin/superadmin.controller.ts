@@ -18,6 +18,11 @@ export async function userRuns(c: RequestContext): Promise<void> {
   c.json(200, await superadminService.userRuns(c.params.id ?? ""));
 }
 
+/** GET /api/v1/admin/guest-runs — the unclaimed guest pile (guest-run Phase 4). */
+export async function guestRuns(c: RequestContext): Promise<void> {
+  c.json(200, await superadminService.guestRuns());
+}
+
 /** GET /api/v1/admin/runs/:id — one finished run's read-only briefing (PG8 Step 3).
  *  Unknown/unfinished → 404 (same answer as any other id, so ids can't be probed). */
 export async function runDetail(c: RequestContext): Promise<void> {

@@ -15,12 +15,14 @@ function fakeRepo(
   writes: { id: string; role: string }[] = [],
   deactivations: { id: string; at: Date | null }[] = [],
   revocations: string[] = [],
+  guestRuns: UserRunRow[] = [],
 ): SuperadminRepo {
   return {
     listOrganizations: async () => orgs,
     listUsers: async () => people,
     listRuns: async () => runs,
     listRunsForUser: async (id: string) => runsByUser[id] ?? [],
+    listGuestRuns: async () => guestRuns,
     readRun: async (id: string) => runsById[id] ?? null,
     updateUserRole: async (id, role) => { writes.push({ id, role }); },
     setDeactivated: async (id, at) => {
@@ -174,6 +176,21 @@ test("userRuns: an unknown user → empty list, not an error", async () => {
   const svc = createSuperadminService(fakeRepo([], [], [], {}));
   const { runs } = await svc.userRuns("nobody");
   assert.deepEqual(runs, []);
+});
+
+// --- guest-run Phase 4: the ownerless guest pile --------------------------
+
+test("guestRuns: returns the ownerless finished runs newest-first", async () => {
+  const guests = [userRun("g1", "Alex", ago(5), null), userRun("g2", "Jordan", ago(1), null)];
+  const svc = createSuperadminService(fakeRepo([], [], [], {}, {}, [], [], [], guests));
+  const { runs } = await svc.guestRuns();
+  assert.deepEqual(runs.map((r) => r.id), ["g2", "g1"]); // newest first
+  assert.equal(runs[0]!.ctx.name, "Jordan");
+});
+
+test("guestRuns: no guest runs → empty list, not an error", async () => {
+  const svc = createSuperadminService(fakeRepo([], []));
+  assert.deepEqual((await svc.guestRuns()).runs, []);
 });
 
 // --- PG8 Step 03: the read-only briefing detail --------------------------

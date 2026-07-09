@@ -378,6 +378,16 @@ export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null
   }));
 }
 
+// The unclaimed guest pile (guest-run Phase 4): OWNERLESS finished runs — no userId
+// AND no orgId in the session state. A claimed run gains a userId and leaves the list.
+// Cross-tenant by design, reachable only behind the superadmin route.
+export async function pgListGuestRuns(): Promise<ReturnType<typeof toUserRunRow>[]> {
+  const rows = (await rowsWhere([eq(sessionsTable.finished, true)])).filter(
+    (r) => Boolean(r.state.briefing) && r.state.userId == null && r.state.orgId == null,
+  );
+  return rows.map(toUserRunRow);
+}
+
 export async function pgListFinishedRunsForUser(userId: string | null | undefined): Promise<
   ReturnType<typeof toUserRunRow>[]
 > {

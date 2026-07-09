@@ -11,8 +11,8 @@
 import { eq } from "drizzle-orm";
 import { getDb, hasDatabaseUrl } from "../../../db/client.ts";
 import { organizations, users, authSessions } from "../../../db/schema.ts";
-import { listRunsForSuperadmin, listFinishedRunsForUser, superadminRunView } from "../../../engine/run-history.ts";
-import { pgListRunsForSuperadmin, pgListFinishedRunsForUser, pgSuperadminRunView } from "../../../db/runs-store.ts";
+import { listRunsForSuperadmin, listFinishedRunsForUser, listOwnerlessFinishedRuns, superadminRunView } from "../../../engine/run-history.ts";
+import { pgListRunsForSuperadmin, pgListFinishedRunsForUser, pgListGuestRuns, pgSuperadminRunView } from "../../../db/runs-store.ts";
 
 /** The account roles, mirrored from the `user_role` enum in schema.ts. */
 export type UserRoleName = "admin" | "manager" | "member";
@@ -77,6 +77,9 @@ export interface SuperadminRepo {
   listRuns(): Promise<RunRow[]>;
   /** One user's finished runs, across all companies (superadmin drilldown, PG8). */
   listRunsForUser(userId: string): Promise<UserRunRow[]>;
+  /** Every OWNERLESS finished run — the unclaimed guest pile (guest-run Phase 4).
+   *  Ownerless = no userId AND no orgId; a claimed run leaves this list. */
+  listGuestRuns(): Promise<UserRunRow[]>;
   /** One finished run's read-only detail, unfenced (PG8 Step 3). null if unknown/unfinished. */
   readRun(id: string): Promise<SuperadminRunDetail | null>;
   /** Set a user's account role (user-management Phase 2). The ONE guarded write on this
@@ -121,6 +124,9 @@ export const pgSuperadminRepo: SuperadminRepo = {
   },
   async listRunsForUser(userId: string) {
     return hasDatabaseUrl() ? pgListFinishedRunsForUser(userId) : listFinishedRunsForUser(userId);
+  },
+  async listGuestRuns() {
+    return hasDatabaseUrl() ? pgListGuestRuns() : listOwnerlessFinishedRuns();
   },
   async readRun(id: string) {
     return hasDatabaseUrl() ? pgSuperadminRunView(id) : superadminRunView(id);
