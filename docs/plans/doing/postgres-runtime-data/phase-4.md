@@ -1,6 +1,10 @@
 # Phase 4 — Questions: the invented-question pool moves to the DB
 
-**Status:** 🔨 BUILT 2026-07-09 ($0, test-first) — awaiting Carl's walk
+**Status:** ✅ GREEN-LIT 2026-07-09 — Carl: "A" (close, walk waived — his explicit call; the
+free proofs below stood in: DB-mode replay landed real rows, dedup verified, 102/102). The one
+paid gate case (~$0.35) was NOT run — it can ride on any future paid run if wanted.
+
+## ✅ GREEN-LIT 2026-07-09
 
 ## Build results (2026-07-09)
 

@@ -47,7 +47,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
 > **▶ Your move:** nothing — track closed. Sero is on the internet.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ · P3 ✅ · P4 (questions) 🔨 BUILT 2026-07-09, awaiting your walk.**
+> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ · P3 ✅ · P4 ✅ (2026-07-09, walk waived) · P5 (small stores) building.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -81,9 +81,8 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > Reading before hydration fails loudly (no silent empty pool); server + CLI boot both hydrate. Proven free:
 > a DB-mode cassette replay ($0, real engine) landed 10 pool questions + 36 `_runtime` records with fresh
 > alias suffixes — dedup consulted the full alias universe. `npm test` **102/102** · typecheck clean.
-> **▶ Your move:** walk [phase-4.md](docs/plans/doing/postgres-runtime-data/phase-4.md) QA — the free bits are
-> done (fixtures replay clean, rows shown above); scenarios 1–2 (run 1:1s in the browser, see rows + no
-> duplicate questions) ride on runs you'd make anyway; scenario 4 is ONE paid gate case (~$0.35) — your go.
+> **P4 ✅ closed 2026-07-09 (Carl: "A" — walk waived; the paid gate case was not run, his call).**
+> **▶ Your move:** nothing — P5 (small stores: profiles, aliases, audit, learning data) is building now.
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list

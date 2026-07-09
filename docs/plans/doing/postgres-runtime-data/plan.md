@@ -61,7 +61,7 @@ Key decisions (full detail in the phase files):
 | 1 | [Foundations](phase-1.md) — schema + boot migrate + safety catch | The live/local wall must exist BEFORE two environments do; zero behavior change = safest opener | 🔨 built, awaiting QA |
 | 2 | [Write path](phase-2.md) — every new run saves to the DB too | Fill the DB while disk stays canonical — nothing can be lost; closes the CLI bypass hole | ✅ |
 | 3 | [Read cutover](phase-3.md) — the app trusts the DB | Only after P2 proves writes; the org/member privacy walls get rewritten as SQL → strictest testing | ✅ |
-| 4 | [Questions](phase-4.md) — the invented-question pool | Powers "never ask the same question twice" — own failure mode, own QA | 🔨 built, awaiting QA |
+| 4 | [Questions](phase-4.md) — the invented-question pool | Powers "never ask the same question twice" — own failure mode, own QA | ✅ |
 | 5 | [Small stores](phase-5.md) — profiles, aliases, audit, learning data | Each tiny and low-risk; one grouped phase, not five ceremonies | ⬜ |
 | 6 | [Import old runs](phase-6.md) — all ~250 historical runs | Needs the shelves (P1) + proven reading (P3); purely additive, skippable | ⬜ |
 | 7 | [Retire the files](phase-7.md) — stop writing files in live | Last on purpose: file copies ARE the undo button until every phase has sign-off | ⬜ |
@@ -79,7 +79,8 @@ flips back to files.
   `upsertSession` funnel; proven free (run row + all stage artifacts land in Neon). FK dropped
   (migration 0011) so artifacts are lane-agnostic. 96/96 tests, typecheck clean, $0. Per-turn files
   + sidecars deferred (see phase-2.md). Next: Phase 3 (read cutover).
-- **2026-07-09 — Phase 4 🔨 BUILT, awaiting Carl's walk.** The invented-question pool answers from a
+- **2026-07-09 — Phase 4 ✅ GREEN-LIT (Carl: "A", walk waived; paid gate case not run — his call).**
+- **2026-07-09 — Phase 4 built.** The invented-question pool answers from a
   boot-hydrated cache backed by `generated_questions` (`UNIQUE(alias)` = the dedup gate); engine calls stay
   sync; unhydrated reads fail loudly. Proven free end-to-end: a DB-mode cassette replay landed 10 pool + 36
   `_runtime` rows with fresh alias suffixes. `npm test` **102/102** · typecheck clean · $0.
