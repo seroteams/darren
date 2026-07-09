@@ -281,6 +281,35 @@ async function artifactsFor(sessionKey: string): Promise<ArtifactRow[]> {
     .where(eq(runArtifacts.sessionKey, sessionKey))) as ArtifactRow[];
 }
 
+// Batch the pipeline-lock.json read for a set of runs into ONE query instead of
+// one artifactsFor() per run (the recent-runs list asks for up to 12). Returns a
+// key→artifact map; missing runs simply aren't in it.
+async function pipelineLocksFor(sessionKeys: string[]): Promise<Map<string, ArtifactRow>> {
+  const out = new Map<string, ArtifactRow>();
+  if (sessionKeys.length === 0) return out;
+  const rows = (await getDb()
+    .select({
+      sessionKey: runArtifacts.sessionKey,
+      stage: runArtifacts.stage,
+      name: runArtifacts.name,
+      kind: runArtifacts.kind,
+      content: runArtifacts.content,
+      contentText: runArtifacts.contentText,
+    })
+    .from(runArtifacts)
+    .where(
+      and(
+        inArray(runArtifacts.sessionKey, sessionKeys),
+        eq(runArtifacts.stage, ""),
+        eq(runArtifacts.name, "pipeline-lock.json"),
+      ),
+    )) as (ArtifactRow & { sessionKey: string })[];
+  for (const r of rows) {
+    if (!out.has(r.sessionKey)) out.set(r.sessionKey, r);
+  }
+  return out;
+}
+
 function artifactValue(a: ArtifactRow | undefined): unknown {
   if (!a) return null;
   return a.kind === "json" ? (a.content ?? null) : parseLoose(a.contentText);
@@ -314,9 +343,10 @@ function pick(arts: ArtifactRow[], stage: string, name: string): ArtifactRow | u
 
 export async function pgListRecentRuns(limit = 3, orgId?: string | null): Promise<unknown[]> {
   const rows = fenceOrgRows(await rowsWhere([sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined], limit ? limit * 3 : undefined), orgId).slice(0, limit);
+  const locks = await pipelineLocksFor(rows.map((r) => r.id));
   const out: unknown[] = [];
   for (const r of rows) {
-    const lock = asRecord(artifactValue(pick(await artifactsFor(r.id), "", "pipeline-lock.json")));
+    const lock = asRecord(artifactValue(locks.get(r.id)));
     const aggregates = isObjectRecord(lock.aggregates) ? lock.aggregates : null;
     const ctx = asRecord(r.state.ctx);
     out.push({

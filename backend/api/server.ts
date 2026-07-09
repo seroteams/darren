@@ -61,10 +61,16 @@ const MAX_PER_IP = 5;
 const ipCounts = new Map<string, number>();
 setInterval(() => ipCounts.clear(), RATE_WINDOW_MS).unref?.();
 
-function rateLimitIp(req: IncomingMessage): boolean {
+// The caller's IP: first x-forwarded-for hop (Render sits behind a proxy) else the
+// socket address. Shared by both per-IP rate limiters.
+function clientIp(req: IncomingMessage): string {
   const xff = req.headers["x-forwarded-for"];
   const fromXff = typeof xff === "string" ? xff.split(",")[0]?.trim() : undefined;
-  const ip = fromXff || req.socket?.remoteAddress || "unknown";
+  return fromXff || req.socket?.remoteAddress || "unknown";
+}
+
+function rateLimitIp(req: IncomingMessage): boolean {
+  const ip = clientIp(req);
   const count = (ipCounts.get(ip) || 0) + 1;
   ipCounts.set(ip, count);
   return count > MAX_PER_IP;
@@ -77,9 +83,7 @@ const errorReportCounts = new Map<string, number>();
 setInterval(() => errorReportCounts.clear(), RATE_WINDOW_MS).unref?.();
 
 function rateLimitErrors(req: IncomingMessage): boolean {
-  const xff = req.headers["x-forwarded-for"];
-  const fromXff = typeof xff === "string" ? xff.split(",")[0]?.trim() : undefined;
-  const ip = fromXff || req.socket?.remoteAddress || "unknown";
+  const ip = clientIp(req);
   const count = (errorReportCounts.get(ip) || 0) + 1;
   errorReportCounts.set(ip, count);
   return count > MAX_ERROR_REPORTS_PER_IP;
@@ -129,9 +133,13 @@ async function main(): Promise<void> {
   // BEFORE any route can run a stage (postgres-runtime-data Phase 4). Reading
   // unhydrated is a loud error by design, never a silent empty pool.
   if (hasDatabaseUrl()) {
-    await hydrateQuestionCache();
-    await hydrateArcOverlays(OVERLAYS_DIR);
-    await hydrateRoleProfiles(PROFILES_DIR);
+    // Three independent caches — warm them together so a cold boot (Render's free
+    // tier sleeps) waits on the slowest, not the sum.
+    await Promise.all([
+      hydrateQuestionCache(),
+      hydrateArcOverlays(OVERLAYS_DIR),
+      hydrateRoleProfiles(PROFILES_DIR),
+    ]);
   }
 
   startSweep();
