@@ -59,6 +59,17 @@ function asNumber(v: unknown): number {
   return typeof v === "number" ? v : 0;
 }
 
+// The org_id/user_id columns are uuid-typed, but a caller id isn't guaranteed to
+// be one (the dev side-door hands out "dev-org"/"dev-user"). A non-uuid value
+// would make the SQL comparison THROW — the file store just matched nothing. So
+// the SQL narrowing only applies to uuid-shaped ids; otherwise we skip the SQL
+// filter and let the JS wall (which compares the state values exactly like the
+// file store) produce the same empty answer.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function sqlSafeId(v: string | null | undefined): string | null {
+  return v && UUID_RE.test(v) ? v : null;
+}
+
 const rowColumns = {
   sessionKey: sessionsTable.sessionKey,
   state: sessionsTable.state,
@@ -302,7 +313,7 @@ function pick(arts: ArtifactRow[], stage: string, name: string): ArtifactRow | u
 // ---------------------------------------------------------------------------
 
 export async function pgListRecentRuns(limit = 3, orgId?: string | null): Promise<unknown[]> {
-  const rows = fenceOrgRows(await rowsWhere([orgId ? eq(sessionsTable.orgId, orgId) : undefined], limit ? limit * 3 : undefined), orgId).slice(0, limit);
+  const rows = fenceOrgRows(await rowsWhere([sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined], limit ? limit * 3 : undefined), orgId).slice(0, limit);
   const out: unknown[] = [];
   for (const r of rows) {
     const lock = asRecord(artifactValue(pick(await artifactsFor(r.id), "", "pipeline-lock.json")));
@@ -326,7 +337,7 @@ export async function pgListRecentRuns(limit = 3, orgId?: string | null): Promis
 
 export async function pgListFinishedRuns(orgId?: string | null): Promise<unknown[]> {
   const rows = fenceOrgRows(
-    await rowsWhere([eq(sessionsTable.finished, true), orgId ? eq(sessionsTable.orgId, orgId) : undefined]),
+    await rowsWhere([eq(sessionsTable.finished, true), sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined]),
     orgId,
   ).filter((r) => Boolean(r.state.briefing));
   return rows.map(toFinishedRow);
@@ -339,8 +350,8 @@ export async function pgListFinishedRunsForMember(
 ): Promise<unknown[]> {
   if (!userId) return []; // the member fence is NEVER unfenced
   const rows = await rowsWhere([
-    eq(sessionsTable.userId, userId),
-    orgId ? eq(sessionsTable.orgId, orgId) : undefined,
+    sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
+    sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
   ]);
   return fenceMemberRows(rows, orgId, userId, includeOpen).map(toMemberRow);
 }
@@ -351,9 +362,9 @@ export async function pgListFinishedRunsAboutPerson(
 ): Promise<unknown[]> {
   if (!orgId || personIds.length === 0) return [];
   const rows = await rowsWhere([
-    eq(sessionsTable.orgId, orgId),
+    sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
     eq(sessionsTable.finished, true),
-    inArray(sessionsTable.personId, personIds),
+    inArray(sessionsTable.personId, personIds.filter((p) => sqlSafeId(p) !== null)),
   ]);
   return fenceAboutPersonRows(rows, orgId, personIds).map(toAboutPersonRow);
 }
@@ -371,7 +382,7 @@ export async function pgListFinishedRunsForUser(userId: string | null | undefine
   ReturnType<typeof toUserRunRow>[]
 > {
   if (!userId) return [];
-  const rows = fenceUserRows(await rowsWhere([eq(sessionsTable.userId, userId), eq(sessionsTable.finished, true)]), userId);
+  const rows = fenceUserRows(await rowsWhere([sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined, eq(sessionsTable.finished, true)]), userId);
   return rows.map(toUserRunRow);
 }
 

@@ -60,7 +60,10 @@ export async function upsertSession(session: Session): Promise<void> {
     .values({ orgId: session.orgId ?? DEFAULT_ORG_ID, sessionKey: session.id, state, logDir: session.dir, completedAt, ...cols })
     .onConflictDoUpdate({
       target: sessionsTable.sessionKey,
-      set: { state, logDir: session.dir, completedAt, updatedAt: new Date(), ...cols },
+      // orgId updates too: a guest run CLAIMED after login moves from the
+      // placeholder org to the caller's — without this the org-fenced reads
+      // (Phase 3) would never list the claimed run.
+      set: { orgId: session.orgId ?? DEFAULT_ORG_ID, state, logDir: session.dir, completedAt, updatedAt: new Date(), ...cols },
     });
 }
 

@@ -53,6 +53,27 @@ still on disk, and the one-line rollback brings them back instantly.
 **Checks:** whole-tree `npm test` + 3 typechecks (results in STATUS) · offline
 replay PASS · parity 12/12 · $0 spend.
 
+## Walk-prep findings (2026-07-09, fixed before Carl's walk)
+Setting the walk up surfaced two real bugs + one gap — all found by exercising
+the REAL wiring, none by the unit tests:
+1. **Dev side-door would 500 the Library** — its identity uses non-uuid ids
+   ("dev-org"/"dev-user"); raw SQL on a uuid column throws where the file store
+   just matched nothing. Fixed: SQL narrowing skips non-uuid ids (`sqlSafeId`),
+   the JS wall still filters — same empty answer as files.
+2. **A claimed guest run would vanish from the org-fenced lists** —
+   `upsertSession`'s conflict-update never updated `org_id`, so a run claimed
+   AFTER login kept the placeholder org. The JS wall (state) was right, but the
+   SQL narrow excluded the row. Fixed: `org_id` updates on conflict.
+3. **Gap (noted, not fixed here):** the smoke/replay SCRIPT lane exits without
+   `flushArtifactWrites()` and writes no session-state, so replayed runs don't
+   land in the DB. Dev tooling only (echo covers it); Phase 6's importer is the
+   real answer — a one-run import was proven by hand while seeding the walk.
+
+Walk verified over real HTTP with `logs/` parked (DB alone): health · admin
+Library list + recent (incl. lock digest) · run detail · stage tabs · member
+"Past 1:1s" shows the owner's run · member probing another's run id → 404 ·
+member on admin routes → 403.
+
 ## Why this phase
 
 Only after Phase 2 has proven writes are complete and correct. This is the **security-sensitive**
