@@ -2,6 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import * as questions from "./questions.ts";
 import { DATA_DIR } from "./paths.mts";
+import { hasDatabaseUrl } from "../db/client.ts";
+import { shouldEchoToDisk } from "../db/run-artifacts-store.ts";
+import { arcOverlayGet, arcOverlaySave, arcOverlayRemove } from "../db/arc-overlays-store.ts";
 import type { MeetingType, ArcPhase } from "./one-on-one-types/_shared/meeting-type.types.ts";
 import { isObjectRecord, asRecord } from "../shared/guards.ts";
 
@@ -55,10 +58,16 @@ function writeAtomic(file: string, content: string): void {
 function loadOverlay(slug: unknown): Overlay | null {
   if (!validKey(slug)) return null;
   let doc: unknown;
-  try {
-    doc = JSON.parse(fs.readFileSync(overlayPath(slug), "utf8"));
-  } catch {
-    return null;
+  if (hasDatabaseUrl()) {
+    // DB mode (postgres-runtime-data Phase 5): the boot-hydrated cache is the
+    // store (disk edits self-migrate at hydration).
+    doc = arcOverlayGet(slug);
+  } else {
+    try {
+      doc = JSON.parse(fs.readFileSync(overlayPath(slug), "utf8"));
+    } catch {
+      return null;
+    }
   }
   if (!isObjectRecord(doc)) return null;
   const out: Overlay = {};
@@ -77,6 +86,10 @@ function writeOverlay(
   if (Array.isArray(data.arc)) doc.arc = data.arc;
   if (typeof data.tone_register === "string") doc.tone_register = data.tone_register;
   if (Array.isArray(data.anti_patterns)) doc.anti_patterns = data.anti_patterns;
+  if (hasDatabaseUrl()) {
+    arcOverlaySave(slug, doc as unknown as Record<string, unknown>);
+    if (!shouldEchoToDisk()) return doc;
+  }
   fs.mkdirSync(OVERLAYS_DIR, { recursive: true });
   writeAtomic(overlayPath(slug), JSON.stringify(doc, null, 2) + "\n");
   return doc;
@@ -85,12 +98,15 @@ function writeOverlay(
 // Reset: delete the overlay so the type falls back to its code default.
 function removeOverlay(slug: unknown): boolean {
   if (!validKey(slug)) return false;
+  let removed = false;
+  if (hasDatabaseUrl()) removed = arcOverlayRemove(slug);
   try {
     fs.unlinkSync(overlayPath(slug));
-    return true;
+    removed = true;
   } catch {
-    return false;
+    // no file (echo off or never existed) — the DB removal above still counts
   }
+  return removed;
 }
 
 // Merge an overlay over a base Type object, returning a NEW object — the cached

@@ -13,6 +13,8 @@ import { runMigrations } from "../db/migrate.ts";
 import { runEnvironmentGuard, EnvGuardError } from "../db/env-guard.ts";
 import { flushArtifactWrites } from "../db/run-artifacts-store.ts";
 import { hydrateQuestionCache, flushQuestionWrites } from "../db/questions-store.ts";
+import { hydrateArcOverlays, flushArcOverlayWrites } from "../db/arc-overlays-store.ts";
+import { OVERLAYS_DIR } from "../engine/arc-overlay.ts";
 import { hasDatabaseUrl } from "../db/client.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
@@ -124,6 +126,7 @@ async function main(): Promise<void> {
   // unhydrated is a loud error by design, never a silent empty pool.
   if (hasDatabaseUrl()) {
     await hydrateQuestionCache();
+    await hydrateArcOverlays(OVERLAYS_DIR);
   }
 
   startSweep();
@@ -167,6 +170,7 @@ async function main(): Promise<void> {
   // user-management Phase 2) is origin-guarded like every other mutating route.
   router.add("GET", "/api/v1/admin/registered", superadminV1(superadmin.registered));
   router.add("GET", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/runs$/, superadminV1(superadmin.userRuns));
+  router.add("GET", "/api/v1/admin/guest-runs", superadminV1(superadmin.guestRuns));
   router.add("GET", /^\/api\/v1\/admin\/runs\/(?<id>[^/]+)$/, superadminV1(superadmin.runDetail));
   router.add("PATCH", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/role$/, superadminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
@@ -516,6 +520,7 @@ async function main(): Promise<void> {
     // flight is lost.
     void flushArtifactWrites();
     void flushQuestionWrites();
+    void flushArcOverlayWrites();
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(0), 5000).unref?.();
   };

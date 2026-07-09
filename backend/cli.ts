@@ -14,6 +14,8 @@ import { NOTES_DIR, ROOT } from "./engine/paths.mts";
 import { runEnvironmentGuard } from "./db/env-guard.ts";
 import { flushArtifactWrites } from "./db/run-artifacts-store.ts";
 import { hydrateQuestionCache, flushQuestionWrites } from "./db/questions-store.ts";
+import { hydrateArcOverlays, flushArcOverlayWrites } from "./db/arc-overlays-store.ts";
+import { OVERLAYS_DIR } from "./engine/arc-overlay.ts";
 import { hasDatabaseUrl } from "./db/client.ts";
 import { closeDb } from "./db/client.ts";
 import * as cost from "./engine/cost.ts";
@@ -110,6 +112,7 @@ async function main() {
   // the same engine, so it needs the same boot-hydrated cache in DB mode.
   if (hasDatabaseUrl()) {
     await hydrateQuestionCache();
+    await hydrateArcOverlays(OVERLAYS_DIR);
   }
 
   const { ask, close: closeAsker } = createAsker();
@@ -317,6 +320,7 @@ main()
     // exits, so a CLI run's data isn't lost to an early exit (postgres-runtime-data).
     await flushArtifactWrites();
     await flushQuestionWrites();
+    await flushArcOverlayWrites();
     await closeDb();
   })
   .catch((e: unknown) => {
