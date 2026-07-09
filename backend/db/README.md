@@ -56,6 +56,11 @@ We use a managed Postgres provider so there's nothing to install locally.
 - **Verify the database round-trip (free, no OpenAI):**
   `node backend/tests/sessions/test-pg-roundtrip.js` — writes a session, wipes memory, and
   reads it back from the database. It skips automatically when `DATABASE_URL` is unset.
+- **Verify live/local alignment (free, read-only, no OpenAI):**
+  `node scripts/db-alignment-check.ts` — connects to the local database (`DATABASE_URL`)
+  and the live one (`LIVE_DATABASE_URL`, parked in `.env`) and reports ✅/❌ per rule:
+  right environment markers, both carrying exactly the repo's migrations (including the
+  `0012_alignment_probe` marker row), same migration head on both sides. Exits 1 on drift.
 
 ## Layout
 
