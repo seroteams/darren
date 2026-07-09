@@ -197,6 +197,10 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return superadmin.reactivate(c);
   }));
+  router.add("DELETE", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)$/, superadminV1((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return superadmin.deleteUser(c);
+  }));
   // error log — the superadmin's cross-company view of every error users hit (error-log
   // Phase 2). Superadmin-gated like the rest of /admin/*; read-only, newest first.
   router.add("GET", "/api/v1/admin/errors", superadminV1(errorLog.list));

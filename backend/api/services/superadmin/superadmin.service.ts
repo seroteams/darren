@@ -91,6 +91,12 @@ export interface SuperadminService {
   /** Switch a user back on (Phase 3) — clears the block so they can log in again. Reversible,
    *  deletes nothing. Throws 404 (unknown). Audits. */
   reactivateUser(actor: SuperadminActor, userId: string): Promise<{ id: string; deactivated: false }>;
+  /** Permanently delete a user (user-management Phase 4) — the one irreversible action. Their
+   *  finished 1:1s are KEPT under the company but orphaned (no owner); every other reference to
+   *  them is cleared so the delete can't fail on a foreign key. Same guardrails as deactivate:
+   *  no deleting yourself, a superadmin account, or a company's last active manager/admin.
+   *  Throws 404 (unknown), 409 (guardrail). Audits. */
+  deleteUser(actor: SuperadminActor, userId: string): Promise<{ id: string; deleted: true }>;
 }
 
 /** Per-user run tallies, keyed by userId. Runs with no userId (machine/gate sessions)
@@ -266,6 +272,58 @@ export function createSuperadminService(
       await repo.setDeactivated(userId, null);
       await rec("success", "reactivated");
       return { id: userId, deactivated: false };
+    },
+
+    async deleteUser(actor, userId) {
+      const route = `/api/v1/admin/users/${userId}`;
+      const rec = (outcome: "success" | "blocked" | "failed", detail: string) =>
+        audit({
+          at: new Date().toISOString(),
+          userId: actor.userId,
+          email: actor.email,
+          method: "DELETE",
+          route,
+          outcome,
+          target: userId,
+          detail,
+        });
+
+      const people = await repo.listUsers();
+      const target = people.find((u) => u.id === userId);
+      if (!target) {
+        await rec("failed", "unknown user");
+        throw notFound("unknown user");
+      }
+      // Same three guardrails as deactivate — delete is only stricter (irreversible).
+      if (actor.userId && actor.userId === userId) {
+        await rec("blocked", "self-delete");
+        throw conflict("You can't delete your own account.");
+      }
+      if (isSuperadminEmail(target.email)) {
+        await rec("blocked", "superadmin account");
+        throw conflict("This is a superadmin account and can't be deleted.");
+      }
+      if (isActiveLead(target)) {
+        const activeLeads = people.filter((u) => u.orgId === target.orgId && isActiveLead(u));
+        if (activeLeads.length <= 1) {
+          await rec("blocked", "last active manager/admin of the company");
+          throw conflict(
+            "This is the company's only active manager or admin — activate or promote someone else first.",
+          );
+        }
+      }
+      // Guardrail 4 (delete-only) — a manager's roster (people.manager_id) is a NOT NULL
+      // link, so deleting them would silently wipe their whole team. Refuse until it's empty.
+      const roster = await repo.managedRosterCount(userId);
+      if (roster > 0) {
+        await rec("blocked", `still manages ${roster} roster ${roster === 1 ? "person" : "people"}`);
+        throw conflict(
+          `This person still manages ${roster} ${roster === 1 ? "person" : "people"} — move or remove their team first.`,
+        );
+      }
+      await repo.deleteUser(userId);
+      await rec("success", `deleted (was ${target.role})`);
+      return { id: userId, deleted: true };
     },
   };
 }

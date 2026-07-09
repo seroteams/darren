@@ -142,6 +142,15 @@ export async function reactivateUser(id) {
   );
 }
 
+// Delete a user (user-management Phase 4). Superadmin-only + origin-guarded. Permanent: the
+// account is removed, their past 1:1s are KEPT under the company but lose their owner. The
+// server's guardrails may refuse (409) — the caller surfaces the plain message. Returns { id, deleted }.
+export async function deleteUser(id) {
+  return json(
+    await fetch(`/api/v1/admin/users/${encodeURIComponent(id)}`, { method: "DELETE" }),
+  );
+}
+
 // Feedback (Phase 5): send a short tester note. Login required (any role); stored to a
 // local file on the server, no external service. Returns { ok: true }.
 export async function submitFeedback(message, page) {

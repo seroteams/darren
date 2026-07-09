@@ -16,8 +16,8 @@
 | 0 | Safety and schema check | Read-only: confirm access (done), schema, `runs.userId` nullability, session/token facts — go/no-go | ⬜ |
 | 1 | User management table + rename | Rename Registered → "User management"; company-grouped table; row opens drilldown; "Coming back?" trend + sort | ✅ done (2026-07-05) |
 | 2 | Change a user's role | `PATCH …/role` + `⋯` role picker; last-manager demotion blocked | ✅ done (2026-07-05) |
-| 3 | Deactivate / reactivate | `deactivatedAt` column + routes; login blocked + live sessions killed | 🔨 in progress |
-| 4 | Delete a user | `DELETE …/:id`; runs kept-but-orphaned; confirm + guardrails | ⬜ |
+| 3 | Deactivate / reactivate | `deactivatedAt` column + routes; login blocked + live sessions killed | ✅ done (2026-07-05; walk waived by Carl 2026-07-09) |
+| 4 | Delete a user | `DELETE …/:id`; runs kept-but-orphaned; confirm + guardrails | ✅ done (2026-07-09; test-first + real-DB verified; walk waived) |
 | 5 | Reset password / invite | `POST …/reset-password`; single-use hashed expiring token → copyable link | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -39,6 +39,8 @@ Carl then chose **"B" (group by company) + finish**. The table is now **grouped 
 - **API restarted** onto the new code — both routes verified live (401 auth-wall, not 404).
 - **server.ts routes** got committed by a parallel session (it swept in my two route lines with its own work) — no longer a loose end.
 - **NOW WALKABLE — awaiting Carl's walk.** Scenarios in [phase-3.md](phase-3.md): kick-now, reversible, the 3 guardrails, clear-on-screen.
+
+**Phase 4 ✅ done 2026-07-09 (test-first, real-DB verified; walk waived by Carl this session).** `DELETE /api/v1/admin/users/:id`, superadmin-gated + origin-guarded. The delete runs in ONE transaction: it **orphans** the user's finished 1:1s (owner cleared in BOTH the indexed `sessions.user_id` column and the authoritative `state.userId` jsonb, so no ghost id lingers — history stays under the company, ownerless), then clears every other reference so no foreign key can block it (deletes auth-sessions + people-aliases; nulls the roster link, invitations.invited_by, feedback, error logs, audit actor), then removes the user. **Guardrails (4):** no self-delete · no superadmin account · no company's last active manager/admin · **NEW** no deleting a user who still manages a team roster (people.manager_id is NOT NULL — a silent delete would wipe their team; blocked with a plain message — flagged as a deliberate, removable addition beyond the spec's three). Every attempt audited. Frontend: a **Delete…** danger item in the `⋯` menu → a confirm that spells out "account gone, past 1:1s kept but unowned, can't be undone" → row disappears; a 409 surfaces the plain reason. **7 new service tests (all green), + a real local-Neon integration check** (create org+user+run+session+alias+roster link → delete → user & session & alias gone, run survives orphaned in column+state, roster person unlinked, org still led). `npm test` **109/109** · root+admin typecheck clean · admin build clean. Files: [superadmin.service.ts](../../../backend/api/services/superadmin/superadmin.service.ts), [superadmin.repo.ts](../../../backend/api/services/superadmin/superadmin.repo.ts), [superadmin.controller.ts](../../../backend/api/services/superadmin/superadmin.controller.ts), [server.ts](../../../backend/api/server.ts) route, [shared/api.js](../../../shared/api.js), [admin-registered.ts](../../../admin/src/stages/admin-registered.ts). **Next: Phase 5 — reset password / invite** (the LAST phase; a new token table + a public redeem endpoint — a security surface, flagged to build carefully, not rushed).
 
 Plan revised 2026-07-04 after Carl's design feedback: the surface is a **renamed, redesigned flat table** (his call), with the table build as its own Phase 1 before any actions. Baseline (this session, before touching anything): `npm test` 60/60 green.
 

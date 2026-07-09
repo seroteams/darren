@@ -16,6 +16,8 @@ function fakeRepo(
   deactivations: { id: string; at: Date | null }[] = [],
   revocations: string[] = [],
   guestRuns: UserRunRow[] = [],
+  deletions: string[] = [],
+  rosterCounts: Record<string, number> = {},
 ): SuperadminRepo {
   return {
     listOrganizations: async () => orgs,
@@ -31,6 +33,12 @@ function fakeRepo(
       if (u) u.deactivatedAt = at;
     },
     revokeSessionsForUser: async (id) => { revocations.push(id); },
+    managedRosterCount: async (id) => rosterCounts[id] ?? 0,
+    deleteUser: async (id) => {
+      deletions.push(id);
+      const i = people.findIndex((p) => p.id === id);
+      if (i >= 0) people.splice(i, 1);
+    },
   };
 }
 
@@ -361,4 +369,96 @@ test("deactivateUser: allows deactivating a lead when another ACTIVE lead remain
   assert.deepEqual(res, { id: "u1", deactivated: true });
   assert.equal(deactivations[0]?.id, "u1");
   assert.equal(audits.at(-1)?.outcome, "success");
+});
+
+// --- Delete a user (user-management Phase 4) ---
+// Same guardrails as deactivate (self / superadmin / last active lead). The irreversible
+// action, so it's the one behind a confirm; runs are kept-but-orphaned in the repo.
+
+function deleteHarness(people: UserRow[], rosterCounts: Record<string, number> = {}) {
+  const deletions: string[] = [];
+  const audits: SuperadminAuditEntry[] = [];
+  const svc = createSuperadminService(
+    fakeRepo([], people, [], {}, {}, [], [], [], [], deletions, rosterCounts),
+    async (e) => { audits.push(e); },
+  );
+  return { svc, deletions, audits };
+}
+
+test("deleteUser: removes the user, audits success", async () => {
+  const { svc, deletions, audits } = deleteHarness([
+    person("u1", "o1", "admin"),
+    person("u2", "o1", "member"),
+  ]);
+  const res = await svc.deleteUser(ACTOR, "u2");
+  assert.deepEqual(res, { id: "u2", deleted: true });
+  assert.deepEqual(deletions, ["u2"]);
+  assert.equal(audits.at(-1)?.outcome, "success");
+  assert.equal(audits.at(-1)?.target, "u2");
+});
+
+test("deleteUser: unknown user → 404, no delete, audits failed", async () => {
+  const { svc, deletions, audits } = deleteHarness([]);
+  await assert.rejects(() => svc.deleteUser(ACTOR, "ghost"), /unknown user/);
+  assert.deepEqual(deletions, []);
+  assert.equal(audits.at(-1)?.outcome, "failed");
+});
+
+test("deleteUser: blocks deleting yourself (409), no delete, audits blocked", async () => {
+  const { svc, deletions, audits } = deleteHarness([
+    person("super1", "o1", "admin"),
+    person("u2", "o1", "admin"),
+  ]);
+  await assert.rejects(() => svc.deleteUser(ACTOR, "super1"), /your own account/i);
+  assert.deepEqual(deletions, []);
+  assert.equal(audits.at(-1)?.outcome, "blocked");
+});
+
+test("deleteUser: blocks deleting a superadmin account (409)", async () => {
+  const prev = process.env.SUPERADMIN_EMAILS;
+  process.env.SUPERADMIN_EMAILS = "boss@x.com";
+  try {
+    const { svc, deletions, audits } = deleteHarness([
+      person("boss", "o1", "admin"),
+      person("u2", "o1", "admin"),
+    ]);
+    await assert.rejects(() => svc.deleteUser(ACTOR, "boss"), /superadmin account/i);
+    assert.deepEqual(deletions, []);
+    assert.equal(audits.at(-1)?.outcome, "blocked");
+  } finally {
+    process.env.SUPERADMIN_EMAILS = prev;
+  }
+});
+
+test("deleteUser: blocks deleting a company's only active lead (409)", async () => {
+  const { svc, deletions, audits } = deleteHarness([
+    person("u1", "o1", "manager"),
+    person("u2", "o1", "member"),
+  ]);
+  await assert.rejects(() => svc.deleteUser(ACTOR, "u1"), /only active manager or admin/i);
+  assert.deepEqual(deletions, []);
+  assert.equal(audits.at(-1)?.outcome, "blocked");
+});
+
+test("deleteUser: allows deleting a lead when another ACTIVE lead remains", async () => {
+  const { svc, deletions, audits } = deleteHarness([
+    person("u1", "o1", "manager"),
+    person("u2", "o1", "admin"),
+  ]);
+  const res = await svc.deleteUser(ACTOR, "u1");
+  assert.deepEqual(res, { id: "u1", deleted: true });
+  assert.deepEqual(deletions, ["u1"]);
+  assert.equal(audits.at(-1)?.outcome, "success");
+});
+
+test("deleteUser: blocks deleting a user who still manages a team roster (409)", async () => {
+  // u1 manages 3 people; another admin keeps the org led. Blocked to avoid silently
+  // destroying their roster (people.manager_id is a NOT NULL foreign key).
+  const { svc, deletions, audits } = deleteHarness(
+    [person("u1", "o1", "admin"), person("u2", "o1", "admin")],
+    { u1: 3 },
+  );
+  await assert.rejects(() => svc.deleteUser(ACTOR, "u1"), /still manages/i);
+  assert.deepEqual(deletions, []);
+  assert.equal(audits.at(-1)?.outcome, "blocked");
 });

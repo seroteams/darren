@@ -8,9 +8,20 @@
 // The service depends on this interface, so its logic (grouping, ordering, the view
 // shape) is proven against an in-memory fake without a database — same seam as auth.
 
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { getDb, hasDatabaseUrl } from "../../../db/client.ts";
-import { organizations, users, authSessions } from "../../../db/schema.ts";
+import {
+  organizations,
+  users,
+  authSessions,
+  people,
+  peopleAliases,
+  invitations,
+  feedbackNotes,
+  errorLogs,
+  auditLog,
+  sessions,
+} from "../../../db/schema.ts";
 import { listRunsForSuperadmin, listFinishedRunsForUser, listOwnerlessFinishedRuns, superadminRunView } from "../../../engine/run-history.ts";
 import { pgListRunsForSuperadmin, pgListFinishedRunsForUser, pgListGuestRuns, pgSuperadminRunView } from "../../../db/runs-store.ts";
 
@@ -91,6 +102,14 @@ export interface SuperadminRepo {
   /** Drop every live login session for a user — so a deactivation kicks them NOW, not just
    *  at their next login. Called right after setDeactivated on the deactivate path. */
   revokeSessionsForUser(userId: string): Promise<void>;
+  /** How many roster people this user MANAGES (people.manager_id). The service refuses to
+   *  delete a user while this is > 0 — that link is NOT NULL, so a delete would wipe the team. */
+  managedRosterCount(userId: string): Promise<number>;
+  /** Permanently delete a user (user-management Phase 4). Keeps their finished runs under the
+   *  company but ORPHANS them (owner cleared in both the indexed column and the authoritative
+   *  state), and clears every other reference so no foreign key blocks the delete. One
+   *  transaction — all-or-nothing. The guardrails run in the service first. */
+  deleteUser(userId: string): Promise<void>;
 }
 
 export const pgSuperadminRepo: SuperadminRepo = {
@@ -142,5 +161,39 @@ export const pgSuperadminRepo: SuperadminRepo = {
   async revokeSessionsForUser(userId: string) {
     const db = getDb();
     await db.delete(authSessions).where(eq(authSessions.userId, userId));
+  },
+  async managedRosterCount(userId: string) {
+    const db = getDb();
+    // People this user manages that are still live (not merged away). A merged row is a
+    // resolved pointer, not an active roster member, so it doesn't block the delete.
+    const [row] = await db
+      .select({ n: sql<number>`count(*)::int` })
+      .from(people)
+      .where(sql`${people.managerId} = ${userId} and ${people.mergedIntoId} is null`);
+    return row?.n ?? 0;
+  },
+  async deleteUser(userId: string) {
+    const db = getDb();
+    // One transaction: orphan the runs, clear every reference, then remove the user.
+    // If any step fails the whole thing rolls back — a half-deleted user is never left.
+    await db.transaction(async (tx) => {
+      // Runs stay under the company but lose their owner — in BOTH the indexed column and
+      // the authoritative `state` jsonb the privacy fence reads (so no ghost owner id lingers).
+      await tx
+        .update(sessions)
+        .set({ userId: null, state: sql`jsonb_set(${sessions.state}, '{userId}', 'null'::jsonb)` })
+        .where(eq(sessions.userId, userId));
+      // NOT NULL references to this user must be removed, not nulled.
+      await tx.delete(authSessions).where(eq(authSessions.userId, userId));
+      await tx.delete(peopleAliases).where(eq(peopleAliases.userId, userId));
+      // Nullable references: unlink, keeping the surrounding rows (roster entry, invite,
+      // feedback, error, audit line all survive without the account).
+      await tx.update(people).set({ userId: null }).where(eq(people.userId, userId));
+      await tx.update(invitations).set({ invitedBy: null }).where(eq(invitations.invitedBy, userId));
+      await tx.update(feedbackNotes).set({ userId: null }).where(eq(feedbackNotes.userId, userId));
+      await tx.update(errorLogs).set({ userId: null }).where(eq(errorLogs.userId, userId));
+      await tx.update(auditLog).set({ actorUserId: null }).where(eq(auditLog.actorUserId, userId));
+      await tx.delete(users).where(eq(users.id, userId));
+    });
   },
 };

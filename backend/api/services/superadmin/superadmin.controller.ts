@@ -66,3 +66,14 @@ export async function reactivate(c: RequestContext): Promise<void> {
   );
   c.json(200, result);
 }
+
+/** DELETE /api/v1/admin/users/:id — permanently delete a user (user-management Phase 4).
+ *  Runs are kept-but-orphaned; guardrails + audit live in the service. */
+export async function deleteUser(c: RequestContext): Promise<void> {
+  const actor = await buildIdentity(c.req);
+  const result = await superadminService.deleteUser(
+    { userId: actor.userId, email: actor.email },
+    c.params.id ?? "",
+  );
+  c.json(200, result);
+}

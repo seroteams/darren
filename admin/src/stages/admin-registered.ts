@@ -10,7 +10,7 @@
 // in Phases 2–5; there's no menu while there's nothing to put in it.
 
 import { STAGES } from "../state.js";
-import { getRegistered, setUserRole, deactivateUser, reactivateUser } from "../../../shared/api.js";
+import { getRegistered, setUserRole, deactivateUser, reactivateUser, deleteUser } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star, TrendingUp, TrendingDown } from "lucide";
@@ -187,7 +187,8 @@ export const mount: Mount = async (root, { setState }) => {
       `<div class="um-menu__sep" role="separator"></div>` +
       (isOff
         ? `<button type="button" role="menuitem" class="um-menu__item js-reactivate">Reactivate</button>`
-        : `<button type="button" role="menuitem" class="um-menu__item um-menu__item--danger js-deactivate">Deactivate</button>`);
+        : `<button type="button" role="menuitem" class="um-menu__item um-menu__item--danger js-deactivate">Deactivate</button>`) +
+      `<button type="button" role="menuitem" class="um-menu__item um-menu__item--danger js-delete">Delete…</button>`;
     document.body.appendChild(menu);
     const rect = btn.getBoundingClientRect();
     menu.style.top = `${Math.round(rect.bottom + 4)}px`;
@@ -233,6 +234,22 @@ export const mount: Mount = async (root, { setState }) => {
           await load();
         } catch (err) {
           window.alert((err as { message?: string })?.message || `Couldn't reactivate ${name}.`);
+        }
+      })();
+    });
+
+    // Delete — permanent, so confirm and spell out what survives. The server keeps their
+    // past 1:1s under the company (just unowned) and refuses (409) if a guardrail blocks it.
+    menu.querySelector(".js-delete")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeRoleMenu();
+      if (!window.confirm(`Permanently delete ${name}? Their account is removed for good. Their past 1:1s stay under the company but no longer show an owner. This can't be undone.`)) return;
+      void (async () => {
+        try {
+          await deleteUser(id);
+          await load();
+        } catch (err) {
+          window.alert((err as { message?: string })?.message || `Couldn't delete ${name}.`);
         }
       })();
     });
