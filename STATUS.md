@@ -225,7 +225,7 @@ Nothing below is actively being worked — scaffolded ideas in `docs/plans/`, wa
 | Plan | State |
 |---|---|
 | [run-qa-fixes-jul04](docs/plans/future/run-qa-fixes-jul04/plan.md) | Moved to future/ 2026-07-09 (tie-off audit): Phase 1 ✅ done 2026-07-04; Phases 2–4 parked — each needs a ~$0.35 paid walk, revisit with real tester feedback |
-| pool-hang fix (`c98d8324` → folded into main as `9e92b14f`) | ✅ FOLDED IN 2026-07-09 by the postgres chat after P7, per this handoff: cherry-picked + conflict resolved (P7 gates AND the coalescing queue coexist), 109/109 green. ⚠️ Sits LOCAL-ONLY (main ahead 1) — the auto-mode permission gate wants Carl's explicit word to push a resurrected commit to the live deploy. Say "push the pool fix" → it ships + auto-deploys. Branch can be deleted after that push |
+| pool-hang fix (`c98d8324` → folded into main as `9e92b14f`) | ✅ DONE — folded in after P7 per this handoff (P7 gates AND the coalescing queue coexist, 109/109) and **pushed + LIVE 2026-07-09 on Carl's explicit go** (deploy `d3a8b4f3`, health green). The worktree branch `claude/unruffled-gauss-88b854` is now safe to delete (owner session's call) |
 | [planner-grounding](docs/plans/future/planner-grounding/plan.md) | parked — awaiting scope pick (A/B/C/all) |
 | [briefing-readability-p0](docs/plans/future/briefing-readability-p0/plan.md) | parked |
 
@@ -238,4 +238,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-09 (postgres-runtime-data TRACK CLOSED — all 7 phases, live on `25fb3926`; loose end: pool-hang fix folded in but awaiting Carl's word to push)
+- Last updated: 2026-07-09 (postgres-runtime-data TRACK CLOSED — all 7 phases; pool-hang fix pushed on Carl's go; live deploy `d3a8b4f3`, health green; no loose ends)
