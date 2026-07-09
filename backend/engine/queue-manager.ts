@@ -201,28 +201,37 @@ function enforceDrillCap({
   arc: Arc;
   issues: string[];
 }): Question[] {
-  let queue = [...(newQueue || [])];
+  const queue = [...(newQueue || [])];
   const lastStage = lastQuestion?.stage;
   if (lastStage == null || lastStage === undefined || consecutiveDrillCount < 2) {
     return queue;
   }
 
-  while (queue.length && isSameStagePlannerDrill(queue[0], lastStage)) {
-    const dropped = queue[0];
+  // A runtime thread-follow at slot 0 is a content-locked follow-up to what the
+  // person just said — pin it so the cap slices and advances AROUND it, never
+  // over it. (It inherits lastQuestion.stage, so without this it reads as a
+  // same-stage planner drill and gets eaten below.) Mirrors the coverage gate's
+  // slot-0 guard (axis-coverage.ts `insertAt`).
+  const pinned = isRuntimeThreadFollow(queue[0]) ? queue[0] : null;
+  let body = pinned ? queue.slice(1) : queue;
+
+  while (body.length && isSameStagePlannerDrill(body[0], lastStage)) {
+    const dropped = body[0];
     issues.push(`drill cap: removed same-stage drill at ${lastStage} (${dropped?.alias || dropped?.label})`);
-    queue = queue.slice(1);
+    body = body.slice(1);
   }
 
   const remainingStages = computeRemainingStages(transcript, arc);
-  if (!remainingStages.length) return queue;
-  const targetStage = remainingStages[0]?.id;
-  const pool = [...(remainingQueue || []), ...queue];
-  const candidate = pool.find((q) => q.stage === targetStage);
-  if (candidate && queue[0]?.alias !== candidate.alias) {
-    queue = [candidate, ...queue.filter((q) => q.alias !== candidate.alias)];
-    issues.push(`drill cap: advanced queue toward stage ${targetStage}`);
+  if (remainingStages.length) {
+    const targetStage = remainingStages[0]?.id;
+    const pool = [...(remainingQueue || []), ...body];
+    const candidate = pool.find((q) => q.stage === targetStage);
+    if (candidate && body[0]?.alias !== candidate.alias) {
+      body = [candidate, ...body.filter((q) => q.alias !== candidate.alias)];
+      issues.push(`drill cap: advanced queue toward stage ${targetStage}`);
+    }
   }
-  return queue;
+  return pinned ? [pinned, ...body] : body;
 }
 
 // Closer-on-final-turn gate. On the final turn (remaining_budget <= 1), if a

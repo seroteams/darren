@@ -1,8 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature } from "./queue-manager.ts";
+import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature, enforceDrillCap } from "./queue-manager.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import type { Question } from "../shared/question.types.ts";
+import type { Arc } from "./queue-constants.ts";
+
+const emptyArc = { arc: [] } as unknown as Arc; // no remaining stages → isolates the drill-cap slice loop
 
 // Queue-shape gates (Phase 2). The two new gates are pure — they only read
 // `.alias` off each item — so they're tested here with minimal stand-ins. The
@@ -86,6 +89,45 @@ test("enforceCloserOnFinalTurn: no reserved closer means no-op", () => {
     issues: [],
   });
   assert.deepEqual(out.map((x) => x.alias), ["drill"]);
+});
+
+// --- Drill cap: pin the runtime thread-follow (thread-follow Phase 1) -------
+
+const tf = (alias: string, stage: string): Question =>
+  ({ alias, source: "planner_added", label: "Thread follow", stage } as unknown as Question);
+const drill = (alias: string, stage: string): Question =>
+  ({ alias, source: "planner_added", stage } as unknown as Question);
+
+test("enforceDrillCap: a runtime thread-follow at slot 0 is pinned, not eaten as a same-stage drill", () => {
+  const issues: string[] = [];
+  const out = enforceDrillCap({
+    newQueue: [tf("follow", "explore"), drill("drill", "explore"), q("keep")],
+    lastQuestion: { stage: "explore" } as unknown as Question,
+    remainingQueue: [],
+    consecutiveDrillCount: 2,
+    transcript: [],
+    arc: emptyArc,
+    issues,
+  });
+  // The follow survives at the front; the real same-stage drill behind it is still capped.
+  assert.equal(out[0]?.alias, "follow");
+  assert.ok(!out.some((x) => x.alias === "drill"));
+  assert.ok(issues.some((i) => i.includes("drill cap")));
+});
+
+test("enforceDrillCap: without a thread-follow, a same-stage drill at the front is still capped", () => {
+  const issues: string[] = [];
+  const out = enforceDrillCap({
+    newQueue: [drill("drill", "explore"), q("keep")],
+    lastQuestion: { stage: "explore" } as unknown as Question,
+    remainingQueue: [],
+    consecutiveDrillCount: 2,
+    transcript: [],
+    arc: emptyArc,
+    issues,
+  });
+  assert.deepEqual(out.map((x) => x.alias), ["keep"]);
+  assert.ok(issues.some((i) => i.includes("drill cap")));
 });
 
 // --- Regression: gates that already existed --------------------------------

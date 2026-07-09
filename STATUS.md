@@ -23,6 +23,16 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> **🔨 [thread-follow](docs/plans/doing/thread-follow/plan.md) — NEW track (2026-07-09): make the engine follow the person's answer, not just march its queue. P1 ✅ green-lit + committed · P2 next.**
+> From the 8–9 Jul night test: thread-following scored 55–65/100 on every run (the one systemic weak muscle) —
+> people volunteered threads (Priya's mentoring, Tom's adjacent-team trust) and the coverage engine / drill cap
+> marched over them. Root cause is gate order in [queue-manager.ts](backend/engine/queue-manager.ts).
+> **P1 ✅ green-lit + committed 2026-07-09 ($0):** drill-cap now *pins* a runtime thread-follow at slot 0 (mirrors
+> coverage's guard) so a minted follow can't be eaten. 2 test locks (red→green); suite 105/105. Honest note:
+> P1 changes no existing run's output — it's groundwork; today thread-follow bails exactly when drill-cap acts, so
+> the payoff only lands with P2. **▶ Your move:** say "build P2" → relax the mint-bail so a genuine new thread
+> follows even under drill pressure; ONE paid gate case (~$0.35) proves the metric moves without new leakage.
+
 > **✅ [agent-native](docs/plans/done/agent-native/plan.md) — TRACK CLOSED 2026-07-08: all 5 phases green-lit in one day, $0 spend.**
 > The codebase is now agent-native: **maps** are true (engine-map.md + fixed `.cursor` rule) · the **whole pipeline
 > replays offline** from any saved run (`scripts/replay-pipeline.js`, ~5s/$0; `scripts/repro-from-bundle.js` answers

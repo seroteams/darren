@@ -9,6 +9,17 @@
 ---
 
 ## Where we are now
+- **2026-07-09** — **thread-follow P1 ✅ (pin the follow-up) — and the honest catch that shaped the phase split.**
+  The 8–9 Jul night test scored thread-following 55–65/100 on every run: people volunteer a thread and the
+  coverage engine / drill cap march the pre-planned queue over it. Root cause is gate *order* in
+  `queue-manager.ts` (thread-follow prepends first, drill-cap can then eat it). P1 pins a slot-0 runtime
+  thread-follow so drill-cap slices/advances around it (mirror of coverage's `insertAt` guard) — red→green
+  unit lock, 105/105. **The lesson:** reading the code for the phase split surfaced that today thread-follow
+  *bails* exactly when drill-cap *acts* (`consecutiveDrillCount >= 2` on both sides) — so the two never
+  collide on current runs, and P1 changes no run's output. Rather than oversell a "before/after replay" that
+  would show nothing, the phase was reframed honestly as load-bearing groundwork proven by test, with the
+  run-level payoff (and the paid metric) deferred to P2. Surfacing the no-visible-change truth *before*
+  sign-off beat discovering it after.
 - **2026-07-09** — **postgres-runtime-data P3 (read cutover) ✅ — and the lesson that keeps paying: verify on
   the REAL wiring, not just tests.** 101/101 unit/parity tests were green, yet staging Carl's walk over real
   HTTP caught two bugs they missed: the dev side-door's non-uuid ids would have 500'd the Library (raw SQL on
