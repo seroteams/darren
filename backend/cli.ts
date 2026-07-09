@@ -13,6 +13,8 @@ import { ensureRoleProfile } from "./engine/role-profile.ts";
 import { NOTES_DIR, ROOT } from "./engine/paths.mts";
 import { runEnvironmentGuard } from "./db/env-guard.ts";
 import { flushArtifactWrites } from "./db/run-artifacts-store.ts";
+import { hydrateQuestionCache, flushQuestionWrites } from "./db/questions-store.ts";
+import { hasDatabaseUrl } from "./db/client.ts";
 import { closeDb } from "./db/client.ts";
 import * as cost from "./engine/cost.ts";
 import { runFocusPointsStage } from "./engine/cli/stages/focus-points.ts";
@@ -102,6 +104,12 @@ async function main() {
   } catch (e) {
     console.error(red(e instanceof Error ? e.message : String(e)));
     process.exit(1);
+  }
+
+  // Question pool hydration (postgres-runtime-data Phase 4): the CLI lane runs
+  // the same engine, so it needs the same boot-hydrated cache in DB mode.
+  if (hasDatabaseUrl()) {
+    await hydrateQuestionCache();
   }
 
   const { ask, close: closeAsker } = createAsker();
@@ -305,9 +313,10 @@ async function main() {
 
 main()
   .then(async () => {
-    // Drain queued run-artifact writes before this short-lived process exits, so a
-    // CLI run's artifacts aren't lost to an early exit (postgres-runtime-data Phase 2).
+    // Drain queued run-artifact + question writes before this short-lived process
+    // exits, so a CLI run's data isn't lost to an early exit (postgres-runtime-data).
     await flushArtifactWrites();
+    await flushQuestionWrites();
     await closeDb();
   })
   .catch((e: unknown) => {

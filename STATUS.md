@@ -47,7 +47,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > first `/release`); delete the temporary `TONIGHT.md`; custom domain; Starter plan when demos need no-sleep.
 > **▶ Your move:** nothing — track closed. Sero is on the internet.
 
-> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ · P3 ✅ GREEN-LIT 2026-07-09 (walk waived, Carl's call) · P4 (questions) next.**
+> **🔨 [postgres-runtime-data](docs/plans/doing/postgres-runtime-data/plan.md) — move ALL app data into the database, for the live + local split. P1 ✅ · P2 ✅ · P3 ✅ · P4 (questions) 🔨 BUILT 2026-07-09, awaiting your walk.**
 > Carl's ask: "we need to move all data into the database — we will have a live and local environment."
 > **7 phases**, files keep being written until the last one (they ARE the rollback): ① foundations +
 > live/local safety catch · ② dual-write · ③ read cutover (privacy-wall SQL — strictest QA) · ④ questions ·
@@ -75,7 +75,15 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > real HTTP with `logs/` parked (member: empty list, 404 on probe, 403 on admin routes).
 > ⚠️ Standing note: until P6 imports the old runs, local lists show only runs made since P2's dual-write
 > (2026-07-08) — the ~250 older disk runs are safe on disk, just not listed yet.
-> **▶ Your move:** say "start P4" → the invented-question pool moves into the DB (UNIQUE alias = the dedup gate).
+> **P4 🔨 BUILT (2026-07-09, $0, test-first):** the invented-question pool now lives in `generated_questions`
+> — a boot-hydrated in-memory cache keeps every engine call synchronous, `UNIQUE(alias)` in the database IS
+> the "never ask the same question twice" gate, and `_runtime` run records stay out of the selection pool.
+> Reading before hydration fails loudly (no silent empty pool); server + CLI boot both hydrate. Proven free:
+> a DB-mode cassette replay ($0, real engine) landed 10 pool questions + 36 `_runtime` records with fresh
+> alias suffixes — dedup consulted the full alias universe. `npm test` **102/102** · typecheck clean.
+> **▶ Your move:** walk [phase-4.md](docs/plans/doing/postgres-runtime-data/phase-4.md) QA — the free bits are
+> done (fixtures replay clean, rows shown above); scenarios 1–2 (run 1:1s in the browser, see rows + no
+> duplicate questions) ride on runs you'd make anyway; scenario 4 is ONE paid gate case (~$0.35) — your go.
 
 > **✅ [engine-improvements](docs/plans/done/engine-improvements/plan.md) — TRACK CLOSED 2026-07-08 ($0 spend).**
 > From reading all 169 runs' manager inputs ([report](docs/reports/manager-inputs-2026-07-07.html)): a 5-item list

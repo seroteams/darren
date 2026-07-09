@@ -1,6 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { QUESTIONS_DIR } from "./paths.mts";
+import { hasDatabaseUrl } from "../db/client.ts";
+import { shouldEchoToDisk } from "../db/run-artifacts-store.ts";
+import {
+  cacheSaveQuestion,
+  cachePoolDocs,
+  cacheAliases,
+  cacheGetQuestion,
+} from "../db/questions-store.ts";
 import type { Question } from "../shared/question.types.ts";
 
 const QUESTIONS_ROOT = QUESTIONS_DIR;
@@ -254,6 +262,19 @@ function questionPath(alias: string, subdir = ""): string {
 }
 
 function saveQuestion(q: Question, { subdir = "" }: { subdir?: string } = {}): string {
+  // DB mode (postgres-runtime-data Phase 4): the cache + queued UNIQUE(alias)
+  // upsert is the store; the YAML lands on disk only as the echo, and
+  // _index.json maintenance is file-mode-only (rollback note: rebuild the index
+  // with scripts/rebuild-question-index.js before flipping reads back to files).
+  if (hasDatabaseUrl()) {
+    cacheSaveQuestion({ ...q }, subdir);
+    if (shouldEchoToDisk()) {
+      const echoDir = subdir ? path.join(QUESTIONS_ROOT, subdir) : QUESTIONS_ROOT;
+      ensureDir(echoDir);
+      fs.writeFileSync(path.join(echoDir, `${q.alias}.yaml`), stringifyYaml({ ...q }));
+    }
+    return q.alias;
+  }
   const dir = subdir ? path.join(QUESTIONS_ROOT, subdir) : QUESTIONS_ROOT;
   ensureDir(dir);
   fs.writeFileSync(path.join(dir, `${q.alias}.yaml`), stringifyYaml({ ...q }));
@@ -265,10 +286,19 @@ function loadQuestion(
   alias: string,
   { subdir = "" }: { subdir?: string } = {},
 ): Record<string, unknown> {
+  // DB mode, root pool: the cache is the store; the file read stays the
+  // fallback for echo copies of pre-cutover questions.
+  if (hasDatabaseUrl() && subdir === "") {
+    const doc = cacheGetQuestion(alias);
+    if (doc) return doc;
+  }
   return parseYaml(fs.readFileSync(questionPath(alias, subdir), "utf8"));
 }
 
 function loadDir(subdir: string): Array<Record<string, unknown>> {
+  // DB mode: the generated pool (subdir "") answers from the hydrated cache.
+  // Static content (_seed, _intro/<slug>, _archive) stays git files, read as today.
+  if (hasDatabaseUrl() && subdir === "") return cachePoolDocs();
   const dir = path.join(QUESTIONS_ROOT, subdir);
   if (!fs.existsSync(dir)) return [];
   return fs
@@ -287,8 +317,18 @@ function listAliases(subdir = ""): Set<string> {
 }
 
 function listAllAliases(): Set<string> {
+  // DB mode: the hydrated cache holds DB aliases ∪ static file aliases — the
+  // full "never reuse" set. File mode keeps the index/scan behavior.
+  if (hasDatabaseUrl()) return cacheAliases();
   const index = readIndex();
   if (index) return new Set(index.aliases);
+  return listAllAliasesScan();
+}
+
+// The disk-side alias universe (root pool echoes, every subdir incl. _runtime/
+// _archive, and the openers) — what hydration merges into the cache so a file
+// alias can never be re-minted. A superset only makes dedup more conservative.
+function listStaticAliases(): Set<string> {
   return listAllAliasesScan();
 }
 
@@ -321,6 +361,7 @@ export {
   loadDir,
   listAliases,
   listAllAliases,
+  listStaticAliases,
   rebuildQuestionIndex,
   registerAlias,
 };

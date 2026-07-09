@@ -1,6 +1,27 @@
 # Phase 4 — Questions: the invented-question pool moves to the DB
 
-**Status:** ⬜ not started (blocked by Phase 3 green light)
+**Status:** 🔨 BUILT 2026-07-09 ($0, test-first) — awaiting Carl's walk
+
+## Build results (2026-07-09)
+
+- **New [backend/db/questions-store.ts](../../../backend/db/questions-store.ts)** — the
+  boot-hydrated cache + queued `UNIQUE(alias)` / `onConflictDoNothing` upserts. Engine
+  call sites stay synchronous and unchanged; reading unhydrated in a DB-backed process
+  is a **loud error** (never a silent empty pool). Alias set = DB aliases (pool AND
+  `_runtime`) ∪ every disk alias (seed/intro/openers/echoes) — a superset only makes
+  dedup more conservative.
+- **[questions.ts](../../../backend/engine/questions.ts)** branches on `hasDatabaseUrl()`:
+  `saveQuestion` = cache + queue + YAML echo (echo-gated; `_index.json` maintenance is
+  file-mode-only — **rollback note:** run `scripts/rebuild-question-index.js` before
+  flipping reads back to files) · `loadDir("")` + `listAllAliases` + `loadQuestion` root
+  reads answer from the cache · static `_seed`/`_intro`/`_openers.json` stay git files.
+- **Boot hooks:** server `main()` (after the env guard), CLI `main()` — the smoke/gate
+  lane spawns the CLI, so it inherits hydration. Flush hooks beside the artifact flush
+  (CLI exit + server shutdown).
+- **Proven free, end-to-end:** a cassette replay in DB mode ($0, real engine) landed
+  **10 pool questions + 36 `_runtime` run records** in `generated_questions`, with fresh
+  alias suffixes proving dedup consulted the full alias universe. `npm test` **102/102**
+  (5 new store tests) · typecheck clean · file-mode replay PASS (unchanged behavior).
 
 ## Why this phase
 

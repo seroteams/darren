@@ -12,6 +12,8 @@ import { getBuildInfo } from "./build-info.ts";
 import { runMigrations } from "../db/migrate.ts";
 import { runEnvironmentGuard, EnvGuardError } from "../db/env-guard.ts";
 import { flushArtifactWrites } from "../db/run-artifacts-store.ts";
+import { hydrateQuestionCache, flushQuestionWrites } from "../db/questions-store.ts";
+import { hasDatabaseUrl } from "../db/client.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
@@ -115,6 +117,13 @@ async function main(): Promise<void> {
       process.exit(1);
     }
     throw e;
+  }
+
+  // The engine's question reads are synchronous — hydrate the DB-backed pool
+  // BEFORE any route can run a stage (postgres-runtime-data Phase 4). Reading
+  // unhydrated is a loud error by design, never a silent empty pool.
+  if (hasDatabaseUrl()) {
+    await hydrateQuestionCache();
   }
 
   startSweep();
@@ -503,8 +512,10 @@ async function main(): Promise<void> {
 
   const shutdown = (signal: string) => {
     console.log(`\n[${signal}] graceful shutdown (5s) ...`);
-    // Drain queued run-artifact writes before exit so nothing in flight is lost.
+    // Drain queued run-artifact + question writes before exit so nothing in
+    // flight is lost.
     void flushArtifactWrites();
+    void flushQuestionWrites();
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(0), 5000).unref?.();
   };
