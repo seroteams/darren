@@ -34,6 +34,7 @@ export interface UNode {
   withName?: string;          // run: who the 1:1 was with
   runs?: UNodeRun[];          // person: their finished 1:1s
   sessionStage?: string;      // session: which stage it's sitting at, in plain words
+  lastActiveAt?: number | null; // person: when their newest 1:1 was touched
   parentLabel?: string;       // part: which stage planet it belongs to
   termsCount?: number;        // lexicon: how many words it holds
   termsSample?: string;       // lexicon: a taste of the words
@@ -74,6 +75,20 @@ export function derivePipeline(flow: ReadonlyArray<readonly string[]>): Pipeline
 export const PIPELINE = derivePipeline(TOPBAR_STAGES);
 
 const GOLDEN = 2.399963229728653; // golden angle — spreads people evenly on the sphere
+
+/* ---------------------------------------------------------------- recency --- */
+// How "warm" a person planet burns: 1 = a 1:1 finished just now, halving every
+// week (the weekly 1:1 cadence), 0 = no timestamp at all. The renderer passes in
+// `now` so buildUniverse stays deterministic — time never enters the map itself.
+
+export const RECENCY_HALF_LIFE_MS = 7 * 24 * 60 * 60 * 1000;
+
+export function recencyIntensity(lastActiveAt: number | null | undefined, now: number): number {
+  if (typeof lastActiveAt !== "number" || lastActiveAt <= 0) return 0;
+  const age = now - lastActiveAt;
+  if (age <= 0) return 1; // clock skew — a future stamp reads as "just now"
+  return Math.pow(0.5, age / RECENCY_HALF_LIFE_MS);
+}
 
 const asRecord = (v: unknown): Record<string, unknown> | null =>
   v && typeof v === "object" ? (v as Record<string, unknown>) : null;
@@ -198,10 +213,12 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
     const a = pi * GOLDEN;
     const y = (people.size > 1 ? pi / (people.size - 1) - 0.5 : 0) * 320;
     const px = Math.cos(a) * 560, pz = Math.sin(a) * 560;
+    const stamps = p.runs.map((r) => r.lastSeenAt).filter((t): t is number => typeof t === "number" && t > 0);
     nodes.push({
       id: pid, kind: "person", label: p.label,
       sub: `${p.runs.length} finished 1:1${p.runs.length === 1 ? "" : "s"}`,
       x: px, y, z: pz, r: 15, runs: p.runs,
+      lastActiveAt: stamps.length ? Math.max(...stamps) : null,
     });
     edges.push({ from: "stage:briefing", to: pid, flow: 2 });
     p.runs.forEach((run, j) => {
@@ -527,6 +544,8 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
   } else if (n.kind === "person" && n.runs) {
     const roles = [...new Set(n.runs.map((r) => r.role).filter(Boolean))];
     rows.push({ k: "Finished 1:1s", v: String(n.runs.length) });
+    const lastActive = fmtWhen(n.lastActiveAt);
+    if (lastActive) rows.push({ k: "Last 1:1", v: lastActive });
     if (roles.length) rows.push({ k: roles.length === 1 ? "Role" : "Roles", v: roles.join(", ") });
     model.runs = n.runs.map((r) => ({
       id: r.id,

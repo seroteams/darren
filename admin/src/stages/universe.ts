@@ -19,7 +19,7 @@ import { icon } from "../ui/icon.js";
 import { RefreshCw } from "lucide";
 import {
   buildUniverse, filterUniverse, focusUniverse, searchUniverse,
-  diffUniverse, summarizeDiff, ringChanges, describeNode, COLOR, KIND_WORD, PIPELINE,
+  diffUniverse, summarizeDiff, ringChanges, describeNode, recencyIntensity, COLOR, KIND_WORD, PIPELINE,
 } from "./universe.model.ts";
 import type { UNode, UEdge } from "./universe.model.ts";
 
@@ -681,19 +681,25 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       .map((n) => ({ n, p: projected.get(n.id) }))
       .filter((o): o is { n: UNode; p: P3 } => !!o.p)
       .sort((a, b) => b.p.z - a.p.z);
+    const epochNow = Date.now(); // recency runs on wall-clock time, not the animation clock
     for (const { n, p } of order) {
       const col = COLOR[n.kind];
       const R = Math.max(1.5, n.r * p.s);
       // The core only breathes while something's genuinely working; otherwise it holds still.
       const pulse = n.kind === "core" && !reduceMotion && liveCount > 0 ? 1 + Math.sin(now * 0.0016) * 0.08 : 1;
+      // Person planets burn by recency: a fresh 1:1 glows full, a dormant one dims to a
+      // visible floor — never hidden. Static brightness, so reduced-motion is unaffected.
+      const heat = n.kind === "person" ? recencyIntensity(n.lastActiveAt, epochNow) : null;
+      const glowA = heat == null ? 0.55 : 0.2 + 0.35 * heat;
+      const dotA = heat == null ? 0.95 : 0.55 + 0.4 * heat;
       const glow = ctx2d.createRadialGradient(p.x, p.y, 0, p.x, p.y, R * 3 * pulse);
-      glow.addColorStop(0, `rgba(${col},0.55)`);
+      glow.addColorStop(0, `rgba(${col},${glowA.toFixed(3)})`);
       glow.addColorStop(1, `rgba(${col},0)`);
       ctx2d.fillStyle = glow;
       ctx2d.beginPath();
       ctx2d.arc(p.x, p.y, R * 3 * pulse, 0, Math.PI * 2);
       ctx2d.fill();
-      ctx2d.fillStyle = `rgba(${col},0.95)`;
+      ctx2d.fillStyle = `rgba(${col},${dotA.toFixed(3)})`;
       ctx2d.beginPath();
       ctx2d.arc(p.x, p.y, R * pulse, 0, Math.PI * 2);
       ctx2d.fill();

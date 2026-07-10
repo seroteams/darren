@@ -3,7 +3,7 @@
 // Rendering is canvas eye-candy and stays untested; the data shaping lives here.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE, derivePipeline, ringChanges } from "./universe.model.ts";
+import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE, derivePipeline, ringChanges, recencyIntensity, RECENCY_HALF_LIFE_MS } from "./universe.model.ts";
 import type { UNode } from "./universe.model.ts";
 import { TOPBAR_STAGES } from "../ui/stage-labels.js";
 
@@ -374,4 +374,49 @@ test("ringChanges: plain words for added / removed / renamed, silence when nothi
   assert.match(ringChanges(prev, [...prev, { key: "c", label: "Gamma" }]), /added: Gamma/);
   assert.match(ringChanges(prev, [prev[0]!]), /removed: Beta/);
   assert.match(ringChanges(prev, [prev[0]!, { key: "b", label: "Bravo" }]), /renamed: Beta → Bravo/);
+});
+
+// ---- Phase 1 (universe-monitoring): return-visit glow ----
+
+test("recencyIntensity: 1 just now, halves each week, 0 when there's no timestamp", () => {
+  const now = 1_800_000_000_000;
+  assert.equal(recencyIntensity(now, now), 1, "a 1:1 finished this instant burns full");
+  const half = recencyIntensity(now - RECENCY_HALF_LIFE_MS, now);
+  assert.ok(half > 0.49 && half < 0.51, `one week old ≈ 0.5, got ${half}`);
+  assert.ok(recencyIntensity(now - 4 * RECENCY_HALF_LIFE_MS, now) < 0.07, "a month dormant is nearly out");
+  assert.equal(recencyIntensity(null, now), 0);
+  assert.equal(recencyIntensity(undefined, now), 0);
+  assert.equal(recencyIntensity(0, now), 0, "epoch zero means no timestamp, not 1970");
+  assert.equal(recencyIntensity(now + 60_000, now), 1, "a clock-skewed future stamp clamps to full");
+});
+
+test("buildUniverse: a person's lastActiveAt is their newest 1:1, null when no run has a time", () => {
+  const { nodes } = buildUniverse({
+    runs: [
+      { id: "r1", ctx: { name: "Maya" }, lastSeenAt: 100 },
+      { id: "r2", ctx: { name: "Maya" }, lastSeenAt: 900 },
+      { id: "r3", ctx: { name: "Maya" } },
+      { id: "r4", ctx: { name: "Ola" } },
+    ],
+  });
+  const maya = nodes.find((n) => n.id === "person:maya")!;
+  assert.equal(maya.lastActiveAt, 900, "newest run wins");
+  const ola = nodes.find((n) => n.id === "person:ola")!;
+  assert.equal(ola.lastActiveAt, null, "no timestamps -> honestly unknown, not 0");
+});
+
+test("describeNode: a person shows when their last 1:1 was; the row vanishes when unknown", () => {
+  const person: UNode = {
+    id: "person:maya", kind: "person", label: "Maya", sub: "1 finished 1:1", x: 0, y: 0, z: 0, r: 15,
+    lastActiveAt: 900,
+    runs: [{ id: "r1", label: "One", role: "Designer", meetingType: "", lastSeenAt: 900, rating: null }],
+  };
+  const m = describeNode(person, at);
+  assert.deepEqual(m.rows, [
+    { k: "Finished 1:1s", v: "1" },
+    { k: "Last 1:1", v: "t900" },
+    { k: "Role", v: "Designer" },
+  ]);
+  const unknown = describeNode({ ...person, lastActiveAt: null }, at);
+  assert.ok(!unknown.rows.some((r) => r.k === "Last 1:1"), "no timestamp -> no row");
 });
