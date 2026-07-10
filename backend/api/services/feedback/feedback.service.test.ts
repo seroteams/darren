@@ -5,17 +5,20 @@ import type { FeedbackRepo, FeedbackRecord, FeedbackNoteRow } from "./feedback.r
 
 // An in-memory repo proves the service logic is storage-agnostic — no real database
 // in the test (the Phase 004 injected-boundary seam; mirrors error-log.service.test.ts).
-function fakeRepo(rows: FeedbackNoteRow[] = []): { repo: FeedbackRepo; records: FeedbackRecord[]; limits: number[]; deleted: string[] } {
+function fakeRepo(rows: FeedbackNoteRow[] = []): { repo: FeedbackRepo; records: FeedbackRecord[]; verdicts: FeedbackRecord[]; limits: number[]; deleted: string[] } {
   const records: FeedbackRecord[] = [];
+  const verdicts: FeedbackRecord[] = [];
   const limits: number[] = [];
   const deleted: string[] = [];
   return {
     repo: {
       append: async (r) => { records.push(r); },
+      upsertVerdict: async (r) => { verdicts.push(r); },
       listRecent: async (limit) => { limits.push(limit); return rows; },
       remove: async (id) => { deleted.push(id); return rows.some((r) => r.id === id); },
     },
     records,
+    verdicts,
     limits,
     deleted,
   };
@@ -74,6 +77,8 @@ test("listRecent maps rows to views with ISO dates and wraps them in { notes }",
     company: "Acme",
     page: "/team",
     message: "love it",
+    runId: null,
+    verdict: null,
     createdAt: new Date("2026-07-05T10:00:00.000Z"),
   };
   const { repo } = fakeRepo([row]);
@@ -86,8 +91,74 @@ test("listRecent maps rows to views with ISO dates and wraps them in { notes }",
     company: "Acme",
     page: "/team",
     message: "love it",
+    runId: null,
+    verdict: null,
     createdAt: "2026-07-05T10:00:00.000Z",
   });
+});
+
+// --- validation-kit Phase 3: the briefing verdict tap ----------------------
+// One question at the moment of value ("Would you run this 1:1 differently now?"),
+// stored per run — a tap upserts, so changing the answer or adding the comment
+// later lands on the SAME row, never a duplicate.
+
+test("submitVerdict upserts a yes/no tied to the run, comment optional", async () => {
+  const { repo, verdicts, records } = fakeRepo();
+  const out = await createFeedbackService(repo).submitVerdict(
+    { runId: "run-1", verdict: "yes" }, ID, AT,
+  );
+  assert.deepEqual(out, { ok: true });
+  assert.equal(records.length, 0); // never mixed into the plain-note path
+  assert.equal(verdicts.length, 1);
+  assert.equal(verdicts[0]?.runId, "run-1");
+  assert.equal(verdicts[0]?.verdict, "yes");
+  assert.equal(verdicts[0]?.message, ""); // no comment yet — still a valid row
+  assert.equal(verdicts[0]?.at, AT);
+  assert.equal(verdicts[0]?.userId, "u1");
+});
+
+test("submitVerdict trims and caps the optional comment", async () => {
+  const { repo, verdicts } = fakeRepo();
+  await createFeedbackService(repo).submitVerdict(
+    { runId: "run-1", verdict: "no", message: "  " + "x".repeat(5000) }, ID, AT,
+  );
+  assert.equal(verdicts[0]?.verdict, "no");
+  assert.equal(verdicts[0]?.message.length, 2000);
+});
+
+test("submitVerdict rejects anything but yes/no and writes nothing", async () => {
+  const { repo, verdicts } = fakeRepo();
+  const service = createFeedbackService(repo);
+  await assert.rejects(() => service.submitVerdict({ runId: "r", verdict: "maybe" }, ID, AT), /yes or no/i);
+  await assert.rejects(() => service.submitVerdict({ runId: "r", verdict: 1 }, ID, AT), /yes or no/i);
+  assert.equal(verdicts.length, 0);
+});
+
+test("submitVerdict rejects a missing run id and writes nothing", async () => {
+  const { repo, verdicts } = fakeRepo();
+  await assert.rejects(() => createFeedbackService(repo).submitVerdict({ runId: "  ", verdict: "yes" }, ID, AT), /run/i);
+  assert.equal(verdicts.length, 0);
+});
+
+test("submitVerdict accepts an anonymous caller — a guest's tap still counts", async () => {
+  const { repo, verdicts } = fakeRepo();
+  await createFeedbackService(repo).submitVerdict(
+    { runId: "run-g", verdict: "yes" }, { userId: null, orgId: null }, AT,
+  );
+  assert.equal(verdicts[0]?.userId, null);
+  assert.equal(verdicts[0]?.runId, "run-g");
+});
+
+test("listRecent passes a verdict row's runId and verdict through to the view", async () => {
+  const row: FeedbackNoteRow = {
+    id: "f2", email: null, userName: null, company: null, page: null,
+    message: "", runId: "run-1", verdict: "yes",
+    createdAt: new Date("2026-07-05T10:00:00.000Z"),
+  };
+  const { repo } = fakeRepo([row]);
+  const out = await createFeedbackService(repo).listRecent();
+  assert.equal(out.notes[0]?.runId, "run-1");
+  assert.equal(out.notes[0]?.verdict, "yes");
 });
 
 test("listRecent asks the repo for a bounded number of rows and passes an empty list through", async () => {
@@ -101,7 +172,7 @@ test("listRecent asks the repo for a bounded number of rows and passes an empty 
 test("remove deletes an existing note and returns its id", async () => {
   const row: FeedbackNoteRow = {
     id: "f1", email: null, userName: null, company: null, page: null,
-    message: "junk", createdAt: new Date(AT),
+    message: "junk", runId: null, verdict: null, createdAt: new Date(AT),
   };
   const { repo, deleted } = fakeRepo([row]);
   const out = await createFeedbackService(repo).remove("f1");

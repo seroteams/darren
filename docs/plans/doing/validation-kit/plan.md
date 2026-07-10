@@ -26,14 +26,14 @@
 |---|---|---|---|
 | 1 | To-do page as live checklist | This track's phases visible + checkable on /tasks; done/stale swept | ✅ |
 | 2 | Return-signal tracking | User management gains first-run, gap days + came-back badge per manager | ✅ |
-| 3 | Briefing feedback tap | One-question tap on the live briefing, stored + viewable | ⬜ |
+| 3 | Briefing feedback tap | One-question tap on the live briefing, stored + viewable | ✅ |
 | 4 | New-client first-run | Guided first prep for a fresh manager account | ⬜ |
 | 5 | Phone + copy pass | Customer flow comfortable on mobile; one consistent vocabulary | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phases 1 + 2 ✅ green-lit by Carl 2026-07-10** (each walked on localhost on a verified-fresh API). P1: /tasks renders every active plan as a live ⬜/🔨/✅ checklist from the heartbeat. P2: User management answers the validation question per manager — first run, gap days, "came back" badge (2nd prep ≤ 14 days), internal accounts labelled; DESTINATION-checked against a direct Neon query. All free: 111/111 tests + typecheck clean, $0. **Phase 3 (briefing feedback tap) is next** — it touches `server.ts`/`shared/api.js` and needs a new table/columns + migration (`feedback_notes` has no run link — schema.ts:321-336).
+**Phases 1–3 ✅ closed 2026-07-10.** P1 + P2 walked by Carl on a verified-fresh API. **P3 closed with Carl's walk WAIVED** (his repeated go-ahead; artifact checks showed no tap row — the verification on record is the agent's real-guest browser walk + a DESTINATION SQL check: one row per run, upsert proven, inbox rendering confirmed). P1: /tasks live checklist · P2: return-signal view (came-back badge) · P3: one-tap briefing verdict → `feedback_notes` (migration 0013), visible in the Feedback inbox with a run reference. All $0, 113/113 tests + both typechecks clean. ⚠️ Honest residual: no real manager tap exists yet — the first live prep that taps the card is the true end-to-end proof. **Phase 4 (new-client first-run guidance) is next** — hosted on intake (zero-run managers never see Home, `main.js:307-318`).
 Baseline for this track = **free checks only** (`npm test` + `npm run typecheck`): no phase touches the engine or prompts, so no paid gate run is needed as baseline — don't spend one. (Two known environmental test fails in fresh worktrees: test-customer-serving, test-persona-bench.)
 
 ## Carl's own moves (not code, not mine)

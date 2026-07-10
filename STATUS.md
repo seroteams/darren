@@ -23,17 +23,19 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> **🔨 [validation-kit](docs/plans/doing/validation-kit/plan.md) — the build that proves managers come back. P1 + P2 ✅ green-lit + committed 2026-07-10 · P3 next.**
+> **🔨 [validation-kit](docs/plans/doing/validation-kit/plan.md) — the build that proves managers come back. P1–P3 ✅ closed 2026-07-10 · P4 next.**
 > We're formally at **VALIDATION STAGE** (YC-committee audit 2026-07-09: product 8/10, business 3/10 — zero external
-> users). This track builds the corridor-test kit: **P1 ✅** to-do page as live checklist (/tasks renders every
-> active plan as a live ⬜/🔨/✅ checklist from the heartbeat) · **P2 ✅** return-signal in User management — each
-> manager's row now answers the validation question in 5 seconds: first run, gap days, mint "came back" badge
-> (2nd prep ≤ 14 days), internal accounts labelled; DESTINATION-checked against a direct Neon query (Carl walked
-> both on a verified-fresh API; test-first, 111/111 + typecheck, $0) · **P3** one-tap feedback on the live
-> briefing (needs a run-linked feedback store + migration) · **P4** first-run guidance (on intake — zero-run
-> managers never see Home) · **P5** phone + copy pass. No nudge features anywhere (pass bar = *unprompted*
-> return). P3 touches `server.ts`/`shared/api.js` — sequential, worktree if the tree is busy.
-> **▶ Your move:** say "build validation-kit Phase 3". Separately, yours alone: name the 3
+> users). This track builds the corridor-test kit: **P1 ✅** to-do page as live checklist · **P2 ✅** return-signal
+> in User management (first run, gap days, mint "came back" badge, internal accounts labelled — DESTINATION-checked
+> against Neon) · **P3 ✅** one-tap verdict on the live briefing ("Would you run this 1:1 differently now?" —
+> guests included, upserted per run into `feedback_notes` via migration 0013, visible in the Feedback inbox with a
+> run reference). **P3's walk was WAIVED** (Carl's repeated go; verification = agent's real-guest browser walk +
+> direct-SQL DESTINATION check). ⚠️ Honest residual: no real manager tap yet — the first live prep that answers it
+> is the true end-to-end proof. ⚠️ The inbox-render hunks ride **uncommitted** in `admin-feedback.ts` +
+> `feedback-inbox.css` (a parallel session's live redesign owns those files; committing would sweep it).
+> All $0 so far, 113/113 tests + both typechecks. **P4** first-run guidance (on intake — zero-run managers never
+> see Home) · **P5** phone + copy pass. No nudge features anywhere (pass bar = *unprompted* return).
+> **▶ Your move:** say "build validation-kit Phase 4". Separately, yours alone: name the 3
 > corridor managers + flip Render to the paid tier.
 
 > **✅ [engine-hardening](docs/plans/done/engine-hardening/plan.md) — TRACK CLOSED 2026-07-10: all 3 phases green-lit in one sitting, $0 total. Robustness wins mined from the old-Sero RUNNER.md — invisible to managers, validation metric untouched.**
@@ -258,4 +260,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-10 (engine-hardening TRACK CLOSED — all 3 phases green-lit: latency capture, concurrency cap + breaker, positive grounding checks; $0 total)
+- Last updated: 2026-07-10 (validation-kit P1–P3 ✅ — live /tasks checklist, return-signal view, briefing verdict tap (P3 walk waived); P4 first-run guidance next. Earlier today: engine-hardening TRACK CLOSED, all 3 phases, $0)

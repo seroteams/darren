@@ -1,7 +1,7 @@
 import { STAGES, isInternalAdmin } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
-import { postVerdict, rateMyRun, getMyRun } from "../../../shared/api.js";
+import { postVerdict, rateMyRun, getMyRun, submitRunVerdict } from "../../../shared/api.js";
 import { markRunForClaim } from "../guest.ts";
 import { escapeCopy as escape } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
@@ -125,6 +125,19 @@ export async function mount(root, { store, setState, resetSession }) {
       </section>` : ""}
 
       <footer class="briefing-finish pt-2 l-stack l-stack--2">
+        ${store.scripted ? "" : `
+        <div class="card-flat space-y-2 js-run-verdict">
+          <div class="eyebrow" id="run-verdict-label">Would you run this 1:1 differently now?</div>
+          <div class="l-cluster l-cluster--2 items-center" role="group" aria-labelledby="run-verdict-label">
+            <button type="button" class="btn btn--ghost btn--sm js-rv" data-v="yes" aria-pressed="false">Yes</button>
+            <button type="button" class="btn btn--ghost btn--sm js-rv" data-v="no" aria-pressed="false">No</button>
+            <span class="js-rv-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
+          </div>
+          <div class="l-cluster l-cluster--2 items-center js-rv-more hidden">
+            <input class="input js-rv-note" type="text" maxlength="200" autocomplete="off" placeholder="One line on why — optional" aria-label="Optional comment" />
+            <button type="button" class="btn btn--ghost btn--sm js-rv-send">Add</button>
+          </div>
+        </div>`}
         ${!store.user ? `
         <div class="card-flat space-y-3 js-guest-save">
           <div class="eyebrow">Want to keep this 1:1?</div>
@@ -392,6 +405,42 @@ export async function mount(root, { store, setState, resetSession }) {
   root.querySelector(".js-copy-all-briefing").addEventListener("click", () => {
     copyFullBriefing(b, store.ctx, root.querySelector(".js-copy-all-briefing"));
   });
+
+  // Briefing verdict tap (validation-kit Phase 3): one yes/no at the moment of value,
+  // guests included. The tap saves immediately (the answer is never lost to a closed
+  // tab); the optional comment then attaches to the same row. Failures are soft and
+  // ignoring the card costs nothing — it never nags, blocks or re-asks.
+  const rvCard = root.querySelector(".js-run-verdict");
+  if (rvCard) {
+    const rvBtns = [...rvCard.querySelectorAll(".js-rv")];
+    const rvStatus = rvCard.querySelector(".js-rv-status");
+    const rvMore = rvCard.querySelector(".js-rv-more");
+    const rvNote = rvCard.querySelector(".js-rv-note");
+    let rvChosen = null;
+    const rvSave = async (message) => {
+      try {
+        await submitRunVerdict(store.sessionId, rvChosen, message || "");
+        rvStatus.textContent = message ? "Noted — thanks!" : "Thanks!";
+      } catch {
+        rvStatus.textContent = "Couldn't save — fine to skip.";
+      }
+    };
+    rvBtns.forEach((btn) => btn.addEventListener("click", () => {
+      rvChosen = btn.dataset.v;
+      rvBtns.forEach((x) => {
+        x.classList.toggle("is-active", x === btn);
+        x.setAttribute("aria-pressed", String(x === btn));
+      });
+      rvMore.classList.remove("hidden");
+      rvSave(rvNote.value.trim());
+    }));
+    rvCard.querySelector(".js-rv-send").addEventListener("click", () => {
+      if (rvChosen) rvSave(rvNote.value.trim());
+    });
+    rvNote.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && rvChosen) { e.preventDefault(); rvSave(rvNote.value.trim()); }
+    });
+  }
 
   // Guest save card (guest-run Phase 3): a guest has no rating, no Finish, no QA
   // tools — just "keep this 1:1?". Mark the finished run before leaving for

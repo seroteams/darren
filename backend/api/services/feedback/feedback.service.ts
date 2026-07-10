@@ -18,6 +18,16 @@ export interface FeedbackInput {
   page?: unknown;
 }
 
+/** The briefing verdict tap (validation-kit Phase 3): "Would you run this 1:1
+ *  differently now?" — yes/no, tied to the run, optional one-line comment. */
+export interface VerdictInput {
+  runId: unknown;
+  verdict: unknown;
+  message?: unknown;
+}
+
+const MAX_RUN_ID_LEN = 100;
+
 export interface FeedbackIdentity {
   userId: string | null;
   orgId: string | null;
@@ -31,11 +41,16 @@ export interface FeedbackNoteView {
   company: string | null;
   page: string | null;
   message: string;
+  runId: string | null;
+  verdict: string | null;
   createdAt: string;
 }
 
 export interface FeedbackService {
   submit(input: FeedbackInput, identity: FeedbackIdentity, at: string): Promise<{ ok: true }>;
+  /** Record a briefing verdict tap — one row per run (an upsert: a re-tap or a
+   *  late comment updates the row). Anonymous callers allowed: a guest's tap counts. */
+  submitVerdict(input: VerdictInput, identity: FeedbackIdentity, at: string): Promise<{ ok: true }>;
   /** The most recent notes across every company, newest first. */
   listRecent(): Promise<{ notes: FeedbackNoteView[] }>;
   /** Permanently delete one note. 400 on a missing id, 404 when nothing matches. */
@@ -62,6 +77,23 @@ export function createFeedbackService(repo: FeedbackRepo): FeedbackService {
       if (page) record.page = page.slice(0, MAX_PAGE_LEN);
 
       await repo.append(record);
+      return { ok: true };
+    },
+    async submitVerdict(input, identity, at) {
+      const verdict = input.verdict === "yes" || input.verdict === "no" ? input.verdict : null;
+      if (!verdict) throw Object.assign(new Error("The verdict must be yes or no."), { status: 400 });
+      const runId = typeof input.runId === "string" ? input.runId.trim() : "";
+      if (!runId) throw Object.assign(new Error("A run id is required."), { status: 400 });
+      const comment = typeof input.message === "string" ? input.message.trim() : "";
+
+      await repo.upsertVerdict({
+        at,
+        userId: identity.userId,
+        orgId: identity.orgId,
+        message: comment.slice(0, MAX_LEN), // "" on a bare tap — still a valid row
+        runId: runId.slice(0, MAX_RUN_ID_LEN),
+        verdict,
+      });
       return { ok: true };
     },
     async listRecent() {

@@ -9,6 +9,19 @@
 ---
 
 ## Where we are now
+- **2026-07-10** — **validation-kit P3 ✅ closed (walk waived) — every live briefing now asks its one question.**
+  "Would you run this 1:1 differently now?" — Yes/No + optional line, saved on tap, guests included (the write
+  route deliberately has no login wall, mirroring error reports), **upserted one-row-per-run** so re-taps and late
+  comments can't pile up rows; migration 0013 added `run_id`/`verdict` to `feedback_notes` (one store, one inbox).
+  Test-first (6 red→green), $0. **Two lessons:** ① the artifact check earned its keep *three times in one close* —
+  Carl's rapid "A"s were each checked against reality (API process age + a DB row query), caught that no walk had
+  happened, and the close honestly records a WAIVED walk instead of a fictional one. ② reaching a live briefing
+  without a paid run is possible: clone a finished session ownerless in SQL (org_id column keeps its placeholder —
+  NOT NULL; ownership truth lives in the state jsonb) and guest-resume it via localStorage — but mind that
+  `state.mode === "scripted"` hides customer-only UI, and the API's in-memory session map loads at BOOT, so
+  DB-inserted rows need a restart + fresh `lastSeenAt` to survive the TTL sweep. ⚠️ Residual: the inbox-render
+  hunks ride uncommitted in `admin-feedback.ts`/`feedback-inbox.css` — a parallel session's live redesign owns
+  those files (safe-commit); fold them into that session's commit or a quiet-tree follow-up.
 - **2026-07-10** — **engine-hardening P3 ✅ green-lit — positive briefing-grounding checks (TRACK CLOSED).**
   New `runManagerBriefingGroundingChecks(briefing, ctx)` in golden-checks.ts: warn-level positive
   assertions (names the person / cites real data) to complement the file's banned-phrase gates —

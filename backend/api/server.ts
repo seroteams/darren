@@ -168,6 +168,13 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return feedback.submit(c);
   }));
+  // briefing verdict tap (validation-kit Phase 3) — one yes/no per run at the moment
+  // of value. No login wall (a guest's tap counts); origin-guarded like the error
+  // reports, and the service upserts so re-taps can't pile up rows.
+  router.add("POST", "/api/v1/feedback/verdict", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return feedback.submitVerdict(c);
+  }));
 
   // client error reports (error-log Phase 3) — the app POSTs a browser crash / failed load
   // here so it lands in the same error_logs table (source "browser"). Not superadmin-gated

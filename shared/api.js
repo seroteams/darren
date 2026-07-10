@@ -157,6 +157,14 @@ export async function submitFeedback(message, page) {
   return postJson("/api/v1/feedback", { message, page });
 }
 
+// Briefing verdict tap (validation-kit Phase 3): the one-tap "Would you run this 1:1
+// differently now?" answer, tied to the run. No login needed (a guest's tap counts);
+// re-sending for the same run updates that run's row (a late comment attaches to the
+// same tap). Returns { ok: true }.
+export async function submitRunVerdict(runId, verdict, message) {
+  return postJson("/api/v1/feedback/verdict", { runId, verdict, message });
+}
+
 // Tasks board (Phase 3): run ONE free, offline check by id ("tests" | "replay").
 // The server allow-lists these and refuses anything paid. Returns { ok, summary, output }.
 export async function runFreeCheck(check) {
