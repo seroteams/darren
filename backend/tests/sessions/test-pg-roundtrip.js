@@ -38,6 +38,8 @@ const introQueue = [
   const session = createWebSession(ctx, introQueue);
   const id = session.id;
   const dir = session.dir;
+  let expiredId = null;
+  let expiredDir = null;
 
   // Advance to mid-interview, same as the disk-resume test.
   session.focusPointsResult = { focus_points: [{ id: "x", label: "X" }] };
@@ -75,16 +77,32 @@ const introQueue = [
 
     // Boot-restore proof: the server's startup path repopulates the live map FROM
     // Postgres — this is what makes a session survive a real server restart.
+    // An expired session (older than the TTL) must NOT come back — the SELECT is
+    // pre-narrowed in SQL on last_seen_at (2026-07-10: whole-table reads on every
+    // restart blew the Neon transfer quota), with the JS state check as the wall.
+    const expired = createWebSession(ctx, introQueue);
+    expiredId = expired.id;
+    expiredDir = expired.dir;
+    expired.lastSeenAt = Date.now() - 2 * 60 * 60 * 1000; // 2h old vs the 1h TTL below
+    await upsertSession(expired);
+    dropSession(expiredId);
+
     await loadSessionsFromDb(sessions, 60 * 60 * 1000);
     check("boot-restore loads the session from Postgres into the live map", () => {
       assert.ok(sessions.has(id));
       assert.strictEqual(sessions.get(id).turn, 1);
     });
+    check("boot-restore leaves the expired session behind", () => assert.ok(!sessions.has(expiredId)));
   } finally {
-    // Clean up: remove the row from the DB, the temp run folder, and close the pool.
+    // Clean up: remove the rows from the DB, the temp run folders, and close the pool.
     try { await deleteSession(id); } catch {}
     dropSession(id);
     try { fs.rmSync(dir, { recursive: true, force: true }); } catch {}
+    if (expiredId) {
+      try { await deleteSession(expiredId); } catch {}
+      dropSession(expiredId);
+      try { fs.rmSync(expiredDir, { recursive: true, force: true }); } catch {}
+    }
     await closeDb();
   }
 

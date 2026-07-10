@@ -8,7 +8,7 @@
 // store the identical shape. The on-disk run dir is kept (log_dir) for the
 // log-only artifacts that stay on disk.
 
-import { eq } from "drizzle-orm";
+import { eq, gte } from "drizzle-orm";
 import { getDb, hasDatabaseUrl } from "./client.ts";
 import { organizations, sessions as sessionsTable } from "./schema.ts";
 import { serialize, hydrateSession } from "../api/session-persistence.ts";
@@ -149,12 +149,22 @@ export async function deleteSession(key: string): Promise<void> {
   await getDb().delete(sessionsTable).where(eq(sessionsTable.sessionKey, key));
 }
 
+/** The boot-restore SELECT, pre-narrowed in SQL on the indexed last_seen_at
+ *  column so expired rows (with their big state jsonb) never leave the database.
+ *  (Regression 2026-07-10: selecting the whole table on every API restart moved
+ *  ~8 GB of Neon network transfer in one day.) */
+export function liveSessionsQuery(cutoff: number) {
+  return getDb().select().from(sessionsTable).where(gte(sessionsTable.lastSeenAt, cutoff));
+}
+
 /** Boot-restore: load non-expired sessions from Postgres into the live Map, so a
  *  session survives a server restart (loaded from the DB, not a file). Returns the
  *  count restored. */
 export async function loadSessionsFromDb(into: Map<string, Session>, ttlMs: number): Promise<number> {
-  const rows = await getDb().select().from(sessionsTable);
   const cutoff = Date.now() - ttlMs;
+  // SQL pre-narrows on the denormalized last_seen_at; the state.lastSeenAt check
+  // below stays the authoritative wall (state is the authoritative copy).
+  const rows = await liveSessionsQuery(cutoff);
   let restored = 0;
   for (const row of rows) {
     const state = row.state as PersistedSession;

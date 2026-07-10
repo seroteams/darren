@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createWriteQueue, queueSessionUpsert, flushSessionWrites } from "./sessions-store.ts";
+import { createWriteQueue, queueSessionUpsert, flushSessionWrites, liveSessionsQuery } from "./sessions-store.ts";
+import { closeDb } from "./client.ts";
 import type { Session } from "../shared/session.types.ts";
 
 // Regression: 2026-07-08 — the session mirror fired one unbounded upsert per
@@ -60,6 +61,26 @@ test("write queue: a failed write is reported, swallowed, and later writes still
   await q.flush();
   assert.deepEqual(written, [2]);
   assert.deepEqual(errors, ["s1"]);
+});
+
+// Regression: 2026-07-10 — boot-restore SELECTed the WHOLE sessions table (every
+// big state jsonb) and only TTL-filtered in JS; repeated API restarts moved ~8 GB
+// of Neon network transfer in one day. The TTL cutoff must pre-narrow in SQL on
+// the indexed last_seen_at column (the JS check on state.lastSeenAt stays the
+// authoritative wall).
+test("boot-restore query pushes the TTL cutoff into SQL on last_seen_at", async () => {
+  const saved = process.env.DATABASE_URL;
+  // Query BUILDING only — the pool is lazy and never connects.
+  process.env.DATABASE_URL = "postgres://unused:unused@localhost:5432/unused";
+  try {
+    const { sql, params } = liveSessionsQuery(1234).toSQL();
+    assert.match(sql, /"last_seen_at" >= \$1/);
+    assert.deepEqual(params, [1234]);
+  } finally {
+    if (saved === undefined) delete process.env.DATABASE_URL;
+    else process.env.DATABASE_URL = saved;
+    await closeDb();
+  }
 });
 
 test("queueSessionUpsert: a no-op without DATABASE_URL, and flush resolves", async () => {
