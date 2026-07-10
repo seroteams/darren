@@ -62,12 +62,15 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   el.appendChild(row);
 
   // Guest-only brand mark, first thing on the row (far top-left). Hidden by
-  // default; render() shows it only when there's no signed-in user.
-  const brand = document.createElement("span");
+  // default; render() shows it only when there's no signed-in user. Clicking it
+  // sends the guest to the login screen.
+  const brand = document.createElement("button");
+  brand.type = "button";
   brand.className = "session-topbar__brand";
-  brand.setAttribute("aria-label", "Sero");
+  brand.setAttribute("aria-label", "Sero — go to login");
   brand.hidden = true;
   brand.innerHTML = `<span class="session-topbar__brand-icon">${LOGO}</span><span class="session-topbar__brand-word">Sero</span>`;
+  brand.addEventListener("click", () => setState && setState({ stage: STAGES.LOGIN }));
   row.appendChild(brand);
 
   const sessionBtn = document.createElement("button");

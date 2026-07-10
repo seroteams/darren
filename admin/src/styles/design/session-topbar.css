@@ -29,6 +29,18 @@
   align-items: center;
   gap: 0.5rem;
   margin-right: 1rem;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+.session-topbar__brand:hover {
+  background: var(--color-bg);
+}
+.session-topbar__brand:focus-visible {
+  outline: none;
+  box-shadow: var(--sero-shadow-focus);
 }
 .session-topbar__brand[hidden] {
   display: none;
