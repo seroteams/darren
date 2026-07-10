@@ -1,5 +1,5 @@
 // Tests for the CUSTOMER router's audience walls (frontend-admin-split Phase 3) —
-// the guest front door, the guest run lane, and the member-view: only-runs set.
+// the guest front door, the guest run lane, and the member-view: about-me only set.
 // Mirrors admin/src/router.test.ts, which asserts the admin side of the split.
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -32,10 +32,11 @@ test("isGuestStage: a guest may take a run — intake + the run flow, nothing el
   }
 });
 
-test("member-view: only-runs — a member's destinations are their past 1:1s + shared pages", () => {
-  assert.equal(isMemberStage(STAGES.RUNS), true);
+test("member-view: about-me only — a member's destinations are the 1:1s about them + shared pages", () => {
+  assert.equal(isMemberStage(STAGES.MEMBER_HOME), true);
   assert.equal(isMemberStage(STAGES.RUN_DETAIL), true);
-  for (const s of [STAGES.TEAM, STAGES.MEMBER_HOME, STAGES.PERSON_DETAIL, STAGES.START, STAGES.INTAKE]) {
+  // The manager RUNS stage (authored runs + private ratings) is NOT a member destination.
+  for (const s of [STAGES.RUNS, STAGES.TEAM, STAGES.PERSON_DETAIL, STAGES.START, STAGES.INTAKE]) {
     assert.equal(isMemberStage(s), false, `${s} is not a member destination`);
   }
   for (const s of [STAGES.PRIVACY, STAGES.ABOUT, STAGES.FEEDBACK]) {

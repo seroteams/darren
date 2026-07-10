@@ -34,9 +34,10 @@ const ICON = {
 // One row per destination, tagged by audience: `mgr` = manager rail, `member` =
 // plain-member rail. render() shows exactly one audience's rows.
 const LINKS = [
-  // Member app — Past 1:1s only (member-view: only-runs). A member can't start or run a
-  // 1:1, so their rail is a single row: their own past 1:1s. Shown only to members.
-  { key: "runs", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
+  // Member app — Past 1:1s only (member-view: about-me only). A member can't start or run a
+  // 1:1, so their rail is a single row: the 1:1s their manager prepped ABOUT them
+  // (MEMBER_HOME → about-me, list-only). Shown only to members.
+  { key: "runs", label: "Past 1:1s", stage: STAGES.MEMBER_HOME, icon: ICON.runs, member: true },
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
@@ -123,7 +124,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   `;
 
   const onNav = {
-    runs: () => setState && setState({ stage: STAGES.RUNS }),
+    runs: () => setState && setState({ stage: STAGES.MEMBER_HOME }),
     mghome: () => setState && setState({ stage: STAGES.START }),
     mgnew: () => {
       if (resetSession) resetSession();
@@ -157,7 +158,8 @@ export function createAppNav({ setState, resetSession } = {}) {
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: "mghome",
     [STAGES.TEAM]: "mgteam",
-    [STAGES.RUNS]: ["runs", "mgruns"],
+    [STAGES.MEMBER_HOME]: "runs",
+    [STAGES.RUNS]: "mgruns",
     [STAGES.INTAKE]: "mgnew",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",

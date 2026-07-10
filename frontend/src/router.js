@@ -51,10 +51,13 @@ const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
   STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING, STAGES.RUN_DEBRIEF]);
 export const isFlowStage = (stage) => FLOW.has(stage);
 
-// The plain-member destinations (member-view: only-runs): a member can view their own
-// past 1:1s and open one — nothing else. They can't start or run a 1:1, and Home/Team are
-// gone from their app. Used by boot + back/forward to honor these deep links, bounce the rest.
-const MEMBER_ONLY = new Set([STAGES.RUNS, STAGES.RUN_DETAIL]);
+// The plain-member destinations (member-view: about-me only): a member sees ONLY the
+// list of 1:1s their manager prepped ABOUT them (MEMBER_HOME → getRunsAboutMe, list-only,
+// no notes/briefing/ratings — the no-inference ruling). The manager RUNS stage (authored
+// runs + private ratings) is deliberately NOT reachable by a member. RUN_DETAIL stays for
+// their own runs only — owner-fenced server-side, so it 404s anything not theirs.
+// Used by boot + back/forward to honor these deep links, bounce the rest.
+const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.RUN_DETAIL]);
 export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 
 // Any-audience content pages: the privacy note, the About one-pager, Feedback.

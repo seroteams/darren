@@ -4,7 +4,7 @@
 // re-opening a run is PG2, rating stars are PG3, and the "Past 1:1s" relabel is PG4.
 
 import { STAGES, store, isAdmin } from "../state.js";
-import { listMyRuns } from "../../../shared/api.js";
+import { listMyRuns, getRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
@@ -19,6 +19,28 @@ type MyRun = {
   lastSeenAt: number;
   rating: { stars: number } | null;
 };
+
+// The member read shape (/api/v1/runs/about-me → runs.service aboutMe): the 1:1s the caller's
+// manager prepped ABOUT them. LIST-ONLY by ruling — meeting type + who ran it + when, and
+// NOTHING else (no name/role, no notes, no briefing, no rating). A member must never see a
+// colleague's run or a manager's private data, so this stage renders these rows read-only
+// and unclickable — there's no run detail to open.
+type AboutRun = {
+  id: string;
+  meetingType: string;
+  lastSeenAt: number;
+  completedAt: number | null;
+  managerName: string | null;
+};
+
+// One about-me row → "meeting type · with <manager> · when". Every value escaped.
+function aboutLine(r: AboutRun): string {
+  const bits: string[] = [r.meetingType || "1:1"];
+  if (r.managerName) bits.push(`with ${r.managerName}`);
+  const when = relTime(r.lastSeenAt);
+  if (when) bits.push(when);
+  return escapeHtml(bits.join(" · "));
+}
 
 // Local one-use time-ago (mirrors compare.js) — four lines, so no shared util for one caller.
 // One run → "who · role, seniority · meeting · when", falling back to the endpoint's
@@ -35,10 +57,13 @@ function rowLine(r: MyRun): string {
 }
 
 export const mount: Mount = async (root, { setState }) => {
+  // A plain member sees the list-only "about me" view (privacy ruling); a manager sees
+  // their own authored prep sessions with ratings. The two paths diverge in load().
+  const memberView = !isAdmin(store.user);
   const header = `
     <header class="page-header">
       <h1 class="h1">Past 1:1s</h1>
-      <div class="text-ink-dim">Your past prep sessions.</div>
+      <div class="text-ink-dim">${memberView ? "The 1:1s your manager prepped about you." : "Your past prep sessions."}</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
 
@@ -83,6 +108,33 @@ export const mount: Mount = async (root, { setState }) => {
 
   const load = async () => {
     root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading your 1:1s…</p></section>`);
+
+    // Member path: the list-only "about me" runs — never listMyRuns (which is authored-by-me
+    // and carries ratings). Rows are plain, unclickable: a member has no run detail to open.
+    if (memberView) {
+      let runs: AboutRun[];
+      try {
+        const res = await getRunsAboutMe();
+        runs = Array.isArray(res?.runs) ? (res.runs as AboutRun[]) : [];
+      } catch {
+        root.innerHTML = shell(errorCard);
+        wire();
+        return;
+      }
+      if (runs.length === 0) {
+        root.innerHTML = shell(emptyCard);
+        wire();
+        return;
+      }
+      const rows = runs
+        .slice()
+        .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0))
+        .map((r) => `<div class="card-flat runs-list__row"><span class="text-sm">${aboutLine(r)}</span></div>`)
+        .join("");
+      root.innerHTML = shell(`<section class="l-stack l-stack--2">${rows}</section>`);
+      wire();
+      return;
+    }
 
     let runs: MyRun[];
     try {

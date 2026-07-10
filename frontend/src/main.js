@@ -40,7 +40,7 @@ const loaders = {
   INTAKE:          () => import("../../admin/src/stages/intake.js"),
   ONEPAGE:         () => import("../../admin/src/stages/onepage.js"),
   FOCUS_POINTS:    () => import("../../admin/src/stages/focus-points.js"),
-  PREPARATION:     () => import("../../admin/src/stages/preparation.js"),
+  PREPARATION:     () => import("./stages/preparation.ts"), // customer-owned (prepare-variants); admin keeps its own copy
   BANK:            () => import("../../admin/src/stages/bank.js"),
   QUESTIONING:     () => import("../../admin/src/stages/questioning.js"),
   EVAL:            () => import("../../admin/src/stages/eval.js"),
@@ -129,11 +129,11 @@ startPopstate((parsed) => {
     setState({ stage: parsed.stage === STAGES.START ? STAGES.WELCOME : STAGES.LOGIN });
     return;
   }
-  // A plain member only has their past 1:1s (member-view: only-runs) — any other
-  // back/forward destination (the prep flow, Team, the old Home) bounces to
-  // Past 1:1s. Their own runs (RUNS / RUN_DETAIL) and shared content pages pass through.
+  // A plain member only has the 1:1s prepped about them (member-view: about-me only) — any
+  // other back/forward destination (the prep flow, Team, the manager RUNS view) bounces to
+  // their home. Their own run detail and shared content pages pass through.
   if (store.user && !isAdmin(store.user) && !isMemberStage(parsed.stage) && !isSharedStage(parsed.stage)) {
-    setState({ stage: STAGES.RUNS });
+    setState({ stage: STAGES.MEMBER_HOME });
     return;
   }
   if (parsed.stage === STAGES.REVIEW_RUN) {
@@ -143,7 +143,7 @@ startPopstate((parsed) => {
   }
   if (parsed.stage === STAGES.RUN_DETAIL) {
     if (parsed.params?.myRunId) setState({ myRunId: parsed.params.myRunId, stage: STAGES.RUN_DETAIL });
-    else setState({ stage: STAGES.RUNS });
+    else setState({ stage: isAdmin(store.user) ? STAGES.RUNS : STAGES.MEMBER_HOME });
     return;
   }
   if (parsed.stage === STAGES.JOIN) {
@@ -250,20 +250,20 @@ async function boot() {
   // directly (no notify) so the real stage is what renders, no login flash.
   store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name, isSuperadmin: identity.isSuperadmin };
 
-  // A plain member gets a read-only app: their own past 1:1s, and nothing else
-  // (member-view: only-runs). They can't start or run a 1:1, and Home/Team are gone.
+  // A plain member gets a read-only app: the 1:1s prepped ABOUT them, and nothing else
+  // (member-view: about-me only). They can't start or run a 1:1, and Home/Team are gone.
   // Honor a deep link to one of their own runs or a shared content page
-  // (privacy/about/feedback); anything else — the prep flow, Team, the old Home —
-  // lands on Past 1:1s. The rest of boot below is the manager path.
+  // (privacy/about/feedback); anything else — the prep flow, Team, the manager RUNS view —
+  // lands on their home. The rest of boot below is the manager path.
   if (!isAdmin(store.user)) {
     if (route && route.stage === STAGES.RUN_DETAIL) {
       if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
-      history.replaceState(null, "", "/runs"); setState({ stage: STAGES.RUNS }); return;
+      history.replaceState(null, "", "/home"); setState({ stage: STAGES.MEMBER_HOME }); return;
     }
     if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }
     if (route && isSharedStage(route.stage)) { setState({ stage: route.stage }); return; }
-    history.replaceState(null, "", "/runs");
-    setState({ stage: STAGES.RUNS });
+    history.replaceState(null, "", "/home");
+    setState({ stage: STAGES.MEMBER_HOME });
     return;
   }
 
