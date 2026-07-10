@@ -1,11 +1,19 @@
 @echo off
-title Sero
+REM Temporary unique title so the cleanup below doesn't close THIS window.
+title Sero-launching-%RANDOM%
 REM Double-click this file to start Sero.
 REM A black window will open and STAY open - that's normal, it's the server running.
 REM Your browser will open Sero automatically after a few seconds.
 REM Leave the black window open while you use Sero. To stop Sero, just close it.
+REM If Sero is already running, opening this again just restarts it fresh.
 
 cd /d "%~dp0"
+
+REM --- If a Sero window is already open, close it (and its server) first ------
+taskkill /FI "WINDOWTITLE eq Sero" /T /F >nul 2>nul
+
+REM --- Now claim the real title -----------------------------------------------
+title Sero
 
 REM --- Check Node is installed -------------------------------------------------
 where node >nul 2>nul

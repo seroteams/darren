@@ -42,6 +42,19 @@
       "port": 3002
     },
     {
+      "name": "sero-customer-pv",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3041",
+        "--strictPort"
+      ],
+      "port": 3041
+    },
+    {
       "name": "sero-customer-team",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
