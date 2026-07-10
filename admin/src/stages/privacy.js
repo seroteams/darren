@@ -10,10 +10,14 @@ import { STAGES, store, isAdmin } from "../state.js";
 
 export async function mount(root, { setState }) {
   const loggedIn = !!store.user;
-  const backStage = !loggedIn
+  // Prefer the page we actually came from (main.js records it on the way in), so
+  // Back returns there — e.g. the start screen — instead of always dumping a
+  // logged-out visitor on the sign-up form. Fall back to a sensible home.
+  const fallback = !loggedIn
     ? STAGES.REGISTER
     : isAdmin(store.user) ? STAGES.START : STAGES.MEMBER_HOME;
-  const backLabel = loggedIn ? "← Back" : "← Back to sign up";
+  const backStage = store.privacyBack || fallback;
+  const backLabel = store.privacyBack ? "← Back" : (loggedIn ? "← Back" : "← Back to sign up");
 
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">

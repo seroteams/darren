@@ -111,6 +111,10 @@ subscribe((s) => {
   profileBadge.render({ stage: s.stage, user: s.user });
   notesPanel.render(s);
   if (s.stage !== routedStage || s.stageTick !== routedTick) {
+    // Remember where we came from so the Privacy note's Back link returns there.
+    if (s.stage === STAGES.PRIVACY && routedStage && routedStage !== STAGES.PRIVACY) {
+      store.privacyBack = routedStage;
+    }
     routedStage = s.stage;
     routedTick = s.stageTick;
     syncUrl(s);

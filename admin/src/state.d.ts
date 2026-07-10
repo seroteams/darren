@@ -57,6 +57,9 @@ export interface Store {
   // Not in state.js's initial object — patched in via setState (main.js rehydrate),
   // read by briefing.js — so optional here.
   skipBriefingAnimation?: boolean;
+  // Stage the user was on when they opened the Privacy note, so its Back link
+  // returns there (set in main.js's render loop, read by privacy.js).
+  privacyBack?: StageName;
 }
 
 export const store: Store;

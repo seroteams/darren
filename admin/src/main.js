@@ -30,7 +30,7 @@ const loaders = {
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
-  PREPARATION:     () => import("./stages/preparation.js"),
+  PREPARATION:     () => import("../../frontend/src/stages/preparation.ts"), // customer-owned rebuild (prepare-variants); old screen kept at ./stages/preparation.js
   BANK:            () => import("./stages/bank.js"),
   QUESTIONING:     () => import("./stages/questioning.js"),
   EVAL:            () => import("./stages/eval.js"),
@@ -148,6 +148,10 @@ subscribe((s) => {
   profileBadge.render({ stage: s.stage, user: s.user });
   notesPanel.render(s);
   if (s.stage !== routedStage || s.stageTick !== routedTick) {
+    // Remember where we came from so the Privacy note's Back link returns there.
+    if (s.stage === STAGES.PRIVACY && routedStage && routedStage !== STAGES.PRIVACY) {
+      store.privacyBack = routedStage;
+    }
     routedStage = s.stage;
     routedTick = s.stageTick;
     syncUrl(s);
