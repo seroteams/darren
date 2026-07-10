@@ -92,30 +92,30 @@ function buildMessages({
   const offArcDrillCount = computeOffArcDrillCount(transcript);
   const isFinalTurn = Number(remainingBudget) === 1;
   const filled = template
-    .replaceAll("{{AXES_JSON}}", JSON.stringify(axes, null, 2))
-    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints, null, 2))
-    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}, null, 2))
+    .replaceAll("{{AXES_JSON}}", JSON.stringify(axes))
+    .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints))
+    .replaceAll("{{SELECTED_FOCUS_JSON}}", JSON.stringify(sf || {}))
     .replaceAll("{{PRIMARY_FOCUS_ID}}", sf?.id || "(none)")
     .replaceAll("{{NAME}}", ctx.name || "(not provided)")
     .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
     .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
-    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcriptSummary, null, 2))
-    .replaceAll("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion ? { ...lastQuestion, description: undefined } : lastQuestion, null, 2))
+    .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcriptSummary))
+    .replaceAll("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion ? { ...lastQuestion, description: undefined } : lastQuestion))
     .replaceAll("{{LAST_ANSWER}}", lastAnswer || "(skipped)")
-    .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState, null, 2))
-    .replaceAll("{{REMAINING_QUEUE_JSON}}", JSON.stringify(queueSummary, null, 2))
+    .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState))
+    .replaceAll("{{REMAINING_QUEUE_JSON}}", JSON.stringify(queueSummary))
     .replaceAll("{{REMAINING_BUDGET}}", String(remainingBudget))
     .replaceAll("{{TURN_NUMBER}}", String(turnNumber ?? "?"))
     .replaceAll("{{TOTAL_TURNS}}", String(totalTurns ?? "?"))
-    .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc, null, 2))
+    .replaceAll("{{MEETING_ARC_JSON}}", JSON.stringify(arc.arc))
     .replaceAll("{{TONE_REGISTER}}", arc.tone_register)
-    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns, null, 2))
+    .replaceAll("{{ANTI_PATTERNS_JSON}}", JSON.stringify(arc.anti_patterns))
     .replaceAll("{{CURRENT_STAGE_HINT}}", currentStageHint)
-    .replaceAll("{{ARC_PROGRESS_JSON}}", JSON.stringify(arcProgress, null, 2))
+    .replaceAll("{{ARC_PROGRESS_JSON}}", JSON.stringify(arcProgress))
     .replaceAll("{{CONSECUTIVE_DRILL_COUNT}}", String(consecutiveDrillCount))
-    .replaceAll("{{REMAINING_STAGES_JSON}}", JSON.stringify(remainingStages, null, 2))
-    .replaceAll("{{LAST_REALIZED_DELTAS_JSON}}", JSON.stringify(lastRealizedDeltas, null, 2))
+    .replaceAll("{{REMAINING_STAGES_JSON}}", JSON.stringify(remainingStages))
+    .replaceAll("{{LAST_REALIZED_DELTAS_JSON}}", JSON.stringify(lastRealizedDeltas))
     .replaceAll("{{CONSECUTIVE_WELLBEING_CLARIFIER_COUNT}}", String(consecutiveWellbeingClarifierCount))
     .replaceAll("{{OFF_ARC_DRILL_COUNT}}", String(offArcDrillCount))
     .replaceAll("{{IS_FINAL_TURN}}", isFinalTurn ? "true" : "false")
@@ -124,7 +124,7 @@ function buildMessages({
     .replaceAll(
       "{{PREP_LISTEN_FOR_JSON}}",
       Array.isArray(prep?.listenFor) && prep.listenFor.length
-        ? JSON.stringify(prep.listenFor, null, 2)
+        ? JSON.stringify(prep.listenFor)
         : "(none)"
     )
     .replaceAll(
