@@ -23,15 +23,17 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> **🔨 [validation-kit](docs/plans/doing/validation-kit/plan.md) — the build that proves managers come back. P1 ✅ green-lit + committed 2026-07-10 · P2 next.**
+> **🔨 [validation-kit](docs/plans/doing/validation-kit/plan.md) — the build that proves managers come back. P1 + P2 ✅ green-lit + committed 2026-07-10 · P3 next.**
 > We're formally at **VALIDATION STAGE** (YC-committee audit 2026-07-09: product 8/10, business 3/10 — zero external
-> users). This track builds the corridor-test kit: **P1 ✅** to-do page as live checklist — the heartbeat now emits
-> per-phase rows and /tasks renders every active plan as a live ⬜/🔨/✅ checklist (Carl walked it on localhost,
-> $0, test-first, 109/109 + typecheck clean) · **P2** return-signal in User management (came-back badge) · **P3**
-> one-tap feedback on the live briefing · **P4** first-run guidance (on intake — zero-run managers never see Home) ·
-> **P5** phone + copy pass. No nudge features anywhere (pass bar = *unprompted* return). All free checks — no paid
-> runs expected. P2 touches `server.ts`/`shared/api.js` — sequential with P3, worktree if the tree is busy.
-> **▶ Your move:** in a fresh session say "build validation-kit Phase 2". Separately, yours alone: name the 3
+> users). This track builds the corridor-test kit: **P1 ✅** to-do page as live checklist (/tasks renders every
+> active plan as a live ⬜/🔨/✅ checklist from the heartbeat) · **P2 ✅** return-signal in User management — each
+> manager's row now answers the validation question in 5 seconds: first run, gap days, mint "came back" badge
+> (2nd prep ≤ 14 days), internal accounts labelled; DESTINATION-checked against a direct Neon query (Carl walked
+> both on a verified-fresh API; test-first, 111/111 + typecheck, $0) · **P3** one-tap feedback on the live
+> briefing (needs a run-linked feedback store + migration) · **P4** first-run guidance (on intake — zero-run
+> managers never see Home) · **P5** phone + copy pass. No nudge features anywhere (pass bar = *unprompted*
+> return). P3 touches `server.ts`/`shared/api.js` — sequential, worktree if the tree is busy.
+> **▶ Your move:** say "build validation-kit Phase 3". Separately, yours alone: name the 3
 > corridor managers + flip Render to the paid tier.
 
 > **🔨 [thread-follow](docs/plans/doing/thread-follow/plan.md) — NEW track (2026-07-09): make the engine follow the person's answer, not just march its queue. P1 ✅ green-lit + committed · P2 next.**
@@ -248,4 +250,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-10 (validation-kit P1 ✅ green-lit — /tasks now a live per-phase checklist from the heartbeat; P2 return-signal next)
+- Last updated: 2026-07-10 (validation-kit P1 + P2 ✅ green-lit — live /tasks checklist + return-signal view with came-back badge; P3 briefing feedback tap next)

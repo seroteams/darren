@@ -52,9 +52,12 @@ export interface UserRow {
 
 /** One finished run, attributed to its owner (pre-go-live PG7). `userId` may be null for
  *  machine/gate sessions (the service ignores those). `stars` is null when unrated. This
- *  is the cross-company run read — reachable only behind requireSuperadminRoute. */
+ *  is the cross-company run read — reachable only behind requireSuperadminRoute.
+ *  `createdAt` (validation-kit Phase 2) is when the run STARTED — the return signal's
+ *  clock; optional because legacy rows may predate it (the service falls back to lastSeenAt). */
 export interface RunRow {
   userId: string | null;
+  createdAt?: number;
   lastSeenAt: number;
   stars: number | null;
 }

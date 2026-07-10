@@ -9,6 +9,15 @@
 ---
 
 ## Where we are now
+- **2026-07-10** — **validation-kit P2 ✅ green-lit — User management now answers "did they come back?" per manager.**
+  The superadmin run reads project `createdAt` (run start; legacy rows fall back to lastSeenAt, and rows with no
+  timestamps report null — never a fake 1970 date), and the service derives `firstRunAt` / `gapDays` (first two
+  runs only — a third run can't shrink the gap) / `cameBack` (2nd prep ≤ 14 days) / `internal` (superadmin or
+  @seroteams.com). Test-first (7 red→green), read-only, no schema change, $0, 111/111. **Two lessons:** ① the
+  verify-the-green-light rule caught a real one — Carl's first "A" arrived while his API was still the 18:27
+  process, i.e. a build that predated the phase; flagged it, he restarted (fresh 20:29 process verified) and
+  re-walked before the close. ② the DESTINATION check was an independent direct-SQL recompute against Neon
+  (not the app's own code path) — it matched the page exactly, which is what "verified" should mean.
 - **2026-07-10** — **validation-kit P1 ✅ green-lit — /tasks is now a live per-phase checklist.** The heartbeat
   gained `listPhases()` (ordered `{label, status}` rows parsed from each plan.md's phase table — same one-glyph
   row rule the counter already used, so `countPhases` now derives from it) and the /tasks Docs cards render the

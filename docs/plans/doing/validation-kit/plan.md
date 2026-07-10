@@ -25,7 +25,7 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | To-do page as live checklist | This track's phases visible + checkable on /tasks; done/stale swept | ✅ |
-| 2 | Return-signal tracking | User management gains first-run, gap days + came-back badge per manager | ⬜ |
+| 2 | Return-signal tracking | User management gains first-run, gap days + came-back badge per manager | ✅ |
 | 3 | Briefing feedback tap | One-question tap on the live briefing, stored + viewable | ⬜ |
 | 4 | New-client first-run | Guided first prep for a fresh manager account | ⬜ |
 | 5 | Phone + copy pass | Customer flow comfortable on mobile; one consistent vocabulary | ⬜ |
@@ -33,7 +33,7 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit by Carl 2026-07-10** (walked the 3 scenarios on localhost after an API restart). The heartbeat now emits ordered per-phase rows and /tasks renders each active plan as a live ⬜/🔨/✅ checklist; done plans sweep clean. Tested free-only: npm test 109/109 + typecheck clean. **Phase 2 (return-signal tracking) is next** — touches `server.ts`/`shared/api.js`, so run it sequentially (worktree if the tree is busy).
+**Phases 1 + 2 ✅ green-lit by Carl 2026-07-10** (each walked on localhost on a verified-fresh API). P1: /tasks renders every active plan as a live ⬜/🔨/✅ checklist from the heartbeat. P2: User management answers the validation question per manager — first run, gap days, "came back" badge (2nd prep ≤ 14 days), internal accounts labelled; DESTINATION-checked against a direct Neon query. All free: 111/111 tests + typecheck clean, $0. **Phase 3 (briefing feedback tap) is next** — it touches `server.ts`/`shared/api.js` and needs a new table/columns + migration (`feedback_notes` has no run link — schema.ts:321-336).
 Baseline for this track = **free checks only** (`npm test` + `npm run typecheck`): no phase touches the engine or prompts, so no paid gate run is needed as baseline — don't spend one. (Two known environmental test fails in fresh worktrees: test-customer-serving, test-persona-bench.)
 
 ## Carl's own moves (not code, not mine)

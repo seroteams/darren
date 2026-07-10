@@ -12,7 +12,15 @@ import { isSuperadminEmail } from "../../middleware/require-auth.ts";
 import { appendSuperadminAudit } from "../../middleware/superadmin-audit.ts";
 import type { SuperadminAuditEntry } from "../../middleware/superadmin-audit.ts";
 
-const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const WEEK_MS = 7 * DAY_MS;
+/** "Came back" = a second prep within this window of the first (validation-kit Phase 2). */
+const CAME_BACK_MS = 14 * DAY_MS;
+/** Internal accounts (Carl + test) — labelled so real testers stand out in the view. */
+const INTERNAL_DOMAIN = "@seroteams.com";
+function isInternalAccount(email: string): boolean {
+  return email.toLowerCase().endsWith(INTERNAL_DOMAIN) || isSuperadminEmail(email);
+}
 
 /** The account roles a superadmin may set. */
 const ROLES: readonly UserRoleName[] = ["admin", "manager", "member"];
@@ -47,6 +55,15 @@ export interface RegisteredUser {
   lastActiveAt: Date | null;
   runsThisWeek: number;
   runsLastWeek: number;
+  /** The return signal (validation-kit Phase 2): when their first run started, the days
+   *  between run 1 and run 2 (null until a second run), and whether that second run came
+   *  within 14 days — the validation-stage pass bar. */
+  firstRunAt: Date | null;
+  gapDays: number | null;
+  cameBack: boolean;
+  /** True for Carl + test accounts (superadmin or @seroteams.com) — labelled in the view
+   *  so real testers stand out. */
+  internal: boolean;
   /** Deactivate/reactivate (Phase 3): true = switched off (login blocked). Drives the
    *  "Deactivated" row state on the User management screen. */
   deactivated: boolean;
@@ -100,17 +117,24 @@ export interface SuperadminService {
 }
 
 /** Per-user run tallies, keyed by userId. Runs with no userId (machine/gate sessions)
- *  never enter here — they belong to no registered person. */
+ *  never enter here — they belong to no registered person. `first`/`second` are the two
+ *  earliest run starts (createdAt, falling back to lastSeenAt on legacy rows) — the
+ *  return signal's inputs; Infinity means "not seen yet". */
 function tallyRunsByUser(runs: RunRow[], nowMs: number) {
-  const byUser = new Map<string, { count: number; lastActive: number; thisWeek: number; lastWeek: number }>();
+  const byUser = new Map<string, { count: number; lastActive: number; thisWeek: number; lastWeek: number; first: number; second: number }>();
   for (const r of runs) {
     if (!r.userId) continue;
-    const t = byUser.get(r.userId) ?? { count: 0, lastActive: 0, thisWeek: 0, lastWeek: 0 };
+    const t = byUser.get(r.userId) ?? { count: 0, lastActive: 0, thisWeek: 0, lastWeek: 0, first: Infinity, second: Infinity };
     t.count += 1;
     if (r.lastSeenAt > t.lastActive) t.lastActive = r.lastSeenAt;
     const age = nowMs - r.lastSeenAt;
     if (age >= 0 && age < WEEK_MS) t.thisWeek += 1;
     else if (age >= WEEK_MS && age < 2 * WEEK_MS) t.lastWeek += 1;
+    const started = r.createdAt && r.createdAt > 0 ? r.createdAt : r.lastSeenAt;
+    if (started > 0) {
+      if (started < t.first) { t.second = t.first; t.first = started; }
+      else if (started < t.second) t.second = started;
+    }
     byUser.set(r.userId, t);
   }
   return byUser;
@@ -149,6 +173,7 @@ export function createSuperadminService(
       for (const u of [...people].sort(oldestFirst)) {
         const t = runsByUser.get(u.id);
         const list = byOrg.get(u.orgId) ?? [];
+        const gapMs = t && Number.isFinite(t.second) ? t.second - t.first : null;
         list.push({
           id: u.id,
           name: u.name,
@@ -159,6 +184,10 @@ export function createSuperadminService(
           lastActiveAt: t ? new Date(t.lastActive) : null,
           runsThisWeek: t?.thisWeek ?? 0,
           runsLastWeek: t?.lastWeek ?? 0,
+          firstRunAt: t && Number.isFinite(t.first) ? new Date(t.first) : null,
+          gapDays: gapMs === null ? null : Math.round(gapMs / DAY_MS),
+          cameBack: gapMs !== null && gapMs <= CAME_BACK_MS,
+          internal: isInternalAccount(u.email),
           deactivated: !!u.deactivatedAt,
         });
         byOrg.set(u.orgId, list);

@@ -168,6 +168,99 @@ test("enrich: summary with no ratings → avgStars null, zero counts", async () 
   assert.equal(summary.lowCount, 0);
 });
 
+// --- validation-kit Phase 2: the return signal ----------------------------
+// firstRunAt / gapDays / cameBack answer "did this manager come back unprompted?"
+// from run start times (createdAt, falling back to lastSeenAt for old rows).
+
+test("return signal: two runs within 14 days → cameBack, with first-run date and gap", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [
+    { userId: "u1", createdAt: ago(10), lastSeenAt: ago(10), stars: null },
+    { userId: "u1", createdAt: ago(3), lastSeenAt: ago(3), stars: null },
+  ];
+  const ann = (await oneOrg(users, runs).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.firstRunAt?.getTime(), ago(10));
+  assert.equal(ann.gapDays, 7);
+  assert.equal(ann.cameBack, true);
+});
+
+test("return signal: a single run → first-run date, no gap, no badge", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [{ userId: "u1", createdAt: ago(5), lastSeenAt: ago(5), stars: null }];
+  const ann = (await oneOrg(users, runs).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.firstRunAt?.getTime(), ago(5));
+  assert.equal(ann.gapDays, null);
+  assert.equal(ann.cameBack, false);
+});
+
+test("return signal: the second run past 14 days → gap shown but NOT cameBack", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [
+    { userId: "u1", createdAt: ago(30), lastSeenAt: ago(30), stars: null },
+    { userId: "u1", createdAt: ago(10), lastSeenAt: ago(10), stars: null },
+  ];
+  const ann = (await oneOrg(users, runs).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.gapDays, 20);
+  assert.equal(ann.cameBack, false);
+});
+
+test("return signal: only the FIRST two runs set the gap — a third run doesn't shrink it", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [
+    // Unordered on purpose — the service must find the two earliest itself.
+    { userId: "u1", createdAt: ago(2), lastSeenAt: ago(2), stars: null },
+    { userId: "u1", createdAt: ago(40), lastSeenAt: ago(40), stars: null },
+    { userId: "u1", createdAt: ago(20), lastSeenAt: ago(20), stars: null },
+  ];
+  const ann = (await oneOrg(users, runs).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.firstRunAt?.getTime(), ago(40));
+  assert.equal(ann.gapDays, 20); // 40 → 20 days ago, not 20 → 2
+  assert.equal(ann.cameBack, false);
+});
+
+test("return signal: no createdAt on an old row → falls back to lastSeenAt", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
+  ];
+  const runs: RunRow[] = [
+    { userId: "u1", lastSeenAt: ago(9), stars: null }, // legacy row, no createdAt
+    { userId: "u1", createdAt: ago(4), lastSeenAt: ago(4), stars: null },
+  ];
+  const ann = (await oneOrg(users, runs).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.firstRunAt?.getTime(), ago(9));
+  assert.equal(ann.gapDays, 5);
+  assert.equal(ann.cameBack, true);
+});
+
+test("return signal: no runs → nulls and false, never fake dates", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Ann", email: "a@x.com", role: "manager", createdAt: new Date("2026-01-02") },
+  ];
+  const ann = (await oneOrg(users, []).listRegistered(NOW)).companies[0]!.users[0]!;
+  assert.equal(ann.firstRunAt, null);
+  assert.equal(ann.gapDays, null);
+  assert.equal(ann.cameBack, false);
+});
+
+test("internal label: seroteams.com accounts are flagged so real testers stand out", async () => {
+  const users: UserRow[] = [
+    { id: "u1", orgId: "o1", name: "Carl", email: "carl@seroteams.com", role: "admin", createdAt: new Date("2026-01-02") },
+    { id: "u2", orgId: "o1", name: "Real Tester", email: "x@customer.com", role: "manager", createdAt: new Date("2026-01-03") },
+  ];
+  const { companies } = await oneOrg(users, []).listRegistered(NOW);
+  const [carl, tester] = companies[0]!.users;
+  assert.equal(carl!.internal, true);
+  assert.equal(tester!.internal, false);
+});
+
 // --- PG8 Step 01: the per-user drilldown read ----------------------------
 
 test("userRuns: returns one user's runs newest-first", async () => {

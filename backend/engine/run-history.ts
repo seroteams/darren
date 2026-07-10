@@ -313,11 +313,14 @@ function listFinishedRunsAboutPerson(orgId: string | null | undefined, personIds
 // repo/route. Returns just the fields the alpha signal needs (owner, when, rating); the
 // service does all counting/bucketing so it stays unit-testable. A run with no userId
 // (machine/gate sessions) has userId null and is ignored by the owner grouping.
-function listRunsForSuperadmin(): { userId: string | null; lastSeenAt: number; stars: number | null }[] {
+function listRunsForSuperadmin(): { userId: string | null; createdAt: number; lastSeenAt: number; stars: number | null }[] {
   return walkRuns()
     .filter(({ state }) => state && state.briefing)
     .map(({ dir, state }) => ({
       userId: typeof state.userId === "string" ? state.userId : null,
+      // When the run started — the return signal's clock (validation-kit Phase 2).
+      // Old runs without it fall back to lastSeenAt rather than reporting 1970.
+      createdAt: asNumber(state.createdAt) || asNumber(state.lastSeenAt),
       lastSeenAt: asNumber(state.lastSeenAt),
       stars: ratingOf(dir)?.stars ?? null,
     }));

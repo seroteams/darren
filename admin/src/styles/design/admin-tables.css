@@ -68,6 +68,11 @@
 .um-badge--manager { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
 .um-badge--member  { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
 
+/* Return signal (validation-kit Phase 2). "came back" is the validation win — the one
+   green pill on the row; "internal" marks Carl + test accounts so real testers stand out. */
+.um-badge--back     { background: var(--sero-mint-300); color: var(--color-positive-text); }
+.um-badge--internal { margin-left: var(--sero-space-2); background: var(--sero-soft-300); color: var(--color-ink-mute); }
+
 /* Company group — each company is its own white card (a <tbody> band on a transparent, spaced
    table), so the grouping reads at a glance. The header names the company; its people sit under it
    on the same white surface. A transparent spacer <tbody> sets the gap between cards. */

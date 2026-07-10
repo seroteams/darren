@@ -1,6 +1,9 @@
 # Phase 2 — Return-signal tracking
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-10
+Carl restarted the dev API (fresh :3001 process verified at 20:29) and walked the scenarios on localhost, then gave the "A". First "A" arrived before the restart — caught by the verify-the-green-light check and re-walked properly.
 
 ## Goal
 One internal view answers the validation question at a glance: which manager used Sero, when, how often, and did they come back unprompted?
@@ -22,6 +25,17 @@ One internal view answers the validation question at a glance: which manager use
 - [ ] A second run inside 14 days flips the "came back" badge for that manager.
 - [ ] Internal/test accounts are visibly separated from real testers.
 - [ ] Product owner has tested the scenarios below and said go.
+
+## Built — 2026-07-10
+
+- **Stores** — both superadmin run reads now project `createdAt` (when the run STARTED, from the session state; legacy rows fall back to `lastSeenAt`, never a fake 1970 date): `pgListRunsForSuperadmin` (`backend/db/runs-store.ts`) + the DB-less twin in `run-history.ts`. Read-only, no schema change — exactly as planned.
+- **Service** — `superadmin.service.ts`: `RegisteredUser` gains `firstRunAt`, `gapDays` (run 1 → run 2, whole days), `cameBack` (2nd prep within 14 days) and `internal` (superadmin email or `@seroteams.com`). Test-first: 7 tests red → green (incl. unordered runs, the third-run trap, legacy-row fallback, no-runs = nulls not fake dates). 40/40 in the file.
+- **View** — `admin-registered.ts`: a mint "came back" pill on the activity line (the one green badge on a row), a plain-words return line ("first run Thu 2 Jul 2026 · came back after 3 days" / "no second prep yet" / "returned after N days — outside the 2-week window"), and an "internal" tag on Carl + test accounts. Styles in `admin-tables.css` (14px floor verified).
+- **Verified live** (isolated pair 3081/3083, dev side-door + own allowlist): the page shows 14 accounts; Carl's row reads 6 runs · first run 2 Jul · came back after 3 days.
+- **DESTINATION check passed** — an independent direct-SQL query against local Neon (scratchpad script, read-only) recomputed Carl's signal: `{runCount: 6, firstRunAt: 2026-07-01T17:03:56.849Z, gapDays: 3, cameBack: true}` — identical to the page.
+- **Checks** — `npm test` 111/111 · `npm run typecheck` clean · console clean · no paid runs.
+- **Assumption flagged** — "internal" = superadmin allowlist OR any `@seroteams.com` email (hardcoded domain). Say the word if internal should mean something else.
+- **Note for the walk** — restart `npm run dev` once so the API carries this build.
 
 ## Test scenarios — for the product owner
 1. **See yourself** — open the User management page. Your own account should show your real run history: correct run count, a believable first-run date and last activity. ❌ Not OK if numbers look wrong vs what you know you did.

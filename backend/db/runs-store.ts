@@ -399,10 +399,13 @@ export async function pgListFinishedRunsAboutPerson(
   return fenceAboutPersonRows(rows, orgId, personIds).map(toAboutPersonRow);
 }
 
-export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null; lastSeenAt: number; stars: number | null }[]> {
+export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null; createdAt: number; lastSeenAt: number; stars: number | null }[]> {
   const rows = (await rowsWhere([eq(sessionsTable.finished, true)])).filter((r) => Boolean(r.state.briefing));
   return rows.map((r) => ({
     userId: typeof r.state.userId === "string" ? r.state.userId : null,
+    // When the run started — the return signal's clock (validation-kit Phase 2).
+    // Old rows without it fall back to lastSeenAt rather than reporting 1970.
+    createdAt: asNumber(r.state.createdAt) || asNumber(r.state.lastSeenAt),
     lastSeenAt: asNumber(r.state.lastSeenAt),
     stars: ratingFromValue(r.rating)?.stars ?? null,
   }));

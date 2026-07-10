@@ -156,6 +156,7 @@
         "cross-env",
         "API_PORT=3081",
         "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
         "node",
         "backend/api/server.ts"
       ],

@@ -14,7 +14,7 @@ import { getRegistered, setUserRole, deactivateUser, reactivateUser, deleteUser 
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star, TrendingUp, TrendingDown } from "lucide";
-import { relTime } from "../ui/time.ts";
+import { relTime, formatDate } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 // The roles a superadmin can set, offered in the row's ⋯ menu (user-management Phase 2).
@@ -39,6 +39,10 @@ type RegUser = {
   lastActiveAt: string | number | null;
   runsThisWeek: number;
   runsLastWeek: number;
+  firstRunAt?: string | number | null;
+  gapDays?: number | null;
+  cameBack?: boolean;
+  internal?: boolean;
   deactivated?: boolean;
 };
 type RegCompany = { id: string; name: string; createdAt: string | number; users: RegUser[] };
@@ -77,19 +81,37 @@ function trendMark(u: RegUser): string {
   return `<span class="um-trend um-trend--${variant}" role="img" aria-label="${label}" title="${label}">${glyph}</span>`;
 }
 
+// The validation answer in one line: first run, then either "came back after N days"
+// (the badge carries the win) or the honest gap — a late return or none yet.
+function returnLine(u: RegUser): string {
+  const firstMs = activeMs(u.firstRunAt ?? null);
+  if (!firstMs) return "";
+  const first = `first run ${formatDate(firstMs)}`;
+  const gap =
+    u.gapDays == null
+      ? "no second prep yet"
+      : u.cameBack
+        ? `came back after ${u.gapDays === 0 ? "less than a day" : `${u.gapDays} ${u.gapDays === 1 ? "day" : "days"}`}`
+        : `returned after ${u.gapDays} days — outside the 2-week window`;
+  return `<div class="um-activity__sub">${escapeHtml(first)} · ${escapeHtml(gap)}</div>`;
+}
+
 function userRow(u: RegUser): string {
   const off = !!u.deactivated;
   const deactivatedTag = off ? `<span class="um-badge um-badge--off">Deactivated</span>` : "";
+  const internalTag = u.internal ? `<span class="um-badge um-badge--internal">internal</span>` : "";
+  const backBadge = u.cameBack ? `<span class="um-badge um-badge--back">came back</span>` : "";
   return `
-    <tr class="um-row js-user-row${off ? " um-row--off" : ""}" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">
+    <tr class="um-row js-user-row${off ? " um-row--off" : ""}${u.internal ? " um-row--internal" : ""}" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">
       <td>
         <button type="button" class="um-user__open js-user-open" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">${escapeHtml(u.name)}</button>
         <div class="um-user__email">${escapeHtml(u.email)}</div>
       </td>
-      <td>${roleBadge(u.role)}${deactivatedTag}</td>
+      <td>${roleBadge(u.role)}${internalTag}${deactivatedTag}</td>
       <td>
-        <div class="um-activity">${trendMark(u)}<span>last active ${escapeHtml(lastActive(u.lastActiveAt))}</span></div>
+        <div class="um-activity">${trendMark(u)}${backBadge}<span>last active ${escapeHtml(lastActive(u.lastActiveAt))}</span></div>
         <div class="um-activity__sub">${u.runsThisWeek} this week / ${u.runsLastWeek} last · ${u.runCount} ${u.runCount === 1 ? "run" : "runs"} total</div>
+        ${returnLine(u)}
       </td>
       <td class="um-actions">
         <button type="button" class="um-menu-btn js-menu-btn" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" data-role="${escapeHtml(u.role)}" data-deactivated="${off ? "1" : ""}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(u.name)}">⋯</button>
