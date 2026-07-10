@@ -119,7 +119,9 @@ export async function mount(root, { store, setState }) {
         store.ctx.name = p.name;
         store.ctx.role = p.role || store.ctx.role || "";
         store.ctx.seniority = p.seniority || store.ctx.seniority || "";
-        advance();
+        // Existing roster person — their role/seniority are already known, so skip
+        // straight to the meeting type instead of re-asking those details.
+        goTo("MEETING_TYPE");
       });
       return btn;
     }
@@ -403,14 +405,18 @@ export async function mount(root, { store, setState }) {
     return wrap;
   }
 
+  async function goTo(sub) {
+    currentSub = sub;
+    refreshStep();
+    const node = await swapField(host, () => renderField(sub));
+    focusField(node);
+  }
+
   async function advance() {
     const idx = SUBSTAGES.indexOf(currentSub);
     const next = SUBSTAGES[idx + 1];
     if (!next) return submit();
-    currentSub = next;
-    refreshStep();
-    const node = await swapField(host, () => renderField(next));
-    focusField(node);
+    await goTo(next);
   }
 
   async function submit() {
