@@ -1,0 +1,491 @@
+/* /prepare brief layout variants (prepare-variants) — customer stage only.
+   Rules: existing design tokens ONLY (tokens.css) — no new colours, fonts,
+   spacing, or sizes; every font-size >= 14px. Both are asserted by
+   preparation-css.test.ts. Variant C ("Native") reuses the existing .prep-*
+   classes exactly and has no rules here. */
+
+/* Header tools — the Layout switcher + the demoted Reset link */
+.pv-header-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-4);
+}
+.pv-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+.pv-switch select {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  padding: var(--sero-space-1) var(--sero-space-2);
+}
+
+/* Shared Listen for / Don't assume pair (variants B + E). Stacks below 768px —
+   the existing md breakpoint token value (spec sketch said ~720px; 768 is the
+   nearest system value, and media queries can't read custom properties). */
+.pv-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sero-space-5);
+  align-items: start;
+}
+.pv-pair > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  min-width: 0;
+}
+@media (max-width: 768px) {
+  .pv-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A — Editorial: single column, generous rhythm, no cards; confidence leads,
+   set larger than body text directly under the title. */
+.pv-a {
+  max-width: var(--measure); /* 38rem — nearest existing token to the ~640px spec */
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-8);
+}
+.pv-a__confidence {
+  margin: 0;
+  font-size: var(--type-lead);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
+.pv-a__slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.pv-a__opener {
+  margin: 0;
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0;
+  padding: var(--sero-space-1) 0 var(--sero-space-1) var(--sero-space-4);
+  font-size: var(--type-body);
+  font-weight: var(--type-weight-medium);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
+
+/* B — Scan: the whole brief in one 1440x900 view. Opener hero, muted
+   confidence strip, compact labelled rows, side-by-side lists. */
+.pv-b {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+}
+.pv-b__confidence {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+}
+.pv-b__row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--sero-space-3);
+  align-items: baseline;
+  padding: var(--sero-space-2) 0;
+}
+.pv-b__row p {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink);
+  line-height: var(--type-leading-normal);
+}
+.pv-b .pv-pair {
+  padding: var(--sero-space-2) 0;
+}
+@media (max-width: 768px) {
+  .pv-b__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* D — Utility: zero chrome, print-clean (no fixed heights, no viewport
+   units). One flat list, hairline separators; the single accent use is the
+   opener text. */
+.pv-d {
+  display: flex;
+  flex-direction: column;
+}
+.pv-d__row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--sero-space-4);
+  padding: var(--sero-space-4) 0;
+}
+.pv-d__row + .pv-d__row {
+  border-top: 1px solid var(--color-border);
+}
+.pv-d__value {
+  font-size: var(--type-body);
+  color: var(--color-ink);
+  line-height: var(--type-leading-normal);
+}
+.pv-d__value p {
+  margin: 0;
+}
+.pv-d__value ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+}
+.pv-d__value li::before {
+  content: "– ";
+}
+.pv-d__opener {
+  color: var(--color-accent-dark);
+}
+@media (max-width: 768px) {
+  .pv-d__row {
+    grid-template-columns: 1fr;
+    gap: var(--sero-space-2);
+  }
+}
+
+/* E — Timed: visual weight = reading order. Top band carries the minimum
+   viable brief; supporting detail sits below a hairline at lower emphasis. */
+.pv-e {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-6);
+}
+.pv-e__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-5);
+  padding-bottom: var(--sero-space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+.pv-e__lead {
+  margin: 0;
+  font-size: var(--type-lead);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
+.pv-e__opener {
+  font-weight: var(--type-weight-medium);
+}
+.pv-e__slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.pv-e__low {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-5);
+}
+.pv-e__low p {
+  margin: 0;
+  font-size: var(--type-body);
+  color: var(--color-ink-dim);
+  line-height: var(--type-leading-normal);
+}
+
+/* F — Spotlight: poster. The opener carries the page in the display face,
+   centred; support sits below in quiet columns. */
+.pv-f {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-10);
+}
+.pv-f__stagezone {
+  text-align: center;
+  max-width: var(--container-medium);
+  margin: 0 auto;
+  padding: var(--sero-space-8) 0 var(--sero-space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sero-space-4);
+}
+.pv-f__opener {
+  margin: 0;
+  font-family: var(--type-family-display);
+  font-size: var(--type-h2);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-snug);
+  letter-spacing: var(--type-tracking-tight);
+  color: var(--color-ink);
+}
+.pv-f__confidence {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+.pv-f__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sero-space-8);
+}
+.pv-f__grid--two {
+  grid-template-columns: repeat(2, 1fr);
+}
+.pv-f__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.pv-f__col p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+@media (max-width: 768px) {
+  .pv-f__grid,
+  .pv-f__grid--two {
+    grid-template-columns: 1fr;
+  }
+  .pv-f__stagezone {
+    padding-top: var(--sero-space-2);
+  }
+}
+
+/* G — Bento: varied-size card grid. Cards per the system (surface, 1px
+   border, 12px radius, never nested); the opener card is tinted and double
+   width so no two rows read alike. */
+.pv-g {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sero-space-4);
+  align-items: stretch;
+}
+.pv-g__cell {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  min-width: 0;
+}
+.pv-g__cell p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+.pv-g__cell--opener {
+  grid-column: span 2;
+  background: var(--color-accent-soft);
+}
+.pv-g__opener {
+  font-size: var(--type-h4);
+  font-weight: var(--type-weight-medium);
+  line-height: var(--type-leading-normal);
+}
+.pv-g__cell--quiet {
+  background: transparent;
+  border-color: transparent;
+  justify-content: center;
+}
+.pv-g__confidence {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+.pv-g__cell--wide {
+  grid-column: span 2;
+}
+@media (max-width: 768px) {
+  .pv-g {
+    grid-template-columns: 1fr;
+  }
+  .pv-g__cell--opener,
+  .pv-g__cell--wide {
+    grid-column: auto;
+  }
+}
+
+/* H — Sheet: one paper memo on the tinted page. Generous margins, a single
+   reading column, hairline rules between sections. */
+.pv-h {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-12) var(--sero-space-14);
+  max-width: var(--container-medium);
+  display: flex;
+  flex-direction: column;
+}
+.pv-h__confidence {
+  margin: 0 0 var(--sero-space-6);
+  max-width: var(--measure);
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink-dim);
+}
+.pv-h__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  padding: var(--sero-space-5) 0;
+  border-top: 1px solid var(--color-border-tinted);
+  max-width: var(--measure);
+}
+.pv-h__section p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
+.pv-h__opener {
+  font-size: var(--type-h4);
+  font-weight: var(--type-weight-medium);
+  line-height: var(--type-leading-normal);
+}
+@media (max-width: 768px) {
+  .pv-h {
+    padding: var(--sero-space-6) var(--sero-space-5);
+  }
+}
+
+/* I — Split: workspace. A soft context rail (second neutral layer) beside
+   the working column. */
+.pv-i {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--sero-space-6);
+  align-items: start;
+}
+.pv-i__side {
+  background: var(--color-surface-2);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-6);
+}
+.pv-i__confidence {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink-dim);
+}
+.pv-i__slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.pv-i__slot p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+.pv-i__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-6);
+}
+@media (max-width: 768px) {
+  .pv-i {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* J — Contrast: one committed colour move. A deep navy band carries the
+   confidence and opener in off-white; the rest stays calm on white. */
+.pv-j {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-6);
+}
+.pv-j__band {
+  background: var(--sero-navy-800);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+}
+.pv-j__confidence {
+  margin: 0 0 var(--sero-space-2);
+  font-size: var(--type-body-sm);
+  color: var(--sero-offwhite-300);
+}
+.pv-j__eyebrow {
+  color: var(--sero-offwhite-300);
+}
+.pv-j__opener {
+  margin: 0;
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-medium);
+  line-height: var(--type-leading-snug);
+  color: var(--sero-offwhite-50);
+  max-width: var(--measure);
+}
+.pv-j__slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.pv-j__slot p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+
+/* K — Runner: from docs/newrunnerdesign.png. One contained card; a row per
+   slot with a round icon chip, uppercase label, hairline dividers. Chips use
+   the accent-soft/accent-dark pairing (the .cl-num precedent). */
+.pv-k {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-card);
+  padding: 0;
+}
+.pv-k__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sero-space-4);
+  align-items: start;
+  padding: var(--sero-space-5) var(--sero-space-6);
+}
+.pv-k__row + .pv-k__row {
+  border-top: 1px solid var(--color-border-tinted);
+}
+.pv-k__icon {
+  width: var(--sero-space-10);
+  height: var(--sero-space-10);
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.pv-k__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  min-width: 0;
+}
+.pv-k__body p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+@media (max-width: 768px) {
+  .pv-k__row {
+    padding: var(--sero-space-4);
+  }
+}
