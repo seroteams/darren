@@ -102,6 +102,7 @@ The agent auto-loads the right rulebook for the work (each skill triggers on its
 - **Phase approved / green light** → [`phase-close`](.claude/skills/phase-close/SKILL.md): the ordered every-tracker close-out checklist.
 - **Committing anything** → [`safe-commit`](.claude/skills/safe-commit/SKILL.md): path-scoped adds only; never sweep foreign work; push only when asked.
 - **"Night test" / overnight QA** → [`night-test`](.claude/skills/night-test/SKILL.md): runs [docs/reference/night-test-prompt.md](docs/reference/night-test-prompt.md) with the cost ceiling + report shape enforced.
+- **"Goodnight" / end-of-day sweep** → [`goodnight`](.claude/skills/goodnight/SKILL.md): all free tests (+ paid to a stated budget, default $2), tie off green-lit work, tidy junk, fold finished branches, push live via /release, honest open-list report. Never sweeps live sessions' work.
 - **Run reviews** → [`reviewrun`](.claude/skills/reviewrun/SKILL.md): assembles the run-context block itself — Carl never pastes it.
 
 From Phase 002 on: all **new** code is TypeScript (strict — `npm run typecheck`) and **test-first**. (Converting the existing JavaScript is Phase 003.)
