@@ -36,6 +36,11 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > **▶ Your move:** say "build validation-kit Phase 3". Separately, yours alone: name the 3
 > corridor managers + flip Render to the paid tier.
 
+> **🔨 [engine-hardening](docs/plans/doing/engine-hardening/plan.md) — NEW track (2026-07-10): 3 robustness wins mined from the old-Sero RUNNER.md. Invisible to managers — doesn't touch the validation metric. P1 ✅ green-lit + committed · P2 next.**
+> From Carl's review of RUNNER.md (old Sero): three engine-hardening ideas the current engine lacks. All offline/unit-testable — **$0, no paid runs.**
+> **P1 ✅ green-lit + committed 2026-07-10 ($0):** per-call **latency capture** — every recorded AI call now carries `ms`, run summary sums `total_ms` (feeds the plan-turn cache-cost work). Live OpenAI/Gemini fetches are timed; cassette-replay stays `ms: 0` (honest — no network). Test-first, `npm test` **112/112**, typecheck clean.
+> **▶ Your move:** say "build engine-hardening Phase 2" → concurrency cap + circuit breaker on live AI calls (new `ai-guard.ts`, replay bypasses it). Then P3 = positive validation checks.
+
 > **🔨 [thread-follow](docs/plans/doing/thread-follow/plan.md) — NEW track (2026-07-09): make the engine follow the person's answer, not just march its queue. P1 ✅ green-lit + committed · P2 next.**
 > From the 8–9 Jul night test: thread-following scored 55–65/100 on every run (the one systemic weak muscle) —
 > people volunteered threads (Priya's mentoring, Tom's adjacent-team trust) and the coverage engine / drill cap
@@ -250,4 +255,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-10 (validation-kit P1 + P2 ✅ green-lit — live /tasks checklist + return-signal view with came-back badge; P3 briefing feedback tap next)
+- Last updated: 2026-07-10 (engine-hardening P1 ✅ green-lit — per-call latency capture, mined from old-Sero RUNNER.md; P2 concurrency cap + breaker next)

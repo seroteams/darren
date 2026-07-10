@@ -169,6 +169,7 @@ async function _callOpenAI({
   if (!apiKey) throw new Error("OPENAI_API_KEY not set");
 
   return withRetry(async () => {
+    const startedAt = Date.now();
     const res = await fetchWithTimeout("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
@@ -193,7 +194,7 @@ async function _callOpenAI({
       throw err;
     }
     const data: OpenAIChatResponse = JSON.parse(await res.text());
-    cost.record(costLabel, model, data.usage);
+    cost.record(costLabel, model, data.usage, Date.now() - startedAt);
     return data.choices?.[0]?.message?.content ?? "";
   }, `OpenAI/${costLabel}`);
 }
@@ -210,6 +211,7 @@ async function _callGemini({
   if (!apiKey) throw new Error("GEMINI_API_KEY not set");
 
   return withRetry(async () => {
+    const startedAt = Date.now();
     const res = await fetchWithTimeout(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
@@ -238,7 +240,7 @@ async function _callGemini({
       completion_tokens: data.usageMetadata?.candidatesTokenCount ?? 0,
       total_tokens: data.usageMetadata?.totalTokenCount ?? 0,
     };
-    cost.record(costLabel, model, usage);
+    cost.record(costLabel, model, usage, Date.now() - startedAt);
     return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
   }, `Gemini/${costLabel}`);
 }

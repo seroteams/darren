@@ -22,6 +22,7 @@ export interface CostCall {
   known_price: boolean;
   price_note: string | undefined; // the "no pricing for X" reason; set only when price is unknown
   at: string; // ISO timestamp
+  ms: number; // wall-clock duration of the call; 0 for replayed (cassette) calls — no network happened
 }
 
 /** `tracker.summary()` — surfaced on the briefing as `cost`. */
@@ -33,11 +34,12 @@ export interface CostSummary {
   completion_tokens: number;
   cached_tokens: number;
   total_tokens: number;
+  total_ms: number; // sum of per-call durations
   calls: CostCall[];
 }
 
 /** The live per-run cost tracker (runtime-only; never serialized). */
 export interface CostTracker {
-  record(stage: string, model: string, usage?: OpenAiUsage): void;
+  record(stage: string, model: string, usage?: OpenAiUsage, ms?: number): void;
   summary(): CostSummary;
 }

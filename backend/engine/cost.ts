@@ -61,7 +61,7 @@ function costOf(
 
 function createTracker(): CostTracker {
   const calls: CostCall[] = [];
-  const record = (stage: string, model: string, usage: OpenAiUsage | undefined): void => {
+  const record = (stage: string, model: string, usage: OpenAiUsage | undefined, ms = 0): void => {
     const { usd, known, reason } = costOf(model, usage);
     calls.push({
       stage,
@@ -74,6 +74,7 @@ function createTracker(): CostTracker {
       known_price: known,
       price_note: reason,
       at: new Date().toISOString(),
+      ms: Number(ms) || 0,
     });
   };
   const summary = (): CostSummary => {
@@ -82,12 +83,14 @@ function createTracker(): CostTracker {
     let prompt = 0;
     let completion = 0;
     let cached = 0;
+    let ms = 0;
     for (const c of calls) {
       if (c.known_price && c.usd_cost != null) usd += c.usd_cost;
       else unknownCalls += 1;
       prompt += c.prompt_tokens;
       completion += c.completion_tokens;
       cached += c.cached_tokens;
+      ms += c.ms;
     }
     return {
       call_count: calls.length,
@@ -97,6 +100,7 @@ function createTracker(): CostTracker {
       completion_tokens: completion,
       cached_tokens: cached,
       total_tokens: prompt + completion,
+      total_ms: ms,
       calls,
     };
   };
@@ -110,8 +114,8 @@ const setActive = (t: CostTracker | null): void => {
   _active = t;
 };
 const getActive = (): CostTracker | null => _active;
-const record = (stage: string, model: string, usage: OpenAiUsage | undefined): void => {
-  if (_active) _active.record(stage, model, usage);
+const record = (stage: string, model: string, usage: OpenAiUsage | undefined, ms = 0): void => {
+  if (_active) _active.record(stage, model, usage, ms);
 };
 
 function formatUsd(usd: number | null | undefined): string {

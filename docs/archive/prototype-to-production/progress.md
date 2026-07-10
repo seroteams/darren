@@ -9,6 +9,14 @@
 ---
 
 ## Where we are now
+- **2026-07-10** — **engine-hardening P1 ✅ green-lit — per-call latency capture.** New side track, mined from
+  Carl's review of the old-Sero `RUNNER.md`: the old build logged per-call latency; the current cost tracker
+  didn't. Now every recorded AI call carries `ms` and the run summary sums `total_ms` (live OpenAI/Gemini fetches
+  timed with `Date.now()`; cassette-replay stays `ms: 0` — honest, no network happened). Test-first (2 cases,
+  red→green), `npm test` 112/112, typecheck clean, **$0 — offline only**. **Lesson:** the whole track is
+  unit-testable, so the Darren-Method "baseline = `npm run gate`" step was swapped for the free `npm test` +
+  typecheck baseline — the money rule (free first) overrides the skill's default paid baseline when the work
+  never touches the API.
 - **2026-07-10** — **validation-kit P2 ✅ green-lit — User management now answers "did they come back?" per manager.**
   The superadmin run reads project `createdAt` (run start; legacy rows fall back to lastSeenAt, and rows with no
   timestamps report null — never a fake 1970 date), and the service derives `firstRunAt` / `gapDays` (first two
