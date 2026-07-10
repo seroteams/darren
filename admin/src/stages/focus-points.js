@@ -37,7 +37,7 @@ export async function mount(root, { store, setState }) {
     setState({ stage: STAGES.START });
   });
 
-  const orb = createOrb("Analyzing context…");
+  const orb = createOrb("Analysing context…");
   thinkingHost.appendChild(orb.el);
   resultHost.appendChild(createSkeleton(4));
 
@@ -81,10 +81,10 @@ export async function mount(root, { store, setState }) {
         <div class="ctx-segments focus-ctx text-ink-dim"></div>
       </div>
       <div class="card-flat space-y-2 mb-5 reveal">
-        <div class="eyebrow">What Sero should know</div>
-        <p class="text-ink-dim">${escape(store.ctx?.notes || "(no manager context provided)")}</p>
+        <div class="eyebrow">Your notes</div>
+        <p class="text-ink-dim">${escape(store.ctx?.notes || "(no notes added)")}</p>
       </div>
-      ${store.scripted ? `<div class="focus-select-hint reveal">Choose what the prep brief should emphasize. Replay questions stay fixed.</div>` : `<div class="focus-select-hint reveal">Select at least one topic for this 1:1.</div>`}
+      ${store.scripted ? `<div class="focus-select-hint reveal">Choose what the prep brief should emphasise. Replay questions stay fixed.</div>` : `<div class="focus-select-hint reveal">Select at least one topic for this 1:1.</div>`}
       <div class="card reveal focus-point-list">
         ${d.focus_points.map((fp, i) => `
           <div class="js-fp-wrapper">

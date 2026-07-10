@@ -12,7 +12,7 @@ test("welcome: carries the exact agreed copy", () => {
   assert.ok(html.includes("Walk into your next 1:1 well prepared."), "H1");
   assert.ok(
     html.includes(
-      "Sero turns your rough notes into a focused prep brief and sharper questions for your next one-to-one. It takes about two minutes.",
+      "Sero turns your rough notes into a focused prep brief and sharper questions for your next 1:1. It takes about two minutes.",
     ),
     "body copy",
   );

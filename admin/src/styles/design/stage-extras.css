@@ -47,7 +47,7 @@
 ----------------------------------------------------------------------------- */
 .brutal__eyebrow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
 .brutal__badge {
-  font-size: var(--type-caption, 0.72rem);
+  font-size: var(--type-caption, 0.875rem);
   font-weight: var(--type-weight-semibold);
   letter-spacing: 0.02em;
   text-transform: uppercase;

@@ -28,8 +28,8 @@ export async function mount(root, { setState }) {
         <div class="auth-panel l-stack l-stack--6">
           <div class="auth-brand">
             <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
-            <h1 class="auth-brand__title">Sero - where teams thrive</h1>
-            <p class="auth-brand__sub">Your 1:1s are broken. Let's fix that.</p>
+            <h1 class="auth-brand__title">Welcome back</h1>
+            <p class="auth-brand__sub">Log in to prep your next 1:1.</p>
           </div>
           <form class="l-stack l-stack--4 js-form" novalidate>
             <label class="l-stack l-stack--2">

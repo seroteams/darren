@@ -382,7 +382,7 @@ export function ctaRowHtml(): string {
   return `<div class="l-cluster l-cluster--2 pt-2">
     <button class="btn js-continue">Generate 1:1 questions</button>
     <button type="button" class="btn btn--ghost js-copy-all-prep">Copy all</button>
-    <button type="button" class="btn btn--ghost js-restart">New session</button>
+    <button type="button" class="btn btn--ghost js-restart">New 1:1</button>
   </div>`;
 }
 

@@ -20,11 +20,11 @@ export async function mount(root, { store, setState, resetSession }) {
       <div class="stage-inner l-stack l-stack--6">
         <h1 class="h1">Briefing not available</h1>
         <div class="error-card">
-          <div class="text-ink-dim">This session has no saved briefing. You can restart evaluation or begin a new run.</div>
+          <div class="text-ink-dim">This 1:1 has no saved briefing yet. You can try again or start a new 1:1.</div>
         </div>
         <div class="l-cluster l-cluster--2">
-          <button class="btn js-retry-eval" type="button">Run evaluation again</button>
-          <button class="btn btn--ghost js-restart" type="button">New session</button>
+          <button class="btn js-retry-eval" type="button">Try again</button>
+          <button class="btn btn--ghost js-restart" type="button">New 1:1</button>
         </div>
       </div>
     `;
@@ -411,7 +411,7 @@ export async function mount(root, { store, setState, resetSession }) {
     const rvSave = async (message) => {
       try {
         await submitRunVerdict(store.sessionId, rvChosen, message || "");
-        rvStatus.textContent = message ? "Noted — thanks!" : "Thanks!";
+        rvStatus.textContent = message ? "Noted — thanks." : "Thanks.";
       } catch {
         rvStatus.textContent = "Couldn't save — fine to skip.";
       }
