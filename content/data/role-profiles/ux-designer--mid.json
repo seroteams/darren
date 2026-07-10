@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783688597899,
+  "role_title_raw": "UX Designer",
+  "role_slug": "ux-designer",
+  "seniority_raw": "Mid",
+  "seniority_key": "mid",
+  "role_family": "design",
+  "profile": {
+    "summary": "A mid-level UX Designer turns product goals and user needs into flows, wireframes, prototypes, and tested design decisions. They usually own parts of a product area rather than the whole design strategy. They work closely with product managers, engineers, researchers, content designers, and other designers to ship usable, accessible experiences and improve them through feedback and evidence.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing speed to ship with enough research, iteration, and validation.",
+        "category": "topic"
+      },
+      {
+        "text": "Defending design decisions when feedback is subjective or driven by hierarchy.",
+        "category": "competency"
+      },
+      {
+        "text": "Working through unclear product requirements or shifting priorities.",
+        "category": "topic"
+      },
+      {
+        "text": "Keeping accessibility and edge cases in scope under delivery pressure.",
+        "category": "topic"
+      },
+      {
+        "text": "Absorbing frequent critique and revisions without losing confidence or energy.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Clarity of ownership and decision-making",
+        "why": "Mid-level UX Designers do best when they know what they own and who can approve or override key choices.",
+        "category": "topic"
+      },
+      {
+        "theme": "Quality of cross-functional collaboration",
+        "why": "Their impact depends heavily on how well product, engineering, and design are aligned during discovery and delivery.",
+        "category": "topic"
+      },
+      {
+        "theme": "Confidence in design rationale and critique",
+        "why": "This level is often expected to explain trade-offs clearly and use feedback without becoming overly reactive.",
+        "category": "competency"
+      },
+      {
+        "theme": "Research and evidence in day-to-day work",
+        "why": "Managers should understand whether they have enough user input to make sound decisions instead of guessing.",
+        "category": "topic"
+      },
+      {
+        "theme": "Workload sustainability during iteration cycles",
+        "why": "Repeated revisions, tight deadlines, and context switching can quietly drain energy and motivation.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Growth in end-to-end product thinking",
+        "why": "This level is usually stretching from producing screens to shaping flows, outcomes, and trade-offs.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "User flow",
+        "meaning": "Step-by-step path a user takes to complete a task.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Wireframe",
+        "meaning": "Low-detail layout showing structure and content placement.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model used to test or explain interactions.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching users try tasks to find friction.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components and rules for consistent product design.",
+        "group": "ux-craft"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback focused on the work, not the person.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Cross-functional",
+        "meaning": "Working closely with product, engineering, and other disciplines.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Discovery",
+        "meaning": "Early work to understand problems, users, and options.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing design intent and details to engineering.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Iteration",
+        "meaning": "Improving a design through repeated changes and feedback.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Regular learning from users alongside product development.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Trade-off",
+        "meaning": "Choosing what matters most when everything cannot fit.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Design rationale",
+        "meaning": "Clear explanation for why a design choice was made.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Edge case",
+        "meaning": "Less common situation that still needs to work.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Constraint",
+        "meaning": "A limit from technology, policy, time, or business needs.",
+        "group": "growing-in-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "ux-craft",
+        "label": "UX craft"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Ways of working"
+      },
+      {
+        "key": "growing-in-role",
+        "label": "Growing in the role"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about user problems or mainly about screens and stakeholders.",
+      "How clearly they explain trade-offs behind a design choice.",
+      "Whether they mention engineers early or only at handoff time.",
+      "Signs they are stuck waiting for decisions, feedback, or research access.",
+      "Whether critique sounds energising, confusing, or personally draining."
+    ],
+    "avoid": [
+      "Treating them like a visual decorator instead of a product design partner.",
+      "Pushing for polished screens before the problem or flow is clear.",
+      "Assuming lack of certainty means lack of skill when requirements are vague.",
+      "Using stakeholder preference as a substitute for user evidence."
+    ]
+  }
+}
