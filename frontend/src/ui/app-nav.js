@@ -47,13 +47,16 @@ const MENU_ICON = icon(Menu);
 
 export function createAppNav({ setState, resetSession } = {}) {
   const el = document.createElement("header");
-  el.className = "app-nav app-nav--member"; // compact, ungrouped rail styling
+  // Mount HIDDEN: the rail's visibility depends on who's signed in, which we
+  // only learn once the async auth check (me()) resolves. Starting visible made
+  // a logged-out visitor see the rail flash in, then vanish once boot finished —
+  // render() reveals it (removes is-hidden / adds has-app-nav) only when auth is known.
+  el.className = "app-nav app-nav--member is-hidden"; // compact, ungrouped rail styling
   el.id = "app-nav-drawer";
-  document.body.classList.add("has-app-nav");
 
   // Mobile header strip + scrim (display:none on desktop).
   const bar = document.createElement("div");
-  bar.className = "app-nav-mobilebar";
+  bar.className = "app-nav-mobilebar is-hidden";
   bar.innerHTML = `
     <button type="button" class="app-nav-mobilebar__menu js-menu" aria-label="Open menu" aria-expanded="false" aria-controls="app-nav-drawer">${MENU_ICON}</button>
     <button type="button" class="app-nav-mobilebar__brand js-bar-home" aria-label="Sero home">
