@@ -22,6 +22,12 @@ const { runSmoke } = require("./lib/run-scenario");
 const { scoreSessionDir, loadBankQuestions } = require("./lib/session-scores.ts");
 const { runTrustChecks } = require("../evals/trust-checks.ts");
 const { CONTENT_DIR } = require("../backend/engine/paths.mts");
+const { hasDatabaseUrl } = require("../backend/db/client.ts");
+const { hydrateQuestionCache } = require("../backend/db/questions-store.ts");
+const { hydrateArcOverlays } = require("../backend/db/arc-overlays-store.ts");
+const { hydrateRoleProfiles } = require("../backend/db/role-profiles-store.ts");
+const { OVERLAYS_DIR } = require("../backend/engine/arc-overlay.ts");
+const { PROFILES_DIR } = require("../backend/engine/role-profile.ts");
 
 loadEnv();
 
@@ -214,6 +220,16 @@ async function main() {
   if (!process.env.OPENAI_API_KEY) {
     console.error("OPENAI_API_KEY not set — the gate re-runs the live pipeline and needs it.");
     process.exit(2);
+  }
+
+  // DB mode boots the same caches as server.ts/cli.ts (postgres-runtime-data
+  // P4/P5): trust-checks read role profiles in THIS process — an unhydrated
+  // read throws by design. (The pipeline itself runs in a child that hydrates
+  // itself.)
+  if (hasDatabaseUrl()) {
+    await hydrateQuestionCache();
+    await hydrateArcOverlays(OVERLAYS_DIR);
+    await hydrateRoleProfiles(PROFILES_DIR);
   }
 
   console.log(`\nTrust gate — ${cases.length} case(s)${args.judge ? " (with judge)" : ""}\n`);

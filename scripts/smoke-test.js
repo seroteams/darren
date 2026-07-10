@@ -32,6 +32,12 @@ const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("../backend/engin
 const { scanSessions, resolveNewSession } = require("./lib/session-fs");
 const { stringifyYaml, parseYaml } = require("../backend/engine/questions.ts");
 const { CONTENT_DIR, QUESTIONS_DIR } = require("../backend/engine/paths.mts");
+const { hasDatabaseUrl } = require("../backend/db/client.ts");
+const { hydrateQuestionCache } = require("../backend/db/questions-store.ts");
+const { hydrateArcOverlays } = require("../backend/db/arc-overlays-store.ts");
+const { hydrateRoleProfiles } = require("../backend/db/role-profiles-store.ts");
+const { OVERLAYS_DIR } = require("../backend/engine/arc-overlay.ts");
+const { PROFILES_DIR } = require("../backend/engine/role-profile.ts");
 
 loadEnv();
 
@@ -243,57 +249,75 @@ const inputs = [
 // +10 covers post-eval prompts: lexicon review (1) + rating prompts (≤3) + headroom.
 while (inputs.length < 7 + BUDGET + 10) inputs.push("");
 
-// -------------------------------------------------------------- Expectations
-unitChecks();
-
-const models = allResolved();
 const banner = (s) => `\n━━━ ${s} ${"━".repeat(Math.max(3, 60 - s.length))}`;
+const logsBefore = new Set(scanSessions(path.join(__dirname, "..")));
 
-console.log(banner("Sero smoke test"));
-console.log(`  scenario:   ${scenarioPath}`);
-console.log(`  persona:    ${scenario.name} · ${scenario.role} · ${scenario.seniority}`);
-console.log(`  meeting:    ${scenario.meeting_type}`);
-console.log(`  models:     (from config/models.json)`);
-console.log(`    focus-points   ${models.focus_points}`);
-console.log(`    bank           ${models.bank}`);
-console.log(`    planner        ${models.planner}  (×${BUDGET} calls)`);
-console.log(`    evaluation     ${models.evaluation}`);
-console.log(`  answers:    ${answers.length} prepared (budget is ${BUDGET})`);
-console.log(`  API calls:  ~${2 + BUDGET + 1} to OpenAI`);
-console.log(`  est time:   45–120s`);
-console.log(banner("live output"));
+// -------------------------------------------------------------- Expectations
+async function main() {
+  // DB mode boots the same caches as server.ts/cli.ts (postgres-runtime-data
+  // P4/P5): unitChecks builds real prompts, and the type registry reads arc
+  // overlays — an unhydrated read throws by design. The spawned cli.ts child
+  // hydrates itself.
+  if (hasDatabaseUrl()) {
+    await hydrateQuestionCache();
+    await hydrateArcOverlays(OVERLAYS_DIR);
+    await hydrateRoleProfiles(PROFILES_DIR);
+  }
 
-if (!process.env.OPENAI_API_KEY) {
-  console.error("OPENAI_API_KEY not set in env or .env. Cannot run smoke test.");
-  process.exit(2);
+  unitChecks();
+
+  const models = allResolved();
+
+  console.log(banner("Sero smoke test"));
+  console.log(`  scenario:   ${scenarioPath}`);
+  console.log(`  persona:    ${scenario.name} · ${scenario.role} · ${scenario.seniority}`);
+  console.log(`  meeting:    ${scenario.meeting_type}`);
+  console.log(`  models:     (from config/models.json)`);
+  console.log(`    focus-points   ${models.focus_points}`);
+  console.log(`    bank           ${models.bank}`);
+  console.log(`    planner        ${models.planner}  (×${BUDGET} calls)`);
+  console.log(`    evaluation     ${models.evaluation}`);
+  console.log(`  answers:    ${answers.length} prepared (budget is ${BUDGET})`);
+  console.log(`  API calls:  ~${2 + BUDGET + 1} to OpenAI`);
+  console.log(`  est time:   45–120s`);
+  console.log(banner("live output"));
+
+  if (!process.env.OPENAI_API_KEY) {
+    console.error("OPENAI_API_KEY not set in env or .env. Cannot run smoke test.");
+    process.exit(2);
+  }
+
+  // ----------------------------------------------------------------- Spawn
+  const startedAt = Date.now();
+
+  const child = spawn(process.execPath, [path.join(__dirname, "..", "backend", "cli.ts")], {
+    stdio: ["pipe", "pipe", "inherit"],
+    env: { ...process.env, NO_COLOR: "1" }, // cleaner test output
+  });
+
+  // Pipe each answer on its own line. readline in cli.ts consumes lines one at
+  // a time as rl.question() fires; buffering the whole script up front is fine.
+  child.stdin.write(inputs.join("\n") + "\n");
+  child.stdin.end();
+
+  // Tee stdout so we see the flow as it runs but can also buffer for later.
+  const stdoutChunks = [];
+  child.stdout.on("data", (chunk) => {
+    stdoutChunks.push(chunk);
+    process.stdout.write(chunk);
+  });
+
+  child.on("exit", (code) => {
+    const duration = ((Date.now() - startedAt) / 1000).toFixed(1);
+    console.log(banner(`child exited (code ${code}, ${duration}s)`));
+    const stdout = Buffer.concat(stdoutChunks).toString();
+    verify(code, stdout).then((ok) => process.exit(ok ? 0 : 1));
+  });
 }
 
-// ------------------------------------------------------------------- Spawn
-const logsBefore = new Set(scanSessions(path.join(__dirname, "..")));
-const startedAt = Date.now();
-
-const child = spawn(process.execPath, [path.join(__dirname, "..", "backend", "cli.ts")], {
-  stdio: ["pipe", "pipe", "inherit"],
-  env: { ...process.env, NO_COLOR: "1" }, // cleaner test output
-});
-
-// Pipe each answer on its own line. readline in cli.ts consumes lines one at
-// a time as rl.question() fires; buffering the whole script up front is fine.
-child.stdin.write(inputs.join("\n") + "\n");
-child.stdin.end();
-
-// Tee stdout so we see the flow as it runs but can also buffer for later.
-const stdoutChunks = [];
-child.stdout.on("data", (chunk) => {
-  stdoutChunks.push(chunk);
-  process.stdout.write(chunk);
-});
-
-child.on("exit", (code) => {
-  const duration = ((Date.now() - startedAt) / 1000).toFixed(1);
-  console.log(banner(`child exited (code ${code}, ${duration}s)`));
-  const stdout = Buffer.concat(stdoutChunks).toString();
-  verify(code, stdout).then((ok) => process.exit(ok ? 0 : 1));
+main().catch((e) => {
+  console.error(e instanceof Error ? e.message : String(e));
+  process.exit(2);
 });
 
 // ---------------------------------------------------------------- Verify
