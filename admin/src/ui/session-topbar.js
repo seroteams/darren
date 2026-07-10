@@ -5,12 +5,16 @@
 // Left-anchored Session button opens a popover to save & exit or delete.
 // Mounted once in main.js, kept in sync by the store subscribe callback.
 
+import { Check } from "lucide";
 import { STAGES } from "../state.js";
 import { deleteRun } from "../../../shared/api.js";
 import { confirmAction } from "./confirm.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
-import { createGlossaryButton } from "./glossary.js";
 import { createStageReview } from "./stage-review.js";
+import { icon } from "./icon.js";
+
+// Rendered once — the check that marks a completed, reviewable stage.
+const CHECK_MARK = icon(Check, { size: 13, className: "stage-step__check" });
 
 // The stage breadcrumb is meaningful only while a run is in progress or just
 // finished. Everything else — home, the standalone tools/library, errors —
@@ -70,9 +74,6 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const profileAvatar = profile.querySelector(".session-topbar__avatar");
   const profileEmail = profile.querySelector(".session-topbar__email");
   row.appendChild(profile);
-
-  const glossaryBtn = createGlossaryButton();
-  row.appendChild(glossaryBtn);
 
   document.body.classList.add("has-session-topbar");
 
@@ -185,14 +186,29 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
           // moved past the board (curIdx === -1, e.g. session review), every
           // stage is done.
           const status = curIdx === -1 || i < curIdx ? "done" : i === curIdx ? "current" : "upcoming";
-          const sep = i > 0 ? '<span class="sep" aria-hidden="true">·</span>' : "";
+          // The rail leading into this step is "filled" once the step is reached
+          // (done or current), grey while it's still ahead — a progress track.
+          const railFilled = curIdx === -1 || i <= curIdx;
+          const rail = i > 0
+            ? `<span class="stage-rail ${railFilled ? "is-filled" : "is-empty"}" aria-hidden="true"></span>`
+            : "";
+          const inner = `${status === "done" ? CHECK_MARK : '<span class="stage-step__dot" aria-hidden="true"></span>'}<span class="stage-step__label">${label}</span>`;
           if (status === "done") {
-            return `${sep}<button type="button" class="stage-step--clickable is-done" data-stage="${key}" title="${fullLabel}">${label}</button>`;
+            return `${rail}<button type="button" class="stage-step is-done stage-step--clickable" data-stage="${key}" title="${fullLabel}">${inner}</button>`;
           }
-          return `${sep}<span class="is-${status}" title="${fullLabel}">${label}</span>`;
+          return `${rail}<span class="stage-step is-${status}" title="${fullLabel}">${inner}</span>`;
         }
       )
       .join("");
+
+    // Phone-only progress cue: at 375px the rail collapses to just the current
+    // pill, so a "5 of 7" counter carries the sense of place the rail can't.
+    const total = TOPBAR_STAGES.length;
+    const pos = curIdx === -1 ? total : curIdx + 1;
+    stages.insertAdjacentHTML(
+      "beforeend",
+      `<span class="session-topbar__count" aria-hidden="true">${pos} of ${total}</span>`,
+    );
 
     stages.querySelectorAll(".stage-step--clickable").forEach((btn) => {
       btn.addEventListener("click", () => stageReview.open(btn.dataset.stage));
@@ -202,7 +218,6 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
 
     const noSession = !sessionId;
     sessionBtn.disabled = noSession;
-    glossaryBtn.hidden = false;
     if (popover && noSession) closePopover();
   }
 

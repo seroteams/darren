@@ -2,7 +2,7 @@
    Session topbar — fixed bar showing interview context across in-session stages
 ----------------------------------------------------------------------------- */
 .session-topbar {
-  --session-topbar-h: 44px;
+  --session-topbar-h: 50px;
   position: fixed;
   top: 0;
   left: var(--app-nav-w);
@@ -30,44 +30,86 @@
   color: var(--color-ink);
   font-weight: 500;
 }
+/* -----------------------------------------------------------------------------
+   Stage stepper — a progress rail, not a breadcrumb. Each stage is a pill with a
+   node marker (check = done · filled dot = here · hollow dot = ahead); a thin
+   rail between them fills up to the stage you're on.
+----------------------------------------------------------------------------- */
+.session-topbar__stages .stage-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  padding: 0.34rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  background: transparent;
+}
+.session-topbar__stages .stage-step__label {
+  line-height: 1;
+}
+/* Node markers. Done gets the Lucide check; the others a small dot. */
+.session-topbar__stages .stage-step__check {
+  flex: 0 0 auto;
+  color: var(--color-accent);
+}
+.session-topbar__stages .stage-step__dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+/* Here — the one you're on. Soft-blue pill, accent-dark label, a live dot. */
 .session-topbar__stages .is-current {
   color: var(--sero-primary-800);
   font-weight: 600;
-  background: var(--sero-primary-200);
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--sero-primary-200);
 }
-/* Breadcrumb status: done = reviewable (clickable), upcoming = muted. */
-.session-topbar__stages .is-done,
+.session-topbar__stages .is-current .stage-step__dot {
+  background: var(--color-accent);
+}
+
+/* Ahead — still to come. Muted, hollow node. */
 .session-topbar__stages .is-upcoming {
   color: var(--color-ink-mute);
-  font-weight: 500;
 }
-.session-topbar__stages .stage-step--clickable {
-  background: transparent;
-  border: 0;
-  font: inherit;
-  font-weight: 500;
-  padding: 0.1rem 0.25rem;
-  margin: 0 -0.25rem;
-  border-radius: 4px;
-  cursor: pointer;
+.session-topbar__stages .is-upcoming .stage-step__dot {
+  box-shadow: inset 0 0 0 1.5px var(--color-border);
+}
+
+/* Done — reviewable. Dim label, accent check; lifts on hover. */
+.session-topbar__stages .is-done {
   color: var(--color-ink-dim);
+  cursor: pointer;
+  transition: background var(--dur-fast, 120ms) var(--ease-out, ease),
+    color var(--dur-fast, 120ms) var(--ease-out, ease);
 }
-.session-topbar__stages .stage-step--clickable::before {
-  content: "✓";
-  margin-right: 0.3rem;
-  font-size: 0.7em;
-  color: var(--color-accent, var(--color-purple));
-  opacity: 0.8;
-}
-.session-topbar__stages .stage-step--clickable:hover {
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+.session-topbar__stages .is-done:hover {
+  background: var(--color-bg);
   color: var(--color-ink);
 }
-.session-topbar .sep {
-  margin: 0 0.6rem;
-  opacity: 0.5;
+.session-topbar__stages .is-done:focus-visible {
+  outline: none;
+  box-shadow: var(--sero-shadow-focus);
+}
+
+/* The rail between two nodes — fills up to the stage you're on. */
+.session-topbar__stages .stage-rail {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--color-border);
+}
+.session-topbar__stages .stage-rail.is-filled {
+  background: var(--color-accent);
 }
 /* Who's signed in — initials circle + email pill, where the step counter used
    to be. Matches the floating profile badge (app-nav.css) so the two surfaces
@@ -108,6 +150,52 @@
   text-overflow: ellipsis;
 }
 body.has-session-topbar {
-  padding-top: 44px;
+  padding-top: 50px;
+}
+
+/* The "5 of 7" counter only earns its place on phones (see below). */
+.session-topbar__count {
+  display: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Tablet (768–1023px) — node-collapse rail. Seven full-label pills won't fit
+   next to the Session button and profile chip, so every stage shrinks to just
+   its node marker; only the stage you're on keeps its label. The rail still
+   carries the progress story, and done nodes stay tappable.
+----------------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .session-topbar__stages .stage-step:not(.is-current) .stage-step__label {
+    display: none;
+  }
+  .session-topbar__stages .stage-step:not(.is-current) {
+    padding: 0.4rem 0.55rem;
+  }
+  .session-topbar__stages .stage-rail {
+    width: 16px;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Phone (≤767px) — the rail collapses to the current pill (done/upcoming/rails
+   hidden in mobile.css); the counter stands in for the lost progress context.
+----------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  .session-topbar__count {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.5rem;
+    font-size: var(--type-body-sm);
+    font-weight: 500;
+    color: var(--color-ink-mute);
+    white-space: nowrap;
+  }
+  /* Profile slims to the avatar alone — mirrors the member profile-badge. */
+  .session-topbar__profile {
+    padding: 4px;
+  }
+  .session-topbar__email {
+    display: none;
+  }
 }
 

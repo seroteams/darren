@@ -91,17 +91,20 @@
 ----------------------------------------------------------------------------- */
 .session-topbar__start {
   background: transparent;
-  border: 0;
+  border: 1px solid var(--color-border);
   color: var(--color-ink);
   font: inherit;
   font-weight: 600;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.85rem;
   margin-right: 1.25rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 999px;
+  transition: background var(--dur-fast, 120ms) var(--ease-out, ease),
+    border-color var(--dur-fast, 120ms) var(--ease-out, ease);
 }
 .session-topbar__start:hover:not(:disabled) {
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  background: var(--color-bg);
+  border-color: var(--color-ink-mute);
 }
 .session-topbar__start:disabled {
   opacity: 0.45;
@@ -126,24 +129,6 @@
 }
 .session-topbar__stages::-webkit-scrollbar {
   display: none;
-}
-.session-topbar__glossary {
-  flex-shrink: 0;
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--color-ink-mute);
-  font: inherit;
-  font-size: var(--type-body-sm);
-  font-weight: 600;
-  cursor: pointer;
-  line-height: 1;
-}
-.session-topbar__glossary:hover {
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
-  color: var(--color-ink);
 }
 .intake-progress {
   height: 3px;

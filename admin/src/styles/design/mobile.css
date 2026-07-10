@@ -140,7 +140,7 @@
   }
   .session-topbar__stages .is-done,
   .session-topbar__stages .is-upcoming,
-  .session-topbar__stages .sep {
+  .session-topbar__stages .stage-rail {
     display: none;
   }
 
