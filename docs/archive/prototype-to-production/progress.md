@@ -9,6 +9,17 @@
 ---
 
 ## Where we are now
+- **2026-07-10** — **universe-monitoring P1 ✅ green-lit — the Universe map starts earning its keep.**
+  Return-visit glow: person planets brighten on a 7-day half-life from their newest 1:1's `lastSeenAt`,
+  fading (never vanishing) when a manager goes quiet — the Gate-1 "do they come back" signal on one screen;
+  panel adds a plain-words "Last 1:1 · N days ago" line. Pure math in `universe.model.ts` (test-first,
+  red→green), renderer injects `Date.now()` so `buildUniverse` stays deterministic. $0, 114/114.
+  **Two lessons:** ① exploration before promising features caught that star ratings are dead code in the
+  Universe (feed omits the column; model reads the wrong type) and that per-run safety-gate outcomes
+  don't exist at all — Phase 2 was scoped to real recorded data (review verdict, rating, staleness)
+  instead of a fictional "gate" signal. ② the embedded Browser pane runs `document.hidden=true` so
+  rAF-driven canvas never draws (black canvas, screenshot timeouts) — shim rAF onto setTimeout and
+  re-mount the stage via SPA navigation to verify; noted in memory for future canvas work.
 - **2026-07-10** — **validation-kit P3 ✅ closed (walk waived) — every live briefing now asks its one question.**
   "Would you run this 1:1 differently now?" — Yes/No + optional line, saved on tap, guests included (the write
   route deliberately has no login wall, mirroring error reports), **upserted one-row-per-run** so re-taps and late

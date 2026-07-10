@@ -38,6 +38,15 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > **▶ Your move:** say "build validation-kit Phase 4". Separately, yours alone: name the 3
 > corridor managers + flip Render to the paid tier.
 
+> **🔨 [universe-monitoring](docs/plans/doing/universe-monitoring/plan.md) — NEW track (2026-07-10): the Universe map becomes a monitoring tool. P1 ✅ green-lit · P2 next.**
+> Three read-only overlays, all $0 (no OpenAI calls anywhere in the track).
+> **P1 ✅ green-lit 2026-07-10 (Carl walked the 5 scenarios):** return-visit glow — person planets burn bright
+> when their manager ran a 1:1 recently and fade (never vanish) on a 7-day half-life; the panel gains a plain-words
+> "Last 1:1 · 3 days ago" line. This is the Gate-1 signal (are managers coming back) visible at a glance.
+> Test-first (3 new model tests, red→green), suite 114/114, typecheck clean, verified in the browser on real data.
+> **▶ Your move:** say "build universe-monitoring P2" (health signals: stalled sessions, QA-verdict rings,
+> star ratings revived on the feed) — another day, fresh session.
+
 > **✅ [engine-hardening](docs/plans/done/engine-hardening/plan.md) — TRACK CLOSED 2026-07-10: all 3 phases green-lit in one sitting, $0 total. Robustness wins mined from the old-Sero RUNNER.md — invisible to managers, validation metric untouched.**
 > From Carl's review of RUNNER.md (old Sero): three engine-hardening ideas the current engine lacked. All offline/unit-testable — **$0, no paid runs.**
 > **P1 (`372bd9ad`)** — per-call **latency capture**: every recorded AI call carries `ms`, run summary sums `total_ms`; live fetches timed, cassette-replay stays `ms: 0`.
@@ -260,4 +269,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-10 (validation-kit P1–P3 ✅ — live /tasks checklist, return-signal view, briefing verdict tap (P3 walk waived); P4 first-run guidance next. Earlier today: engine-hardening TRACK CLOSED, all 3 phases, $0)
+- Last updated: 2026-07-10 (universe-monitoring P1 ✅ return-visit glow green-lit; P2 health signals next. Earlier today: validation-kit P1–P3 ✅; engine-hardening TRACK CLOSED, all 3 phases, $0)
