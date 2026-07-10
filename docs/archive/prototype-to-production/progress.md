@@ -9,6 +9,15 @@
 ---
 
 ## Where we are now
+- **2026-07-10** — **engine-hardening P2 ✅ green-lit — concurrency cap + circuit breaker on live AI calls.**
+  New `ai-guard.ts`: a FIFO semaphore (capped by `AI_MAX_CONCURRENCY`, default 4) and a
+  closed→open→half-open circuit breaker (injectable clock for tests). Wired into `callAI`'s live
+  provider path only — cassette-replay returns before the guard, so offline evals stay deterministic
+  and unthrottled. Test-first (4 cases), my 6 engine-hardening tests pass 5/5 loops, suite 113/113,
+  **$0**. **Lesson (honesty):** mid-phase the project typecheck went red with 8 errors — all in a
+  parallel session's unfinished `feedback.service.test.ts`, none mine. Verified by listing the
+  error-file set (only that one file) before reporting; surfaced it to Carl and left it untouched
+  rather than "fixing" foreign work or masking the red. Committed only my 3 files (path-scoped).
 - **2026-07-10** — **engine-hardening P1 ✅ green-lit — per-call latency capture.** New side track, mined from
   Carl's review of the old-Sero `RUNNER.md`: the old build logged per-call latency; the current cost tracker
   didn't. Now every recorded AI call carries `ms` and the run summary sums `total_ms` (live OpenAI/Gemini fetches

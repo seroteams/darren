@@ -19,13 +19,13 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Latency capture | Every AI call records `ms`; run summary has `total_ms` | ✅ |
-| 2 | Concurrency cap + circuit breaker | `ai-guard.ts` caps concurrent live calls + trips a breaker | ⬜ |
+| 2 | Concurrency cap + circuit breaker | `ai-guard.ts` caps concurrent live calls + trips a breaker | ✅ |
 | 3 | Positive validation checks | Briefing gate asserts name + real-data grounding | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ green-lit + committed 2026-07-10 (latency capture: `ms` per call, `total_ms` per run; 112/112, typecheck clean, $0). **Phase 2 next** (concurrency cap + circuit breaker). Baseline below.
+Phase 1 ✅ + Phase 2 ✅ green-lit + committed 2026-07-10 (latency capture; concurrency cap + circuit breaker via new `ai-guard.ts`, live path only). **Phase 3 next** (positive validation checks). My tests 5/5 loops, suite 113/113, $0. Note: project typecheck shows 8 foreign errors in another session's `feedback.service.test.ts` — not mine, not committed. Baseline below.
 
 ## Baseline (free checks, pre-work) — 2026-07-10
 - `npm test` → **111/111 passed** (clean)

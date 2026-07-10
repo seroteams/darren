@@ -1,5 +1,6 @@
 import * as cost from "./cost.ts";
 import { isReplaying, replayResponse, maybeRecord } from "./cassette.ts";
+import { aiGuard } from "./ai-guard.ts";
 import type { OpenAiUsage } from "../shared/cost.types.ts";
 
 const TIMEOUT_MS = 30_000;
@@ -148,9 +149,11 @@ async function callAI({
     cost.record(costLabel, `${model} (cassette)`, { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 });
     return response;
   }
+  // Live calls only: cap concurrency and trip a breaker on a failing provider.
+  // Replay returned above, so tests/evals never touch the guard.
   const response = isGemini(model)
-    ? await _callGemini({ system, user, schema, temperature, model, costLabel })
-    : await _callOpenAI({ system, user, schema, schemaName, temperature, model, costLabel });
+    ? await aiGuard.run(() => _callGemini({ system, user, schema, temperature, model, costLabel }))
+    : await aiGuard.run(() => _callOpenAI({ system, user, schema, schemaName, temperature, model, costLabel }));
   // Cassette record: capture exactly the raw string we return.
   maybeRecord({ label: costLabel, model, system, user, response });
   return response;

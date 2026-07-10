@@ -1,6 +1,18 @@
 # Phase 2 — Concurrency cap + circuit breaker on AI calls
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT
+
+## ✅ GREEN-LIT 2026-07-10 — Carl walked the QA scenarios ("a") · 6/6 my tests (5/5 loops), suite 113/113, $0
+
+## Built (2026-07-10)
+Landed:
+- `backend/engine/ai-guard.ts` (new) — `createSemaphore` (FIFO slot limiter), `createBreaker` (closed→open→half-open, injectable clock), `createAiGuard` (cap outside, breaker inside), and a process-scoped `aiGuard` from `AI_MAX_CONCURRENCY` (default 4).
+- `backend/engine/ai-client.ts` — live OpenAI/Gemini calls now run through `aiGuard.run(...)`. Replay path returns before the guard, so tests/evals stay unthrottled and deterministic.
+- `backend/engine/ai-guard.test.ts` (new) — 4 cases: cap never exceeded, breaker opens + fast-fails, half-open→close on probe, guard leaves successes intact.
+
+Offline proof: my 6 engine-hardening tests pass **5/5 loops** (no flakiness); full suite **113/113**.
+
+⚠️ **Honest note — foreign red in the tree:** `npm run typecheck` currently reports 8 errors, ALL in `backend/api/services/feedback/feedback.service.test.ts` — a *different* session's unfinished validation-kit P3 (briefing feedback) work. None are mine; my files typecheck clean. I will not touch or commit that file. Phase 2 commits only my 3 files at green-light.
 
 ## Goal
 Cap concurrent in-flight live model calls, and trip a circuit breaker when a provider keeps failing instead of hammering it — the two safeguards old Sero had and we don't.
