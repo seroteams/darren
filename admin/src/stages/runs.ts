@@ -8,8 +8,9 @@ import { listMyRuns, getRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
-import { relTime } from "../ui/time.ts";
+import { relTime, formatDate } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+import "../styles/design/member-runs.css";
 
 // The endpoint's real shape (backend/engine/run-history.ts memberRunView / listFinishedForMember).
 type MyRun = {
@@ -33,13 +34,19 @@ type AboutRun = {
   managerName: string | null;
 };
 
-// One about-me row → "meeting type · with <manager> · when". Every value escaped.
-function aboutLine(r: AboutRun): string {
-  const bits: string[] = [r.meetingType || "1:1"];
-  if (r.managerName) bits.push(`with ${r.managerName}`);
-  const when = relTime(r.lastSeenAt);
-  if (when) bits.push(when);
-  return escapeHtml(bits.join(" · "));
+// One about-me row rendered as a timeline entry: the meeting type, who ran it, and the
+// date (absolute — this is a personal record, not a live feed). Every value escaped.
+function aboutEntry(r: AboutRun): string {
+  const type = escapeHtml(r.meetingType || "1:1");
+  const when = escapeHtml(formatDate(r.completedAt || r.lastSeenAt));
+  const meta = r.managerName ? `<span class="member-runs__meta">with ${escapeHtml(r.managerName)}</span>` : "";
+  return `<li class="member-runs__entry">
+      <div class="member-runs__head">
+        <span class="member-runs__type">${type}</span>
+        <time class="member-runs__when">${when}</time>
+      </div>
+      ${meta}
+    </li>`;
 }
 
 // Local one-use time-ago (mirrors compare.js) — four lines, so no shared util for one caller.
@@ -126,12 +133,12 @@ export const mount: Mount = async (root, { setState }) => {
         wire();
         return;
       }
-      const rows = runs
+      const entries = runs
         .slice()
         .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0))
-        .map((r) => `<div class="card-flat runs-list__row"><span class="text-sm">${aboutLine(r)}</span></div>`)
+        .map(aboutEntry)
         .join("");
-      root.innerHTML = shell(`<section class="l-stack l-stack--2">${rows}</section>`);
+      root.innerHTML = shell(`<section class="member-runs"><ol class="member-runs__timeline">${entries}</ol></section>`);
       wire();
       return;
     }
