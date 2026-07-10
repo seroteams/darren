@@ -1,0 +1,11 @@
+alias: q_next_move_11
+label: Next move
+name: Given that visible ownership gap, where do you want to focus first in the next few weeks?
+description: Land on the first area of behavioural focus before closing the session.
+purpose: topic
+stage: commit
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: visible ownership

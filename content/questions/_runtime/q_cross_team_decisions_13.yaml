@@ -1,0 +1,10 @@
+alias: q_cross_team_decisions_13
+label: Cross-team decisions
+name: Which cross-team decisions did you avoid stepping into most recently?
+description: Surface a concrete recent example of the lane-staying pattern before moving on.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: stayed in his lane

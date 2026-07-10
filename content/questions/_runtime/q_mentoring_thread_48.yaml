@@ -1,0 +1,11 @@
+alias: q_mentoring_thread_48
+label: Mentoring thread
+name: What happened to the mentoring idea you raised a few months ago?
+description: Check whether mentoring is still relevant and what has stalled it.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_mentoring_thread_47"
+grounding: open

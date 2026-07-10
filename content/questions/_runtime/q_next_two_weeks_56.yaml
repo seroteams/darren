@@ -1,0 +1,11 @@
+alias: q_next_two_weeks_56
+label: Next two weeks
+name: What would make the next two weeks feel cleaner for you?
+description: Close by surfacing where she wants focus and what would make the near term feel lighter.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added
+grounding: open

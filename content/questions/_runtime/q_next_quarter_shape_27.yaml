@@ -1,0 +1,11 @@
+alias: q_next_quarter_shape_27
+label: Next-quarter shape
+name: What are you expecting to own next quarter?
+description: Surface her current view of next-quarter ownership and scope.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_next_quarter_shape_26"
+grounding: open

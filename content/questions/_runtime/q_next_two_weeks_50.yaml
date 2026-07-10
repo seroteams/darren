@@ -1,0 +1,11 @@
+alias: q_next_two_weeks_50
+label: Next-two-weeks
+name: What would make the next two weeks steadier for you?
+description: Land on what would make the near term feel lighter or sharper.
+purpose: topic
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_next_two_weeks_49"
+grounding: open

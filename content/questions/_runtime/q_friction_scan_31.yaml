@@ -1,0 +1,11 @@
+alias: q_friction_scan_31
+label: Friction scan
+name: Where has work taken more energy than you expected this week?
+description: Locate any current snag in the week rather than staying on launch pride.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_friction_scan_30"
+grounding: open

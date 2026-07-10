@@ -1,0 +1,11 @@
+alias: q_close_the_loop_7
+label: Close the loop
+name: What would make the next two weeks feel cleaner for you?
+description: Close by surfacing what would make the near term lighter or sharper.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_close_the_loop_6"
+grounding: open

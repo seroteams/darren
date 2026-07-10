@@ -1,0 +1,11 @@
+alias: q_manager_support_74
+label: Manager support
+name: What do you want from me as you work through this?
+description: Invite him to name useful support from his manager.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: planner_added
+grounding: open

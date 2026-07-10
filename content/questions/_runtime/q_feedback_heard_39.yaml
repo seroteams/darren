@@ -1,0 +1,11 @@
+alias: q_feedback_heard_39
+label: Feedback heard
+name: What feedback did you actually hear about the promotion and next steps?
+description: Surface what guidance he believes he got and whether it was actionable.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_feedback_heard_38"
+grounding: open

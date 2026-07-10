@@ -1,0 +1,11 @@
+alias: q_friction_scan_28
+label: Friction scan
+name: "What's been slower or harder than expected lately?"
+description: Surface concrete work friction without assuming failure.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_friction_scan_27"
+grounding: open

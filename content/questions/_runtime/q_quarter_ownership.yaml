@@ -1,0 +1,11 @@
+alias: q_quarter_ownership
+label: Quarter ownership
+name: When next quarter feels unclear, what ownership are you expecting to have?
+description: Drill the named uncertainty about next-quarter scope before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+grounding: "Unsure what she's owning next quarter"

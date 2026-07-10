@@ -1,0 +1,9 @@
+alias: q_thread_follow_23
+label: Thread follow
+name: leadership keeps stalling the partner rollout — can you say more about what that means for you right now?
+description: Following up on what they just said.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added

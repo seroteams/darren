@@ -1,0 +1,11 @@
+alias: q_gap_awareness_12
+label: Gap awareness
+name: "Where do you think you've fallen short of where you want to be?"
+description: Surface the specific gap or pattern he sees in his own performance.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_gap_awareness_11"
+grounding: open

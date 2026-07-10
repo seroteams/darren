@@ -1,0 +1,11 @@
+alias: q_team_bar_specifics_3
+label: Team bar specifics
+name: "What team-specific examples would make this team's Principal bar concrete for you?"
+description: Anchor the fuzzy bar in observable examples on this team before moving into gap naming.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: "team's bar still feels fuzzy"

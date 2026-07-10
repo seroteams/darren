@@ -1,0 +1,11 @@
+alias: q_scope_conversation
+label: Scope conversation
+name: What would you want covered in that bigger-scope conversation?
+description: Clarify what she wants aligned before next quarter ownership gets set.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added
+grounding: bigger scope conversation

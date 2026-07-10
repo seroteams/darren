@@ -1,0 +1,10 @@
+alias: q_controllable_meant_what
+label: Controllable meant what
+name: When delivery felt more controllable, what were you leaning away from?
+description: Drill into the trade-off he made between delivery and team rituals after the promotion decision.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+source: planner_added
+grounding: felt controllable

@@ -1,0 +1,11 @@
+alias: q_ownership_next_quarter_4
+label: Ownership next quarter
+name: "What do you expect to own next quarter that you'd want to keep?"
+description: Clarify what work she expects to carry forward into next quarter.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_ownership_next_quarter_3"
+grounding: open

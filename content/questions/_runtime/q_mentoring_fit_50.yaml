@@ -1,0 +1,11 @@
+alias: q_mentoring_fit_50
+label: Mentoring fit
+name: How does the mentoring program fit with your product leadership work right now?
+description: Understand whether mentoring supports or diverts his core path.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_mentoring_fit_49"
+grounding: open

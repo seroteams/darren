@@ -1,0 +1,11 @@
+alias: q_gap_awareness_10
+label: Gap awareness
+name: Where have you been operating below the Principal scope you want to show here?
+description: Name the specific gap or pattern at issue.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_gap_awareness_9"
+grounding: open

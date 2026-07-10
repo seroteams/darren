@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-08T14:07:19.846Z",
-  "count": 4620,
+  "generated_at": "2026-07-09T03:01:31.014Z",
+  "count": 4964,
   "aliases": [
     "q_50_percent_in_practice",
     "q_a_lot_landing",
@@ -97,12 +97,14 @@
     "q_billing_rewrite_fit_2",
     "q_billing_rewrite_fit_3",
     "q_billing_rewrite_fit_4",
+    "q_billing_rewrite_fit_5",
     "q_billing_rewrite_headroom",
     "q_billing_rewrite_impact",
     "q_billing_rewrite_role",
     "q_billing_rewrite_role_2",
     "q_billing_rewrite_role_3",
     "q_billing_rewrite_role_4",
+    "q_billing_rewrite_role_5",
     "q_billing_rewrite_shape",
     "q_billing_rewrite_weird",
     "q_billing_role",
@@ -147,6 +149,10 @@
     "q_change_needed",
     "q_change_needed_2",
     "q_change_needed_3",
+    "q_change_needed_4",
+    "q_change_needed_5",
+    "q_change_needed_6",
+    "q_change_needed_7",
     "q_change_unclear",
     "q_change_visibility",
     "q_changed_between_slips",
@@ -207,6 +213,13 @@
     "q_close_the_loop_3",
     "q_close_the_loop_4",
     "q_closer",
+    "q_closer_10",
+    "q_closer_11",
+    "q_closer_12",
+    "q_closer_13",
+    "q_closer_14",
+    "q_closer_15",
+    "q_closer_16",
     "q_closer_2",
     "q_closer_3",
     "q_closer_4",
@@ -214,6 +227,7 @@
     "q_closer_6",
     "q_closer_7",
     "q_closer_8",
+    "q_closer_9",
     "q_closer_next_step",
     "q_closer_next_step_2",
     "q_closer_next_step_3",
@@ -232,6 +246,7 @@
     "q_coasting_this_week",
     "q_coasting_thread",
     "q_coasting_thread_10",
+    "q_coasting_thread_11",
     "q_coasting_thread_2",
     "q_coasting_thread_3",
     "q_coasting_thread_4",
@@ -294,6 +309,11 @@
     "q_controllable_focus_3",
     "q_controllable_focus_4",
     "q_controllable_focus_5",
+    "q_controllable_focus_6",
+    "q_controllable_focus_7",
+    "q_controllable_focus_8",
+    "q_controllable_focus_9",
+    "q_controllable_meant_what",
     "q_core_path",
     "q_core_path_2",
     "q_core_path_3",
@@ -352,6 +372,8 @@
     "q_cross_team_decisions",
     "q_cross_team_decisions_10",
     "q_cross_team_decisions_11",
+    "q_cross_team_decisions_12",
+    "q_cross_team_decisions_13",
     "q_cross_team_decisions_2",
     "q_cross_team_decisions_3",
     "q_cross_team_decisions_4",
@@ -362,6 +384,7 @@
     "q_cross_team_decisions_9",
     "q_cross_team_effect",
     "q_cross_team_example",
+    "q_cross_team_example_2",
     "q_cross_team_handoff",
     "q_cross_team_impact",
     "q_cross_team_judgment",
@@ -516,6 +539,7 @@
     "q_decision_path",
     "q_decision_point",
     "q_decision_point_10",
+    "q_decision_point_11",
     "q_decision_point_2",
     "q_decision_point_3",
     "q_decision_point_4",
@@ -633,6 +657,7 @@
     "q_design_handoff",
     "q_design_load",
     "q_design_load_2",
+    "q_design_load_3",
     "q_design_momentum",
     "q_design_momentum_2",
     "q_design_momentum_3",
@@ -645,6 +670,7 @@
     "q_design_work_detail",
     "q_desired_scope",
     "q_desired_scope_2",
+    "q_direction_check",
     "q_director_pull",
     "q_director_scope",
     "q_drafting_bottleneck",
@@ -665,6 +691,8 @@
     "q_earlier_feedback_13",
     "q_earlier_feedback_14",
     "q_earlier_feedback_15",
+    "q_earlier_feedback_16",
+    "q_earlier_feedback_17",
     "q_earlier_feedback_2",
     "q_earlier_feedback_3",
     "q_earlier_feedback_4",
@@ -684,6 +712,8 @@
     "q_early_alignment_14",
     "q_early_alignment_15",
     "q_early_alignment_16",
+    "q_early_alignment_17",
+    "q_early_alignment_18",
     "q_early_alignment_2",
     "q_early_alignment_3",
     "q_early_alignment_4",
@@ -736,6 +766,7 @@
     "q_energy_drain",
     "q_energy_drain_10",
     "q_energy_drain_11",
+    "q_energy_drain_12",
     "q_energy_drain_2",
     "q_energy_drain_3",
     "q_energy_drain_4",
@@ -750,6 +781,7 @@
     "q_energy_drift_2",
     "q_energy_driver",
     "q_energy_in_future_work",
+    "q_energy_lift",
     "q_energy_reset",
     "q_energy_source",
     "q_energy_source_2",
@@ -847,6 +879,8 @@
     "q_feedback_appetite",
     "q_feedback_change",
     "q_feedback_channels",
+    "q_feedback_clarity",
+    "q_feedback_clarity_2",
     "q_feedback_drag",
     "q_feedback_earlier",
     "q_feedback_filter",
@@ -868,9 +902,42 @@
     "q_feedback_heard_13",
     "q_feedback_heard_14",
     "q_feedback_heard_15",
+    "q_feedback_heard_16",
+    "q_feedback_heard_17",
+    "q_feedback_heard_18",
+    "q_feedback_heard_19",
     "q_feedback_heard_2",
+    "q_feedback_heard_20",
+    "q_feedback_heard_21",
+    "q_feedback_heard_22",
+    "q_feedback_heard_23",
+    "q_feedback_heard_24",
+    "q_feedback_heard_25",
+    "q_feedback_heard_26",
+    "q_feedback_heard_27",
+    "q_feedback_heard_28",
+    "q_feedback_heard_29",
     "q_feedback_heard_3",
+    "q_feedback_heard_30",
+    "q_feedback_heard_31",
+    "q_feedback_heard_32",
+    "q_feedback_heard_33",
+    "q_feedback_heard_34",
+    "q_feedback_heard_35",
+    "q_feedback_heard_36",
+    "q_feedback_heard_37",
+    "q_feedback_heard_38",
+    "q_feedback_heard_39",
     "q_feedback_heard_4",
+    "q_feedback_heard_40",
+    "q_feedback_heard_41",
+    "q_feedback_heard_42",
+    "q_feedback_heard_43",
+    "q_feedback_heard_44",
+    "q_feedback_heard_45",
+    "q_feedback_heard_46",
+    "q_feedback_heard_47",
+    "q_feedback_heard_48",
     "q_feedback_heard_5",
     "q_feedback_heard_6",
     "q_feedback_heard_7",
@@ -906,11 +973,27 @@
     "q_feedback_loop_6",
     "q_feedback_loop_7",
     "q_feedback_meaning",
+    "q_feedback_meaning_10",
+    "q_feedback_meaning_11",
+    "q_feedback_meaning_12",
+    "q_feedback_meaning_13",
+    "q_feedback_meaning_14",
+    "q_feedback_meaning_15",
+    "q_feedback_meaning_16",
+    "q_feedback_meaning_17",
+    "q_feedback_meaning_18",
+    "q_feedback_meaning_19",
     "q_feedback_meaning_2",
+    "q_feedback_meaning_20",
+    "q_feedback_meaning_21",
+    "q_feedback_meaning_22",
     "q_feedback_meaning_3",
     "q_feedback_meaning_4",
     "q_feedback_meaning_5",
     "q_feedback_meaning_6",
+    "q_feedback_meaning_7",
+    "q_feedback_meaning_8",
+    "q_feedback_meaning_9",
     "q_feedback_miss",
     "q_feedback_need",
     "q_feedback_received",
@@ -988,6 +1071,7 @@
     "q_flat_week_read_2",
     "q_flat_work",
     "q_flatter_than_expected",
+    "q_flatter_this_week",
     "q_flatter_week",
     "q_flatter_week_10",
     "q_flatter_week_11",
@@ -1053,6 +1137,8 @@
     "q_friction_scan_24",
     "q_friction_scan_25",
     "q_friction_scan_26",
+    "q_friction_scan_27",
+    "q_friction_scan_28",
     "q_friction_scan_3",
     "q_friction_scan_4",
     "q_friction_scan_5",
@@ -1076,8 +1162,21 @@
     "q_future_scope_4",
     "q_future_shape",
     "q_gap_awareness",
+    "q_gap_awareness_10",
+    "q_gap_awareness_11",
+    "q_gap_awareness_12",
+    "q_gap_awareness_13",
+    "q_gap_awareness_14",
+    "q_gap_awareness_15",
+    "q_gap_awareness_16",
     "q_gap_awareness_2",
     "q_gap_awareness_3",
+    "q_gap_awareness_4",
+    "q_gap_awareness_5",
+    "q_gap_awareness_6",
+    "q_gap_awareness_7",
+    "q_gap_awareness_8",
+    "q_gap_awareness_9",
     "q_gap_pattern",
     "q_gap_pattern_2",
     "q_gap_specifics",
@@ -1137,6 +1236,7 @@
     "q_impact_gap",
     "q_impact_gap_2",
     "q_impact_gap_3",
+    "q_impact_gap_4",
     "q_impact_in_practice",
     "q_impact_on_team",
     "q_impact_signal",
@@ -1200,6 +1300,7 @@
     "q_judgment_calls_3",
     "q_judgment_calls_4",
     "q_judgment_pressure",
+    "q_judgment_under_load",
     "q_juggling_priorities",
     "q_keep_doing_this",
     "q_keep_moving",
@@ -1288,6 +1389,8 @@
     "q_leverage_example_5",
     "q_leverage_example_6",
     "q_leverage_example_7",
+    "q_leverage_example_8",
+    "q_leverage_example_9",
     "q_leverage_gap",
     "q_leverage_gap_10",
     "q_leverage_gap_12",
@@ -1351,6 +1454,7 @@
     "q_manager_help_12",
     "q_manager_help_13",
     "q_manager_help_14",
+    "q_manager_help_15",
     "q_manager_help_2",
     "q_manager_help_3",
     "q_manager_help_4",
@@ -1419,9 +1523,41 @@
     "q_manager_support_44",
     "q_manager_support_45",
     "q_manager_support_46",
+    "q_manager_support_47",
+    "q_manager_support_48",
+    "q_manager_support_49",
     "q_manager_support_5",
+    "q_manager_support_50",
+    "q_manager_support_51",
+    "q_manager_support_52",
+    "q_manager_support_53",
+    "q_manager_support_54",
+    "q_manager_support_55",
+    "q_manager_support_56",
+    "q_manager_support_57",
+    "q_manager_support_58",
+    "q_manager_support_59",
     "q_manager_support_6",
+    "q_manager_support_60",
+    "q_manager_support_61",
+    "q_manager_support_62",
+    "q_manager_support_63",
+    "q_manager_support_64",
+    "q_manager_support_65",
+    "q_manager_support_66",
+    "q_manager_support_67",
+    "q_manager_support_68",
+    "q_manager_support_69",
     "q_manager_support_7",
+    "q_manager_support_70",
+    "q_manager_support_71",
+    "q_manager_support_72",
+    "q_manager_support_73",
+    "q_manager_support_74",
+    "q_manager_support_75",
+    "q_manager_support_76",
+    "q_manager_support_77",
+    "q_manager_support_78",
     "q_manager_support_8",
     "q_manager_support_9",
     "q_manager_support_ask",
@@ -1442,6 +1578,7 @@
     "q_mentoring_cadence_2",
     "q_mentoring_cadence_3",
     "q_mentoring_cadence_4",
+    "q_mentoring_cadence_5",
     "q_mentoring_energy",
     "q_mentoring_example",
     "q_mentoring_fit",
@@ -1464,10 +1601,44 @@
     "q_mentoring_fit_25",
     "q_mentoring_fit_26",
     "q_mentoring_fit_27",
+    "q_mentoring_fit_28",
+    "q_mentoring_fit_29",
     "q_mentoring_fit_3",
+    "q_mentoring_fit_30",
+    "q_mentoring_fit_31",
+    "q_mentoring_fit_32",
+    "q_mentoring_fit_33",
+    "q_mentoring_fit_34",
+    "q_mentoring_fit_35",
+    "q_mentoring_fit_36",
+    "q_mentoring_fit_37",
+    "q_mentoring_fit_38",
+    "q_mentoring_fit_39",
     "q_mentoring_fit_4",
+    "q_mentoring_fit_40",
+    "q_mentoring_fit_41",
+    "q_mentoring_fit_42",
+    "q_mentoring_fit_43",
+    "q_mentoring_fit_44",
+    "q_mentoring_fit_45",
+    "q_mentoring_fit_46",
+    "q_mentoring_fit_47",
+    "q_mentoring_fit_48",
+    "q_mentoring_fit_49",
     "q_mentoring_fit_5",
+    "q_mentoring_fit_50",
+    "q_mentoring_fit_51",
+    "q_mentoring_fit_52",
+    "q_mentoring_fit_53",
+    "q_mentoring_fit_54",
+    "q_mentoring_fit_55",
+    "q_mentoring_fit_56",
+    "q_mentoring_fit_57",
+    "q_mentoring_fit_58",
+    "q_mentoring_fit_59",
     "q_mentoring_fit_6",
+    "q_mentoring_fit_60",
+    "q_mentoring_fit_61",
     "q_mentoring_fit_7",
     "q_mentoring_fit_8",
     "q_mentoring_fit_9",
@@ -1523,6 +1694,7 @@
     "q_mentoring_shape_22",
     "q_mentoring_shape_23",
     "q_mentoring_shape_24",
+    "q_mentoring_shape_25",
     "q_mentoring_shape_3",
     "q_mentoring_shape_4",
     "q_mentoring_shape_5",
@@ -1530,6 +1702,7 @@
     "q_mentoring_shape_7",
     "q_mentoring_shape_8",
     "q_mentoring_shape_9",
+    "q_mentoring_space",
     "q_mentoring_stall",
     "q_mentoring_stall_2",
     "q_mentoring_stall_3",
@@ -1580,6 +1753,8 @@
     "q_mentoring_thread_42",
     "q_mentoring_thread_43",
     "q_mentoring_thread_44",
+    "q_mentoring_thread_45",
+    "q_mentoring_thread_46",
     "q_mentoring_thread_5",
     "q_mentoring_thread_6",
     "q_mentoring_thread_7",
@@ -1599,7 +1774,11 @@
     "q_mentoring_tradeoff_16",
     "q_mentoring_tradeoff_17",
     "q_mentoring_tradeoff_18",
+    "q_mentoring_tradeoff_19",
     "q_mentoring_tradeoff_2",
+    "q_mentoring_tradeoff_20",
+    "q_mentoring_tradeoff_21",
+    "q_mentoring_tradeoff_22",
     "q_mentoring_tradeoff_3",
     "q_mentoring_tradeoff_4",
     "q_mentoring_tradeoff_5",
@@ -1783,6 +1962,7 @@
     "q_next_focus_24",
     "q_next_focus_25",
     "q_next_focus_26",
+    "q_next_focus_27",
     "q_next_focus_3",
     "q_next_focus_4",
     "q_next_focus_5",
@@ -1810,6 +1990,7 @@
     "q_next_lift",
     "q_next_move",
     "q_next_move_10",
+    "q_next_move_11",
     "q_next_move_12",
     "q_next_move_13",
     "q_next_move_14",
@@ -1901,6 +2082,7 @@
     "q_next_quarter_pull_3",
     "q_next_quarter_pull_4",
     "q_next_quarter_pull_5",
+    "q_next_quarter_pull_6",
     "q_next_quarter_shape",
     "q_next_quarter_shape_10",
     "q_next_quarter_shape_11",
@@ -1960,9 +2142,42 @@
     "q_next_step_22",
     "q_next_step_23",
     "q_next_step_24",
+    "q_next_step_25",
+    "q_next_step_26",
+    "q_next_step_27",
+    "q_next_step_28",
+    "q_next_step_29",
     "q_next_step_3",
+    "q_next_step_30",
+    "q_next_step_31",
+    "q_next_step_32",
+    "q_next_step_33",
+    "q_next_step_34",
+    "q_next_step_35",
+    "q_next_step_36",
+    "q_next_step_37",
+    "q_next_step_38",
+    "q_next_step_39",
     "q_next_step_4",
+    "q_next_step_40",
+    "q_next_step_41",
+    "q_next_step_42",
+    "q_next_step_43",
+    "q_next_step_44",
+    "q_next_step_45",
+    "q_next_step_46",
+    "q_next_step_47",
+    "q_next_step_48",
+    "q_next_step_49",
     "q_next_step_5",
+    "q_next_step_50",
+    "q_next_step_51",
+    "q_next_step_52",
+    "q_next_step_53",
+    "q_next_step_54",
+    "q_next_step_55",
+    "q_next_step_56",
+    "q_next_step_57",
     "q_next_step_6",
     "q_next_step_7",
     "q_next_step_8",
@@ -2060,7 +2275,15 @@
     "q_next_two_weeks_45",
     "q_next_two_weeks_46",
     "q_next_two_weeks_47",
+    "q_next_two_weeks_48",
+    "q_next_two_weeks_49",
     "q_next_two_weeks_5",
+    "q_next_two_weeks_50",
+    "q_next_two_weeks_51",
+    "q_next_two_weeks_52",
+    "q_next_two_weeks_53",
+    "q_next_two_weeks_54",
+    "q_next_two_weeks_55",
     "q_next_two_weeks_6",
     "q_next_two_weeks_7",
     "q_next_two_weeks_8",
@@ -2160,6 +2383,11 @@
     "q_ownership_line",
     "q_ownership_line_2",
     "q_ownership_next_quarter",
+    "q_ownership_next_quarter_2",
+    "q_ownership_next_quarter_3",
+    "q_ownership_next_quarter_4",
+    "q_ownership_next_quarter_5",
+    "q_ownership_next_quarter_6",
     "q_ownership_shape",
     "q_ownership_shape_2",
     "q_ownership_shape_3",
@@ -2183,6 +2411,7 @@
     "q_ownership_uncertainty_2",
     "q_ownership_uncertainty_3",
     "q_ownership_uncertainty_4",
+    "q_ownership_uncertainty_5",
     "q_ownership_unclear",
     "q_owning_the_load",
     "q_ownship_meaning",
@@ -2219,6 +2448,7 @@
     "q_path_forward_16",
     "q_path_forward_17",
     "q_path_forward_18",
+    "q_path_forward_19",
     "q_path_forward_2",
     "q_path_forward_3",
     "q_path_forward_4",
@@ -2242,6 +2472,7 @@
     "q_payments_win_thread",
     "q_payments_win_thread_2",
     "q_payments_win_thread_3",
+    "q_payments_win_thread_4",
     "q_people_management",
     "q_pile_up_source",
     "q_pile_up_source_2",
@@ -2295,6 +2526,7 @@
     "q_post_launch_read",
     "q_post_launch_read_2",
     "q_post_launch_read_3",
+    "q_post_launch_read_4",
     "q_post_launch_recovery",
     "q_post_launch_shift",
     "q_post_ship_coast",
@@ -2304,6 +2536,7 @@
     "q_post_ship_landing",
     "q_post_ship_landing_2",
     "q_post_ship_landing_3",
+    "q_post_ship_landing_4",
     "q_pr_slowdown",
     "q_pr_slowdown_2",
     "q_pre_wire_example",
@@ -2440,7 +2673,16 @@
     "q_prep_opener_215",
     "q_prep_opener_216",
     "q_prep_opener_217",
+    "q_prep_opener_218",
+    "q_prep_opener_219",
     "q_prep_opener_22",
+    "q_prep_opener_220",
+    "q_prep_opener_221",
+    "q_prep_opener_222",
+    "q_prep_opener_223",
+    "q_prep_opener_224",
+    "q_prep_opener_225",
+    "q_prep_opener_226",
     "q_prep_opener_23",
     "q_prep_opener_24",
     "q_prep_opener_25",
@@ -2557,6 +2799,7 @@
     "q_principal_scope_7",
     "q_principal_scope_8",
     "q_principal_scope_9",
+    "q_principal_signals",
     "q_principal_tradeoffs",
     "q_priority_choices",
     "q_priority_cut",
@@ -2586,6 +2829,7 @@
     "q_priority_trade_off_3",
     "q_priority_trade_off_4",
     "q_priority_trade_off_5",
+    "q_priority_trade_off_6",
     "q_priority_trade_offs",
     "q_priority_trade_offs_2",
     "q_priority_trade_offs_3",
@@ -2607,10 +2851,30 @@
     "q_process_tighten",
     "q_project_split",
     "q_promotion_context",
+    "q_promotion_context_10",
+    "q_promotion_context_11",
+    "q_promotion_context_12",
+    "q_promotion_context_13",
+    "q_promotion_context_14",
+    "q_promotion_context_15",
+    "q_promotion_context_16",
+    "q_promotion_context_17",
+    "q_promotion_context_18",
+    "q_promotion_context_19",
     "q_promotion_context_2",
+    "q_promotion_context_20",
+    "q_promotion_context_21",
+    "q_promotion_context_22",
+    "q_promotion_context_23",
+    "q_promotion_context_24",
+    "q_promotion_context_25",
     "q_promotion_context_3",
     "q_promotion_context_4",
     "q_promotion_context_5",
+    "q_promotion_context_6",
+    "q_promotion_context_7",
+    "q_promotion_context_8",
+    "q_promotion_context_9",
     "q_promotion_feedback",
     "q_promotion_feedback_2",
     "q_promotion_feedback_3",
@@ -2753,6 +3017,8 @@
     "q_promotion_read_219",
     "q_promotion_read_22",
     "q_promotion_read_220",
+    "q_promotion_read_221",
+    "q_promotion_read_222",
     "q_promotion_read_23",
     "q_promotion_read_24",
     "q_promotion_read_25",
@@ -3216,15 +3482,22 @@
     "q_question_asked",
     "q_question_asking",
     "q_question_habit",
+    "q_question_habit_10",
     "q_question_habit_11",
     "q_question_habit_12",
     "q_question_habit_13",
+    "q_question_habit_14",
     "q_question_habit_15",
+    "q_question_habit_16",
+    "q_question_habit_17",
+    "q_question_habit_18",
+    "q_question_habit_19",
     "q_question_habit_2",
     "q_question_habit_3",
     "q_question_habit_4",
     "q_question_habit_5",
     "q_question_habit_6",
+    "q_question_habit_7",
     "q_question_habit_8",
     "q_question_habit_9",
     "q_questions_asked",
@@ -3250,6 +3523,9 @@
     "q_quiet_this_week_2",
     "q_quiet_this_week_3",
     "q_quiet_this_week_4",
+    "q_quiet_this_week_5",
+    "q_quiet_this_week_6",
+    "q_quiet_this_week_7",
     "q_quiet_week",
     "q_quiet_week_2",
     "q_quiet_week_3",
@@ -3267,6 +3543,7 @@
     "q_quieter_standup",
     "q_quieter_standup_2",
     "q_quieter_standup_3",
+    "q_quieter_standup_4",
     "q_quietness_check",
     "q_quietness_check_2",
     "q_raise_sooner",
@@ -3297,6 +3574,7 @@
     "q_recent_decision",
     "q_recent_decision_2",
     "q_recent_decision_3",
+    "q_recent_disconnect",
     "q_recent_evidence",
     "q_recent_example",
     "q_recent_example_10",
@@ -3357,6 +3635,11 @@
     "q_recognition_landing_4",
     "q_recognition_mismatch",
     "q_recognition_mismatch_10",
+    "q_recognition_mismatch_11",
+    "q_recognition_mismatch_12",
+    "q_recognition_mismatch_13",
+    "q_recognition_mismatch_14",
+    "q_recognition_mismatch_15",
     "q_recognition_mismatch_2",
     "q_recognition_mismatch_3",
     "q_recognition_mismatch_4",
@@ -3368,7 +3651,9 @@
     "q_recognized_work",
     "q_recognized_work_2",
     "q_recognized_work_3",
+    "q_recognized_work_4",
     "q_recovery_check",
+    "q_recovery_load",
     "q_recovery_mode",
     "q_recovery_or_drag",
     "q_recovery_or_residue",
@@ -3391,6 +3676,7 @@
     "q_refactor_payoff_2",
     "q_refactor_payoff_3",
     "q_refactor_payoff_4",
+    "q_refactor_payoff_5",
     "q_refactor_takeaway",
     "q_referral_friction",
     "q_referral_incentives",
@@ -3509,6 +3795,7 @@
     "q_review_standard",
     "q_review_switching",
     "q_review_switching_10",
+    "q_review_switching_11",
     "q_review_switching_2",
     "q_review_switching_3",
     "q_review_switching_4",
@@ -3523,6 +3810,7 @@
     "q_reward_after_ship",
     "q_reward_after_ship_2",
     "q_reward_after_ship_3",
+    "q_reward_after_ship_4",
     "q_rework_pattern",
     "q_rework_trigger",
     "q_rewrite_coordination",
@@ -3648,11 +3936,20 @@
     "q_scope_mismatch",
     "q_scope_mismatch_2",
     "q_scope_mismatch_3",
+    "q_scope_mismatch_4",
+    "q_scope_mismatch_5",
+    "q_scope_mismatch_6",
+    "q_scope_mismatch_7",
+    "q_scope_mismatch_8",
     "q_scope_next_step",
     "q_scope_next_step_2",
     "q_scope_on_this_team",
     "q_scope_on_this_team_2",
     "q_scope_on_this_team_3",
+    "q_scope_on_this_team_4",
+    "q_scope_on_this_team_5",
+    "q_scope_on_this_team_6",
+    "q_scope_on_this_team_7",
     "q_scope_pressure",
     "q_scope_reset",
     "q_scope_reset_2",
@@ -3665,6 +3962,11 @@
     "q_scope_shift_point",
     "q_scope_signal",
     "q_scope_to_own_2",
+    "q_scope_to_protect",
+    "q_scope_to_protect_2",
+    "q_scope_to_protect_3",
+    "q_scope_to_protect_4",
+    "q_scope_to_protect_5",
     "q_scope_trade_off",
     "q_scope_trade_off_2",
     "q_scope_tradeoff",
@@ -3788,6 +4090,7 @@
     "q_stakeholder_pull",
     "q_stakeholder_pull_2",
     "q_stakeholder_pull_3",
+    "q_stakeholder_read",
     "q_stakeholder_requests",
     "q_stakeholder_signal",
     "q_stakeholder_trust",
@@ -4000,14 +4303,21 @@
     "q_support_needed_58",
     "q_support_needed_59",
     "q_support_needed_6",
+    "q_support_needed_60",
     "q_support_needed_61",
     "q_support_needed_62",
     "q_support_needed_63",
     "q_support_needed_64",
     "q_support_needed_65",
     "q_support_needed_66",
+    "q_support_needed_67",
     "q_support_needed_68",
+    "q_support_needed_69",
     "q_support_needed_7",
+    "q_support_needed_70",
+    "q_support_needed_71",
+    "q_support_needed_72",
+    "q_support_needed_73",
     "q_support_needed_8",
     "q_support_needed_9",
     "q_support_needs",
@@ -4057,8 +4367,15 @@
     "q_team_bar_fuzzy_2",
     "q_team_bar_fuzzy_3",
     "q_team_bar_specifics",
+    "q_team_bar_specifics_2",
+    "q_team_bar_specifics_3",
     "q_team_change_impact",
     "q_team_connection",
+    "q_team_connection_10",
+    "q_team_connection_11",
+    "q_team_connection_12",
+    "q_team_connection_13",
+    "q_team_connection_14",
     "q_team_connection_2",
     "q_team_connection_3",
     "q_team_connection_4",
@@ -4074,6 +4391,8 @@
     "q_team_dynamics",
     "q_team_edges",
     "q_team_energy",
+    "q_team_examples",
+    "q_team_examples_2",
     "q_team_expectations",
     "q_team_fit",
     "q_team_fit_2",
@@ -4120,11 +4439,18 @@
     "q_team_response",
     "q_team_rhythm_shift",
     "q_team_rituals",
+    "q_team_rituals_2",
+    "q_team_rituals_3",
+    "q_team_rituals_4",
+    "q_team_rituals_5",
+    "q_team_rituals_6",
+    "q_team_rituals_7",
     "q_team_rituals_value",
     "q_team_signal",
     "q_team_signal_2",
     "q_team_specific_scope",
     "q_team_specific_scope_2",
+    "q_team_sync",
     "q_team_tension",
     "q_team_texture",
     "q_team_tone",
@@ -4201,6 +4527,7 @@
     "q_thread_follow_164",
     "q_thread_follow_168",
     "q_thread_follow_169",
+    "q_thread_follow_17",
     "q_thread_follow_170",
     "q_thread_follow_171",
     "q_thread_follow_173",
@@ -4218,10 +4545,13 @@
     "q_thread_follow_196",
     "q_thread_follow_197",
     "q_thread_follow_2",
+    "q_thread_follow_20",
     "q_thread_follow_200",
     "q_thread_follow_203",
     "q_thread_follow_205",
     "q_thread_follow_206",
+    "q_thread_follow_21",
+    "q_thread_follow_22",
     "q_thread_follow_3",
     "q_thread_follow_4",
     "q_thread_follow_5",
@@ -4338,6 +4668,7 @@
     "q_trust_building_2",
     "q_trust_building_3",
     "q_trust_building_4",
+    "q_trust_building_5",
     "q_trust_building_6",
     "q_trust_building_7",
     "q_trust_building_8",
@@ -4370,6 +4701,7 @@
     "q_trust_impact",
     "q_trust_moments",
     "q_trust_moments_2",
+    "q_trust_moments_3",
     "q_trust_reasons",
     "q_trust_signals",
     "q_trust_thin_spots",
@@ -4385,7 +4717,15 @@
     "q_two_week_lift_15",
     "q_two_week_lift_16",
     "q_two_week_lift_17",
+    "q_two_week_lift_18",
+    "q_two_week_lift_19",
     "q_two_week_lift_2",
+    "q_two_week_lift_20",
+    "q_two_week_lift_21",
+    "q_two_week_lift_22",
+    "q_two_week_lift_23",
+    "q_two_week_lift_24",
+    "q_two_week_lift_25",
     "q_two_week_lift_3",
     "q_two_week_lift_4",
     "q_two_week_lift_5",
@@ -4456,6 +4796,9 @@
     "q_visible_outcome",
     "q_visible_outcomes",
     "q_visible_outcomes_2",
+    "q_visible_outcomes_3",
+    "q_visible_outcomes_4",
+    "q_visible_outcomes_5",
     "q_waiting_on",
     "q_waiting_on_2",
     "q_waiting_on_decision",
@@ -4472,6 +4815,7 @@
     "q_what_changed_2",
     "q_what_changed_3",
     "q_what_changed_4",
+    "q_what_changed_5",
     "q_what_changed_after",
     "q_what_changed_lately",
     "q_what_changed_next",
@@ -5005,6 +5349,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_billing_rewrite_fit_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_billing_rewrite_headroom",
       "subdir": ""
     },
@@ -5026,6 +5374,10 @@
     },
     {
       "alias": "q_billing_rewrite_role_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_billing_rewrite_role_5",
       "subdir": "_runtime"
     },
     {
@@ -5202,6 +5554,22 @@
     },
     {
       "alias": "q_change_needed_3",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_change_needed_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_change_needed_5",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_change_needed_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_change_needed_7",
       "subdir": "_runtime"
     },
     {
@@ -5445,6 +5813,34 @@
       "subdir": ""
     },
     {
+      "alias": "q_closer_10",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_closer_11",
+      "subdir": ""
+    },
+    {
+      "alias": "q_closer_12",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_closer_13",
+      "subdir": ""
+    },
+    {
+      "alias": "q_closer_14",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_closer_15",
+      "subdir": ""
+    },
+    {
+      "alias": "q_closer_16",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_closer_2",
       "subdir": ""
     },
@@ -5471,6 +5867,10 @@
     {
       "alias": "q_closer_8",
       "subdir": "_runtime"
+    },
+    {
+      "alias": "q_closer_9",
+      "subdir": ""
     },
     {
       "alias": "q_closer_next_step",
@@ -5542,6 +5942,10 @@
     },
     {
       "alias": "q_coasting_thread_10",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_coasting_thread_11",
       "subdir": "_runtime"
     },
     {
@@ -5793,6 +6197,26 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_controllable_focus_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_controllable_focus_7",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_controllable_focus_8",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_controllable_focus_9",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_controllable_meant_what",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_core_path",
       "subdir": ""
     },
@@ -6025,6 +6449,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_cross_team_decisions_12",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_cross_team_decisions_13",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_cross_team_decisions_2",
       "subdir": ""
     },
@@ -6063,6 +6495,10 @@
     {
       "alias": "q_cross_team_example",
       "subdir": "_runtime"
+    },
+    {
+      "alias": "q_cross_team_example_2",
+      "subdir": ""
     },
     {
       "alias": "q_cross_team_handoff",
@@ -6681,6 +7117,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_decision_point_11",
+      "subdir": ""
+    },
+    {
       "alias": "q_decision_point_2",
       "subdir": ""
     },
@@ -7149,6 +7589,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_design_load_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_design_momentum",
       "subdir": ""
     },
@@ -7194,6 +7638,10 @@
     },
     {
       "alias": "q_desired_scope_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_direction_check",
       "subdir": ""
     },
     {
@@ -7277,6 +7725,14 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_earlier_feedback_16",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_earlier_feedback_17",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_earlier_feedback_2",
       "subdir": ""
     },
@@ -7350,6 +7806,14 @@
     },
     {
       "alias": "q_early_alignment_16",
+      "subdir": ""
+    },
+    {
+      "alias": "q_early_alignment_17",
+      "subdir": ""
+    },
+    {
+      "alias": "q_early_alignment_18",
       "subdir": ""
     },
     {
@@ -7561,6 +8025,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_energy_drain_12",
+      "subdir": ""
+    },
+    {
       "alias": "q_energy_drain_2",
       "subdir": ""
     },
@@ -7614,6 +8082,10 @@
     },
     {
       "alias": "q_energy_in_future_work",
+      "subdir": ""
+    },
+    {
+      "alias": "q_energy_lift",
       "subdir": ""
     },
     {
@@ -8005,6 +8477,14 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_clarity",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_clarity_2",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_feedback_drag",
       "subdir": ""
     },
@@ -8089,16 +8569,148 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_feedback_heard_16",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_heard_17",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_18",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_19",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_feedback_heard_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_feedback_heard_20",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_21",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_22",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_23",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_heard_24",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_25",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_26",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_27",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_28",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_29",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_feedback_heard_3",
       "subdir": ""
     },
     {
+      "alias": "q_feedback_heard_30",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_heard_31",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_32",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_33",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_34",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_35",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_36",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_37",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_heard_38",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_39",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_feedback_heard_4",
       "subdir": ""
+    },
+    {
+      "alias": "q_feedback_heard_40",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_41",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_42",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_heard_43",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_44",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_45",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_46",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_47",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_heard_48",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_feedback_heard_5",
@@ -8241,8 +8853,60 @@
       "subdir": ""
     },
     {
+      "alias": "q_feedback_meaning_10",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_11",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_meaning_12",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_13",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_14",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_15",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_meaning_16",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_17",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_18",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_feedback_meaning_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_feedback_meaning_20",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_21",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_22",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_feedback_meaning_3",
@@ -8258,6 +8922,18 @@
     },
     {
       "alias": "q_feedback_meaning_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_7",
+      "subdir": ""
+    },
+    {
+      "alias": "q_feedback_meaning_8",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_feedback_meaning_9",
       "subdir": "_runtime"
     },
     {
@@ -8569,6 +9245,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_flatter_this_week",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_flatter_week",
       "subdir": ""
     },
@@ -8829,6 +9509,14 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_friction_scan_27",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_friction_scan_28",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_friction_scan_3",
       "subdir": ""
     },
@@ -8921,11 +9609,63 @@
       "subdir": ""
     },
     {
+      "alias": "q_gap_awareness_10",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_11",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_12",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_13",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_14",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_15",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_16",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_gap_awareness_2",
       "subdir": ""
     },
     {
       "alias": "q_gap_awareness_3",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_5",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_7",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_8",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_gap_awareness_9",
       "subdir": "_runtime"
     },
     {
@@ -9162,6 +9902,10 @@
     },
     {
       "alias": "q_impact_gap_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_impact_gap_4",
       "subdir": ""
     },
     {
@@ -9414,6 +10158,10 @@
     },
     {
       "alias": "q_judgment_pressure",
+      "subdir": ""
+    },
+    {
+      "alias": "q_judgment_under_load",
       "subdir": ""
     },
     {
@@ -9769,6 +10517,14 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_leverage_example_8",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_leverage_example_9",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_leverage_gap",
       "subdir": ""
     },
@@ -10018,6 +10774,10 @@
     },
     {
       "alias": "q_manager_help_14",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_help_15",
       "subdir": ""
     },
     {
@@ -10293,16 +11053,144 @@
       "subdir": ""
     },
     {
+      "alias": "q_manager_support_47",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_48",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_49",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_manager_support_5",
       "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_50",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_51",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_52",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_53",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_54",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_55",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_56",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_57",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_58",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_59",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_manager_support_6",
       "subdir": ""
     },
     {
+      "alias": "q_manager_support_60",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_61",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_62",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_63",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_64",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_65",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_66",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_67",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_68",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_69",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_manager_support_7",
       "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_70",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_71",
+      "subdir": ""
+    },
+    {
+      "alias": "q_manager_support_72",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_73",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_74",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_75",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_76",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_77",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_manager_support_78",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_manager_support_8",
@@ -10382,6 +11270,10 @@
     },
     {
       "alias": "q_mentoring_cadence_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_cadence_5",
       "subdir": ""
     },
     {
@@ -10473,11 +11365,99 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_mentoring_fit_28",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_fit_29",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_mentoring_fit_3",
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_fit_30",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_31",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_32",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_33",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_34",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_35",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_fit_36",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_37",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_38",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_39",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_mentoring_fit_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_fit_40",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_41",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_42",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_fit_43",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_44",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_45",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_46",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_47",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_48",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_49",
       "subdir": ""
     },
     {
@@ -10485,8 +11465,56 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_fit_50",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_51",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_52",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_53",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_54",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_55",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_fit_56",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_57",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_58",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_59",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_mentoring_fit_6",
       "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_fit_60",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_fit_61",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_mentoring_fit_7",
@@ -10709,6 +11737,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_shape_25",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_shape_3",
       "subdir": ""
     },
@@ -10734,6 +11766,10 @@
     },
     {
       "alias": "q_mentoring_shape_9",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_space",
       "subdir": ""
     },
     {
@@ -10937,6 +11973,14 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_mentoring_thread_45",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_mentoring_thread_46",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_thread_5",
       "subdir": ""
     },
@@ -11013,7 +12057,23 @@
       "subdir": ""
     },
     {
+      "alias": "q_mentoring_tradeoff_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_mentoring_tradeoff_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_tradeoff_20",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_tradeoff_21",
+      "subdir": ""
+    },
+    {
+      "alias": "q_mentoring_tradeoff_22",
       "subdir": ""
     },
     {
@@ -11749,6 +12809,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_focus_27",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_next_focus_3",
       "subdir": ""
     },
@@ -11855,6 +12919,10 @@
     {
       "alias": "q_next_move_10",
       "subdir": ""
+    },
+    {
+      "alias": "q_next_move_11",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_next_move_12",
@@ -12221,6 +13289,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_quarter_pull_6",
+      "subdir": ""
+    },
+    {
       "alias": "q_next_quarter_shape",
       "subdir": ""
     },
@@ -12457,16 +13529,148 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_next_step_25",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_26",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_27",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_28",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_29",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_next_step_3",
       "subdir": ""
+    },
+    {
+      "alias": "q_next_step_30",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_31",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_32",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_33",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_34",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_35",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_36",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_37",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_38",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_39",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_next_step_4",
       "subdir": ""
     },
     {
+      "alias": "q_next_step_40",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_41",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_42",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_43",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_44",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_45",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_46",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_47",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_48",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_49",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_next_step_5",
       "subdir": ""
+    },
+    {
+      "alias": "q_next_step_50",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_51",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_52",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_53",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_step_54",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_55",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_56",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_step_57",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_next_step_6",
@@ -12857,8 +14061,40 @@
       "subdir": ""
     },
     {
+      "alias": "q_next_two_weeks_48",
+      "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_49",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_next_two_weeks_5",
       "subdir": ""
+    },
+    {
+      "alias": "q_next_two_weeks_50",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_two_weeks_51",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_two_weeks_52",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_two_weeks_53",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_two_weeks_54",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_next_two_weeks_55",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_next_two_weeks_6",
@@ -13279,6 +14515,26 @@
       "subdir": ""
     },
     {
+      "alias": "q_ownership_next_quarter_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_ownership_next_quarter_3",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_ownership_next_quarter_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_ownership_next_quarter_5",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_ownership_next_quarter_6",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_ownership_shape",
       "subdir": ""
     },
@@ -13369,6 +14625,10 @@
     {
       "alias": "q_ownership_uncertainty_4",
       "subdir": ""
+    },
+    {
+      "alias": "q_ownership_uncertainty_5",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_ownership_unclear",
@@ -13515,6 +14775,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_path_forward_19",
+      "subdir": ""
+    },
+    {
       "alias": "q_path_forward_2",
       "subdir": ""
     },
@@ -13604,6 +14868,10 @@
     },
     {
       "alias": "q_payments_win_thread_3",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_payments_win_thread_4",
       "subdir": "_runtime"
     },
     {
@@ -13819,6 +15087,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_post_launch_read_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_post_launch_recovery",
       "subdir": ""
     },
@@ -13852,6 +15124,10 @@
     },
     {
       "alias": "q_post_ship_landing_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_post_ship_landing_4",
       "subdir": ""
     },
     {
@@ -14399,7 +15675,43 @@
       "subdir": ""
     },
     {
+      "alias": "q_prep_opener_218",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_219",
+      "subdir": ""
+    },
+    {
       "alias": "q_prep_opener_22",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_220",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_221",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_222",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_223",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_224",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_225",
+      "subdir": ""
+    },
+    {
+      "alias": "q_prep_opener_226",
       "subdir": ""
     },
     {
@@ -14867,6 +16179,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_principal_signals",
+      "subdir": ""
+    },
+    {
       "alias": "q_principal_tradeoffs",
       "subdir": ""
     },
@@ -14983,6 +16299,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_priority_trade_off_6",
+      "subdir": ""
+    },
+    {
       "alias": "q_priority_trade_offs",
       "subdir": ""
     },
@@ -15067,7 +16387,71 @@
       "subdir": ""
     },
     {
+      "alias": "q_promotion_context_10",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_11",
+      "subdir": ""
+    },
+    {
+      "alias": "q_promotion_context_12",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_13",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_14",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_15",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_16",
+      "subdir": ""
+    },
+    {
+      "alias": "q_promotion_context_17",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_18",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_19",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_promotion_context_2",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_20",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_21",
+      "subdir": ""
+    },
+    {
+      "alias": "q_promotion_context_22",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_23",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_24",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_25",
       "subdir": "_runtime"
     },
     {
@@ -15080,6 +16464,22 @@
     },
     {
       "alias": "q_promotion_context_5",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_6",
+      "subdir": ""
+    },
+    {
+      "alias": "q_promotion_context_7",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_8",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_context_9",
       "subdir": "_runtime"
     },
     {
@@ -15648,6 +17048,14 @@
     },
     {
       "alias": "q_promotion_read_220",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_promotion_read_221",
+      "subdir": ""
+    },
+    {
+      "alias": "q_promotion_read_222",
       "subdir": "_runtime"
     },
     {
@@ -17503,6 +18911,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_question_habit_10",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_question_habit_11",
       "subdir": ""
     },
@@ -17515,8 +18927,28 @@
       "subdir": ""
     },
     {
+      "alias": "q_question_habit_14",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_question_habit_15",
       "subdir": ""
+    },
+    {
+      "alias": "q_question_habit_16",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_question_habit_17",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_question_habit_18",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_question_habit_19",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_question_habit_2",
@@ -17536,6 +18968,10 @@
     },
     {
       "alias": "q_question_habit_6",
+      "subdir": ""
+    },
+    {
+      "alias": "q_question_habit_7",
       "subdir": ""
     },
     {
@@ -17639,6 +19075,18 @@
       "subdir": ""
     },
     {
+      "alias": "q_quiet_this_week_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_quiet_this_week_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_quiet_this_week_7",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_quiet_week",
       "subdir": ""
     },
@@ -17704,6 +19152,10 @@
     },
     {
       "alias": "q_quieter_standup_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_quieter_standup_4",
       "subdir": ""
     },
     {
@@ -17824,6 +19276,10 @@
     },
     {
       "alias": "q_recent_decision_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_recent_disconnect",
       "subdir": ""
     },
     {
@@ -18067,6 +19523,26 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_recognition_mismatch_11",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_recognition_mismatch_12",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_recognition_mismatch_13",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_recognition_mismatch_14",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_recognition_mismatch_15",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_recognition_mismatch_2",
       "subdir": ""
     },
@@ -18111,7 +19587,15 @@
       "subdir": ""
     },
     {
+      "alias": "q_recognized_work_4",
+      "subdir": ""
+    },
+    {
       "alias": "q_recovery_check",
+      "subdir": ""
+    },
+    {
+      "alias": "q_recovery_load",
       "subdir": ""
     },
     {
@@ -18200,6 +19684,10 @@
     },
     {
       "alias": "q_refactor_payoff_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_refactor_payoff_5",
       "subdir": ""
     },
     {
@@ -18675,6 +20163,10 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_review_switching_11",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_review_switching_2",
       "subdir": ""
     },
@@ -18728,6 +20220,10 @@
     },
     {
       "alias": "q_reward_after_ship_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_reward_after_ship_4",
       "subdir": ""
     },
     {
@@ -19231,6 +20727,26 @@
       "subdir": ""
     },
     {
+      "alias": "q_scope_mismatch_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_scope_mismatch_5",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_mismatch_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_mismatch_7",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_mismatch_8",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_scope_next_step",
       "subdir": ""
     },
@@ -19249,6 +20765,22 @@
     {
       "alias": "q_scope_on_this_team_3",
       "subdir": ""
+    },
+    {
+      "alias": "q_scope_on_this_team_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_scope_on_this_team_5",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_on_this_team_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_on_this_team_7",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_scope_pressure",
@@ -19297,6 +20829,26 @@
     {
       "alias": "q_scope_to_own_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_scope_to_protect",
+      "subdir": ""
+    },
+    {
+      "alias": "q_scope_to_protect_2",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_to_protect_3",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_to_protect_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_scope_to_protect_5",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_scope_trade_off",
@@ -19788,6 +21340,10 @@
     },
     {
       "alias": "q_stakeholder_pull_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_stakeholder_read",
       "subdir": ""
     },
     {
@@ -20639,6 +22195,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_60",
+      "subdir": ""
+    },
+    {
       "alias": "q_support_needed_61",
       "subdir": ""
     },
@@ -20663,12 +22223,36 @@
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_67",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_support_needed_68",
       "subdir": ""
     },
     {
+      "alias": "q_support_needed_69",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_support_needed_7",
       "subdir": ""
+    },
+    {
+      "alias": "q_support_needed_70",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_support_needed_71",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_support_needed_72",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_support_needed_73",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_support_needed_8",
@@ -20867,12 +22451,40 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_team_bar_specifics_2",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_team_bar_specifics_3",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_team_change_impact",
       "subdir": ""
     },
     {
       "alias": "q_team_connection",
       "subdir": ""
+    },
+    {
+      "alias": "q_team_connection_10",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_connection_11",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_team_connection_12",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_team_connection_13",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_team_connection_14",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_team_connection_2",
@@ -20933,6 +22545,14 @@
     {
       "alias": "q_team_energy",
       "subdir": ""
+    },
+    {
+      "alias": "q_team_examples",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_examples_2",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_team_expectations",
@@ -21119,6 +22739,30 @@
       "subdir": ""
     },
     {
+      "alias": "q_team_rituals_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_rituals_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_rituals_4",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_rituals_5",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_rituals_6",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_team_rituals_7",
+      "subdir": ""
+    },
+    {
       "alias": "q_team_rituals_value",
       "subdir": ""
     },
@@ -21136,6 +22780,10 @@
     },
     {
       "alias": "q_team_specific_scope_2",
+      "subdir": ""
+    },
+    {
+      "alias": "q_team_sync",
       "subdir": ""
     },
     {
@@ -21443,6 +23091,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_thread_follow_17",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_thread_follow_170",
       "subdir": ""
     },
@@ -21511,6 +23163,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_thread_follow_20",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_thread_follow_200",
       "subdir": ""
     },
@@ -21525,6 +23181,14 @@
     {
       "alias": "q_thread_follow_206",
       "subdir": ""
+    },
+    {
+      "alias": "q_thread_follow_21",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_thread_follow_22",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_thread_follow_3",
@@ -21991,6 +23655,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_trust_building_5",
+      "subdir": ""
+    },
+    {
       "alias": "q_trust_building_6",
       "subdir": ""
     },
@@ -22119,6 +23787,10 @@
       "subdir": ""
     },
     {
+      "alias": "q_trust_moments_3",
+      "subdir": ""
+    },
+    {
       "alias": "q_trust_reasons",
       "subdir": ""
     },
@@ -22179,8 +23851,40 @@
       "subdir": "_runtime"
     },
     {
+      "alias": "q_two_week_lift_18",
+      "subdir": ""
+    },
+    {
+      "alias": "q_two_week_lift_19",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_two_week_lift_2",
       "subdir": ""
+    },
+    {
+      "alias": "q_two_week_lift_20",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_two_week_lift_21",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_two_week_lift_22",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_two_week_lift_23",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_two_week_lift_24",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_two_week_lift_25",
+      "subdir": "_runtime"
     },
     {
       "alias": "q_two_week_lift_3",
@@ -22463,6 +24167,18 @@
       "subdir": ""
     },
     {
+      "alias": "q_visible_outcomes_3",
+      "subdir": ""
+    },
+    {
+      "alias": "q_visible_outcomes_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_visible_outcomes_5",
+      "subdir": "_runtime"
+    },
+    {
       "alias": "q_waiting_on",
       "subdir": ""
     },
@@ -22524,6 +24240,10 @@
     },
     {
       "alias": "q_what_changed_4",
+      "subdir": "_runtime"
+    },
+    {
+      "alias": "q_what_changed_5",
       "subdir": "_runtime"
     },
     {

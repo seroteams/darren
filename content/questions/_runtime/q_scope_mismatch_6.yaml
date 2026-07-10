@@ -1,0 +1,11 @@
+alias: q_scope_mismatch_6
+label: Scope mismatch
+name: Where does the old way of working from your previous team not fit this one?
+description: "Test whether prior habits or assumptions are mismatched to this team's expectations."
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_scope_mismatch_5"
+grounding: open

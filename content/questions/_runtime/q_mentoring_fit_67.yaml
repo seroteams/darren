@@ -1,0 +1,11 @@
+alias: q_mentoring_fit_67
+label: Mentoring fit
+name: How does the mentoring program fit with the product work you want to be known for?
+description: Test whether mentoring feels like stretch on-path or a detour from his core trajectory.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added
+grounding: open

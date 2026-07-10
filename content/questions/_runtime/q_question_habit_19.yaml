@@ -1,0 +1,11 @@
+alias: q_question_habit_19
+label: Question habit
+name: What keeps you from asking earlier when a cross-team call is unclear?
+description: Surface what is driving late clarification on cross-team decisions.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_question_habit_18"
+grounding: open

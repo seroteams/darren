@@ -1,0 +1,10 @@
+alias: q_mentoring_thread_51
+label: Mentoring thread
+name: You mentioned mentoring — what made you stop pushing on that?
+description: Surface what stalled that thread and whether there is a concrete dependency to unblock.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +3
+source: "reworded_from:q_mentoring_thread_50"
+grounding: open

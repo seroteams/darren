@@ -1,0 +1,10 @@
+alias: q_team_bar_specifics_2
+label: Team bar specifics
+name: "What about this team's bar is still fuzzy to you specifically?"
+description: "Pin down the observable parts of the team's Principal bar that still feel unclear."
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "team's bar still feels fuzzy"

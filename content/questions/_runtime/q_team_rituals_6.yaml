@@ -1,0 +1,11 @@
+alias: q_team_rituals_6
+label: Team rituals
+name: What changed for you around team rituals after that decision?
+description: Connect the observed shift in rituals to the decision, if he sees a link.
+purpose: topic
+stage: observation
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: "reworded_from:q_team_rituals_5"
+grounding: open

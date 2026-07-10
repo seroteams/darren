@@ -1,0 +1,11 @@
+alias: q_visible_outcomes_5
+label: Visible outcomes
+name: What concrete outcome from your recent work would someone outside your immediate team point to?
+description: Test whether his impact is visible beyond his immediate lane.
+purpose: topic
+stage: evidence
+axis_effects:
+  engagement: +3
+  clarity: +1
+source: "reworded_from:q_visible_outcomes_4"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_earlier_feedback_16
+label: Earlier feedback
+name: What keeps you from asking for sharper feedback earlier on the work?
+description: Surface what is driving the delayed feedback-seeking pattern he just named.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: sharper feedback earlier

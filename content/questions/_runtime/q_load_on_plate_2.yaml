@@ -1,0 +1,11 @@
+alias: q_load_on_plate_2
+label: Load on plate
+name: What feels like it’s truly on your plate right now, and what is creating drag?
+description: Separate actual workload from the sources of drag in the work.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_load_on_plate"
+grounding: open

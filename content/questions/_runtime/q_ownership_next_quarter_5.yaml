@@ -1,0 +1,11 @@
+alias: q_ownership_next_quarter_5
+label: Ownership next quarter
+name: "What do you expect to own next quarter that you'd want to keep?"
+description: Surface what Priya already sees as her likely ownership before the billing rewrite changes the shape of the quarter.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_ownership_next_quarter_4"
+grounding: open

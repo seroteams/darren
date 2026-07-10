@@ -1,0 +1,11 @@
+alias: q_billing_rewrite_10
+label: Billing rewrite
+name: What would you want to know before I bring up the billing rewrite?
+description: Understand what context she would need before a possible priority shift.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_billing_rewrite_9"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_gap_awareness_4
+label: Gap awareness
+name: "Where do you think you've fallen short of where you want to be?"
+description: Name the gap in his own words before exploring causes.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_intro_perf_03_gap"
+grounding: open

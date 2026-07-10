@@ -1,0 +1,11 @@
+alias: q_next_step_41
+label: Next step
+name: What one thing will you do differently in the next few weeks to show Principal scope more clearly?
+description: Close on a concrete behavioural shift tied to visible Principal-level scope.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_40"
+grounding: open

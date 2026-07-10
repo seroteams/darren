@@ -1,0 +1,11 @@
+alias: q_waiting_points_3
+label: Waiting points
+name: Where are you waiting on product, engineering, or feedback right now?
+description: Find dependencies that are stretching the work out.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_waiting_points_2"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_next_step_50
+label: Next step
+name: What would you change in the next two weeks to show more Principal scope here?
+description: Turn the gap into a near-term behavioural change the employee can act on.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_49"
+grounding: open

@@ -1,9 +1,10 @@
 alias: q_cross_team_decisions_12
 label: Cross-team decisions
-name: Which cross-team decisions are you not stepping into right now?
-description: Anchors the role-scope concern in concrete recent decisions he has avoided or deferred.
+name: Which cross-team decisions did you see but not force?
+description: Pin down concrete moments where he held back on Principal-level cross-team calls.
 purpose: topic
-stage: self_read
+stage: evidence
 axis_effects:
   clarity: +3
 source: planner_added
+grounding: stayed in his lane

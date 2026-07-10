@@ -1,0 +1,11 @@
+alias: q_quiet_this_week_6
+label: Quiet this week
+name: "I've noticed you've been quieter this week — what's the situation there?"
+description: Check whether lower visibility this week reflects normal recovery or a specific issue.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_quiet_this_week_5"
+grounding: open

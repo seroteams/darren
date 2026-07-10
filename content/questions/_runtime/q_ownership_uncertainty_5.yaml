@@ -1,9 +1,10 @@
 alias: q_ownership_uncertainty_5
 label: Ownership uncertainty
-name: "What's making next quarter feel unclear from your side?"
-description: Drills into the uncertainty around next-quarter ownership to surface the source of the ambiguity.
+name: "What's still unclear about next quarter ownership from your side?"
+description: Drill into the specific source of the ownership uncertainty before moving on.
 purpose: topic
 stage: momentum
 axis_effects:
   clarity: +3
 source: planner_added
+grounding: "Unsure what she's owning next quarter"

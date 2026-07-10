@@ -1,0 +1,11 @@
+alias: q_manager_support_84
+label: Manager support
+name: What do you want from me as you work through this?
+description: Clarify what support or involvement from the manager would help now.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: planner_added
+grounding: open

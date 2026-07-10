@@ -1,0 +1,11 @@
+alias: q_scope_to_protect_2
+label: Scope to protect
+name: What part of your current work would you want to protect if the billing rewrite lands?
+description: Surface which current ownership areas matter enough to preserve through upcoming change.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_scope_to_protect"
+grounding: open

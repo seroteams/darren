@@ -1,0 +1,11 @@
+alias: q_question_habit_10
+label: Question habit
+name: What keeps you from asking more questions earlier when something is unclear?
+description: Explore what is driving late clarification or missed early alignment.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_question_habit_7"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_question_habit_16
+label: Question habit
+name: What keeps you from asking earlier when a cross-team call is unclear?
+description: Get at what stops earlier expectation alignment and clarifying questions in ambiguous situations.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_question_habit_14"
+grounding: forcing cross-team decisions

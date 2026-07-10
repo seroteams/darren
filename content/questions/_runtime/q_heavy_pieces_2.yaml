@@ -1,0 +1,11 @@
+alias: q_heavy_pieces_2
+label: Heavy pieces
+name: Which parts of the UX work have been taking more energy than you expected?
+description: Identify the specific UX work that is costing more energy than expected.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_heavy_pieces"
+grounding: open

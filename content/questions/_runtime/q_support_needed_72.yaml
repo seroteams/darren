@@ -1,0 +1,11 @@
+alias: q_support_needed_72
+label: Support needed
+name: What would help you stay connected to the team in a way that feels real to you?
+description: Clarify what support or changes would make team connection feel more genuine.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_support_needed_71"
+grounding: open

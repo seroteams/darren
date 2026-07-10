@@ -1,0 +1,10 @@
+alias: q_controllable_focus_7
+label: Controllable focus
+name: When delivery felt controllable, what were you pulling back from?
+description: Drill on the specific shift in where he invested attention after the decision.
+purpose: topic
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added
+grounding: felt controllable

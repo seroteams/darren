@@ -1,0 +1,11 @@
+alias: q_closer_12
+label: Closer
+name: What would make the next couple of weeks steadier for you?
+description: Close by identifying what would help the next stretch feel more sustainable.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: planner_added
+grounding: open

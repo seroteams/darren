@@ -1,0 +1,11 @@
+alias: q_manager_support_92
+label: Manager support
+name: What would you want from me before the billing rewrite starts to move?
+description: What support or clarity she wants from you so her next-quarter ownership stays coherent even if the billing rewrite shifts priorities.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_manager_support_91"
+grounding: open

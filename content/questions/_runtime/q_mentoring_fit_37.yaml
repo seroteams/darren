@@ -1,0 +1,11 @@
+alias: q_mentoring_fit_37
+label: Mentoring fit
+name: How does the mentoring program fit with the product work you want to be known for?
+description: Test whether mentoring feels like aligned stretch or a side path.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added
+grounding: open

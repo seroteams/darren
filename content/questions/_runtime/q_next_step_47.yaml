@@ -1,0 +1,11 @@
+alias: q_next_step_47
+label: Next step
+name: What would you change in the next two weeks to show more Principal scope here?
+description: Close on a concrete near-term change tied to Principal-scope behaviour.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_46"
+grounding: open

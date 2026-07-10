@@ -1,0 +1,11 @@
+alias: q_priority_clarity_3
+label: Priority clarity
+name: What are you actually focused on this week, and why those things?
+description: Surface her current priorities and whether they feel coherent.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_priority_clarity_2"
+grounding: open

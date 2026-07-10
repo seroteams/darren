@@ -1,0 +1,11 @@
+alias: q_flatter_week_16
+label: Flatter week
+name: You said it’s mostly cleanup and reviews — what’s making this week feel flatter than you expected?
+description: Locate what is making the post-launch week feel flat before moving on.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_flatter_week_15"
+grounding: Mostly cleanup and reviews

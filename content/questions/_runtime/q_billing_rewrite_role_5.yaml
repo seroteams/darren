@@ -1,0 +1,11 @@
+alias: q_billing_rewrite_role_5
+label: Billing rewrite role
+name: What role do you want on the billing rewrite?
+description: "Surfaces the specific involvement she wants so you can understand the opportunity she feels she's missing."
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added
+grounding: the billing rewrite

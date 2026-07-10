@@ -1,0 +1,11 @@
+alias: q_scope_mismatch_8
+label: Scope mismatch
+name: "Where does your old way of working not fit this team's Principal bar?"
+description: Identify the working pattern that no longer matches the team’s expectations for Principal scope.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_scope_mismatch_7"
+grounding: open

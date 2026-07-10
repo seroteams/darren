@@ -1,0 +1,11 @@
+alias: q_next_quarter_shape_28
+label: Next-quarter shape
+name: What are you expecting to own next quarter?
+description: Make her expected ownership explicit before quarter planning hardens.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_next_quarter_shape_27"
+grounding: open

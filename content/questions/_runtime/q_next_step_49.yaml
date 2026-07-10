@@ -1,0 +1,11 @@
+alias: q_next_step_49
+label: Next step
+name: What would you change in the next two weeks to show more Principal scope here?
+description: Turn the discussion into a near-term behavioural shift the employee can act on.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step_48"
+grounding: open

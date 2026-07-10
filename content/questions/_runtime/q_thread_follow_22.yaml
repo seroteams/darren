@@ -1,0 +1,9 @@
+alias: q_thread_follow_22
+label: Thread follow
+name: less present in rituals lately — can you say more about what that means for you right now?
+description: Following up on what they just said.
+purpose: wellbeing
+stage: landing
+axis_effects:
+  wellbeing: +3
+source: planner_added

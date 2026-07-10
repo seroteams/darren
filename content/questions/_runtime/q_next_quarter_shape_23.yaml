@@ -1,0 +1,11 @@
+alias: q_next_quarter_shape_23
+label: Next-quarter shape
+name: What are you expecting to own next quarter?
+description: Understand expected ownership before introducing any new work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_shape_22"
+grounding: open

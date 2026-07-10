@@ -1,0 +1,11 @@
+alias: q_scope_mismatch_7
+label: Scope mismatch
+name: "Where does your old way of working not fit this team's Principal bar?"
+description: Test whether prior habits or assumptions are mismatching this team’s expectations.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_scope_mismatch_6"
+grounding: open

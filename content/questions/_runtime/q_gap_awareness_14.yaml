@@ -1,0 +1,11 @@
+alias: q_gap_awareness_14
+label: Gap awareness
+name: "Where do you think you've fallen short of Principal scope on this team?"
+description: Surface his own naming of the specific gap between current execution and expected Principal-level impact.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_gap_awareness_13"
+grounding: open

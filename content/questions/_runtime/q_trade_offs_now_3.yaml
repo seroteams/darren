@@ -1,0 +1,11 @@
+alias: q_trade_offs_now_3
+label: Trade-offs now
+name: What are you choosing to say yes to and no to this week?
+description: Surface current trade-offs and priority choices.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_trade_offs_now_2"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_support_needed_67
+label: Support needed
+name: What would help you stay connected to the team in a way that feels real to you?
+description: Close by identifying support that would make reconnection easier.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_support_needed_60"
+grounding: open

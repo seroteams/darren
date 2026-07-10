@@ -1,0 +1,11 @@
+alias: q_manager_support_89
+label: Manager support
+name: What would you want from me before the billing rewrite starts to move?
+description: Identify what support or clarity would help before priorities shift.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_manager_support_88"
+grounding: open

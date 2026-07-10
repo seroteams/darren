@@ -1,0 +1,11 @@
+alias: q_feedback_heard_41
+label: Feedback heard
+name: What feedback did you actually hear about the promotion and next steps?
+description: Surface what he understood from the promotion decision and whether the path forward feels concrete.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_feedback_heard_40"
+grounding: open

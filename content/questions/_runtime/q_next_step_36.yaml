@@ -1,0 +1,11 @@
+alias: q_next_step_36
+label: Next step
+name: What concrete step feels realistic for you over the next few weeks?
+description: Help him name a credible near-term move forward.
+purpose: topic
+stage: support
+axis_effects:
+  growth: +1
+  clarity: +1
+source: planner_added
+grounding: open

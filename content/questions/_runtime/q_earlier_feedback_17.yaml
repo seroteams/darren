@@ -1,0 +1,11 @@
+alias: q_earlier_feedback_17
+label: Earlier feedback
+name: What keeps you from asking for sharper feedback earlier on the work?
+description: Get at the cause behind waiting too long to seek sharper input.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_earlier_feedback_16"
+grounding: open

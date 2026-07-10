@@ -1,0 +1,10 @@
+alias: q_handoff_slip_2
+label: Handoff slip
+name: On that handoff slip, where did it get complicated from your side?
+description: Drill into the specific handoff problem he raised to locate the friction clearly.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: handoff slipped again

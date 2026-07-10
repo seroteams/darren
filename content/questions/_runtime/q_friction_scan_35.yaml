@@ -1,0 +1,11 @@
+alias: q_friction_scan_35
+label: Friction scan
+name: Where has work felt messier or more draggy than expected?
+description: Surface any concrete snag or drag after the launch before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_friction_scan_34"
+grounding: open

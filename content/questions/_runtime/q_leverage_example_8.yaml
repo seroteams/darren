@@ -1,0 +1,10 @@
+alias: q_leverage_example_8
+label: Leverage example
+name: Where have you aimed at the highest-leverage work recently, and what made it high-leverage?
+description: Drill on his own leverage framing with one concrete example before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: highest-leverage work yet

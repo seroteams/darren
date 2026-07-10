@@ -1,0 +1,11 @@
+alias: q_scope_on_this_team_7
+label: Scope on this team
+name: What does Principal scope mean here that differs from how you worked on your last team?
+description: Clarify the local bar for Principal scope versus prior expectations.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_scope_on_this_team_6"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_narrow_focus_2
+label: Narrow focus
+name: What would you want to narrow or drop first if we were trying to make this fortnight steadier?
+description: Close by identifying where to reduce load for the next two weeks.
+purpose: topic
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_narrow_focus"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_mentoring_fit_51
+label: Mentoring fit
+name: How does the mentoring program fit with your product leadership work right now?
+description: Test whether mentoring is part of his path or a redirect from it.
+purpose: topic
+stage: underneath
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_mentoring_fit_50"
+grounding: open

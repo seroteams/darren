@@ -1,0 +1,11 @@
+alias: q_next_quarter_shape_29
+label: Next-quarter shape
+name: What are you expecting to own next quarter?
+description: Clarify expected ownership next quarter and whether scope feels settled.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_next_quarter_shape_28"
+grounding: open

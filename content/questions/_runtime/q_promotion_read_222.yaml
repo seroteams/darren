@@ -1,0 +1,11 @@
+alias: q_promotion_read_222
+label: Promotion read
+name: What did you take from the promotion decision?
+description: Clarify what meaning and direction he took from the decision.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_promotion_read_221"
+grounding: open

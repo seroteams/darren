@@ -1,0 +1,11 @@
+alias: q_team_examples_2
+label: Team examples
+name: What team-specific examples come to mind when you think about Principal scope here?
+description: Surface whether he can name concrete, team-specific markers of Principal scope.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_team_examples"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_scope_mismatch_5
+label: Scope mismatch
+name: Where does the old way of working from your previous team not fit this one?
+description: Test whether context mismatch is part of the gap he is experiencing.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_scope_mismatch_4"
+grounding: open

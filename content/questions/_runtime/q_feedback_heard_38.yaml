@@ -1,0 +1,11 @@
+alias: q_feedback_heard_38
+label: Feedback heard
+name: What feedback did you actually hear about the promotion and next steps?
+description: Test whether the feedback he took away is concrete and actionable.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_feedback_heard_37"
+grounding: open

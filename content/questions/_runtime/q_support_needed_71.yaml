@@ -1,0 +1,11 @@
+alias: q_support_needed_71
+label: Support needed
+name: What would help you stay connected to the team in a way that feels real to you?
+description: Identify practical support that would make team connection feel more workable and genuine.
+purpose: wellbeing
+stage: support
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_support_needed_70"
+grounding: open

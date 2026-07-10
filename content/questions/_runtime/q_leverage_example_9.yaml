@@ -1,0 +1,10 @@
+alias: q_leverage_example_9
+label: Leverage example
+name: Where specifically have you been choosing lower-leverage work over Principal-scope work?
+description: Drill into the named leverage concern with a concrete example before moving on.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: highest-leverage work

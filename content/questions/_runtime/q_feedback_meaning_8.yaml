@@ -1,0 +1,11 @@
+alias: q_feedback_meaning_8
+label: Feedback meaning
+name: How did that feedback land for you?
+description: Understand how he interpreted the promotion feedback and what it changed for him.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: open

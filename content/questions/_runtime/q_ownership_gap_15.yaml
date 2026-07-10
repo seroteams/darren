@@ -1,0 +1,10 @@
+alias: q_ownership_gap_15
+label: Ownership gap
+name: "You said you're unsure what you're owning next quarter — where is that most unclear right now?"
+description: Locate the specific ownership ambiguity before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "Unsure what she's owning next quarter"
