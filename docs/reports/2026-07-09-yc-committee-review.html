@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sero — YC Committee Review · 9 July 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#F4F5F3; --stone:#E4E5E0; --stonebg:#DDDED8; --char:#1A1A1A;
+  --soft:#3A3733; --grey:#7A776F; --hair:#C9CAC4; --red:#C8102E;
+  --green:#2E7D32;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--char);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6}
+.topbar{position:fixed;top:0;left:0;right:0;height:4px;background:var(--red);z-index:99}
+.wrap{max-width:1060px;margin:0 auto;padding:72px 32px 96px}
+.kicker{font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:none}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(38px,6vw,58px);line-height:1.08;margin:18px 0 10px}
+h1 .dot{color:var(--red)}
+.sub{font-size:17px;color:var(--soft);max-width:720px}
+h2{font-family:'Fraunces',serif;font-weight:600;font-size:30px;line-height:1.15;margin:0 0 6px}
+h2 .dot{color:var(--red)}
+section{margin-top:76px}
+.sectionhead{margin-bottom:26px}
+.sectionhead .kicker{margin-bottom:10px}
+.sectionhead p{color:var(--soft);max-width:700px;font-size:15px}
+.hr{height:1px;background:var(--hair);margin:0}
+/* metric strip */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:6px;overflow:hidden;margin-top:36px}
+.metric{background:var(--white);padding:18px 16px}
+.metric b{display:block;font-family:'Fraunces',serif;font-size:26px;font-weight:600;line-height:1.1}
+.metric span{font-size:14px;color:var(--grey)}
+.metric.bad b{color:var(--red)}
+.metric.good b{color:var(--green)}
+/* scoreboard */
+.scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.score{background:var(--stone);border-radius:6px;padding:22px 20px}
+.score .lbl{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+.score .num{font-family:'Fraunces',serif;font-size:44px;font-weight:600;line-height:1.05;margin:6px 0 4px}
+.score .num small{font-size:20px;color:var(--grey);font-weight:500}
+.score .bar{height:6px;background:var(--hair);border-radius:3px;overflow:hidden;margin:12px 0 10px}
+.score .bar i{display:block;height:100%;background:var(--soft);border-radius:3px}
+.score.low .bar i{background:var(--red)}
+.score.low .num{color:var(--red)}
+.score p{font-size:14px;color:var(--soft)}
+/* two-col built/missing */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.split{grid-template-columns:1fr}}
+.panelbox{border:1px solid var(--hair);border-radius:6px;padding:26px 24px;background:#fff}
+.panelbox.stone{background:var(--stonebg);border-color:transparent}
+.panelbox h3{font-family:'Fraunces',serif;font-size:21px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.panelbox h3 .d{width:8px;height:8px;border-radius:50%;flex:none}
+.panelbox h3 .d.g{background:var(--green)}
+.panelbox h3 .d.r{background:var(--red)}
+.panelbox ul{list-style:none}
+.panelbox li{padding:7px 0 7px 20px;position:relative;font-size:14.5px;color:var(--soft);border-bottom:1px solid var(--hair)}
+.panelbox li:last-child{border-bottom:none}
+.panelbox li::before{content:"";position:absolute;left:2px;top:14px;width:6px;height:6px;border-radius:50%;background:var(--grey)}
+.panelbox.builtlist li::before{background:var(--green)}
+.panelbox.gaplist li::before{background:var(--red)}
+.panelbox li b{color:var(--char)}
+.ev{font-size:12.5px;color:var(--grey);display:block;margin-top:1px;font-style:normal}
+/* pipeline */
+.pipe{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.pipe .stage{background:var(--stone);border-radius:6px;padding:12px 14px;flex:1 1 150px;min-width:150px}
+.pipe .stage b{display:block;font-size:14px}
+.pipe .stage span{font-size:13.5px;color:var(--grey);display:block;line-height:1.4;margin-top:2px}
+.pipe .stage .n{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--grey)}
+.pipe .stage.weak{outline:2px solid var(--red);outline-offset:-2px}
+.pipe .stage.weak .n::after{content:" · WEAK";color:var(--red)}
+/* panel cards */
+.people{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:820px){.people{grid-template-columns:1fr}}
+.person{border:1px solid var(--hair);border-radius:6px;background:#fff;padding:26px 24px;display:flex;flex-direction:column}
+.person.lead{grid-column:1 / -1;background:var(--stonebg);border-color:transparent}
+.phead{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.mono{width:46px;height:46px;border-radius:50%;background:var(--char);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex:none;letter-spacing:.02em}
+.person.lead .mono{background:var(--red)}
+.pname b{display:block;font-size:16px}
+.pname span{font-size:13.5px;color:var(--grey)}
+.quote{font-family:'Fraunces',serif;font-style:italic;font-size:19px;line-height:1.45;color:var(--char);margin:4px 0 16px}
+.person.lead .quote{font-size:24px;max-width:820px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:auto}
+@media(max-width:560px){.pgrid{grid-template-columns:1fr}}
+.pcol h4{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:7px}
+.pcol h4 .d{width:7px;height:7px;border-radius:50%}
+.pcol.up h4{color:var(--green)}.pcol.up h4 .d{background:var(--green)}
+.pcol.down h4{color:var(--red)}.pcol.down h4 .d{background:var(--red)}
+.pcol p{font-size:14px;color:var(--soft);line-height:1.5}
+.call{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);font-size:14px}
+.call b{font-weight:700}
+/* verdict */
+.verdict{background:var(--char);color:var(--white);border-radius:6px;padding:44px 40px;margin-top:8px}
+.verdict .kicker{color:#B9B7B0}
+.verdict h2{color:var(--white);font-size:clamp(28px,4vw,40px);margin:14px 0 12px}
+.verdict p{color:#D6D5D0;max-width:760px;font-size:16px}
+.verdict .big{font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--white);margin:20px 0 8px;line-height:1.4}
+/* roadmap */
+.horizons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:860px){.horizons{grid-template-columns:1fr}}
+.horizon{border:1px solid var(--hair);border-radius:6px;background:#fff;overflow:hidden}
+.horizon .htop{padding:18px 20px 14px;background:var(--stone)}
+.horizon .htop .n{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--grey);text-transform:uppercase}
+.horizon .htop b{display:block;font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-top:2px}
+.horizon .htop span{font-size:13.5px;color:var(--grey)}
+.horizon ul{list-style:none;padding:12px 20px 8px}
+.horizon li{padding:8px 0 8px 18px;position:relative;font-size:14px;color:var(--soft);border-bottom:1px solid var(--hair)}
+.horizon li:last-child{border-bottom:none}
+.horizon li::before{content:"";position:absolute;left:0;top:15px;width:6px;height:6px;border-radius:50%;background:var(--grey)}
+.horizon li.done::before{background:var(--green)}
+.horizon li b{color:var(--char)}
+.gate{margin:0 20px 20px;padding:12px 14px;background:var(--stonebg);border-radius:6px;font-size:13.5px}
+.gate b{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:2px}
+/* build table */
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--hair);border-radius:6px;overflow:hidden}
+.tablewrap{overflow-x:auto;border-radius:6px}
+th{background:var(--stone);text-align:left;padding:12px 14px;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--grey);white-space:nowrap}
+td{padding:12px 14px;border-top:1px solid var(--hair);vertical-align:top;color:var(--soft)}
+td b{color:var(--char)}
+.chip{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.chip.s{background:#DCEBDD;color:var(--green)}
+.chip.m{background:var(--stone);color:var(--soft)}
+.chip.l{background:#F4D6DB;color:var(--red)}
+.chip.flight{background:var(--char);color:var(--white)}
+.why{font-size:13px;color:var(--grey)}
+/* risks */
+.risks{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.risks{grid-template-columns:1fr}}
+.risk{border:1px solid var(--hair);border-left:4px solid var(--red);border-radius:6px;background:#fff;padding:18px 20px}
+.risk b{display:block;font-size:15px;margin-bottom:4px}
+.risk p{font-size:14px;color:var(--soft)}
+.risk .sev{font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--red);text-transform:uppercase}
+.risk.med{border-left-color:var(--grey)}
+.risk.med .sev{color:var(--grey)}
+/* footer */
+.foot{margin-top:80px;padding-top:24px;border-top:1px solid var(--hair);font-size:13.5px;color:var(--grey)}
+.foot b{color:var(--soft)}
+.note{font-size:13.5px;color:var(--grey);margin-top:14px;max-width:760px}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="wrap">
+
+<!-- ============ HERO ============ -->
+<header>
+  <div class="kicker">The Committee Review · 9 July 2026</div>
+  <h1>Sero, in front of the committee<span class="dot">.</span></h1>
+  <p class="sub">Four independent auditors read the entire repository cold — product &amp; AI engine, engineering, business readiness, design. Then a simulated panel of six of the sharpest operators in startups, engineering, design and people-leadership gave their verdicts, Gary Tan presiding. Every claim below is anchored to a file in the repo.</p>
+
+  <div class="metrics">
+    <div class="metric good"><b>109/109</b><span>tests passing</span></div>
+    <div class="metric good"><b>18+</b><span>coded trust gates</span></div>
+    <div class="metric"><b>4,375</b><span>questions in bank</span></div>
+    <div class="metric"><b>$0.36</b><span>cost per full run</span></div>
+    <div class="metric good"><b>Live</b><span>deployed on Render</span></div>
+    <div class="metric bad"><b>0</b><span>external users</span></div>
+    <div class="metric bad"><b>$0</b><span>revenue · no billing</span></div>
+  </div>
+</header>
+
+<!-- ============ SCOREBOARD ============ -->
+<section>
+  <div class="sectionhead">
+    <div class="kicker">Audit Scoreboard</div>
+    <h2>Four lenses, one story<span class="dot">.</span></h2>
+    <p>Three scores say "seed-stage teams would envy this." One score is the company right now — and the committee doesn't average.</p>
+  </div>
+  <div class="scores">
+    <div class="score">
+      <div class="lbl">AI Product Depth</div>
+      <div class="num">8<small>/10</small></div>
+      <div class="bar"><i style="width:80%"></i></div>
+      <p>A real 5-stage pipeline with an axis state machine, grounded follow-ups and a deterministic trust harness — not a prompt wrapper.</p>
+    </div>
+    <div class="score">
+      <div class="lbl">Design Craft</div>
+      <div class="num">8<small>/10</small></div>
+      <div class="bar"><i style="width:80%"></i></div>
+      <p>An enforced design system: 14px floor coded into tokens, copy rules guarded by unit tests, honest briefing information design.</p>
+    </div>
+    <div class="score">
+      <div class="lbl">Engineering Health</div>
+      <div class="num">7.5<small>/10</small></div>
+      <div class="bar"><i style="width:75%"></i></div>
+      <p>Strict TypeScript passing clean, layered monolith, hardened Postgres, real auth. Held back by zero CI on an auto-deploying main.</p>
+    </div>
+    <div class="score low">
+      <div class="lbl">Business Readiness</div>
+      <div class="num">3<small>/10</small></div>
+      <div class="bar"><i style="width:30%"></i></div>
+      <p>No validated user, no pricing, no billing code, no legal footing. The corridor-test plan exists — with blank name slots.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT SERO IS ============ -->
+<section>
+  <div class="sectionhead">
+    <div class="kicker">What Was Audited</div>
+    <h2>The machine under the hood<span class="dot">.</span></h2>
+    <p>A manager types sparse notes about a direct report. Sero returns a preparation briefing, runs an adaptive live question loop, and closes with a scored, two-channel honest read. Five model stages, one weak link.</p>
+  </div>
+  <div class="pipe">
+    <div class="stage"><span class="n">01</span><b>Focus points</b><span>Picks the meeting's themes, filtered by relationship arc</span></div>
+    <div class="stage"><span class="n">02</span><b>Preparation</b><span>The pre-meeting briefing: core issue, opening question, what to avoid</span></div>
+    <div class="stage"><span class="n">03</span><b>Question bank</b><span>Candidate questions following the meeting type's arc</span></div>
+    <div class="stage weak"><span class="n">04</span><b>Live turn loop</b><span>Re-plans every turn against the axis state — scored 55–65/100 on thread-following vs 85–98 elsewhere</span></div>
+    <div class="stage"><span class="n">05</span><b>Evaluation</b><span>Final briefing: axes, two "brutal truth" channels, next actions</span></div>
+  </div>
+  <p class="note">Stage 04 dominates cost too: ~$0.33 of the $0.36 per run. It is both the quality problem and the cost lever — the fix track is already in flight (docs/plans/doing/thread-follow).</p>
+</section>
+
+<!-- ============ BUILT vs MISSING ============ -->
+<section>
+  <div class="sectionhead">
+    <div class="kicker">Where We Are</div>
+    <h2>Built vs. missing<span class="dot">.</span></h2>
+  </div>
+  <div class="split">
+    <div class="panelbox builtlist">
+      <h3><span class="d g"></span>What exists and works</h3>
+      <ul>
+        <li><b>Live product on the internet</b> — full 6-stage manager flow, guest try-out, deployed at sero-obwq.onrender.com<span class="ev">frontend/src/router.js · render.yaml</span></li>
+        <li><b>Deterministic trust harness</b> — ~20 coded detectors; the LLM judge can never flip a verdict<span class="ev">evals/trust-checks.ts · scripts/gate.js</span></li>
+        <li><b>Honesty enforced in code</b> — no inferred states, thin input suppressed, every signal anchored to the manager's own words<span class="ev">backend/engine/golden-checks.ts</span></li>
+        <li><b>Real auth &amp; multi-tenancy</b> — server-side sessions, bcrypt, org-scoped tables, invite links, roles<span class="ev">backend/api/services/auth · backend/db/schema.ts</span></li>
+        <li><b>Free offline regression</b> — replay re-grades frozen runs at $0, decoupling quality checks from spend<span class="ev">docs/reference/engine-map.md</span></li>
+        <li><b>Strict TS + 109 green tests</b> — three typechecks clean, tests can't be silently skipped<span class="ev">scripts/run-tests.js · tsconfig.json</span></li>
+        <li><b>An enforced design system</b> — tokens, 14px floor in code, copy rules as unit tests<span class="ev">DESIGN.md · admin/src/styles/design/tokens.css</span></li>
+      </ul>
+    </div>
+    <div class="panelbox gaplist">
+      <h3><span class="d r"></span>What's missing</h3>
+      <ul>
+        <li><b>A single external user</b> — every account and all ~250 runs are the founder's own tests<span class="ev">docs/reference/gtm-validation-plan.md — name slots blank</span></li>
+        <li><b>Any way to charge money</b> — no pricing, no billing code, no payment dependency at all<span class="ev">package.json — no Stripe/checkout anywhere</span></li>
+        <li><b>Legal footing for HR data</b> — no Terms, no Privacy Policy, no DPA; deletion is "email Carl"<span class="ev">admin/src/stages/privacy.js</span></li>
+        <li><b>Thread-following quality</b> — the core promise scores 55–65 while everything else scores 85–98<span class="ev">docs/reports/2026-07-09-night-test-report.md</span></li>
+        <li><b>CI gate</b> — every push to main auto-deploys to production with no automated check<span class="ev">no .github/ · render.yaml autoDeployTrigger</span></li>
+        <li><b>Production posture</b> — free hosting tier that sleeps; cold-start greets a tester's first click<span class="ev">render.yaml plan: free</span></li>
+        <li><b>Email &amp; onboarding funnel</b> — invites are copy-a-link; no first-run guidance for a new manager<span class="ev">docs/plans/done/member-invites</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE PANEL ============ -->
+<section>
+  <div class="sectionhead">
+    <div class="kicker">The Panel</div>
+    <h2>Six verdicts<span class="dot">.</span></h2>
+    <p>A simulated committee: each verdict is written in the voice of that person's public thinking, applied to today's audit evidence. None of them has actually seen Sero.</p>
+  </div>
+
+  <div class="people">
+    <div class="person lead">
+      <div class="phead">
+        <div class="mono">GT</div>
+        <div class="pname"><b>Gary Tan</b><span>President &amp; CEO, Y Combinator — presiding</span></div>
+      </div>
+      <p class="quote">"This is one of the strongest pre-user codebases I've seen — and that's exactly the problem. You've spent months getting brilliant at the half of the startup that was never in doubt. Make something people want has two clauses. You've nailed 'make something'. You have zero evidence on 'people want'. The good news: you are literally three conversations away from starting to find out, and that costs nothing."</p>
+      <div class="pgrid">
+        <div class="pcol up"><h4><span class="d"></span>What impressed him</h4><p>Founder can clearly build and ship alone at startup-team speed; the honesty engineering is a genuine product philosophy, not marketing.</p></div>
+        <div class="pcol down"><h4><span class="d"></span>What worried him</h4><p>The build-trap signature: engineering tracks keep closing while the one task that produces evidence — naming three test managers — sits untouched.</p></div>
+      </div>
+      <div class="call">📋 <b>His call:</b> Stop building for two weeks. Put the product in front of three real managers before writing another feature.</div>
+    </div>
+
+    <div class="person">
+      <div class="phead">
+        <div class="mono">AK</div>
+        <div class="pname"><b>Andrej Karpathy</b><span>AI engineering lens</span></div>
+      </div>
+      <p class="quote">"Deterministic gates that outrank the LLM judge, adversarial sentinels the baseline refuses to bless, free offline replay — this is real eval engineering. But eight golden cases is not an oracle, and your flagship behaviour is the one thing your own harness says is weak."</p>
+      <div class="pgrid">
+        <div class="pcol up"><h4><span class="d"></span>Praise</h4><p>The gate architecture is the right shape: code decides, the model advises. Per-run cost ledgers mean unit economics are measured, not guessed.</p></div>
+        <div class="pcol down"><h4><span class="d"></span>Concern</h4><p>Single-provider lock-in with no fallback path; prompt-to-regex coupling that rots silently; the turn planner is 90% of run cost and the weakest stage.</p></div>
+      </div>
+      <div class="call">📋 <b>His call:</b> Finish the thread-follow fix, then grow the golden set from real user runs — that's the only oracle that matters.</div>
+    </div>
+
+    <div class="person">
+      <div class="phead">
+        <div class="mono">DH</div>
+        <div class="pname"><b>David Heinemeier Hansson</b><span>Pragmatic developer lens</span></div>
+      </div>
+      <p class="quote">"A hand-rolled server, no framework bloat, strict types that actually pass, tests that actually run — I love this. But auto-deploying main to production with no CI is driving without the seatbelt you already own. It's one YAML file. Write it today."</p>
+      <div class="pgrid">
+        <div class="pcol up"><h4><span class="d"></span>Praise</h4><p>The majestic monolith done right: controller → service → repo, engine cleanly separated, documentation good enough to onboard a stranger.</p></div>
+        <div class="pcol down"><h4><span class="d"></span>Concern</h4><p>700-line vanilla-JS god-files in the frontend; single-instance rate limiting that dies at the first horizontal scale; bleeding-edge Node pin.</p></div>
+      </div>
+      <div class="call">📋 <b>His call:</b> One CI workflow (typecheck + tests before deploy), pay the $7 hosting tier, then go get customers — the code is ready enough.</div>
+    </div>
+
+    <div class="person">
+      <div class="phead">
+        <div class="mono">JZ</div>
+        <div class="pname"><b>Julie Zhuo</b><span>Design &amp; management lens</span></div>
+      </div>
+      <p class="quote">"The briefing that says 'not enough signal to read' instead of faking a score — that's design integrity most teams never reach. But a manager who re-reads their briefing gets a visibly downgraded version of what they first saw. The second impression is the product."</p>
+      <div class="pgrid">
+        <div class="pcol up"><h4><span class="d"></span>Praise</h4><p>Next actions grouped by time horizon, shareable vs private clearly badged, copy rules enforced by tests. Honest, scannable, humane.</p></div>
+        <div class="pcol down"><h4><span class="d"></span>Concern</h4><p>Three parallel briefing renderers guarantee drift; no guided first-run for a new manager; an 8-stage wizard whose own escape hatch admits it's long.</p></div>
+      </div>
+      <div class="call">📋 <b>Her call:</b> Unify the briefing renderer into one component, and watch three real first-runs before touching anything else.</div>
+    </div>
+
+    <div class="person">
+      <div class="phead">
+        <div class="mono">CJ</div>
+        <div class="pname"><b>Claire Hughes Johnson</b><span>Executive &amp; operations lens (ex-COO, Stripe)</span></div>
+      </div>
+      <p class="quote">"A company that cannot take money and cannot sign terms isn't a company yet — it's a project. The sequence is fixed: named testers, then a pricing hypothesis, then a paid pilot with a one-page agreement. Don't build billing before someone has said yes to a price."</p>
+      <div class="pgrid">
+        <div class="pcol up"><h4><span class="d"></span>Praise</h4><p>The validation plan's pass bar is exactly right: a second unprompted prep within two weeks. That's a real behavioural metric, not a vanity one.</p></div>
+        <div class="pcol down"><h4><span class="d"></span>Concern</h4><p>Sales, support, compliance and data deletion all route to one founder's inbox. Sensitive HR data with no terms of service is a deal-blocker for any real buyer.</p></div>
+      </div>
+      <div class="call">📋 <b>Her call:</b> A one-page ToS + privacy policy before the first external tester; a price on the table by the first pilot conversation.</div>
+    </div>
+
+    <div class="person">
+      <div class="phead">
+        <div class="mono">KS</div>
+        <div class="pname"><b>Kim Scott</b><span>Feedback &amp; 1:1 domain lens (Radical Candor)</span></div>
+      </div>
+      <p class="quote">"Two truth channels — one the employee can see, one only for the manager — with inference banned unless the person said it themselves? That's radical candor operationalised. But thread-following is what caring personally sounds like. If the tool drops someone's answer at turn six, it fails the humanity test it set for itself."</p>
+      <div class="pgrid">
+        <div class="pcol up"><h4><span class="d"></span>Praise</h4><p>The no-inference rule and evidence anchoring protect the employee from the manager's untested stories — rare and genuinely valuable.</p></div>
+        <div class="pcol down"><h4><span class="d"></span>Concern</h4><p>Employees are the subjects of this data but not yet its stakeholders; a works council or HR counsel will ask what's said about people and where it goes.</p></div>
+      </div>
+      <div class="call">📋 <b>Her call:</b> Ship the thread-follow fix before any real 1:1 runs through it, and write the employee-facing data story now.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMITTEE VERDICT ============ -->
+<section>
+  <div class="verdict">
+    <div class="kicker">Committee Verdict</div>
+    <h2>Not yet — and it's fixable in 90 days.</h2>
+    <p class="big">"We don't fund evidence of effort. We fund evidence of desire. Come back with three managers who came back."</p>
+    <p>The committee's read: Sero is a fundable <em>product</em> attached to an unfundable <em>evidence base</em>. Nothing on the critical path is an engineering problem. The product is live, honest by construction, and better built than most funded seed companies. What's missing is one behavioural fact — does a real manager return unprompted to prep a second 1:1? Until that fact exists, every additional feature is deferred proof. The moment it exists, everything else on this page becomes a straightforward to-do list.</p>
+  </div>
+</section>
+
+<!-- ============ 2026 PLAN ============ -->
+<section>
+  <div class="sectionhead">
+    <div class="kicker">The 2026 Path</div>
+    <h2>Three gates to a real company<span class="dot">.</span></h2>
+    <p>Each horizon ends in a pass bar. Don't start the next horizon's build list until the gate is passed — the gates are the plan.</p>
+  </div>
+  <div class="horizons">
+    <div class="horizon">
+      <div class="htop"><span class="n">Horizon 1 · Jul–Sep</span><b>Prove it</b><span>Evidence of desire</span></div>
+      <ul>
+        <li><b>Name 3 managers</b> and run the corridor test — the only blocking task</li>
+        <li class="done"><b>Finish thread-follow fix</b> — already in flight</li>
+        <li><b>Paid hosting tier</b> — no cold-start on a tester's first click</li>
+        <li><b>1-page ToS + privacy policy</b> — before the first external note about a real employee</li>
+        <li><b>CI gate</b> — typecheck + tests before every deploy</li>
+      </ul>
+      <div class="gate"><b>Gate 1 — by end of Sep</b>2 of 3 managers prep a second 1:1 unprompted within ~2 weeks.</div>
+    </div>
+    <div class="horizon">
+      <div class="htop"><span class="n">Horizon 2 · Oct–Dec</span><b>Charge for it</b><span>Money moves</span></div>
+      <ul>
+        <li><b>Pricing hypothesis</b> — per-manager/month, tested in pilot conversations</li>
+        <li><b>First paid pilot</b> — signed one-pager, real invoice, real money</li>
+        <li><b>Stripe billing</b> — built only after a price has been said yes to</li>
+        <li><b>Email infrastructure</b> — real invites and resets, custom domain</li>
+        <li><b>Unify briefing renderer</b> — one component, no downgraded re-reads</li>
+      </ul>
+      <div class="gate"><b>Gate 2 — by end of Nov</b>First paid pilot signed; a real invoice is paid.</div>
+    </div>
+    <div class="horizon">
+      <div class="htop"><span class="n">Horizon 3 · Dec–2027</span><b>Compound it</b><span>The moat starts</span></div>
+      <ul>
+        <li><b>Question-outcome capture</b> — which questions actually opened people up, learned from real usage</li>
+        <li><b>Searchable per-manager history</b> — the memory a manager can't get elsewhere</li>
+        <li><b>DPA + security review</b> — unblocks HR/legal buyers</li>
+        <li><b>Second model provider</b> — kill the single-provider risk</li>
+        <li><b>Grow the golden set from real runs</b> — the oracle problem solves itself with users</li>
+      </ul>
+      <div class="gate"><b>Gate 3 — by Jan 2027</b>5 paying managers; outcome data accruing on every run.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUILD LIST ============ -->
+<section>
+  <div class="sectionhead">
+    <div class="kicker">Build List</div>
+    <h2>What to build, in order<span class="dot">.</span></h2>
+    <p>Ranked by what unblocks the next gate — not by what's most fun to build.</p>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>#</th><th>Item</th><th>Size</th><th>Why now</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td><b>Corridor test with 3 named managers</b></td><td><span class="chip s">S</span></td><td class="why">The only task that produces evidence of desire. Everything else waits on it.</td></tr>
+      <tr><td><b>2</b></td><td><b>Thread-follow fix</b></td><td><span class="chip flight">IN FLIGHT</span></td><td class="why">The core promise scores 55–65 while everything else scores 85–98. Must land before real 1:1s run through it.</td></tr>
+      <tr><td><b>3</b></td><td><b>Paid hosting + custom domain</b></td><td><span class="chip s">S</span></td><td class="why">A sleeping free tier cold-starts on the tester's first click. First impressions are the demo.</td></tr>
+      <tr><td><b>4</b></td><td><b>1-page ToS + privacy policy</b></td><td><span class="chip m">M</span></td><td class="why">Managers will type candid notes about named employees. No terms = no trust = no honest input.</td></tr>
+      <tr><td><b>5</b></td><td><b>CI gate before deploy</b></td><td><span class="chip s">S</span></td><td class="why">109 green tests protect nothing if a push can skip them on the way to production.</td></tr>
+      <tr><td><b>6</b></td><td><b>Pricing + first paid pilot</b></td><td><span class="chip m">M</span></td><td class="why">Only after Gate 1. A price is a question you ask a person, not a feature you build.</td></tr>
+      <tr><td><b>7</b></td><td><b>Email invites + reset flow</b></td><td><span class="chip m">M</span></td><td class="why">Copy-a-link onboarding caps growth at people the founder talks to directly.</td></tr>
+      <tr><td><b>8</b></td><td><b>Stripe billing</b></td><td><span class="chip l">L</span></td><td class="why">Built once, after someone has said yes to a price. Not before.</td></tr>
+      <tr><td><b>9</b></td><td><b>Unified briefing renderer</b></td><td><span class="chip m">M</span></td><td class="why">Three parallel implementations of the core deliverable guarantee drift; re-reads look worse than first reads.</td></tr>
+      <tr><td><b>10</b></td><td><b>Outcome-capture moat</b></td><td><span class="chip l">L</span></td><td class="why">The real defensibility — but it can only be grown from real usage, so it starts after Gate 2.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ RISKS ============ -->
+<section>
+  <div class="sectionhead">
+    <div class="kicker">Risk Register</div>
+    <h2>What can kill it<span class="dot">.</span></h2>
+  </div>
+  <div class="risks">
+    <div class="risk">
+      <span class="sev">Highest</span>
+      <b>Demand risk — the build trap</b>
+      <p>Months of high-quality supply-side work, zero customer contact. The pass bar is written down but has never met a real manager. Every week of building without testers deepens the sunk cost.</p>
+    </div>
+    <div class="risk">
+      <span class="sev">High</span>
+      <b>Data sensitivity without legal cover</b>
+      <p>Candid notes about named employees flow to a third-party model with no terms, no DPA, no formal policy. Defensible for consenting friends; an acute liability at the first paying customer.</p>
+    </div>
+    <div class="risk med">
+      <span class="sev">Medium</span>
+      <b>Bus factor of one</b>
+      <p>One person is the engineer, product owner, support desk, compliance officer and deletion endpoint. The exceptional docs are real mitigation — but no second human has ever touched the system.</p>
+    </div>
+    <div class="risk med">
+      <span class="sev">Medium</span>
+      <b>Single model provider</b>
+      <p>Every call goes to one API with no implemented fallback. A pricing change, model deprecation or outage upstream is a product outage downstream.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<div class="foot">
+  <b>Method.</b> Four independent fresh-eyes audits of the full repository on 9 July 2026 (product/engine · engineering · business · design), each citing file-level evidence; panel verdicts are simulated voices applied to that evidence. No paid model runs were used to produce this review.
+  <p class="note">Scores: AI product depth 8/10 · design craft 8/10 · engineering health 7.5/10 · business readiness 3/10. The committee doesn't average — the lowest number is the company, and it's also the cheapest one to raise.</p>
+</div>
+
+</div>
+</body>
+</html>
