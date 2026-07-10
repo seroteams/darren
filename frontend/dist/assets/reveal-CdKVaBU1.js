@@ -1,1 +1,0 @@
-function i(e,n=0){setTimeout(()=>requestAnimationFrame(()=>e.classList.add("is-in")),n)}function r(e,{stagger:n=60,initialDelay:s=0}={}){e.forEach((t,a)=>i(t,s+a*n))}function o(e){return new Promise(n=>setTimeout(n,e))}export{r as a,i as r,o as s};
