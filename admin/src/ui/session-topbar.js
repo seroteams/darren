@@ -16,6 +16,17 @@ import { icon } from "./icon.js";
 // Rendered once — the check that marks a completed, reviewable stage.
 const CHECK_MARK = icon(Check, { size: 13, className: "stage-step__check" });
 
+// Sero mark for the guest run. A logged-out visitor taking a "try it" run has no
+// left nav rail (it's hidden for guests), so nothing carries the brand — this
+// puts the logo at the far top-left until they sign in. Same glyph as app-nav.js.
+const LOGO = `<svg viewBox="0 0 48 48" width="22" height="22" aria-hidden="true" focusable="false">
+  <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
+  <rect x="9" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
+  <rect x="32.5" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
+  <circle cx="24" cy="18.5" r="5" fill="#fff"/>
+  <circle cx="24" cy="31" r="5" fill="#fff"/>
+</svg>`;
+
 // The stage breadcrumb is meaningful only while a run is in progress or just
 // finished. Everything else — home, the standalone tools/library, errors —
 // shows just the app nav. Allowlist by design: new standalone screens stay
@@ -49,6 +60,15 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const row = document.createElement("div");
   row.className = "session-topbar__row session-topbar__row--main";
   el.appendChild(row);
+
+  // Guest-only brand mark, first thing on the row (far top-left). Hidden by
+  // default; render() shows it only when there's no signed-in user.
+  const brand = document.createElement("span");
+  brand.className = "session-topbar__brand";
+  brand.setAttribute("aria-label", "Sero");
+  brand.hidden = true;
+  brand.innerHTML = `<span class="session-topbar__brand-icon">${LOGO}</span><span class="session-topbar__brand-word">Sero</span>`;
+  row.appendChild(brand);
 
   const sessionBtn = document.createElement("button");
   sessionBtn.className = "session-topbar__start";
@@ -169,6 +189,12 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
 
     const order = TOPBAR_STAGES.map(([key]) => key);
     const curIdx = order.indexOf(current);
+
+    // Guest (no account) run: show the Sero mark far-left, and drop the topbar's
+    // left rail-gutter so it sits at the true edge (there's no nav rail for a guest).
+    const isGuest = !user;
+    brand.hidden = !isGuest;
+    el.classList.toggle("session-topbar--guest", isGuest);
 
     const email = user?.email || "";
     const role = roleLabelOf(user);

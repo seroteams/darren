@@ -18,6 +18,31 @@
 .session-topbar.is-hidden {
   display: none;
 }
+/* Guest ("try it") run — no left nav rail exists, so the topbar reclaims the
+   rail gutter and sits at the true left edge, with the Sero mark leading it. */
+.session-topbar--guest {
+  left: 0;
+}
+.session-topbar__brand {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+.session-topbar__brand[hidden] {
+  display: none;
+}
+.session-topbar__brand-icon {
+  display: inline-flex;
+}
+.session-topbar__brand-word {
+  font-family: var(--type-family-display, inherit);
+  font-weight: var(--type-weight-bold);
+  font-size: var(--type-h4);
+  letter-spacing: var(--type-tracking-tight);
+  color: var(--color-ink);
+}
 .session-topbar__row {
   width: 100%;
   font-size: var(--type-small);

@@ -106,7 +106,7 @@ function enqueueRender(nextStage) {
 let routedStage = null;
 let routedTick = null;
 subscribe((s) => {
-  topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId });
+  topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId, user: s.user });
   appNav.render({ stage: s.stage, user: s.user });
   profileBadge.render({ stage: s.stage, user: s.user });
   notesPanel.render(s);
