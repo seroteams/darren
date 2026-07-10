@@ -365,6 +365,7 @@ export async function linkPerson(id, userId) {
 export async function unlinkPerson(id) {
   return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/unlink`, {});
 }
+/** @returns {Promise<{ runs?: unknown[] }>} */
 export async function getRunsAboutMe() {
   return json(await fetch("/api/v1/runs/about-me"));
 }
