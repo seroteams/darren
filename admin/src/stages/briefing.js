@@ -1,10 +1,10 @@
 import { STAGES, isInternalAdmin } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
-import { postVerdict, rateMyRun, getMyRun, submitRunVerdict } from "../../../shared/api.js";
+import { postVerdict, getMyRun, submitRunVerdict } from "../../../shared/api.js";
+import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
 import { markRunForClaim } from "../guest.ts";
 import { escapeCopy as escape } from "../ui/html.js";
-import { createStarRating } from "../ui/star-rating.js";
 import { icon } from "../ui/icon.js";
 import { Check, Copy } from "lucide";
 
@@ -125,7 +125,7 @@ export async function mount(root, { store, setState, resetSession }) {
       </section>` : ""}
 
       <footer class="briefing-finish pt-2 l-stack l-stack--2">
-        ${store.scripted ? "" : `
+        ${!store.user && !store.scripted ? `
         <div class="card-flat space-y-2 js-run-verdict">
           <div class="eyebrow" id="run-verdict-label">Would you run this 1:1 differently now?</div>
           <div class="l-cluster l-cluster--2 items-center" role="group" aria-labelledby="run-verdict-label">
@@ -137,7 +137,7 @@ export async function mount(root, { store, setState, resetSession }) {
             <input class="input js-rv-note" type="text" maxlength="200" autocomplete="off" placeholder="One line on why — optional" aria-label="Optional comment" />
             <button type="button" class="btn btn--ghost btn--sm js-rv-send">Add</button>
           </div>
-        </div>`}
+        </div>` : ""}
         ${!store.user ? `
         <div class="card-flat space-y-3 js-guest-save">
           <div class="eyebrow">Want to keep this 1:1?</div>
@@ -150,15 +150,6 @@ export async function mount(root, { store, setState, resetSession }) {
             <button type="button" class="link js-guest-login">Log in</button>
           </p>
         </div>` : `
-        ${store.scripted ? "" : `
-        <div class="rate-inflow card-flat space-y-2 js-rate-inflow">
-          <div class="eyebrow" id="rate-inflow-label">Did this help you run the 1:1?</div>
-          <div class="l-cluster l-cluster--2 items-center">
-            <div class="js-inflow-stars"></div>
-            <button type="button" class="btn btn--ghost btn--sm js-rate-skip">Skip</button>
-            <span class="js-rate-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
-          </div>
-        </div>`}
         <div class="text-ink-mute">This run is complete and saved.</div>
         <div class="l-cluster l-cluster--2 items-center">
           <button class="btn js-restart">Finish &amp; review this run</button>
@@ -406,10 +397,10 @@ export async function mount(root, { store, setState, resetSession }) {
     copyFullBriefing(b, store.ctx, root.querySelector(".js-copy-all-briefing"));
   });
 
-  // Briefing verdict tap (validation-kit Phase 3): one yes/no at the moment of value,
-  // guests included. The tap saves immediately (the answer is never lost to a closed
-  // tab); the optional comment then attaches to the same row. Failures are soft and
-  // ignoring the card costs nothing — it never nags, blocks or re-asks.
+  // Briefing verdict tap (validation-kit Phase 3, guests-only since 3b — logged-in
+  // users answer in the Finish modal instead). The tap saves immediately (the answer
+  // is never lost to a closed tab); the optional comment then attaches to the same
+  // row. Failures are soft and ignoring the card costs nothing — never nags or blocks.
   const rvCard = root.querySelector(".js-run-verdict");
   if (rvCard) {
     const rvBtns = [...rvCard.querySelectorAll(".js-rv")];
@@ -463,38 +454,26 @@ export async function mount(root, { store, setState, resetSession }) {
   if (finishBtn) {
     if (!seesDebrief) finishBtn.textContent = "Finish";
     finishBtn.addEventListener("click", () => {
-      if (seesDebrief) {
-        setState({ stage: STAGES.RUN_DEBRIEF });
-        return;
-      }
-      resetSession();
-      setState({ stage: STAGES.START });
-    });
-  }
-
-  // In-flow rating (pre-go-live PG3): a gentle one-tap "how useful?" at the end of a real
-  // 1:1 (skipped for the scripted test lane). Rates the just-finished run by its id; Skip
-  // dismisses it, and a save failure is soft ("rate it later from Runs") — never a blocker.
-  const rateBlock = root.querySelector(".js-rate-inflow");
-  if (rateBlock) {
-    const status = rateBlock.querySelector(".js-rate-status");
-    // Reflect a rating already saved for this run, so revisiting a rated briefing shows
-    // the stars instead of an empty widget (F-007). Soft — a failed read just leaves it blank.
-    let savedStars = 0;
-    try { savedStars = (await getMyRun(store.sessionId))?.rating?.stars ?? 0; } catch { /* leave blank */ }
-    const stars = createStarRating({
-      initialStars: savedStars,
-      onChange: async (s) => {
-        try {
-          await rateMyRun(store.sessionId, { stars: s });
-          if (status) status.textContent = "Thanks!";
-        } catch {
-          if (status) status.textContent = "You can rate it later from Runs.";
+      void (async () => {
+        // The one feedback moment (validation-kit Phase 3b): stars + the verdict
+        // question in a single modal on Finish — replaces the two inline cards for
+        // logged-in users. Skippable every way (Done/Skip/Escape/backdrop), and any
+        // failure falls through — Finish ALWAYS proceeds.
+        if (store.user && !store.scripted) {
+          try {
+            let savedStars = 0;
+            try { savedStars = (await getMyRun(store.sessionId))?.rating?.stars ?? 0; } catch { /* blank */ }
+            await showFinishFeedbackModal({ sessionId: store.sessionId, initialStars: savedStars });
+          } catch { /* never block the exit */ }
         }
-      },
+        if (seesDebrief) {
+          setState({ stage: STAGES.RUN_DEBRIEF });
+          return;
+        }
+        resetSession();
+        setState({ stage: STAGES.START });
+      })();
     });
-    rateBlock.querySelector(".js-inflow-stars").appendChild(stars.el);
-    rateBlock.querySelector(".js-rate-skip").addEventListener("click", () => rateBlock.remove());
   }
 
   // Scripted test lane: capture the structured verdict (ground truth for Suggest-fix).

@@ -23,18 +23,17 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> **🔨 [validation-kit](docs/plans/doing/validation-kit/plan.md) — the build that proves managers come back. P1–P3 ✅ closed 2026-07-10 · P4 next.**
+> **🔨 [validation-kit](docs/plans/doing/validation-kit/plan.md) — the build that proves managers come back. P1–P3b ✅ closed 2026-07-10 · P4 next.**
 > We're formally at **VALIDATION STAGE** (YC-committee audit 2026-07-09: product 8/10, business 3/10 — zero external
 > users). This track builds the corridor-test kit: **P1 ✅** to-do page as live checklist · **P2 ✅** return-signal
-> in User management (first run, gap days, mint "came back" badge, internal accounts labelled — DESTINATION-checked
-> against Neon) · **P3 ✅** one-tap verdict on the live briefing ("Would you run this 1:1 differently now?" —
-> guests included, upserted per run into `feedback_notes` via migration 0013, visible in the Feedback inbox with a
-> run reference). **P3's walk was WAIVED** (Carl's repeated go; verification = agent's real-guest browser walk +
-> direct-SQL DESTINATION check). ⚠️ Honest residual: no real manager tap yet — the first live prep that answers it
-> is the true end-to-end proof. ⚠️ The inbox-render hunks ride **uncommitted** in `admin-feedback.ts` +
-> `feedback-inbox.css` (a parallel session's live redesign owns those files; committing would sweep it).
-> All $0 so far, 113/113 tests + both typechecks. **P4** first-run guidance (on intake — zero-run managers never
-> see Home) · **P5** phone + copy pass. No nudge features anywhere (pass bar = *unprompted* return).
+> in User management (first run, gap days, mint "came back" badge, internal accounts labelled) · **P3 ✅** one-tap
+> verdict tied to the run in `feedback_notes` (migration 0013) — and Carl's REAL tap landed same evening
+> (`yes · "The questions helped"`), clearing the residual · **P3b ✅** the two feedback asks now fold into ONE
+> skippable Finish modal (stars + verdict; guests keep the inline card) and the Feedback inbox types every card
+> (💬 Note / 📋 1:1 verdict). All $0, 115/115 tests. ⚠️ Ops note: the LOCAL Neon hit its data-transfer quota
+> mid-evening (mid-walk); **Carl upgraded the plan** — healthy again. **P4** first-run guidance (on intake —
+> zero-run managers never see Home) · **P5** phone + copy pass. No nudge features anywhere (pass bar =
+> *unprompted* return).
 > **▶ Your move:** say "build validation-kit Phase 4". Separately, yours alone: name the 3
 > corridor managers + flip Render to the paid tier.
 
@@ -269,4 +268,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-10 (universe-monitoring P1 ✅ return-visit glow green-lit; P2 health signals next. Earlier today: validation-kit P1–P3 ✅; engine-hardening TRACK CLOSED, all 3 phases, $0)
+- Last updated: 2026-07-10 (validation-kit P1–P3b ✅ — Finish modal + typed inbox close the evening; local Neon quota hit + upgraded. Also today: universe-monitoring P1 ✅; engine-hardening TRACK CLOSED)

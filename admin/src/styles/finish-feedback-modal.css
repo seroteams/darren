@@ -1,0 +1,17 @@
+/* Finish feedback modal (validation-kit Phase 3b). Its OWN file, imported by the
+   module, so concurrent rewrites of shared CSS can't clobber it. Rides on the global
+   .modal-backdrop / .card.modal base (notes-panel.css) — only the content layout here. */
+
+.ffm { width: min(440px, 92vw); max-width: 440px; }
+.ffm__title {
+  font-size: var(--type-lead, 18px);
+  font-weight: var(--type-weight-semibold, 600);
+  color: var(--color-ink, #303030);
+  margin-bottom: 14px;
+}
+.ffm__sec { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.ffm__sec .input { font-size: var(--type-body-sm, 14px); }
+.ffm .js-ffm-v.is-active {
+  background: var(--sero-active-state-bg, #eef6fd);
+  border-color: var(--sero-primary-500, #2563eb);
+}

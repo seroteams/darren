@@ -9,6 +9,19 @@
 ---
 
 ## Where we are now
+- **2026-07-10** — **validation-kit P3b ✅ — one Finish modal, typed inbox; and the night the dev DB ran dry.**
+  Carl's real P3 walk immediately produced the right UX call: two stacked feedback asks became ONE skippable
+  modal on Finish (stars + verdict; Done/Skip/Escape/backdrop all proceed — the exit can never be blocked), the
+  inline cards left the page for logged-in users (guests keep theirs — they have no Finish), and the Feedback
+  inbox types every card via a tiny tested `FEEDBACK_KINDS` map. **Three lessons:** ① localhost cookies span
+  ports — the preview browser inherited Carl's login, which killed the anonymous-guest test path but enabled a
+  BETTER one (clone a run owned by the cookie's user and walk the real logged-in flow; the person wall 404'ing
+  a colleague's session was a correct fence seen live). ② mid-close the artifact check failed with "data
+  transfer quota exceeded" — the local Neon free tier ran dry (every API boot SELECTs the whole sessions table;
+  today's many verification restarts contributed). Carl upgraded the plan on the spot; his 3b walk overlapped
+  the outage so his tap couldn't be row-verified — recorded as-is, the agent's pre-quota E2E proof stands.
+  ③ two sessions finishing in the same files resolved cleanly by waiting for Carl's "that session is done"
+  before wiring into them — the phase commit carries the finished redesign alongside, stated in the message.
 - **2026-07-10** — **universe-monitoring P1 ✅ green-lit — the Universe map starts earning its keep.**
   Return-visit glow: person planets brighten on a 7-day half-life from their newest 1:1's `lastSeenAt`,
   fading (never vanishing) when a manager goes quiet — the Gate-1 "do they come back" signal on one screen;

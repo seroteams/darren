@@ -1,91 +1,175 @@
 /* Feedback inbox (feedback-inbox). Its OWN file, imported by the stage, so concurrent
    rewrites of design.css can't clobber it (same reasoning as error-log.css). Uses the
-   global CDS tokens, with fallbacks on the structural props. A tidy, professional listing:
-   a white card, fixed columns so nothing overflows, notes that wrap, one Delete action. */
+   global CDS tokens, with fallbacks on the structural props. A calm inbox: each note is
+   its own message card — avatar · name·company · time + delete, the email with a Copy
+   button on its own line, the note full-width, source/verdict pills below when present. */
 
-/* Top-align the page so it doesn't re-center (jump) when a row is deleted. */
+/* Top-align the page so it doesn't re-center (jump) when a card is deleted. */
 .stage.fb-stage { place-items: start center; }
 
-/* The list sits on its own white card so it reads as a distinct surface on the tinted page. */
-.fb-panel {
+.fb-list { width: 100%; }
+
+/* One note = one calm card surface on the tinted page (no nested cards, no side-stripe). */
+.fb-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
   background: var(--color-surface, #fff);
   border: 1px solid var(--color-border, #e8e8e8);
   border-radius: var(--radius-card, 12px);
   box-shadow: var(--shadow-card, 0 1px 3px rgba(16, 24, 40, 0.06));
-  overflow-x: auto; /* on a narrow screen the fixed columns scroll here, not off the page */
+  transition: background-color 0.12s ease;
+}
+.fb-item:hover { background: var(--sero-active-state-bg, #eef6fd); }
+
+/* Initials avatar — the sender's identity mark (same recipe as the session topbar). */
+.fb-avatar {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-accent, #5aa9e6);
+  color: #fff;
+  font-size: var(--type-body-sm, 15px);
+  font-weight: var(--type-weight-bold, 700);
+  line-height: 1;
 }
 
-/* Fixed layout = the columns keep their widths and the note wraps instead of the table
-   growing wider than the card (which is what pushed Delete off-screen). */
-.fb-table {
-  width: 100%;
-  min-width: 720px; /* below this the table scrolls inside the panel instead of crushing columns */
-  table-layout: fixed;
-  border-collapse: collapse;
-  background: var(--color-surface, #fff);
+.fb-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+
+/* Header: name·company on the left, time + delete on the right. Name wins over company. */
+.fb-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
 }
-.fb-table th {
-  text-align: left;
-  padding: 11px 16px;
-  white-space: nowrap;
+.fb-head__who { min-width: 0; }
+.fb-name { color: var(--color-ink, #303030); font-weight: var(--type-weight-medium, 500); }
+.fb-company { font-size: var(--type-caption, 14px); color: var(--color-ink-dim, #5f5f5f); }
+.fb-head__meta { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
+.fb-time {
   font-size: var(--type-caption, 14px);
-  font-weight: var(--type-weight-semibold, 600);
   color: var(--color-ink-mute, #757575);
-  border-bottom: 1px solid var(--color-border, #e8e8e8);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-.fb-table td {
-  padding: 13px 16px;
-  vertical-align: top;
-  font-size: var(--type-body-sm, 14px);
-  line-height: 1.5;
-  color: var(--color-ink, #303030);
-  border-bottom: 1px solid var(--color-border, #e8e8e8);
-}
-.fb-table tbody tr:last-child td { border-bottom: none; }
-.fb-table tbody tr:hover > td { background: var(--sero-active-state-bg, #eef6fd); }
 
-/* Column widths (the note column takes whatever's left). */
-.fb-col-when   { width: 92px; }
-.fb-col-who    { width: 184px; }
-.fb-col-screen { width: 132px; }
-.fb-col-act    { width: 96px; }
-
-.fb-when { color: var(--color-ink-dim, #5f5f5f); white-space: nowrap; }
-.fb-who__name { color: var(--color-ink, #303030); font-weight: var(--type-weight-medium, 500); }
-.fb-who__sub  { margin-top: 2px; font-size: var(--type-caption, 14px); color: var(--color-ink-dim, #5f5f5f); }
-.fb-screen code {
-  font-family: var(--font-mono, ui-monospace, monospace);
+/* Email line: a Mail icon, the address (a mailto link) on ONE line — truncated with an
+   ellipsis if long (full text on hover, always intact via Copy) — plus a quiet Copy
+   button so the address can be grabbed for a follow-up email without retyping. */
+.fb-who__email { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.fb-mail-ico { flex: none; display: inline-flex; color: var(--color-ink-mute, #757575); }
+.fb-who__mail {
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: var(--type-caption, 14px);
   color: var(--color-ink-dim, #5f5f5f);
+  text-decoration: none;
 }
-
-/* The note itself: wrap normally AND break a long unbroken run (e.g. "yyyyy…") so it can
-   never widen the table. Keep intentional line breaks the tester typed. */
-.fb-note {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  color: var(--color-ink, #303030);
-}
-
-/* Action cell: right-aligned, quiet by default, red only on hover so the page reads calm. */
-.fb-act { text-align: right; }
-.fb-del {
+.fb-who__mail:hover { text-decoration: underline; }
+.fb-copy {
+  flex: none;
   border: 1px solid var(--color-border, #e8e8e8);
   background: var(--color-surface, #fff);
   color: var(--color-ink-dim, #5f5f5f);
   font: inherit;
-  font-size: var(--type-body-sm, 14px);
+  font-size: var(--type-caption, 14px);
   font-weight: var(--type-weight-medium, 500);
-  line-height: 1.4;
-  padding: 5px 12px;
-  border-radius: var(--radius-input, 8px);
+  line-height: 1.3;
+  padding: 3px 10px;
+  border-radius: var(--radius-input, 4px);
   cursor: pointer;
   transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+.fb-copy:hover {
+  background: var(--sero-active-state-bg, #eef6fd);
+  color: var(--color-ink, #303030);
+  border-color: var(--sero-active-state-bg, #eef6fd);
+}
+.fb-copy.is-copied {
+  background: var(--sero-mint-300, #e1faf4);
+  color: var(--sero-mint-900, #0c4b3c);
+  border-color: var(--sero-mint-300, #e1faf4);
+}
+
+/* The note itself: wrap normally AND break a long unbroken run (e.g. "yyyyy…") so it can
+   never widen the card. Keep intentional line breaks the tester typed. */
+.fb-note {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-size: var(--type-body-sm, 14px);
+  line-height: 1.55;
+  color: var(--color-ink, #303030);
+}
+
+/* Source + verdict pills sit below the note, only when there's something to show. */
+.fb-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.fb-pill {
+  display: inline-block;
+  padding: 1px 10px;
+  border-radius: var(--sero-radius-badge, 999px);
+  font-size: var(--type-caption, 14px);
+  color: var(--color-ink-dim, #5f5f5f);
+  background: var(--sero-soft-300, #f4f4f4);
+}
+.fb-pill--src { font-family: var(--font-mono, ui-monospace, monospace); }
+
+/* Briefing verdict pill (validation-kit Phase 3): the one-tap answer, colour-coded —
+   "yes" (would change how they run it = the insight landed) reads positive. */
+.fb-verdict {
+  display: inline-block;
+  padding: 1px 10px;
+  border-radius: var(--sero-radius-badge, 999px);
+  font-size: var(--type-caption, 14px);
+  font-weight: var(--type-weight-medium, 500);
+  white-space: nowrap;
+}
+.fb-verdict--yes { background: var(--sero-mint-300, #e1faf4); color: var(--sero-mint-900, #0c4b3c); }
+.fb-verdict--no  { background: var(--sero-soft-300, #f9f9f9); color: var(--color-ink-dim, #5f5f5f); }
+
+/* Kind chip (validation-kit Phase 3b): icon + label in the card head, so a 1:1 verdict
+   and a plain note read differently at a glance. Muted — the message stays the loudest. */
+.fb-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 1px 10px;
+  border-radius: var(--sero-radius-badge, 999px);
+  font-size: var(--type-caption, 14px);
+  color: var(--color-ink-dim, #5f5f5f);
+  background: var(--sero-soft-300, #f4f4f4);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.fb-type--verdict {
+  background: var(--sero-primary-200, #e3effc);
+  color: var(--sero-primary-800, #1e4f8f);
+}
+
+/* Delete: a quiet trash icon, calm until hover — red only on hover so the page reads calm. */
+.fb-del {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--color-ink-mute, #757575);
+  padding: 4px;
+  border-radius: var(--radius-input, 4px);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
 }
 .fb-del:hover {
   background: var(--sero-coral-200, #feeae8);
   color: var(--sero-coral-800, #ac1608);
-  border-color: var(--sero-coral-200, #feeae8);
 }
-.fb-del:disabled { opacity: 0.55; cursor: default; }
+.fb-del:disabled,
+.fb-del.is-busy { opacity: 0.5; cursor: default; }

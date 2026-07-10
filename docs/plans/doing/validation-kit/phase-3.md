@@ -3,7 +3,8 @@
 **Part of:** [plan.md](plan.md) · **Status:** ✅
 
 ## ✅ GREEN-LIT 2026-07-10 — walk waived (Carl's call)
-Carl gave the go-ahead four times without walking it (artifact checks each time found no tap row; his API was confirmed restarted onto this build at 21:11). Closed on his repeated "A" as an explicit waiver. Verification on record: the agent's real-guest browser walk (tap → comment → re-tap, one row, upsert proven by direct SQL) + the inbox rendering check. ⚠️ Honest residual: no real manager tap exists yet — the first live prep that answers the question is the true end-to-end proof.
+Carl gave the go-ahead four times without walking it (artifact checks each time found no tap row; his API was confirmed restarted onto this build at 21:11). Closed on his repeated "A" as an explicit waiver. Verification on record: the agent's real-guest browser walk (tap → comment → re-tap, one row, upsert proven by direct SQL) + the inbox rendering check.
+**Residual CLEARED same evening:** Carl then said WALK and did it for real — his tap landed and was verified by direct SQL (`verdict: yes · "The questions helped"`, run `2026_Jul10_21-47…`, his user id). The walk also surfaced the UX follow-up that became [phase-3b](phase-3b.md). One engine-side snag mid-run ("lost connection while building questions", /bank) was diagnosed as unrelated to this phase — logged in error_logs, retry recovered it.
 
 ## Goal
 Every live briefing captures a one-tap verdict at the exact moment of value: "Would you run this 1:1 differently now?" — Yes / No, plus an optional one-line comment.
