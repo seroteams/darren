@@ -61,6 +61,16 @@ function kbMove(id, col) {
   saveKb();
 }
 
+// The per-phase checklist on a Docs card — glyphs match the plan files (⬜/🔨/✅).
+const PHASE_MARK = { done: "✅", doing: "🔨", todo: "⬜" };
+function kbPhasesHtml(c) {
+  if (!Array.isArray(c.phases) || !c.phases.length) return "";
+  const rows = c.phases
+    .map((p) => `<li class="kb-phase kb-phase--${esc(p.status)}"><span class="kb-phase__mark">${PHASE_MARK[p.status] || "⬜"}</span> ${esc(p.label)}</li>`)
+    .join("");
+  return `<ul class="kb-phases">${rows}</ul>`;
+}
+
 function kbCardHtml(c) {
   const lane = c.lane
     ? `<span class="kb-lane" style="--kb-lane:${laneColor(c.lane)}">${esc(c.lane)}</span>`
@@ -77,6 +87,7 @@ function kbCardHtml(c) {
       </span>
     </div>
     <div class="kb-card__title">${esc(c.title)}</div>
+    ${kbPhasesHtml(c)}
     ${note}
     <div class="kb-card__mv">${left}${right}</div>
   </article>`;
@@ -345,10 +356,12 @@ function docCol(p) {
   return p.done > 0 || p.inProgress > 0 ? "doing" : "todo";
 }
 function docNote(p) {
-  const phases = p.total ? `${p.done}/${p.total} phases done` : "phases not tracked in a table";
-  const ready = p.total > 0 && p.done >= p.total ? " · all phases done — ready to close out" : "";
-  const state = p.state ? ` · ${p.state}` : "";
-  return `${phases}${ready}${state}`;
+  // When the card shows the per-phase checklist, the "X/Y phases done" count
+  // would just repeat it — the note keeps only the close-out flag + state line.
+  const hasList = Array.isArray(p.phases) && p.phases.length > 0;
+  const phases = hasList ? "" : p.total ? `${p.done}/${p.total} phases done` : "phases not tracked in a table";
+  const ready = p.total > 0 && p.done >= p.total ? "all phases done — ready to close out" : "";
+  return [phases, ready, p.state].filter(Boolean).join(" · ");
 }
 
 // Tick a list of <li> checks green one after another, for the "checking…" feel.
@@ -381,11 +394,20 @@ function syncSummaryHtml(ch) {
 
 // Add / update / move / remove the Docs cards to match the live plan folders, with
 // a fade-out for leavers and a slide-in / pulse for the fresh ones.
+const phasesKey = (ph) => (Array.isArray(ph) ? ph : []).map((p) => `${p.status}:${p.label}`).join("|");
+
 async function reconcileDocs(root, active, doneSlugs) {
   const desired = new Map(
     active.map((p) => [
       `doc:${p.slug}`,
-      { id: `doc:${p.slug}`, slug: p.slug, col: docCol(p), title: p.title, note: docNote(p) },
+      {
+        id: `doc:${p.slug}`,
+        slug: p.slug,
+        col: docCol(p),
+        title: p.title,
+        note: docNote(p),
+        phases: Array.isArray(p.phases) ? p.phases : [],
+      },
     ])
   );
   const current = kb.cards.filter((c) => c.src === "docs");
@@ -398,7 +420,7 @@ async function reconcileDocs(root, active, doneSlugs) {
   for (const [id, d] of desired) {
     const cur = currentById.get(id);
     if (!cur) added.push(d);
-    else if (cur.col !== d.col || cur.title !== d.title || cur.note !== d.note) updated.push(d);
+    else if (cur.col !== d.col || cur.title !== d.title || cur.note !== d.note || phasesKey(cur.phases) !== phasesKey(d.phases)) updated.push(d);
   }
   for (const c of current) {
     if (desired.has(c.id)) continue;
@@ -416,14 +438,14 @@ async function reconcileDocs(root, active, doneSlugs) {
   if (leaving.length) await wait(320);
 
   // Phase B — apply the changes and re-render.
-  for (const d of added) kb.cards.push({ id: d.id, src: "docs", slug: d.slug, col: d.col, lane: DOC_LANE, title: d.title, note: d.note });
+  for (const d of added) kb.cards.push({ id: d.id, src: "docs", slug: d.slug, col: d.col, lane: DOC_LANE, title: d.title, note: d.note, phases: d.phases });
   for (const d of updated) {
     const c = kb.cards.find((x) => x.id === d.id);
-    if (c) { c.col = d.col; c.title = d.title; c.note = d.note; }
+    if (c) { c.col = d.col; c.title = d.title; c.note = d.note; c.phases = d.phases; }
   }
   for (const c of completed) {
     const card = kb.cards.find((x) => x.id === c.id);
-    if (card) { card.col = "done"; card.note = "done — moved to docs/plans/done/"; }
+    if (card) { card.col = "done"; card.note = "done — moved to docs/plans/done/"; card.phases = []; }
   }
   if (removed.length) {
     const gone = new Set(removed.map((c) => c.id));
@@ -518,6 +540,12 @@ const TASKS_STYLE = `<style>
   .kb-card.tk-enter { animation: tk-enter .34s ease both; }
   .kb-card.tk-pulse { animation: tk-pulse 1.2s ease; }
   .kb-card.tk-leave { opacity:0; transform:scale(.96); transition:opacity .3s ease, transform .3s ease; }
+  .kb-phases { list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:3px; }
+  .kb-phase { display:flex; align-items:baseline; gap:6px; font-size:14px; color:var(--color-ink, #0f172a); }
+  .kb-phase__mark { flex:none; font-size:14px; }
+  .kb-phase--todo { color:var(--color-ink-dim, #475569); }
+  .kb-phase--done { color:var(--color-ink-dim, #475569); text-decoration:line-through; text-decoration-color:var(--color-border-strong, #cbd5e1); }
+  .kb-phase--doing { font-weight:600; }
   @keyframes tk-enter { from { opacity:0; transform:translateY(-7px) scale(.98); } to { opacity:1; transform:none; } }
   @keyframes tk-pulse { 0% { box-shadow:0 0 0 2px var(--sero-gold-400, #e0b34d); } 100% { box-shadow:0 0 0 0 transparent; } }
   .tk-sync { position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,.35); padding:16px; }

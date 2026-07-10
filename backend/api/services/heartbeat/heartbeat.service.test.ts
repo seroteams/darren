@@ -6,6 +6,7 @@ import {
   headerLine,
   planTitle,
   countPhases,
+  listPhases,
   currentState,
 } from "./heartbeat.service.ts";
 import type { HeartbeatRepo } from "./heartbeat.repo.ts";
@@ -143,6 +144,33 @@ test("countPhases returns zeroes when there's no status table", () => {
   assert.deepEqual(countPhases("# Plan\n\nJust prose, no table.\n"), { done: 0, inProgress: 0, total: 0 });
 });
 
+test("listPhases returns the ordered phase rows with label and status", () => {
+  assert.deepEqual(listPhases(PLAN_SAMPLE), [
+    { label: "Heartbeat endpoint", status: "done" },
+    { label: "Universe ring", status: "doing" },
+    { label: "Tasks board", status: "todo" },
+  ]);
+});
+
+test("listPhases is empty when there's no status table", () => {
+  assert.deepEqual(listPhases("# Plan\n\nJust prose, no table.\n"), []);
+});
+
+test("listPhases strips markdown from labels and skips multi-glyph legend rows", () => {
+  const text = [
+    "| # | Phase | Status |",
+    "|---|---|---|",
+    "| 1 | **Bold [link](x.md)** phase | ⬜ |",
+    "| legend | ⬜ not started · 🔨 in progress · ✅ done | — |",
+  ].join("\n");
+  assert.deepEqual(listPhases(text), [{ label: "Bold link phase", status: "todo" }]);
+});
+
+test("listPhases falls back to the first real cell when the table has no # column", () => {
+  const text = "| Ship it | ✅ |\n";
+  assert.deepEqual(listPhases(text), [{ label: "Ship it", status: "done" }]);
+});
+
 test("currentState returns the first paragraph under the heading, as plain text", () => {
   assert.equal(
     currentState(PLAN_SAMPLE),
@@ -171,6 +199,7 @@ test("snapshot composes the todos view from the plan folders", () => {
     done: 0,
     inProgress: 0,
     total: 0,
+    phases: [],
     state: "",
   });
   assert.deepEqual(todos.active[1], {
@@ -179,6 +208,11 @@ test("snapshot composes the todos view from the plan folders", () => {
     done: 1,
     inProgress: 1,
     total: 3,
+    phases: [
+      { label: "Heartbeat endpoint", status: "done" },
+      { label: "Universe ring", status: "doing" },
+      { label: "Tasks board", status: "todo" },
+    ],
     state: "Phase 1 ✅ — walked + green-lit by Carl. Next: Phase 2.",
   });
 });

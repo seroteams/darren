@@ -150,6 +150,18 @@
       "port": 3081
     },
     {
+      "name": "sero-api-team-auto",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3081",
+        "DEV_AUTOLOGIN=1",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3081
+    },
+    {
       "name": "sero-web-team",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

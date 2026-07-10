@@ -11,6 +11,12 @@ export interface HeartbeatScreen {
   desc: string; // the file's own header-comment first sentence — never hand-written here
 }
 
+// One phase row from a plan's status table, in table order.
+export interface PlanPhase {
+  label: string; // the "Phase" column, markdown stripped
+  status: "done" | "doing" | "todo"; // ✅ / 🔨 / ⬜
+}
+
 // One unfinished plan folder under docs/plans/doing/, as read from its PLAN.md.
 export interface TodoPlan {
   slug: string;
@@ -18,6 +24,7 @@ export interface TodoPlan {
   done: number; // ✅ phase rows
   inProgress: number; // 🔨 phase rows
   total: number; // all status-bearing phase rows
+  phases: PlanPhase[]; // the same rows, ordered, with labels
   state: string; // first paragraph under "## Current state", plain text
 }
 
@@ -87,13 +94,13 @@ export function planTitle(text: string, slug: string): string {
   return slug;
 }
 
-// Tally phase rows from the plan's status table. A phase row is a table line
-// (starts with "|") carrying exactly one status glyph — so the legend line
-// (which lists all three) and header rows are ignored.
-export function countPhases(text: string): { done: number; inProgress: number; total: number } {
-  let done = 0;
-  let inProgress = 0;
-  let notStarted = 0;
+// The ordered phase rows from the plan's status table. A phase row is a table
+// line (starts with "|") carrying exactly one status glyph — so the legend line
+// (which lists all three) and header rows are ignored. The label is the "Phase"
+// column (second cell in the `| # | Phase | … | Status |` shape), falling back
+// to the first cell that isn't a row number or the glyph itself.
+export function listPhases(text: string): PlanPhase[] {
+  const out: PlanPhase[] = [];
   for (const raw of text.split("\n")) {
     const line = raw.trim();
     if (!line.startsWith("|")) continue;
@@ -101,11 +108,22 @@ export function countPhases(text: string): { done: number; inProgress: number; t
     const hasProg = line.includes("🔨");
     const hasTodo = line.includes("⬜");
     if ((hasDone ? 1 : 0) + (hasProg ? 1 : 0) + (hasTodo ? 1 : 0) !== 1) continue;
-    if (hasDone) done++;
-    else if (hasProg) inProgress++;
-    else notStarted++;
+    const cells = line.split("|").slice(1, -1).map((c) => stripMd(c));
+    const noise = (c: string | undefined) => !c || /^\d+$/.test(c) || /^[✅🔨⬜]$/u.test(c);
+    const label = (noise(cells[1]) ? cells.find((c) => !noise(c)) : cells[1]) ?? "";
+    out.push({ label, status: hasDone ? "done" : hasProg ? "doing" : "todo" });
   }
-  return { done, inProgress, total: done + inProgress + notStarted };
+  return out;
+}
+
+// Tally the phase rows — the counts the board's "X/Y phases done" note uses.
+export function countPhases(text: string): { done: number; inProgress: number; total: number } {
+  const phases = listPhases(text);
+  return {
+    done: phases.filter((p) => p.status === "done").length,
+    inProgress: phases.filter((p) => p.status === "doing").length,
+    total: phases.length,
+  };
 }
 
 const MAX_STATE = 220;
@@ -135,8 +153,18 @@ function buildTodos(repo: HeartbeatRepo): TodoStatus {
     .sort()
     .map((slug) => {
       const text = repo.planText(slug);
-      const { done, inProgress, total } = countPhases(text);
-      return { slug, title: planTitle(text, slug), done, inProgress, total, state: currentState(text) };
+      const phases = listPhases(text);
+      const done = phases.filter((p) => p.status === "done").length;
+      const inProgress = phases.filter((p) => p.status === "doing").length;
+      return {
+        slug,
+        title: planTitle(text, slug),
+        done,
+        inProgress,
+        total: phases.length,
+        phases,
+        state: currentState(text),
+      };
     });
   return { active, done: repo.doneSlugs().sort() };
 }
