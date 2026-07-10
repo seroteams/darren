@@ -41,6 +41,13 @@ export interface UNode {
   duration?: string;          // type: how long this kind of meeting runs
   arcSteps?: number;          // type: how many beats its arc has
   arcTone?: string;           // type: the arc's tone register
+  // Panel enrichment (Phase 1b) — populated by buildUniverse so panels can say
+  // something useful without the renderer walking the graph:
+  tally?: { people: number; runs: number; live: number }; // core: the live numbers
+  partNames?: string[];       // stage: its machinery, in pipeline order
+  liveHere?: number;          // stage: sessions sitting at this step right now
+  usedCount?: number;         // type: finished 1:1s that used it
+  peopleNames?: string[];     // lexicon: people it's linked to
 }
 
 export interface UEdge {
@@ -166,6 +173,7 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
   });
 
   // The engine's inner parts — tiny moons you find by diving close to a stage planet.
+  // Their names also land on the stage node so its panel can say what works there.
   const partIdx = new Map<string, number>();
   for (const p of ENGINE_PARTS) {
     const j = partIdx.get(p.stage) || 0;
@@ -178,6 +186,8 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
       r: 5, parentLabel: PIPELINE.find((s) => s.key === p.stage)!.label,
     });
     edges.push({ from: `stage:${p.stage}`, to: `part:${p.stage}:${j}`, flow: 0.3 });
+    const stageNode = nodes.find((n) => n.id === `stage:${p.stage}`);
+    if (stageNode) (stageNode.partNames ||= []).push(p.label);
   }
 
   // People — one planet per distinct person across the finished runs; their runs
@@ -257,25 +267,30 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
     const a = ti * GOLDEN + 0.9;
     const tid = `type:${label.toLowerCase()}`;
     const arc = arcByKey.get(norm(label));
-    nodes.push({
+    const typeNode: UNode = {
       id: tid, kind: "type", label,
       sub: (t && str(t.description)) || "A meeting type Sero knows how to run.",
       x: Math.cos(a) * 800, y: Math.sin(a * 1.3) * 150, z: Math.sin(a) * 800, r: 10,
       duration: (t && str(t.duration)) || undefined,
       arcSteps: arc && arc.steps ? arc.steps : undefined,
       arcTone: arc && arc.tone ? arc.tone : undefined,
-    });
+    };
+    nodes.push(typeNode);
     edges.push({ from: tid, to: "stage:intake", flow: 0.5 });
+    let used = 0;
     for (const n of nodes) {
       if (n.kind === "run" && n.meetingType && n.meetingType.toLowerCase() === label.toLowerCase()) {
         edges.push({ from: tid, to: n.id, flow: 0.25 });
+        used++;
       }
     }
+    if (used) typeNode.usedCount = used;
     ti++;
   }
 
   // Live sessions — comets parked at the stage they're actually sitting at right now.
   // Finished sessions (BRIEFING) are already moons; unknown stages park at the core.
+  // Each parked comet also ticks its stage's liveHere so the stage panel can say so.
   let si = 0;
   for (const raw of input.sessions || []) {
     const r = asRecord(raw);
@@ -296,11 +311,16 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
       lastSeenAt: typeof r.lastSeenAt === "number" ? r.lastSeenAt : null,
     });
     edges.push({ from: key ? `stage:${key}` : "core", to: `session:${id}`, flow: 4 });
+    if (key) {
+      const stageNode = nodes.find((n) => n.id === `stage:${key}`);
+      if (stageNode) stageNode.liveHere = (stageNode.liveHere || 0) + 1;
+    }
     si++;
   }
 
   // Role word lists — the engine's vocabulary per role. They feed Preparation (that's
-  // where role knowledge is used) and link to any person whose role matches.
+  // where role knowledge is used) and link to any person whose role matches; the linked
+  // people also land on the node by name so its panel can say who.
   let li = 0;
   for (const raw of input.lexicons || []) {
     const r = asRecord(raw);
@@ -313,17 +333,29 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
       .filter(Boolean);
     const a = li * GOLDEN + 1.7;
     const id = `lexicon:${(str(r.key) || label).toLowerCase()}`;
-    nodes.push({
+    const lexNode: UNode = {
       id, kind: "lexicon", label, sub: "The words Sero knows for this role.",
       x: Math.cos(a) * 950, y: Math.sin(a * 1.7) * 180, z: Math.sin(a) * 950, r: 9,
       termsCount: terms.length, termsSample: names.slice(0, 3).join(", ") || undefined,
-    });
+    };
+    nodes.push(lexNode);
     edges.push({ from: id, to: "stage:prepare", flow: 0.25 });
     for (const [pkey, roles] of personRoles) {
-      if (roles.has(norm(label))) edges.push({ from: id, to: `person:${pkey}`, flow: 0.25 });
+      if (roles.has(norm(label))) {
+        edges.push({ from: id, to: `person:${pkey}`, flow: 0.25 });
+        (lexNode.peopleNames ||= []).push(people.get(pkey)!.label);
+      }
     }
     li++;
   }
+
+  // The core's live numbers — the map's own tally, for its panel.
+  const core = nodes[0]!;
+  core.tally = {
+    people: people.size,
+    runs: nodes.filter((n) => n.kind === "run").length,
+    live: si,
+  };
 
   return { nodes, edges };
 }
@@ -541,6 +573,8 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
     if (n.runId) model.openRunId = n.runId;
   } else if (n.kind === "stage" && n.step) {
     rows.push({ k: "Step", v: `${n.step} of ${PIPELINE.length}` });
+    if (n.partNames?.length) rows.push({ k: "Machinery", v: n.partNames.join(", ") });
+    if (n.liveHere) rows.push({ k: "Live here now", v: `${n.liveHere} session${n.liveHere === 1 ? "" : "s"}` });
   } else if (n.kind === "person" && n.runs) {
     const roles = [...new Set(n.runs.map((r) => r.role).filter(Boolean))];
     rows.push({ k: "Finished 1:1s", v: String(n.runs.length) });
@@ -553,11 +587,17 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
       sub: [r.role, r.meetingType, fmtWhen(r.lastSeenAt)].filter(Boolean).join(" · ") || "A finished 1:1",
     }));
   } else if (n.kind === "core") {
+    if (n.tally) {
+      rows.push({ k: "People", v: String(n.tally.people) });
+      rows.push({ k: "Finished 1:1s", v: String(n.tally.runs) });
+      rows.push({ k: "Live right now", v: String(n.tally.live) });
+    }
     model.steps = PIPELINE.map((s) => ({ label: s.label, sub: s.sub }));
   } else if (n.kind === "type") {
     if (n.duration) rows.push({ k: "Duration", v: n.duration });
     if (n.arcSteps) rows.push({ k: "Arc steps", v: String(n.arcSteps) });
     if (n.arcTone) rows.push({ k: "Tone", v: n.arcTone });
+    if (n.usedCount) rows.push({ k: "Used in", v: `${n.usedCount} finished 1:1${n.usedCount === 1 ? "" : "s"}` });
     if (!rows.length) rows.push({ k: "Kind", v: "A meeting type Sero can run" });
   } else if (n.kind === "session") {
     rows.push({ k: "With", v: n.label });
@@ -569,6 +609,7 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
   } else if (n.kind === "lexicon") {
     rows.push({ k: "Words", v: String(n.termsCount || 0) });
     if (n.termsSample) rows.push({ k: "Sample", v: n.termsSample });
+    if (n.peopleNames?.length) rows.push({ k: "Linked people", v: n.peopleNames.join(", ") });
   }
   return model;
 }

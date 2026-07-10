@@ -275,6 +275,7 @@ test("buildUniverse: role word lists join the map and link to matching people", 
   assert.deepEqual(m.rows, [
     { k: "Words", v: "2" },
     { k: "Sample", v: "roadmap, scope" },
+    { k: "Linked people", v: "Maya" }, // Phase 1b: the panel names who it's linked to
   ]);
 });
 
@@ -403,6 +404,68 @@ test("buildUniverse: a person's lastActiveAt is their newest 1:1, null when no r
   assert.equal(maya.lastActiveAt, 900, "newest run wins");
   const ola = nodes.find((n) => n.id === "person:ola")!;
   assert.equal(ola.lastActiveAt, null, "no timestamps -> honestly unknown, not 0");
+});
+
+// ---- Phase 1b (universe-monitoring): richer panels ----
+
+test("describeNode: the core shows live numbers — people, finished 1:1s, live sessions", () => {
+  const { nodes } = buildUniverse({
+    runs: [{ id: "r1", ctx: { name: "Maya" } }, { id: "r2", ctx: { name: "Ola" } }],
+    sessions: [{ id: "s1", stage: "BANK", ctx: { name: "Priya" } }],
+  });
+  const m = describeNode(nodes.find((n) => n.kind === "core")!, at);
+  assert.deepEqual(m.rows, [
+    { k: "People", v: "2" },
+    { k: "Finished 1:1s", v: "2" },
+    { k: "Live right now", v: "1" },
+  ]);
+  assert.equal(m.steps?.length, PIPELINE.length, "the pipeline list stays");
+});
+
+test("describeNode: a pipeline step names its machinery and counts sessions sitting there", () => {
+  const { nodes } = buildUniverse({
+    sessions: [
+      { id: "s1", stage: "BANK", ctx: { name: "Priya" } },
+      { id: "s2", stage: "BANK", ctx: { name: "Tom" } },
+    ],
+  });
+  const bank = nodes.find((n) => n.id === "stage:bank")!;
+  const m = describeNode(bank, at);
+  assert.deepEqual(m.rows, [
+    { k: "Step", v: `4 of ${PIPELINE.length}` },
+    { k: "Machinery", v: "Question generator, Question validator, Eligibility filter, Dedup gate, Queue manager" },
+    { k: "Live here now", v: "2 sessions" },
+  ]);
+  const quiet = describeNode(nodes.find((n) => n.id === "stage:intake")!, at);
+  assert.ok(!quiet.rows.some((r) => r.k === "Live here now"), "no sessions -> no row");
+  assert.ok(!quiet.rows.some((r) => r.k === "Machinery"), "no machinery -> no row");
+});
+
+test("describeNode: a meeting type says how many finished 1:1s used it", () => {
+  const { nodes } = buildUniverse({
+    types: [{ label: "Weekly" }, { label: "Feels-off" }],
+    runs: [
+      { id: "r1", ctx: { name: "Maya", meetingType: "Weekly" } },
+      { id: "r2", ctx: { name: "Ola", meetingType: "Weekly" } },
+    ],
+  });
+  const weekly = describeNode(nodes.find((n) => n.id === "type:weekly")!, at);
+  assert.ok(weekly.rows.some((r) => r.k === "Used in" && r.v === "2 finished 1:1s"));
+  const unused = describeNode(nodes.find((n) => n.id === "type:feels-off")!, at);
+  assert.ok(!unused.rows.some((r) => r.k === "Used in"), "never used -> no row, no zero");
+});
+
+test("describeNode: a role word list names the people it's linked to", () => {
+  const { nodes } = buildUniverse({
+    lexicons: [{ key: "designer", label: "Designer", terms: [{ term: "grid" }] }],
+    runs: [{ id: "r1", ctx: { name: "Maya", role: "Designer" } }],
+  });
+  const m = describeNode(nodes.find((n) => n.kind === "lexicon")!, at);
+  assert.deepEqual(m.rows, [
+    { k: "Words", v: "1" },
+    { k: "Sample", v: "grid" },
+    { k: "Linked people", v: "Maya" },
+  ]);
 });
 
 test("describeNode: a person shows when their last 1:1 was; the row vanishes when unknown", () => {

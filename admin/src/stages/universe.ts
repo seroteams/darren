@@ -40,6 +40,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       .uni__hud { position: absolute; top: 20px; left: 24px; color: #dbe7ff; pointer-events: none; max-width: 340px; }
       .uni__hud h1 { font-size: 22px; font-weight: 700; margin: 0 0 2px; letter-spacing: 0.02em; }
       .uni__hud p { font-size: 14px; margin: 0; color: rgba(219,231,255,0.75); }
+      .uni__hud .uni__hud-controls { margin-top: 6px; color: rgba(219,231,255,0.55); }
       .uni__refresh { pointer-events: auto; margin-top: 12px; display: inline-flex; align-items: center; gap: 7px; font: inherit; font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(125,211,252,0.4); background: rgba(125,211,252,0.12); color: #dbe7ff; cursor: pointer; transition: background 0.15s; }
       .uni__refresh:hover { background: rgba(125,211,252,0.24); }
       .uni__refresh:disabled { cursor: default; opacity: 0.75; }
@@ -110,7 +111,8 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       <canvas></canvas>
       <div class="uni__hud">
         <h1>The Sero Universe</h1>
-        <p>Drag to spin &middot; scroll to dive &middot; click any light to fly to it. Every light is real, and it re-checks the engine every minute by itself.</p>
+        <p>Sero sits in the middle. The ring around it is the seven steps every 1:1 walks through. People orbit further out with their finished 1:1s, and gold comets are sessions happening right now.</p>
+        <p class="uni__hud-controls">Drag to spin &middot; scroll to dive &middot; click any light. Every light is real data, re-checked every minute.</p>
         <button type="button" class="uni__refresh js-refresh" title="Re-read the engine and show what changed">
           ${icon(RefreshCw, { size: 15 })}
           <span class="uni__refresh-label">Update from the engine</span>
@@ -184,11 +186,14 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
   }
   updateCounts();
 
-  // Pulses — the moving lights that show information flowing along each line.
+  // Pulses — the moving lights that show information flowing along each line. They ride
+  // only the main flow (the pipeline ring and live-session lines, flow >= 3), two per
+  // line at most — a calm heartbeat, not a swarm on every thread.
   function buildPulses(es: UEdge[]): Pulse[] {
     const out: Pulse[] = [];
     es.forEach((e, i) => {
-      const count = Math.max(1, Math.round(e.flow));
+      if (e.flow < 3) return;
+      const count = Math.min(2, Math.max(1, Math.round(e.flow / 2)));
       for (let k = 0; k < count; k++) {
         out.push({ edge: e, t: ((i * 0.37 + k / count) % 1), speed: 0.1 + ((i * 7 + k * 13) % 10) * 0.02 });
       }
@@ -636,11 +641,23 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       if (p) projected.set(n.id, p);
     }
 
-    // Lines.
+    // Lines. Structural ones (the ring, Briefing -> people, person -> runs, session
+    // lines) are always there; the faint cross-links (flow < 1: type -> run, role
+    // words, machinery) only appear when you're looking at one of their ends — hover,
+    // selection, or focus. The data never leaves; the noise does.
+    const attention = (e: UEdge) =>
+      focusId != null ||
+      (hovered != null && (e.from === hovered.id || e.to === hovered.id)) ||
+      (selected != null && (e.from === selected.id || e.to === selected.id));
     for (const e of view.edges) {
+      const faint = e.flow < 1;
+      const wanted = !faint || attention(e);
+      if (!wanted) continue;
       const a = projected.get(e.from), b = projected.get(e.to);
       if (!a || !b) continue;
-      const alpha = Math.min(0.5, (a.s + b.s) * 90 * 0.002 + 0.06) * (e.flow >= 2 ? 1 : 0.6);
+      const base = Math.min(0.5, (a.s + b.s) * 90 * 0.002 + 0.06);
+      // A cross-link you asked for (hover/select) draws clearly, not at whisper level.
+      const alpha = faint ? (attention(e) ? Math.max(base, 0.35) : base * 0.6) : base * (e.flow >= 2 ? 1 : 0.6);
       ctx2d.strokeStyle = `rgba(120,170,255,${alpha.toFixed(3)})`;
       ctx2d.lineWidth = e.flow >= 2 ? 1.2 : 0.7;
       ctx2d.beginPath();
@@ -682,6 +699,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       .filter((o): o is { n: UNode; p: P3 } => !!o.p)
       .sort((a, b) => b.p.z - a.p.z);
     const epochNow = Date.now(); // recency runs on wall-clock time, not the animation clock
+    const labelWants: { n: UNode; p: P3; R: number }[] = [];
     for (const { n, p } of order) {
       const col = COLOR[n.kind];
       const R = Math.max(1.5, n.r * p.s);
@@ -690,8 +708,11 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       // Person planets burn by recency: a fresh 1:1 glows full, a dormant one dims to a
       // visible floor — never hidden. Static brightness, so reduced-motion is unaffected.
       const heat = n.kind === "person" ? recencyIntensity(n.lastActiveAt, epochNow) : null;
-      const glowA = heat == null ? 0.55 : 0.2 + 0.35 * heat;
-      const dotA = heat == null ? 0.95 : 0.55 + 0.4 * heat;
+      // Reference kinds (types, role words, machinery) sit back so the things being
+      // monitored — people, sessions, the pipeline — carry the scene.
+      const quiet = n.kind === "type" || n.kind === "lexicon" || n.kind === "part" ? 0.55 : 1;
+      const glowA = (heat == null ? 0.55 : 0.2 + 0.35 * heat) * quiet;
+      const dotA = (heat == null ? 0.95 : 0.55 + 0.4 * heat) * (quiet === 1 ? 1 : 0.8);
       const glow = ctx2d.createRadialGradient(p.x, p.y, 0, p.x, p.y, R * 3 * pulse);
       glow.addColorStop(0, `rgba(${col},${glowA.toFixed(3)})`);
       glow.addColorStop(1, `rgba(${col},0)`);
@@ -737,18 +758,35 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       }
       // Labels: always for the core + pipeline, otherwise once you're close (or on it),
       // and always while a node is freshly-arrived so you can read what just landed.
-      const wantLabel = n.kind === "core" || n.kind === "stage" || n.kind === "session" || R > 8 || n === hovered || n === selected || spawnedAt.has(n.id);
-      if (wantLabel) {
-        const size = Math.min(24, Math.max(14, R * 0.8)); // 14px floor holds even in canvas
-        const alpha = n === hovered || n === selected ? 1 : Math.min(0.85, p.s * 260 * 0.004 + 0.35);
-        ctx2d.font = `600 ${size}px 'Inter Variable', Inter, system-ui, sans-serif`;
-        ctx2d.textAlign = "center";
-        ctx2d.fillStyle = `rgba(226,238,255,${alpha.toFixed(2)})`;
-        ctx2d.shadowColor = "rgba(0,0,0,0.8)";
-        ctx2d.shadowBlur = 6;
-        ctx2d.fillText(n.label, p.x, p.y - R - 10);
-        ctx2d.shadowBlur = 0;
-      }
+      // (Sessions lost their always-on label — a dozen live preps used to pile their
+      // names in the middle; the counts line still says how many are live.)
+      const wantLabel = n.kind === "core" || n.kind === "stage" || R > 8 || n === hovered || n === selected || spawnedAt.has(n.id);
+      if (wantLabel) labelWants.push({ n, p, R });
+    }
+    // Draw labels after every node, most-important first, and skip any label that
+    // would sit on one already drawn — overlapping text helps nobody. Hover/selection
+    // always win; then the core, then whatever is nearest.
+    labelWants.sort((a, b) => {
+      const rank = (x: { n: UNode }) => (x.n === hovered || x.n === selected ? 0 : x.n.kind === "core" ? 1 : 2);
+      return rank(a) - rank(b) || a.p.z - b.p.z;
+    });
+    const placed: { x: number; y: number; w: number; h: number }[] = [];
+    ctx2d.textAlign = "center";
+    for (const { n, p, R } of labelWants) {
+      const size = Math.min(24, Math.max(14, R * 0.8)); // 14px floor holds even in canvas
+      ctx2d.font = `600 ${size}px 'Inter Variable', Inter, system-ui, sans-serif`;
+      const w = ctx2d.measureText(n.label).width;
+      const rect = { x: p.x - w / 2 - 4, y: p.y - R - 10 - size, w: w + 8, h: size + 6 };
+      const must = n === hovered || n === selected;
+      const collides = placed.some((q) => rect.x < q.x + q.w && q.x < rect.x + rect.w && rect.y < q.y + q.h && q.y < rect.y + rect.h);
+      if (collides && !must) continue;
+      placed.push(rect);
+      const alpha = must ? 1 : Math.min(0.85, p.s * 260 * 0.004 + 0.35);
+      ctx2d.fillStyle = `rgba(226,238,255,${alpha.toFixed(2)})`;
+      ctx2d.shadowColor = "rgba(0,0,0,0.8)";
+      ctx2d.shadowBlur = 6;
+      ctx2d.fillText(n.label, p.x, p.y - R - 10);
+      ctx2d.shadowBlur = 0;
     }
   }
   raf = requestAnimationFrame(frame);
