@@ -51,6 +51,7 @@ const loaders = {
   ADMIN_ERROR_LOG: () => import("./stages/admin-error-log.ts"),
   ADMIN_FEEDBACK:  () => import("./stages/admin-feedback.ts"),
   ADMIN_GUEST_RUNS: () => import("./stages/admin-guest-runs.ts"),
+  DESIGN:          () => import("./stages/design.js"),
   ERROR:           () => import("./stages/error.ts"),
 };
 

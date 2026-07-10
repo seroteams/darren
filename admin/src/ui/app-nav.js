@@ -84,8 +84,9 @@ const LINKS = [
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
   // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
   { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
-  // Static page (admin/public/sero-flowbite/) — opens in a new tab, outside the SPA.
-  { key: "design", label: "Design system", icon: ICON.design, admin: true, group: "Admin" },
+  // Native in-shell stage (stages/design.js) — the design system sheet with its own
+  // second-level rail, routed like any other stage.
+  { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Admin" },
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
   { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
@@ -216,7 +217,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
-    design: () => window.open("/sero-flowbite/index.html", "_blank", "noopener"),
+    design: () => setState && setState({ stage: STAGES.DESIGN }),
     universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
@@ -254,6 +255,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.TASKS]: "tasks",
     [STAGES.UNIVERSE]: "universe",
+    [STAGES.DESIGN]: "design",
     [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.ADMIN_USER]: "registered",
     [STAGES.ADMIN_ERROR_LOG]: "errors",
