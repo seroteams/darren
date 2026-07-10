@@ -19,7 +19,8 @@ import { icon } from "../ui/icon.js";
 import { RefreshCw } from "lucide";
 import {
   buildUniverse, filterUniverse, focusUniverse, searchUniverse,
-  diffUniverse, summarizeDiff, ringChanges, describeNode, recencyIntensity, COLOR, KIND_WORD, PIPELINE,
+  diffUniverse, summarizeDiff, ringChanges, describeNode, recencyIntensity,
+  sessionStalledMinutes, HEALTH_COLOR, COLOR, KIND_WORD, PIPELINE,
 } from "./universe.model.ts";
 import type { UNode, UEdge } from "./universe.model.ts";
 
@@ -179,7 +180,11 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
     const nRuns = nodes.filter((n) => n.kind === "run").length;
     const nPeople = nodes.filter((n) => n.kind === "person").length;
     const nTypes = nodes.filter((n) => n.kind === "type").length;
-    const live = liveCount ? `${liveCount} live session${liveCount === 1 ? "" : "s"} · ` : "";
+    const nowMs = Date.now();
+    const stalled = nodes.filter((n) => n.kind === "session" && sessionStalledMinutes(n.lastSeenAt, nowMs) != null).length;
+    const live = liveCount
+      ? `${liveCount} live session${liveCount === 1 ? "" : "s"}${stalled ? ` (${stalled} stalled)` : ""} · `
+      : "";
     countsEl.textContent = nRuns || liveCount
       ? `${live}${nRuns} finished 1:1${nRuns === 1 ? "" : "s"} · ${nPeople} ${nPeople === 1 ? "person" : "people"} · ${nTypes} meeting types — all live data.`
       : "No 1:1s yet — start one and watch it appear here.";
@@ -320,7 +325,7 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
       return;
     }
     const col = COLOR[n.kind];
-    const m = describeNode(n, (ts) => relTime(ts ?? 0));
+    const m = describeNode(n, (ts) => relTime(ts ?? 0), Date.now());
 
     const rowsHtml = m.rows.length
       ? `<div class="uni__rows">${m.rows
@@ -462,7 +467,9 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
   refreshBtn.addEventListener("click", () => { void refresh(false); });
   // Watch mode — re-check on its own every minute (same five free reads), so comets
   // appear, move stage to stage, and turn into moons without touching anything.
-  const autoTimer = window.setInterval(() => { void refresh(true); }, 60_000);
+  // The counts line also re-reads the clock here, so "(1 stalled)" appears when a
+  // session crosses the half-hour line even if no data changed.
+  const autoTimer = window.setInterval(() => { updateCounts(); void refresh(true); }, 60_000);
 
   // Filter chips — click to hide/show a kind; "Show all" clears every filter.
   const chipEls = [...shell.querySelectorAll<HTMLButtonElement>(".js-chip")];
@@ -732,12 +739,25 @@ export async function mount(root: HTMLElement, { setState }: StageContext): Prom
         ctx2d.stroke();
       }
       // Live-session comets wear a permanent pulsing ring — they're happening NOW.
+      // A stalled one (untouched for half an hour) goes STILL and warn-red instead:
+      // motion means alive, stillness + color means stuck — reduced-motion safe.
       if (n.kind === "session") {
-        const wob = reduceMotion ? 1 : 1 + Math.sin(now * 0.006 + n.x) * 0.16;
-        ctx2d.strokeStyle = `rgba(${col},0.85)`;
+        const stalled = sessionStalledMinutes(n.lastSeenAt, epochNow) != null;
+        const wob = reduceMotion || stalled ? 1 : 1 + Math.sin(now * 0.006 + n.x) * 0.16;
+        ctx2d.strokeStyle = stalled ? `rgba(${HEALTH_COLOR.warn},0.9)` : `rgba(${col},0.85)`;
         ctx2d.lineWidth = 1.6;
         ctx2d.beginPath();
         ctx2d.arc(p.x, p.y, (R + 8) * wob, 0, Math.PI * 2);
+        ctx2d.stroke();
+      }
+      // Run moons flagged by the QA review wear a thin steady ring — amber for "needs
+      // fixes", red for "blocked". A clean or unreviewed run wears nothing: the map
+      // only shouts about problems.
+      if (n.kind === "run" && (n.reviewOverall === "fix" || n.reviewOverall === "block")) {
+        ctx2d.strokeStyle = `rgba(${n.reviewOverall === "block" ? HEALTH_COLOR.warn : HEALTH_COLOR.caution},0.85)`;
+        ctx2d.lineWidth = 1.2;
+        ctx2d.beginPath();
+        ctx2d.arc(p.x, p.y, R + 5, 0, Math.PI * 2);
         ctx2d.stroke();
       }
       // "Just arrived" ring — an Update flagged this node; pulse + fade over ~4s so the

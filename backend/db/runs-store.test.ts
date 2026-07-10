@@ -120,3 +120,11 @@ test("finished row carries the same review badge inputs the file store derives",
   assert.equal(r.decided, 2);
   assert.equal(r.reviewStatus, "partial");
 });
+
+test("finished row carries the bare stars number — never the manager's note", () => {
+  const rated = toFinishedRow(run({ rating: { stars: 4, note: "private words", updatedAt: "2026-07-10T00:00:00Z" } }));
+  assert.equal(rated.rating, 4);
+  assert.ok(!JSON.stringify(rated).includes("private words"), "the note stays out of the feed");
+  assert.equal(toFinishedRow(run({ rating: null })).rating, null);
+  assert.equal(toFinishedRow(run({ rating: { stars: 9 } })).rating, null, "malformed shapes surface as unrated");
+});

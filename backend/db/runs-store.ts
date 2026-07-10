@@ -167,6 +167,8 @@ export function toFinishedRow(r: DbRun): Record<string, unknown> {
     ctx: ctxOf(r.state),
     lastSeenAt: asNumber(r.state.lastSeenAt),
     archived: r.archived,
+    // Bare stars number only — the manager's private note never rides this admin feed.
+    rating: ratingFromValue(r.rating)?.stars ?? null,
     ...personaTagOf(r.state),
     ...reviewSummaryFromValue(r.review),
   };

@@ -13,6 +13,9 @@ export interface UNodeRun {
   meetingType: string;
   lastSeenAt: number | null;
   rating: number | null;
+  reviewStatus?: string;        // QA review: none | partial | complete
+  reviewOverall?: string | null; // QA verdict: keep | fix | block
+  reviewFailed?: number;        // QA: how many areas were flagged
 }
 
 export interface UNode {
@@ -31,6 +34,9 @@ export interface UNode {
   meetingType?: string;       // run: the meeting type
   lastSeenAt?: number | null; // run + session: when it was last touched
   rating?: number | null;     // run: the member's star rating, if any
+  reviewStatus?: string;      // run: QA review status (none | partial | complete)
+  reviewOverall?: string | null; // run: QA verdict (keep | fix | block)
+  reviewFailed?: number;      // run: QA areas flagged
   withName?: string;          // run: who the 1:1 was with
   runs?: UNodeRun[];          // person: their finished 1:1s
   sessionStage?: string;      // session: which stage it's sitting at, in plain words
@@ -96,6 +102,40 @@ export function recencyIntensity(lastActiveAt: number | null | undefined, now: n
   if (age <= 0) return 1; // clock skew — a future stamp reads as "just now"
   return Math.pow(0.5, age / RECENCY_HALF_LIFE_MS);
 }
+
+/* ----------------------------------------------------------------- health --- */
+// A live session untouched for half an hour is stalled — someone started a prep and
+// walked away, or something broke. Returns how many minutes it has sat, or null when
+// it's fine (or has no timestamp — we don't cry wolf over missing data).
+
+export const SESSION_STUCK_AFTER_MS = 30 * 60 * 1000;
+
+export function sessionStalledMinutes(lastSeenAt: number | null | undefined, now: number): number | null {
+  if (typeof lastSeenAt !== "number" || lastSeenAt <= 0) return null;
+  const age = now - lastSeenAt;
+  return age >= SESSION_STUCK_AFTER_MS ? Math.floor(age / 60_000) : null;
+}
+
+// Plain words for the stall — minutes up close, hours once "N minutes" stops reading well.
+function stalledWords(mins: number): string {
+  if (mins < 90) return `Stalled — nothing has happened for ${mins} minutes`;
+  return `Stalled — nothing has happened for about ${Math.round(mins / 60)} hours`;
+}
+
+/** The QA review verdict in plain words, or null when nothing was reviewed. */
+export function reviewWords(status?: string, overall?: string | null, failed?: number): string | null {
+  const flagged = failed && failed > 0 ? ` — ${failed} area${failed === 1 ? "" : "s"} flagged` : "";
+  if (overall === "keep") return "Looked good";
+  if (overall === "fix") return `Needs fixes${flagged}`;
+  if (overall === "block") return `Blocked${flagged}`;
+  if (status === "partial") return "Partly reviewed";
+  if (status === "complete") return "Reviewed, no verdict yet";
+  return null;
+}
+
+// Overlay tones for the renderer's health rings: warn matches the HUD's warning text
+// (#fca5a5), caution reuses the palette's warm gold.
+export const HEALTH_COLOR = { warn: "252,165,165", caution: "255,214,102" } as const;
 
 const asRecord = (v: unknown): Record<string, unknown> | null =>
   v && typeof v === "object" ? (v as Record<string, unknown>) : null;
@@ -214,6 +254,9 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
       meetingType: str(ctx.meetingType),
       lastSeenAt: typeof r.lastSeenAt === "number" ? r.lastSeenAt : null,
       rating: typeof r.rating === "number" ? r.rating : null,
+      reviewStatus: str(r.reviewStatus) || undefined,
+      reviewOverall: str(r.overall) || null,
+      reviewFailed: typeof r.failedCount === "number" ? r.failedCount : 0,
     });
   }
 
@@ -241,6 +284,7 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
         x: px + Math.cos(b) * orbit, y: y + Math.sin(b * 1.7) * 22, z: pz + Math.sin(b) * orbit,
         r: 7, runId: run.id || undefined,
         role: run.role, meetingType: run.meetingType, lastSeenAt: run.lastSeenAt, rating: run.rating, withName: p.label,
+        reviewStatus: run.reviewStatus, reviewOverall: run.reviewOverall, reviewFailed: run.reviewFailed,
       });
       edges.push({ from: pid, to: rid, flow: 1 });
     });
@@ -560,7 +604,9 @@ export interface PanelModel {
   openRunId?: string;                                    // run: shows the "Open" button
 }
 
-export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) => string): PanelModel {
+// `now` powers the stalled-session read; 0 (the default, used by older tests) means
+// "no wall clock" and keeps the Health row off — the renderer always passes Date.now().
+export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) => string, now = 0): PanelModel {
   const rows: PanelModel["rows"] = [];
   const model: PanelModel = { eyebrow: KIND_WORD[n.kind], rows };
   if (n.kind === "run") {
@@ -570,6 +616,8 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
     const when = fmtWhen(n.lastSeenAt);
     if (when) rows.push({ k: "Last touched", v: when });
     if (n.rating) rows.push({ k: "Rating", v: stars(n.rating), stars: true });
+    const qa = reviewWords(n.reviewStatus, n.reviewOverall, n.reviewFailed);
+    if (qa) rows.push({ k: "QA check", v: qa });
     if (n.runId) model.openRunId = n.runId;
   } else if (n.kind === "stage" && n.step) {
     rows.push({ k: "Step", v: `${n.step} of ${PIPELINE.length}` });
@@ -604,6 +652,8 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
     if (n.sessionStage) rows.push({ k: "At stage", v: n.sessionStage });
     const when = fmtWhen(n.lastSeenAt);
     if (when) rows.push({ k: "Last touched", v: when });
+    const stalled = now ? sessionStalledMinutes(n.lastSeenAt, now) : null;
+    if (stalled != null) rows.push({ k: "Health", v: stalledWords(stalled) });
   } else if (n.kind === "part") {
     if (n.parentLabel) rows.push({ k: "Part of", v: n.parentLabel });
   } else if (n.kind === "lexicon") {

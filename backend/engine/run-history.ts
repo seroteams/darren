@@ -244,6 +244,8 @@ function listFinishedRuns(orgId?: string | null) {
       },
       lastSeenAt: asNumber(state.lastSeenAt),
       archived: isArchivedAt(dir),
+      // Bare stars number only — the manager's private note never rides this admin feed.
+      rating: ratingOf(dir)?.stars ?? null,
       ...personaTagOf(state),
       ...reviewSummaryOf(dir),
     };

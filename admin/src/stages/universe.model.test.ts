@@ -3,7 +3,7 @@
 // Rendering is canvas eye-candy and stays untested; the data shaping lives here.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE, derivePipeline, ringChanges, recencyIntensity, RECENCY_HALF_LIFE_MS } from "./universe.model.ts";
+import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE, derivePipeline, ringChanges, recencyIntensity, RECENCY_HALF_LIFE_MS, sessionStalledMinutes, SESSION_STUCK_AFTER_MS, reviewWords, HEALTH_COLOR } from "./universe.model.ts";
 import type { UNode } from "./universe.model.ts";
 import { TOPBAR_STAGES } from "../ui/stage-labels.js";
 
@@ -404,6 +404,71 @@ test("buildUniverse: a person's lastActiveAt is their newest 1:1, null when no r
   assert.equal(maya.lastActiveAt, 900, "newest run wins");
   const ola = nodes.find((n) => n.id === "person:ola")!;
   assert.equal(ola.lastActiveAt, null, "no timestamps -> honestly unknown, not 0");
+});
+
+// ---- Phase 2 (universe-monitoring): health signals ----
+
+test("sessionStalledMinutes: half an hour untouched is stalled; fresher or unknown is not", () => {
+  const now = 1_800_000_000_000;
+  assert.equal(sessionStalledMinutes(now - 31 * 60_000, now), 31, "31 minutes untouched -> stalled, says how long");
+  assert.equal(sessionStalledMinutes(now - SESSION_STUCK_AFTER_MS, now), 30, "exactly at the line counts");
+  assert.equal(sessionStalledMinutes(now - 29 * 60_000, now), null, "29 minutes is still fine");
+  assert.equal(sessionStalledMinutes(null, now), null, "no timestamp -> we don't cry wolf");
+  assert.equal(sessionStalledMinutes(0, now), null);
+});
+
+test("describeNode: a stalled session gets a plain-words Health row; a fresh one stays quiet", () => {
+  const now = 1_800_000_000_000;
+  const { nodes } = buildUniverse({
+    sessions: [{ id: "s1", stage: "PREPARATION", ctx: { name: "Ola" }, lastSeenAt: now - 45 * 60_000 }],
+  });
+  const m = describeNode(nodes.find((n) => n.id === "session:s1")!, at, now);
+  assert.ok(m.rows.some((r) => r.k === "Health" && r.v === "Stalled — nothing has happened for 45 minutes"));
+  const fresh = describeNode(
+    { ...nodes.find((n) => n.id === "session:s1")!, lastSeenAt: now - 60_000 },
+    at,
+    now
+  );
+  assert.ok(!fresh.rows.some((r) => r.k === "Health"), "touched a minute ago -> no Health row");
+  // Long stalls switch to hours so nobody reads "540 minutes".
+  const hours = describeNode(
+    { ...nodes.find((n) => n.id === "session:s1")!, lastSeenAt: now - 9 * 60 * 60_000 },
+    at,
+    now
+  );
+  assert.ok(hours.rows.some((r) => r.k === "Health" && r.v === "Stalled — nothing has happened for about 9 hours"));
+});
+
+test("reviewWords: the QA verdict in plain words, silent when nothing was reviewed", () => {
+  assert.equal(reviewWords("complete", "keep", 0), "Looked good");
+  assert.equal(reviewWords("complete", "fix", 2), "Needs fixes — 2 areas flagged");
+  assert.equal(reviewWords("partial", "fix", 0), "Needs fixes");
+  assert.equal(reviewWords("complete", "block", 1), "Blocked — 1 area flagged");
+  assert.equal(reviewWords("partial", null, 0), "Partly reviewed");
+  assert.equal(reviewWords("complete", null, 0), "Reviewed, no verdict yet");
+  assert.equal(reviewWords("none", null, 0), null);
+  assert.equal(reviewWords(undefined, undefined, undefined), null);
+});
+
+test("buildUniverse + describeNode: a run carries its QA verdict and star rating from the feed", () => {
+  const { nodes } = buildUniverse({
+    runs: [{ id: "r1", ctx: { name: "Maya" }, rating: 4, reviewStatus: "complete", overall: "fix", failedCount: 2 }],
+  });
+  const run = nodes.find((n) => n.id === "run:r1")!;
+  assert.equal(run.rating, 4, "the feed's bare stars number lands on the node");
+  assert.equal(run.reviewOverall, "fix");
+  const m = describeNode(run, at);
+  assert.ok(m.rows.some((r) => r.k === "Rating" && r.v === "★★★★☆"), "the once-dead rating row comes alive");
+  assert.ok(m.rows.some((r) => r.k === "QA check" && r.v === "Needs fixes — 2 areas flagged"));
+  const plain = buildUniverse({ runs: [{ id: "r2", ctx: { name: "Ola" } }] });
+  const quiet = describeNode(plain.nodes.find((n) => n.id === "run:r2")!, at);
+  assert.ok(!quiet.rows.some((r) => r.k === "QA check"), "unreviewed -> no row");
+  assert.ok(!quiet.rows.some((r) => r.k === "Rating"), "unrated -> no row");
+});
+
+test("HEALTH_COLOR: warn and caution exist for the renderer's rings", () => {
+  assert.ok(HEALTH_COLOR.warn.split(",").length === 3);
+  assert.ok(HEALTH_COLOR.caution.split(",").length === 3);
 });
 
 // ---- Phase 1b (universe-monitoring): richer panels ----
