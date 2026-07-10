@@ -37,12 +37,16 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > **▶ Your move:** say "build validation-kit Phase 4". Separately, yours alone: name the 3
 > corridor managers + flip Render to the paid tier.
 
-> **🔨 [universe-monitoring](docs/plans/doing/universe-monitoring/plan.md) — NEW track (2026-07-10): the Universe map becomes a monitoring tool. P1 ✅ green-lit · P2 next.**
-> Three read-only overlays, all $0 (no OpenAI calls anywhere in the track).
-> **P1 ✅ green-lit 2026-07-10 (Carl walked the 5 scenarios):** return-visit glow — person planets burn bright
-> when their manager ran a 1:1 recently and fade (never vanish) on a 7-day half-life; the panel gains a plain-words
-> "Last 1:1 · 3 days ago" line. This is the Gate-1 signal (are managers coming back) visible at a glance.
-> Test-first (3 new model tests, red→green), suite 114/114, typecheck clean, verified in the browser on real data.
+> **🔨 [universe-monitoring](docs/plans/doing/universe-monitoring/plan.md) — the Universe map becomes a monitoring tool. P1 ✅ + P1b ✅ · P2 next.**
+> Read-only overlays + a readability pass, all $0 (no OpenAI calls anywhere in the track).
+> **P1 ✅ green-lit 2026-07-10 (`b4398f23`):** return-visit glow — person planets burn bright when their manager
+> ran a 1:1 recently and fade (never vanish) on a 7-day half-life; panel gains "Last 1:1 · 3 days ago". The
+> Gate-1 signal (are managers coming back) visible at a glance. Test-first, 114/114.
+> **P1b ✅ green-lit 2026-07-11 (Carl: "it's very busy and I don't really get it" → before/after walk):** map
+> decluttered — session labels calmed, label collision-skip, cross-link lines only on hover/select/focus, quiet
+> kinds dimmed, pulses capped, HUD explains the picture in one sentence — and every panel now earns its click
+> (Sero: live tallies · stage: machinery + sessions sitting there · type: "Used in N 1:1s" · role words: linked
+> people). Test-first (4 new), suite 115/115, panels verified live.
 > **▶ Your move:** say "build universe-monitoring P2" (health signals: stalled sessions, QA-verdict rings,
 > star ratings revived on the feed) — another day, fresh session.
 
@@ -268,4 +272,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-10 (validation-kit P1–P3b ✅ — Finish modal + typed inbox close the evening; local Neon quota hit + upgraded. Also today: universe-monitoring P1 ✅; engine-hardening TRACK CLOSED)
+- Last updated: 2026-07-11 (universe-monitoring P1b ✅ — map decluttered + all panels enriched, Carl's "very busy / don't get it" fixed. Yesterday: validation-kit P1–P3b ✅; universe-monitoring P1 ✅; engine-hardening TRACK CLOSED)

@@ -9,6 +9,17 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **universe-monitoring P1b ✅ — the Universe learns to be quiet.** Carl's "it's very busy
+  and I don't really get it" became a declutter + panel pass: session labels stopped piling in the middle
+  (label collision-skip, hover/selection always win), cross-link lines appear only on hover/select/focus,
+  reference kinds dimmed so people/sessions/pipeline carry the scene, pulses capped to the main flow, and
+  the HUD now explains the picture before the controls. Every panel earns its click (core tallies, stage
+  machinery + parked sessions, type usage counts, lexicon linked people) — all panel data computed in the
+  tested pure model, never by the renderer walking the graph. $0, 115/115. **Two lessons:** ① "quieter"
+  never meant hiding data — every line/label removed from the default view stays reachable by hover, focus,
+  or search, which kept the honesty rule and the declutter compatible. ② canvas label collision is cheap if
+  you collect label candidates during the draw loop and place them in one priority pass afterwards
+  (hover > core > nearest), instead of fighting per-node z-order.
 - **2026-07-10** — **validation-kit P3b ✅ — one Finish modal, typed inbox; and the night the dev DB ran dry.**
   Carl's real P3 walk immediately produced the right UX call: two stacked feedback asks became ONE skippable
   modal on Finish (stars + verdict; Done/Skip/Escape/backdrop all proceed — the exit can never be blocked), the
