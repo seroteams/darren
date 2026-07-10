@@ -326,12 +326,19 @@ export const feedbackNotes = pgTable(
     userId: uuid("user_id").references(() => users.id),
     message: text("message").notNull(),
     page: text("page"),
+    /** Briefing verdict tap (validation-kit Phase 3): which run the answer belongs to
+     *  (the session key — no FK, a guest run may be claimed/deleted independently) and
+     *  the one-tap answer ("yes" / "no" to "Would you run this 1:1 differently now?").
+     *  Both NULL on a plain Send-feedback note. */
+    runId: text("run_id"),
+    verdict: text("verdict"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [
     index("feedback_notes_org_id_idx").on(t.orgId),
     index("feedback_notes_user_id_idx").on(t.userId),
     index("feedback_notes_created_at_idx").on(t.createdAt),
+    index("feedback_notes_run_id_idx").on(t.runId),
   ],
 );
 
