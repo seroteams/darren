@@ -9,6 +9,15 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **validation-kit P4 ✅ — first-run guidance where the manager actually lands.** The
+  dependency check corrected the plan mid-flight: a zero-run manager boots straight to intake, never Home
+  (`frontend/src/main.js:307-322`), so the guidance lives on intake, not on an empty Home a fresh account
+  never sees. A pure copy module (`intake-firstrun.ts`, mirroring `welcome.ts`) keeps the orientation card +
+  honest notes example unit-testable; intake gates them on `listRecentRuns(1)` being empty. **Lessons:**
+  ① always land onboarding where the router actually sends the new user — the "obvious" Home empty state was
+  the wrong host, caught only by reading the boot routing. ② the detached-mount verification trick hangs on
+  `swapField`'s transitionend when the node is off-screen; mounting into an *attached, visible* container and
+  polling the DOM (without awaiting mount's stalling tail) exercised both gate branches cleanly and stays $0.
 - **2026-07-11** — **universe-monitoring P1b ✅ — the Universe learns to be quiet.** Carl's "it's very busy
   and I don't really get it" became a declutter + panel pass: session labels stopped piling in the middle
   (label collision-skip, hover/selection always win), cross-link lines appear only on hover/select/focus,

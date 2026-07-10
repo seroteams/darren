@@ -99,7 +99,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   function render() {
     if (runs.length === 0) {
-      list.innerHTML = `<li class="text-ink-mute">No past sessions yet. Press <kbd class="kbd">Enter</kbd> or click <strong>New session</strong> to start.</li>`;
+      list.innerHTML = `<li class="text-ink-mute">No preps yet. Your first one takes about two minutes — tell Sero who the 1:1 is with and what's on your mind, and it writes you a focused brief. Press <kbd class="kbd">Enter</kbd> or click <strong>Start a new session</strong> to begin.</li>`;
       return;
     }
     list.innerHTML = runs.map((r) => {

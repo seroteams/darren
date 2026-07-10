@@ -1,5 +1,6 @@
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession, listPeople, listMyRuns } from "../../../shared/api.js";
+import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns } from "../../../shared/api.js";
+import { firstRunIntroHtml, firstRunNotesExampleHtml } from "./intake-firstrun.ts";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
@@ -51,12 +52,14 @@ export async function mount(root, { store, setState }) {
           <div class="intake-progress__fill"></div>
         </div>
       </header>
+      <div class="intake-firstrun-host" hidden></div>
       <div class="field-host"></div>
     </div>
   `;
   const host = root.querySelector(".field-host");
   const stepLabel = root.querySelector(".stage-step");
   const intakeLede = root.querySelector(".js-intake-lede");
+  const firstRunHost = root.querySelector(".intake-firstrun-host");
   const progressBar = root.querySelector(".intake-progress");
   const progressFill = root.querySelector(".intake-progress__fill");
 
@@ -69,12 +72,16 @@ export async function mount(root, { store, setState }) {
 
   let types = null;
   let roster = null; // the caller's people (people-roster Phase 4b); null/[] → free-text only
+  let isFirstRun = false; // zero-run account → show the first-run guidance (validation-kit Phase 4)
   let currentSub = store.substage || "NAME";
 
   function refreshStep() {
     const idx = SUBSTAGES.indexOf(currentSub) + 1;
     stepLabel.textContent = `Step ${idx} of ${SUBSTAGES.length}`;
     if (intakeLede) intakeLede.hidden = currentSub !== "NAME";
+    // The orientation card belongs on the entry step only, and only for a
+    // brand-new account — a veteran starting another prep never sees it.
+    if (firstRunHost) firstRunHost.hidden = !(isFirstRun && currentSub === "NAME");
     progressBar.setAttribute("aria-valuenow", String(idx));
     progressFill.style.transform = `scaleX(${idx / SUBSTAGES.length})`;
   }
@@ -258,6 +265,7 @@ export async function mount(root, { store, setState }) {
     wrap.innerHTML = `
       <h1 class="h1 mb-2">${cfg.question}</h1>
       <div class="hint">Optional. Tap what's prompting this 1:1, then add anything in your own words.</div>
+      ${isFirstRun ? firstRunNotesExampleHtml() : ""}
       <div class="space-y-2">
         <div class="eyebrow" id="pills-label">What's on your mind?</div>
         <div class="pill-row js-pills" role="group" aria-labelledby="pills-label"></div>
@@ -447,12 +455,23 @@ export async function mount(root, { store, setState }) {
   // join in each person's 1:1 history so the picker can order most-recently-met first and show
   // the last-1:1 date (same buildRosterView the Team page uses). A runs failure just drops the
   // dates and falls back to the roster's own order — the picker still works.
-  const [typesRes, rosterRes, runsRes] = await Promise.allSettled([
+  const [typesRes, rosterRes, runsRes, recentRes] = await Promise.allSettled([
     getMeetingTypes(),
     listPeople(),
     listMyRuns({ open: true }),
+    listRecentRuns(1),
   ]);
   types = typesRes.status === "fulfilled" ? typesRes.value.types : [];
+  // Zero runs ever (recent covers finished + in-progress) → this is a first prep.
+  // Any failure (guest 401, network) leaves it false — guidance never blocks intake.
+  isFirstRun =
+    recentRes.status === "fulfilled" &&
+    Array.isArray(recentRes.value?.runs) &&
+    recentRes.value.runs.length === 0;
+  if (isFirstRun && firstRunHost) {
+    firstRunHost.innerHTML = firstRunIntroHtml();
+    refreshStep();
+  }
   const peopleRows =
     rosterRes.status === "fulfilled" && Array.isArray(rosterRes.value?.people)
       ? rosterRes.value.people
