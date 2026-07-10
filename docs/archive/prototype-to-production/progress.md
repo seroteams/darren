@@ -9,6 +9,17 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **universe-monitoring P2 ✅ (walk waived) — the map now shouts only about problems.**
+  Health signals: a live session untouched 30+ minutes goes STILL and warn-red (motion means alive; color not
+  motion, so reduced-motion safe) with a plain-words Health row; QA-flagged runs wear amber/red rings +
+  "QA check · Blocked — 4 areas flagged"; the finished feed finally carries the member's star rating —
+  bare number from BOTH stores, the manager's private note test-locked out of the feed. The build immediately
+  caught real state: "12 live sessions (12 stalled)". **Two lessons:** ① the artifact check earned its keep
+  again — Carl's rapid "a" was checked against the API process age (started 00:35, predating the build), so
+  the close records a WAIVED walk and names the residual (Rating row appears after his next API restart)
+  instead of pretending scenario 4 ran. ② the parity test's existing seed already wrote a 4★ rating, so
+  adding `rating` to both stores' finished rows was covered by deep-equal for free — check what a parity
+  seed already exercises before extending it.
 - **2026-07-11** — **validation-kit P4 ✅ — first-run guidance where the manager actually lands.** The
   dependency check corrected the plan mid-flight: a zero-run manager boots straight to intake, never Home
   (`frontend/src/main.js:307-322`), so the guidance lives on intake, not on an empty Home a fresh account

@@ -29,13 +29,13 @@
 |---|---|---|---|
 | 1 | Return-visit glow | Person planets brighten with recent 1:1s, fade when dormant; "Last 1:1" panel row. Frontend only. | ✅ |
 | 1b | Quieter map + richer panels | Declutter (labels, cross-links, weight tiers, pulses, HUD story) + every node's panel says something useful. Carl-requested 2026-07-10. | ✅ |
-| 2 | Health signals | Stalled-session warning, QA-verdict rings on run moons, star ratings revived on the feed. | ⬜ |
+| 2 | Health signals | Stalled-session warning, QA-verdict rings on run moons, star ratings revived on the feed. | ✅ |
 | 3 | Cost per run | Run panel shows real spend; person panel shows their total. Feed + panel rows only. | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1b ✅ green-lit by Carl 2026-07-11 ("A" on the before/after + panel walk). Map decluttered (labels, cross-links, weight tiers, pulses, HUD story) + core/stage/type/lexicon panels enriched; tests 115/115 (4 new) + typecheck clean, verified in the browser on real data. Phase 1 ✅ closed 2026-07-10 (commit b4398f23). Next: Phase 2 (health signals) — a fresh session, another day.
+Phase 2 ✅ closed 2026-07-11 (Carl's "a" — walk WAIVED, his call; the artifact check found his dev API predated the build so the Rating row wasn't seeable yet). Agent verification: 116/116 incl. pg-parity on real Postgres, stalled/blocked rows + rings live in the browser. Honest residual: the Rating row on screen awaits his next API restart + the first starred run. Next: Phase 3 (cost per run) — a fresh session, another day. Phase 1b ✅ green-lit by Carl 2026-07-11 ("A" on the before/after + panel walk). Map decluttered (labels, cross-links, weight tiers, pulses, HUD story) + core/stage/type/lexicon panels enriched; tests 115/115 (4 new) + typecheck clean, verified in the browser on real data. Phase 1 ✅ closed 2026-07-10 (commit b4398f23). Next: Phase 2 (health signals) — a fresh session, another day.
 
 ## Parked
 - Hotter/bigger visual treatment for expensive runs (Phase 3 ships panel rows only).

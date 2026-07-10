@@ -41,8 +41,14 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > Separately, yours alone: name the 3 corridor managers + flip Render to the paid tier. Still open on P4: the
 > subjective stranger read + the two-real-accounts comparison, whenever you want to eyeball them.
 
-> **🔨 [universe-monitoring](docs/plans/doing/universe-monitoring/plan.md) — the Universe map becomes a monitoring tool. P1 ✅ + P1b ✅ · P2 next.**
+> **🔨 [universe-monitoring](docs/plans/doing/universe-monitoring/plan.md) — the Universe map becomes a monitoring tool. P1 ✅ + P1b ✅ + P2 ✅ · P3 (cost per run) last.**
 > Read-only overlays + a readability pass, all $0 (no OpenAI calls anywhere in the track).
+> **P2 ✅ closed 2026-07-11 (walk WAIVED on Carl's "a" — artifact check found his dev API predated the build):**
+> health signals — a session untouched 30+ min goes STILL + red ("Health · Stalled — nothing has happened for
+> about 3 hours" seen live; counts read "12 live sessions (12 stalled)"), QA-flagged runs wear amber ("fix") /
+> red ("block") rings with a plain-words "QA check" row, and the finished feed now carries the bare star rating
+> from BOTH stores (note can't leak — test-locked; pg-parity proof passed). 116/116. ⚠️ Honest residual: the
+> Rating row on screen awaits his next API restart + the first starred run.
 > **P1 ✅ green-lit 2026-07-10 (`b4398f23`):** return-visit glow — person planets burn bright when their manager
 > ran a 1:1 recently and fade (never vanish) on a 7-day half-life; panel gains "Last 1:1 · 3 days ago". The
 > Gate-1 signal (are managers coming back) visible at a glance. Test-first, 114/114.
@@ -51,8 +57,8 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > kinds dimmed, pulses capped, HUD explains the picture in one sentence — and every panel now earns its click
 > (Sero: live tallies · stage: machinery + sessions sitting there · type: "Used in N 1:1s" · role words: linked
 > people). Test-first (4 new), suite 115/115, panels verified live.
-> **▶ Your move:** say "build universe-monitoring P2" (health signals: stalled sessions, QA-verdict rings,
-> star ratings revived on the feed) — another day, fresh session.
+> **▶ Your move:** say "build universe-monitoring P3" (cost per run — the last phase) — another day, fresh
+> session. When you next restart your dev API: rate any run and check its moon shows "Rating · ★★★★☆".
 
 > **✅ [engine-hardening](docs/plans/done/engine-hardening/plan.md) — TRACK CLOSED 2026-07-10: all 3 phases green-lit in one sitting, $0 total. Robustness wins mined from the old-Sero RUNNER.md — invisible to managers, validation metric untouched.**
 > From Carl's review of RUNNER.md (old Sero): three engine-hardening ideas the current engine lacked. All offline/unit-testable — **$0, no paid runs.**

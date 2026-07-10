@@ -1,6 +1,17 @@
 # Phase 2 — Health signals (stuck sessions · QA verdict · star rating)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-11 — Carl's "a" (walk WAIVED, his call: the dev API of the moment predated the build, so the Rating row couldn't be seen live; artifact check caught it and it's recorded honestly). Verified by the agent instead: 116/116 incl. the pg-parity proof on real Postgres, stalled row + blocked row + rings live in the browser. Residual until his next API restart + first starred run: the Rating row on screen. (commit ed947825)
+
+## Built (2026-07-11)
+- `admin/src/stages/universe.model.ts` — `SESSION_STUCK_AFTER_MS` (30 min), `sessionStalledMinutes()`, `stalledWords()` (minutes → hours past 90), `reviewWords()`, `HEALTH_COLOR`; run nodes carry `reviewStatus`/`reviewOverall`/`reviewFailed`; `describeNode` gains an optional `now` and renders "Health · Stalled — …" + "QA check · …" rows.
+- `admin/src/stages/universe.model.test.ts` — 5 new tests (red→green): stall math, Health row incl. hours wording, verdict words, feed→node→panel for verdict + rating, health palette.
+- `backend/db/runs-store.ts` `toFinishedRow` + `backend/engine/run-history.ts` `listFinishedRuns` — both now emit `rating: <stars|null>` (bare number, never the note). New test in `runs-store.test.ts` proves the note can't leak; the pg-parity test already seeds a 4★ rating and deep-equals both stores — passed.
+- `admin/src/stages/universe.ts` — stalled comet ring goes STILL + warn-red (motion means alive; color not motion, reduced-motion safe); run moons wear a thin amber ring for "fix", red for "block", nothing otherwise; counts line gains "(N stalled)" and re-reads the clock every minute.
+- Offline proof: `npm test` 116/116 (incl. pg-parity), typecheck clean.
+- Browser proof (real data): counts read "12 live sessions (12 stalled)"; a stalled session's panel shows "Health · Stalled — nothing has happened for about 3 hours"; Samira's blocked run shows "QA check · Blocked — 4 areas flagged"; 1,506 warn-red ring pixels measured on the canvas (the rings are drawing).
+- ⚠️ Two honest notes for the walk: ① the long-running dev API predates this build, so the **Rating row appears after your API restarts** (the field is proven by unit + parity tests against real Postgres). ② no run currently carries stars — scenario 4 (rate one, press Update) creates the first.
 
 ## Goal
 The map shouts only about problems: a stalled live session goes still and red, a QA-flagged run wears a warning ring, and member star ratings finally show up.
