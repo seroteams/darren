@@ -36,11 +36,13 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > **▶ Your move:** say "build validation-kit Phase 3". Separately, yours alone: name the 3
 > corridor managers + flip Render to the paid tier.
 
-> **🔨 [engine-hardening](docs/plans/doing/engine-hardening/plan.md) — NEW track (2026-07-10): 3 robustness wins mined from the old-Sero RUNNER.md. Invisible to managers — doesn't touch the validation metric. P1 + P2 ✅ green-lit + committed · P3 next.**
-> From Carl's review of RUNNER.md (old Sero): three engine-hardening ideas the current engine lacks. All offline/unit-testable — **$0, no paid runs.**
-> **P1 ✅ committed 2026-07-10 (`372bd9ad`, $0):** per-call **latency capture** — every recorded AI call carries `ms`, run summary sums `total_ms`. Live fetches timed; cassette-replay stays `ms: 0`.
-> **P2 ✅ green-lit + committed 2026-07-10 ($0):** **concurrency cap + circuit breaker** on live AI calls — new `ai-guard.ts` (semaphore capped by `AI_MAX_CONCURRENCY`, default 4, + a closed→open→half-open breaker); wired into `callAI`'s live path only, cassette-replay bypasses it so evals stay deterministic. Test-first, 6 tests (5/5 loops), suite 113/113.
-> **▶ Your move:** say "build engine-hardening Phase 3" → positive validation checks on the briefing (names the person / cites real data), warn-level first. *(Heads-up: project typecheck currently shows foreign errors in another session's `feedback.service.test.ts` — not this track.)*
+> **✅ [engine-hardening](docs/plans/done/engine-hardening/plan.md) — TRACK CLOSED 2026-07-10: all 3 phases green-lit in one sitting, $0 total. Robustness wins mined from the old-Sero RUNNER.md — invisible to managers, validation metric untouched.**
+> From Carl's review of RUNNER.md (old Sero): three engine-hardening ideas the current engine lacked. All offline/unit-testable — **$0, no paid runs.**
+> **P1 (`372bd9ad`)** — per-call **latency capture**: every recorded AI call carries `ms`, run summary sums `total_ms`; live fetches timed, cassette-replay stays `ms: 0`.
+> **P2 (`5358cb03`)** — **concurrency cap + circuit breaker** on live AI calls: new `ai-guard.ts` (semaphore capped by `AI_MAX_CONCURRENCY`, default 4, + a closed→open→half-open breaker), wired into `callAI`'s live path only so cassette-replay/evals stay deterministic.
+> **P3** — **positive grounding checks** (`runManagerBriefingGroundingChecks`): warn-level assertions that a briefing names the person and cites real data. NOT wired into the live blocking path — promotion to a hard gate is Parked until it's quiet against all fixtures. Verified quiet against the `priya_performance_quality_jun02` golden fixture.
+> Test-first throughout, suite **114/114**, typecheck clean. Folder → [done/](docs/plans/done/engine-hardening/plan.md).
+> **▶ Your move:** nothing — track closed.
 
 > **🔨 [thread-follow](docs/plans/doing/thread-follow/plan.md) — NEW track (2026-07-09): make the engine follow the person's answer, not just march its queue. P1 ✅ green-lit + committed · P2 next.**
 > From the 8–9 Jul night test: thread-following scored 55–65/100 on every run (the one systemic weak muscle) —
@@ -256,4 +258,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-10 (engine-hardening P2 ✅ green-lit — concurrency cap + circuit breaker on live AI calls; P3 positive validation checks next)
+- Last updated: 2026-07-10 (engine-hardening TRACK CLOSED — all 3 phases green-lit: latency capture, concurrency cap + breaker, positive grounding checks; $0 total)

@@ -412,6 +412,44 @@ function runManagerBriefingBans(briefing: Briefing): string[] {
   return failures;
 }
 
+// runManagerBriefingGroundingChecks — POSITIVE assertions on a briefing (mined
+// from old-Sero RUNNER.md, which scored "names the person / cites real data").
+// The rest of this file bans bad phrases; this flags an ungrounded briefing so
+// the weakness is surfaced, never masked (engine-honesty rule). Deliberately
+// conservative — two blatant misses only, warn-level (not wired into the live
+// evaluate() blocking path; promotion to a hard gate is Parked in the plan):
+//   1. names the person — first name absent from ALL briefing prose.
+//   2. cites real data  — EVERY axis is EXPLICITLY not_read (nothing read).
+// Check 2 fires only on an explicit `not_read` everywhere — an absent/undefined
+// read_status (legacy fixtures) gets the benefit of the doubt, so the check
+// never false-alarms on a briefing that simply predates the field. Skips the
+// name check when no name is given, and the data check on the known fallback
+// briefing (generation_failed) — a degraded path, not a quality miss.
+function runManagerBriefingGroundingChecks(
+  briefing: Briefing,
+  ctx: { name?: string }
+): string[] {
+  const failures: string[] = [];
+
+  const firstName = String(ctx?.name || "").trim().split(/\s+/)[0] || "";
+  if (firstName) {
+    const text = collectBriefingText(briefing).toLowerCase();
+    if (!text.includes(firstName.toLowerCase())) {
+      failures.push(`manager briefing never names the person (${firstName})`);
+    }
+  }
+
+  const axes = Array.isArray(briefing?.axes) ? briefing.axes : [];
+  if (!briefing?.generation_failed && axes.length > 0) {
+    const allNotRead = axes.every((a) => a?.read_status === "not_read");
+    if (allNotRead) {
+      failures.push("manager briefing cites no real data (every axis is not_read)");
+    }
+  }
+
+  return failures;
+}
+
 function transcriptAnswers(transcript: GateTranscript): string {
   return (transcript || []).map((t) => String(t?.answer || "")).join("\n");
 }
@@ -665,6 +703,7 @@ export {
   findJargon,
   collectBriefingText,
   runManagerBriefingBans,
+  runManagerBriefingGroundingChecks,
   runCrossSessionLeakCheck,
   runStageTagOrphanCheck,
   runQuestionGroundingChecks,

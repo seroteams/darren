@@ -9,6 +9,16 @@
 ---
 
 ## Where we are now
+- **2026-07-10** — **engine-hardening P3 ✅ green-lit — positive briefing-grounding checks (TRACK CLOSED).**
+  New `runManagerBriefingGroundingChecks(briefing, ctx)` in golden-checks.ts: warn-level positive
+  assertions (names the person / cites real data) to complement the file's banned-phrase gates —
+  mirrors old-Sero's "names the person / cites real data" scoring. **Lesson (no false alarms):** the
+  first draft of check 2 fired when *no* axis was `read_status: "read"` — which false-alarmed on the
+  real `priya_performance_quality_jun02` golden fixture, whose axes predate the `read_status` field
+  (all undefined). Tightened it to fire only when *every* axis is EXPLICITLY `not_read`, giving
+  legacy/undefined shapes the benefit of the doubt; verified quiet against that fixture before
+  closing. Kept warn-level (NOT wired into live `evaluate()` — promotion Parked). Test-first (4
+  cases), suite 114/114, typecheck clean, **$0**. Whole 3-phase track closed in one sitting, $0 total.
 - **2026-07-10** — **engine-hardening P2 ✅ green-lit — concurrency cap + circuit breaker on live AI calls.**
   New `ai-guard.ts`: a FIFO semaphore (capped by `AI_MAX_CONCURRENCY`, default 4) and a
   closed→open→half-open circuit breaker (injectable clock for tests). Wired into `callAI`'s live
