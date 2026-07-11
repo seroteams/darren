@@ -158,6 +158,9 @@ export async function mount(root, { store, setState }) {
     `;
     qHost.appendChild(card);
     revealOne(card, 40);
+    // Each question restarts at the top — submitting leaves the page scrolled
+    // to where the buttons were, hiding the next question (phone walk 2026-07-11).
+    window.scrollTo(0, 0);
 
     card.querySelector(".js-copy-question").addEventListener("click", (e) => {
       const lines = [`Question ${res.turn}`];
@@ -343,6 +346,9 @@ export async function mount(root, { store, setState }) {
     `;
     qHost.appendChild(card);
     revealOne(card, 40);
+    // Each question restarts at the top — submitting leaves the page scrolled
+    // to where the buttons were, hiding the next question (phone walk 2026-07-11).
+    window.scrollTo(0, 0);
 
     async function resolve(covered) {
       try {
@@ -371,6 +377,8 @@ export async function mount(root, { store, setState }) {
     const skipped = submittedText.trim() === "";
     const orb = createOrb(skipped ? "Next question…" : "Scoring answer…");
     thinkingHost.appendChild(orb.el);
+    // Pull the page up so the progress orb is visible, not stranded above the fold.
+    window.scrollTo(0, 0);
 
     const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/plan/stream`);
     activeSse = sse;

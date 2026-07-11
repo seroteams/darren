@@ -417,6 +417,9 @@ export async function mount(root, { store, setState }) {
     currentSub = sub;
     refreshStep();
     const node = await swapField(host, () => renderField(sub));
+    // Each step restarts at the top — Continue leaves the page scrolled down,
+    // hiding the next step's question (phone walk 2026-07-11).
+    window.scrollTo(0, 0);
     focusField(node);
   }
 
