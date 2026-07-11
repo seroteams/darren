@@ -9,6 +9,15 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **transactional-email P1 ✅ green-lit (Carl "a"), $0: Sero can send email.** New `email-client.ts`
+  (Resend via native `fetch`, mirroring `ai-client.ts`'s timeout+retry; `sendEmail` throws, `sendEmailQuietly` is
+  fire-and-forget) + a `notifications` service that emails the `SUPERADMIN_EMAILS` admin on every new signup. Wired
+  as one non-awaited line in `auth.controller.ts` `register()` so a failed email can never break a signup. Provider
+  chosen = Resend (free tier dwarfs validation volume, no SDK). **Lessons:** ① Render only hosts — it can't send
+  email; a transactional provider is mandatory. ② Kept the engagement/nudge emails (reminders, digests) PARKED —
+  they'd contaminate the unprompted-return validation metric; only human-triggered "plumbing" emails ship now.
+  ③ Live-send is the real proof but lives in Carl's inbox — recorded honestly as his confirmation, not my check.
+  `npm test` 120/120, typecheck clean. Phase 2 (invite emails) next.
 - **2026-07-11** — **thread-follow P2 ✅ — TRACK CLOSED (~$0.70 paid): the engine finally follows a volunteered thread.**
   The relaxed drill-pressure bail was built 2 days earlier, but the first paid gate roll scored 0/8 — an honest
   miss that a free read of the saved turn logs turned into the real find: **the runtime thread-follow could never

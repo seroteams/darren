@@ -31,6 +31,10 @@ services:
         value: production
       - key: APP_ENV
         value: live
+      # The email sender — not a secret, safe in git. Must be on a Resend-verified
+      # domain (seroteams.com once its DNS is set up).
+      - key: EMAIL_FROM
+        value: Sero <notifications@seroteams.com>
       # Secrets — Render prompts for each once, in the dashboard. Never in git.
       # ⚠️ DATABASE_URL must be the "Sero Live" Neon URL (the LIVE_DATABASE_URL
       #    value from your .env), NOT your local one. See RENDER_SETUP.md.
@@ -41,4 +45,8 @@ services:
       - key: GEMINI_API_KEY
         sync: false
       - key: SUPERADMIN_EMAILS
+        sync: false
+      # Resend API key for transactional email (signup alerts, invite links).
+      # Unset = emails are skipped, the app still runs.
+      - key: EMAIL_API_KEY
         sync: false

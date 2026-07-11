@@ -12,6 +12,7 @@ import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAuth, isSuperadminIdentity } from "../../middleware/require-auth.ts";
 import { sessionCookie, clearedSessionCookie, readCookie, SESSION_COOKIE } from "../../middleware/cookies.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
+import { notifyAdminOfNewRegistration } from "../notifications/notifications.service.ts";
 
 // bcrypt cost 10 — the standard default; one-way, salted per hash.
 const bcryptHasher: PasswordHasher = {
@@ -33,6 +34,9 @@ export async function register(c: RequestContext): Promise<void> {
     password: asString(body.password),
     company: asString(body.company),
   });
+  // Fire-and-forget: tell the admin someone signed up. Never awaited — the response
+  // and the signup itself must never wait on, or fail because of, an email.
+  notifyAdminOfNewRegistration(user);
   c.json(201, { user });
 }
 
