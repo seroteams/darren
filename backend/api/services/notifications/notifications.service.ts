@@ -8,6 +8,13 @@
 
 import { sendEmailQuietly } from "../../../engine/email-client.ts";
 import type { EmailMessage } from "../../../engine/email-client.ts";
+import {
+  renderSeroEmail,
+  emailParagraph,
+  emailDetailPanel,
+  emailButton,
+  emailFinePrint,
+} from "./email-layout.ts";
 
 /** The bits of a freshly-created account we put in an alert. */
 export interface RegisteredUser {
@@ -38,33 +45,50 @@ function esc(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-// Shared body for the admin account alerts (signup, new member). No-op if nobody is on
-// the allowlist. Fire-and-forget — the caller must never await or depend on it.
-function adminAccountAlert(user: RegisteredUser, subject: string, lead: string, textLabel: string, send: Send): void {
+interface AdminAlert {
+  subject: string; // email subject line
+  heading: string; // big title in the card
+  lead: string; // friendly one-liner under the title
+  textLabel: string; // prefix for the plain-text fallback
+}
+
+// Shared body for the admin account alerts (signup, new member), wrapped in the branded
+// shell. No-op if nobody is on the allowlist. Fire-and-forget — the caller must never
+// await or depend on it.
+function adminAccountAlert(user: RegisteredUser, a: AdminAlert, send: Send): void {
   const to = adminRecipients();
   if (to.length === 0) return;
+  const bodyHtml =
+    emailParagraph(a.lead) +
+    emailDetailPanel([
+      ["Name", esc(user.name)],
+      ["Email", esc(user.email)],
+      ["Company", esc(user.orgId)],
+    ]);
   send({
     to,
-    subject,
-    html:
-      `<p>${lead}</p>` +
-      `<ul>` +
-      `<li><b>Name:</b> ${esc(user.name)}</li>` +
-      `<li><b>Email:</b> ${esc(user.email)}</li>` +
-      `<li><b>Org:</b> ${esc(user.orgId)}</li>` +
-      `</ul>`,
-    text: `${textLabel} — ${user.name} <${user.email}> (org ${user.orgId})`,
+    subject: a.subject,
+    html: renderSeroEmail({ eyebrow: "Admin notification", heading: a.heading, bodyHtml }),
+    text: `${a.textLabel} — ${user.name} <${user.email}> (org ${user.orgId})`,
   });
 }
 
 /** Email the admin(s) that a new account just registered. */
 export function notifyAdminOfNewRegistration(user: RegisteredUser, send: Send = sendEmailQuietly): void {
-  adminAccountAlert(user, `New Sero signup: ${user.name}`, "A new account just registered on Sero.", "New Sero signup", send);
+  adminAccountAlert(
+    user,
+    { subject: `New Sero signup: ${user.name}`, heading: "New signup on Sero", lead: "Someone just created an account.", textLabel: "New Sero signup" },
+    send,
+  );
 }
 
 /** Email the admin(s) that an invited person just accepted and became a member. */
 export function notifyAdminOfNewMember(user: RegisteredUser, send: Send = sendEmailQuietly): void {
-  adminAccountAlert(user, `New member joined: ${user.name}`, "A new member just joined a team via an invite.", "New member joined", send);
+  adminAccountAlert(
+    user,
+    { subject: `New member joined: ${user.name}`, heading: "New member joined", lead: "A new member just joined a team via an invite.", textLabel: "New member joined" },
+    send,
+  );
 }
 
 /** What the invitee email needs. inviterName / orgName may be null (fall back cleanly). */
@@ -83,14 +107,18 @@ export function notifyInviteeOfInvite(params: InviteEmailParams, send: Send = se
   const inviter = esc(inviterPlain);
   const org = esc(orgPlain);
   const url = esc(params.joinUrl);
+  const bodyHtml =
+    emailParagraph(`${inviter} has invited you to join <b>${org}</b> on Sero — the place your 1:1 notes and prep live.`) +
+    emailDetailPanel([
+      ["Invited by", inviter],
+      ["Team", org],
+    ]) +
+    emailButton("Accept your invite", url) +
+    emailFinePrint("This link is just for you and expires in 7 days.");
   send({
     to: params.to,
     subject: `${inviterPlain} invited you to Sero`,
-    html:
-      `<p>${inviter} invited you to join <b>${org}</b> on Sero — where you can see the notes and prep from your 1:1s.</p>` +
-      `<p><a href="${url}">Accept your invite</a></p>` +
-      `<p>Or paste this link into your browser:<br>${url}</p>` +
-      `<p>The link is single-use and expires in 7 days.</p>`,
+    html: renderSeroEmail({ heading: "You're invited to Sero", bodyHtml }),
     text: `${inviterPlain} invited you to join ${orgPlain} on Sero. Accept your invite: ${params.joinUrl} (single-use, expires in 7 days).`,
   });
 }
