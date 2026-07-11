@@ -6,6 +6,8 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 Not sure which file is which? [docs/reference/trackers.md](docs/reference/trackers.md) maps where everything lives.
 Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only holds what's live or awaiting your walk.
 
+📍 **Mobile UX pass — ✅ CLOSED 2026-07-11 (Carl walked it on his phone: "looks ok"), live as `fc0874c`.** Carl's phone walk found the app unusable on mobile: keyboard popping up on its own over the question, `/focus` panning sideways, desktop-size headings/dead space, and each step opening mid-scroll. Fixed across BOTH apps in 5 commits (`7139440`→`fc0874c`, PR #11 merged): autofocus is desktop-only everywhere (keyboard opens only when you tap), the interview question scrolls back into view above the keyboard, the focus-page buttons stack, phone type scale + top-aligned stages, avatar chip moved into the header bar, and every screen/question/step restarts at the top. Verified with a Playwright phone harness (mocked API, $0) across 14 manager pages, 6 member/customer pages, and all 15 internal/admin screens — zero keyboard steal, zero sideways scroll. Ad-hoc track (no plan folder); this entry is its record.
+
 📍 **Feedback inbox — ✅ CLOSED 2026-07-08:** both phases (inbox screen + per-row Delete) green-lit by Carl ("close it") and moved to [done/](docs/plans/done/feedback-inbox/plan.md). Was already built + committed; wiring re-confirmed intact after the `0006`→`0011` DB drift.
 
 📍 **Checkpoint 2026-07-08 (night) — 🎉 SERO IS LIVE ON THE INTERNET.** Render deploy went green tonight at
