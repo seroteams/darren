@@ -125,6 +125,17 @@ function ratingOf(dir: string): { stars: number; note: string; updatedAt: string
   return ratingFromValue(readJsonAt(dir, "rating.json"));
 }
 
+// The run's model spend off its saved briefing (universe-monitoring P3), or null when
+// absent/malformed — a run that predates cost tracking must never claim "$0.00".
+// Value-based so the Postgres store shares it (cost lives inside state.briefing.cost
+// in both stores).
+function costFromState(state: unknown): { usd: number; calls: number | null } | null {
+  const s = asRecord(state);
+  const cost = asRecord(asRecord(s.briefing).cost);
+  if (typeof cost.usd_total !== "number") return null;
+  return { usd: cost.usd_total, calls: typeof cost.call_count === "number" ? cost.call_count : null };
+}
+
 function setArchived(id: string, archived: unknown, orgId?: string | null): { ok: boolean; id: string; reason?: string; archived?: boolean } {
   const dir = findRunDir(id, orgId);
   if (!dir) return { ok: false, id, reason: "not_found" };
@@ -246,6 +257,7 @@ function listFinishedRuns(orgId?: string | null) {
       archived: isArchivedAt(dir),
       // Bare stars number only — the manager's private note never rides this admin feed.
       rating: ratingOf(dir)?.stars ?? null,
+      cost: costFromState(state),
       ...personaTagOf(state),
       ...reviewSummaryOf(dir),
     };
@@ -731,6 +743,7 @@ export {
   reviewSummaryOf,
   reviewSummaryFromValue,
   ratingFromValue,
+  costFromState,
   personaTagOf,
   inferStage,
   notesSummary,

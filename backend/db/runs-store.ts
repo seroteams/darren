@@ -34,6 +34,7 @@ import {
   reviewStatusOf,
   reviewSummaryFromValue,
   ratingFromValue,
+  costFromState,
   personaTagOf,
   inferStage,
   notesSummary,
@@ -169,6 +170,7 @@ export function toFinishedRow(r: DbRun): Record<string, unknown> {
     archived: r.archived,
     // Bare stars number only — the manager's private note never rides this admin feed.
     rating: ratingFromValue(r.rating)?.stars ?? null,
+    cost: costFromState(r.state),
     ...personaTagOf(r.state),
     ...reviewSummaryFromValue(r.review),
   };

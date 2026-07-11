@@ -3,7 +3,7 @@
 // Rendering is canvas eye-candy and stays untested; the data shaping lives here.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE, derivePipeline, ringChanges, recencyIntensity, RECENCY_HALF_LIFE_MS, sessionStalledMinutes, SESSION_STUCK_AFTER_MS, reviewWords, HEALTH_COLOR } from "./universe.model.ts";
+import { buildUniverse, diffUniverse, summarizeDiff, describeNode, stars, filterUniverse, focusUniverse, searchUniverse, PIPELINE, derivePipeline, ringChanges, recencyIntensity, RECENCY_HALF_LIFE_MS, sessionStalledMinutes, SESSION_STUCK_AFTER_MS, reviewWords, HEALTH_COLOR, fmtUsd } from "./universe.model.ts";
 import type { UNode } from "./universe.model.ts";
 import { TOPBAR_STAGES } from "../ui/stage-labels.js";
 
@@ -464,6 +464,52 @@ test("buildUniverse + describeNode: a run carries its QA verdict and star rating
   const quiet = describeNode(plain.nodes.find((n) => n.id === "run:r2")!, at);
   assert.ok(!quiet.rows.some((r) => r.k === "QA check"), "unreviewed -> no row");
   assert.ok(!quiet.rows.some((r) => r.k === "Rating"), "unrated -> no row");
+});
+
+// ---- Phase 3 (universe-monitoring): cost per run ----
+
+test("fmtUsd: dollars read like money — cents at 2 decimals, sub-cent keeps a real digit", () => {
+  assert.equal(fmtUsd(1.2), "$1.20");
+  assert.equal(fmtUsd(0.0421), "$0.04");
+  assert.equal(fmtUsd(0.38), "$0.38");
+  assert.equal(fmtUsd(0.004), "$0.004", "a tiny dev run must not read as free");
+  assert.equal(fmtUsd(0), "$0.00", "a recorded zero (offline replay) is honest");
+});
+
+test("buildUniverse: runs carry their cost; a person totals their runs' costs", () => {
+  const { nodes } = buildUniverse({
+    runs: [
+      { id: "r1", ctx: { name: "Maya" }, cost: { usd: 0.38, calls: 9 } },
+      { id: "r2", ctx: { name: "Maya" }, cost: { usd: 0.15, calls: 4 } },
+      { id: "r3", ctx: { name: "Maya" } }, // pre-tracking run — no cost
+      { id: "r4", ctx: { name: "Ola" } },
+    ],
+  });
+  const r1 = nodes.find((n) => n.id === "run:r1")!;
+  assert.equal(r1.costUsd, 0.38);
+  assert.equal(r1.costCalls, 9);
+  const maya = nodes.find((n) => n.id === "person:maya")!;
+  assert.ok(Math.abs((maya.totalCostUsd ?? 0) - 0.53) < 1e-9, "sums only the runs that have a cost");
+  const ola = nodes.find((n) => n.id === "person:ola")!;
+  assert.equal(ola.totalCostUsd, null, "no priced runs -> no total, not $0.00");
+});
+
+test("describeNode: cost rows — run says what it cost (and how many calls), person totals up", () => {
+  const { nodes } = buildUniverse({
+    runs: [
+      { id: "r1", ctx: { name: "Maya" }, cost: { usd: 0.38, calls: 9 } },
+      { id: "r2", ctx: { name: "Maya" }, cost: { usd: 0.15, calls: null } },
+    ],
+  });
+  const withCalls = describeNode(nodes.find((n) => n.id === "run:r1")!, at);
+  assert.ok(withCalls.rows.some((r) => r.k === "Cost to run" && r.v === "$0.38 (9 model calls)"));
+  const noCalls = describeNode(nodes.find((n) => n.id === "run:r2")!, at);
+  assert.ok(noCalls.rows.some((r) => r.k === "Cost to run" && r.v === "$0.15"));
+  const person = describeNode(nodes.find((n) => n.id === "person:maya")!, at);
+  assert.ok(person.rows.some((r) => r.k === "Total cost" && r.v === "$0.53"));
+  const free = buildUniverse({ runs: [{ id: "r9", ctx: { name: "Ola" } }] });
+  const quiet = describeNode(free.nodes.find((n) => n.id === "run:r9")!, at);
+  assert.ok(!quiet.rows.some((r) => r.k === "Cost to run"), "pre-tracking run -> no row, no lie");
 });
 
 test("HEALTH_COLOR: warn and caution exist for the renderer's rings", () => {

@@ -16,6 +16,8 @@ export interface UNodeRun {
   reviewStatus?: string;        // QA review: none | partial | complete
   reviewOverall?: string | null; // QA verdict: keep | fix | block
   reviewFailed?: number;        // QA: how many areas were flagged
+  costUsd?: number | null;      // what the run cost in model spend
+  costCalls?: number | null;    // how many model calls it took
 }
 
 export interface UNode {
@@ -37,6 +39,9 @@ export interface UNode {
   reviewStatus?: string;      // run: QA review status (none | partial | complete)
   reviewOverall?: string | null; // run: QA verdict (keep | fix | block)
   reviewFailed?: number;      // run: QA areas flagged
+  costUsd?: number | null;    // run: model spend in dollars
+  costCalls?: number | null;  // run: model calls made
+  totalCostUsd?: number | null; // person: sum of their priced runs (null when none priced)
   withName?: string;          // run: who the 1:1 was with
   runs?: UNodeRun[];          // person: their finished 1:1s
   sessionStage?: string;      // session: which stage it's sitting at, in plain words
@@ -257,6 +262,8 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
       reviewStatus: str(r.reviewStatus) || undefined,
       reviewOverall: str(r.overall) || null,
       reviewFailed: typeof r.failedCount === "number" ? r.failedCount : 0,
+      costUsd: (() => { const c = asRecord(r.cost); return c && typeof c.usd === "number" ? c.usd : null; })(),
+      costCalls: (() => { const c = asRecord(r.cost); return c && typeof c.calls === "number" ? c.calls : null; })(),
     });
   }
 
@@ -267,11 +274,13 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
     const y = (people.size > 1 ? pi / (people.size - 1) - 0.5 : 0) * 320;
     const px = Math.cos(a) * 560, pz = Math.sin(a) * 560;
     const stamps = p.runs.map((r) => r.lastSeenAt).filter((t): t is number => typeof t === "number" && t > 0);
+    const priced = p.runs.map((r) => r.costUsd).filter((c): c is number => typeof c === "number");
     nodes.push({
       id: pid, kind: "person", label: p.label,
       sub: `${p.runs.length} finished 1:1${p.runs.length === 1 ? "" : "s"}`,
       x: px, y, z: pz, r: 15, runs: p.runs,
       lastActiveAt: stamps.length ? Math.max(...stamps) : null,
+      totalCostUsd: priced.length ? priced.reduce((a, b) => a + b, 0) : null,
     });
     edges.push({ from: "stage:briefing", to: pid, flow: 2 });
     p.runs.forEach((run, j) => {
@@ -285,6 +294,7 @@ export function buildUniverse(input: UniverseInput): { nodes: UNode[]; edges: UE
         r: 7, runId: run.id || undefined,
         role: run.role, meetingType: run.meetingType, lastSeenAt: run.lastSeenAt, rating: run.rating, withName: p.label,
         reviewStatus: run.reviewStatus, reviewOverall: run.reviewOverall, reviewFailed: run.reviewFailed,
+        costUsd: run.costUsd, costCalls: run.costCalls,
       });
       edges.push({ from: pid, to: rid, flow: 1 });
     });
@@ -593,6 +603,14 @@ export const KIND_WORD: Record<UNode["kind"], string> = {
 // n filled stars then hollow ones, e.g. stars(4) -> "★★★★☆".
 export const stars = (n: number): string => "★★★★★☆☆☆☆☆".slice(5 - n, 10 - n);
 
+// Dollars that read like money: cents at 2 decimals, but a sub-cent amount keeps a
+// real digit ("$0.004") so a tiny dev run never reads as free. A recorded zero
+// (offline replay) honestly shows "$0.00".
+export function fmtUsd(n: number): string {
+  if (n > 0 && n < 0.01) return `$${n.toFixed(3)}`;
+  return `$${n.toFixed(2)}`;
+}
+
 // What the detail panel shows for a node — the branchy per-kind logic, kept pure so
 // it's tested without a browser (describe-node in universe.test.ts). The renderer just
 // turns this into HTML. `fmtWhen` is injected so relative time stays out of the pure part.
@@ -618,6 +636,10 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
     if (n.rating) rows.push({ k: "Rating", v: stars(n.rating), stars: true });
     const qa = reviewWords(n.reviewStatus, n.reviewOverall, n.reviewFailed);
     if (qa) rows.push({ k: "QA check", v: qa });
+    if (n.costUsd != null) {
+      const calls = n.costCalls != null ? ` (${n.costCalls} model call${n.costCalls === 1 ? "" : "s"})` : "";
+      rows.push({ k: "Cost to run", v: `${fmtUsd(n.costUsd)}${calls}` });
+    }
     if (n.runId) model.openRunId = n.runId;
   } else if (n.kind === "stage" && n.step) {
     rows.push({ k: "Step", v: `${n.step} of ${PIPELINE.length}` });
@@ -629,6 +651,7 @@ export function describeNode(n: UNode, fmtWhen: (ts: number | null | undefined) 
     const lastActive = fmtWhen(n.lastActiveAt);
     if (lastActive) rows.push({ k: "Last 1:1", v: lastActive });
     if (roles.length) rows.push({ k: roles.length === 1 ? "Role" : "Roles", v: roles.join(", ") });
+    if (n.totalCostUsd != null) rows.push({ k: "Total cost", v: fmtUsd(n.totalCostUsd) });
     model.runs = n.runs.map((r) => ({
       id: r.id,
       title: r.label,

@@ -1,6 +1,20 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf } from "./run-history.ts";
+import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf, costFromState } from "./run-history.ts";
+
+// costFromState (universe-monitoring P3): a run's model spend off its saved briefing.
+// Null when absent or malformed — an old run must never claim "$0.00".
+test("costFromState: reads usd_total + call_count off the briefing, null when absent/malformed", () => {
+  assert.deepEqual(
+    costFromState({ briefing: { cost: { usd_total: 0.0421, call_count: 23 } } }),
+    { usd: 0.0421, calls: 23 }
+  );
+  assert.deepEqual(costFromState({ briefing: { cost: { usd_total: 0 } } }), { usd: 0, calls: null }, "zero is a real recorded number; missing call count is null, not 0");
+  assert.equal(costFromState({ briefing: {} }), null, "no cost block");
+  assert.equal(costFromState({}), null, "no briefing");
+  assert.equal(costFromState(null), null);
+  assert.equal(costFromState({ briefing: { cost: { usd_total: "0.04" } } }), null, "a string is malformed, not money");
+});
 
 // runOwnedByOrg is the data wall (Phase 007/2): the single rule the run-history
 // reads use to decide whether a run is visible to the caller's company.

@@ -121,6 +121,13 @@ test("finished row carries the same review badge inputs the file store derives",
   assert.equal(r.reviewStatus, "partial");
 });
 
+test("finished row carries the run's cost off the saved briefing, null when it predates tracking", () => {
+  const priced = toFinishedRow(run({ state: { briefing: { text: "done", cost: { usd_total: 0.38, call_count: 9 } } } }));
+  assert.deepEqual(priced.cost, { usd: 0.38, calls: 9 });
+  const old = toFinishedRow(run({}));
+  assert.equal(old.cost, null, "no cost block -> null, never a fake $0.00");
+});
+
 test("finished row carries the bare stars number — never the manager's note", () => {
   const rated = toFinishedRow(run({ rating: { stars: 4, note: "private words", updatedAt: "2026-07-10T00:00:00Z" } }));
   assert.equal(rated.rating, 4);
