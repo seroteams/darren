@@ -1,0 +1,11 @@
+alias: q_mentoring_thread_55
+label: Mentoring thread
+name: You said you stopped pushing on mentoring — what made that stall out?
+description: Drill the mentoring thread to surface what specifically caused it to lose momentum.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  growth: +3
+source: planner_added
+grounding: stopped pushing

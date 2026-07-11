@@ -1,0 +1,10 @@
+alias: q_similar_work_thread_6
+label: Similar work thread
+name: "You said it's been similar work for months — where is that repetition showing up most?"
+description: Locate the repeated work so the manager can understand what feels stagnant before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: similar work for months

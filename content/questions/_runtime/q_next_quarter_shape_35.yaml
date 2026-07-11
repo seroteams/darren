@@ -1,0 +1,11 @@
+alias: q_next_quarter_shape_35
+label: Next-quarter shape
+name: What do you expect to own next quarter?
+description: Surface how clear her next-quarter ownership feels and where uncertainty is affecting momentum.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_shape_34"
+grounding: open

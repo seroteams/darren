@@ -1,0 +1,11 @@
+alias: q_team_contact_7
+label: Team contact
+name: How has the team work felt to you since the launch went out?
+description: Check whether post-launch team work feels smooth, draining, or unresolved.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: "reworded_from:q_team_contact_6"
+grounding: open

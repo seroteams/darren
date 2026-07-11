@@ -1,0 +1,11 @@
+alias: q_next_quarter_shape_32
+label: Next-quarter shape
+name: What do you expect to own next quarter?
+description: Understand how she sees her upcoming ownership and whether it lines up with team plans.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_shape_31"
+grounding: open

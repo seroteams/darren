@@ -1,0 +1,11 @@
+alias: q_launch_aftermath_10
+label: Launch aftermath
+name: What part of the launch aftermath is still taking energy this week?
+description: Identify any launch follow-through still drawing effort or attention.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_launch_aftermath_9"
+grounding: open

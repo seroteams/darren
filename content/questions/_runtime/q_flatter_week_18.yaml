@@ -1,0 +1,11 @@
+alias: q_flatter_week_18
+label: Flatter week
+name: "You said this week feels flatter than expected — what's behind that from your side?"
+description: Drill into the specific source of the flatter post-launch week before moving on.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added
+grounding: flatter this week than expected

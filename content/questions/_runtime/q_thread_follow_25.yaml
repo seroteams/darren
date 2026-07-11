@@ -1,0 +1,10 @@
+alias: q_thread_follow_25
+label: Thread follow
+name: "You said \"Mostly cleanup and reviews right now\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added

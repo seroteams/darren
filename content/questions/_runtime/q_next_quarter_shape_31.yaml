@@ -1,0 +1,11 @@
+alias: q_next_quarter_shape_31
+label: Next-quarter shape
+name: What do you expect to own next quarter?
+description: Surface her expected ownership next quarter before introducing timing-sensitive work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_shape_30"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_loose_ends_5
+label: Loose ends
+name: "What loose ends from Monday's launch still need your attention?"
+description: Find any remaining launch tasks or unresolved follow-through.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_loose_ends_4"
+grounding: open
