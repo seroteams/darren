@@ -6,6 +6,7 @@ import { openSse } from "../../../shared/sse.js";
 import { revealOne, sleep } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
+import { isTouchScreen } from "../ui/field.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Copy } from "lucide";
@@ -167,7 +168,16 @@ export async function mount(root, { store, setState }) {
 
     const ta = card.querySelector("textarea");
     if (prefill) ta.value = prefill;
-    setTimeout(() => ta.focus({ preventScroll: true }), 260);
+    // Desktop only: on a phone this would pop the keyboard over the question
+    // before it's even been read (phone walk 2026-07-11).
+    if (!isTouchScreen()) setTimeout(() => ta.focus({ preventScroll: true }), 260);
+
+    // Phone: when the tap opens the keyboard, pull the question back into view
+    // so what they're answering stays readable above it.
+    ta.addEventListener("focus", () => {
+      if (!isTouchScreen()) return;
+      setTimeout(() => card.scrollIntoView({ block: "start", behavior: "smooth" }), 350);
+    });
 
     // Feed the answer draft to the store (debounced) so the right-rail "Sending"
     // tab shows the exact planner prompt live, filling in as you type. Seed it once

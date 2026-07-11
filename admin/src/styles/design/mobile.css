@@ -204,6 +204,12 @@ input::placeholder {
     gap: 0.15rem;
   }
 
+  /* When the keyboard opens, questioning.js scrolls the card back into view —
+     land it below the fixed header + session topbar, not underneath them. */
+  .questioning-card {
+    scroll-margin-top: calc(var(--app-nav-h, 48px) + var(--session-topbar-h, 50px) + 0.5rem);
+  }
+
   /* Interview answer actions: full-width stacked buttons — thumb targets, and
      Submit stays first in reading order. */
   .questioning-card .field__actions {
@@ -300,6 +306,33 @@ pre {
    bars do. Universe's touch support lives in universe.ts (touch-action: none
    on the canvas — its pointer handlers already speak touch).
 ============================================================================= */
+/* =============================================================================
+   Mobile screens — Phase 6 (Carl's phone walk 2026-07-11). Desktop-sized
+   display type and vertical centering wasted the phone screen: giant headings,
+   dead space above the content, and the active field pushed down toward the
+   keyboard. Phones get page-title-sized headings and top-aligned stages.
+============================================================================= */
+@media (max-width: 639.98px) {
+  :root {
+    --type-display: 1.9rem;   /* 30px — was 44px+; heroes ate half the screen */
+    --type-h1: 1.6rem;        /* 26px */
+    --type-h2: 1.35rem;       /* 22px — question stems fit beside a keyboard */
+  }
+  /* Content starts at the top instead of floating mid-screen, so the question
+     and its field are visible together when the keyboard opens. */
+  .stage {
+    place-items: start center;
+    padding: 1.25rem 1rem 2.5rem;
+  }
+  /* Desktop stack gaps read as holes at phone width. */
+  .l-stack--8  { gap: var(--sero-space-5); }
+  .l-stack--10 { gap: var(--sero-space-6); }
+}
+/* Keyboard-shortcut hints (Enter · Skip · Esc) point at keys a phone doesn't have. */
+@media (pointer: coarse) {
+  .hint--kbd { display: none; }
+}
+
 @media (max-width: 639.98px) {
   .compare-picker .bench-select {
     width: 100%;

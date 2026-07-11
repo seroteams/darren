@@ -206,9 +206,15 @@
   line-height: 1;
 }
 
-/* Keep the focus-area actions on one line */
+/* Keep the focus-area actions on one line (desktop) */
 .focus-actions { flex-wrap: nowrap; }
 .focus-actions .btn { white-space: nowrap; }
+/* Phones: stack them full-width — the nowrap row was wider than the screen and
+   made the whole page pan sideways (phone walk 2026-07-11). */
+@media (max-width: 639.98px) {
+  .focus-actions { flex-wrap: wrap; }
+  .focus-actions .btn { flex: 1 1 100%; justify-content: center; }
+}
 
 /* Focus-select instruction label */
 .focus-select-hint {

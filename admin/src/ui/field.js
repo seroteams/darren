@@ -28,11 +28,18 @@ export function swapField(host, renderNext) {
   });
 }
 
+// Touch devices (phones/tablets): never steal focus into a control on render —
+// focusing a text box pops the on-screen keyboard over the very question the
+// user is trying to read (phone walk 2026-07-11). They tap when ready to type.
+export function isTouchScreen() {
+  return window.matchMedia("(pointer: coarse)").matches;
+}
+
 // Focus the primary control inside a field node. An explicit [data-autofocus]
 // wins (so a field can choose, e.g., a pill group over its text box); otherwise
 // fall back to the first input/textarea, then any button. Called after swap.
 export function focusField(node) {
-  if (!node) return;
+  if (!node || isTouchScreen()) return;
   const target =
     node.querySelector("[data-autofocus]") ||
     node.querySelector("input:not([type=hidden]), textarea") ||
