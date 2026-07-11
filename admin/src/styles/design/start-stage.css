@@ -80,6 +80,12 @@
   vertical-align: middle;
 }
 
+/* Loading placeholder: the project-standard skeleton (ui/skeleton.js) wrapped
+   in an <li> so the recent-sessions <ul> stays valid. No bullet. */
+.run-skeleton {
+  list-style: none;
+}
+
 
 .btn--sm {
   font-size: var(--type-caption);

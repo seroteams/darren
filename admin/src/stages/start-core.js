@@ -10,6 +10,7 @@ import { stageLabel } from "../ui/stage-labels.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
+import { createSkeleton } from "../ui/skeleton.js";
 import { Check } from "lucide";
 
 let keyHandler = null;
@@ -97,7 +98,19 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     return "";
   }
 
+  // Project-standard skeleton (ui/skeleton.js) — the same ghost cards the
+  // "What we'll cover" focus screen shows while it loads. 3 cards ≈ the 3
+  // recent sessions we fetch. Wrapped in an <li> so the <ul> stays valid.
+  function renderSkeleton() {
+    list.setAttribute("aria-busy", "true");
+    const li = document.createElement("li");
+    li.className = "run-skeleton";
+    li.appendChild(createSkeleton(3));
+    list.replaceChildren(li);
+  }
+
   function render() {
+    list.setAttribute("aria-busy", "false");
     if (runs.length === 0) {
       list.innerHTML = `<li class="text-ink-mute">No preps yet. Your first one takes about two minutes — tell Sero who the 1:1 is with and what's on your mind, and it writes you a focused brief. Press <kbd class="kbd">Enter</kbd> or click <strong>Start a new session</strong> to begin.</li>`;
       return;
@@ -276,6 +289,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     else if (e.key.toLowerCase() === "d") { del(expandedId); }
   };
   window.addEventListener("keydown", keyHandler);
+
+  // Show skeleton rows immediately so the list isn't blank during the fetch;
+  // load() → render() replaces them once the recent sessions arrive.
+  renderSkeleton();
 
   // The bench (admin only) wires itself against the mounted DOM; it gets the
   // clean-setup helper so its "Continue to setup" matches the plain start button.
