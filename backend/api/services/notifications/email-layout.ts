@@ -11,8 +11,13 @@ function logoUrl(): string {
   return `${base}/logo.png`;
 }
 
-const FONT = "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif";
-const HEAD_FONT = "'Bricolage Grotesque',Georgia,'Times New Roman',serif";
+// Email-safe body stack that reads like Inter without relying on a web font (email
+// clients don't load @font-face): San Francisco (Apple), Segoe UI (Windows), Roboto
+// (Gmail/Android) are all Inter-adjacent humanist sans; Arial is the universal fallback.
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+// Headings: same safe sans, just heavier — keeps the whole email in one type family
+// (Bricolage is a web font and wouldn't load in mail anyway).
+const HEAD_FONT = FONT;
 
 export interface SeroEmailParts {
   eyebrow?: string; // small uppercase label above the heading (e.g. "Admin notification")
