@@ -9,6 +9,14 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **transactional-email P3 ✅ — TRACK CLOSED (Carl "a"), $0: Sero can send email.** The admin now gets
+  a "new member joined" alert when an invite is accepted — `notifyAdminOfNewMember` fired fire-and-forget from
+  `acceptInvite()`; the shared admin-alert body was folded into one `adminAccountAlert` helper (signup + member reuse
+  it, registration output unchanged). Closes the 3-phase track: P1 admin signup alert · P2 invite link emailed to the
+  invitee · P3 admin new-member alert. Provider = Resend (native fetch, free tier). **Design stance held throughout:**
+  only human-triggered "plumbing" emails ship; engagement/nudge emails stay PARKED (they'd contaminate the
+  unprompted-return validation metric). `npm test` 122/122, typecheck clean. Folder → done/. Live delivery is Carl's
+  inbox confirmation once Resend is set up.
 - **2026-07-11** — **transactional-email P2 ✅ green-lit (Carl "a"), $0: invited members get their join link by email.**
   The invite flow minted a one-time `/join` link and handed it back to the manager to copy-paste ("no email infra in
   the alpha"). Now `createInvite` also fire-and-forgets an email to the invitee — new `notifyInviteeOfInvite` composer

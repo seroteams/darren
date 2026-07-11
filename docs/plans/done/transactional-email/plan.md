@@ -34,12 +34,15 @@ welcome/onboarding drip · "1:1 coming up" reminders · "you haven't run one in 
 |---|---|---|---|
 | 1 | Admin "someone registered" alert | Email helper + admin gets a signup email | ✅ |
 | 2 | Real invite email | Invited member receives the join link by email | ✅ |
-| 3 | Admin "new member joined" alert | Admin gets an email when an invite is accepted | ⬜ |
+| 3 | Admin "new member joined" alert | Admin gets an email when an invite is accepted | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1 ✅ (`d8c44a66`) + 2 ✅ green-lit 2026-07-11 (Carl "a") + committed. **Phase 3 (admin "new member joined" alert) 🔨 next / building.** Offline proof through P2: 122/122 + typecheck clean; live delivery on Carl's confirmation.
+✅ **TRACK CLOSED 2026-07-11 (Carl "a") — all 3 phases green-lit, $0.** Sero sends email: admin signup alert (P1
+`d8c44a66`), invite link to the invitee (P2 `0ab2d98d`), admin new-member alert (P3). Offline proof throughout
+(122/122 + typecheck clean); live delivery on Carl's confirmation once Resend is set up. Folder → done/.
+Parked (below) stays parked: nudge/engagement emails, password reset, admin error alerts.
 
 ## Parked
 - Password-reset email — no reset flow exists yet; revisit when it does.

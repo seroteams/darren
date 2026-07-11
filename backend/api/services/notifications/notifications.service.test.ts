@@ -1,6 +1,6 @@
 import { test, afterEach } from "node:test";
 import assert from "node:assert/strict";
-import { notifyAdminOfNewRegistration, notifyInviteeOfInvite } from "./notifications.service.ts";
+import { notifyAdminOfNewRegistration, notifyAdminOfNewMember, notifyInviteeOfInvite } from "./notifications.service.ts";
 import type { EmailMessage } from "../../../engine/email-client.ts";
 
 const realList = process.env.SUPERADMIN_EMAILS;
@@ -44,6 +44,24 @@ test("HTML-escapes the person's name so a stray tag can't break the email", () =
   const sent: EmailMessage[] = [];
   notifyAdminOfNewRegistration({ ...user, name: "Ann <b>Bold</b>" }, (m) => sent.push(m));
   assert.match(sent[0]!.html, /Ann &lt;b&gt;Bold&lt;\/b&gt;/);
+});
+
+test("sends a 'new member joined' alert to the admin allowlist", () => {
+  process.env.SUPERADMIN_EMAILS = "carl@seroteams.com";
+  const sent: EmailMessage[] = [];
+  notifyAdminOfNewMember({ name: "Sam Member", email: "sam@acme.com", orgId: "org1" }, (m) => sent.push(m));
+  assert.equal(sent.length, 1);
+  assert.deepEqual(sent[0]!.to, ["carl@seroteams.com"]);
+  assert.match(sent[0]!.subject, /New member joined/i);
+  assert.match(sent[0]!.html, /Sam Member/);
+  assert.match(sent[0]!.html, /sam@acme\.com/);
+});
+
+test("new-member alert does nothing when the allowlist is empty", () => {
+  process.env.SUPERADMIN_EMAILS = "";
+  const sent: EmailMessage[] = [];
+  notifyAdminOfNewMember({ name: "Sam", email: "s@a.com", orgId: "o" }, (m) => sent.push(m));
+  assert.equal(sent.length, 0);
 });
 
 test("invite email goes to the invitee with the join link, inviter and org named", () => {

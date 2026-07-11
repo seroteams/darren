@@ -1,6 +1,17 @@
 # Phase 3 — Admin "new member joined" alert
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT
+
+## ✅ GREEN-LIT 2026-07-11 — Carl "a" (offline proof mine; live delivery on Carl's confirmation)
+Green-lit on A ("tested, good → commit + close the track"). Offline proof stood behind by me
+(`npm test` 122/122, typecheck clean); the join alert actually arriving is Carl's own confirmation, flagged as such.
+
+## Built (2026-07-11)
+Code landed + proven offline (no paid runs). Files:
+- `backend/api/services/notifications/notifications.service.ts` (+ `.test.ts`) — added `notifyAdminOfNewMember`; refactored the shared admin-alert body into one `adminAccountAlert` helper (signup + new-member reuse it), so the registration alert's output is unchanged.
+- `backend/api/services/invites/invites.controller.ts` — one fire-and-forget line in `acceptInvite()`, after the member account is created.
+
+Proof: `npm test` 122/122, `npm run typecheck` clean (notifications suite now 8 assertions). Live delivery is Carl's QA walk (needs Resend signup).
 
 ## Goal
 Carl gets an email when an invited person actually accepts and their member account is created — closing the loop on the invite.

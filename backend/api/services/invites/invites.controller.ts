@@ -14,7 +14,7 @@ import { sessionCookie } from "../../middleware/cookies.ts";
 import { pgAuthSessionRepo } from "../auth/auth.repo.ts";
 import { createInvitesService } from "./invites.service.ts";
 import { pgInvitesRepo } from "./invites.repo.ts";
-import { notifyInviteeOfInvite } from "../notifications/notifications.service.ts";
+import { notifyInviteeOfInvite, notifyAdminOfNewMember } from "../notifications/notifications.service.ts";
 
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7; // mirrors auth.controller
 
@@ -69,6 +69,10 @@ export async function previewInvite(c: RequestContext): Promise<void> {
 export async function acceptInvite(c: RequestContext): Promise<void> {
   const body = (await c.readBody()) as { name?: unknown; password?: unknown } | null;
   const { user } = await service.accept(c.params.token, { name: body?.name, password: body?.password });
+
+  // Fire-and-forget: tell the admin a new member just joined. Never awaited — the accept
+  // + login must never wait on, or fail because of, an email.
+  notifyAdminOfNewMember(user);
 
   const token = randomBytes(32).toString("hex");
   const expiresAt = new Date(Date.now() + SESSION_TTL_SECONDS * 1000);

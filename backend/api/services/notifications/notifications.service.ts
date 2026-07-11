@@ -38,26 +38,33 @@ function esc(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-/** Email the admin(s) that a new account just registered. No-op if nobody is on the
- *  allowlist. Fire-and-forget by default — the caller must never await or depend on it. */
-export function notifyAdminOfNewRegistration(user: RegisteredUser, send: Send = sendEmailQuietly): void {
+// Shared body for the admin account alerts (signup, new member). No-op if nobody is on
+// the allowlist. Fire-and-forget — the caller must never await or depend on it.
+function adminAccountAlert(user: RegisteredUser, subject: string, lead: string, textLabel: string, send: Send): void {
   const to = adminRecipients();
   if (to.length === 0) return;
-
-  const name = esc(user.name);
-  const email = esc(user.email);
   send({
     to,
-    subject: `New Sero signup: ${user.name}`,
+    subject,
     html:
-      `<p>A new account just registered on Sero.</p>` +
+      `<p>${lead}</p>` +
       `<ul>` +
-      `<li><b>Name:</b> ${name}</li>` +
-      `<li><b>Email:</b> ${email}</li>` +
+      `<li><b>Name:</b> ${esc(user.name)}</li>` +
+      `<li><b>Email:</b> ${esc(user.email)}</li>` +
       `<li><b>Org:</b> ${esc(user.orgId)}</li>` +
       `</ul>`,
-    text: `New Sero signup — ${user.name} <${user.email}> (org ${user.orgId})`,
+    text: `${textLabel} — ${user.name} <${user.email}> (org ${user.orgId})`,
   });
+}
+
+/** Email the admin(s) that a new account just registered. */
+export function notifyAdminOfNewRegistration(user: RegisteredUser, send: Send = sendEmailQuietly): void {
+  adminAccountAlert(user, `New Sero signup: ${user.name}`, "A new account just registered on Sero.", "New Sero signup", send);
+}
+
+/** Email the admin(s) that an invited person just accepted and became a member. */
+export function notifyAdminOfNewMember(user: RegisteredUser, send: Send = sendEmailQuietly): void {
+  adminAccountAlert(user, `New member joined: ${user.name}`, "A new member just joined a team via an invite.", "New member joined", send);
 }
 
 /** What the invitee email needs. inviterName / orgName may be null (fall back cleanly). */
