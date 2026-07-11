@@ -1,6 +1,15 @@
 # Phase 1 — History into the prompt
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-12 — Carl watched the live Playwright walk end-to-end (commits 763c5a4a, c9d34f62, ba3223d6 — all pushed + deployed)
+
+## Live proof (2026-07-11, build ba3223d)
+Two same-day Nikki bi-weeklies on the live site (Playwright-driven, Carl watching):
+- Prep A suggested: workload, priorities, blockers, team connection.
+- Prep B's prompt carried the history block listing exactly those four — and the model suggested energy, manager support, feedback instead. Zero overlap. Freshness working end to end.
+- Two fixes landed on the way (both Carl-approved): history counts unfinished preps (commit c9d34f62), and focus results persist at generation so abandoned preps still count (commit ba3223d6).
+- Discovered en route: local .env DB ≠ live DB (yesterday's Nikki runs live in the dev database — why early live tests said "first session").
 
 ## Built (2026-07-11)
 - `backend/engine/focus-history.ts` (new) — fence (`historyRunMatches`: finished + same manager + same personId), mapper off `state.focusPointsResult` (the shipped result both stores persist — simpler than the response.json read plan.md named, same data), relational filter, block renderer, file-store read, store dispatcher (errors degrade to [] — history never blocks a prep).

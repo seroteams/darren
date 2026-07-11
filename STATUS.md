@@ -25,6 +25,15 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> **🔨 [focus-freshness](docs/plans/doing/focus-freshness/plan.md) — Phase 1 ✅ (Carl green-lit 2026-07-12 after watching the live proof); Phase 2 (signal-re-raise check) next. ~$0.10 total.**
+> Carl's pick from the arc deep-dive: repeat bi-weeklies suggested the same topics every time. Now the focus prompt carries
+> the last 3 preps' suggested topics for the same person (same manager + roster person only; competency history filtered out
+> of relational arcs; past never named in output wording). **Proven live on build `ba3223d`:** prep A suggested
+> workload/priorities/blockers/team-connection → prep B's prompt listed them and the model returned energy/manager-support/
+> feedback — zero repeats. Two Carl-approved calls along the way: unfinished preps count as history ("A"), and focus results
+> persist at generation so abandoned preps still count. Commits `763c5a4a`, `c9d34f62`, `ba3223d6` — all live.
+> **▶ Your move:** nothing on P1. Phase 2 (slimmed: "workload still heavy" must bring workload back + a gate roll) starts when you say go.
+
 > **🔨 [forgot-password](docs/plans/doing/forgot-password/plan.md) — Phase 1 ✅ (Carl green-lit 2026-07-11 "A") + committed; Phase 2 (UI) building now. $0.**
 > Carl's ask: "forgot password for all, admin also." One shared login (`admin/src/stages/login.js`) → **one** reset flow covers
 > managers, members, AND admin — no separate admin path. Blueprint = the invitations flow (public, sha256-hashed, expiring,

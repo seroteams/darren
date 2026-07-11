@@ -22,13 +22,13 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | History into the prompt | Engine read (both stores) + `{{FOCUS_HISTORY_BLOCK}}` + freshness rules in the prompt, offline-proven | 🔨 |
+| 1 | History into the prompt | Engine read (both stores) + `{{FOCUS_HISTORY_BLOCK}}` + freshness rules in the prompt, offline-proven | ✅ |
 | 2 | Live proof | Same-person repeat runs show fresh lists; signal-re-raise still wins; example promoted if good | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 built (2026-07-11), awaiting Carl's walk of the phase-1 scenarios. Baseline before any change: `npm test` 120/120 (free); after: 122/122 + typecheck clean. Paid gate baseline deliberately skipped per the cost rule — Phase 1 is offline-provable; the gate roll belongs to Phase 2's paid proof.
+Phase 1 ✅ GREEN-LIT by Carl 2026-07-12 after live proof on build ba3223d (repeat Nikki prep: history block carried 4 earlier topics, model suggested 3 fully fresh ones; 123/123 tests + typecheck clean). Next: Phase 2 — but its live-proof goal is largely met by this walk; what remains is the signal-re-raise check ("workload still heavy" must bring workload back) and a gate roll. Consider slimming Phase 2 to just those before starting.
 
 ## Parked
 - UI hint on the focus picker ("covered last time" chip) — prompt-side only for now.

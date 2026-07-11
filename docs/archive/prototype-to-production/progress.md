@@ -9,6 +9,15 @@
 ---
 
 ## Where we are now
+- **2026-07-12** — **focus-freshness P1 ✅ green-lit (Carl watched the live proof), ~$0.10: repeat 1:1 preps now suggest fresh
+  topics.** The focus prompt carries the last 3 preps' suggested topics for the same manager+person (`focus-history.ts`, both
+  stores; relational arcs never see competency history; `FOCUS_ARC_LEAK` untouched as backstop). Live proof on `ba3223d`:
+  prep A suggested workload/priorities/blockers/team-connection → prep B listed them in its prompt and returned
+  energy/manager-support/feedback, zero repeats. **Decisions:** unfinished preps count as history (Carl "A" — the agenda was
+  suggested either way), and focus results persist at generation so abandoned preps still count. **Lessons:** (1) *verify the
+  destination's DATABASE, not just the destination* — local `.env` DB ≠ live DB, which made a working feature look broken for
+  an hour ("first session" was truthful on live's data); (2) a jsonb `->'key' is not null` check is true for a JSON `null`
+  value — that misread ("Nikki has 4 finished runs") sent the first test walk chasing the wrong qualifier.
 - **2026-07-11** — **forgot-password P1 ✅ green-lit (Carl "A"), $0: email-based password reset (backend).** One shared login
   means one reset flow covers managers, members AND admin. New `password_reset_tokens` table (`0014`) + a separate
   `PasswordResetRepo`/`createPasswordResetService` (kept apart from register/login's AuthRepo so its test fake stays
