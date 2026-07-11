@@ -89,6 +89,19 @@ function rateLimitErrors(req: IncomingMessage): boolean {
   return count > MAX_ERROR_REPORTS_PER_IP;
 }
 
+// Per-IP cap on password-reset requests (forgot-password) — stops someone spamming reset
+// emails at a victim's inbox. Its own counter so it never collides with session creation.
+const MAX_RESET_PER_IP = 5;
+const resetCounts = new Map<string, number>();
+setInterval(() => resetCounts.clear(), RATE_WINDOW_MS).unref?.();
+
+function rateLimitReset(req: IncomingMessage): boolean {
+  const ip = clientIp(req);
+  const count = (resetCounts.get(ip) || 0) + 1;
+  resetCounts.set(ip, count);
+  return count > MAX_RESET_PER_IP;
+}
+
 function warnIfNoKey(): void {
   if (!process.env.OPENAI_API_KEY) {
     console.warn("\x1b[33m[warn] OPENAI_API_KEY not set — AI stages will fail on first call.\x1b[0m");
@@ -160,6 +173,20 @@ async function main(): Promise<void> {
   router.add("POST", "/api/v1/auth/login", v1Route(auth.login));
   router.add("POST", "/api/v1/auth/logout", v1Route(auth.logout));
   router.add("GET", "/api/v1/auth/me", v1Route(auth.me));
+
+  // forgot password (forgot-password): request a reset link, then set a new password with
+  // the token. Both PUBLIC (a logged-out user forgot their password) and origin-guarded
+  // like the other mutating routes. The request is rate-limited so it can't be used to
+  // flood a victim's inbox; it always answers a generic 200 (no account-existence leak).
+  router.add("POST", "/api/v1/auth/forgot-password", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    if (rateLimitReset(c.req)) throw rateLimited("Too many reset requests — try again in a minute.");
+    return auth.forgotPassword(c);
+  }));
+  router.add("POST", "/api/v1/auth/reset-password", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return auth.resetPassword(c);
+  }));
 
   // feedback — a tester's in-app note (Phase 5; feedback-inbox moved the store to the
   // feedback_notes table). Login required (any role, not admin); no external service.

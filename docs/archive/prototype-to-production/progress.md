@@ -9,6 +9,16 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **forgot-password P1 ✅ green-lit (Carl "A"), $0: email-based password reset (backend).** One shared login
+  means one reset flow covers managers, members AND admin. New `password_reset_tokens` table (`0014`) + a separate
+  `PasswordResetRepo`/`createPasswordResetService` (kept apart from register/login's AuthRepo so its test fake stays
+  untouched — same split as `AuthSessionRepo`). `POST /api/v1/auth/forgot-password` always returns a generic 200 (no
+  account-enumeration, mirrors login) and only a real active account gets an emailed link; `/reset-password` validates a
+  sha256-hashed, single-use, 1-hour token then sets the new bcrypt hash. Cloned the invitations flow throughout (token idiom,
+  `requestBaseUrl`, branded email). **Lesson:** *look before you overwrite* — the plan assumed email wasn't wired, but `.env`
+  already had a working verified sender; surfacing that (instead of overwriting) avoided clobbering a live config, and Carl
+  chose the seroapp.com domain from there. Proven end-to-end on the real dev DB + a real branded email to Carl's inbox from
+  notifications@seroapp.com. `npm run typecheck` clean, reset+notifications 27/27. Phase 2 (the UI) next.
 - **2026-07-11** — **transactional-email P3 ✅ — TRACK CLOSED (Carl "a"), $0: Sero can send email.** The admin now gets
   a "new member joined" alert when an invite is accepted — `notifyAdminOfNewMember` fired fire-and-forget from
   `acceptInvite()`; the shared admin-alert body was folded into one `adminAccountAlert` helper (signup + member reuse

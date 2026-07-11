@@ -313,6 +313,26 @@ export const authSessions = pgTable(
   (t) => [index("auth_sessions_org_id_idx").on(t.orgId), index("auth_sessions_user_id_idx").on(t.userId)],
 );
 
+/** Password reset (forgot-password). One row per reset request. The emailed link
+ *  carries an opaque `randomBytes(32)` token; only its sha256 hash is stored here —
+ *  never the raw token (same rule as invitations.token_hash). Single-use (`used_at`
+ *  set on redemption) and short-lived (1-hour expiry), so a leaked or stale link is
+ *  useless. No org_id: a reset targets one user regardless of org. */
+export const passwordResetTokens = pgTable(
+  "password_reset_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id),
+    tokenHash: text("token_hash").notNull().unique(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    usedAt: timestamp("used_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("password_reset_tokens_user_id_idx").on(t.userId)],
+);
+
 /** Tester feedback (feedback-inbox). One row per in-app note from the Send-feedback
  *  form, so the superadmin Feedback screen can read them across every company. Replaces
  *  the Phase-5 JSONL file (content/data/feedback/feedback.jsonl) as the store. `org_id` /

@@ -9,7 +9,7 @@
 
 import { eq } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { users, organizations, authSessions } from "../../../db/schema.ts";
+import { users, organizations, authSessions, passwordResetTokens } from "../../../db/schema.ts";
 
 /** A user as auth reads it — includes the password hash (login needs it); the
  *  service strips it before anything leaves the server (see PublicUser). */
@@ -139,5 +139,84 @@ export const pgAuthSessionRepo: AuthSessionRepo = {
   async delete(token) {
     const db = getDb();
     await db.delete(authSessions).where(eq(authSessions.token, token));
+  },
+};
+
+// --- Password reset (forgot-password) — the password_reset_tokens store plus the two
+// user touches a reset needs (look a user up by email, overwrite their password hash).
+// Kept as its own interface, like AuthSessionRepo above, so register/login's AuthRepo
+// (and its test fake) stay untouched. The raw token never reaches this layer: the
+// service hashes it (sha256) and only the hash is stored or queried.
+
+/** A user as the reset flow reads them — just what requestPasswordReset needs to decide
+ *  whether to mint a token (no hash: reset never verifies an old password). */
+export interface ResetUser {
+  id: string;
+  email: string;
+  deactivatedAt: Date | null;
+}
+
+/** One reset token row as the service sees it. */
+export interface ResetTokenRow {
+  id: string;
+  userId: string;
+  expiresAt: Date;
+  usedAt: Date | null;
+}
+
+export interface PasswordResetRepo {
+  /** The user with this (already-normalized) email, or null. */
+  findUserByEmail(email: string): Promise<ResetUser | null>;
+  /** Persist a new reset token (only its sha256 hash). */
+  createResetToken(input: { userId: string; tokenHash: string; expiresAt: Date }): Promise<void>;
+  /** The reset row behind a token hash, or null when unknown. Expiry/used are the
+   *  service's to judge, so it can give the same "invalid link" message for both. */
+  findByTokenHash(tokenHash: string): Promise<ResetTokenRow | null>;
+  /** Burn a token so it can't be reused. */
+  markUsed(id: string): Promise<void>;
+  /** Overwrite a user's password hash (the actual reset). */
+  updatePasswordHash(userId: string, passwordHash: string): Promise<void>;
+}
+
+export const pgPasswordResetRepo: PasswordResetRepo = {
+  async findUserByEmail(email) {
+    const db = getDb();
+    const rows = await db
+      .select({ id: users.id, email: users.email, deactivatedAt: users.deactivatedAt })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+    const u = rows[0];
+    return u ? { id: u.id, email: u.email, deactivatedAt: u.deactivatedAt } : null;
+  },
+  async createResetToken(input) {
+    const db = getDb();
+    await db.insert(passwordResetTokens).values({
+      userId: input.userId,
+      tokenHash: input.tokenHash,
+      expiresAt: input.expiresAt,
+    });
+  },
+  async findByTokenHash(tokenHash) {
+    const db = getDb();
+    const rows = await db
+      .select({
+        id: passwordResetTokens.id,
+        userId: passwordResetTokens.userId,
+        expiresAt: passwordResetTokens.expiresAt,
+        usedAt: passwordResetTokens.usedAt,
+      })
+      .from(passwordResetTokens)
+      .where(eq(passwordResetTokens.tokenHash, tokenHash))
+      .limit(1);
+    return rows[0] ?? null;
+  },
+  async markUsed(id) {
+    const db = getDb();
+    await db.update(passwordResetTokens).set({ usedAt: new Date() }).where(eq(passwordResetTokens.id, id));
+  },
+  async updatePasswordHash(userId, passwordHash) {
+    const db = getDb();
+    await db.update(users).set({ passwordHash, updatedAt: new Date() }).where(eq(users.id, userId));
   },
 };

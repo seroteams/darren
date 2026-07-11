@@ -7,8 +7,9 @@
 // hands the repo a one-way hash, login compares against that hash. It is never
 // stored, logged, or returned.
 
-import type { AuthRepo, AuthUser } from "./auth.repo.ts";
-import { badRequest, conflict, unauthenticated, forbidden } from "../../middleware/http-error.ts";
+import { createHash, randomBytes } from "node:crypto";
+import type { AuthRepo, AuthUser, PasswordResetRepo } from "./auth.repo.ts";
+import { badRequest, conflict, unauthenticated, forbidden, notFound } from "../../middleware/http-error.ts";
 
 /** Shortest password we accept. Plain minimum-length gate — strength rules are not
  *  in this phase. */
@@ -95,6 +96,67 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
         throw forbidden("This account has been deactivated. Contact your administrator.");
       }
       return toPublic(user);
+    },
+  };
+}
+
+// --- Password reset (forgot-password) ------------------------------------------------
+// A separate service (its own repo + no relation to register/login's AuthRepo), so the
+// register/login test fake stays untouched. The emailed link carries an opaque token;
+// only its sha256 hash is ever stored (mirrors the invitations flow). Token rules:
+// single-use, 1-hour expiry, and the SAME "invalid link" answer for unknown / used /
+// expired — a reset link is either live or it isn't, we don't explain which.
+
+/** How long a reset link is good for (1 hour) — short on purpose. */
+const RESET_TTL_MS = 60 * 60 * 1000;
+const RESET_INVALID = "That reset link isn't valid anymore — request a new one.";
+
+const sha256 = (s: string): string => createHash("sha256").update(s).digest("hex");
+
+/** What requestPasswordReset hands back when it mints a link. `token` is the RAW token —
+ *  it exists only here and in the email; storage only ever sees its hash. */
+export interface PasswordResetRequest {
+  email: string;
+  token: string;
+  expiresAt: Date;
+}
+
+export interface PasswordResetService {
+  /** Mint + store a reset token for a known, active account. Returns null for an unknown
+   *  or deactivated email (the controller still answers with the same generic 200, so
+   *  neither case leaks whether an account exists). */
+  requestPasswordReset(email: string): Promise<PasswordResetRequest | null>;
+  /** Redeem a token: validate it, set the new password, burn the token. Throws a
+   *  plain-words error for an invalid link or a too-short password. */
+  resetPassword(token: string, newPassword: string): Promise<void>;
+}
+
+export function createPasswordResetService(repo: PasswordResetRepo, hasher: PasswordHasher): PasswordResetService {
+  return {
+    async requestPasswordReset(emailRaw) {
+      const email = normalizeEmail(emailRaw);
+      if (!email) return null;
+      const user = await repo.findUserByEmail(email);
+      if (!user || user.deactivatedAt) return null; // unknown or switched off — silent no-op
+      const token = randomBytes(32).toString("hex");
+      const expiresAt = new Date(Date.now() + RESET_TTL_MS);
+      await repo.createResetToken({ userId: user.id, tokenHash: sha256(token), expiresAt });
+      return { email: user.email, token, expiresAt };
+    },
+
+    async resetPassword(token, newPassword) {
+      const raw = token ?? "";
+      const password = newPassword ?? "";
+      const row = raw ? await repo.findByTokenHash(sha256(raw)) : null;
+      // Unknown, already-used, or expired all read the same — the link just isn't live.
+      if (!row || row.usedAt || row.expiresAt.getTime() < Date.now()) throw notFound(RESET_INVALID);
+      // Validate the password AFTER the token, and BEFORE burning it: a too-short try
+      // leaves the link usable so they can pick a longer one.
+      if (password.length < MIN_PASSWORD_LENGTH) {
+        throw badRequest(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
+      }
+      await repo.updatePasswordHash(row.userId, await hasher.hash(password));
+      await repo.markUsed(row.id);
     },
   };
 }

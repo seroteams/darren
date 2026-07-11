@@ -122,3 +122,29 @@ export function notifyInviteeOfInvite(params: InviteEmailParams, send: Send = se
     text: `${inviterPlain} invited you to join ${orgPlain} on Sero. Accept your invite: ${params.joinUrl} (single-use, expires in 7 days).`,
   });
 }
+
+/** What the reset email needs — the recipient and their absolute, single-use link. */
+export interface PasswordResetEmailParams {
+  to: string;
+  resetUrl: string;
+}
+
+/** Email a user their password-reset link. Sent to the user themselves. Fire-and-forget
+ *  by default — the token is already saved and the request always answers 200, so a
+ *  failed email never blocks anything. */
+export function notifyPasswordReset(params: PasswordResetEmailParams, send: Send = sendEmailQuietly): void {
+  const url = esc(params.resetUrl);
+  const bodyHtml =
+    emailParagraph(
+      "We got a request to reset your Sero password. Click below to choose a new one. " +
+        "If this wasn't you, you can safely ignore this email — nothing changes.",
+    ) +
+    emailButton("Reset your password", url) +
+    emailFinePrint("This link is just for you and expires in 1 hour.");
+  send({
+    to: params.to,
+    subject: "Reset your Sero password",
+    html: renderSeroEmail({ eyebrow: "Password reset", heading: "Reset your password", bodyHtml }),
+    text: `Reset your Sero password: ${params.resetUrl} (single-use, expires in 1 hour). If you didn't ask for this, ignore this email.`,
+  });
+}

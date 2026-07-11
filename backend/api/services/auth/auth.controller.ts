@@ -3,16 +3,17 @@
 // to the pure service.
 
 import { randomBytes } from "node:crypto";
+import type { IncomingMessage } from "node:http";
 import bcrypt from "bcryptjs";
 import type { RequestContext } from "../../router.ts";
-import { createAuthService } from "./auth.service.ts";
+import { createAuthService, createPasswordResetService } from "./auth.service.ts";
 import type { PasswordHasher } from "./auth.service.ts";
-import { pgAuthRepo, pgAuthSessionRepo } from "./auth.repo.ts";
+import { pgAuthRepo, pgAuthSessionRepo, pgPasswordResetRepo } from "./auth.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAuth, isSuperadminIdentity } from "../../middleware/require-auth.ts";
 import { sessionCookie, clearedSessionCookie, readCookie, SESSION_COOKIE } from "../../middleware/cookies.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
-import { notifyAdminOfNewRegistration } from "../notifications/notifications.service.ts";
+import { notifyAdminOfNewRegistration, notifyPasswordReset } from "../notifications/notifications.service.ts";
 
 // bcrypt cost 10 — the standard default; one-way, salted per hash.
 const bcryptHasher: PasswordHasher = {
@@ -21,9 +22,22 @@ const bcryptHasher: PasswordHasher = {
 };
 
 const service = createAuthService(pgAuthRepo, bcryptHasher);
+const resetService = createPasswordResetService(pgPasswordResetRepo, bcryptHasher);
 
 // How long a login lasts before it expires (7 days).
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+
+// The public origin, so the emailed reset link is a full clickable URL. Prefer an
+// explicit APP_BASE_URL; otherwise derive it from the request (works local + live with
+// no config). Mirrors invites.controller.ts — kept local here to stay surgical.
+function requestBaseUrl(req: IncomingMessage): string {
+  const envBase = process.env.APP_BASE_URL?.trim().replace(/\/$/, "");
+  if (envBase) return envBase;
+  const fwdProto = String(req.headers["x-forwarded-proto"] ?? "").split(",")[0]!.trim();
+  const proto = fwdProto || ((req.socket as { encrypted?: boolean }).encrypted ? "https" : "http");
+  const host = String(req.headers["x-forwarded-host"] ?? req.headers.host ?? "").split(",")[0]!.trim();
+  return host ? `${proto}://${host}` : "";
+}
 
 // POST /api/v1/auth/register — { email, name, password } → 201 { user }
 export async function register(c: RequestContext): Promise<void> {
@@ -79,6 +93,30 @@ export async function me(c: RequestContext): Promise<void> {
     name: identity.name,
     isSuperadmin: isSuperadminIdentity(identity),
   });
+}
+
+// POST /api/v1/auth/forgot-password — { email } → 200 { ok: true }, ALWAYS. The answer is
+// the same generic success whether or not the email has an account (no account-existence
+// leak — same posture as login). Only a real, active account gets a reset link, emailed
+// fire-and-forget so the response never waits on, or fails because of, the email.
+export async function forgotPassword(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  const result = await resetService.requestPasswordReset(asString(body.email));
+  if (result) {
+    const base = requestBaseUrl(c.req);
+    const link = `/reset-password/${result.token}`;
+    notifyPasswordReset({ to: result.email, resetUrl: base ? `${base}${link}` : link });
+  }
+  c.json(200, { ok: true });
+}
+
+// POST /api/v1/auth/reset-password — { token, password } → 200 { ok: true }. Sets the new
+// password and burns the token; throws a plain-words error for an invalid link or a
+// too-short password. No auto-login — the app sends them to the login screen to prove it.
+export async function resetPassword(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  await resetService.resetPassword(asString(body.token), asString(body.password));
+  c.json(200, { ok: true });
 }
 
 // (Removed GET /api/v1/auth/me/runs — member-nav Phase 2 security. It was org-fenced

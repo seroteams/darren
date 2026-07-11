@@ -25,6 +25,21 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> **🔨 [forgot-password](docs/plans/doing/forgot-password/plan.md) — Phase 1 ✅ (Carl green-lit 2026-07-11 "A") + committed; Phase 2 (UI) building now. $0.**
+> Carl's ask: "forgot password for all, admin also." One shared login (`admin/src/stages/login.js`) → **one** reset flow covers
+> managers, members, AND admin — no separate admin path. Blueprint = the invitations flow (public, sha256-hashed, expiring,
+> single-use token, emailed).
+> **P1 ✅ backend** — `password_reset_tokens` table (`0014`; sha256 hash, single-use `used_at`, 1h expiry), `POST
+> /api/v1/auth/forgot-password` + `/reset-password` (origin-guarded, request rate-limited 5/min/IP, always-200 → no email
+> enumeration), branded reset email. **Proven end-to-end on the real dev DB** (mint → stored-hashed → reset → login with new
+> pw → reused token refused → dev pw restored) + a **real branded email delivered to carl@seroteams.com from
+> notifications@seroapp.com**. Offline: typecheck clean, 27/27. Sender decided **seroapp.com** — local `.env` switched to the
+> SeroApp-New Resend key; **live `render.yaml` untouched on purpose** (go-live also needs that key set in Render's dashboard).
+> **P2 🔨** — the "Forgot password?" link + request/reset screens (built once under `admin/src/stages/`, wired into both apps).
+> **▶ Your move:** nothing on P1. Two things are yours whenever: (1) to make reset emails deliver on the LIVE site, set the
+> seroapp.com key as `EMAIL_API_KEY` in the Render dashboard + point `render.yaml` `EMAIL_FROM` at seroapp.com; (2) Phase 2's
+> QA walk lands after I build it.
+
 > **✅ [transactional-email](docs/plans/done/transactional-email/plan.md) — TRACK CLOSED 2026-07-11: all 3 phases ✅ (Carl "a" ×3), $0. Sero can send email.**
 > Carl's ask: "send notifications/updates by email — and as admin, when someone registers I want to know." Provider =
 > **Resend** (native `fetch`, free tier). New `email-client.ts` (fire-and-forget send) + `notifications` service.
@@ -297,4 +312,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-11 (transactional-email TRACK CLOSED — all 3 phases ✅ "a": admin signup alert + real invite emails + admin new-member alert; Sero can send email. Earlier today: thread-follow P2 closed; validation-kit + universe-monitoring TRACKS CLOSED)
+- Last updated: 2026-07-11 (forgot-password P1 ✅ green-lit "A" + committed — backend reset flow: token table 0014, 2 endpoints, branded seroapp.com email, proven end-to-end on dev DB + real inbox email; P2 UI building now. Earlier today: transactional-email TRACK CLOSED)

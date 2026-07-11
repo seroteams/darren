@@ -1,6 +1,6 @@
 import { test, afterEach } from "node:test";
 import assert from "node:assert/strict";
-import { notifyAdminOfNewRegistration, notifyAdminOfNewMember, notifyInviteeOfInvite } from "./notifications.service.ts";
+import { notifyAdminOfNewRegistration, notifyAdminOfNewMember, notifyInviteeOfInvite, notifyPasswordReset } from "./notifications.service.ts";
 import type { EmailMessage } from "../../../engine/email-client.ts";
 
 const realList = process.env.SUPERADMIN_EMAILS;
@@ -87,4 +87,16 @@ test("invite email falls back gracefully when inviter/org are unknown", () => {
   // Still a usable email — no "null" leaking into the copy.
   assert.doesNotMatch(sent[0]!.html, /null/);
   assert.match(sent[0]!.html, /https:\/\/sero\.app\/join\/x/);
+});
+
+test("reset email goes to the user with the reset link and a 1-hour notice", () => {
+  const sent: EmailMessage[] = [];
+  notifyPasswordReset({ to: "amy@acme.com", resetUrl: "https://sero.app/reset-password/abc123" }, (m) => sent.push(m));
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0]!.to, "amy@acme.com");
+  assert.match(sent[0]!.subject, /reset your sero password/i);
+  assert.match(sent[0]!.html, /https:\/\/sero\.app\/reset-password\/abc123/);
+  assert.match(sent[0]!.html, /1 hour/i);
+  // The raw link is also in the plain-text fallback, for clients that strip HTML.
+  assert.match(sent[0]!.text ?? "", /https:\/\/sero\.app\/reset-password\/abc123/);
 });
