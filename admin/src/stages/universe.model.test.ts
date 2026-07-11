@@ -488,6 +488,11 @@ test("buildUniverse: runs carry their cost; a person totals their runs' costs", 
   const r1 = nodes.find((n) => n.id === "run:r1")!;
   assert.equal(r1.costUsd, 0.38);
   assert.equal(r1.costCalls, 9);
+  // A pre-tracking run (no cost object at all) must resolve to null, never throw
+  // reading .usd off a null cost — the crash the /universe error log showed.
+  const r3 = nodes.find((n) => n.id === "run:r3")!;
+  assert.equal(r3.costUsd, null);
+  assert.equal(r3.costCalls, null);
   const maya = nodes.find((n) => n.id === "person:maya")!;
   assert.ok(Math.abs((maya.totalCostUsd ?? 0) - 0.53) < 1e-9, "sums only the runs that have a cost");
   const ola = nodes.find((n) => n.id === "person:ola")!;

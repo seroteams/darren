@@ -44,6 +44,14 @@ export interface PeopleRepo {
   listOrgUsers(orgId: string): Promise<{ id: string; name: string; email: string }[]>;
 }
 
+// people.org_id / manager_id / user_id are uuid columns. A synthetic dev identity
+// (DEV_AUTOLOGIN) carries non-uuid ids like "dev-org" / "dev-user"; comparing a uuid
+// column to that literal throws "invalid input syntax for type uuid" — a 500 on every
+// read. A non-uuid caller provably owns no uuid-keyed rows, so short-circuit to empty
+// before touching the DB (same guard the people-aliases repo uses).
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const isUuid = (v: string): boolean => UUID_RE.test(v);
+
 const COLUMNS = {
   id: people.id,
   orgId: people.orgId,
@@ -58,6 +66,7 @@ const COLUMNS = {
 
 export const pgPeopleRepo: PeopleRepo = {
   async listForManager(orgId, managerId) {
+    if (!isUuid(orgId) || !isUuid(managerId)) return [];
     const db = getDb();
     return db
       .select(COLUMNS)
@@ -65,6 +74,7 @@ export const pgPeopleRepo: PeopleRepo = {
       .where(and(eq(people.orgId, orgId), eq(people.managerId, managerId)));
   },
   async findForManager(id, orgId, managerId) {
+    if (!isUuid(id) || !isUuid(orgId) || !isUuid(managerId)) return null;
     const db = getDb();
     const rows = await db
       .select(COLUMNS)
@@ -95,6 +105,7 @@ export const pgPeopleRepo: PeopleRepo = {
       .where(eq(people.id, id));
   },
   async findByLinkedUser(userId, orgId) {
+    if (!isUuid(userId) || !isUuid(orgId)) return [];
     const db = getDb();
     return db
       .select(COLUMNS)
@@ -102,6 +113,7 @@ export const pgPeopleRepo: PeopleRepo = {
       .where(and(eq(people.userId, userId), eq(people.orgId, orgId)));
   },
   async listOrgUsers(orgId) {
+    if (!isUuid(orgId)) return [];
     const db = getDb();
     return db
       .select({ id: users.id, name: users.name, email: users.email })
