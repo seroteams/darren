@@ -197,6 +197,18 @@ Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits 
 
 ## 2. Next — after Now is green
 
+### ⏸ Monthly 1:1 guided runner — PLANNED + PARKED AT GATE 1 (2026-07-11)
+
+**The next big product build, fully planned and deliberately parked** (Carl's call: "plan now, build at
+Gate 1" — the validation-stage rule holds). A new stage-based meeting type alongside the interview flow:
+the manager walks Prep → Catch-up → Requests → Rating (six blocks 1–10) → Feedback → Goals → Summary →
+private Review, with promises/requests/goals that persist per person and resurface next meeting.
+19 product decisions locked with Carl; architecture verified against the code (own `guided_sessions`
+table — zero interview-code changes); 6 Darren-Method phases ready. Internal-first (admin role only),
+so it can't contaminate the corridor metric. **Un-park when the corridor test passes:** move
+[docs/plans/future/monthly-one-on-one/](docs/plans/future/monthly-one-on-one/plan.md) → `doing/`, baseline,
+Phase 1. ⏳ 3 old-Sero reference images still pending from Carl — fold into the phase files on arrival.
+
 ### Code-health tracks (from the 2026-07-09 CTO deep audit)
 
 The full four-corner audit (engine · api+db · web apps · scripts) found the codebase **healthy** —
