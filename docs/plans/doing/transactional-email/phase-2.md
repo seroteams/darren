@@ -1,6 +1,19 @@
 # Phase 2 — Real invite email to the invitee
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT
+
+## ✅ GREEN-LIT 2026-07-11 — Carl "a" (offline proof mine; live delivery on Carl's confirmation)
+Green-lit on A ("tested, good → commit + Phase 3"). Offline proof stood behind by me (`npm test` 122/122,
+typecheck clean); the invite email actually arriving is Carl's own confirmation, flagged as such.
+
+## Built (2026-07-11)
+Code landed + proven offline (no paid runs). Files:
+- `backend/api/services/notifications/notifications.service.ts` (+ `.test.ts`) — added `notifyInviteeOfInvite` (invitee-facing, names inviter + org, clean fallback when either is unknown, HTML-escaped).
+- `backend/api/services/invites/invites.controller.ts` — after minting the link, fire-and-forget email to the invitee; builds an **absolute** join URL from `APP_BASE_URL` or the request origin; reuses the tested `preview()` for inviter/org names; the link is still returned so the manager can resend.
+- `backend/api/services/invites/invites.service.ts` — updated the stale "no email infra in the alpha" header comment.
+- `.env.example` + `render.yaml` — added `APP_BASE_URL` (public origin for the link).
+
+Proof: `npm test` 122/122 (was 120, +2 new), `npm run typecheck` clean. Live delivery is Carl's QA walk (needs Resend signup).
 
 ## Goal
 When a manager invites a roster person, Sero emails the join link straight to that person — instead of handing the link back to the manager to copy-paste.

@@ -25,16 +25,19 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> **🔨 [transactional-email](docs/plans/doing/transactional-email/plan.md) — ACTIVE. Sero can now send email. P1 ✅, P2 building.**
+> **🔨 [transactional-email](docs/plans/doing/transactional-email/plan.md) — ACTIVE. Sero can now send email. P1 ✅ + P2 ✅, P3 building.**
 > Carl's ask: "send notifications/updates by email — and as admin, when someone registers I want to know." Provider =
 > **Resend** (native `fetch`, free tier). New `email-client.ts` (fire-and-forget send) + `notifications` service.
-> **P1 ✅ green-lit 2026-07-11 (Carl "a"), committed, $0** — admin gets an email on every new signup, wired as one
-> non-awaited line in `auth.controller.ts` `register()` (email can never break signup). Offline proof 120/120 +
-> typecheck clean (mine); the live email landing is Carl's confirmation, flagged honestly. **P2 (real invite email
-> to the invitee) building now.** P3 (admin "new member joined" alert) queued. Full email catalogue + parked
-> engagement/nudge emails (they'd contaminate the unprompted-return metric) in the plan folder.
-> **▶ Your move:** to run P1's live test — sign up at resend.com, verify `seroteams.com` (or use its sandbox sender),
-> drop `EMAIL_API_KEY` into `.env` + the Render dashboard, then register a throwaway account and watch your inbox.
+> **P1 ✅ (`d8c44a66`)** — admin gets an email on every new signup, wired as one non-awaited line in
+> `auth.controller.ts` `register()` (email can never break signup). **P2 ✅ green-lit 2026-07-11 (Carl "a")** — the
+> invite flow now emails the join link straight to the invitee (`notifyInviteeOfInvite`, absolute URL via
+> `APP_BASE_URL`/request origin; link still returned so the manager can resend). **P3 (admin "new member joined"
+> alert) building now.** Offline proof through P2: 122/122 + typecheck clean (mine); live delivery is Carl's
+> confirmation, flagged honestly. Parked engagement/nudge emails (they'd contaminate the unprompted-return metric)
+> listed in the plan folder.
+> **▶ Your move:** to run the live tests — sign up at resend.com, verify `seroteams.com` (or use its sandbox sender),
+> drop `EMAIL_API_KEY` into `.env` + the Render dashboard, then register a throwaway account (P1) and invite a real
+> address (P2) and watch the inboxes.
 
 > **✅ [validation-kit](docs/plans/done/validation-kit/plan.md) — TRACK CLOSED 2026-07-11: all 6 phases ✅, $0 total. The corridor-test kit is fully built.**
 > We're formally at **VALIDATION STAGE** (YC-committee audit 2026-07-09: product 8/10, business 3/10 — zero external
@@ -295,4 +298,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-11 (transactional-email P1 ✅ green-lit "a" + committed — Sero can send email; admin alert on new signup. P2 invite email building. Earlier today: thread-follow P2 closed; validation-kit + universe-monitoring TRACKS CLOSED)
+- Last updated: 2026-07-11 (transactional-email P1 ✅ + P2 ✅ green-lit "a" + committed — admin signup alert + real invite emails. P3 join-alert building. Earlier today: thread-follow P2 closed; validation-kit + universe-monitoring TRACKS CLOSED)

@@ -9,6 +9,14 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **transactional-email P2 ✅ green-lit (Carl "a"), $0: invited members get their join link by email.**
+  The invite flow minted a one-time `/join` link and handed it back to the manager to copy-paste ("no email infra in
+  the alpha"). Now `createInvite` also fire-and-forgets an email to the invitee — new `notifyInviteeOfInvite` composer
+  (names inviter + org, clean fallback, escaped) + an absolute join URL built from `APP_BASE_URL` or the request
+  origin. Reuses the already-tested `preview()` for the names; the link is still returned so the manager can resend;
+  a failed email never blocks the invite. **Lesson:** an emailed link must be an ABSOLUTE URL — deriving base from the
+  request origin (with an `APP_BASE_URL` override for the proxy) keeps it config-free local and correct on Render.
+  `npm test` 122/122, typecheck clean. Phase 3 (admin "new member joined" alert) next.
 - **2026-07-11** — **transactional-email P1 ✅ green-lit (Carl "a"), $0: Sero can send email.** New `email-client.ts`
   (Resend via native `fetch`, mirroring `ai-client.ts`'s timeout+retry; `sendEmail` throws, `sendEmailQuietly` is
   fire-and-forget) + a `notifications` service that emails the `SUPERADMIN_EMAILS` admin on every new signup. Wired

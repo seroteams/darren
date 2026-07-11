@@ -33,13 +33,13 @@ welcome/onboarding drip · "1:1 coming up" reminders · "you haven't run one in 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Admin "someone registered" alert | Email helper + admin gets a signup email | ✅ |
-| 2 | Real invite email | Invited member receives the join link by email | ⬜ |
+| 2 | Real invite email | Invited member receives the join link by email | ✅ |
 | 3 | Admin "new member joined" alert | Admin gets an email when an invite is accepted | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ **green-lit 2026-07-11 (Carl "a")** + committed. Offline proof 120/120 + typecheck clean (mine); live-send on Carl's confirmation. **Phase 2 (invite email) next / building.**
+Phases 1 ✅ (`d8c44a66`) + 2 ✅ green-lit 2026-07-11 (Carl "a") + committed. **Phase 3 (admin "new member joined" alert) 🔨 next / building.** Offline proof through P2: 122/122 + typecheck clean; live delivery on Carl's confirmation.
 
 ## Parked
 - Password-reset email — no reset flow exists yet; revisit when it does.

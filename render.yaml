@@ -35,6 +35,9 @@ services:
       # domain (seroteams.com once its DNS is set up).
       - key: EMAIL_FROM
         value: Sero <notifications@seroteams.com>
+      # Public origin for clickable /join links in invite emails.
+      - key: APP_BASE_URL
+        value: https://sero-obwq.onrender.com
       # Secrets — Render prompts for each once, in the dashboard. Never in git.
       # ⚠️ DATABASE_URL must be the "Sero Live" Neon URL (the LIVE_DATABASE_URL
       #    value from your .env), NOT your local one. See RENDER_SETUP.md.
