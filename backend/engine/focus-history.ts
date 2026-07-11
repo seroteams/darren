@@ -34,19 +34,25 @@ export interface FocusHistoryQuery {
   userId?: string | null;
   personId?: string | null;
   limit?: number;
+  // The session being generated for — excluded so a regenerate never sees its
+  // own first attempt as "an earlier 1:1".
+  excludeId?: string | null;
 }
 
 const DEFAULT_LIMIT = 3;
 
-// The fence: finished run, same roster person, same manager. personId is
-// required on BOTH sides; userId delegates to the engine's own member wall.
+// The fence: same roster person, same manager. personId is required on BOTH
+// sides; userId delegates to the engine's own member wall. Unfinished preps
+// count on purpose (Carl's call 2026-07-11): the freshness goal is "don't
+// re-suggest the same agenda", and the agenda was suggested whether or not
+// the run reached a briefing. Runs with no focus output are dropped by the
+// mapper, not here.
 export function historyRunMatches(
   state: unknown,
   { userId, personId }: { userId?: string | null; personId?: string | null }
 ): boolean {
   if (!personId) return false;
   const s = asRecord(state);
-  if (!s.briefing) return false;
   if (asString(s.personId) !== personId) return false;
   return runOwnedByUser(state, userId);
 }
@@ -107,13 +113,13 @@ export function renderFocusHistoryBlock(sessions: FocusHistorySession[], meeting
 }
 
 // File-store read: walk this company's runs, apply the fence, newest first.
-export function fileFocusHistory({ orgId, userId, personId, limit = DEFAULT_LIMIT }: FocusHistoryQuery): FocusHistorySession[] {
+export function fileFocusHistory({ orgId, userId, personId, limit = DEFAULT_LIMIT, excludeId }: FocusHistoryQuery): FocusHistorySession[] {
   return walkRuns(orgId)
-    .filter((r) => historyRunMatches(r.state, { userId, personId }))
+    .filter((r) => r.id !== excludeId && historyRunMatches(r.state, { userId, personId }))
     .sort((a, b) => (typeof b.state.lastSeenAt === "number" ? b.state.lastSeenAt : 0) - (typeof a.state.lastSeenAt === "number" ? a.state.lastSeenAt : 0))
-    .slice(0, limit)
     .map((r) => historySessionFromState(r.state))
-    .filter((s): s is FocusHistorySession => s !== null);
+    .filter((s): s is FocusHistorySession => s !== null)
+    .slice(0, limit); // slice AFTER the mapper so focus-less preps never eat a slot
 }
 
 // Store dispatcher (same seam as sessionsRepo). Lazy-imports the pg twin so

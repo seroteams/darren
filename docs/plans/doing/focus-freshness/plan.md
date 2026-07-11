@@ -13,7 +13,8 @@
 ## Resolved before we start
 - **Person key = `personId`** (roster join, stamped on web sessions). Runs without a personId get no history — honest, no name-matching guesses.
 - **Fence = same org + same manager (`userId`).** Another manager's prep angles for the same person never leak into this manager's prompt.
-- **History source:** last 3 finished runs' focus output — `01-focus-points/response.json` in the run dir (file store) and the artifact-row twin in `backend/db/runs-store.ts`. Both stores need the read (prod is Postgres).
+- **History = any prep where focus points were suggested, finished or not** (Carl picked A, 2026-07-11 — testing showed his real runs rarely reach a briefing, and the freshness goal is "don't re-suggest the same agenda"). The current session excludes itself so a regenerate never sees its own first attempt. ~~Originally: finished runs only.~~
+- **History source:** last 3 qualifying runs' focus output — `01-focus-points/response.json` in the run dir (file store) and the artifact-row twin in `backend/db/runs-store.ts`. Both stores need the read (prod is Postgres).
 - **Relational filter applies to history too:** when the new session is bi-weekly / feels-off, competency-category entries from past (evaluative) runs are dropped from the history block — same rule as `filterForArc` in role-profile.ts. The `FOCUS_ARC_LEAK` gate stays as backstop.
 - **Prompt seam:** new `{{FOCUS_HISTORY_BLOCK}}` placeholder in `content/prompts/generate-focus-points.md`, filled in `buildMessages` (backend/engine/generate.ts). Empty history → block renders as "(first session with this person)" so the template never has a dangling placeholder.
 - **Privacy:** past focus ids/labels are structured events already in the system — allowed evidence under the no-inference ruling (EVIDENCE_ANCHOR). No manager note text from past runs rides along, only ids + labels + when + meeting type.

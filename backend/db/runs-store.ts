@@ -413,16 +413,20 @@ export async function pgFocusHistory({
   userId,
   personId,
   limit = 3,
+  excludeId,
 }: {
   orgId?: string | null;
   userId?: string | null;
   personId?: string | null;
   limit?: number;
+  excludeId?: string | null;
 }): Promise<FocusHistorySession[]> {
   if (!userId || !personId) return [];
+  // No `finished` narrow on purpose: unfinished preps count as history
+  // (Carl's call 2026-07-11 — the agenda was suggested either way), and the
+  // denormalized flag proved stale on real rows. The JS wall still fences.
   const rows = fenceOrgRows(
     await rowsWhere([
-      eq(sessionsTable.finished, true),
       sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
       sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
       sqlSafeId(personId) ? eq(sessionsTable.personId, sqlSafeId(personId)!) : undefined,
@@ -430,10 +434,10 @@ export async function pgFocusHistory({
     orgId,
   );
   return rows
-    .filter((r) => historyRunMatches(r.state, { userId, personId }))
-    .slice(0, limit)
+    .filter((r) => r.id !== excludeId && historyRunMatches(r.state, { userId, personId }))
     .map((r) => historySessionFromState(r.state))
-    .filter((s): s is FocusHistorySession => s !== null);
+    .filter((s): s is FocusHistorySession => s !== null)
+    .slice(0, limit);
 }
 
 export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null; createdAt: number; lastSeenAt: number; stars: number | null }[]> {

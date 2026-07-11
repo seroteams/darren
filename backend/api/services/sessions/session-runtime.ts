@@ -28,7 +28,7 @@ const prewarm: Prewarm = (session, ctx) => {
       console.warn(`[prewarm] role profile failed for ${session.id} (continuing):`, e?.message ?? e);
       return null;
     })
-    .then(() => focusHistoryFor({ orgId: session.orgId, userId: session.userId, personId: session.personId }))
+    .then(() => focusHistoryFor({ orgId: session.orgId, userId: session.userId, personId: session.personId, excludeId: session.id }))
     .then((focusHistory) => generateFocusPoints({ ...ctx, focusHistory }, { session: { id: session.id, dir: session.dir } }))
     .then((result) => {
       session.focusPointsResult = result;

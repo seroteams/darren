@@ -260,7 +260,7 @@ Note for the generator: the negativity is named in `reason` fields as an underly
 {{MANAGER_NOTES}}
 ```
 
-**Focus points covered in earlier 1:1s with {{NAME}} (most recent first):**
+**Focus points already suggested in earlier 1:1 preps for {{NAME}} (most recent first):**
 
 {{FOCUS_HISTORY_BLOCK}}
 

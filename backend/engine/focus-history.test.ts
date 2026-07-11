@@ -34,8 +34,12 @@ function finishedState(overrides: Record<string, unknown> = {}): Record<string, 
 
 // --- historyRunMatches: the fence ------------------------------------------
 
-test("matches a finished run owned by the same manager for the same person", () => {
+test("matches a run owned by the same manager for the same person", () => {
   assert.equal(historyRunMatches(finishedState(), { userId: OWNER, personId: PERSON }), true);
+});
+
+test("an unfinished prep counts too — the agenda was suggested either way", () => {
+  assert.equal(historyRunMatches(finishedState({ briefing: null }), { userId: OWNER, personId: PERSON }), true);
 });
 
 test("never matches another manager's run for the same person", () => {
@@ -47,8 +51,7 @@ test("never matches without a personId (no name-guessing)", () => {
   assert.equal(historyRunMatches(finishedState({ personId: null }), { userId: OWNER, personId: PERSON }), false);
 });
 
-test("never matches an unfinished run or a missing userId", () => {
-  assert.equal(historyRunMatches(finishedState({ briefing: null }), { userId: OWNER, personId: PERSON }), false);
+test("never matches with a missing userId", () => {
   assert.equal(historyRunMatches(finishedState(), { userId: null, personId: PERSON }), false);
 });
 

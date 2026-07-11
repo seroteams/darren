@@ -57,7 +57,7 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
       generateFocusPoints(
         {
           ...session.ctx,
-          focusHistory: await focusHistoryFor({ orgId: session.orgId, userId: session.userId, personId: session.personId }),
+          focusHistory: await focusHistoryFor({ orgId: session.orgId, userId: session.userId, personId: session.personId, excludeId: session.id }),
         },
         { session: { id: session.id, dir: session.dir } }
       ),

@@ -28,7 +28,7 @@ test("prompt for a repeat person carries the history block", () => {
     notes: "all fine",
     focusHistory: HISTORY,
   });
-  assert.match(prompt, /earlier 1:1s with Priya/);
+  assert.match(prompt, /earlier 1:1 preps for Priya/);
   assert.match(prompt, /Workload & capacity/);
   assert.doesNotMatch(prompt, /\{\{FOCUS_HISTORY_BLOCK\}\}/);
 });
