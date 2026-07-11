@@ -32,6 +32,9 @@ const prewarm: Prewarm = (session, ctx) => {
     .then((focusHistory) => generateFocusPoints({ ...ctx, focusHistory }, { session: { id: session.id, dir: session.dir } }))
     .then((result) => {
       session.focusPointsResult = result;
+      // Persist immediately: suggested topics count as focus history (Carl's
+      // call 2026-07-11) even when the prep is abandoned right here.
+      sessionsRepo.persist(session);
     })
     .catch((e) => {
       console.warn(`[prewarm] focus points failed for ${session.id} (stage will retry live):`, e?.message ?? e);

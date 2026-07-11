@@ -52,7 +52,12 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
   await runStage(c, session, "focus-points", {
     thinkingLabel: "Choosing focus points",
     getCached: () => session.focusPointsResult,
-    setCached: (r) => { session.focusPointsResult = r; },
+    setCached: (r) => {
+      session.focusPointsResult = r;
+      // Persist immediately — suggested topics count as focus history even if
+      // the manager stops at the focus screen (Carl's call 2026-07-11).
+      service.persist(session);
+    },
     produce: async () =>
       generateFocusPoints(
         {
