@@ -91,6 +91,9 @@ async function renderStage(nextStage) {
   const node = document.createElement("section");
   node.className = "stage stage-enter";
   root.appendChild(node);
+  // Every screen starts at the top — the previous screen's scroll position was
+  // carrying over, so the new screen opened mid-page (phone walk 2026-07-11).
+  window.scrollTo(0, 0);
   requestAnimationFrame(() => node.classList.add("is-in"));
   current = { stage: nextStage, mod, node };
   if (devBadge) devBadge.render(nextStage);
