@@ -9,6 +9,28 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **universe-monitoring P3 ✅ (walk waived) — cost per run lands and the TRACK CLOSES (5 phases, $0).**
+  A shared pure `costFromState()` puts real model spend on both stores' finished feeds; the Universe's run
+  panel says "Cost to run · $0.38 (9 model calls)", people total their priced runs, and pre-tracking runs
+  honestly show nothing. **Two lessons:** ① when the long-running dev API predates a feed change, spin up a
+  FRESH API + web pair on new ports and prove the feed against real data (19/25 runs priced, 4 rated) instead
+  of waiving verification along with the walk — the walk is Carl's, the proof is ours. ② the frontend's local
+  `asRecord` returns null while the backend's returns {} — a red test caught the crash before it shipped;
+  helper twins with different null behavior are worth a glance whenever code hops the boundary.
+- **2026-07-11** — **validation-kit P5 ✅ — one vocabulary, phone-fit — and the TRACK CLOSES (all 6 phases).**
+  Two audits fanned out in parallel (copy consistency + phone-width) mapped the whole customer journey before a
+  single edit. Copy sweep to one set of words (1:1 · prep brief · briefing · notes): welcome "one-to-one"→"1:1",
+  the login hero's hype ("your 1:1s are broken") → the calm Welcome voice, the briefing empty-state's engine
+  jargon ("session/evaluation/run") → plain 1:1 with its two exclamation marks removed, UK spelling, and the
+  input recap settled on "Your notes". Phone side was near-clean (the customer surface already had a 5-phase
+  mobile pass) — only real fix was the session-menu buttons under the 40px tap floor. Glossary written to the
+  plan folder as the standing reference. $0, 116/116. **Lessons:** ① a broad two-dimension sweep is a clean
+  parallel-agent job — two read-only audits returned file:line findings, I applied the surgical fixes and kept
+  the judgment calls (login rewrite) flagged. ② the preview pane renders at a fixed wide viewport, so a true
+  ~380px media-query walk can't be machine-done here — verify copy/CSS via the served bundle + CSSOM and hand
+  the real-phone read back honestly as the owner's scenario, don't fake it. ③ closing into a busy shared
+  checkout: STATUS.md + this log carried a parallel session's uncommitted edits, so the phase commit stayed
+  path-scoped to validation-kit's own files and left the shared trackers for their owner (safe-commit).
 - **2026-07-11** — **universe-monitoring P2 ✅ (walk waived) — the map now shouts only about problems.**
   Health signals: a live session untouched 30+ minutes goes STILL and warn-red (motion means alive; color not
   motion, so reduced-motion safe) with a plain-words Health row; QA-flagged runs wear amber/red rings +

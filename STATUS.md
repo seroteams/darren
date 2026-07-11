@@ -23,7 +23,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> **🔨 [validation-kit](docs/plans/doing/validation-kit/plan.md) — the build that proves managers come back. P1–P4 ✅ · P5 next.**
+> **✅ [validation-kit](docs/plans/done/validation-kit/plan.md) — TRACK CLOSED 2026-07-11: all 6 phases ✅, $0 total. The corridor-test kit is fully built.**
 > We're formally at **VALIDATION STAGE** (YC-committee audit 2026-07-09: product 8/10, business 3/10 — zero external
 > users). This track builds the corridor-test kit: **P1 ✅** to-do page as live checklist · **P2 ✅** return-signal
 > in User management (first run, gap days, mint "came back" badge, internal accounts labelled) · **P3 ✅** one-tap
@@ -35,30 +35,28 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > first-run guidance on intake (zero-run managers never see Home) — orientation card on step 1 (who it's with →
 > your notes → your briefing), an honest notes example on the notes step, Home empty-state upgraded to match;
 > gated on zero runs so a veteran sees none of it. New pure copy module `intake-firstrun.ts` + contract test.
-> $0, 116/116, both gate branches proven live on the isolated pair. **P5** phone + copy pass. No nudge features
-> anywhere (pass bar = *unprompted* return).
-> **▶ Your move:** say "build validation-kit Phase 5" (phone + copy pass) — the last phase in the track.
-> Separately, yours alone: name the 3 corridor managers + flip Render to the paid tier. Still open on P4: the
-> subjective stranger read + the two-real-accounts comparison, whenever you want to eyeball them.
+> $0, 116/116, both gate branches proven live on the isolated pair. **P5 ✅ closed 2026-07-11 (sign-off
+> delegated — Carl: "keep going if confident, good night"):** copy sweep to one vocabulary (1:1 / prep brief /
+> briefing / notes; glossary in the folder) across welcome, login (hype hero → calm voice), briefing empty-state,
+> focus-points, runs, preparation — plus two phone-fit fixes (session menu 40px tap target; badge font-floor).
+> 116/116, $0, verified live in the bundle. No nudge features anywhere (pass bar = *unprompted* return).
+> **▶ Your move:** nothing on the build — track closed, folder in done/. Whenever you like, both need your eyes
+> not code: the real-phone run (P5 scenario 1) + the two-account first-run comparison (P4). Separately, yours
+> alone: name the 3 corridor managers + flip Render to the paid tier — then the corridor test can start.
 
-> **🔨 [universe-monitoring](docs/plans/doing/universe-monitoring/plan.md) — the Universe map becomes a monitoring tool. P1 ✅ + P1b ✅ + P2 ✅ · P3 (cost per run) last.**
-> Read-only overlays + a readability pass, all $0 (no OpenAI calls anywhere in the track).
-> **P2 ✅ closed 2026-07-11 (walk WAIVED on Carl's "a" — artifact check found his dev API predated the build):**
-> health signals — a session untouched 30+ min goes STILL + red ("Health · Stalled — nothing has happened for
-> about 3 hours" seen live; counts read "12 live sessions (12 stalled)"), QA-flagged runs wear amber ("fix") /
-> red ("block") rings with a plain-words "QA check" row, and the finished feed now carries the bare star rating
-> from BOTH stores (note can't leak — test-locked; pg-parity proof passed). 116/116. ⚠️ Honest residual: the
-> Rating row on screen awaits his next API restart + the first starred run.
-> **P1 ✅ green-lit 2026-07-10 (`b4398f23`):** return-visit glow — person planets burn bright when their manager
-> ran a 1:1 recently and fade (never vanish) on a 7-day half-life; panel gains "Last 1:1 · 3 days ago". The
-> Gate-1 signal (are managers coming back) visible at a glance. Test-first, 114/114.
-> **P1b ✅ green-lit 2026-07-11 (Carl: "it's very busy and I don't really get it" → before/after walk):** map
-> decluttered — session labels calmed, label collision-skip, cross-link lines only on hover/select/focus, quiet
-> kinds dimmed, pulses capped, HUD explains the picture in one sentence — and every panel now earns its click
-> (Sero: live tallies · stage: machinery + sessions sitting there · type: "Used in N 1:1s" · role words: linked
-> people). Test-first (4 new), suite 115/115, panels verified live.
-> **▶ Your move:** say "build universe-monitoring P3" (cost per run — the last phase) — another day, fresh
-> session. When you next restart your dev API: rate any run and check its moon shows "Rating · ★★★★☆".
+> **✅ [universe-monitoring](docs/plans/done/universe-monitoring/plan.md) — TRACK CLOSED 2026-07-11: all 5 phases ✅, $0 total. The Universe map is now a monitoring tool.**
+> Carl's ask ("make the Universe really useful" → "it's very busy and I don't really get it") delivered end-to-end:
+> **P1** (`b4398f23`) return-visit glow — person planets brighten on a 7-day half-life, "Last 1:1" panel row (the
+> Gate-1 are-they-coming-back signal at a glance) · **P1b** (`d7f9d99f`) declutter + richer panels — labels stop
+> colliding, cross-links only on hover/focus, quiet kinds dimmed, HUD tells the story, every panel earns its click ·
+> **P2** (`ed947825`) health signals — stalled sessions go still + red ("12 live sessions (12 stalled)" seen live),
+> QA-verdict rings, star ratings revived on the feed (note test-locked out) · **P3** (`f5c3e341`) cost per run —
+> "Cost to run · $0.38 (9 model calls)" + person totals; nulls for pre-tracking runs, never a fake $0.00.
+> All test-first, suite 116/116 + pg-parity throughout. P2+P3 walks WAIVED on Carl's rapid "a"s (his dev API
+> predated the builds — artifact-checked both times; P3 proven live on a fresh API instead: 19/25 runs priced,
+> 4 rated). Folder → [done/](docs/plans/done/universe-monitoring/plan.md).
+> **▶ Your move:** restart your dev API, open the Universe, and enjoy — ratings + costs appear on your screen
+> from that moment. Track closed.
 
 > **✅ [engine-hardening](docs/plans/done/engine-hardening/plan.md) — TRACK CLOSED 2026-07-10: all 3 phases green-lit in one sitting, $0 total. Robustness wins mined from the old-Sero RUNNER.md — invisible to managers, validation metric untouched.**
 > From Carl's review of RUNNER.md (old Sero): three engine-hardening ideas the current engine lacked. All offline/unit-testable — **$0, no paid runs.**
@@ -282,4 +280,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-11 (validation-kit P4 ✅ — first-run guidance on intake, $0, 116/116. Also today: universe-monitoring P1b ✅ — map decluttered + panels enriched. Yesterday: validation-kit P1–P3b ✅; universe-monitoring P1 ✅; engine-hardening TRACK CLOSED)
+- Last updated: 2026-07-11 (🎉 TWO TRACKS CLOSED today — validation-kit (all 6 phases, corridor-test kit built) AND universe-monitoring (all 5 phases, the Universe is a monitoring tool: glow · declutter · health · cost). Both $0, 116/116. Earlier: engine-hardening closed 07-10)
