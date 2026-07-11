@@ -3,6 +3,8 @@
 **Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-11
 
 ## ✅ GREEN-LIT 2026-07-11
+**Residual cleared 2026-07-11:** Carl ran the real-phone P5 walk on the live site (sero-obwq.onrender.com, after the release) and confirmed it — "a done". The one thing that couldn't be machine-verified (true phone width) is now owner-walked and passed.
+
 Carl delegated the sign-off ("if you feel confident please keep going until this work is done — good night"). Closed with honest residuals recorded: the true ~380px phone walk and the live mid-flow screens are his to eyeball (the preview pane can't emulate phone width; mid-flow needs a paid run). Everything machine-verifiable is done and $0 — 116/116 tests, typecheck clean, every copy change confirmed live in the running bundle, both CSS rules confirmed via the CSSOM. This is the last phase; the whole validation-kit track is complete and moved to `done/`.
 
 ## Goal
