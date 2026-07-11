@@ -23,12 +23,12 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | History into the prompt | Engine read (both stores) + `{{FOCUS_HISTORY_BLOCK}}` + freshness rules in the prompt, offline-proven | ✅ |
-| 2 | Live proof | Same-person repeat runs show fresh lists; signal-re-raise still wins; example promoted if good | ⬜ |
+| 2 | Live proof | Same-person repeat runs show fresh lists; signal-re-raise still wins; example promoted if good | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ GREEN-LIT by Carl 2026-07-12 after live proof on build ba3223d (repeat Nikki prep: history block carried 4 earlier topics, model suggested 3 fully fresh ones; 123/123 tests + typecheck clean). Next: Phase 2 — but its live-proof goal is largely met by this walk; what remains is the signal-re-raise check ("workload still heavy" must bring workload back) and a gate roll. Consider slimming Phase 2 to just those before starting.
+Phase 1 ✅ GREEN-LIT 2026-07-12. **Phase 2 🔨 proven 2026-07-12, awaiting Carl's green light** (worked autonomously overnight at Carl's ask). Signal-beats-freshness proven with one paid nano call (~2c): Nikki history covers workload → note re-raising it returned `workload` as `source: signal`. The other two scenarios (fresh list, natural reading) were already met in Phase 1's live walk. Only open item: the golden gate roll (~$0.35, a 2nd paid run) is deferred for Carl's explicit yes — arc-gate logic is unchanged and covered by the 123/123 offline suite, so risk is low. Nothing left to BUILD; Phase 2 needs only Carl's walk to close, then folder → done/ + founder-doc refresh (keep-guide-updated rule).
 
 ## Parked
 - UI hint on the focus picker ("covered last time" chip) — prompt-side only for now.
