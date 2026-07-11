@@ -3,6 +3,7 @@
 // external service. On success the form is replaced with a thanks state.
 
 import { submitFeedback } from "../../../shared/api.js";
+import { isTouchScreen } from "../ui/field.js";
 
 export async function mount(root) {
   root.innerHTML = `
@@ -58,7 +59,8 @@ export async function mount(root) {
   }
 
   form.addEventListener("submit", onSubmit);
-  requestAnimationFrame(() => messageEl.focus({ preventScroll: true }));
+  // Desktop only — on a phone this pops the keyboard over the page (phone walk 2026-07-11).
+  if (!isTouchScreen()) requestAnimationFrame(() => messageEl.focus({ preventScroll: true }));
 }
 
 export function unmount() {}

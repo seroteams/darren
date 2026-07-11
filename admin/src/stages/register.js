@@ -6,6 +6,7 @@
 import { STAGES, isAdmin } from "../state.js";
 import { register, login } from "../../../shared/api.js";
 import { completeClaimAfterAuth } from "../guest.ts";
+import { isTouchScreen } from "../ui/field.js";
 
 export async function mount(root, { setState }) {
   root.innerHTML = `
@@ -90,7 +91,8 @@ export async function mount(root, { setState }) {
   root.querySelector(".js-to-login").addEventListener("click", () => setState({ stage: STAGES.LOGIN }));
   root.querySelector(".js-privacy").addEventListener("click", () => setState({ stage: STAGES.PRIVACY }));
 
-  requestAnimationFrame(() => nameEl.focus({ preventScroll: true }));
+  // Desktop only — on a phone this pops the keyboard over the page (phone walk 2026-07-11).
+  if (!isTouchScreen()) requestAnimationFrame(() => nameEl.focus({ preventScroll: true }));
 }
 
 export function unmount() {}

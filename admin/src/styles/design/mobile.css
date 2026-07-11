@@ -144,10 +144,11 @@
     display: none;
   }
 
-  /* Profile badge (members) — the header now owns the top edge, so the chip
-     drops below it and slims to the avatar alone. */
+  /* Profile badge (members) — sits INSIDE the header strip (avatar only).
+     Floating it below the header put it on top of page actions ("Back to
+     Runs" on the run detail — phone walk 2026-07-11). 48px bar, 38px chip. */
   .profile-badge {
-    top: calc(var(--app-nav-h, 0px) + var(--sero-space-3));
+    top: 5px;
     max-width: none;
     padding: 5px;
   }

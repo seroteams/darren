@@ -5,6 +5,7 @@
 import { STAGES, isAdmin } from "../state.js";
 import { login, me } from "../../../shared/api.js";
 import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
+import { isTouchScreen } from "../ui/field.js";
 
 // Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
 // admin/public/login/ — one is picked at random per visit. Exported so the
@@ -141,8 +142,9 @@ export async function mount(root, { setState }) {
     }
 
     fill(0); // default to the manager every visit
-    requestAnimationFrame(() => submitBtn.focus({ preventScroll: true }));
-  } else {
+    if (!isTouchScreen()) requestAnimationFrame(() => submitBtn.focus({ preventScroll: true }));
+  } else if (!isTouchScreen()) {
+    // Desktop only — on a phone this pops the keyboard over the page (phone walk 2026-07-11).
     requestAnimationFrame(() => emailEl.focus({ preventScroll: true }));
   }
 }
