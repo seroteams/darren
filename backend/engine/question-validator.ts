@@ -14,6 +14,11 @@ const VAGUE_MORE = /can you say more about what that means/i;
 // a quote the report never said.
 const MIRROR_TEMPLATE = /—\s*can you say more about/i;
 
+// Same backstop for the runtime thread-follow's quoted-mirror shape
+// ('You said "<quote>" — …'): the quote must be the answer's own contiguous
+// words, never an assembled one.
+const QUOTED_MIRROR = /^you said "([^"]+)"/i;
+
 function normalizeMirror(s: string | undefined): string {
   return String(s || "")
     .toLowerCase()
@@ -84,6 +89,12 @@ export function validateQuestionBeforeShow(
   if (mirrorIdx >= 0) {
     const frag = normalizeMirror(stem.slice(0, mirrorIdx));
     if (!frag || !normalizeMirror(answer).includes(frag)) {
+      return { ok: false, reason: "mirror fragment not a contiguous quote of the answer", fallback: FALLBACK_STEM };
+    }
+  }
+  const quoted = stem.match(QUOTED_MIRROR);
+  if (quoted && answer) {
+    if (!normalizeMirror(answer).includes(normalizeMirror(quoted[1]))) {
       return { ok: false, reason: "mirror fragment not a contiguous quote of the answer", fallback: FALLBACK_STEM };
     }
   }

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature, enforceDrillCap } from "./queue-manager.ts";
+import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature, enforceDrillCap, enforceThreadFollow } from "./queue-manager.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import type { Question } from "../shared/question.types.ts";
 import type { Arc } from "./queue-constants.ts";
@@ -128,6 +128,43 @@ test("enforceDrillCap: without a thread-follow, a same-stage drill at the front 
   });
   assert.deepEqual(out.map((x) => x.alias), ["keep"]);
   assert.ok(issues.some((i) => i.includes("drill cap")));
+});
+
+// --- Thread-follow: mint under drill pressure, but never chain (Phase 2) ----
+
+// ≥5 words, not shallow, yet no clause survives filler-stripping to a 3-word
+// span — so buildThreadFollowQuestion returns null and pushes "no stem grounded"
+// WITHOUT writing a question file. That issue is our disk-free proof of whether
+// the guard let the answer through to the builder.
+const UNMIRRORABLE = "and but so um uh and but";
+
+test("enforceThreadFollow: a new thread still reaches the builder under drill pressure", () => {
+  const issues: string[] = [];
+  enforceThreadFollow({
+    newQueue: [q("planned")],
+    lastAnswer: UNMIRRORABLE,
+    lastQuestion: drill("d1", "explore"), // a normal same-stage drill, not a thread-follow
+    remainingBudget: 6, // drill count no longer gates the follow — only "was the last Q itself a follow?"
+    askedNames: [],
+    transcript: [],
+    issues,
+  });
+  assert.ok(issues.some((i) => i.includes("no stem grounded")));
+});
+
+test("enforceThreadFollow: a thread-follow is never chained onto another thread-follow", () => {
+  const issues: string[] = [];
+  const out = enforceThreadFollow({
+    newQueue: [q("planned")],
+    lastAnswer: UNMIRRORABLE,
+    lastQuestion: tf("prev-follow", "explore"), // last question was itself a thread-follow
+    remainingBudget: 6,
+    askedNames: [],
+    transcript: [],
+    issues,
+  });
+  assert.deepEqual(out.map((x) => x.alias), ["planned"]); // unchanged
+  assert.equal(issues.length, 0); // bailed before the builder — no injection, no "no stem grounded"
 });
 
 // --- Regression: gates that already existed --------------------------------

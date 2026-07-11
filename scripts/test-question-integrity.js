@@ -150,15 +150,23 @@ check(
     buildThreadFollowQuestion(lastQ, "ok", []) === null
   );
 
-  // A long substantive answer deserves a real planner follow-up, not the vague
-  // mirror — skip rather than fake the connection (the Jun 11 disconnect).
+  // A long substantive answer used to be skipped because the only stem shape
+  // was the vague "can you say more" mirror, which the validator bans on
+  // substantive answers — so the runtime mint could never fire on the answers
+  // it exists for. The builder now quotes the answer's own contiguous words and
+  // probes the cause — grounded, never canned — so it mints AND validates
+  // (thread-follow P2). The Jun 11 "fake connection" shape stays impossible:
+  // the quote must be the answer's own words or the validator rejects it.
+  const longFollow = buildThreadFollowQuestion(
+    lastQ,
+    "leadership and corporate communication keep stalling the rollout across six different teams",
+    []
+  );
   check(
-    "thread-follow skips on a long substantive answer instead of using a canned stem",
-    buildThreadFollowQuestion(
-      lastQ,
-      "leadership and corporate communication keep stalling the rollout across six different teams",
-      []
-    ) === null
+    "thread-follow mints a grounded (never canned) follow on a long substantive answer",
+    Boolean(longFollow) &&
+      /leadership and corporate communication/i.test(longFollow.name) &&
+      !/can you say more about what that means/i.test(longFollow.name)
   );
 
   // The Jun 11 failure shape: same answer thread two turns running must not

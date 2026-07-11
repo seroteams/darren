@@ -425,7 +425,6 @@ async function planTurn({
     lastAnswer,
     lastQuestion,
     remainingBudget,
-    consecutiveDrillCount,
     askedNames,
     transcript: transcript || [],
     issues: gateIssues,

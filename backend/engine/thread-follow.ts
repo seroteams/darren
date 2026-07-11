@@ -58,7 +58,12 @@ function contiguousAnswerSpan(answer: string | null | undefined): string | null 
 function buildThreadFollowQuestion(lastQuestion: Question | null | undefined, lastAnswer: string | null | undefined, transcript: TranscriptEntry[] | null | undefined): Question | null {
   const mirrorSpan = contiguousAnswerSpan(lastAnswer);
   if (!mirrorSpan) return null;
-  const mirrorStem = `${mirrorSpan} — can you say more about what that means for you right now?`;
+  // Quote the answer's own words, then probe the cause — the plan-turn prompt's
+  // "one focused probe" craft. The old "can you say more about what that means"
+  // tail was the exact phrase the validator bans on substantive answers
+  // (VAGUE_MORE), so the mint could never fire on the very answers it exists
+  // for — every runtime thread-follow died at validation.
+  const mirrorStem = `You said "${mirrorSpan}" — what's behind that for you right now?`;
 
   const mirrorCheck = validateQuestionBeforeShow({
     name: mirrorStem,
@@ -84,7 +89,6 @@ function enforceThreadFollow({
   lastAnswer,
   lastQuestion,
   remainingBudget,
-  consecutiveDrillCount,
   askedNames = [],
   transcript = [],
   issues,
@@ -93,13 +97,18 @@ function enforceThreadFollow({
   lastAnswer: string | null | undefined;
   lastQuestion: Question | null | undefined;
   remainingBudget: number | string | null | undefined;
-  consecutiveDrillCount: number;
   askedNames?: string[];
   transcript?: TranscriptEntry[];
   issues: string[];
 }): Question[] {
   if (Number(remainingBudget) <= 2) return newQueue;
-  if (consecutiveDrillCount >= 2) return newQueue;
+  // Don't chain a thread-follow onto another thread-follow — following a follow
+  // lets one thread stall the whole arc. But a genuine NEW thread opened after
+  // ordinary drilling still earns ONE follow, even under drill pressure: that's
+  // the point of the feature, and Phase 1 pins the follow so the drill cap still
+  // advances everything behind it. (Was: a blanket `consecutiveDrillCount >= 2`
+  // bail, which went deaf exactly when the person kept opening up.)
+  if (isRuntimeThreadFollow(lastQuestion)) return newQueue;
   if (!answerHasThread(lastAnswer)) return newQueue;
   if (firstQueueFollowsThread(newQueue, lastAnswer)) return newQueue;
   const follow = buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript);
