@@ -12,7 +12,7 @@ The two agreed AI moments work: focus bullets on the prep screen, and one end-of
   - Reuse: `callAI` (cassette replay + cost tracking), `splitSystemUser`/`fillPlaceholders`, `withPromptVersion`. Injected as service boundaries (Prewarm pattern) so service tests stay model-free. NEVER require `scripts/gate.js`.
 - `content/config/models.json`: add `guided_prep` + `guided_wrapup` keys.
 - API: `POST /guided-sessions/:id/prep-focus` (cached in `state.prep.aiFocus` unless `?regenerate=1`) and `POST /guided-sessions/:id/wrapup-draft` (cached in state; manager edits land via normal PATCH).
-- UI: prep screen AI bullets with loading state + regenerate; Summary stage becomes "draft appears → edit in place"; Review stage renders the three suggestion buckets, each editable/deletable.
+- UI: prep screen AI bullets with loading state + regenerate; the Summary stage's "Session summary" card fills with the drafted bullets (old-Sero wrap-up style: 3–5 bullets citing real goal %s, new concerns, and a check-in suggestion), editable in place; Review stage renders the three suggestion buckets, each editable/deletable.
 - Engine honesty: raw model output shown as-is; schema failures surface as a visible "couldn't draft this" state, never a hardcoded rewrite.
 
 ## Not in this phase

@@ -4,6 +4,7 @@
 **Driver:** Carl
 **Created:** 2026-07-11
 **Status:** ⏸ **PARKED until Gate 1** (Carl's call 2026-07-11: "plan now, build at Gate 1"). Moves to `docs/plans/doing/` when the corridor test passes (2/3 managers return unprompted). No schema, no code, no migrations before that.
+**Branch:** this track lives on **`work/monthly-one-on-one`** (worktree `../serolocal-monthly-one-on-one`) — Carl's call 2026-07-11. Build there; merge to `main` phase by phase after green lights.
 
 > Source concept: [docs/ONE-ON-ONE-RUNNER-CONCEPT.md](../../../ONE-ON-ONE-RUNNER-CONCEPT.md) + Carl's old-Sero reference screenshots.
 > Full approved architecture: this file. Product decisions were locked with Carl through four question rounds on 2026-07-11 — do not relitigate them.
@@ -28,7 +29,7 @@
 | 7 | Rating = six blocks (Tasks, Processes, Our team, Development, Fun, Fulfilment) 1–10; **member self-scores aloud, manager types them in**; optional note per block |
 | 8 | **Quick-add** promise/request/goal on **every** stage |
 | 9 | Exactly **two AI call sites**: (a) prep-screen focus bullets, (b) ONE end-of-session call drafting Summary + Review suggestion buckets |
-| 10 | Review stage (private, after the member leaves): engagement 1–5 + last-time comparison + private notes + AI suggestions (individual/team/company). Never member-visible |
+| 10 | Review stage (private, after the member leaves): engagement 1–5 + last-time comparison + private notes + AI suggestions (individual/team/company). Never member-visible. Per the old-Sero screen: engagement is a **labelled slider** — Disengaged · Passive · Active · Enthusiastic · Thriving (stored 1–5) |
 | 11 | **Internal first** — gated to the internal `admin` role; corridor managers keep the current flow |
 | 12 | Auto-save everything (state jsonb pattern) |
 | 13 | AI-drafted Summary (manager edits before saving) |
@@ -47,7 +48,7 @@ The `sessions` table is welded to the interview pipeline: boot-restore (`loadSes
 
 ### Data model (Drizzle, `backend/db/schema.ts`; one migration per phase)
 - **`guided_sessions`** (P1): org_id, manager_id, person_id (FK people, required), `stage` text (prep|catchup|requests|rating|feedback|goals|summary|wrapup|done), `state` jsonb (the whole draft: per-stage notes, ratingDraft, feedback keep/more/less, summary draft+edited, wrapup engagement/privateNotes/suggestions, prep facts/discuss/aiFocus), `engagement` int (denormalised at complete), created/updated/completed_at.
-- **`tracker_items`** (P2): ONE table with `kind` enum promise|request|goal. org_id, person_id, created_by_user_id, text, owner (promises: manager|member), category (requests: growth_development|ideas_suggestions|concerns_feedback), status (per-kind sets, service-validated), `history` jsonb events, created_session_id. Index (person_id, kind, status).
+- **`tracker_items`** (P2): ONE table with `kind` enum promise|request|goal. org_id, person_id, created_by_user_id, text, owner (promises: manager|member), category (requests: growth_development|ideas_suggestions|concerns_feedback), status (per-kind sets, service-validated), `progress` int null (goals only, 0–100 — the old-Sero Goals screen shows 77% / 64% / 0%), `history` jsonb events, created_session_id. Index (person_id, kind, status). Goal statuses per the reference screen: not_started | in_progress | done | archived.
 - **`block_scores`** (P3): one row per (guided_session, block); block enum tasks|processes|team|development|fun|fulfilment; score 1–10; note. Unique (guided_session_id, block); upserted by complete() from state.ratingDraft. Trends = WHERE person_id ORDER BY created_at.
 - **Private review: NO table** — lives in `state.wrapup` + the denormalised `engagement` column. No member endpoint touches `guided_sessions` at all.
 
@@ -79,8 +80,8 @@ New `backend/engine/guided/`: `prep-focus.ts` (strict `{bullets: 2–3}` schema,
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**PARKED.** Folder written 2026-07-11 from the approved plan; no code exists. Un-park ritual at Gate 1: move this folder to `docs/plans/doing/`, run the baseline (`npm run typecheck` + `npm test`, note results here), then Phase 1 only.
-⏳ **Waiting on 3 reference images from Carl** (old-Sero screens, likely Goals / Summary / Review). Phase files carry `<!-- refine from reference image -->` slots — fold the images in when they arrive, before the affected phase is built.
+**PARKED.** Folder written 2026-07-11 from the approved plan; no code exists. Un-park ritual at Gate 1: move this folder to `docs/plans/doing/`, run the baseline (`npm run typecheck` + `npm test`, note results here), then Phase 1 only — on branch `work/monthly-one-on-one`.
+✅ **All 8 old-Sero reference screens are in hand** (2026-07-11): prep "Before you start" · Guided catch-up cards · Requests list · Building-block ratings + history · "Looking to the future" feedback · **Goals ("Review N goals together", progress % + status)** · **Session wrap-up (AI summary bullets, Sarah's/Manager's actions 1–3 each, building-blocks delta sidebar, goals touched)** · **Private notes & reflection (labelled engagement slider, private-notes prompt, "Complete this 1:1")**. Details folded into the phase files.
 
 ## Parked
 - **Member content template + member 1–5 session rating — FIRST v2 ITEM.** Spec (so it's never designed twice): member opens a finished Monthly 1:1 → the summary, promises from both sides, requests + statuses, goals, and their own six-block scores; **never** engagement, private notes, or AI suggestion buckets. Plus a member-authored 1–5 "was this useful" session rating (concept doc). Requires the first member-facing read endpoint on guided data — re-check the privacy fence then.
@@ -90,6 +91,7 @@ New `backend/engine/guided/`: `prep-focus.ts` (strict `{bullets: 2–3}` schema,
 - Home "Continue your open Monthly 1:1" chip (v1 resumes via URL/reload only).
 - People-merge migration for tracker rows (v1 resolves merge chain at read/create; a bulk re-point migration is a later nicety).
 - AI-personalised stage prompts (v1 is static copy + mechanical carry-over by decision 5).
+- **Typed question prompts for requests** — Carl 2026-07-11: "I just want to add the type of questions; for the requests, we can do that later." Read as: suggested discussion questions per request category (growth / ideas / concerns) when a request is opened in the meeting — add after v1, not in the Requests stage's first build.
 
 ## Risks / collisions (verified in code 2026-07-11)
 1. `sessions` boot-hydration corrupts on foreign state shapes → own table (decided above).
