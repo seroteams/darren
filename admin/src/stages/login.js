@@ -45,6 +45,9 @@ export async function mount(root, { setState }) {
             <button type="submit" class="btn js-submit">Sign in</button>
           </form>
           <p class="text-ink-dim text-sm">
+            <button type="button" class="link js-to-forgot">Forgot password?</button>
+          </p>
+          <p class="text-ink-dim text-sm">
             No account yet?
             <button type="button" class="link js-to-register">Create one</button>
           </p>
@@ -111,6 +114,7 @@ export async function mount(root, { setState }) {
 
   form.addEventListener("submit", onSubmit);
   root.querySelector(".js-to-register").addEventListener("click", () => setState({ stage: STAGES.REGISTER }));
+  root.querySelector(".js-to-forgot").addEventListener("click", () => setState({ stage: STAGES.FORGOT_PASSWORD }));
   // The guest lane (guest-run Phase 2): straight into intake, no account. The
   // entry logic lives in guest.ts, shared with the start screen (welcome.ts).
   root.querySelector(".js-try-guest").addEventListener("click", () => startGuestRun(setState));
