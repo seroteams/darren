@@ -32,9 +32,9 @@ services:
       - key: APP_ENV
         value: live
       # The email sender — not a secret, safe in git. Must be on a Resend-verified
-      # domain (seroteams.com once its DNS is set up).
+      # domain (seroapp.com — verified in Resend; matches the "SeroApp-New" key).
       - key: EMAIL_FROM
-        value: Sero <notifications@seroteams.com>
+        value: Sero <notifications@seroapp.com>
       # Public origin for clickable /join links in invite emails.
       - key: APP_BASE_URL
         value: https://sero-obwq.onrender.com
