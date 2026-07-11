@@ -1,6 +1,9 @@
 # Phase 2 — Let a genuine new thread mint under pressure
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + PAID-PROVEN 2026-07-11 (committed) — awaiting Carl's green light to close
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-11
+
+## ✅ GREEN-LIT 2026-07-11
+Carl's "a" on the proven result (metric 0.125 → 0.43, PASS, zero new hard-fails/warnings — see 📈 below). Code was already committed `d5e7b396` per this file's own criterion; this close-out moves the trackers together and releases live on the same "a" (option A named the release).
 
 ## Built (2026-07-09)
 - `backend/engine/thread-follow.ts` — replaced the blanket `consecutiveDrillCount >= 2` bail with `isRuntimeThreadFollow(lastQuestion)`: a genuine new thread now earns ONE follow even under drill pressure, but a follow is never chained onto another follow (that would stall the arc). Removed the now-unused `consecutiveDrillCount` param (and from the `enforceThreadFollow` call in `queue-manager.ts`).

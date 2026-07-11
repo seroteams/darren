@@ -66,20 +66,17 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > Test-first throughout, suite **114/114**, typecheck clean. Folder → [done/](docs/plans/done/engine-hardening/plan.md).
 > **▶ Your move:** nothing — track closed.
 
-> **🔨 [thread-follow](docs/plans/doing/thread-follow/plan.md) — make the engine follow the person's answer, not just march its queue. P1 ✅ · P2 built + PAID-PROVEN 2026-07-11, awaiting your green light.**
-> From the 8–9 Jul night test: thread-following scored 55–65/100 on every run (the one systemic weak muscle) —
-> people volunteered threads (Priya's mentoring, Tom's adjacent-team trust) and the coverage engine / drill cap
-> marched over them.
-> **P1 ✅ green-lit + committed 2026-07-09 ($0):** drill-cap now *pins* a runtime thread-follow at slot 0 so a
-> minted follow can't be eaten.
-> **P2 🔨 built + proven 2026-07-11 (committed `d5e7b396`, ~$0.70 paid):** the relaxed mint-bail alone wasn't it —
-> the first paid roll (0/8, honest miss) exposed that the runtime mint could NEVER fire: the builder's canned
-> "can you say more" stem is the exact phrase the validator bans on substantive answers. Fixed test-first: the
-> stem now quotes the answer's own words + probes the cause; a new validator backstop keeps fake quotes
-> impossible (the ban itself untouched). Second roll: **`plan_thread_follow` 0.125 → 0.43, verdict PASS, zero
-> new leakage** — Priya's mentoring thread finally followed. Suite 118/118.
-> **▶ Your move:** read the run (`logs/july/2026_Jul11_07-34-…`, three follows in the transcript) and say
-> "green light thread-follow P2" to close — or ask for a walk first.
+> **✅ [thread-follow](docs/plans/done/thread-follow/plan.md) — TRACK CLOSED 2026-07-11 (Carl: "a"): the engine follows the person's answer, not just its queue. Both phases ✅, ~$0.70 paid total.**
+> From the 8–9 Jul night test: thread-following scored 55–65/100 on every run — people volunteered threads
+> (Priya's mentoring) and the coverage engine / drill cap marched over them.
+> **P1 ✅ 2026-07-09 ($0):** drill-cap *pins* a runtime thread-follow at slot 0 so a minted follow can't be eaten.
+> **P2 ✅ 2026-07-11 (`d5e7b396`):** the relaxed mint-bail alone wasn't it — the first paid roll (0/8, honest
+> miss) exposed that the runtime mint could NEVER fire: the builder's canned "can you say more" stem is the
+> exact phrase the validator bans on substantive answers. Fixed test-first (grounded quoted stem + a validator
+> backstop against fake quotes; the ban itself untouched). Second roll: **`plan_thread_follow` 0.125 → 0.43,
+> PASS, zero new leakage** — Priya's mentoring thread finally followed. Suite 118/118. Released live on the
+> same "a". Folder → [done/](docs/plans/done/thread-follow/plan.md).
+> **▶ Your move:** nothing — track closed.
 
 > **✅ [agent-native](docs/plans/done/agent-native/plan.md) — TRACK CLOSED 2026-07-08: all 5 phases green-lit in one day, $0 spend.**
 > The codebase is now agent-native: **maps** are true (engine-map.md + fixed `.cursor` rule) · the **whole pipeline
@@ -285,4 +282,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-11 (thread-follow P2 built + paid-proven 0.125→0.43, awaiting green light. Earlier today: validation-kit TRACK CLOSED (P4+P5), universe-monitoring TRACK CLOSED (P1b–P3), gate repaired on main, end-of-day sweep + goodnight skill, deploy live)
+- Last updated: 2026-07-11 (thread-follow P2 ✅ green-lit "a" — TRACK CLOSED, metric 0.125→0.43, released live. Earlier today: validation-kit + universe-monitoring TRACKS CLOSED; gate repaired; goodnight skill; end-of-day sweep)

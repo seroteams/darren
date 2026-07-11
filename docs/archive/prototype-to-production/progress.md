@@ -9,6 +9,19 @@
 ---
 
 ## Where we are now
+- **2026-07-11** — **thread-follow P2 ✅ — TRACK CLOSED (~$0.70 paid): the engine finally follows a volunteered thread.**
+  The relaxed drill-pressure bail was built 2 days earlier, but the first paid gate roll scored 0/8 — an honest
+  miss that a free read of the saved turn logs turned into the real find: **the runtime thread-follow could never
+  fire.** Its only stem ("…can you say more about what that means…") is the exact phrase `question-validator.ts`
+  bans on substantive answers, and only substantive answers trigger a follow — mutually exclusive by construction,
+  on every run since the validator landed in June. Fixed test-first: the stem now quotes the answer's own
+  contiguous words and probes the cause (`You said "…" — what's behind that…`), with a new QUOTED_MIRROR validator
+  backstop so fabricated quotes stay impossible; the vague-stem ban itself untouched. Re-roll:
+  `plan_thread_follow` 0.125 → 0.43, PASS, zero new hard-fails/warnings. **Lessons:** ① a metric that refuses to
+  move is data, not noise — the 0/8 was the doorway to the real bug, and masking it with a re-roll would have
+  buried it. ② when a guard (validator) and a producer (stem builder) are owned by different fixes months apart,
+  test the pair: a lock even *enshrined* the dead mint as intended ("skips on a long substantive answer"). ③ score
+  a crashed paid run from its saved session before paying again — roll 1's diagnosis cost $0.
 - **2026-07-11** — **universe-monitoring P3 ✅ (walk waived) — cost per run lands and the TRACK CLOSES (5 phases, $0).**
   A shared pure `costFromState()` puts real model spend on both stores' finished feeds; the Universe's run
   panel says "Cost to run · $0.38 (9 model calls)", people total their priced runs, and pre-tracking runs
