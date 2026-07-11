@@ -3,7 +3,7 @@
 // A link switches to the register screen.
 
 import { STAGES, isAdmin } from "../state.js";
-import { login, me } from "../../../shared/api.js";
+import { login, me, listRecentRuns } from "../../../shared/api.js";
 import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 
@@ -89,10 +89,19 @@ export async function mount(root, { setState }) {
       // A guest saving their finished run (guest-run Phase 3): claim it and land on
       // it. A failed claim falls through to the normal landing — never a dead end.
       if (await completeClaimAfterAuth(identity, setState)) return;
-      // A plain member lands on their own clean Home (member-nav Phase 1); only an
-      // admin/owner gets the internal start page. Mirrors the boot routing in main.js
-      // so login and a fresh reload land in the same place.
-      setState({ user: identity, stage: isAdmin(identity) ? STAGES.START : STAGES.MEMBER_HOME });
+      // Mirror the boot routing in main.js so login and a fresh reload land in the same
+      // place. A plain member lands on their own clean Home. A manager with no runs yet
+      // lands on the guided setup (where the first-run explainer lives) instead of an
+      // empty Home; a returning manager keeps landing on Home. (validation-kit P4 fix.)
+      if (!isAdmin(identity)) {
+        setState({ user: identity, stage: STAGES.MEMBER_HOME });
+      } else {
+        let firstRun = false;
+        try { const { runs } = await listRecentRuns(1); firstRun = Array.isArray(runs) && runs.length === 0; } catch { /* default to Home */ }
+        setState(firstRun
+          ? { user: identity, stage: STAGES.INTAKE, substage: "NAME" }
+          : { user: identity, stage: STAGES.START });
+      }
     } catch (e2) {
       showError(e2.message || "Could not log in.");
       submitBtn.disabled = false;

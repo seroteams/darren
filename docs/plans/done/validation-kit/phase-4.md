@@ -2,6 +2,9 @@
 
 **Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-11
 
+## 🔧 Follow-up fix 2026-07-11 (post-release, Carl found it live)
+Carl registered a fresh manager on the live site and landed on **Home**, not the first-run guide — the guide only greeted him one click deeper (on the setup screen). Root cause: my P4 dependency check verified the *boot* path (`main.js` sends a zero-run manager to intake), but **login and register route by role straight to START/MEMBER_HOME**, bypassing that logic — and my P4 verification used an auto-login account (which boots), never the real register→login path. Fixed in `login.js` + `register.js`: a zero-run manager now lands on the guided setup (intake), matching the boot path; a returning manager still lands on Home. Verified this time through the **actual** submit handlers (auth + run-count stubbed): register → INTAKE, login zero-run → INTAKE, login returning → START. 123/123, typecheck clean. Lesson: verify the path the *user* actually takes, not a convenient proxy.
+
 ## ✅ GREEN-LIT 2026-07-11
 Carl walked the isolated pair (customer app on 3085, zero-run auto-login) and green-lit ("A"). Verified against the artifact before close: on-disk wiring present, module + contract test exist, 116/116 tests pass (incl. `intake-firstrun.test.ts`), and both gate branches proven through the real mount code (0 runs → intro shown; ≥1 run → intro never rendered). No DB destination exists for this client-side gate. Committed path-scoped.
 

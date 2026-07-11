@@ -79,7 +79,13 @@ export async function mount(root, { setState }) {
       // A guest saving their finished run (guest-run Phase 3): claim it and land on
       // it. A failed claim falls through to the normal landing — never a dead end.
       if (await completeClaimAfterAuth(user, setState)) return;
-      setState({ user, stage: isAdmin(user) ? STAGES.START : STAGES.MEMBER_HOME });
+      // A brand-new account has no runs yet — land a first-time manager on the guided
+      // setup, where the first-run explainer lives, matching main.js's boot routing.
+      // Members go to their own Home. (validation-kit P4 follow-up: login/register
+      // diverged from the zero-run→intake boot path, so new managers never saw the guide.)
+      setState(isAdmin(user)
+        ? { user, stage: STAGES.INTAKE, substage: "NAME" }
+        : { user, stage: STAGES.MEMBER_HOME });
     } catch (e2) {
       showError(e2.message || "Could not create your account.");
       submitBtn.disabled = false;
