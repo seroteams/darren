@@ -10,6 +10,7 @@ import path from "node:path";
 import type { RequestContext } from "../../router.ts";
 import { service, IS_DEV, sessionId, callerFence } from "./session-runtime.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
+import { focusHistoryFor } from "../../../engine/focus-history.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
 import { generateSuggestions, shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener, pinPrepOpenerEarly } from "../../../engine/question-generator.ts";
@@ -52,7 +53,14 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
     thinkingLabel: "Choosing focus points",
     getCached: () => session.focusPointsResult,
     setCached: (r) => { session.focusPointsResult = r; },
-    produce: () => generateFocusPoints(session.ctx, { session: { id: session.id, dir: session.dir } }),
+    produce: async () =>
+      generateFocusPoints(
+        {
+          ...session.ctx,
+          focusHistory: await focusHistoryFor({ orgId: session.orgId, userId: session.userId, personId: session.personId }),
+        },
+        { session: { id: session.id, dir: session.dir } }
+      ),
     resultEvent: "result",
     buildPayload: (r) => ({ meeting_type: r.meeting_type, focus_points: r.focus_points }),
   });

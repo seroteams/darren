@@ -40,6 +40,8 @@ import {
   notesSummary,
   cloneRunState,
 } from "../engine/run-history.ts";
+import { historyRunMatches, historySessionFromState } from "../engine/focus-history.ts";
+import type { FocusHistorySession } from "../engine/focus-history.ts";
 import { createSession, monthFolderFor, LOGS_ROOT } from "../engine/session.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
@@ -401,6 +403,37 @@ export async function pgListFinishedRunsAboutPerson(
     inArray(sessionsTable.personId, personIds.filter((p) => sqlSafeId(p) !== null)),
   ]);
   return fenceAboutPersonRows(rows, orgId, personIds).map(toAboutPersonRow);
+}
+
+// Past focus points for the SAME manager + person (focus-freshness Phase 1).
+// SQL pre-narrows on the denormalized columns; the JS wall is the engine's own
+// historyRunMatches — a drifted column can hide a run, never leak one.
+export async function pgFocusHistory({
+  orgId,
+  userId,
+  personId,
+  limit = 3,
+}: {
+  orgId?: string | null;
+  userId?: string | null;
+  personId?: string | null;
+  limit?: number;
+}): Promise<FocusHistorySession[]> {
+  if (!userId || !personId) return [];
+  const rows = fenceOrgRows(
+    await rowsWhere([
+      eq(sessionsTable.finished, true),
+      sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
+      sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
+      sqlSafeId(personId) ? eq(sessionsTable.personId, sqlSafeId(personId)!) : undefined,
+    ]),
+    orgId,
+  );
+  return rows
+    .filter((r) => historyRunMatches(r.state, { userId, personId }))
+    .slice(0, limit)
+    .map((r) => historySessionFromState(r.state))
+    .filter((s): s is FocusHistorySession => s !== null);
 }
 
 export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null; createdAt: number; lastSeenAt: number; stars: number | null }[]> {

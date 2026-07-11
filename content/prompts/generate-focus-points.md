@@ -119,6 +119,9 @@ Per meeting type, mix `signal` and `best_practice` points and lean on appropriat
   - **If the manager explicitly names a concern** in the short note ("motivation", "seems unhappy", "lost his spark"), that is anchored evidence — not a vibe. Surface it as **exactly one `signal` point that quotes/paraphrases the manager near-verbatim and opens it for conversation without decoding the cause** (the "smells funny" behaviour in `<epistemic_rules>`) — never a diagnosis of the person.
   - A vague thin note with no stated concern ("fine", "quiet lately", "n/a") gets `best_practice` points only.
 - **Dominant-signal adjacency (hard).** When the notes carry **one sharp dominant signal** (a single concrete concern, e.g. "too many review rounds before it feels ready"), every `best_practice` point must stay **adjacent to that signal's theme** — it should deepen or surround the same concern, not import an orthogonal competency the notes give no cue for. Concretely: a "review rounds / quality of the work" note supports `quality`, `feedback`, `growth` adjacent to craft — it does NOT support `reliability` (dates/slippage/predictability) unless the notes mention timing. The catalogue examples for a competency are not a licence to introduce its dimension; if the notes are silent on dates, do not add a dates point. Prefer capping `best_practice` to 1 when a single strong signal dominates.
+- **Freshness across sessions.** The user input lists focus points covered in earlier 1:1s with this person. For `best_practice` picks, prefer catalogue entries NOT in that recent history — the third check-in should open new ground, not re-run the last agenda. Two hard limits on this preference:
+  - A note that re-signals a covered theme ALWAYS wins — if the manager writes "workload still heavy" and workload was covered last time, workload comes back as a `signal` point. Freshness never suppresses a signal.
+  - Never mention past sessions in `label` or `reason` text ("as discussed last time", "again") — the history shapes your selection, not your wording.
 - **Signal honesty.** When the manager's notes contain a concrete observation **or an explicitly named concern** (anything other than "n/a", "fine", "nothing flagged", or empty), at least 1 point MUST be `source: "signal"`, anchored to the manager's own words — **even when the note is thin and the concern is about wellbeing or motivation**. An all-`best_practice` list on a note that named a concern is a miss: the manager reads it as "you ignored what I wrote." Only when there is genuinely no observation should every point be `source: "best_practice"` — that is correct, not a failure.
 </proportioning>
 
@@ -256,6 +259,10 @@ Note for the generator: the negativity is named in `reason` fields as an underly
 ```
 {{MANAGER_NOTES}}
 ```
+
+**Focus points covered in earlier 1:1s with {{NAME}} (most recent first):**
+
+{{FOCUS_HISTORY_BLOCK}}
 
 Validate against the output contract, then produce the JSON now.
 

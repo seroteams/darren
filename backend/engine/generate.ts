@@ -9,6 +9,8 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
+import { renderFocusHistoryBlock } from "./focus-history.ts";
+import type { FocusHistorySession } from "./focus-history.ts";
 import type { FocusPoint, FocusPointsResult } from "../shared/session.types.ts";
 import { asRecord, asString } from "../shared/guards.ts";
 
@@ -36,6 +38,9 @@ interface FocusPointInputs {
   seniority?: string;
   meetingType: string;
   notes?: string;
+  // Earlier 1:1s' focus points for this person (focus-freshness Phase 1).
+  // Callers without identity (CLI, personas) simply omit it.
+  focusHistory?: FocusHistorySession[];
 }
 
 type SessionArg = Parameters<typeof logStage>[0];
@@ -108,6 +113,7 @@ function buildMessages({
   seniority,
   meetingType,
   notes,
+  focusHistory,
   focusPoints,
 }: FocusPointInputs & { focusPoints: unknown }) {
   const template = fs.readFileSync(promptFor(meetingType, "focusPoints"), "utf8");
@@ -118,6 +124,9 @@ function buildMessages({
     SENIORITY: seniority || "(not provided)",
     MEETING_TYPE: meetingType,
     MANAGER_NOTES: notes || "(none)",
+    // Relational arcs get competency history filtered inside the render —
+    // a past performance review must not seed evaluative anchors here.
+    FOCUS_HISTORY_BLOCK: renderFocusHistoryBlock(focusHistory || [], meetingType),
     ROLE_PROFILE_BLOCK: renderRoleProfileBlock(loadRoleProfile({ role, seniority }), { slice: "focus", meetingType }),
   });
 
