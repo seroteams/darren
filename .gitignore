@@ -1,5 +1,6 @@
 node_modules
 admin/dist
+admin-ui-2/dist
 .env
 .env.local
 
