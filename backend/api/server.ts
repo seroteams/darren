@@ -359,6 +359,11 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.verdict(c);
   }));
+  // Promises loop phase 1 — the wrap-up confirm writes the agreed next actions.
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/promises$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.promises(c);
+  }));
   // suggest-fix — the prompt-fix suggester (controller → service → repo + an
   // injected AI boundary; the one runs route that calls the model). v1 mirrors
   // today's path (runId stays in the body; the contract's id-in-path

@@ -118,6 +118,20 @@ export interface TurnSnapshot {
   answerText: string;
 }
 
+/** One agreed next action from a 1:1's wrap-up — the Promises loop's unit
+ *  (docs/plans/doing/promises-loop/plan.md). MANAGER-CONFIRMED ONLY: the engine
+ *  suggests (briefing next_actions), the manager confirms at the wrap-up card —
+ *  only confirmed promises are stored (no-inference ruling). `outcome` stays null
+ *  until the NEXT session's check-in taps it (phase 2 writes it back here). */
+export interface SessionPromise {
+  id: string;
+  owner: "manager" | "report"; // whose commitment it is — manager's own list first in every UI
+  action: string;
+  when: string; // the briefing's when-bucket ("today" | "this week" | …) — kept as text
+  outcome: "yes" | "partly" | "no" | "changed" | null;
+  at: number; // when the manager confirmed it
+}
+
 export interface Session {
   id: string;
   dir: string;
@@ -147,9 +161,12 @@ export interface Session {
   agendaCovered: boolean | null;
   // One-tap post-meeting capture on the PRIOR session's agreed action — the
   // deterministic loop-closure event the no-inference ruling replaces state
-  // inference with (docs/reference/prompt-improvement-spec.md §6). Contract-only for
-  // now: no consumer until the routing-nudge event stream (parked) reads it.
+  // inference with (docs/reference/prompt-improvement-spec.md §6). Its consumer is
+  // the Promises loop: phase 2 writes it as the roll-up of promises[] outcomes.
   outcomeCheck?: "yes" | "partly" | "no" | "changed" | null;
+  // The wrap-up's manager-confirmed agreements (Promises loop phase 1). null/absent =
+  // the manager skipped confirming (loop not armed for this run).
+  promises?: SessionPromise[] | null;
   turnSnapshots: TurnSnapshot[];
   pendingAnswer: { raw: string; skipped: boolean; text: string } | null;
 

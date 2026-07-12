@@ -123,6 +123,14 @@ export async function mount(root, { store, setState }) {
     // previous answer, so flag it so the jump never reads as random.
     const isFollowUp = /thread_follow|drill|follow_up/i.test(q.alias || "");
 
+    // Promises loop phase 1 — the final question carries the fork: the PRIMARY way
+    // out of a 1:1 is agreeing next actions (the briefing then opens on the confirm
+    // card); the ghost "Finish" path skips confirming. Both submit the typed notes —
+    // the pipeline is unchanged, only the flag differs. Reset here so a stale flag
+    // from an earlier run can't leak into this one. Scripted QA lane keeps Skip.
+    const isFinal = res.turn >= res.total && !scripted;
+    if (isFinal) store.promisesConfirmSkip = false;
+
     const card = document.createElement("div");
     card.className = "card questioning-card space-y-4 reveal";
     card.innerHTML = `
@@ -147,8 +155,10 @@ export async function mount(root, { store, setState }) {
         <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" aria-label="Your notes"></textarea>
       </label>
       <div class="field__actions">
-        <button class="btn js-submit">Submit answer</button>
-        <button class="btn btn--ghost js-skip">Skip</button>
+        <button class="btn js-submit">${isFinal ? "Agree next actions →" : "Submit answer"}</button>
+        ${isFinal
+          ? `<button class="btn btn--ghost js-finish" type="button" title="Wrap up without agreeing next actions">Finish — skip agreeing</button>`
+          : `<button class="btn btn--ghost js-skip">Skip</button>`}
         ${res.turn > 1 && !scripted ? `<button class="btn btn--ghost js-back" type="button" title="Go back and fix your last answer">Back</button>` : ""}
         ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
         ${!scripted && import.meta.env.DEV ? `<button class="btn btn--ghost js-suggest" type="button">Suggest notes (dev)</button>` : ""}
@@ -208,7 +218,13 @@ export async function mount(root, { store, setState }) {
     };
     document.addEventListener("keydown", activeEscListener);
     card.querySelector(".js-submit").addEventListener("click", () => onSubmit(ta.value));
-    card.querySelector(".js-skip").addEventListener("click", () => onSubmit(""));
+    card.querySelector(".js-skip")?.addEventListener("click", () => onSubmit(""));
+    // Final-turn ghost: same submit (typed notes kept), but the briefing opens
+    // without the promises confirm card.
+    card.querySelector(".js-finish")?.addEventListener("click", () => {
+      store.promisesConfirmSkip = true;
+      onSubmit(ta.value);
+    });
 
     const backBtn = card.querySelector(".js-back");
     if (backBtn) {

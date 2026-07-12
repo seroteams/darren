@@ -32,7 +32,8 @@ import { buildFingerprint } from "../../../engine/run-fingerprint.ts";
 import { scriptAnswers } from "../../persona-script.ts";
 import { renderNotesMarkdown } from "./notes-format.ts";
 import type { SessionsRepo, EligibilityLogEntries, LexiconCommitResult } from "./sessions.repo.ts";
-import type { Session, MeetingContext, TesterVerdict, SessionNote, TranscriptEntry } from "../../../shared/session.types.ts";
+import { randomUUID } from "node:crypto";
+import type { Session, MeetingContext, TesterVerdict, SessionNote, TranscriptEntry, SessionPromise } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 import { isObjectRecord, asRecord, asString } from "../../../shared/guards.ts";
 
@@ -151,6 +152,7 @@ interface BackResult { turn: number; total: number; answer: string; axes: Return
 interface NotesResult { ok: true; count: number }
 interface AgendaResult { ok: true; covered: boolean }
 interface VerdictResult { ok: true; verdict: TesterVerdict }
+interface PromisesResult { ok: true; promises: SessionPromise[] }
 interface SelectedFocusResult { selectedFocusPoints: string[] }
 interface LexiconDecisionsResult { ok: true; count: number; committed: number }
 
@@ -277,6 +279,8 @@ export interface SessionsService {
   notes(id: string, body: Record<string, unknown>): NotesResult;
   agendaCover(id: string, body: Record<string, unknown>): AgendaResult;
   verdict(id: string, body: Record<string, unknown>): VerdictResult;
+  // Promises loop phase 1: store the wrap-up's manager-confirmed agreements.
+  promises(id: string, body: Record<string, unknown>): PromisesResult;
   selectedFocus(id: string, body: Record<string, unknown>): SelectedFocusResult;
   lexiconDecisions(id: string, body: Record<string, unknown>): LexiconDecisionsResult;
   // Guest-run Phase 1: hand an OWNERLESS session to the (logged-in) caller. The one
@@ -610,6 +614,33 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       session.agendaCovered = body.covered === true;
       repo.persist(session);
       return { ok: true, covered: session.agendaCovered };
+    },
+
+    // Promises loop phase 1: the wrap-up confirm. The engine only SUGGESTS
+    // (briefing.next_actions); what arrives here is what the manager confirmed —
+    // the only shape the no-inference ruling lets us store. Outcomes stay null
+    // until the next session's check-in (phase 2) taps them.
+    promises: (id, body) => {
+      const session = requireExisting(id);
+      if (!Array.isArray(body.promises)) throw badRequest("promises must be a list");
+      if (body.promises.length > 10) throw badRequest("too many promises (max 10)");
+      const confirmed: SessionPromise[] = body.promises.map((raw: unknown) => {
+        const p = asRecord(raw);
+        if (p.owner !== "manager" && p.owner !== "report") throw badRequest("promise owner must be manager or report");
+        const action = asString(p.action).trim();
+        if (!action) throw badRequest("promise action required");
+        return {
+          id: randomUUID(),
+          owner: p.owner,
+          action,
+          when: asString(p.when).trim(),
+          outcome: null,
+          at: Date.now(),
+        };
+      });
+      session.promises = confirmed;
+      repo.persist(session);
+      return { ok: true, promises: confirmed };
     },
 
     verdict: (id, body) => {

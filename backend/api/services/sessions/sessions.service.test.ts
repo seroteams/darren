@@ -987,6 +987,60 @@ test("agendaCover records the closing-check answer and persists", () => {
   assert.deepEqual(createSessionsService(repo).agendaCover("abc", { covered: "yes" }), { ok: true, covered: false });
 });
 
+test("promises validates, stamps and persists the manager-confirmed list", () => {
+  const s = fakeSession("abc");
+  const { repo, persisted } = fakeRepo([s]);
+  const out = createSessionsService(repo).promises("abc", {
+    promises: [
+      { owner: "manager", action: "  Book the onboarding buddy ", when: "this week" },
+      { owner: "report", action: "Track where the hours go", when: "before next 1:1" },
+    ],
+  });
+  assert.equal(out.ok, true);
+  assert.equal(out.promises.length, 2);
+  assert.equal(s.promises?.length, 2);
+  const first = s.promises?.[0];
+  assert.ok(first, "first promise stored");
+  assert.equal(first.owner, "manager");
+  assert.equal(first.action, "Book the onboarding buddy"); // trimmed
+  assert.equal(first.outcome, null); // open until the next session's check-in
+  assert.ok(first.id, "each promise gets an id");
+  assert.ok(typeof first.at === "number" && first.at > 0);
+  assert.deepEqual(persisted, [s]);
+});
+
+test("promises: an empty list is a valid 'confirmed none' — stored, not an error", () => {
+  const s = fakeSession("abc");
+  const { repo, persisted } = fakeRepo([s]);
+  assert.deepEqual(createSessionsService(repo).promises("abc", { promises: [] }), { ok: true, promises: [] });
+  assert.deepEqual(s.promises, []);
+  assert.deepEqual(persisted, [s]);
+});
+
+test("promises rejects bad payloads with plain 400s and stores nothing", () => {
+  const s = fakeSession("abc");
+  const { repo, persisted } = fakeRepo([s]);
+  const svc = createSessionsService(repo);
+  assert.throws(() => svc.promises("abc", {}),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "promises must be a list");
+  assert.throws(() => svc.promises("abc", { promises: "yes" }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "promises must be a list");
+  assert.throws(() => svc.promises("abc", { promises: [{ owner: "boss", action: "x", when: "now" }] }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "promise owner must be manager or report");
+  assert.throws(() => svc.promises("abc", { promises: [{ owner: "manager", action: "   ", when: "now" }] }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "promise action required");
+  assert.equal(s.promises, undefined);
+  assert.deepEqual(persisted, []);
+});
+
+test("promises caps the list at 10 — a 1:1 is not a project plan", () => {
+  const s = fakeSession("abc");
+  const { repo } = fakeRepo([s]);
+  const eleven = Array.from({ length: 11 }, (_, i) => ({ owner: "manager", action: `a${i}`, when: "this week" }));
+  assert.throws(() => createSessionsService(repo).promises("abc", { promises: eleven }),
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "too many promises (max 10)");
+});
+
 test("verdict validates then stamps the structured verdict and persists", () => {
   const s = fakeSession("abc");
   const { repo, persisted } = fakeRepo([s]);

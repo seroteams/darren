@@ -289,6 +289,12 @@ export async function setAgendaCovered(sessionId, covered) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/agenda/cover`, { covered });
 }
 
+// Promises loop phase 1 — save the wrap-up's manager-confirmed agreements.
+// promises: [{ owner: "manager"|"report", action, when }]. Returns { ok, promises }.
+export async function savePromises(sessionId, promises) {
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/promises`, { promises });
+}
+
 export async function setSelectedFocus(sessionId, focusPointIds) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/focus-points/select`, { focusPointIds });
 }
