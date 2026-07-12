@@ -8,6 +8,7 @@
 import { STAGES, store } from "../../../admin/src/state.js";
 import { listMyRuns, listPeople, createPerson, renamePersonV2, getLinkableUsers, linkPerson, unlinkPerson, invitePerson } from "../../../shared/api.js";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
+import { showAddPersonModal } from "../../../admin/src/ui/add-person-modal.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { Star } from "lucide";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
@@ -163,7 +164,11 @@ export const mount: Mount = async (root, { setState }) => {
   const wire = () => {
     root.querySelector(".js-start")?.addEventListener("click", () => startOneOnOne());
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
-    root.querySelector(".js-add")?.addEventListener("click", () => { void doAdd(); });
+    // The empty state shows two "Add someone" buttons (header + card), so wire them all —
+    // querySelector alone left the card's button dead.
+    root.querySelectorAll<HTMLButtonElement>(".js-add").forEach((el) =>
+      el.addEventListener("click", () => { void doAdd(); }),
+    );
     root.querySelector(".js-edit")?.addEventListener("click", () => { void enterEdit(); });
     root.querySelectorAll<HTMLElement>(".js-person").forEach((el) => {
       el.addEventListener("click", () => {
@@ -223,11 +228,10 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const doAdd = async () => {
-    const name = window.prompt("Add someone to your team — their name:", "");
-    if (name === null) return; // cancelled
-    if (!name.trim()) return;
+    const draft = await showAddPersonModal();
+    if (!draft) return; // cancelled
     try {
-      await createPerson({ name: name.trim() });
+      await createPerson({ name: draft.name, role: draft.role, seniority: draft.seniority });
       await load();
     } catch {
       window.alert("Couldn't add them — please try again.");
