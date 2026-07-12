@@ -748,6 +748,63 @@
   background: var(--sero-primary-700, #5aa9e6);
 }
 
+/* ---- finished-1:1 record (Phase 6) ---- */
+.mcr-rec {
+  padding-bottom: 40px;
+}
+.mcr-rec__block {
+  background: #fff;
+  border: 1px solid var(--color-border, #e3e8ee);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(16, 45, 66, 0.05);
+}
+.mcr-rec__block h3 {
+  font-family: var(--type-family-display);
+  font-size: 18px;
+  margin: 0 0 10px;
+  color: var(--color-ink, #102d42);
+}
+.mcr-rec__block p,
+.mcr-rec__block li {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.mcr-rec__block ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+}
+.mcr-rec__scorerow,
+.mcr-rec__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-top: 1px solid var(--color-border, #eef1f4);
+  font-size: 15px;
+}
+.mcr-rec__scorerow {
+  justify-content: space-between;
+}
+.mcr-rec__scorerow:first-of-type,
+.mcr-rec__item:first-of-type {
+  border-top: 0;
+}
+.mcr-rec__delta {
+  font-size: 13px;
+  color: var(--color-ink-mute, #64748b);
+}
+.mcr-rec__delta--up {
+  color: var(--sero-mint-900, #0c4b3c);
+}
+.mcr-rec__delta--down {
+  color: var(--sero-coral-900, #500a04);
+}
+.mcr-rec__private {
+  border-color: var(--sero-gold-600, #ffd072);
+}
+
 /* ---- auto-save pip (added for the real runner — not in the mock) ---- */
 .mcr-savewrap {
   position: fixed;

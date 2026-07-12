@@ -53,7 +53,16 @@ export interface RunsService {
   clone(sourceId: string | undefined, orgId: string | null, userId: string | null): Promise<{ id: string }>;
 }
 
-export function createRunsService(repo: RunsRepo): RunsService {
+/** Injected extra sources (monthly-checkin Phase 6). Optional + default-off, so the interview
+ *  queries and their existing tests stay untouched — a guided source only ADDS rows. */
+export interface RunsDeps {
+  listCompletedGuidedSlim?: (
+    orgId: string,
+    filter: { managerId?: string },
+  ) => Promise<{ id: string; personId: string; personName: string; completedAt: number }[]>;
+}
+
+export function createRunsService(repo: RunsRepo, deps: RunsDeps = {}): RunsService {
   // A missing run id is a 400 (id required), distinct from an unknown run (404).
   function requireId(id: string | undefined): string {
     if (!id) throw badRequest("id required");
@@ -121,7 +130,31 @@ export function createRunsService(repo: RunsRepo): RunsService {
       return { runs };
     },
     finished: async (orgId) => ({ runs: await repo.listFinished(orgId) }),
-    myFinished: async (orgId, userId, open) => ({ runs: await repo.listFinishedForMember(orgId, userId, open === "1") }),
+    myFinished: async (orgId, userId, open) => {
+      const interview = await repo.listFinishedForMember(orgId, userId, open === "1");
+      // Merge finished Monthly Check-ins (Phase 6). Add-a-source only: when there's no guided
+      // source or no guided rows, the interview list is returned exactly as before.
+      const guided = deps.listCompletedGuidedSlim
+        ? await deps.listCompletedGuidedSlim(orgId ?? "", { managerId: userId ?? "" })
+        : [];
+      if (!guided.length) return { runs: interview };
+      const guidedRows = guided.map((g) => ({
+        id: g.id,
+        personId: g.personId,
+        headline: `Monthly Check-in with ${g.personName}`,
+        ctx: { name: g.personName, meetingType: "Monthly Check-in" },
+        lastSeenAt: g.completedAt,
+        finished: true,
+        rating: null,
+        kind: "guided",
+      }));
+      const rows = [...interview, ...guidedRows].sort(
+        (a, b) =>
+          (Number((b as { lastSeenAt?: unknown }).lastSeenAt) || 0) -
+          (Number((a as { lastSeenAt?: unknown }).lastSeenAt) || 0),
+      );
+      return { runs: rows };
+    },
     aboutMe: async (orgId, personIds, managerNames) => {
       if (!personIds.length) return { runs: [] }; // unlinked member — nothing to walk
       const runs = (await repo.listAboutPerson(orgId, personIds)).map((r) => {

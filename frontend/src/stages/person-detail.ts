@@ -22,6 +22,7 @@ type MyRun = {
   ctx: { name: string; role: string; seniority: string; meetingType: string };
   lastSeenAt: number;
   rating: { stars: number } | null;
+  kind?: "guided" | "interview"; // "guided" rows open /guided/:id (Phase 6)
 };
 type Person = {
   key: string;
@@ -85,7 +86,7 @@ function runRow(r: MyRun): string {
   const badge = r.rating
     ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
     : "";
-  return `<button type="button" class="person-run js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm"><span class="person-run__type">${escapeHtml(type)}</span>${when ? `<span class="person-run__when"> · ${escapeHtml(when)}</span>` : ""}</span>${badge}</button>`;
+  return `<button type="button" class="person-run js-open" data-id="${escapeHtml(r.id)}" data-kind="${escapeHtml(r.kind ?? "")}"><span class="text-sm"><span class="person-run__type">${escapeHtml(type)}</span>${when ? `<span class="person-run__when"> · ${escapeHtml(when)}</span>` : ""}</span>${badge}</button>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
@@ -182,7 +183,9 @@ export const mount: Mount = async (root, { setState }) => {
   root.querySelectorAll<HTMLElement>(".js-open").forEach((el) => {
     el.addEventListener("click", () => {
       const id = el.dataset.id;
-      if (id) setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
+      if (!id) return;
+      if (el.dataset.kind === "guided") setState({ guidedId: id, stage: STAGES.GUIDED });
+      else setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
     });
   });
   // "Prep next 1:1" — seed a fresh intake with this person and open the form. Seeding is

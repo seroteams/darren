@@ -68,6 +68,9 @@ function fakeRepo(): GuidedSessionsRepo {
       const r = rows.get(id);
       if (r) rows.set(id, { ...r, ...patch, updatedAt: new Date() });
     },
+    async listCompletedSlim() {
+      return [];
+    },
   };
 }
 

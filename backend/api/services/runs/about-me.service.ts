@@ -9,6 +9,7 @@ import { pgPeopleRepo } from "../team/people.repo.ts";
 import { listFinishedRunsAboutPerson } from "../../../engine/run-history.ts";
 import { pgListFinishedRunsAboutPerson } from "../../../db/runs-store.ts";
 import { hasDatabaseUrl } from "../../../db/client.ts";
+import { listCompletedGuidedSlim as guidedSlimSource } from "../guided-sessions/guided-slim.ts";
 
 export interface AboutMeRun {
   id: string;
@@ -25,6 +26,12 @@ export interface AboutMeDeps {
     personIds: string[],
   ): Promise<{ id: string; meetingType: string; lastSeenAt: number; completedAt: number | null; userId: string | null }[]>;
   listOrgUsers(orgId: string): Promise<{ id: string; name: string }[]>;
+  // Optional (monthly-checkin Phase 6): finished Monthly Check-ins about the member. Default-off
+  // so the existing about-me test (no guided dep) returns exactly its interview rows, unchanged.
+  listCompletedGuidedSlim?: (
+    orgId: string,
+    filter: { personIds?: string[] },
+  ) => Promise<{ id: string; personName: string; managerId: string; completedAt: number }[]>;
 }
 
 const defaultDeps: AboutMeDeps = {
@@ -37,6 +44,7 @@ const defaultDeps: AboutMeDeps = {
       { id: string; meetingType: string; lastSeenAt: number; completedAt: number | null; userId: string | null }[]
     >,
   listOrgUsers: (orgId) => pgPeopleRepo.listOrgUsers(orgId),
+  listCompletedGuidedSlim: (orgId, filter) => guidedSlimSource(orgId, filter),
 };
 
 export function createAboutMeService(deps: AboutMeDeps = defaultDeps) {
@@ -45,18 +53,28 @@ export function createAboutMeService(deps: AboutMeDeps = defaultDeps) {
       if (!orgId || !userId) return { runs: [] };
       const linked = await deps.findByLinkedUser(userId, orgId);
       if (linked.length === 0) return { runs: [] };
-      const rows = await deps.listRunsAboutPerson(orgId, linked.map((p) => p.id));
-      if (rows.length === 0) return { runs: [] };
+      const personIds = linked.map((p) => p.id);
+      const rows = await deps.listRunsAboutPerson(orgId, personIds);
+      const guided = deps.listCompletedGuidedSlim ? await deps.listCompletedGuidedSlim(orgId, { personIds }) : [];
+      if (rows.length === 0 && guided.length === 0) return { runs: [] };
       const names = new Map((await deps.listOrgUsers(orgId)).map((u) => [u.id, u.name]));
-      return {
-        runs: rows.map((r) => ({
-          id: r.id,
-          meetingType: r.meetingType,
-          lastSeenAt: r.lastSeenAt,
-          completedAt: r.completedAt,
-          managerName: (r.userId && names.get(r.userId)) || null,
-        })),
-      };
+      const interviewRuns: AboutMeRun[] = rows.map((r) => ({
+        id: r.id,
+        meetingType: r.meetingType,
+        lastSeenAt: r.lastSeenAt,
+        completedAt: r.completedAt,
+        managerName: (r.userId && names.get(r.userId)) || null,
+      }));
+      // Add-a-source: when there are no guided rows, return the interview list unchanged (order + all).
+      if (guided.length === 0) return { runs: interviewRuns };
+      const guidedRuns: AboutMeRun[] = guided.map((g) => ({
+        id: g.id,
+        meetingType: "Monthly Check-in",
+        lastSeenAt: g.completedAt,
+        completedAt: g.completedAt,
+        managerName: (g.managerId && names.get(g.managerId)) || null,
+      }));
+      return { runs: [...interviewRuns, ...guidedRuns].sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0)) };
     },
   };
 }

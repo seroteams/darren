@@ -31,6 +31,7 @@ import { STAGE_RENDERERS, STAGE_UI } from "./guided-stages.ts";
 import { FEEDBACK, type CopyCtx } from "./coaching-copy.ts";
 import { ICONS } from "./guided-icons.ts";
 import { panelHtml, type Panel } from "./side-panel.component.ts";
+import { renderRecord } from "./record.component.ts";
 import { esc } from "./guided-util.ts";
 import "./guided.css";
 
@@ -89,18 +90,6 @@ export const mount: Mount = async (root, { store, setState }) => {
       return { promises: [], requests: [], goals: [] };
     }
   }
-  // The last-time marker: most-recent prior score per block (block_scores are oldest-first, so a
-  // later entry overwrites an earlier one → most recent wins). Static within a session.
-  async function loadLastScores(): Promise<Record<string, { score: number; date: string }>> {
-    try {
-      const res = (await getBlockScores(dto.personId)) as { scores?: BlockScore[] };
-      const out: Record<string, { score: number; date: string }> = {};
-      for (const s of res.scores ?? []) out[s.block] = { score: s.score, date: s.createdAt };
-      return out;
-    } catch {
-      return {};
-    }
-  }
   // Previous completed session's engagement (1–5) for the Review "last time: N/5" line.
   async function loadLastEngagement(): Promise<number | null> {
     try {
@@ -113,9 +102,27 @@ export const mount: Mount = async (root, { store, setState }) => {
       return null;
     }
   }
+  // Block scores for this person — the runner's last-time marker AND the finished record's
+  // scores-with-trend. (block_scores are oldest-first, so a later entry wins per block.)
+  let rawBlockScores: BlockScore[] = [];
+  try {
+    const res = (await getBlockScores(dto.personId)) as { scores?: BlockScore[] };
+    rawBlockScores = res.scores ?? [];
+  } catch {
+    rawBlockScores = [];
+  }
+  const lastScores: Record<string, { score: number; date: string }> = {};
+  for (const s of rawBlockScores) lastScores[s.block] = { score: s.score, date: s.createdAt };
   let trackers = await loadTrackers();
-  const lastScores = await loadLastScores();
   const lastEngagement = await loadLastEngagement();
+
+  // A finished session (completed_at set) renders the read-only one-page record (Phase 6), not
+  // the runner — same URL, no nav, no autosave.
+  if (dto.completedAt) {
+    document.querySelectorAll(".mcr-portal").forEach((n) => n.remove());
+    root.innerHTML = renderRecord({ dto, trackers, blockScores: rawBlockScores, copy });
+    return;
+  }
 
   let panel: Panel | null = null;
   let saveState: "idle" | "saving" = "idle";

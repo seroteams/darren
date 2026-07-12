@@ -108,7 +108,10 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelectorAll<HTMLElement>(".js-open").forEach((el) => {
       el.addEventListener("click", () => {
         const id = el.dataset.id;
-        if (id) setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
+        if (!id) return;
+        // A Monthly Check-in row opens its record at /guided/:id; interview runs open /runs/:id.
+        if (el.dataset.kind === "guided") setState({ guidedId: id, stage: STAGES.GUIDED });
+        else setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
       });
     });
   };
@@ -168,7 +171,8 @@ export const mount: Mount = async (root, { setState }) => {
         const badge = r.rating
           ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
           : "";
-        return `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}"><span class="text-sm">${rowLine(r)}</span>${badge}</button>`;
+        const kind = escapeHtml(String((r as { kind?: string }).kind ?? ""));
+        return `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}" data-kind="${kind}"><span class="text-sm">${rowLine(r)}</span>${badge}</button>`;
       })
       .join("");
     root.innerHTML = shell(`<section class="l-stack l-stack--2">${rows}</section>`);

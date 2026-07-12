@@ -4,7 +4,7 @@
 // org_id + manager_id — the repo never answers across that wall. The service depends on
 // the interface, so it's unit-tested against an in-memory fake without a database.
 
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray, isNotNull } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
 import { guidedSessions } from "../../../db/schema.ts";
 
@@ -50,6 +50,12 @@ export interface GuidedSessionsRepo {
     id: string,
     patch: { stage?: string; state?: GuidedSessionState; engagement?: number | null; completedAt?: Date | null },
   ): Promise<void>;
+  /** Completed sessions as slim rows for the run-list merge (Phase 6). Filter by the manager
+   *  (their history) OR a set of people (the member's about-me). Org-fenced, newest first. */
+  listCompletedSlim(
+    orgId: string,
+    filter: { managerId?: string; personIds?: string[] },
+  ): Promise<{ id: string; personId: string; personName: string; managerId: string; completedAt: Date }[]>;
 }
 
 // org_id / manager_id / person_id are uuid columns. A synthetic dev identity
@@ -132,5 +138,31 @@ export const pgGuidedSessionsRepo: GuidedSessionsRepo = {
       .update(guidedSessions)
       .set({ ...patch, updatedAt: new Date() })
       .where(eq(guidedSessions.id, id));
+  },
+  async listCompletedSlim(orgId, filter) {
+    if (!isUuid(orgId)) return [];
+    const conds = [eq(guidedSessions.orgId, orgId), isNotNull(guidedSessions.completedAt)];
+    if (filter.managerId !== undefined) {
+      if (!isUuid(filter.managerId)) return [];
+      conds.push(eq(guidedSessions.managerId, filter.managerId));
+    }
+    if (filter.personIds !== undefined) {
+      const ids = filter.personIds.filter(isUuid);
+      if (!ids.length) return [];
+      conds.push(inArray(guidedSessions.personId, ids));
+    }
+    const db = getDb();
+    const rows = await db
+      .select({
+        id: guidedSessions.id,
+        personId: guidedSessions.personId,
+        personName: guidedSessions.personName,
+        managerId: guidedSessions.managerId,
+        completedAt: guidedSessions.completedAt,
+      })
+      .from(guidedSessions)
+      .where(and(...conds))
+      .orderBy(desc(guidedSessions.completedAt));
+    return rows.map((r) => ({ ...r, completedAt: r.completedAt! }));
   },
 };
