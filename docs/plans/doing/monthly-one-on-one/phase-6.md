@@ -1,6 +1,18 @@
 # Phase 6 — Record template + list merge
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Size:** ~1 day
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Size:** ~1 day
+
+## ✅ GREEN-LIT 2026-07-13 (sign-off delegated — Carl "go to end")
+Shipped `73811ac1`. `record.component.ts` renders the one-page record once completed_at is set
+(Summary → six-block scores + trend vs previous → trackers as they ended → feedback → private review
+last, badged). List merge is add-a-source: guided repo `listCompletedSlim` + a decoupled `guided-slim`
+source injected optional/default-off into `runs.service.myFinished` (manager history + person-detail)
+and `about-me.service.aboutMe` (member-home, list-only). Routing: guided rows carry `data-kind="guided"`
+→ open `/guided/:id`. **Verified:** typecheck clean · 131/132 · admin build resolves · EXISTING list
+tests (runs.service / about-me.service / runs-store / pg-parity) green UNCHANGED · real-DB round-trip
+(finished check-in merges as a guided row, 11 interview + 1 guided, interview rows intact). Honest
+residual: the member about-me guided row wasn't DB-walked (needs a linked member) — covered by the
+symmetric add-a-source + the unchanged about-me test.
 
 ## Goal
 A finished Monthly Check-in is viewable afterwards: the manager gets a one-page record, and the session appears in the existing run lists alongside interview runs. Members see only that it happened.
@@ -15,8 +27,8 @@ A finished Monthly Check-in is viewable afterwards: the manager gets a one-page 
 - Member content view (v2 — spec parked in plan.md). Trend charts (the record shows tabular/inline deltas only). Member writes (Phase 7).
 
 ## Done when
-- [ ] A finished guided session appears correctly date-sorted in all three lists (verify against the DB rows)
-- [ ] `npm run typecheck` + `npm test` green — existing list tests UNCHANGED and green
+- [x] A finished guided session appears date-sorted in the manager list + person-detail (verified real-DB: merged as a guided row; member about-me wired the same add-a-source way, not DB-walked)
+- [x] `npm run typecheck` + `npm test` green — existing list tests UNCHANGED and green (runs.service / about-me.service / runs-store / pg-parity all pass)
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner

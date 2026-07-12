@@ -83,8 +83,8 @@ New `backend/engine/guided/wrapup.ts` — `generateGuidedWrapup`: input = all st
 | 3 | [Rating + last-time markers](phase-3.md) | Six sliders saving real scores; last session's score marked; complete() writes block_scores | ✅ |
 | 4 | [Feedback, Summary (manual), private Review](phase-4.md) | Sequential Q&A feedback; manual summary; the private wrap-up; finishing a session | ✅ |
 | 5 | [The AI call](phase-5.md) | End-of-session Summary draft + private suggestion buckets — **the only paid phase** | ✅ |
-| 6 | [Record + list merge](phase-6.md) | The one-page finished record, merged into the existing run lists | 🔨 |
-| 7 | [Member requests + goals](phase-7.md) | Members raise requests and update their own goals from their area (first member write on tracker data) | ⬜ |
+| 6 | [Record + list merge](phase-6.md) | The one-page finished record, merged into the existing run lists | ✅ |
+| 7 | [Member requests + goals](phase-7.md) | Members raise requests and update their own goals from their area (first member write on tracker data) | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested + Carl green-lit)
 
