@@ -99,3 +99,12 @@ export interface GroupedTrackers {
   requests: TrackerItem[];
   goals: TrackerItem[];
 }
+
+// ── Block scores (Phase 3) — six-block ratings, read for the last-time marker ──
+export interface BlockScore {
+  block: string;
+  score: number;
+  note: string | null;
+  guidedSessionId: string;
+  createdAt: string;
+}

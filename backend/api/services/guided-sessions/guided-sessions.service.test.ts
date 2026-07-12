@@ -3,6 +3,32 @@ import assert from "node:assert/strict";
 import { createGuidedSessionsService } from "./guided-sessions.service.ts";
 import type { GuidedPeopleGateway } from "./guided-sessions.service.ts";
 import type { GuidedSessionsRepo, GuidedSessionRow } from "./guided-sessions.repo.ts";
+import type { BlockScoresRepo, ScoreBlock } from "./block-scores.repo.ts";
+
+function fakeBlockScores(): BlockScoresRepo & {
+  rows: { guidedSessionId: string; personId: string; block: string; score: number; note: string | null }[];
+} {
+  const rows: { guidedSessionId: string; personId: string; block: string; score: number; note: string | null }[] = [];
+  return {
+    rows,
+    async upsert(newRows) {
+      for (const r of newRows) {
+        const ex = rows.find((x) => x.guidedSessionId === r.guidedSessionId && x.block === r.block);
+        if (ex) {
+          ex.score = r.score;
+          ex.note = r.note;
+        } else {
+          rows.push({ guidedSessionId: r.guidedSessionId, personId: r.personId, block: r.block, score: r.score, note: r.note });
+        }
+      }
+    },
+    async listForPerson(personId) {
+      return rows
+        .filter((r) => r.personId === personId)
+        .map((r) => ({ ...r, block: r.block as ScoreBlock, createdAt: new Date() }));
+    },
+  };
+}
 
 // In-memory fakes prove the service logic + fences without a database (the house pattern).
 const CALLER = { orgId: "org-1", managerId: "mgr-1" };
@@ -159,4 +185,56 @@ test("complete applies the Catch-up promise outcomes to the tracker rows (Phase 
     { id: "promise-A", outcome: "yes" },
     { id: "promise-B", outcome: "changed" },
   ]);
+});
+
+test("complete upserts the rated block scores; unrated blocks skipped; idempotent (Phase 3)", async () => {
+  const bs = fakeBlockScores();
+  const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), undefined, bs);
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  await svc.patch(gs.id, CALLER.orgId, CALLER.managerId, {
+    state: {
+      v: 1,
+      arc: "monthly_check_in",
+      step: 2,
+      visited: [0, 1, 2],
+      rating: { scores: { tasks: 7.5, team: 8 }, blockNotes: { tasks: "up on last month" } },
+    },
+  });
+  await svc.complete(gs.id, CALLER.orgId, CALLER.managerId);
+  assert.equal(bs.rows.length, 2); // only the 2 rated blocks
+  const tasks = bs.rows.find((r) => r.block === "tasks");
+  assert.equal(tasks?.score, 7.5);
+  assert.equal(tasks?.note, "up on last month");
+  await svc.complete(gs.id, CALLER.orgId, CALLER.managerId); // idempotent (already completed)
+  assert.equal(bs.rows.length, 2);
+});
+
+test("complete rejects an out-of-range / off-step score — nothing written, session stays open", async () => {
+  const bs = fakeBlockScores();
+  const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), undefined, bs);
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  for (const bad of [0, 11, 7.3]) {
+    await svc.patch(gs.id, CALLER.orgId, CALLER.managerId, {
+      state: { v: 1, arc: "monthly_check_in", step: 2, visited: [0], rating: { scores: { tasks: bad } } },
+    });
+    await assert.rejects(() => svc.complete(gs.id, CALLER.orgId, CALLER.managerId), /invalid score/i);
+  }
+  assert.equal(bs.rows.length, 0);
+  const still = await svc.get(gs.id, CALLER.orgId, CALLER.managerId);
+  assert.equal(still.completedAt, null); // not completed — can still be fixed
+});
+
+test("listBlockScores is person-fenced and returns the history", async () => {
+  const bs = fakeBlockScores();
+  const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), undefined, bs);
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  await svc.patch(gs.id, CALLER.orgId, CALLER.managerId, {
+    state: { v: 1, arc: "monthly_check_in", step: 2, visited: [0], rating: { scores: { fun: 6 } } },
+  });
+  await svc.complete(gs.id, CALLER.orgId, CALLER.managerId);
+  const { scores } = await svc.listBlockScores("p1", CALLER.orgId, CALLER.managerId);
+  assert.equal(scores.length, 1);
+  assert.equal(scores[0]?.block, "fun");
+  assert.equal(scores[0]?.score, 6);
+  await assert.rejects(() => svc.listBlockScores("p1", CALLER.orgId, "mgr-OTHER"), /not found/i);
 });

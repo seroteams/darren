@@ -408,6 +408,12 @@ export async function updateTrackerItem(id, payload) {
   }));
 }
 
+// Block scores (monthly-checkin Phase 3) — a person's six-block rating history (for the
+// Rating stage's last-time marker). → { scores: [{ block, score, note, guidedSessionId, createdAt }] }.
+export async function getBlockScores(personId) {
+  return json(await fetch(`/api/v1/people/${encodeURIComponent(personId)}/block-scores`));
+}
+
 // Hard delete — permanently removes the person and every 1:1 about them. Irreversible.
 export async function deletePerson(id) {
   return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {

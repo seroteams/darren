@@ -14,10 +14,12 @@ import {
   listTrackerItems,
   createTrackerItem,
   updateTrackerItem,
+  getBlockScores,
 } from "../../../../shared/api.js";
 import { arcBySlug } from "./guided-arcs.ts";
 import {
   GUIDED_STATE_VERSION,
+  type BlockScore,
   type GroupedTrackers,
   type GuidedArc,
   type GuidedSessionDto,
@@ -85,7 +87,20 @@ export const mount: Mount = async (root, { store, setState }) => {
       return { promises: [], requests: [], goals: [] };
     }
   }
+  // The last-time marker: most-recent prior score per block (block_scores are oldest-first, so a
+  // later entry overwrites an earlier one → most recent wins). Static within a session.
+  async function loadLastScores(): Promise<Record<string, { score: number; date: string }>> {
+    try {
+      const res = (await getBlockScores(dto.personId)) as { scores?: BlockScore[] };
+      const out: Record<string, { score: number; date: string }> = {};
+      for (const s of res.scores ?? []) out[s.block] = { score: s.score, date: s.createdAt };
+      return out;
+    } catch {
+      return {};
+    }
+  }
   let trackers = await loadTrackers();
+  const lastScores = await loadLastScores();
 
   let panel: Panel | null = null;
   let saveState: "idle" | "saving" = "idle";
@@ -306,7 +321,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   function render(): void {
     copy.requestCount = trackers.requests.length;
     copy.goalCount = trackers.goals.length;
-    const { title, sub, body } = STAGE_RENDERERS[stages[state.step]!](state, copy, trackers);
+    const { title, sub, body } = STAGE_RENDERERS[stages[state.step]!](state, copy, { trackers, lastScores });
     root.innerHTML = `
       <div class="mcr">
         <div class="mcr-col">

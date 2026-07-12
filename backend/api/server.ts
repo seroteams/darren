@@ -475,6 +475,9 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return trackers.updateTrackerItem(c);
   }));
+  // Block scores (monthly-checkin Phase 3) — a person's six-block rating history for the
+  // last-time marker. Written only via guided complete(); this is read-only + person-fenced.
+  router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/block-scores$/, v1Route(guided.getBlockScores));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the
   // token is the credential, single-use + expiring + stored hashed. Accept is origin-

@@ -8,11 +8,53 @@ import { pgGuidedSessionsRepo } from "./guided-sessions.repo.ts";
 import type { GuidedSessionsRepo, GuidedSessionRow, GuidedSessionState } from "./guided-sessions.repo.ts";
 import { pgPeopleRepo } from "../team/people.repo.ts";
 import { trackersService } from "../trackers/trackers.service.ts";
+import { pgBlockScoresRepo, SCORE_BLOCKS, type BlockScoresRepo, type ScoreBlock } from "./block-scores.repo.ts";
 import { badRequest, notFound } from "../../middleware/http-error.ts";
 
 /** The slice of the trackers service guided complete() needs — resolve a Catch-up promise. */
 export interface TrackerOutcomeApplier {
   applyOutcome(id: string, orgId: string, managerId: string, outcome: string): Promise<unknown>;
+}
+
+/** One session's block score, as the runner reads it for the last-time marker + trends. */
+export interface BlockScoreDto {
+  block: string;
+  score: number;
+  note: string | null;
+  guidedSessionId: string;
+  createdAt: string;
+}
+
+// Rating scores are 1.0–10.0 in 0.5 steps. Anything else is a tampered draft — reject, never store.
+function validScore(v: unknown): number | null {
+  const n = Number(v);
+  if (!Number.isFinite(n) || n < 1 || n > 10) return null;
+  return Math.round(n * 2) === n * 2 ? n : null;
+}
+
+// Pull the rated blocks out of state.rating (scores + optional per-block notes). Unrated blocks
+// are skipped; an out-of-range/off-step score throws (aborts complete() before anything is written).
+function collectBlockScores(
+  state: GuidedSessionState,
+): { block: ScoreBlock; score: number; note: string | null }[] {
+  const rating = state.rating;
+  if (!rating || typeof rating !== "object" || Array.isArray(rating)) return [];
+  const r = rating as Record<string, unknown>;
+  const asMap = (v: unknown): Record<string, unknown> =>
+    v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : {};
+  const scoreMap = asMap(r.scores);
+  const noteMap = asMap(r.blockNotes);
+  const out: { block: ScoreBlock; score: number; note: string | null }[] = [];
+  for (const block of SCORE_BLOCKS) {
+    const raw = scoreMap[block];
+    if (raw === undefined || raw === null || raw === "") continue; // unrated block
+    const s = validScore(raw);
+    if (s === null) throw badRequest(`Invalid score for ${block} — must be 1.0–10.0 in 0.5 steps`);
+    const noteRaw = noteMap[block];
+    const note = typeof noteRaw === "string" && noteRaw.trim() ? noteRaw.trim().slice(0, 500) : null;
+    out.push({ block, score: s, note });
+  }
+  return out;
 }
 
 const GUIDED_STATE_VERSION = 1;
@@ -119,12 +161,15 @@ export interface GuidedSessionsService {
     input: { stage?: unknown; state?: unknown },
   ): Promise<GuidedSessionDto>;
   complete(id: string, orgId: string, managerId: string): Promise<GuidedSessionDto>;
+  /** This person's block scores across sessions — for the Rating stage's last-time marker. */
+  listBlockScores(personId: string, orgId: string, managerId: string): Promise<{ scores: BlockScoreDto[] }>;
 }
 
 export function createGuidedSessionsService(
   repo: GuidedSessionsRepo = pgGuidedSessionsRepo,
   people: GuidedPeopleGateway = defaultPeopleGateway,
   trackers: TrackerOutcomeApplier = trackersService,
+  blockScores: BlockScoresRepo = pgBlockScoresRepo,
 ): GuidedSessionsService {
   /** The caller's own session or a 404 — the fence everything else builds on. */
   async function owned(id: string, orgId: string, managerId: string): Promise<GuidedSessionRow> {
@@ -191,6 +236,9 @@ export function createGuidedSessionsService(
     async complete(id, orgId, managerId) {
       const row = await owned(id, orgId, managerId);
       if (row.completedAt) return toDto(row); // idempotent — a double-fire never double-writes
+      // Phase 3: validate the six-block scores FIRST, so a tampered/out-of-range value aborts the
+      // whole complete() before anything is written (QA: 0/11/7.3 → error, nothing in the DB).
+      const scoreRows = collectBlockScores(row.state);
       // Phase 2: apply the Catch-up promise outcomes to the real tracker rows. Best-effort per
       // row — a since-deleted or foreign promise id must never block finishing the 1:1.
       for (const [promiseId, outcome] of Object.entries(readOutcomes(row.state))) {
@@ -200,11 +248,38 @@ export function createGuidedSessionsService(
           console.warn("[guided] outcome apply skipped:", promiseId, e instanceof Error ? e.message : String(e));
         }
       }
+      // Phase 3: upsert the block scores (idempotent on the (session, block) unique key).
+      if (scoreRows.length) {
+        await blockScores.upsert(
+          scoreRows.map((r) => ({
+            orgId,
+            guidedSessionId: row.id,
+            personId: row.personId,
+            block: r.block,
+            score: r.score,
+            note: r.note,
+          })),
+        );
+      }
       const completedAt = new Date();
       const engagement = readEngagement(row.state);
-      // (block_scores + the AI wrap-up land in Phases 3–5.)
+      // (the AI wrap-up lands in Phase 5.)
       await repo.update(row.id, { stage: "done", completedAt, engagement });
       return toDto({ ...row, stage: "done", completedAt, engagement });
+    },
+
+    async listBlockScores(personId, orgId, managerId) {
+      await ownedPerson(personId, orgId, managerId);
+      const rows = await blockScores.listForPerson(personId, orgId);
+      return {
+        scores: rows.map((r) => ({
+          block: r.block,
+          score: r.score,
+          note: r.note,
+          guidedSessionId: r.guidedSessionId,
+          createdAt: r.createdAt.toISOString(),
+        })),
+      };
     },
   };
 }

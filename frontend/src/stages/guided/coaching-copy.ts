@@ -142,19 +142,18 @@ export function statusClass(status: string): string {
   return "new";
 }
 
-/** The six building blocks. `last` is a MOCK previous score this phase — real trend lands in
- *  Phase 3 (block_scores). */
+/** The six building blocks. The last-time marker is real block_scores now (Phase 3), passed
+ *  into the renderer per block — not stored here. */
 export interface RatingBlock {
   id: string;
   label: string;
   icon: string;
-  last: number;
 }
 export const RATING_BLOCKS: RatingBlock[] = [
-  { id: "tasks", label: "Tasks", icon: "check", last: 7 },
-  { id: "processes", label: "Processes", icon: "flow", last: 6 },
-  { id: "team", label: "Our team", icon: "people", last: 8 },
-  { id: "development", label: "Development", icon: "trend", last: 5 },
-  { id: "fun", label: "Fun", icon: "smile", last: 7 },
-  { id: "fulfilment", label: "Fulfilment", icon: "heart", last: 6 },
+  { id: "tasks", label: "Tasks", icon: "check" },
+  { id: "processes", label: "Processes", icon: "flow" },
+  { id: "team", label: "Our team", icon: "people" },
+  { id: "development", label: "Development", icon: "trend" },
+  { id: "fun", label: "Fun", icon: "smile" },
+  { id: "fulfilment", label: "Fulfilment", icon: "heart" },
 ];

@@ -16,7 +16,7 @@
 // app runs identically in live and local. sessions is THE run index; run_artifacts
 // holds what used to be the files inside a run dir.
 
-import { pgTable, pgEnum, uuid, text, integer, bigint, boolean, timestamp, jsonb, index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, uuid, text, integer, bigint, boolean, timestamp, jsonb, numeric, index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
 
 /** Fixed sets as enums (locked rule: roles / invite status are enums, not free text). */
 export const userRole = pgEnum("user_role", ["admin", "manager", "member"]);
@@ -476,5 +476,45 @@ export const trackerItems = pgTable(
     index("tracker_items_org_id_idx").on(t.orgId),
     index("tracker_items_person_id_idx").on(t.personId),
     index("tracker_items_person_kind_status_idx").on(t.personId, t.kind, t.status),
+  ],
+);
+
+/** The six building blocks of a Monthly Check-in rating (monthly-checkin Phase 3). */
+export const scoreBlock = pgEnum("score_block", [
+  "tasks",
+  "processes",
+  "team",
+  "development",
+  "fun",
+  "fulfilment",
+]);
+
+/** Six-block self-scores captured in a guided session's Rating stage. ONE row per
+ *  (guided_session, block) — the unique key makes complete() an idempotent upsert. Score is
+ *  numeric(3,1) (1.0–10.0, 0.5 steps, service-validated). Trends for the last-time marker + the
+ *  Phase-6 record read WHERE person_id ORDER BY created_at. Org-fenced; the person→manager wall
+ *  is applied in the service (tied to the session's org). No member reads in v1. */
+export const blockScores = pgTable(
+  "block_scores",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    guidedSessionId: uuid("guided_session_id")
+      .notNull()
+      .references(() => guidedSessions.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    block: scoreBlock("block").notNull(),
+    score: numeric("score", { precision: 3, scale: 1 }).notNull(),
+    note: text("note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("block_scores_session_block_unique").on(t.guidedSessionId, t.block),
+    index("block_scores_person_id_idx").on(t.personId),
+    index("block_scores_org_id_idx").on(t.orgId),
   ],
 );

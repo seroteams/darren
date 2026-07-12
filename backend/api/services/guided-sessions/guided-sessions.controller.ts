@@ -51,3 +51,8 @@ export async function completeGuidedSession(c: RequestContext): Promise<void> {
   const { orgId, managerId } = await guidedCaller(c);
   c.json(200, await guidedSessionsService.complete(c.params.id ?? "", orgId, managerId));
 }
+
+export async function getBlockScores(c: RequestContext): Promise<void> {
+  const { orgId, managerId } = await guidedCaller(c);
+  c.json(200, await guidedSessionsService.listBlockScores(c.params.personId ?? "", orgId, managerId));
+}

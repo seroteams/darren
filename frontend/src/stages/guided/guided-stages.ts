@@ -7,7 +7,7 @@
 
 import type { GroupedTrackers, GuidedStageId, GuidedState, TrackerItem } from "./guided.types.ts";
 import { ICONS } from "./guided-icons.ts";
-import { esc } from "./guided-util.ts";
+import { esc, shortDate } from "./guided-util.ts";
 import {
   CATEGORY_LABELS,
   FEEDBACK,
@@ -20,10 +20,16 @@ import {
   type CopyCtx,
 } from "./coaching-copy.ts";
 
+export interface RenderCtx {
+  trackers: GroupedTrackers;
+  /** Most-recent prior score per block id → { score, date } — the last-time marker. */
+  lastScores: Record<string, { score: number; date: string }>;
+}
+
 export type StageRenderer = (
   state: GuidedState,
   copy: CopyCtx,
-  trackers: GroupedTrackers,
+  ctx: RenderCtx,
 ) => { title: string; sub: string; body: string };
 
 // ---- shared builders ------------------------------------------------------------------------
@@ -63,10 +69,10 @@ const statusPill = (status: string): string =>
   `<span class="mcr-status mcr-status--${statusClass(status)}">${esc(STATUS_LABELS[status] ?? status)}</span>`;
 
 // ---- the renderers --------------------------------------------------------------------------
-const catchup: StageRenderer = (state, copy, trackers) => {
+const catchup: StageRenderer = (state, copy, ctx) => {
   const { title, sub } = stageCopy("catchup", copy);
   const outcomes = state.catchup?.outcomes ?? {};
-  const open = trackers.promises.filter((p) => p.status === "open");
+  const open = ctx.trackers.promises.filter((p) => p.status === "open");
   const rows = open
     .map(
       (p) => `
@@ -115,9 +121,9 @@ const rowCard = (kind: "request" | "goal", item: TrackerItem): string => {
     </button>`;
 };
 
-const requests: StageRenderer = (state, copy, trackers) => {
+const requests: StageRenderer = (state, copy, ctx) => {
   const { title, sub } = stageCopy("requests", copy);
-  const rows = trackers.requests.map((r) => rowCard("request", r)).join("");
+  const rows = ctx.trackers.requests.map((r) => rowCard("request", r)).join("");
   return {
     title,
     sub,
@@ -127,9 +133,9 @@ const requests: StageRenderer = (state, copy, trackers) => {
   };
 };
 
-const goals: StageRenderer = (state, copy, trackers) => {
+const goals: StageRenderer = (state, copy, ctx) => {
   const { title, sub } = stageCopy("goals", copy);
-  const rows = trackers.goals.map((g) => rowCard("goal", g)).join("");
+  const rows = ctx.trackers.goals.map((g) => rowCard("goal", g)).join("");
   return {
     title,
     sub,
@@ -139,13 +145,16 @@ const goals: StageRenderer = (state, copy, trackers) => {
   };
 };
 
-const rating: StageRenderer = (state, copy) => {
+const rating: StageRenderer = (state, copy, ctx) => {
   const { title, sub } = stageCopy("rating", copy);
   const scores = state.rating?.scores ?? {};
   const blockNotes = state.rating?.blockNotes ?? {};
   const rows = RATING_BLOCKS.map((b) => {
     const val = scores[b.id] ?? 5;
-    const pct = ((b.last - 1) / 9) * 100;
+    const last = ctx.lastScores[b.id]; // real prior score, or undefined on a first session
+    const marker = last
+      ? `<span class="mcr-lastmark" style="left:${((last.score - 1) / 9) * 100}%">${last.score.toFixed(1)} · ${esc(shortDate(last.date))}</span>`
+      : "";
     return `
       <div class="mcr-card mcr-block">
         <div class="mcr-block__head">
@@ -154,7 +163,7 @@ const rating: StageRenderer = (state, copy) => {
           <span class="mcr-block__score" data-score-for="${b.id}">${Number(val).toFixed(1)}</span>
         </div>
         <div class="mcr-slider">
-          <span class="mcr-lastmark" style="left:${pct}%">${b.last.toFixed(1)} · last month</span>
+          ${marker}
           <input type="range" min="1" max="10" step="0.5" value="${val}" data-block="${b.id}" aria-label="${esc(b.label)} score 1 to 10" />
           <div class="mcr-slider__labels"><span>1 Low score</span><span>5 Normal</span><span>10 Thriving</span></div>
         </div>
