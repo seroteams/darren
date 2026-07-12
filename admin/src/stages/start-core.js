@@ -4,7 +4,7 @@
 // argument. The customer app imports THIS file directly, so no bench markup or
 // persona code ever reaches the customer bundle.
 import { STAGES, store } from "../state.js";
-import { listRecentRuns, getRunOverview, deleteRun, getPipelineStatus } from "../../../shared/api.js";
+import { listRecentRuns, getRunOverview, deleteRun } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { stageLabel } from "../ui/stage-labels.js";
 import { escapeHtml as escape } from "../ui/html.js";
@@ -46,51 +46,6 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   let runs = [];
   let expandedId = null;
-  let currentAllDigest = null;
-
-  async function loadPipelineStatus() {
-    try {
-      const s = await getPipelineStatus("latest");
-      currentAllDigest = s?.current?.aggregates?.all ?? null;
-    } catch (e) {
-      console.warn("[start] pipeline status failed:", e);
-      currentAllDigest = null;
-    }
-  }
-
-  function driftDot(run) {
-    if (!currentAllDigest || !run.pipelineDigest?.all) return "";
-    if (run.pipelineDigest.all !== currentAllDigest) {
-      return `<span class="run-row__drift-dot" title="Engine updated since this run"></span>`;
-    }
-    return "";
-  }
-
-  // Turn the pipeline-status diff into a short, plain-language list of what
-  // changed since the run. Reads drift.groups (content/engine/models/git) — no
-  // file paths or hashes, just human area names.
-  function describeDrift(drift) {
-    const areas = [];
-    for (const g of drift.groups || []) {
-      if (g.id === "content" || g.id === "engine") {
-        for (const c of g.changes || []) {
-          if (c.stageLabel && !areas.includes(c.stageLabel)) areas.push(c.stageLabel);
-        }
-      } else if (g.id === "models") {
-        const label = "Which AI models are used";
-        if (!areas.includes(label)) areas.push(label);
-      }
-    }
-    if (areas.length === 0) {
-      // Only the version/commit moved — nothing in how this prep is built.
-      return "Minor version change only — nothing in how this prep is built changed.";
-    }
-    const shown = areas.slice(0, 3);
-    const rest = areas.length - shown.length;
-    let list = shown.join(", ");
-    if (rest > 0) list += `, and ${rest} more`;
-    return list;
-  }
 
   function reviewChip(run) {
     if (run.reviewStatus === "complete") return ` <span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ${icon(Check, { size: 16 })}</span>`;
@@ -121,7 +76,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
       <li class="run-row" data-id="${escape(r.id)}">
         <button class="run-row__head js-row" data-id="${escape(r.id)}" aria-expanded="${isOpen}">
           <span class="run-row__chevron" aria-hidden="true">${isOpen ? "▼" : "▶"}</span>
-          <span class="run-row__headline">${escape(r.headline || r.id)}${driftDot(r)}${reviewChip(r)}</span>
+          <span class="run-row__headline">${escape(r.headline || r.id)}${reviewChip(r)}</span>
           <span class="run-row__meta text-ink-mute text-sm">${escape(formatRelativeTime(r.lastSeenAt))} · ${escape(stageLabel(r.stage))}</span>
         </button>
         <div class="run-row__body js-body" data-id="${escape(r.id)}" hidden></div>
@@ -138,7 +93,6 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
       runs = [];
       console.warn("[start] listRecentRuns failed:", e);
     }
-    await loadPipelineStatus();
     render();
   }
 
@@ -160,26 +114,27 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
       const o = await getRunOverview(id);
       const run = runs.find((x) => x.id === id);
       const finished = run?.stage === "BRIEFING";
-      let driftHtml = "";
-      try {
-        const drift = await getPipelineStatus(id);
-        if (drift.baseline?.hasLock && !drift.unchanged) {
-          const lead = finished
-            ? "This run was made with an older engine version. Reviewing shows the saved result as-is."
-            : "The engine changed since this session paused. Continuing will use the current engine, so the rest may not match the earlier part.";
-          driftHtml = `
-            <div class="run-row__drift text-sm">
-              <span>${escape(lead)}</span>
-              <details class="run-row__drift-details">
-                <summary>What changed</summary>
-                <p class="run-row__drift-list">${escape(describeDrift(drift))}</p>
-              </details>
-            </div>`;
-        }
-      } catch {}
+      // A plain meeting overview for the manager — who it's with, the type, where
+      // it's up to, and their own note. No engine/version wording (that's admin-only
+      // plumbing a manager has no use for). Falls back to the headline for the rare
+      // nameless run so the line never reads "1:1 with".
+      const hasPerson = Boolean(o.person);
+      const titleLine = hasPerson
+        ? `1:1 with <strong>${escape(o.person)}</strong>${o.roleLine ? ` · ${escape(o.roleLine)}` : ""}`
+        : `<strong>${escape(run?.headline || o.headline || id)}</strong>`;
+      const typeLine = hasPerson && o.meetingType
+        ? `<div class="run-row__type text-ink-dim text-sm">${escape(o.meetingType)}</div>`
+        : "";
+      const noteBlock = o.intakeNote
+        ? `<div class="run-row__note text-sm"><span class="text-ink-mute">Your note:</span> “${escape(o.intakeNote)}”</div>`
+        : "";
       body.innerHTML = `
-        <div class="run-row__overview text-ink">${escape(o.overview || "")}</div>
-        ${driftHtml}
+        <div class="run-row__overview">
+          <div class="run-row__who text-ink">${titleLine}</div>
+          ${typeLine}
+          <div class="run-row__where text-ink-dim text-sm">${escape(whereUpTo(o, finished))}</div>
+          ${noteBlock}
+        </div>
         <div class="run-row__actions">
           ${finished
             ? `<button class="btn js-review" data-id="${escape(id)}">Review</button>`
@@ -323,4 +278,15 @@ function formatRelativeTime(ts) {
 function cssEscape(s) {
   if (window.CSS && CSS.escape) return CSS.escape(s);
   return String(s).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+}
+
+// Plain "where this session is up to" line for the expanded card. Manager words —
+// the existing human stage label plus question progress when it's reached Q&A.
+function whereUpTo(o, finished) {
+  if (finished) return "Briefing ready to review";
+  let line = `Paused at ${stageLabel(o.stage)}`;
+  if (o.progress && o.progress.total) {
+    line += ` — ${o.progress.answered} of ${o.progress.total} questions answered`;
+  }
+  return line;
 }
