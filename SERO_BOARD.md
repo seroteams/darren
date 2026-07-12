@@ -196,7 +196,7 @@ mirrors it:
 The QA pile is cleared and the three finished plans are archived. Still open here:
 briefing-grounding-fixes (Phases 2–4 not started) and briefing-readability P0 (scaffolded, parked).
 
-Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
+Tests: `npm test` **127/127** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
 (not automated); `main` was **pushed to origin 2026-07-04** — local and origin are now in sync.
 
 ## 2. Next — after Now is green
@@ -258,7 +258,7 @@ origin** (local-only by Carl's call for the ultra batch — pushing remains a de
 old stashes were archived as `archive/*` tags + dropped 2026-06-29; the stash list is clean — keep it clean.
 `logs/**` is gitignored apart from a small May keep-set (de-identified — no real names or notes).
 
-**Test status:** `npm test` **57/57** green, `npm run typecheck` clean, offline ($0). Live
+**Test status:** `npm test` **127/127** green, `npm run typecheck` clean, offline ($0). Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 

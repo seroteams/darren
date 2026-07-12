@@ -25,6 +25,12 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> ### 🔨 In flight right now (2026-07-12) — parallel sessions
+> Surfaced by the clean-up sweep; these were building while this board lagged. Status per each folder:
+> - **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — P1 🔨 BUILT (124/124), awaiting your walk; P2/P3 ⬜. Wires the orphaned `outcomeCheck` consumer.
+> - **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P1 🔨 BUILT (126/126), awaiting your walk; P2–P6 ⬜. (Reverses frontend-admin-split P4 "admin never ships".)
+> - **design-stage-native** — ⏸ **PARKED to [future/](docs/plans/future/design-stage-native/plan.md)** in the sweep. Dormant since 07-10; P1 built but never QA-walked, P5 blocked on your parity sign-off. Not archive-safe — un-park to finish.
+
 > **✅ [past-1on1-view](docs/plans/done/past-1on1-view/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl "a" ×2), $0. The manager's Past 1:1 is now a clear 3-tab view.**
 > Carl's ask: make the manager's "Past 1:1" view clear on *what happened, when, and with whom* — an inner nav between the
 > **briefing** and the **actual answers**, a clear "when it was done" section, and a proper person-profile header. Decided
@@ -330,4 +336,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-12 (past-1on1-view TRACK CLOSED — both phases ✅ "a" ×2: member route returns `turns[]` + Past 1:1 rebuilt into Overview/Briefing/Answers tabs with a profile header + rich when-row, 127/127. Earlier: forgot-password TRACK CLOSED, pushed live)
+- Last updated: 2026-07-12 (clean-up sweep — surfaced 2 in-flight parallel tracks (promises-loop, admin-live-deploy) at the top of Your-move + parked dormant design-stage-native to future/. Earlier: past-1on1-view TRACK CLOSED, both phases ✅ "a" ×2, 127/127)
