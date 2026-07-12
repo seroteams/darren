@@ -25,16 +25,18 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> **🔨 [past-1on1-view](docs/plans/doing/past-1on1-view/plan.md) — Phase 1 ✅ (Carl green-lit 2026-07-12 "a") + committed; Phase 2 (UI) building now. $0.**
+> **✅ [past-1on1-view](docs/plans/done/past-1on1-view/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl "a" ×2), $0. The manager's Past 1:1 is now a clear 3-tab view.**
 > Carl's ask: make the manager's "Past 1:1" view clear on *what happened, when, and with whom* — an inner nav between the
 > **briefing** and the **actual answers**, a clear "when it was done" section, and a proper person-profile header. Decided
 > with Carl: **3 tabs** (Overview / Briefing / Answers) + a **rich when-row** (date · ago · questions-answered count).
 > One shared file (`admin/src/stages/run-detail.ts`) → the redesign lands in **both** the manager and customer apps at once.
 > **P1 ✅ backend** — the member route `GET /api/v1/runs/mine/:id` now returns `turns[]` (question · answer · skipped),
-> projected from the stored transcript, mirroring the compare view but with the internal planner `note` **stripped** so it
-> never reaches a manager. Free proof: `npm test` **124/124** (incl. file↔PG parity), typecheck clean, real JSON showing
-> answers surface + note gone + empty run → `[]`. **P2 🔨** — rebuild `run-detail.ts` into the 3-tab screen (profile header,
-> when-row, Briefing reused, new Answers tab). **▶ Your move:** nothing on P1; P2's QA walk lands after I build it.
+> mirroring the compare view but with the internal planner `note` **stripped** so it never reaches a manager. Committed `95816240`.
+> **P2 ✅ frontend** — `run-detail.ts` rebuilt into Overview (profile header · initials avatar · role · seniority · meeting-type pill ·
+> rich when-row · one-line read · rating) / Briefing (reused cards) / Answers (the Q&A list + empty state), plus `run-detail.css`.
+> Free proof throughout: `npm test` **127/127** (incl. 6 new view tests + customer-bundle rebuild + file↔PG parity), typecheck clean,
+> `run-detail.css` confirmed loaded in a live browser. Folder → [done/](docs/plans/done/past-1on1-view/plan.md).
+> **▶ Your move:** nothing — track closed. (Screenshot of a populated run wasn't possible in the headless pane; you walked it live.)
 
 > **✅ [focus-freshness](docs/plans/done/focus-freshness/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl green-lit), ~$0.50 total, live.**
 > Carl's pick from the arc deep-dive: repeat bi-weeklies suggested the same topics every time. Now the focus prompt carries
@@ -328,4 +330,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-12 (forgot-password TRACK CLOSED — both phases ✅ "this is good push it", pushed live: backend reset flow + shared UI in both apps; merged by parking/restoring 2 parallel sessions' WIP. Live email needs the seroapp.com key in Render's dashboard. Earlier: past-1on1-view P1 ✅)
+- Last updated: 2026-07-12 (past-1on1-view TRACK CLOSED — both phases ✅ "a" ×2: member route returns `turns[]` + Past 1:1 rebuilt into Overview/Briefing/Answers tabs with a profile header + rich when-row, 127/127. Earlier: forgot-password TRACK CLOSED, pushed live)

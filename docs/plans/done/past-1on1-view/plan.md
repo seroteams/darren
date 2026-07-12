@@ -22,14 +22,15 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Backend: expose the answers | `turns[]` added to the member run view (file + PG), mirrored test | ✅ |
-| 2 | Frontend: 3-tab redesign | `run-detail.ts` rebuilt as Overview / Briefing / Answers with profile header + when-row | 🔨 |
+| 2 | Frontend: 3-tab redesign | `run-detail.ts` rebuilt as Overview / Briefing / Answers with profile header + when-row | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit 2026-07-12 (Carl: "a") + committed.** The member route now returns `turns[]`
-(question · answer · skipped, internal note stripped); 124/124 + typecheck clean; file↔PG parity held.
-**Phase 2 🔨 building now** — the 3-tab frontend redesign of `run-detail.ts`.
+**TRACK COMPLETE — both phases ✅ green-lit by Carl 2026-07-12 ("a" ×2).**
+- P1 (backend): member route returns `turns[]` (question · answer · skipped, internal note stripped). Committed `95816240`.
+- P2 (frontend): `run-detail.ts` rebuilt into Overview / Briefing / Answers with profile header + rich when-row.
+Whole suite 127/127, typecheck clean throughout, file↔PG parity held. The redesign lands in both apps (shared file).
 
 **Baseline (2026-07-12, free checks only — this is a projection/UI change, the paid gate is not relevant so it was not run):**
 - `npm test`: **124/124 passed** (incl. `test-pg-runs-parity` — DB present, so file↔PG parity must hold).

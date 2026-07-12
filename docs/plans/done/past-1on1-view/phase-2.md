@@ -1,6 +1,18 @@
 # Phase 2 — Frontend: 3-tab redesign of the Past 1:1 view
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ (waits for Phase 1 green light)
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-12 — Carl walked the 3-tab view ("a"), committed
+Overview / Briefing / Answers all working; profile header + rich when-row in place.
+
+## Built (2026-07-12)
+- `admin/src/stages/run-detail.ts` — rebuilt into 3 tabs (Overview / Briefing / Answers). Overview = profile header (`.ds-avatar` initials, name at display size, role · seniority, meeting-type pill) + rich when-row (date · ago · questions-answered count) + the one-line briefing read + the rating card. Briefing = `renderReadonlyBriefing` unchanged. Answers = the `turns[]` Q&A list with an empty state. Tab switch wired with the `notes-panel` `switchTab` idiom (panes toggle `hidden`, `aria-selected` updates). View body extracted into a pure exported `renderRunDetail(run)`.
+- `admin/src/styles/design/run-detail.css` (new, registered in the design.css barrel) — avatar sizing, profile row, when-row, type-badge pill, Q&A blocks. Tokens only.
+- `admin/src/ui/briefing-view.ts` — `Briefing` type gains optional `headline` (already sent by the backend) for the Overview digest.
+- `admin/src/stages/run-detail.test.ts` (new) — 6 DOM-free render tests.
+- Proof (offline, free): `npm test` **127/127** (incl. my 6 view tests + `test-customer-serving` rebuilding the shared file into the customer bundle + pg parity), `npm run typecheck` clean. In a live dev browser: `run-detail.css` confirmed loaded — avatar 52px circle on accent-soft, active tab 2px accent underline, badge pill, when-row divider all resolve from tokens.
+- ⚠️ Honest note: a literal screenshot of a populated run wasn't possible in the automated Browser pane (its `document.hidden=true` breaks this SPA's boot animation for screenshots, and the throwaway auto-login account has no seeded runs). The render + CSS are proven by the tests + computed-style read; the visual walk is Carl's.
+- Not committed yet — waiting on Carl's green light.
 
 ## Goal
 Rebuild `admin/src/stages/run-detail.ts` so a manager sees who/when up front and can move between Overview / Briefing / Answers.

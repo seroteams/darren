@@ -18,6 +18,15 @@
   three admin-shell files another session had dirty; landed on main by `git stash push -- <just those files>` → `git merge` →
   `git stash pop`, which parked + restored two sessions' WIP (a test page + a promises feature) with zero commits of their work.
   Verified non-overlapping first (their edits were in different regions). typecheck+build+browser all green; Carl walked it live.
+- **2026-07-12** — **past-1on1-view TRACK CLOSED (both phases ✅, $0).** P2 rebuilt the member "Past 1:1" screen
+  (`run-detail.ts`) from a flat briefing dump into three tabs — Overview (initials avatar + name + role/seniority +
+  meeting-type pill + a rich "when it happened" row + the one-line read + the rating), Briefing (the existing cards,
+  untouched), and Answers (the raw Q&A the P1 endpoint now exposes, with a "no answers captured" empty state). Tab switch
+  reuses the notes-panel `switchTab` idiom; new `run-detail.css` (tokens only, registered in the barrel). **Lesson:** the
+  automated Browser pane can't screenshot this SPA (its boot animation needs `requestAnimationFrame`, which never fires
+  under the pane's `document.hidden=true`), so the durable proof is a **DOM-free render test** on a pure exported
+  `renderRunDetail(run)` (asserts tabs, profile, when-row count, answers + empty state) plus a live **computed-style read**
+  confirming the CSS loaded — the visual walk stays Carl's. 127/127 throughout.
 - **2026-07-12** — **past-1on1-view P1 ✅ (backend, $0).** The member "Past 1:1" endpoint now exposes `turns[]` (the raw
   Q&A behind the briefing) for a coming Answers tab. Built by mirroring the existing compare-view projection onto
   `toMemberView` (PG) + `memberRunView` (file) — but dropping the internal planner `note` (it carries `[SHALLOW]`/`[SKIP]`

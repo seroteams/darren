@@ -13,6 +13,7 @@
 @import "./design/axes.css";
 @import "./design/motion.css";
 @import "./design/briefing.css";
+@import "./design/promise-confirm.css";
 @import "./design/buttons-inputs.css";
 @import "./design/one-page-run.css";
 @import "./design/session-topbar.css";
@@ -26,4 +27,5 @@
 @import "./design/tasks-board.css";
 @import "./design/tasks-panel.css";
 @import "./design/design-stage.css";
+@import "./design/run-detail.css";
 @import "./design/mobile.css";
