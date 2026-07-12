@@ -148,10 +148,11 @@ export const mount: Mount = async (root, { setState }) => {
     .filter((r) => r.personId === key)
     .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0));
 
-  if (!person || mine.length === 0) {
+  // Truly not on the roster (bad/stale key) — the only genuine not-found.
+  if (!person) {
     root.querySelector(".js-host")!.innerHTML = notice(
-      "No 1:1s with this person yet",
-      "There are no 1:1s here for you — they may have been logged under a different name.",
+      "Person not found",
+      "We couldn't find this person on your team. Head back and pick someone from your Team page.",
     );
     wireBack();
     return;
@@ -160,6 +161,41 @@ export const mount: Mount = async (root, { setState }) => {
   const nameEl = root.querySelector<HTMLElement>(".js-name");
   if (nameEl) nameEl.textContent = person.name;
   const sub = root.querySelector<HTMLElement>(".js-sub");
+
+  // "Prep 1:1" — seed a fresh intake with this person and open the form. Seeding is free;
+  // only running the full pipeline from intake spends (same as starting any 1:1). A
+  // roster-backed person seeds personId so the new run lands on the same roster row.
+  const wirePrep = () =>
+    root.querySelector(".js-prep")?.addEventListener("click", () => {
+      store.scripted = null;
+      Object.assign(store.ctx, {
+        personId: key,
+        name: person.name,
+        role: person.role,
+        seniority: "",
+        meetingType: "",
+        meetingTypeIndex: null,
+        notes: "",
+      });
+      setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
+    });
+
+  // Not met yet — a real roster person with no 1:1s. Show who they are and invite prepping
+  // the first one, rather than an empty "no runs" dead end (people-roster: View works for
+  // everyone, not just met people).
+  if (mine.length === 0) {
+    if (sub) sub.textContent = person.role || "Not met yet";
+    root.querySelector(".js-host")!.innerHTML = `
+      <section class="card-flat space-y-3">
+        <div class="eyebrow">Not met yet</div>
+        <p class="text-ink-dim">You haven't logged a 1:1 with ${escapeHtml(person.name)} yet. Prep your first one to get started.</p>
+        <button type="button" class="btn js-prep">Prep first 1:1 with ${escapeHtml(person.name)}</button>
+      </section>`;
+    wireBack();
+    wirePrep();
+    return;
+  }
+
   if (sub) sub.innerHTML = summaryHtml(person);
 
   // The list carries no briefing, so fetch just the most recent run's detail for "Since
@@ -185,23 +221,7 @@ export const mount: Mount = async (root, { setState }) => {
       if (id) setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
     });
   });
-  // "Prep next 1:1" — seed a fresh intake with this person and open the form. Seeding is
-  // free; only running the full pipeline from intake spends (same as starting any 1:1).
-  // A roster-backed person also seeds personId + their stored seniority, so the new run
-  // lands on the same roster row (people-roster Phase 4).
-  root.querySelector(".js-prep")?.addEventListener("click", () => {
-    store.scripted = null;
-    Object.assign(store.ctx, {
-      personId: key,
-      name: person.name,
-      role: person.role,
-      seniority: "",
-      meetingType: "",
-      meetingTypeIndex: null,
-      notes: "",
-    });
-    setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
-  });
+  wirePrep();
 };
 
 export const unmount: Unmount = () => {};

@@ -45,16 +45,22 @@ function metaLine(p: Person): string {
   return `${escapeHtml(bits.join(" · "))} · ${rated}`;
 }
 
-// A met person is a clickable card opening their page (PG5). A not-yet-met person has no page
-// yet, so their card carries a "Prep first 1:1" button instead of being a nav button.
+// Every person card carries the same actions: View their page (PG5), Edit their details,
+// Delete them, and the primary Prep. "Prep first 1:1" for someone not met yet, "Prep 1:1"
+// once there's history. The buttons cluster on the right and wrap on narrow screens.
 function personCard(p: Person): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
   const inner = `<span class="l-stack l-stack--2"><span class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</span><span class="text-sm text-ink-dim">${metaLine(p)}</span></span>`;
-  if (p.met) return `<button type="button" class="card-flat runs-list__row js-person" data-key="${escapeHtml(p.key)}">${inner}</button>`;
+  const prepLabel = p.met ? "Prep 1:1" : "Prep first 1:1";
   return `
-    <div class="card-flat runs-list__row l-cluster" style="justify-content:space-between;align-items:center;">
+    <div class="card-flat runs-list__row l-cluster" style="justify-content:space-between;align-items:center;gap:12px;">
       ${inner}
-      <button type="button" class="btn btn--ghost btn--sm js-prep-new" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-role="${escapeHtml(p.role)}">Prep first 1:1</button>
+      <span class="l-cluster l-cluster--2" style="flex-shrink:0;">
+        <button type="button" class="btn btn--ghost btn--sm js-view" data-key="${escapeHtml(p.key)}">View</button>
+        <button type="button" class="btn btn--ghost btn--sm js-edit-person" data-key="${escapeHtml(p.key)}">Edit</button>
+        <button type="button" class="btn btn--ghost btn--sm js-delete-person" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Delete</button>
+        <button type="button" class="btn btn--ghost btn--sm js-prep-new" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-role="${escapeHtml(p.role)}">${prepLabel}</button>
+      </span>
     </div>`;
 }
 
@@ -175,7 +181,7 @@ export const mount: Mount = async (root, { setState }) => {
       el.addEventListener("click", () => { void doAdd(); }),
     );
     root.querySelector(".js-edit")?.addEventListener("click", () => { void enterEdit(); });
-    root.querySelectorAll<HTMLElement>(".js-person").forEach((el) => {
+    root.querySelectorAll<HTMLElement>(".js-view").forEach((el) => {
       el.addEventListener("click", () => {
         const key = el.dataset.key;
         if (key) setState({ personKey: key, stage: STAGES.PERSON_DETAIL });
