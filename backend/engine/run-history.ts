@@ -507,6 +507,20 @@ function notesSummary(notes: unknown): string {
   return `${notes.length} notes captured. First: "${first}"`;
 }
 
+// Manager-facing role line: seniority + role, but don't repeat the seniority word
+// when the role already leads with it ("Senior" + "Senior Nurse" -> "Senior Nurse",
+// not "Senior Senior Nurse"). Case-insensitive, whole-word (trailing space) match.
+function roleLineOf(seniorityRaw: unknown, roleRaw: unknown): string {
+  const seniority = asString(seniorityRaw).trim();
+  const role = asString(roleRaw).trim();
+  if (!seniority) return role;
+  if (!role) return seniority;
+  const r = role.toLowerCase();
+  const s = seniority.toLowerCase();
+  if (r === s || r.startsWith(s + " ")) return role;
+  return `${seniority} ${role}`;
+}
+
 // The manager-friendly bits of a session overview: who the 1:1 is with, the meeting
 // type, the manager's own INTAKE note (ctx.notes — what they said was on their mind,
 // NOT the in-meeting notes), and how far questioning got. Assembled once and spread
@@ -519,7 +533,7 @@ function overviewFields(stateRaw: unknown) {
   const total = asNumber(state.totalBudget);
   return {
     person: asString(ctx.name),
-    roleLine: [ctx.seniority, ctx.role].filter(Boolean).join(" "),
+    roleLine: roleLineOf(ctx.seniority, ctx.role),
     meetingType: asString(ctx.meetingType),
     intakeNote: truncate(asString(ctx.notes), 160),
     progress: total > 0 ? { answered, total } : null,

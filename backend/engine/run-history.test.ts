@@ -164,3 +164,13 @@ test("overviewFields is safe on an empty / nameless state", () => {
   assert.deepEqual(overviewFields({}), { person: "", roleLine: "", meetingType: "", intakeNote: "", progress: null });
   assert.deepEqual(overviewFields(null), { person: "", roleLine: "", meetingType: "", intakeNote: "", progress: null });
 });
+
+test("overviewFields does not repeat the seniority word when the role already leads with it", () => {
+  assert.equal(overviewFields({ ctx: { seniority: "Junior", role: "Junior Product Designer" } }).roleLine, "Junior Product Designer");
+  assert.equal(overviewFields({ ctx: { seniority: "Senior", role: "Senior Nurse" } }).roleLine, "Senior Nurse");
+  // Distinct words still combine as before.
+  assert.equal(overviewFields({ ctx: { seniority: "Mid", role: "UX Designer" } }).roleLine, "Mid UX Designer");
+  // Only-seniority / only-role degrade cleanly.
+  assert.equal(overviewFields({ ctx: { seniority: "Lead", role: "" } }).roleLine, "Lead");
+  assert.equal(overviewFields({ ctx: { seniority: "", role: "Nurse" } }).roleLine, "Nurse");
+});
