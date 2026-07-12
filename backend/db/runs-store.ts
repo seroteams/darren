@@ -38,6 +38,7 @@ import {
   personaTagOf,
   inferStage,
   notesSummary,
+  overviewFields,
   cloneRunState,
 } from "../engine/run-history.ts";
 import { historyRunMatches, historySessionFromState } from "../engine/focus-history.ts";
@@ -217,11 +218,25 @@ export function toUserRunRow(r: DbRun): {
 }
 
 export function toMemberView(r: DbRun): Record<string, unknown> {
+  const transcript: unknown[] = Array.isArray(r.state.transcript) ? r.state.transcript : [];
   return {
     id: r.id,
     headline: buildHeadline(asRecord(r.state.ctx)),
     ctx: ctxOf(r.state),
     briefing: r.state.briefing ?? null,
+    // The raw Q&A behind the briefing (member Answers tab). Mirrors pgCompareRun's
+    // projection but WITHOUT the internal `note` — planner notes carry [SHALLOW]/[SKIP]
+    // markers that must never reach a manager.
+    turns: transcript.map((t) => {
+      const entry = asRecord(t);
+      const question = asRecord(entry.question);
+      return {
+        alias: question.alias ?? null,
+        name: question.name ?? null,
+        answer: entry.answer ?? null,
+        skipped: Boolean(entry.skipped),
+      };
+    }),
     lastSeenAt: asNumber(r.state.lastSeenAt),
     completedAt: r.state.completedAt ?? null,
     rating: ratingFromValue(r.rating),
@@ -519,6 +534,7 @@ export async function pgSummarizeRun(id: string, orgId?: string | null): Promise
     overview,
     notes: Array.isArray(row.state.notes) ? row.state.notes : [],
     stage: inferStage(row.state),
+    ...overviewFields(row.state),
   };
 }
 
