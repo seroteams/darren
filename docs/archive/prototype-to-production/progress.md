@@ -9,6 +9,17 @@
 ---
 
 ## Where we are now
+- **2026-07-12** — **monthly-checkin P1 ✅ green-lit (Carl "A", walk waived), $0, commit `ea5d2a49`.**
+  The "Monthly Check-in" — a manager-walked *guided* 1:1, a second engine alongside the AI-interview
+  types. P1 landed the flag-gated picker card (internal-admin only, gate = admin-role OR
+  superadmin-email so a superadmin-by-email manager isn't locked out), its own `guided_sessions`
+  table (interview `sessions` pipeline untouched), the org/manager/person-fenced guided-sessions API,
+  and the 7-stage runner (`/guided/:id`) ported from the approved prototype — **stage-config-driven**
+  (reads `GUIDED_ARCS`, never hardcodes the stages) with a floating pill nav + debounced auto-save.
+  **Lesson:** verify the destination, not the code — the fake-repo unit tests all passed, but the real
+  proof was a live local-Neon round-trip (create → patch typed notes → read-back → fence 404 → clean up).
+  **Lesson:** phase-close in a worktree ≠ single-checkout — updated the branch-local plan trackers only;
+  left main's STATUS/BOARD alone (they carried other sessions' uncommitted edits) to honour safe-commit.
 - **2026-07-12** — **promises-loop P1 ✅ green-lit (commit `47c0024b`), ~$0.35.** The 1:1 wrap-up
   now locks in what was agreed: `Session.promises[]` contract + `POST /sessions/:id/promises` +
   a confirm card at the top of the briefing (You/them owners, editable) behind the Q9 fork

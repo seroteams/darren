@@ -1,6 +1,17 @@
 # Phase 1 — Card, runner shell, auto-save
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT — awaiting Carl's QA walk (`ea5d2a49` on `work/monthly-one-on-one`) · **Size:** ~1.5 days
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Size:** ~1.5 days
+
+## ✅ GREEN-LIT 2026-07-12
+Carl: **"A"** — green-lit; the browser walk was **waived** (his call), so this closes on offline
+proof + a real-DB destination check rather than a live walk. Shipped on `work/monthly-one-on-one`
+(`ea5d2a49`): flag-gated card, the stage-config-driven 7-stage runner (ported from the prototype),
+auto-save + reload-resume. **Verified:** typecheck clean · `npm test` 130/131 (1 known-environmental
+`test-persona-bench`) · admin build resolves the runner chunk · real local-Neon round-trip
+(create → patch typed notes → read-back through the fenced service + a direct table read →
+another manager 404s → row cleaned up). Honest residual: the 5-scenario browser walk itself
+(card gating in the live UI, the visual runner, reload-resume on screen) wasn't eyeballed — safe
+to do any time against the dev server.
 
 ## Goal
 An internal admin can pick "Monthly Check-in" on the picker and walk the real 7-stage runner — looking exactly like the approved prototype — with auto-save and reload-resume, while every other user and the whole interview flow notice nothing.
