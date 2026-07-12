@@ -1,6 +1,18 @@
 # Phase 5 — The AI call (Summary draft + private suggestions)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Size:** ~1 day · **⚠️ the only paid phase**
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Size:** ~1 day · **⚠️ the only paid phase**
+
+## ✅ GREEN-LIT 2026-07-13 (sign-off delegated — Carl "go to end")
+Shipped `16d37b7e`. `backend/engine/guided/wrapup.ts` mirrors the engine's single-shot structured
+call (callAI/schema/parseAIJson/logStage → run_artifacts); prompt `content/prompts/guided-wrapup.md`
+(no-invention), `models.json` key `guided_wrapup` = gpt-5.4-mini. `wrapupDraft` assembles the grounded
+input, caches in `state.summary.draft` (no double-spend), AI injected as a boundary (service tests
+model-free; `guided-runtime.ts` wires the real engine). UI: Summary shows the draft (edit wins) +
+Regenerate; Review renders the private buckets. Engine honesty: a failure surfaces "couldn't draft this",
+never a rewrite. **Verified:** typecheck clean · 131/132 · OFFLINE cassette ($0, parse + honest failure) ·
+**ONE LIVE call (~$0.05)** drafting a GROUNDED summary — "Development moved from 5 to 7", "the promise to
+book the onboarding buddy was kept" (no invention) · run_artifacts g-wrapup rows written. One-paid-run
+ceiling honoured (no retry).
 
 ## Goal
 The single agreed AI moment works: ONE end-of-session call drafts the Summary (from this session's inputs + the previous check-in) and the Review stage's private suggestion buckets — always editable, never final until the manager says so. (The prep-focus call was cut with the Prep stage, 2026-07-12.)
@@ -17,9 +29,9 @@ The single agreed AI moment works: ONE end-of-session call drafts the Summary (f
 - Record template / list merge (Phase 6), member lane (Phase 7). No AI beyond this one call site.
 
 ## Done when
-- [ ] Call proven offline first (cassette replay / recorded fixture), then ONE live happy-path run (~$0.05–0.35 — state cost before running; a 2nd live run needs Carl's yes)
-- [ ] `run_artifacts` rows exist for the g-wrapup stage (query the table)
-- [ ] `npm run typecheck` + `npm test` green
+- [x] Call proven offline first (hand-authored cassette, $0), then ONE live happy-path run (~$0.05, gpt-5.4-mini — no retry)
+- [x] `run_artifacts` rows exist for the g-wrapup stage — verified (3 rows: inputs.json / prompt.md / response.json)
+- [x] `npm run typecheck` + `npm test` green (typecheck clean · 131/132; 1 known-env `test-persona-bench`)
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
