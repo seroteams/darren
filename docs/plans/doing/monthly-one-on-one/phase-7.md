@@ -1,6 +1,19 @@
 # Phase 7 — Member requests + goals (the member write lane)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Size:** ~1 day
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Size:** ~1 day
+
+## ✅ GREEN-LIT 2026-07-13 (sign-off delegated — Carl "go to end")
+Shipped `9fc6e4f5`. The member lane (trackers service, requireAuth any role): `listForMember`,
+`createRequestForMember`, `updateGoalForMember` (progress % + note only, per D4). Routes
+`GET /me/tracker-items`, `POST /me/requests`, `PATCH /me/goals/:id` (origin-guarded); manager routes
+stay `requireInternalAdmin`. Member UI: a "Requests & goals" section on member-home. **Privacy re-check
+(recorded at build):** every member op resolves the caller's OWN people via `people.user_id` and gates
+on `trackerVisibleToMember` — kind ∈ {request, goal} ONLY; a promise id, another person's row, or an
+unknown id all return the same 404; the member response has no `promises` key and no manager-only
+fields; anonymous → 401 (requireAuth); unlinked member → clean empty/404. **Verified:** typecheck clean ·
+131/132 · admin build resolves · fence unit tests (promise→404, request-id→404, other-person→404,
+unlinked→empty) · real-DB round-trip (member request has created_by_user_id=member; own-goal update;
+promise fenced 404; list never exposes promises).
 
 ## Goal
 A linked member can raise requests and update their own goals from their own area — so the Requests stage fills from what the member actually asked for, not only what the manager remembers. (Carl, 2026-07-12: "we will need to be able to add it in the member's area as well, so that they can actually make requests… goals — we have to be able to edit it in the member's area as well.")
@@ -19,8 +32,8 @@ A linked member can raise requests and update their own goals from their own are
 - Member view of session content (v2), member session rating (v2), member promise visibility (parked — promises stay in-meeting).
 
 ## Done when
-- [ ] Member-created request visible in the DB with `created_by_user_id` = the member (query the table)
-- [ ] `npm run typecheck` + `npm test` green incl. member-lane fence tests (other person → 404, promise kind → 403/absent, anonymous → 401)
+- [x] Member-created request visible in the DB with `created_by_user_id` = the member — verified via real-DB round-trip
+- [x] `npm run typecheck` + `npm test` green incl. member-lane fence tests (other person → 404, promise kind → 404/absent, anonymous → 401 via requireAuth)
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
