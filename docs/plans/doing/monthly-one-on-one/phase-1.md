@@ -1,6 +1,6 @@
 # Phase 1 — Card, runner shell, auto-save
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Size:** ~1.5 days
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT — awaiting Carl's QA walk (`ea5d2a49` on `work/monthly-one-on-one`) · **Size:** ~1.5 days
 
 ## Goal
 An internal admin can pick "Monthly Check-in" on the picker and walk the real 7-stage runner — looking exactly like the approved prototype — with auto-save and reload-resume, while every other user and the whole interview flow notice nothing.
@@ -19,8 +19,8 @@ An internal admin can pick "Monthly Check-in" on the picker and walk the real 7-
 - Trackers/side-panel data, real rating persistence, sequential-feedback persistence, AI, record template, list merge, member lane.
 
 ## Done when
-- [ ] `npm run typecheck` + `npm test` green, incl. new guided-sessions service tests
-- [ ] A `guided_sessions` row visible in the DB after a walk, `state` carrying typed notes (verify the DESTINATION — query the table)
+- [x] `npm run typecheck` + `npm test` green, incl. new guided-sessions service + gate tests (typecheck clean · 130/131; the 1 fail is the known-environmental `test-persona-bench`, untracked `_runtime` questions absent in a fresh worktree)
+- [x] A `guided_sessions` row visible in the DB after a walk, `state` carrying typed notes — verified the DESTINATION against the real local Neon: create → patch(typed notes) → read-back through the fenced service AND a direct table read, another manager 404s, test row cleaned up
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
