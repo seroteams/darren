@@ -11,16 +11,22 @@ const notes = firstRunNotesExampleHtml();
 
 test("intro: names the three plain steps in order", () => {
   const whoAt = intro.indexOf("Who it's with");
-  const notesAt = intro.indexOf("Your notes");
-  const briefingAt = intro.indexOf("Your briefing");
+  const mindAt = intro.indexOf("What's on your mind");
+  const briefAt = intro.indexOf("Your prep brief");
   assert.ok(whoAt > -1, "step 1 — who it's with");
-  assert.ok(notesAt > -1, "step 2 — your notes");
-  assert.ok(briefingAt > -1, "step 3 — your briefing");
-  assert.ok(whoAt < notesAt && notesAt < briefingAt, "steps read in order");
+  assert.ok(mindAt > -1, "step 2 — what's on your mind");
+  assert.ok(briefAt > -1, "step 3 — your prep brief");
+  assert.ok(whoAt < mindAt && mindAt < briefAt, "steps read in order");
 });
 
 test("intro: orients a stranger to what happens first", () => {
   assert.ok(/first prep/i.test(intro), "tells them this is their first prep");
+});
+
+test("intro: step 3 uses the pre-meeting term (prep brief), not the post-meeting one (briefing)", () => {
+  // Keep the two artefacts distinct — the blind test compares them.
+  assert.ok(intro.includes("Your prep brief"), "step 3 is the prep brief");
+  assert.ok(!/\bbriefing\b/i.test(intro), "no 'briefing' in the first-run card");
 });
 
 test("notes hint: shows one concrete, honest example — not generic fluff", () => {
