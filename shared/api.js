@@ -67,6 +67,14 @@ export async function getRegistered() {
   return json(await fetch("/api/v1/admin/registered"));
 }
 
+// The founder Pulse dashboard (admin-live-deploy Phase 3) — one payload folding the Gate-1
+// return number, managers, run volume + type mix, drop-offs, guests, errors and latest
+// feedback. Same superadmin gate as getRegistered (a normal owner gets 401/403 → json() throws).
+/** @returns {Promise<Record<string, unknown>>} */
+export async function getPulse() {
+  return json(await fetch("/api/v1/admin/pulse"));
+}
+
 // The superadmin's cross-company error log (error-log Phase 2). Same gate as
 // getRegistered — a normal owner gets 401/403 (json() throws). Shape:
 // { errors: [{ id, environment, source, email, userName, company, method, path, status, message, createdAt }] }, newest-first.

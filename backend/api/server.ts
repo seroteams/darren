@@ -222,6 +222,7 @@ async function main(): Promise<void> {
   // SUPERADMIN_EMAILS allowlist. Reads below; the one mutation (change a user's role,
   // user-management Phase 2) is origin-guarded like every other mutating route.
   router.add("GET", "/api/v1/admin/registered", superadminV1(superadmin.registered));
+  router.add("GET", "/api/v1/admin/pulse", superadminV1(superadmin.pulse));
   router.add("GET", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/runs$/, superadminV1(superadmin.userRuns));
   router.add("GET", "/api/v1/admin/guest-runs", superadminV1(superadmin.guestRuns));
   router.add("GET", /^\/api\/v1\/admin\/runs\/(?<id>[^/]+)$/, superadminV1(superadmin.runDetail));

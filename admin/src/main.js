@@ -48,6 +48,7 @@ const loaders = {
   GUIDE:           () => import("./stages/guide.js"),
   TASKS:           () => import("./stages/tasks.js"),
   UNIVERSE:        () => import("./stages/universe.ts"),
+  ADMIN_PULSE:     () => import("./stages/admin-pulse.ts"),
   ADMIN_REGISTERED: () => import("./stages/admin-registered.ts"),
   ADMIN_USER:      () => import("./stages/admin-user-detail.ts"),
   ADMIN_ERROR_LOG: () => import("./stages/admin-error-log.ts"),
@@ -363,6 +364,17 @@ async function boot() {
 
   // Admin/owner from here down — safe to kick off the (admin-only) regression check.
   if (isInternalAdmin(store.user)) refreshRegressionAlert();
+
+  // On the LIVE site the superadmin lands on the Pulse dashboard (admin-live-deploy Phase 3),
+  // unless they deep-linked somewhere specific — a bare /admin/, a stale "/" or the post-login
+  // redirect all resolve to Pulse. Locally the normal START home stays (Pulse is nav-reachable).
+  const landsHome = !route || route.stage === STAGES.START
+    || route.stage === STAGES.LOGIN || route.stage === STAGES.REGISTER;
+  if (isLiveEnv() && isSuperadmin(store.user) && landsHome) {
+    replaceUrl("/pulse");
+    setState({ stage: STAGES.ADMIN_PULSE });
+    return;
+  }
 
   if (route?.stage === STAGES.LOGIN || route?.stage === STAGES.REGISTER) {
     setState({ stage: STAGES.START });

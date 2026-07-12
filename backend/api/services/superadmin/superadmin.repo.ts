@@ -62,6 +62,28 @@ export interface RunRow {
   stars: number | null;
 }
 
+/** One session as a lightweight row for the Pulse time-series (admin-live-deploy Phase 3):
+ *  its start time, meeting type, current stage and whether it finished — enough to compute
+ *  runs-per-day, the run-type mix and where unfinished runs break off, in the service (JS,
+ *  deterministic `now`). `userId` lets the service drop internal (Sero) sessions from the
+ *  external-manager view; guest/machine sessions have a null `userId`. */
+export interface PulseRunRow {
+  userId: string | null;
+  orgId: string | null;
+  createdAtMs: number | null;
+  meetingType: string | null;
+  stage: string | null;
+  finished: boolean;
+}
+
+/** One recent tester note for the Pulse "latest feedback" feed (admin-live-deploy Phase 3). */
+export interface PulseFeedbackRow {
+  message: string;
+  verdict: string | null;
+  runId: string | null;
+  createdAtMs: number;
+}
+
 /** One of a user's finished 1:1s for the drilldown (pre-go-live PG8) — the member-safe row
  *  shape (headline, ctx, rating), reused from the run walk. No briefing here (that's the
  *  read-only detail, opened separately). */
@@ -96,6 +118,14 @@ export interface SuperadminRepo {
   listGuestRuns(): Promise<UserRunRow[]>;
   /** One finished run's read-only detail, unfenced (PG8 Step 3). null if unknown/unfinished. */
   readRun(id: string): Promise<SuperadminRunDetail | null>;
+  /** Every session as a lightweight row for the Pulse time-series (admin-live-deploy Phase 3):
+   *  start time, meeting type, stage, finished. The service buckets these by day / type / stage. */
+  listPulseRuns(): Promise<PulseRunRow[]>;
+  /** Error counts for the Pulse "errors" tile: total logged since `sinceMs`, and how many of
+   *  those are still unresolved (resolved_at is null). */
+  countRecentErrors(sinceMs: number): Promise<{ total: number; unresolved: number }>;
+  /** The most recent tester notes for the Pulse feedback feed, newest-first, capped at `limit`. */
+  latestFeedback(limit: number): Promise<PulseFeedbackRow[]>;
   /** Set a user's account role (user-management Phase 2). The ONE guarded write on this
    *  path — validation + the "never orphan a company" guardrail run in the service first. */
   updateUserRole(userId: string, role: UserRoleName): Promise<void>;
@@ -152,6 +182,58 @@ export const pgSuperadminRepo: SuperadminRepo = {
   },
   async readRun(id: string) {
     return hasDatabaseUrl() ? pgSuperadminRunView(id) : superadminRunView(id);
+  },
+  async listPulseRuns() {
+    const db = getDb();
+    const rows = await db
+      .select({
+        userId: sessions.userId,
+        orgId: sessions.orgId,
+        createdAt: sessions.createdAt,
+        meetingType: sessions.meetingType,
+        stage: sessions.stage,
+        finished: sessions.finished,
+      })
+      .from(sessions);
+    return rows.map((r) => ({
+      userId: r.userId ?? null,
+      orgId: r.orgId ?? null,
+      createdAtMs: r.createdAt ? new Date(r.createdAt).getTime() : null,
+      meetingType: r.meetingType ?? null,
+      stage: r.stage ?? null,
+      finished: !!r.finished,
+    }));
+  },
+  async countRecentErrors(sinceMs: number) {
+    const db = getDb();
+    const since = new Date(sinceMs);
+    const [row] = await db
+      .select({
+        total: sql<number>`count(*)::int`,
+        unresolved: sql<number>`(count(*) filter (where ${errorLogs.resolvedAt} is null))::int`,
+      })
+      .from(errorLogs)
+      .where(sql`${errorLogs.createdAt} >= ${since}`);
+    return { total: row?.total ?? 0, unresolved: row?.unresolved ?? 0 };
+  },
+  async latestFeedback(limit: number) {
+    const db = getDb();
+    const rows = await db
+      .select({
+        message: feedbackNotes.message,
+        verdict: feedbackNotes.verdict,
+        runId: feedbackNotes.runId,
+        createdAt: feedbackNotes.createdAt,
+      })
+      .from(feedbackNotes)
+      .orderBy(sql`${feedbackNotes.createdAt} desc`)
+      .limit(limit);
+    return rows.map((r) => ({
+      message: r.message,
+      verdict: r.verdict ?? null,
+      runId: r.runId ?? null,
+      createdAtMs: new Date(r.createdAt).getTime(),
+    }));
   },
   async updateUserRole(userId: string, role: UserRoleName) {
     const db = getDb();

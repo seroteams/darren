@@ -13,7 +13,7 @@ import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
-  Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
+  Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch, Gauge,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -50,6 +50,7 @@ const ICON = {
   errors: icon(TriangleAlert),
   inbox: icon(Inbox),
   guests: icon(UserRoundSearch),
+  pulse: icon(Gauge),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -84,6 +85,9 @@ const LINKS = [
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
   // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
   { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
+  // The founder Pulse dashboard (admin-live-deploy Phase 3) — superadmin-only, top of the
+  // Admin group. On live this is the landing screen; locally it's just another admin page.
+  { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Admin" },
   // Native in-shell stage (stages/design.js) — the design system sheet with its own
   // second-level rail, routed like any other stage.
   { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Admin" },
@@ -219,6 +223,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
     design: () => setState && setState({ stage: STAGES.DESIGN }),
     universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
+    pulse: () => setState && setState({ stage: STAGES.ADMIN_PULSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
     inbox: () => setState && setState({ stage: STAGES.ADMIN_FEEDBACK }),
@@ -256,6 +261,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.TASKS]: "tasks",
     [STAGES.UNIVERSE]: "universe",
     [STAGES.DESIGN]: "design",
+    [STAGES.ADMIN_PULSE]: "pulse",
     [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.ADMIN_USER]: "registered",
     [STAGES.ADMIN_ERROR_LOG]: "errors",

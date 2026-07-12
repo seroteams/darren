@@ -65,6 +65,7 @@ const PATH_FOR = {
   [STAGES.TASKS]:          () => "/tasks",
   [STAGES.UNIVERSE]:       () => "/universe",
   [STAGES.DESIGN]:         () => "/design",
+  [STAGES.ADMIN_PULSE]:    () => "/pulse",
   [STAGES.ADMIN_REGISTERED]: () => "/admin/registered",
   [STAGES.ADMIN_ERROR_LOG]: () => "/admin/errors",
   [STAGES.ADMIN_FEEDBACK]: () => "/admin/feedback",
@@ -87,6 +88,7 @@ const STAGE_FOR = {
   "/job-lexicons": STAGES.ROLE_LEXICONS, "/meeting-arcs": STAGES.MEETING_ARCS,
   "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
   "/tasks": STAGES.TASKS, "/universe": STAGES.UNIVERSE, "/design": STAGES.DESIGN,
+  "/pulse": STAGES.ADMIN_PULSE,
   "/admin/registered": STAGES.ADMIN_REGISTERED,
   "/admin/errors": STAGES.ADMIN_ERROR_LOG,
   "/admin/feedback": STAGES.ADMIN_FEEDBACK,
@@ -101,14 +103,14 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
 // The cross-company superadmin screens (pre-go-live PG6+). A subset of ADMIN_ONLY that
 // even a normal manager/admin must NOT reach — only the email-allowlisted superadmin.
 // The backend 403s their data; this bounces a non-superadmin off the shell too (F-009).
-const SUPERADMIN_ONLY = new Set([STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+const SUPERADMIN_ONLY = new Set([STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS]);
 export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 
