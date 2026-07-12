@@ -28,6 +28,8 @@ const loaders = {
   LOGIN:           () => import("../../admin/src/stages/login.js"),
   JOIN:            () => import("./stages/join.js"),
   REGISTER:        () => import("../../admin/src/stages/register.js"),
+  FORGOT_PASSWORD: () => import("../../admin/src/stages/forgot-password.js"),
+  RESET_PASSWORD:  () => import("../../admin/src/stages/reset-password.js"),
   PRIVACY:         () => import("../../admin/src/stages/privacy.js"),
   ABOUT:           () => import("../../admin/src/stages/about.js"),
   FEEDBACK:        () => import("../../admin/src/stages/feedback.js"),
@@ -126,6 +128,12 @@ subscribe((s) => {
 });
 
 startPopstate((parsed) => {
+  // The password-reset screens are reachable in any auth state — handle them first so the
+  // token rides into state and the logged-out gate below can't bounce them to login.
+  if (parsed.stage === STAGES.FORGOT_PASSWORD || parsed.stage === STAGES.RESET_PASSWORD) {
+    setState({ resetToken: parsed.params?.resetToken || null, stage: parsed.stage });
+    return;
+  }
   // A guest (no account, guest-run Phase 2) only has the guest lane — intake, the
   // run stages, and the auth/content pages. Back/forward onto "/" is the guest-first
   // start screen (start-screen); any other destination bounces to login.
@@ -213,6 +221,16 @@ async function boot() {
   try { identity = await me(); } catch { /* logged out */ }
 
   const route = parseLocation();
+
+  // The password-reset screens (forgot-password, reset-password/:token) are reachable in
+  // ANY auth state — the live reset email points at THIS customer app, opened logged-out;
+  // a logged-in user who clicked it works too. Handle them before the auth gate so the
+  // token rides into state and the normal routing can't bounce them.
+  if (route && (route.stage === STAGES.FORGOT_PASSWORD || route.stage === STAGES.RESET_PASSWORD)) {
+    if (identity) store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name, isSuperadmin: identity.isSuperadmin };
+    setState({ resetToken: route.params?.resetToken || null, stage: route.stage });
+    return;
+  }
 
   if (!identity) {
     // Logged out: the auth screens, the public privacy note, and the GUEST lane

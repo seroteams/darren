@@ -36,6 +36,17 @@ export async function logout() {
   return postJson("/api/v1/auth/logout", {});
 }
 
+// Forgot-password (forgot-password). requestPasswordReset ALWAYS resolves 200 { ok } — the
+// server won't reveal whether the email has an account, so the UI shows one generic
+// confirmation either way. submitPasswordReset sets the new password from the one-time
+// token in the emailed link; a bad/used/expired link throws the server's plain message.
+export async function requestPasswordReset({ email }) {
+  return postJson("/api/v1/auth/forgot-password", { email });
+}
+export async function submitPasswordReset({ token, password }) {
+  return postJson("/api/v1/auth/reset-password", { token, password });
+}
+
 // Hand an ownerless (guest) finished run to the logged-in caller (guest-run Phase 1
 // endpoint). Owned-by-someone-else answers 404; re-claim by the owner is a no-op.
 export async function claimSession(id) {

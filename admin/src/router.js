@@ -12,6 +12,8 @@ const PATH_FOR = {
   // login, the run lane (internal QA), and the internal toolset.
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
+  [STAGES.FORGOT_PASSWORD]: () => "/forgot-password",
+  [STAGES.RESET_PASSWORD]: (s) => (s.resetToken ? `/reset-password/${encodeURIComponent(s.resetToken)}` : "/reset-password"),
   [STAGES.PRIVACY]:        () => "/privacy",
   [STAGES.ABOUT]:          () => "/about",
   [STAGES.FEEDBACK]:       () => "/feedback",
@@ -49,7 +51,8 @@ const PATH_FOR = {
 
 // path -> stage (exact paths). /run/:id handled separately.
 const STAGE_FOR = {
-  "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/privacy": STAGES.PRIVACY,
+  "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/forgot-password": STAGES.FORGOT_PASSWORD,
+  "/privacy": STAGES.PRIVACY,
   "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
   "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/runs": STAGES.RUNS,
   "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
@@ -125,6 +128,11 @@ export function parseLocation() {
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);
   if (adminUser) return { stage: STAGES.ADMIN_USER, params: { adminUserId: decodeURIComponent(adminUser[1]) } };
+  // An emailed password-reset link: /reset-password/:token. Public — the token IS the
+  // credential (the user is logged out). Bare /reset-password resolves via STAGE_FOR? No —
+  // it's token-only, so a missing token falls through to null and the screen shows "invalid".
+  const reset = p.match(/^\/reset-password\/([^/]+)$/);
+  if (reset) return { stage: STAGES.RESET_PASSWORD, params: { resetToken: decodeURIComponent(reset[1]) } };
   const m = p.match(/^\/run\/([^/]+)$/);
   if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
   if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects

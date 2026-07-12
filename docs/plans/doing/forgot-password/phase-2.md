@@ -1,6 +1,20 @@
 # Phase 2 — Reset UI (both apps)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting owner walk
+
+## Built (2026-07-12) — on worktree branch `work/forgot-password-ui`
+Built in an isolated git worktree because another session had uncommitted edits in the admin
+shell files (`state.js`, `router.js`, `main.js`) — a worktree avoids sweeping their work. Merge
+from main when they've landed (`git merge work/forgot-password-ui`).
+
+Landed:
+- `admin/src/stages/forgot-password.js`, `admin/src/stages/reset-password.js` — new shared screens (auth-split layout, reused classes, no new CSS).
+- `admin/src/stages/login.js` — "Forgot password?" `.link` under the sign-in button.
+- `shared/api.js` — `requestPasswordReset` + `submitPasswordReset`.
+- `admin/src/state.js` — `FORGOT_PASSWORD` + `RESET_PASSWORD` stages, `resetToken` in state.
+- `admin/src/router.js`, `admin/src/main.js`, `frontend/src/router.js`, `frontend/src/main.js` — routes (`/forgot-password`, `/reset-password/:token`), loaders, and a pre-auth-gate handler so both screens open in any auth state (the live email opens the customer app, logged-out).
+
+Verified (free, no OpenAI): `typecheck:admin` + `typecheck:customer` clean · both bundles build with `forgot-password` + `reset-password` chunks emitted · browser smoke on the customer dev server — `/login` shows "Forgot password?", clicking it opens `/forgot-password`; `/reset-password/:token` parses the token and renders the new-password form; no console errors. Backend loop already proven in Phase 1.
 
 ## Goal
 A "Forgot password?" link on the shared login, plus a request screen and a set-new-password screen, wired into both the admin and customer apps. One UI, no new CSS.
