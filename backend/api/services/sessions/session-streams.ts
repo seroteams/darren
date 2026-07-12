@@ -31,6 +31,7 @@ import { openStream } from "../../sse.ts";
 import { summarizeAxes } from "./session-views.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { formatNotesForEvaluation, stripTesterNoteLines } from "./notes-format.ts";
+import { finalizeBriefing } from "./finalize-briefing.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 import { isObjectRecord } from "../../../shared/guards.ts";
@@ -198,16 +199,11 @@ export async function evaluationStream(c: RequestContext): Promise<void> {
   await runStage(c, session, "evaluation", {
     thinkingLabel: "Final evaluation",
     getCached: () => session.briefing,
-    setCached: (r) => {
-      const completedAt = Date.now();
-      session.completedAt = completedAt;
-      session.briefing = {
-        ...r,
-        cost: session.tracker.summary(),
-        completedAt,
-      };
-      kickLexiconReview(session);
-    },
+    // Persist on completion (live-test 2026-07-13): evaluation is the last stage,
+    // so the finished flag (finished = Boolean(briefing)) only lands if we persist
+    // here — otherwise the completed run vanishes from the manager's finished list
+    // and the member's about-me until a later write. Mirrors focusPointsStream.
+    setCached: (r) => finalizeBriefing(session, r, { persist: (s) => service.persist(s), kickReview: kickLexiconReview }),
     produce: () => {
       // Evaluation is the last stage, so focus points are always present; narrow
       // here for the produce closure (TS can't carry it in) — the original read
