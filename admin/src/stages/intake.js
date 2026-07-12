@@ -1,5 +1,5 @@
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns } from "../../../shared/api.js";
+import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns, createPerson, createGuidedSession } from "../../../shared/api.js";
 import { firstRunIntroHtml, firstRunNotesExampleHtml } from "./intake-firstrun.ts";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
@@ -432,6 +432,25 @@ export async function mount(root, { store, setState }) {
 
   async function submit() {
     try {
+      // Guided types (Monthly Check-in) don't run the AI-interview pipeline — branch BEFORE
+      // startSession, which getArc()-throws on a guided label. Guided sessions are person-fenced,
+      // so a free-typed name is turned into a real roster person first, then the session opens
+      // the runner (/guided/:id). The card only exists for internal admins (catalog service).
+      const picked = types[store.ctx.meetingTypeIndex];
+      if (picked?.kind === "guided") {
+        let personId = store.ctx.personId;
+        if (!personId) {
+          const { person } = await createPerson({
+            name: store.ctx.name,
+            role: store.ctx.role,
+            seniority: store.ctx.seniority,
+          });
+          personId = person.id;
+        }
+        const gs = await createGuidedSession({ personId });
+        setState({ guidedId: gs.id, stage: STAGES.GUIDED });
+        return;
+      }
       const payload = {
         personId: store.ctx.personId || undefined, // exact roster link when picked (Phase 4b)
         name: store.ctx.name,

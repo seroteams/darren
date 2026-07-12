@@ -371,6 +371,26 @@ export async function updatePerson(id, { name, role, seniority } = {}) {
     body: JSON.stringify({ name, role, seniority }),
   }));
 }
+// Guided sessions (monthly-checkin) — the manager-walked "Monthly Check-in" 1:1. Internal
+// admin only server-side. create → the new session (with id); get/patch/complete return it.
+// patch is the auto-save (stage + the whole draft state); complete finishes it.
+export async function createGuidedSession({ personId } = {}) {
+  return postJson("/api/v1/guided-sessions", { personId });
+}
+export async function getGuidedSession(id) {
+  return json(await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`));
+}
+export async function patchGuidedSession(id, { stage, state } = {}) {
+  return json(await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ stage, state }),
+  }));
+}
+export async function completeGuidedSession(id) {
+  return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/complete`, {});
+}
+
 // Hard delete — permanently removes the person and every 1:1 about them. Irreversible.
 export async function deletePerson(id) {
   return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {

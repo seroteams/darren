@@ -15,6 +15,7 @@ export const STAGES = Object.freeze({
   TEAM: "TEAM",
   RUNS: "RUNS",
   RUN_DETAIL: "RUN_DETAIL",
+  GUIDED: "GUIDED",
   PERSON_DETAIL: "PERSON_DETAIL",
   INTAKE: "INTAKE",
   ONEPAGE: "ONEPAGE",
@@ -58,6 +59,7 @@ const initial = {
   preparationRunId: null,
   reviewRunId: null,
   myRunId: null,
+  guidedId: null,
   personKey: null,
   joinToken: null,
   resetToken: null,
@@ -105,10 +107,13 @@ export function isAdmin(user) {
 // Manager-ready Phase 1: only the internal `admin` role sees the internal toolset rail
 // (Library, Compare, Personas, lexicons, Universe, Tasks…). Managers keep console access
 // (isAdmin above) but get their own customer rail: Home · New 1:1 · Team · Past 1:1s.
+// A superadmin-by-email is internal too — otherwise a superadmin whose stored role is
+// `manager` would be walled out of their own internal tools (mirrors the server-side
+// isInternalIdentity in require-auth.ts; monthly-checkin architecture.md §3.1).
 export function isInternalAdmin(user) {
   if (!user) return false;
   const roles = Array.isArray(user.roles) ? user.roles : user.role ? [user.role] : [];
-  return roles.includes("admin");
+  return roles.includes("admin") || isSuperadmin(user);
 }
 
 // The cross-company superadmin (pre-go-live PG6+). Server-resolved from the email

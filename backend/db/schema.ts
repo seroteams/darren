@@ -395,3 +395,44 @@ export const errorLogs = pgTable(
     index("error_logs_created_at_idx").on(t.createdAt),
   ],
 );
+
+/** A guided 1:1 session (Monthly Check-in, and future guided arcs). Here the AI steps
+ *  back and the manager walks fixed stages — the opposite of the AI-interview arc — so it
+ *  gets its OWN table, welded to nothing in the interview `sessions` pipeline (own
+ *  boot-restore, own list reads; interview code is untouched). The whole draft lives in
+ *  `state` (jsonb): per-stage notes, promise outcomes, the rating draft, feedback, the
+ *  summary, and the manager-PRIVATE wrap-up (engagement + private notes + AI suggestions).
+ *  `engagement` is denormalized from state.wrapup at complete() for the fast fenced read.
+ *  Double-fenced like people/sessions: every read/write filters by org_id + manager_id.
+ *  See docs/plans/doing/monthly-one-on-one. */
+export const guidedSessions = pgTable(
+  "guided_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    managerId: uuid("manager_id")
+      .notNull()
+      .references(() => users.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    // Snapshot of the person's name at create time — so the runner needs no join.
+    personName: text("person_name").notNull(),
+    // Runner stage id (catchup|requests|rating|feedback|goals|summary|wrapup) or "done".
+    stage: text("stage").notNull().default("catchup"),
+    // The whole draft — the exact GuidedState shape the runner serializes.
+    state: jsonb("state").notNull(),
+    // Denormalized from state.wrapup at complete(); null until the session is finished.
+    engagement: integer("engagement"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+  },
+  (t) => [
+    index("guided_sessions_org_id_idx").on(t.orgId),
+    index("guided_sessions_manager_id_idx").on(t.managerId),
+    index("guided_sessions_person_id_idx").on(t.personId),
+  ],
+);

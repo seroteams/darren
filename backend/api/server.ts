@@ -32,6 +32,7 @@ import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as team from "./services/team/team.controller.ts";
+import * as guided from "./services/guided-sessions/guided-sessions.controller.ts";
 import * as invites from "./services/invites/invites.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
@@ -443,6 +444,24 @@ async function main(): Promise<void> {
   router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/unlink$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.unlinkPerson(c);
+  }));
+  // Guided sessions (monthly-checkin Phase 1) — the manager-walked "Monthly Check-in" 1:1.
+  // Internal admin only (requireInternalAdmin in the controller; plain managers 403), fenced
+  // to the caller's org + manager + roster person. Own table — the interview pipeline is
+  // untouched. Mutations origin-guarded like team/people.
+  router.add("POST", "/api/v1/guided-sessions", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.createGuidedSession(c);
+  }));
+  router.add("GET", "/api/v1/guided-sessions", v1Route(guided.listGuidedSessions));
+  router.add("GET", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route(guided.getGuidedSession));
+  router.add("PATCH", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.patchGuidedSession(c);
+  }));
+  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/complete$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.completeGuidedSession(c);
   }));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the

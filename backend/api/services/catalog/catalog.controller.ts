@@ -4,11 +4,17 @@
 import type { RequestContext } from "../../router.ts";
 import { createCatalogService } from "./catalog.service.ts";
 import { fileCatalogRepo } from "./catalog.repo.ts";
+import { buildIdentity } from "../../middleware/request-context.ts";
+import { isInternalIdentity } from "../../middleware/require-auth.ts";
 
 const service = createCatalogService(fileCatalogRepo);
 
-export function getMeetingTypes(c: RequestContext): void {
-  c.json(200, { types: service.listMeetingTypes() });
+// The guided "Monthly Check-in" card is appended for internal admins only; everyone else
+// (managers, members, guests) sees just the interview types. Resolve identity here so the
+// service stays storage/HTTP-agnostic.
+export async function getMeetingTypes(c: RequestContext): Promise<void> {
+  const identity = await buildIdentity(c.req);
+  c.json(200, { types: service.listMeetingTypes({ internal: isInternalIdentity(identity) }) });
 }
 
 export function getPersonas(c: RequestContext): void {
