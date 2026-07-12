@@ -64,8 +64,9 @@ function personCard(p: Person): string {
     </div>`;
 }
 
-// The same person in "Tidy up" mode: a rename control plus the "Linked account" picker
-// (people-roster Phase 5) — link this person to one of the company's login accounts so
+// The same person in "Tidy up" mode: account access only — an Invite button plus the
+// "Linked account" picker (people-roster Phase 5). Edit and Delete live on the person
+// cards now. Link this person to one of the company's login accounts so
 // they can see the 1:1s about them (list-only: dates + types, never notes). Keyed on
 // personId (roster endpoints). Merge is intentionally NOT here yet — see the note in the
 // plan's Parked section: merging two roster rows leaves the merged person's past runs
@@ -87,15 +88,15 @@ function personEditRow(p: Person, orgUsers: OrgUser[]): string {
   const inviteControl = p.userId
     ? ""
     : `<button type="button" class="btn btn--ghost btn--sm js-invite" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Invite…</button>`;
+  // Edit and Delete moved to the person cards (main view); Tidy up is now just account
+  // access — invite someone, or link/unlink their login. The action row is skipped when
+  // there's nothing to show (an already-linked person offers no Invite).
+  const actions = inviteControl ? `<div class="l-cluster l-cluster--2">${inviteControl}</div>` : "";
   return `
     <div class="card-flat l-stack l-stack--2">
       <div class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</div>
       <div class="text-sm text-ink-dim">${metaLine(p)}</div>
-      <div class="l-cluster l-cluster--2">
-        <button type="button" class="btn btn--ghost btn--sm js-edit-person" data-key="${escapeHtml(p.key)}">Edit</button>
-        ${inviteControl}
-        <button type="button" class="btn btn--ghost btn--sm js-delete-person" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Delete</button>
-      </div>
+      ${actions}
       ${linkControl}
     </div>`;
 }
@@ -117,7 +118,7 @@ export const mount: Mount = async (root, { setState }) => {
           ${editing ? "" : `<button type="button" class="btn btn--ghost btn--sm js-add">Add someone</button>`}
         </div>
       </div>
-      <div class="text-ink-dim">${editing ? "Rename a person." : "Everyone on your team. Add a name now; their 1:1 history fills in as you meet."}</div>
+      <div class="text-ink-dim">${editing ? "Invite someone or link their account. Edit and delete are on each person's card." : "Everyone on your team. Add a name now; their 1:1 history fills in as you meet."}</div>
     </header>`;
   const shell = (inner: string, hasPeople = true) => `<div class="stage-inner l-stack l-stack--8">${header(hasPeople)}${inner}</div>`;
 
