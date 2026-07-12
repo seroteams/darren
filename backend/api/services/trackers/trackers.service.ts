@@ -46,12 +46,15 @@ export function trackerVisibleToMember(row: TrackerItemRow, personIds: string[],
   return row.orgId === orgId && personIds.includes(row.personId) && row.kind !== "promise";
 }
 
-/** The narrow person lookup the service needs — a fenced name resolve (people repo in prod). */
+/** The person lookups the service needs: the manager fence (findForManager) + the member fence
+ *  (findByLinkedUser — the roster people this member account IS, via people.user_id). */
 export interface TrackerPeopleGateway {
   findForManager(id: string, orgId: string, managerId: string): Promise<{ id: string; name: string } | null>;
+  findByLinkedUser(userId: string, orgId: string): Promise<{ id: string }[]>;
 }
 const defaultPeopleGateway: TrackerPeopleGateway = {
   findForManager: (id, orgId, managerId) => pgPeopleRepo.findForManager(id, orgId, managerId),
+  findByLinkedUser: (userId, orgId) => pgPeopleRepo.findByLinkedUser(userId, orgId),
 };
 
 export interface TrackerItemDto {
@@ -139,6 +142,24 @@ export interface TrackersService {
   ): Promise<{ item: TrackerItemDto }>;
   /** Resolve a Catch-up promise (yes/partly/no/changed) — used by guided complete(). */
   applyOutcome(id: string, orgId: string, managerId: string, outcome: string): Promise<{ item: TrackerItemDto }>;
+
+  // ── Member lane (Phase 7) — fenced to the caller's OWN person (people.user_id = caller) and to
+  //    kind ∈ {request, goal}; never promises, never another person, never guided_sessions. ──
+  /** The member's own requests + goals (never promises). Empty for an unlinked member. */
+  listForMember(userId: string, orgId: string): Promise<{ requests: TrackerItemDto[]; goals: TrackerItemDto[] }>;
+  /** The member raises a request on their own person (status starts "new"). */
+  createRequestForMember(
+    userId: string,
+    orgId: string,
+    input: { text: unknown; category?: unknown },
+  ): Promise<{ item: TrackerItemDto }>;
+  /** The member updates progress % / adds a note on THEIR OWN goal (never status, never create/close). */
+  updateGoalForMember(
+    userId: string,
+    orgId: string,
+    goalId: string,
+    input: { progress?: unknown; note?: unknown },
+  ): Promise<{ item: TrackerItemDto }>;
 }
 
 export function createTrackersService(
@@ -269,6 +290,72 @@ export function createTrackersService(
       const history = [...row.history, { at: nowIso(), type: "outcome", from: row.status, to: status, by: managerId }];
       await repo.update(row.id, { status, history });
       return { item: toDto({ ...row, status, history }) };
+    },
+
+    // ── Member lane ────────────────────────────────────────────────────────────────────────
+    async listForMember(userId, orgId) {
+      const own = await people.findByLinkedUser(userId, orgId);
+      const personIds = own.map((p) => p.id);
+      if (!personIds.length) return { requests: [], goals: [] };
+      const all: TrackerItemRow[] = [];
+      for (const pid of personIds) all.push(...(await repo.listForPerson(pid, orgId)));
+      // trackerVisibleToMember is the wall: org + own person + kind ≠ promise.
+      const visible = all.filter((r) => trackerVisibleToMember(r, personIds, orgId) && r.archivedAt == null);
+      return {
+        requests: visible.filter((r) => r.kind === "request").map(toDto),
+        goals: visible.filter((r) => r.kind === "goal").map(toDto),
+      };
+    },
+
+    async createRequestForMember(userId, orgId, input) {
+      const own = await people.findByLinkedUser(userId, orgId);
+      const person = own[0];
+      if (!person) throw notFound("No linked person"); // unlinked member — clean 404
+      const text = cleanText(input.text);
+      const category = input.category === undefined ? "growth_development" : String(input.category);
+      if (!CATEGORIES.includes(category)) throw badRequest("Invalid request category");
+      const history: TrackerEvent[] = [{ at: nowIso(), type: "created", by: userId }];
+      const row = await repo.insert({
+        orgId,
+        personId: person.id,
+        createdByUserId: userId,
+        kind: "request",
+        text,
+        owner: null,
+        category,
+        status: "new",
+        progress: 0,
+        history,
+        createdSessionId: null,
+      });
+      return { item: toDto(row) };
+    },
+
+    async updateGoalForMember(userId, orgId, goalId, input) {
+      const own = await people.findByLinkedUser(userId, orgId);
+      const personIds = own.map((p) => p.id);
+      const row = await repo.findById(goalId, orgId);
+      // Fence: must be a GOAL for one of the member's OWN people. A promise/request id, another
+      // person's row, or an unknown id all answer the same 404 — nothing confirmed, nothing leaked.
+      if (!row || row.kind !== "goal" || !trackerVisibleToMember(row, personIds, orgId)) {
+        throw notFound("Goal not found");
+      }
+      const history = [...row.history];
+      const patch: Partial<Pick<TrackerItemRow, "progress" | "history">> = {};
+      if (input.progress !== undefined) {
+        const p = Number(input.progress);
+        const clamped = Number.isFinite(p) ? Math.max(0, Math.min(100, Math.round(p))) : row.progress;
+        if (clamped !== row.progress) {
+          patch.progress = clamped;
+          history.push({ at: nowIso(), type: "progress", from: String(row.progress), to: String(clamped), by: userId });
+        }
+      }
+      if (typeof input.note === "string" && input.note.trim()) {
+        history.push({ at: nowIso(), type: "note", note: input.note.trim().slice(0, NOTE_CAP), by: userId });
+      }
+      patch.history = history;
+      await repo.update(row.id, patch);
+      return { item: toDto({ ...row, ...patch }) };
     },
   };
 }

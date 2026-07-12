@@ -35,10 +35,16 @@ function fakeRepo(): TrackersRepo {
   };
 }
 
-function fakePeople(owned: Record<string, { id: string; name: string }>): TrackerPeopleGateway {
+function fakePeople(
+  owned: Record<string, { id: string; name: string }>,
+  linked: Record<string, { id: string }[]> = {},
+): TrackerPeopleGateway {
   return {
     async findForManager(id, orgId, managerId) {
       return owned[`${id}:${orgId}:${managerId}`] ?? null;
+    },
+    async findByLinkedUser(userId, orgId) {
+      return linked[`${userId}:${orgId}`] ?? [];
     },
   };
 }
@@ -111,6 +117,41 @@ test("listForPerson groups by kind, manager promises first, hides archived by de
   const withArch = await svc.listForPerson("p1", CALLER.orgId, CALLER.managerId, { includeArchived: true });
   assert.equal(withArch.requests.length, 1);
   await assert.rejects(() => svc.listForPerson("p1", CALLER.orgId, "mgr-OTHER"), /not found/i);
+});
+
+const MEMBER = { userId: "mem-1", orgId: "org-1" };
+const AISHA_LINKED: Record<string, { id: string }[]> = { "mem-1:org-1": [{ id: "p1" }] };
+
+test("member lane: lists own request/goal only (never promises); can raise a request; unlinked → empty", async () => {
+  const svc = createTrackersService(fakeRepo(), fakePeople(AISHA, AISHA_LINKED));
+  await svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "promise", text: "manager promise" });
+  await svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "request", text: "shadow a senior" });
+  await svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "goal", text: "own a feature" });
+  const mine = await svc.listForMember(MEMBER.userId, MEMBER.orgId);
+  assert.equal(mine.requests.length, 1);
+  assert.equal(mine.goals.length, 1);
+  assert.ok(!("promises" in mine)); // a member never sees promises, not even the key
+  const { item } = await svc.createRequestForMember(MEMBER.userId, MEMBER.orgId, { text: "clearer sprint priorities", category: "concerns_feedback" });
+  assert.equal(item.kind, "request");
+  assert.equal(item.status, "new");
+  // an unlinked member sees nothing (clean empty, not an error)
+  const svc2 = createTrackersService(fakeRepo(), fakePeople(AISHA, {}));
+  assert.deepEqual(await svc2.listForMember("nobody", "org-1"), { requests: [], goals: [] });
+});
+
+test("member goal fence: own goal updates; a promise / request / another person's id all 404", async () => {
+  const repo = fakeRepo();
+  const svc = createTrackersService(repo, fakePeople(AISHA, AISHA_LINKED));
+  const { item: goal } = await svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "goal", text: "own a feature" });
+  const { item: promise } = await svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "promise", text: "manager promise" });
+  const { item: req } = await svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "request", text: "a request" });
+  const { item: u } = await svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, goal.id, { progress: 60, note: "made headway" });
+  assert.equal(u.progress, 60);
+  assert.ok(u.history.some((h) => h.type === "progress") && u.history.some((h) => h.type === "note"));
+  await assert.rejects(() => svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, promise.id, { progress: 50 }), /not found/i); // never a promise
+  await assert.rejects(() => svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, req.id, { progress: 50 }), /not found/i); // must be a goal
+  const svcOther = createTrackersService(repo, fakePeople(AISHA, { "mem-2:org-1": [{ id: "p-other" }] }));
+  await assert.rejects(() => svcOther.updateGoalForMember("mem-2", "org-1", goal.id, { progress: 50 }), /not found/i); // another person's goal
 });
 
 test("member wall never exposes promises / another person; manager wall org-scoped", () => {

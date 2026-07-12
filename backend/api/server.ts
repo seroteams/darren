@@ -484,6 +484,18 @@ async function main(): Promise<void> {
   // Block scores (monthly-checkin Phase 3) — a person's six-block rating history for the
   // last-time marker. Written only via guided complete(); this is read-only + person-fenced.
   router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/block-scores$/, v1Route(guided.getBlockScores));
+  // Member lane (monthly-checkin Phase 7) — a linked member's OWN requests + goals. requireAuth
+  // (any role) in the controller; the service fences on people.user_id = caller AND kind ∈
+  // {request, goal} — never promises, never another person, never guided_sessions. Origin-guarded.
+  router.add("GET", "/api/v1/me/tracker-items", v1Route(trackers.listMyTrackerItems));
+  router.add("POST", "/api/v1/me/requests", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.createMyRequest(c);
+  }));
+  router.add("PATCH", /^\/api\/v1\/me\/goals\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.updateMyGoal(c);
+  }));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the
   // token is the credential, single-use + expiring + stored hashed. Accept is origin-

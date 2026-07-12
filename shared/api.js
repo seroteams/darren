@@ -423,6 +423,22 @@ export async function getBlockScores(personId) {
   return json(await fetch(`/api/v1/people/${encodeURIComponent(personId)}/block-scores`));
 }
 
+// Member lane (monthly-checkin Phase 7) — a linked member's OWN requests + goals. list → grouped
+// { requests, goals } (never promises); createMyRequest raises one; updateMyGoal edits progress + a note.
+export async function listMyTrackerItems() {
+  return json(await fetch("/api/v1/me/tracker-items"));
+}
+export async function createMyRequest({ text, category } = {}) {
+  return postJson("/api/v1/me/requests", { text, category });
+}
+export async function updateMyGoal(id, { progress, note } = {}) {
+  return json(await fetch(`/api/v1/me/goals/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ progress, note }),
+  }));
+}
+
 // Hard delete — permanently removes the person and every 1:1 about them. Irreversible.
 export async function deletePerson(id) {
   return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {

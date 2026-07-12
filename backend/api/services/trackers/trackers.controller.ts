@@ -5,13 +5,21 @@
 
 import type { RequestContext } from "../../router.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireInternalAdmin } from "../../middleware/require-auth.ts";
+import { requireAuth, requireInternalAdmin } from "../../middleware/require-auth.ts";
 import { trackersService } from "./trackers.service.ts";
 
 async function trackerCaller(c: RequestContext): Promise<{ orgId: string; managerId: string }> {
   const identity = await buildIdentity(c.req);
   requireInternalAdmin(identity);
   return { orgId: identity.orgId ?? "", managerId: identity.userId ?? "" };
+}
+
+/** The member caller (Phase 7): any logged-in role (401 if anonymous). The service fences to the
+ *  caller's OWN person — the identity is never trusted for anything but "who am I". */
+async function memberCaller(c: RequestContext): Promise<{ userId: string; orgId: string }> {
+  const identity = await buildIdentity(c.req);
+  requireAuth(identity);
+  return { userId: identity.userId ?? "", orgId: identity.orgId ?? "" };
 }
 
 export async function listTrackerItems(c: RequestContext): Promise<void> {
@@ -57,4 +65,22 @@ export async function updateTrackerItem(c: RequestContext): Promise<void> {
       archived: b?.archived,
     }),
   );
+}
+
+// ── Member lane (Phase 7) ─────────────────────────────────────────────────────────────────
+export async function listMyTrackerItems(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await memberCaller(c);
+  c.json(200, await trackersService.listForMember(userId, orgId));
+}
+
+export async function createMyRequest(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await memberCaller(c);
+  const b = (await c.readBody()) as { text?: unknown; category?: unknown } | null;
+  c.json(200, await trackersService.createRequestForMember(userId, orgId, { text: b?.text, category: b?.category }));
+}
+
+export async function updateMyGoal(c: RequestContext): Promise<void> {
+  const { userId, orgId } = await memberCaller(c);
+  const b = (await c.readBody()) as { progress?: unknown; note?: unknown } | null;
+  c.json(200, await trackersService.updateGoalForMember(userId, orgId, c.params.id ?? "", { progress: b?.progress, note: b?.note }));
 }
