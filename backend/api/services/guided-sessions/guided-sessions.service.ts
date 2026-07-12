@@ -91,6 +91,7 @@ export interface GuidedSessionDto {
   personName: string;
   stage: string;
   state: GuidedSessionState;
+  engagement: number | null;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -103,6 +104,7 @@ function toDto(row: GuidedSessionRow): GuidedSessionDto {
     personName: row.personName,
     stage: row.stage,
     state: row.state,
+    engagement: row.engagement,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
     completedAt: row.completedAt ? row.completedAt.toISOString() : null,

@@ -50,6 +50,22 @@
   line-height: 1.5;
 }
 
+.mcr-done-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sero-mint-900, #0c4b3c);
+  background: var(--sero-mint-200, #eefcf9);
+  border: 1px solid var(--sero-mint-800, #1aa887);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  width: fit-content;
+  margin: 0 auto 22px;
+}
+
 .mcr-card {
   background: #fff;
   border: 1px solid var(--color-border, #e3e8ee);

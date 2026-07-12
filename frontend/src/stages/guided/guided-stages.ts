@@ -24,6 +24,8 @@ export interface RenderCtx {
   trackers: GroupedTrackers;
   /** Most-recent prior score per block id → { score, date } — the last-time marker. */
   lastScores: Record<string, { score: number; date: string }>;
+  /** Previous completed session's engagement (1–5), or null on a first session. */
+  lastEngagement: number | null;
 }
 
 export type StageRenderer = (
@@ -221,7 +223,7 @@ const summary: StageRenderer = (state, copy) => {
   };
 };
 
-const wrapup: StageRenderer = (state, copy) => {
+const wrapup: StageRenderer = (state, copy, ctx) => {
   const { title, sub } = stageCopy("wrapup", copy);
   const engagement = state.wrapup?.engagement ?? null;
   const eng = [1, 2, 3, 4, 5]
@@ -230,12 +232,17 @@ const wrapup: StageRenderer = (state, copy) => {
         `<button type="button" data-eng="${n}"${engagement === n ? " data-selected" : ""}>${n}</button>`,
     )
     .join("");
+  const lastEng =
+    ctx.lastEngagement != null
+      ? `<p class="mcr-q__src" style="text-align:center; margin:0 0 6px">Last time: ${ctx.lastEngagement}/5</p>`
+      : "";
   return {
     title,
     sub,
     body: `
       <div class="mcr-private">${ICONS.lock}<span>Private — just for you. ${esc(copy.name)} never sees this stage.</span></div>
       <p style="text-align:center; font-weight:600; margin:0 0 2px">How engaged did they seem?</p>
+      ${lastEng}
       <div class="mcr-eng" role="group" aria-label="Engagement 1 to 5">${eng}</div>
       ${notesCard("wrapup.privateNotes", "Your private notes — anything you don't want to forget…", state.wrapup?.privateNotes ?? "")}
       <div class="mcr-card mcr-sugg">

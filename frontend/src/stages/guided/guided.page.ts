@@ -15,6 +15,7 @@ import {
   createTrackerItem,
   updateTrackerItem,
   getBlockScores,
+  listGuidedSessionsForPerson,
 } from "../../../../shared/api.js";
 import { arcBySlug } from "./guided-arcs.ts";
 import {
@@ -99,8 +100,21 @@ export const mount: Mount = async (root, { store, setState }) => {
       return {};
     }
   }
+  // Previous completed session's engagement (1–5) for the Review "last time: N/5" line.
+  async function loadLastEngagement(): Promise<number | null> {
+    try {
+      const res = (await listGuidedSessionsForPerson(dto.personId)) as { sessions?: GuidedSessionDto[] };
+      const prior = (res.sessions ?? [])
+        .filter((s) => s.id !== id && s.completedAt && s.engagement != null)
+        .sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
+      return prior[0]?.engagement ?? null;
+    } catch {
+      return null;
+    }
+  }
   let trackers = await loadTrackers();
   const lastScores = await loadLastScores();
+  const lastEngagement = await loadLastEngagement();
 
   let panel: Panel | null = null;
   let saveState: "idle" | "saving" = "idle";
@@ -321,10 +335,18 @@ export const mount: Mount = async (root, { store, setState }) => {
   function render(): void {
     copy.requestCount = trackers.requests.length;
     copy.goalCount = trackers.goals.length;
-    const { title, sub, body } = STAGE_RENDERERS[stages[state.step]!](state, copy, { trackers, lastScores });
+    const { title, sub, body } = STAGE_RENDERERS[stages[state.step]!](state, copy, {
+      trackers,
+      lastScores,
+      lastEngagement,
+    });
+    const banner = completed
+      ? `<div class="mcr-done-banner">${ICONS.check}<span>This check-in is complete — view only.</span></div>`
+      : "";
     root.innerHTML = `
       <div class="mcr">
         <div class="mcr-col">
+          ${banner}
           <h1 class="mcr-h1">${esc(title)}</h1>
           <p class="mcr-sub">${esc(sub)}</p>
           ${body}

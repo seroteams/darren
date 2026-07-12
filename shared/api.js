@@ -380,6 +380,9 @@ export async function createGuidedSession({ personId } = {}) {
 export async function getGuidedSession(id) {
   return json(await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`));
 }
+export async function listGuidedSessionsForPerson(personId) {
+  return json(await fetch(`/api/v1/guided-sessions?personId=${encodeURIComponent(personId)}`));
+}
 export async function patchGuidedSession(id, { stage, state } = {}) {
   return json(await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`, {
     method: "PATCH",

@@ -59,6 +59,7 @@ export interface GuidedSessionDto {
   personName: string;
   stage: GuidedStage;
   state: GuidedState;
+  engagement: number | null;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
