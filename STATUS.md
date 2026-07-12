@@ -25,6 +25,17 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> **🔨 [past-1on1-view](docs/plans/doing/past-1on1-view/plan.md) — Phase 1 ✅ (Carl green-lit 2026-07-12 "a") + committed; Phase 2 (UI) building now. $0.**
+> Carl's ask: make the manager's "Past 1:1" view clear on *what happened, when, and with whom* — an inner nav between the
+> **briefing** and the **actual answers**, a clear "when it was done" section, and a proper person-profile header. Decided
+> with Carl: **3 tabs** (Overview / Briefing / Answers) + a **rich when-row** (date · ago · questions-answered count).
+> One shared file (`admin/src/stages/run-detail.ts`) → the redesign lands in **both** the manager and customer apps at once.
+> **P1 ✅ backend** — the member route `GET /api/v1/runs/mine/:id` now returns `turns[]` (question · answer · skipped),
+> projected from the stored transcript, mirroring the compare view but with the internal planner `note` **stripped** so it
+> never reaches a manager. Free proof: `npm test` **124/124** (incl. file↔PG parity), typecheck clean, real JSON showing
+> answers surface + note gone + empty run → `[]`. **P2 🔨** — rebuild `run-detail.ts` into the 3-tab screen (profile header,
+> when-row, Briefing reused, new Answers tab). **▶ Your move:** nothing on P1; P2's QA walk lands after I build it.
+
 > **✅ [focus-freshness](docs/plans/done/focus-freshness/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl green-lit), ~$0.50 total, live.**
 > Carl's pick from the arc deep-dive: repeat bi-weeklies suggested the same topics every time. Now the focus prompt carries
 > the last 3 preps' suggested topics for the same person (same manager + roster person only; competency history filtered out
@@ -33,20 +44,17 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 > silences a real signal). Golden gate `biweekly-priya` **PASS, no FOCUS_ARC_LEAK.** Commits `763c5a4a`, `c9d34f62`,
 > `ba3223d6` (code, all live) + close-out docs. Track moved to [done/](docs/plans/done/focus-freshness/plan.md).
 
-> **🔨 [forgot-password](docs/plans/doing/forgot-password/plan.md) — Phase 1 ✅ (Carl green-lit 2026-07-11 "A") + committed; Phase 2 (UI) building now. $0.**
-> Carl's ask: "forgot password for all, admin also." One shared login (`admin/src/stages/login.js`) → **one** reset flow covers
-> managers, members, AND admin — no separate admin path. Blueprint = the invitations flow (public, sha256-hashed, expiring,
-> single-use token, emailed).
+> **✅ [forgot-password](docs/plans/done/forgot-password/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl "this is good push it"), $0, pushed live.**
+> Carl's ask: "forgot password for all, admin also." One shared login → **one** reset flow covers managers, members AND admin.
+> Blueprint = the invitations flow (public, sha256-hashed, single-use, expiring, emailed).
 > **P1 ✅ backend** — `password_reset_tokens` table (`0014`; sha256 hash, single-use `used_at`, 1h expiry), `POST
 > /api/v1/auth/forgot-password` + `/reset-password` (origin-guarded, request rate-limited 5/min/IP, always-200 → no email
-> enumeration), branded reset email. **Proven end-to-end on the real dev DB** (mint → stored-hashed → reset → login with new
-> pw → reused token refused → dev pw restored) + a **real branded email delivered to carl@seroteams.com from
-> notifications@seroapp.com**. Offline: typecheck clean, 27/27. Sender decided **seroapp.com** — local `.env` switched to the
-> SeroApp-New Resend key; **live `render.yaml` untouched on purpose** (go-live also needs that key set in Render's dashboard).
-> **P2 🔨** — the "Forgot password?" link + request/reset screens (built once under `admin/src/stages/`, wired into both apps).
-> **▶ Your move:** nothing on P1. Two things are yours whenever: (1) to make reset emails deliver on the LIVE site, set the
-> seroapp.com key as `EMAIL_API_KEY` in the Render dashboard + point `render.yaml` `EMAIL_FROM` at seroapp.com; (2) Phase 2's
-> QA walk lands after I build it.
+> enumeration), branded seroapp.com email. Proven end-to-end on the real dev DB + a real inbox email.
+> **P2 ✅ UI** — "Forgot password?" link + request/reset screens, one UI shared by both apps (routes, loaders, boot ×2).
+> Built in a worktree to dodge parallel edits, then **merged (`2b38666e`) by parking + restoring two other sessions' WIP —
+> nothing swept**. typecheck+build+browser all green; Carl walked it live on `:3000`. Folder → [done/](docs/plans/done/forgot-password/plan.md).
+> **▶ Your move:** ONE thing — for reset emails to deliver on the **live site**, set the seroapp.com **SeroApp-New** key as
+> `EMAIL_API_KEY` in the Render dashboard (sync:false, not in git). `render.yaml` `EMAIL_FROM` already points at seroapp.com.
 
 > **✅ [transactional-email](docs/plans/done/transactional-email/plan.md) — TRACK CLOSED 2026-07-11: all 3 phases ✅ (Carl "a" ×3), $0. Sero can send email.**
 > Carl's ask: "send notifications/updates by email — and as admin, when someone registers I want to know." Provider =
@@ -320,4 +328,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-11 (forgot-password P1 ✅ green-lit "A" + committed — backend reset flow: token table 0014, 2 endpoints, branded seroapp.com email, proven end-to-end on dev DB + real inbox email; P2 UI building now. Earlier today: transactional-email TRACK CLOSED)
+- Last updated: 2026-07-12 (forgot-password TRACK CLOSED — both phases ✅ "this is good push it", pushed live: backend reset flow + shared UI in both apps; merged by parking/restoring 2 parallel sessions' WIP. Live email needs the seroapp.com key in Render's dashboard. Earlier: past-1on1-view P1 ✅)

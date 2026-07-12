@@ -9,6 +9,22 @@
 ---
 
 ## Where we are now
+- **2026-07-12** — **forgot-password TRACK CLOSED ✅ (both phases, Carl "this is good push it"), $0, pushed live.** Email-based
+  password reset for everyone (one shared login → managers, members, admin). **P1** backend: `password_reset_tokens` (`0014`,
+  sha256/single-use/1h), `forgot-password`+`reset-password` endpoints (always-200 no enumeration, rate-limited), branded
+  seroapp.com email — proven end-to-end on the dev DB + a real inbox email. **P2** UI: "Forgot password?" link + request/reset
+  screens shared by both apps. **Lessons:** (1) *look before you overwrite* — `.env` already had a working verified sender;
+  surfacing that beat clobbering it. (2) **parallel-session merge without sweeping** — Phase 2 was built in a worktree to dodge
+  three admin-shell files another session had dirty; landed on main by `git stash push -- <just those files>` → `git merge` →
+  `git stash pop`, which parked + restored two sessions' WIP (a test page + a promises feature) with zero commits of their work.
+  Verified non-overlapping first (their edits were in different regions). typecheck+build+browser all green; Carl walked it live.
+- **2026-07-12** — **past-1on1-view P1 ✅ (backend, $0).** The member "Past 1:1" endpoint now exposes `turns[]` (the raw
+  Q&A behind the briefing) for a coming Answers tab. Built by mirroring the existing compare-view projection onto
+  `toMemberView` (PG) + `memberRunView` (file) — but dropping the internal planner `note` (it carries `[SHALLOW]`/`[SKIP]`
+  markers that must never reach a manager). **Lesson:** the file↔PG parity test (`test-pg-runs-parity`) is the real guard
+  here — any new field must be added to BOTH member views identically or that deep-equal fails; because the compare check
+  already proves the two transcript sources (file `transcript.json` vs PG `state.transcript`) match, the member view
+  inherits parity for free. Unit-tested via the pure exported `toMemberView` — no DB needed for the $0 proof.
 - **2026-07-12** — **focus-freshness TRACK CLOSED (both phases ✅), ~$0.50 total.** P2 proved the half P1's walk couldn't:
   re-raising a covered topic in the note ("workload still heavy") brought `workload` back as `source: signal` — freshness
   never silences a real signal. Then Carl chose to run one golden gate case before closing: `biweekly-priya` PASS (1 ok /

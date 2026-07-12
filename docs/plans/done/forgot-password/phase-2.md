@@ -1,11 +1,15 @@
 # Phase 2 — Reset UI (both apps)
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting owner walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT
 
-## Built (2026-07-12) — on worktree branch `work/forgot-password-ui`
+## ✅ GREEN-LIT 2026-07-12 — Carl walked it on his own `:3000` ("this is good push it")
+Merged to `main` (`2b38666e`) and pushed live. The merge safely parked + restored two other
+sessions' uncommitted WIP (a *test* admin page + a *promises* feature) — nothing swept.
+
+## Built (2026-07-12) — first landed on worktree branch `work/forgot-password-ui`
 Built in an isolated git worktree because another session had uncommitted edits in the admin
-shell files (`state.js`, `router.js`, `main.js`) — a worktree avoids sweeping their work. Merge
-from main when they've landed (`git merge work/forgot-password-ui`).
+shell files (`state.js`, `router.js`, `main.js`) — the worktree avoided sweeping their work;
+merged into main once verified.
 
 Landed:
 - `admin/src/stages/forgot-password.js`, `admin/src/stages/reset-password.js` — new shared screens (auth-split layout, reused classes, no new CSS).

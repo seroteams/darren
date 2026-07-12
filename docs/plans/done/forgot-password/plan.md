@@ -20,15 +20,15 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Backend reset flow | Token table + migration, 2 endpoints, reset email, seroapp.com sender | ✅ |
-| 2 | Reset UI (both apps) | "Forgot password?" link + request/reset screens, wired into both apps | 🔨 |
+| 2 | Reset UI (both apps) | "Forgot password?" link + request/reset screens, wired into both apps | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
-## Current state
-**Phase 1 ✅ green-lit by Carl 2026-07-11 ("A") + committed.** Backend reset flow live in code: `password_reset_tokens` table (`0014`), `forgot-password` + `reset-password` endpoints, branded seroapp.com email, rate limit. Proven end-to-end on the real dev DB + a real email delivered to Carl's inbox. Offline: typecheck clean, 27/27 tests.
-**Sender:** DECIDED seroapp.com — local `.env` switched; live `render.yaml` untouched (go-live needs the key in Render's dashboard).
-**Next: Phase 2** — the "Forgot password?" link + request/reset screens, wired into both apps.
-**Baseline (pre-work, free):** `auth.service.test.ts` 10/10; typecheck clean.
+## Current state — ✅ TRACK CLOSED 2026-07-12 (Carl: "this is good push it")
+Both phases green-lit and merged to `main`; pushed live.
+**Phase 1 ✅** — backend: `password_reset_tokens` table (`0014`), `forgot-password` + `reset-password` endpoints (origin-guarded, rate-limited, always-200 no enumeration), branded seroapp.com email. Proven end-to-end on the real dev DB + a real inbox email.
+**Phase 2 ✅** — the "Forgot password?" link + request/reset screens, one UI shared by both apps, wired into both routers/loaders/boot. typecheck+build+browser all green; walked live by Carl on `:3000`. Merged via `2b38666e` (parked+restored 2 other sessions' WIP — nothing swept).
+**Live email caveat:** delivery on the live site needs the seroapp.com key set as `EMAIL_API_KEY` in Render's dashboard (sync:false — not in git). `render.yaml` `EMAIL_FROM` already points at seroapp.com.
 
 ## Parked
 - **Revoke existing login sessions on reset** (kick other devices after a reset) — good hardening, not needed for the first cut.
