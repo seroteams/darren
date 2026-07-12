@@ -1,6 +1,18 @@
 # Phase 2 — Trackers (promises · requests · goals) + side panels
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT — awaiting Carl's QA walk (`372806e3`) · **Size:** ~1.5 days
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Size:** ~1.5 days
+
+## ✅ GREEN-LIT 2026-07-13
+Carl: **"keep going a"** — green-lit; browser walk **waived** (his call), closed on offline proof +
+a real-DB round-trip. Shipped on `work/monthly-one-on-one` (`372806e3`): `tracker_items` table +
+trackers service (per-kind status validation, dated history, the fence walls incl. the Phase-7
+member predicate), the real Catch-up **promise loop** (outcomes applied to the rows at complete()),
+and Requests/Goals **side panels** that persist. Runner fetches trackers live (no stale snapshot).
+**Verified:** typecheck clean · `npm test` 131/132 (1 known-environmental `test-persona-bench`) ·
+admin build resolves · real local-Neon round-trip (promise/request/goal persist kind/status/history →
+update grows history → promise flips open→done at complete → another manager 404s → rows cleaned up).
+Honest residual: the multi-meeting UI walk (carry-over across A/B/C, panel open/close/save UX) wasn't
+eyeballed — safe to do any time against the dev server.
 
 ## Goal
 Promises, requests and goals persist per person and carry across meetings — a promise made in meeting A resurfaces in meeting B's Catch-up with one-tap outcomes; requests and goals open in the right-hand side panel and keep status/history until resolved.

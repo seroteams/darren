@@ -79,8 +79,8 @@ New `backend/engine/guided/wrapup.ts` — `generateGuidedWrapup`: input = all st
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | [Card, runner shell, auto-save](phase-1.md) | The flag-gated picker card + the real 7-stage runner (prototype look) that auto-saves and survives reload | ✅ |
-| 2 | [Trackers + side panels](phase-2.md) | Promises/requests/goals that persist per person and resurface next meeting; the right-hand panels | 🔨 |
-| 3 | [Rating + last-time markers](phase-3.md) | Six sliders saving real scores; last session's score marked; complete() writes block_scores | ⬜ |
+| 2 | [Trackers + side panels](phase-2.md) | Promises/requests/goals that persist per person and resurface next meeting; the right-hand panels | ✅ |
+| 3 | [Rating + last-time markers](phase-3.md) | Six sliders saving real scores; last session's score marked; complete() writes block_scores | 🔨 |
 | 4 | [Feedback, Summary (manual), private Review](phase-4.md) | Sequential Q&A feedback; manual summary; the private wrap-up; finishing a session | ⬜ |
 | 5 | [The AI call](phase-5.md) | End-of-session Summary draft + private suggestion buckets — **the only paid phase** | ⬜ |
 | 6 | [Record + list merge](phase-6.md) | The one-page finished record, merged into the existing run lists | ⬜ |
@@ -90,7 +90,8 @@ New `backend/engine/guided/wrapup.ts` — `generateGuidedWrapup`: input = all st
 
 ## Current state
 **Phase 1 ✅ green-lit 2026-07-12 (Carl: "A"; browser walk waived — verified via a real local-DB round-trip, his call).** The flag-gated card, the stage-config-driven 7-stage runner (ported from the prototype), and auto-save + reload-resume are built on `work/monthly-one-on-one` (`ea5d2a49`). typecheck clean · `npm test` **130/131** (the 1 fail is the known-environmental `test-persona-bench` — untracked `_runtime` questions absent in a fresh worktree) · admin build resolves the runner chunk · create → patch(typed notes) → read-back → fence(404) proven on real Neon.
-- **Phase 2 🔨 BUILT — awaiting Carl's walk** (`372806e3`): `tracker_items` table + service, the real Catch-up promise loop, and Requests/Goals side panels that persist. The runner fetches trackers live (no stale snapshot). typecheck clean · 131/132 · admin build resolves · real-DB round-trip incl. the promise loop proven.
+- **Phase 2 ✅ green-lit 2026-07-13** (Carl: "keep going a"; walk waived — real-DB round-trip incl. the promise loop, `372806e3`): `tracker_items` table + service, the real Catch-up promise loop, and Requests/Goals side panels that persist. Runner fetches trackers live.
+- **Phase 3 🔨 building now** — rating sliders that save real `block_scores` + the real last-time marker.
 - Build runs on branch `work/monthly-one-on-one` (the dedicated worktree). The plan's earlier `work/monthly-checkin` name was superseded — same work, existing branch reused.
 - ⚠️ The shared top-level trackers (STATUS.md, SERO_BOARD.md) live in `main` and currently carry other sessions' uncommitted edits, so they're **not** updated from this worktree (safe-commit: never sweep foreign work). They reconcile when this branch merges to main.
 

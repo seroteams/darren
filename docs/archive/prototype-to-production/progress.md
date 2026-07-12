@@ -9,6 +9,17 @@
 ---
 
 ## Where we are now
+- **2026-07-13** — **monthly-checkin P2 ✅ green-lit (Carl "keep going a", walk waived), $0, commit `372806e3`.**
+  The shared tracker domain: `tracker_items` (ONE table, kind promise|request|goal), a per-person
+  fenced service with per-kind status validation + a dated `history` event on every change, and the
+  fence walls (incl. `trackerVisibleToMember` — the Phase-7 predicate defined now: never a promise,
+  never another person). The **promise loop** works end-to-end — a Catch-up "Done" is stored in
+  session state and applied to the real promise row (open→done) when the 1:1 completes, through the
+  guided→trackers integration. Requests/Goals rows open side panels that PATCH real rows + grow history.
+  **Decision:** the runner fetches trackers LIVE (one GET) instead of the plan's create-time snapshot —
+  a snapshot is a premature optimization that would drift from the real rows; one cheap GET is simpler
+  and always fresh. **Lesson (again):** the real proof was a live-DB round-trip, not the fake-repo unit
+  tests — those pass even if the real repo/schema/integration is wrong.
 - **2026-07-12** — **monthly-checkin P1 ✅ green-lit (Carl "A", walk waived), $0, commit `ea5d2a49`.**
   The "Monthly Check-in" — a manager-walked *guided* 1:1, a second engine alongside the AI-interview
   types. P1 landed the flag-gated picker card (internal-admin only, gate = admin-role OR
