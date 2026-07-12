@@ -1,6 +1,6 @@
 # Phase 3 — Rating sliders + last-time markers
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Size:** ~1 day
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT — awaiting Carl's QA walk (`d7eef92a`) · **Size:** ~1 day
 
 ## Goal
 The Rating stage captures the member's spoken six-block self-scores on real sliders (manager drags), each slider marked with last session's score and date, and finishing the session writes them to `block_scores`.
@@ -17,8 +17,8 @@ The Rating stage captures the member's spoken six-block self-scores on real slid
 - Full history table (averages + past sessions) — parked. Feedback/wrapup persistence, AI, record.
 
 ## Done when
-- [ ] Six `block_scores` rows in the DB after finishing a session with ratings (query the table)
-- [ ] `npm run typecheck` + `npm test` green
+- [x] `block_scores` rows in the DB after finishing a session with ratings — verified via a real local-Neon round-trip: complete() wrote 3 rated blocks (7.5/8/6) + a note → a later session read them back as markers → score 11 rejected, nothing stored, session left open → rows cleaned up
+- [x] `npm run typecheck` + `npm test` green (typecheck clean · **131/132**; the 1 fail is the known-environmental `test-persona-bench`)
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
