@@ -65,3 +65,37 @@ export interface GuidedSessionDto {
 }
 
 export const GUIDED_STATE_VERSION = 1;
+
+// ── Trackers (Phase 2) — the shared promise/request/goal domain the runner reads live ──
+export type TrackerKind = "promise" | "request" | "goal";
+
+export interface TrackerEvent {
+  at: string;
+  type: string; // created | status | progress | note | outcome
+  from?: string;
+  to?: string;
+  note?: string;
+  by?: string;
+}
+
+export interface TrackerItem {
+  id: string;
+  personId: string;
+  kind: TrackerKind;
+  text: string;
+  owner: string | null; // promise: "manager" | "member"
+  category: string | null; // request category
+  status: string;
+  progress: number; // goal 0–100
+  history: TrackerEvent[];
+  createdSessionId: string | null;
+  archived: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GroupedTrackers {
+  promises: TrackerItem[];
+  requests: TrackerItem[];
+  goals: TrackerItem[];
+}

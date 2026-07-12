@@ -436,3 +436,45 @@ export const guidedSessions = pgTable(
     index("guided_sessions_person_id_idx").on(t.personId),
   ],
 );
+
+/** Fixed set: what kind of tracked item this is (monthly-checkin Phase 2). */
+export const trackerKind = pgEnum("tracker_kind", ["promise", "request", "goal"]);
+
+/** The shared, cross-meeting tracker domain — promises · requests · goals, ONE table keyed
+ *  by `kind`. Persists per person and carries across guided sessions: a promise made in one
+ *  check-in resurfaces in the next one's Catch-up; requests/goals keep status + a dated
+ *  `history` until resolved. `owner` (promise: manager|member), `category` (request), `status`
+ *  (per-kind sets), and `progress` (goal 0–100) are service-validated free text/int, not
+ *  enums, so a status vocabulary tweak needs no migration. `created_session_id` links back to
+ *  the guided session that raised it. Double-fenced like people/guided_sessions: every
+ *  read/write filters by org_id (+ the person's manager, via the people repo). The member
+ *  read/write lane (Phase 7) is a separate fenced set of endpoints — never these. */
+export const trackerItems = pgTable(
+  "tracker_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id),
+    kind: trackerKind("kind").notNull(),
+    text: text("text").notNull(),
+    owner: text("owner"), // promise: "manager" | "member"
+    category: text("category"), // request: growth_development | ideas_suggestions | concerns_feedback
+    status: text("status").notNull(), // per-kind set, service-validated
+    progress: integer("progress").notNull().default(0), // goal 0–100
+    history: jsonb("history").notNull(), // dated events [{ at, kind, ... }]
+    createdSessionId: uuid("created_session_id").references(() => guidedSessions.id),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("tracker_items_org_id_idx").on(t.orgId),
+    index("tracker_items_person_id_idx").on(t.personId),
+    index("tracker_items_person_kind_status_idx").on(t.personId, t.kind, t.status),
+  ],
+);

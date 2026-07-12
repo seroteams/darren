@@ -1,22 +1,32 @@
 // The stage library — one self-contained renderer per stage id. The runner (guided.page.ts)
 // reads arc.stages and dispatches through STAGE_RENDERERS; it never hardcodes the stage list
-// (architecture.md §2b). Each renderer returns { title, sub, body } and reads/writes the typed
-// GuidedState draft defensively (a missing key ⇒ an empty stage). Ported from the approved
-// prototype. Trackers (promises/requests/goals) are Phase-1 MOCK; the manager's typed notes,
-// rating sliders, promise outcomes, feedback answers, and engagement are REAL (auto-saved).
+// (architecture.md §2b). Each renderer returns { title, sub, body } and reads the typed
+// GuidedState draft + the live trackers defensively. From Phase 2 the trackers (promises/
+// requests/goals) are REAL — fetched by the runner and passed in; the manager's typed notes,
+// rating sliders, promise outcomes, feedback answers and engagement are the session's own state.
 
-import type { GuidedStageId, GuidedState } from "./guided.types.ts";
+import type { GroupedTrackers, GuidedStageId, GuidedState, TrackerItem } from "./guided.types.ts";
 import { ICONS } from "./guided-icons.ts";
 import { esc } from "./guided-util.ts";
-import { FEEDBACK, RATING_BLOCKS, STAGE_UI, stageCopy, type CopyCtx } from "./coaching-copy.ts";
-import { MOCK_GOALS, MOCK_PROMISES, MOCK_REQUESTS, OUTCOMES } from "./mock-content.ts";
+import {
+  CATEGORY_LABELS,
+  FEEDBACK,
+  OUTCOMES,
+  RATING_BLOCKS,
+  STAGE_UI,
+  STATUS_LABELS,
+  stageCopy,
+  statusClass,
+  type CopyCtx,
+} from "./coaching-copy.ts";
 
 export type StageRenderer = (
   state: GuidedState,
   copy: CopyCtx,
+  trackers: GroupedTrackers,
 ) => { title: string; sub: string; body: string };
 
-// ---- shared builders (ported from the prototype) --------------------------------------------
+// ---- shared builders ------------------------------------------------------------------------
 const qCard = ({
   n,
   of,
@@ -41,7 +51,6 @@ const qCard = ({
     ${src ? `<p class="mcr-q__src">${src}</p>` : ""}
   </div>`;
 
-// A borderless notes card whose textarea auto-saves to a state path (data-notes="stage.field").
 const notesCard = (path: string, placeholder: string, value: string): string => `
   <div class="mcr-card mcr-notes">
     <textarea data-notes="${esc(path)}" placeholder="${esc(placeholder)}">${esc(value)}</textarea>
@@ -50,26 +59,29 @@ const notesCard = (path: string, placeholder: string, value: string): string => 
 const cta = (label: string, action = "next"): string =>
   `<div class="mcr-cta"><button type="button" class="mcr-btn mcr-btn--primary" data-${action}>${esc(label)}</button></div>`;
 
-const statusCls = (s: string): string =>
-  s === "Done" ? "done" : s === "In progress" ? "prog" : "new";
+const statusPill = (status: string): string =>
+  `<span class="mcr-status mcr-status--${statusClass(status)}">${esc(STATUS_LABELS[status] ?? status)}</span>`;
 
 // ---- the renderers --------------------------------------------------------------------------
-const catchup: StageRenderer = (state, copy) => {
+const catchup: StageRenderer = (state, copy, trackers) => {
   const { title, sub } = stageCopy("catchup", copy);
   const outcomes = state.catchup?.outcomes ?? {};
-  const rows = MOCK_PROMISES.map(
-    (p, i) => `
+  const open = trackers.promises.filter((p) => p.status === "open");
+  const rows = open
+    .map(
+      (p) => `
       <div class="mcr-prom__row">
-        <span class="mcr-owner mcr-owner--${p.owner === "you" ? "you" : "them"}">${p.owner === "you" ? "You" : esc(copy.name)}</span>
-        <span class="mcr-prom__text">${esc(p.action)}</span>
+        <span class="mcr-owner mcr-owner--${p.owner === "manager" ? "you" : "them"}">${p.owner === "manager" ? "You" : esc(copy.name)}</span>
+        <span class="mcr-prom__text">${esc(p.text)}</span>
         <div class="mcr-chips" role="group" aria-label="Did it happen?">
           ${OUTCOMES.map(
             (o) =>
-              `<button type="button" class="mcr-chip" data-item="${i}" data-value="${o.value}"${outcomes[i] === o.value ? " data-selected" : ""}>${esc(o.label)}</button>`,
+              `<button type="button" class="mcr-chip" data-outcome="${esc(p.id)}" data-value="${o.value}"${outcomes[p.id] === o.value ? " data-selected" : ""}>${esc(o.label)}</button>`,
           ).join("")}
         </div>
       </div>`,
-  ).join("");
+    )
+    .join("");
   return {
     title,
     sub,
@@ -79,30 +91,51 @@ const catchup: StageRenderer = (state, copy) => {
           <span class="mcr-q__logo">S</span>
           <span class="mcr-q__stem">Last month's promises — did they happen?</span>
         </div>
-        ${rows}
+        ${rows || `<p class="mcr-q__coach" style="margin:6px 0 0">Nothing open from last time — you're all caught up.</p>`}
       </div>
+      <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-promise">${ICONS.plus}<span>Add a promise</span></button></div>
       ${notesCard("catchup.notes", `Notes on ${copy.name}'s answers`, state.catchup?.notes ?? "")}
       ${cta("Continue to requests")}`,
   };
 };
 
-const requests: StageRenderer = (state, copy) => {
+const rowCard = (kind: "request" | "goal", item: TrackerItem): string => {
+  const mid =
+    kind === "request"
+      ? item.category
+        ? `<span class="mcr-row__cat">${esc(CATEGORY_LABELS[item.category] ?? item.category)}</span>`
+        : ""
+      : `<span class="mcr-row__pct">${item.progress}%</span>`;
+  return `
+    <button type="button" class="mcr-row" data-open="${kind}" data-id="${esc(item.id)}">
+      <span class="mcr-row__text">${esc(item.text)}</span>
+      ${mid}
+      ${statusPill(item.status)}
+      <span class="mcr-row__chev">${ICONS.chev}</span>
+    </button>`;
+};
+
+const requests: StageRenderer = (state, copy, trackers) => {
   const { title, sub } = stageCopy("requests", copy);
-  const rows = MOCK_REQUESTS.map(
-    (r, i) => `
-      <button type="button" class="mcr-row" data-open="request" data-i="${i}">
-        <span class="mcr-row__text">${esc(r.text)}</span>
-        <span class="mcr-row__cat">${esc(r.cat)}</span>
-        <span class="mcr-status mcr-status--${statusCls(r.status)}">${esc(r.status)}</span>
-        <span class="mcr-row__chev">${ICONS.chev}</span>
-      </button>`,
-  ).join("");
+  const rows = trackers.requests.map((r) => rowCard("request", r)).join("");
   return {
     title,
     sub,
-    body: `${rows}
+    body: `${rows || `<p class="mcr-sub" style="margin:0 auto 24px">No open requests yet — add the first one below.</p>`}
       <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-request">${ICONS.plus}<span>Add request</span></button></div>
       ${cta("Continue to Ratings")}`,
+  };
+};
+
+const goals: StageRenderer = (state, copy, trackers) => {
+  const { title, sub } = stageCopy("goals", copy);
+  const rows = trackers.goals.map((g) => rowCard("goal", g)).join("");
+  return {
+    title,
+    sub,
+    body: `${rows || `<p class="mcr-sub" style="margin:0 auto 24px">No goals yet — add one below.</p>`}
+      <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-goal">${ICONS.plus}<span>Add a new goal</span></button></div>
+      ${cta("Continue to 1:1 Summary")}`,
   };
 };
 
@@ -163,30 +196,8 @@ const feedback: StageRenderer = (state, copy) => {
   };
 };
 
-const goals: StageRenderer = (state, copy) => {
-  const { title, sub } = stageCopy("goals", copy);
-  const rows = MOCK_GOALS.map(
-    (g, i) => `
-      <button type="button" class="mcr-row" data-open="goal" data-i="${i}">
-        <span class="mcr-row__text">${esc(g.text)}</span>
-        <span class="mcr-row__pct">${g.pct}%</span>
-        <span class="mcr-status mcr-status--${statusCls(g.status)}">${esc(g.status)}</span>
-        <span class="mcr-row__chev">${ICONS.chev}</span>
-      </button>`,
-  ).join("");
-  return {
-    title,
-    sub,
-    body: `${rows}
-      <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-goal">${ICONS.plus}<span>Add a new goal</span></button></div>
-      ${cta("Continue to 1:1 Summary")}`,
-  };
-};
-
 const summary: StageRenderer = (state, copy) => {
   const { title, sub } = stageCopy("summary", copy);
-  // Phase 1: a placeholder draft (the real AI-drafted summary lands in Phase 5). The manager's
-  // edits ARE saved (summary.edited).
   return {
     title,
     sub,
@@ -240,5 +251,4 @@ export const STAGE_RENDERERS: Record<GuidedStageId, StageRenderer> = {
   wrapup,
 };
 
-// Re-export so the runner has one import for stage metadata + rendering.
 export { STAGE_UI };

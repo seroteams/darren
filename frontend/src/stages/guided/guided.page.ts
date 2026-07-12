@@ -7,12 +7,24 @@
 
 import type { Mount } from "../../../../admin/src/stages/stage.types.ts";
 import { STAGES } from "../../../../admin/src/state.js";
-import { getGuidedSession, patchGuidedSession, completeGuidedSession } from "../../../../shared/api.js";
+import {
+  getGuidedSession,
+  patchGuidedSession,
+  completeGuidedSession,
+  listTrackerItems,
+  createTrackerItem,
+  updateTrackerItem,
+} from "../../../../shared/api.js";
 import { arcBySlug } from "./guided-arcs.ts";
-import { GUIDED_STATE_VERSION, type GuidedArc, type GuidedSessionDto, type GuidedState } from "./guided.types.ts";
+import {
+  GUIDED_STATE_VERSION,
+  type GroupedTrackers,
+  type GuidedArc,
+  type GuidedSessionDto,
+  type GuidedState,
+} from "./guided.types.ts";
 import { STAGE_RENDERERS, STAGE_UI } from "./guided-stages.ts";
 import { FEEDBACK, type CopyCtx } from "./coaching-copy.ts";
-import { MOCK_GOALS, MOCK_REQUESTS } from "./mock-content.ts";
 import { ICONS } from "./guided-icons.ts";
 import { panelHtml, type Panel } from "./side-panel.component.ts";
 import { esc } from "./guided-util.ts";
@@ -61,9 +73,19 @@ export const mount: Mount = async (root, { store, setState }) => {
   const copy: CopyCtx = {
     name: (dto.personName || "").split(" ")[0] || dto.personName || "them",
     full: dto.personName || "",
-    requestCount: MOCK_REQUESTS.length,
-    goalCount: MOCK_GOALS.length,
+    requestCount: 0,
+    goalCount: 0,
   };
+
+  async function loadTrackers(): Promise<GroupedTrackers> {
+    try {
+      const g = (await listTrackerItems(dto.personId)) as GroupedTrackers;
+      return { promises: g.promises ?? [], requests: g.requests ?? [], goals: g.goals ?? [] };
+    } catch {
+      return { promises: [], requests: [], goals: [] };
+    }
+  }
+  let trackers = await loadTrackers();
 
   let panel: Panel | null = null;
   let saveState: "idle" | "saving" = "idle";
@@ -171,6 +193,72 @@ export const mount: Mount = async (root, { store, setState }) => {
     }
   }
 
+  // ---- side-panel save (create / update a real tracker item) --------------------------------
+  async function savePanel(): Promise<void> {
+    if (!panel) return;
+    const p = panel;
+    const val = (name: string): string => {
+      const el = portal.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+        `[data-field="${name}"]`,
+      );
+      return el ? el.value.trim() : "";
+    };
+    try {
+      if (p.type === "request") {
+        const payload: Record<string, unknown> = { status: val("status") };
+        const note = [val("note"), val("nextStep") ? `Next: ${val("nextStep")}` : ""].filter(Boolean).join("\n");
+        if (note) payload.note = note;
+        await updateTrackerItem(p.id, payload);
+      } else if (p.type === "goal") {
+        const payload: Record<string, unknown> = { status: val("status"), progress: Number(val("progress")) };
+        if (val("note")) payload.note = val("note");
+        await updateTrackerItem(p.id, payload);
+      } else if (p.type === "add-request") {
+        if (!val("text")) return;
+        await createTrackerItem(dto.personId, {
+          kind: "request",
+          text: val("text"),
+          category: val("category"),
+          note: val("note") || undefined,
+          createdSessionId: id,
+        });
+      } else if (p.type === "add-goal") {
+        if (!val("text")) return;
+        await createTrackerItem(dto.personId, {
+          kind: "goal",
+          text: val("text"),
+          status: val("status"),
+          note: val("note") || undefined,
+          createdSessionId: id,
+        });
+      } else {
+        // add-promise
+        if (!val("text")) return;
+        await createTrackerItem(dto.personId, {
+          kind: "promise",
+          text: val("text"),
+          owner: val("owner"),
+          createdSessionId: id,
+        });
+      }
+      trackers = await loadTrackers();
+      panel = null;
+      render();
+    } catch (e) {
+      // Keep the panel open (nothing typed is lost) and surface the failure inline — no silent save.
+      console.warn("[guided] tracker save failed:", e instanceof Error ? e.message : String(e));
+      const foot = portal.querySelector<HTMLElement>(".mcr-panel__foot");
+      if (foot && !foot.querySelector(".mcr-panel__err")) {
+        const err = document.createElement("span");
+        err.className = "mcr-panel__err";
+        err.textContent = "Couldn't save — try again.";
+        err.style.cssText =
+          "color:var(--sero-coral-800,#a3372c);font-size:13px;margin-right:auto;align-self:center;";
+        foot.prepend(err);
+      }
+    }
+  }
+
   // ---- state setters ------------------------------------------------------------------------
   // Dynamic path write (e.g. "catchup.notes", "feedback.lessOf") into the typed draft.
   function setNote(path: string, value: string): void {
@@ -202,7 +290,7 @@ export const mount: Mount = async (root, { store, setState }) => {
       <div class="mcr-savewrap"><span class="mcr-save" data-save data-state="${saveState}"><span class="mcr-save__dot"></span><span data-save-label>${
         saveState === "saving" ? "Saving…" : "Saved"
       }</span></span></div>
-      ${panel ? panelHtml(panel, copy) : ""}`;
+      ${panel ? panelHtml(panel, trackers, copy) : ""}`;
     portal
       .querySelectorAll<HTMLElement>(".mcr-tab")
       .forEach((b) => b.addEventListener("click", () => go(Number(b.dataset.step))));
@@ -212,10 +300,13 @@ export const mount: Mount = async (root, { store, setState }) => {
         renderPortal();
       }),
     );
+    portal.querySelector<HTMLElement>("[data-save]")?.addEventListener("click", () => void savePanel());
   }
 
   function render(): void {
-    const { title, sub, body } = STAGE_RENDERERS[stages[state.step]!](state, copy);
+    copy.requestCount = trackers.requests.length;
+    copy.goalCount = trackers.goals.length;
+    const { title, sub, body } = STAGE_RENDERERS[stages[state.step]!](state, copy, trackers);
     root.innerHTML = `
       <div class="mcr">
         <div class="mcr-col">
@@ -238,12 +329,12 @@ export const mount: Mount = async (root, { store, setState }) => {
     });
     root.querySelector<HTMLElement>("[data-finish]")?.addEventListener("click", () => void complete());
 
-    // Catch-up: promise outcome chips
-    root.querySelectorAll<HTMLElement>(".mcr-chip").forEach((chip) =>
+    // Catch-up: promise outcome chips (keyed by the real promise id; applied at complete())
+    root.querySelectorAll<HTMLElement>(".mcr-chip[data-outcome]").forEach((chip) =>
       chip.addEventListener("click", () => {
-        const i = chip.dataset.item ?? "0";
+        const pid = chip.dataset.outcome ?? "";
         const v = chip.dataset.value ?? "";
-        state.catchup = { ...state.catchup, outcomes: { ...state.catchup?.outcomes, [i]: v } };
+        state.catchup = { ...state.catchup, outcomes: { ...state.catchup?.outcomes, [pid]: v } };
         scheduleSave();
         render();
       }),
@@ -294,7 +385,7 @@ export const mount: Mount = async (root, { store, setState }) => {
         const t = b.dataset.open ?? "";
         panel =
           t === "request" || t === "goal"
-            ? ({ type: t, i: Number(b.dataset.i) } as Panel)
+            ? ({ type: t, id: b.dataset.id ?? "" } as Panel)
             : ({ type: t } as Panel);
         renderPortal();
       }),

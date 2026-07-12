@@ -133,3 +133,30 @@ test("listForPerson is fenced and returns the person's sessions", async () => {
   assert.equal(list.sessions.length, 1);
   await assert.rejects(() => svc.listForPerson("p1", CALLER.orgId, "mgr-OTHER"), /not found/i);
 });
+
+test("complete applies the Catch-up promise outcomes to the tracker rows (Phase 2)", async () => {
+  const applied: Array<{ id: string; outcome: string }> = [];
+  const fakeTrackers = {
+    async applyOutcome(id: string, _orgId: string, _managerId: string, outcome: string): Promise<unknown> {
+      applied.push({ id, outcome });
+      return {};
+    },
+  };
+  const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), fakeTrackers);
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  await svc.patch(gs.id, CALLER.orgId, CALLER.managerId, {
+    state: {
+      v: 1,
+      arc: "monthly_check_in",
+      step: 0,
+      visited: [0],
+      catchup: { outcomes: { "promise-A": "yes", "promise-B": "changed" } },
+    },
+  });
+  await svc.complete(gs.id, CALLER.orgId, CALLER.managerId);
+  applied.sort((a, b) => a.id.localeCompare(b.id));
+  assert.deepEqual(applied, [
+    { id: "promise-A", outcome: "yes" },
+    { id: "promise-B", outcome: "changed" },
+  ]);
+});

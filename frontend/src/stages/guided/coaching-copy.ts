@@ -94,6 +94,54 @@ export const FEEDBACK: FeedbackQuestion[] = [
   },
 ];
 
+// ── Tracker vocab (Phase 2) — the human labels + select options for the real statuses ──
+/** Catch-up promise outcome chips → the value stored in state.catchup.outcomes[promiseId]. */
+export const OUTCOMES: { value: string; label: string }[] = [
+  { value: "yes", label: "Done" },
+  { value: "partly", label: "Partly" },
+  { value: "no", label: "Not yet" },
+  { value: "changed", label: "Changed" },
+];
+/** Machine status → human label (across all three kinds). */
+export const STATUS_LABELS: Record<string, string> = {
+  open: "Open",
+  new: "New",
+  in_progress: "In progress",
+  resolved: "Resolved",
+  not_started: "Not started",
+  done: "Done",
+  partly: "Partly",
+  not_done: "Not done",
+  changed: "Changed",
+};
+export const CATEGORY_LABELS: Record<string, string> = {
+  growth_development: "Growth & development",
+  ideas_suggestions: "Ideas & suggestions",
+  concerns_feedback: "Concerns & feedback",
+};
+/** [value, label] select options for the side-panel edit forms. */
+export const REQUEST_STATUS_OPTIONS: [string, string][] = [
+  ["new", "New"],
+  ["in_progress", "In progress"],
+  ["resolved", "Resolved"],
+];
+export const GOAL_STATUS_OPTIONS: [string, string][] = [
+  ["not_started", "Not started"],
+  ["in_progress", "In progress"],
+  ["done", "Done"],
+];
+export const CATEGORY_OPTIONS: [string, string][] = [
+  ["growth_development", "Growth & development"],
+  ["ideas_suggestions", "Ideas & suggestions"],
+  ["concerns_feedback", "Concerns & feedback"],
+];
+/** A status → the .mcr-status--* CSS suffix (new | prog | done). */
+export function statusClass(status: string): string {
+  if (status === "done" || status === "resolved") return "done";
+  if (status === "in_progress") return "prog";
+  return "new";
+}
+
 /** The six building blocks. `last` is a MOCK previous score this phase — real trend lands in
  *  Phase 3 (block_scores). */
 export interface RatingBlock {

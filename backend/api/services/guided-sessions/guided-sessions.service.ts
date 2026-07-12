@@ -7,7 +7,13 @@
 import { pgGuidedSessionsRepo } from "./guided-sessions.repo.ts";
 import type { GuidedSessionsRepo, GuidedSessionRow, GuidedSessionState } from "./guided-sessions.repo.ts";
 import { pgPeopleRepo } from "../team/people.repo.ts";
+import { trackersService } from "../trackers/trackers.service.ts";
 import { badRequest, notFound } from "../../middleware/http-error.ts";
+
+/** The slice of the trackers service guided complete() needs — resolve a Catch-up promise. */
+export interface TrackerOutcomeApplier {
+  applyOutcome(id: string, orgId: string, managerId: string, outcome: string): Promise<unknown>;
+}
 
 const GUIDED_STATE_VERSION = 1;
 const MONTHLY_ARC = "monthly_check_in";
@@ -76,6 +82,21 @@ function coerceState(input: unknown): GuidedSessionState {
   return { ...s, v, arc, step, visited };
 }
 
+// Read the Catch-up promise outcomes out of state — a { promiseId: "yes"|"partly"|"no"|
+// "changed" } map the runner writes as the manager taps the chips. Applied to the real
+// tracker rows at complete(). Defensive: a missing/garbage shape yields no outcomes.
+function readOutcomes(state: GuidedSessionState): Record<string, string> {
+  const catchup = state.catchup;
+  if (!catchup || typeof catchup !== "object" || Array.isArray(catchup)) return {};
+  const raw = (catchup as Record<string, unknown>).outcomes;
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+    if (typeof v === "string" && v) out[k] = v;
+  }
+  return out;
+}
+
 // Read the private engagement out of state.wrapup for denormalization at complete().
 // Defensive — absent/empty in Phase 1 (the wrap-up UI arrives in Phase 4), so returns null.
 function readEngagement(state: GuidedSessionState): number | null {
@@ -103,6 +124,7 @@ export interface GuidedSessionsService {
 export function createGuidedSessionsService(
   repo: GuidedSessionsRepo = pgGuidedSessionsRepo,
   people: GuidedPeopleGateway = defaultPeopleGateway,
+  trackers: TrackerOutcomeApplier = trackersService,
 ): GuidedSessionsService {
   /** The caller's own session or a 404 — the fence everything else builds on. */
   async function owned(id: string, orgId: string, managerId: string): Promise<GuidedSessionRow> {
@@ -169,10 +191,18 @@ export function createGuidedSessionsService(
     async complete(id, orgId, managerId) {
       const row = await owned(id, orgId, managerId);
       if (row.completedAt) return toDto(row); // idempotent — a double-fire never double-writes
+      // Phase 2: apply the Catch-up promise outcomes to the real tracker rows. Best-effort per
+      // row — a since-deleted or foreign promise id must never block finishing the 1:1.
+      for (const [promiseId, outcome] of Object.entries(readOutcomes(row.state))) {
+        try {
+          await trackers.applyOutcome(promiseId, orgId, managerId, outcome);
+        } catch (e) {
+          console.warn("[guided] outcome apply skipped:", promiseId, e instanceof Error ? e.message : String(e));
+        }
+      }
       const completedAt = new Date();
       const engagement = readEngagement(row.state);
-      // Phase 1: flip to done + stamp completion. (block_scores / promise outcomes / the AI
-      // wrap-up land in Phases 3–5.)
+      // (block_scores + the AI wrap-up land in Phases 3–5.)
       await repo.update(row.id, { stage: "done", completedAt, engagement });
       return toDto({ ...row, stage: "done", completedAt, engagement });
     },

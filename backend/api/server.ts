@@ -33,6 +33,7 @@ import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as team from "./services/team/team.controller.ts";
 import * as guided from "./services/guided-sessions/guided-sessions.controller.ts";
+import * as trackers from "./services/trackers/trackers.controller.ts";
 import * as invites from "./services/invites/invites.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
@@ -462,6 +463,17 @@ async function main(): Promise<void> {
   router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/complete$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return guided.completeGuidedSession(c);
+  }));
+  // Trackers (monthly-checkin Phase 2) — promises/requests/goals per person, internal admin
+  // only this phase (member lane is Phase 7). Person-fenced in the service; mutations origin-guarded.
+  router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route(trackers.listTrackerItems));
+  router.add("POST", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.createTrackerItem(c);
+  }));
+  router.add("PATCH", /^\/api\/v1\/tracker-items\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.updateTrackerItem(c);
   }));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the

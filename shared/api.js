@@ -391,6 +391,23 @@ export async function completeGuidedSession(id) {
   return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/complete`, {});
 }
 
+// Trackers (monthly-checkin Phase 2) — promises/requests/goals per person. list → grouped
+// { promises, requests, goals }; create → { item }; update → { item }. Internal admin only.
+export async function listTrackerItems(personId, { includeArchived } = {}) {
+  const q = includeArchived ? "?includeArchived=1" : "";
+  return json(await fetch(`/api/v1/people/${encodeURIComponent(personId)}/tracker-items${q}`));
+}
+export async function createTrackerItem(personId, payload) {
+  return postJson(`/api/v1/people/${encodeURIComponent(personId)}/tracker-items`, payload);
+}
+export async function updateTrackerItem(id, payload) {
+  return json(await fetch(`/api/v1/tracker-items/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }));
+}
+
 // Hard delete — permanently removes the person and every 1:1 about them. Irreversible.
 export async function deletePerson(id) {
   return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
