@@ -1,8 +1,9 @@
-/* "Add someone" modal (team roster). Its OWN file — like finish-feedback-modal.css —
+/* Team person modals (Add / Edit / Delete). Its OWN file — like finish-feedback-modal.css —
    so concurrent rewrites of shared CSS can't clobber it. Rides the global
    .modal-backdrop / .card.modal base (notes-panel.css); everything here is content:
    a header, compact boxed fields (DESIGN §5 — the form input variant, NOT the big
-   session .input), and a footer holding the one blue action. Tokens only. */
+   session .input), and a footer holding the one action. The .apm--danger variant is the
+   delete confirm (coral title + type-to-confirm). Tokens only. */
 
 .apm {
   width: min(440px, 92vw);
@@ -85,6 +86,19 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+}
+
+/* Delete confirm — coral title signals the stakes; the warning stays full-ink so it's
+   read, not skimmed. The Delete button is disabled until the name is retyped. */
+.apm--danger .apm__title {
+  color: var(--color-negative-text);
+}
+.apm__warn {
+  color: var(--color-ink);
+}
+.apm--danger .btn--danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { cleanPersonForm } from "./add-person-form.ts";
+import { cleanPersonForm, nameMatches } from "./add-person-form.ts";
 
 // The "Add someone" modal collects name / job / seniority. This pure helper trims the
 // raw fields into a draft the way the roster endpoint expects, and enforces the one
@@ -30,4 +30,14 @@ test("handles junk input without throwing", () => {
     role: "",
     seniority: "",
   });
+});
+
+test("nameMatches gates the delete confirm — trimmed, case-insensitive, never on empty", () => {
+  assert.equal(nameMatches("Brandy", "Brandy"), true);
+  assert.equal(nameMatches("  brandy ", "Brandy"), true); // trim + case-insensitive
+  assert.equal(nameMatches("Brand", "Brandy"), false); // partial doesn't count
+  assert.equal(nameMatches("", "Brandy"), false); // empty never matches
+  assert.equal(nameMatches("   ", "Brandy"), false);
+  assert.equal(nameMatches("Brandy", ""), false); // no target, no match
+  assert.equal(nameMatches(null, null), false);
 });

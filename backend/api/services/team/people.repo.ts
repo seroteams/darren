@@ -4,9 +4,9 @@
 // org_id + manager_id — the repo never answers across that wall. The service depends
 // on the interface, so it's unit-tested against an in-memory fake without a database.
 
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { people, users } from "../../../db/schema.ts";
+import { people, users, sessions, runArtifacts, invitations } from "../../../db/schema.ts";
 
 /** One roster row as stored. */
 export interface PersonRow {
@@ -37,6 +37,10 @@ export interface PeopleRepo {
     id: string,
     patch: Partial<Pick<PersonRow, "name" | "role" | "seniority" | "userId" | "mergedIntoId" | "archivedAt">>,
   ): Promise<void>;
+  /** Hard delete: permanently remove the person and everything about them — their 1:1
+   *  runs + artifacts, any pending invite, and the roster row — in one transaction.
+   *  Fencing (owned) is the service's job; this just does the cascade. */
+  remove(id: string, orgId: string): Promise<void>;
   /** Roster rows linked to this member account, org-fenced (people-roster Phase 5). */
   findByLinkedUser(userId: string, orgId: string): Promise<PersonRow[]>;
   /** The org's ACTIVE login accounts, minimal fields — the link-picker options and the
@@ -103,6 +107,28 @@ export const pgPeopleRepo: PeopleRepo = {
       .update(people)
       .set({ ...patch, updatedAt: new Date() })
       .where(eq(people.id, id));
+  },
+  async remove(id, orgId) {
+    if (!isUuid(id) || !isUuid(orgId)) return; // non-uuid caller owns no uuid-keyed rows
+    const db = getDb();
+    await db.transaction(async (tx) => {
+      // 1. their 1:1 runs → artifacts first (no FK on run_artifacts), then the sessions.
+      const runs = await tx
+        .select({ key: sessions.sessionKey })
+        .from(sessions)
+        .where(and(eq(sessions.personId, id), eq(sessions.orgId, orgId)));
+      const keys = runs.map((r) => r.key);
+      if (keys.length) {
+        await tx.delete(runArtifacts).where(inArray(runArtifacts.sessionKey, keys));
+        await tx.delete(sessions).where(and(eq(sessions.personId, id), eq(sessions.orgId, orgId)));
+      }
+      // 2. pending invites carry a FK to people → clear before the person row.
+      await tx.delete(invitations).where(eq(invitations.personId, id));
+      // 3. any row merged INTO this person also FKs people.id → un-point so the delete is FK-safe.
+      await tx.update(people).set({ mergedIntoId: null }).where(eq(people.mergedIntoId, id));
+      // 4. the roster row itself.
+      await tx.delete(people).where(eq(people.id, id));
+    });
   },
   async findByLinkedUser(userId, orgId) {
     if (!isUuid(userId) || !isUuid(orgId)) return [];

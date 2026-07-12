@@ -6,9 +6,10 @@
 // roster endpoints. Distinct from the admin Library (admin-only).
 
 import { STAGES, store } from "../../../admin/src/state.js";
-import { listMyRuns, listPeople, createPerson, renamePersonV2, getLinkableUsers, linkPerson, unlinkPerson, invitePerson } from "../../../shared/api.js";
+import { listMyRuns, listPeople, createPerson, updatePerson, deletePerson, getLinkableUsers, linkPerson, unlinkPerson, invitePerson } from "../../../shared/api.js";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { showAddPersonModal } from "../../../admin/src/ui/add-person-modal.ts";
+import { showDeletePersonModal } from "../../../admin/src/ui/delete-person-modal.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { Star } from "lucide";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
@@ -85,8 +86,9 @@ function personEditRow(p: Person, orgUsers: OrgUser[]): string {
       <div class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</div>
       <div class="text-sm text-ink-dim">${metaLine(p)}</div>
       <div class="l-cluster l-cluster--2">
-        <button type="button" class="btn btn--ghost btn--sm js-rename" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Rename</button>
+        <button type="button" class="btn btn--ghost btn--sm js-edit-person" data-key="${escapeHtml(p.key)}">Edit</button>
         ${inviteControl}
+        <button type="button" class="btn btn--ghost btn--sm js-delete-person" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Delete</button>
       </div>
       ${linkControl}
     </div>`;
@@ -96,6 +98,9 @@ export const mount: Mount = async (root, { setState }) => {
   let people: Person[] = [];
   let editing = false;
   let orgUsers: OrgUser[] = []; // link-picker options, fetched once on first Tidy up
+  // Raw roster rows keyed by personId — carries seniority (which buildRosterView drops)
+  // so the Edit modal can pre-fill every field.
+  let rosterById = new Map<string, { name: string; role: string; seniority: string }>();
 
   const header = (hasPeople: boolean) => `
     <header class="page-header">
@@ -181,8 +186,11 @@ export const mount: Mount = async (root, { setState }) => {
         startOneOnOne({ personId: el.dataset.key, name: el.dataset.name, role: el.dataset.role }),
       );
     });
-    root.querySelectorAll<HTMLButtonElement>(".js-rename").forEach((el) => {
-      el.addEventListener("click", () => { void doRename(el.dataset.key || "", el.dataset.name || ""); });
+    root.querySelectorAll<HTMLButtonElement>(".js-edit-person").forEach((el) => {
+      el.addEventListener("click", () => { void doEdit(el.dataset.key || ""); });
+    });
+    root.querySelectorAll<HTMLButtonElement>(".js-delete-person").forEach((el) => {
+      el.addEventListener("click", () => { void doDelete(el.dataset.key || "", el.dataset.name || ""); });
     });
     root.querySelectorAll<HTMLSelectElement>(".js-link").forEach((el) => {
       el.addEventListener("change", () => { void doLink(el.dataset.key || "", el.dataset.name || "", el.value); });
@@ -238,24 +246,47 @@ export const mount: Mount = async (root, { setState }) => {
     }
   };
 
-  const doRename = async (id: string, current: string) => {
-    const next = window.prompt(`Rename this person:`, current);
-    if (next === null || !next.trim()) return; // cancelled or blank (a roster name can't be empty)
+  // Edit reuses the add modal, pre-filled with the person's current details (name/job/
+  // seniority come from the raw roster row, kept in rosterById since buildRosterView
+  // doesn't thread seniority through). Saving PATCHes all three.
+  const doEdit = async (id: string) => {
+    const current = rosterById.get(id);
+    if (!current) return;
+    const draft = await showAddPersonModal({
+      title: "Edit team member",
+      sub: "Update their details.",
+      submitLabel: "Save",
+      initial: { name: current.name, role: current.role, seniority: current.seniority },
+    });
+    if (!draft) return; // cancelled
     try {
-      await renamePersonV2(id, next.trim());
+      await updatePerson(id, { name: draft.name, role: draft.role, seniority: draft.seniority });
       await load();
     } catch {
-      window.alert("Couldn't rename — please try again.");
+      window.alert("Couldn't save the changes — please try again.");
+    }
+  };
+
+  // Delete is a HARD wipe (person + every 1:1 about them, server-side). Gated behind the
+  // type-the-name confirm so it can't happen by a stray click.
+  const doDelete = async (id: string, name: string) => {
+    const confirmed = await showDeletePersonModal(name);
+    if (!confirmed) return;
+    try {
+      await deletePerson(id);
+      await load();
+    } catch {
+      window.alert("Couldn't delete them — please try again.");
     }
   };
 
   const load = async () => {
     root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading your team…</p></section>`, false);
-    let roster: { id: string; name: string; role: string | null }[];
+    let roster: { id: string; name: string; role: string | null; seniority?: string | null }[];
     let runs: unknown[];
     try {
       const [peopleRes, runsRes] = await Promise.all([listPeople(), listMyRuns({ open: true })]);
-      const pr = peopleRes as { people?: { id: string; name: string; role: string | null }[] };
+      const pr = peopleRes as { people?: { id: string; name: string; role: string | null; seniority?: string | null }[] };
       const rr = runsRes as { runs?: unknown[] };
       roster = Array.isArray(pr.people) ? pr.people : [];
       runs = Array.isArray(rr.runs) ? rr.runs : [];
@@ -264,6 +295,9 @@ export const mount: Mount = async (root, { setState }) => {
       wire();
       return;
     }
+    rosterById = new Map(
+      roster.map((r) => [r.id, { name: r.name, role: r.role ?? "", seniority: r.seniority ?? "" }]),
+    );
     people = buildRosterView(roster, runs) as Person[];
     if (people.length === 0) {
       editing = false;

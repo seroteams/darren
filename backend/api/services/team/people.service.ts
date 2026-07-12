@@ -53,6 +53,10 @@ export interface PeopleService {
   ): Promise<{ person: PersonRow }>;
   merge(id: string, orgId: string, managerId: string, intoId: string): Promise<{ ok: true }>;
   archive(id: string, orgId: string, managerId: string): Promise<{ ok: true }>;
+  /** Hard delete (people-roster): permanently remove the person AND all their content —
+   *  every 1:1 run about them, its artifacts, and any pending invite. Irreversible,
+   *  fenced to the caller's own row (404 otherwise). The cascade lives in the repo. */
+  remove(id: string, orgId: string, managerId: string): Promise<{ ok: true }>;
   /** Link a roster person to a member account (people-roster Phase 5). The target must
    *  be a login account in the SAME org — anything else is a 400, never a silent
    *  cross-org link. Unlink clears it (idempotent). */
@@ -136,6 +140,12 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
     async archive(id, orgId, managerId) {
       const row = await owned(id, orgId, managerId);
       await repo.update(row.id, { archivedAt: new Date() });
+      return { ok: true };
+    },
+
+    async remove(id, orgId, managerId) {
+      const row = await owned(id, orgId, managerId); // fence first — 404, never a blind delete
+      await repo.remove(row.id, orgId);
       return { ok: true };
     },
 

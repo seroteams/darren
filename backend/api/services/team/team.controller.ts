@@ -69,6 +69,13 @@ export async function archivePerson(c: RequestContext): Promise<void> {
   c.json(200, await peopleService.archive(c.params.id ?? "", orgId, managerId));
 }
 
+// Hard delete — permanently removes the person and every 1:1 about them. Irreversible;
+// the UI gates it behind a type-the-name confirm.
+export async function removePerson(c: RequestContext): Promise<void> {
+  const { orgId, managerId } = await rosterCaller(c);
+  c.json(200, await peopleService.remove(c.params.id ?? "", orgId, managerId));
+}
+
 // ── Person ↔ member-account link (people-roster Phase 5) ──────────────────────
 
 export async function linkPerson(c: RequestContext): Promise<void> {

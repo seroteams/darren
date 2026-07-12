@@ -363,6 +363,20 @@ export async function renamePersonV2(id, name) {
     body: JSON.stringify({ name }),
   }));
 }
+// Full edit — name/job/seniority in one PATCH (the endpoint already accepts all three).
+export async function updatePerson(id, { name, role, seniority } = {}) {
+  return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, role, seniority }),
+  }));
+}
+// Hard delete — permanently removes the person and every 1:1 about them. Irreversible.
+export async function deletePerson(id) {
+  return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  }));
+}
 export async function mergePeopleV2(id, intoId) {
   return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/merge`, { intoId });
 }

@@ -428,6 +428,11 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.archivePerson(c);
   }));
+  // Hard delete — permanently wipes the person and every 1:1 about them (irreversible).
+  router.add("DELETE", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return team.removePerson(c);
+  }));
   // Person ↔ member-account link (people-roster Phase 5) — manager/admin only; the
   // target must be an account in the caller's own org (400 otherwise, in the service).
   router.add("GET", "/api/v1/team/linkable-users", v1Route(team.linkableUsers));

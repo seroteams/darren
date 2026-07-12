@@ -1,8 +1,17 @@
-// Pure field logic for the "Add someone" modal — no DOM, no CSS, so it runs under
-// `node --test`. The modal (add-person-modal.ts) imports these; the test imports them
-// straight (the DOM/CSS module can't be loaded by node).
+// Pure field logic for the team person modals (add / edit / delete-confirm) — no DOM,
+// no CSS, so it runs under `node --test`. The modals import these; the test imports them
+// straight (the DOM/CSS modules can't be loaded by node).
 
 export type PersonDraft = { name: string; role: string; seniority: string };
+
+/** Does the typed confirmation match the person's name? Trim + case-insensitive so the
+ *  manager isn't fighting capitalisation, but still a deliberate re-type. Empty never
+ *  matches (so the Delete button stays disabled until they actually type the name). */
+export function nameMatches(typed: unknown, name: unknown): boolean {
+  const a = String(typed ?? "").trim().toLowerCase();
+  const b = String(name ?? "").trim().toLowerCase();
+  return a.length > 0 && a === b;
+}
 
 /** Trim the raw form into a roster draft, or null when there's no usable name.
  *  Role and seniority are optional and pass through trimmed (empty string when blank). */

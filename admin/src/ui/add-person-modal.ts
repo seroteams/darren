@@ -20,7 +20,20 @@ function getFocusables(root: HTMLElement): HTMLElement[] {
   );
 }
 
-export function showAddPersonModal(): Promise<PersonDraft | null> {
+/** Options let the same modal do double duty as the "Edit" form: a different title,
+ *  submit label, sub-line, and pre-filled values. Defaults are the "Add someone" case. */
+export interface PersonModalOptions {
+  title?: string;
+  sub?: string;
+  submitLabel?: string;
+  initial?: Partial<PersonDraft>;
+}
+
+export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<PersonDraft | null> {
+  const title = opts.title ?? "Add someone to your team";
+  const sub = opts.sub ?? "Just a name to start — add their role if you know it.";
+  const submitLabel = opts.submitLabel ?? "Add";
+  const initial = opts.initial ?? {};
   return new Promise((resolve) => {
     const backdrop = document.createElement("div");
     backdrop.className = "modal-backdrop";
@@ -32,8 +45,8 @@ export function showAddPersonModal(): Promise<PersonDraft | null> {
     modal.setAttribute("aria-labelledby", "add-person-title");
     modal.innerHTML = `
       <div class="apm__head">
-        <div class="apm__title" id="add-person-title">Add someone to your team</div>
-        <div class="apm__sub">Just a name to start — add their role if you know it.</div>
+        <div class="apm__title" id="add-person-title"></div>
+        <div class="apm__sub"></div>
       </div>
       <div class="apm__body">
         <div class="apm-field">
@@ -55,15 +68,24 @@ export function showAddPersonModal(): Promise<PersonDraft | null> {
       </div>
       <div class="apm__foot">
         <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
-        <button type="button" class="btn js-add">Add</button>
+        <button type="button" class="btn js-add"></button>
       </div>`;
     backdrop.appendChild(modal);
     document.body.appendChild(backdrop);
+
+    // Set text via textContent (never innerHTML) so a person's own name can seed the
+    // title/values without any HTML-injection risk.
+    modal.querySelector<HTMLElement>(".apm__title")!.textContent = title;
+    modal.querySelector<HTMLElement>(".apm__sub")!.textContent = sub;
+    modal.querySelector<HTMLElement>(".js-add")!.textContent = submitLabel;
 
     const nameInput = modal.querySelector<HTMLInputElement>(".js-name")!;
     const roleInput = modal.querySelector<HTMLInputElement>(".js-role")!;
     const seniorityInput = modal.querySelector<HTMLInputElement>(".js-seniority")!;
     const err = modal.querySelector<HTMLElement>(".js-err")!;
+    nameInput.value = initial.name ?? "";
+    roleInput.value = initial.role ?? "";
+    seniorityInput.value = initial.seniority ?? "";
 
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
