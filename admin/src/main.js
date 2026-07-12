@@ -3,9 +3,9 @@ import "@fontsource-variable/bricolage-grotesque"; // display headings (DESIGN.m
 import "./styles/tailwind.css";
 import "./styles/design.css";
 
-import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin } from "./state.js";
+import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.js";
 import { getSession, listRecentRuns, runRegression, me } from "../../shared/api.js";
-import { syncUrl, parseLocation, startPopstate, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage, isSuperadminStage } from "./router.js";
+import { syncUrl, parseLocation, startPopstate, replaceUrl, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage, isSuperadminStage, isLiveHiddenStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
 import { createSessionTopbar } from "./ui/session-topbar.js";
@@ -202,6 +202,12 @@ startPopstate((parsed) => {
     setState({ stage: STAGES.START });
     return;
   }
+  // Live site: Test engine + Tasks are off — a back/forward to them bounces to Home
+  // (admin-live-deploy Phase 2), even for a superadmin.
+  if (store.user && isLiveEnv() && isLiveHiddenStage(parsed.stage)) {
+    setState({ stage: STAGES.START });
+    return;
+  }
   if (parsed.stage === STAGES.REVIEW_RUN) {
     if (parsed.params?.reviewRunId) setState({ reviewRunId: parsed.params.reviewRunId, stage: STAGES.REVIEW_RUN });
     else setState({ stage: STAGES.START });
@@ -265,6 +271,10 @@ async function boot() {
   // Auth gate — no entry without a valid session. 401 (or API unreachable) → login.
   let identity = null;
   try { identity = await me(); } catch { /* logged out */ }
+  // Stash the server's environment truth (admin-live-deploy Phase 2) so the nav trim and the
+  // live deep-link bounce below can tell live from local. Only present when logged in; a
+  // logged-out visitor sees no nav, so "local" is a safe default.
+  store.appEnv = identity?.appEnv || "local";
 
   const route = parseLocation();
 
@@ -317,11 +327,11 @@ async function boot() {
   if (!isAdmin(store.user)) {
     if (route && route.stage === STAGES.RUN_DETAIL) {
       if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
-      history.replaceState(null, "", "/runs"); setState({ stage: STAGES.RUNS }); return;
+      replaceUrl("/runs"); setState({ stage: STAGES.RUNS }); return;
     }
     if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }
     if (route && isSharedStage(route.stage)) { setState({ stage: route.stage }); return; }
-    history.replaceState(null, "", "/runs");
+    replaceUrl("/runs");
     setState({ stage: STAGES.RUNS });
     return;
   }
@@ -329,14 +339,24 @@ async function boot() {
   // A manager deep-linking the internal toolset lands on their Home instead
   // (manager-ready Phase 1). Before the regression kick-off — that's internal-only too.
   if (!isInternalAdmin(store.user) && route && isInternalStage(route.stage)) {
-    history.replaceState(null, "", "/");
+    replaceUrl("/");
     setState({ stage: STAGES.START });
     return;
   }
 
   // A non-superadmin deep-linking an /admin/* superadmin screen lands on Home (F-009).
   if (!isSuperadmin(store.user) && route && isSuperadminStage(route.stage)) {
-    history.replaceState(null, "", "/");
+    replaceUrl("/");
+    setState({ stage: STAGES.START });
+    return;
+  }
+
+  // On the LIVE site the Test engine (paid persona runs) and the Tasks board are off — a
+  // deep link to either lands on Home (admin-live-deploy Phase 2). This bounces even a
+  // superadmin: those tools don't belong on live. The nav hides them too; the Phase-1
+  // backend fence 403s the paid start regardless.
+  if (isLiveEnv() && route && isLiveHiddenStage(route.stage)) {
+    replaceUrl("/");
     setState({ stage: STAGES.START });
     return;
   }
@@ -352,14 +372,14 @@ async function boot() {
   // /run/:id deep link — id comes from URL, no session needed.
   if (route?.stage === STAGES.REVIEW_RUN) {
     if (route.params?.reviewRunId) { setState({ reviewRunId: route.params.reviewRunId, stage: STAGES.REVIEW_RUN }); return; }
-    history.replaceState(null, "", "/"); setState({ stage: STAGES.START }); return;
+    replaceUrl("/"); setState({ stage: STAGES.START }); return;
   }
 
   // /admin/users/:id deep link (PG8) — id from URL; the name isn't in the URL, so the
   // page shows a generic title until it loads. Falls back to the Registered list.
   if (route?.stage === STAGES.ADMIN_USER) {
     if (route.params?.adminUserId) { setState({ adminUserId: route.params.adminUserId, stage: STAGES.ADMIN_USER }); return; }
-    history.replaceState(null, "", "/admin/registered"); setState({ stage: STAGES.ADMIN_REGISTERED }); return;
+    replaceUrl("/admin/registered"); setState({ stage: STAGES.ADMIN_REGISTERED }); return;
   }
 
   let rehydrated = false;
@@ -373,7 +393,7 @@ async function boot() {
   // Flow paths require a live session; rehydrate decides the real stage.
   if (route && isFlowStage(route.stage)) {
     if (rehydrated) return;                          // syncUrl will correct URL to the true stage
-    history.replaceState(null, "", "/"); setState({ stage: STAGES.START }); return;
+    replaceUrl("/"); setState({ stage: STAGES.START }); return;
   }
 
   // Explicit standalone path wins over a non-flow default (compare / lexicon / new).

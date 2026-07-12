@@ -6,7 +6,7 @@
 // (brand + menu button) that this module also owns — same DOM, same role
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
-import { STAGES, isAdmin, isInternalAdmin } from "../state.js";
+import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
 import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "./icon.js";
@@ -298,6 +298,9 @@ export function createAppNav({ setState, resetSession } = {}) {
       // A superadmin-only row (Registered, PG7) shows only for Carl — the flag comes from
       // /auth/me. This is cosmetic; the endpoint still enforces the 403.
       if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
+      // Live site: Test engine (paid persona runs) and the Tasks board are off (admin-live-
+      // deploy Phase 2). Trimmed from the rail; the deep-link bounce + backend fence back it.
+      if (show && isLiveEnv() && (b.dataset.key === "personas" || b.dataset.key === "tasks")) show = false;
       b.hidden = !show;
     });
     // Section headers belong to the internal rail only.

@@ -5,7 +5,11 @@ const API_PORT = process.env.API_PORT || 3001;
 
 export default defineConfig({
   root: resolve(__dirname, "admin"),
-  base: "/",
+  // The admin app is served under /admin on live (admin-live-deploy Phase 2) so it can
+  // sit alongside the customer app at /. Base is /admin/ in dev AND build so local mirrors
+  // live (local admin now lives at localhost:3000/admin/). API calls use root-absolute
+  // /api/... paths, unaffected by the base.
+  base: "/admin/",
   // The Vite root is admin/, but the project's single .env lives at the repo root (same
   // file the backend and .env.example use). Point envDir there so VITE_-prefixed vars
   // (e.g. the dev-login prefill creds) are actually read. Only VITE_* vars reach the
