@@ -12,7 +12,6 @@
   background: var(--color-surface, #fff);
   border: 1px solid var(--color-border, #e8e8e8);
   border-radius: var(--radius-card, 12px);
-  box-shadow: var(--shadow-card, 0 1px 3px rgba(16, 24, 40, 0.06));
   overflow-x: auto; /* wide tables scroll here, clipped to the rounded corners */
 }
 .el-table { width: 100%; border-collapse: collapse; background: var(--color-surface, #fff); }
@@ -41,7 +40,7 @@
 
 /* Pills. */
 .el-pill {
-  display: inline-block; padding: 1px 9px; border-radius: var(--sero-radius-badge, 999px);
+  display: inline-block; padding: 1px 9px; border-radius: var(--sero-radius-badge, var(--sero-radius-full));
   font-size: var(--type-caption, 14px); font-weight: var(--type-weight-medium, 500); line-height: 1.6; white-space: nowrap;
 }
 .el-pill--live    { background: var(--sero-primary-200, #e9f3fb);  color: var(--sero-primary-800, #1b5d91); }
@@ -56,11 +55,11 @@
 .el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
 .el-control { display: inline-flex; align-items: center; gap: 8px; }
 .el-control__label { font-size: var(--type-caption, 14px); color: var(--color-ink-mute, #757575); font-weight: var(--type-weight-medium, 500); }
-.el-filters { display: inline-flex; gap: 3px; padding: 3px; background: var(--sero-soft-400, #f6f6f6); border-radius: var(--sero-radius-badge, 999px); }
+.el-filters { display: inline-flex; gap: 3px; padding: 3px; background: var(--sero-soft-400, #f6f6f6); border-radius: var(--sero-radius-badge, var(--sero-radius-full)); }
 .el-filter {
   border: 0; background: transparent; cursor: pointer; font: inherit;
   font-size: var(--type-body-sm, 14px); font-weight: var(--type-weight-medium, 500); color: var(--color-ink-dim, #5f5f5f);
-  padding: 4px 14px; border-radius: var(--sero-radius-badge, 999px); line-height: 1.4;
+  padding: 4px 14px; border-radius: var(--sero-radius-badge, var(--sero-radius-full)); line-height: 1.4;
 }
 .el-filter:hover { color: var(--color-ink, #303030); }
 .el-filter.is-active { background: var(--color-surface, #fff); color: var(--color-ink, #303030); box-shadow: var(--shadow-card, 0 1px 2px rgba(16, 24, 40, 0.08)); }

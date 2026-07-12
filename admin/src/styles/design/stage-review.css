@@ -13,7 +13,7 @@
 .stage-review__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.28);
+  background: var(--color-backdrop);
 }
 .stage-review__panel {
   position: relative;
@@ -53,7 +53,7 @@
   font-size: var(--type-small);
   color: var(--color-ink-mute);
   padding: 0.3rem 0.6rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -273,14 +273,14 @@
 .lib-progress__bar {
   height: 3px;
   background: var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   overflow: hidden;
 }
 .lib-progress__bar > i {
   display: block;
   height: 100%;
   background: var(--color-accent);
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   transition: width var(--dur-medium) var(--ease-out-expo);
 }
 

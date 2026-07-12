@@ -120,7 +120,7 @@
 .run-log__scenario-pill {
   display: inline-block;
   padding: 0.15rem 0.5rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -197,7 +197,7 @@
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.1rem 0.45rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   font-weight: 500;
   justify-self: start;
   white-space: nowrap;

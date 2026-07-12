@@ -76,9 +76,9 @@
   padding: 0.3rem 0.85rem;
   margin-right: 1.25rem;
   cursor: pointer;
-  border-radius: 999px;
-  transition: background var(--dur-fast, 120ms) var(--ease-out, ease),
-    border-color var(--dur-fast, 120ms) var(--ease-out, ease);
+  border-radius: var(--sero-radius-full);
+  transition: background var(--dur-fast) var(--ease-out-expo),
+    border-color var(--dur-fast) var(--ease-out-expo);
 }
 .session-topbar__start:hover:not(:disabled) {
   background: var(--color-bg);
@@ -111,14 +111,14 @@
 .intake-progress {
   height: 3px;
   background: var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   overflow: hidden;
 }
 .intake-progress__fill {
   height: 100%;
   width: 100%;
   background: var(--color-accent);
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   transform-origin: left;
   transform: scaleX(0.2);
   transition: transform var(--dur-medium) var(--ease-out-expo);
@@ -158,7 +158,7 @@
   flex: none;
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft, var(--color-border));
   color: var(--color-accent);
   font-size: var(--type-body-sm);

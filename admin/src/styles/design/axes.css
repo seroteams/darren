@@ -17,7 +17,7 @@
   position: relative;
   height: 10px;
   background: #eef1f6;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   overflow: visible;
 }
 .axis__midline {
@@ -34,7 +34,7 @@
   top: 0;
   bottom: 0;
   width: 50%;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   background: var(--color-neutral);
   transform: scaleX(0);
   transform-origin: right center;
@@ -74,7 +74,7 @@
   display: inline-block;
   margin-left: 0.4rem;
   padding: 0.05rem 0.45rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   font-size: var(--type-small);
   line-height: 1.2;
   font-variant-numeric: tabular-nums;

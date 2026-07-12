@@ -368,7 +368,7 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--color-backdrop);
   z-index: var(--sero-z-modal-backdrop);
   display: grid;
   place-items: center;

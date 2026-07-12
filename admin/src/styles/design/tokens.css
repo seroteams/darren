@@ -302,12 +302,14 @@
   --color-positive-text: var(--sero-mint-900);     /* #0c4b3c */
   --color-negative-text: var(--sero-coral-800);    /* #ac1608 */
   --color-neutral: var(--sero-charcoal-400);       /* #afafaf */
+  --color-danger: var(--sero-coral-800);           /* destructive text/border/fill (DESIGN §5) */
 
   /* Consolidated from inline var() fallbacks that referenced these (previously
      undefined) tokens. Values match the fallbacks already in use, so rendering
      is unchanged — except .notes-panel__toggle:hover, which had no fallback and
      now gets the same subtle wash as its sibling hover states. */
   --color-surface-2: rgba(0, 0, 0, 0.05);          /* hover / selected wash */
+  --color-backdrop: rgba(31, 42, 55, 0.45);        /* one modal / overlay scrim (Sero ink @ 45%) */
   --color-warn: #b45309;                           /* warning text / border */
   --color-amber: #b4690e;                          /* fix / partial accent */
   --font-mono: ui-monospace, monospace;            /* code / meta text */
@@ -325,6 +327,7 @@
   --type-h4: 1.125rem;                            /* 18px */
   --type-lead: 1.125rem;                          /* 18px intro paragraphs */
   --type-body: 16px;
+  --type-body-lg: 1.0625rem;                      /* 17px — slightly-larger body (planner titles) */
   --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
   /* Accessibility rule: NO text token may render below 14px. caption/label
      were 13px/12px; raised to the 14px floor. Do not lower these. */

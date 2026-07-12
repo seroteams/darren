@@ -155,7 +155,7 @@ export async function mount(root, { store, setState }) {
         <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" aria-label="Your notes"></textarea>
       </label>
       <div class="field__actions">
-        <button class="btn js-submit">${isFinal ? "Agree next actions →" : "Submit answer"}</button>
+        <button class="btn js-submit">${isFinal ? "Agree next actions" : "Submit answer"}</button>
         ${isFinal
           ? `<button class="btn btn--ghost js-finish" type="button" title="Wrap up without agreeing next actions">Finish — skip agreeing</button>`
           : `<button class="btn btn--ghost js-skip">Skip</button>`}

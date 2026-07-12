@@ -232,7 +232,7 @@
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.15rem 0.5rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   font-weight: 500;
   justify-self: start;
   text-transform: lowercase;
