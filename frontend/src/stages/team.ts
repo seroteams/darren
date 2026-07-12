@@ -10,8 +10,9 @@ import { listMyRuns, listPeople, createPerson, updatePerson, deletePerson, getLi
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { showAddPersonModal } from "../../../admin/src/ui/add-person-modal.ts";
 import { showDeletePersonModal } from "../../../admin/src/ui/delete-person-modal.ts";
+import { openRowMenu } from "../../../admin/src/ui/row-menu.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
-import { Star } from "lucide";
+import { Star, MoreHorizontal } from "lucide";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { relTime } from "../../../admin/src/ui/time.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
@@ -45,9 +46,9 @@ function metaLine(p: Person): string {
   return `${escapeHtml(bits.join(" · "))} · ${rated}`;
 }
 
-// Every person card carries the same actions: View their page (PG5), Edit their details,
-// Delete them, and the primary Prep. "Prep first 1:1" for someone not met yet, "Prep 1:1"
-// once there's history. The buttons cluster on the right and wrap on narrow screens.
+// Every person card: the primary Prep stays visible ("Prep first 1:1" until you've met,
+// "Prep 1:1" after), and the rest — View their page (PG5), Edit, Delete — tuck into a ⋯
+// menu so the row stays calm (DESIGN §5 row-actions pattern).
 function personCard(p: Person): string {
   const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
   const inner = `<span class="l-stack l-stack--2"><span class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</span><span class="text-sm text-ink-dim">${metaLine(p)}</span></span>`;
@@ -56,10 +57,8 @@ function personCard(p: Person): string {
     <div class="card-flat runs-list__row l-cluster" style="justify-content:space-between;align-items:center;gap:12px;">
       ${inner}
       <span class="l-cluster l-cluster--2" style="flex-shrink:0;">
-        <button type="button" class="btn btn--ghost btn--sm js-view" data-key="${escapeHtml(p.key)}">View</button>
-        <button type="button" class="btn btn--ghost btn--sm js-edit-person" data-key="${escapeHtml(p.key)}">Edit</button>
-        <button type="button" class="btn btn--ghost btn--sm js-delete-person" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}">Delete</button>
         <button type="button" class="btn btn--ghost btn--sm js-prep-new" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-role="${escapeHtml(p.role)}">${prepLabel}</button>
+        <button type="button" class="row-menu-btn js-row-menu" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" aria-haspopup="menu" aria-label="More actions for ${escapeHtml(p.name)}">${icon(MoreHorizontal, { size: 18 })}</button>
       </span>
     </div>`;
 }
@@ -182,22 +181,23 @@ export const mount: Mount = async (root, { setState }) => {
       el.addEventListener("click", () => { void doAdd(); }),
     );
     root.querySelector(".js-edit")?.addEventListener("click", () => { void enterEdit(); });
-    root.querySelectorAll<HTMLElement>(".js-view").forEach((el) => {
-      el.addEventListener("click", () => {
-        const key = el.dataset.key;
-        if (key) setState({ personKey: key, stage: STAGES.PERSON_DETAIL });
-      });
-    });
     root.querySelectorAll<HTMLButtonElement>(".js-prep-new").forEach((el) => {
       el.addEventListener("click", () =>
         startOneOnOne({ personId: el.dataset.key, name: el.dataset.name, role: el.dataset.role }),
       );
     });
-    root.querySelectorAll<HTMLButtonElement>(".js-edit-person").forEach((el) => {
-      el.addEventListener("click", () => { void doEdit(el.dataset.key || ""); });
-    });
-    root.querySelectorAll<HTMLButtonElement>(".js-delete-person").forEach((el) => {
-      el.addEventListener("click", () => { void doDelete(el.dataset.key || "", el.dataset.name || ""); });
+    // The card's ⋯ opens View / Edit / Delete (Delete flagged destructive).
+    root.querySelectorAll<HTMLButtonElement>(".js-row-menu").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const key = el.dataset.key || "";
+        const name = el.dataset.name || "";
+        openRowMenu(el, [
+          { label: "View", onSelect: () => { if (key) setState({ personKey: key, stage: STAGES.PERSON_DETAIL }); } },
+          { label: "Edit", onSelect: () => { void doEdit(key); } },
+          { label: "Delete", danger: true, onSelect: () => { void doDelete(key, name); } },
+        ]);
+      });
     });
     root.querySelectorAll<HTMLSelectElement>(".js-link").forEach((el) => {
       el.addEventListener("change", () => { void doLink(el.dataset.key || "", el.dataset.name || "", el.value); });
