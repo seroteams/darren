@@ -9,6 +9,16 @@
 ---
 
 ## Where we are now
+- **2026-07-12** — **promises-loop P1 ✅ green-lit (commit `47c0024b`), ~$0.35.** The 1:1 wrap-up
+  now locks in what was agreed: `Session.promises[]` contract + `POST /sessions/:id/promises` +
+  a confirm card at the top of the briefing (You/them owners, editable) behind the Q9 fork
+  (primary "Agree next actions →"). The orphaned `outcomeCheck` finally has its consumer arc
+  (P2 writes it). **Lessons:** (1) *verify the green light against the artifact* paid off again —
+  Carl's first "green light" turned out to be a walk on the mock/stale server (DB had no
+  promises row); a free DB query caught it before close, and an agent-driven live walk on his
+  "go" produced the real proof. (2) The dev auto-login lane never lands rows in PG (non-uuid
+  synthetic identity, `[sessions.pg] mirror write failed`) — dev-lane destination checks must
+  read the API/memory, or use a real account; don't mistake that known limit for a save bug.
 - **2026-07-12** — **forgot-password TRACK CLOSED ✅ (both phases, Carl "this is good push it"), $0, pushed live.** Email-based
   password reset for everyone (one shared login → managers, members, admin). **P1** backend: `password_reset_tokens` (`0014`,
   sha256/single-use/1h), `forgot-password`+`reset-password` endpoints (always-200 no enumeration, rate-limited), branded

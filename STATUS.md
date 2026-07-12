@@ -27,7 +27,7 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 > ### 🔨 In flight right now (2026-07-12) — parallel sessions
 > Surfaced by the clean-up sweep; these were building while this board lagged. Status per each folder:
-> - **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — P1 🔨 BUILT (124/124), awaiting your walk; P2/P3 ⬜. Wires the orphaned `outcomeCheck` consumer.
+> - **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — **P1 ✅ GREEN-LIT 2026-07-12** (your green light + agent-driven live walk on your "go": Q9 fork → confirm card → "Locked in ✓", 1 paid run ~$0.35; commits `47c0024b` + `6aadec58`); **P2 (card zero: resurface + close-out) is next**, P3 ⬜. Wires the orphaned `outcomeCheck` consumer.
 > - **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P1 ✅ GREEN-LIT 2026-07-12 (you walked the 4 local screens, "okay next"); P2 🔨 next (serve /admin on live); P3–P6 ⬜. (Reverses frontend-admin-split P4 "admin never ships".)
 > - **design-stage-native** — ⏸ **PARKED to [future/](docs/plans/future/design-stage-native/plan.md)** in the sweep. Dormant since 07-10; P1 built but never QA-walked, P5 blocked on your parity sign-off. Not archive-safe — un-park to finish.
 
