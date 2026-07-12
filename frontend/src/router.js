@@ -14,6 +14,8 @@ const PATH_FOR = {
   [STAGES.WELCOME]:        () => "/",
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
+  [STAGES.FORGOT_PASSWORD]: () => "/forgot-password",
+  [STAGES.RESET_PASSWORD]: (s) => (s.resetToken ? `/reset-password/${encodeURIComponent(s.resetToken)}` : "/reset-password"),
   [STAGES.JOIN]:           (s) => (s.joinToken ? `/join/${encodeURIComponent(s.joinToken)}` : "/login"),
   [STAGES.PRIVACY]:        () => "/privacy",
   [STAGES.ABOUT]:          () => "/about",
@@ -39,7 +41,8 @@ const PATH_FOR = {
 
 // path -> stage (exact paths). /run/:id, /runs/:id, /team/:person handled separately.
 const STAGE_FOR = {
-  "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/privacy": STAGES.PRIVACY,
+  "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/forgot-password": STAGES.FORGOT_PASSWORD,
+  "/privacy": STAGES.PRIVACY,
   "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
   "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/team": STAGES.TEAM, "/runs": STAGES.RUNS,
   "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
@@ -86,6 +89,10 @@ export function parseLocation() {
   // Public — the whole point is they have no account yet.
   const join = p.match(/^\/join\/([^/]+)$/);
   if (join) return { stage: STAGES.JOIN, params: { joinToken: decodeURIComponent(join[1]) } };
+  // An emailed password-reset link: /reset-password/:token. Public — the token IS the
+  // credential (the user is logged out on the customer app the live email points at).
+  const reset = p.match(/^\/reset-password\/([^/]+)$/);
+  if (reset) return { stage: STAGES.RESET_PASSWORD, params: { resetToken: decodeURIComponent(reset[1]) } };
   const m = p.match(/^\/run\/([^/]+)$/);
   if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
   if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects

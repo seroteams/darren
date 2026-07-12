@@ -7,6 +7,7 @@ import { escapeHtml } from "./html.js";
 
 export type NextAction = { when?: string; action?: string };
 export type Briefing = {
+  headline?: string;
   summary_bullets?: string[];
   understanding_paragraph?: string;
   brutal_truth_employee?: string;

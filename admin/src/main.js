@@ -20,6 +20,8 @@ const loaders = {
   // shared login.js still lands members there — it cross-imports the moved file.
   LOGIN:           () => import("./stages/login.js"),
   REGISTER:        () => import("./stages/register.js"),
+  FORGOT_PASSWORD: () => import("./stages/forgot-password.js"),
+  RESET_PASSWORD:  () => import("./stages/reset-password.js"),
   PRIVACY:         () => import("./stages/privacy.js"),
   ABOUT:           () => import("./stages/about.js"),
   FEEDBACK:        () => import("./stages/feedback.js"),
@@ -52,6 +54,7 @@ const loaders = {
   ADMIN_FEEDBACK:  () => import("./stages/admin-feedback.ts"),
   ADMIN_GUEST_RUNS: () => import("./stages/admin-guest-runs.ts"),
   DESIGN:          () => import("./stages/design.js"),
+  TEST:            () => import("./stages/test.js"),
   ERROR:           () => import("./stages/error.ts"),
 };
 
@@ -129,6 +132,9 @@ async function renderStage(nextStage) {
   const node = document.createElement("section");
   node.className = "stage stage-enter";
   root.appendChild(node);
+  // Every screen starts at the top — the previous screen's scroll position was
+  // carrying over, so the new screen opened mid-page (phone walk 2026-07-11).
+  window.scrollTo(0, 0);
   requestAnimationFrame(() => node.classList.add("is-in"));
   current = { stage: nextStage, mod, node };
   if (devBadge) devBadge.render(nextStage);
@@ -161,6 +167,13 @@ subscribe((s) => {
 });
 
 startPopstate((parsed) => {
+  // The password-reset screens are reachable in any auth state — handle them first so the
+  // token rides into state and neither the logged-out gate nor the member/admin routing
+  // below can bounce them.
+  if (parsed.stage === STAGES.FORGOT_PASSWORD || parsed.stage === STAGES.RESET_PASSWORD) {
+    setState({ resetToken: parsed.params?.resetToken || null, stage: parsed.stage });
+    return;
+  }
   // Logged out on the ADMIN app: the guest QA lane (intake + run stages) and the
   // auth/content pages are reachable; everything else bounces to login. The guest
   // front door (WELCOME) and join links live in the customer app now
@@ -255,6 +268,16 @@ async function boot() {
   try { identity = await me(); } catch { /* logged out */ }
 
   const route = parseLocation();
+
+  // The password-reset screens (forgot-password, reset-password/:token) are reachable in
+  // ANY auth state — a logged-out user following an emailed link, or a logged-in user who
+  // clicked it. Handle them before the auth gate so the token rides into state and the
+  // normal routing can't bounce them to login/home.
+  if (route && (route.stage === STAGES.FORGOT_PASSWORD || route.stage === STAGES.RESET_PASSWORD)) {
+    if (identity) store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name, isSuperadmin: identity.isSuperadmin };
+    setState({ resetToken: route.params?.resetToken || null, stage: route.stage });
+    return;
+  }
 
   if (!identity) {
     // Logged out on the ADMIN app: the auth screens, the public privacy note, and

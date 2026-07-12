@@ -9,6 +9,92 @@
 ---
 
 ## Where we are now
+- **2026-07-12** — **promises-loop P1 ✅ green-lit (commit `47c0024b`), ~$0.35.** The 1:1 wrap-up
+  now locks in what was agreed: `Session.promises[]` contract + `POST /sessions/:id/promises` +
+  a confirm card at the top of the briefing (You/them owners, editable) behind the Q9 fork
+  (primary "Agree next actions →"). The orphaned `outcomeCheck` finally has its consumer arc
+  (P2 writes it). **Lessons:** (1) *verify the green light against the artifact* paid off again —
+  Carl's first "green light" turned out to be a walk on the mock/stale server (DB had no
+  promises row); a free DB query caught it before close, and an agent-driven live walk on his
+  "go" produced the real proof. (2) The dev auto-login lane never lands rows in PG (non-uuid
+  synthetic identity, `[sessions.pg] mirror write failed`) — dev-lane destination checks must
+  read the API/memory, or use a real account; don't mistake that known limit for a save bug.
+- **2026-07-12** — **forgot-password TRACK CLOSED ✅ (both phases, Carl "this is good push it"), $0, pushed live.** Email-based
+  password reset for everyone (one shared login → managers, members, admin). **P1** backend: `password_reset_tokens` (`0014`,
+  sha256/single-use/1h), `forgot-password`+`reset-password` endpoints (always-200 no enumeration, rate-limited), branded
+  seroapp.com email — proven end-to-end on the dev DB + a real inbox email. **P2** UI: "Forgot password?" link + request/reset
+  screens shared by both apps. **Lessons:** (1) *look before you overwrite* — `.env` already had a working verified sender;
+  surfacing that beat clobbering it. (2) **parallel-session merge without sweeping** — Phase 2 was built in a worktree to dodge
+  three admin-shell files another session had dirty; landed on main by `git stash push -- <just those files>` → `git merge` →
+  `git stash pop`, which parked + restored two sessions' WIP (a test page + a promises feature) with zero commits of their work.
+  Verified non-overlapping first (their edits were in different regions). typecheck+build+browser all green; Carl walked it live.
+- **2026-07-12** — **past-1on1-view TRACK CLOSED (both phases ✅, $0).** P2 rebuilt the member "Past 1:1" screen
+  (`run-detail.ts`) from a flat briefing dump into three tabs — Overview (initials avatar + name + role/seniority +
+  meeting-type pill + a rich "when it happened" row + the one-line read + the rating), Briefing (the existing cards,
+  untouched), and Answers (the raw Q&A the P1 endpoint now exposes, with a "no answers captured" empty state). Tab switch
+  reuses the notes-panel `switchTab` idiom; new `run-detail.css` (tokens only, registered in the barrel). **Lesson:** the
+  automated Browser pane can't screenshot this SPA (its boot animation needs `requestAnimationFrame`, which never fires
+  under the pane's `document.hidden=true`), so the durable proof is a **DOM-free render test** on a pure exported
+  `renderRunDetail(run)` (asserts tabs, profile, when-row count, answers + empty state) plus a live **computed-style read**
+  confirming the CSS loaded — the visual walk stays Carl's. 127/127 throughout.
+- **2026-07-12** — **past-1on1-view P1 ✅ (backend, $0).** The member "Past 1:1" endpoint now exposes `turns[]` (the raw
+  Q&A behind the briefing) for a coming Answers tab. Built by mirroring the existing compare-view projection onto
+  `toMemberView` (PG) + `memberRunView` (file) — but dropping the internal planner `note` (it carries `[SHALLOW]`/`[SKIP]`
+  markers that must never reach a manager). **Lesson:** the file↔PG parity test (`test-pg-runs-parity`) is the real guard
+  here — any new field must be added to BOTH member views identically or that deep-equal fails; because the compare check
+  already proves the two transcript sources (file `transcript.json` vs PG `state.transcript`) match, the member view
+  inherits parity for free. Unit-tested via the pure exported `toMemberView` — no DB needed for the $0 proof.
+- **2026-07-12** — **focus-freshness TRACK CLOSED (both phases ✅), ~$0.50 total.** P2 proved the half P1's walk couldn't:
+  re-raising a covered topic in the note ("workload still heavy") brought `workload` back as `source: signal` — freshness
+  never silences a real signal. Then Carl chose to run one golden gate case before closing: `biweekly-priya` PASS (1 ok /
+  0 regressed / 0 error), no FOCUS_ARC_LEAK — the history block never leaks evaluative content into a relational arc.
+  Folder → `docs/plans/done/focus-freshness/`. **Lesson:** a verification-only phase still needs ONE irreplaceable paid
+  proof for model-behaviour claims (freshness vs signal is a prompt decision no unit test can make), but the regression
+  question ("did I break the arc gate?") is answered by ONE targeted golden case, not the full 8-case sweep.
+- **2026-07-12** — **focus-freshness P1 ✅ green-lit (Carl watched the live proof), ~$0.10: repeat 1:1 preps now suggest fresh
+  topics.** The focus prompt carries the last 3 preps' suggested topics for the same manager+person (`focus-history.ts`, both
+  stores; relational arcs never see competency history; `FOCUS_ARC_LEAK` untouched as backstop). Live proof on `ba3223d`:
+  prep A suggested workload/priorities/blockers/team-connection → prep B listed them in its prompt and returned
+  energy/manager-support/feedback, zero repeats. **Decisions:** unfinished preps count as history (Carl "A" — the agenda was
+  suggested either way), and focus results persist at generation so abandoned preps still count. **Lessons:** (1) *verify the
+  destination's DATABASE, not just the destination* — local `.env` DB ≠ live DB, which made a working feature look broken for
+  an hour ("first session" was truthful on live's data); (2) a jsonb `->'key' is not null` check is true for a JSON `null`
+  value — that misread ("Nikki has 4 finished runs") sent the first test walk chasing the wrong qualifier.
+- **2026-07-11** — **forgot-password P1 ✅ green-lit (Carl "A"), $0: email-based password reset (backend).** One shared login
+  means one reset flow covers managers, members AND admin. New `password_reset_tokens` table (`0014`) + a separate
+  `PasswordResetRepo`/`createPasswordResetService` (kept apart from register/login's AuthRepo so its test fake stays
+  untouched — same split as `AuthSessionRepo`). `POST /api/v1/auth/forgot-password` always returns a generic 200 (no
+  account-enumeration, mirrors login) and only a real active account gets an emailed link; `/reset-password` validates a
+  sha256-hashed, single-use, 1-hour token then sets the new bcrypt hash. Cloned the invitations flow throughout (token idiom,
+  `requestBaseUrl`, branded email). **Lesson:** *look before you overwrite* — the plan assumed email wasn't wired, but `.env`
+  already had a working verified sender; surfacing that (instead of overwriting) avoided clobbering a live config, and Carl
+  chose the seroapp.com domain from there. Proven end-to-end on the real dev DB + a real branded email to Carl's inbox from
+  notifications@seroapp.com. `npm run typecheck` clean, reset+notifications 27/27. Phase 2 (the UI) next.
+- **2026-07-11** — **transactional-email P3 ✅ — TRACK CLOSED (Carl "a"), $0: Sero can send email.** The admin now gets
+  a "new member joined" alert when an invite is accepted — `notifyAdminOfNewMember` fired fire-and-forget from
+  `acceptInvite()`; the shared admin-alert body was folded into one `adminAccountAlert` helper (signup + member reuse
+  it, registration output unchanged). Closes the 3-phase track: P1 admin signup alert · P2 invite link emailed to the
+  invitee · P3 admin new-member alert. Provider = Resend (native fetch, free tier). **Design stance held throughout:**
+  only human-triggered "plumbing" emails ship; engagement/nudge emails stay PARKED (they'd contaminate the
+  unprompted-return validation metric). `npm test` 122/122, typecheck clean. Folder → done/. Live delivery is Carl's
+  inbox confirmation once Resend is set up.
+- **2026-07-11** — **transactional-email P2 ✅ green-lit (Carl "a"), $0: invited members get their join link by email.**
+  The invite flow minted a one-time `/join` link and handed it back to the manager to copy-paste ("no email infra in
+  the alpha"). Now `createInvite` also fire-and-forgets an email to the invitee — new `notifyInviteeOfInvite` composer
+  (names inviter + org, clean fallback, escaped) + an absolute join URL built from `APP_BASE_URL` or the request
+  origin. Reuses the already-tested `preview()` for the names; the link is still returned so the manager can resend;
+  a failed email never blocks the invite. **Lesson:** an emailed link must be an ABSOLUTE URL — deriving base from the
+  request origin (with an `APP_BASE_URL` override for the proxy) keeps it config-free local and correct on Render.
+  `npm test` 122/122, typecheck clean. Phase 3 (admin "new member joined" alert) next.
+- **2026-07-11** — **transactional-email P1 ✅ green-lit (Carl "a"), $0: Sero can send email.** New `email-client.ts`
+  (Resend via native `fetch`, mirroring `ai-client.ts`'s timeout+retry; `sendEmail` throws, `sendEmailQuietly` is
+  fire-and-forget) + a `notifications` service that emails the `SUPERADMIN_EMAILS` admin on every new signup. Wired
+  as one non-awaited line in `auth.controller.ts` `register()` so a failed email can never break a signup. Provider
+  chosen = Resend (free tier dwarfs validation volume, no SDK). **Lessons:** ① Render only hosts — it can't send
+  email; a transactional provider is mandatory. ② Kept the engagement/nudge emails (reminders, digests) PARKED —
+  they'd contaminate the unprompted-return validation metric; only human-triggered "plumbing" emails ship now.
+  ③ Live-send is the real proof but lives in Carl's inbox — recorded honestly as his confirmation, not my check.
+  `npm test` 120/120, typecheck clean. Phase 2 (invite emails) next.
 - **2026-07-11** — **thread-follow P2 ✅ — TRACK CLOSED (~$0.70 paid): the engine finally follows a volunteered thread.**
   The relaxed drill-pressure bail was built 2 days earlier, but the first paid gate roll scored 0/8 — an honest
   miss that a free read of the saved turn logs turned into the real find: **the runtime thread-follow could never

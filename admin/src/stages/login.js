@@ -3,7 +3,7 @@
 // A link switches to the register screen.
 
 import { STAGES, isAdmin } from "../state.js";
-import { login, me } from "../../../shared/api.js";
+import { login, me, listRecentRuns } from "../../../shared/api.js";
 import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 
@@ -44,6 +44,9 @@ export async function mount(root, { setState }) {
             <p class="js-err text-negative text-sm" hidden></p>
             <button type="submit" class="btn js-submit">Sign in</button>
           </form>
+          <p class="text-ink-dim text-sm">
+            <button type="button" class="link js-to-forgot">Forgot password?</button>
+          </p>
           <p class="text-ink-dim text-sm">
             No account yet?
             <button type="button" class="link js-to-register">Create one</button>
@@ -89,10 +92,19 @@ export async function mount(root, { setState }) {
       // A guest saving their finished run (guest-run Phase 3): claim it and land on
       // it. A failed claim falls through to the normal landing — never a dead end.
       if (await completeClaimAfterAuth(identity, setState)) return;
-      // A plain member lands on their own clean Home (member-nav Phase 1); only an
-      // admin/owner gets the internal start page. Mirrors the boot routing in main.js
-      // so login and a fresh reload land in the same place.
-      setState({ user: identity, stage: isAdmin(identity) ? STAGES.START : STAGES.MEMBER_HOME });
+      // Mirror the boot routing in main.js so login and a fresh reload land in the same
+      // place. A plain member lands on their own clean Home. A manager with no runs yet
+      // lands on the guided setup (where the first-run explainer lives) instead of an
+      // empty Home; a returning manager keeps landing on Home. (validation-kit P4 fix.)
+      if (!isAdmin(identity)) {
+        setState({ user: identity, stage: STAGES.MEMBER_HOME });
+      } else {
+        let firstRun = false;
+        try { const { runs } = await listRecentRuns(1); firstRun = Array.isArray(runs) && runs.length === 0; } catch { /* default to Home */ }
+        setState(firstRun
+          ? { user: identity, stage: STAGES.INTAKE, substage: "NAME" }
+          : { user: identity, stage: STAGES.START });
+      }
     } catch (e2) {
       showError(e2.message || "Could not log in.");
       submitBtn.disabled = false;
@@ -102,6 +114,7 @@ export async function mount(root, { setState }) {
 
   form.addEventListener("submit", onSubmit);
   root.querySelector(".js-to-register").addEventListener("click", () => setState({ stage: STAGES.REGISTER }));
+  root.querySelector(".js-to-forgot").addEventListener("click", () => setState({ stage: STAGES.FORGOT_PASSWORD }));
   // The guest lane (guest-run Phase 2): straight into intake, no account. The
   // entry logic lives in guest.ts, shared with the start screen (welcome.ts).
   root.querySelector(".js-try-guest").addEventListener("click", () => startGuestRun(setState));

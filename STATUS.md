@@ -6,6 +6,8 @@ For the big-picture feature board, see [SERO_BOARD.md](SERO_BOARD.md). For full 
 Not sure which file is which? [docs/reference/trackers.md](docs/reference/trackers.md) maps where everything lives.
 Closed tracks live in [docs/plans/done/](docs/plans/done/) — this file only holds what's live or awaiting your walk.
 
+📍 **Mobile UX pass — ✅ CLOSED 2026-07-11 (Carl walked it on his phone: "looks ok"), live as `fc0874c`.** Carl's phone walk found the app unusable on mobile: keyboard popping up on its own over the question, `/focus` panning sideways, desktop-size headings/dead space, and each step opening mid-scroll. Fixed across BOTH apps in 5 commits (`7139440`→`fc0874c`, PR #11 merged): autofocus is desktop-only everywhere (keyboard opens only when you tap), the interview question scrolls back into view above the keyboard, the focus-page buttons stack, phone type scale + top-aligned stages, avatar chip moved into the header bar, and every screen/question/step restarts at the top. Verified with a Playwright phone harness (mocked API, $0) across 14 manager pages, 6 member/customer pages, and all 15 internal/admin screens — zero keyboard steal, zero sideways scroll. Ad-hoc track (no plan folder); this entry is its record.
+
 📍 **Feedback inbox — ✅ CLOSED 2026-07-08:** both phases (inbox screen + per-row Delete) green-lit by Carl ("close it") and moved to [done/](docs/plans/done/feedback-inbox/plan.md). Was already built + committed; wiring re-confirmed intact after the `0006`→`0011` DB drift.
 
 📍 **Checkpoint 2026-07-08 (night) — 🎉 SERO IS LIVE ON THE INTERNET.** Render deploy went green tonight at
@@ -22,6 +24,58 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 ---
 
 ## ▶ Your move
+
+> ### 🔨 In flight right now (2026-07-12) — parallel sessions
+> Surfaced by the clean-up sweep; these were building while this board lagged. Status per each folder:
+> - **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — **P1 ✅ GREEN-LIT 2026-07-12** (your green light + agent-driven live walk on your "go": Q9 fork → confirm card → "Locked in ✓", 1 paid run ~$0.35; commits `47c0024b` + `6aadec58`); **P2 (card zero: resurface + close-out) is next**, P3 ⬜. Wires the orphaned `outcomeCheck` consumer.
+> - **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P1 ✅ GREEN-LIT 2026-07-12 (you walked the 4 local screens, "okay next"); P2 🔨 next (serve /admin on live); P3–P6 ⬜. (Reverses frontend-admin-split P4 "admin never ships".)
+> - **design-stage-native** — ⏸ **PARKED to [future/](docs/plans/future/design-stage-native/plan.md)** in the sweep. Dormant since 07-10; P1 built but never QA-walked, P5 blocked on your parity sign-off. Not archive-safe — un-park to finish.
+
+> **✅ [past-1on1-view](docs/plans/done/past-1on1-view/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl "a" ×2), $0. The manager's Past 1:1 is now a clear 3-tab view.**
+> Carl's ask: make the manager's "Past 1:1" view clear on *what happened, when, and with whom* — an inner nav between the
+> **briefing** and the **actual answers**, a clear "when it was done" section, and a proper person-profile header. Decided
+> with Carl: **3 tabs** (Overview / Briefing / Answers) + a **rich when-row** (date · ago · questions-answered count).
+> One shared file (`admin/src/stages/run-detail.ts`) → the redesign lands in **both** the manager and customer apps at once.
+> **P1 ✅ backend** — the member route `GET /api/v1/runs/mine/:id` now returns `turns[]` (question · answer · skipped),
+> mirroring the compare view but with the internal planner `note` **stripped** so it never reaches a manager. Committed `95816240`.
+> **P2 ✅ frontend** — `run-detail.ts` rebuilt into Overview (profile header · initials avatar · role · seniority · meeting-type pill ·
+> rich when-row · one-line read · rating) / Briefing (reused cards) / Answers (the Q&A list + empty state), plus `run-detail.css`.
+> Free proof throughout: `npm test` **127/127** (incl. 6 new view tests + customer-bundle rebuild + file↔PG parity), typecheck clean,
+> `run-detail.css` confirmed loaded in a live browser. Folder → [done/](docs/plans/done/past-1on1-view/plan.md).
+> **▶ Your move:** nothing — track closed. (Screenshot of a populated run wasn't possible in the headless pane; you walked it live.)
+
+> **✅ [focus-freshness](docs/plans/done/focus-freshness/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl green-lit), ~$0.50 total, live.**
+> Carl's pick from the arc deep-dive: repeat bi-weeklies suggested the same topics every time. Now the focus prompt carries
+> the last 3 preps' suggested topics for the same person (same manager + roster person only; competency history filtered out
+> of relational arcs; past never named in output wording; unfinished preps count; results persist at generation). **Proven
+> live on `ba3223d`:** thin note → fresh list; **re-raise note → the flagged topic returns as a `signal`** (freshness never
+> silences a real signal). Golden gate `biweekly-priya` **PASS, no FOCUS_ARC_LEAK.** Commits `763c5a4a`, `c9d34f62`,
+> `ba3223d6` (code, all live) + close-out docs. Track moved to [done/](docs/plans/done/focus-freshness/plan.md).
+
+> **✅ [forgot-password](docs/plans/done/forgot-password/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl "this is good push it"), $0, pushed live.**
+> Carl's ask: "forgot password for all, admin also." One shared login → **one** reset flow covers managers, members AND admin.
+> Blueprint = the invitations flow (public, sha256-hashed, single-use, expiring, emailed).
+> **P1 ✅ backend** — `password_reset_tokens` table (`0014`; sha256 hash, single-use `used_at`, 1h expiry), `POST
+> /api/v1/auth/forgot-password` + `/reset-password` (origin-guarded, request rate-limited 5/min/IP, always-200 → no email
+> enumeration), branded seroapp.com email. Proven end-to-end on the real dev DB + a real inbox email.
+> **P2 ✅ UI** — "Forgot password?" link + request/reset screens, one UI shared by both apps (routes, loaders, boot ×2).
+> Built in a worktree to dodge parallel edits, then **merged (`2b38666e`) by parking + restoring two other sessions' WIP —
+> nothing swept**. typecheck+build+browser all green; Carl walked it live on `:3000`. Folder → [done/](docs/plans/done/forgot-password/plan.md).
+> **▶ Your move:** ONE thing — for reset emails to deliver on the **live site**, set the seroapp.com **SeroApp-New** key as
+> `EMAIL_API_KEY` in the Render dashboard (sync:false, not in git). `render.yaml` `EMAIL_FROM` already points at seroapp.com.
+
+> **✅ [transactional-email](docs/plans/done/transactional-email/plan.md) — TRACK CLOSED 2026-07-11: all 3 phases ✅ (Carl "a" ×3), $0. Sero can send email.**
+> Carl's ask: "send notifications/updates by email — and as admin, when someone registers I want to know." Provider =
+> **Resend** (native `fetch`, free tier). New `email-client.ts` (fire-and-forget send) + `notifications` service.
+> **P1 ✅ (`d8c44a66`)** — admin gets an email on every new signup, one non-awaited line in `auth.controller.ts`
+> `register()` (email can never break signup). **P2 ✅ (`0ab2d98d`)** — the invite flow emails the join link straight
+> to the invitee (absolute URL via `APP_BASE_URL`/request origin; link still returned so the manager can resend).
+> **P3 ✅** — admin gets a "new member joined" alert when an invite is accepted. Offline proof throughout: 122/122 +
+> typecheck clean (mine); live delivery is Carl's confirmation, flagged honestly. Parked (engagement/nudge emails,
+> password reset, admin error alerts) stays parked — nudges would contaminate the unprompted-return metric.
+> **▶ Your move:** the three live sends need your eyes, not code — sign up at resend.com, verify `seroteams.com`
+> (or use its sandbox sender), drop `EMAIL_API_KEY` into `.env` + the Render dashboard, then register a throwaway
+> account (P1), invite a real address (P2), accept an invite (P3), and watch the inboxes. Track closed.
 
 > **✅ [validation-kit](docs/plans/done/validation-kit/plan.md) — TRACK CLOSED 2026-07-11: all 6 phases ✅, $0 total. The corridor-test kit is fully built.**
 > We're formally at **VALIDATION STAGE** (YC-committee audit 2026-07-09: product 8/10, business 3/10 — zero external
@@ -282,4 +336,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-11 (thread-follow P2 ✅ green-lit "a" — TRACK CLOSED, metric 0.125→0.43, released live. Earlier today: validation-kit + universe-monitoring TRACKS CLOSED; gate repaired; goodnight skill; end-of-day sweep)
+- Last updated: 2026-07-12 (clean-up sweep — surfaced 2 in-flight parallel tracks (promises-loop, admin-live-deploy) at the top of Your-move + parked dormant design-stage-native to future/. Earlier: past-1on1-view TRACK CLOSED, both phases ✅ "a" ×2, 127/127)

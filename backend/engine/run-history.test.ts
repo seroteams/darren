@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf, costFromState } from "./run-history.ts";
+import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf, costFromState, overviewFields } from "./run-history.ts";
 
 // costFromState (universe-monitoring P3): a run's model spend off its saved briefing.
 // Null when absent or malformed — an old run must never claim "$0.00".
@@ -133,4 +133,44 @@ test("personaTagOf defaults a manual / legacy run to {null, manual}", () => {
   assert.deepEqual(personaTagOf({}), { personaId: null, mode: "manual" });
   assert.deepEqual(personaTagOf({ fingerprint: null }), { personaId: null, mode: "manual" });
   assert.deepEqual(personaTagOf(null), { personaId: null, mode: "manual" });
+});
+
+// overviewFields (manager-friendly session overview): person / role / meeting type,
+// the manager's own INTAKE note (ctx.notes — not the in-meeting notes), and how far
+// questioning got. Assembled once so the file + DB summarize paths can't drift.
+test("overviewFields reads person, role and meeting type off ctx, note off ctx.notes", () => {
+  const f = overviewFields({
+    ctx: { name: "Carl", role: "UX Designer", seniority: "Mid", meetingType: "Bi-weekly check-in", notes: "Been quieter than usual in standups." },
+  });
+  assert.equal(f.person, "Carl");
+  assert.equal(f.roleLine, "Mid UX Designer");
+  assert.equal(f.meetingType, "Bi-weekly check-in");
+  assert.equal(f.intakeNote, "Been quieter than usual in standups.");
+  assert.equal(f.progress, null, "no budget yet → no question progress");
+});
+
+test("overviewFields reports question progress once a run reached questioning (answered of total)", () => {
+  const f = overviewFields({ ctx: { name: "Priya" }, transcript: [{}, {}, {}, {}], turn: 4, totalBudget: 8 });
+  assert.deepEqual(f.progress, { answered: 4, total: 8 });
+});
+
+test("overviewFields falls back to turn for the answered count, and truncates a long note", () => {
+  const f = overviewFields({ ctx: { notes: "x".repeat(400) }, turn: 2, totalBudget: 8 });
+  assert.deepEqual(f.progress, { answered: 2, total: 8 }, "no transcript → count off turn");
+  assert.ok(f.intakeNote.length <= 160 && f.intakeNote.endsWith("…"), "long note is truncated");
+});
+
+test("overviewFields is safe on an empty / nameless state", () => {
+  assert.deepEqual(overviewFields({}), { person: "", roleLine: "", meetingType: "", intakeNote: "", progress: null });
+  assert.deepEqual(overviewFields(null), { person: "", roleLine: "", meetingType: "", intakeNote: "", progress: null });
+});
+
+test("overviewFields does not repeat the seniority word when the role already leads with it", () => {
+  assert.equal(overviewFields({ ctx: { seniority: "Junior", role: "Junior Product Designer" } }).roleLine, "Junior Product Designer");
+  assert.equal(overviewFields({ ctx: { seniority: "Senior", role: "Senior Nurse" } }).roleLine, "Senior Nurse");
+  // Distinct words still combine as before.
+  assert.equal(overviewFields({ ctx: { seniority: "Mid", role: "UX Designer" } }).roleLine, "Mid UX Designer");
+  // Only-seniority / only-role degrade cleanly.
+  assert.equal(overviewFields({ ctx: { seniority: "Lead", role: "" } }).roleLine, "Lead");
+  assert.equal(overviewFields({ ctx: { seniority: "", role: "Nurse" } }).roleLine, "Nurse");
 });

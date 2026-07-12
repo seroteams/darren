@@ -36,6 +36,17 @@ export async function logout() {
   return postJson("/api/v1/auth/logout", {});
 }
 
+// Forgot-password (forgot-password). requestPasswordReset ALWAYS resolves 200 { ok } — the
+// server won't reveal whether the email has an account, so the UI shows one generic
+// confirmation either way. submitPasswordReset sets the new password from the one-time
+// token in the emailed link; a bad/used/expired link throws the server's plain message.
+export async function requestPasswordReset({ email }) {
+  return postJson("/api/v1/auth/forgot-password", { email });
+}
+export async function submitPasswordReset({ token, password }) {
+  return postJson("/api/v1/auth/reset-password", { token, password });
+}
+
 // Hand an ownerless (guest) finished run to the logged-in caller (guest-run Phase 1
 // endpoint). Owned-by-someone-else answers 404; re-claim by the owner is a no-op.
 export async function claimSession(id) {
@@ -278,6 +289,12 @@ export async function setAgendaCovered(sessionId, covered) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/agenda/cover`, { covered });
 }
 
+// Promises loop phase 1 — save the wrap-up's manager-confirmed agreements.
+// promises: [{ owner: "manager"|"report", action, when }]. Returns { ok, promises }.
+export async function savePromises(sessionId, promises) {
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/promises`, { promises });
+}
+
 export async function setSelectedFocus(sessionId, focusPointIds) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/focus-points/select`, { focusPointIds });
 }
@@ -344,6 +361,20 @@ export async function renamePersonV2(id, name) {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name }),
+  }));
+}
+// Full edit — name/job/seniority in one PATCH (the endpoint already accepts all three).
+export async function updatePerson(id, { name, role, seniority } = {}) {
+  return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, role, seniority }),
+  }));
+}
+// Hard delete — permanently removes the person and every 1:1 about them. Irreversible.
+export async function deletePerson(id) {
+  return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
+    method: "DELETE",
   }));
 }
 export async function mergePeopleV2(id, intoId) {

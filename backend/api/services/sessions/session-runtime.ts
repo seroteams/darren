@@ -11,6 +11,7 @@ import { hasDatabaseUrl } from "../../../db/client.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { ensureRoleProfile } from "../../../engine/role-profile.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
+import { focusHistoryFor } from "../../../engine/focus-history.ts";
 import { suggestAnswers as draftAnswersEngine } from "../../../engine/answer-suggester.ts";
 import { ensureScenarioPack } from "../../../engine/scenario-pack.ts";
 import { generateSuggestions } from "../../../engine/lexicon-reviewer.ts";
@@ -27,9 +28,13 @@ const prewarm: Prewarm = (session, ctx) => {
       console.warn(`[prewarm] role profile failed for ${session.id} (continuing):`, e?.message ?? e);
       return null;
     })
-    .then(() => generateFocusPoints(ctx, { session: { id: session.id, dir: session.dir } }))
+    .then(() => focusHistoryFor({ orgId: session.orgId, userId: session.userId, personId: session.personId, excludeId: session.id }))
+    .then((focusHistory) => generateFocusPoints({ ...ctx, focusHistory }, { session: { id: session.id, dir: session.dir } }))
     .then((result) => {
       session.focusPointsResult = result;
+      // Persist immediately: suggested topics count as focus history (Carl's
+      // call 2026-07-11) even when the prep is abandoned right here.
+      sessionsRepo.persist(session);
     })
     .catch((e) => {
       console.warn(`[prewarm] focus points failed for ${session.id} (stage will retry live):`, e?.message ?? e);

@@ -1,6 +1,7 @@
 // The join flow (member-onboarding-invites) — the service. A manager invites one of their
-// roster people by email; Sero mints a ONE-TIME join link the manager sends themselves (no
-// email infra in the alpha). Opening it shows who invited you where; accepting creates the
+// roster people by email; Sero mints a ONE-TIME join link and emails it to the invitee
+// (see the controller; the link is also returned so the manager can resend it if needed).
+// Opening it shows who invited you where; accepting creates the
 // member account in that org and auto-links the roster row (people.user_id), so "Your 1:1s"
 // works from the first login. Token rules (mirrors user-management P5): single-use (status
 // flips on accept), expiring (7 days), stored HASHED (sha256) — the raw token exists only

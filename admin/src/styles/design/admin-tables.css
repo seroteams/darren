@@ -78,7 +78,7 @@
    on the same white surface. A transparent spacer <tbody> sets the gap between cards. */
 .um-group {
   background: var(--color-surface);
-  box-shadow: var(--shadow-card);
+  /* Flat per DESIGN §4 — the white-on-tinted tonal step + rounded head read as a card. */
 }
 .um-group__head td {
   padding: var(--sero-space-4) var(--sero-space-4) var(--sero-space-2);
@@ -94,64 +94,9 @@
 /* Transparent gap between company cards. */
 .um-group-gap td { height: var(--sero-space-4); padding: 0; border: 0; background: transparent; }
 
-/* Error log (error-log Phase 2) — the superadmin's cross-company error list. Reuses the
-   um-table frame; these are the row pills (environment / source / status) + cell helpers. */
-.el-table td { vertical-align: middle; }
-.el-when { color: var(--color-ink-dim); white-space: nowrap; }
-.el-sub, .el-src { font-size: var(--type-caption); color: var(--color-ink-dim); margin-top: 2px; }
-.el-route { font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption); color: var(--color-ink-dim); }
-.el-msg { color: var(--color-ink); }
-.el-anon { color: var(--color-ink-mute); font-style: italic; }
-.el-pill {
-  display: inline-block;
-  padding: 1px 9px;
-  border-radius: var(--sero-radius-badge);
-  font-size: var(--type-caption);
-  font-weight: var(--type-weight-medium);
-  line-height: 1.6;
-  white-space: nowrap;
-}
-.el-pill--live    { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
-.el-pill--local   { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
-.el-pill--api     { background: transparent; border: 1px solid var(--color-border); color: var(--color-ink-dim); }
-.el-pill--browser { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
-.el-pill--err     { background: var(--sero-coral-200);    color: var(--sero-coral-800); }
-.el-pill--warn    { background: var(--sero-gold-200, #faecd9); color: var(--sero-gold-800, #7a4f0a); }
-
-/* Local / Live toggle (error-log) — a small segmented control above the table. */
-.el-filters { display: inline-flex; gap: 3px; padding: 3px; background: var(--sero-soft-400); border-radius: var(--sero-radius-badge); }
-.el-filter {
-  border: 0; background: transparent; cursor: pointer; font: inherit;
-  font-size: var(--type-body-sm); font-weight: var(--type-weight-medium); color: var(--color-ink-dim);
-  padding: 4px 14px; border-radius: var(--sero-radius-badge); line-height: 1.4;
-}
-.el-filter:hover { color: var(--color-ink); }
-.el-filter.is-active { background: var(--color-surface); color: var(--color-ink); box-shadow: var(--shadow-card); }
-.el-filter__n { color: var(--color-ink-mute); font-size: var(--type-caption); margin-left: 3px; }
-
-/* Error log filters + row detail + resolve (error-log Phase 4). */
-.el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sero-space-4); }
-.el-control { display: inline-flex; align-items: center; gap: var(--sero-space-2); }
-.el-control__label { font-size: var(--type-caption); color: var(--color-ink-mute); font-weight: var(--type-weight-medium); }
-.el-resolved-toggle { border: 1px solid var(--color-border); background: transparent; }
-.el-resolved-toggle.is-active { background: var(--sero-primary-200); color: var(--sero-primary-800); border-color: transparent; box-shadow: none; }
-.el-pill--done { background: var(--sero-soft-500); color: var(--sero-soft-800); }
-.el-row.is-open > td { background: var(--sero-primary-100); }
-.el-row--resolved > td { opacity: 0.62; }
-.el-detail-row > td { padding: 0; background: var(--sero-primary-100); border-bottom: 1px solid var(--color-border); }
-.el-detail { padding: var(--sero-space-3) var(--sero-space-4); display: flex; flex-direction: column; gap: var(--sero-space-2); }
-.el-detail__meta { display: flex; flex-wrap: wrap; gap: var(--sero-space-1) var(--sero-space-4); font-size: var(--type-body-sm); color: var(--color-ink-dim); }
-.el-detail__meta b { color: var(--color-ink); font-weight: var(--type-weight-medium); }
-.el-detail__meta code { font-family: var(--font-mono, ui-monospace, monospace); }
-.el-detail__msg { font-size: var(--type-body-sm); color: var(--color-ink); }
-.el-stack {
-  margin: 0; max-height: 260px; overflow: auto; padding: var(--sero-space-3);
-  background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card);
-  font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption); line-height: 1.5;
-  color: var(--color-ink); white-space: pre-wrap; word-break: break-word;
-}
-.el-ua { font-size: var(--type-caption); color: var(--color-ink-dim); }
-.el-detail__actions { display: flex; gap: var(--sero-space-2); }
+/* The error-log row pills, filters, and detail rows live in their own file
+   (admin/src/styles/error-log.css), imported by the stage. Keeping them there
+   (not duplicated here) stops the two copies drifting apart. */
 
 /* Row actions (user-management Phase 2): a ⋯ button per row opening a role menu. The menu is
    attached to <body> (position: fixed) so the table's horizontal scroll never clips it. */
@@ -236,7 +181,6 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border-tinted);
   border-radius: var(--radius-card);
-  box-shadow: 0 1px 2px rgba(15, 42, 55, 0.05), 0 10px 26px -16px rgba(15, 42, 55, 0.22);
   padding: var(--sero-space-5);
   display: flex;
   flex-direction: column;
@@ -263,7 +207,7 @@
   content: "";
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   background: var(--since-dot, var(--color-ink-mute));
   flex-shrink: 0;
 }
@@ -291,7 +235,7 @@
   top: 0.62em;
   width: 0.28rem;
   height: 0.28rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   background: var(--color-border-strong);
 }
 .since__when { font-weight: var(--type-weight-semibold); }

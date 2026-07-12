@@ -14,7 +14,7 @@ import { createStageReview } from "./stage-review.js";
 import { icon } from "./icon.js";
 
 // Rendered once — the check that marks a completed, reviewable stage.
-const CHECK_MARK = icon(Check, { size: 13, className: "stage-step__check" });
+const CHECK_MARK = icon(Check, { size: 16, className: "stage-step__check" });
 
 // Sero mark for the guest run. A logged-out visitor taking a "try it" run has no
 // left nav rail (it's hidden for guests), so nothing carries the brand — this

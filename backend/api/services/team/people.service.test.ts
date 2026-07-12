@@ -31,6 +31,10 @@ function fakeRepo(seed: PersonRow[] = []): { repo: PeopleRepo; rows: PersonRow[]
         const row = rows.find((r) => r.id === id);
         if (row) Object.assign(row, patch);
       },
+      remove: async (id) => {
+        const i = rows.findIndex((r) => r.id === id);
+        if (i >= 0) rows.splice(i, 1);
+      },
       findByLinkedUser: async (userId, orgId) =>
         rows.filter((r) => r.userId === userId && r.orgId === orgId),
       listOrgUsers: async (orgId) =>
@@ -221,6 +225,7 @@ test("resolveForRun: a repo failure on the auto path is swallowed (a run start m
     findForManager: async () => { throw new Error("db down"); },
     insert: async () => { throw new Error("db down"); },
     update: async () => { throw new Error("db down"); },
+    remove: async () => { throw new Error("db down"); },
     findByLinkedUser: async () => { throw new Error("db down"); },
     listOrgUsers: async () => { throw new Error("db down"); },
   };
@@ -278,4 +283,18 @@ test("archive stamps archivedAt on the caller's own person; misses 404", async (
   assert.equal(out.ok, true);
   assert.ok(rows[0]?.archivedAt instanceof Date);
   await assert.rejects(() => service.archive("a", "o1", "OTHER"), /not found/i);
+});
+
+test("remove hard-deletes the caller's own person; fences foreign/unknown to 404", async () => {
+  const { repo, rows } = fakeRepo([person({ id: "a" }), person({ id: "b", name: "Ben" })]);
+  const service = createPeopleService(repo);
+  // fencing runs BEFORE any delete — a foreign/unknown id must not remove anything
+  await assert.rejects(() => service.remove("a", "o1", "OTHER"), /not found/i);
+  await assert.rejects(() => service.remove("a", "OTHER", "m1"), /not found/i);
+  await assert.rejects(() => service.remove("nope", CALLER.orgId, CALLER.managerId), /not found/i);
+  assert.equal(rows.length, 2); // nothing removed yet
+  // the real delete drops only that row
+  const out = await service.remove("a", CALLER.orgId, CALLER.managerId);
+  assert.equal(out.ok, true);
+  assert.deepEqual(rows.map((r) => r.id), ["b"]);
 });

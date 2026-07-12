@@ -13,7 +13,7 @@ const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
 const COPY = {
   NAME: {
     question: "Who are you prepping for?",
-    hint: "Their first name is enough.",
+    hint: "First name only. Sero works from what you tell it — nothing else.",
     placeholder: "e.g. Priya",
     key: "name",
   },
@@ -47,7 +47,7 @@ export async function mount(root, { store, setState }) {
           </div>
           <button class="btn btn--ghost js-start-fresh flex-shrink-0" type="button">Cancel setup</button>
         </div>
-        <p class="text-ink-dim text-sm max-w-measure js-intake-lede">Sero prepares and runs a 1:1 interview, then writes a manager briefing.</p>
+        <p class="text-ink-dim text-sm max-w-measure js-intake-lede">Two minutes of prep. One sharper conversation.</p>
         <div class="intake-progress" role="progressbar" aria-valuemin="1" aria-valuemax="${SUBSTAGES.length}" aria-valuenow="1">
           <div class="intake-progress__fill"></div>
         </div>
@@ -417,6 +417,9 @@ export async function mount(root, { store, setState }) {
     currentSub = sub;
     refreshStep();
     const node = await swapField(host, () => renderField(sub));
+    // Each step restarts at the top — Continue leaves the page scrolled down,
+    // hiding the next step's question (phone walk 2026-07-11).
+    window.scrollTo(0, 0);
     focusField(node);
   }
 

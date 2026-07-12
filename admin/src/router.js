@@ -12,6 +12,8 @@ const PATH_FOR = {
   // login, the run lane (internal QA), and the internal toolset.
   [STAGES.LOGIN]:          () => "/login",
   [STAGES.REGISTER]:       () => "/register",
+  [STAGES.FORGOT_PASSWORD]: () => "/forgot-password",
+  [STAGES.RESET_PASSWORD]: (s) => (s.resetToken ? `/reset-password/${encodeURIComponent(s.resetToken)}` : "/reset-password"),
   [STAGES.PRIVACY]:        () => "/privacy",
   [STAGES.ABOUT]:          () => "/about",
   [STAGES.FEEDBACK]:       () => "/feedback",
@@ -38,6 +40,7 @@ const PATH_FOR = {
   [STAGES.TASKS]:          () => "/tasks",
   [STAGES.UNIVERSE]:       () => "/universe",
   [STAGES.DESIGN]:         () => "/design",
+  [STAGES.TEST]:           () => "/test",
   [STAGES.ADMIN_REGISTERED]: () => "/admin/registered",
   [STAGES.ADMIN_ERROR_LOG]: () => "/admin/errors",
   [STAGES.ADMIN_FEEDBACK]: () => "/admin/feedback",
@@ -49,7 +52,8 @@ const PATH_FOR = {
 
 // path -> stage (exact paths). /run/:id handled separately.
 const STAGE_FOR = {
-  "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/privacy": STAGES.PRIVACY,
+  "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/forgot-password": STAGES.FORGOT_PASSWORD,
+  "/privacy": STAGES.PRIVACY,
   "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
   "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/runs": STAGES.RUNS,
   "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
@@ -59,6 +63,7 @@ const STAGE_FOR = {
   "/job-lexicons": STAGES.ROLE_LEXICONS, "/meeting-arcs": STAGES.MEETING_ARCS,
   "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
   "/tasks": STAGES.TASKS, "/universe": STAGES.UNIVERSE, "/design": STAGES.DESIGN,
+  "/test": STAGES.TEST,
   "/admin/registered": STAGES.ADMIN_REGISTERED,
   "/admin/errors": STAGES.ADMIN_ERROR_LOG,
   "/admin/feedback": STAGES.ADMIN_FEEDBACK,
@@ -73,7 +78,7 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
@@ -90,7 +95,7 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // reviews) — the backend fences whose data those show.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN]);
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // The plain-member destinations (member-view: only-runs): a member can view their own
@@ -125,6 +130,11 @@ export function parseLocation() {
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);
   if (adminUser) return { stage: STAGES.ADMIN_USER, params: { adminUserId: decodeURIComponent(adminUser[1]) } };
+  // An emailed password-reset link: /reset-password/:token. Public — the token IS the
+  // credential (the user is logged out). Bare /reset-password resolves via STAGE_FOR? No —
+  // it's token-only, so a missing token falls through to null and the screen shows "invalid".
+  const reset = p.match(/^\/reset-password\/([^/]+)$/);
+  if (reset) return { stage: STAGES.RESET_PASSWORD, params: { resetToken: decodeURIComponent(reset[1]) } };
   const m = p.match(/^\/run\/([^/]+)$/);
   if (m) return { stage: STAGES.REVIEW_RUN, params: { reviewRunId: decodeURIComponent(m[1]) } };
   if (p === "/run") return { stage: STAGES.REVIEW_RUN }; // no id -> caller redirects

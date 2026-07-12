@@ -1,0 +1,118 @@
+/* Team person modals (Add / Edit / Delete). Its OWN file — like finish-feedback-modal.css —
+   so concurrent rewrites of shared CSS can't clobber it. Rides the global
+   .modal-backdrop / .card.modal base (notes-panel.css); everything here is content:
+   a header, compact boxed fields (DESIGN §5 — the form input variant, NOT the big
+   session .input), and a footer holding the one action. The .apm--danger variant is the
+   delete confirm (coral title + type-to-confirm). Tokens only. */
+
+.apm {
+  width: min(440px, 92vw);
+  max-width: 440px;
+  padding: 0; /* header/body/footer own their padding for full-bleed dividers */
+}
+
+.apm__head {
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.apm__title {
+  font-family: var(--type-family-display);
+  font-size: 1.25rem; /* 20px — DESIGN §3 title */
+  font-weight: var(--type-weight-semibold);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+.apm__sub {
+  margin-top: 4px;
+  font-size: var(--type-body-sm);
+  line-height: 1.5;
+  color: var(--color-ink-dim);
+}
+
+.apm__body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.apm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.apm-field__label {
+  font-size: var(--type-label); /* 14px floor */
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink);
+}
+.apm-field__opt {
+  font-weight: 400;
+  color: var(--color-ink-mute);
+}
+.apm-field__input {
+  width: 100%;
+  padding: 10px 14px; /* DESIGN input recipe */
+  font-size: var(--type-body-sm);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input); /* 4px */
+  transition:
+    border-color var(--dur-instant) ease-out,
+    box-shadow var(--dur-instant) ease-out;
+}
+.apm-field__input::placeholder {
+  color: var(--color-ink-mute);
+}
+.apm-field__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-focus);
+}
+.apm-field__input[aria-invalid="true"] {
+  border-color: var(--color-negative);
+}
+
+.apm__err {
+  font-size: var(--type-body-sm);
+  color: var(--color-negative-text);
+}
+
+.apm__foot {
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Delete confirm — coral title signals the stakes; the warning stays full-ink so it's
+   read, not skimmed. The Delete button is disabled until the name is retyped. */
+.apm--danger .apm__title {
+  color: var(--color-negative-text);
+}
+.apm__warn {
+  color: var(--color-ink);
+}
+.apm--danger .btn--danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .apm {
+    animation: apm-in var(--dur-fast) ease-out;
+  }
+  @keyframes apm-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

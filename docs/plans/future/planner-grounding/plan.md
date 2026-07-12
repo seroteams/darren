@@ -60,6 +60,15 @@ A second look at the planner's own output on the drift turns:
   when a strong thread exists). **A prompt/behaviour change cannot be proven by a free unit test** — it
   needs the planner to actually run.
 
+## Reconcile — fix A likely already shipped (clean-up sweep 2026-07-12)
+> The **thread-follow** track (closed 2026-07-11, `d5e7b396`) shipped exactly Scope A's behaviour:
+> it *pins a minted thread-follow* so the drill-cap can't eat it and makes the engine follow the
+> person's own words on a shallow/thin answer instead of switching to a generic catalogue question.
+> That is "drill, don't switch". **Before reopening this plan, confirm against thread-follow** —
+> Scope A may be done. If so, re-scope this plan to the parts thread-follow did NOT cover: **B** (prefer
+> grounded bank questions over generic catalogue ones) and **C** (don't pad / seed questions from
+> low-confidence focus points). If A survives, it overlaps thread-follow and needs de-duping first.
+
 ## Current state
 > ### 📋 2026-06-28 — Scope A locked; **test-strategy decision needed before phase files.**
 > Diagnosis + mechanism located (free). The fix is planner-prompt-level, so the proof needs a planner run.

@@ -740,7 +740,7 @@
 .ds-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--color-backdrop);
   z-index: var(--sero-z-modal-backdrop);
   display: grid;
   place-items: center;

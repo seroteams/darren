@@ -13,5 +13,5 @@
 .ffm__sec .input { font-size: var(--type-body-sm, 14px); }
 .ffm .js-ffm-v.is-active {
   background: var(--sero-active-state-bg, #eef6fd);
-  border-color: var(--sero-primary-500, #2563eb);
+  border-color: var(--sero-primary-500, #a5cfef);
 }

@@ -79,7 +79,7 @@
   flex: 0 0 auto;
   padding: 0.34rem 0.85rem;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   font: inherit;
   font-size: var(--type-body-sm);
   font-weight: 500;
@@ -125,8 +125,8 @@
 .session-topbar__stages .is-done {
   color: var(--color-ink-dim);
   cursor: pointer;
-  transition: background var(--dur-fast, 120ms) var(--ease-out, ease),
-    color var(--dur-fast, 120ms) var(--ease-out, ease);
+  transition: background var(--dur-fast) var(--ease-out-expo),
+    color var(--dur-fast) var(--ease-out-expo);
 }
 .session-topbar__stages .is-done:hover {
   background: var(--color-bg);
@@ -142,7 +142,7 @@
   flex: 0 0 auto;
   width: 24px;
   height: 2px;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   background: var(--color-border);
 }
 .session-topbar__stages .stage-rail.is-filled {
@@ -161,7 +161,7 @@
   padding: 4px 12px 4px 4px;
   background: #fff;
   border: 1px solid rgba(36, 68, 92, 0.14);
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
 }
 .session-topbar__profile[hidden] {
   display: none;

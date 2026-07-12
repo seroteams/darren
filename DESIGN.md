@@ -257,5 +257,12 @@ The "before you build" checklist — every new or touched screen passes all elev
 11. **Do** use **Lucide icons only**, via `admin/src/ui/icon.js`; **don't** hand-write an `<svg>`
     or reach for an emoji in the UI (see §5 "Icons").
 
-**One exemption:** dev/debug chrome (`ui/dev-badge.js`, `ui/build-stamp.js`) is deliberate
-terminal-style kit — dark, mono, its own palette. It sits outside these rules; don't "fix" it.
+**Exemptions** (these sit outside the eleven rules — don't "fix" them):
+- **Dev/debug chrome** (`ui/dev-badge.js`, `ui/build-stamp.js`) — deliberate terminal-style kit,
+  dark, mono, its own palette.
+- **The Universe screen** (`stages/universe.ts`, `stages/universe.model.ts`) — an admin-only,
+  just-for-fun 3D map on a full-bleed dark canvas; the WebGL/canvas renderer needs numeric rgb
+  strings, so its colour literals are intentional.
+- **The in-app design sheet** (`stages/design.js`) — the live twin of the component sheet at
+  `admin/public/sero-flowbite/`; it demonstrates the system (including small illustrative glyphs
+  in its mock cards), so it documents the rules rather than being bound by them.

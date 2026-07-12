@@ -12,7 +12,11 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ CLOSED 2026-07-11: mobile-ux — the whole product works on a phone (Carl walked it live: "looks ok").** Carl's phone walk found the flow unusable on mobile — keyboard opening on its own over the question, the focus page panning sideways, desktop spacing/type squeezed onto a phone, every step opening mid-scroll. Fixed in 5 commits (`7139440`→`fc0874c`, PR #11 merged, live on Render): keyboard only opens when tapped (both apps), the question stays visible above the keyboard, phone type scale + top-aligned pages, every screen/question/step restarts at the top. Proven with a $0 Playwright phone harness across 14 manager + 6 member + 15 internal screens: zero keyboard steal, zero sideways scroll. Matters directly for the corridor test — a manager can now run a 1:1 from their phone next to the person. Ad-hoc track, no plan folder; record lives in STATUS.md + this line.
+
 **✅ CLOSED 2026-07-11: [validation-kit](docs/plans/done/validation-kit/plan.md) — the build that proves managers come back (VALIDATION STAGE's corridor-test kit) — all 6 phases ✅, $0 total.** Everything needed to run the corridor test cleanly is built: see who came back unprompted, let testers succeed without Carl in the room, capture a one-tap verdict on every briefing. **P1–P3b ✅ 2026-07-10** (/tasks live per-phase checklist; User management answers "did they come back?" per manager; every live briefing asks "Would you run this 1:1 differently now?" — as ONE skippable Finish modal with the star rating folded in, typed cards in the Feedback inbox. Carl's real tap landed the same evening). **P4 ✅ 2026-07-11** (first-run guidance on intake — orientation card + honest notes example, gated on zero runs). **P5 ✅ 2026-07-11** (one vocabulary — 1:1 / prep brief / briefing / notes + glossary — and phone-fit; sign-off delegated). No nudge features anywhere — the pass bar is an *unprompted* return. **Carl's to run now:** name the 3 corridor managers, flip Render to paid, then start the corridor test. Folder → [done/](docs/plans/done/validation-kit/plan.md).
+
+**✅ CLOSED 2026-07-12: [focus-freshness](docs/plans/done/focus-freshness/plan.md) — repeat 1:1s stop suggesting the same topics. Both phases ✅, ~$0.50 total.** From the arc deep-dive: repeat bi-weeklies re-served workload/energy/priorities every time, reading like a form. The focus prompt now carries the last 3 preps' topics for the same manager+person (relational arcs never see competency history; unfinished preps count; results persist at generation; past never named in output). Proven live: thin note → fresh list; re-raise note → the flagged topic returns as a `signal` (freshness never silences a real signal). Golden gate `biweekly-priya` PASS, no FOCUS_ARC_LEAK. The first retention lever aimed straight at the validation metric — a manager who comes back to a 3rd check-in gets new ground, not a repeat.
 
 **✅ CLOSED 2026-07-11: [thread-follow](docs/plans/done/thread-follow/plan.md) — the engine follows the person's answer, not just its queue. Both phases ✅, ~$0.70 total.** The one systemic weak muscle from the 8–9 Jul night test (thread-following 55–65/100 on every run) fixed at the root: P1 pins a minted follow so the drill cap can't eat it; P2 found and fixed the reason follows never minted at all — the builder's canned stem was the exact phrase the question validator bans, so the mint always died at validation. Now the follow quotes the person's own words and probes the cause. Proven on the gate: `plan_thread_follow` 0.125 → 0.43, PASS, zero new leakage.
 
@@ -192,7 +196,7 @@ mirrors it:
 The QA pile is cleared and the three finished plans are archived. Still open here:
 briefing-grounding-fixes (Phases 2–4 not started) and briefing-readability P0 (scaffolded, parked).
 
-Tests: `npm test` **57/57** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
+Tests: `npm test` **127/127** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
 (not automated); `main` was **pushed to origin 2026-07-04** — local and origin are now in sync.
 
 ## 2. Next — after Now is green
@@ -254,7 +258,7 @@ origin** (local-only by Carl's call for the ultra batch — pushing remains a de
 old stashes were archived as `archive/*` tags + dropped 2026-06-29; the stash list is clean — keep it clean.
 `logs/**` is gitignored apart from a small May keep-set (de-identified — no real names or notes).
 
-**Test status:** `npm test` **57/57** green, `npm run typecheck` clean, offline ($0). Live
+**Test status:** `npm test` **127/127** green, `npm run typecheck` clean, offline ($0). Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 

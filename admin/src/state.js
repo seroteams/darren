@@ -4,6 +4,8 @@ export const STAGES = Object.freeze({
   WELCOME: "WELCOME",
   LOGIN: "LOGIN",
   REGISTER: "REGISTER",
+  FORGOT_PASSWORD: "FORGOT_PASSWORD",
+  RESET_PASSWORD: "RESET_PASSWORD",
   JOIN: "JOIN",
   PRIVACY: "PRIVACY",
   ABOUT: "ABOUT",
@@ -39,6 +41,7 @@ export const STAGES = Object.freeze({
   ADMIN_FEEDBACK: "ADMIN_FEEDBACK",
   ADMIN_GUEST_RUNS: "ADMIN_GUEST_RUNS",
   DESIGN: "DESIGN",
+  TEST: "TEST",
   ERROR: "ERROR",
 });
 
@@ -57,6 +60,7 @@ const initial = {
   myRunId: null,
   personKey: null,
   joinToken: null,
+  resetToken: null,
   adminUserId: null,
   adminUserName: null,
   currentQuestion: null,

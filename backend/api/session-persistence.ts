@@ -56,6 +56,7 @@ function serialize(s: Session): PersistedSession {
     agendaInjected: Boolean(s.agendaInjected),
     agendaCovered: s.agendaCovered ?? null,
     outcomeCheck: s.outcomeCheck ?? null, // loop-closure capture (no-inference ruling, spec §6)
+    promises: s.promises ?? null, // manager-confirmed agreements (Promises loop phase 1)
     mode: s.mode || "manual",
     runLabel: s.runLabel ?? null,
     fingerprint: s.fingerprint ?? null,

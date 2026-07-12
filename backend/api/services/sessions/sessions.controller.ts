@@ -156,6 +156,15 @@ export async function agendaCover(c: RequestContext): Promise<void> {
   c.json(200, service.agendaCover(id, body));
 }
 
+// POST /api/v1/sessions/:id/promises — the wrap-up confirm (Promises loop phase 1):
+// stores the manager-confirmed agreements on the run.
+export async function promises(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.promises(id, body));
+}
+
 // POST /api/v1/sessions/:id/verdict  ·  POST /api/verdict
 export async function verdict(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());

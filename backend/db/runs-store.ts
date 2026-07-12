@@ -38,8 +38,11 @@ import {
   personaTagOf,
   inferStage,
   notesSummary,
+  overviewFields,
   cloneRunState,
 } from "../engine/run-history.ts";
+import { historyRunMatches, historySessionFromState } from "../engine/focus-history.ts";
+import type { FocusHistorySession } from "../engine/focus-history.ts";
 import { createSession, monthFolderFor, LOGS_ROOT } from "../engine/session.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
@@ -215,11 +218,25 @@ export function toUserRunRow(r: DbRun): {
 }
 
 export function toMemberView(r: DbRun): Record<string, unknown> {
+  const transcript: unknown[] = Array.isArray(r.state.transcript) ? r.state.transcript : [];
   return {
     id: r.id,
     headline: buildHeadline(asRecord(r.state.ctx)),
     ctx: ctxOf(r.state),
     briefing: r.state.briefing ?? null,
+    // The raw Q&A behind the briefing (member Answers tab). Mirrors pgCompareRun's
+    // projection but WITHOUT the internal `note` — planner notes carry [SHALLOW]/[SKIP]
+    // markers that must never reach a manager.
+    turns: transcript.map((t) => {
+      const entry = asRecord(t);
+      const question = asRecord(entry.question);
+      return {
+        alias: question.alias ?? null,
+        name: question.name ?? null,
+        answer: entry.answer ?? null,
+        skipped: Boolean(entry.skipped),
+      };
+    }),
     lastSeenAt: asNumber(r.state.lastSeenAt),
     completedAt: r.state.completedAt ?? null,
     rating: ratingFromValue(r.rating),
@@ -403,6 +420,41 @@ export async function pgListFinishedRunsAboutPerson(
   return fenceAboutPersonRows(rows, orgId, personIds).map(toAboutPersonRow);
 }
 
+// Past focus points for the SAME manager + person (focus-freshness Phase 1).
+// SQL pre-narrows on the denormalized columns; the JS wall is the engine's own
+// historyRunMatches — a drifted column can hide a run, never leak one.
+export async function pgFocusHistory({
+  orgId,
+  userId,
+  personId,
+  limit = 3,
+  excludeId,
+}: {
+  orgId?: string | null;
+  userId?: string | null;
+  personId?: string | null;
+  limit?: number;
+  excludeId?: string | null;
+}): Promise<FocusHistorySession[]> {
+  if (!userId || !personId) return [];
+  // No `finished` narrow on purpose: unfinished preps count as history
+  // (Carl's call 2026-07-11 — the agenda was suggested either way), and the
+  // denormalized flag proved stale on real rows. The JS wall still fences.
+  const rows = fenceOrgRows(
+    await rowsWhere([
+      sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
+      sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
+      sqlSafeId(personId) ? eq(sessionsTable.personId, sqlSafeId(personId)!) : undefined,
+    ]),
+    orgId,
+  );
+  return rows
+    .filter((r) => r.id !== excludeId && historyRunMatches(r.state, { userId, personId }))
+    .map((r) => historySessionFromState(r.state))
+    .filter((s): s is FocusHistorySession => s !== null)
+    .slice(0, limit);
+}
+
 export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null; createdAt: number; lastSeenAt: number; stars: number | null }[]> {
   const rows = (await rowsWhere([eq(sessionsTable.finished, true)])).filter((r) => Boolean(r.state.briefing));
   return rows.map((r) => ({
@@ -482,6 +534,7 @@ export async function pgSummarizeRun(id: string, orgId?: string | null): Promise
     overview,
     notes: Array.isArray(row.state.notes) ? row.state.notes : [],
     stage: inferStage(row.state),
+    ...overviewFields(row.state),
   };
 }
 

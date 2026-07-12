@@ -209,8 +209,8 @@ body.has-app-nav.has-session-topbar {
   padding: 5px 12px 5px 5px;
   background: #fff;
   border: 1px solid rgba(36, 68, 92, 0.14);
-  border-radius: 999px;
-  box-shadow: var(--sero-shadow-1, 0 1px 3px rgba(15, 23, 42, 0.08));
+  border-radius: var(--sero-radius-full);
+  box-shadow: var(--sero-shadow-sm);
 }
 .profile-badge[hidden] {
   display: none;

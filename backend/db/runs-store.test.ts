@@ -12,6 +12,7 @@ import {
   fenceUserRows,
   fenceAboutPersonRows,
   toMemberRow,
+  toMemberView,
   toFinishedRow,
   type DbRun,
 } from "./runs-store.ts";
@@ -126,6 +127,29 @@ test("finished row carries the run's cost off the saved briefing, null when it p
   assert.deepEqual(priced.cost, { usd: 0.38, calls: 9 });
   const old = toFinishedRow(run({}));
   assert.equal(old.cost, null, "no cost block -> null, never a fake $0.00");
+});
+
+test("member view projects the transcript to turns — question, answer, skipped — and drops the internal note", () => {
+  const view = toMemberView(
+    run({
+      state: {
+        transcript: [
+          { turn: 1, question: { alias: "q_one", name: "How's the workload?" }, answer: "Stretched thin", skipped: false, note: "[SHALLOW] internal planner note" },
+          { turn: 2, question: { alias: "q_two", name: "Anything at home?" }, answer: "(skipped)", skipped: true, note: null },
+        ],
+      },
+    }),
+  );
+  assert.deepEqual(view.turns, [
+    { alias: "q_one", name: "How's the workload?", answer: "Stretched thin", skipped: false },
+    { alias: "q_two", name: "Anything at home?", answer: "(skipped)", skipped: true },
+  ]);
+  assert.ok(!JSON.stringify(view.turns).includes("internal planner note"), "the internal planner note never reaches the member");
+});
+
+test("member view returns turns: [] when the run captured no answers", () => {
+  assert.deepEqual(toMemberView(run({ state: { transcript: [] } })).turns, []);
+  assert.deepEqual(toMemberView(run({})).turns, [], "absent transcript → [] not undefined");
 });
 
 test("finished row carries the bare stars number — never the manager's note", () => {

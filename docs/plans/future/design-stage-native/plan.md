@@ -1,5 +1,15 @@
 # Design system → native in-shell stage
 
+> ### ⏸ PARKED to future/ — 2026-07-12 (clean-up sweep)
+> Dormant since 2026-07-10 while three newer tracks took over; moved out of `doing/` so the
+> active lane reflects what's really moving. **NOT abandoned and NOT archive-safe — real built
+> work is waiting on Carl:**
+> - **Phase 1 is BUILT** (all 24 sections, `/design` renders in-shell) but **awaits Carl's QA walk** —
+>   visual look (spacing, colour, phone width) was never signed off.
+> - **Phase 5 is blocked** on Carl's parity sign-off before the old static page
+>   `admin/public/sero-flowbite/index.html` can be retired.
+> Un-park: move back to `doing/`, do the QA walk, then close P5. Nothing here is lost.
+
 **Goal:** The admin Design system opens *inside* the app shell — main left rail stays visible, its own sidebar becomes a second-level rail beside it — rebuilt natively in the app's own CSS (no CDN, no iframe).
 **Driver:** Carl
 **Created:** 2026-07-10

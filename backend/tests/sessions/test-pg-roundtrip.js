@@ -49,6 +49,11 @@ const introQueue = [
   session.transcript = [{ turn: 1, question: { alias: "q_one", name: "Q one?" }, answer: "first answer" }];
   session.turn = 1;
   session.outcomeCheck = "partly";
+  // Promises loop phase 1: manager-confirmed agreements must survive the roundtrip.
+  session.promises = [
+    { id: "p1", owner: "manager", action: "Book the onboarding buddy", when: "this week", outcome: null, at: 1720000000000 },
+    { id: "p2", owner: "report", action: "Track where the hours go", when: "before next 1:1", outcome: null, at: 1720000000000 },
+  ];
 
   try {
     // Write to Postgres, then simulate a restart: drop every trace from memory.
@@ -69,6 +74,13 @@ const introQueue = [
     check("next question in the queue survived", () => assert.strictEqual(restored.queueRef[0].alias, "q_two"));
     check("bank-ready flag survived", () => assert.strictEqual(restored.bankReady, true));
     check("outcomeCheck survived (loop-closure capture, spec sec.6)", () => assert.strictEqual(restored.outcomeCheck, "partly"));
+    check("promises survived (promises loop phase 1)", () => {
+      assert.ok(Array.isArray(restored.promises), "promises should be an array");
+      assert.strictEqual(restored.promises.length, 2);
+      assert.strictEqual(restored.promises[0].owner, "manager");
+      assert.strictEqual(restored.promises[0].action, "Book the onboarding buddy");
+      assert.strictEqual(restored.promises[1].outcome, null);
+    });
     check("axis state is present (jsonb survived)", () => assert.ok(restored.axisState && typeof restored.axisState === "object"));
     check("ephemeral Maps are rebuilt on restore", () => {
       assert.ok(restored.lastPlanByTurn instanceof Map);

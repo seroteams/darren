@@ -17,7 +17,6 @@
   background: var(--color-surface, #fff);
   border: 1px solid var(--color-border, #e8e8e8);
   border-radius: var(--radius-card, 12px);
-  box-shadow: var(--shadow-card, 0 1px 3px rgba(16, 24, 40, 0.06));
   transition: background-color 0.12s ease;
 }
 .fb-item:hover { background: var(--sero-active-state-bg, #eef6fd); }
@@ -114,7 +113,7 @@
 .fb-pill {
   display: inline-block;
   padding: 1px 10px;
-  border-radius: var(--sero-radius-badge, 999px);
+  border-radius: var(--sero-radius-badge, var(--sero-radius-full));
   font-size: var(--type-caption, 14px);
   color: var(--color-ink-dim, #5f5f5f);
   background: var(--sero-soft-300, #f4f4f4);
@@ -126,7 +125,7 @@
 .fb-verdict {
   display: inline-block;
   padding: 1px 10px;
-  border-radius: var(--sero-radius-badge, 999px);
+  border-radius: var(--sero-radius-badge, var(--sero-radius-full));
   font-size: var(--type-caption, 14px);
   font-weight: var(--type-weight-medium, 500);
   white-space: nowrap;
@@ -142,7 +141,7 @@
   gap: 4px;
   margin-left: 8px;
   padding: 1px 10px;
-  border-radius: var(--sero-radius-badge, 999px);
+  border-radius: var(--sero-radius-badge, var(--sero-radius-full));
   font-size: var(--type-caption, 14px);
   color: var(--color-ink-dim, #5f5f5f);
   background: var(--sero-soft-300, #f4f4f4);
@@ -150,8 +149,8 @@
   vertical-align: middle;
 }
 .fb-type--verdict {
-  background: var(--sero-primary-200, #e3effc);
-  color: var(--sero-primary-800, #1e4f8f);
+  background: var(--sero-primary-200, #e9f3fb);
+  color: var(--sero-primary-800, #1b5d91);
 }
 
 /* Delete: a quiet trash icon, calm until hover — red only on hover so the page reads calm. */

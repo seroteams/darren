@@ -115,7 +115,7 @@
 }
 .skeleton__bar {
   height: 0.75rem;
-  border-radius: 999px;
+  border-radius: var(--sero-radius-full);
   background-color: var(--color-border);
   background-image: linear-gradient(100deg,
     transparent 20%,

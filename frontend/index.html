@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#f7f9fc" />
+    <!-- interactive-widget: the on-screen keyboard shrinks the page instead of
+         covering it, so the focused field + its question can scroll into view
+         (Android Chrome; iOS ignores the hint). -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="theme-color" content="#f5fafd" />
     <title>Sero — 1:1 prep</title>
   </head>
   <body class="h-full bg-bg text-ink">

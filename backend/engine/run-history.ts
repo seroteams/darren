@@ -401,6 +401,8 @@ function memberRunView(id: string, orgId: string | null | undefined, userId: str
   if (!runOwnedByUser(state, userId)) return null;
   const s = asRecord(state);
   const ctx = asRecord(s.ctx);
+  const transcriptRaw = readJsonAt(dir, "transcript.json");
+  const transcript: unknown[] = Array.isArray(transcriptRaw) ? transcriptRaw : [];
   return {
     id,
     headline: buildHeadline(ctx),
@@ -411,6 +413,19 @@ function memberRunView(id: string, orgId: string | null | undefined, userId: str
       meetingType: asString(ctx.meetingType),
     },
     briefing: s.briefing ?? null,
+    // The raw Q&A behind the briefing (member Answers tab). Mirrors compareRun's
+    // projection but WITHOUT the internal `note` — planner notes carry [SHALLOW]/[SKIP]
+    // markers that must never reach a manager. Kept in parity with toMemberView (PG).
+    turns: transcript.map((t) => {
+      const entry = asRecord(t);
+      const question = asRecord(entry.question);
+      return {
+        alias: question.alias ?? null,
+        name: question.name ?? null,
+        answer: entry.answer ?? null,
+        skipped: Boolean(entry.skipped),
+      };
+    }),
     lastSeenAt: asNumber(s.lastSeenAt),
     completedAt: s.completedAt ?? null,
     rating: ratingOf(dir),
@@ -492,6 +507,39 @@ function notesSummary(notes: unknown): string {
   return `${notes.length} notes captured. First: "${first}"`;
 }
 
+// Manager-facing role line: seniority + role, but don't repeat the seniority word
+// when the role already leads with it ("Senior" + "Senior Nurse" -> "Senior Nurse",
+// not "Senior Senior Nurse"). Case-insensitive, whole-word (trailing space) match.
+function roleLineOf(seniorityRaw: unknown, roleRaw: unknown): string {
+  const seniority = asString(seniorityRaw).trim();
+  const role = asString(roleRaw).trim();
+  if (!seniority) return role;
+  if (!role) return seniority;
+  const r = role.toLowerCase();
+  const s = seniority.toLowerCase();
+  if (r === s || r.startsWith(s + " ")) return role;
+  return `${seniority} ${role}`;
+}
+
+// The manager-friendly bits of a session overview: who the 1:1 is with, the meeting
+// type, the manager's own INTAKE note (ctx.notes — what they said was on their mind,
+// NOT the in-meeting notes), and how far questioning got. Assembled once and spread
+// into BOTH the file and DB summarize paths so the two can't drift (the pg-parity
+// test guards that). Kept free of engine/version wording — the card is manager-facing.
+function overviewFields(stateRaw: unknown) {
+  const state = asRecord(stateRaw);
+  const ctx = asRecord(state.ctx);
+  const answered = Array.isArray(state.transcript) ? state.transcript.length : asNumber(state.turn);
+  const total = asNumber(state.totalBudget);
+  return {
+    person: asString(ctx.name),
+    roleLine: roleLineOf(ctx.seniority, ctx.role),
+    meetingType: asString(ctx.meetingType),
+    intakeNote: truncate(asString(ctx.notes), 160),
+    progress: total > 0 ? { answered, total } : null,
+  };
+}
+
 function summarizeRun(id: string, orgId?: string | null) {
   const dir = findRunDir(id, orgId);
   if (!dir) return null;
@@ -508,6 +556,7 @@ function summarizeRun(id: string, orgId?: string | null) {
     overview,
     notes: Array.isArray(state.notes) ? state.notes : [],
     stage: inferStage(state),
+    ...overviewFields(state),
   };
 }
 
@@ -747,5 +796,6 @@ export {
   personaTagOf,
   inferStage,
   notesSummary,
+  overviewFields,
   REVIEW_DIM_KEYS,
 };

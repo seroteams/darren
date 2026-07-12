@@ -1,7 +1,8 @@
 import { STAGES, isInternalAdmin } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
-import { postVerdict, getMyRun, submitRunVerdict } from "../../../shared/api.js";
+import { postVerdict, getMyRun, submitRunVerdict, savePromises } from "../../../shared/api.js";
+import { draftsFromNextActions, renderPromiseConfirm } from "../ui/promise-confirm.ts";
 import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
 import { markRunForClaim } from "../guest.ts";
 import { escapeCopy as escape } from "../ui/html.js";
@@ -332,7 +333,27 @@ export async function mount(root, { store, setState, resetSession }) {
 
   // --- 6) Next actions, grouped by `when`
   const actions = b.next_actions || [];
-  if (actions.length) {
+  // Promises loop phase 1: on a live logged-in run the section becomes the wrap-up
+  // CONFIRM card — the engine suggested these, the manager locks in what's real
+  // (owners included). Q9's ghost "Finish" path sets promisesConfirmSkip, and a
+  // re-visit after locking (promisesConfirmed) falls back to the read-only list.
+  // Guests and the scripted QA lane keep the read-only list untouched.
+  const confirmable = Boolean(actions.length && store.user && store.sessionId
+    && !store.scripted && !store.promisesConfirmSkip && !store.promisesConfirmed);
+  if (confirmable) {
+    await pause(fastPath ? 0 : 400);
+    const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
+    actionsEyebrow.textContent = "Lock in what you two agreed";
+    actionsEyebrow.classList.add("is-in");
+    renderPromiseConfirm(root.querySelector(".actions-host"), {
+      drafts: draftsFromNextActions(actions),
+      reportName: store.ctx?.name || "them",
+      onLock: async (promises) => {
+        await savePromises(store.sessionId, promises);
+        store.promisesConfirmed = true;
+      },
+    });
+  } else if (actions.length) {
     await pause(fastPath ? 0 : 400);
     const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
     if (fastPath) actionsEyebrow.classList.add("is-in");

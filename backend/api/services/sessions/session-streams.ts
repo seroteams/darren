@@ -10,6 +10,7 @@ import path from "node:path";
 import type { RequestContext } from "../../router.ts";
 import { service, IS_DEV, sessionId, callerFence } from "./session-runtime.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
+import { focusHistoryFor } from "../../../engine/focus-history.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
 import { generateSuggestions, shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener, pinPrepOpenerEarly } from "../../../engine/question-generator.ts";
@@ -51,8 +52,20 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
   await runStage(c, session, "focus-points", {
     thinkingLabel: "Choosing focus points",
     getCached: () => session.focusPointsResult,
-    setCached: (r) => { session.focusPointsResult = r; },
-    produce: () => generateFocusPoints(session.ctx, { session: { id: session.id, dir: session.dir } }),
+    setCached: (r) => {
+      session.focusPointsResult = r;
+      // Persist immediately — suggested topics count as focus history even if
+      // the manager stops at the focus screen (Carl's call 2026-07-11).
+      service.persist(session);
+    },
+    produce: async () =>
+      generateFocusPoints(
+        {
+          ...session.ctx,
+          focusHistory: await focusHistoryFor({ orgId: session.orgId, userId: session.userId, personId: session.personId, excludeId: session.id }),
+        },
+        { session: { id: session.id, dir: session.dir } }
+      ),
     resultEvent: "result",
     buildPayload: (r) => ({ meeting_type: r.meeting_type, focus_points: r.focus_points }),
   });
