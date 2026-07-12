@@ -1,8 +1,24 @@
 # Handover — rename `darren` → `serolocal`
 
 **Status:** prep complete + committed. Only the manual rename run remains.
-**Owner action needed:** run one script with all sessions closed (see step 1 below).
+**Scheduled:** Carl is running this **tonight (2026-07-08)** — end of day, once all sessions are closed.
 **Date opened:** 2026-07-08
+
+---
+
+## ⭐ Tonight — do this, in order
+
+```
+1. Finish / stop all other work in the folder.
+2. Close EVERYTHING: every Claude session, editor, and terminal open in the darren folder.
+3. Fresh PowerShell window, run:
+   powershell -ExecutionPolicy Bypass -File C:\Users\User\Documents\Sero\rename-to-serolocal.ps1
+4. Reopen Claude with working dir:  C:\Users\User\Documents\Sero\serolocal
+5. Say "finish the rename"  → the new session does the optional GitHub repo step.
+```
+
+If step 3 errors "RENAME FAILED", something is still open in the folder — close it and re-run.
+Nothing is changed until the folder actually moves, so a failed run is safe to retry.
 
 ---
 
@@ -46,18 +62,8 @@ Plus one **local-only, gitignored** file (never commit it):
 
 ## ⬜ What remains — the manual rename (≈ 2 minutes)
 
-The folder can't be renamed while any process has it open, so this is a human step, not an agent step.
-
-```
-1. Close EVERYTHING in the darren folder — all Claude sessions, editors, terminals.
-
-2. Run in a fresh PowerShell window:
-   powershell -ExecutionPolicy Bypass -File C:\Users\User\Documents\Sero\rename-to-serolocal.ps1
-
-3. Reopen Claude with working dir:  C:\Users\User\Documents\Sero\serolocal
-
-4. Say "finish the rename"  → that session does the optional GitHub repo step.
-```
+The steps are in the **⭐ Tonight** block at the top. It's a human step (not an agent step) because
+the folder can't be renamed while any process has it open.
 
 **The script** (`Sero\rename-to-serolocal.ps1`, lives outside the repo so it survives the rename) does,
 in order, each step guarded so nothing ends up half-done:
