@@ -54,6 +54,9 @@ export async function mount(root, opts = {}) {
         <div class="text-ink-dim max-w-measure">
           The demo people Sero practises on. Press <strong>Run</strong> on anyone to put the whole engine through its paces with their scripted answers, then review the result.
         </div>
+        <div class="text-ink-dim max-w-measure">
+          Also here: <a class="link" href="/admin-ui-2/index.html" target="_blank" rel="noopener">Admin UI 2</a> — a design experiment rebuilding this admin on Radix Themes (demo data, opens in a new tab).
+        </div>
       </header>
       <div class="safety-strip-host"></div>
       <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading personas…</div>

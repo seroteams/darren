@@ -24,7 +24,7 @@ export function AdminPage() {
     <Box minHeight="100dvh" style={{ background: "var(--gray-2)" }}>
       <Container size="3" px="4" py="6">
         <Flex align="center" gap="3" mb="6" wrap="wrap">
-          <img src="/brandmark.svg" alt="Sero" width={30} height={30} />
+          <img src={`${import.meta.env.BASE_URL}brandmark.svg`} alt="Sero" width={30} height={30} />
           <Heading size="6" weight="medium">Admin</Heading>
           <Badge size="2" radius="full" variant="soft" color="violet">ui 2 · demo data</Badge>
           <Box flexGrow="1" />

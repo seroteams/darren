@@ -19,3 +19,13 @@ npm run build
 
 The one pure-logic helper (`src/time-ago.ts`) has a co-located `node:test` suite,
 picked up by the repo-wide `npm test`.
+
+## Reaching it from the main admin
+
+A built snapshot lives at `admin/public/admin-ui-2/`, so the main app serves it at
+`/admin-ui-2/index.html` — linked from the Test engine page. After changing this
+app, refresh the snapshot:
+
+```bash
+npm run build && rm -rf ../admin/public/admin-ui-2 && cp -r dist ../admin/public/admin-ui-2
+```
