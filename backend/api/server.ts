@@ -26,8 +26,8 @@ import * as auth from "./services/auth/auth.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { originOk } from "./middleware/origin.ts";
-import { requireAdminRoute } from "./middleware/admin-guard.ts";
 import { requireSuperadminRoute } from "./middleware/superadmin-guard.ts";
+import { requireInternalToolRoute, blockOnLive } from "./middleware/internal-tool-guard.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
@@ -111,11 +111,14 @@ function warnIfNoKey(): void {
 }
 
 
-// Admin tooling requires a logged-in owner/admin (admin-access-guard Phase 2). adminV1
-// keeps the one v1 error shape; adminRaw wraps the library stream, which manages its
-// own response. (Runs endpoints gate themselves in the controller via requireAdmin.)
-const adminV1 = (h: RouteHandler): RouteHandler => v1Route(requireAdminRoute(h));
-const adminRaw = (h: RouteHandler): RouteHandler => requireAdminRoute(h);
+// Internal tooling (admin-live-deploy Phase 1; was adminV1/adminRaw from admin-access-guard
+// Phase 2): a logged-in manager/admin locally, superadmin-only when the app runs as LIVE —
+// these routes edit the GLOBAL engine config (arcs, role words, lexicon promotions) or expose
+// repo internals (heartbeat, library), so live customers must never reach them. internalV1
+// keeps the one v1 error shape; internalRaw wraps the library stream, which manages its own
+// response. (Runs endpoints gate themselves in the controller via requireAdmin.)
+const internalV1 = (h: RouteHandler): RouteHandler => v1Route(requireInternalToolRoute(h));
+const internalRaw = (h: RouteHandler): RouteHandler => requireInternalToolRoute(h);
 
 // Superadmin tooling (pre-go-live PG6) — cross-company, gated to the SUPERADMIN_EMAILS
 // allowlist. Every /api/v1/admin/* route funnels through requireSuperadminRoute, so a route
@@ -257,12 +260,12 @@ async function main(): Promise<void> {
   // arcs (controller → service → repo). v1 uses the one error shape and throws
   // forbidden on bad origin.
   // v1 mirrors today's verb/path (POST save); the contract's PATCH is deferred polish.
-  router.add("GET", "/api/v1/arcs", adminV1(arcs.list));
-  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, adminV1((c) => {
+  router.add("GET", "/api/v1/arcs", internalV1(arcs.list));
+  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return arcs.reset(c);
   }));
-  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)$/, adminV1((c) => {
+  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)$/, internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return arcs.save(c);
   }));
@@ -293,32 +296,37 @@ async function main(): Promise<void> {
   // it under the session resource (/sessions/:id/role-profile).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/role-profile$/, v1Route(sessions.roleProfile));
   // role-lexicons (controller → service → repo). v1 uses the one error shape.
-  router.add("GET", "/api/v1/role-lexicons", adminV1(roleLexicons.list));
-  router.add("POST", "/api/v1/role-lexicons/term", adminV1((c) => {
+  router.add("GET", "/api/v1/role-lexicons", internalV1(roleLexicons.list));
+  router.add("POST", "/api/v1/role-lexicons/term", internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return roleLexicons.addTerm(c);
   }));
-  router.add("POST", "/api/v1/role-lexicons/term/remove", adminV1((c) => {
+  router.add("POST", "/api/v1/role-lexicons/term/remove", internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return roleLexicons.removeTerm(c);
   }));
-  router.add("POST", "/api/v1/role-lexicons/term/hide", adminV1((c) => {
+  router.add("POST", "/api/v1/role-lexicons/term/hide", internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return roleLexicons.hideTerm(c);
   }));
-  router.add("POST", "/api/v1/role-lexicons/term/unhide", adminV1((c) => {
+  router.add("POST", "/api/v1/role-lexicons/term/unhide", internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return roleLexicons.unhideTerm(c);
   }));
-  router.add("GET", "/api/v1/regression/run", adminV1(regression.run));
+  router.add("GET", "/api/v1/regression/run", internalV1(regression.run));
   // persona-runs — start a scripted full-engine run (paid; the click is the
   // go-ahead) + poll its progress. One at a time, enforced in the service.
-  router.add("POST", "/api/v1/persona-runs", adminV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return personaRuns.start(c);
-  }));
-  router.add("GET", "/api/v1/persona-runs/current", adminV1(personaRuns.current));
-  router.add("POST", "/api/v1/checks/run", adminV1((c) => {
+  // On LIVE the start is blocked for everyone (blockOnLive): it spends OpenAI money
+  // and writes test runs into the live database.
+  router.add("POST", "/api/v1/persona-runs", internalV1(blockOnLive(
+    "Test engine is off on the live site — run persona tests locally.",
+    (c) => {
+      if (!originOk(c.req)) throw forbidden("Bad origin");
+      return personaRuns.start(c);
+    },
+  )));
+  router.add("GET", "/api/v1/persona-runs/current", internalV1(personaRuns.current));
+  router.add("POST", "/api/v1/checks/run", internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return checks(c);
   }));
@@ -355,16 +363,16 @@ async function main(): Promise<void> {
   // injected AI boundary; the one runs route that calls the model). v1 mirrors
   // today's path (runId stays in the body; the contract's id-in-path
   // /runs/:id/suggest-fix is deferred polish).
-  router.add("POST", "/api/v1/suggest-fix", adminV1((c) => {
+  router.add("POST", "/api/v1/suggest-fix", internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return suggestFix.suggest(c);
   }));
   // heartbeat — the "what does the app look like right now" snapshot the Guide
   // renders and diffs (page-heartbeat Phase 1). Reads the repo fresh per request.
   // v1-only: new endpoint, no legacy clients.
-  router.add("GET", "/api/v1/heartbeat", adminV1(heartbeat.snapshot));
+  router.add("GET", "/api/v1/heartbeat", internalV1(heartbeat.snapshot));
 
-  router.add("GET", "/api/v1/pipeline/status", adminV1(pipeline.status));
+  router.add("GET", "/api/v1/pipeline/status", internalV1(pipeline.status));
   // runs — finished-run history + Run Review (controller → service → repo). v1
   // mirrors today's paths under /api/v1/ (the contract's bare /:id and ?status=
   // merge are deferred REST polish). Mutating routes throw forbidden.
@@ -465,7 +473,7 @@ async function main(): Promise<void> {
     return runs.archive(c);
   }));
   // library serves files (not JSON), so it manages its own responses — no v1Route.
-  router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, adminRaw(library));
+  router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, internalRaw(library));
   // lexicon/candidates is an AI JSON read (S3) — now on the sessions controller
   // (the per-session lexicon reviewer, model behind an injected boundary). With this
   // the last route leaves handlers/lexicon.ts. v1 nests it under the session resource.
@@ -482,8 +490,8 @@ async function main(): Promise<void> {
   // lexicon promotion (controller → service → repo). v1 nounifies the collection
   // (/promotions — a free, shape-neutral rename). Per-session lexicon stays in
   // handlers/lexicon.ts.
-  router.add("GET", "/api/v1/lexicon/promotions/pending", adminV1(lexiconPromote.pending));
-  router.add("POST", "/api/v1/lexicon/promotions", adminV1((c) => {
+  router.add("GET", "/api/v1/lexicon/promotions/pending", internalV1(lexiconPromote.pending));
+  router.add("POST", "/api/v1/lexicon/promotions", internalV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return lexiconPromote.apply(c);
   }));

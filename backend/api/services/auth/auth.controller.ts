@@ -10,7 +10,9 @@ import { createAuthService, createPasswordResetService } from "./auth.service.ts
 import type { PasswordHasher } from "./auth.service.ts";
 import { pgAuthRepo, pgAuthSessionRepo, pgPasswordResetRepo } from "./auth.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
+import type { IdentityLookup } from "../../middleware/request-context.ts";
 import { requireAuth, isSuperadminIdentity } from "../../middleware/require-auth.ts";
+import { resolveAppEnv } from "../../../db/env-guard.ts";
 import { sessionCookie, clearedSessionCookie, readCookie, SESSION_COOKIE } from "../../middleware/cookies.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
 import { notifyAdminOfNewRegistration, notifyPasswordReset } from "../notifications/notifications.service.ts";
@@ -79,12 +81,16 @@ export async function logout(c: RequestContext): Promise<void> {
 
 // GET /api/v1/auth/me — protected. Turns logged-out visitors away (401); returns the
 // caller's identity when logged in. The Phase 3 proof that the guard works.
-export async function me(c: RequestContext): Promise<void> {
-  const identity = await buildIdentity(c.req);
+// The lookup is injectable (defaults to Postgres via buildIdentity) so it's unit-testable
+// without a database — same pattern as the route guards.
+export async function me(c: RequestContext, lookup?: IdentityLookup): Promise<void> {
+  const identity = await buildIdentity(c.req, lookup);
   requireAuth(identity);
   // isSuperadmin is a server-computed BOOLEAN (the allowlist itself never leaves the
   // server) — the client uses it only to show/hide the nav item. It is NOT a security
   // boundary: every /api/v1/admin/* route still enforces requireSuperadmin (403) itself.
+  // appEnv is server truth ("live" on Render, "local" in dev) — the app uses it to trim
+  // internal-only nav on the live site (admin-live-deploy); also cosmetic, not a boundary.
   c.json(200, {
     userId: identity.userId,
     orgId: identity.orgId,
@@ -92,6 +98,7 @@ export async function me(c: RequestContext): Promise<void> {
     email: identity.email,
     name: identity.name,
     isSuperadmin: isSuperadminIdentity(identity),
+    appEnv: resolveAppEnv(),
   });
 }
 
