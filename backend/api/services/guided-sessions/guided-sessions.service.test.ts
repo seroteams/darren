@@ -80,6 +80,17 @@ function fakePeople(owned: Record<string, { id: string; name: string }>): Guided
   };
 }
 
+function fakeTrackerGateway() {
+  return {
+    async applyOutcome() {
+      return {};
+    },
+    async listForPerson() {
+      return { promises: [], requests: [], goals: [] };
+    },
+  };
+}
+
 const AISHA = { "p1:org-1:mgr-1": { id: "p1", name: "Aisha" } };
 
 test("create fences the person to the caller (foreign person → not found)", async () => {
@@ -167,6 +178,9 @@ test("complete applies the Catch-up promise outcomes to the tracker rows (Phase 
       applied.push({ id, outcome });
       return {};
     },
+    async listForPerson() {
+      return { promises: [], requests: [], goals: [] };
+    },
   };
   const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), fakeTrackers);
   const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
@@ -237,4 +251,54 @@ test("listBlockScores is person-fenced and returns the history", async () => {
   assert.equal(scores[0]?.block, "fun");
   assert.equal(scores[0]?.score, 6);
   await assert.rejects(() => svc.listBlockScores("p1", CALLER.orgId, "mgr-OTHER"), /not found/i);
+});
+
+test("wrapupDraft calls the AI boundary and returns the draft (Phase 5)", async () => {
+  let called = 0;
+  const fakeWrapup = async () => {
+    called++;
+    return {
+      summary: { headline: "Good month", bullets: ["Development up 5→7"] },
+      suggestions: { individual: ["give a stretch task"], team: [], company: [] },
+      runId: "r1",
+    };
+  };
+  const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), fakeTrackerGateway(), fakeBlockScores(), fakeWrapup);
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  const res = await svc.wrapupDraft(gs.id, CALLER.orgId, CALLER.managerId);
+  assert.equal(called, 1);
+  assert.equal(res.cached, false);
+  assert.equal(res.summary?.headline, "Good month");
+  assert.equal(res.suggestions?.individual[0], "give a stretch task");
+});
+
+test("wrapupDraft caches (no double spend) and regenerate bypasses it", async () => {
+  let called = 0;
+  const fakeWrapup = async () => {
+    called++;
+    return { summary: { headline: "Fresh", bullets: [] }, suggestions: { individual: [], team: [], company: [] }, runId: "r" };
+  };
+  const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), fakeTrackerGateway(), fakeBlockScores(), fakeWrapup);
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  // the client persists a draft into state → the next visit must NOT re-spend
+  await svc.patch(gs.id, CALLER.orgId, CALLER.managerId, {
+    state: { v: 1, arc: "monthly_check_in", step: 5, visited: [0], summary: { draft: { headline: "Cached", bullets: ["x"] } } },
+  });
+  const cached = await svc.wrapupDraft(gs.id, CALLER.orgId, CALLER.managerId);
+  assert.equal(called, 0);
+  assert.equal(cached.cached, true);
+  assert.equal(cached.summary?.headline, "Cached");
+  const regen = await svc.wrapupDraft(gs.id, CALLER.orgId, CALLER.managerId, { regenerate: true });
+  assert.equal(called, 1);
+  assert.equal(regen.cached, false);
+  assert.equal(regen.summary?.headline, "Fresh");
+});
+
+test("wrapupDraft surfaces an honest failure (no hidden rewrite)", async () => {
+  const fakeWrapup = async () => ({ summary: null, suggestions: null, error: "couldn't draft this", runId: "r" });
+  const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA), fakeTrackerGateway(), fakeBlockScores(), fakeWrapup);
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  const res = await svc.wrapupDraft(gs.id, CALLER.orgId, CALLER.managerId);
+  assert.equal(res.summary, null);
+  assert.equal(res.error, "couldn't draft this");
 });

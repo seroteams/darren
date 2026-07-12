@@ -16,6 +16,7 @@ import {
   updateTrackerItem,
   getBlockScores,
   listGuidedSessionsForPerson,
+  guidedWrapupDraft,
 } from "../../../../shared/api.js";
 import { arcBySlug } from "./guided-arcs.ts";
 import {
@@ -203,6 +204,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     dirty = true;
     render();
     flushNow(); // persist the new position promptly
+    void maybeDraftWrapup(); // fires the AI draft if we've just landed on Summary
     root.scrollIntoView({ block: "start" });
   }
 
@@ -219,6 +221,36 @@ export const mount: Mount = async (root, { store, setState }) => {
         error: (e as Error)?.message || "Couldn't finish the check-in.",
         retryStage: STAGES.GUIDED,
       });
+    }
+  }
+
+  // The ONE AI call — fires when the manager reaches Summary and there's no draft yet (or on a
+  // manual Regenerate). Cached server-side, so re-entering Summary never re-spends. A failure is
+  // surfaced honestly (state.summary.error → "couldn't draft this"), never a hidden rewrite.
+  let draftingWrapup = false;
+  async function maybeDraftWrapup(force = false): Promise<void> {
+    if (completed || stages[state.step] !== "summary" || draftingWrapup) return;
+    if (!force && (state.summary?.draft || state.summary?.error)) return;
+    draftingWrapup = true;
+    render(); // show "Drafting your summary…"
+    try {
+      const res = (await guidedWrapupDraft(id, force ? { regenerate: true } : {})) as {
+        summary: { headline: string; bullets: string[] } | null;
+        suggestions: { individual: string[]; team: string[]; company: string[] } | null;
+        error?: string;
+      };
+      if (res.error || !res.summary) {
+        state.summary = { ...state.summary, draft: undefined, error: res.error || "couldn't draft this" };
+      } else {
+        state.summary = { ...state.summary, draft: res.summary, error: undefined };
+        if (res.suggestions) state.wrapup = { ...state.wrapup, suggestions: res.suggestions };
+      }
+      scheduleSave();
+    } catch {
+      state.summary = { ...state.summary, error: "couldn't draft this" };
+    } finally {
+      draftingWrapup = false;
+      render();
     }
   }
 
@@ -358,6 +390,7 @@ export const mount: Mount = async (root, { store, setState }) => {
 
   function wireContent(): void {
     root.querySelector<HTMLElement>("[data-next]")?.addEventListener("click", () => go(state.step + 1));
+    root.querySelector<HTMLElement>("[data-regen]")?.addEventListener("click", () => void maybeDraftWrapup(true));
     root.querySelector<HTMLElement>("[data-fbnext]")?.addEventListener("click", () => {
       const cur = state.feedback?.fbStep ?? 0;
       state.feedback = { ...state.feedback, fbStep: Math.min(cur + 1, FEEDBACK.length - 1) };
@@ -430,4 +463,5 @@ export const mount: Mount = async (root, { store, setState }) => {
   }
 
   render();
+  void maybeDraftWrapup(); // if the session resumed on the Summary stage
 };

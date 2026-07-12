@@ -393,6 +393,12 @@ export async function patchGuidedSession(id, { stage, state } = {}) {
 export async function completeGuidedSession(id) {
   return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/complete`, {});
 }
+// The ONE AI call (Phase 5) — drafts Summary + private suggestions. Cached server-side unless
+// { regenerate: true }. → { summary:{headline,bullets}|null, suggestions:{...}|null, error?, cached }.
+export async function guidedWrapupDraft(id, { regenerate } = {}) {
+  const q = regenerate ? "?regenerate=1" : "";
+  return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/wrapup-draft${q}`, {});
+}
 
 // Trackers (monthly-checkin Phase 2) — promises/requests/goals per person. list → grouped
 // { promises, requests, goals }; create → { item }; update → { item }. Internal admin only.

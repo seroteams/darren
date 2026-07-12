@@ -209,17 +209,29 @@ const feedback: StageRenderer = (state, copy) => {
 
 const summary: StageRenderer = (state, copy) => {
   const { title, sub } = stageCopy("summary", copy);
+  const draft = state.summary?.draft;
+  const error = state.summary?.error;
+  let card: string;
+  let note = "";
+  if (error) {
+    card = `<div class="mcr-card mcr-sum"><p>Sero couldn't draft this one — write it yourself below, or tap Regenerate.</p></div>`;
+  } else if (draft && (draft.headline || draft.bullets.length)) {
+    note = `<p class="mcr-ainote"><span class="mcr-q__logo">S</span> Drafted by Sero from this session + your last check-in — edit freely.</p>`;
+    card = `<div class="mcr-card mcr-sum">${draft.headline ? `<h3>${esc(draft.headline)}</h3>` : ""}${draft.bullets.length ? `<ul>${draft.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</div>`;
+  } else {
+    card = `<div class="mcr-card mcr-sum"><p>Drafting your summary…</p></div>`;
+  }
   return {
     title,
     sub,
     body: `
-      <p class="mcr-ainote"><span class="mcr-q__logo">S</span> Sero will draft this from the session + your last check-in — for now, capture the key points below.</p>
-      <div class="mcr-card mcr-sum">
-        <h3>This month with ${esc(copy.name)}</h3>
-        <p>Your summary will appear here once the AI draft step is switched on. Until then, use the notes below to jot what you agreed — it saves as you type.</p>
-      </div>
-      ${notesCard("summary.edited", "Write the summary…", state.summary?.edited ?? "")}
-      ${cta("Continue to Review")}`,
+      ${note}
+      ${card}
+      ${notesCard("summary.edited", "Edit the summary — your text is what's saved…", state.summary?.edited ?? "")}
+      <div class="mcr-cta" style="gap:10px">
+        <button type="button" class="mcr-btn mcr-btn--outline" data-regen>Regenerate</button>
+        <button type="button" class="mcr-btn mcr-btn--primary" data-next>Continue to Review</button>
+      </div>`,
   };
 };
 
@@ -236,6 +248,22 @@ const wrapup: StageRenderer = (state, copy, ctx) => {
     ctx.lastEngagement != null
       ? `<p class="mcr-q__src" style="text-align:center; margin:0 0 6px">Last time: ${ctx.lastEngagement}/5</p>`
       : "";
+  const sug = state.wrapup?.suggestions;
+  const sugRows = sug
+    ? (
+        [
+          ["For them", sug.individual],
+          ["Team", sug.team],
+          ["Company", sug.company],
+        ] as [string, string[]][]
+      )
+        .flatMap(([tag, items]) =>
+          (items ?? []).map(
+            (it) => `<div class="mcr-sugg__row"><span class="mcr-sugg__tag">${esc(tag)}</span><span>${esc(it)}</span></div>`,
+          ),
+        )
+        .join("")
+    : "";
   return {
     title,
     sub,
@@ -250,7 +278,7 @@ const wrapup: StageRenderer = (state, copy, ctx) => {
           <span class="mcr-q__logo">S</span>
           <span class="mcr-q__stem">Sero's suggestions (private)</span>
         </div>
-        <p class="mcr-q__coach" style="margin-left:0">Private coaching suggestions will appear here once the AI step is switched on (Phase 5).</p>
+        ${sugRows || `<p class="mcr-q__coach" style="margin-left:0">Private suggestions appear here once you reach the Summary stage (Sero drafts them together).</p>`}
       </div>
       <div class="mcr-cta" style="margin-top:22px"><button type="button" class="mcr-btn mcr-btn--primary" data-finish>${ICONS.check}<span>Complete 1:1</span></button></div>
       <div class="mcr-mock" data-finish-note hidden>Saved. Next month, everything here comes back — promises, requests, goals, and the trend lines.</div>`,

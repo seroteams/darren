@@ -10,11 +10,29 @@ import { pgPeopleRepo } from "../team/people.repo.ts";
 import { trackersService } from "../trackers/trackers.service.ts";
 import { pgBlockScoresRepo, SCORE_BLOCKS, type BlockScoresRepo, type ScoreBlock } from "./block-scores.repo.ts";
 import { badRequest, notFound } from "../../middleware/http-error.ts";
+import type { GuidedWrapupInput, GuidedWrapupResult } from "../../../engine/guided/wrapup.ts";
 
-/** The slice of the trackers service guided complete() needs — resolve a Catch-up promise. */
-export interface TrackerOutcomeApplier {
+/** The slice of the trackers service the guided service needs: resolve a Catch-up promise
+ *  (complete) + read the person's trackers (wrap-up assembly). */
+export interface TrackerGateway {
   applyOutcome(id: string, orgId: string, managerId: string, outcome: string): Promise<unknown>;
+  listForPerson(
+    personId: string,
+    orgId: string,
+    managerId: string,
+    opts?: { includeArchived?: boolean },
+  ): Promise<{ promises: unknown[]; requests: unknown[]; goals: unknown[] }>;
 }
+
+/** The injected AI boundary — the real engine (wired in guided-runtime.ts), a fake in tests so
+ *  service unit tests never touch a model. */
+export type GuidedWrapupFn = (
+  input: GuidedWrapupInput,
+  session?: { id?: string; dir: string },
+) => Promise<GuidedWrapupResult>;
+
+const rejectWrapup: GuidedWrapupFn = () =>
+  Promise.reject(new Error("guided wrap-up boundary not provided"));
 
 /** One session's block score, as the runner reads it for the last-time marker + trends. */
 export interface BlockScoreDto {
@@ -152,6 +170,34 @@ function readEngagement(state: GuidedSessionState): number | null {
   return null;
 }
 
+// Defensive readers for the state blob (Phase 5 assembly).
+function asObj(v: unknown): Record<string, unknown> {
+  return v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : {};
+}
+function asStr(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+function asStrArr(v: unknown): string[] {
+  return Array.isArray(v) ? v.map(asStr) : [];
+}
+
+// The cached wrap-up the client persisted after a prior draft (summary → state.summary.draft,
+// suggestions → state.wrapup.suggestions). Presence of a summary draft ⇒ "already drafted",
+// so re-entering Summary never re-spends (Phase 5 scenario 4).
+function readCachedWrapup(
+  state: GuidedSessionState,
+): { summary: { headline: string; bullets: string[] }; suggestions: { individual: string[]; team: string[]; company: string[] } } | null {
+  const draft = asObj(asObj(state.summary).draft);
+  const headline = asStr(draft.headline);
+  const bullets = asStrArr(draft.bullets);
+  if (!headline && bullets.length === 0) return null;
+  const sug = asObj(asObj(state.wrapup).suggestions);
+  return {
+    summary: { headline, bullets },
+    suggestions: { individual: asStrArr(sug.individual), team: asStrArr(sug.team), company: asStrArr(sug.company) },
+  };
+}
+
 export interface GuidedSessionsService {
   create(orgId: string, managerId: string, input: { personId: unknown }): Promise<GuidedSessionDto>;
   get(id: string, orgId: string, managerId: string): Promise<GuidedSessionDto>;
@@ -165,13 +211,21 @@ export interface GuidedSessionsService {
   complete(id: string, orgId: string, managerId: string): Promise<GuidedSessionDto>;
   /** This person's block scores across sessions — for the Rating stage's last-time marker. */
   listBlockScores(personId: string, orgId: string, managerId: string): Promise<{ scores: BlockScoreDto[] }>;
+  /** Draft (or return the cached) end-of-session AI wrap-up: Summary + private suggestions. */
+  wrapupDraft(
+    id: string,
+    orgId: string,
+    managerId: string,
+    opts?: { regenerate?: boolean },
+  ): Promise<GuidedWrapupResult & { cached: boolean }>;
 }
 
 export function createGuidedSessionsService(
   repo: GuidedSessionsRepo = pgGuidedSessionsRepo,
   people: GuidedPeopleGateway = defaultPeopleGateway,
-  trackers: TrackerOutcomeApplier = trackersService,
+  trackers: TrackerGateway = trackersService,
   blockScores: BlockScoresRepo = pgBlockScoresRepo,
+  wrapup: GuidedWrapupFn = rejectWrapup,
 ): GuidedSessionsService {
   /** The caller's own session or a 404 — the fence everything else builds on. */
   async function owned(id: string, orgId: string, managerId: string): Promise<GuidedSessionRow> {
@@ -189,6 +243,68 @@ export function createGuidedSessionsService(
     const person = await people.findForManager(personId, orgId, managerId);
     if (!person) throw notFound("Person not found");
     return person;
+  }
+
+  // Build the grounded wrap-up input: this session's notes/outcomes/scores/feedback/trackers +
+  // the PREVIOUS completed check-in's summary + scores (for the deltas). Reads real rows through
+  // the injected deps, so the wrap-up test stays model-free AND db-free with fakes.
+  async function assembleWrapupInput(
+    row: GuidedSessionRow,
+    orgId: string,
+    managerId: string,
+  ): Promise<GuidedWrapupInput> {
+    const state = row.state;
+    const grouped = await trackers.listForPerson(row.personId, orgId, managerId);
+    const promises = grouped.promises as Array<Record<string, unknown>>;
+    const requests = grouped.requests as Array<Record<string, unknown>>;
+    const goals = grouped.goals as Array<Record<string, unknown>>;
+
+    const blockRows = await blockScores.listForPerson(row.personId, orgId);
+    const lastByBlock: Record<string, number> = {};
+    for (const b of blockRows) if (b.guidedSessionId !== row.id) lastByBlock[b.block] = b.score; // oldest-first → most recent prior wins
+
+    const scoresMap = asObj(asObj(state.rating).scores);
+    const scores = SCORE_BLOCKS.filter((blk) => scoresMap[blk] != null).map((blk) => ({
+      block: blk,
+      score: Number(scoresMap[blk]),
+      last: lastByBlock[blk] ?? null,
+    }));
+
+    const outcomes = asObj(asObj(state.catchup).outcomes);
+    const byId = new Map(promises.map((p) => [asStr(p.id), p]));
+    const promiseOutcomes = Object.entries(outcomes).map(([pid, o]) => {
+      const p = byId.get(pid);
+      return { promise: p ? asStr(p.text) : "(a promise)", owner: p ? asStr(p.owner) : "", outcome: asStr(o) };
+    });
+
+    const prior = (await repo.listForPerson(row.personId, orgId, managerId)).filter(
+      (s) => s.id !== row.id && s.completedAt,
+    );
+    prior.sort((a, b) => (b.completedAt?.getTime() ?? 0) - (a.completedAt?.getTime() ?? 0));
+    const prev = prior[0];
+    let previous: Record<string, unknown> | null = null;
+    if (prev) {
+      const prevSummary =
+        asStr(asObj(prev.state.summary).edited) || asStr(asObj(asObj(prev.state.summary).draft).headline);
+      const prevScores = blockRows
+        .filter((b) => b.guidedSessionId === prev.id)
+        .map((b) => ({ block: b.block, score: b.score }));
+      previous = { summary: prevSummary || null, scores: prevScores };
+    }
+
+    return {
+      personName: row.personName,
+      thisSession: {
+        catchupNotes: asStr(asObj(state.catchup).notes),
+        promiseOutcomes,
+        scores,
+        feedback: asObj(state.feedback),
+        requests: requests.map((r) => ({ text: asStr(r.text), status: asStr(r.status) })),
+        goals: goals.map((g) => ({ text: asStr(g.text), progress: Number(g.progress ?? 0), status: asStr(g.status) })),
+        managerNotes: asStr(asObj(state.summary).edited),
+      },
+      previous,
+    };
   }
 
   return {
@@ -283,7 +399,18 @@ export function createGuidedSessionsService(
         })),
       };
     },
+
+    async wrapupDraft(id, orgId, managerId, opts) {
+      const row = await owned(id, orgId, managerId);
+      // Cached unless ?regenerate — the client persists the draft into state after the first call,
+      // so re-entering Summary never re-spends.
+      if (!opts?.regenerate) {
+        const cached = readCachedWrapup(row.state);
+        if (cached) return { ...cached, runId: "cached", cached: true };
+      }
+      const input = await assembleWrapupInput(row, orgId, managerId);
+      const result = await wrapup(input, { id: row.id, dir: row.id });
+      return { ...result, cached: false };
+    },
   };
 }
-
-export const guidedSessionsService = createGuidedSessionsService();

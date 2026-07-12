@@ -7,5 +7,6 @@
   "evaluation": "gpt-5.4-mini",
   "judge": "gpt-5.4",
   "fixer": "gpt-5.4",
-  "role_profile": "gpt-5.4"
+  "role_profile": "gpt-5.4",
+  "guided_wrapup": "gpt-5.4-mini"
 }

@@ -464,6 +464,12 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return guided.completeGuidedSession(c);
   }));
+  // The ONE AI call (Phase 5) — drafts the Summary + private suggestions. Origin-guarded (it can
+  // spend); cached in state unless ?regenerate=1.
+  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/wrapup-draft$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.postWrapupDraft(c);
+  }));
   // Trackers (monthly-checkin Phase 2) — promises/requests/goals per person, internal admin
   // only this phase (member lane is Phase 7). Person-fenced in the service; mutations origin-guarded.
   router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route(trackers.listTrackerItems));

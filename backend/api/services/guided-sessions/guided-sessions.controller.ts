@@ -7,7 +7,7 @@ import type { RequestContext } from "../../router.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireInternalAdmin } from "../../middleware/require-auth.ts";
 import { badRequest } from "../../middleware/http-error.ts";
-import { guidedSessionsService } from "./guided-sessions.service.ts";
+import { guidedSessionsService } from "./guided-runtime.ts";
 
 /** The guided caller — internal admin only (401 logged out; 403 member/plain manager), with
  *  the org + manager ids the service fences on. */
@@ -55,4 +55,10 @@ export async function completeGuidedSession(c: RequestContext): Promise<void> {
 export async function getBlockScores(c: RequestContext): Promise<void> {
   const { orgId, managerId } = await guidedCaller(c);
   c.json(200, await guidedSessionsService.listBlockScores(c.params.personId ?? "", orgId, managerId));
+}
+
+export async function postWrapupDraft(c: RequestContext): Promise<void> {
+  const { orgId, managerId } = await guidedCaller(c);
+  const regenerate = c.query.regenerate === "1";
+  c.json(200, await guidedSessionsService.wrapupDraft(c.params.id ?? "", orgId, managerId, { regenerate }));
 }

@@ -36,11 +36,15 @@ export interface GuidedDraft {
   };
   feedback?: { fbStep?: number; lessOf?: string; moreOf?: string; learn?: string };
   goals?: { notes?: string };
-  summary?: { draft?: string; edited?: string };
+  summary?: {
+    draft?: { headline: string; bullets: string[] }; // the AI draft (Phase 5)
+    edited?: string; // the manager's text — always wins
+    error?: string; // "couldn't draft this" — surfaced, never hidden
+  };
   wrapup?: {
     engagement?: number | null;
     privateNotes?: string;
-    suggestions?: { individual?: string[]; team?: string[]; company?: string[] };
+    suggestions?: { individual: string[]; team: string[]; company: string[] };
   };
 }
 
