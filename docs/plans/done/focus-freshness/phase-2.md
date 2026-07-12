@@ -1,6 +1,8 @@
 # Phase 2 — Live proof
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 proven, awaiting Carl's green light
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-12 — Carl chose "b" (run the gate, then close). Golden case `biweekly-priya` ran PASS (1 ok / 0 regressed / 0 error), no FOCUS_ARC_LEAK. Report: logs/gate/2026-07-12T01-24-11-188Z/result.json
 
 ## Built / proven (2026-07-12)
 Verification phase — no production code changed (the result was clean, so the "tweak the freshness wording if it over/under-rotates" contingency wasn't needed).

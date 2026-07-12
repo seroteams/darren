@@ -23,12 +23,12 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | History into the prompt | Engine read (both stores) + `{{FOCUS_HISTORY_BLOCK}}` + freshness rules in the prompt, offline-proven | ✅ |
-| 2 | Live proof | Same-person repeat runs show fresh lists; signal-re-raise still wins; example promoted if good | 🔨 |
+| 2 | Live proof | Same-person repeat runs show fresh lists; signal-re-raise still wins; example promoted if good | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ GREEN-LIT 2026-07-12. **Phase 2 🔨 proven 2026-07-12, awaiting Carl's green light** (worked autonomously overnight at Carl's ask). Signal-beats-freshness proven with one paid nano call (~2c): Nikki history covers workload → note re-raising it returned `workload` as `source: signal`. The other two scenarios (fresh list, natural reading) were already met in Phase 1's live walk. Only open item: the golden gate roll (~$0.35, a 2nd paid run) is deferred for Carl's explicit yes — arc-gate logic is unchanged and covered by the 123/123 offline suite, so risk is low. Nothing left to BUILD; Phase 2 needs only Carl's walk to close, then folder → done/ + founder-doc refresh (keep-guide-updated rule).
+**TRACK CLOSED 2026-07-12.** Both phases ✅. P1 green-lit after live Playwright proof (`ba3223d`). P2 green-lit by Carl ("b" = run the gate, then close): signal-beats-freshness proven with a nano call (workload re-raised → returned as `source: signal`), and the golden gate case `biweekly-priya` ran **PASS (1 ok / 0 regressed / 0 error)** — no FOCUS_ARC_LEAK, confirming the history block never leaks evaluative content into a relational arc. Total testing spend across the track ≈ $0.50. Folder → `docs/plans/done/focus-freshness/`.
 
 ## Parked
 - UI hint on the focus picker ("covered last time" chip) — prompt-side only for now.

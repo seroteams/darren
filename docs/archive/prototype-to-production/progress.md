@@ -9,6 +9,13 @@
 ---
 
 ## Where we are now
+- **2026-07-12** — **focus-freshness TRACK CLOSED (both phases ✅), ~$0.50 total.** P2 proved the half P1's walk couldn't:
+  re-raising a covered topic in the note ("workload still heavy") brought `workload` back as `source: signal` — freshness
+  never silences a real signal. Then Carl chose to run one golden gate case before closing: `biweekly-priya` PASS (1 ok /
+  0 regressed / 0 error), no FOCUS_ARC_LEAK — the history block never leaks evaluative content into a relational arc.
+  Folder → `docs/plans/done/focus-freshness/`. **Lesson:** a verification-only phase still needs ONE irreplaceable paid
+  proof for model-behaviour claims (freshness vs signal is a prompt decision no unit test can make), but the regression
+  question ("did I break the arc gate?") is answered by ONE targeted golden case, not the full 8-case sweep.
 - **2026-07-12** — **focus-freshness P1 ✅ green-lit (Carl watched the live proof), ~$0.10: repeat 1:1 preps now suggest fresh
   topics.** The focus prompt carries the last 3 preps' suggested topics for the same manager+person (`focus-history.ts`, both
   stores; relational arcs never see competency history; `FOCUS_ARC_LEAK` untouched as backstop). Live proof on `ba3223d`:

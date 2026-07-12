@@ -25,17 +25,13 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> **🔨 [focus-freshness](docs/plans/doing/focus-freshness/plan.md) — P1 ✅ green-lit 2026-07-12; P2 🔨 PROVEN overnight, awaiting your walk. ~$0.12 total.**
+> **✅ [focus-freshness](docs/plans/done/focus-freshness/plan.md) — TRACK CLOSED 2026-07-12 (both phases ✅, Carl green-lit), ~$0.50 total, live.**
 > Carl's pick from the arc deep-dive: repeat bi-weeklies suggested the same topics every time. Now the focus prompt carries
 > the last 3 preps' suggested topics for the same person (same manager + roster person only; competency history filtered out
-> of relational arcs; past never named in output wording). **P1 proven live on `ba3223d`:** prep A suggested
-> workload/priorities/blockers/team-connection → prep B returned energy/manager-support/feedback, zero repeats. **P2 proven
-> 2026-07-12 (autonomous, one 2c nano call):** re-raising workload in the note ("still heavy") brought `workload` back as a
-> `signal` point — freshness never suppresses a real signal. Commits `763c5a4a`, `c9d34f62`, `ba3223d6` (code, all live) +
-> docs.
-> **▶ Your move:** walk P2 (read [phase-2.md](docs/plans/doing/focus-freshness/phase-2.md)'s proof) → "green light" closes the
-> whole track (folder → done/, founder-doc refresh). One deferred item needs your yes: the golden gate roll (~$0.35, a 2nd
-> paid run) — I skipped it since arc-gate logic is unchanged and the 123/123 offline suite covers it.
+> of relational arcs; past never named in output wording; unfinished preps count; results persist at generation). **Proven
+> live on `ba3223d`:** thin note → fresh list; **re-raise note → the flagged topic returns as a `signal`** (freshness never
+> silences a real signal). Golden gate `biweekly-priya` **PASS, no FOCUS_ARC_LEAK.** Commits `763c5a4a`, `c9d34f62`,
+> `ba3223d6` (code, all live) + close-out docs. Track moved to [done/](docs/plans/done/focus-freshness/plan.md).
 
 > **🔨 [forgot-password](docs/plans/doing/forgot-password/plan.md) — Phase 1 ✅ (Carl green-lit 2026-07-11 "A") + committed; Phase 2 (UI) building now. $0.**
 > Carl's ask: "forgot password for all, admin also." One shared login (`admin/src/stages/login.js`) → **one** reset flow covers
