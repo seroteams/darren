@@ -20,8 +20,8 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Backend live fence | internal-tool guard (superadmin on live, admin locally), persona-runs blocked on live, `appEnv` on /auth/me | ✅ |
-| 2 | Admin served at /admin | Both SPAs built + served on live; router base threading; Test engine/Tasks hidden on live; fence test | ⬜ |
-| 3 | Pulse dashboard | `GET /api/v1/admin/pulse` + the Pulse stage; every card links to its "view all" (the four existing admin screens) | ⬜ |
+| 2 | Admin served at /admin | Both SPAs built + served on live; router base threading; Test engine/Tasks hidden on live; fence test | 🔨 built on branch, awaiting walk |
+| 3 | Pulse dashboard | `GET /api/v1/admin/pulse` + the Pulse stage; every card links to its "view all" (the four existing admin screens) | 🔨 built on branch, awaiting walk |
 | 4 | Drill-ins | Manager detail (team + ALL their runs incl. unfinished, w/ types + verdicts) and run detail (answers + feedback) | ⬜ |
 | 5 | Runs explorer + honest guest tile | The "view ALL runs" sub-page (cross-company, filters: type/status/manager/date) + `claimed_at` marker so "guest became a signup" is real | ⬜ |
 | 6 | Last-seen visits (optional) | `users.last_seen_at` + "active today/this week" | ⬜ |
@@ -48,8 +48,20 @@ Every dashboard element traced to its live source:
 | "Guest became a signup" | ❌ no marker — a claimed run silently leaves the guest pile | Phase 5 adds `claimed_at`/`claimed_by`; until then the tile shows unclaimed count only |
 | "Last active" from logins (not just runs) | ❌ no source (`users.last_seen_at` missing) | Phase 6 |
 
-## Current state
-Phase 1 ✅ GREEN-LIT (Sat 12 Jul 2026) — Carl walked the local admin (Role words · Meeting arcs · Guide · Test engine all load, nothing forbidden) and said go. Proof stands: typecheck clean, 126/126 tests (baseline 124/124). Committed path-scoped, staging only the Phase-1 hunks in the shared `server.ts` (the parallel promises-loop route left untouched for that session). The dashboard mock (full-width, with manager → team/runs → answers/feedback drill-ins, guests, run types) is on the local Tests page (/test → "Live pulse"). Data feasibility audit done 12 Jul — every mock element traced to a live source (table below); two honest gaps named (guest-claim marker → Phase 5, login-based last-seen → Phase 6). Now in flight: **Phase 2 — serve /admin on live** (both SPAs built + served, router base threading, Test engine/Tasks hidden on live). ⚠️ Several Phase-2 target files (`admin/src/router.js`, `main.js`, `state.js`, `ui/app-nav.js`, `server.ts`) are already dirty from parallel sessions — build in a worktree or stage hunk-scoped.
+## Current state (RESUME HERE — updated end of 2026-07-12)
+**P1 ✅ closed + committed to main (`dab7d403`).** **P2 + P3 BUILT + verified, committed on branch `work/admin-serve` — NOT yet merged/green-lit.**
+
+- **P1 — backend live fence ✅** green-lit ("okay next"). typecheck clean, 126/126. On main.
+- **P2 — serve /admin ✅ built** (`b3196472`): vite base `/admin/`, base-aware router (`withBase`/`stripBase`/`replaceUrl`), `static.ts` `{prefix,noindex}`, `server.ts` mounts `admin/dist` at `/admin`, `build:all` + `render.yaml`, Test engine/Tasks trimmed on live + deep-link bounce. New `scripts/test-admin-serving.js` **13/13** (real prod boot: `/admin`=admin, `/`=customer, deep-link fallback, noindex, logged-out 401, no secret values). typecheck clean.
+- **P3 — Pulse dashboard ✅ built** (`833bc2e3`): `GET /api/v1/admin/pulse` (superadmin) folds `listRegistered` + 3 new time-series reads (runs/day 14d, type mix 7d, drop-offs 14d) + guest/error counts + latest feedback; new `admin/src/stages/admin-pulse.ts` at `/pulse` (superadmin-only, top of Admin nav, live boot lands here), every card links to its view-all. `state.d.ts` re-synced. superadmin test +1 (deterministic), **41/41**. Renders with real local data.
+- Full suite **126/127** throughout (the 1 fail = known fresh-worktree `test-persona-bench`, missing untracked `_runtime` files — not a regression). $0 (no paid runs).
+- **Blocker fix landed:** the orphaned `promise-confirm.css` (a committed `@import` with no committed file, swept in by past-1on1-view P2 `ee8fb475`) was committed to main (`6aadec58`) so a clean checkout / the live Render build no longer fails.
+
+**⚠️ Merge to main is BLOCKED** — 5 of the branch's files (`admin/src/main.js`, `router.js`, `state.js`, `ui/app-nav.js`, `backend/api/server.ts`) are mid-edit (uncommitted) in parallel sessions; `git merge work/admin-serve` aborts safely rather than clobber them. **Do not force.** Merge once those files are committed by their owners (or Carl confirms them stale).
+
+**To resume / walk locally:** the worktree is `../serolocal-admin-serve` on `work/admin-serve`. Dev servers may still be up: **admin at `localhost:3020/admin/pulse`** (API on 3051). If down, from the worktree: `npx cross-env API_PORT=3051 node backend/api/server.ts` + `npx cross-env API_PORT=3051 node node_modules/vite/bin/vite.js --host --port 3020 --strictPort`, then Dev login → Admin → "Pulse".
+
+**Next:** Carl walks P2 (localhost:3020/admin/ deep-link reload) + P3 (the Pulse screen) → green light → merge `work/admin-serve` → main (when unblocked) → phase-close trackers → the 2 Render steps + `/release`. Then P4 (drill-ins) · P5 (runs explorer) · P6 (last-seen).
 
 ## Parked
 - Login-based visit tracking beyond last_seen_at (cohorts, retention curves) — post-validation.
