@@ -41,6 +41,7 @@ export const STAGES = Object.freeze({
   ADMIN_FEEDBACK: "ADMIN_FEEDBACK",
   ADMIN_GUEST_RUNS: "ADMIN_GUEST_RUNS",
   DESIGN: "DESIGN",
+  TEST: "TEST",
   ERROR: "ERROR",
 });
 

@@ -14,6 +14,7 @@ import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
   Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
+  FlaskConical,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -50,6 +51,7 @@ const ICON = {
   errors: icon(TriangleAlert),
   inbox: icon(Inbox),
   guests: icon(UserRoundSearch),
+  tests: icon(FlaskConical),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -87,6 +89,9 @@ const LINKS = [
   // Native in-shell stage (stages/design.js) — the design system sheet with its own
   // second-level rail, routed like any other stage.
   { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Admin" },
+  // The prototype gallery (stages/test.js) — throwaway mocks we walk before building for
+  // real. Internal-only, like Design system; router gates keep managers/members out.
+  { key: "tests", label: "Tests", stage: STAGES.TEST, icon: ICON.tests, admin: true, group: "Admin" },
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
   { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
@@ -218,6 +223,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
     design: () => setState && setState({ stage: STAGES.DESIGN }),
+    tests: () => setState && setState({ stage: STAGES.TEST }),
     universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
@@ -256,6 +262,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.TASKS]: "tasks",
     [STAGES.UNIVERSE]: "universe",
     [STAGES.DESIGN]: "design",
+    [STAGES.TEST]: "tests",
     [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.ADMIN_USER]: "registered",
     [STAGES.ADMIN_ERROR_LOG]: "errors",
