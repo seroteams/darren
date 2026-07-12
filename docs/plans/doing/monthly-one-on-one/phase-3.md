@@ -1,6 +1,16 @@
 # Phase 3 — Rating sliders + last-time markers
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT — awaiting Carl's QA walk (`d7eef92a`) · **Size:** ~1 day
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Size:** ~1 day
+
+## ✅ GREEN-LIT 2026-07-13
+Carl: **"go to end"** — green-lit; sign-off **delegated** for the whole remaining track (he went to
+bed). Browser walk **waived**; closed on offline proof + a real-DB round-trip. Shipped `d7eef92a`:
+`block_scores` table, `complete()` writes validated scores (1.0–10.0, 0.5 steps; upsert; out-of-range
+aborts before any write), read-only `block-scores` endpoint, and the Rating stage's real last-time
+marker (value + date; none on a first session). **Verified:** typecheck clean · 131/132 (1 known-env
+`test-persona-bench`) · admin build resolves · real local-Neon round-trip (write 3 scores + note →
+later session reads them as markers → 11 rejected, nothing stored, session left open). Honest residual:
+the UI still hasn't been walked (3 phases now) — data layer proven, on-screen walk pending Carl.
 
 ## Goal
 The Rating stage captures the member's spoken six-block self-scores on real sliders (manager drags), each slider marked with last session's score and date, and finishing the session writes them to `block_scores`.
