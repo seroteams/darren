@@ -1,6 +1,14 @@
 # Phase 4 — Sequential Feedback, manual Summary, private Review
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Size:** ~1 day
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Size:** ~1 day
+
+## ✅ GREEN-LIT 2026-07-13 (sign-off delegated — Carl "go to end")
+Most of P4 landed already in P1/P3 (sequential feedback with reload-resume, engagement 1–5, summary
+notes, and a `complete()` that denormalises engagement + sets completed_at + applies outcomes/scores).
+This phase added: `engagement` on the DTO + the Review **"Last time: N/5"** line (from the previous
+completed session), and a **completed read-only banner**. Shipped `2502dd7a`. Verified: typecheck clean ·
+131/132 · admin build resolves · real-DB round-trip (engagement=4 + completed_at denormalised, readable by
+a later session). Walk still pending Carl.
 
 ## Goal
 The reflective stages get their real, persisted shape: feedback as a one-at-a-time Q&A, a manual summary, and the manager-only wrap-up with an engagement score — so a full Monthly Check-in can be finished end to end (AI arrives next phase).
@@ -15,8 +23,8 @@ The reflective stages get their real, persisted shape: feedback as a one-at-a-ti
 - The AI call (Phase 5), record template + list merge (Phase 6), member lane (Phase 7).
 
 ## Done when
-- [ ] `engagement` + `completed_at` populated on a completed session (query the table)
-- [ ] `npm run typecheck` + `npm test` green
+- [x] `engagement` + `completed_at` populated on a completed session — verified via real-DB round-trip (engagement=4 denormalised, completed_at set, stage=done)
+- [x] `npm run typecheck` + `npm test` green (typecheck clean · 131/132; 1 known-env `test-persona-bench`)
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
