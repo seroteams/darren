@@ -90,7 +90,7 @@ New `backend/engine/guided/wrapup.ts` — `generateGuidedWrapup`: input = all st
 
 ## Current state
 **Phase 1 ✅ green-lit 2026-07-12 (Carl: "A"; browser walk waived — verified via a real local-DB round-trip, his call).** The flag-gated card, the stage-config-driven 7-stage runner (ported from the prototype), and auto-save + reload-resume are built on `work/monthly-one-on-one` (`ea5d2a49`). typecheck clean · `npm test` **130/131** (the 1 fail is the known-environmental `test-persona-bench` — untracked `_runtime` questions absent in a fresh worktree) · admin build resolves the runner chunk · create → patch(typed notes) → read-back → fence(404) proven on real Neon.
-- **Phase 2 🔨 building now** — trackers (promises/requests/goals) that persist per person + the right-hand side panels.
+- **Phase 2 🔨 BUILT — awaiting Carl's walk** (`372806e3`): `tracker_items` table + service, the real Catch-up promise loop, and Requests/Goals side panels that persist. The runner fetches trackers live (no stale snapshot). typecheck clean · 131/132 · admin build resolves · real-DB round-trip incl. the promise loop proven.
 - Build runs on branch `work/monthly-one-on-one` (the dedicated worktree). The plan's earlier `work/monthly-checkin` name was superseded — same work, existing branch reused.
 - ⚠️ The shared top-level trackers (STATUS.md, SERO_BOARD.md) live in `main` and currently carry other sessions' uncommitted edits, so they're **not** updated from this worktree (safe-commit: never sweep foreign work). They reconcile when this branch merges to main.
 

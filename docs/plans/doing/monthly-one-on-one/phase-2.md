@@ -1,6 +1,6 @@
 # Phase 2 — Trackers (promises · requests · goals) + side panels
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Size:** ~1.5 days
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT — awaiting Carl's QA walk (`372806e3`) · **Size:** ~1.5 days
 
 ## Goal
 Promises, requests and goals persist per person and carry across meetings — a promise made in meeting A resurfaces in meeting B's Catch-up with one-tap outcomes; requests and goals open in the right-hand side panel and keep status/history until resolved.
@@ -18,8 +18,8 @@ Promises, requests and goals persist per person and carry across meetings — a 
 - Rating persistence, wrapup, AI, record template, member lane (Phase 7 reuses the trackers API).
 
 ## Done when
-- [ ] `tracker_items` rows in the DB with correct kind/status/history after a walk (query the table)
-- [ ] `npm run typecheck` + `npm test` green incl. trackers service tests
+- [x] `tracker_items` rows in the DB with correct kind/status/history — verified via a real local-Neon round-trip: create promise/request/goal → update status+progress+notes grows history → the **promise loop flips open→done at complete()** through the guided→trackers integration → another manager 404s → rows cleaned up
+- [x] `npm run typecheck` + `npm test` green incl. trackers service tests (typecheck clean · **131/132**; the 1 fail is the known-environmental `test-persona-bench`)
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Test scenarios — for the product owner
