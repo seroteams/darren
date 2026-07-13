@@ -130,7 +130,7 @@
 .mcr-mock { text-align: center; font-size: 14px; color: var(--color-ink-mute, #64748b); font-style: italic; margin-top: 14px; }
 
 /* saved / saving pip (real auto-save state) */
-.mcr-pip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+.mcr-pip { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600;
   color: var(--sero-charcoal-700, #3f4c5a); }
 .mcr-pip__dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--sero-mint-700, #2bb596); }
 .mcr-pip[data-state="saving"] .mcr-pip__dot { background: var(--sero-gold-600, #ffd072); }
