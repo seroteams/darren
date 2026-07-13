@@ -27,6 +27,10 @@ const loaders = {
   FEEDBACK:        () => import("./stages/feedback.js"),
   START:           () => import("./stages/start.js"),
   MEMBER_HOME:     () => import("../../frontend/src/stages/member-home.js"),
+  // Team + person pages are customer-app stages, cross-imported so the local Engine app's
+  // manager rail matches live (Carl: live and local should look the same).
+  TEAM:            () => import("../../frontend/src/stages/team.ts"),
+  PERSON_DETAIL:   () => import("../../frontend/src/stages/person-detail.ts"),
   RUNS:            () => import("./stages/runs.ts"),
   RUN_DETAIL:      () => import("./stages/run-detail.ts"),
   INTAKE:          () => import("./stages/intake.js"),

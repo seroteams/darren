@@ -19,6 +19,9 @@ const PATH_FOR = {
   [STAGES.FEEDBACK]:       () => "/feedback",
   [STAGES.START]:          () => "/",
   [STAGES.MEMBER_HOME]:    () => "/home",
+  // Team + person pages (mirrored from the customer router so local matches live).
+  [STAGES.TEAM]:           () => "/team",
+  [STAGES.PERSON_DETAIL]:  (s) => (s.personKey ? `/team/${encodeURIComponent(s.personKey)}` : "/team"),
   [STAGES.RUNS]:           () => "/runs",
   [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
   [STAGES.INTAKE]:         () => "/new",
@@ -55,7 +58,7 @@ const STAGE_FOR = {
   "/login": STAGES.LOGIN, "/register": STAGES.REGISTER, "/forgot-password": STAGES.FORGOT_PASSWORD,
   "/privacy": STAGES.PRIVACY,
   "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
-  "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/runs": STAGES.RUNS,
+  "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/team": STAGES.TEAM, "/runs": STAGES.RUNS,
   "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
   "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
@@ -126,6 +129,9 @@ export function parseLocation() {
   // map, so bare /runs still resolves to the list above).
   const mine = p.match(/^\/runs\/([^/]+)$/);
   if (mine) return { stage: STAGES.RUN_DETAIL, params: { myRunId: decodeURIComponent(mine[1]) } };
+  // One person's page: /team/:person (after the exact-path map, so bare /team → TEAM).
+  const person = p.match(/^\/team\/([^/]+)$/);
+  if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
   // A superadmin drilling into one user: /admin/users/:id (after the exact-path map, so
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);

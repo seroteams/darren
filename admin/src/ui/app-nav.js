@@ -70,7 +70,9 @@ const LINKS = [
   // stages; managers keep console access but never see the internal toolset below.
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
-  // (Team lives in the customer app now — frontend-admin-split Phase 3.)
+  // Team is a customer-app stage, cross-imported so the local Engine app's manager rail
+  // matches live (Carl: live and local should look the same).
+  { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
   // Admin toolset, grouped into sections.
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
@@ -214,6 +216,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (resetSession) resetSession();
       setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
     },
+    mgteam: () => setState && setState({ stage: STAGES.TEAM }),
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     compare: () => setState && setState({ stage: STAGES.COMPARE }),
@@ -253,6 +256,8 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.START]: ["home", "mghome"],
     [STAGES.RUNS]: ["runs", "mgruns"],
     [STAGES.INTAKE]: ["new", "mgnew"],
+    [STAGES.TEAM]: "mgteam",
+    [STAGES.PERSON_DETAIL]: "mgteam",
     [STAGES.LIBRARY]: "library",
     [STAGES.COMPARE]: "personas",
     [STAGES.PERSONAS]: "personas",
