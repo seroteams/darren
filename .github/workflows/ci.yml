@@ -1,0 +1,38 @@
+name: CI
+
+# Harness H1 — auto-run the free ring on every change so nothing broken merges
+# unnoticed. Runs only the $0, offline checks (no OPENAI_API_KEY, no paid gate).
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# One in-flight run per ref; a newer push cancels the older run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  free-ring:
+    name: Free ring (typecheck · test · replay)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests (offline)
+        run: npm test
+
+      - name: Regression replay (offline)
+        run: npm run replay
