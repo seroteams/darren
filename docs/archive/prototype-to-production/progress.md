@@ -9,6 +9,17 @@
 ---
 
 ## Where we are now
+- **2026-07-13** — **monthly-checkin Phase 1 ✅ green-lit ($0, commits `5164eaa1`→`dfdc2df7`).** The internal-only
+  "Monthly Check-in" guided 1:1 landed: own `guided_sessions` table, `requireInternalAdmin` gate (admin-role OR
+  superadmin-email — there is NO "internal admin" role), catalog appends the card for internal callers only, fenced
+  CRUD API, and the prototype ported to a stage-config-driven runner with debounced auto-save + reload-resume.
+  **Three lessons worth keeping:** (1) *Parallel sessions share the local Neon* — another session had already created
+  `guided_sessions` with a `person_name NOT NULL` column my schema lacked, so my insert 500'd; fix = read the ACTUAL
+  table shape, adopt the column, and write migrations **idempotent** (`IF NOT EXISTS` + duplicate-safe constraints)
+  because the test harness kills servers mid-migrate and leaves orphan tables. (2) *Shared stages need app-identity
+  gating* — the customer app cross-imports the admin intake but has no guided runner, so an admin there could dead-end
+  on the card; gate on `window.__seroApp`. (3) *Guard saves after terminal actions* — the unmount auto-save flush was
+  reverting `complete()`'s `done` marker back to `wrapup`.
 - **2026-07-12** — **promises-loop P1 ✅ green-lit (commit `47c0024b`), ~$0.35.** The 1:1 wrap-up
   now locks in what was agreed: `Session.promises[]` contract + `POST /sessions/:id/promises` +
   a confirm card at the top of the briefing (You/them owners, editable) behind the Q9 fork
