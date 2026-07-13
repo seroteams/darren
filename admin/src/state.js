@@ -42,6 +42,7 @@ export const STAGES = Object.freeze({
   ADMIN_GUEST_RUNS: "ADMIN_GUEST_RUNS",
   DESIGN: "DESIGN",
   TEST: "TEST",
+  GUIDED: "GUIDED", // Monthly Check-in — the guided 1:1 runner (monthly-one-on-one Phase 1)
   ERROR: "ERROR",
 });
 
@@ -58,6 +59,7 @@ const initial = {
   preparationRunId: null,
   reviewRunId: null,
   myRunId: null,
+  guidedId: null, // the open Monthly Check-in's id (drives /guided/:id + reload-resume)
   personKey: null,
   joinToken: null,
   resetToken: null,

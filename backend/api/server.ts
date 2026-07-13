@@ -24,6 +24,7 @@ import { hasDatabaseUrl } from "../db/client.ts";
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
+import * as guidedSessions from "./services/guided-sessions/guided-sessions.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { originOk } from "./middleware/origin.ts";
 import { requireSuperadminRoute } from "./middleware/superadmin-guard.ts";
@@ -443,6 +444,24 @@ async function main(): Promise<void> {
   router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/unlink$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.unlinkPerson(c);
+  }));
+  // Monthly Check-in guided sessions (monthly-one-on-one Phase 1) — the manager-guided
+  // 1:1. INTERNAL-ONLY (requireInternalAdmin in the controller: admin role OR superadmin-
+  // by-email; a corridor manager is a real 403), fenced to the caller's orgId + managerId
+  // + the roster person they manage. Mutations origin-guarded like team/people.
+  router.add("POST", "/api/v1/guided-sessions", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guidedSessions.create(c);
+  }));
+  router.add("GET", "/api/v1/guided-sessions", v1Route(guidedSessions.listForPerson));
+  router.add("GET", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route(guidedSessions.get));
+  router.add("PATCH", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guidedSessions.patch(c);
+  }));
+  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/complete$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guidedSessions.complete(c);
   }));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the

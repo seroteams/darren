@@ -62,3 +62,20 @@ export function requireSuperadmin(identity: RequestIdentity): void {
   requireAuth(identity); // 401 before 403 — same order as requireAdmin
   if (!isSuperadminIdentity(identity)) throw forbidden("Superadmins only");
 }
+
+// The internal-only gate (monthly-one-on-one Phase 1). Tighter than requireAdmin:
+// admin AND manager both pass requireAdmin (ADMIN_ROLES above), but the guided
+// Monthly Check-in is internal-Sero only — corridor managers must NOT see it while
+// it's being validated. There is NO "internal admin" role in the schema, so the gate
+// is a PREDICATE, not a role: the internal `admin` role OR a superadmin-by-email
+// (the allowlist). Defining it this way is deliberate — a naïve role === "admin"
+// check would lock out a superadmin whose account is a `manager` (architecture.md
+// §3.1). Widening the type later = relax this one predicate.
+export function isInternalIdentity(identity: RequestIdentity): boolean {
+  return identity.roles.includes("admin") || isSuperadminIdentity(identity);
+}
+
+export function requireInternalAdmin(identity: RequestIdentity): void {
+  requireAuth(identity); // 401 before 403 — same order as the other gates
+  if (!isInternalIdentity(identity)) throw forbidden("Internal only");
+}

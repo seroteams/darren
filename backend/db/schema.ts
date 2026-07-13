@@ -176,6 +176,50 @@ export const runArtifacts = pgTable(
   ],
 );
 
+/** The Monthly Check-in run (monthly-one-on-one Phase 1) — a manager-guided 1:1
+ *  that walks fixed stages instead of the AI-interview arc. Its own table, never
+ *  `sessions`: that table is welded to the interview pipeline's boot-hydration and
+ *  list reads, which assume the interview `state` shape (see plan.md §0). The whole
+ *  draft lives in `state` jsonb (per-stage notes, promise outcomes, rating draft,
+ *  feedback, summary, private review) — reads are defensive (missing key ⇒ empty
+ *  stage) and `state.v` is stamped so a shape change can migrate old rows. `stage`
+ *  is the resume marker (catchup|requests|rating|feedback|goals|summary|wrapup|done),
+ *  service-validated like `sessions.stage`. `engagement` is denormalised from
+ *  state.wrapup at complete() for fast trend reads. person_id is a REQUIRED FK — a
+ *  guided session is always about one roster person. Double-fenced like every tenant
+ *  table: every read/write filters org_id (+ manager_id for "mine"). */
+export const guidedSessions = pgTable(
+  "guided_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    managerId: uuid("manager_id")
+      .notNull()
+      .references(() => users.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    // Denormalised person name — snapshotted at create so the finished-session lists
+    // (Phase 6 merge) read without a people join, exactly like sessions.person_name.
+    personName: text("person_name").notNull(),
+    stage: text("stage").notNull().default("catchup"),
+    state: jsonb("state").notNull(),
+    // Denormalised from state.wrapup.engagement at complete() (later phase) — null
+    // until the session is finished. The jsonb stays the authoritative copy.
+    engagement: integer("engagement"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+  },
+  (t) => [
+    index("guided_sessions_org_id_idx").on(t.orgId),
+    index("guided_sessions_manager_id_idx").on(t.managerId),
+    index("guided_sessions_person_id_idx").on(t.personId),
+  ],
+);
+
 /** The engine's invented questions (was content/questions/*.yaml + _runtime/ +
  *  the _index.json alias index). The UNIQUE alias IS the dedup gate — "never ask
  *  the same question twice" is now enforced by the database, not a derived file.

@@ -182,8 +182,38 @@ export async function runFreeCheck(check) {
   return postJson("/api/v1/checks/run", { check });
 }
 
+// Meeting types hidden from the picker for now — still in the backend
+// catalogue, just not offered in the UI. Remove a label here to bring it back.
+const HIDDEN_MEETING_TYPES = new Set(["Onboarding check-in"]);
+
 export async function getMeetingTypes() {
-  return json(await fetch("/api/v1/meeting-types"));
+  const res = await json(await fetch("/api/v1/meeting-types"));
+  if (Array.isArray(res?.types)) {
+    res.types = res.types.filter((t) => !HIDDEN_MEETING_TYPES.has(t.label));
+  }
+  return res;
+}
+
+// --- Monthly Check-in (guided sessions; monthly-one-on-one Phase 1) ---
+// Internal-only on the server (a corridor manager gets 403). Create takes the roster
+// personId; the runner then auto-saves { stage, state } via PATCH and resumes by id.
+export async function createGuidedSession(personId) {
+  return postJson("/api/v1/guided-sessions", { personId });
+}
+export async function getGuidedSession(id) {
+  const res = await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`);
+  if (res.status === 404) return null;
+  return json(res);
+}
+export async function patchGuidedSession(id, patch) {
+  return json(await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patch),
+  }));
+}
+export async function completeGuidedSession(id) {
+  return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/complete`, {});
 }
 
 // The running API's build id (git short SHA + commit date) — for the build stamp.

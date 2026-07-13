@@ -55,6 +55,7 @@ const loaders = {
   ADMIN_GUEST_RUNS: () => import("./stages/admin-guest-runs.ts"),
   DESIGN:          () => import("./stages/design.js"),
   TEST:            () => import("./stages/test.js"),
+  GUIDED:          () => import("../../frontend/src/stages/guided/guided.page.ts"), // Monthly Check-in runner (customer-owned so Phase 7 can reuse it)
   ERROR:           () => import("./stages/error.ts"),
 };
 
@@ -218,6 +219,11 @@ startPopstate((parsed) => {
     else setState({ stage: STAGES.ADMIN_REGISTERED });
     return;
   }
+  if (parsed.stage === STAGES.GUIDED) {
+    if (parsed.params?.guidedId) setState({ guidedId: parsed.params.guidedId, stage: STAGES.GUIDED });
+    else setState({ stage: STAGES.START });
+    return;
+  }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
     if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
     // No session: a logged-in user goes home; a guest goes to login.
@@ -361,6 +367,14 @@ async function boot() {
   if (route?.stage === STAGES.ADMIN_USER) {
     if (route.params?.adminUserId) { setState({ adminUserId: route.params.adminUserId, stage: STAGES.ADMIN_USER }); return; }
     history.replaceState(null, "", "/admin/registered"); setState({ stage: STAGES.ADMIN_REGISTERED }); return;
+  }
+
+  // /guided/:id deep link — a Monthly Check-in resumed by URL (reload-resume). id from the
+  // URL; the runner fetches the session and lands on its saved stage. Internal-only (the
+  // isInternalStage gate above already bounced a corridor manager). Falls back to Home.
+  if (route?.stage === STAGES.GUIDED) {
+    if (route.params?.guidedId) { setState({ guidedId: route.params.guidedId, stage: STAGES.GUIDED }); return; }
+    history.replaceState(null, "", "/"); setState({ stage: STAGES.START }); return;
   }
 
   let rehydrated = false;

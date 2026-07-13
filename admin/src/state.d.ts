@@ -11,7 +11,7 @@ export type StageName =
   | "PREPARATION" | "BANK" | "QUESTIONING" | "EVAL" | "BRIEFING"
   | "LEXICON_REVIEW" | "RUN_DEBRIEF" | "COMPARE" | "LIBRARY" | "ROLE_LEXICONS"
   | "MEETING_ARCS" | "PERSONAS" | "REVIEW_RUN" | "GUIDE"
-  | "TASKS" | "UNIVERSE" | "ADMIN_REGISTERED" | "ADMIN_USER" | "ERROR";
+  | "TASKS" | "UNIVERSE" | "ADMIN_REGISTERED" | "ADMIN_USER" | "GUIDED" | "ERROR";
 
 export const STAGES: Readonly<Record<StageName, StageName>>;
 
@@ -38,6 +38,7 @@ export interface Store {
   preparationRunId: string | null;
   reviewRunId: string | null;
   myRunId: string | null;
+  guidedId: string | null; // the open Monthly Check-in's id (monthly-one-on-one Phase 1)
   personKey: string | null;
   joinToken: string | null;
   adminUserId: string | null;

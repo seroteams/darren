@@ -1,5 +1,5 @@
 import { STAGES, resetSession } from "../state.js";
-import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns } from "../../../shared/api.js";
+import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns, createPerson, createGuidedSession } from "../../../shared/api.js";
 import { firstRunIntroHtml, firstRunNotesExampleHtml } from "./intake-firstrun.ts";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
@@ -383,7 +383,29 @@ export async function mount(root, { store, setState }) {
     function confirm() {
       store.ctx.meetingTypeIndex = selected;
       store.ctx.meetingType = types[selected].label;
+      // Monthly Check-in (guided) branches BEFORE the interview flow: the interview path
+      // calls startSession → getArc(label), which would throw for a guided type. Create the
+      // guided session and jump to its runner instead (monthly-one-on-one Phase 1).
+      if (types[selected].kind === "guided") { startGuided(); return; }
       advance();
+    }
+
+    // Open a Monthly Check-in for the chosen person. A roster pick already carries a
+    // personId; a free-typed name has none, so create the roster person first (same
+    // POST /team/people the roster uses) — a guided session is always about a real person.
+    async function startGuided() {
+      try {
+        let personId = store.ctx.personId;
+        if (!personId) {
+          const { person } = await createPerson({ name: store.ctx.name, role: store.ctx.role, seniority: store.ctx.seniority });
+          personId = person?.id || null;
+          store.ctx.personId = personId;
+        }
+        const session = await createGuidedSession(personId);
+        setState({ guidedId: session.id, stage: STAGES.GUIDED });
+      } catch (e) {
+        setState({ stage: STAGES.ERROR, error: e.message, retryStage: STAGES.INTAKE });
+      }
     }
 
     paint();

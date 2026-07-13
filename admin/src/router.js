@@ -21,6 +21,7 @@ const PATH_FOR = {
   [STAGES.MEMBER_HOME]:    () => "/home",
   [STAGES.RUNS]:           () => "/runs",
   [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
+  [STAGES.GUIDED]:         (s) => (s.guidedId ? `/guided/${encodeURIComponent(s.guidedId)}` : "/new"),
   [STAGES.INTAKE]:         () => "/new",
   [STAGES.ONEPAGE]:        () => "/flow",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
@@ -78,7 +79,7 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GUIDED, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
@@ -95,7 +96,7 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // reviews) — the backend fences whose data those show.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST]);
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GUIDED]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // The plain-member destinations (member-view: only-runs): a member can view their own
@@ -126,6 +127,9 @@ export function parseLocation() {
   // map, so bare /runs still resolves to the list above).
   const mine = p.match(/^\/runs\/([^/]+)$/);
   if (mine) return { stage: STAGES.RUN_DETAIL, params: { myRunId: decodeURIComponent(mine[1]) } };
+  // An open Monthly Check-in: /guided/:id (internal-only; the id is the guided_session id).
+  const guided = p.match(/^\/guided\/([^/]+)$/);
+  if (guided) return { stage: STAGES.GUIDED, params: { guidedId: decodeURIComponent(guided[1]) } };
   // A superadmin drilling into one user: /admin/users/:id (after the exact-path map, so
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);
