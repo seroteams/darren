@@ -7,6 +7,11 @@ const TIMEOUT_MS = 30_000;
 const MAX_RETRIES = 5;
 const RETRY_STATUSES = new Set([429, 500, 502, 503, 504]);
 
+// H2 — output cap. Every model call sends this max output-token ceiling so a
+// single pathological completion can't balloon in length or cost. Generous
+// (~8k) so it never truncates a legitimate structured response; env-tunable.
+const MAX_OUTPUT_TOKENS = Number(process.env.SERO_MAX_OUTPUT_TOKENS) || 8192;
+
 // JSON-shaped value, for the schema objects we transform for Gemini.
 type JsonValue =
   | string
@@ -21,6 +26,9 @@ type JsonValue =
 interface RetryableError extends Error {
   status?: number;
   retryAfter?: number;
+  // Explicit opt-out: when false, withRetry never retries (used for deterministic
+  // failures like truncation or a tripped cost ceiling, which retrying only re-bills).
+  retryable?: boolean;
 }
 
 // Arguments shared by callAI and the per-provider callers.
@@ -37,7 +45,7 @@ interface CallAIArgs {
 // OpenAI chat.completions response — only the fields we read.
 interface OpenAIChatResponse {
   usage?: OpenAiUsage;
-  choices?: Array<{ message?: { content?: string } }>;
+  choices?: Array<{ message?: { content?: string }; finish_reason?: string }>;
 }
 
 // Gemini generateContent response — only the fields we read.
@@ -47,7 +55,22 @@ interface GeminiResponse {
     candidatesTokenCount?: number;
     totalTokenCount?: number;
   };
-  candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+  candidates?: Array<{ content?: { parts?: Array<{ text?: string }> }; finishReason?: string }>;
+}
+
+// H2 — flag a truncated completion. OpenAI reports finish_reason "length" and
+// Gemini "MAX_TOKENS" when the model stopped only because it hit the output cap;
+// the body is then cut off (usually invalid JSON). Surface it as a clear,
+// non-retryable error instead of a downstream "invalid JSON" mystery.
+function assertNotTruncated(finishReason: string | undefined, label: string): void {
+  if (finishReason === "length" || finishReason === "MAX_TOKENS") {
+    const e: RetryableError = new Error(
+      `${label} response was truncated — hit the output cap (max ${MAX_OUTPUT_TOKENS} tokens). ` +
+        `Raise SERO_MAX_OUTPUT_TOKENS or shorten the input.`,
+    );
+    e.retryable = false;
+    throw e;
+  }
 }
 
 function isGemini(model: unknown): boolean {
@@ -110,7 +133,12 @@ async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
       // A status-less error means we never got an HTTP response — a network drop
       // (ECONNRESET, DNS failure, fetch TypeError). Those are transient: retry them.
       const isNetworkError = e.status == null;
-      const isRetryable = isAbort || isNetworkError || RETRY_STATUSES.has(e.status ?? -1);
+      // An explicit retryable=false wins over the heuristics: deterministic
+      // failures (truncation, cost ceiling) must never be retried/re-billed.
+      const isRetryable =
+        e.retryable === false
+          ? false
+          : isAbort || isNetworkError || RETRY_STATUSES.has(e.status ?? -1);
       if (!isRetryable) throw e;
       console.warn(`[ai-client] ${label} attempt ${attempt + 1} failed (${e.message}), retrying…`);
     }
@@ -187,6 +215,7 @@ async function _callOpenAI({
           json_schema: { name: schemaName, strict: true, schema },
         },
         temperature,
+        max_tokens: MAX_OUTPUT_TOKENS,
       }),
     });
     if (!res.ok) {
@@ -198,6 +227,7 @@ async function _callOpenAI({
     }
     const data: OpenAIChatResponse = JSON.parse(await res.text());
     cost.record(costLabel, model, data.usage, Date.now() - startedAt);
+    assertNotTruncated(data.choices?.[0]?.finish_reason, costLabel);
     return data.choices?.[0]?.message?.content ?? "";
   }, `OpenAI/${costLabel}`);
 }
@@ -227,6 +257,7 @@ async function _callGemini({
             temperature,
             responseMimeType: "application/json",
             responseSchema: toGeminiSchema(schema),
+            maxOutputTokens: MAX_OUTPUT_TOKENS,
           },
         }),
       },
@@ -244,6 +275,7 @@ async function _callGemini({
       total_tokens: data.usageMetadata?.totalTokenCount ?? 0,
     };
     cost.record(costLabel, model, usage, Date.now() - startedAt);
+    assertNotTruncated(data.candidates?.[0]?.finishReason, costLabel);
     return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
   }, `Gemini/${costLabel}`);
 }
@@ -289,4 +321,4 @@ function parseAIJson(raw: string, label: string, requiredKeys: string[] = []): u
   return parsed;
 }
 
-export { callAI, isGemini, parseAIJson, assertNoUnresolvedPlaceholders };
+export { callAI, isGemini, parseAIJson, assertNoUnresolvedPlaceholders, assertNotTruncated };

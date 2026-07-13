@@ -14,6 +14,34 @@ interface Pricing {
   models: Record<string, ModelPrice>;
 }
 
+// Thrown by the module-level record() when a run's cumulative spend passes the
+// per-run ceiling (SERO_RUN_USD_CAP). `retryable = false` so ai-client's
+// withRetry aborts immediately instead of re-billing the same runaway call.
+class CostCeilingError extends Error {
+  readonly retryable = false;
+  readonly usdTotal: number;
+  readonly capUsd: number;
+  constructor(usdTotal: number, capUsd: number) {
+    super(
+      `Run cost $${usdTotal.toFixed(4)} exceeded the per-run cap of $${capUsd.toFixed(2)} ` +
+        `(SERO_RUN_USD_CAP). Aborting so spend can't run away.`,
+    );
+    this.name = "CostCeilingError";
+    this.usdTotal = usdTotal;
+    this.capUsd = capUsd;
+  }
+}
+
+// Per-run USD ceiling. Read per call (not at import) so scripts/tests can flip
+// it without re-importing. Default $5 — ~14x a normal single run, so it never
+// trips legitimate use but stops a runaway. Set to 0 (or negative) to disable.
+function runUsdCap(): number {
+  const raw = process.env.SERO_RUN_USD_CAP;
+  if (raw == null || raw === "") return 5;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : 5;
+}
+
 let _pricing: Pricing | null = null;
 
 function loadPricing(): Pricing {
@@ -115,7 +143,15 @@ const setActive = (t: CostTracker | null): void => {
 };
 const getActive = (): CostTracker | null => _active;
 const record = (stage: string, model: string, usage: OpenAiUsage | undefined, ms = 0): void => {
-  if (_active) _active.record(stage, model, usage, ms);
+  if (!_active) return;
+  _active.record(stage, model, usage, ms);
+  // Enforce the per-run spend ceiling after recording (so the call that tipped
+  // it over is still logged honestly), then abort the run.
+  const cap = runUsdCap();
+  if (cap > 0) {
+    const total = _active.summary().usd_total;
+    if (total > cap) throw new CostCeilingError(total, cap);
+  }
 };
 
 function formatUsd(usd: number | null | undefined): string {
@@ -141,4 +177,5 @@ export {
   record,
   formatUsd,
   formatTokens,
+  CostCeilingError,
 };
