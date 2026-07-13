@@ -13,6 +13,13 @@ import { createAppNav } from "./ui/app-nav.js";
 import { createProfileBadge } from "./ui/profile-badge.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
 import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js";
+
+// App identity — the ADMIN app is the only one that registers the GUIDED stage +
+// /guided/:id route + runner loader. The shared intake reads this so the internal-only
+// Monthly Check-in card is offered ONLY where it can actually run (the customer app
+// cross-imports intake but has no guided runner). monthly-one-on-one Phase 1.
+if (typeof window !== "undefined") window.__seroApp = "admin";
+
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
   // The customer shell (welcome/join/team/person-detail) lives in the customer

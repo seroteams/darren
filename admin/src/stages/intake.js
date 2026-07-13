@@ -486,7 +486,13 @@ export async function mount(root, { store, setState }) {
     listMyRuns({ open: true }),
     listRecentRuns(1),
   ]);
-  types = typesRes.status === "fulfilled" ? typesRes.value.types : [];
+  const rawTypes = typesRes.status === "fulfilled" ? typesRes.value.types : [];
+  // The guided Monthly Check-in card only works in the ADMIN app (the only one with the
+  // runner + /guided route). This intake is cross-imported by the customer app too, so
+  // filter guided cards out there — never offer a card that would dead-end. Interview
+  // indices are unaffected: the guided card is always appended last (Phase 1).
+  const isAdminApp = typeof window !== "undefined" && window.__seroApp === "admin";
+  types = isAdminApp ? rawTypes : rawTypes.filter((t) => t.kind !== "guided");
   // Zero runs ever (recent covers finished + in-progress) → this is a first prep.
   // Any failure (guest 401, network) leaves it false — guidance never blocks intake.
   isFirstRun =

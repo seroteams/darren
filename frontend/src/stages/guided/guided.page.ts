@@ -62,6 +62,9 @@ export const mount: Mount = async (root, { store, setState }) => {
   let panel: PanelState | null = null;
   let saveState: SaveState = "saved";
   let saveTimer: ReturnType<typeof setTimeout> | undefined;
+  // Once complete() has flipped the server to "done", no later save may run — a
+  // cleanup/unmount flush would otherwise PATCH stage back to "wrapup" and un-finish it.
+  let completed = false;
 
   // ---- body portal: nav + side panel (fixed on every stage) --------------------------
   document.querySelectorAll(".mcr-portal").forEach((n) => n.remove());
@@ -81,6 +84,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     return saveState === "saving" ? "Saving…" : saveState === "error" ? "Not saved" : "Saved";
   }
   async function save(keepalive = false): Promise<void> {
+    if (completed) return; // session finished — never overwrite the "done" marker
     setPip("saving");
     try {
       if (keepalive) {
@@ -142,6 +146,8 @@ export const mount: Mount = async (root, { store, setState }) => {
     const note = root.querySelector<HTMLElement>("[data-finish-note]");
     try {
       await completeGuidedSession(id!);
+      completed = true; // lock out any later save so "done" sticks
+      clearTimeout(saveTimer);
       if (note) note.hidden = false;
       // Phase 6 adds the real finished record + list merge; for now, back to Home.
       setTimeout(() => setState({ stage: STAGES.START, guidedId: null }), 1500);
