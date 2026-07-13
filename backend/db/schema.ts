@@ -21,6 +21,11 @@ import { pgTable, pgEnum, uuid, text, integer, bigint, boolean, timestamp, jsonb
 /** Fixed sets as enums (locked rule: roles / invite status are enums, not free text). */
 export const userRole = pgEnum("user_role", ["admin", "manager", "member"]);
 export const inviteStatus = pgEnum("invite_status", ["pending", "accepted", "revoked"]);
+/** The three tracker kinds (monthly-one-on-one Phase 2). The STATUS set differs per kind
+ *  (promise open|done|partly|not_done|changed · request new|in_progress|resolved · goal
+ *  not_started|in_progress|done), so status stays a service-validated text column, not an
+ *  enum — one column serves all three kinds. */
+export const trackerKind = pgEnum("tracker_kind", ["promise", "request", "goal"]);
 
 /** The tenant root — one row per company. */
 export const organizations = pgTable("organizations", {
@@ -217,6 +222,45 @@ export const guidedSessions = pgTable(
     index("guided_sessions_org_id_idx").on(t.orgId),
     index("guided_sessions_manager_id_idx").on(t.managerId),
     index("guided_sessions_person_id_idx").on(t.personId),
+  ],
+);
+
+/** Persistent per-person trackers (monthly-one-on-one Phase 2) — promises, requests and
+ *  goals that carry month to month, so a Monthly Check-in feels connected to the last one.
+ *  ONE table keyed by `kind`; the per-kind fields are nullable (owner = promises only,
+ *  category = requests only, progress = goals only). `status` is service-validated text
+ *  (the set differs per kind). `history` is an append-only jsonb array of dated events
+ *  ({at, text}) — every status/note/progress change appends one. `created_session_id` is
+ *  the guided session that raised it (nullable, no FK: the tracker outlives any one
+ *  session — that's the whole point). Fenced like every tenant table: reads/writes go
+ *  through the person the caller manages (org_id + people.manager_id). */
+export const trackerItems = pgTable(
+  "tracker_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    // The manager (or, in Phase 7, the member) who raised it. Nullable so a deleted user
+    // never breaks the row.
+    createdByUserId: uuid("created_by_user_id").references(() => users.id),
+    kind: trackerKind("kind").notNull(),
+    text: text("text").notNull(),
+    owner: text("owner"), // promises: "manager" | "member"
+    category: text("category"), // requests: growth_development | ideas_suggestions | concerns_feedback
+    status: text("status").notNull(),
+    progress: integer("progress"), // goals: 0–100
+    history: jsonb("history").notNull(),
+    createdSessionId: uuid("created_session_id"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("tracker_items_org_id_idx").on(t.orgId),
+    index("tracker_items_person_kind_status_idx").on(t.personId, t.kind, t.status),
   ],
 );
 

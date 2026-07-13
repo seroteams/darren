@@ -11,6 +11,21 @@
 import { notFound, badRequest } from "../../middleware/http-error.ts";
 import type { GuidedSessionsRepo, GuidedSessionRow } from "./guided-sessions.repo.ts";
 import type { PeopleRepo, PersonRow } from "../team/people.repo.ts";
+import type { TrackersService } from "../trackers/trackers.service.ts";
+
+// Pull the Catch-up promise outcomes out of the saved draft, defensively — { itemId: chip }.
+function readOutcomes(state: unknown): Record<string, string> {
+  if (!state || typeof state !== "object") return {};
+  const catchup = (state as { catchup?: unknown }).catchup;
+  if (!catchup || typeof catchup !== "object") return {};
+  const outcomes = (catchup as { outcomes?: unknown }).outcomes;
+  if (!outcomes || typeof outcomes !== "object") return {};
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(outcomes as Record<string, unknown>)) {
+    if (typeof v === "string") out[k] = v;
+  }
+  return out;
+}
 
 /** The seven walkable stages, in order — the resume marker. "done" is the terminal
  *  state a completed session flips to. The runner reads its arc from guided-arcs.ts;
@@ -30,6 +45,7 @@ export function initialGuidedState(): { v: number } {
 export interface GuidedSessionView {
   id: string;
   personId: string;
+  personName: string;
   stage: string;
   state: unknown;
   engagement: number | null;
@@ -42,6 +58,7 @@ function toView(row: GuidedSessionRow): GuidedSessionView {
   return {
     id: row.id,
     personId: row.personId,
+    personName: row.personName,
     stage: row.stage,
     state: row.state ?? initialGuidedState(),
     engagement: row.engagement,
@@ -67,8 +84,11 @@ export interface GuidedSessionsService {
 export function createGuidedSessionsService(deps: {
   repo: GuidedSessionsRepo;
   people: Pick<PeopleRepo, "findForManager">;
+  // Phase 2: complete() applies the Catch-up promise outcomes to the tracker rows. Optional
+  // so the Phase-1 tests (no trackers) still construct the service — a missing dep = no-op.
+  trackers?: Pick<TrackersService, "applyPromiseOutcomes">;
 }): GuidedSessionsService {
-  const { repo, people } = deps;
+  const { repo, people, trackers } = deps;
 
   // The person-fence: resolve the roster person the caller manages, or 404. A person
   // in another org / another manager's roster is indistinguishable from a missing one.
@@ -124,9 +144,15 @@ export function createGuidedSessionsService(deps: {
     },
 
     async complete(id, orgId, managerId) {
-      await own(id, orgId, managerId); // fence before the flip
-      // Phase 1: flip to "done" + stamp completion only. block_scores / engagement
-      // denormalisation + promise outcomes arrive in later phases.
+      const row = await own(id, orgId, managerId); // fence before the flip
+      // Phase 2: apply the Catch-up promise outcomes to the tracker rows — an open promise
+      // marked Done/Partly/Not-yet/Changed leaves the "open" set so it won't resurface next
+      // meeting. Defensive: no outcomes or no trackers dep = no-op; a stale id can't 500 it.
+      if (trackers) {
+        const outcomes = readOutcomes(row.state);
+        if (Object.keys(outcomes).length) await trackers.applyPromiseOutcomes(orgId, managerId, outcomes);
+      }
+      // (block_scores / engagement denormalisation arrive in Phases 3–4.)
       await repo.update(id, { stage: "done", completedAt: new Date() });
       return toView(await own(id, orgId, managerId));
     },

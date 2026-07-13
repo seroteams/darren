@@ -25,6 +25,7 @@ import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import * as guidedSessions from "./services/guided-sessions/guided-sessions.controller.ts";
+import * as trackers from "./services/trackers/trackers.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { originOk } from "./middleware/origin.ts";
 import { requireSuperadminRoute } from "./middleware/superadmin-guard.ts";
@@ -462,6 +463,17 @@ async function main(): Promise<void> {
   router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/complete$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return guidedSessions.complete(c);
+  }));
+  // Per-person trackers (monthly-one-on-one Phase 2) — promises/requests/goals that carry
+  // month to month. Same internal-only + org/manager/person fence as guided-sessions.
+  router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route(trackers.listForPerson));
+  router.add("POST", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.create(c);
+  }));
+  router.add("PATCH", /^\/api\/v1\/tracker-items\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.update(c);
   }));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the

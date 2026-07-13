@@ -1,15 +1,19 @@
-// Monthly Check-in stage content (monthly-one-on-one Phase 1). The per-stage HTML +
-// coaching copy + the side-panel, ported from the approved /test prototype.
+// Monthly Check-in stage content (monthly-one-on-one Phase 2). The per-stage HTML + the
+// side panels. Catch-up / Requests / Goals now render from REAL per-person tracker data
+// (promises/requests/goals that carry month to month); Rating / Feedback / Summary / Review
+// still carry prototype sample content (Phases 3–4) but use the real person's name.
 //
-// PHASE-1 SCOPE: the promises / requests / goals / block scores shown here are still the
-// prototype's SAMPLE data ("Aisha") — real per-person tracker data + the last-time markers
-// arrive in Phases 2–3. What IS real in Phase 1: the manager's typed inputs (catch-up
-// notes, promise outcomes, ratings + notes, feedback answers, summary edit, engagement,
-// private notes) persist to guided_sessions.state and survive a reload. Reads are
-// defensive (missing draft key ⇒ empty).
+// The panels save for real: request/goal panels PATCH the tracker item, "+ Add" panels POST
+// a new one, and Catch-up promise outcome chips are applied to the tracker rows at complete().
 
 import type { GuidedStageId } from "./guided-arcs.ts";
-import type { GuidedDraft, StageView } from "./guided.types.ts";
+import type { GuidedDraft, StageView, GroupedTrackers, TrackerView, TrackerHistoryEvent } from "./guided.types.ts";
+
+// The runtime context each stage renders against.
+export interface RunnerCtx {
+  personName: string;
+  trackers: GroupedTrackers;
+}
 
 // ---- tiny icon set (lucide-style inline SVGs) ----------------------------------------
 const I = (d: string): string =>
@@ -37,8 +41,6 @@ export const ICONS: Record<string, string> = {
   lock: I(`<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>`),
 };
 
-/** Per-stage label + nav icon. The ORDER comes from the arc (guided-arcs.ts) — this map
- *  only supplies each stage's display bits, so a new arc reuses these unchanged. */
 export const STAGE_META: Record<GuidedStageId, { label: string; icon: string }> = {
   catchup: { label: "Catch-up", icon: "chat" },
   requests: { label: "Requests", icon: "inbox" },
@@ -49,23 +51,36 @@ export const STAGE_META: Record<GuidedStageId, { label: string; icon: string }> 
   wrapup: { label: "Review", icon: "clip" },
 };
 
-// ---- Phase-1 sample data (prototype's "Aisha"; real per-person data = Phase 2/3) ------
-const PERSON = { name: "Aisha", full: "Aisha Rahman", last: "9 Jun 2026" };
+// ---- label maps (enum value ↔ human label) -------------------------------------------
+const CAT_LABEL: Record<string, string> = {
+  growth_development: "Growth & development",
+  ideas_suggestions: "Ideas & suggestions",
+  concerns_feedback: "Concerns & feedback",
+};
+const REQ_STATUS: Record<string, string> = { new: "New", in_progress: "In progress", resolved: "Resolved" };
+const GOAL_STATUS: Record<string, string> = { not_started: "Not started", in_progress: "In progress", done: "Done" };
 
-const PROMISES = [
-  { owner: "you", action: "Book Aisha's onboarding buddy" },
-  { owner: "Aisha", action: "Track where her hours actually go for a week" },
-];
 const OUTCOMES = [
   { value: "yes", label: "Done" },
   { value: "partly", label: "Partly" },
   { value: "no", label: "Not yet" },
   { value: "changed", label: "Changed" },
 ];
-const REQUESTS = [
-  { text: "Wants to shadow a senior on the checkout redesign", cat: "Growth & development", status: "New", raised: "raised this month", note: "Keen to see how a senior scopes a big flow before she leads one herself." },
-  { text: "Clearer priorities at the start of each sprint", cat: "Concerns & feedback", status: "In progress", raised: "raised 2 months ago", note: "Comes up repeatedly — she loses the first day of each sprint working out what matters." },
-];
+
+function statusCls(status: string): string {
+  if (status === "done" || status === "resolved") return "done";
+  if (status === "in_progress") return "prog";
+  return "new";
+}
+function esc(s: string): string {
+  return s.replace(/[&<>"]/g, (c) => (c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : "&quot;"));
+}
+function fmtDate(iso: string): string {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString(undefined, { day: "numeric", month: "short" });
+}
+
+// ---- still-mock content for Phases 3–4 (name is real; scenario data is placeholder) ---
 const BLOCKS = [
   { id: "tasks", label: "Tasks", icon: "check", last: 7 },
   { id: "processes", label: "Processes", icon: "flow", last: 6 },
@@ -74,18 +89,15 @@ const BLOCKS = [
   { id: "fun", label: "Fun", icon: "smile", last: 7 },
   { id: "fulfilment", label: "Fulfilment", icon: "heart", last: 6 },
 ];
-const GOALS = [
-  { text: "Own a feature end-to-end by Q3", pct: 77, status: "In progress", history: ["Jun — leading the empty-states work", "May — shadowing on the settings flow"] },
-  { text: "Get confident giving design crit", pct: 24, status: "In progress", history: ["Jun — spoke up in two reviews"] },
-  { text: "Run 3 peer feedback cycles", pct: 100, status: "Done", history: ["Jun — third cycle wrapped"] },
-];
-const FEEDBACK = [
-  { key: "less", tag: "Less of", stem: `What would ${PERSON.name} like less of?`, coach: `What drains her energy — tasks, meetings, interruptions? Listen for patterns that might point to something systemic.` },
-  { key: "more", tag: "More of", stem: `What would ${PERSON.name} like more of?`, coach: "More ownership, more feedback, more pairing time? Ask what it would unlock for her." },
-  { key: "learn", tag: "Learn", stem: `What does ${PERSON.name} want to learn?`, coach: "A skill, a tool, a role to shadow — tie it into the goals stage next." },
-] as const;
-
-export type FeedbackKey = (typeof FEEDBACK)[number]["key"];
+function feedbackQuestions(name: string): { key: string; tag: string; stem: string; coach: string }[] {
+  return [
+    { key: "less", tag: "Less of", stem: `What would ${name} like less of?`, coach: `What drains their energy — tasks, meetings, interruptions? Listen for patterns that might point to something systemic.` },
+    { key: "more", tag: "More of", stem: `What would ${name} like more of?`, coach: "More ownership, more feedback, more pairing time? Ask what it would unlock for them." },
+    { key: "learn", tag: "Learn", stem: `What does ${name} want to learn?`, coach: "A skill, a tool, a role to shadow — tie it into the goals stage next." },
+  ];
+}
+export type FeedbackKey = "less" | "more" | "learn";
+const MOCK_LAST = "your last check-in";
 
 // ---- builders ------------------------------------------------------------------------
 const qCard = ({ n, of, stem, coach, src }: { n: number; of: number; stem: string; coach: string; src?: string }): string => `
@@ -100,59 +112,69 @@ const qCard = ({ n, of, stem, coach, src }: { n: number; of: number; stem: strin
     ${src ? `<p class="mcr-q__src">${src}</p>` : ""}
   </div>`;
 
-// A borderless notes card. `save` is the draft path the page auto-saves this textarea to.
 const notesCard = (placeholder: string, save: string): string => `
   <div class="mcr-card mcr-notes">
-    <textarea data-save="${save}" placeholder="${placeholder}"></textarea>
+    <textarea data-save="${save}" placeholder="${esc(placeholder)}"></textarea>
     <div class="mcr-notes__foot"><span class="mcr-q__src" style="margin:0">Saved automatically</span></div>
   </div>`;
 
 const cta = (label: string, action = "next"): string =>
   `<div class="mcr-cta"><button type="button" class="mcr-btn mcr-btn--primary" data-${action}>${label}</button></div>`;
 
-const statusCls = (s: string): string => (s === "Done" ? "done" : s === "In progress" ? "prog" : "new");
+const addRow = (open: string, label: string): string =>
+  `<div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="${open}">${ICONS.plus}<span>${label}</span></button></div>`;
+
+const emptyNote = (text: string): string => `<p class="mcr-q__src" style="text-align:center; margin:0 0 18px">${text}</p>`;
 
 // ---- stage content -------------------------------------------------------------------
-export function stageHtml(id: GuidedStageId, draft: GuidedDraft): StageView {
+export function stageHtml(id: GuidedStageId, draft: GuidedDraft, ctx: RunnerCtx): StageView {
+  const name = ctx.personName || "them";
+
   if (id === "catchup") {
     const outcomes = draft.catchup?.outcomes ?? {};
-    const rows = PROMISES.map((p, i) => `
+    const promises = ctx.trackers.promises;
+    const rows = promises.map((p) => `
       <div class="mcr-prom__row">
-        <span class="mcr-owner mcr-owner--${p.owner === "you" ? "you" : "them"}">${p.owner === "you" ? "You" : PERSON.name}</span>
-        <span class="mcr-prom__text">${p.action}</span>
+        <span class="mcr-owner mcr-owner--${p.owner === "manager" ? "you" : "them"}">${p.owner === "manager" ? "You" : esc(name)}</span>
+        <span class="mcr-prom__text">${esc(p.text)}</span>
         <div class="mcr-chips" role="group" aria-label="Did it happen?">
-          ${OUTCOMES.map((o) => `<button type="button" class="mcr-chip" data-item="${i}" data-value="${o.value}"${outcomes[i] === o.value ? " data-selected" : ""}>${o.label}</button>`).join("")}
+          ${OUTCOMES.map((o) => `<button type="button" class="mcr-chip" data-item="${p.id}" data-value="${o.value}"${outcomes[p.id] === o.value ? " data-selected" : ""}>${o.label}</button>`).join("")}
         </div>
       </div>`).join("");
-    return {
-      title: "A quick catch-up to start things off",
-      sub: "Start where you left off — how did last month's promises go?",
-      body: `
-        <div class="mcr-card mcr-prom">
+    const promisesCard = promises.length
+      ? `<div class="mcr-card mcr-prom">
           <div class="mcr-q__head" style="margin-bottom:4px">
             <span class="mcr-q__logo">S</span>
             <span class="mcr-q__stem">Last month's promises — did they happen?</span>
           </div>
           ${rows}
-        </div>
-        ${notesCard(`Notes on ${PERSON.name}'s answers`, "catchup.notes")}
+        </div>`
+      : emptyNote(`No open promises from last time — anything you both commit to today, add below so it comes back next month.`);
+    return {
+      title: "A quick catch-up to start things off",
+      sub: "Start where you left off — how did last month's promises go?",
+      body: `
+        ${promisesCard}
+        ${addRow("add-promise", "Add a promise")}
+        ${notesCard(`Notes on ${name}'s answers`, "catchup.notes")}
         ${cta("Continue to requests")}`,
     };
   }
 
   if (id === "requests") {
-    const rows = REQUESTS.map((r, i) => `
-      <button type="button" class="mcr-row" data-open="request" data-i="${i}">
-        <span class="mcr-row__text">${r.text}</span>
-        <span class="mcr-row__cat">${r.cat}</span>
-        <span class="mcr-status mcr-status--${statusCls(r.status)}">${r.status}</span>
+    const requests = ctx.trackers.requests;
+    const rows = requests.map((r) => `
+      <button type="button" class="mcr-row" data-open="request" data-id="${r.id}">
+        <span class="mcr-row__text">${esc(r.text)}</span>
+        <span class="mcr-row__cat">${CAT_LABEL[r.category ?? ""] ?? ""}</span>
+        <span class="mcr-status mcr-status--${statusCls(r.status)}">${REQ_STATUS[r.status] ?? r.status}</span>
         <span class="mcr-row__chev">${ICONS.chev}</span>
       </button>`).join("");
     return {
-      title: `${PERSON.name} has ${REQUESTS.length} things to discuss`,
+      title: requests.length ? `${name} has ${requests.length} thing${requests.length === 1 ? "" : "s"} to discuss` : `Anything ${name} wants to raise?`,
       sub: `Click any request to open it — discuss priorities, blockers, and next steps in the side panel.`,
-      body: `${rows}
-        <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-request">${ICONS.plus}<span>Add request</span></button></div>
+      body: `${rows || emptyNote("No open requests. Add one as it comes up.")}
+        ${addRow("add-request", "Add request")}
         ${cta("Continue to Ratings")}`,
     };
   }
@@ -170,7 +192,7 @@ export function stageHtml(id: GuidedStageId, draft: GuidedDraft): StageView {
           <span class="mcr-block__score" data-score-for="${b.id}">${Number(val).toFixed(1)}</span>
         </div>
         <div class="mcr-slider">
-          <span class="mcr-lastmark" style="left:${pct}%">${b.last.toFixed(1)} · ${PERSON.last}</span>
+          <span class="mcr-lastmark" style="left:${pct}%">${b.last.toFixed(1)} · ${MOCK_LAST}</span>
           <input type="range" min="1" max="10" step="0.5" value="${val}" data-block="${b.id}" aria-label="${b.label} score 1 to 10" />
           <div class="mcr-slider__labels"><span>1 Low score</span><span>5 Normal</span><span>10 Thriving</span></div>
         </div>
@@ -179,29 +201,30 @@ export function stageHtml(id: GuidedStageId, draft: GuidedDraft): StageView {
     }).join("");
     return {
       title: "Building block ratings",
-      sub: `Ask ${PERSON.full} to rate how they feel about each area — she says the number out loud, you type it in. The marker shows last month.`,
+      sub: `Ask ${name} to rate how they feel about each area — they say the number out loud, you type it in. (Real last-time markers arrive next phase.)`,
       body: `${rows}${cta("Continue to Feedback")}`,
     };
   }
 
   if (id === "feedback") {
+    const questions = feedbackQuestions(name);
     const idx = draft.feedback?.fbStep ?? 0;
-    const done = FEEDBACK.slice(0, idx).map((f) => `
+    const done = questions.slice(0, idx).map((f) => `
       <div class="mcr-card mcr-q mcr-q--done">
         <div class="mcr-q__head">
           <span class="mcr-q__logo">${ICONS.check}</span>
           <span class="mcr-q__stem">${f.stem}</span>
         </div>
       </div>`).join("");
-    const q = FEEDBACK[Math.min(idx, FEEDBACK.length - 1)]!;
-    const last = idx >= FEEDBACK.length - 1;
+    const q = questions[Math.min(idx, questions.length - 1)]!;
+    const last = idx >= questions.length - 1;
     return {
       title: "Looking to the future",
-      sub: `${PERSON.full}'s chance to share what they'd like more of, less of, and what they want to learn — one at a time.`,
+      sub: `${name}'s chance to share what they'd like more of, less of, and what they want to learn — one at a time.`,
       body: `
         ${done}
-        ${qCard({ n: Math.min(idx, FEEDBACK.length - 1) + 1, of: FEEDBACK.length, stem: q.stem, coach: q.coach, src: "Suggested by Sero" })}
-        ${notesCard(`Notes on ${PERSON.name}'s answers`, `feedback.${q.key}`)}
+        ${qCard({ n: Math.min(idx, questions.length - 1) + 1, of: questions.length, stem: q.stem, coach: q.coach, src: "Suggested by Sero" })}
+        ${notesCard(`Notes on ${name}'s answers`, `feedback.${q.key}`)}
         ${last
           ? cta("Continue to goals")
           : `<div class="mcr-cta"><button type="button" class="mcr-btn mcr-btn--primary" data-fbnext>Next question →</button></div>`}`,
@@ -209,18 +232,19 @@ export function stageHtml(id: GuidedStageId, draft: GuidedDraft): StageView {
   }
 
   if (id === "goals") {
-    const rows = GOALS.map((g, i) => `
-      <button type="button" class="mcr-row" data-open="goal" data-i="${i}">
-        <span class="mcr-row__text">${g.text}</span>
-        <span class="mcr-row__pct">${g.pct}%</span>
-        <span class="mcr-status mcr-status--${statusCls(g.status)}">${g.status}</span>
+    const goals = ctx.trackers.goals;
+    const rows = goals.map((g) => `
+      <button type="button" class="mcr-row" data-open="goal" data-id="${g.id}">
+        <span class="mcr-row__text">${esc(g.text)}</span>
+        <span class="mcr-row__pct">${g.progress ?? 0}%</span>
+        <span class="mcr-status mcr-status--${statusCls(g.status)}">${GOAL_STATUS[g.status] ?? g.status}</span>
         <span class="mcr-row__chev">${ICONS.chev}</span>
       </button>`).join("");
     return {
-      title: `Review ${GOALS.length} goals together`,
+      title: goals.length ? `Review ${goals.length} goal${goals.length === 1 ? "" : "s"} together` : `Set a goal with ${name}`,
       sub: `Click a goal to open it — discuss progress, blockers, and celebrate wins in the side panel.`,
-      body: `${rows}
-        <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-goal">${ICONS.plus}<span>Add a new goal</span></button></div>
+      body: `${rows || emptyNote("No goals yet. Agree one together and it'll carry across your check-ins.")}
+        ${addRow("add-goal", "Add a new goal")}
         ${cta("Continue to 1:1 Summary")}`,
     };
   }
@@ -230,17 +254,8 @@ export function stageHtml(id: GuidedStageId, draft: GuidedDraft): StageView {
       title: "Your 1:1 summary",
       sub: "Sero drafts this from everything above and your last check-in — read it together, tweak anything, and it's saved.",
       body: `
-        <p class="mcr-ainote"><span class="mcr-q__logo">S</span> Drafted by Sero from this session + your ${PERSON.last} check-in — edit freely. (The live AI draft arrives in a later phase.)</p>
-        <div class="mcr-card mcr-sum">
-          <h3>July catch-up with ${PERSON.name}</h3>
-          <p>Good month overall — Development is up (5 → 7) after she started leading the empty-states work. The onboarding buddy is finally booked. Sprint priorities are still fuzzy at the start of each sprint.</p>
-          <ul>
-            <li>Agreed: she shadows a senior on the checkout redesign this month.</li>
-            <li>You set sprint priorities on the Monday of each sprint.</li>
-            <li>Her "give design crit" goal moves to 40% — spoke up twice this month.</li>
-          </ul>
-        </div>
-        ${notesCard("Edit the summary…", "summary.text")}
+        <p class="mcr-ainote"><span class="mcr-q__logo">S</span> The live AI draft arrives in a later phase — for now, write the summary yourself.</p>
+        ${notesCard(`Summary of your check-in with ${name}…`, "summary.text")}
         ${cta("Continue to Review")}`,
     };
   }
@@ -251,74 +266,84 @@ export function stageHtml(id: GuidedStageId, draft: GuidedDraft): StageView {
     `<button type="button" data-eng="${n}"${engagement === n ? " data-selected" : ""}>${n}</button>`).join("");
   return {
     title: "Your private review",
-    sub: `After ${PERSON.name} leaves — a quiet moment for your own read. None of this is ever shared with her.`,
+    sub: `After ${name} leaves — a quiet moment for your own read. None of this is ever shared with them.`,
     body: `
-      <div class="mcr-private">${ICONS.lock}<span>Private — just for you. ${PERSON.name} never sees this stage.</span></div>
-      <p style="text-align:center; font-weight:600; margin:0 0 2px">How engaged did she seem?</p>
+      <div class="mcr-private">${ICONS.lock}<span>Private — just for you. ${esc(name)} never sees this stage.</span></div>
+      <p style="text-align:center; font-weight:600; margin:0 0 2px">How engaged did they seem?</p>
       <div class="mcr-eng" role="group" aria-label="Engagement 1 to 5">${eng}</div>
       ${notesCard("Your private notes — anything you don't want to forget…", "wrapup.privateNotes")}
-      <div class="mcr-card mcr-sugg">
-        <div class="mcr-q__head" style="margin-bottom:6px">
-          <span class="mcr-q__logo">S</span>
-          <span class="mcr-q__stem">Sero's suggestions (private)</span>
-        </div>
-        <div class="mcr-sugg__row"><span class="mcr-sugg__tag">For her</span><span>Give her a low-risk piece to present at the next design review.</span></div>
-        <div class="mcr-sugg__row"><span class="mcr-sugg__tag">Team</span><span>The sprint-priorities gap may be hitting others too.</span></div>
-        <div class="mcr-sugg__row"><span class="mcr-sugg__tag">Company</span><span>Juniors want senior-shadow time — worth making routine.</span></div>
-      </div>
       <div class="mcr-cta" style="margin-top:22px"><button type="button" class="mcr-btn mcr-btn--primary" data-finish>${ICONS.check}<span>Complete 1:1</span></button></div>
-      <div class="mcr-mock" data-finish-note hidden>Saved. Next month, everything here comes back — promises, requests, goals, and the trend lines.</div>`,
+      <div class="mcr-mock" data-finish-note hidden>Saved. Next month, your open promises, requests and goals all come back.</div>`,
   };
 }
 
-// ---- side panel (requests + goals; add forms) — display-only this phase --------------
+// ---- side panel (real save) ----------------------------------------------------------
 export interface PanelState {
-  type: "request" | "goal" | "add-request" | "add-goal";
-  i?: number;
+  type: "request" | "goal" | "add-request" | "add-goal" | "add-promise";
+  id?: string;
 }
 
-export function panelHtml(panel: PanelState): string {
-  const selectField = (label: string, opts: string[], current: string): string =>
-    `<div class="mcr-field"><label>${label}</label><select>${opts.map((o) => `<option${o === current ? " selected" : ""}>${o}</option>`).join("")}</select></div>`;
+function selectField(cls: string, label: string, options: [string, string][], current: string): string {
+  return `<div class="mcr-field"><label>${label}</label><select class="${cls}">${options
+    .map(([v, l]) => `<option value="${v}"${v === current ? " selected" : ""}>${l}</option>`)
+    .join("")}</select></div>`;
+}
+function histHtml(history: TrackerHistoryEvent[]): string {
+  if (!history.length) return `<div>No history yet.</div>`;
+  return history.map((h) => `<div>${fmtDate(h.at)}${fmtDate(h.at) ? " — " : ""}${esc(h.text)}</div>`).join("");
+}
 
+export function panelHtml(panel: PanelState, ctx: RunnerCtx): string {
   let eyebrow = "";
   let body = "";
-  let foot = `<button type="button" class="mcr-btn mcr-btn--outline" data-close>Close</button><button type="button" class="mcr-btn mcr-btn--primary" data-close>Save</button>`;
+  let saveLabel = "Save";
 
   if (panel.type === "request") {
-    const r = REQUESTS[panel.i ?? 0]!;
+    const r = ctx.trackers.requests.find((x) => x.id === panel.id);
     eyebrow = "Request";
-    body = `
-      <div class="mcr-panel__title">${r.text}</div>
-      <div class="mcr-panel__meta"><span class="mcr-row__cat">${r.cat}</span><span class="mcr-status mcr-status--${statusCls(r.status)}">${r.status}</span><span class="mcr-q__src" style="margin:0">${r.raised}</span></div>
-      <div class="mcr-hist"><div>${r.note}</div></div>
-      ${selectField("Status", ["New", "In progress", "Resolved"], r.status)}
-      <div class="mcr-field"><label>Discussion notes</label><textarea placeholder="What you two talked through…"></textarea></div>
-      <div class="mcr-field"><label>Next step</label><input type="text" placeholder="e.g. Pair with Sam on the checkout flow next sprint" /></div>`;
+    body = r
+      ? `
+        <div class="mcr-panel__title">${esc(r.text)}</div>
+        <div class="mcr-panel__meta"><span class="mcr-row__cat">${CAT_LABEL[r.category ?? ""] ?? ""}</span><span class="mcr-status mcr-status--${statusCls(r.status)}">${REQ_STATUS[r.status] ?? r.status}</span></div>
+        ${selectField("js-status", "Status", [["new", "New"], ["in_progress", "In progress"], ["resolved", "Resolved"]], r.status)}
+        <div class="mcr-field"><label>Progress history</label><div class="mcr-hist">${histHtml(r.history)}</div></div>
+        <div class="mcr-field"><label>Add a note</label><textarea class="js-note" placeholder="What you two talked through…"></textarea></div>`
+      : `<div>Request not found.</div>`;
   } else if (panel.type === "goal") {
-    const g = GOALS[panel.i ?? 0]!;
+    const g = ctx.trackers.goals.find((x) => x.id === panel.id);
     eyebrow = "Goal";
-    body = `
-      <div class="mcr-panel__title">${g.text}</div>
-      <div class="mcr-panel__meta"><span class="mcr-row__pct">${g.pct}%</span><span class="mcr-status mcr-status--${statusCls(g.status)}">${g.status}</span></div>
-      <div class="mcr-bar"><span style="width:${g.pct}%"></span></div>
-      ${selectField("Status", ["Not started", "In progress", "Done"], g.status)}
-      <div class="mcr-field"><label>Progress history</label><div class="mcr-hist">${g.history.map((h) => `<div>${h}</div>`).join("")}</div></div>
-      <div class="mcr-field"><label>Add an update</label><textarea placeholder="What moved this month…"></textarea></div>`;
+    body = g
+      ? `
+        <div class="mcr-panel__title">${esc(g.text)}</div>
+        <div class="mcr-panel__meta"><span class="mcr-row__pct">${g.progress ?? 0}%</span><span class="mcr-status mcr-status--${statusCls(g.status)}">${GOAL_STATUS[g.status] ?? g.status}</span></div>
+        <div class="mcr-bar"><span style="width:${g.progress ?? 0}%"></span></div>
+        <div class="mcr-field"><label>Progress (%)</label><input class="js-progress" type="number" min="0" max="100" step="5" value="${g.progress ?? 0}" /></div>
+        ${selectField("js-status", "Status", [["not_started", "Not started"], ["in_progress", "In progress"], ["done", "Done"]], g.status)}
+        <div class="mcr-field"><label>Progress history</label><div class="mcr-hist">${histHtml(g.history)}</div></div>
+        <div class="mcr-field"><label>Add an update</label><textarea class="js-note" placeholder="What moved this month…"></textarea></div>`
+      : `<div>Goal not found.</div>`;
   } else if (panel.type === "add-goal") {
     eyebrow = "New goal";
+    saveLabel = "Add goal";
     body = `
-      <div class="mcr-field"><label>Goal</label><input type="text" placeholder="e.g. Own a feature end-to-end by Q4" /></div>
-      ${selectField("Status", ["Not started", "In progress", "Done"], "Not started")}
-      <div class="mcr-field"><label>First note (optional)</label><textarea placeholder="Where it stands today…"></textarea></div>`;
-    foot = `<button type="button" class="mcr-btn mcr-btn--outline" data-close>Cancel</button><button type="button" class="mcr-btn mcr-btn--primary" data-close>Add goal</button>`;
+      <div class="mcr-field"><label>Goal</label><input class="js-text" type="text" placeholder="e.g. Own a feature end-to-end by Q4" /></div>
+      <div class="mcr-field"><label>Progress (%)</label><input class="js-progress" type="number" min="0" max="100" step="5" value="0" /></div>
+      ${selectField("js-status", "Status", [["not_started", "Not started"], ["in_progress", "In progress"], ["done", "Done"]], "not_started")}
+      <div class="mcr-field"><label>First note (optional)</label><textarea class="js-note" placeholder="Where it stands today…"></textarea></div>`;
+  } else if (panel.type === "add-promise") {
+    eyebrow = "New promise";
+    saveLabel = "Add promise";
+    body = `
+      <div class="mcr-field"><label>Promise</label><input class="js-text" type="text" placeholder="e.g. Book ${esc(ctx.personName || "their")}'s onboarding buddy" /></div>
+      ${selectField("js-owner", "Whose promise?", [["manager", "You"], ["member", ctx.personName || "Them"]], "manager")}`;
   } else {
+    // add-request
     eyebrow = "New request";
+    saveLabel = "Add request";
     body = `
-      <div class="mcr-field"><label>Request</label><input type="text" placeholder="What ${PERSON.name} is asking for" /></div>
-      ${selectField("Category", ["Growth & development", "Ideas & suggestions", "Concerns & feedback"], "Growth & development")}
-      <div class="mcr-field"><label>Detail</label><textarea placeholder="Context…"></textarea></div>`;
-    foot = `<button type="button" class="mcr-btn mcr-btn--outline" data-close>Cancel</button><button type="button" class="mcr-btn mcr-btn--primary" data-close>Add request</button>`;
+      <div class="mcr-field"><label>Request</label><input class="js-text" type="text" placeholder="What ${esc(ctx.personName || "they")} is asking for" /></div>
+      ${selectField("js-category", "Category", [["growth_development", "Growth & development"], ["ideas_suggestions", "Ideas & suggestions"], ["concerns_feedback", "Concerns & feedback"]], "growth_development")}
+      <div class="mcr-field"><label>Detail</label><textarea class="js-note" placeholder="Context…"></textarea></div>`;
   }
 
   return `
@@ -329,6 +354,9 @@ export function panelHtml(panel: PanelState): string {
         <button type="button" class="mcr-panel__x" data-close aria-label="Close">${ICONS.x}</button>
       </div>
       <div class="mcr-panel__body">${body}</div>
-      <div class="mcr-panel__foot">${foot}</div>
+      <div class="mcr-panel__foot">
+        <button type="button" class="mcr-btn mcr-btn--outline" data-close>Cancel</button>
+        <button type="button" class="mcr-btn mcr-btn--primary" data-save-panel>${saveLabel}</button>
+      </div>
     </aside>`;
 }

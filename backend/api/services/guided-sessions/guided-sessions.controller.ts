@@ -11,8 +11,9 @@ import { asRecord, asString } from "../../../shared/guards.ts";
 import { createGuidedSessionsService } from "./guided-sessions.service.ts";
 import { pgGuidedSessionsRepo } from "./guided-sessions.repo.ts";
 import { pgPeopleRepo } from "../team/people.repo.ts";
+import { trackersService } from "../trackers/trackers.controller.ts";
 
-const service = createGuidedSessionsService({ repo: pgGuidedSessionsRepo, people: pgPeopleRepo });
+const service = createGuidedSessionsService({ repo: pgGuidedSessionsRepo, people: pgPeopleRepo, trackers: trackersService });
 
 /** The internal caller — admin/superadmin only, with the org + manager fence ids. */
 async function internalCaller(c: RequestContext): Promise<{ orgId: string; managerId: string }> {

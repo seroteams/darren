@@ -216,6 +216,22 @@ export async function completeGuidedSession(id) {
   return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/complete`, {});
 }
 
+// Per-person trackers (promises/requests/goals; monthly-one-on-one Phase 2). Internal-only.
+export async function listTrackerItems(personId, { includeArchived } = {}) {
+  const q = includeArchived ? "?includeArchived=1" : "";
+  return json(await fetch(`/api/v1/people/${encodeURIComponent(personId)}/tracker-items${q}`));
+}
+export async function createTrackerItem(personId, item) {
+  return postJson(`/api/v1/people/${encodeURIComponent(personId)}/tracker-items`, item);
+}
+export async function updateTrackerItem(id, patch) {
+  return json(await fetch(`/api/v1/tracker-items/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patch),
+  }));
+}
+
 // The running API's build id (git short SHA + commit date) — for the build stamp.
 export async function getVersion() {
   return json(await fetch("/api/version"));

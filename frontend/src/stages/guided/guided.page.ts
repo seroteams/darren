@@ -10,10 +10,13 @@
 
 import { STAGES } from "../../../../admin/src/state.js";
 import type { Mount, Unmount } from "../../../../admin/src/stages/stage.types.ts";
-import { getGuidedSession, patchGuidedSession, completeGuidedSession } from "../../../../shared/api.js";
+import {
+  getGuidedSession, patchGuidedSession, completeGuidedSession,
+  listTrackerItems, createTrackerItem, updateTrackerItem,
+} from "../../../../shared/api.js";
 import { DEFAULT_GUIDED_ARC, type GuidedStageId } from "./guided-arcs.ts";
-import { emptyDraft, type GuidedDraft, type GuidedSession } from "./guided.types.ts";
-import { stageHtml, panelHtml, STAGE_META, ICONS, type PanelState } from "./guided-content.ts";
+import { emptyDraft, emptyTrackers, type GuidedDraft, type GuidedSession, type GroupedTrackers } from "./guided.types.ts";
+import { stageHtml, panelHtml, STAGE_META, ICONS, type PanelState, type RunnerCtx } from "./guided-content.ts";
 import "./guided.css";
 
 type SaveState = "saved" | "saving" | "error";
@@ -52,6 +55,17 @@ export const mount: Mount = async (root, { store, setState }) => {
     return;
   }
   if (!session) { setState({ stage: STAGES.START, guidedId: null }); return; }
+
+  const personId = session.personId;
+  const personName = session.personName;
+  // Real per-person trackers (Phase 2) — fetched live so panel edits/adds are always fresh.
+  // A failure just means empty lists; the runner still opens (trackers are additive).
+  let trackers: GroupedTrackers = emptyTrackers();
+  try { trackers = (await listTrackerItems(personId)) as GroupedTrackers; } catch { /* optional */ }
+  const ctx = (): RunnerCtx => ({ personName, trackers });
+  async function refreshTrackers(): Promise<void> {
+    try { trackers = (await listTrackerItems(personId)) as GroupedTrackers; } catch { /* keep last */ }
+  }
 
   const arc = DEFAULT_GUIDED_ARC;
   const stages = arc.stages;
@@ -171,15 +185,47 @@ export const mount: Mount = async (root, { store, setState }) => {
         <div class="mcr-pip" data-state="${saveState}"><span class="mcr-pip__dot"></span><span>${pipLabel()}</span></div>
         <div class="mcr-tabs">${tabsHtml()}</div>
       </nav>
-      ${panel ? panelHtml(panel) : ""}`;
+      ${panel ? panelHtml(panel, ctx()) : ""}`;
     portal.querySelectorAll<HTMLElement>(".mcr-tab").forEach((b) =>
       b.addEventListener("click", () => { void go(Number(b.dataset.step)); }));
     portal.querySelectorAll<HTMLElement>("[data-close]").forEach((b) =>
       b.addEventListener("click", () => { panel = null; renderPortal(); }));
+    portal.querySelector<HTMLElement>("[data-save-panel]")?.addEventListener("click", () => { void savePanel(); });
   };
 
+  // Persist a side-panel edit/add to the trackers API, then re-fetch + close + re-render.
+  async function savePanel(): Promise<void> {
+    if (!panel) return;
+    const val = (sel: string): string => (portal.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(sel)?.value ?? "").trim();
+    const btn = portal.querySelector<HTMLButtonElement>("[data-save-panel]");
+    if (btn) { btn.disabled = true; btn.textContent = "Saving…"; }
+    try {
+      if (panel.type === "request" && panel.id) {
+        await updateTrackerItem(panel.id, { status: val(".js-status"), note: val(".js-note") });
+      } else if (panel.type === "goal" && panel.id) {
+        await updateTrackerItem(panel.id, { status: val(".js-status"), progress: Number(val(".js-progress")), note: val(".js-note") });
+      } else if (panel.type === "add-request") {
+        const text = val(".js-text");
+        if (text) await createTrackerItem(personId, { kind: "request", text, category: val(".js-category"), note: val(".js-note"), sessionId: id });
+      } else if (panel.type === "add-goal") {
+        const text = val(".js-text");
+        if (text) await createTrackerItem(personId, { kind: "goal", text, status: val(".js-status"), progress: Number(val(".js-progress")), note: val(".js-note"), sessionId: id });
+      } else if (panel.type === "add-promise") {
+        const text = val(".js-text");
+        if (text) await createTrackerItem(personId, { kind: "promise", text, owner: val(".js-owner"), sessionId: id });
+      }
+      await refreshTrackers();
+      panel = null;
+      render(); // re-render the stage with the updated rows + the portal
+    } catch {
+      if (btn) { btn.disabled = false; btn.textContent = "Save"; }
+      const body = portal.querySelector<HTMLElement>(".mcr-panel__body");
+      if (body) body.insertAdjacentHTML("afterbegin", `<div class="mcr-field" style="color:var(--sero-coral-800,#b23b2f)">Couldn't save — check your connection and try again.</div>`);
+    }
+  }
+
   const render = (): void => {
-    const s = stageHtml(currentStageId(), draft);
+    const s = stageHtml(currentStageId(), draft, ctx());
     root.innerHTML = `
       <div class="mcr">
         <div class="mcr-col">
@@ -258,8 +304,8 @@ export const mount: Mount = async (root, { store, setState }) => {
     root.querySelectorAll<HTMLElement>("[data-open]").forEach((b) => {
       b.addEventListener("click", () => {
         const t = b.dataset.open;
-        if (t === "request" || t === "goal") panel = { type: t, i: Number(b.dataset.i) };
-        else if (t === "add-request" || t === "add-goal") panel = { type: t };
+        if (t === "request" || t === "goal") panel = { type: t, id: b.dataset.id };
+        else if (t === "add-request" || t === "add-goal" || t === "add-promise") panel = { type: t };
         renderPortal();
       });
     });

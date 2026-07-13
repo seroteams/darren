@@ -18,10 +18,36 @@ export interface GuidedDraft {
 export interface GuidedSession {
   id: string;
   personId: string;
+  personName: string;
   stage: string;
   state: GuidedDraft;
   engagement: number | null;
   completedAt: string | null;
+}
+
+/** A persistent tracker item (promise/request/goal) — the trackers API shape (Phase 2). */
+export interface TrackerHistoryEvent {
+  at: string;
+  text: string;
+}
+export interface TrackerView {
+  id: string;
+  kind: string;
+  text: string;
+  owner: string | null;
+  category: string | null;
+  status: string;
+  progress: number | null;
+  history: TrackerHistoryEvent[];
+  createdSessionId: string | null;
+}
+export interface GroupedTrackers {
+  promises: TrackerView[];
+  requests: TrackerView[];
+  goals: TrackerView[];
+}
+export function emptyTrackers(): GroupedTrackers {
+  return { promises: [], requests: [], goals: [] };
 }
 
 /** One stage's rendered content. */
