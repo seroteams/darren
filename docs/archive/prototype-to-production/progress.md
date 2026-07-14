@@ -9,6 +9,29 @@
 ---
 
 ## Where we are now
+- **2026-07-13** — **monthly-checkin P3–P7 ALL BUILT overnight (Carl "go to end as i am going to bed"), sign-off delegated, ~$0.05 total (P5's one live call).** The whole Monthly Check-in track is code-complete on `work/monthly-one-on-one`: P3 rating→`block_scores` + last-time marker (`d7eef92a`); P4 engagement "last time: N/5" + completed banner (`2502dd7a`); **P5 the ONE AI call** — grounded Summary + private suggestions, cassette-first ($0) then one live gpt-5.4-mini call (~$0.05), honest-failure surfaced never rewritten (`16d37b7e`); P6 finished-record view + run-list merge (add-a-source, interview queries + tests untouched) (`73811ac1`); P7 the **fenced member lane** `/me/*` — own person + kind∈{request,goal} only, promises/other/guided all 404 (`9fc6e4f5`). Every phase: typecheck clean · 131/132 · a real local-Neon round-trip proving the destination. **Lessons:** (1) unattended ≠ unverified — each phase got a real-DB round-trip, not just green unit tests; (2) the money ceiling held — cassette proved the pipeline for free, exactly ONE live call, no retry; (3) **the honest gap that must not be lost: the on-screen UI was never walked** — the data layer is proven, the pixels aren't, so the track is BUILT-not-CLOSED until Carl walks it.
+- **2026-07-13** — **monthly-checkin P2 ✅ green-lit (Carl "keep going a", walk waived), $0, commit `372806e3`.**
+  The shared tracker domain: `tracker_items` (ONE table, kind promise|request|goal), a per-person
+  fenced service with per-kind status validation + a dated `history` event on every change, and the
+  fence walls (incl. `trackerVisibleToMember` — the Phase-7 predicate defined now: never a promise,
+  never another person). The **promise loop** works end-to-end — a Catch-up "Done" is stored in
+  session state and applied to the real promise row (open→done) when the 1:1 completes, through the
+  guided→trackers integration. Requests/Goals rows open side panels that PATCH real rows + grow history.
+  **Decision:** the runner fetches trackers LIVE (one GET) instead of the plan's create-time snapshot —
+  a snapshot is a premature optimization that would drift from the real rows; one cheap GET is simpler
+  and always fresh. **Lesson (again):** the real proof was a live-DB round-trip, not the fake-repo unit
+  tests — those pass even if the real repo/schema/integration is wrong.
+- **2026-07-12** — **monthly-checkin P1 ✅ green-lit (Carl "A", walk waived), $0, commit `ea5d2a49`.**
+  The "Monthly Check-in" — a manager-walked *guided* 1:1, a second engine alongside the AI-interview
+  types. P1 landed the flag-gated picker card (internal-admin only, gate = admin-role OR
+  superadmin-email so a superadmin-by-email manager isn't locked out), its own `guided_sessions`
+  table (interview `sessions` pipeline untouched), the org/manager/person-fenced guided-sessions API,
+  and the 7-stage runner (`/guided/:id`) ported from the approved prototype — **stage-config-driven**
+  (reads `GUIDED_ARCS`, never hardcodes the stages) with a floating pill nav + debounced auto-save.
+  **Lesson:** verify the destination, not the code — the fake-repo unit tests all passed, but the real
+  proof was a live local-Neon round-trip (create → patch typed notes → read-back → fence 404 → clean up).
+  **Lesson:** phase-close in a worktree ≠ single-checkout — updated the branch-local plan trackers only;
+  left main's STATUS/BOARD alone (they carried other sessions' uncommitted edits) to honour safe-commit.
 - **2026-07-12** — **promises-loop P1 ✅ green-lit (commit `47c0024b`), ~$0.35.** The 1:1 wrap-up
   now locks in what was agreed: `Session.promises[]` contract + `POST /sessions/:id/promises` +
   a confirm card at the top of the briefing (You/them owners, editable) behind the Q9 fork

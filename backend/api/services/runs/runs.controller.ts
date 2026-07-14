@@ -6,10 +6,12 @@ import type { RequestContext } from "../../router.ts";
 import { createRunsService } from "./runs.service.ts";
 import { runsRepo } from "./runs.repo.ts";
 import { aboutMeService } from "./about-me.service.ts";
+import { listCompletedGuidedSlim } from "../guided-sessions/guided-slim.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
 
-const service = createRunsService(runsRepo);
+// Finished Monthly Check-ins merge into the manager's run history (Phase 6, add-a-source).
+const service = createRunsService(runsRepo, { listCompletedGuidedSlim });
 
 // The caller's company from the session cookie, ADMIN required (admin-access-guard
 // Phase 2). Run history + Run Review are internal QA tooling, so a logged-in non-admin

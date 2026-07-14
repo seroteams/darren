@@ -62,3 +62,17 @@ export function requireSuperadmin(identity: RequestIdentity): void {
   requireAuth(identity); // 401 before 403 — same order as requireAdmin
   if (!isSuperadminIdentity(identity)) throw forbidden("Superadmins only");
 }
+
+// The internal-admin gate (Monthly Check-in / guided sessions). Deliberately NARROWER
+// than requireAdmin: a plain `manager` does NOT pass — corridor managers keep the current
+// flow — but a superadmin-by-email DOES, so a superadmin whose stored role is `manager`
+// can't be locked out of their own internal tool (architecture.md §3.1; there is no
+// "internal admin" role in the DB). Widening the rollout later = relaxing this one predicate.
+export function isInternalIdentity(identity: RequestIdentity): boolean {
+  return identity.roles.includes("admin") || isSuperadminIdentity(identity);
+}
+
+export function requireInternalAdmin(identity: RequestIdentity): void {
+  requireAuth(identity); // 401 before 403 — same order as requireAdmin
+  if (!isInternalIdentity(identity)) throw forbidden("Internal only");
+}

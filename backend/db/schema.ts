@@ -16,7 +16,7 @@
 // app runs identically in live and local. sessions is THE run index; run_artifacts
 // holds what used to be the files inside a run dir.
 
-import { pgTable, pgEnum, uuid, text, integer, bigint, boolean, timestamp, jsonb, index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, uuid, text, integer, bigint, boolean, timestamp, jsonb, numeric, index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
 
 /** Fixed sets as enums (locked rule: roles / invite status are enums, not free text). */
 export const userRole = pgEnum("user_role", ["admin", "manager", "member"]);
@@ -393,5 +393,128 @@ export const errorLogs = pgTable(
     index("error_logs_org_id_idx").on(t.orgId),
     index("error_logs_user_id_idx").on(t.userId),
     index("error_logs_created_at_idx").on(t.createdAt),
+  ],
+);
+
+/** A guided 1:1 session (Monthly Check-in, and future guided arcs). Here the AI steps
+ *  back and the manager walks fixed stages — the opposite of the AI-interview arc — so it
+ *  gets its OWN table, welded to nothing in the interview `sessions` pipeline (own
+ *  boot-restore, own list reads; interview code is untouched). The whole draft lives in
+ *  `state` (jsonb): per-stage notes, promise outcomes, the rating draft, feedback, the
+ *  summary, and the manager-PRIVATE wrap-up (engagement + private notes + AI suggestions).
+ *  `engagement` is denormalized from state.wrapup at complete() for the fast fenced read.
+ *  Double-fenced like people/sessions: every read/write filters by org_id + manager_id.
+ *  See docs/plans/doing/monthly-one-on-one. */
+export const guidedSessions = pgTable(
+  "guided_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    managerId: uuid("manager_id")
+      .notNull()
+      .references(() => users.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    // Snapshot of the person's name at create time — so the runner needs no join.
+    personName: text("person_name").notNull(),
+    // Runner stage id (catchup|requests|rating|feedback|goals|summary|wrapup) or "done".
+    stage: text("stage").notNull().default("catchup"),
+    // The whole draft — the exact GuidedState shape the runner serializes.
+    state: jsonb("state").notNull(),
+    // Denormalized from state.wrapup at complete(); null until the session is finished.
+    engagement: integer("engagement"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+  },
+  (t) => [
+    index("guided_sessions_org_id_idx").on(t.orgId),
+    index("guided_sessions_manager_id_idx").on(t.managerId),
+    index("guided_sessions_person_id_idx").on(t.personId),
+  ],
+);
+
+/** Fixed set: what kind of tracked item this is (monthly-checkin Phase 2). */
+export const trackerKind = pgEnum("tracker_kind", ["promise", "request", "goal"]);
+
+/** The shared, cross-meeting tracker domain — promises · requests · goals, ONE table keyed
+ *  by `kind`. Persists per person and carries across guided sessions: a promise made in one
+ *  check-in resurfaces in the next one's Catch-up; requests/goals keep status + a dated
+ *  `history` until resolved. `owner` (promise: manager|member), `category` (request), `status`
+ *  (per-kind sets), and `progress` (goal 0–100) are service-validated free text/int, not
+ *  enums, so a status vocabulary tweak needs no migration. `created_session_id` links back to
+ *  the guided session that raised it. Double-fenced like people/guided_sessions: every
+ *  read/write filters by org_id (+ the person's manager, via the people repo). The member
+ *  read/write lane (Phase 7) is a separate fenced set of endpoints — never these. */
+export const trackerItems = pgTable(
+  "tracker_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id),
+    kind: trackerKind("kind").notNull(),
+    text: text("text").notNull(),
+    owner: text("owner"), // promise: "manager" | "member"
+    category: text("category"), // request: growth_development | ideas_suggestions | concerns_feedback
+    status: text("status").notNull(), // per-kind set, service-validated
+    progress: integer("progress").notNull().default(0), // goal 0–100
+    history: jsonb("history").notNull(), // dated events [{ at, kind, ... }]
+    createdSessionId: uuid("created_session_id").references(() => guidedSessions.id),
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("tracker_items_org_id_idx").on(t.orgId),
+    index("tracker_items_person_id_idx").on(t.personId),
+    index("tracker_items_person_kind_status_idx").on(t.personId, t.kind, t.status),
+  ],
+);
+
+/** The six building blocks of a Monthly Check-in rating (monthly-checkin Phase 3). */
+export const scoreBlock = pgEnum("score_block", [
+  "tasks",
+  "processes",
+  "team",
+  "development",
+  "fun",
+  "fulfilment",
+]);
+
+/** Six-block self-scores captured in a guided session's Rating stage. ONE row per
+ *  (guided_session, block) — the unique key makes complete() an idempotent upsert. Score is
+ *  numeric(3,1) (1.0–10.0, 0.5 steps, service-validated). Trends for the last-time marker + the
+ *  Phase-6 record read WHERE person_id ORDER BY created_at. Org-fenced; the person→manager wall
+ *  is applied in the service (tied to the session's org). No member reads in v1. */
+export const blockScores = pgTable(
+  "block_scores",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orgId: uuid("org_id")
+      .notNull()
+      .references(() => organizations.id),
+    guidedSessionId: uuid("guided_session_id")
+      .notNull()
+      .references(() => guidedSessions.id),
+    personId: uuid("person_id")
+      .notNull()
+      .references(() => people.id),
+    block: scoreBlock("block").notNull(),
+    score: numeric("score", { precision: 3, scale: 1 }).notNull(),
+    note: text("note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("block_scores_session_block_unique").on(t.guidedSessionId, t.block),
+    index("block_scores_person_id_idx").on(t.personId),
+    index("block_scores_org_id_idx").on(t.orgId),
   ],
 );

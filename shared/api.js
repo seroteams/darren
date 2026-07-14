@@ -379,6 +379,74 @@ export async function updatePerson(id, { name, role, seniority } = {}) {
     body: JSON.stringify({ name, role, seniority }),
   }));
 }
+// Guided sessions (monthly-checkin) — the manager-walked "Monthly Check-in" 1:1. Internal
+// admin only server-side. create → the new session (with id); get/patch/complete return it.
+// patch is the auto-save (stage + the whole draft state); complete finishes it.
+export async function createGuidedSession({ personId } = {}) {
+  return postJson("/api/v1/guided-sessions", { personId });
+}
+export async function getGuidedSession(id) {
+  return json(await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`));
+}
+export async function listGuidedSessionsForPerson(personId) {
+  return json(await fetch(`/api/v1/guided-sessions?personId=${encodeURIComponent(personId)}`));
+}
+export async function patchGuidedSession(id, { stage, state } = {}) {
+  return json(await fetch(`/api/v1/guided-sessions/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ stage, state }),
+  }));
+}
+export async function completeGuidedSession(id) {
+  return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/complete`, {});
+}
+// The ONE AI call (Phase 5) — drafts Summary + private suggestions. Cached server-side unless
+// { regenerate: true }. → { summary:{headline,bullets}|null, suggestions:{...}|null, error?, cached }.
+export async function guidedWrapupDraft(id, { regenerate } = {}) {
+  const q = regenerate ? "?regenerate=1" : "";
+  return postJson(`/api/v1/guided-sessions/${encodeURIComponent(id)}/wrapup-draft${q}`, {});
+}
+
+// Trackers (monthly-checkin Phase 2) — promises/requests/goals per person. list → grouped
+// { promises, requests, goals }; create → { item }; update → { item }. Internal admin only.
+export async function listTrackerItems(personId, { includeArchived } = {}) {
+  const q = includeArchived ? "?includeArchived=1" : "";
+  return json(await fetch(`/api/v1/people/${encodeURIComponent(personId)}/tracker-items${q}`));
+}
+export async function createTrackerItem(personId, payload) {
+  return postJson(`/api/v1/people/${encodeURIComponent(personId)}/tracker-items`, payload);
+}
+export async function updateTrackerItem(id, payload) {
+  return json(await fetch(`/api/v1/tracker-items/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }));
+}
+
+// Block scores (monthly-checkin Phase 3) — a person's six-block rating history (for the
+// Rating stage's last-time marker). → { scores: [{ block, score, note, guidedSessionId, createdAt }] }.
+export async function getBlockScores(personId) {
+  return json(await fetch(`/api/v1/people/${encodeURIComponent(personId)}/block-scores`));
+}
+
+// Member lane (monthly-checkin Phase 7) — a linked member's OWN requests + goals. list → grouped
+// { requests, goals } (never promises); createMyRequest raises one; updateMyGoal edits progress + a note.
+export async function listMyTrackerItems() {
+  return json(await fetch("/api/v1/me/tracker-items"));
+}
+export async function createMyRequest({ text, category } = {}) {
+  return postJson("/api/v1/me/requests", { text, category });
+}
+export async function updateMyGoal(id, { progress, note } = {}) {
+  return json(await fetch(`/api/v1/me/goals/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ progress, note }),
+  }));
+}
+
 // Hard delete — permanently removes the person and every 1:1 about them. Irreversible.
 export async function deletePerson(id) {
   return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {

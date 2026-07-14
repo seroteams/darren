@@ -49,6 +49,7 @@ const PATH_FOR = {
   [STAGES.PERSON_DETAIL]:  (s) => (s.personKey ? `/team/${encodeURIComponent(s.personKey)}` : "/team"),
   [STAGES.RUNS]:           () => "/runs",
   [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
+  [STAGES.GUIDED]:         (s) => (s.guidedId ? `/guided/${encodeURIComponent(s.guidedId)}` : "/new"),
   [STAGES.INTAKE]:         () => "/new",
   [STAGES.ONEPAGE]:        () => "/flow",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
@@ -126,7 +127,7 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // reviews) — the backend fences whose data those show.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST]);
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GUIDED]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2): the Test engine
@@ -167,6 +168,9 @@ export function parseLocation() {
   // One person's page: /team/:person (after the exact-path map, so bare /team → TEAM).
   const person = p.match(/^\/team\/([^/]+)$/);
   if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
+  // An internal admin walking a Monthly Check-in: /guided/:id (the guided-session id).
+  const guided = p.match(/^\/guided\/([^/]+)$/);
+  if (guided) return { stage: STAGES.GUIDED, params: { guidedId: decodeURIComponent(guided[1]) } };
   // A superadmin drilling into one user: /admin/users/:id (after the exact-path map, so
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);

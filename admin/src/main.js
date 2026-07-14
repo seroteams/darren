@@ -33,6 +33,7 @@ const loaders = {
   PERSON_DETAIL:   () => import("../../frontend/src/stages/person-detail.ts"),
   RUNS:            () => import("./stages/runs.ts"),
   RUN_DETAIL:      () => import("./stages/run-detail.ts"),
+  GUIDED:          () => import("../../frontend/src/stages/guided/guided.page.ts"), // Monthly Check-in runner (customer-owned so Phase 7 can reuse it)
   INTAKE:          () => import("./stages/intake.js"),
   ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
@@ -224,6 +225,11 @@ startPopstate((parsed) => {
     else setState({ stage: STAGES.RUNS });
     return;
   }
+  if (parsed.stage === STAGES.GUIDED) {
+    if (parsed.params?.guidedId) setState({ guidedId: parsed.params.guidedId, stage: STAGES.GUIDED });
+    else setState({ stage: STAGES.INTAKE });
+    return;
+  }
   if (parsed.stage === STAGES.ADMIN_USER) {
     if (parsed.params?.adminUserId) setState({ adminUserId: parsed.params.adminUserId, stage: STAGES.ADMIN_USER });
     else setState({ stage: STAGES.ADMIN_REGISTERED });
@@ -397,6 +403,13 @@ async function boot() {
   if (route?.stage === STAGES.ADMIN_USER) {
     if (route.params?.adminUserId) { setState({ adminUserId: route.params.adminUserId, stage: STAGES.ADMIN_USER }); return; }
     replaceUrl("/admin/registered"); setState({ stage: STAGES.ADMIN_REGISTERED }); return;
+  }
+
+  // /guided/:id deep link (monthly-checkin) — id from URL, no live session needed. The
+  // internal-admin bounce above already sent non-internal callers home, so this is safe.
+  if (route?.stage === STAGES.GUIDED) {
+    if (route.params?.guidedId) { setState({ guidedId: route.params.guidedId, stage: STAGES.GUIDED }); return; }
+    history.replaceState(null, "", "/new"); setState({ stage: STAGES.INTAKE }); return;
   }
 
   let rehydrated = false;

@@ -6,7 +6,7 @@
 export type StageName =
   | "WELCOME"
   | "LOGIN" | "REGISTER" | "FORGOT_PASSWORD" | "RESET_PASSWORD" | "JOIN" | "PRIVACY" | "ABOUT" | "FEEDBACK" | "START"
-  | "MEMBER_HOME" | "TEAM" | "RUNS" | "RUN_DETAIL" | "PERSON_DETAIL"
+  | "MEMBER_HOME" | "TEAM" | "RUNS" | "RUN_DETAIL" | "GUIDED" | "PERSON_DETAIL"
   | "INTAKE" | "ONEPAGE" | "FOCUS_POINTS"
   | "PREPARATION" | "BANK" | "QUESTIONING" | "EVAL" | "BRIEFING"
   | "LEXICON_REVIEW" | "RUN_DEBRIEF" | "COMPARE" | "LIBRARY" | "ROLE_LEXICONS"
@@ -41,6 +41,7 @@ export interface Store {
   preparationRunId: string | null;
   reviewRunId: string | null;
   myRunId: string | null;
+  guidedId: string | null; // monthly-checkin: the guided session id the runner (/guided/:id) loads
   personKey: string | null;
   joinToken: string | null;
   resetToken: string | null;

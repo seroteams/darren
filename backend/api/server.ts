@@ -32,6 +32,8 @@ import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
 import * as team from "./services/team/team.controller.ts";
+import * as guided from "./services/guided-sessions/guided-sessions.controller.ts";
+import * as trackers from "./services/trackers/trackers.controller.ts";
 import * as invites from "./services/invites/invites.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
@@ -447,6 +449,56 @@ async function main(): Promise<void> {
   router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/unlink$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.unlinkPerson(c);
+  }));
+  // Guided sessions (monthly-checkin Phase 1) — the manager-walked "Monthly Check-in" 1:1.
+  // Internal admin only (requireInternalAdmin in the controller; plain managers 403), fenced
+  // to the caller's org + manager + roster person. Own table — the interview pipeline is
+  // untouched. Mutations origin-guarded like team/people.
+  router.add("POST", "/api/v1/guided-sessions", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.createGuidedSession(c);
+  }));
+  router.add("GET", "/api/v1/guided-sessions", v1Route(guided.listGuidedSessions));
+  router.add("GET", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route(guided.getGuidedSession));
+  router.add("PATCH", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.patchGuidedSession(c);
+  }));
+  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/complete$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.completeGuidedSession(c);
+  }));
+  // The ONE AI call (Phase 5) — drafts the Summary + private suggestions. Origin-guarded (it can
+  // spend); cached in state unless ?regenerate=1.
+  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/wrapup-draft$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return guided.postWrapupDraft(c);
+  }));
+  // Trackers (monthly-checkin Phase 2) — promises/requests/goals per person, internal admin
+  // only this phase (member lane is Phase 7). Person-fenced in the service; mutations origin-guarded.
+  router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route(trackers.listTrackerItems));
+  router.add("POST", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.createTrackerItem(c);
+  }));
+  router.add("PATCH", /^\/api\/v1\/tracker-items\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.updateTrackerItem(c);
+  }));
+  // Block scores (monthly-checkin Phase 3) — a person's six-block rating history for the
+  // last-time marker. Written only via guided complete(); this is read-only + person-fenced.
+  router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/block-scores$/, v1Route(guided.getBlockScores));
+  // Member lane (monthly-checkin Phase 7) — a linked member's OWN requests + goals. requireAuth
+  // (any role) in the controller; the service fences on people.user_id = caller AND kind ∈
+  // {request, goal} — never promises, never another person, never guided_sessions. Origin-guarded.
+  router.add("GET", "/api/v1/me/tracker-items", v1Route(trackers.listMyTrackerItems));
+  router.add("POST", "/api/v1/me/requests", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.createMyRequest(c);
+  }));
+  router.add("PATCH", /^\/api\/v1\/me\/goals\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return trackers.updateMyGoal(c);
   }));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the
