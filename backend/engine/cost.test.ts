@@ -1,7 +1,65 @@
 // Cost tracker — per-call latency capture (engine-hardening Phase 1).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createTracker } from "./cost.ts";
+import { createTracker, setActive, getActive, record, CostCeilingError } from "./cost.ts";
+
+// H2 — spend cap. The module-level record() enforces a per-run USD ceiling
+// (SERO_RUN_USD_CAP) against the active tracker so a runaway session aborts
+// honestly instead of billing without bound.
+test("module record() throws CostCeilingError when the per-run USD cap is exceeded", () => {
+  const prev = getActive();
+  const prevCap = process.env.SERO_RUN_USD_CAP;
+  try {
+    process.env.SERO_RUN_USD_CAP = "0.0000001"; // any real cost trips it
+    setActive(createTracker());
+    assert.throws(
+      () => record("05-evaluation", "gpt-4o-mini", { prompt_tokens: 1000, completion_tokens: 1000, total_tokens: 2000 }),
+      (err) => err instanceof CostCeilingError,
+    );
+  } finally {
+    if (prevCap === undefined) delete process.env.SERO_RUN_USD_CAP;
+    else process.env.SERO_RUN_USD_CAP = prevCap;
+    setActive(prev);
+  }
+});
+
+test("module record() stays silent under the cap", () => {
+  const prev = getActive();
+  const prevCap = process.env.SERO_RUN_USD_CAP;
+  try {
+    process.env.SERO_RUN_USD_CAP = "100";
+    setActive(createTracker());
+    assert.doesNotThrow(() =>
+      record("05-evaluation", "gpt-4o-mini", { prompt_tokens: 10, completion_tokens: 5, total_tokens: 15 }),
+    );
+  } finally {
+    if (prevCap === undefined) delete process.env.SERO_RUN_USD_CAP;
+    else process.env.SERO_RUN_USD_CAP = prevCap;
+    setActive(prev);
+  }
+});
+
+test("module record() with cap disabled (<=0) never throws", () => {
+  const prev = getActive();
+  const prevCap = process.env.SERO_RUN_USD_CAP;
+  try {
+    process.env.SERO_RUN_USD_CAP = "0";
+    setActive(createTracker());
+    assert.doesNotThrow(() =>
+      record("05-evaluation", "gpt-4o-mini", { prompt_tokens: 100000, completion_tokens: 100000, total_tokens: 200000 }),
+    );
+  } finally {
+    if (prevCap === undefined) delete process.env.SERO_RUN_USD_CAP;
+    else process.env.SERO_RUN_USD_CAP = prevCap;
+    setActive(prev);
+  }
+});
+
+test("CostCeilingError is non-retryable so withRetry won't re-bill it", () => {
+  const e = new CostCeilingError(2, 1);
+  assert.equal(e.retryable, false);
+  assert.equal(e.name, "CostCeilingError");
+});
 
 test("records per-call ms and sums total_ms", () => {
   const t = createTracker();
