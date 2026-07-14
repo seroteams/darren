@@ -1,0 +1,10 @@
+alias: q_thread_follow_28
+label: Thread follow
+name: "You said \"Mentioned mentoring before\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: topic
+stage: friction
+axis_effects:
+  engagement: +1
+  wellbeing: +3
+source: planner_added

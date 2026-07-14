@@ -1,0 +1,10 @@
+alias: q_late_flow_checks
+label: Late flow checks
+name: When flow shows up late, what are you usually still working out as you share it?
+description: Pinpoint what is unresolved on her side when work goes into review so the cause of rework is concrete.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: flow and edge cases surface late

@@ -1,0 +1,11 @@
+alias: q_flatter_this_week_3
+label: Flatter this week
+name: "You said this week feels flatter than expected — what's behind that?"
+description: Surface what is making this week feel flatter before moving deeper into plans.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_flatter_this_week_2"
+grounding: open

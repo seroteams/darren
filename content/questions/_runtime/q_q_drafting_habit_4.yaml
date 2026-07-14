@@ -1,0 +1,11 @@
+alias: q_q_drafting_habit_4
+label: q_drafting_habit
+name: What part of your drafting process most affects how ready the design feels on first pass?
+description: Identify the process habit most tied to first-pass quality.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_drafting_habit"
+grounding: open

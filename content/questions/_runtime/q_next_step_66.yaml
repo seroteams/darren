@@ -1,0 +1,11 @@
+alias: q_next_step_66
+label: Next step
+name: What is the one thing you want to change first before we next meet?
+description: Turn the discussion into a practical first adjustment for the next check-in.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_next_step_65"
+grounding: open

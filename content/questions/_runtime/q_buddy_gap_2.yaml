@@ -1,0 +1,11 @@
+alias: q_buddy_gap_2
+label: Buddy gap
+name: With no buddy, where does that slow you down most day to day?
+description: Locate the practical impact of the missing buddy on her onboarding work.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added
+grounding: no buddy

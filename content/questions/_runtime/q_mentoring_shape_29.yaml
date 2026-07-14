@@ -1,0 +1,11 @@
+alias: q_mentoring_shape_29
+label: Mentoring shape
+name: What would mentoring actually look like in your week?
+description: Test whether the mentoring thread is still relevant and what shape it would take.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_mentoring_shape_28"
+grounding: open

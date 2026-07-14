@@ -1,9 +1,31 @@
-import { defineConfig } from "vite";
+import { defineConfig, createLogger } from "vite";
 import { resolve } from "node:path";
 
 const API_PORT = process.env.API_PORT || 3001;
 
+// Quiet the API-boot race. For the first couple of seconds after launch, vite
+// proxies /api calls into port 3001 before the API server has opened it, and
+// vite's default proxy-error handler dumps a full ECONNREFUSED stack trace per
+// request - the scary red wall you see filling the launcher window. Swallow that
+// one specific, known-benign noise down to a single throttled dim line. Every
+// other proxy error (API crash mid-request, ECONNRESET, etc.) still logs in full.
+const logger = createLogger();
+const baseError = logger.error.bind(logger);
+let lastBootNotice = 0;
+logger.error = (msg, opts) => {
+  if (typeof msg === "string" && msg.includes("proxy error") && msg.includes("ECONNREFUSED")) {
+    const now = Date.now();
+    if (now - lastBootNotice > 5000) {
+      lastBootNotice = now;
+      baseError("\x1b[2m  [proxy] api still starting — retrying /api calls…\x1b[0m", { timestamp: true });
+    }
+    return;
+  }
+  baseError(msg, opts);
+};
+
 export default defineConfig({
+  customLogger: logger,
   root: resolve(__dirname, "admin"),
   base: "/",
   // The Vite root is admin/, but the project's single .env lives at the repo root (same

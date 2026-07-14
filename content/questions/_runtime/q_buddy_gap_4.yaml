@@ -1,0 +1,11 @@
+alias: q_buddy_gap_4
+label: Buddy gap
+name: With no buddy, where does that slow you down most day to day?
+description: Surface the day-to-day support gap and where it creates friction in onboarding work.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_buddy_gap_3"
+grounding: open

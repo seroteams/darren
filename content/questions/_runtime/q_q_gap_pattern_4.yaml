@@ -1,0 +1,11 @@
+alias: q_q_gap_pattern_4
+label: q_gap_pattern
+name: When rationale is unclear in review, what were you still deciding as you shared it?
+description: Identify whether unresolved decisions are driving the rework loop.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +1
+  clarity: +3
+source: "reworded_from:q_gap_pattern"
+grounding: open

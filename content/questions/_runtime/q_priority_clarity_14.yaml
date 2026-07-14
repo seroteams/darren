@@ -1,0 +1,11 @@
+alias: q_priority_clarity_14
+label: Priority clarity
+name: What are you actually focused on this week, and why those things?
+description: Get concrete on current priorities and the logic behind them.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_priority_clarity_13"
+grounding: open

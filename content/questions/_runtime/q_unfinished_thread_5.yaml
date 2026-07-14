@@ -1,0 +1,11 @@
+alias: q_unfinished_thread_5
+label: Unfinished thread
+name: What, if anything, is still hanging around from the launch work?
+description: Surface any leftover launch friction or cleanup still taking space.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_unfinished_thread_4"
+grounding: open

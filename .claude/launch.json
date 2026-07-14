@@ -32,6 +32,20 @@
       "port": 3000
     },
     {
+      "name": "sero-web-3000-auto",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3095",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3000",
+        "--strictPort"
+      ],
+      "port": 3000
+    },
+    {
       "name": "sero-customer",
       "runtimeExecutable": "node",
       "runtimeArgs": [
@@ -163,6 +177,32 @@
       "port": 3081
     },
     {
+      "name": "sero-api-test-auto",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3095",
+        "DEV_AUTOLOGIN=1",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3095
+    },
+    {
+      "name": "sero-web-test",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3095",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3097",
+        "--strictPort"
+      ],
+      "port": 3097
+    },
+    {
       "name": "sero-api-team-auto",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -214,6 +254,57 @@
         "--strictPort"
       ],
       "port": 3017
+    },
+    {
+      "name": "sero-api-uni",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3091",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3091
+    },
+    {
+      "name": "sero-web-uni3",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3091",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3093",
+        "--strictPort"
+      ],
+      "port": 3093
+    },
+    {
+      "name": "sero-api-carlchip",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3121",
+        "DEV_AUTOLOGIN=1",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3121
+    },
+    {
+      "name": "sero-web-carlchip",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3121",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3123",
+        "--strictPort"
+      ],
+      "port": 3123
     },
     {
       "name": "sero-prod-iso",

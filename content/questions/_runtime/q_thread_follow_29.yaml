@@ -1,0 +1,10 @@
+alias: q_thread_follow_29
+label: Thread follow
+name: "You said \"mixed - proud of shipping her\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added

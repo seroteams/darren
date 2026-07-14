@@ -1,0 +1,11 @@
+alias: q_prioritising_help
+label: Prioritising help
+name: You asked for help prioritising — where is the work hardest to sort right now?
+description: Pin down the specific onboarding work creating overload so the manager can help triage it.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added
+grounding: help prioritising

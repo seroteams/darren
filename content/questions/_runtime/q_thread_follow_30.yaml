@@ -1,0 +1,10 @@
+alias: q_thread_follow_30
+label: Thread follow
+name: "You said \"she wants to keep the friday\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added

@@ -1,0 +1,11 @@
+alias: q_waiting_points_7
+label: Waiting points
+name: What are you waiting on most right now?
+description: Find the main dependencies slowing progress or forcing extra rounds.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_waiting_points_6"
+grounding: open

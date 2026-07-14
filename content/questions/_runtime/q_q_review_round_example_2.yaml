@@ -1,0 +1,11 @@
+alias: q_q_review_round_example_2
+label: q_review_round_example
+name: Can you walk me through a recent design that took more review rounds than you expected?
+description: Anchor on a specific recent example of extra review cycles.
+purpose: competency
+stage: evidence
+axis_effects:
+  growth: +1
+  clarity: +3
+source: "reworded_from:q_review_round_example"
+grounding: open

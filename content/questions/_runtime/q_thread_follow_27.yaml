@@ -1,0 +1,10 @@
+alias: q_thread_follow_27
+label: Thread follow
+name: "You said \"flow and edge cases surface late\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: scripted
+stage: gap_naming
+axis_effects:
+  growth: +1
+  clarity: +3
+source: planner_added

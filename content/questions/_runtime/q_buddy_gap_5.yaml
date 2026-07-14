@@ -1,0 +1,11 @@
+alias: q_buddy_gap_5
+label: Buddy gap
+name: With no buddy, where does that slow you down most day to day?
+description: Pinpoint where the missing buddy creates day-to-day friction.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_buddy_gap_4"
+grounding: open

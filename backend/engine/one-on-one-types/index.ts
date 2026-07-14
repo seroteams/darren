@@ -13,7 +13,6 @@ import biWeekly from "./bi-weekly/type.ts";
 import performance from "./performance/type.ts";
 import growth from "./growth/type.ts";
 import feelsOff from "./feels-off/type.ts";
-import onboarding from "./onboarding/type.ts";
 
 // SHARED_PROMPTS has fixed keys; promptFor looks slots up dynamically, so view it
 // as a string map (the concrete object is assignable to it).
@@ -28,7 +27,7 @@ interface ArcView {
 }
 
 // Order mirrors the picker order in src/meeting-types.js.
-const TYPES: MeetingType[] = [biWeekly, performance, growth, feelsOff, onboarding];
+const TYPES: MeetingType[] = [biWeekly, performance, growth, feelsOff];
 
 const BY_LABEL: Record<string, MeetingType> = Object.fromEntries(TYPES.map((t): [string, MeetingType] => [t.label, t]));
 const BY_SLUG: Record<string, MeetingType> = Object.fromEntries(TYPES.map((t): [string, MeetingType] => [t.slug, t]));

@@ -13,7 +13,6 @@ const SMOKE_BY_MEETING = [
   { match: /bi-?weekly|check-?in/i, file: "scenarios/batch/lin-biweekly-checkin.json" },
   { match: /performance|feedback/i, file: "scenarios/batch/sarah-performance-feedback.json" },
   { match: /growth|career/i, file: "scenarios/batch/maria-growth-career-plan.json" },
-  { match: /onboarding/i, file: "scenarios/batch/sam-onboarding-checkin.json" },
   { match: /something feels off|feels off/i, file: "scenarios/batch/james-something-feels-off.json" },
 ];
 

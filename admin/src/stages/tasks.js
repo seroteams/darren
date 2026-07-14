@@ -15,7 +15,7 @@ import { getHeartbeat } from "../../../shared/api.js";
 import { icon } from "../ui/icon.js";
 import {
   Lightbulb, ClipboardList, Hammer, CircleCheck, ChevronLeft, ChevronRight, Pencil, X,
-  Banknote, Pause, Target, CircleParking, Gauge, NotebookPen, Play, Check, Plus, Trash2, RefreshCw,
+  Banknote, Pause, Target, CircleParking, Gauge, NotebookPen, Play, Check, Plus, Trash2, RefreshCw, Square,
 } from "lucide";
 
 let keyHandler = null;
@@ -32,7 +32,9 @@ const KB_COLS = [
 ];
 // A lane is just a coloured tag. Any text works; the colour is picked stably from
 // this palette by hashing the lane name, so "Design" is always the same colour.
-const KB_LANE_COLORS = ["#7C3AED", "#2563EB", "#D97706", "#0D9488", "#DB2777", "#059669", "#DC2626", "#4B5563"];
+// Sero scale steps (lavender/primary/gold/teal/coral/mint/sky/charcoal), all legible as
+// text + border on white — mirrors admin/src/styles/design/tokens.css.
+const KB_LANE_COLORS = ["#55358f", "#1b5d91", "#523600", "#317164", "#ac1608", "#0c4b3c", "#1b7089", "#333333"];
 function laneColor(name) {
   let h = 0;
   for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
@@ -61,20 +63,28 @@ function kbMove(id, col) {
   saveKb();
 }
 
-// The per-phase checklist on a Docs card — glyphs match the plan files (⬜/🔨/✅).
-const PHASE_MARK = { done: "✅", doing: "🔨", todo: "⬜" };
+// The per-phase checklist on a Docs card — Lucide marks mirror the plan files' done/doing/todo.
+const PHASE_MARK = { done: CircleCheck, doing: Hammer, todo: Square };
 function kbPhasesHtml(c) {
   if (!Array.isArray(c.phases) || !c.phases.length) return "";
   const rows = c.phases
-    .map((p) => `<li class="kb-phase kb-phase--${esc(p.status)}"><span class="kb-phase__mark">${PHASE_MARK[p.status] || "⬜"}</span> ${esc(p.label)}</li>`)
+    .map((p) => `<li class="kb-phase kb-phase--${esc(p.status)}"><span class="kb-phase__mark">${icon(PHASE_MARK[p.status] || Square, { size: 16 })}</span> ${esc(p.label)}</li>`)
     .join("");
   return `<ul class="kb-phases">${rows}</ul>`;
 }
 
+// Cards not synced from the plan folders are hand-added — badge them by who added
+// them (Carl by hand, or Claude on Carl's ask) so the kinds never get mixed up.
+function carlChip(c) {
+  if (c.src === "docs") return "";
+  if (c.src === "claude") return `<span class="kb-lane kb-lane--claude">Claude</span>`;
+  return `<span class="kb-lane kb-lane--carl">Carl</span>`;
+}
+
 function kbCardHtml(c) {
-  const lane = c.lane
+  const lane = carlChip(c) + (c.lane
     ? `<span class="kb-lane" style="--kb-lane:${laneColor(c.lane)}">${esc(c.lane)}</span>`
-    : "";
+    : "");
   const note = c.note ? `<div class="kb-card__note">${esc(c.note)}</div>` : "";
   const ci = KB_COLS.findIndex((k) => k.id === c.col);
   const left = ci > 0 ? `<button type="button" class="kb-mv" data-mv="prev" data-id="${c.id}" aria-label="Move left">${icon(ChevronLeft, { size: 16 })}</button>` : "";
@@ -180,7 +190,7 @@ function renderKb(root) {
     const inp = f.querySelector(".kb-add__in");
     const t = inp.value.trim();
     if (!t) return;
-    kb.cards.push({ id: "c" + Date.now() + Math.floor(Math.random() * 1000), col: f.dataset.col, lane: "", title: t, note: "" });
+    kb.cards.push({ id: "c" + Date.now() + Math.floor(Math.random() * 1000), src: "carl", col: f.dataset.col, lane: "", title: t, note: "" });
     saveKb();
     renderKb(root);
     root.querySelector(`.kb-add[data-col="${f.dataset.col}"] .kb-add__in`)?.focus();
@@ -238,9 +248,9 @@ How to start:
 }
 
 function kbPanelHtml(c) {
-  const lane = c.lane
+  const lane = carlChip(c) + (c.lane
     ? `<span class="kb-lane" style="--kb-lane:${laneColor(c.lane)}">${esc(c.lane)}</span>`
-    : `<span class="kbp__nolane">no lane</span>`;
+    : `<span class="kbp__nolane">no lane</span>`);
   const colOpts = KB_COLS.map((k) => `<option value="${k.id}"${k.id === c.col ? " selected" : ""}>${k.label}</option>`).join("");
   const guards = kbGuardrails(c)
     .map((g) => `<li class="kbp-guard"><span class="kbp-guard__ic">${g.icon}</span><div class="kbp-guard__body"><b>${g.head}.</b> ${esc(g.body)}</div></li>`)
@@ -536,33 +546,35 @@ async function runUpdate(root) {
 // add/change/leave animations (kept inline like guide.js's ARC_STYLE).
 const TASKS_STYLE = `<style>
   .kb-head__actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .kb-lane--carl { --kb-lane: var(--sero-primary-800); background:transparent; color:var(--kb-lane); border:1.5px solid currentColor; }
+  .kb-lane--claude { --kb-lane: var(--sero-lavender-800); background:transparent; color:var(--kb-lane); border:1.5px dashed currentColor; }
   .js-kb-update.is-busy { opacity:.7; }
   .kb-card.tk-enter { animation: tk-enter .34s ease both; }
   .kb-card.tk-pulse { animation: tk-pulse 1.2s ease; }
   .kb-card.tk-leave { opacity:0; transform:scale(.96); transition:opacity .3s ease, transform .3s ease; }
   .kb-phases { list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:3px; }
-  .kb-phase { display:flex; align-items:baseline; gap:6px; font-size:14px; color:var(--color-ink, #0f172a); }
-  .kb-phase__mark { flex:none; font-size:14px; }
+  .kb-phase { display:flex; align-items:center; gap:6px; font-size:14px; color:var(--color-ink, #0f172a); }
+  .kb-phase__mark { flex:none; display:inline-flex; align-items:center; }
   .kb-phase--todo { color:var(--color-ink-dim, #475569); }
   .kb-phase--done { color:var(--color-ink-dim, #475569); text-decoration:line-through; text-decoration-color:var(--color-border-strong, #cbd5e1); }
   .kb-phase--doing { font-weight:600; }
   @keyframes tk-enter { from { opacity:0; transform:translateY(-7px) scale(.98); } to { opacity:1; transform:none; } }
   @keyframes tk-pulse { 0% { box-shadow:0 0 0 2px var(--sero-gold-400, #e0b34d); } 100% { box-shadow:0 0 0 0 transparent; } }
-  .tk-sync { position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,.35); padding:16px; }
-  .tk-sync__panel { background:var(--color-surface, #fff); border:1px solid var(--color-border, #e2e8f0); border-radius:14px; padding:20px 22px; width:min(460px, 94vw); max-height:82vh; overflow:auto; box-shadow:0 24px 60px rgba(2,6,23,.28); }
+  .tk-sync { position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center; background:var(--color-backdrop); padding:16px; }
+  .tk-sync__panel { background:var(--color-surface, #fff); border:1px solid var(--color-border, #e8e8e8); border-radius:14px; padding:20px 22px; width:min(460px, 94vw); max-height:82vh; overflow:auto; box-shadow:0 24px 60px rgba(2,6,23,.28); }
   .tk-sync__head { font-weight:600; font-size:15px; margin-bottom:12px; color:var(--color-ink, #0f172a); }
   .tk-sync__list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
   .tk-sync__list li { display:flex; align-items:center; gap:9px; font-size:14px; opacity:.5; color:var(--color-ink-dim, #475569); transition:opacity .2s ease, color .2s ease; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; }
   .tk-sync__list li.is-checked { opacity:1; color:var(--color-ink, #0f172a); }
   .tk-sync__dot { width:17px; height:17px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:11px; color:#fff; border:2px solid var(--color-border-strong, #cbd5e1); }
-  .tk-sync__list li.is-checked .tk-sync__dot { background:var(--sero-emerald-500, #10b981); border-color:var(--sero-emerald-500, #10b981); }
+  .tk-sync__list li.is-checked .tk-sync__dot { background:var(--color-positive); border-color:var(--color-positive); }
   .tk-sync__summary { margin-top:14px; font-size:14px; color:var(--color-ink, #0f172a); }
   .tk-sync__stitle { font-weight:600; margin-bottom:6px; }
   .tk-sync__changes { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px; }
   .tk-sync__changes li { font-size:14px; }
   .tk-sync__hint { margin-top:10px; font-size:14px; color:var(--color-ink-dim, #475569); }
   .tk-sync__ok { font-size:14px; color:var(--color-ink, #0f172a); }
-  .tk-sync__err { font-size:14px; color:var(--sero-rose-700, #b4232a); }
+  .tk-sync__err { font-size:14px; color:var(--color-negative-text); }
   .tk-sync__actions { margin-top:16px; text-align:right; }
 </style>`;
 

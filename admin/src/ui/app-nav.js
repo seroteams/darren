@@ -13,7 +13,7 @@ import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
-  Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
+  Orbit, Palette, LogOut, TriangleAlert, Inbox, Menu, UserRoundSearch,
   FlaskConical,
 } from "lucide";
 
@@ -45,9 +45,6 @@ const ICON = {
   universe: icon(Orbit),
   design: icon(Palette),
   logout: icon(LogOut),
-  privacy: icon(Lock),
-  about: icon(Info),
-  feedback: icon(MessageSquare),
   errors: icon(TriangleAlert),
   inbox: icon(Inbox),
   guests: icon(UserRoundSearch),
@@ -70,7 +67,9 @@ const LINKS = [
   // stages; managers keep console access but never see the internal toolset below.
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
-  // (Team lives in the customer app now — frontend-admin-split Phase 3.)
+  // Team is a customer-app stage, cross-imported so the local Engine app's manager rail
+  // matches live (Carl: live and local should look the same).
+  { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
   // Admin toolset, grouped into sections.
   { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
@@ -178,20 +177,6 @@ export function createAppNav({ setState, resetSession } = {}) {
             .join("");
         })()}
       </nav>
-      <nav class="app-nav__links app-nav__links--util" aria-label="More">
-        <button type="button" class="app-nav__link js-nav-about" data-key="about">
-          <span class="app-nav__icon">${ICON.about}</span>
-          <span class="app-nav__label">What is Sero?</span>
-        </button>
-        <button type="button" class="app-nav__link js-nav-feedback" data-key="feedback">
-          <span class="app-nav__icon">${ICON.feedback}</span>
-          <span class="app-nav__label">Send feedback</span>
-        </button>
-        <button type="button" class="app-nav__link js-nav-privacy" data-key="privacy">
-          <span class="app-nav__icon">${ICON.privacy}</span>
-          <span class="app-nav__label">Privacy</span>
-        </button>
-      </nav>
       <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
         <button type="button" class="app-nav__link js-logout" data-key="logout">
           <span class="app-nav__icon">${ICON.logout}</span>
@@ -214,6 +199,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (resetSession) resetSession();
       setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
     },
+    mgteam: () => setState && setState({ stage: STAGES.TEAM }),
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     compare: () => setState && setState({ stage: STAGES.COMPARE }),
@@ -230,15 +216,11 @@ export function createAppNav({ setState, resetSession } = {}) {
     inbox: () => setState && setState({ stage: STAGES.ADMIN_FEEDBACK }),
     guests: () => setState && setState({ stage: STAGES.ADMIN_GUEST_RUNS }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
-    privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
-    about: () => setState && setState({ stage: STAGES.ABOUT }),
-    feedback: () => setState && setState({ stage: STAGES.FEEDBACK }),
   };
 
   el.querySelector(".js-home").addEventListener("click", onNav.home);
   bar.querySelector(".js-bar-home").addEventListener("click", onNav.home);
   items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
-  ["about", "feedback", "privacy"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
@@ -253,6 +235,8 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.START]: ["home", "mghome"],
     [STAGES.RUNS]: ["runs", "mgruns"],
     [STAGES.INTAKE]: ["new", "mgnew"],
+    [STAGES.TEAM]: "mgteam",
+    [STAGES.PERSON_DETAIL]: "mgteam",
     [STAGES.LIBRARY]: "library",
     [STAGES.COMPARE]: "personas",
     [STAGES.PERSONAS]: "personas",
@@ -269,9 +253,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.ADMIN_FEEDBACK]: "inbox",
     [STAGES.ADMIN_GUEST_RUNS]: "guests",
     [STAGES.GUIDE]: "guide",
-    [STAGES.ABOUT]: "about",
-    [STAGES.FEEDBACK]: "feedback",
-    [STAGES.PRIVACY]: "privacy",
   };
 
   // Persistent across every screen — re-assert the body class and light up the
@@ -298,7 +279,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     const internal = isInternalAdmin(user);
     el.classList.toggle("app-nav--member", !internal); // compact, ungrouped rail styling
     const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
-    const alwaysShown = new Set(["logout", "privacy", "about", "feedback"]); // account/utility rows
+    const alwaysShown = new Set(["logout"]); // account row
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
       let show = b.dataset[wanted] === "1";

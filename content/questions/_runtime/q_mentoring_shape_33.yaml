@@ -1,0 +1,11 @@
+alias: q_mentoring_shape_33
+label: Mentoring shape
+name: What would mentoring actually look like in your week?
+description: Surface whether the mentoring thread is concrete enough to pursue next quarter.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_mentoring_shape_32"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_next_quarter_scope_6
+label: Next-quarter scope
+name: What do you see yourself owning next quarter?
+description: Surface the concrete areas she expects to own next quarter and where that picture is still unclear.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_scope_4"
+grounding: open

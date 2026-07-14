@@ -98,7 +98,7 @@ const SCREEN_GROUPS = {
   "review-run.js": "admin", "regression.js": "admin", "personas.js": "admin",
   "meeting-arcs.js": "admin", "job-lexicons.js": "admin", "tasks.js": "admin",
   "universe.ts": "admin", "admin-registered.ts": "admin", "admin-user-detail.ts": "admin",
-  "guide.js": "admin",
+  "guide.js": "admin", "test.js": "admin",
   "about.js": "shared", "feedback.js": "shared", "privacy.js": "shared", "error.ts": "shared",
 };
 
@@ -143,7 +143,7 @@ const QA = [
 ];
 
 const CONCEPTS = [
-  ["Meeting types", "Bi-weekly check-in, Performance & feedback, Growth & career plan, Something feels off, Onboarding check-in. Each has its own arc (stage sequence) and tone."],
+  ["Meeting types", "Bi-weekly check-in, Performance & feedback, Growth & career plan, Something feels off. Each has its own arc (stage sequence) and tone."],
   ["The four axes", "Wellbeing, Engagement, Clarity, Growth — range −10 to +10. Read by magnitude: ±0–1 weak, ±2–4 watch, ±5–7 real pattern (act), ±8–10 defining."],
   ["Question budget", "About 9 per run — ~4 opening (intro queue) + ~5 dynamic follow-ups. Caps stop over-drilling: drill cap, max 2 wellbeing clarifiers in a row, 1 tangent, and shallow-answer gating that zeroes positive deltas on ≤2-word answers."],
   ["Accounts & roles", "admin / manager / member. Manager = the end user who runs 1:1s; member = the managed; admin = internal (Carl). Accounts live in Postgres, gated per company."],
@@ -287,13 +287,13 @@ const ARC_STYLE = `<style>
   .g-arc-edited { font-size:var(--type-body-sm); font-weight:600; padding:2px 8px; border-radius:6px;
     background:var(--sero-gold-200); color:var(--sero-gold-800); }
   .g-arc-note { font-size:var(--type-body-sm); margin:0 0 12px; }
-  .g-arc-note--err { color:var(--sero-rose-700, #b4232a); }
+  .g-arc-note--err { color:var(--color-negative-text); }
   .js-sys-note:empty { display:none; }
   .sys-note { font-size:var(--type-body-sm); }
   .sys-note--ok, .sys-note--err { display:inline-block; padding:8px 13px; border-radius:10px;
     border:1px solid var(--color-border); background:var(--color-surface); }
   .sys-note--ok { color:var(--color-ink-dim); }
-  .sys-note--err { color:var(--sero-rose-700, #b4232a); border-color:var(--sero-rose-700, #b4232a); }
+  .sys-note--err { color:var(--color-negative-text); border-color:var(--color-negative-text); }
   .sys-note--change { border:1px solid var(--color-border-strong); border-radius:10px;
     padding:12px 14px; background:var(--sero-soft-200); color:var(--color-ink); }
   .sys-note__title { font-weight:600; margin-bottom:6px; }

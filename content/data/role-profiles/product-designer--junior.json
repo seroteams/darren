@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1783852330229,
+  "role_title_raw": "Product designer",
+  "role_slug": "product-designer",
+  "seniority_raw": "junior",
+  "seniority_key": "junior",
+  "role_family": "design",
+  "profile": {
+    "summary": "A junior product designer supports end-to-end product design on small features or well-scoped problems. They usually work with a product manager, engineers, and a more senior designer to turn requirements and research into flows, wireframes, UI, and prototypes. Their ownership is mostly executional, with growing responsibility for rationale, collaboration, and using feedback well.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Turning vague product requirements into clear design tasks without over-relying on senior teammates.",
+        "category": "competency"
+      },
+      {
+        "text": "Balancing speed with craft when shipping UI work under tight deadlines.",
+        "category": "topic"
+      },
+      {
+        "text": "Handling frequent critique without losing confidence or becoming overly attached to first ideas.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Learning the design system while also spotting when a pattern does not quite fit the problem.",
+        "category": "competency"
+      },
+      {
+        "text": "Keeping up with product, engineering, and user context across several small pieces of work.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Feedback quality and how they are using critique",
+        "why": "Junior designers improve fastest when feedback is specific, timely, and easy to apply in the next iteration.",
+        "category": "competency"
+      },
+      {
+        "theme": "Clarity of scope and what good looks like",
+        "why": "This role often stalls when the problem, constraints, or expected output are still fuzzy.",
+        "category": "topic"
+      },
+      {
+        "theme": "Confidence in explaining design decisions",
+        "why": "They need to grow from making screens to connecting choices back to user needs and product goals.",
+        "category": "competency"
+      },
+      {
+        "theme": "Working relationship with product and engineering",
+        "why": "Early-career designers often need help navigating trade-offs, handoff, and day-to-day collaboration.",
+        "category": "topic"
+      },
+      {
+        "theme": "Energy, morale, and reaction to critique cycles",
+        "why": "Repeated revisions and comparison with stronger peers can quietly drain confidence and motivation.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Wireframe",
+        "meaning": "Basic layout showing structure before visual polish.",
+        "group": "craft"
+      },
+      {
+        "term": "User flow",
+        "meaning": "Steps a user takes to complete a task.",
+        "group": "craft"
+      },
+      {
+        "term": "Prototype",
+        "meaning": "Clickable model used to test or explain ideas.",
+        "group": "craft"
+      },
+      {
+        "term": "Design system",
+        "meaning": "Shared components, patterns, and rules for product UI.",
+        "group": "craft"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Designing so more people can use the product.",
+        "group": "craft"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing design specs and intent to engineers.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Structured feedback on work in progress.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Iteration",
+        "meaning": "Improving a design through repeated changes.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Constraints",
+        "meaning": "Limits from tech, business, time, or policy.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Cross-functional",
+        "meaning": "Working closely with product, engineering, and others.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Figma",
+        "meaning": "Common tool for UI design and collaboration.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Component",
+        "meaning": "Reusable UI building block in a design system.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Rationale",
+        "meaning": "Clear reason behind a design choice.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Edge case",
+        "meaning": "Less common scenario that still needs support.",
+        "group": "growing-into-the-role"
+      },
+      {
+        "term": "Prompt-driven exploration",
+        "meaning": "Using AI prompts to explore ideas or copy.",
+        "group": "growing-into-the-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Product design craft"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Team ways of working"
+      },
+      {
+        "key": "growing-into-the-role",
+        "label": "Growing into the role"
+      }
+    ],
+    "listen_for": [
+      "They talk mostly about screens and tasks, or they connect work to user and product outcomes.",
+      "They mention waiting for feedback a lot, which can signal dependency or unclear support.",
+      "They use design system language confidently, or avoid it because they are unsure.",
+      "They describe engineering trade-offs with curiosity, or as blockers they do not yet know how to navigate.",
+      "They can explain why they changed a design after critique, not just that they changed it."
+    ],
+    "avoid": [
+      "Treating them like a fully independent designer on ambiguous work with little guidance.",
+      "Giving only taste-based feedback instead of clear reasoning they can learn from.",
+      "Assuming quietness in critique means agreement or confidence.",
+      "Pushing speed so hard that learning, craft, and reflection disappear."
+    ]
+  }
+}

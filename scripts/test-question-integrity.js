@@ -76,7 +76,7 @@ check(
   "gate allows outside-work opener where the type has no rule against it",
   checkQuestionEligibility(
     { name: "What's been the best part of your world outside of work lately?" },
-    { meetingType: "Onboarding check-in" }
+    { meetingType: "Growth & career plan" }
   ).ok === true
 );
 
