@@ -9,6 +9,7 @@
 ---
 
 ## Where we are now
+- **2026-07-14** — **team-access-redesign Phase 1 ✅ green-lit ($0).** Removed the Team screen's hidden "Manage access"/"Tidy up" mode; every person card now shows its access status inline (🔗 account / 🔒 no access) with one give/change control. **Lesson:** the pure card render had to move into a new `frontend/src/stages/team-card.ts` — the mount's modal/menu deps `import "*.css"`, which Node's `--test` type-stripper can't load (`ERR_UNKNOWN_FILE_EXTENSION`), so a stage's *testable* render must stay CSS/DOM-free. `npm test` 133/133, all 3 typechecks clean. Phase 2 (one unified "Give access" sheet) next.
 - **2026-07-13** — **monthly-checkin Phase 1 ✅ green-lit ($0, commits `5164eaa1`→`dfdc2df7`).** The internal-only
   "Monthly Check-in" guided 1:1 landed: own `guided_sessions` table, `requireInternalAdmin` gate (admin-role OR
   superadmin-email — there is NO "internal admin" role), catalog appends the card for internal callers only, fenced
