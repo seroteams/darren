@@ -10,7 +10,7 @@ import "../../admin/src/styles/tailwind.css";
 import "../../admin/src/styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "../../admin/src/state.js";
-import { getSession, listRecentRuns, me } from "../../shared/api.js";
+import { getSession, me } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, isFlowStage, isMemberStage, isSharedStage, isGuestStage } from "./router.js";
 import { createDevBadge } from "../../admin/src/ui/dev-badge.js";
 import { createBuildStamp } from "../../admin/src/ui/build-stamp.js";
@@ -325,22 +325,12 @@ async function boot() {
     return;
   }
 
-  // Path is "/" (or unknown): live session resumes; else existing default.
+  // Path is "/" (or unknown): live session resumes; else land on Home.
   if (rehydrated) return;
 
-  // No active session — pick START if past runs exist, else jump to INTAKE.
-  let hasRecent = false;
-  try {
-    const { runs } = await listRecentRuns(3);
-    hasRecent = Array.isArray(runs) && runs.length > 0;
-  } catch (e) {
-    console.warn("[boot] listRecentRuns failed:", e);
-  }
-  if (hasRecent) {
-    setState({ stage: STAGES.START });
-  } else {
-    setState({ stage: STAGES.INTAKE, substage: "NAME" });
-  }
+  // No active session — a manager lands on their Home (the START dashboard), whose
+  // first-run empty state greets a newcomer. They start a prep when they choose to.
+  setState({ stage: STAGES.START });
 }
 
 function defaultSubstage(stage) {
