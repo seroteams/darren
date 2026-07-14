@@ -6,6 +6,7 @@
 import { mount as promisesLoop } from "./tests/promises-loop.js";
 import { mount as monthlyCheckin } from "./tests/monthly-checkin.js";
 import { mount as livePulse } from "./tests/live-pulse.js";
+import { mount as managerWorkspace } from "./tests/manager-workspace.prototype.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
 // recognisable at a glance. Pure SVG (no captured PNGs to go stale); colours
@@ -69,6 +70,17 @@ const THUMB_RUNNER = `
   </svg>`;
 
 const TESTS = [
+  {
+    id: "manager-workspace",
+    title: "Manager Loop — a focused workspace",
+    blurb:
+      "A manager's core loop across five connected screens: start with the one conversation that matters today, scan the team by who needs attention (never a hidden score), read Aisha's human context, prepare three grounded questions with private notes, then close with clear commitments and a preview of what returns next time. Walk it with the blue action, or jump anywhere from the persistent rail.",
+    date: "14 Jul 2026",
+    tag: "new concept",
+    thumb: THUMB_DASHBOARD,
+    wide: true,
+    mount: managerWorkspace,
+  },
   {
     id: "live-pulse",
     title: "Live pulse — the founder dashboard",

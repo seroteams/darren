@@ -21,7 +21,7 @@ Standing constraints (from CLAUDE.md):
 | **[monthly-checkin](docs/plans/doing/monthly-one-on-one/plan.md)** — guided "Monthly Check-in", a 2nd kind of 1:1 (the main line) | P1 of 7 ✅ green-lit 2026-07-13 (card + 7-stage runner + auto-save/resume, `work/monthly-checkin`). P2 next: real per-person trackers + side panels. |
 | **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — lock in agreed actions, close them off next time | P1 ✅ green-lit 2026-07-12. P2 (card zero) next. |
 | **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — ship the admin console to live + founder pulse | P1 ✅ green-lit 2026-07-12. P2+P3 built, awaiting Carl's walk. |
-| **[manager-workspace-prototype](docs/plans/doing/manager-workspace-prototype/plan.md)** — a `/test` walkable manager-loop concept | P1 🔨 built (mock-only). Awaiting walk. |
+| **[manager-workspace-prototype](docs/plans/done/manager-workspace-prototype/plan.md)** — a `/test` walkable manager-loop concept + red/amber feasibility overlay | ✅ CLOSED 2026-07-15 — both phases green-lit, moved to `done/`. Mock-only exploration; informs (not blocks) a future production manager experience. |
 | **[ux-audit-fixes](docs/plans/doing/ux-audit-fixes/plan.md)** — fix every defect from the 2026-07-15 UX audit | 🆕 folder created 2026-07-15, 5 phases scoped. Awaiting Carl's read-through + green-light. |
 
 The Monthly Check-in un-park (2026-07-12): Carl overrode the Gate-1 park after approving the `/test` prototype ("okay i really like it"); the plan absorbed his walk feedback (no Prep stage, side panels, sequential feedback, ONE AI call, member request/goal writes as Phase 7). Internal-admin only, so it can't touch the corridor metric.

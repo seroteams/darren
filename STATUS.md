@@ -20,16 +20,15 @@ Not sure which file is which? [docs/reference/trackers.md](docs/reference/tracke
 
 ---
 
-## 🔨 In flight — the 5 live tracks
+## 🔨 In flight — the 4 live tracks
 
-Each is a real Darren-Method track, one phase at a time, your green light before the next. None is finished — none has moved to `done/`.
+Each is a real Darren-Method track, one phase at a time, your green light before the next. (manager-workspace-prototype closed 2026-07-15 — both phases green-lit, moved to `done/`.)
 
 | Track | Where it's at | Next |
 |---|---|---|
 | **[monthly-checkin](docs/plans/doing/monthly-one-on-one/plan.md)** *(the main line)* | **P1 ✅ green-lit 2026-07-13** — internal-only card + the 7-stage guided runner + auto-save/reload-resume, live on `work/monthly-checkin` (131/131, $0). | **P2: real per-person promises/requests/goals + the right-hand side panels** ($0). Say "go". |
 | **[promises-loop](docs/plans/doing/promises-loop/plan.md)** | **P1 ✅ green-lit 2026-07-12** — wrap-up confirm card + Q9 "Agree next actions →", promises stored (`47c0024b`). | **P2: card zero** — resurface last time's promises with yes/partly/no/changed taps. P3 ⬜. |
 | **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** | **P1 ✅ green-lit 2026-07-12** (live fence). **P2 + P3 built on branch, awaiting your walk** (admin served at `/admin`; Pulse dashboard). | Walk P2+P3 on the live site. P4–P6 ⬜. |
-| **[manager-workspace-prototype](docs/plans/doing/manager-workspace-prototype/plan.md)** | **P1 🔨 built** — a `/test` walkable concept (5 connected manager screens, mock-only). P2 🔨. Created 2026-07-14. | Walk it at `/test` → "Manager Loop" and green-light P1. |
 | **[ux-audit-fixes](docs/plans/doing/ux-audit-fixes/plan.md)** | 🆕 folder created 2026-07-15. Phases scoped, not started. | See ▶ Your move above — read + green-light. |
 
 ---
@@ -57,4 +56,4 @@ Scaffolded ideas waiting for a scope pick or Gate 1. Nothing below is being work
 ## How to read
 `⬜ not started` · `🔨 in progress` · `✅ done (tested + green-lit)`. A pass isn't ✅ until its QA is walked and you green-light it — I never self-certify. Closed tracks move to [docs/plans/done/](docs/plans/done/).
 
-- Last updated: **2026-07-15** — docs sweep: STATUS slimmed to the 5 in-flight tracks (20+ closed narrative blocks retired to `done/`, where they already live). No `doing→done` moves — none of the 5 tracks are finished.
+- Last updated: **2026-07-15** — **manager-workspace-prototype closed** (both phases green-lit, moved `doing→done/`): a `/test` "Manager Loop" walkable concept (5 connected manager screens) plus a red/amber "no-data" feasibility overlay. In-flight now 4 tracks.

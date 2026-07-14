@@ -9,6 +9,19 @@
 ---
 
 ## Where we are now
+- **2026-07-15** — **manager-workspace-prototype COMPLETE — both phases ✅ green-lit ($0).** A `/test`
+  "Manager Loop" concept (Codex hand-off, finished safely): P1 = five connected mock manager screens
+  (Today → Team → Aisha → Prepare → Follow-through) with a persistent navigator; P2 = a "Feasibility"
+  overlay — two independent tiers (🔴 not built · 🟠 have data, not wired) that outline + tag every
+  on-screen element Sero can't back with real data/engine yet. Doubles the prototype as an honest
+  feasibility map. `npm test` green, `typecheck:admin` clean, `build` ok; mock-only (no fetch/storage/api,
+  enforced by the co-located test). Folder → `docs/plans/done/manager-workspace-prototype/`.
+  **Lessons:** (1) *the feasibility read is the real deliverable* — three parallel explore agents (data /
+  engine / UI) mapped what's genuinely built (roster, promises + carry-over, goals, grounded questions,
+  prep "read") vs the magic layer that isn't (scheduling, attention signals, cross-run patterns, due dates,
+  per-question evidence); the toggle just makes that map visible. (2) *preview servers die between turns* —
+  the MCP preview servers got torn down each turn and parallel sessions kept snatching port 3000; a durable
+  fix was a Bash `run_in_background` vite on a quiet port (3200) pointed at a background auto-login API (3096).
 - **2026-07-14** — **team-access-redesign COMPLETE — both phases ✅ green-lit ($0).** Phase 2 landed the one unified "Give access" sheet (`admin/src/ui/give-access-modal.ts`): link an existing company account, invite by email, or remove access — replacing the two split controls (separate Invite button + always-visible dropdown). `team.ts`'s `doInvite`+`doLink` collapsed into one `doAccess`. All 3 typechecks clean, `npm test` 133/133. Folder → `docs/plans/done/team-access-redesign/`. The whole redesign turns the confusing two-mode Team screen into one list with access visible + given in one flow.
 - **2026-07-14** — **team-access-redesign Phase 1 ✅ green-lit ($0).** Removed the Team screen's hidden "Manage access"/"Tidy up" mode; every person card now shows its access status inline (🔗 account / 🔒 no access) with one give/change control. **Lesson:** the pure card render had to move into a new `frontend/src/stages/team-card.ts` — the mount's modal/menu deps `import "*.css"`, which Node's `--test` type-stripper can't load (`ERR_UNKNOWN_FILE_EXTENSION`), so a stage's *testable* render must stay CSS/DOM-free. `npm test` 133/133, all 3 typechecks clean. Phase 2 (one unified "Give access" sheet) next.
 - **2026-07-13** — **monthly-checkin Phase 1 ✅ green-lit ($0, commits `5164eaa1`→`dfdc2df7`).** The internal-only
