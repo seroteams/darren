@@ -1,5 +1,6 @@
 
 import { loadDir } from "../../questions.ts";
+import { PLANNER_FAILED_NOTE } from "../../run-health.ts";
 import { planTurn } from "../../queue-manager.ts";
 import { pinPrepOpenerEarly, seedToQuestion } from "../../question-generator.ts";
 import { isForbiddenCloser, pickSeedOverflow } from "../../closer.ts";
@@ -150,7 +151,7 @@ async function runQuestioningLoop({
       console.log("  " + red("Planner failed — keeping queue as-is and moving on."));
       console.log("  " + dim(errMessage));
       plan = {
-        assessment: { deltas: {}, note: "(planner failed)" },
+        assessment: { deltas: {}, note: PLANNER_FAILED_NOTE },
         newQueue: queueRef,
         issues: [errMessage],
         prompt: "",
