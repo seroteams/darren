@@ -11,4 +11,4 @@ confusion. Use the sources that stay true:
 
 At a glance, plan state lives in the folders themselves:
 `docs/plans/doing/` = actively in-flight · `docs/plans/done/` = closed ·
-`docs/plans/future/` = parked. Right now `doing/` holds one track: **thread-follow**.
+`docs/plans/future/` = parked. For the live picture, read [STATUS.md](../STATUS.md).
