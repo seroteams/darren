@@ -1,6 +1,15 @@
 # Phase 2 — One clean "Give access" flow
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-14 — Carl walked the new sheet ("go")
+One "Give access" sheet does link + invite (+ remove when linked) — the two split controls are gone. Committed. Final phase, so the workstream is complete.
+
+## Built (2026-07-14)
+- **New `admin/src/ui/give-access-modal.ts`** — one sheet titled "Give <name> access" (or "<name>'s access" when linked). Offers both paths in one view: **Link an existing account** (dropdown of company accounts) + **or invite by email** (→ one-time join link), plus **Remove access** when already linked. Reuses the shared modal shell + `apm` styles + focus-trap. Resolves `{kind:"link"|"invite"|"unlink"}` or null. *(Deviation from the plan: lives in `admin/src/ui/` beside `add-person-modal.ts`, not `frontend/src/ui/` — that's where the sibling modals + the CSS live and where `team.ts` already imports from.)*
+- **`team.ts`** — the card's access button now opens this one sheet; the two old paths (`doInvite`'s `window.prompt` + `doLink`'s dropdown/row-menu) collapse into a single `doAccess`. The Phase-1 interim row-menu and the `RowMenuItem` import are gone.
+- **Offline proof:** all 3 typechecks clean · `npm test` **133/133** (the Phase-1 card test still passes — the card markup is unchanged, only the click target's behaviour moved). The modal is DOM-only, so like its siblings (`add`/`delete-person-modal`) it has no unit test — proof is typecheck + suite + your walk.
+- **Not committed** — waiting on your walk.
 
 ## Goal
 Replace the two overlapping access controls (a separate "Invite by email" button *and* an account dropdown) with a **single "Give access" sheet**: one place to either invite someone by email or link an existing company account.
