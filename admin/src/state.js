@@ -35,6 +35,7 @@ export const STAGES = Object.freeze({
   GUIDE: "GUIDE",
   TASKS: "TASKS",
   UNIVERSE: "UNIVERSE",
+  ADMIN_PULSE: "ADMIN_PULSE",
   ADMIN_REGISTERED: "ADMIN_REGISTERED",
   ADMIN_USER: "ADMIN_USER",
   ADMIN_ERROR_LOG: "ADMIN_ERROR_LOG",
@@ -47,6 +48,7 @@ export const STAGES = Object.freeze({
 
 const initial = {
   user: null,
+  appEnv: null, // "live" | "local" — server truth from /auth/me (admin-live-deploy). null until boot.
   sessionId: null,
   stage: STAGES.START,
   substage: "NAME",
@@ -118,10 +120,18 @@ export function isSuperadmin(user) {
   return !!(user && user.isSuperadmin);
 }
 
+// True when the app is running as the LIVE site (appEnv from /auth/me, server truth —
+// admin-live-deploy Phase 2). Drives the live nav trim (Test engine + Tasks hidden) and
+// the deep-link bounce. Cosmetic on top of the Phase-1 backend fence.
+export function isLiveEnv() {
+  return store.appEnv === "live";
+}
+
 export function resetSession() {
   // Preserve the logged-in user across a session reset — "new session" clears the
   // run, not the login.
   const user = store.user;
-  Object.assign(store, { ...initial, user, ctx: { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" } });
+  const appEnv = store.appEnv; // environment truth survives a session reset
+  Object.assign(store, { ...initial, user, appEnv, ctx: { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" } });
   try { localStorage.removeItem("seroSessionId"); } catch {}
 }

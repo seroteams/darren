@@ -5,13 +5,15 @@
 
 export type StageName =
   | "WELCOME"
-  | "LOGIN" | "REGISTER" | "JOIN" | "PRIVACY" | "ABOUT" | "FEEDBACK" | "START"
+  | "LOGIN" | "REGISTER" | "FORGOT_PASSWORD" | "RESET_PASSWORD" | "JOIN" | "PRIVACY" | "ABOUT" | "FEEDBACK" | "START"
   | "MEMBER_HOME" | "TEAM" | "RUNS" | "RUN_DETAIL" | "PERSON_DETAIL"
   | "INTAKE" | "ONEPAGE" | "FOCUS_POINTS"
   | "PREPARATION" | "BANK" | "QUESTIONING" | "EVAL" | "BRIEFING"
   | "LEXICON_REVIEW" | "RUN_DEBRIEF" | "COMPARE" | "LIBRARY" | "ROLE_LEXICONS"
-  | "MEETING_ARCS" | "PERSONAS" | "REVIEW_RUN" | "GUIDE"
-  | "TASKS" | "UNIVERSE" | "ADMIN_REGISTERED" | "ADMIN_USER" | "ERROR";
+  | "MEETING_ARCS" | "PERSONAS" | "REVIEW_RUN" | "GUIDE" | "DESIGN"
+  | "TASKS" | "UNIVERSE"
+  | "ADMIN_PULSE" | "ADMIN_REGISTERED" | "ADMIN_USER" | "ADMIN_ERROR_LOG" | "ADMIN_FEEDBACK" | "ADMIN_GUEST_RUNS"
+  | "ERROR";
 
 export const STAGES: Readonly<Record<StageName, StageName>>;
 
@@ -27,6 +29,7 @@ export interface SessionCtx {
 
 export interface Store {
   user: unknown;
+  appEnv: "live" | "local" | null;
   sessionId: string | null;
   stage: StageName;
   substage: string;
@@ -40,6 +43,7 @@ export interface Store {
   myRunId: string | null;
   personKey: string | null;
   joinToken: string | null;
+  resetToken: string | null;
   adminUserId: string | null;
   adminUserName: string | null;
   currentQuestion: unknown;
@@ -68,4 +72,5 @@ export function setState(patch: Partial<Store>): void;
 export function isAdmin(user: unknown): boolean;
 export function isInternalAdmin(user: unknown): boolean;
 export function isSuperadmin(user: unknown): boolean;
+export function isLiveEnv(): boolean;
 export function resetSession(): void;

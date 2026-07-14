@@ -15,10 +15,10 @@ services:
     # --include=dev on purpose: the build (vite) and the start command (cross-env)
     # both live in devDependencies. Plain `npm ci` under NODE_ENV=production skips
     # them and the build dies.
-    # build:customer on purpose: the public deploy serves ONLY the customer app
-    # (frontend/dist) — the admin app never ships (frontend-admin-split Phase 4,
-    # Carl's call 2026-07-08). server.ts serves frontend/dist in production.
-    buildCommand: npm ci --include=dev && npm run build:customer
+    # build:all on purpose: the deploy serves the customer app at / AND the admin
+    # console under /admin (admin-live-deploy Phase 2, reversing frontend-admin-split
+    # Phase 4). server.ts serves frontend/dist and admin/dist in production.
+    buildCommand: npm ci --include=dev && npm run build:all
     startCommand: npm start
     # Render pings this until it returns 200 before sending traffic (and to know the
     # app is alive). Public, no auth — added in Phase 1.

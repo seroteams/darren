@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createSuperadminService } from "./superadmin.service.ts";
-import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow, SuperadminRunDetail } from "./superadmin.repo.ts";
+import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow, SuperadminRunDetail, PulseRunRow, PulseFeedbackRow } from "./superadmin.repo.ts";
 import type { SuperadminAuditEntry } from "../../middleware/superadmin-audit.ts";
 
 // A storage-agnostic fake — the service logic (grouping, ordering, the read-only view
@@ -18,6 +18,9 @@ function fakeRepo(
   guestRuns: UserRunRow[] = [],
   deletions: string[] = [],
   rosterCounts: Record<string, number> = {},
+  pulseRuns: PulseRunRow[] = [],
+  errorCounts: { total: number; unresolved: number } = { total: 0, unresolved: 0 },
+  feedback: PulseFeedbackRow[] = [],
 ): SuperadminRepo {
   return {
     listOrganizations: async () => orgs,
@@ -26,6 +29,9 @@ function fakeRepo(
     listRunsForUser: async (id: string) => runsByUser[id] ?? [],
     listGuestRuns: async () => guestRuns,
     readRun: async (id: string) => runsById[id] ?? null,
+    listPulseRuns: async () => pulseRuns,
+    countRecentErrors: async () => errorCounts,
+    latestFeedback: async (limit: number) => feedback.slice(0, limit),
     updateUserRole: async (id, role) => { writes.push({ id, role }); },
     setDeactivated: async (id, at) => {
       deactivations.push({ id, at });
@@ -77,6 +83,60 @@ test("listRegistered groups users under their company, oldest-first, no secrets 
       assert.ok(!("orgId" in u), "internal orgId is not part of the user view");
     }
   }
+});
+
+test("pulse folds the Gate-1 number, week counts and the time-series from one dataset", async () => {
+  const NOW = new Date("2026-07-12T12:00:00.000Z");
+  const nowMs = NOW.getTime();
+  const DAY = 24 * 60 * 60 * 1000;
+
+  const orgs: OrgRow[] = [
+    { id: "acme", name: "Acme", createdAt: new Date("2026-06-01") },
+    { id: "sero", name: "Sero", createdAt: new Date("2026-05-01") },
+  ];
+  const people: UserRow[] = [
+    { id: "ann",  orgId: "acme", name: "Ann",  email: "ann@acme.com",       role: "manager", createdAt: new Date("2026-06-02") },
+    { id: "bo",   orgId: "acme", name: "Bo",   email: "bo@acme.com",        role: "manager", createdAt: new Date("2026-06-03") },
+    { id: "cara", orgId: "acme", name: "Cara", email: "cara@acme.com",      role: "member",  createdAt: new Date("2026-06-04") },
+    { id: "carl", orgId: "sero", name: "Carl", email: "carl@seroteams.com", role: "admin",   createdAt: new Date("2026-05-02") },
+  ];
+  // Runs that drive listRegistered's came-back + week tallies (createdAt = start, in ms).
+  const runs: RunRow[] = [
+    { userId: "ann",  createdAt: nowMs - 10 * DAY, lastSeenAt: nowMs - 10 * DAY, stars: 5 },
+    { userId: "ann",  createdAt: nowMs - 2 * DAY,  lastSeenAt: nowMs - 2 * DAY,  stars: 4 },
+    { userId: "bo",   createdAt: nowMs - 5 * DAY,  lastSeenAt: nowMs - 5 * DAY,  stars: null },
+    { userId: "carl", createdAt: nowMs - 1 * DAY,  lastSeenAt: nowMs - 1 * DAY,  stars: 4 },
+  ];
+  // Time-series rows: Carl (internal) and the ownerless guest row must both be excluded.
+  const pulseRuns: PulseRunRow[] = [
+    { userId: "ann",  orgId: "acme", createdAtMs: nowMs - 2 * DAY,  meetingType: "biweekly", stage: "briefing",  finished: true },
+    { userId: "ann",  orgId: "acme", createdAtMs: nowMs - 10 * DAY, meetingType: "first",    stage: "briefing",  finished: true },
+    { userId: "bo",   orgId: "acme", createdAtMs: nowMs - 5 * DAY,  meetingType: "biweekly", stage: "questions", finished: false },
+    { userId: "carl", orgId: "sero", createdAtMs: nowMs - 1 * DAY,  meetingType: "weekly",   stage: "briefing",  finished: true },
+    { userId: null,   orgId: null,   createdAtMs: nowMs - 1 * DAY,  meetingType: "first",    stage: "questions", finished: false },
+  ];
+  const guests: UserRunRow[] = [userRun("g1", "Guest A", nowMs - 3 * DAY, null), userRun("g2", "Guest B", nowMs - 4 * DAY, 5)];
+  const feedback: PulseFeedbackRow[] = [{ message: "Exactly the question I needed.", verdict: "yes", runId: "ann-2", createdAtMs: nowMs - 2 * DAY }];
+
+  const svc = createSuperadminService(
+    fakeRepo(orgs, people, runs, {}, {}, [], [], [], guests, [], {}, pulseRuns, { total: 1, unresolved: 0 }, feedback),
+  );
+  const p = await svc.pulse(NOW);
+
+  assert.deepEqual(p.gate1, { cameBack: 1, total: 2 });   // Ann + Bo tried; only Ann came back
+  assert.equal(p.managersOnLive, 2);                       // Ann + Bo (Cara is a member; Carl internal)
+  assert.equal(p.runsThisWeek, 2);                         // Ann day-2 + Bo day-5
+  assert.equal(p.runsLastWeek, 1);                         // Ann day-10
+  assert.equal(p.guestCount, 2);
+  assert.deepEqual(p.errors, { total: 1, unresolved: 0 });
+  assert.equal(p.latestFeedback.length, 1);
+  assert.equal(p.latestFeedback[0]!.verdict, "yes");
+
+  // The time-series drops internal (Carl) + guest (ownerless) runs.
+  assert.equal(p.runsPerDay.length, 14);
+  assert.equal(p.runsPerDay.reduce((a, b) => a + b, 0), 3);           // ann×2 + bo×1
+  assert.deepEqual(p.runTypeMix, [{ type: "biweekly", count: 2 }]);   // last 7d only (ann day-10 drops out)
+  assert.deepEqual(p.dropOffs, [{ stage: "questions", count: 1 }]);   // bo's unfinished run
 });
 
 test("listRegistered: a company with no users yet still appears with an empty list", async () => {

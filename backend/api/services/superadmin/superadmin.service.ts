@@ -6,7 +6,7 @@
 // so the controller stays thin and the repo write can't be reached un-guarded.
 
 import { pgSuperadminRepo } from "./superadmin.repo.ts";
-import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail, UserRoleName } from "./superadmin.repo.ts";
+import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail, UserRoleName, PulseRunRow } from "./superadmin.repo.ts";
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
 import { isSuperadminEmail } from "../../middleware/require-auth.ts";
 import { appendSuperadminAudit } from "../../middleware/superadmin-audit.ts";
@@ -78,6 +78,46 @@ export interface AlphaSummary {
   lowCount: number;
 }
 
+/** One external manager row on the Pulse dashboard (admin-live-deploy Phase 3) — the
+ *  came-back signal at a glance. A subset of RegisteredUser plus their company name. */
+export interface PulseManager {
+  id: string;
+  name: string;
+  company: string;
+  runCount: number;
+  lastActiveAt: Date | null;
+  firstRunAt: Date | null;
+  cameBack: boolean;
+  gapDays: number | null;
+  /** back = came back within the window · once = ran, not back yet · none = registered, no
+   *  runs · internal = a Sero/test account (labelled, excluded from the Gate-1 number). */
+  status: "back" | "once" | "none" | "internal";
+}
+
+/** The founder Pulse payload (admin-live-deploy Phase 3): one screen's worth of the live site
+ *  — the Gate-1 return number, managers, run volume + type mix, drop-offs, guests, errors, and
+ *  the latest feedback. Assembled from listRegistered plus the new time-series reads. All
+ *  time-series count EXTERNAL managers only (internal Sero runs are excluded); `now` is
+ *  injected so the day/week buckets are deterministic in tests. */
+export interface PulseData {
+  gate1: { cameBack: number; total: number };
+  managersOnLive: number;
+  managersNewThisWeek: number;
+  runsThisWeek: number;
+  runsLastWeek: number;
+  ratings: AlphaSummary;
+  guestCount: number;
+  /** Runs per day over the last 14 days, oldest first (index 0 = 13 days ago). */
+  runsPerDay: number[];
+  /** Meeting-type mix over the last 7 days, most common first. */
+  runTypeMix: { type: string; count: number }[];
+  /** Where unfinished runs broke off over the last 14 days, by stage. */
+  dropOffs: { stage: string; count: number }[];
+  errors: { total: number; unresolved: number };
+  latestFeedback: { message: string; verdict: string | null; runId: string | null }[];
+  managers: PulseManager[];
+}
+
 /** A company with the people in it. */
 export interface RegisteredCompany {
   id: string;
@@ -97,6 +137,10 @@ export interface SuperadminService {
   guestRuns(): Promise<{ runs: UserRunRow[] }>;
   /** One finished run's read-only briefing detail (PG8 Step 3). null if unknown/unfinished. */
   runDetail(runId: string): Promise<SuperadminRunDetail | null>;
+  /** The founder Pulse dashboard payload (admin-live-deploy Phase 3) — one screen's worth of
+   *  the live site, folding listRegistered with the new time-series reads. `now` is injected
+   *  for deterministic buckets in tests; it defaults to the current time. */
+  pulse(now?: Date): Promise<PulseData>;
   /** Set a user's account role (user-management Phase 2). Validates the role, blocks a change
    *  that would leave a company with no manager/admin, writes it, and audits the outcome.
    *  Throws 400 (bad role), 404 (unknown user), or 409 (last lead). */
@@ -152,11 +196,48 @@ function summarizeRatings(runs: RunRow[]): AlphaSummary {
   };
 }
 
+const PULSE_DAYS = 14;
+
+/** Bucket the external-manager sessions into the Pulse time-series (admin-live-deploy Phase 3):
+ *  runs per day (last 14d, oldest first), meeting-type mix (last 7d) and where unfinished runs
+ *  broke off (last 14d, by stage). Only runs owned by an external manager count — internal
+ *  (Sero) and guest/machine runs are excluded. `nowMs` fixes the day boundaries for tests. */
+function bucketPulseRuns(runs: PulseRunRow[], externalUserIds: Set<string>, nowMs: number) {
+  const runsPerDay = new Array(PULSE_DAYS).fill(0) as number[];
+  const typeMix = new Map<string, number>();
+  const dropOffs = new Map<string, number>();
+  for (const r of runs) {
+    if (!r.userId || !externalUserIds.has(r.userId)) continue; // external managers only
+    if (r.createdAtMs == null) continue;
+    const age = nowMs - r.createdAtMs;
+    if (age < 0) continue;
+    const dayIdx = Math.floor(age / DAY_MS);
+    if (dayIdx < PULSE_DAYS) {
+      const i = PULSE_DAYS - 1 - dayIdx; // oldest first
+      runsPerDay[i] = (runsPerDay[i] ?? 0) + 1;
+    }
+    if (age < WEEK_MS) {
+      const type = (r.meetingType && r.meetingType.trim()) || "Other";
+      typeMix.set(type, (typeMix.get(type) ?? 0) + 1);
+    }
+    if (dayIdx < PULSE_DAYS && !r.finished) {
+      const stage = (r.stage && r.stage.trim()) || "—";
+      dropOffs.set(stage, (dropOffs.get(stage) ?? 0) + 1);
+    }
+  }
+  const desc = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1]);
+  return {
+    runsPerDay,
+    runTypeMix: desc(typeMix).map(([type, count]) => ({ type, count })),
+    dropOffs: desc(dropOffs).map(([stage, count]) => ({ stage, count })),
+  };
+}
+
 export function createSuperadminService(
   repo: SuperadminRepo = pgSuperadminRepo,
   audit: SuperadminAudit = appendSuperadminAudit,
 ): SuperadminService {
-  return {
+  const service: SuperadminService = {
     async listRegistered(now = new Date()) {
       const [orgs, people, runs] = await Promise.all([
         repo.listOrganizations(),
@@ -210,6 +291,58 @@ export function createSuperadminService(
     },
     async runDetail(runId) {
       return repo.readRun(runId);
+    },
+    async pulse(now = new Date()) {
+      const nowMs = now.getTime();
+      const weekAgoMs = nowMs - WEEK_MS;
+      const [{ companies, summary }, pulseRuns, guests, errors, feedback] = await Promise.all([
+        service.listRegistered(now), // reuse — managers, came-back signal, ratings summary
+        repo.listPulseRuns(),
+        repo.listGuestRuns(),
+        repo.countRecentErrors(weekAgoMs),
+        repo.latestFeedback(3),
+      ]);
+      // Walk the external (non-internal) users once: collect the manager rows, the set of
+      // external user ids (so the time-series can drop internal + guest runs), the week run
+      // totals (summed from the SAME per-user tallies the User-management screen shows, so the
+      // numbers can't disagree), and how many managers registered this week.
+      const managers: PulseManager[] = [];
+      const externalUserIds = new Set<string>();
+      let runsThisWeek = 0, runsLastWeek = 0, managersNewThisWeek = 0;
+      for (const co of companies) {
+        for (const u of co.users) {
+          if (u.internal) continue;
+          externalUserIds.add(u.id);
+          runsThisWeek += u.runsThisWeek;
+          runsLastWeek += u.runsLastWeek;
+          if (!isLead(u.role)) continue;
+          if (u.createdAt.getTime() >= weekAgoMs) managersNewThisWeek += 1;
+          managers.push({
+            id: u.id, name: u.name, company: co.name,
+            runCount: u.runCount, lastActiveAt: u.lastActiveAt, firstRunAt: u.firstRunAt,
+            cameBack: u.cameBack, gapDays: u.gapDays,
+            status: u.cameBack ? "back" : u.runCount > 0 ? "once" : "none",
+          });
+        }
+      }
+      // Gate 1: of the external managers who actually ran at least once, how many came back.
+      const tried = managers.filter((m) => m.runCount > 0);
+      const buckets = bucketPulseRuns(pulseRuns, externalUserIds, nowMs);
+      return {
+        gate1: { cameBack: tried.filter((m) => m.cameBack).length, total: tried.length },
+        managersOnLive: managers.length,
+        managersNewThisWeek,
+        runsThisWeek,
+        runsLastWeek,
+        ratings: summary,
+        guestCount: guests.length,
+        runsPerDay: buckets.runsPerDay,
+        runTypeMix: buckets.runTypeMix,
+        dropOffs: buckets.dropOffs,
+        errors,
+        latestFeedback: feedback.map((f) => ({ message: f.message, verdict: f.verdict, runId: f.runId })),
+        managers,
+      };
     },
     async setUserRole(actor, userId, role) {
       const route = `/api/v1/admin/users/${userId}/role`;
@@ -355,6 +488,8 @@ export function createSuperadminService(
       return { id: userId, deleted: true };
     },
   };
+
+  return service;
 }
 
 /** The audit recorder shared by the Phase 3 mutations — one line per attempt (success /

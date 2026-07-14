@@ -6,7 +6,7 @@
 // (brand + menu button) that this module also owns — same DOM, same role
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
-import { STAGES, isAdmin, isInternalAdmin } from "../state.js";
+import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
 import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "./icon.js";
@@ -14,7 +14,7 @@ import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
   Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
-  FlaskConical,
+  FlaskConical, Gauge,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -52,6 +52,7 @@ const ICON = {
   inbox: icon(Inbox),
   guests: icon(UserRoundSearch),
   tests: icon(FlaskConical),
+  pulse: icon(Gauge),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -88,6 +89,9 @@ const LINKS = [
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
   // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
   { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
+  // The founder Pulse dashboard (admin-live-deploy Phase 3) — superadmin-only, top of the
+  // Admin group. On live this is the landing screen; locally it's just another admin page.
+  { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Admin" },
   // Native in-shell stage (stages/design.js) — the design system sheet with its own
   // second-level rail, routed like any other stage.
   { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Admin" },
@@ -228,6 +232,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     design: () => setState && setState({ stage: STAGES.DESIGN }),
     tests: () => setState && setState({ stage: STAGES.TEST }),
     universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
+    pulse: () => setState && setState({ stage: STAGES.ADMIN_PULSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
     inbox: () => setState && setState({ stage: STAGES.ADMIN_FEEDBACK }),
@@ -268,6 +273,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.UNIVERSE]: "universe",
     [STAGES.DESIGN]: "design",
     [STAGES.TEST]: "tests",
+    [STAGES.ADMIN_PULSE]: "pulse",
     [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.ADMIN_USER]: "registered",
     [STAGES.ADMIN_ERROR_LOG]: "errors",
@@ -310,6 +316,9 @@ export function createAppNav({ setState, resetSession } = {}) {
       // A superadmin-only row (Registered, PG7) shows only for Carl — the flag comes from
       // /auth/me. This is cosmetic; the endpoint still enforces the 403.
       if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
+      // Live site: Test engine (paid persona runs) and the Tasks board are off (admin-live-
+      // deploy Phase 2). Trimmed from the rail; the deep-link bounce + backend fence back it.
+      if (show && isLiveEnv() && (b.dataset.key === "personas" || b.dataset.key === "tasks")) show = false;
       b.hidden = !show;
     });
     // Section headers belong to the internal rail only.

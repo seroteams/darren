@@ -5,6 +5,31 @@
 
 import { STAGES } from "./state.js";
 
+// The app is served under a base path on live (/admin, admin-live-deploy Phase 2) so it can
+// sit alongside the customer app at /. Vite injects the base as import.meta.env.BASE_URL
+// ("/admin/" here; "/" if ever served at root). BASE is normalized to no trailing slash for
+// prefixing ("" when at root). withBase turns an internal route ("/guide") into a real
+// browser path ("/admin/guide"); stripBase does the reverse, so the route tables below and
+// every deep link stay base-agnostic.
+// import.meta.env is vite-only — undefined when router.js is imported by a Node unit test,
+// so read it defensively (BASE = "" there, making withBase/stripBase identity).
+const BASE = ((import.meta.env && import.meta.env.BASE_URL) || "/").replace(/\/+$/, "");
+
+export function withBase(path) {
+  return BASE ? BASE + path : path;
+}
+export function stripBase(pathname) {
+  if (!BASE) return pathname;
+  if (pathname === BASE) return "/";
+  if (pathname.startsWith(BASE + "/")) return pathname.slice(BASE.length);
+  return pathname; // not under the base — leave as-is
+}
+// Replace the current history entry at a base-aware URL (boot's redirects in main.js go
+// through this so they land under /admin/ on live instead of the site root).
+export function replaceUrl(path) {
+  window.history.replaceState(null, "", withBase(path));
+}
+
 // stage -> path
 const PATH_FOR = {
   // The guest-first front door (WELCOME), join links, Team and person pages live
@@ -44,6 +69,7 @@ const PATH_FOR = {
   [STAGES.UNIVERSE]:       () => "/universe",
   [STAGES.DESIGN]:         () => "/design",
   [STAGES.TEST]:           () => "/test",
+  [STAGES.ADMIN_PULSE]:    () => "/pulse",
   [STAGES.ADMIN_REGISTERED]: () => "/admin/registered",
   [STAGES.ADMIN_ERROR_LOG]: () => "/admin/errors",
   [STAGES.ADMIN_FEEDBACK]: () => "/admin/feedback",
@@ -67,6 +93,7 @@ const STAGE_FOR = {
   "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
   "/tasks": STAGES.TASKS, "/universe": STAGES.UNIVERSE, "/design": STAGES.DESIGN,
   "/test": STAGES.TEST,
+  "/pulse": STAGES.ADMIN_PULSE,
   "/admin/registered": STAGES.ADMIN_REGISTERED,
   "/admin/errors": STAGES.ADMIN_ERROR_LOG,
   "/admin/feedback": STAGES.ADMIN_FEEDBACK,
@@ -82,13 +109,14 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
   STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
 // The cross-company superadmin screens (pre-go-live PG6+). A subset of ADMIN_ONLY that
 // even a normal manager/admin must NOT reach — only the email-allowlisted superadmin.
 // The backend 403s their data; this bounces a non-superadmin off the shell too (F-009).
-const SUPERADMIN_ONLY = new Set([STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+const SUPERADMIN_ONLY = new Set([STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS]);
 export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 
@@ -100,6 +128,13 @@ const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
   STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
+
+// Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2): the Test engine
+// (paid persona runs — the Phase-1 backend fence already 403s the start) and the build
+// Tasks board. Hidden from the nav and bounced on deep link when appEnv is "live". Cosmetic
+// on top of the backend fence; local dev shows them as before.
+const LIVE_HIDDEN = new Set([STAGES.PERSONAS, STAGES.TASKS]);
+export const isLiveHiddenStage = (stage) => LIVE_HIDDEN.has(stage);
 
 // The plain-member destinations (member-view: only-runs): a member can view their own
 // past 1:1s and open one — nothing else. They can't start or run a 1:1, and Home/Team are
@@ -123,7 +158,7 @@ GUEST_OK.delete(STAGES.RUN_DEBRIEF);
 export const isGuestStage = (stage) => GUEST_OK.has(stage);
 
 export function parseLocation() {
-  const p = window.location.pathname.replace(/\/+$/, "") || "/";
+  const p = stripBase(window.location.pathname).replace(/\/+$/, "") || "/";
   if (STAGE_FOR[p]) return { stage: STAGE_FOR[p] };
   // A member re-opening one of their own runs: /runs/:id (checked after the exact-path
   // map, so bare /runs still resolves to the list above).
@@ -157,8 +192,9 @@ export function syncUrl(s) {
   if (suppress) return;                            // don't echo a popstate-driven change
   const next = urlForState(s);
   if (next == null) return;                        // ERROR etc. -> leave URL as-is
-  if (next === window.location.pathname) return;   // compare-before-write: no dup entry / no loop
-  window.history.pushState(null, "", next);
+  const nextUrl = withBase(next);                  // prefix the base so live URLs sit under /admin/
+  if (nextUrl === window.location.pathname) return; // compare-before-write: no dup entry / no loop
+  window.history.pushState(null, "", nextUrl);
 }
 
 export function startPopstate(apply) {

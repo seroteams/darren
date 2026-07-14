@@ -49,10 +49,13 @@ import { health } from "./services/health/health.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
-// The public deploy serves the CUSTOMER app only (frontend-admin-split Phase 4,
-// Carl's call 2026-07-08): the admin app never ships — it stays a local tool on
-// :3000. Proven by scripts/test-customer-serving.js (bundle fence + real prod boot).
+// The public deploy serves the CUSTOMER app at "/" and — since admin-live-deploy Phase 2
+// (reversing frontend-admin-split Phase 4's "admin never ships") — the ADMIN console under
+// "/admin" for the superadmin. The admin app is built with vite base "/admin/" and gated by
+// the Phase-1 internal-tool fence + superadmin routes. Proven by scripts/test-customer-serving.js
+// (customer bundle fence) and scripts/test-admin-serving.js (both apps served at the right paths).
 const CLIENT_DIST = path.join(ROOT, "frontend", "dist");
+const ADMIN_DIST = path.join(ROOT, "admin", "dist");
 
 // Simple per-IP rate limiter for session creation (POST /api/start).
 // Allows up to MAX_PER_IP new sessions within WINDOW_MS before returning 429.
@@ -219,6 +222,7 @@ async function main(): Promise<void> {
   // SUPERADMIN_EMAILS allowlist. Reads below; the one mutation (change a user's role,
   // user-management Phase 2) is origin-guarded like every other mutating route.
   router.add("GET", "/api/v1/admin/registered", superadminV1(superadmin.registered));
+  router.add("GET", "/api/v1/admin/pulse", superadminV1(superadmin.pulse));
   router.add("GET", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/runs$/, superadminV1(superadmin.userRuns));
   router.add("GET", "/api/v1/admin/guest-runs", superadminV1(superadmin.guestRuns));
   router.add("GET", /^\/api\/v1\/admin\/runs\/(?<id>[^/]+)$/, superadminV1(superadmin.runDetail));
@@ -534,6 +538,10 @@ async function main(): Promise<void> {
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/rules$/, v1Route(sessions.rules));
 
   const staticHandler = IS_PROD ? createStaticHandler(CLIENT_DIST) : null;
+  // The admin console ships under /admin (admin-live-deploy Phase 2), built with vite base
+  // "/admin/". noindex keeps it out of search results; the prefix is stripped before file
+  // resolution so /admin/assets/x.js -> admin/dist/assets/x.js and /admin(/) -> the index.
+  const adminHandler = IS_PROD ? createStaticHandler(ADMIN_DIST, { prefix: "/admin", noindex: true }) : null;
 
   const server = http.createServer((req, res) => {
     router.handle(req, res, {
@@ -545,6 +553,12 @@ async function main(): Promise<void> {
           return res.end(JSON.stringify({
             error: { code: "NOT_FOUND", message: `Unknown API route: ${req.method} ${url.pathname}` },
           }));
+        }
+        // Admin console under /admin -> the admin dist (its own SPA fallback). Checked
+        // before the customer handler so admin deep links resolve to the admin index.
+        // (/api/v1/admin/* is already handled above via the /api/ guard + matched routes.)
+        if (IS_PROD && adminHandler && (url.pathname === "/admin" || url.pathname.startsWith("/admin/"))) {
+          return adminHandler(req, res, url);
         }
         if (IS_PROD && staticHandler) return staticHandler(req, res, url);
         if (IS_PROD) {
