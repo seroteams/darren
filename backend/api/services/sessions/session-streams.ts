@@ -10,6 +10,7 @@ import path from "node:path";
 import type { RequestContext } from "../../router.ts";
 import { service, IS_DEV, sessionId, callerFence } from "./session-runtime.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
+import { PLANNER_FAILED_NOTE } from "../../../engine/run-health.ts";
 import { focusHistoryFor } from "../../../engine/focus-history.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
 import { generateSuggestions, shouldReview } from "../../../engine/lexicon-reviewer.ts";
@@ -373,7 +374,7 @@ export async function planStream(c: RequestContext): Promise<void> {
     const msg = e instanceof Error ? e.message : String(e);
     console.warn("[plan] planner failed:", msg);
     planResult = {
-      assessment: { deltas: {}, note: "(planner failed)" },
+      assessment: { deltas: {}, note: PLANNER_FAILED_NOTE },
       newQueue: session.queueRef,
       issues: [msg],
       prompt: "",

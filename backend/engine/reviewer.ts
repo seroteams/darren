@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
-import { logStage } from "./session.ts";
+import { logStage, logRunRoot } from "./session.ts";
+import { buildRunHealth } from "./run-health.ts";
 import { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } from "./axes.ts";
 import { promptFor, getArc, getType } from "./one-on-one-types/index.ts";
 import { withPromptVersion } from "./prompt-version.ts";
@@ -874,6 +875,8 @@ async function evaluate(
       flag: "GENERATION_FAILED",
     };
     logStage(session, stage, failLog);
+    // H3 — record the degraded run so the fallback rate is visible, not silent.
+    logRunRoot(session, "health.json", buildRunHealth(transcript, true));
     return briefing;
   }
 
@@ -896,6 +899,9 @@ async function evaluate(
   if (!ruleCheck.passed) {
     console.warn(`[evaluator] briefing rule check: ${ruleCheck.issues.join("; ")}`);
   }
+
+  // H3 — record run health (healthy runs too, so the degraded rate is computable).
+  logRunRoot(session, "health.json", buildRunHealth(transcript, false));
 
   return briefing;
 }

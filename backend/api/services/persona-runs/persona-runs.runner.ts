@@ -10,6 +10,7 @@
 // live session code; convergence is parked in the plan.
 
 import { logTurn, logRunRoot } from "../../../engine/session.ts";
+import { PLANNER_FAILED_NOTE } from "../../../engine/run-health.ts";
 import * as cost from "../../../engine/cost.ts";
 import { applyDeltas, serialize } from "../../../engine/axes.ts";
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
@@ -112,7 +113,7 @@ export function createPersonaRunner(deps: PersonaRunnerDeps): PersonaRunner {
       const msg = e instanceof Error ? e.message : String(e);
       console.warn("[persona-run] planner failed:", msg);
       planResult = {
-        assessment: { deltas: {}, note: "(planner failed)" },
+        assessment: { deltas: {}, note: PLANNER_FAILED_NOTE },
         newQueue: session.queueRef,
         issues: [msg],
         prompt: "",
