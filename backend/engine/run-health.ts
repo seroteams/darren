@@ -20,22 +20,32 @@ export interface RunHealth {
   // Turns whose planner threw and shipped empty deltas.
   planner_failed_turns: number;
   total_turns: number;
+  // H4 — a serve-time leak was detected, so a safe fallback shipped instead of
+  // the model's briefing. Distinct from evaluation_degraded (which is a model
+  // failure); this is a deliberate block.
+  leak_blocked: boolean;
+  leak_reasons: string[];
   // Any degradation at all — the single field a monitor can alarm on.
   degraded: boolean;
 }
 
-// Pure summary of one run's health from its transcript + whether evaluation fell
-// back. Reads only `note`, so any turn-shaped object works.
+// Pure summary of one run's health from its transcript, whether evaluation fell
+// back, and any serve-time leak reasons that forced a block. Reads only `note`,
+// so any turn-shaped object works.
 export function buildRunHealth(
   transcript: ReadonlyArray<{ note?: string | null }> | null | undefined,
   evaluationDegraded: boolean,
+  leakReasons: ReadonlyArray<string> = [],
 ): RunHealth {
   const turns = Array.isArray(transcript) ? transcript : [];
   const plannerFailedTurns = turns.filter((t) => t?.note === PLANNER_FAILED_NOTE).length;
+  const leaks = Array.isArray(leakReasons) ? [...leakReasons] : [];
   return {
     evaluation_degraded: evaluationDegraded,
     planner_failed_turns: plannerFailedTurns,
     total_turns: turns.length,
-    degraded: evaluationDegraded || plannerFailedTurns > 0,
+    leak_blocked: leaks.length > 0,
+    leak_reasons: leaks,
+    degraded: evaluationDegraded || plannerFailedTurns > 0 || leaks.length > 0,
   };
 }

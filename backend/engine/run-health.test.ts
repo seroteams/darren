@@ -29,6 +29,20 @@ test("evaluation fallback alone marks the run degraded", () => {
   assert.equal(h.degraded, true);
 });
 
+test("a serve-time leak block marks the run degraded and records the reasons", () => {
+  const h = buildRunHealth([ok, ok], false, ["PRIVATE_NOTE_LEAK"]);
+  assert.equal(h.leak_blocked, true);
+  assert.deepEqual(h.leak_reasons, ["PRIVATE_NOTE_LEAK"]);
+  assert.equal(h.evaluation_degraded, false); // model succeeded; we chose to block
+  assert.equal(h.degraded, true);
+});
+
+test("no leak reasons: leak_blocked is false", () => {
+  const h = buildRunHealth([ok], false);
+  assert.equal(h.leak_blocked, false);
+  assert.deepEqual(h.leak_reasons, []);
+});
+
 test("empty / missing transcript is safe", () => {
   const h = buildRunHealth([], false);
   assert.equal(h.total_turns, 0);
