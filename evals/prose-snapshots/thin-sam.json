@@ -1,0 +1,28 @@
+{
+  "id": "thin-sam",
+  "source": "ratified frozen briefing (evals/replay/thin-sam/expected.json) — seeded offline, no live call",
+  "prose": {
+    "headline": "Sam gave only one-word answers all session — this is a partial read, not a verdict on pace, clarity, or engagement.",
+    "summary_bullets": [
+      "Nine straight turns stayed at \"fine,\" \"ok,\" \"i guess,\" \"not sure,\" and \"dunno\" — the record is too thin to read what landed for Sam.",
+      "The only clear signal is the silence itself: no friction, priorities, or lift got named, so the check-in never got past surface level."
+    ],
+    "understanding_paragraph": "We did not learn what actually landed for Sam, what snagged, or what she wants next from this fortnight. The session showed a non-functional read: every turn stayed at one or two words, so there is no reliable story beyond the lack of detail.",
+    "brutal_truth_employee": "Too few turns hold a real note on Sam to call this a read. What we do have is a wall of \"fine,\" \"ok,\" \"i guess,\" \"not sure,\" and \"dunno,\" which says nothing beyond Sam not opening up here.",
+    "brutal_truth_manager": "You kept moving past \"i guess\" and \"not sure\" instead of stopping to pin down one concrete example. The turn after \"dunno\" was the moment to switch from broad check-in to a specific prompt about one thing that landed or snagged.",
+    "next_actions": [
+      {
+        "when": "next 1:1",
+        "action": "Re-ask the landing question with one concrete example prompt: \"what shipped, what didn't, and what was the one snag?\""
+      },
+      {
+        "when": "this week",
+        "action": "Set up a shorter follow-up with a tighter prompt list and no broad opener."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: if Sam stays at one-word answers again, treat this as a conversation problem, not a work update.",
+      "Within two weeks: ask for one specific thing that landed and one thing that snagged; if neither comes, the read is still missing."
+    ]
+  }
+}
