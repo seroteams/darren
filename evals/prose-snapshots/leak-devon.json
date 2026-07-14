@@ -1,0 +1,28 @@
+{
+  "id": "leak-devon",
+  "source": "ratified frozen briefing (evals/replay/leak-devon/expected.json) — seeded offline, no live call",
+  "prose": {
+    "headline": "Devon is aiming at tech lead, and the session surfaced a real stretch path through cross-team scope and delegation.",
+    "summary_bullets": [
+      "He keeps translating growth into concrete scope — mentoring juniors, owning harder system work, and a stretch project into another team’s area.",
+      "The gap is not ambition; it is exposure and tradeoff clarity, since he asked for more visibility and more architecture-review presence without naming what gets dropped."
+    ],
+    "understanding_paragraph": "Devon is not vague about direction: he wants tech lead within a year and is already thinking in terms of delegation. What we did not learn is whether that path is backed by a specific project, stakeholder exposure, or scope change that will prove the next step.",
+    "brutal_truth_employee": "Devon is not drifting in the abstract; he said \"Wants to grow into a tech lead role over the next year\" and kept pointing to bigger scope. The weak spot is that his growth story still stops at aspiration unless he gets a named project or stakeholder exposure that proves it.",
+    "brutal_truth_manager": "You got the growth thread moving, but the moment to press was when he said \"Wants to present more often in the architecture review\" — that was a request for authority without a concrete decision or scope. Next time, pin him to one project or stakeholder so the conversation ends with ownership, not wish-listing.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Assign Devon one cross-team project with a named stakeholder and clear decision rights."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Ask Devon to name the one scope change that would prove tech lead readiness this quarter."
+      }
+    ],
+    "watch_for": [
+      "Before next 1:1: see whether Devon has taken the architecture review slot or only talked about it.",
+      "Within two weeks: if the stretch project stays vague, treat the tech lead plan as aspiration, not momentum."
+    ]
+  }
+}
