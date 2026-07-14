@@ -1,6 +1,30 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { assertNoUnresolvedPlaceholders, parseAIJson } from "./ai-client.ts";
+import { assertNoUnresolvedPlaceholders, parseAIJson, assertNotTruncated } from "./ai-client.ts";
+
+// H2 — output cap. Every model call sends a max_tokens ceiling; if the model
+// stops because it hit that ceiling (OpenAI finish_reason "length" / Gemini
+// "MAX_TOKENS"), the response is truncated — flag it clearly and non-retryably
+// instead of letting it surface downstream as generic invalid JSON.
+test("assertNotTruncated: throws a clear, non-retryable error when the token cap was hit", () => {
+  for (const reason of ["length", "MAX_TOKENS"]) {
+    let thrown: (Error & { retryable?: boolean }) | undefined;
+    try {
+      assertNotTruncated(reason, "Evaluator");
+    } catch (e) {
+      thrown = e as Error & { retryable?: boolean };
+    }
+    assert.ok(thrown, `expected a throw for finish reason "${reason}"`);
+    assert.match(thrown.message, /truncat/i);
+    assert.equal(thrown.retryable, false, "truncation must be non-retryable (no re-bill)");
+  }
+});
+
+test("assertNotTruncated: passes when the model finished normally", () => {
+  assert.doesNotThrow(() => assertNotTruncated("stop", "Evaluator"));
+  assert.doesNotThrow(() => assertNotTruncated("STOP", "Evaluator"));
+  assert.doesNotThrow(() => assertNotTruncated(undefined, "Evaluator"));
+});
 
 // Regression lock for the {{NAME}} leak found in CTOCheckJuly (findings-2): an old
 // run shipped a brief whose coreIssue still read "…skills {{NAME}} needs…" — a raw
