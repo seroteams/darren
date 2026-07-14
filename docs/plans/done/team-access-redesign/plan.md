@@ -20,12 +20,15 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | One list, access visible | Remove the mode; every card shows its access status; access actions move onto the card (reusing today's invite/link flows) | ✅ |
-| 2 | One clean "Give access" flow | Replace the two separate controls (Invite button + account dropdown) with a single unified sheet — invite by email *or* pick an existing account | ⬜ |
+| 2 | One clean "Give access" flow | Replace the two separate controls (Invite button + account dropdown) with a single unified sheet — invite by email *or* pick an existing account | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ GREEN-LIT 2026-07-14** (Carl walked it, "a"). The mode is gone; every card shows its access status; `team-card.ts` is the new pure render. Committed. **Phase 2 (one clean "Give access" sheet) is next.**
+**✅ WORKSTREAM COMPLETE 2026-07-14 — both phases green-lit.**
+**Phase 1 ✅** (Carl "a"), committed `5af49734` — killed the "Manage access"/"Tidy up" mode; every card shows access inline; pure render in `team-card.ts`.
+**Phase 2 ✅** (Carl "go") — the card's access button opens ONE sheet (`admin/src/ui/give-access-modal.ts`): link an existing account, invite by email, or remove access. `doInvite`+`doLink` collapsed into `doAccess`.
+3 typechecks clean, `npm test` 133/133 throughout. Folder moved to `docs/plans/done/`.
 Baseline (free, 2026-07-14): `npm test` **132/132** → now **133/133** with the new team test. Root typecheck clean. Admin + customer typechecks carry **4 pre-existing errors** in `add-person-modal.ts`/`delete-person-modal.ts` (name first/last splitting) — present on HEAD, untouched by this work, flagged for a separate fix. No paid runs — pure frontend UI change.
 
 ## Parked

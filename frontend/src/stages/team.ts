@@ -13,7 +13,8 @@ import { STAGES, store } from "../../../admin/src/state.js";
 import { listMyRuns, listPeople, createPerson, updatePerson, deletePerson, getLinkableUsers, linkPerson, unlinkPerson, invitePerson } from "../../../shared/api.js";
 import { showAddPersonModal } from "../../../admin/src/ui/add-person-modal.ts";
 import { showDeletePersonModal } from "../../../admin/src/ui/delete-person-modal.ts";
-import { openRowMenu, type RowMenuItem } from "../../../admin/src/ui/row-menu.ts";
+import { openRowMenu } from "../../../admin/src/ui/row-menu.ts";
+import { showGiveAccessModal } from "../../../admin/src/ui/give-access-modal.ts";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { personCard, type Person, type OrgUser } from "./team-card.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
@@ -99,63 +100,40 @@ export const mount: Mount = async (root, { setState }) => {
         ]);
       });
     });
-    // The card's access button: give access (invite by email or link an existing account) for an
-    // unlinked person, or change/remove it for a linked one. (Phase 2 folds these into one sheet.)
+    // The card's access button opens one sheet: link an existing account, invite by email, or
+    // (when already linked) remove access.
     root.querySelectorAll<HTMLButtonElement>(".js-access").forEach((el) => {
       el.addEventListener("click", (e) => {
         e.stopPropagation();
-        const key = el.dataset.key || "";
-        const name = el.dataset.name || "";
-        const currentUserId = el.dataset.userid || "";
-        const linked = el.dataset.linked === "1";
-        const items: RowMenuItem[] = linked
-          ? [
-              ...orgUsers
-                .filter((u) => u.id !== currentUserId)
-                .map((u) => ({ label: `Switch to ${u.name}`, onSelect: () => { void doLink(key, name, u.id); } })),
-              { label: "Remove access", danger: true, onSelect: () => { void doLink(key, name, ""); } },
-            ]
-          : [
-              { label: "Invite by email…", onSelect: () => { void doInvite(key, name); } },
-              ...orgUsers.map((u) => ({ label: `Link to ${u.name}`, onSelect: () => { void doLink(key, name, u.id); } })),
-            ];
-        openRowMenu(el, items);
+        void doAccess(el.dataset.key || "", el.dataset.name || "", el.dataset.userid || "");
       });
     });
   };
 
-  // Invite a person by email → a one-time join link the manager sends themselves (no email
-  // infra in the alpha). The link is shown in a prompt so it's selectable/copyable; it's
-  // single-use and expires in 7 days. Accepting it creates their account AND links them.
-  const doInvite = async (personId: string, personName: string) => {
-    const email = window.prompt(`Invite ${personName} — their email address:`, "");
-    if (email === null || !email.trim()) return;
+  // The card's access control → one sheet (give-access-modal): link an existing account, invite
+  // by email (a one-time join link the manager sends; single-use, 7-day expiry — accepting it
+  // creates their account AND links them), or remove access. The linked member sees only the list
+  // of 1:1s about them — dates + meeting types, never the notes.
+  const doAccess = async (personId: string, personName: string, currentUserId: string) => {
+    const choice = await showGiveAccessModal({ name: personName, users: orgUsers, currentUserId: currentUserId || null });
+    if (!choice) return;
     try {
-      const res = (await invitePerson(personId, email.trim())) as { link: string };
-      window.prompt(
-        `Send ${personName} this link (valid 7 days, works once). They'll set a password and see their own 1:1 history — never your notes:`,
-        `${window.location.origin}${res.link}`,
-      );
+      if (choice.kind === "link") {
+        await linkPerson(personId, choice.userId);
+        await load();
+      } else if (choice.kind === "unlink") {
+        await unlinkPerson(personId);
+        await load();
+      } else {
+        const res = (await invitePerson(personId, choice.email)) as { link: string };
+        window.prompt(
+          `Send ${personName} this link (valid 7 days, works once). They'll set a password and see their own 1:1 history — never your notes:`,
+          `${window.location.origin}${res.link}`,
+        );
+        await load();
+      }
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't create the invite — please try again.");
-    }
-  };
-
-  // Link (or unlink, on an empty target) a person to a company login account. The linked member
-  // sees the 1:1s about them — list-only (dates + meeting types), never the notes.
-  const doLink = async (personId: string, personName: string, targetUserId: string) => {
-    const target = orgUsers.find((u) => u.id === targetUserId);
-    const msg = target
-      ? `Link "${personName}" to ${target.name} (${target.email})? They'll see the list of 1:1s about them — dates and meeting types, never your notes.`
-      : `Remove "${personName}"'s access? They'll stop seeing the 1:1s about them.`;
-    if (!window.confirm(msg)) { renderPeople(); return; }
-    try {
-      if (target) await linkPerson(personId, targetUserId);
-      else await unlinkPerson(personId);
-      await load(); // re-renders with the fresh link
-    } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't update the link — please try again.");
-      renderPeople();
+      window.alert(e instanceof Error ? e.message : "Couldn't update access — please try again.");
     }
   };
 
