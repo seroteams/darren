@@ -376,12 +376,13 @@ async function boot() {
   // Admin/owner from here down — safe to kick off the (admin-only) regression check.
   if (isInternalAdmin(store.user)) refreshRegressionAlert();
 
-  // On the LIVE site the superadmin lands on the Pulse dashboard (admin-live-deploy Phase 3),
-  // unless they deep-linked somewhere specific — a bare /admin/, a stale "/" or the post-login
-  // redirect all resolve to Pulse. Locally the normal START home stays (Pulse is nav-reachable).
+  // The superadmin lands on the Pulse dashboard — the admin console's home now (Carl's call
+  // 2026-07-14: Pulse is the landing everywhere, local + live), unless they deep-linked
+  // somewhere specific. A bare /admin/, a stale "/" or the post-login redirect all resolve to
+  // Pulse; the old START launcher lives on as the "Start a 1:1" nav item.
   const landsHome = !route || route.stage === STAGES.START
     || route.stage === STAGES.LOGIN || route.stage === STAGES.REGISTER;
-  if (isLiveEnv() && isSuperadmin(store.user) && landsHome) {
+  if (isSuperadmin(store.user) && landsHome) {
     replaceUrl("/pulse");
     setState({ stage: STAGES.ADMIN_PULSE });
     return;

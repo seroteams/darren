@@ -75,8 +75,12 @@ const LINKS = [
   // matches live (Carl: live and local should look the same).
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
-  // Admin toolset, grouped into sections.
-  { key: "home", label: "Home", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
+  // Admin toolset, grouped into sections. The founder Pulse dashboard is the admin console's
+  // landing + first nav item (Carl's call 2026-07-14, admin-live follow-up): opening the console
+  // drops you on Pulse (boot lands here — see main.js). Superadmin-only. The old "Home" (the
+  // 1:1-prep launcher) lives on right below as "Start a 1:1".
+  { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Sessions" },
+  { key: "home", label: "Start a 1:1", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
   { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true, group: "Sessions" },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Sessions" },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Sessions" },
@@ -89,9 +93,6 @@ const LINKS = [
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
   // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
   { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
-  // The founder Pulse dashboard (admin-live-deploy Phase 3) — superadmin-only, top of the
-  // Admin group. On live this is the landing screen; locally it's just another admin page.
-  { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Admin" },
   // Native in-shell stage (stages/design.js) — the design system sheet with its own
   // second-level rail, routed like any other stage.
   { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Admin" },
