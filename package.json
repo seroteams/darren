@@ -26,6 +26,7 @@
     "eval": "node scripts/eval.js",
     "gate": "node scripts/gate.js",
     "replay": "node scripts/replay-regression.js",
+    "prose": "node scripts/golden-prose-snapshot.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "rebuild-question-index": "node scripts/rebuild-question-index.js --prune",
