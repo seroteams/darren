@@ -2,6 +2,7 @@ import fs from "node:fs";
 
 import { logStage, logRunRoot } from "./session.ts";
 import { buildRunHealth } from "./run-health.ts";
+import { screenBriefingLeaks } from "./serve-checks.ts";
 import { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } from "./axes.ts";
 import { promptFor, getArc, getType } from "./one-on-one-types/index.ts";
 import { withPromptVersion } from "./prompt-version.ts";
@@ -880,6 +881,17 @@ async function evaluate(
     return briefing;
   }
 
+  // H4 — serve-time leak screen. If the model's briefing would leak a manager's
+  // private judgment (PRIVATE_NOTE_LEAK) or assert an invented internal state
+  // (INFERRED_STATE_LEAK), do NOT ship it: swap to the safe deterministic
+  // fallback. Honest-surface — the raw model output is still logged as
+  // `response`; `final` and health.json record what actually shipped and why.
+  const leak = screenBriefingLeaks(notes || ctx?.notes, transcript, briefing);
+  if (leak.blocked) {
+    console.warn(`[evaluator] LEAK_BLOCKED — swapping to safe fallback: ${leak.reasons.join(", ")}`);
+    briefing = buildFallbackBriefing({ ctx, transcript, axisState });
+  }
+
   logStage(session, stage, {
     inputs: logInputs,
     prompt: msgs.filled,
@@ -900,8 +912,9 @@ async function evaluate(
     console.warn(`[evaluator] briefing rule check: ${ruleCheck.issues.join("; ")}`);
   }
 
-  // H3 — record run health (healthy runs too, so the degraded rate is computable).
-  logRunRoot(session, "health.json", buildRunHealth(transcript, false));
+  // H3/H4 — record run health (healthy runs too, so the degraded rate is
+  // computable), including any leak reasons that forced a block.
+  logRunRoot(session, "health.json", buildRunHealth(transcript, false, leak.reasons));
 
   return briefing;
 }
