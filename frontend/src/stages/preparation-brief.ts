@@ -36,18 +36,19 @@ export interface BriefSlots {
   leaveWith: string; // goodOutcome
 }
 
+// Alphabetical by label — this order is the dropdown order.
 export const VARIANTS = [
-  { id: "A", label: "Editorial" },
-  { id: "B", label: "Scan" },
-  { id: "C", label: "Native" },
-  { id: "D", label: "Utility" },
-  { id: "E", label: "Timed" },
-  { id: "F", label: "Spotlight" },
   { id: "G", label: "Bento" },
+  { id: "J", label: "Contrast" },
+  { id: "A", label: "Editorial" },
+  { id: "C", label: "Native" },
+  { id: "K", label: "Runner" },
+  { id: "B", label: "Scan" },
   { id: "H", label: "Sheet" },
   { id: "I", label: "Split" },
-  { id: "J", label: "Contrast" },
-  { id: "K", label: "Runner" },
+  { id: "F", label: "Spotlight" },
+  { id: "E", label: "Timed" },
+  { id: "D", label: "Utility" },
 ] as const;
 
 export const VARIANT_STORAGE_KEY = "sero.prepare.briefVariant";
@@ -403,12 +404,15 @@ export interface StorageLike {
   setItem(key: string, value: string): void;
 }
 
+// "J" is the Contrast layout — the default for anyone without a saved choice.
+const DEFAULT_VARIANT: VariantId = "J";
+
 export function readVariant(storage: StorageLike | null | undefined): VariantId {
   try {
     const v = storage ? storage.getItem(VARIANT_STORAGE_KEY) : null;
-    return isVariantId(v) ? v : "A";
+    return isVariantId(v) ? v : DEFAULT_VARIANT;
   } catch {
-    return "A";
+    return DEFAULT_VARIANT;
   }
 }
 

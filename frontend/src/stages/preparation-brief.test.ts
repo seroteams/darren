@@ -170,9 +170,14 @@ function fakeStorage(init?: Record<string, string>): StorageLike {
   };
 }
 
-test("switcher: defaults to A with no storage or no saved value", () => {
-  assert.equal(readVariant(null), "A");
-  assert.equal(readVariant(fakeStorage()), "A");
+test("switcher: defaults to J (Contrast) with no storage or no saved value", () => {
+  assert.equal(readVariant(null), "J");
+  assert.equal(readVariant(fakeStorage()), "J");
+});
+
+test("switcher: dropdown lists layouts alphabetically", () => {
+  const labels = VARIANTS.map((v) => v.label);
+  assert.deepEqual(labels, [...labels].sort());
 });
 
 test("switcher: persists the chosen variant and reads it back", () => {
@@ -182,8 +187,8 @@ test("switcher: persists the chosen variant and reads it back", () => {
   assert.equal(readVariant(storage), "E");
 });
 
-test("switcher: invalid saved value falls back to A", () => {
-  assert.equal(readVariant(fakeStorage({ [VARIANT_STORAGE_KEY]: "Z" })), "A");
+test("switcher: invalid saved value falls back to J", () => {
+  assert.equal(readVariant(fakeStorage({ [VARIANT_STORAGE_KEY]: "Z" })), "J");
 });
 
 test("switcher: a throwing storage never throws out", () => {
@@ -195,6 +200,6 @@ test("switcher: a throwing storage never throws out", () => {
       throw new Error("blocked");
     },
   };
-  assert.equal(readVariant(broken), "A");
+  assert.equal(readVariant(broken), "J");
   assert.doesNotThrow(() => writeVariant(broken, "B"));
 });
