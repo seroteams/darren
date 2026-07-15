@@ -38,7 +38,7 @@ const COPY = {
 
 export async function mount(root, { store, setState }) {
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--10">
+    <div class="stage-inner intake-shell l-stack l-stack--10">
       <header class="space-y-3">
         <div class="intake-header__row">
           <div class="space-y-1 min-w-0">
@@ -52,13 +52,17 @@ export async function mount(root, { store, setState }) {
           <div class="intake-progress__fill"></div>
         </div>
       </header>
-      <div class="intake-firstrun-host" hidden></div>
-      <div class="field-host"></div>
+      <div class="intake-body">
+        <div class="field-host"></div>
+        <div class="intake-firstrun-host" hidden></div>
+      </div>
     </div>
   `;
   const host = root.querySelector(".field-host");
   const stepLabel = root.querySelector(".stage-step");
   const intakeLede = root.querySelector(".js-intake-lede");
+  const intakeShell = root.querySelector(".intake-shell");
+  const intakeBody = root.querySelector(".intake-body");
   const firstRunHost = root.querySelector(".intake-firstrun-host");
   const progressBar = root.querySelector(".intake-progress");
   const progressFill = root.querySelector(".intake-progress__fill");
@@ -82,6 +86,11 @@ export async function mount(root, { store, setState }) {
     // The orientation card belongs on the entry step only, and only for a
     // brand-new account — a veteran starting another prep never sees it.
     if (firstRunHost) firstRunHost.hidden = !(isFirstRun && currentSub === "NAME");
+    // The first-run entry step gets the two-column split (picker left, guide
+    // right); every other step is a single reading column.
+    const split = isFirstRun && currentSub === "NAME";
+    intakeShell?.classList.toggle("intake-shell--split", split);
+    intakeBody?.classList.toggle("intake-body--split", split);
     progressBar.setAttribute("aria-valuenow", String(idx));
     progressFill.style.transform = `scaleX(${idx / SUBSTAGES.length})`;
   }
@@ -147,13 +156,14 @@ export async function mount(root, { store, setState }) {
       });
       wrap.querySelector(".js-cards").after(more);
     }
-    // Always-visible free-name box, below the cards — type a name to add someone
-    // new without picking a card first. Submitting free text clears personId, so
-    // the server links-or-creates from the name (today's free-text behaviour).
+    // Always-visible free-name box, sitting ABOVE the cards — adding someone new
+    // is the primary move, so the input leads and the roster follows. Submitting
+    // free text clears personId, so the server links-or-creates from the name
+    // (today's free-text behaviour).
     const fresh = document.createElement("div");
     fresh.className = "space-y-2";
     fresh.innerHTML = `
-      <div class="eyebrow">Or add someone new</div>
+      <div class="eyebrow">Add someone new</div>
       <input class="input" type="text" autocomplete="off" spellcheck="false"
              placeholder="${COPY.NAME.placeholder}" aria-label="Add someone new" />
       <div class="field__error" hidden></div>
@@ -182,7 +192,13 @@ export async function mount(root, { store, setState }) {
       if (e.key === "Enter") { e.preventDefault(); submitFresh(); }
     });
     fresh.querySelector(".js-add").addEventListener("click", submitFresh);
-    wrap.appendChild(fresh);
+    // Input first, then a divider, then the existing people.
+    const cardsGrid = wrap.querySelector(".js-cards");
+    cardsGrid.before(fresh);
+    const divider = document.createElement("div");
+    divider.className = "intake-or";
+    divider.textContent = "or pick from your team";
+    cardsGrid.before(divider);
     return wrap;
   }
 
