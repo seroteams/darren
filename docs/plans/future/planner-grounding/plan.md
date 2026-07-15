@@ -60,18 +60,22 @@ A second look at the planner's own output on the drift turns:
   when a strong thread exists). **A prompt/behaviour change cannot be proven by a free unit test** — it
   needs the planner to actually run.
 
-## Reconcile — fix A likely already shipped (clean-up sweep 2026-07-12)
-> The **thread-follow** track (closed 2026-07-11, `d5e7b396`) shipped exactly Scope A's behaviour:
-> it *pins a minted thread-follow* so the drill-cap can't eat it and makes the engine follow the
-> person's own words on a shallow/thin answer instead of switching to a generic catalogue question.
-> That is "drill, don't switch". **Before reopening this plan, confirm against thread-follow** —
-> Scope A may be done. If so, re-scope this plan to the parts thread-follow did NOT cover: **B** (prefer
-> grounded bank questions over generic catalogue ones) and **C** (don't pad / seed questions from
-> low-confidence focus points). If A survives, it overlaps thread-follow and needs de-duping first.
+## Reconcile — VERIFIED 2026-07-15 (future/ relevance audit): Scope A IS done
+> Checked against the code and git, not just the plan notes. The **thread-follow** track
+> (closed 2026-07-11, `d5e7b396` + P1) shipped exactly Scope A: P1 pins a minted thread-follow at
+> slot 0 so the drill-cap can't eat it (`queue-manager.ts`); P2 makes the mint actually fire under
+> drill pressure and quote the person's own words (`thread-follow.ts`, `question-validator.ts`),
+> proven on the gate (`plan_thread_follow` 0.125 → 0.43, PASS). **Scope A needs no further build.**
+>
+> **Remaining scope if this plan is un-parked:**
+> - **B — prefer grounded bank questions over generic catalogue ones.** Still open: `plan-turn.md`
+>   has no bank-vs-catalogue preference rule; thread-follow covers the spirit but not the pool.
+> - **C — don't seed questions from low-confidence focus points.** Mostly mitigated at the source:
+>   `generate-focus-points.md` now carries strong anti-padding + confidence-honesty rules. But no
+>   downstream gate provably stops a surviving low-confidence point from seeding a question —
+>   **verify that seed path first**; C may already be closed in practice.
 
 ## Current state
-> ### 📋 2026-06-28 — Scope A locked; **test-strategy decision needed before phase files.**
-> Diagnosis + mechanism located (free). The fix is planner-prompt-level, so the proof needs a planner run.
-> **Open question for Carl:** can we drive it via the **scripted persona / replay** path **offline (free)**,
-> or do we use the pre-approved **~$0.35 paid scripted run** to verify? I'll check whether the scripted lane
-> can reproduce the drift from fixtures before spending. Phase files get written once the test path is set.
+> ### 📋 2026-07-15 — Scope A done via thread-follow; plan parked pending a B/C re-scope.
+> If un-parked: write phase files for B (+ a C verification spike) against the Darren Method.
+> The old open question (free scripted lane vs the ~$0.35 paid proof run) still applies to B.

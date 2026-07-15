@@ -12,6 +12,13 @@ sessions — `admin/src/stages/admin-registered.ts` (user-mgmt Phase 3), `univer
 `design.css`. Starting these cleanups today = merge collisions on hot files. The scoping is
 done; build starts when those tracks land. **Check the hot files are quiet before each phase.**
 
+> **Re-verified 2026-07-15 (future/ relevance audit): every finding below is still true** — no
+> toast helper exists anywhere, `.um-menu` vs `.start-popover` are still two separate dropdowns,
+> `.lib-progress__bar` vs `.axis__fill` still two progress bars. Nothing was built or superseded
+> (the design stage's `.ds-toast-live` stayed showcase-local, as intended). The 07-05 hot-files
+> blocker has mostly cleared (user-mgmt + universe tracks landed) — **but check the in-flight
+> admin-live-deploy track before touching admin files.**
+
 ## Findings that shape the phases (from the 2026-07-05 audit + file reads)
 
 - **No success toast exists anywhere** — the app never says "saved ✓". Errors are handled 3

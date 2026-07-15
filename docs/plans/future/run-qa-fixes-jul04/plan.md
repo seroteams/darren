@@ -28,6 +28,14 @@ Run reviewed: `logs/july/2026_Jul04_14-23-4b3931311f7d411093c5cef545f22615`.
 ## Current state
 Phase 1 (C1 — strip tester notes) is built + unit-tested + committed (`02d825c2`); ✅ approved by Carl 2026-07-04 (walked-run confirmation waived). Phases 2–4 not started. No baseline run yet (runs when a paid phase starts).
 
+> **Re-verified 2026-07-15 (future/ relevance audit): Phases 2–4 are all still genuinely open.**
+> Nothing shipped elsewhere covers them: the only dedup in place is the pre-existing word-overlap
+> gate in `question-eligibility.ts` (untouched since Jul 4 — exactly the catcher B1 says misses
+> reworded near-dupes), and the wellbeing (B2) / source-separation (B3) prompt rules all predate
+> the Jul 4 Brian run — they already failed to prevent these defects. **De-dupe note for B3:** it
+> overlaps briefing-grounding-fixes Phase 3 (attribution anti-example, also parked in that plan's
+> done/ folder) — reconcile the two before building either.
+
 Note on testing: Phases 2–4 are prompt changes — their effect only shows in a **live** walked run (an OpenAI call, ~$0.35). Phase 1 is a code strip and can be checked without a paid run. Carl green-lights each phase by walking a run and eyeballing the output; paid runs need his explicit go-ahead for that specific run.
 
 ## Parked
