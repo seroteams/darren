@@ -270,6 +270,10 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.DESIGN]: "design",
     [STAGES.TEST]: "tests",
     [STAGES.ADMIN_PULSE]: "pulse",
+    // Pulse drill-down list pages keep the Pulse rail item lit (no nav rows of their own).
+    [STAGES.ADMIN_GATE1]: "pulse",
+    [STAGES.ADMIN_RUNS]: "pulse",
+    [STAGES.ADMIN_RATINGS]: "pulse",
     [STAGES.ADMIN_REGISTERED]: "registered",
     [STAGES.ADMIN_USER]: "registered",
     [STAGES.ADMIN_ERROR_LOG]: "errors",

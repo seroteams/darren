@@ -2,14 +2,16 @@
 // site the superadmin lands on: the Gate-1 "came back unprompted" number, managers, run volume
 // and type mix, where runs break off, guests, errors and the latest feedback. Wired to
 // GET /api/v1/admin/pulse (superadmin-gated; a normal owner gets 403 → the fetch throws). Every
-// card links to its existing "view all" screen — the manager/run drill-ins are Phase 4, so a
-// manager row opens User management for now. Layout mirrors the walked mock on the Tests page.
+// KPI tile is a button opening its drill-down list (pulse-drilldowns): Gate 1 / Runs / Ratings
+// are their own list pages; Managers, Guests and Errors reuse the existing screens. A manager
+// row still opens User management (per-manager drill-ins are a later phase). Layout mirrors
+// the walked mock on the Tests page.
 
 import { STAGES } from "../state.js";
 import type { StageName } from "../state.js";
 import { getPulse } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
-import { relTime, formatDate } from "../ui/time.ts";
+import { prettyType, prettyStage, activeLabel, dateLabel } from "../ui/pulse-labels.ts";
 import { createSkeleton } from "../ui/skeleton.js";
 import type { Mount } from "./stage.types.ts";
 
@@ -44,7 +46,13 @@ type Pulse = {
 const STYLE = `
   .lp-tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(10.5rem, 1fr)); gap:var(--sero-space-3); }
   .lp-tile { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-card); padding:var(--sero-space-4); }
+  /* Each tile is a button opening its drill-down list (pulse-drilldowns). Affordance is a
+     border darken + surface tint per DESIGN.md — shadows stay reserved for detached elements. */
+  button.lp-tile { display:block; width:100%; font:inherit; color:inherit; text-align:left; cursor:pointer; }
+  button.lp-tile:hover { border-color:var(--color-ink-dim); background:var(--color-surface-2); }
+  button.lp-tile:focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
   .lp-tile--hero { border-color:var(--sero-mint-700); background:linear-gradient(0deg, var(--sero-mint-100), var(--color-surface) 70%); }
+  button.lp-tile--hero:hover { border-color:var(--sero-mint-700); background:linear-gradient(0deg, var(--sero-mint-100), var(--color-surface) 70%); filter:brightness(0.98); }
   .lp-tile__label { font-size:14px; font-weight:500; color:var(--color-ink-dim); }
   .lp-tile__value { font-family:var(--type-family-display); font-size:30px; font-weight:600; line-height:1.15; font-variant-numeric:tabular-nums; }
   .lp-tile__value .lp-den { font-size:18px; font-weight:500; color:var(--color-ink-dim); }
@@ -101,30 +109,6 @@ const verdictPill = (v: string | null) =>
   : v === "no" ? `<span class="lp-pill lp-pill--gone">off the mark</span>`
   : `<span class="lp-empty">note</span>`;
 
-// Prettify a raw meeting_type / stage code into a readable label.
-const TYPE_LABELS: Record<string, string> = {
-  first: "First 1:1", biweekly: "Bi-weekly", "bi-weekly": "Bi-weekly", weekly: "Weekly",
-  monthly: "Monthly", "feels-off": "Feels-off", feels_off: "Feels-off", performance: "Performance",
-};
-const prettyType = (t: string) => TYPE_LABELS[t.toLowerCase()] ?? (t.charAt(0).toUpperCase() + t.slice(1));
-const STAGE_LABELS: Record<string, string> = {
-  intake: "Setting up", onepage: "Setting up", focus_points: "Focus", focus: "Focus",
-  preparation: "Prep", bank: "Questions", questioning: "Questions", questions: "Questions",
-  eval: "Evaluate", briefing: "Briefing", run_debrief: "Debrief", debrief: "Debrief",
-};
-const prettyStage = (s: string) => STAGE_LABELS[s.toLowerCase()] ?? (s.charAt(0).toUpperCase() + s.slice(1));
-
-const activeLabel = (v: string | number | null): string => {
-  if (v == null) return "no runs yet";
-  const ms = typeof v === "number" ? v : Date.parse(v);
-  return Number.isFinite(ms) ? relTime(ms) : "no runs yet";
-};
-const dateLabel = (v: string | number | null): string => {
-  if (v == null) return "—";
-  const ms = typeof v === "number" ? v : Date.parse(v);
-  return Number.isFinite(ms) ? formatDate(ms) : "—";
-};
-
 // Runs-per-day sparkline as an inline SVG (area + line + last-point dot).
 function sparkline(series: number[]): string {
   const w = 560, h = 88, pad = 8;
@@ -158,36 +142,36 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
       </header>
 
       <div class="lp-tiles">
-        <div class="lp-tile lp-tile--hero">
+        <button type="button" class="lp-tile lp-tile--hero js-tile-gate1">
           <div class="lp-tile__label">Came back unprompted</div>
           <div class="lp-tile__value">${p.gate1.cameBack} <span class="lp-den">of ${p.gate1.total}</span></div>
           <div class="lp-tile__note">Gate 1 — a second prep within 14 days, unprompted</div>
-        </div>
-        <div class="lp-tile">
+        </button>
+        <button type="button" class="lp-tile js-tile-managers">
           <div class="lp-tile__label">Managers on live</div>
           <div class="lp-tile__value">${p.managersOnLive}</div>
           <div class="lp-tile__note">${p.managersNewThisWeek > 0 ? `<span class="lp-up">+${p.managersNewThisWeek} this week</span>` : "external managers"}</div>
-        </div>
-        <div class="lp-tile">
+        </button>
+        <button type="button" class="lp-tile js-tile-runs">
           <div class="lp-tile__label">Runs this week</div>
           <div class="lp-tile__value">${p.runsThisWeek}</div>
           <div class="lp-tile__note">last week ${p.runsLastWeek} ${trend(p.runsThisWeek, p.runsLastWeek)} · ${escapeHtml(typeMixNote)}</div>
-        </div>
-        <div class="lp-tile">
+        </button>
+        <button type="button" class="lp-tile js-tile-ratings">
           <div class="lp-tile__label">Briefing rating</div>
           <div class="lp-tile__value">${p.ratings.avgStars == null ? "—" : p.ratings.avgStars.toFixed(1)}</div>
           <div class="lp-tile__note">${p.ratings.ratedCount} rated${p.ratings.lowCount > 0 ? ` · <span class="lp-down">${p.ratings.lowCount} low</span>` : ""}</div>
-        </div>
-        <div class="lp-tile">
+        </button>
+        <button type="button" class="lp-tile js-tile-guests">
           <div class="lp-tile__label">Guest runs</div>
           <div class="lp-tile__value">${p.guestCount}</div>
           <div class="lp-tile__note">tried it without an account</div>
-        </div>
-        <div class="lp-tile">
+        </button>
+        <button type="button" class="lp-tile js-tile-errors">
           <div class="lp-tile__label">Errors, 7 days</div>
           <div class="lp-tile__value">${p.errors.total}</div>
           <div class="lp-tile__note">${p.errors.unresolved > 0 ? `<span class="lp-down">${p.errors.unresolved} unresolved</span>` : "0 unresolved"}</div>
-        </div>
+        </button>
       </div>
 
       <div class="lp-wide">
@@ -242,6 +226,15 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
         </div>
       </div>
     </div>`;
+
+  // Every KPI tile opens its drill-down list (pulse-drilldowns) — three new list pages,
+  // three existing screens.
+  root.querySelector(".js-tile-gate1")?.addEventListener("click", () => go(STAGES.ADMIN_GATE1));
+  root.querySelector(".js-tile-managers")?.addEventListener("click", () => go(STAGES.ADMIN_REGISTERED));
+  root.querySelector(".js-tile-runs")?.addEventListener("click", () => go(STAGES.ADMIN_RUNS));
+  root.querySelector(".js-tile-ratings")?.addEventListener("click", () => go(STAGES.ADMIN_RATINGS));
+  root.querySelector(".js-tile-guests")?.addEventListener("click", () => go(STAGES.ADMIN_GUEST_RUNS));
+  root.querySelector(".js-tile-errors")?.addEventListener("click", () => go(STAGES.ADMIN_ERROR_LOG));
 
   // Every "view all" + a manager row goes to the matching existing screen (drill-ins = Phase 4).
   root.querySelector(".js-all-managers")?.addEventListener("click", () => go(STAGES.ADMIN_REGISTERED));

@@ -227,6 +227,9 @@ async function main(): Promise<void> {
   router.add("GET", "/api/v1/admin/pulse", superadminV1(superadmin.pulse));
   router.add("GET", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/runs$/, superadminV1(superadmin.userRuns));
   router.add("GET", "/api/v1/admin/guest-runs", superadminV1(superadmin.guestRuns));
+  // The exact path lists every run (pulse-drilldowns); the regex below needs an id segment,
+  // so the two can't collide.
+  router.add("GET", "/api/v1/admin/runs", superadminV1(superadmin.adminRuns));
   router.add("GET", /^\/api\/v1\/admin\/runs\/(?<id>[^/]+)$/, superadminV1(superadmin.runDetail));
   router.add("PATCH", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/role$/, superadminV1((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");

@@ -2,7 +2,7 @@
 // (hidden from managers, manager-ready Phase 1) vs admin-only vs member destinations.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isInternalStage, isAdminStage, isMemberStage, isGuestStage, urlForState } from "./router.js";
+import { isInternalStage, isAdminStage, isMemberStage, isGuestStage, isSuperadminStage, urlForState } from "./router.js";
 import { STAGES } from "./state.js";
 
 test("the guest front door (WELCOME) left the admin app (frontend-admin-split Phase 3)", () => {
@@ -41,6 +41,17 @@ test("isGuestStage: a guest may take a run — intake + the run flow, nothing el
     STAGES.ADMIN_REGISTERED, STAGES.ADMIN_ERROR_LOG, STAGES.LEXICON_REVIEW]) {
     assert.equal(isGuestStage(s), false, `${s} needs an account`);
   }
+});
+
+test("pulse drill-downs: the three list pages are superadmin-only with their own URLs", () => {
+  // Clicking a Pulse tile opens a list page (pulse-drilldowns) — same walls as Pulse itself.
+  for (const s of [STAGES.ADMIN_GATE1, STAGES.ADMIN_RUNS, STAGES.ADMIN_RATINGS]) {
+    assert.equal(isAdminStage(s), true, `${s} is behind the admin wall`);
+    assert.equal(isSuperadminStage(s), true, `${s} is superadmin-only`);
+  }
+  assert.equal(urlForState({ stage: STAGES.ADMIN_GATE1 }), "/admin/gate1");
+  assert.equal(urlForState({ stage: STAGES.ADMIN_RUNS }), "/admin/runs");
+  assert.equal(urlForState({ stage: STAGES.ADMIN_RATINGS }), "/admin/ratings");
 });
 
 test("existing walls unchanged: admin stages + member stages still classify", () => {

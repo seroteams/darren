@@ -5,6 +5,9 @@
 // Read-only list, newest first, with one action: permanently delete a note (junk cleanup).
 
 import "../styles/feedback-inbox.css";
+import "../styles/pulse-drilldowns.css";
+import { STAGES } from "../state.js";
+import { backToPulse } from "../ui/pulse-labels.ts";
 import { getFeedbackInbox, deleteFeedbackNote } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -117,12 +120,18 @@ export const mount: Mount = async (root, ctx) => {
   root.classList.add("fb-stage"); // top-align so the page doesn't jump when a row is deleted
   const shell = (inner: string) =>
     `<div class="l-container l-container--wide l-stack l-stack--6">
-      <header class="page-header">
+      <header class="page-header l-stack l-stack--2">
+        ${backToPulse()}
         <h1 class="h1">Feedback inbox</h1>
         <div class="text-ink-dim text-sm">Every note testers send from "Send feedback" — all companies, newest first.</div>
       </header>
       ${inner}
+      <div class="pd-back-bottom">${backToPulse()}</div>
     </div>`;
+  // Delegated so it survives every innerHTML repaint (pulse-drilldowns back button).
+  root.addEventListener("click", (e) => {
+    if (e.target instanceof Element && e.target.closest(".js-back-pulse")) ctx.setState({ stage: STAGES.ADMIN_PULSE });
+  });
 
   let notes: FeedbackNote[] = [];
 

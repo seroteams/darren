@@ -9,7 +9,9 @@
 // drilldown. Row actions (role, deactivate, delete, reset) + the ⋯ menu that will hold them arrive
 // in Phases 2–5; there's no menu while there's nothing to put in it.
 
+import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.js";
+import { backToPulse } from "../ui/pulse-labels.ts";
 import { getRegistered, setUserRole, deactivateUser, reactivateUser, deleteUser } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
@@ -171,12 +173,18 @@ function summaryBlock(s: Summary): string {
 export const mount: Mount = async (root, { setState }) => {
   const shell = (inner: string) =>
     `<div class="l-container l-container--wide l-stack l-stack--6">
-      <header class="page-header">
+      <header class="page-header l-stack l-stack--2">
+        ${backToPulse()}
         <h1 class="h1">User management</h1>
         <div class="text-ink-dim">Everyone registered across the alpha, and whether they're coming back.</div>
       </header>
       ${inner}
+      <div class="pd-back-bottom">${backToPulse()}</div>
     </div>`;
+  // Delegated so it survives every innerHTML repaint (pulse-drilldowns back button).
+  root.addEventListener("click", (e) => {
+    if (e.target instanceof Element && e.target.closest(".js-back-pulse")) setState({ stage: STAGES.ADMIN_PULSE });
+  });
 
   const errorCard = `
     <section class="card-flat l-stack l-stack--2">

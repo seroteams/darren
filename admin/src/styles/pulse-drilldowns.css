@@ -1,0 +1,59 @@
+/* Pulse drill-down list pages (pulse-drilldowns): Came back unprompted (/admin/gate1),
+   Runs (/admin/runs) and Briefing ratings (/admin/ratings). Tables ride the global
+   .um-table skin (styles/design/admin-tables.css); this file adds only the pills and
+   the small header-count line. All text ≥14px (the accessibility floor). */
+
+.pd-pill {
+  display: inline-block;
+  border-radius: 9999px;
+  padding: 1px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pd-pill--back { background: var(--sero-mint-100); color: var(--color-positive-text); }
+.pd-pill--once { background: var(--sero-gold-100); color: var(--sero-gold-900); }
+.pd-pill--none { background: var(--color-page); color: var(--color-ink-dim); border: 1px solid var(--color-border); font-weight: 500; }
+.pd-pill--internal { background: var(--sero-lavender-100, var(--color-page)); color: var(--color-ink-dim); border: 1px solid var(--color-border); font-weight: 500; }
+.pd-pill--guest { background: var(--color-page); color: var(--color-ink-dim); border: 1px dashed var(--color-border); font-weight: 500; }
+
+/* The back control: a circled ‹ plus "Back" — top of the page and repeated at the
+   bottom left, so a long list never strands you (Carl's call 2026-07-15). */
+.pd-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.pd-back__circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: 17px;
+  line-height: 1;
+  padding-bottom: 2px; /* optically centres the ‹ glyph */
+}
+.pd-back:hover .pd-back__circle { border-color: var(--color-ink-dim); background: var(--color-surface-2); }
+.pd-back:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 9999px; }
+.pd-back-bottom { margin-top: var(--sero-space-4); text-align: left; }
+
+/* The reconciliation line under the title — the card's exact number, restated. */
+.pd-count { font-size: 14px; color: var(--color-ink-dim); }
+.pd-count b { color: var(--color-ink); font-variant-numeric: tabular-nums; }
+
+.pd-sub { display: block; font-size: 14px; color: var(--color-ink-dim); }
+.pd-stars { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pd-note { max-width: 26rem; }
+.pd-num { font-variant-numeric: tabular-nums; }

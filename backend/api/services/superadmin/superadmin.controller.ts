@@ -18,6 +18,11 @@ export async function pulse(c: RequestContext): Promise<void> {
   c.json(200, await superadminService.pulse());
 }
 
+/** GET /api/v1/admin/runs — every run on the site, attributed, newest-first (pulse-drilldowns). */
+export async function adminRuns(c: RequestContext): Promise<void> {
+  c.json(200, await superadminService.adminRuns());
+}
+
 /** GET /api/v1/admin/users/:id/runs — one user's finished 1:1s (PG8 drilldown). */
 export async function userRuns(c: RequestContext): Promise<void> {
   c.json(200, await superadminService.userRuns(c.params.id ?? ""));

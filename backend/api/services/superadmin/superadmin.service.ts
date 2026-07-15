@@ -6,7 +6,7 @@
 // so the controller stays thin and the repo write can't be reached un-guarded.
 
 import { pgSuperadminRepo } from "./superadmin.repo.ts";
-import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail, UserRoleName, PulseRunRow } from "./superadmin.repo.ts";
+import type { SuperadminRepo, RunRow, UserRunRow, SuperadminRunDetail, UserRoleName, PulseRunRow, AdminRunRow } from "./superadmin.repo.ts";
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
 import { isSuperadminEmail } from "../../middleware/require-auth.ts";
 import { appendSuperadminAudit } from "../../middleware/superadmin-audit.ts";
@@ -118,6 +118,23 @@ export interface PulseData {
   managers: PulseManager[];
 }
 
+/** One run on the drill-down run list (pulse-drilldowns) — every session on the site,
+ *  attributed. `userName`/`company` are null for a guest (ownerless) run; `internal`
+ *  labels Sero/test accounts so real managers stand out, mirroring the Pulse rules. */
+export interface AdminRunListRow {
+  id: string;
+  userName: string | null;
+  company: string | null;
+  internal: boolean;
+  guest: boolean;
+  meetingType: string | null;
+  startedAt: number | null;
+  lastSeenAt: number;
+  finished: boolean;
+  stage: string | null;
+  rating: { stars: number; note: string; updatedAt: string | null } | null;
+}
+
 /** A company with the people in it. */
 export interface RegisteredCompany {
   id: string;
@@ -141,6 +158,11 @@ export interface SuperadminService {
    *  the live site, folding listRegistered with the new time-series reads. `now` is injected
    *  for deterministic buckets in tests; it defaults to the current time. */
   pulse(now?: Date): Promise<PulseData>;
+  /** Every run on the site, attributed and newest-first, for the Pulse drill-down list
+   *  pages (pulse-drilldowns). `externalThisWeek` is computed with the SAME rule as the
+   *  Pulse "Runs this week" tile, so the page header can never disagree with the card.
+   *  `now` is injected for deterministic weeks in tests. */
+  adminRuns(now?: Date): Promise<{ runs: AdminRunListRow[]; externalThisWeek: number }>;
   /** Set a user's account role (user-management Phase 2). Validates the role, blocks a change
    *  that would leave a company with no manager/admin, writes it, and audits the outcome.
    *  Throws 400 (bad role), 404 (unknown user), or 409 (last lead). */
@@ -343,6 +365,43 @@ export function createSuperadminService(
         latestFeedback: feedback.map((f) => ({ message: f.message, verdict: f.verdict, runId: f.runId })),
         managers,
       };
+    },
+    async adminRuns(now = new Date()) {
+      const nowMs = now.getTime();
+      const [rows, people, orgs, tileRuns] = await Promise.all([
+        repo.listAdminRuns(),
+        repo.listUsers(),
+        repo.listOrganizations(),
+        repo.listRuns(), // the tile's own dataset — the week count must use its rule
+      ]);
+      const orgNames = new Map(orgs.map((o) => [o.id, o.name]));
+      const userById = new Map(people.map((u) => [u.id, u]));
+      // The Pulse tile's runsThisWeek = external users' this-week tallies over listRuns.
+      // Recompute it here identically so the list header reconciles with the card.
+      let externalThisWeek = 0;
+      for (const [uid, t] of tallyRunsByUser(tileRuns, nowMs)) {
+        const u = userById.get(uid);
+        if (u && !isInternalAccount(u.email)) externalThisWeek += t.thisWeek;
+      }
+      const runs: AdminRunListRow[] = rows
+        .map((r) => {
+          const u = r.userId ? userById.get(r.userId) : undefined;
+          return {
+            id: r.id,
+            userName: u?.name ?? null,
+            company: (u ? orgNames.get(u.orgId) : r.orgId ? orgNames.get(r.orgId) : undefined) ?? null,
+            internal: u ? isInternalAccount(u.email) : false,
+            guest: !u,
+            meetingType: r.meetingType,
+            startedAt: r.createdAtMs,
+            lastSeenAt: r.lastSeenAtMs,
+            finished: r.finished,
+            stage: r.stage,
+            rating: r.rating,
+          };
+        })
+        .sort((a, b) => (b.startedAt ?? b.lastSeenAt) - (a.startedAt ?? a.lastSeenAt));
+      return { runs, externalThisWeek };
     },
     async setUserRole(actor, userId, role) {
       const route = `/api/v1/admin/users/${userId}/role`;

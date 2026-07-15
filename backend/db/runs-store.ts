@@ -467,6 +467,37 @@ export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null
   }));
 }
 
+// Every session — finished and unfinished — as one attributed row for the Pulse
+// drill-down run list (pulse-drilldowns). Ownership comes from the authoritative
+// `state` (the same rule as the guest pile), so a claimed or deleted owner can't
+// mislabel a row. Cross-tenant by design, reachable only behind the superadmin route.
+export async function pgListAdminRuns(): Promise<
+  {
+    id: string;
+    userId: string | null;
+    orgId: string | null;
+    createdAtMs: number | null;
+    lastSeenAtMs: number;
+    meetingType: string | null;
+    stage: string | null;
+    finished: boolean;
+    rating: { stars: number; note: string; updatedAt: string | null } | null;
+  }[]
+> {
+  const rows = await rowsWhere([]);
+  return rows.map((r) => ({
+    id: r.id,
+    userId: asString(r.state.userId) || null,
+    orgId: asString(r.state.orgId) || null,
+    createdAtMs: asNumber(r.state.createdAt) || null,
+    lastSeenAtMs: asNumber(r.state.lastSeenAt) || r.lastSeenAt,
+    meetingType: ctxOf(r.state).meetingType || null,
+    stage: inferStage(r.state),
+    finished: Boolean(r.state.briefing),
+    rating: ratingFromValue(r.rating),
+  }));
+}
+
 // The unclaimed guest pile (guest-run Phase 4): OWNERLESS finished runs — no userId
 // AND no orgId in the session state. A claimed run gains a userId and leaves the list.
 // Cross-tenant by design, reachable only behind the superadmin route.

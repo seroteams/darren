@@ -23,7 +23,7 @@ import {
   sessions,
 } from "../../../db/schema.ts";
 import { listRunsForSuperadmin, listFinishedRunsForUser, listOwnerlessFinishedRuns, superadminRunView } from "../../../engine/run-history.ts";
-import { pgListRunsForSuperadmin, pgListFinishedRunsForUser, pgListGuestRuns, pgSuperadminRunView } from "../../../db/runs-store.ts";
+import { pgListRunsForSuperadmin, pgListFinishedRunsForUser, pgListGuestRuns, pgSuperadminRunView, pgListAdminRuns } from "../../../db/runs-store.ts";
 
 /** The account roles, mirrored from the `user_role` enum in schema.ts. */
 export type UserRoleName = "admin" | "manager" | "member";
@@ -76,6 +76,23 @@ export interface PulseRunRow {
   finished: boolean;
 }
 
+/** One session — finished or unfinished — for the Pulse drill-down run list
+ *  (pulse-drilldowns). Ownership fields come from the authoritative session state;
+ *  the service joins them to users/orgs for names and the internal/guest labels. */
+export interface AdminRunRow {
+  id: string;
+  userId: string | null;
+  orgId: string | null;
+  /** When the run started (ms); null on legacy rows without it. */
+  createdAtMs: number | null;
+  lastSeenAtMs: number;
+  meetingType: string | null;
+  stage: string | null;
+  /** True when the run reached its briefing — the honest "finished" signal. */
+  finished: boolean;
+  rating: { stars: number; note: string; updatedAt: string | null } | null;
+}
+
 /** One recent tester note for the Pulse "latest feedback" feed (admin-live-deploy Phase 3). */
 export interface PulseFeedbackRow {
   message: string;
@@ -121,6 +138,9 @@ export interface SuperadminRepo {
   /** Every session as a lightweight row for the Pulse time-series (admin-live-deploy Phase 3):
    *  start time, meeting type, stage, finished. The service buckets these by day / type / stage. */
   listPulseRuns(): Promise<PulseRunRow[]>;
+  /** Every session as one attributed row for the Pulse drill-down run list (pulse-drilldowns)
+   *  — finished and unfinished, cross-company. The service joins owners and sorts. */
+  listAdminRuns(): Promise<AdminRunRow[]>;
   /** Error counts for the Pulse "errors" tile: total logged since `sinceMs`, and how many of
    *  those are still unresolved (resolved_at is null). */
   countRecentErrors(sinceMs: number): Promise<{ total: number; unresolved: number }>;
@@ -182,6 +202,9 @@ export const pgSuperadminRepo: SuperadminRepo = {
   },
   async readRun(id: string) {
     return hasDatabaseUrl() ? pgSuperadminRunView(id) : superadminRunView(id);
+  },
+  async listAdminRuns() {
+    return pgListAdminRuns();
   },
   async listPulseRuns() {
     const db = getDb();

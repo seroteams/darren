@@ -75,6 +75,15 @@ export async function getPulse() {
   return json(await fetch("/api/v1/admin/pulse"));
 }
 
+// Every run on the site, attributed and newest-first (pulse-drilldowns) — feeds the Pulse
+// "Runs" and "Briefing ratings" drill-down pages. Same superadmin gate as getPulse. Shape:
+// { runs: [{ id, userName, company, internal, guest, meetingType, startedAt, lastSeenAt,
+//   finished, stage, rating }], externalThisWeek } — externalThisWeek uses the Pulse tile's rule.
+/** @returns {Promise<{ runs?: unknown[], externalThisWeek?: number }>} */
+export async function getAdminRuns() {
+  return json(await fetch("/api/v1/admin/runs"));
+}
+
 // The superadmin's cross-company error log (error-log Phase 2). Same gate as
 // getRegistered — a normal owner gets 401/403 (json() throws). Shape:
 // { errors: [{ id, environment, source, email, userName, company, method, path, status, message, createdAt }] }, newest-first.

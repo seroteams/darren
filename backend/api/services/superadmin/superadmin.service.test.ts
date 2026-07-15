@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createSuperadminService } from "./superadmin.service.ts";
-import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow, SuperadminRunDetail, PulseRunRow, PulseFeedbackRow } from "./superadmin.repo.ts";
+import type { SuperadminRepo, OrgRow, UserRow, RunRow, UserRunRow, SuperadminRunDetail, PulseRunRow, PulseFeedbackRow, AdminRunRow } from "./superadmin.repo.ts";
 import type { SuperadminAuditEntry } from "../../middleware/superadmin-audit.ts";
 
 // A storage-agnostic fake — the service logic (grouping, ordering, the read-only view
@@ -21,6 +21,7 @@ function fakeRepo(
   pulseRuns: PulseRunRow[] = [],
   errorCounts: { total: number; unresolved: number } = { total: 0, unresolved: 0 },
   feedback: PulseFeedbackRow[] = [],
+  adminRuns: AdminRunRow[] = [],
 ): SuperadminRepo {
   return {
     listOrganizations: async () => orgs,
@@ -30,6 +31,7 @@ function fakeRepo(
     listGuestRuns: async () => guestRuns,
     readRun: async (id: string) => runsById[id] ?? null,
     listPulseRuns: async () => pulseRuns,
+    listAdminRuns: async () => adminRuns,
     countRecentErrors: async () => errorCounts,
     latestFeedback: async (limit: number) => feedback.slice(0, limit),
     updateUserRole: async (id, role) => { writes.push({ id, role }); },
@@ -137,6 +139,74 @@ test("pulse folds the Gate-1 number, week counts and the time-series from one da
   assert.equal(p.runsPerDay.reduce((a, b) => a + b, 0), 3);           // ann×2 + bo×1
   assert.deepEqual(p.runTypeMix, [{ type: "biweekly", count: 2 }]);   // last 7d only (ann day-10 drops out)
   assert.deepEqual(p.dropOffs, [{ stage: "questions", count: 1 }]);   // bo's unfinished run
+});
+
+// --- pulse-drilldowns: the cross-company run list ------------------------
+
+test("adminRuns: joins owner + company, labels internal and guest, newest-first, tile-rule week count", async () => {
+  const NOW = new Date("2026-07-12T12:00:00.000Z");
+  const nowMs = NOW.getTime();
+  const DAY = 24 * 60 * 60 * 1000;
+
+  const orgs: OrgRow[] = [
+    { id: "acme", name: "Acme", createdAt: new Date("2026-06-01") },
+    { id: "sero", name: "Sero", createdAt: new Date("2026-05-01") },
+  ];
+  const people: UserRow[] = [
+    { id: "ann",  orgId: "acme", name: "Ann",  email: "ann@acme.com",       role: "manager", createdAt: new Date("2026-06-02") },
+    { id: "carl", orgId: "sero", name: "Carl", email: "carl@seroteams.com", role: "admin",   createdAt: new Date("2026-05-02") },
+  ];
+  // The tile's own dataset (finished runs) — the week count must use ITS rule,
+  // so the page header can never disagree with the Pulse card.
+  const runs: RunRow[] = [
+    { userId: "ann",  createdAt: nowMs - 1 * DAY,  lastSeenAt: nowMs - 1 * DAY,  stars: 5 },
+    { userId: "ann",  createdAt: nowMs - 10 * DAY, lastSeenAt: nowMs - 10 * DAY, stars: null },
+    { userId: "carl", createdAt: nowMs - 2 * DAY,  lastSeenAt: nowMs - 2 * DAY,  stars: 4 },
+  ];
+  const adminRunRows: AdminRunRow[] = [
+    // Deliberately unordered — the service sorts newest-first by start time.
+    { id: "r-ann-old", userId: "ann",  orgId: "acme", createdAtMs: nowMs - 10 * DAY, lastSeenAtMs: nowMs - 10 * DAY, meetingType: "first",    stage: "briefing",  finished: true,  rating: null },
+    { id: "r-ann-new", userId: "ann",  orgId: "acme", createdAtMs: nowMs - 1 * DAY,  lastSeenAtMs: nowMs - 1 * DAY,  meetingType: "biweekly", stage: "briefing",  finished: true,  rating: { stars: 5, note: "spot on", updatedAt: null } },
+    { id: "r-guest",   userId: null,   orgId: null,   createdAtMs: nowMs - 3 * DAY,  lastSeenAtMs: nowMs - 3 * DAY,  meetingType: "first",    stage: "questions", finished: false, rating: null },
+    { id: "r-carl",    userId: "carl", orgId: "sero", createdAtMs: nowMs - 2 * DAY,  lastSeenAtMs: nowMs - 2 * DAY,  meetingType: "weekly",   stage: "briefing",  finished: true,  rating: { stars: 4, note: "", updatedAt: null } },
+  ];
+
+  const svc = createSuperadminService(
+    fakeRepo(orgs, people, runs, {}, {}, [], [], [], [], [], {}, [], { total: 0, unresolved: 0 }, [], adminRunRows),
+  );
+  const { runs: list, externalThisWeek } = await svc.adminRuns(NOW);
+
+  // Newest-first by start time.
+  assert.deepEqual(list.map((r) => r.id), ["r-ann-new", "r-carl", "r-guest", "r-ann-old"]);
+
+  const annRun = list[0]!;
+  assert.equal(annRun.userName, "Ann");
+  assert.equal(annRun.company, "Acme");
+  assert.equal(annRun.internal, false);
+  assert.equal(annRun.guest, false);
+  assert.equal(annRun.rating?.stars, 5);
+  assert.equal(annRun.rating?.note, "spot on");
+
+  const carlRun = list[1]!;
+  assert.equal(carlRun.internal, true, "seroteams.com accounts are labelled internal");
+  assert.equal(carlRun.company, "Sero");
+
+  const guestRun = list[2]!;
+  assert.equal(guestRun.guest, true, "an ownerless run is labelled guest");
+  assert.equal(guestRun.userName, null);
+  assert.equal(guestRun.company, null);
+  assert.equal(guestRun.finished, false);
+  assert.equal(guestRun.stage, "questions");
+
+  // Ann's day-1 run is inside the week; her day-10 run isn't; Carl is internal.
+  assert.equal(externalThisWeek, 1);
+});
+
+test("adminRuns: no runs → empty list and a zero count, not an error", async () => {
+  const svc = createSuperadminService(fakeRepo([], []));
+  const res = await svc.adminRuns();
+  assert.deepEqual(res.runs, []);
+  assert.equal(res.externalThisWeek, 0);
 });
 
 test("listRegistered: a company with no users yet still appears with an empty list", async () => {

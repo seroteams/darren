@@ -2,6 +2,33 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "sero-api-pulse",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3091",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3091
+    },
+    {
+      "name": "sero-web-pulse",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3091",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3093",
+        "--strictPort"
+      ],
+      "port": 3093
+    },
+    {
       "name": "sero-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
