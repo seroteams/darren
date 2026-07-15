@@ -28,7 +28,7 @@ Two different jobs kept apart, per modern SaaS (Linear / Notion / Slack / Figma)
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Read-only Members list + nav | The screen exists — everyone + pending invites, read-only | ✅ |
-| 2 | Invite with role | "Invite people" actually sends invites | ⬜ |
+| 2 | Invite with role | "Invite people" actually sends invites | ✅ |
 | 3 | Row actions: role / deactivate | ⋯ menu works, with last-manager safety | ⬜ |
 | 4 | Pending-invite: revoke / resend | Manage invites that haven't been accepted | ⬜ |
 | 5 | Auto-match + Team-card cleanup | Old dropdown retired; card shows plain status | ⬜ |
@@ -36,7 +36,7 @@ Two different jobs kept apart, per modern SaaS (Linear / Notion / Slack / Figma)
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit by Carl 2026-07-15** ("yeah all good"). Read-only Members list + nav landed — new `backend/api/services/members/` domain + `GET /api/v1/members` (org-fenced, requireAdmin) and a customer-app `Members` stage/nav/route. Offline proof: members tests 9/9, typecheck clean. **Next: Phase 2 — Invite with role.** The earlier "invite from Add box" checkbox is still to be dropped during the Phase 5 team.ts rework.
+**Phase 2 ✅ green-lit by Carl 2026-07-16** ("a"). "Invite people" now sends real invites with a chosen role (Manager/Member) — person-less `createForOrg` + role wired through `accept`, reusing the invite engine + email; new invite modal on the Members page. Offline proof: tests 22/22, typecheck clean. (Phase 1 ✅ 2026-07-15.) **Next: Phase 3 — Row actions (role / deactivate / reactivate).** The earlier "invite from Add box" checkbox is still to be dropped during the Phase 5 team.ts rework.
 
 Baseline result: _(to record before Phase 1 — free checks only unless a paid run is truly needed)_
 

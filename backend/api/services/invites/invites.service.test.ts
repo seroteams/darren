@@ -16,12 +16,13 @@ function fakeRepo() {
   const repo: InvitesRepo = {
     findPersonForManager: async (id, orgId, managerId) =>
       id === "p1" && orgId === "o1" && managerId === "m1" ? { id: "p1", name: "Priya QA", userId: null } : null,
-    insertInvite: async (row) => { const r = { status: "pending", ...row, id: `i${++n}` }; invites.push(r); return { id: r.id }; }, // status: the DB default
+    // status: the DB default; personId nullable (absent for a workspace invite).
+    insertInvite: async (row) => { const r = { status: "pending", ...row, personId: row.personId ?? null, id: `i${++n}` }; invites.push(r); return { id: r.id }; },
     findByTokenHash: async (hash) => invites.find((i) => i.tokenHash === hash) ?? null,
     markAccepted: async (id) => { const i = invites.find((x) => x.id === id); if (i) i.status = "accepted"; },
     findUserByEmail: async (email) => usersByEmail.get(email) ?? null,
-    createMemberUser: async ({ orgId, email, name }) => {
-      const u = { id: `u${++n}`, orgId, email, name, role: "member" as const };
+    createMemberUser: async ({ orgId, email, name, role }) => {
+      const u = { id: `u${++n}`, orgId, email, name, role };
       usersByEmail.set(email, { id: u.id });
       return u;
     },
@@ -95,4 +96,31 @@ test("accept refuses a short password and an email that already has an account",
   const { token } = await svc.create("o1", "m1", "p1", "taken@qa.test");
   await assert.rejects(() => svc.accept(token, { name: "x", password: "short" }), /password/i);
   await assert.rejects(() => svc.accept(token, { name: "x", password: "longenough1" }), /already has an account/i);
+});
+
+test("createForOrg mints a person-less invite carrying the chosen role", async () => {
+  const { repo, invites } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const out = await svc.createForOrg("o1", "m1", " New@QA.test ", "manager");
+  assert.ok(out.token.length >= 32);
+  assert.equal(invites.length, 1);
+  assert.equal(invites[0]!.email, "new@qa.test"); // normalized
+  assert.equal(invites[0]!.role, "manager");
+  assert.equal(invites[0]!.personId, null); // workspace invite — no roster person
+});
+
+test("createForOrg refuses a bad email or a role it can't hand out", async () => {
+  const { repo } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  await assert.rejects(() => svc.createForOrg("o1", "m1", "nope", "member"), /email/i);
+  await assert.rejects(() => svc.createForOrg("o1", "m1", "a@b.co", "admin"), /role/i); // admin reserved
+  await assert.rejects(() => svc.createForOrg("o1", "m1", "a@b.co", "wizard"), /role/i);
+});
+
+test("accept mints the user with the invite's role (manager, not defaulted to member)", async () => {
+  const { repo } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const { token } = await svc.createForOrg("o1", "m1", "boss@qa.test", "manager");
+  const { user } = await svc.accept(token, { name: "Boss", password: "longenough1" });
+  assert.equal(user.role, "manager"); // the chosen role flowed through accept
 });

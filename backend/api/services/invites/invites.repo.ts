@@ -13,6 +13,7 @@ export interface InviteRow {
   id: string;
   orgId: string;
   email: string;
+  role: string;
   status: string;
   invitedBy: string | null;
   expiresAt: Date;
@@ -23,10 +24,13 @@ export interface InviteRow {
 export interface NewInvite {
   orgId: string;
   email: string;
+  role: string;
   invitedBy: string;
   expiresAt: Date;
   tokenHash: string;
-  personId: string;
+  // Omitted for a workspace-level invite (members-page) — the join isn't tied to a roster
+  // person. Present for a roster invite, so accepting auto-links people.user_id.
+  personId?: string;
 }
 
 export interface InvitesRepo {
@@ -36,7 +40,7 @@ export interface InvitesRepo {
   findByTokenHash(hash: string): Promise<InviteRow | null>;
   markAccepted(id: string): Promise<void>;
   findUserByEmail(email: string): Promise<{ id: string } | null>;
-  createMemberUser(input: { orgId: string; email: string; name: string; passwordHash: string }): Promise<{ id: string; orgId: string; email: string; name: string; role: string }>;
+  createMemberUser(input: { orgId: string; email: string; name: string; passwordHash: string; role: string }): Promise<{ id: string; orgId: string; email: string; name: string; role: string }>;
   linkPersonUser(personId: string, userId: string): Promise<void>;
   orgName(orgId: string): Promise<string>;
   userName(userId: string): Promise<string | null>;
@@ -53,7 +57,10 @@ export const pgInvitesRepo: InvitesRepo = {
     return rows[0] ?? null;
   },
   async insertInvite(row) {
-    const rows = await getDb().insert(invitations).values(row).returning({ id: invitations.id });
+    const rows = await getDb()
+      .insert(invitations)
+      .values({ ...row, role: row.role as "admin" | "manager" | "member" })
+      .returning({ id: invitations.id });
     return rows[0]!;
   },
   async findByTokenHash(hash) {
@@ -62,6 +69,7 @@ export const pgInvitesRepo: InvitesRepo = {
         id: invitations.id,
         orgId: invitations.orgId,
         email: invitations.email,
+        role: invitations.role,
         status: invitations.status,
         invitedBy: invitations.invitedBy,
         expiresAt: invitations.expiresAt,
@@ -85,7 +93,7 @@ export const pgInvitesRepo: InvitesRepo = {
   async createMemberUser(input) {
     const rows = await getDb()
       .insert(users)
-      .values({ orgId: input.orgId, email: input.email, name: input.name, role: "member", passwordHash: input.passwordHash })
+      .values({ orgId: input.orgId, email: input.email, name: input.name, role: input.role as "admin" | "manager" | "member", passwordHash: input.passwordHash })
       .returning({ id: users.id, orgId: users.orgId, email: users.email, name: users.name, role: users.role });
     return rows[0]!;
   },

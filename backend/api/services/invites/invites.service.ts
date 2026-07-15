@@ -28,6 +28,15 @@ function cleanEmail(v: unknown): string {
   return email;
 }
 
+// Roles an org admin may hand out from the Members page. "admin" is reserved for internal Sero,
+// so it's deliberately NOT offered here — a workspace admin can make managers and members only.
+const ORG_INVITE_ROLES = new Set(["manager", "member"]);
+function cleanRole(v: unknown): string {
+  const role = String(v ?? "").trim().toLowerCase();
+  if (!ORG_INVITE_ROLES.has(role)) throw badRequest("Pick a role: manager or member");
+  return role;
+}
+
 export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: PasswordHasher) {
   /** The live (pending + unexpired) invite behind a raw token, or a plain-words 404. */
   async function liveInvite(token: unknown): Promise<InviteRow> {
@@ -47,7 +56,19 @@ export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: 
       const email = cleanEmail(emailRaw);
       const token = randomBytes(32).toString("hex");
       const expiresAt = new Date(Date.now() + INVITE_TTL_MS);
-      await repo.insertInvite({ orgId, email, invitedBy: managerId, expiresAt, tokenHash: sha256(token), personId: person.id });
+      // A roster invite always mints a member (they see their own 1:1s) — role fixed here.
+      await repo.insertInvite({ orgId, email, role: "member", invitedBy: managerId, expiresAt, tokenHash: sha256(token), personId: person.id });
+      return { token, expiresAt };
+    },
+
+    /** Mint a WORKSPACE-level invite from the Members page — no roster person, a chosen role.
+     *  Returns the raw token exactly once (the caller composes the /join link + emails it). */
+    async createForOrg(orgId: string, invitedBy: string, emailRaw: unknown, roleRaw: unknown) {
+      const email = cleanEmail(emailRaw);
+      const role = cleanRole(roleRaw);
+      const token = randomBytes(32).toString("hex");
+      const expiresAt = new Date(Date.now() + INVITE_TTL_MS);
+      await repo.insertInvite({ orgId, email, role, invitedBy, expiresAt, tokenHash: sha256(token) });
       return { token, expiresAt };
     },
 
@@ -77,6 +98,9 @@ export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: 
         email: inv.email,
         name,
         passwordHash: await hasher.hash(password),
+        // The role chosen at invite time (members-page): member for roster invites, member OR
+        // manager for workspace invites. Falls back to member if an older invite has none.
+        role: inv.role || "member",
       });
       if (inv.personId) await repo.linkPersonUser(inv.personId, user.id);
       await repo.markAccepted(inv.id);

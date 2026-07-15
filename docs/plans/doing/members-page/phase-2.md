@@ -1,6 +1,13 @@
 # Phase 2 — Invite with role
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit
+
+## ✅ GREEN-LIT 2026-07-16 — Carl walked the invite flow (email + role) ("a")
+
+## Built (2026-07-16)
+- Backend: `invites.service.createForOrg(orgId, invitedBy, email, role)` (person-less invite, role validated to manager|member — admin reserved); `accept` now mints the invite's stored role instead of hardcoding member; `invites.repo` carries `role` + optional `personId`. New `members.controller.inviteMember` + `POST /api/v1/members/invite` (reuses the invite engine + emails the /join link). `invites.service.test.ts` extended.
+- Frontend: `admin/src/ui/invite-member-modal.ts` (email + role select, focus-trapped) + pure `invite-member-form.ts` (+ test); "Invite people" button wired on `frontend/src/stages/members.ts` → shows the join link; `inviteMember()` in `shared/api.js`.
+- Offline proof: **tests 22/22** (invites 10 · members 4 · invite-form 3 · members-table 5), `npm run typecheck` clean. Live invite→accept→login = the owner walk (I can't create accounts/set passwords on your behalf).
 
 ## Goal
 The "Invite people" button works: type an email, pick a role (Manager / Member), send. The person gets a join link; accepting mints an account with the chosen role.
