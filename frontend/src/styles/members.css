@@ -1,0 +1,14 @@
+/* Members page (members-page Phase 1) — its OWN file so concurrent CSS edits can't clobber it.
+   Rides the shared admin-tables `um-*` styles (imported by members.ts); adds only the two status
+   pills that table didn't already have. Tokens only (DESIGN §5), 14px floor via um-badge. */
+
+/* Active — the calm positive state (same mint family as the "came back" pill). */
+.um-badge--active {
+  background: var(--sero-mint-300);
+  color: var(--color-positive-text);
+}
+/* Invited — a pending, not-yet-accepted state. Neutral soft grey so it reads as "waiting". */
+.um-badge--pending {
+  background: var(--sero-soft-300);
+  color: var(--color-ink-mute);
+}
