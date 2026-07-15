@@ -100,12 +100,36 @@ async function renderStage(nextStage) {
   current = { stage: nextStage, mod, node };
   if (devBadge) devBadge.render(nextStage);
   await mod.mount(node, { store, setState, resetSession, rehydrateById });
+  // Rendered cleanly, so this tab is on the current build — clear the reload
+  // guard so a future stale-chunk failure can trigger a fresh recovery.
+  try { sessionStorage.removeItem(CHUNK_RELOAD_FLAG); } catch {}
+}
+
+// A failed lazy import almost always means a stale tab: a new deploy replaced
+// the hashed route chunks this bundle references and deleted the old ones, so
+// the import 404s and the server's SPA fallback returns index.html — which the
+// browser rejects as a module ("MIME type text/html" / "Failed to fetch
+// dynamically imported module"). One full reload fetches the fresh index.html +
+// new chunk hashes and the screen renders. The one-shot flag (cleared on the
+// next clean render) stops a reload loop if a deploy is genuinely broken.
+const CHUNK_RELOAD_FLAG = "seroChunkReload";
+function isStaleChunkError(e) {
+  const msg = (e && e.message) || "";
+  return /dynamically imported module|Importing a module script failed|module script/i.test(msg);
 }
 
 function enqueueRender(nextStage) {
   renderChain = renderChain
     .then(() => renderStage(nextStage))
-    .catch((e) => { console.error("[main] render failed:", e); reportError((e && e.message) || "Stage render failed"); });
+    .catch((e) => {
+      if (isStaleChunkError(e) && !sessionStorage.getItem(CHUNK_RELOAD_FLAG)) {
+        try { sessionStorage.setItem(CHUNK_RELOAD_FLAG, "1"); } catch {}
+        location.reload();
+        return;
+      }
+      console.error("[main] render failed:", e);
+      reportError((e && e.message) || "Stage render failed");
+    });
 }
 
 let routedStage = null;
