@@ -11,7 +11,8 @@
 }
 .ffm__sec { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 .ffm__sec .input { font-size: var(--type-body-sm, 14px); }
-.ffm .js-ffm-v.is-active {
+.ffm .js-ffm-v.is-active,
+.ffm .js-ffm-u.is-active {
   background: var(--sero-active-state-bg, #eef6fd);
   border-color: var(--sero-primary-500, #a5cfef);
 }
