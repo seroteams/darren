@@ -215,7 +215,9 @@ async function _callOpenAI({
           json_schema: { name: schemaName, strict: true, schema },
         },
         temperature,
-        max_tokens: MAX_OUTPUT_TOKENS,
+        // Newer OpenAI models reject the legacy `max_tokens` and require
+        // `max_completion_tokens` (400 unsupported_parameter otherwise).
+        max_completion_tokens: MAX_OUTPUT_TOKENS,
       }),
     });
     if (!res.ok) {
