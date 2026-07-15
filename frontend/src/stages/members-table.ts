@@ -34,6 +34,12 @@ function memberRow(m: MemberRow): string {
   // A pending invite has no name yet — its email carries the row.
   const primary = m.name || m.email;
   const sub = m.name ? `<div class="um-user__email">${escapeHtml(m.email)}</div>` : "";
+  // Account rows get a ⋯ menu (role / deactivate / reactivate). Invite rows get their own
+  // actions (revoke / resend) in a later phase — no menu here yet.
+  const actions =
+    m.kind === "account"
+      ? `<button type="button" class="um-menu-btn js-member-menu" data-id="${escapeHtml(m.id)}" data-role="${escapeHtml(m.role)}" data-status="${escapeHtml(m.status)}" data-name="${escapeHtml(primary)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(primary)}">⋯</button>`
+      : "";
   return `
     <tr class="um-row${off ? " um-row--off" : ""}">
       <td>
@@ -42,6 +48,7 @@ function memberRow(m: MemberRow): string {
       </td>
       <td>${roleBadge(m.role)}</td>
       <td>${statusTag(m.status)}</td>
+      <td class="um-actions">${actions}</td>
     </tr>`;
 }
 
@@ -55,6 +62,7 @@ export function membersTable(rows: MemberRow[]): string {
             <th>Member</th>
             <th>Role</th>
             <th>Status</th>
+            <th class="um-actions-th" aria-label="Actions"></th>
           </tr>
         </thead>
         <tbody>${rows.map(memberRow).join("")}</tbody>

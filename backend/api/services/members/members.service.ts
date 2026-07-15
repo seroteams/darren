@@ -5,8 +5,20 @@
 
 import { pgMembersRepo } from "./members.repo.ts";
 import type { MembersRepo } from "./members.repo.ts";
+import { isActiveLead } from "./account-guards.ts";
+import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
+import { isSuperadminEmail } from "../../middleware/require-auth.ts";
 
 export type MemberStatus = "active" | "invited" | "deactivated";
+
+/** Who is performing a mutation — for the last-lead check + the audit trail. */
+export interface MemberActor {
+  userId: string | null;
+  email: string | null;
+}
+
+/** Roles an org admin may set from the Members page — admin stays reserved for internal Sero. */
+const SETTABLE_ROLES = new Set(["manager", "member"]);
 
 /** One row on the Members page — either a real login account or a pending invite. */
 export interface MemberRow {
@@ -22,6 +34,9 @@ export interface MemberRow {
 
 export interface MembersService {
   list(orgId: string): Promise<{ members: MemberRow[] }>;
+  setRole(orgId: string, actor: MemberActor, targetId: string, role: unknown): Promise<{ id: string; role: string }>;
+  deactivate(orgId: string, actor: MemberActor, targetId: string): Promise<{ id: string; deactivated: true }>;
+  reactivate(orgId: string, actor: MemberActor, targetId: string): Promise<{ id: string; deactivated: false }>;
 }
 
 // Active first, then still-pending invites, then switched-off accounts.
@@ -58,6 +73,47 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
         return (a.name || a.email).localeCompare(b.name || b.email);
       });
       return { members: rows };
+    },
+
+    // Find the target WITHIN the caller's own org (listOrgUsers is org-fenced), so a cross-org
+    // id simply isn't found → 404. Never a "forbidden" that would confirm the account exists.
+    async setRole(orgId, actor, targetId, roleRaw) {
+      const role = String(roleRaw ?? "").trim().toLowerCase();
+      if (!SETTABLE_ROLES.has(role)) throw badRequest("Role must be manager or member.");
+      const users = await repo.listOrgUsers(orgId);
+      const target = users.find((u) => u.id === targetId);
+      if (!target) throw notFound("member not found");
+      // Never leave the workspace with no active manager: block demoting its last active lead.
+      if (isActiveLead(target) && role === "member" && users.filter(isActiveLead).length <= 1) {
+        throw conflict("This is the workspace's only manager — make someone else a manager first.");
+      }
+      await repo.updateRole(targetId, role);
+      await repo.writeAudit(actor.userId, "members.setRole", { target: targetId, from: target.role, to: role });
+      return { id: targetId, role };
+    },
+
+    async deactivate(orgId, actor, targetId) {
+      const users = await repo.listOrgUsers(orgId);
+      const target = users.find((u) => u.id === targetId);
+      if (!target) throw notFound("member not found");
+      if (actor.userId && actor.userId === targetId) throw conflict("You can't switch off your own account.");
+      if (isSuperadminEmail(target.email)) throw conflict("This account can't be deactivated.");
+      if (isActiveLead(target) && users.filter(isActiveLead).length <= 1) {
+        throw conflict("This is the workspace's only active manager — activate or promote someone else first.");
+      }
+      await repo.setDeactivated(targetId, new Date());
+      await repo.revokeSessions(targetId); // kick them now
+      await repo.writeAudit(actor.userId, "members.deactivate", { target: targetId, was: target.role });
+      return { id: targetId, deactivated: true };
+    },
+
+    async reactivate(orgId, actor, targetId) {
+      const users = await repo.listOrgUsers(orgId);
+      const target = users.find((u) => u.id === targetId);
+      if (!target) throw notFound("member not found");
+      await repo.setDeactivated(targetId, null);
+      await repo.writeAudit(actor.userId, "members.reactivate", { target: targetId });
+      return { id: targetId, deactivated: false };
     },
   };
 }

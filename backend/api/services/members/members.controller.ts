@@ -14,11 +14,11 @@ import { notifyInviteeOfInvite } from "../notifications/notifications.service.ts
 
 const invites = createInvitesService(pgInvitesRepo, { hash: (pw) => bcrypt.hash(pw, 10) });
 
-/** The members caller — manager/admin only (403 for a member), with their org + user ids. */
-async function membersCaller(c: RequestContext): Promise<{ orgId: string; userId: string }> {
+/** The members caller — manager/admin only (403 for a member), with their org id + actor. */
+async function membersCaller(c: RequestContext): Promise<{ orgId: string; actor: { userId: string | null; email: string | null } }> {
   const identity = await buildIdentity(c.req);
   requireAdmin(identity); // 401 logged out; 403 member
-  return { orgId: identity.orgId ?? "", userId: identity.userId ?? "" };
+  return { orgId: identity.orgId ?? "", actor: { userId: identity.userId ?? null, email: identity.email ?? null } };
 }
 
 // The public origin, so the emailed /join link is a full clickable URL. Mirrors the helper in
@@ -42,9 +42,9 @@ export async function listMembers(c: RequestContext): Promise<void> {
 // Reuses the invite engine (one-time hashed token, 7-day TTL) + emails the /join link. The raw
 // token leaves the server exactly once, inside the returned link; only its hash is stored.
 export async function inviteMember(c: RequestContext): Promise<void> {
-  const { orgId, userId } = await membersCaller(c);
+  const { orgId, actor } = await membersCaller(c);
   const body = (await c.readBody()) as { email?: unknown; role?: unknown } | null;
-  const { token, expiresAt } = await invites.createForOrg(orgId, userId, body?.email, body?.role);
+  const { token, expiresAt } = await invites.createForOrg(orgId, actor.userId ?? "", body?.email, body?.role);
   const link = `/join/${token}`;
   const base = requestBaseUrl(c.req);
   const joinUrl = base ? `${base}${link}` : link;
@@ -55,4 +55,23 @@ export async function inviteMember(c: RequestContext): Promise<void> {
     .then((p) => notifyInviteeOfInvite({ to: p.email, inviterName: p.inviterName, orgName: p.orgName, joinUrl }))
     .catch((err) => console.warn(`[member-invite-email] not sent: ${err instanceof Error ? err.message : String(err)}`));
   c.json(201, { link, expiresAt });
+}
+
+// PATCH /api/v1/members/:id/role — { role } (manager | member). Org-fenced + last-lead guard.
+export async function setMemberRole(c: RequestContext): Promise<void> {
+  const { orgId, actor } = await membersCaller(c);
+  const body = (await c.readBody()) as { role?: unknown } | null;
+  c.json(200, await membersService.setRole(orgId, actor, c.params.id ?? "", body?.role));
+}
+
+// POST /api/v1/members/:id/deactivate — switch off a login (kicks live sessions). Org-fenced.
+export async function deactivateMember(c: RequestContext): Promise<void> {
+  const { orgId, actor } = await membersCaller(c);
+  c.json(200, await membersService.deactivate(orgId, actor, c.params.id ?? ""));
+}
+
+// POST /api/v1/members/:id/reactivate — restore a switched-off login. Org-fenced.
+export async function reactivateMember(c: RequestContext): Promise<void> {
+  const { orgId, actor } = await membersCaller(c);
+  c.json(200, await membersService.reactivate(orgId, actor, c.params.id ?? ""));
 }

@@ -6,8 +6,9 @@
 
 import "../../../admin/src/styles/design/admin-tables.css";
 import "../styles/members.css";
-import { getMembers, inviteMember } from "../../../shared/api.js";
+import { getMembers, inviteMember, setMemberRole, deactivateMember, reactivateMember } from "../../../shared/api.js";
 import { showInviteMemberModal } from "../../../admin/src/ui/invite-member-modal.ts";
+import { openRowMenu, closeRowMenu } from "../../../admin/src/ui/row-menu.ts";
 import { membersTable, type MemberRow } from "./members-table.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 
@@ -53,9 +54,39 @@ export const mount: Mount = async (root) => {
     }
   };
 
+  // Run a row action, reload on success, surface the server's plain-words guard message on a
+  // block (e.g. "only manager…"). The server is the real gate; the menu just calls it.
+  const runAction = async (fn: () => Promise<unknown>) => {
+    try {
+      await fn();
+      await load();
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Couldn't do that — please try again.");
+    }
+  };
+
+  const openMemberMenu = (btn: HTMLElement) => {
+    const id = btn.dataset.id || "";
+    const role = btn.dataset.role || "member";
+    const status = btn.dataset.status || "active";
+    const items =
+      status === "deactivated"
+        ? [{ label: "Reactivate", onSelect: () => { void runAction(() => reactivateMember(id)); } }]
+        : [
+            role === "manager"
+              ? { label: "Make member", onSelect: () => { void runAction(() => setMemberRole(id, "member")); } }
+              : { label: "Make manager", onSelect: () => { void runAction(() => setMemberRole(id, "manager")); } },
+            { label: "Deactivate", danger: true, onSelect: () => { void runAction(() => deactivateMember(id)); } },
+          ];
+    openRowMenu(btn, items);
+  };
+
   const wire = () => {
     root.querySelector(".js-invite")?.addEventListener("click", () => { void doInvite(); });
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
+    root.querySelectorAll<HTMLButtonElement>(".js-member-menu").forEach((btn) => {
+      btn.addEventListener("click", (e) => { e.stopPropagation(); openMemberMenu(btn); });
+    });
   };
 
   const load = async () => {
@@ -77,4 +108,4 @@ export const mount: Mount = async (root) => {
   await load();
 };
 
-export const unmount: Unmount = () => {};
+export const unmount: Unmount = () => { closeRowMenu(); };

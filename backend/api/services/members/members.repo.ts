@@ -7,7 +7,7 @@
 
 import { and, eq } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
-import { users, invitations } from "../../../db/schema.ts";
+import { users, invitations, authSessions, auditLog } from "../../../db/schema.ts";
 
 /** One login account in the org (active or deactivated). Never selects password_hash. */
 export interface OrgUserRow {
@@ -33,6 +33,14 @@ export interface MembersRepo {
   listOrgUsers(orgId: string): Promise<OrgUserRow[]>;
   /** Invites still awaiting acceptance (status = pending) in the org. */
   listPendingInvites(orgId: string): Promise<PendingInviteRow[]>;
+  /** Set a user's role (members-page Phase 3). Fencing is the service's job. */
+  updateRole(userId: string, role: string): Promise<void>;
+  /** Switch a login on/off — a set timestamp blocks login; null restores it. */
+  setDeactivated(userId: string, at: Date | null): Promise<void>;
+  /** Drop every live session for a user, so a deactivate kicks them immediately. */
+  revokeSessions(userId: string): Promise<void>;
+  /** Append an org-action row to the audit trail. Skipped for non-uuid dev actors. */
+  writeAudit(actorUserId: string | null, action: string, details: unknown): Promise<void>;
 }
 
 // org_id is a uuid column; a synthetic dev identity (DEV_AUTOLOGIN) carries a non-uuid id
@@ -69,5 +77,24 @@ export const pgMembersRepo: MembersRepo = {
       })
       .from(invitations)
       .where(and(eq(invitations.orgId, orgId), eq(invitations.status, "pending")));
+  },
+  async updateRole(userId, role) {
+    if (!isUuid(userId)) return;
+    await getDb()
+      .update(users)
+      .set({ role: role as "admin" | "manager" | "member", updatedAt: new Date() })
+      .where(eq(users.id, userId));
+  },
+  async setDeactivated(userId, at) {
+    if (!isUuid(userId)) return;
+    await getDb().update(users).set({ deactivatedAt: at, updatedAt: new Date() }).where(eq(users.id, userId));
+  },
+  async revokeSessions(userId) {
+    if (!isUuid(userId)) return;
+    await getDb().delete(authSessions).where(eq(authSessions.userId, userId));
+  },
+  async writeAudit(actorUserId, action, details) {
+    if (actorUserId && !isUuid(actorUserId)) return; // dev actor — nothing to reference
+    await getDb().insert(auditLog).values({ actorUserId, action, details });
   },
 };
