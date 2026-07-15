@@ -1,0 +1,1205 @@
+# Sero repo map — one line per file
+
+**Open this first.** It's the file-level index for finding things in the repo without
+reading everything. Scan to the right section, read the one-liner, open the file (or its
+deeper note in [`file-notes/`](file-notes/), marked 📄) only if you need more.
+
+- **Folder-level view:** [`structure.md`](structure.md) — what each folder is for.
+- **Engine deep-dive:** [`engine-map.md`](engine-map.md) — the 5-stage pipeline & couplings.
+- **This map is file-level** and links to those instead of repeating them.
+
+> Descriptions and `[tags]` are hand-written — grep a tag to find a feature across sections.
+> The **file list** is auto-maintained: run `npm run build-map` after adding/moving files
+> and it refreshes the list while keeping every hand-written description. New files show up
+> as `_(no summary yet)_` — fill those in.
+
+_1140 entries. Regenerate with `npm run build-map`._
+
+## Backend — engine (the pipeline)
+
+- `backend/engine/agenda.ts` — Agenda carry-forward: turn the report's agenda-check answer into a durable
+- `backend/engine/ai-client.test.ts` — H2 — output cap. Every model call sends a max_tokens ceiling; if the model
+- `backend/engine/ai-client.ts` — H2 — output cap. Every model call sends this max output-token ceiling so a
+- `backend/engine/ai-guard.test.ts` — Concurrency cap + circuit breaker for live AI calls (engine-hardening Phase 2).
+- `backend/engine/ai-guard.ts` — Concurrency cap + circuit breaker for live AI calls (engine-hardening Phase 2).
+- `backend/engine/answer-suggester.test.ts` — --- slot-label leak (seen live 2026-07-05: model prefixed its job label) ----
+- `backend/engine/answer-suggester.ts` — Note helper for solo test runs: given the run's persona + the question on
+- `backend/engine/arc-overlay.ts` — Arc overlays — a manager's edits to a 1:1 Type's arc live in a sidecar file,
+- `backend/engine/ask.ts` — Node's readline.promises.question() reads the first line from piped stdin
+- `backend/engine/axes.ts` — _(no summary yet)_
+- `backend/engine/axis-coverage.ts` — Axis-coverage enforcement: when an axis is going untouched late in a run, slot
+- `backend/engine/briefing.ts` — Renders the final-evaluation JSON to stdout in the same style as backend/cli.ts. 📄
+- `backend/engine/budgets.ts` — _(no summary yet)_
+- `backend/engine/cassette.test.ts` — Cassette record/replay for callAI — the offline-verification seam (agent-native P1).
+- `backend/engine/cassette.ts` — Cassette record/replay for callAI (agent-native P1).
+- `backend/engine/cli/io.ts` — _(no summary yet)_
+- `backend/engine/cli/run-rating.ts` — _(no summary yet)_
+- `backend/engine/cli/stages/evaluation.ts` — _(no summary yet)_
+- `backend/engine/cli/stages/focus-points.ts` — _(no summary yet)_
+- `backend/engine/cli/stages/preparation.ts` — _(no summary yet)_
+- `backend/engine/cli/stages/question-bank.ts` — _(no summary yet)_
+- `backend/engine/cli/stages/questioning.ts` — _(no summary yet)_
+- `backend/engine/closer.ts` — _(no summary yet)_
+- `backend/engine/cost.test.ts` — Cost tracker — per-call latency capture (engine-hardening Phase 1).
+- `backend/engine/cost.ts` — Thrown by the module-level record() when a run's cumulative spend passes the
+- `backend/engine/delta-gates.ts` — Scoring gates for plan-turn: shallow-answer detection, clarity-misalignment,
+- `backend/engine/email-client.test.ts` — We stub global.fetch so no real network happens. Each test sets its own stub and
+- `backend/engine/email-client.ts` — The email send helper. One place that talks to the email provider (Resend), so
+- `backend/engine/env.ts` — _(no summary yet)_
+- `backend/engine/focus-history.test.ts` — Focus history for repeat sessions (focus-freshness Phase 1).
+- `backend/engine/focus-history.ts` — Focus history for repeat sessions (focus-freshness Phase 1).
+- `backend/engine/generate.test.ts` — Focus-points prompt assembly (focus-freshness Phase 1) — destination checks
+- `backend/engine/generate.ts` — Model/disk JSON is unknown until checked — narrow with these instead of trusting shapes.
+- `backend/engine/golden-checks.grounding.test.ts` — Positive briefing-grounding checks (engine-hardening Phase 3).
+- `backend/engine/golden-checks.ts` — Offline pass/fail gates for golden regression scenarios (Priya Jun02+).
+- `backend/engine/guided/wrapup.ts` — The ONE AI moment of a Monthly Check-in (monthly-checkin Phase 5). At the end of a guided
+- `backend/engine/index.ts` — _(no summary yet)_
+- `backend/engine/intro-queue.ts` — _(no summary yet)_
+- `backend/engine/lexicon-reviewer.ts` — Lexicon session review — barrel re-export. Core AI + I/O live under ./lexicon/.
+- `backend/engine/lexicon.ts` — _(no summary yet)_
+- `backend/engine/lexicon/candidates-io.ts` — A candidate lexicon doc is loosely shaped (hand-editable YAML); we only ever
+- `backend/engine/lexicon/cli-interactive.ts` — _(no summary yet)_
+- `backend/engine/lexicon/promote-core.ts` — _(no summary yet)_
+- `backend/engine/lexicon/review-core.ts` — The session context this stage reads. A superset of the lexicon helpers'
+- `backend/engine/lexicon/schema.ts` — _(no summary yet)_
+- `backend/engine/meeting-arcs.ts` — Back-compat shim. The arc/Type data now lives in src/one-on-one-types/<slug>/type.js,
+- `backend/engine/meeting-types.ts` — _(no summary yet)_
+- `backend/engine/messages.ts` — Prompt assembly for the plan-turn stage: fill the plan-turn template with the
+- `backend/engine/models.ts` — _(no summary yet)_
+- `backend/engine/one-on-one-types/_shared/meeting-type.types.ts` — The shape of a 1:1 Type's data file (one-on-one-types/<slug>/type.ts). The
+- `backend/engine/one-on-one-types/_shared/prompts.ts` — Repo-level prompts/ directory.
+- `backend/engine/one-on-one-types/bi-weekly/type.ts` — 1:1 Type — Bi-weekly check-in
+- `backend/engine/one-on-one-types/feels-off/type.ts` — 1:1 Type — Something feels off
+- `backend/engine/one-on-one-types/growth/type.ts` — 1:1 Type — Growth & career plan
+- `backend/engine/one-on-one-types/index.ts` — 1:1 Type registry.
+- `backend/engine/one-on-one-types/onboarding/type.ts` — 1:1 Type — Onboarding check-in
+- `backend/engine/one-on-one-types/performance/type.ts` — 1:1 Type — Performance & feedback
+- `backend/engine/opener.ts` — An opener as stored in _openers.json: a question-shaped object plus the
+- `backend/engine/paths.mts` — Address book — the single place that says where data lives on disk.
+- `backend/engine/person-profile.ts` — Disk JSON is unknown until checked — narrow with these instead of trusting shapes.
+- `backend/engine/pipeline-lock.ts` — _(no summary yet)_
+- `backend/engine/preparation.test.ts` — The brief-validator's listenFor cue check (C3) flags an item as "may lack
+- `backend/engine/preparation.ts` — Disk JSON / model output is unknown until checked — narrow with these instead
+- `backend/engine/prompt-fixer.ts` — Learning loop: given the exact prompt a stage used, what it produced, and the
+- `backend/engine/prompt-utils.test.ts` — Matches the old chained-replaceAll semantics exactly: a value inserted by an
+- `backend/engine/prompt-utils.ts` — Shared prompt helpers used by every pipeline stage.
+- `backend/engine/prompt-version.ts` — _(no summary yet)_
+- `backend/engine/question-eligibility.ts` — Central admission gate for questions. Every path that can put a question in
+- `backend/engine/question-generator.test.ts` — The structured-output schema is the first hard gate on model output. These
+- `backend/engine/question-generator.ts` — _(no summary yet)_
+- `backend/engine/question-validator.test.ts` — Fabricated quote — words the report never said in that order.
+- `backend/engine/question-validator.ts` — Reject broken or note-mirrored question stems before they reach the manager UI.
+- `backend/engine/questions.ts` — _(no summary yet)_
+- `backend/engine/queue-constants.ts` — Shared constants + types for the plan-turn queue pipeline. Kept in one place so
+- `backend/engine/queue-manager.test.ts` — Queue-shape gates (Phase 2). The two new gates are pure — they only read
+- `backend/engine/queue-manager.ts` — Repeat detection lives in the central eligibility gate so every admission
+- `backend/engine/queue-metrics.ts` — Transcript + arc metrics for plan-turn: arc progress, drill/clarifier counts,
+- `backend/engine/reconcile-queue.test.ts` — Item-shape gates (Phase 1). These pure predicates are the decision logic the
+- `backend/engine/reconcile-queue.ts` — Queue reconciliation + grounding: turn the planner's raw queue into materialised
+- `backend/engine/relational-arcs.ts` — Single source of truth for the relational-arc rule.
+- `backend/engine/review-html.ts` — Generates self-contained, static review.html pages from a run's log files,
+- `backend/engine/reviewer.ts` — _(no summary yet)_
+- `backend/engine/role-profile.test.ts` — --- hidden list helpers (pure) -------------------------------------------
+- `backend/engine/role-profile.ts` — _(no summary yet)_
+- `backend/engine/rules.ts` — _(no summary yet)_
+- `backend/engine/run-debrief.d.mts` — Type declarations for run-debrief.mjs — a JavaScript ESM module shared with
+- `backend/engine/run-debrief.mjs` — _(no summary yet)_
+- `backend/engine/run-fingerprint.ts` — Hash over all prompt template files. Changes whenever any prompt is edited
+- `backend/engine/run-health.test.ts` — H3 — degradation alarm. buildRunHealth summarises a single run's quiet
+- `backend/engine/run-health.ts` — H3 — degradation alarm.
+- `backend/engine/run-history.test.ts` — costFromState (universe-monitoring P3): a run's model spend off its saved briefing.
+- `backend/engine/run-history.ts` — The data wall (Phase 007/2): a run belongs to a company when its stored orgId
+- `backend/engine/scenario-pack.test.ts` — --- parseScenarioPack (model JSON is unknown until checked) ----------------
+- `backend/engine/scenario-pack.ts` — Scenario pack for the dev "Suggest notes" helper: a tiny fictional world
+- `backend/engine/selected-focus.ts` — Resolve the manager's primary focus for a session (first-class, not notes-only).
+- `backend/engine/serve-checks.test.ts` — H4 — serve-time leak detection. These guard the two block-critical detectors
+- `backend/engine/serve-checks.ts` — H4 — serve-time leak detection (leaf module).
+- `backend/engine/session-log.test.ts` — logTurn / logRunRoot — the per-turn + run-root half of the write funnel
+- `backend/engine/session.ts` — e.g. 2026_May08_21-53-a3f7b2c1d4e5f6079a8b0c1d2e3f4051
+- `backend/engine/stage-sequence.ts` — The canonical pipeline order, declared once (agent-native P4).
+- `backend/engine/thread-follow.test.ts` — Real substantive answers from the 2026-07-11 biweekly-priya gate roll. Every
+- `backend/engine/thread-follow.ts` — Runtime thread-follow: detect when an answer opens a thread worth pulling, and
+- `backend/engine/ui.ts` — _(no summary yet)_
+
+## Backend — API & services
+
+- `backend/api/build-info.test.ts` — _(no summary yet)_
+- `backend/api/build-info.ts` — Build identity for the running API process — the git short SHA + commit date,
+- `backend/api/env-boot.ts` — Side-effect import: loads .env BEFORE any other module evaluates. Must be the
+- `backend/api/handlers/stream-helper.ts` — The shared Session types inFlight as Map<string, unknown> (internal de-dup);
+- `backend/api/middleware/admin-guard.test.ts` — A bare context carrying just the cookie header (all buildIdentity reads).
+- `backend/api/middleware/admin-guard.ts` — Admin-tooling access guard (admin-access-guard). Wrap a route handler so it runs
+- `backend/api/middleware/cookies.ts` — Cookie read/write for the login session (Phase 006 Phase 3). One place that knows
+- `backend/api/middleware/error-log.test.ts` — _(no summary yet)_
+- `backend/api/middleware/error-log.ts` — Error-log capture (error-log Phase 1 + 3). Mirrors superadmin-audit.ts: pure entry
+- `backend/api/middleware/http-error.test.ts` — _(no summary yet)_
+- `backend/api/middleware/http-error.ts` — The one error shape every /api/v1 route returns on failure (Phase 004 step 2 —
+- `backend/api/middleware/internal-tool-guard.test.ts` — _(no summary yet)_
+- `backend/api/middleware/internal-tool-guard.ts` — Internal-tool access guard (admin-live-deploy Phase 1). The internal tooling routes
+- `backend/api/middleware/origin.test.ts` — The origin guard fences every mutating route. Before Render, it only knew
+- `backend/api/middleware/origin.ts` — Origin fence for mutating routes. Passes: no Origin header (curl/scripts),
+- `backend/api/middleware/request-context.test.ts` — A bare request carrying just the cookie header (all buildIdentity reads).
+- `backend/api/middleware/request-context.ts` — Who-you-are context (Phase 006 Phase 3 — the login check is now real). Built per
+- `backend/api/middleware/require-auth.ts` — The login-check (Phase 006 Phase 3 — now real). Throws a 401 when the request has
+- `backend/api/middleware/superadmin-audit.test.ts` — A context carrying the cookie, method, and path the audited funnel reads.
+- `backend/api/middleware/superadmin-audit.ts` — Superadmin access audit (pre-go-live PG6). The single most important compensating
+- `backend/api/middleware/superadmin-guard.test.ts` — A context carrying the cookie plus the method + path the audited funnel reads.
+- `backend/api/middleware/superadmin-guard.ts` — Superadmin route guard (pre-go-live PG6) — the funnel every cross-company /api/v1/admin/*
+- `backend/api/middleware/v1-route.test.ts` — A real-ish RequestContext whose json() captures the call (no casts needed).
+- `backend/api/middleware/v1-route.ts` — Wrap a controller handler so any thrown error returns the ONE v1 error shape
+- `backend/api/persona-script.ts` — Disk JSON is unknown until checked — narrow with these guards (house pattern).
+- `backend/api/router.test.ts` — The router matches string patterns EXACTLY and only extracts params from RegExp
+- `backend/api/router.ts` — Disk/wire/error values are unknown until checked — narrow with this guard
+- `backend/api/selected-focus.ts` — All manager-picked points flow downstream (capped at 3 — more selected
+- `backend/api/server.ts` — _(no summary yet)_
+- `backend/api/services/arcs/arcs.controller.ts` — Thin controller — parse the request, call the service, format the response.
+- `backend/api/services/arcs/arcs.repo.ts` — Data access for meeting arcs — the storage seam. Delegates to the type registry
+- `backend/api/services/arcs/arcs.service.test.ts` — One canned type + its merged arc. serialize reads t.slug/t.label from the type
+- `backend/api/services/arcs/arcs.service.ts` — Meeting-arcs logic: serialise types for the client, validate + save edits to the
+- `backend/api/services/auth/auth.controller.test.ts` — A context that captures the JSON the controller writes.
+- `backend/api/services/auth/auth.controller.ts` — Thin controller — read the body, call the service, format the response. No logic,
+- `backend/api/services/auth/auth.repo.ts` — Data access for auth (Phase 006 Phase 2). The service depends only on this
+- `backend/api/services/auth/auth.service.test.ts` — In-memory repo: proves the service logic never depends on Postgres (the seam
+- `backend/api/services/auth/auth.service.ts` — Auth logic (Phase 006 Phase 2): register and login. Pure — it never touches
+- `backend/api/services/auth/org-data.repo.ts` — Org-fenced data reads (Phase 006 Phase 4). Every query filters by the caller's
+- `backend/api/services/auth/org-data.test.ts` — A fake store holding two companies' runs. listRuns filters by orgId exactly like
+- `backend/api/services/catalog/catalog.controller.ts` — Thin controller — HTTP in/out only. Parses nothing here (these are plain GETs),
+- `backend/api/services/catalog/catalog.repo.ts` — Data access for catalog (reference) data — meeting types + the persona bench.
+- `backend/api/services/catalog/catalog.service.test.ts` — An in-memory repo proves the service logic is storage-agnostic: swap the file
+- `backend/api/services/catalog/catalog.service.ts` — Catalog logic: sort personas by order + inject meetingTypeIndex. Never touches
+- `backend/api/services/checks/checks.controller.ts` — POST /api/v1/checks/run (+ legacy /api/checks/run) — runs one free, offline
+- `backend/api/services/checks/checks.service.ts` — Runs ONLY the free, offline checks for the Tasks board's "Run the free checks"
+- `backend/api/services/error-log/error-log.controller.ts` — Thin controller for the Error log (error-log Phase 2 + 3 + 4). `list` + `resolve` are
+- `backend/api/services/error-log/error-log.repo.ts` — Read + resolve data access for the Error log (error-log Phase 2 + 4). SELECT reads for
+- `backend/api/services/error-log/error-log.service.test.ts` — _(no summary yet)_
+- `backend/api/services/error-log/error-log.service.ts` — The Error log read + resolve service (error-log Phase 2 + 4). Shapes the newest
+- `backend/api/services/feedback/feedback.controller.ts` — Thin controller — parse the request, call the service, format the response. Login
+- `backend/api/services/feedback/feedback.repo.ts` — Data access for tester feedback — the storage seam, now Postgres-backed
+- `backend/api/services/feedback/feedback.service.test.ts` — An in-memory repo proves the service logic is storage-agnostic — no real database
+- `backend/api/services/feedback/feedback.service.ts` — Feedback service — validate a tester's note and hand it to the repo, and shape the
+- `backend/api/services/guided-sessions/block-scores.repo.ts` — Data access for six-block ratings (monthly-checkin Phase 3). Written once per session at
+- `backend/api/services/guided-sessions/guided-runtime.ts` — Runtime wiring for guided sessions (monthly-checkin Phase 5). The service module stays
+- `backend/api/services/guided-sessions/guided-sessions.controller.ts` — Thin controller for guided sessions (monthly-checkin Phase 1) — HTTP in/out only.
+- `backend/api/services/guided-sessions/guided-sessions.gate.test.ts` — The role wall for guided sessions (Monthly Check-in): internal admins only. A plain
+- `backend/api/services/guided-sessions/guided-sessions.repo.ts` — Data access for guided sessions (monthly-checkin Phase 1) — the storage seam,
+- `backend/api/services/guided-sessions/guided-sessions.service.test.ts` — _(no summary yet)_
+- `backend/api/services/guided-sessions/guided-sessions.service.ts` — The guided-sessions service (monthly-checkin Phase 1). Owns the rules of a manager-walked
+- `backend/api/services/guided-sessions/guided-slim.ts` — The finished-guided-session source for the Phase-6 run-list merge. Decoupled from the list
+- `backend/api/services/health/health.controller.test.ts` — Render's health check (and the /release watch loop) polls GET /api/v1/health
+- `backend/api/services/health/health.controller.ts` — Public liveness probe — Render's health check and the /release watch loop poll
+- `backend/api/services/heartbeat/heartbeat.controller.ts` — Thin controller — call the service, return the snapshot. No logic, no storage.
+- `backend/api/services/heartbeat/heartbeat.repo.ts` — Data access for the heartbeat — raw reads from the repo the server is running
+- `backend/api/services/heartbeat/heartbeat.service.test.ts` — A fake repo returns canned reads — proving the service's shaping (filtering,
+- `backend/api/services/heartbeat/heartbeat.service.ts` — Heartbeat logic: turn raw repo reads into the "what the app looks like right
+- `backend/api/services/invites/invites.controller.ts` — Thin controller for the join flow (member-onboarding-invites). Creating an invite is
+- `backend/api/services/invites/invites.repo.ts` — Data access for the join flow (member-onboarding-invites) — the storage seam over the
+- `backend/api/services/invites/invites.service.test.ts` — The join flow (member-onboarding-invites): a manager invites a roster person by email →
+- `backend/api/services/invites/invites.service.ts` — The join flow (member-onboarding-invites) — the service. A manager invites one of their
+- `backend/api/services/lexicon/lexicon.controller.ts` — Thin controller — parse the request, call the service, format the response.
+- `backend/api/services/lexicon/lexicon.repo.ts` — Data access for cross-session lexicon promotion (the global word list) — the
+- `backend/api/services/lexicon/lexicon.service.test.ts` — A fake repo returns canned pending items / apply result and records the
+- `backend/api/services/lexicon/lexicon.service.ts` — Lexicon-promotion logic: list pending promotions with a count, apply keep/drop
+- `backend/api/services/library/library.controller.ts` — Thin controller — raw HTTP (this serves files, not JSON). Asks the service what
+- `backend/api/services/library/library.repo.ts` — File access for the run library. The storage seam — fs today.
+- `backend/api/services/library/library.service.test.ts` — _(no summary yet)_
+- `backend/api/services/library/library.service.ts` — Library path logic: decide what a request under /library/<rest> should do —
+- `backend/api/services/notifications/email-layout.ts` — The shared branded shell every Sero email uses: soft-blue background, a white card
+- `backend/api/services/notifications/notifications.service.test.ts` — _(no summary yet)_
+- `backend/api/services/notifications/notifications.service.ts` — Composes notification emails and hands them to the send helper. Kept separate
+- `backend/api/services/persona-runs/persona-runs.controller.ts` — Thin controller — parse the request, call the service, format the response.
+- `backend/api/services/persona-runs/persona-runs.runner.test.ts` — The runner drives the whole scripted pipeline with every paid engine call
+- `backend/api/services/persona-runs/persona-runs.runner.ts` — The scripted full-engine runner: drives one persona through the SAME in-process
+- `backend/api/services/persona-runs/persona-runs.service.test.ts` — The service holds the job state and the guard rails; the runner is an injected
+- `backend/api/services/persona-runs/persona-runs.service.ts` — Persona-run job state + guard rails: start a scripted full-engine run for one
+- `backend/api/services/pipeline/pipeline.controller.ts` — Thin controller — parse the query, call the service, format the response.
+- `backend/api/services/pipeline/pipeline.repo.ts` — Data access for pipeline status — run lookups + lock reads behind one async
+- `backend/api/services/pipeline/pipeline.service.test.ts` — A fake repo lets us exercise the baseline-selection branching without storage.
+- `backend/api/services/pipeline/pipeline.service.ts` — Pipeline status logic: choose the baseline run (latest-with-lock → latest →
+- `backend/api/services/regression/regression.controller.ts` — Thin controller — call the service, format the response. No logic, no storage.
+- `backend/api/services/regression/regression.service.test.ts` — A fake suite runner stands in for the real offline replay — the service maps
+- `backend/api/services/regression/regression.service.ts` — Regression logic: run the offline replay suite and map each case to the API
+- `backend/api/services/role-lexicons/role-lexicons.controller.ts` — Thin controller — parse the request, call the service, format the response.
+- `backend/api/services/role-lexicons/role-lexicons.repo.ts` — Data access for role lexicons (the role-profile word cache + the user's overlay
+- `backend/api/services/role-lexicons/role-lexicons.service.test.ts` — A fake repo records its calls and returns canned values — proving the service
+- `backend/api/services/role-lexicons/role-lexicons.service.ts` — Role-lexicons logic: forward reads, wrap writes in { ok, ... }. Never touches
+- `backend/api/services/runs/about-me.service.test.ts` — "1:1s about me" (people-roster Phase 5): a member linked to a roster person sees the
+- `backend/api/services/runs/about-me.service.ts` — "1:1s about me" (people-roster Phase 5) — the member read path. A member linked to a
+- `backend/api/services/runs/runs.controller.ts` — Thin controller — parse the request, call the service, format the response.
+- `backend/api/services/runs/runs.repo.ts` — Data access for finished-run history + the in-app Run Review — the storage
+- `backend/api/services/runs/runs.service.test.ts` — A fake repo records its side-effects (dropSession, writeReview) and returns
+- `backend/api/services/runs/runs.service.ts` — Finished-run history + Run Review logic: list/read runs, delete/archive, and
+- `backend/api/services/sessions/bank-inputs.ts` — Pure input-builder for the question-bank stage, mirroring the live bank stream
+- `backend/api/services/sessions/evaluation-inputs.test.ts` — Guard (runner-gates Phase 3): the customer-facing evaluation input must never
+- `backend/api/services/sessions/evaluation-inputs.ts` — Pure input-builder for the evaluation (final briefing) stage, mirroring the
+- `backend/api/services/sessions/finalize-briefing.test.ts` — Regression guard (live-test 2026-07-13): completing a 1:1 must PERSIST the
+- `backend/api/services/sessions/finalize-briefing.ts` — Stamp the completed evaluation result onto the session and PERSIST it. The
+- `backend/api/services/sessions/guest-cap.test.ts` — Each test gets its own counter file — hermetic, no shared state on disk.
+- `backend/api/services/sessions/guest-cap.ts` — The guest daily cap (guest-run Phase 1). Anonymous session starts spend real
+- `backend/api/services/sessions/notes-format.test.ts` — run-qa-fixes C1: mid-run captured notes are stamped `[HH:MM @ alias]` and must not
+- `backend/api/services/sessions/notes-format.ts` — Pure note formatters for the sessions domain, moved verbatim from the old
+- `backend/api/services/sessions/plan-turn-inputs.ts` — Pure input-builder for the questioning (per-turn planner) stage. The planner
+- `backend/api/services/sessions/preparation-inputs.ts` — Pure input-builder for the preparation stage, moved verbatim from the old
+- `backend/api/services/sessions/rules-view.ts` — Pure "Rules" view for the questioning panel — the guardrails a founder never
+- `backend/api/services/sessions/session-runtime.ts` — Shared sessions runtime: the single service instance (repo + injected engine
+- `backend/api/services/sessions/session-streams.ts` — SSE stream handlers for a session's live pipeline (focus-points, preparation,
+- `backend/api/services/sessions/session-views.ts` — Pure view derivations for the sessions domain: compute a UI/CLI view from a
+- `backend/api/services/sessions/sessions.controller.ts` — Thin controller — resolve the request, call the service, format the response.
+- `backend/api/services/sessions/sessions.repo.test.ts` — postgres-runtime-data P7 ("retire the files"): the file-repo's log-only run-dir
+- `backend/api/services/sessions/sessions.repo.ts` — Storage seam for the live 1:1 runner — the one interface every sessions service
+- `backend/api/services/sessions/sessions.service.test.ts` — A complete-but-minimal live Session, built with the same pure engine helpers the
+- `backend/api/services/sessions/sessions.service.ts` — The sessions service core — session resolution every sessions controller will
+- `backend/api/services/suggest-fix/suggest-fix.controller.ts` — Thin controller — parse the request, call the service, format the response.
+- `backend/api/services/suggest-fix/suggest-fix.repo.ts` — Data access for the prompt-fix suggester — the storage seam, id-based + async
+- `backend/api/services/suggest-fix/suggest-fix.service.test.ts` — A fake repo returns canned state + prompt/response reads, and a fake RunFix
+- `backend/api/services/suggest-fix/suggest-fix.service.ts` — Prompt-fix suggester logic: assemble a run's prompt + response + tester verdict
+- `backend/api/services/superadmin/superadmin.controller.ts` — Thin controller for the superadmin view (pre-go-live PG6). Parse nothing, call the
+- `backend/api/services/superadmin/superadmin.repo.ts` — Read-only data access for the superadmin view (pre-go-live PG6). This module is
+- `backend/api/services/superadmin/superadmin.service.test.ts` — A storage-agnostic fake — the service logic (grouping, ordering, the read-only view
+- `backend/api/services/superadmin/superadmin.service.ts` — The superadmin view service (pre-go-live PG6 + PG7) — the cross-company picture Carl uses
+- `backend/api/services/team/alias-resolve.test.ts` — The pure core of the people backfill (people-roster Phase 3): given a manager's
+- `backend/api/services/team/alias-resolve.ts` — Pure alias resolution for the people backfill (people-roster Phase 3). The auto-built
+- `backend/api/services/team/people.repo.test.ts` — A synthetic dev identity (DEV_AUTOLOGIN) carries non-uuid ids like "dev-org" / "dev-user".
+- `backend/api/services/team/people.repo.ts` — Data access for a manager's people roster (people-roster Phase 1) — the storage
+- `backend/api/services/team/people.service.test.ts` — An in-memory repo proves the service logic is storage-agnostic — no real database
+- `backend/api/services/team/people.service.ts` — The people-roster service (people-roster Phase 1). Owns the roster rules — dedupe on
+- `backend/api/services/team/team.controller.ts` — Thin controller for the people-aliases (pre-go-live PG9) and the people roster
+- `backend/api/services/team/team.repo.ts` — Storage seam for a manager's people-aliases (pre-go-live PG9). The auto-built Team keys
+- `backend/api/services/team/team.service.test.ts` — In-memory fake — the merge/rename/resolve logic is proven without touching disk.
+- `backend/api/services/team/team.service.ts` — The people-aliases service (pre-go-live PG9). Owns the merge/rename rules over a
+- `backend/api/services/trackers/trackers.controller.ts` — Thin controller for tracker items (monthly-checkin Phase 2) — HTTP in/out only. Internal
+- `backend/api/services/trackers/trackers.repo.ts` — Data access for tracker items (monthly-checkin Phase 2) — promises · requests · goals in
+- `backend/api/services/trackers/trackers.service.test.ts` — _(no summary yet)_
+- `backend/api/services/trackers/trackers.service.ts` — The trackers service (monthly-checkin Phase 2). Owns the rules of the shared promise/
+- `backend/api/session-persistence.test.ts` — A minimal live Session, enough to serialize. orgId is the Phase 2 addition: it
+- `backend/api/session-persistence.ts` — The on-disk shape: every Session field except the runtime-only ones (Maps +
+- `backend/api/sessions.ts` — _(no summary yet)_
+- `backend/api/sse.ts` — _(no summary yet)_
+- `backend/api/static.ts` — _(no summary yet)_
+
+## Backend — database
+
+- `backend/db/alignment-check.test.ts` — _(no summary yet)_
+- `backend/db/alignment-check.ts` — Live/local database alignment (database-sync test). The pure rules for judging
+- `backend/db/arc-overlays-store.test.ts` — Arc-overlay cache semantics (postgres-runtime-data Phase 5), DB-less via the
+- `backend/db/arc-overlays-store.ts` — The Postgres store + boot-hydrated cache for arc overlays — a manager's edits
+- `backend/db/client.test.ts` — Regression: 2026-07-08 — the dev API's pool starved and EVERY DB request hung
+- `backend/db/client.ts` — The Postgres connection — a lazily-opened pg Pool wrapped by Drizzle, typed
+- `backend/db/env-guard.test.ts` — _(no summary yet)_
+- `backend/db/env-guard.ts` — The live/local safety catch (postgres-runtime-data Phase 1). The database itself
+- `backend/db/migrate.ts` — Boot-time migrations (postgres-runtime-data Phase 1). The API server applies
+- `backend/db/migrations/0000_glorious_sunset_bain.sql` — _(no summary yet)_
+- `backend/db/migrations/0001_slim_captain_marvel.sql` — _(no summary yet)_
+- `backend/db/migrations/0002_stormy_ricochet.sql` — _(no summary yet)_
+- `backend/db/migrations/0003_role_admin_manager_member.sql` — _(no summary yet)_
+- `backend/db/migrations/0004_nifty_iron_monger.sql` — _(no summary yet)_
+- `backend/db/migrations/0005_majestic_katie_power.sql` — _(no summary yet)_
+- `backend/db/migrations/0006_colorful_obadiah_stane.sql` — _(no summary yet)_
+- `backend/db/migrations/0007_previous_cable.sql` — _(no summary yet)_
+- `backend/db/migrations/0008_vengeful_trauma.sql` — _(no summary yet)_
+- `backend/db/migrations/0009_runtime_data_foundations.sql` — _(no summary yet)_
+- `backend/db/migrations/0010_drop_unused_runs_table.sql` — _(no summary yet)_
+- `backend/db/migrations/0011_artifacts_drop_session_fk.sql` — _(no summary yet)_
+- `backend/db/migrations/0012_alignment_probe.sql` — _(no summary yet)_
+- `backend/db/migrations/0013_abandoned_zodiak.sql` — _(no summary yet)_
+- `backend/db/migrations/0014_flat_storm.sql` — _(no summary yet)_
+- `backend/db/migrations/0015_jazzy_maelstrom.sql` — _(no summary yet)_
+- `backend/db/migrations/0016_redundant_wong.sql` — _(no summary yet)_
+- `backend/db/migrations/0017_complete_human_cannonball.sql` — _(no summary yet)_
+- `backend/db/migrations/meta/_journal.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0000_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0001_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0002_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0003_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0004_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0005_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0006_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0007_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0008_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0009_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0010_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0011_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0012_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0013_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0014_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0015_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0016_snapshot.json` — _(no summary yet)_
+- `backend/db/migrations/meta/0017_snapshot.json` — _(no summary yet)_
+- `backend/db/questions-store.test.ts` — The boot-hydrated question cache (postgres-runtime-data Phase 4) — DB-less
+- `backend/db/questions-store.ts` — The Postgres store + boot-hydrated cache for the engine's invented questions
+- `backend/db/README.md` — Database (Postgres) — setup
+- `backend/db/role-profiles-store.test.ts` — Role-profile cache semantics (postgres-runtime-data Phase 5), DB-less via the
+- `backend/db/role-profiles-store.ts` — The Postgres store + boot-hydrated cache for role profiles — the cached
+- `backend/db/run-artifacts-store.test.ts` — _(no summary yet)_
+- `backend/db/run-artifacts-store.ts` — The durable Postgres layer for run artifacts — everything that used to be a file
+- `backend/db/runs-store.test.ts` — Fencing tests for the Postgres run reads (postgres-runtime-data Phase 3) —
+- `backend/db/runs-store.ts` — The Postgres read layer for finished-run history (postgres-runtime-data Phase 3)
+- `backend/db/schema.ts` — The Postgres schema — the single source of truth for every table. Drizzle reads
+- `backend/db/sessions-store.test.ts` — Regression: 2026-07-08 — the session mirror fired one unbounded upsert per
+- `backend/db/sessions-store.ts` — The durable Postgres layer for sessions — the async functions the (sync)
+
+## Backend — shared types & other
+
+- `backend/cli.ts` — _(no summary yet)_
+- `backend/shared/briefing.types.ts` — The final prep briefing. Produced by evaluate() in backend/engine/reviewer.ts,
+- `backend/shared/cost.types.ts` — Cost-tracking contracts. Source of truth: backend/engine/cost.js (converted later).
+- `backend/shared/guards.ts` — Small shared type guards, previously copy-pasted across many backend modules.
+- `backend/shared/question.types.ts` — The runtime question object. Canonical mint: backend/engine/question-generator.ts;
+- `backend/shared/session.types.ts` — The per-run pipeline state (the live in-memory object). Built in backend/api/sessions.ts
+- `backend/tests/checks/test-checks-service.js` — Phase 3 (Tasks board run-checks button) safety net. The /api/checks/run
+- `backend/tests/pipeline/test-stage-parity.js` — Orchestrator parity guard (agent-native P4).
+- `backend/tests/README.md` — backend/tests — the mirrored test tree
+- `backend/tests/runs/test-pg-runs-parity.js` — postgres-runtime-data Phase 3 — the read-cutover parity proof: one run seeded
+- `backend/tests/sessions/test-back-nav.js` — Offline test for one-step-back navigation (jun11 Phase 4). Exercises the
+- `backend/tests/sessions/test-pg-roundtrip.js` — Phase 005 step 3 — the Postgres round-trip proof: a session written through the
+- `backend/tests/sessions/test-session-resume.js` — Offline test for session continuity / resume (next-stage Phase 2). Proves a
+- `backend/tests/team/test-pg-person-delete.js` — people-roster hard delete — the cascade proof: deleting a person wipes their roster
+
+## Admin console (internal UI)
+
+- `admin/index.html` — _(no summary yet)_
+- `admin/package.json` — _(no summary yet)_
+- `admin/postcss.config.js` — _(no summary yet)_
+- `admin/src/css.d.ts` — Ambient declaration so TypeScript accepts side-effect CSS imports from stage modules
+- `admin/src/guest.test.ts` — The guest lane entry (guest-run Phase 2, shared by the start screen and the
+- `admin/src/guest.ts` — The guest lane entry (guest-run Phase 2): straight into intake, no account.
+- `admin/src/main.js` — Lazy stage modules — kept in a map so HMR + code-split both work nicely.
+- `admin/src/router.js` — Path-based routing for the SPA. Maps store.stage <-> location.pathname so every
+- `admin/src/router.test.ts` — Tests for the router's audience walls — which stages are internal-toolset-only
+- `admin/src/stages/about.js` — About — the one-pager (009 Phase 5). What Sero is, what to do first, what to expect,
+- `admin/src/stages/admin-error-log.ts` — Error log — the superadmin's cross-company view of every error users hit (error-log
+- `admin/src/stages/admin-feedback.ts` — Feedback inbox — the superadmin's cross-company view of every note testers send via
+- `admin/src/stages/admin-guest-runs.ts` — Guest runs — a superadmin's read-only view of the UNCLAIMED guest pile (guest-run
+- `admin/src/stages/admin-pulse.ts` — The founder Pulse dashboard (admin-live-deploy Phase 3) — the one-screen view of the live
+- `admin/src/stages/admin-registered.ts` — User management — the superadmin's read-only view of everyone across the alpha (user-management
+- `admin/src/stages/admin-user-detail.ts` — User drilldown — a superadmin's read-only view of ONE registered user's 1:1s (pre-go-live
+- `admin/src/stages/bank.js` — _(no summary yet)_
+- `admin/src/stages/briefing.js` — _(no summary yet)_
+- `admin/src/stages/compare.js` — Mirror server/handlers/verdict.js ISSUE_TYPES — [value, label] for the picker.
+- `admin/src/stages/design.js` — Design system — the Sero component sheet, rebuilt as a native admin stage
+- `admin/src/stages/error.ts` — Landing here means the app caught something that blew up (incl. a failed load) — record
+- `admin/src/stages/eval.js` — _(no summary yet)_
+- `admin/src/stages/feedback.js` — Feedback — a short note a tester sends the team (009 Phase 5). Posts to
+- `admin/src/stages/focus-points.js` — _(no summary yet)_
+- `admin/src/stages/forgot-password.js` — Forgot-password screen — enter your email and we send a reset link. Reached from the
+- `admin/src/stages/guide.js` — Operator guide (internal, for the founder/tester — dev-gated entry point).
+- `admin/src/stages/intake-firstrun.test.ts` — Phase 4 (validation-kit) — first-run guidance for a brand-new manager. The copy
+- `admin/src/stages/intake-firstrun.ts` — First-run guidance for a brand-new manager account (validation-kit Phase 4).
+- `admin/src/stages/intake.js` — _(no summary yet)_
+- `admin/src/stages/job-lexicons.js` — Job lexicons — a browsable home for every role's words (the role-profile
+- `admin/src/stages/lexicon-review.js` — _(no summary yet)_
+- `admin/src/stages/library.js` — Library (internal QA tooling). Full-page list of EVERY finished run, newest
+- `admin/src/stages/login.js` — Login screen — email + password against POST /api/v1/auth/login. On success the
+- `admin/src/stages/meeting-arcs.js` — Meeting arcs — a browsable, editable home for every 1:1 type's arc (its phases,
+- `admin/src/stages/onepage.js` — One-page run — the whole flow on a single page that grows downward.
+- `admin/src/stages/personas.js` — Test engine — the persona hub. Browse the demo people Sero practises on, and
+- `admin/src/stages/preparation.js` — _(no summary yet)_
+- `admin/src/stages/privacy.js` — Privacy note — a plain-language explanation of what Sero stores, who can see it, and
+- `admin/src/stages/questioning.js` — _(no summary yet)_
+- `admin/src/stages/register.js` — Register screen — name + email + password (+ optional company) against
+- `admin/src/stages/reset-password.js` — Reset-password screen — where an emailed /reset-password/:token link lands. Reads the
+- `admin/src/stages/review-run.js` — In-app Run Review (internal QA tooling). A READ-ONLY view of a finished run
+- `admin/src/stages/run-debrief.js` — _(no summary yet)_
+- `admin/src/stages/run-detail.test.ts` — The Past 1:1 detail body: three tabs (Overview / Briefing / Answers), a profile
+- `admin/src/stages/run-detail.ts` — Run detail — a member re-reads ONE of their own past 1:1s, read-only.
+- `admin/src/stages/runs.ts` — Runs — the member's own finished 1:1s (pre-go-live PG1). Wired to /api/v1/runs/mine,
+- `admin/src/stages/stage.types.ts` — The contract every stage module satisfies. A stage renders into a root element
+- `admin/src/stages/start-core.js` — The start screen WITHOUT the internal persona bench (frontend-admin-split
+- `admin/src/stages/start.js` — The ADMIN app's start screen: the shared benchless core (start-core.js) plus
+- `admin/src/stages/tasks.js` — Tasks page (internal) — a simple planner (kanban) YOU own: add cards, drag them
+- `admin/src/stages/test.js` — Test area — /test (internal only, gated like /guide and /design; not in any nav).
+- `admin/src/stages/tests/live-pulse.js` — Test: "Live pulse" — the founder dashboard for the LIVE site (admin-live-deploy plan,
+- `admin/src/stages/tests/manager-workspace.prototype.test.ts` — _(no summary yet)_
+- `admin/src/stages/tests/manager-workspace.prototype.ts` — _(no summary yet)_
+- `admin/src/stages/tests/monthly-checkin.js` — Test: the "Monthly Check-in" — a new, guided kind of 1:1 (mock only, hardcoded data,
+- `admin/src/stages/tests/promises-loop.js` — Test: the "Promises loop" inside the REAL runner (the /interview screen). Mock only —
+- `admin/src/stages/universe.model.test.ts` — The Universe page (fun, admin-only) — tests for the pure graph builder that
+- `admin/src/stages/universe.model.ts` — The Universe — pure data model. Turns the engine's live reads into a 3D node/edge
+- `admin/src/stages/universe.ts` — The Universe — a just-for-fun, admin-only 3D map of the whole app. Every light is
+- `admin/src/state.d.ts` — Types for the plain-JS state store (state.js), so TypeScript stages can import
+- `admin/src/state.js` — Minimal state store + machine transitions. No dependencies.
+- `admin/src/state.test.ts` — Tests for the role helpers in state.js — who counts as console-admitted (isAdmin)
+- `admin/src/styles/add-person-modal.css` — _(no summary yet)_
+- `admin/src/styles/DESIGN-SYSTEM.md` — Sero design system
+- `admin/src/styles/design.css` — _(no summary yet)_
+- `admin/src/styles/design/admin-tables.css` — _(no summary yet)_
+- `admin/src/styles/design/app-nav.css` — _(no summary yet)_
+- `admin/src/styles/design/axes.css` — _(no summary yet)_
+- `admin/src/styles/design/base.css` — _(no summary yet)_
+- `admin/src/styles/design/briefing.css` — _(no summary yet)_
+- `admin/src/styles/design/buttons-inputs.css` — _(no summary yet)_
+- `admin/src/styles/design/cards.css` — _(no summary yet)_
+- `admin/src/styles/design/design-stage.css` — _(no summary yet)_
+- `admin/src/styles/design/layout.css` — _(no summary yet)_
+- `admin/src/styles/design/member-runs.css` — _(no summary yet)_
+- `admin/src/styles/design/mobile.css` — _(no summary yet)_
+- `admin/src/styles/design/motion.css` — _(no summary yet)_
+- `admin/src/styles/design/notes-panel.css` — _(no summary yet)_
+- `admin/src/styles/design/one-page-run.css` — _(no summary yet)_
+- `admin/src/styles/design/orb.css` — _(no summary yet)_
+- `admin/src/styles/design/primitives.css` — _(no summary yet)_
+- `admin/src/styles/design/promise-confirm.css` — _(no summary yet)_
+- `admin/src/styles/design/run-detail.css` — _(no summary yet)_
+- `admin/src/styles/design/run-log.css` — _(no summary yet)_
+- `admin/src/styles/design/session-topbar.css` — _(no summary yet)_
+- `admin/src/styles/design/stage-extras.css` — _(no summary yet)_
+- `admin/src/styles/design/stage-review.css` — _(no summary yet)_
+- `admin/src/styles/design/start-stage.css` — _(no summary yet)_
+- `admin/src/styles/design/tasks-board.css` — _(no summary yet)_
+- `admin/src/styles/design/tasks-panel.css` — _(no summary yet)_
+- `admin/src/styles/design/test-engine.css` — _(no summary yet)_
+- `admin/src/styles/design/tokens.css` — _(no summary yet)_
+- `admin/src/styles/error-log.css` — _(no summary yet)_
+- `admin/src/styles/feedback-inbox.css` — _(no summary yet)_
+- `admin/src/styles/finish-feedback-modal.css` — _(no summary yet)_
+- `admin/src/styles/row-menu.css` — _(no summary yet)_
+- `admin/src/styles/tailwind.css` — _(no summary yet)_
+- `admin/src/ui/add-person-form.test.ts` — The "Add someone" modal collects name / job / seniority. This pure helper trims the
+- `admin/src/ui/add-person-form.ts` — Pure field logic for the team person modals (add / edit / delete-confirm) — no DOM,
+- `admin/src/ui/add-person-modal.ts` — "Add someone" modal — the manager adds a teammate to their roster with the details
+- `admin/src/ui/app-nav.js` — Left-rail app nav — brand mark + primary links down the left edge. Collapsed
+- `admin/src/ui/axes.js` — Axis bars. Handles per-turn (live) and briefing (celebrate) modes.
+- `admin/src/ui/briefing-view.ts` — The read-only briefing view — the field set the manager saw at the end of a 1:1.
+- `admin/src/ui/build-stamp.js` — Build stamp — a small always-on chip (bottom-right) showing which API build is
+- `admin/src/ui/confirm.js` — _(no summary yet)_
+- `admin/src/ui/delete-person-modal.ts` — "Delete this person?" modal — the destructive confirm for a hard delete. Deleting a
+- `admin/src/ui/dev-badge.js` — Dev-only badge — shows current stage, source file, and primary data endpoint.
+- `admin/src/ui/error-reporter.js` — Client error reporter (error-log Phase 3). Installs global crash handlers and forwards a
+- `admin/src/ui/feedback-kinds.test.ts` — The inbox types every row from its data — a verdict tap carries a runId/verdict,
+- `admin/src/ui/feedback-kinds.ts` — Feedback kinds (validation-kit Phase 3b) — type an inbox row from its data so the
+- `admin/src/ui/field.js` — Typeform-style field swap. `host` is the container; `render()` returns the
+- `admin/src/ui/finish-feedback-modal.js` — Finish feedback modal (validation-kit Phase 3b) — the ONE feedback moment when a
+- `admin/src/ui/give-access-modal.ts` — "Give access" modal — one sheet to let a roster person log in and see their own 1:1s
+- `admin/src/ui/group-people.js` — Group a member's own finished 1:1s into people (pre-go-live PG4). Keys on a normalized
+- `admin/src/ui/group-people.test.ts` — Team-for-managers: a started-but-unfinished prep (finished:false) puts the person on
+- `admin/src/ui/html.js` — Shared HTML-safety + copy-normalization helpers.
+- `admin/src/ui/icon.js` — Lucide is Sero's one and only icon system (DESIGN.md §5 "Icons"). Every glyph in
+- `admin/src/ui/icon.test.ts` — Icon helper — turns a Lucide IconNode into the app's canonical inline-SVG string.
+- `admin/src/ui/notes-list.js` — _(no summary yet)_
+- `admin/src/ui/notes-panel-gate.test.ts` — The notes panel (QA notes + Sending/Received/Rules tabs) is internal QA
+- `admin/src/ui/notes-panel-gate.ts` — Visibility rule for the notes panel (QA notes + Sending/Received/Rules tabs).
+- `admin/src/ui/notes-panel-utils.js` — _(no summary yet)_
+- `admin/src/ui/notes-panel.js` — Fixed right-rail panel with three tabs:
+- `admin/src/ui/orb.js` — Renders the thinking orb + label + animated dots wave.
+- `admin/src/ui/profile-badge.js` — Profile badge — a small chip pinned top-right showing who's signed in (an initial
+- `admin/src/ui/promise-confirm.test.ts` — The wrap-up confirm card (Promises loop phase 1) is seeded from the briefing's
+- `admin/src/ui/promise-confirm.ts` — The wrap-up confirm card (Promises loop phase 1). Seeded from the briefing's
+- `admin/src/ui/reveal.js` — Reveal helpers. Adds `.is-in` to elements with a stagger.
+- `admin/src/ui/review-serialize.js` — Shared, deterministic serialization for the in-app Run Review (QA tooling).
+- `admin/src/ui/row-menu.ts` — A small overflow (⋯) menu for row actions — DESIGN §5 "Dropdown menu, one build".
+- `admin/src/ui/run-debrief.js` — _(no summary yet)_
+- `admin/src/ui/session-reset.js` — _(no summary yet)_
+- `admin/src/ui/session-topbar.js` — Fixed top-bar showing the run's stage progression. The current stage is
+- `admin/src/ui/skeleton.js` — Ghost "content is coming" placeholder shown during AI generation waits.
+- `admin/src/ui/stage-data-tab.js` — Renders the right-rail "Sent" and "Reply" tabs: what the AI was given for the
+- `admin/src/ui/stage-labels.js` — Human-readable stage names — shared by topbar, start page, notes, etc.
+- `admin/src/ui/stage-review.js` — Read-only review overlay. Opened from the top-bar breadcrumb so the user can
+- `admin/src/ui/star-rating.js` — A small, accessible 1-5 star rating control (pre-go-live PG3): a radiogroup of five
+- `admin/src/ui/time.test.ts` — The shared relative-time helper (cleanup-audit Phase 3) — one copy for the
+- `admin/src/ui/time.ts` — Shared time helpers. relTime: "just now" / "5m ago" / "3h ago" / "2d ago".
+- `admin/src/ui/vocab-groups.js` — Group a flat terminology list into display sections for "the language of this
+- `admin/tailwind.config.js` — Helper: build a scale that reads from CSS variables, so Tailwind utilities
+- `admin/tsconfig.json` — _(no summary yet)_
+- `admin/TYPESCRIPT.md` — Admin SPA — TypeScript (the repeatable path)
+
+## Frontend (future customer app)
+
+- `frontend/index.html` — _(no summary yet)_
+- `frontend/package.json` — _(no summary yet)_
+- `frontend/postcss.config.js` — _(no summary yet)_
+- `frontend/README.md` — frontend/ — the customer app
+- `frontend/src/main.js` — Customer app entry (frontend-admin-split Phase 2) — the customer subset of
+- `frontend/src/router.js` — Path-based routing for the customer app — the customer subset of the admin
+- `frontend/src/router.test.ts` — Tests for the CUSTOMER router's audience walls (frontend-admin-split Phase 3) —
+- `frontend/src/stages/guided/coaching-copy.ts` — Static coaching copy + per-stage UI metadata for the guided runner. Durable content
+- `frontend/src/stages/guided/guided-arcs.ts` — The guided-arc registry — the extensibility seam (architecture.md §2b).
+- `frontend/src/stages/guided/guided-icons.ts` — The runner's inline icon set — lucide-style SVG strings, ported verbatim from the approved
+- `frontend/src/stages/guided/guided-stages.ts` — The stage library — one self-contained renderer per stage id. The runner (guided.page.ts)
+- `frontend/src/stages/guided/guided-util.ts` — Escape user-typed text before it goes into innerHTML. The runner restores saved notes
+- `frontend/src/stages/guided/guided.css` — _(no summary yet)_
+- `frontend/src/stages/guided/guided.page.ts` — The guided runner (/guided/:id) — the "Monthly Check-in". A generic stage driver: it loads
+- `frontend/src/stages/guided/guided.types.ts` — Types for the guided-session runner (Monthly Check-in and future guided arcs).
+- `frontend/src/stages/guided/record.component.ts` — The finished-1:1 record (monthly-checkin Phase 6). /guided/:id renders the runner while in
+- `frontend/src/stages/guided/side-panel.component.ts` — The right-hand side panel — opened from a request/goal row or an "+ Add" button. From Phase 2
+- `frontend/src/stages/join.js` — Join screen (member-onboarding-invites) — where a one-time invite link lands. Public:
+- `frontend/src/stages/member-home.js` — Member Home — the landing page for a plain member. People-roster Phase 5: the page now
+- `frontend/src/stages/person-detail.ts` — Person detail — one person's page: all the manager's own 1:1s with them, newest first
+- `frontend/src/stages/preparation-brief.test.ts` — One canonical payload — every field a distinct sentence so the duplicate
+- `frontend/src/stages/preparation-brief.ts` — Pure render layer for the customer /prepare screen (prepare-variants).
+- `frontend/src/stages/preparation-css.test.ts` — The 14px accessibility floor, checked at the source: every font-size in the
+- `frontend/src/stages/preparation.css` — _(no summary yet)_
+- `frontend/src/stages/preparation.ts` — /prepare — the customer-owned prep-brief stage (prepare-variants). One
+- `frontend/src/stages/team-card.ts` — Team card — the pure render for one person on the Team screen. Kept DOM-free and CSS-free
+- `frontend/src/stages/team.test.ts` — The Team card, post access-redesign: one card renderer for everyone (no mode). Every card
+- `frontend/src/stages/team.ts` — Team — the manager's roster (people-roster Phase 4). Now roster-driven: the page lists the
+- `frontend/src/stages/welcome.test.ts` — The guest-first start screen (start-screen): the copy is fixed by the spec —
+- `frontend/src/stages/welcome.ts` — The guest-first start screen (start-screen) — the front door at "/" for a
+- `frontend/src/styles.d.ts` — Side-effect CSS imports from TypeScript stage modules (Vite bundles them;
+- `frontend/src/ui/app-nav.js` — Left-rail app nav for the customer app — the customer subset of the admin
+- `frontend/tailwind.config.js` — Same theme as the admin app (one design system, one source), different content
+- `frontend/tsconfig.json` — _(no summary yet)_
+- `frontend/vite.config.js` — The customer app (frontend-admin-split Phase 2). Own Vite root, own dev port
+
+## Shared (cross-app helpers)
+
+- `shared/api.js` — Fetch wrappers for /api endpoints.
+- `shared/README.md` — shared/
+- `shared/sse.js` — Thin wrapper around EventSource.
+
+## Content (prompts, questions, lexicons, config)
+
+- `content/axes.json` — _(no summary yet)_
+- `content/config/models.json` — _(no summary yet)_
+- `content/config/persona-bench-v1.json` — _(no summary yet)_
+- `content/data/openai-models.json` — _(no summary yet)_
+- `content/data/role-profiles/account-executive--mid-level.json` — _(no summary yet)_
+- `content/data/role-profiles/acting-coach--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/backend-engineer--mid-level.json` — _(no summary yet)_
+- `content/data/role-profiles/backend-engineer--mid-level.overlay.json` — _(no summary yet)_
+- `content/data/role-profiles/backend-engineer--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/customer-success-manager--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/engineer--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/expert-ux--expert.json` — _(no summary yet)_
+- `content/data/role-profiles/head-of-product--director.json` — _(no summary yet)_
+- `content/data/role-profiles/head-of-product--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/junior-graphic-designer--junior.json` — _(no summary yet)_
+- `content/data/role-profiles/junior-product-designer--junior.json` — _(no summary yet)_
+- `content/data/role-profiles/lead-product-designer--lead.json` — _(no summary yet)_
+- `content/data/role-profiles/operations-coordinator--junior.json` — _(no summary yet)_
+- `content/data/role-profiles/operations-coordinator--junior.overlay.json` — _(no summary yet)_
+- `content/data/role-profiles/partner-alliance-manager--lead.json` — _(no summary yet)_
+- `content/data/role-profiles/principal-backend-engineer--principal.json` — _(no summary yet)_
+- `content/data/role-profiles/product-design-lead--lead.json` — _(no summary yet)_
+- `content/data/role-profiles/product-designer--mid-level.json` — _(no summary yet)_
+- `content/data/role-profiles/product-designer--mid.json` — _(no summary yet)_
+- `content/data/role-profiles/product-designer--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/product-manager-on-the-payments-team--mid-level.json` — _(no summary yet)_
+- `content/data/role-profiles/senior-backend-developer--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/senior-backend-engineer--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/senior-engineer--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/senior-nurse--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/senior-ux-researcher--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/staff-site-reliability-engineer--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/ux-designer--lead.json` — _(no summary yet)_
+- `content/data/role-profiles/ux-designer--mid.json` — _(no summary yet)_
+- `content/data/role-profiles/ux-lead--lead.json` — _(no summary yet)_
+- `content/data/role-profiles/ux-researcher--senior.json` — _(no summary yet)_
+- `content/data/role-profiles/waldorf-student--junior.json` — _(no summary yet)_
+- `content/data/role-profiles/waldorf-student--junior.overlay.json` — _(no summary yet)_
+- `content/focus-points.json` — _(no summary yet)_
+- `content/lexicons/_candidates/design/lead.yaml` — _(no summary yet)_
+- `content/lexicons/design/lead.yaml` — _(no summary yet)_
+- `content/notes/whats-new.md` — _(no summary yet)_
+- `content/prompts/final-evaluation.md` — Prompt — Final Evaluation (Manager Briefing)
+- `content/prompts/final-evaluation.notes.yaml` — _(no summary yet)_
+- `content/prompts/generate-focus-points.md` — Prompt — Generate Focus Points for a 1:1
+- `content/prompts/generate-questions.md` — Prompt — Generate Question Bank for a 1:1
+- `content/prompts/generate-role-profile.md` — Prompt — Role Profile Generation
+- `content/prompts/guided-wrapup.md` — Guided Wrap-up — Monthly Check-in summary + private suggestions
+- `content/prompts/plan-turn.md` — Prompt — Score Answer & Re-plan the Queue
+- `content/prompts/plan-turn.notes.yaml` — _(no summary yet)_
+- `content/prompts/preparation.md` — Prompt — Manager Preparation Briefing
+- `content/prompts/review-session-for-lexicon.md` — Prompt — Review Session for Lexicon
+- `content/prompts/rule-registry.ts` — Prompt <-> gate coupling registry (agent-native P5).
+- `content/questions/` — the question bank (~890 `q_*.yaml`), indexed by `_index.json`; rebuild with `npm run rebuild-question-index` [question-bank, content]
+- `content/scenarios/001-priya-perf-feedback.json` — _(no summary yet)_
+- `content/scenarios/001-senior-backend-weekly.json` — _(no summary yet)_
+- `content/scenarios/002-junior-frontend-wellbeing.json` — _(no summary yet)_
+- `content/scenarios/003-carl-mid-design-growth.json` — _(no summary yet)_
+- `content/scenarios/004-staff-sre-growth.json` — _(no summary yet)_
+- `content/scenarios/adversarial/private-worry.json` — _(no summary yet)_
+- `content/scenarios/adversarial/README.md` — Adversarial scenarios
+- `content/scenarios/adversarial/thin-answers.json` — _(no summary yet)_
+- `content/scenarios/batch/_index.json` — _(no summary yet)_
+- `content/scenarios/batch/ahmed-growth-career-plan.json` — _(no summary yet)_
+- `content/scenarios/batch/aisha-onboarding-checkin.json` — _(no summary yet)_
+- `content/scenarios/batch/bea-biweekly-overloaded.json` — _(no summary yet)_
+- `content/scenarios/batch/carlos-performance-feedback.json` — _(no summary yet)_
+- `content/scenarios/batch/elena-something-feels-off.json` — _(no summary yet)_
+- `content/scenarios/batch/hana-growth-frozen-promo.json` — _(no summary yet)_
+- `content/scenarios/batch/james-something-feels-off.json` — _(no summary yet)_
+- `content/scenarios/batch/kenji-something-feels-off.json` — _(no summary yet)_
+- `content/scenarios/batch/lin-biweekly-checkin.json` — _(no summary yet)_
+- `content/scenarios/batch/maria-growth-career-plan.json` — _(no summary yet)_
+- `content/scenarios/batch/nina-biweekly-checkin.json` — _(no summary yet)_
+- `content/scenarios/batch/omar-biweekly-bored.json` — _(no summary yet)_
+- `content/scenarios/batch/priya-biweekly-checkin.json` — _(no summary yet)_
+- `content/scenarios/batch/README.md` — May-24 batch persona catalog
+- `content/scenarios/batch/reyes-feels-off-missed-deadlines.json` — _(no summary yet)_
+- `content/scenarios/batch/riley-onboarding-checkin.json` — _(no summary yet)_
+- `content/scenarios/batch/sam-onboarding-checkin.json` — _(no summary yet)_
+- `content/scenarios/batch/sarah-performance-feedback.json` — _(no summary yet)_
+- `content/scenarios/batch/toby-growth-career-plan.json` — _(no summary yet)_
+- `content/scenarios/batch/tom-performance-feedback.json` — _(no summary yet)_
+- `content/scenarios/batch/wes-feels-off-new-manager.json` — _(no summary yet)_
+- `content/scenarios/regression/_index.json` — _(no summary yet)_
+- `content/scenarios/regression/ahmed_growth_delta.json` — _(no summary yet)_
+- `content/scenarios/regression/lin_biweekly_thread.json` — _(no summary yet)_
+- `content/scenarios/regression/machar-biweekly-jun11.json` — _(no summary yet)_
+- `content/scenarios/regression/priya_biweekly_qspec.json` — _(no summary yet)_
+- `content/scenarios/regression/priya_performance_quality_jun02.json` — _(no summary yet)_
+- `content/scenarios/regression/toby_growth_lead.json` — _(no summary yet)_
+- `content/scenarios/regression/toby_lexicon_growth.json` — _(no summary yet)_
+
+## Scripts & tooling
+
+- `scripts/backfill-people.ts` — Dev-only backfill: give every EXISTING finished/in-progress run a roster person, so the
+- `scripts/backfill-runs.ts` — Phase 6 (postgres-runtime-data) — import the old on-disk runs into Postgres.
+- `scripts/batch-m4-verify.js` — M4 — wire scenarios/batch/ into replay harness.
+- `scripts/benchmark.js` — Phase-0 benchmark: render a PREP-FIRST, human-judged verdict form per run.
+- `scripts/build-reviews.js` — Regenerate static review pages for runs.
+- `scripts/check-role-profile-injection.js` — Renders all 5 stage prompts offline and reports whether the role-profile
+- `scripts/db-alignment-check.ts` — Live/local database alignment check (free, read-only, no OpenAI). Connects to the
+- `scripts/delete-orgs.ts` — Delete whole orgs (+ all their users/people/sessions/artifacts/invites/logs) in
+- `scripts/dev.ps1` — _(no summary yet)_
+- `scripts/eval-judge.js` — Judge is the quality gate — use the strong tier (config/models.json "judge"),
+- `scripts/eval.js` — Engine refinement loop — matrix runner (offline).
+- `scripts/focus-example.js` — Promote a run's focus points into a paste-ready prompt example.
+- `scripts/gate.js` — Trust regression gate.
+- `scripts/golden-prose-snapshot.js` — H5 — "did a change make the writing worse?"
+- `scripts/install-autostart.ps1` — _(no summary yet)_
+- `scripts/lib/cassette-from-run.js` — Build a replayable cassette + a scenario from an existing run folder
+- `scripts/lib/check-session.ts` — Deterministic tail of the pipeline, replayed on FROZEN inputs.
+- `scripts/lib/prose-diff.js` — Pure prose comparison for the golden-prose snapshot harness (H5 — "did a change
+- `scripts/lib/replay-suite.ts` — Shared regression-replay engine: load the frozen cases in evals/replay/,
+- `scripts/lib/run-scenario.js` — Run one scenario through the full pipeline via smoke-test.js and resolve the
+- `scripts/lib/session-fs.js` — Locate session directories under logs/<month>/<id>/. Shared by smoke-test.js
+- `scripts/lib/session-scores.ts` — _(no summary yet)_
+- `scripts/lint-bank.js` — Phase-0 DIAGNOSTIC lint over the question bank. Reports only — gates nothing.
+- `scripts/new-worktree.ps1` — _(no summary yet)_
+- `scripts/org-inventory.ts` — Read-only: list every org with its users (email/role) and run count, so we can
+- `scripts/plan-turn-size-report.js` — Plan-turn prompt size report (free, offline — no API).
+- `scripts/promote-candidates.js` — Hand-review tool: walk lexicons/_candidates, diff each candidate file
+- `scripts/purge-error-logs.js` — Purge old error_logs rows (error-log Phase 4). Deletes rows older than RETENTION_DAYS
+- `scripts/purge-runs.ts` — Retire-the-files cleanup (postgres-runtime-data P7). Replaces scripts/purge-logs.js:
+- `scripts/README.md` — scripts/ — what's in here
+- `scripts/rebuild-profiles.js` — Rebuild per-person profiles from finished runs on disk.
+- `scripts/rebuild-question-index.js` — Rebuild questions/_index.json and optionally prune exact duplicate YAML files.
+- `scripts/replay-capture.js` — Freeze a finished run folder into an offline regression fixture.
+- `scripts/replay-pipeline.js` — Replay the FULL 5-stage pipeline offline against a cassette — no API key, $0.
+- `scripts/replay-regression.js` — Offline regression replay (CLI front-end for scripts/lib/replay-suite.js).
+- `scripts/replay-scenario.js` — Replay a regression scenario — prep stage + validator assertions.
+- `scripts/repro-from-bundle.js` — Reproduce a reported bug from a diagnostic bundle — offline, $0. (agent-native P1)
+- `scripts/run-tests.js` — Offline test runner: runs every assertion script that doesn't need an API key,
+- `scripts/seed-manager.ts` — Dev-only seed: create (or reset) the test MANAGER account — the "real end user"
+- `scripts/seed-member.ts` — Dev-only seed: create (or demote) a plain MEMBER account so the admin-role wall can
+- `scripts/seed-runs.ts` — Dev-only seed: give the member account we test with a set of finished 1:1 runs so the
+- `scripts/serve-static.js` — Minimal static file server (for previewing generated verdict.html).
+- `scripts/smoke-test.js` — // Sero end-to-end smoke test.
+- `scripts/suggest-judge.js` — Per-dimension SUGGESTION judge — assistant only. Produces a pass/fail + one-line
+- `scripts/sweep.js` — _(no summary yet)_
+- `scripts/test-admin-serving.js` — admin-live-deploy Phase 2 — the admin-serving proof, in two halves:
+- `scripts/test-answer-suggest-shape.js` — Offline checks for answer-suggester post-filter (no API key).
+- `scripts/test-arc-overlay.js` — Phase 1 of arc-editor: the overlay data layer + registry merge.
+- `scripts/test-axis-coverage.js` — Coverage enforcement must be HONEST: an untouched axis gets a real question
+- `scripts/test-backfill-mapping.js` — Phase 6 (postgres-runtime-data) — the importer's pure mapping rules, offline:
+- `scripts/test-briefing-fallback.js` — Offline test for the deterministic briefing fallback (next-stage Phase 3).
+- `scripts/test-briefing-integrity.js` — _(no summary yet)_
+- `scripts/test-briefing-prompt-rules.js` — Two promises the final-evaluation prompt makes were previously unchecked:
+- `scripts/test-cassette-from-run.js` — Offline test: build a cassette + scenario from a run folder (agent-native P1).
+- `scripts/test-confidence-honesty.js` — Offline unit test for Phase 6 (engine-trust-gates): confidence honesty.
+- `scripts/test-customer-serving.js` — frontend-admin-split Phase 4 — the serve + fence proof, in two halves:
+- `scripts/test-delta-snap.js` — Regression: snapping a raw delta to the allowed set must resolve ties
+- `scripts/test-drill-cap.js` — --- isPlannerOriginated ---
+- `scripts/test-empty-signature.js` — Regression: a question scored with no signature (empty axis_effects) drops
+- `scripts/test-engagement-read.js` — The engagement read is never trusted from thin data. Since the no-inference
+- `scripts/test-grounding-gate.js` — Offline unit test for the planner-question grounding gate (reconcileQueue).
+- `scripts/test-intro-order.js` — Expected first stage = the earliest-in-arc stage among the type's intro
+- `scripts/test-lexicon-promote.js` — _(no summary yet)_
+- `scripts/test-lexicon.js` — Verifies the Conversation Language Layer end-to-end without spending API credit.
+- `scripts/test-no-inference-fixtures.js` — End-to-end fixtures for the no-inference ruling (spec §5, assertions 2 + 3),
+- `scripts/test-opener-routing.js` — _(no summary yet)_
+- `scripts/test-person-profile.js` — Person profiles are derived, never drifting: the same run data must render
+- `scripts/test-persona-bench.js` — Scripted aliases that genuinely carry no bank signature today: the open-cover
+- `scripts/test-prep-role-diff.js` — Verification: same meeting type + concern, different role/seniority → different prep brief.
+- `scripts/test-prep-wording.js` — Prep-brief wording regression tests (offline, no API).
+- `scripts/test-prose-diff.js` — H5 — pure prose-diff logic (no API). Proves the "did the writing get worse?"
+- `scripts/test-question-integrity.js` — Question-integrity regression tests (offline, no API).
+- `scripts/test-question-validator.js` — _(no summary yet)_
+- `scripts/test-read-quality.js` — Regression: the read-quality gate must tell a manager *skip* (refusal, no note
+- `scripts/test-recurring-gap-damper.js` — Regression: recurring-gap clarity damper caps 2nd+ competency clarity hits at -1.
+- `scripts/test-replay-regression.js` — Offline regression replay, wired as a unit test so `npm test` runs it on every
+- `scripts/test-role-lexicons.js` — Verifies the Job-lexicons layer offline — listing + the user-words overlay.
+- `scripts/test-role-profile.js` — Verifies the role-profile layer offline — no API spend.
+- `scripts/test-rule-registry.js` — Prompt↔gate coupling registry test (agent-native P5).
+- `scripts/test-stage-tags.js` — Standing gate (arc-editor Phase 4): no question may be tagged to a phase id
+- `scripts/test-trust-checks.js` — Offline unit test for the deterministic trust checks (evals/trust-checks.js).
+- `scripts/uninstall-autostart.ps1` — _(no summary yet)_
+- `scripts/verdict-template.html` — _(no summary yet)_
+
+## Evals (engine-correctness checks)
+
+- `evals/fixtures/machar-jun11-bank-aliases.json` — _(no summary yet)_
+- `evals/fixtures/machar-jun11-brief.json` — _(no summary yet)_
+- `evals/fixtures/machar-jun11-transcript.json` — _(no summary yet)_
+- `evals/golden/_index.json` — _(no summary yet)_
+- `evals/golden/biweekly-priya.json` — _(no summary yet)_
+- `evals/golden/feels-off-james.json` — _(no summary yet)_
+- `evals/golden/feels-off-reyes-perf.json` — _(no summary yet)_
+- `evals/golden/growth-ahmed.json` — _(no summary yet)_
+- `evals/golden/leak-devon.json` — _(no summary yet)_
+- `evals/golden/machar-biweekly-jun11.json` — _(no summary yet)_
+- `evals/golden/performance-tom.json` — _(no summary yet)_
+- `evals/golden/thin-sam.json` — _(no summary yet)_
+- `evals/prose-snapshots/leak-devon.json` — _(no summary yet)_
+- `evals/prose-snapshots/README.md` — Prose snapshots — "did a change make the writing worse?" (harness H5)
+- `evals/prose-snapshots/thin-sam.json` — _(no summary yet)_
+- `evals/README.md` — Trust regression gate
+- `evals/replay/_index.json` — _(no summary yet)_
+- `evals/replay/jordan-kim/expected.json` — _(no summary yet)_
+- `evals/replay/jordan-kim/input.json` — _(no summary yet)_
+- `evals/replay/leak-devon/expected.json` — _(no summary yet)_
+- `evals/replay/leak-devon/input.json` — _(no summary yet)_
+- `evals/replay/marcus-lee/expected.json` — _(no summary yet)_
+- `evals/replay/marcus-lee/input.json` — _(no summary yet)_
+- `evals/replay/maya-chen/expected.json` — _(no summary yet)_
+- `evals/replay/maya-chen/input.json` — _(no summary yet)_
+- `evals/replay/rachel-singh/expected.json` — _(no summary yet)_
+- `evals/replay/rachel-singh/input.json` — _(no summary yet)_
+- `evals/replay/sofia-martinez/expected.json` — _(no summary yet)_
+- `evals/replay/sofia-martinez/input.json` — _(no summary yet)_
+- `evals/replay/thin-sam/expected.json` — _(no summary yet)_
+- `evals/replay/thin-sam/input.json` — _(no summary yet)_
+- `evals/sero-test-persona-bench-v1.md` — Sero Test Persona Bench v1
+- `evals/trust-checks.ts` — Deterministic trust checks for the regression gate.
+
+## Docs — reference (rulebooks & maps)
+
+- `docs/reference/agent-decisions.md` — Agent decision tables — the three calls that used to need Carl
+- `docs/reference/claude-cheat-sheet.html` — _(no summary yet)_
+- `docs/reference/contracts.md` — Engine contracts — the per-stage boundaries
+- `docs/reference/conventions.md` — Conventions — how code is named and laid out
+- `docs/reference/design.md` — _(no summary yet)_
+- `docs/reference/engine-map.md` — Engine map — read before any engine change
+- `docs/reference/features.md` — Sero — Feature Inventory
+- `docs/reference/gtm-validation-plan.md` — GTM validation plan — the first corridor test
+- `docs/reference/guardrails.md` — Guardrails — keeping Carl on track
+- `docs/reference/handover.md` — SERO — FULL HANDOVER (deep dive)
+- `docs/reference/night-test-prompt.md` — Sero — Overnight FULL QA Pass (paste this into a fresh session)
+- `docs/reference/parallel-sessions.md` — Running multiple Claude sessions without collisions
+- `docs/reference/prompt-improvement-spec.md` — Sero Prompt Improvement Spec — No-Inference Ruling
+- `docs/reference/prompt-review-ledger.md` — Prompt-review ledger
+- `docs/reference/reviewrun-output-spec.md` — reviewrun output spec (FX-43)
+- `docs/reference/structure.md` — Repo structure — what every folder is for
+- `docs/reference/trackers.md` — Where things live — the tracker map
+
+## Docs — plans (workstream history)
+
+- `docs/plans/doing/admin-live-deploy/phase-1.md` — Phase 1 — Backend live fence
+- `docs/plans/doing/admin-live-deploy/phase-2.md` — Phase 2 — Admin app served at /admin on live
+- `docs/plans/doing/admin-live-deploy/phase-3.md` — Phase 3 — Pulse dashboard
+- `docs/plans/doing/admin-live-deploy/phase-4.md` — Phase 4 — Drill-ins: manager → team + runs, run → answers + feedback
+- `docs/plans/doing/admin-live-deploy/phase-5.md` — Phase 5 — Runs explorer (the "view ALL runs" sub-page) + honest guest tile
+- `docs/plans/doing/admin-live-deploy/phase-6.md` — Phase 6 — Last-seen visits (optional, cut-able)
+- `docs/plans/doing/admin-live-deploy/plan.md` — Live Admin — ship the admin console to the live site + founder pulse dashboard
+- `docs/plans/doing/promises-loop/phase-1.md` — Phase 1 — Promise contract + wrap-up confirm
+- `docs/plans/doing/promises-loop/phase-2.md` — Phase 2 — Card zero: resurface + close-out
+- `docs/plans/doing/promises-loop/phase-3.md` — Phase 3 — Q1 feed, review feed + closed-loop surfacing
+- `docs/plans/doing/promises-loop/plan.md` — Promises Loop — the real build
+- `docs/plans/done/009-ready-to-share/phase-1-security-review.md` — Phase 1 — Security review findings (008 execution)
+- `docs/plans/done/009-ready-to-share/phase-1.md` — Phase 1 — Safety floor (execute 008)
+- `docs/plans/done/009-ready-to-share/phase-2.md` — Phase 2 — Hosted + spend-capped
+- `docs/plans/done/009-ready-to-share/phase-3.md` — Phase 3 — Privacy note + first run
+- `docs/plans/done/009-ready-to-share/phase-4.md` — Phase 4 — Clear the QA pile
+- `docs/plans/done/009-ready-to-share/phase-5.md` — Phase 5 — Feedback + one-pager
+- `docs/plans/done/009-ready-to-share/phase-6.md` — Phase 6 — Finish repo-tidy
+- `docs/plans/done/009-ready-to-share/phase-7.md` — Phase 7 — Tidy docs + newcomer README
+- `docs/plans/done/009-ready-to-share/plan.md` — Phase 009 — Getting ready to share (Alpha readiness)
+- `docs/plans/done/admin-access-guard/phase-1.md` — Phase 1 — Require login on the internal tooling
+- `docs/plans/done/admin-access-guard/phase-2.md` — Phase 2 — Add the admin-role wall + hide the UI
+- `docs/plans/done/admin-access-guard/plan.md` — Admin access guard — lock the internal tooling behind an admin login
+- `docs/plans/done/agent-native/phase-1.md` — Phase 1 — Offline cassette replay for the full pipeline
+- `docs/plans/done/agent-native/phase-2.md` — Phase 2 — Fix the stale agent maps
+- `docs/plans/done/agent-native/phase-3.md` — Phase 3 — Decision tables for the three Carl-gated calls
+- `docs/plans/done/agent-native/phase-4.md` — Phase 4 — Orchestrator parity guard
+- `docs/plans/done/agent-native/phase-5.md` — Phase 5 — Prompt↔gate coupling registry
+- `docs/plans/done/agent-native/plan.md` — Make Sero Agent-Native
+- `docs/plans/done/auth-front-door/phase-1.md` — Phase 1 — Accounts tables ready
+- `docs/plans/done/auth-front-door/phase-2.md` — Phase 2 — Register & login with safe passwords
+- `docs/plans/done/auth-front-door/phase-3.md` — Phase 3 — Keep people in, guard the doors (+ dev side-door)
+- `docs/plans/done/auth-front-door/phase-4.md` — Phase 4 — Signup creates the company
+- `docs/plans/done/auth-front-door/plan.md` — Phase 006 — The front door (Auth)
+- `docs/plans/done/auth-hardening/phase-1.md` — Phase 1 — Fence live sessions by company
+- `docs/plans/done/auth-hardening/phase-2.md` — Phase 2 — Guard the doors (require login)
+- `docs/plans/done/auth-hardening/plan.md` — Auth hardening — fence live sessions + guard the endpoints
+- `docs/plans/done/backend-api-v1/api-contract.md` — Sero Backend — API v1 contract (the service menu)
+- `docs/plans/done/backend-api-v1/handover.md` — Phase 004 — handover (for a fresh chat)
+- `docs/plans/done/backend-api-v1/plan.md` — Backend API v1 (Prototype → Production · Phase 004)
+- `docs/plans/done/backend-api-v1/sessions-subphase.md` — `sessions` — the sub-phase plan (Phase 004, step 3, final domain)
+- `docs/plans/done/briefing-grounding-fixes/phase-1.md` — Phase 1 — Dampen repeated-fact deltas
+- `docs/plans/done/briefing-grounding-fixes/phase-2.md` — Phase 2 — Code guards in the post-processor
+- `docs/plans/done/briefing-grounding-fixes/phase-3.md` — Phase 3 — Attribution anti-example
+- `docs/plans/done/briefing-grounding-fixes/phase-4.md` — Phase 4 — Single-theme shrink rule
+- `docs/plans/done/briefing-grounding-fixes/plan.md` — Briefing grounding fixes
+- `docs/plans/done/cleanup-audit/phase-1.md` — Phase 1 — Quick fixes
+- `docs/plans/done/cleanup-audit/phase-2.md` — Phase 2 — Delete dead cruft
+- `docs/plans/done/cleanup-audit/phase-3.md` — Phase 3 — Frontend helpers (one copy each)
+- `docs/plans/done/cleanup-audit/phase-4.md` — Phase 4 — Backend dedup
+- `docs/plans/done/cleanup-audit/plan.md` — Cleanup after the audit — fix, delete, simplify (no new features)
+- `docs/plans/done/convention-skills/plan.md` — House rules — Conventions & Skills (Prototype → Production · Phase 002)
+- `docs/plans/done/cto-check-july/findings-1.md` — findings-1 — The thin case, and where brief / questions / summary come from
+- `docs/plans/done/cto-check-july/findings-2.md` — findings-2 — Is the BRIEF good on thin input?
+- `docs/plans/done/cto-check-july/findings-3.md` — findings-3 — Are the QUESTIONS good on thin input?
+- `docs/plans/done/cto-check-july/findings-4.md` — findings-4 — Is the SUMMARY good on thin input?
+- `docs/plans/done/cto-check-july/phase-1.md` — Phase 1 — Pick the thin case & trace it
+- `docs/plans/done/cto-check-july/phase-2.md` — Phase 2 — The brief: is it good on thin input?
+- `docs/plans/done/cto-check-july/phase-3.md` — Phase 3 — The questions: grounded or generic?
+- `docs/plans/done/cto-check-july/phase-4.md` — Phase 4 — The summary: faithful recap or padding?
+- `docs/plans/done/cto-check-july/PLAN.md` — CTOCheckJuly — does thin input give a good brief, questions & summary?
+- `docs/plans/done/cto-check-july/README.md` — 👀 START HERE — CTOCheckJuly
+- `docs/plans/done/design-system/phase-1.md` — Phase 1 — Sero × Flowbite component sheet
+- `docs/plans/done/design-system/phase-2.md` — Phase 2 — DESIGN.md at the root + wiring
+- `docs/plans/done/design-system/plan.md` — Design system — Sero × Flowbite
+- `docs/plans/done/engine-hardening/phase-1.md` — Phase 1 — Per-call latency capture
+- `docs/plans/done/engine-hardening/phase-2.md` — Phase 2 — Concurrency cap + circuit breaker on AI calls
+- `docs/plans/done/engine-hardening/phase-3.md` — Phase 3 — Positive validation checks
+- `docs/plans/done/engine-hardening/plan.md` — Engine-hardening (3 wins mined from old Sero)
+- `docs/plans/done/engine-improvements/01-stonewall-exit.md` — #1 — Cut a stonewalled session to the close faster
+- `docs/plans/done/engine-improvements/plan.md` — Engine improvements — from the back-catalogue read (2026-07-07)
+- `docs/plans/done/error-log/phase-0.md` — Phase 0 — Baseline + schema check
+- `docs/plans/done/error-log/phase-1.md` — Phase 1 — Store + catch backend errors
+- `docs/plans/done/error-log/phase-2.md` — Phase 2 — The Error log screen
+- `docs/plans/done/error-log/phase-3.md` — Phase 3 — Catch browser errors too
+- `docs/plans/done/error-log/phase-4.md` — Phase 4 — Detail + tidy-up
+- `docs/plans/done/error-log/plan.md` — Error log
+- `docs/plans/done/feedback-inbox/phase-1.md` — Phase 1 — the whole slice: table → route → screen
+- `docs/plans/done/feedback-inbox/plan.md` — Feedback inbox — see what testers send
+- `docs/plans/done/focus-freshness/phase-1.md` — Phase 1 — History into the prompt
+- `docs/plans/done/focus-freshness/phase-2.md` — Phase 2 — Live proof
+- `docs/plans/done/focus-freshness/plan.md` — Focus freshness across repeat sessions
+- `docs/plans/done/forgot-password/phase-1.md` — Phase 1 — Backend reset flow
+- `docs/plans/done/forgot-password/phase-2.md` — Phase 2 — Reset UI (both apps)
+- `docs/plans/done/forgot-password/plan.md` — Forgot Password — reset flow for all apps
+- `docs/plans/done/frontend-admin-split/phase-1.md` — Phase 1 — Shared foundation
+- `docs/plans/done/frontend-admin-split/phase-2.md` — Phase 2 — Stand up the customer app
+- `docs/plans/done/frontend-admin-split/phase-2b.md` — Phase 2b — Catch the customer app up
+- `docs/plans/done/frontend-admin-split/phase-3.md` — Phase 3 — Slim the admin app
+- `docs/plans/done/frontend-admin-split/phase-4.md` — Phase 4 — Serve + fence the two apps
+- `docs/plans/done/frontend-admin-split/plan.md` — Split the customer app out from the admin app
+- `docs/plans/done/guest-run/phase-1.md` — Phase 1 — Backend: claim endpoint + daily guest cap
+- `docs/plans/done/guest-run/phase-2.md` — Phase 2 — Guest lane frontend: entry + boot/router
+- `docs/plans/done/guest-run/phase-3.md` — Phase 3 — Save prompt + claim wiring
+- `docs/plans/done/guest-run/phase-4.md` — Phase 4 — Superadmin "Guest runs" screen
+- `docs/plans/done/guest-run/plan.md` — Guest run — try Sero with no account, save at the end
+- `docs/plans/done/hide-ai-words/phase-1.md` — Phase 1 — Backend save-layer + API
+- `docs/plans/done/hide-ai-words/phase-2.md` — Phase 2 — Frontend hide / restore UI
+- `docs/plans/done/hide-ai-words/plan.md` — Hide / restore the AI's role words
+- `docs/plans/done/live-data-cleanup/phase-1.md` — Phase 1 — Audit report
+- `docs/plans/done/live-data-cleanup/phase-2.md` — Phase 2 — Finish the v1 migration in shared/api.js
+- `docs/plans/done/live-data-cleanup/phase-3.md` — Phase 3 — Delete the legacy alias routes
+- `docs/plans/done/live-data-cleanup/phase-4.md` — Phase 4 — docs/todo housekeeping
+- `docs/plans/done/live-data-cleanup/plan.md` — Live-data cleanup — finish the v1 migration, drop the dead routes
+- `docs/plans/done/login-screen/phase-1.md` — Phase 1 — Login gate + screens (fold into admin)
+- `docs/plans/done/login-screen/phase-2.md` — Phase 2 — Re-point console data to the org (real isolation)
+- `docs/plans/done/login-screen/plan.md` — Phase 007 — The login screen (fold into the admin console)
+- `docs/plans/done/manager-ready/phase-1.md` — Phase 1 — The manager rail
+- `docs/plans/done/manager-ready/phase-2.md` — Phase 2 — Design polish
+- `docs/plans/done/manager-ready/plan.md` — Manager-ready — customer rail + design polish
+- `docs/plans/done/manager-workspace-prototype/phase-1.md` — Phase 1 — Build and walk the concept
+- `docs/plans/done/manager-workspace-prototype/phase-2.md` — Phase 2 — "No-data" feasibility overlay
+- `docs/plans/done/manager-workspace-prototype/plan.md` — Manager workspace prototype
+- `docs/plans/done/member-invites/plan.md` — Member invites — the join link (CLOSED 2026-07-06)
+- `docs/plans/done/member-nav/phase-1.md` — Phase 1 — Member shell (Home · Team · Runs)
+- `docs/plans/done/member-nav/phase-2.md` — Phase 2 — Real Runs (the member's own past runs)
+- `docs/plans/done/member-nav/plan.md` — Member navigation — cut the rail down to Home · Team · Runs
+- `docs/plans/done/mobile-responsive/phase-1.md` — Phase 1 — Responsive shell
+- `docs/plans/done/mobile-responsive/phase-2.md` — Phase 2 — Auth + member screens
+- `docs/plans/done/mobile-responsive/phase-3.md` — Phase 3 — Run pipeline on a phone
+- `docs/plans/done/mobile-responsive/phase-4.md` — Phase 4 — Global sweep + admin core screens
+- `docs/plans/done/mobile-responsive/phase-5.md` — Phase 5 — QA tools + Universe
+- `docs/plans/done/mobile-responsive/plan.md` — Mobile-responsive — the whole app on a phone
+- `docs/plans/done/monorepo-reorg/phase-1.md` — Phase 1 — The reorg (done in small, checkable steps)
+- `docs/plans/done/monorepo-reorg/plan.md` — Tidy the project — Monorepo Reorg (Prototype → Production · Phase 001)
+- `docs/plans/done/monthly-one-on-one/architecture.md` — Monthly Check-in — architecture deep-dive
+- `docs/plans/done/monthly-one-on-one/phase-1.md` — Phase 1 — Card, runner shell, auto-save
+- `docs/plans/done/monthly-one-on-one/phase-2.md` — Phase 2 — Trackers (promises · requests · goals) + side panels
+- `docs/plans/done/monthly-one-on-one/phase-3.md` — Phase 3 — Rating sliders + last-time markers
+- `docs/plans/done/monthly-one-on-one/phase-4.md` — Phase 4 — Sequential Feedback, manual Summary, private Review
+- `docs/plans/done/monthly-one-on-one/phase-5.md` — Phase 5 — The AI call (Summary draft + private suggestions)
+- `docs/plans/done/monthly-one-on-one/phase-6.md` — Phase 6 — Record template + list merge
+- `docs/plans/done/monthly-one-on-one/phase-7.md` — Phase 7 — Member requests + goals (the member write lane)
+- `docs/plans/done/monthly-one-on-one/plan.md` — Monthly Check-in — the stage-based guided 1:1
+- `docs/plans/done/no-inference-ruling/phase-1.md` — Phase 1 — Fix the spec + docs rule (M1 + S5)
+- `docs/plans/done/no-inference-ruling/phase-2.md` — Phase 2 — The three gates (M3 + M4 + M5)
+- `docs/plans/done/no-inference-ruling/phase-3.md` — Phase 3 — Re-spec `engagement_read` (M2)
+- `docs/plans/done/no-inference-ruling/phase-4.md` — Phase 4 — Hardening (S1–S4)
+- `docs/plans/done/no-inference-ruling/plan.md` — No-Inference Ruling — spec fix, gates, engagement_read
+- `docs/plans/done/page-heartbeat/phase-1.md` — Phase 1 — Heartbeat endpoint + Guide goes live
+- `docs/plans/done/page-heartbeat/phase-2.md` — Phase 2 — Universe honest ring
+- `docs/plans/done/page-heartbeat/phase-3.md` — Phase 3 — Tasks board reality check
+- `docs/plans/done/page-heartbeat/plan.md` — Page heartbeat — real UPDATE buttons
+- `docs/plans/done/past-1on1-view/phase-1.md` — Phase 1 — Backend: expose the answers on the member route
+- `docs/plans/done/past-1on1-view/phase-2.md` — Phase 2 — Frontend: 3-tab redesign of the Past 1:1 view
+- `docs/plans/done/past-1on1-view/plan.md` — Improve the "Past 1:1" manager view
+- `docs/plans/done/people-roster/phase-1.md` — Phase 1 — `people` table + roster service (backend only)
+- `docs/plans/done/people-roster/phase-2.md` — Phase 2 — new runs carry personId
+- `docs/plans/done/people-roster/phase-3.md` — Phase 3 — backfill existing runs + fold in aliases
+- `docs/plans/done/people-roster/phase-4.md` — Phase 4 — manager UI: person picker + roster-driven Team page
+- `docs/plans/done/people-roster/phase-5.md` — Phase 5 — member link + "Your 1:1s"
+- `docs/plans/done/people-roster/plan.md` — People Roster — managers formally have members; 1:1s owned by that pair
+- `docs/plans/done/plan-turn-runner-gates/phase-1.md` — Phase 1 — Item-shape gates
+- `docs/plans/done/plan-turn-runner-gates/phase-2.md` — Phase 2 — Queue-shape gates
+- `docs/plans/done/plan-turn-runner-gates/phase-3.md` — Phase 3 — Note-tag leak strip
+- `docs/plans/done/plan-turn-runner-gates/plan.md` — Plan-turn runner gates
+- `docs/plans/done/plan-turn-slim/phase-1.md` — Phase 1 — Token map + cut list
+- `docs/plans/done/plan-turn-slim/phase-2.md` — Phase 2 — The rewrite
+- `docs/plans/done/plan-turn-slim/phase-3.md` — Phase 3 — Live proof
+- `docs/plans/done/plan-turn-slim/plan.md` — Plan-turn slim — restore the prompt-cache discount
+- `docs/plans/done/postgres-foundation/handover.md` — Phase 005 (Postgres) — handover for a fresh thread
+- `docs/plans/done/postgres-foundation/phase-1.md` — Phase 1 — Choose the migration tool + lock the conventions
+- `docs/plans/done/postgres-foundation/phase-2.md` — Phase 2 — First migration + schema (Drizzle)
+- `docs/plans/done/postgres-foundation/phase-3.md` — Phase 3 — Connection pool + repo swap (file → Postgres)
+- `docs/plans/done/postgres-foundation/phase-4.md` — Phase 4 — Boot-restore + setup docs + the persistence walk
+- `docs/plans/done/postgres-foundation/plan.md` — Postgres Foundation (Prototype → Production · Phase 005)
+- `docs/plans/done/postgres-runtime-data/phase-1.md` — Phase 1 — Foundations: build the shelves + the safety catch
+- `docs/plans/done/postgres-runtime-data/phase-2.md` — Phase 2 — Write path: every new run saves to the DB too (dual-write)
+- `docs/plans/done/postgres-runtime-data/phase-3.md` — Phase 3 — Read cutover: the app trusts the DB, not the files
+- `docs/plans/done/postgres-runtime-data/phase-4.md` — Phase 4 — Questions: the invented-question pool moves to the DB
+- `docs/plans/done/postgres-runtime-data/phase-5.md` — Phase 5 — Small stores: the odds and ends
+- `docs/plans/done/postgres-runtime-data/phase-6.md` — Phase 6 — Import the old runs (Carl chose: all ~250)
+- `docs/plans/done/postgres-runtime-data/phase-7.md` — Phase 7 — Retire the files
+- `docs/plans/done/postgres-runtime-data/plan.md` — Postgres runtime data — move ALL app data into the database
+- `docs/plans/done/pre-go-live/001-manager-runs-list/00-phase-overview.md` — Phase 001 — Manager Runs list
+- `docs/plans/done/pre-go-live/001-manager-runs-list/01-api-client.md` — Phase 001 · Step 01 — Add the "my runs" API client call
+- `docs/plans/done/pre-go-live/001-manager-runs-list/02-render-runs-list.md` — Phase 001 · Step 02 — Render the manager's runs on the Runs page
+- `docs/plans/done/pre-go-live/001-manager-runs-list/99-qa-signoff.md` — Phase 001 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/002-reopen-a-run/00-phase-overview.md` — Phase 002 — Reopen a run
+- `docs/plans/done/pre-go-live/002-reopen-a-run/01-api-client.md` — Phase 002 · Step 01 — Add the "open one of my runs" API call
+- `docs/plans/done/pre-go-live/002-reopen-a-run/02-detail-stage.md` — Phase 002 · Step 02 — A read-only run-detail stage at /runs/:id
+- `docs/plans/done/pre-go-live/002-reopen-a-run/03-wire-rows.md` — Phase 002 · Step 03 — Make the Runs rows open their detail
+- `docs/plans/done/pre-go-live/002-reopen-a-run/99-qa-signoff.md` — Phase 002 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/003-rate-a-1-1/00-phase-overview.md` — Phase 003 — Rate a 1:1
+- `docs/plans/done/pre-go-live/003-rate-a-1-1/01-backend-rating.md` — Phase 003 · Step 01 — The rating endpoint (backend, test-first) ✅
+- `docs/plans/done/pre-go-live/003-rate-a-1-1/02-rate-on-detail.md` — Phase 003 · Step 02 — Rate on the run detail
+- `docs/plans/done/pre-go-live/003-rate-a-1-1/03-in-flow-rating.md` — Phase 003 · Step 03 — Ask right after the 1:1 (in-flow)
+- `docs/plans/done/pre-go-live/003-rate-a-1-1/04-list-badge.md` — Phase 003 · Step 04 — Star badge on the Runs list
+- `docs/plans/done/pre-go-live/003-rate-a-1-1/99-qa-signoff.md` — Phase 003 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/004-team-auto-built/00-phase-overview.md` — Phase 004 — Team (auto-built people)
+- `docs/plans/done/pre-go-live/004-team-auto-built/01-team-auto-built.md` — Phase 004 · Step 01 — The Team page, built from your past 1:1s
+- `docs/plans/done/pre-go-live/004-team-auto-built/02-relabel-runs.md` — Phase 004 · Step 02 — Relabel "Runs" → "Past 1:1s"
+- `docs/plans/done/pre-go-live/004-team-auto-built/99-qa-signoff.md` — Phase 004 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/005-person-detail/00-phase-overview.md` — Phase 005 — Person detail
+- `docs/plans/done/pre-go-live/005-person-detail/01-person-page.md` — Phase 005 · Step 01 — The person page (click a card → their 1:1s)
+- `docs/plans/done/pre-go-live/005-person-detail/02-since-last-time.md` — Phase 005 · Step 02 — "Since last time" (the make-or-break block)
+- `docs/plans/done/pre-go-live/005-person-detail/03-open-and-prep.md` — Phase 005 · Step 03 — Open a past 1:1, and prep the next one
+- `docs/plans/done/pre-go-live/005-person-detail/99-qa-signoff.md` — Phase 005 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/006-superadmin-gate/00-phase-overview.md` — Phase 006 — Superadmin gate (backend)
+- `docs/plans/done/pre-go-live/006-superadmin-gate/01-superadmin-guard.md` — Phase 006 · Step 01 — The superadmin identity + guard (test-first)
+- `docs/plans/done/pre-go-live/006-superadmin-gate/02-cross-company-read.md` — Phase 006 · Step 02 — The read-only cross-company endpoint (test-first)
+- `docs/plans/done/pre-go-live/006-superadmin-gate/03-audit-line.md` — Phase 006 · Step 03 — The audit line (test-first)
+- `docs/plans/done/pre-go-live/006-superadmin-gate/99-qa-signoff.md` — Phase 006 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/007-admin-registered/00-phase-overview.md` — Phase 007 — Admin: who's registered
+- `docs/plans/done/pre-go-live/007-admin-registered/01-registered-data.md` — Phase 007 · Step 01 — Enrich the registered data (backend, test-first)
+- `docs/plans/done/pre-go-live/007-admin-registered/02-registered-screen.md` — Phase 007 · Step 02 — The "Registered" screen (frontend)
+- `docs/plans/done/pre-go-live/007-admin-registered/99-qa-signoff.md` — Phase 007 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/008-admin-user-drilldown/00-phase-overview.md` — Phase 008 — Admin: user → teams → runs
+- `docs/plans/done/pre-go-live/008-admin-user-drilldown/01-per-user-reads.md` — Phase 008 · Step 01 — Per-user runs read (backend, test-first)
+- `docs/plans/done/pre-go-live/008-admin-user-drilldown/02-drilldown-screen.md` — Phase 008 · Step 02 — The drilldown screen (frontend)
+- `docs/plans/done/pre-go-live/008-admin-user-drilldown/99-qa-signoff.md` — Phase 008 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/009-roster-polish/00-phase-overview.md` — Phase 009 — Merge duplicates + roll-ups
+- `docs/plans/done/pre-go-live/009-roster-polish/99-qa-signoff.md` — Phase 009 — QA sign-off (Carl walks this)
+- `docs/plans/done/pre-go-live/overview.md` — Pre-go-live — Overview
+- `docs/plans/done/pre-go-live/progress.md` — Pre-go-live — PROGRESS (living log)
+- `docs/plans/done/pre-go-live/README.md` — Pre-go-live
+- `docs/plans/done/questioning-panel-rsr/phase-1-sending-live.md` — Phase 1 — Sending, live from your draft answer
+- `docs/plans/done/questioning-panel-rsr/phase-2-received.md` — Phase 2 — Received (last turn's reply)
+- `docs/plans/done/questioning-panel-rsr/phase-3-rules.md` — Phase 3 — Rules (the guardrails view)
+- `docs/plans/done/questioning-panel-rsr/plan.md` — Questioning panel — Received / Sending / Rules
+- `docs/plans/done/render-deploy/phase-1.md` — Phase 1 — Pre-flight fixes (local, free)
+- `docs/plans/done/render-deploy/phase-2.md` — Phase 2 — Blueprint + Render setup checklist
+- `docs/plans/done/render-deploy/phase-3.md` — Phase 3 — Go live
+- `docs/plans/done/render-deploy/phase-4.md` — Phase 4 — /commit and /release skills
+- `docs/plans/done/render-deploy/plan.md` — Render deploy — host Sero on Render.com + /commit & /release workflow
+- `docs/plans/done/repo-tidy/phase-1.md` — Phase 1 — Shared guards + drop the .mjs oddity
+- `docs/plans/done/repo-tidy/phase-2.md` — Phase 2 — Split queue-manager.ts
+- `docs/plans/done/repo-tidy/phase-3.md` — Phase 3 — Split sessions.controller.ts
+- `docs/plans/done/repo-tidy/phase-4.md` — Phase 4 — Admin TypeScript pilot
+- `docs/plans/done/repo-tidy/plan.md` — Repo tidy — make the structure CTO-clean
+- `docs/plans/done/roles-admin-manager-member/phase-1.md` — Phase 1 — Switch the role model
+- `docs/plans/done/roles-admin-manager-member/phase-2.md` — Phase 2 — Sweep the leftovers
+- `docs/plans/done/roles-admin-manager-member/plan.md` — Roles: admin / manager / member
+- `docs/plans/done/run-preview-all-stages/phase-1-focus-points.md` — Phase 1 — Focus points
+- `docs/plans/done/run-preview-all-stages/phase-2-question-bank.md` — Phase 2 — Question bank
+- `docs/plans/done/run-preview-all-stages/phase-3-final-briefing.md` — Phase 3 — Final briefing (evaluation)
+- `docs/plans/done/run-preview-all-stages/phase-4-questioning.md` — Phase 4 — Questioning (per-turn planner)
+- `docs/plans/done/run-preview-all-stages/plan.md` — See what's sent to the AI, before it's sent — for every step
+- `docs/plans/done/see-before-sent/phase-1.md` — Phase 1 — Focus areas preview + readable display
+- `docs/plans/done/see-before-sent/phase-2.md` — Phase 2 — Prep brief: verify + adopt readable display
+- `docs/plans/done/see-before-sent/phase-3.md` — Phase 3 — Questions (BANK) preview
+- `docs/plans/done/see-before-sent/phase-4.md` — Phase 4 — Synthesis (EVAL) preview
+- `docs/plans/done/see-before-sent/phase-5.md` — Phase 5 — Live Q&A (QUESTIONING, per-turn) preview
+- `docs/plans/done/see-before-sent/phase-6.md` — Phase 6 — Briefing note + full sweep
+- `docs/plans/done/see-before-sent/plan.md` — See-before-sent — exact LLM payload on every stage
+- `docs/plans/done/sent-preview/phase-1.md` — Phase 1 — Backend preview for the current stage (Preparation)
+- `docs/plans/done/sent-preview/phase-2.md` — Phase 2 — Sent tab shows the live preview
+- `docs/plans/done/sent-preview/plan.md` — See before sent — live preview of the AI payload for the current stage
+- `docs/plans/done/stage-data-tabs/phase-1.md` — Phase 1 — Backend stage I/O
+- `docs/plans/done/stage-data-tabs/phase-2.md` — Phase 2 — Tabbed rail shell (Notes · Sent · Reply)
+- `docs/plans/done/stage-data-tabs/phase-3.md` — Phase 3 — Fill Sent & Reply from the current stage
+- `docs/plans/done/stage-data-tabs/plan.md` — See what's fed to the AI — tabs on the right rail
+- `docs/plans/done/standard-text-16px/phase-1.md` — Phase 1 — Rule + `.hint` bump
+- `docs/plans/done/standard-text-16px/phase-2.md` — Phase 2 — Session flow triage
+- `docs/plans/done/standard-text-16px/phase-3.md` — Phase 3 — User pages triage
+- `docs/plans/done/standard-text-16px/phase-4.md` — Phase 4 — Admin / internal triage
+- `docs/plans/done/standard-text-16px/plan.md` — Standard (reading) text → 16px
+- `docs/plans/done/start-screen/plan.md` — Start screen — move login off the front door
+- `docs/plans/done/team-access-redesign/phase-1.md` — Phase 1 — One list, access visible (remove the mode)
+- `docs/plans/done/team-access-redesign/phase-2.md` — Phase 2 — One clean "Give access" flow
+- `docs/plans/done/team-access-redesign/plan.md` — Team access redesign — no mode, access on every card
+- `docs/plans/done/test-engine-hub/phase-1.md` — Phase 1 — Persona-run job service (free)
+- `docs/plans/done/test-engine-hub/phase-2.md` — Phase 2 — The runner (free)
+- `docs/plans/done/test-engine-hub/phase-3.md` — Phase 3 — Hub UI + the first real run (~$0.35, your click)
+- `docs/plans/done/test-engine-hub/phase-4.md` — Phase 4 — Consolidation: three pages become one (free)
+- `docs/plans/done/test-engine-hub/plan.md` — Test-engine hub — RUN a persona, see the result, give feedback
+- `docs/plans/done/thread-follow/phase-1.md` — Phase 1 — Pin the follow-up so it can't be dropped
+- `docs/plans/done/thread-follow/phase-2.md` — Phase 2 — Let a genuine new thread mint under pressure
+- `docs/plans/done/thread-follow/plan.md` — Thread-follow — make the engine follow the person, not just its queue
+- `docs/plans/done/todo-board-rebuild/phase-1.md` — Phase 1 — New Tasks page + nav
+- `docs/plans/done/todo-board-rebuild/phase-2.md` — Phase 2 — Plain check steps
+- `docs/plans/done/todo-board-rebuild/phase-3.md` — Phase 3 — Run-checks button
+- `docs/plans/done/todo-board-rebuild/plan.md` — Build a new "Tasks" board so it's clear to run
+- `docs/plans/done/tracker-consolidation/phase-1.md` — Phase 1 — The map
+- `docs/plans/done/tracker-consolidation/phase-2.md` — Phase 2 — Demote PROGRESS.md
+- `docs/plans/done/tracker-consolidation/phase-3.md` — Phase 3 — Changelog clarity
+- `docs/plans/done/tracker-consolidation/phase-4.md` — Phase 4 — Lock the rules
+- `docs/plans/done/tracker-consolidation/plan.md` — Tracker Consolidation — five status sources down to two
+- `docs/plans/done/transactional-email/phase-1.md` — Phase 1 — Admin "someone registered" alert
+- `docs/plans/done/transactional-email/phase-2.md` — Phase 2 — Real invite email to the invitee
+- `docs/plans/done/transactional-email/phase-3.md` — Phase 3 — Admin "new member joined" alert
+- `docs/plans/done/transactional-email/plan.md` — Transactional Email
+- `docs/plans/done/type-token-migration/phase-1.md` — Phase 1 — meeting-arcs page
+- `docs/plans/done/type-token-migration/phase-2.md` — Phase 2 — Stragglers
+- `docs/plans/done/type-token-migration/plan.md` — Typography token migration
+- `docs/plans/done/typescript-conversion/plan.md` — TypeScript Conversion (Prototype → Production · Phase 003)
+- `docs/plans/done/typescript-conversion/qa-review-2026-06-27.md` — Phase 003 — End-of-phase QA-agency adversarial review (2026-06-27)
+- `docs/plans/done/universe-monitoring/phase-1.md` — Phase 1 — Return-visit glow (recency)
+- `docs/plans/done/universe-monitoring/phase-1b.md` — Phase 1b — Quieter map + richer panels
+- `docs/plans/done/universe-monitoring/phase-2.md` — Phase 2 — Health signals (stuck sessions · QA verdict · star rating)
+- `docs/plans/done/universe-monitoring/phase-3.md` — Phase 3 — Cost per run
+- `docs/plans/done/universe-monitoring/plan.md` — Universe Monitoring Overlays
+- `docs/plans/done/user-management/phase-0.md` — Phase 0 — Safety and schema check
+- `docs/plans/done/user-management/phase-1.md` — Phase 1 — User management table + rename
+- `docs/plans/done/user-management/phase-2.md` — Phase 2 — Change a user's role
+- `docs/plans/done/user-management/phase-3.md` — Phase 3 — Deactivate / reactivate a user
+- `docs/plans/done/user-management/phase-4.md` — Phase 4 — Delete a user
+- `docs/plans/done/user-management/phase-5.md` — Phase 5 — Reset password / send invite
+- `docs/plans/done/user-management/plan.md` — User management
+- `docs/plans/done/validation-kit/copy-glossary.md` — Copy glossary — the customer vocabulary
+- `docs/plans/done/validation-kit/phase-1.md` — Phase 1 — To-do page as live checklist
+- `docs/plans/done/validation-kit/phase-2.md` — Phase 2 — Return-signal tracking
+- `docs/plans/done/validation-kit/phase-3.md` — Phase 3 — Briefing feedback tap
+- `docs/plans/done/validation-kit/phase-3b.md` — Phase 3b — Finish modal + typed feedback inbox
+- `docs/plans/done/validation-kit/phase-4.md` — Phase 4 — New-client first-run
+- `docs/plans/done/validation-kit/phase-5.md` — Phase 5 — Phone + copy pass
+- `docs/plans/done/validation-kit/plan.md` — Validation Kit — the build that proves managers come back
+- `docs/plans/future/briefing-readability-p0/phase-1.md` — Phase 1 — Headings & label hierarchy
+- `docs/plans/future/briefing-readability-p0/phase-2.md` — Phase 2 — The two "Honest read" cards
+- `docs/plans/future/briefing-readability-p0/plan.md` — Briefing page — readability P0 (safety + headings)
+- `docs/plans/future/design-cleanups/plan.md` — Design cleanups — make the existing app obey the design system
+- `docs/plans/future/design-stage-native/phase-1.md` — Phase 1 — Shell scaffold + two-level nav
+- `docs/plans/future/design-stage-native/phase-2.md` — Phase 2 — Form foundations
+- `docs/plans/future/design-stage-native/phase-3.md` — Phase 3 — Data display
+- `docs/plans/future/design-stage-native/phase-4.md` — Phase 4 — Signature + feedback
+- `docs/plans/future/design-stage-native/phase-5.md` — Phase 5 — Brand + chrome + retire static page
+- `docs/plans/future/design-stage-native/plan.md` — Design system → native in-shell stage
+- `docs/plans/future/planner-grounding/plan.md` — Planner grounding — keep questions on the person's real thread
+- `docs/plans/future/questions-outcome-moat/PLAN.md` — Plan — Questions Outcome Moat (outcome capture)
+- `docs/plans/future/run-qa-fixes-jul04/phase-1.md` — Phase 1 — Stop testing notes leaking (C1)
+- `docs/plans/future/run-qa-fixes-jul04/phase-2.md` — Phase 2 — Question variety (B1)
+- `docs/plans/future/run-qa-fixes-jul04/phase-3.md` — Phase 3 — Honest wellbeing scoring (B2)
+- `docs/plans/future/run-qa-fixes-jul04/phase-4.md` — Phase 4 — Who said it (B3)
+- `docs/plans/future/run-qa-fixes-jul04/plan.md` — Run QA fixes — Brian run (Jul 04)
+- `docs/plans/future/shared-shell-layer/plan.md` — Shared shell layer — stop hand-syncing admin ↔ frontend
+
+## Docs — other
+
+- `docs/archive/darren.md` — Testing Suite — Notes for CTO Meeting
+- `docs/archive/logs/logs-nonpinned-2026-06-02.zip` — _(no summary yet)_
+- `docs/archive/plans/log-fix-audit.md` — Log fix audit — every issue, every status
+- `docs/archive/plans/plan-archive.md` — Active workstreams
+- `docs/archive/prototype-to-production/001-monorepo-reorg/00-phase-overview.md` — Phase 001 — Monorepo Reorg
+- `docs/archive/prototype-to-production/002-convention-skills/00-phase-overview.md` — Phase 002 — Conventions & Skills
+- `docs/archive/prototype-to-production/003-typescript-conversion/00-phase-overview.md` — Phase 003 — TypeScript Conversion
+- `docs/archive/prototype-to-production/004-backend-api-scaffold/00-phase-overview.md` — Phase 004 — Backend API v1 (RESTful, Test-Driven)
+- `docs/archive/prototype-to-production/005-postgres-foundation/00-phase-overview.md` — Phase 005 — Postgres Foundation (conventions + migrations)
+- `docs/archive/prototype-to-production/006-auth/00-phase-overview.md` — Phase 006 — Auth (passwords now, SSO-ready, org-on-signup)
+- `docs/archive/prototype-to-production/007-frontend-app/00-phase-overview.md` — Phase 007 — New Frontend App (register, login, org signup)
+- `docs/archive/prototype-to-production/008-security/00-phase-overview.md` — Phase 008 — Security
+- `docs/archive/prototype-to-production/009-ready-to-share.md` — Phase 009 — Getting ready to share (Alpha readiness)
+- `docs/archive/prototype-to-production/overview.md` — Prototype → Production — Overview
+- `docs/archive/prototype-to-production/progress.md` — Progress Log — Prototype → Production
+- `docs/archive/prototype-to-production/qa-checklist-founder.csv` — _(no summary yet)_
+- `docs/archive/prototype-to-production/qa-checklist.csv` — _(no summary yet)_
+- `docs/archive/prototype-to-production/qa-checklist.html` — _(no summary yet)_
+- `docs/archive/prototype-to-production/README.md` — Prototype → Production
+- `docs/archive/questions/questions-archive-2026-06-02.zip` — _(no summary yet)_
+- `docs/archive/README.md` — _(no summary yet)_
+- `docs/archive/screenshots/phase5-livescores-moved.png` — _(no summary yet)_
+- `docs/archive/screenshots/step5-simplified.png` — _(no summary yet)_
+- `docs/archive/screenshots/tasks-p2-overview.png` — _(no summary yet)_
+- `docs/archive/screenshots/tasks-p2-phase3.png` — _(no summary yet)_
+- `docs/archive/screenshots/tasks-page-phase3.png` — _(no summary yet)_
+- `docs/archive/screenshots/tasks-phase3-closeup.png` — _(no summary yet)_
+- `docs/archive/sero-engine-update.html` — _(no summary yet)_
+- `docs/archive/sero-roadmap.html` — _(no summary yet)_
+- `docs/board.md` — 📋 The board — moved
+- `docs/decisions/0001-generated-questions-out-of-git.md` — Decision 0001 — Engine-generated questions live outside git
+- `docs/newrunnerdesign.png` — _(no summary yet)_
+- `docs/ONE-ON-ONE-RUNNER-CONCEPT.md` — The 1:1 Runner — Concept & Flow
+- `docs/README.md` — docs — index
+- `docs/rename-serolocal-handover.md` — Handover — rename `darren` → `serolocal`
+- `docs/reports/2026-07-02-admin-smoke.md` — Admin smoke test — 2026-07-02 (overnight)
+- `docs/reports/2026-07-05-live-data-audit.md` — Live-data audit — 2026-07-05
+- `docs/reports/2026-07-06-overnight-qa.md` — Overnight QA sweep — 2026-07-06
+- `docs/reports/2026-07-07-night-test-report.md` — Sero — Overnight FULL QA Pass — Raw Log
+- `docs/reports/2026-07-08-claude-usage-retrospective.html` — _(no summary yet)_
+- `docs/reports/2026-07-09-night-test-report.md` — Night test — 2026-07-09 (LOCAL + LIVE)
+- `docs/reports/2026-07-09-yc-committee-review.html` — _(no summary yet)_
+- `docs/reports/cleanup/2026-07-12.md` — Clean-up sweep — 2026-07-12
+- `docs/reports/manager-inputs-2026-07-07.html` — _(no summary yet)_
+- `docs/reports/sero-changelog.html` — _(no summary yet)_
+- `docs/reports/sero-how-it-works.html` — _(no summary yet)_
+- `docs/research/article-geo-reference-v2.md` — Can AI Detect Employee Disengagement From Manager Notes? What the Evidence Actually Shows
+- `docs/research/prompt-no-inference-codebase-audit.md` — Prompt for Claude Code: No-Inference Discovery Audit (READ-ONLY)
+
+## Testing (tester packs & results)
+
+- `testing/results/_TEMPLATE.md` — <Role> walk — <persona name>
+- `testing/results/manager-1on1-paid-walk.md` — Manager 1:1 engine walk — Dana → Sam (paid lane)
+- `testing/results/manager-dana-reeves.md` — Manager walk — Dana Reeves (free lane)
+- `testing/results/member-sam-patel.md` — Member walk — Sam Patel (free lane)
+- `testing/test-plan.md` — Live-site test plan — dress rehearsal before real humans
+- `testing/tester-pack.md` — Sero — a 15-minute test drive 🙏
+
+## Claude Code config (skills & hooks)
+
+- `.claude/hooks/guardrails-reminder.txt` — _(no summary yet)_
+- `.claude/launch.json` — _(no summary yet)_
+- `.claude/settings.json` — _(no summary yet)_
+- `.claude/skills/` — auto-loaded rulebooks (backend-conventions, darren-method, phase-close, …) — one SKILL.md per skill [skills, meta]
+
+## Root & config
+
+- `.cursor/rules/sero-engine-handover.mdc` — _(no summary yet)_
+- `.cursorignore` — _(no summary yet)_
+- `.env.example` — _(no summary yet)_
+- `.gitattributes` — _(no summary yet)_
+- `.github/workflows/ci.yml` — _(no summary yet)_
+- `.gitignore` — _(no summary yet)_
+- `.node-version` — _(no summary yet)_
+- `CLAUDE.md` — _(no summary yet)_
+- `darren.code-workspace` — _(no summary yet)_
+- `DESIGN.md` — _(no summary yet)_
+- `drizzle.config.ts` — Drizzle-kit config: where the schema lives, where generated migrations go, and how
+- `eslint.config.js` — Three source areas:
+- `package-lock.json` — _(no summary yet)_
+- `package.json` — _(no summary yet)_
+- `README.md` — Sero
+- `RENDER_SETUP.md` — Put Sero on the internet — Render setup (one time, ~15 minutes)
+- `render.yaml` — _(no summary yet)_
+- `SERO_BOARD.md` — SERO BOARD — the single source of truth
+- `skills-lock.json` — _(no summary yet)_
+- `Start Sero.bat` — _(no summary yet)_
+- `STATUS.md` — STATUS — where we are right now
+- `tsconfig.json` — _(no summary yet)_
+- `vite.config.js` — The admin app is served under /admin on live (admin-live-deploy Phase 2) so it can
+
