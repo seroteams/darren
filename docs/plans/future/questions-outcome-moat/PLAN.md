@@ -31,7 +31,10 @@ Database, keyed by fingerprint: one `questions` row per fingerprint (dedup at wr
 append-only `outcomes` table joined to it. Automated backups. Vector store optional / later.
 
 ## Seeds that already exist (don't rebuild)
-- `outcomeCheck` field on the session type (loop-closure capture) — currently consumer-less.
+- `outcomeCheck` field on the session type (loop-closure capture) — **no longer consumer-less:
+  the promises-loop track (doing/, P1 green-lit 2026-07-12) wires its consumer.** When this plan
+  is un-parked, build on promises-loop's capture — don't add a second one. *(Updated 2026-07-15,
+  future/ relevance audit; park-until-alpha logic re-confirmed — we're mid-validation.)*
 - Per-axis `history` structure in `axisState`.
 
 ## Phases — TBD when un-parked

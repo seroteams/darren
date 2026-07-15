@@ -20,9 +20,23 @@ Design review of the final briefing page ([admin/src/stages/briefing.js](../../.
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
+## Reconcile — VERIFIED 2026-07-15 (future/ relevance audit): Phase 2 largely done by side-effect
+> **Phase 2 (the two "Honest read" cards) is mostly satisfied** — not by this plan, but by the
+> general design-system work: `.brutal--private` carries a gold left border and a readable
+> gold "Private · just for you" badge vs the mint "OK to share" badge (`stage-extras.css`,
+> in place since `62af6870` 2026-06-24, re-tokenised in the 2026-07-12 sweep `c151ec45`).
+> If un-parked, walk the page first — Phase 2 may need nothing, or only a small top-up.
+>
+> **Phase 1 (real headings) is untouched and still fully valid:** every section title in
+> `briefing.js` still uses the tiny grey uppercase `.eyebrow` style (`base.css`). This is now
+> the whole plan. Re-scope to Phase 1 only when picked up.
+
 ## Current state
 Live glance view: [STATUS.md](../../../../STATUS.md) (repo root) — always current.
-Plan scaffolded. **Baseline run 2026-06-28: `npm test` → 46/46 passed** (free, offline). Awaiting Carl's "go" to start Phase 1; nothing built yet. The full `npm run gate` is paid (~$3) and not needed for a visual-only change unless Carl asks.
+Plan scaffolded; re-scoped 2026-07-15 to Phase 1 only (see reconcile above). **Baseline run
+2026-06-28: `npm test` → 46/46 passed** (free, offline). Awaiting Carl's "go" to start Phase 1;
+nothing built yet. The full `npm run gate` is paid (~$3) and not needed for a visual-only change
+unless Carl asks.
 
 ## Parked (P1/P2 — cut from this slice on purpose)
 - Hero block at top fusing situation + the single "today" action (focal point).
