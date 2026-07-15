@@ -21,6 +21,7 @@ import {
   isVariantId,
   readVariant,
   renderBrief,
+  VARIANTS,
   variantSwitchHtml,
   writeVariant,
   type BriefSlots,
@@ -70,16 +71,43 @@ export const mount: Mount = async (root, { store, setState }) => {
 
   let lastBrief: PrepBrief | null = null;
 
-  // Layout switcher (internal admin only) — the header outlives every
-  // re-render, so this listener is wired once. Re-renders from the loaded
-  // payload; never refetches.
-  const switcher = root.querySelector<HTMLSelectElement>(".js-variant");
-  switcher?.addEventListener("change", () => {
-    const v = switcher.value;
-    if (!isVariantId(v)) return;
-    writeVariant(storage(), v);
-    if (lastBrief) renderResult(false);
+  // Layout switcher (manager/admin only) — a trigger chip that opens a popover
+  // of preview tiles. The header outlives every re-render, so this wires once
+  // and re-renders from the loaded payload; never refetches.
+  const trigger = root.querySelector<HTMLButtonElement>(".js-variant-trigger");
+  const pop = root.querySelector<HTMLElement>(".js-variant-pop");
+  const valueEl = root.querySelector<HTMLElement>(".js-variant-value");
+  const tiles = Array.from(root.querySelectorAll<HTMLButtonElement>(".js-variant-tile"));
+  const switchIsOpen = () => pop?.classList.contains("is-open") ?? false;
+  const setSwitchOpen = (open: boolean) => {
+    pop?.classList.toggle("is-open", open);
+    trigger?.classList.toggle("is-open", open);
+    trigger?.setAttribute("aria-expanded", String(open));
+  };
+  trigger?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setSwitchOpen(!switchIsOpen());
   });
+  tiles.forEach((tile) =>
+    tile.addEventListener("click", () => {
+      const v = tile.dataset.id;
+      if (!isVariantId(v)) return;
+      writeVariant(storage(), v);
+      if (valueEl) valueEl.textContent = VARIANTS.find((o) => o.id === v)?.label ?? "";
+      tiles.forEach((t) => {
+        const on = t.dataset.id === v;
+        t.classList.toggle("is-active", on);
+        t.setAttribute("aria-checked", String(on));
+      });
+      setSwitchOpen(false);
+      if (lastBrief) renderResult(false);
+    }),
+  );
+  const onDocClick = (e: MouseEvent) => {
+    const t = e.target as Node;
+    if (switchIsOpen() && trigger && pop && !pop.contains(t) && !trigger.contains(t)) setSwitchOpen(false);
+  };
+  document.addEventListener("click", onDocClick);
 
   const orb = createOrb("Preparing your prep brief…");
   thinkingHost.appendChild(orb.el);
@@ -169,6 +197,10 @@ export const mount: Mount = async (root, { store, setState }) => {
   // Enter advances to the next step (matches the focus-points page). Wired
   // once per mount — not per render, so variant switches can't stack copies.
   function handleKey(e: KeyboardEvent) {
+    if (e.key === "Escape" && switchIsOpen()) {
+      setSwitchOpen(false);
+      return;
+    }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === "Enter") {
       const cont = resultHost?.querySelector<HTMLButtonElement>(".js-continue");
@@ -180,6 +212,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   unmountFn = () => {
     sse.close();
     document.removeEventListener("keydown", handleKey);
+    document.removeEventListener("click", onDocClick);
   };
 };
 

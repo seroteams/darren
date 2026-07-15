@@ -9,6 +9,7 @@ import {
   parseConfidenceLevel,
   readVariant,
   renderBrief,
+  variantSwitchHtml,
   writeVariant,
   type PrepBrief,
   type StorageLike,
@@ -178,6 +179,27 @@ test("switcher: defaults to J (Contrast) with no storage or no saved value", () 
 test("switcher: dropdown lists layouts alphabetically", () => {
   const labels = VARIANTS.map((v) => v.label);
   assert.deepEqual(labels, [...labels].sort());
+});
+
+test("switcher: renders a trigger chip showing the current layout, closed", () => {
+  const html = variantSwitchHtml("J");
+  assert.match(html, /js-variant-trigger/, "has a trigger button");
+  assert.match(html, /aria-expanded="false"/, "starts closed");
+  assert.ok(html.includes("Contrast"), "trigger shows the current layout label");
+});
+
+test("switcher: popover holds one tile per variant, current one marked", () => {
+  const html = variantSwitchHtml("J");
+  for (const v of VARIANTS) {
+    assert.ok(
+      html.includes(`data-id="${v.id}"`),
+      `tile present for ${v.label}`,
+    );
+    assert.ok(html.includes(`>${v.label}<`), `label present for ${v.label}`);
+  }
+  const tiles = (html.match(/js-variant-tile/g) || []).length;
+  assert.equal(tiles, VARIANTS.length, "one tile per variant");
+  assert.match(html, /data-id="J"[^>]*aria-checked="true"/, "current variant marked checked");
 });
 
 test("switcher: persists the chosen variant and reads it back", () => {

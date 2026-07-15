@@ -10,20 +10,313 @@
   align-items: center;
   gap: var(--sero-space-4);
 }
+/* Layout switcher — a quiet trigger chip that opens a fixed-width popover of
+   preview tiles. Closed by default; click-away + Esc close it (wired in the TS). */
 .pv-switch {
+  position: relative;
+  display: inline-flex;
+}
+.pv-switch__trigger {
   display: inline-flex;
   align-items: center;
   gap: var(--sero-space-2);
-  font-size: var(--type-body-sm);
-  color: var(--color-ink-dim);
-}
-.pv-switch select {
+  width: 12rem;
+  cursor: pointer;
   font-size: var(--type-body-sm);
   color: var(--color-ink);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-input);
-  padding: var(--sero-space-1) var(--sero-space-2);
+  padding: var(--sero-space-2) var(--sero-space-3);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.pv-switch__trigger:hover {
+  border-color: var(--color-accent);
+}
+.pv-switch__trigger:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+.pv-switch__trigger.is-open {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+.pv-switch__label {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+}
+.pv-switch__value {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+}
+.pv-switch__chev {
+  margin-left: auto;
+  color: var(--color-ink-mute);
+  transition: transform 0.18s ease;
+}
+.pv-switch__trigger.is-open .pv-switch__chev {
+  transform: rotate(180deg);
+}
+
+/* the popover — set width, only rendered visible when open */
+.pv-switch__pop {
+  position: absolute;
+  top: calc(100% + var(--sero-space-2));
+  right: 0;
+  z-index: 40;
+  width: 18rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--sero-shadow-lg);
+  padding: var(--sero-space-3);
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top right;
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.pv-switch__pop.is-open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.pv-switch__poptitle {
+  font-size: var(--type-body-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+  margin: 0 0 var(--sero-space-3);
+}
+.pv-switch__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sero-space-2);
+}
+.pv-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+  text-align: center;
+  cursor: pointer;
+  padding: var(--sero-space-1);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-button);
+  transition: transform 0.12s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.pv-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+}
+.pv-tile:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+.pv-tile.is-active {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-soft);
+}
+.pv-tile__name {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  line-height: 1;
+}
+
+/* schematic — bars/blocks that echo each layout; colours are tokens */
+.pv-thmb {
+  height: 2.25rem;
+  border-radius: var(--radius-button);
+  background: var(--sero-primary-100);
+  border: 1px solid var(--color-border);
+  padding: 4px;
+  overflow: hidden;
+  display: flex;
+}
+.pv-tb {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-accent);
+}
+.pv-tb--dim {
+  opacity: 0.35;
+}
+.pv-tblk {
+  display: block;
+  background: var(--color-accent);
+  border-radius: 3px;
+  opacity: 0.85;
+}
+.pv-thmb--stack {
+  flex-direction: column;
+  gap: 3px;
+}
+.pv-thmb--stack .pv-tblk {
+  height: 6px;
+  width: 70%;
+}
+.pv-tblk--wide {
+  width: 100% !important;
+  height: 8px !important;
+}
+.pv-tblk--tall {
+  width: 80% !important;
+  height: 11px !important;
+}
+.pv-thr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+  margin: 1px 0;
+}
+.pv-trow {
+  display: flex;
+  gap: 3px;
+}
+.pv-trow i {
+  flex: 1;
+  height: 9px;
+}
+.pv-trow--3 i {
+  height: 8px;
+}
+.pv-thmb--flat {
+  flex-direction: column;
+  gap: 2px;
+}
+.pv-thmb--flat .pv-tb {
+  background: var(--color-ink-mute);
+  opacity: 0.4;
+}
+.pv-thmb--flat .pv-tb--dim {
+  background: var(--color-border);
+  opacity: 1;
+}
+.pv-thmb--time {
+  flex-direction: column;
+  gap: 3px;
+  justify-content: center;
+}
+.pv-tstep {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pv-tstep .pv-tdot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex: none;
+}
+.pv-tstep .pv-tb {
+  flex: 1;
+}
+.pv-thmb--hero {
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+}
+.pv-tblk--hero {
+  width: 80%;
+  height: 9px;
+}
+.pv-thmb--bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+.pv-thmb--bento .pv-tblk,
+.pv-thmb--bento i {
+  min-height: 7px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  opacity: 0.85;
+}
+.pv-tblk--span2 {
+  grid-column: 1 / -1;
+  height: 9px;
+}
+.pv-tblk--short {
+  height: 6px !important;
+}
+.pv-thmb--sheet {
+  justify-content: center;
+  background: var(--color-border);
+}
+.pv-tpaper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  padding: 4px;
+  width: 74%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pv-thmb--split {
+  gap: 4px;
+}
+.pv-trail {
+  width: 34%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--sero-primary-200);
+  border-radius: 2px;
+  padding: 3px;
+}
+.pv-tcol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.pv-tcol .pv-tb {
+  width: 100%;
+}
+.pv-thmb--contrast {
+  flex-direction: column;
+  gap: 3px;
+}
+.pv-tband {
+  display: block;
+  width: 100%;
+  height: 13px;
+  border-radius: 3px;
+  background: var(--sero-navy-800);
+}
+.pv-thmb--runner {
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+.pv-tkrow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pv-tkrow u {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--sero-primary-200);
+  border: 1px solid var(--color-accent);
+  flex: none;
+}
+.pv-tkrow .pv-tb {
+  flex: 1;
+}
+@media (max-width: 768px) {
+  .pv-switch__pop {
+    right: auto;
+    left: 0;
+    transform-origin: top left;
+  }
 }
 
 /* Shared Listen for / Don't assume pair (variants B + E). Stacks below 768px —

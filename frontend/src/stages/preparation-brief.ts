@@ -387,12 +387,47 @@ export function ctaRowHtml(): string {
   </div>`;
 }
 
+// Tiny schematic per layout — echoes each layout's signature so a tile looks
+// like the layout it switches to. Structure only; every colour lives in
+// preparation.css (token-gated), never inline.
+const tbar = (w: string, dim = false) => `<i class="pv-tb${dim ? " pv-tb--dim" : ""}" style="width:${w}"></i>`;
+const PV_THUMB: Record<VariantId, string> = {
+  A: `<span class="pv-thmb pv-thmb--stack">${tbar("40%", true)}${tbar("90%")}<b class="pv-tblk"></b>${tbar("80%")}${tbar("60%")}</span>`,
+  B: `<span class="pv-thmb pv-thmb--stack"><b class="pv-tblk pv-tblk--wide"></b>${tbar("30%", true)}${tbar("85%")}<span class="pv-trow"><i></i><i></i></span></span>`,
+  C: `<span class="pv-thmb pv-thmb--time"><span class="pv-tstep"><s class="pv-tdot"></s>${tbar("70%")}</span><span class="pv-tstep"><s class="pv-tdot"></s>${tbar("60%")}</span><span class="pv-tstep"><s class="pv-tdot"></s>${tbar("65%")}</span></span>`,
+  D: `<span class="pv-thmb pv-thmb--flat">${tbar("70%")}${tbar("100%", true)}${tbar("80%")}${tbar("100%", true)}${tbar("60%")}</span>`,
+  E: `<span class="pv-thmb pv-thmb--stack"><b class="pv-tblk pv-tblk--tall"></b><hr class="pv-thr">${tbar("70%", true)}${tbar("85%")}</span>`,
+  F: `<span class="pv-thmb pv-thmb--hero"><b class="pv-tblk pv-tblk--hero"></b>${tbar("40%", true)}<span class="pv-trow pv-trow--3"><i></i><i></i><i></i></span></span>`,
+  G: `<span class="pv-thmb pv-thmb--bento"><b class="pv-tblk pv-tblk--span2"></b><i></i><i></i><i></i><b class="pv-tblk pv-tblk--span2 pv-tblk--short"></b></span>`,
+  H: `<span class="pv-thmb pv-thmb--sheet"><span class="pv-tpaper">${tbar("30%", true)}${tbar("85%")}${tbar("70%")}${tbar("80%")}</span></span>`,
+  I: `<span class="pv-thmb pv-thmb--split"><span class="pv-trail">${tbar("70%")}${tbar("60%")}</span><span class="pv-tcol">${tbar("90%")}${tbar("80%")}${tbar("70%")}</span></span>`,
+  J: `<span class="pv-thmb pv-thmb--contrast"><b class="pv-tband"></b>${tbar("85%")}<span class="pv-trow"><i></i><i></i></span></span>`,
+  K: `<span class="pv-thmb pv-thmb--runner"><span class="pv-tkrow"><u></u>${tbar("70%")}</span><span class="pv-tkrow"><u></u>${tbar("60%")}</span><span class="pv-tkrow"><u></u>${tbar("65%")}</span></span>`,
+};
+
+// The layout switcher: a quiet trigger chip showing the current layout; clicking
+// it opens a fixed-width popover of preview tiles. Wiring (open/close/select,
+// click-away, Esc) lives in preparation.ts.
 export function variantSwitchHtml(current: VariantId): string {
-  return `<label class="pv-switch">Layout
-    <select class="js-variant">${VARIANTS.map(
-      (v) => `<option value="${v.id}"${v.id === current ? " selected" : ""}>${v.label}</option>`,
-    ).join("")}</select>
-  </label>`;
+  const currentLabel = VARIANTS.find((v) => v.id === current)?.label ?? "";
+  const tiles = VARIANTS.map((v) => {
+    const on = v.id === current;
+    return `<button type="button" role="menuitemradio" class="pv-tile js-variant-tile${on ? " is-active" : ""}" data-id="${v.id}" aria-checked="${on}" title="${v.label}">
+        ${PV_THUMB[v.id]}
+        <span class="pv-tile__name">${v.label}</span>
+      </button>`;
+  }).join("");
+  return `<div class="pv-switch js-variant-switch">
+    <button type="button" class="pv-switch__trigger js-variant-trigger" aria-haspopup="true" aria-expanded="false">
+      <span class="pv-switch__label">Layout</span>
+      <span class="pv-switch__value js-variant-value">${currentLabel}</span>
+      <span class="pv-switch__chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="pv-switch__pop js-variant-pop" role="menu" aria-label="Choose a layout">
+      <div class="pv-switch__poptitle">Choose a layout</div>
+      <div class="pv-switch__grid">${tiles}</div>
+    </div>
+  </div>`;
 }
 
 /* ---------------------------------------------------------------------------
