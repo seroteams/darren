@@ -29,18 +29,25 @@ Two different jobs kept apart, per modern SaaS (Linear / Notion / Slack / Figma)
 |---|---|---|---|
 | 1 | Read-only Members list + nav | The screen exists — everyone + pending invites, read-only | ✅ |
 | 2 | Invite with role | "Invite people" actually sends invites | ✅ |
-| 3 | Row actions: role / deactivate | ⋯ menu works, with last-manager safety | ⬜ |
-| 4 | Pending-invite: revoke / resend | Manage invites that haven't been accepted | ⬜ |
-| 5 | Auto-match + Team-card cleanup | Old dropdown retired; card shows plain status | ⬜ |
+| 3 | Row actions: role / deactivate | ⋯ menu works, with last-manager safety | 🔨 |
+| 4 | Pending-invite: revoke / resend | Manage invites that haven't been accepted | 🔨 |
+| 5 | Retire the link dropdown + drop double-email | Old dropdown gone; Add = name-only | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 2 ✅ green-lit by Carl 2026-07-16** ("a"). "Invite people" now sends real invites with a chosen role (Manager/Member) — person-less `createForOrg` + role wired through `accept`, reusing the invite engine + email; new invite modal on the Members page. Offline proof: tests 22/22, typecheck clean. (Phase 1 ✅ 2026-07-15.) **Next: Phase 3 — Row actions (role / deactivate / reactivate).** The earlier "invite from Add box" checkbox is still to be dropped during the Phase 5 team.ts rework.
+**Phases 1–2 ✅ green-lit. Phases 3–5 🔨 built + committed 2026-07-16, awaiting Carl's one final walk** (batched on his "finish this, stop asking").
+- **P3** — row ⋯ menu: change role, deactivate/reactivate, last-active-manager guard, session-kick, audit. Commit `e2b351e3`.
+- **P4** — pending-invite revoke / resend (fresh token, old dies). Commit `c36fff01`.
+- **P5 (adjusted)** — the confusing **"Link an existing account" dropdown is removed** from the give-access modal (the per-person invite is now just "invite by email" = the shortcut), and the **Add-someone double-email checkbox is removed** (Add = name only). Offline proof across P3–5: tests 36/36, typecheck clean.
+
+Deferred to Parked (see below) to avoid churning files other sessions are editing: the invite-time **auto-match** (link an existing account by email instead of erroring at accept), the fuller Team-card chip redesign, and cleaning the now-dead add-person invite helper code.
 
 Baseline result: _(to record before Phase 1 — free checks only unless a paid run is truly needed)_
 
 ## Parked
+- **Invite-time auto-match** (P5 remainder) — when inviting an email that already has an org account, link `people.user_id` immediately + skip the token, instead of the invitee hitting "email already has an account" at accept. Deferred: the clean path touches `team.ts` which other sessions are editing.
+- **Team-card chip redesign + dead-code cleanup** (P5 remainder) — the fuller read-only chip on the card, and removing the now-unused add-person invite helper (`inviteEmailError`, `PersonDraft.email/invite`) once `team.ts`/`add-person-*` are safe to commit.
 - Merging the `people` roster and `users` accounts into one record (the "biggest" option) — rejected for now; would need a data migration and breaks account-less roster people.
 - Showing Members in the internal `admin/` engine app too (parity) — only if wanted later.
 - Hard-delete of org members by a normal admin — stays superadmin-only.

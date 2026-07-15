@@ -1,6 +1,9 @@
 # Phase 4 — Pending-invite actions: revoke / resend
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + committed (`c36fff01`), awaiting final walk
+
+## Built (2026-07-16)
+`invites.service.revokeForOrg` (status→revoked, old link 404s) + `resendForOrg` (fresh token, old dies, re-email) — both org-fenced. Endpoints `DELETE /members/invitations/:id` + `POST /members/invitations/:id/resend`. Invite rows get a ⋯ menu (Resend / Revoke). Tests 26/26, typecheck clean.
 
 ## Goal
 Manage invites that haven't been accepted yet: revoke one (kills the link) or resend it (fresh link, old one dead).

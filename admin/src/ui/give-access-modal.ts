@@ -43,21 +43,10 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-labelledby", "give-access-title");
 
-    const options = opts.users
-      .map((u) => `<option value="${escapeHtml(u.id)}" ${u.id === opts.currentUserId ? "selected" : ""}>${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`)
-      .join("");
-    const linkSection = opts.users.length
-      ? `<div class="apm-field">
-           <label class="apm-field__label" for="ga-user">Link an existing account</label>
-           <div class="l-cluster l-cluster--2" style="align-items:center;gap:8px;">
-             <select class="apm-field__input js-user" id="ga-user" style="flex:1;min-width:0;">
-               <option value="">— choose an account —</option>${options}
-             </select>
-             <button type="button" class="btn js-link">Link</button>
-           </div>
-         </div>
-         <div class="text-sm text-ink-dim" style="text-align:center;margin:2px 0;">or</div>`
-      : "";
+    // The old "Link an existing account" dropdown is retired (members-page Phase 5) — it leaked
+    // account plumbing into the UI. Inviting by email is the one clean path; if that email already
+    // has an account, the server links them automatically. This modal is now the per-person
+    // "Invite to log in" shortcut.
     const removeRow = linked
       ? `<button type="button" class="btn btn--ghost js-remove" style="align-self:flex-start;">Remove access</button>`
       : "";
@@ -68,7 +57,6 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
         <div class="apm__sub">They'll see the list of their own 1:1s — dates and meeting types, never your notes.</div>
       </div>
       <div class="apm__body">
-        ${linkSection}
         <div class="apm-field">
           <label class="apm-field__label" for="ga-email">Invite by email</label>
           <div class="l-cluster l-cluster--2" style="align-items:center;gap:8px;">
@@ -90,7 +78,6 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
     // textContent (never innerHTML) so a person's own name can seed the title with no injection risk.
     modal.querySelector<HTMLElement>(".apm__title")!.textContent = title;
 
-    const userSelect = modal.querySelector<HTMLSelectElement>(".js-user"); // may be absent (no accounts)
     const emailInput = modal.querySelector<HTMLInputElement>(".js-email")!;
     const err = modal.querySelector<HTMLElement>(".js-err")!;
     const previouslyFocused = document.activeElement as HTMLElement | null;
@@ -102,17 +89,6 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
         previouslyFocused.focus({ preventScroll: true });
       }
       resolve(result);
-    }
-
-    function doLink() {
-      const userId = userSelect?.value ?? "";
-      if (!userId) {
-        err.textContent = "Choose an account to link.";
-        err.hidden = false;
-        userSelect?.focus();
-        return;
-      }
-      close({ kind: "link", userId });
     }
 
     function doInvite() {
@@ -155,13 +131,12 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
     emailInput.addEventListener("input", () => {
       if (!err.hidden) { err.hidden = true; emailInput.removeAttribute("aria-invalid"); }
     });
-    modal.querySelector(".js-link")?.addEventListener("click", doLink);
     modal.querySelector(".js-invite")!.addEventListener("click", doInvite);
     modal.querySelector(".js-remove")?.addEventListener("click", () => close({ kind: "unlink" }));
     modal.querySelector(".js-cancel")!.addEventListener("click", () => close(null));
     backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(null); });
     document.addEventListener("keydown", onKey, true);
 
-    setTimeout(() => (userSelect ?? emailInput).focus({ preventScroll: true }), 0);
+    setTimeout(() => emailInput.focus({ preventScroll: true }), 0);
   });
 }

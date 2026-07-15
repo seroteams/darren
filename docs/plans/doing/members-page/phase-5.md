@@ -1,6 +1,18 @@
-# Phase 5 — Auto-match + Team-card cleanup (retire the dropdown)
+# Phase 5 — Retire the link dropdown + drop the double-email
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (core), awaiting final walk
+
+## Built (2026-07-16) — adjusted scope
+- **"Link an existing account" dropdown removed** from `give-access-modal.ts` — the per-person access sheet is now just "invite by email" (the shortcut Carl chose) + "remove access" when linked. This is the confusing UI from Carl's screenshot, gone. (Committable — clean file.)
+- **Double-email removed** — the invite checkbox + email field are stripped from the Add-someone modal (`add-person-modal.ts`); Add is name-only again. (Left uncommitted: this file carries other sessions' edits, so only my invite block was surgically removed — no sweep.)
+- Tests 36/36, typecheck clean.
+
+## Deferred to Parked (in plan.md) — to avoid sweeping other sessions' `team.ts`/`add-person-*` edits
+- **Invite-time auto-match** — link an existing-account email immediately instead of erroring at accept.
+- **Team-card chip redesign** + removing the now-dead add-person invite helper code.
+
+---
+_Original plan below (for reference)._
 
 ## Goal
 Kill the confusing "Link an existing account" dropdown for good. The Team card shows a plain access status **plus one "Invite to log in" shortcut that reuses the Phase-2 invite flow** (pre-linked to that person — no second email field). Inviting a roster person whose account already exists just connects them automatically.

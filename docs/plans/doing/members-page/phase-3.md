@@ -1,6 +1,9 @@
 # Phase 3 — Row actions: role / deactivate / reactivate
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + committed (`e2b351e3`), awaiting final walk
+
+## Built (2026-07-16)
+Org-fenced `setRole` / `deactivate` / `reactivate` in `members.service` with a shared `account-guards.ts` last-active-lead guard (never lock a workspace out of its only manager), self + superadmin protection, session-kick on deactivate, and `audit_log` rows. Endpoints `PATCH /members/:id/role` + `POST /members/:id/{deactivate,reactivate}`. Row ⋯ menu on the Members page (reuses `openRowMenu`). Tests 14/14, typecheck clean. (Superadmin-guard extraction kept as a small duplicate in `account-guards.ts` rather than refactoring the live founder console — noted, no behaviour change.)
 
 ## Goal
 The ⋯ menu on each active member works: change their role, deactivate (switch off login), reactivate — with the safety net that you can't lock a workspace out of its last manager.
