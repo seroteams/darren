@@ -88,7 +88,7 @@ const PIPELINE = [
 // lands in "New screens — not yet grouped" so additions are impossible to miss.
 const SCREEN_GROUPS = {
   "intake.js": "flow", "onepage.js": "flow", "focus-points.js": "flow",
-  "preparation.js": "flow", "bank.js": "flow", "questioning.js": "flow",
+  "bank.js": "flow", "questioning.js": "flow",
   "eval.js": "flow", "briefing.js": "flow", "run-debrief.js": "flow",
   "lexicon-review.js": "flow",
   "login.js": "member", "register.js": "member", "member-home.js": "member",
@@ -97,7 +97,7 @@ const SCREEN_GROUPS = {
   "start.js": "admin", "library.js": "admin", "compare.js": "admin",
   "review-run.js": "admin", "regression.js": "admin", "personas.js": "admin",
   "meeting-arcs.js": "admin", "job-lexicons.js": "admin", "tasks.js": "admin",
-  "universe.ts": "admin", "admin-registered.ts": "admin", "admin-user-detail.ts": "admin",
+  "admin-registered.ts": "admin", "admin-user-detail.ts": "admin",
   "guide.js": "admin",
   "about.js": "shared", "feedback.js": "shared", "privacy.js": "shared", "error.ts": "shared",
 };
@@ -112,7 +112,7 @@ const SCREEN_GROUP_ORDER = [
 
 const NAV = [
   ["Left rail", "Brand mark + icon strip down the left edge; opens on hover. Admin sees the full toolset; a member sees just Home · Team · Past 1:1s."],
-  ["Admin links", "Home · New session · Library · Compare runs · Regression · Personas · Coaching phrases · Role words · Meeting arcs · Tasks · Universe · User management (Guide in dev only)."],
+  ["Admin links", "Home · New session · Library · Compare runs · Regression · Personas · Coaching phrases · Role words · Meeting arcs · Tasks · User management (Guide in dev only)."],
   ["Member links", "Home · Team · Past 1:1s."],
   ["Account footer", "What is Sero? · Send feedback · Privacy · Log out."],
   ["Session topbar", "Breadcrumb to review past stages mid-run."],

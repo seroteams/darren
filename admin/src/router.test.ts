@@ -16,7 +16,7 @@ test("the guest front door (WELCOME) left the admin app (frontend-admin-split Ph
 
 test("isInternalStage: the workshop is internal-only", () => {
   for (const s of [STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS, STAGES.LEXICON_REVIEW,
-    STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE]) {
+    STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.TASKS, STAGES.GUIDE]) {
     assert.equal(isInternalStage(s), true, `${s} is internal-only`);
   }
 });
@@ -37,7 +37,7 @@ test("isGuestStage: a guest may take a run — intake + the run flow, nothing el
   }
   // …but the internal QA debrief, dashboards, history and admin tooling are not.
   for (const s of [STAGES.RUN_DEBRIEF, STAGES.START, STAGES.RUNS, STAGES.RUN_DETAIL,
-    STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.TASKS, STAGES.UNIVERSE, STAGES.LIBRARY,
+    STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.TASKS, STAGES.LIBRARY,
     STAGES.ADMIN_REGISTERED, STAGES.ADMIN_ERROR_LOG, STAGES.LEXICON_REVIEW]) {
     assert.equal(isGuestStage(s), false, `${s} needs an account`);
   }

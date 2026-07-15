@@ -4,9 +4,7 @@
 // New tests: add a module under ./tests/ exporting mount(root), then one entry to TESTS.
 
 import { mount as promisesLoop } from "./tests/promises-loop.js";
-import { mount as monthlyCheckin } from "./tests/monthly-checkin.js";
 import { mount as livePulse } from "./tests/live-pulse.js";
-import { mount as managerWorkspace } from "./tests/manager-workspace.prototype.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
 // recognisable at a glance. Pure SVG (no captured PNGs to go stale); colours
@@ -36,24 +34,6 @@ const THUMB_DASHBOARD = `
       <rect x="172" y="84" width="12" height="20" rx="2"/>
     </g>
   </svg>`;
-const THUMB_STEPPER = `
-  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect class="bg" width="300" height="120"/>
-    <line class="line" x1="20" y1="28" x2="279" y2="28" stroke-width="2"/>
-    <circle class="dot-done" cx="20" cy="28" r="6"/>
-    <circle class="dot-done" cx="57" cy="28" r="6"/>
-    <circle class="dot-done" cx="94" cy="28" r="6"/>
-    <circle class="dot-todo" cx="131" cy="28" r="6"/>
-    <circle class="dot-todo" cx="168" cy="28" r="6"/>
-    <circle class="dot-todo" cx="205" cy="28" r="6"/>
-    <circle class="dot-todo" cx="242" cy="28" r="6"/>
-    <circle class="dot-todo" cx="279" cy="28" r="6"/>
-    <rect class="card" x="16" y="48" width="268" height="58" rx="6"/>
-    <rect class="ink" x="28" y="60" width="120" height="8" rx="4" opacity="0.5"/>
-    <rect class="ink" x="28" y="76" width="230" height="6" rx="3" opacity="0.28"/>
-    <rect class="ink" x="28" y="88" width="200" height="6" rx="3" opacity="0.28"/>
-    <rect class="accent" x="216" y="86" width="56" height="12" rx="6"/>
-  </svg>`;
 const THUMB_RUNNER = `
   <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect class="bg" width="300" height="120"/>
@@ -71,17 +51,6 @@ const THUMB_RUNNER = `
 
 const TESTS = [
   {
-    id: "manager-workspace",
-    title: "Manager Loop — a focused workspace",
-    blurb:
-      "A manager's core loop across five connected screens: start with the one conversation that matters today, scan the team by who needs attention (never a hidden score), read Aisha's human context, prepare three grounded questions with private notes, then close with clear commitments and a preview of what returns next time. Walk it with the blue action, or jump anywhere from the persistent rail.",
-    date: "14 Jul 2026",
-    tag: "new concept",
-    thumb: THUMB_DASHBOARD,
-    wide: true,
-    mount: managerWorkspace,
-  },
-  {
     id: "live-pulse",
     title: "Live pulse — the founder dashboard",
     blurb:
@@ -91,17 +60,6 @@ const TESTS = [
     thumb: THUMB_DASHBOARD,
     wide: true, // a dashboard wants the full width, not the reading column
     mount: livePulse,
-  },
-  {
-    id: "monthly-checkin",
-    title: "Monthly Check-in — the guided 1:1",
-    blurb:
-      "A whole new kind of 1:1: the AI steps back and guides you through a monthly catch-up — Catch-up → Requests → Rating → Feedback → Goals → Summary → private Review. Walk the seven stages; last month's promises, requests, goals and scores all come back.",
-    date: "11 Jul 2026",
-    tag: "new type",
-    thumb: THUMB_STEPPER,
-    bare: true,
-    mount: monthlyCheckin,
   },
   {
     id: "promises-loop",

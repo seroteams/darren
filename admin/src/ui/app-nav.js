@@ -13,7 +13,7 @@ import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
-  Orbit, Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
+  Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
   FlaskConical, Gauge,
 } from "lucide";
 
@@ -42,7 +42,6 @@ const ICON = {
   guide: icon(BookOpen),
   tasks: icon(ClipboardCheck),
   registered: icon(UserRoundCog),
-  universe: icon(Orbit),
   design: icon(Palette),
   logout: icon(LogOut),
   privacy: icon(Lock),
@@ -91,8 +90,6 @@ const LINKS = [
   { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon, admin: true, group: "Engine" },
   { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex, admin: true, group: "Engine" },
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
-  // Just for fun — the 3D live map of the app (universe.ts). Admin-only eye candy.
-  { key: "universe", label: "Universe", stage: STAGES.UNIVERSE, icon: ICON.universe, admin: true, group: "Engine" },
   // Native in-shell stage (stages/design.js) — the design system sheet with its own
   // second-level rail, routed like any other stage.
   { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Admin" },
@@ -232,7 +229,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
     design: () => setState && setState({ stage: STAGES.DESIGN }),
     tests: () => setState && setState({ stage: STAGES.TEST }),
-    universe: () => setState && setState({ stage: STAGES.UNIVERSE }),
     pulse: () => setState && setState({ stage: STAGES.ADMIN_PULSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
@@ -271,7 +267,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.ROLE_LEXICONS]: "joblex",
     [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.TASKS]: "tasks",
-    [STAGES.UNIVERSE]: "universe",
     [STAGES.DESIGN]: "design",
     [STAGES.TEST]: "tests",
     [STAGES.ADMIN_PULSE]: "pulse",
