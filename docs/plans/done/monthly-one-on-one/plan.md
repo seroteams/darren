@@ -6,7 +6,7 @@
 **Status:** ✅ TRACK CLOSED 2026-07-14 — all 7 phases built + DB-verified; manager flow UI-walked + verified (see Current state). One residual: the Phase 7 member surface was not UI-walked (needs a member login).
 
 > **The architecture rationale + three-role model + extensibility seam lives in [architecture.md](architecture.md)** (founder/CTO/committee deep-dive, 2026-07-12, grounded in a 3-lens code audit). Its §6 amendments are folded into the phases below.
-> **The UI spec is the approved prototype:** [admin/src/stages/tests/monthly-checkin.js](../../../../admin/src/stages/tests/monthly-checkin.js) (walkable at `/test` → "Monthly Check-in"). Carl iterated it 2026-07-12 through three rounds; build EXACTLY that look and behaviour. Design language = the old-Sero runner (SeroMVP-v19), already extracted into that file.
+> **The UI spec was the approved prototype** `admin/src/stages/tests/monthly-checkin.js` (walkable at `/test` → "Monthly Check-in"). Carl iterated it 2026-07-12 through three rounds; the build followed EXACTLY that look and behaviour. Design language = the old-Sero runner (SeroMVP-v19). Now that the track is closed and shipped, the source of truth is the live feature under `frontend/src/stages/guided/`; the prototype file was retired in the 2026-07-15 site cleanup (recoverable from git history).
 > Source concept: [docs/ONE-ON-ONE-RUNNER-CONCEPT.md](../../../ONE-ON-ONE-RUNNER-CONCEPT.md). Original architecture verified in code 2026-07-11; product decisions locked over four question rounds + the prototype walk — do not relitigate them.
 
 ## Done means

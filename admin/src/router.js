@@ -67,7 +67,6 @@ const PATH_FOR = {
   [STAGES.PERSONAS]:       () => "/personas",
   [STAGES.GUIDE]:          () => "/guide",
   [STAGES.TASKS]:          () => "/tasks",
-  [STAGES.UNIVERSE]:       () => "/universe",
   [STAGES.DESIGN]:         () => "/design",
   [STAGES.TEST]:           () => "/test",
   [STAGES.ADMIN_PULSE]:    () => "/pulse",
@@ -92,7 +91,7 @@ const STAGE_FOR = {
   "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,
   "/job-lexicons": STAGES.ROLE_LEXICONS, "/meeting-arcs": STAGES.MEETING_ARCS,
   "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
-  "/tasks": STAGES.TASKS, "/universe": STAGES.UNIVERSE, "/design": STAGES.DESIGN,
+  "/tasks": STAGES.TASKS, "/design": STAGES.DESIGN,
   "/test": STAGES.TEST,
   "/pulse": STAGES.ADMIN_PULSE,
   "/admin/registered": STAGES.ADMIN_REGISTERED,
@@ -109,8 +108,8 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
 
@@ -127,7 +126,7 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // reviews) — the backend fences whose data those show.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.UNIVERSE, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GUIDED]);
+  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GUIDED]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2): the Test engine

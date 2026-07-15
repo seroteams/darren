@@ -443,7 +443,7 @@
   color: var(--color-ink);
 }
 
-/* K — Runner: from docs/newrunnerdesign.png. One contained card; a row per
+/* K — Runner: from Carl's runner mock. One contained card; a row per
    slot with a round icon chip, uppercase label, hairline dividers. Chips use
    the accent-soft/accent-dark pairing (the .cl-num precedent). */
 .pv-k {

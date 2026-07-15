@@ -332,7 +332,7 @@ function renderJ(s: BriefSlots): string {
   </div>`;
 }
 
-// K "Runner" — from Carl's mock (docs/newrunnerdesign.png): one contained
+// K "Runner" — from Carl's runner mock: one contained
 // card, a row per slot with a round icon chip and uppercase label, hairline
 // dividers, the opener in the tinted callout. Icons via the shared Lucide
 // helper (DESIGN.md §5); chips use the accent-soft/accent-dark pairing.

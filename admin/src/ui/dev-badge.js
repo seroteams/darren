@@ -7,7 +7,7 @@ import { Copy } from "lucide";
 const STAGE_META = {
   INTAKE:       { file: "stages/intake.js",        data: "/api/v1/meeting-types, /api/v1/sessions" },
   FOCUS_POINTS: { file: "stages/focus-points.js",  data: "/api/v1/sessions/:id/focus-points/stream" },
-  PREPARATION:  { file: "stages/preparation.js",   data: "/api/v1/sessions/:id/preparation/stream" },
+  PREPARATION:  { file: "frontend/src/stages/preparation.ts", data: "/api/v1/sessions/:id/preparation/stream" },
   BANK:         { file: "stages/bank.js",          data: "/api/v1/sessions/:id/bank/stream" },
   QUESTIONING:  { file: "stages/questioning.js",   data: "/api/v1/sessions/:id/plan/stream, …/question, …/answer" },
   EVAL:         { file: "stages/eval.js",          data: "/api/v1/sessions/:id/evaluation/stream" },
