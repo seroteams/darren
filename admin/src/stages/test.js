@@ -5,6 +5,7 @@
 
 import { mount as promisesLoop } from "./tests/promises-loop.js";
 import { mount as livePulse } from "./tests/live-pulse.js";
+import { mount as setupRedesign } from "./tests/setup-redesign.js";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
 // recognisable at a glance. Pure SVG (no captured PNGs to go stale); colours
@@ -49,7 +50,38 @@ const THUMB_RUNNER = `
     <rect class="ink" x="50" y="88" width="160" height="8" rx="4" opacity="0.45"/>
   </svg>`;
 
+// Two-column setup screen: left = title + input + two person cards, right = the guide card.
+const THUMB_SETUP = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect class="ink" x="16" y="14" width="70" height="7" rx="3.5" opacity="0.5"/>
+    <rect class="accent" x="16" y="28" width="130" height="6" rx="3"/>
+    <rect class="card" x="16" y="42" width="130" height="18" rx="4"/>
+    <rect class="accent" x="112" y="46" width="30" height="10" rx="3"/>
+    <rect class="card" x="16" y="66" width="130" height="20" rx="4"/>
+    <rect class="card" x="16" y="90" width="130" height="20" rx="4"/>
+    <rect class="card" x="164" y="14" width="120" height="96" rx="6"/>
+    <rect class="accent" x="176" y="26" width="40" height="6" rx="3"/>
+    <circle class="accent" cx="182" cy="48" r="6"/>
+    <rect class="ink" x="196" y="45" width="76" height="6" rx="3" opacity="0.4"/>
+    <circle class="accent" cx="182" cy="68" r="6"/>
+    <rect class="ink" x="196" y="65" width="76" height="6" rx="3" opacity="0.4"/>
+    <circle class="accent" cx="182" cy="88" r="6"/>
+    <rect class="ink" x="196" y="85" width="76" height="6" rx="3" opacity="0.4"/>
+  </svg>`;
+
 const TESTS = [
+  {
+    id: "setup-redesign",
+    title: "Setup screen redesign — \"Who are you prepping for?\"",
+    blurb:
+      "The reworked /new setup step: no run stage-rail up top, a 50/50 layout with the \"First time?\" guide moved to the right, and the \"add someone new\" input lifted above the existing people.",
+    date: "15 Jul 2026",
+    tag: "setup",
+    thumb: THUMB_SETUP,
+    wide: true, // the 50/50 layout needs more than the reading column
+    mount: setupRedesign,
+  },
   {
     id: "live-pulse",
     title: "Live pulse — the founder dashboard",
