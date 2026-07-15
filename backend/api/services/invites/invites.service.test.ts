@@ -20,6 +20,9 @@ function fakeRepo() {
     insertInvite: async (row) => { const r = { status: "pending", ...row, personId: row.personId ?? null, id: `i${++n}` }; invites.push(r); return { id: r.id }; },
     findByTokenHash: async (hash) => invites.find((i) => i.tokenHash === hash) ?? null,
     markAccepted: async (id) => { const i = invites.find((x) => x.id === id); if (i) i.status = "accepted"; },
+    findPendingInviteForOrg: async (id, orgId) => invites.find((i) => i.id === id && i.orgId === orgId && i.status === "pending") ?? null,
+    updateInviteToken: async (id, tokenHash, expiresAt) => { const i = invites.find((x) => x.id === id); if (i) { i.tokenHash = tokenHash; i.expiresAt = expiresAt; } },
+    setInviteStatus: async (id, status) => { const i = invites.find((x) => x.id === id); if (i) i.status = status; },
     findUserByEmail: async (email) => usersByEmail.get(email) ?? null,
     createMemberUser: async ({ orgId, email, name, role }) => {
       const u = { id: `u${++n}`, orgId, email, name, role };
@@ -123,4 +126,27 @@ test("accept mints the user with the invite's role (manager, not defaulted to me
   const { token } = await svc.createForOrg("o1", "m1", "boss@qa.test", "manager");
   const { user } = await svc.accept(token, { name: "Boss", password: "longenough1" });
   assert.equal(user.role, "manager"); // the chosen role flowed through accept
+});
+
+test("revokeForOrg kills a pending invite — the old link stops working; wrong org is not-found", async () => {
+  const { repo, invites } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const { token } = await svc.createForOrg("o1", "m1", "gone@qa.test", "member");
+  const id = invites[0]!.id;
+  await assert.rejects(() => svc.revokeForOrg("o2", id), /invite/i); // fenced to the org
+  await svc.revokeForOrg("o1", id);
+  assert.equal(invites[0]!.status, "revoked");
+  await assert.rejects(() => svc.preview(token), /invite/i); // old link now dead
+});
+
+test("resendForOrg mints a fresh token — old link dies, new link previews", async () => {
+  const { repo, invites } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const first = await svc.createForOrg("o1", "m1", "again@qa.test", "member");
+  const id = invites[0]!.id;
+  const second = await svc.resendForOrg("o1", id);
+  assert.notEqual(second.token, first.token); // fresh token
+  await assert.rejects(() => svc.preview(first.token), /invite/i); // old token dead
+  const p = await svc.preview(second.token);
+  assert.equal(p.email, "again@qa.test"); // new token still points at the same invite
 });

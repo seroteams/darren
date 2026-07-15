@@ -34,12 +34,9 @@ function memberRow(m: MemberRow): string {
   // A pending invite has no name yet — its email carries the row.
   const primary = m.name || m.email;
   const sub = m.name ? `<div class="um-user__email">${escapeHtml(m.email)}</div>` : "";
-  // Account rows get a ⋯ menu (role / deactivate / reactivate). Invite rows get their own
-  // actions (revoke / resend) in a later phase — no menu here yet.
-  const actions =
-    m.kind === "account"
-      ? `<button type="button" class="um-menu-btn js-member-menu" data-id="${escapeHtml(m.id)}" data-role="${escapeHtml(m.role)}" data-status="${escapeHtml(m.status)}" data-name="${escapeHtml(primary)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(primary)}">⋯</button>`
-      : "";
+  // Every row gets a ⋯ menu — account rows: role / deactivate / reactivate; invite rows:
+  // resend / revoke. The menu contents are chosen from data-kind in members.ts.
+  const actions = `<button type="button" class="um-menu-btn js-member-menu" data-kind="${escapeHtml(m.kind)}" data-id="${escapeHtml(m.id)}" data-role="${escapeHtml(m.role)}" data-status="${escapeHtml(m.status)}" data-name="${escapeHtml(primary)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(primary)}">⋯</button>`;
   return `
     <tr class="um-row${off ? " um-row--off" : ""}">
       <td>

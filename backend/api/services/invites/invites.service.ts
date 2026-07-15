@@ -72,6 +72,25 @@ export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: 
       return { token, expiresAt };
     },
 
+    /** Revoke a pending invite (members-page Phase 4) — fenced to the org; the old link 404s. */
+    async revokeForOrg(orgId: string, inviteId: string) {
+      const inv = await repo.findPendingInviteForOrg(inviteId, orgId);
+      if (!inv) throw notFound(INVALID);
+      await repo.setInviteStatus(inv.id, "revoked");
+      return { ok: true as const };
+    },
+
+    /** Resend a pending invite — mint a fresh token (the old one stops working), extend the
+     *  expiry, keep the same row. Returns the new raw token so the caller re-emails the link. */
+    async resendForOrg(orgId: string, inviteId: string) {
+      const inv = await repo.findPendingInviteForOrg(inviteId, orgId);
+      if (!inv) throw notFound(INVALID);
+      const token = randomBytes(32).toString("hex");
+      const expiresAt = new Date(Date.now() + INVITE_TTL_MS);
+      await repo.updateInviteToken(inv.id, sha256(token), expiresAt);
+      return { token, expiresAt };
+    },
+
     /** What the join page shows before any account exists. */
     async preview(token: unknown) {
       const inv = await liveInvite(token);

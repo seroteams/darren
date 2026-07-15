@@ -6,7 +6,7 @@
 
 import "../../../admin/src/styles/design/admin-tables.css";
 import "../styles/members.css";
-import { getMembers, inviteMember, setMemberRole, deactivateMember, reactivateMember } from "../../../shared/api.js";
+import { getMembers, inviteMember, setMemberRole, deactivateMember, reactivateMember, revokeInvite, resendInvite } from "../../../shared/api.js";
 import { showInviteMemberModal } from "../../../admin/src/ui/invite-member-modal.ts";
 import { openRowMenu, closeRowMenu } from "../../../admin/src/ui/row-menu.ts";
 import { membersTable, type MemberRow } from "./members-table.ts";
@@ -65,19 +65,38 @@ export const mount: Mount = async (root) => {
     }
   };
 
+  // A resend surfaces the fresh link too, so the manager can copy it if the email lags.
+  const doResend = async (id: string) => {
+    try {
+      const res = (await resendInvite(id)) as { link: string };
+      window.prompt("New invite sent. If the email doesn't arrive, share this link (valid 7 days):", `${window.location.origin}${res.link}`);
+      await load();
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Couldn't resend — please try again.");
+    }
+  };
+
   const openMemberMenu = (btn: HTMLElement) => {
     const id = btn.dataset.id || "";
+    const kind = btn.dataset.kind || "account";
     const role = btn.dataset.role || "member";
     const status = btn.dataset.status || "active";
-    const items =
-      status === "deactivated"
-        ? [{ label: "Reactivate", onSelect: () => { void runAction(() => reactivateMember(id)); } }]
-        : [
-            role === "manager"
-              ? { label: "Make member", onSelect: () => { void runAction(() => setMemberRole(id, "member")); } }
-              : { label: "Make manager", onSelect: () => { void runAction(() => setMemberRole(id, "manager")); } },
-            { label: "Deactivate", danger: true, onSelect: () => { void runAction(() => deactivateMember(id)); } },
-          ];
+    let items;
+    if (kind === "invite") {
+      items = [
+        { label: "Resend invite", onSelect: () => { void doResend(id); } },
+        { label: "Revoke invite", danger: true, onSelect: () => { void runAction(() => revokeInvite(id)); } },
+      ];
+    } else if (status === "deactivated") {
+      items = [{ label: "Reactivate", onSelect: () => { void runAction(() => reactivateMember(id)); } }];
+    } else {
+      items = [
+        role === "manager"
+          ? { label: "Make member", onSelect: () => { void runAction(() => setMemberRole(id, "member")); } }
+          : { label: "Make manager", onSelect: () => { void runAction(() => setMemberRole(id, "manager")); } },
+        { label: "Deactivate", danger: true, onSelect: () => { void runAction(() => deactivateMember(id)); } },
+      ];
+    }
     openRowMenu(btn, items);
   };
 

@@ -75,3 +75,23 @@ export async function reactivateMember(c: RequestContext): Promise<void> {
   const { orgId, actor } = await membersCaller(c);
   c.json(200, await membersService.reactivate(orgId, actor, c.params.id ?? ""));
 }
+
+// DELETE /api/v1/members/invitations/:id — revoke a pending invite (org-fenced). Old link dies.
+export async function revokeMemberInvite(c: RequestContext): Promise<void> {
+  const { orgId } = await membersCaller(c);
+  c.json(200, await invites.revokeForOrg(orgId, c.params.id ?? ""));
+}
+
+// POST /api/v1/members/invitations/:id/resend — mint a fresh token + re-email; old link dies.
+export async function resendMemberInvite(c: RequestContext): Promise<void> {
+  const { orgId } = await membersCaller(c);
+  const { token, expiresAt } = await invites.resendForOrg(orgId, c.params.id ?? "");
+  const link = `/join/${token}`;
+  const base = requestBaseUrl(c.req);
+  const joinUrl = base ? `${base}${link}` : link;
+  void invites
+    .preview(token)
+    .then((p) => notifyInviteeOfInvite({ to: p.email, inviterName: p.inviterName, orgName: p.orgName, joinUrl }))
+    .catch((err) => console.warn(`[member-invite-resend] not sent: ${err instanceof Error ? err.message : String(err)}`));
+  c.json(201, { link, expiresAt });
+}

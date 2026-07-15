@@ -39,6 +39,12 @@ export interface InvitesRepo {
   insertInvite(row: NewInvite): Promise<{ id: string }>;
   findByTokenHash(hash: string): Promise<InviteRow | null>;
   markAccepted(id: string): Promise<void>;
+  /** A pending invite by id, fenced to the org (members-page Phase 4) — null otherwise. */
+  findPendingInviteForOrg(id: string, orgId: string): Promise<InviteRow | null>;
+  /** Re-point an invite at a fresh token + expiry (resend) — the old hash stops matching. */
+  updateInviteToken(id: string, tokenHash: string, expiresAt: Date): Promise<void>;
+  /** Flip an invite's status (e.g. → revoked). */
+  setInviteStatus(id: string, status: string): Promise<void>;
   findUserByEmail(email: string): Promise<{ id: string } | null>;
   createMemberUser(input: { orgId: string; email: string; name: string; passwordHash: string; role: string }): Promise<{ id: string; orgId: string; email: string; name: string; role: string }>;
   linkPersonUser(personId: string, userId: string): Promise<void>;
@@ -85,6 +91,32 @@ export const pgInvitesRepo: InvitesRepo = {
   },
   async markAccepted(id) {
     await getDb().update(invitations).set({ status: "accepted" }).where(eq(invitations.id, id));
+  },
+  async findPendingInviteForOrg(id, orgId) {
+    const rows = await getDb()
+      .select({
+        id: invitations.id,
+        orgId: invitations.orgId,
+        email: invitations.email,
+        role: invitations.role,
+        status: invitations.status,
+        invitedBy: invitations.invitedBy,
+        expiresAt: invitations.expiresAt,
+        tokenHash: invitations.tokenHash,
+        personId: invitations.personId,
+      })
+      .from(invitations)
+      .where(and(eq(invitations.id, id), eq(invitations.orgId, orgId), eq(invitations.status, "pending")))
+      .limit(1);
+    const r = rows[0];
+    if (!r || !r.expiresAt || !r.tokenHash) return null;
+    return { ...r, expiresAt: r.expiresAt, tokenHash: r.tokenHash };
+  },
+  async updateInviteToken(id, tokenHash, expiresAt) {
+    await getDb().update(invitations).set({ tokenHash, expiresAt }).where(eq(invitations.id, id));
+  },
+  async setInviteStatus(id, status) {
+    await getDb().update(invitations).set({ status: status as "pending" | "accepted" | "revoked" }).where(eq(invitations.id, id));
   },
   async findUserByEmail(email) {
     const rows = await getDb().select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1);
