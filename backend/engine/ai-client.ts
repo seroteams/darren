@@ -248,10 +248,12 @@ async function _callGemini({
   return withRetry(async () => {
     const startedAt = Date.now();
     const res = await fetchWithTimeout(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      // Key goes in the x-goog-api-key HEADER, not the URL query string — a ?key= in the
+      // URL can leak into proxy/access logs and referrers (personal-data-security Phase 2).
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: system }] },
           contents: [{ role: "user", parts: [{ text: user }] }],

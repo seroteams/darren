@@ -2,6 +2,7 @@ import { URL } from "node:url";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { isObjectRecord } from "../shared/guards.ts";
 import { logApiError } from "./middleware/error-log.ts";
+import { setSecurityHeaders } from "./middleware/security-headers.ts";
 
 const MAX_BODY_BYTES = 1_000_000; // 1 MB cap on request bodies to prevent memory exhaustion
 
@@ -100,6 +101,7 @@ function createRouter() {
   }
 
   async function handle(req: IncomingMessage, res: ServerResponse, { fallback }: { fallback?: Fallback } = {}): Promise<void> {
+    setSecurityHeaders(res); // every response (API + static SPA) — set before any write
     const url = new URL(req.url ?? "", `http://${req.headers.host || "localhost"}`);
     const hit = match(req.method, url.pathname);
     if (!hit) {

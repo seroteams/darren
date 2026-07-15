@@ -19,12 +19,19 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Close the H-1 leak | Superadmin-gate the clone routes + regression test | ✅ |
-| 2 | Quick hardening | Gemini key → header, security headers, purge committed logs | 🔨 |
+| 2 | Quick hardening (code) | Gemini key → header + security headers | 🔨 built, awaiting walk |
+| 3 | Purge committed logs | Scrub real names from git history (needs all sessions closed) | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ GREEN-LIT by Carl 2026-07-16 ("nice then go for it") — committed. Phase 2 in progress.** Phase 1 superadmin-gated the clone routes (customer managers can no longer read other companies' runs); `npm test` 143/143, typecheck clean. Now building Phase 2: Gemini key → header, security headers, purge committed test logs.
+**Phase 1 ✅ committed (81029bca). Phase 2 built + verified, awaiting Carl's walk. Phase 3 (log purge) newly split out.**
+- Phase 1 superadmin-gated the clone routes. `npm test` was 143/143.
+- Phase 2 (code hardening): Gemini key now in a header, security headers on every response, CSP validated against the real built bundle in a browser (rendered clean, zero CSP violations). `npm test` **145/145**, typecheck clean. NOT committed yet — waiting on Carl's green light.
+- Phase 3: the committed-log purge was pulled out of Phase 2 because it's a **destructive git-history rewrite** that needs every parallel session closed + a force-push — unsafe to do mid-session. See phase-3.md.
+
+## Note on branch
+Phase 1 committed onto **main** (a parallel session had switched the shared checkout's branch). Local only — not pushed, nothing deployed. Flagged to Carl.
 
 ## Parked (P2 — later pass, not this build)
 - Lattice-style privacy/trust page (extend `admin/src/stages/privacy.js`) with named subprocessors + "we never train AI on your data".

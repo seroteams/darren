@@ -16,6 +16,9 @@ function fakeRes(): ServerResponse & { status: number | null; body: string } {
   const res = {
     status: null as number | null,
     body: "",
+    setHeader() {
+      return this; // security headers (setSecurityHeaders) — no-op in this mock
+    },
     writeHead(status: number) {
       this.status = status;
       return this;
