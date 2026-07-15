@@ -376,6 +376,34 @@ export async function listPeople() {
 export async function getMembers() {
   return json(await fetch("/api/v1/members"));
 }
+// Invite someone to the workspace by email with a role (manager | member). Reuses the invite
+// engine; returns { link, expiresAt } (the link is also emailed). → members-page Phase 2.
+export async function inviteMember(email, role) {
+  return postJson("/api/v1/members/invite", { email, role });
+}
+// Members-page Phase 3 — row actions, org-fenced + guarded server-side.
+export async function setMemberRole(id, role) {
+  return json(
+    await fetch(`/api/v1/members/${encodeURIComponent(id)}/role`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role }),
+    }),
+  );
+}
+export async function deactivateMember(id) {
+  return json(await fetch(`/api/v1/members/${encodeURIComponent(id)}/deactivate`, { method: "POST" }));
+}
+export async function reactivateMember(id) {
+  return json(await fetch(`/api/v1/members/${encodeURIComponent(id)}/reactivate`, { method: "POST" }));
+}
+// Members-page Phase 4 — pending-invite actions.
+export async function revokeInvite(id) {
+  return json(await fetch(`/api/v1/members/invitations/${encodeURIComponent(id)}`, { method: "DELETE" }));
+}
+export async function resendInvite(id) {
+  return postJson(`/api/v1/members/invitations/${encodeURIComponent(id)}/resend`, {});
+}
 export async function createPerson({ name, role, seniority } = {}) {
   return postJson("/api/v1/team/people", { name, role, seniority });
 }

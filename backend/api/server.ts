@@ -459,6 +459,30 @@ async function main(): Promise<void> {
   // in the controller; members 403), org-fenced. Distinct from the superadmin console, which
   // is cross-company. Read-only for now; invite + row actions arrive in later phases.
   router.add("GET", "/api/v1/members", v1Route(members.listMembers));
+  router.add("POST", "/api/v1/members/invite", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return members.inviteMember(c);
+  }));
+  router.add("PATCH", /^\/api\/v1\/members\/(?<id>[^/]+)\/role$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return members.setMemberRole(c);
+  }));
+  router.add("POST", /^\/api\/v1\/members\/(?<id>[^/]+)\/deactivate$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return members.deactivateMember(c);
+  }));
+  router.add("POST", /^\/api\/v1\/members\/(?<id>[^/]+)\/reactivate$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return members.reactivateMember(c);
+  }));
+  router.add("DELETE", /^\/api\/v1\/members\/invitations\/(?<id>[^/]+)$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return members.revokeMemberInvite(c);
+  }));
+  router.add("POST", /^\/api\/v1\/members\/invitations\/(?<id>[^/]+)\/resend$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return members.resendMemberInvite(c);
+  }));
   // Guided sessions (monthly-checkin Phase 1) — the manager-walked "Monthly Check-in" 1:1.
   // Internal admin only (requireInternalAdmin in the controller; plain managers 403), fenced
   // to the caller's org + manager + roster person. Own table — the interview pipeline is
@@ -524,7 +548,7 @@ async function main(): Promise<void> {
   }));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));
-  // dev-only "prefill a run" (admin-guarded in the controller): list clonable finished
+  // internal "prefill a run" (superadmin-guarded in the controller): list clonable finished
   // runs, and clone one into a fresh run owned by the caller. Literal paths registered
   // before the /:id regex routes so they aren't shadowed.
   router.add("GET", "/api/v1/runs/clonable", v1Route(runs.clonable));

@@ -68,21 +68,6 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
           <input class="apm-field__input js-seniority" id="apm-seniority" type="text" autocomplete="off"
                  placeholder="e.g. Senior / Staff / Lead" />
         </div>
-        ${
-          allowInvite
-            ? `<div class="apm-invite">
-          <label class="apm-invite__check">
-            <input type="checkbox" class="js-invite" />
-            <span>Invite them by email to log in</span>
-          </label>
-          <div class="apm-field js-invite-email" hidden>
-            <input class="apm-field__input js-email" type="email" autocomplete="off" spellcheck="false"
-                   placeholder="name@company.com" aria-label="Email address" aria-describedby="apm-err" />
-            <div class="apm-field__opt">We'll email them a one-time link to set a password and see only their own 1:1s.</div>
-          </div>
-        </div>`
-            : ""
-        }
       </div>
       <div class="apm__foot">
         <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
