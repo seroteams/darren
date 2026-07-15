@@ -180,7 +180,11 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     // The Phrase library is dual-use: part of the run when there's a live
     // session, a standalone tool when opened from the nav. Only the in-run case
     // gets the breadcrumb.
-    const inRun = RUN_STAGES.has(current) || (current === STAGES.LEXICON_REVIEW && !!sessionId);
+    // The setup step (INTAKE) is pre-run: no stage breadcrumb until the 1:1
+    // actually starts (FOCUS_POINTS onward). Setup carries its own "Cancel setup".
+    const inRun =
+      current !== STAGES.INTAKE &&
+      (RUN_STAGES.has(current) || (current === STAGES.LEXICON_REVIEW && !!sessionId));
 
     if (!inRun) {
       el.classList.add("is-hidden");

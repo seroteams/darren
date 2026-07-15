@@ -130,6 +130,42 @@
   gap: 1rem;
 }
 
+/* Setup entry step — two-column split: people-picker left, first-run guide right.
+   Only the first-run NAME step turns this on (.intake-*--split, toggled in
+   intake.js); every other step stays a single reading column. Collapses to one
+   column on phones. */
+.intake-shell--split {
+  max-width: var(--container-medium);
+}
+.intake-body--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sero-space-8);
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .intake-body--split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* "or pick from your team" — hairline divider between the add-new input (now on
+   top) and the roster cards below it. */
+.intake-or {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-3);
+  color: var(--color-ink-mute);
+  font-size: var(--type-body-sm);
+}
+.intake-or::before,
+.intake-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
 /* First-run guidance (validation-kit Phase 4) — orientation card for a brand-new
    account, shown above the first intake step only. Reuses .card-flat framing. */
 .intake-firstrun {
