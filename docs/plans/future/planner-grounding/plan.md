@@ -4,6 +4,11 @@
 questions. Separate from Phase 005 (database) — this is an **engine / question-quality** change.
 **Driver:** Carl
 **Created:** 2026-06-28
+**Re-scoped 2026-07-15 (clean-up sweep):** Scope A ("drill, don't switch") shipped via the
+**thread-follow** track (closed 2026-07-11, `d5e7b396`) — its close matches A's behaviour point for
+point (pinned thread-follow, no switch on a shallow answer). Remaining scope when this plan wakes:
+**B** (prefer grounded bank questions over generic catalogue) + **C** (don't pad from low-confidence
+focus points). Verified by reading both plans — no paid run.
 **Trigger:** the live run `logs/june/2026_Jun28_22-21-9c10e643` (Carl DB · UX Lead · Bi-weekly) — the
 questions drifted off-thread and Carl skipped the back half.
 

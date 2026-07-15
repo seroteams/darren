@@ -34,7 +34,7 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 | `scripts/` | Runners + verification — `gate.js`, `sweep.js`, `eval.js`, `replay-*`, `test-*.js` | **tooling** |
 | `logs/` | Run artifacts — mostly git-ignored; only `logs/may/` is the kept baseline | **generated (mostly untracked)** |
 | `docs/` | Technical docs + `plans/` (all plan work) + `reference/` (rulebooks) + `reports/` + `archive/` (misc old artifacts) | **docs (live)** |
-| `docs/plans/` | **All plan work, three buckets:** `doing/` (active Darren-Method tracks) · `future/` (queued + parked) · `done/` (finished, archived). The `board.md` kanban is the glance over these. | **active work** |
+| `docs/plans/` | **All plan work, three buckets:** `doing/` (active Darren-Method tracks) · `future/` (queued + parked) · `done/` (finished, archived). | **active work** |
 
 ## Root files worth knowing
 
@@ -55,9 +55,8 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 - **`content/config/` vs `content/data/`** — `config/` is static, human-edited settings
   you commit; `data/` is runtime state, often generated/rebuilt (some of it git-ignored).
 - **`docs/plans/` vs `SERO_BOARD.md`** — `docs/plans/` holds the plan *folders* in three
-  buckets (`doing/` active · `future/` queued+parked · `done/` finished); `docs/board.md` is
-  the kanban glance over them; `SERO_BOARD.md` is the strategic board that says what's active
-  right now. If in doubt, read the board.
+  buckets (`doing/` active · `future/` queued+parked · `done/` finished); `SERO_BOARD.md`
+  is the strategic board that says what's active right now. If in doubt, read the board.
 - **`content/prompts/` vs `content/config/`** — `prompts/` is what we tell the model
   (templates); `config/` is which models/personas and numeric settings.
 

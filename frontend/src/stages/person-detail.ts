@@ -212,7 +212,9 @@ export const mount: Mount = async (root, { setState }) => {
     <div>${mine.map(runRow).join("")}</div>
   </section>`;
   const prep = `<section><button type="button" class="btn js-prep">Prep your next 1:1 with ${escapeHtml(person.name)}</button></section>`;
-  root.querySelector(".js-host")!.innerHTML = sinceBlock + list + prep;
+  // Prep action ABOVE the history — the moment of highest intent (walking into the next 1:1)
+  // must not sit below a scroll of past ones. (audit M1)
+  root.querySelector(".js-host")!.innerHTML = sinceBlock + prep + list;
 
   wireBack();
   // Each row reopens that 1:1's read-only briefing (PG2). No new detail view.

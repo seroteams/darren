@@ -13,6 +13,7 @@ export const STAGES = Object.freeze({
   START: "START",
   MEMBER_HOME: "MEMBER_HOME",
   TEAM: "TEAM",
+  MEMBERS: "MEMBERS",
   RUNS: "RUNS",
   RUN_DETAIL: "RUN_DETAIL",
   GUIDED: "GUIDED",

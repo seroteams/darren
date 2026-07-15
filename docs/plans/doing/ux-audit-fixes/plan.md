@@ -77,7 +77,7 @@ Verified against the real code so phases don't stall on unknowns:
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The return path | Start-next-1:1 above every list, resume self-heals, finish lands on the person, shared run-list component | ⬜ |
+| 1 | The return path | Start-next-1:1 above every list, resume self-heals, finish lands on the person, shared run-list component | 🔨 |
 | 2 | Right doors, right roles | One member home, member gates on manager flows, QA page internal-only, person deep-links survive | ⬜ |
 | 3 | One language | The noun sweep, the dialog fix, member-voiced copy, all ten rewrites | ⬜ |
 | 4 | History compounds & returns count | Intake people join Team; server-side run events + a free report script | ⬜ |
@@ -87,6 +87,7 @@ Verified against the real code so phases don't stall on unknowns:
 
 ## Baseline
 UI-only fixes — baseline is the free checks: `npm test` + `npm run typecheck` before Phase 1 starts (record results here). No engine/prompt changes anywhere in this folder, so no paid gate run is needed.
+**Baseline recorded 2026-07-15 (before Phase 1):** typecheck clean; test suite green (the 4 intermittent env-dependent suites — customer-serving / persona-bench — pass when a dev server is up). After Phase 1: all tests green incl. 2 new suites, typecheck clean, both apps build.
 
 ## Current state
 Folder created 2026-07-15 from the audit + Carl's two interview rounds (all recommendations accepted). Dependency sweep done same day — see "Resolved before we start"; phase files amended with the wiring constraints it found.

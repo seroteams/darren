@@ -11,6 +11,7 @@ import { Star } from "lucide";
 import { relTime, formatDate } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 import "../styles/design/member-runs.css";
+import "../styles/ux-audit-fixes.css";
 
 // The endpoint's real shape (backend/engine/run-history.ts memberRunView / listFinishedForMember).
 type MyRun = {
@@ -175,7 +176,11 @@ export const mount: Mount = async (root, { setState }) => {
         return `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}" data-kind="${kind}"><span class="text-sm">${rowLine(r)}</span>${badge}</button>`;
       })
       .join("");
-    root.innerHTML = shell(`<section class="l-stack l-stack--2">${rows}</section>`);
+    // A persistent way to start the next 1:1, above the list — not buried inside the empty
+    // state that vanishes the moment there's history. (audit M2) This path is manager-only
+    // (members return early above), so the action always belongs here.
+    const startBar = `<div class="runs-list__actions"><button type="button" class="btn js-start">Start a 1:1</button></div>`;
+    root.innerHTML = shell(`<section class="l-stack l-stack--2">${startBar}${rows}</section>`);
     wire();
   };
 

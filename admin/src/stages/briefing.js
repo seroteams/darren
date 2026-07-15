@@ -5,6 +5,7 @@ import { postVerdict, getMyRun, submitRunVerdict, savePromises } from "../../../
 import { draftsFromNextActions, renderPromiseConfirm } from "../ui/promise-confirm.ts";
 import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
 import { markRunForClaim } from "../guest.ts";
+import { finishDestination } from "./finish-destination.ts";
 import { escapeCopy as escape } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Check, Copy } from "lucide";
@@ -491,8 +492,12 @@ export async function mount(root, { store, setState, resetSession }) {
           setState({ stage: STAGES.RUN_DEBRIEF });
           return;
         }
+        // Land on this person's page when the run is tied to one — the saved briefing and the
+        // new top-placed "prep next 1:1" button both live there (audit X5). Capture the id
+        // before resetSession() clears ctx; no roster person → Home.
+        const dest = finishDestination(store.ctx?.personId);
         resetSession();
-        setState({ stage: STAGES.START });
+        setState(dest);
       })();
     });
   }

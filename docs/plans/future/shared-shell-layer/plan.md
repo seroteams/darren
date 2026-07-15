@@ -3,9 +3,10 @@
 **Goal:** end the copy-paste drift between the admin and customer app shells.
 **Driver:** clean-up sweep 2026-07-12 (Lens F finding K)
 **Created:** 2026-07-12
-**State:** PARKED — a proposal, not scheduled. Overlaps the board's parked **shared-folder-split**
-track (SERO_BOARD.md §2 code-health) — reconcile before starting; this may just be that track's
-shell slice.
+**State:** FOLDED into the board's **shared-folder-split** code-health track (2026-07-15 clean-up)
+— this file stays as that track's shell-slice evidence annex, not a separate plan. The 2026-07-15
+sweep re-confirmed the drift: main.js / router.js / app-nav.js are hand-synced forks (208 / 84 / 116
+identical lines respectively), and 7+ frontend stage files import `admin/src` internals directly.
 
 ## The problem (evidence from the sweep)
 Three shell files exist as drifted hand-synced copies across the two apps — every new stage or nav

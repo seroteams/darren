@@ -8,6 +8,8 @@ admin/dist
 .DS_Store
 *.zip
 !docs/archive/**/*.zip
+# …except the full June log archive: 43MB, local-only (too big for git history)
+docs/archive/logs/logs-june-2026-full.zip
 .playwright-mcp/
 
 # Night-test report is markdown-first (docs/reports/*-night-test-report.md); the generated

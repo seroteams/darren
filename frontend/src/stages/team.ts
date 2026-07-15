@@ -141,7 +141,19 @@ export const mount: Mount = async (root, { setState }) => {
     const draft = await showAddPersonModal();
     if (!draft) return; // cancelled
     try {
-      await createPerson({ name: draft.name, role: draft.role, seniority: draft.seniority });
+      const res = (await createPerson({ name: draft.name, role: draft.role, seniority: draft.seniority })) as {
+        person?: { id?: string };
+      };
+      // If they ticked "invite by email", send the login link straight away — same one-time
+      // join link as the card's Give-access path, surfaced so the manager can copy it too.
+      const personId = res.person?.id;
+      if (draft.invite && personId) {
+        const inv = (await invitePerson(personId, draft.email)) as { link: string };
+        window.prompt(
+          `Send ${draft.name} this link (valid 7 days, works once). They'll set a password and see their own 1:1 history — never your notes:`,
+          `${window.location.origin}${inv.link}`,
+        );
+      }
       await load();
     } catch {
       window.alert("Couldn't add them — please try again.");
@@ -159,6 +171,7 @@ export const mount: Mount = async (root, { setState }) => {
       sub: "Update their details.",
       submitLabel: "Save",
       initial: { name: current.name, role: current.role, seniority: current.seniority },
+      allowInvite: false, // Edit is details-only; access lives on the card's Give-access sheet.
     });
     if (!draft) return; // cancelled
     try {

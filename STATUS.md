@@ -25,6 +25,10 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> ### 🔨 [members-page](docs/plans/doing/members-page/plan.md) — Notion-style Members page (started 2026-07-15)
+> Replacing the confusing per-person "give access / link an existing account" model with a standard SaaS Members page (Carl's call: build a Members page, not merge the two records). Add-someone becomes name-only; inviting gets ONE engine with a Members home + a per-person card shortcut (Carl's "no double email" refinement).
+> **P1 ✅ GREEN-LIT 2026-07-15** ("yeah all good") — read-only Members list + nav: new `backend/api/services/members/` domain + `GET /api/v1/members` (org-fenced, requireAdmin) + a customer-app `Members` stage/nav/route. Offline proof: members tests 9/9, typecheck clean (live screenshot blocked by shared dev-server being down — Carl's walk was the on-screen check). **P2 (invite with role) next**, P3–P5 ⬜.
+
 > ### 🔨 In flight right now (2026-07-12) — parallel sessions
 > Surfaced by the clean-up sweep; these were building while this board lagged. Status per each folder:
 > - **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — **P1 ✅ GREEN-LIT 2026-07-12** (your green light + agent-driven live walk on your "go": Q9 fork → confirm card → "Locked in ✓", 1 paid run ~$0.35; commits `47c0024b` + `6aadec58`); **P2 (card zero: resurface + close-out) is next**, P3 ⬜. Wires the orphaned `outcomeCheck` consumer.

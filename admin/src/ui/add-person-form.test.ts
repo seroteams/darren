@@ -1,15 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { cleanPersonForm, nameMatches } from "./add-person-form.ts";
+import { cleanPersonForm, inviteEmailError, nameMatches } from "./add-person-form.ts";
 
-// The "Add someone" modal collects name / job / seniority. This pure helper trims the
-// raw fields into a draft the way the roster endpoint expects, and enforces the one
-// client-side rule: a person needs a name. Role and seniority are optional.
+// The "Add someone" modal collects name / job / seniority, plus an optional invite-by-email.
+// This pure helper trims the raw fields into a draft the way the roster endpoint expects, and
+// enforces the one client-side rule: a person needs a name. Role, seniority and email are optional.
 
 test("trims a full form into a draft", () => {
   assert.deepEqual(
     cleanPersonForm({ name: "  Priya ", role: " Backend engineer ", seniority: " Senior " }),
-    { name: "Priya", role: "Backend engineer", seniority: "Senior" },
+    { name: "Priya", role: "Backend engineer", seniority: "Senior", email: "", invite: false },
   );
 });
 
@@ -20,7 +20,23 @@ test("name is required — blank or whitespace-only yields null", () => {
 });
 
 test("role and seniority are optional — absent becomes empty string", () => {
-  assert.deepEqual(cleanPersonForm({ name: "Sam" }), { name: "Sam", role: "", seniority: "" });
+  assert.deepEqual(cleanPersonForm({ name: "Sam" }), {
+    name: "Sam",
+    role: "",
+    seniority: "",
+    email: "",
+    invite: false,
+  });
+});
+
+test("email is trimmed + lowercased; invite passes through", () => {
+  assert.deepEqual(cleanPersonForm({ name: "Priya", email: "  Priya@Company.COM ", invite: true }), {
+    name: "Priya",
+    role: "",
+    seniority: "",
+    email: "priya@company.com",
+    invite: true,
+  });
 });
 
 test("handles junk input without throwing", () => {
@@ -29,7 +45,17 @@ test("handles junk input without throwing", () => {
     name: "Jo",
     role: "",
     seniority: "",
+    email: "",
+    invite: false,
   });
+});
+
+test("inviteEmailError only complains when inviting with a bad email", () => {
+  assert.equal(inviteEmailError({ invite: false, email: "" }), null); // not inviting → no email needed
+  assert.equal(inviteEmailError({ invite: false, email: "junk" }), null); // ignored when not inviting
+  assert.equal(inviteEmailError({ invite: true, email: "priya@company.com" }), null); // valid
+  assert.equal(typeof inviteEmailError({ invite: true, email: "" }), "string"); // needs an address
+  assert.equal(typeof inviteEmailError({ invite: true, email: "nope" }), "string"); // no @
 });
 
 test("nameMatches gates the delete confirm — trimmed, case-insensitive, never on empty", () => {

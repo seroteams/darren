@@ -21,14 +21,14 @@ const OVERALL_LABEL = { keep: "Keep", fix: "Fix", block: "Block" };
 // Which engine file owns each dimension — printed in "Suggested fixes" so an
 // external AI knows where to change the engine for each failing dimension.
 const FIX_MAP = {
-  role_aware: ["prompts/preparation.md", "prompts/generate-focus-points.md", "src/preparation.js (validateBrief)"],
+  role_aware: ["prompts/preparation.md", "prompts/generate-focus-points.md", "backend/engine/preparation.ts (validateBrief)"],
   meeting_aware: ["prompts/preparation.md", "prompts/generate-questions.md"],
-  grounded: ["prompts/preparation.md", "prompts/generate-focus-points.md", "src/preparation.js (validateBrief)"],
-  evidence: ["prompts/final-evaluation.md", "src/reviewer.js"],
-  no_overreach: ["prompts/final-evaluation.md", "prompts/generate-focus-points.md", "src/reviewer.js"],
+  grounded: ["prompts/preparation.md", "prompts/generate-focus-points.md", "backend/engine/preparation.ts (validateBrief)"],
+  evidence: ["prompts/final-evaluation.md", "backend/engine/reviewer.ts"],
+  no_overreach: ["prompts/final-evaluation.md", "prompts/generate-focus-points.md", "backend/engine/reviewer.ts"],
   trust: ["prompts/generate-questions.md"],
-  next_actions: ["prompts/final-evaluation.md", "src/reviewer.js"],
-  briefing_usable: ["prompts/final-evaluation.md", "src/reviewer.js"],
+  next_actions: ["prompts/final-evaluation.md", "backend/engine/reviewer.ts"],
+  briefing_usable: ["prompts/final-evaluation.md", "backend/engine/reviewer.ts"],
 };
 
 // none → 0 marks decided, complete → all 8 decided, partial → in between.

@@ -35,6 +35,7 @@ import * as team from "./services/team/team.controller.ts";
 import * as guided from "./services/guided-sessions/guided-sessions.controller.ts";
 import * as trackers from "./services/trackers/trackers.controller.ts";
 import * as invites from "./services/invites/invites.controller.ts";
+import * as members from "./services/members/members.controller.ts";
 import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
@@ -453,6 +454,11 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.unlinkPerson(c);
   }));
+  // Org Members page (members-page Phase 1) — a normal admin's view of who can log in to
+  // their OWN workspace (login accounts + pending invites). Manager/admin only (requireAdmin
+  // in the controller; members 403), org-fenced. Distinct from the superadmin console, which
+  // is cross-company. Read-only for now; invite + row actions arrive in later phases.
+  router.add("GET", "/api/v1/members", v1Route(members.listMembers));
   // Guided sessions (monthly-checkin Phase 1) — the manager-walked "Monthly Check-in" 1:1.
   // Internal admin only (requireInternalAdmin in the controller; plain managers 403), fenced
   // to the caller's org + manager + roster person. Own table — the interview pipeline is

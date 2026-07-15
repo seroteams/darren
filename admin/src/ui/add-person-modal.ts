@@ -7,7 +7,7 @@
 // (Cancel, Escape, backdrop). The server trims + caps everything again on insert.
 
 import "../styles/add-person-modal.css";
-import { cleanPersonForm } from "./add-person-form.ts";
+import { cleanPersonForm, inviteEmailError } from "./add-person-form.ts";
 import type { PersonDraft } from "./add-person-form.ts";
 
 export type { PersonDraft } from "./add-person-form.ts";
@@ -27,6 +27,8 @@ export interface PersonModalOptions {
   sub?: string;
   submitLabel?: string;
   initial?: Partial<PersonDraft>;
+  /** Show the "invite by email" checkbox + email field. On for Add, off for Edit. */
+  allowInvite?: boolean;
 }
 
 export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<PersonDraft | null> {
@@ -34,6 +36,7 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
   const sub = opts.sub ?? "Just a name to start — add their role if you know it.";
   const submitLabel = opts.submitLabel ?? "Add";
   const initial = opts.initial ?? {};
+  const allowInvite = opts.allowInvite ?? true;
   return new Promise((resolve) => {
     const backdrop = document.createElement("div");
     backdrop.className = "modal-backdrop";
@@ -65,6 +68,21 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
           <input class="apm-field__input js-seniority" id="apm-seniority" type="text" autocomplete="off"
                  placeholder="e.g. Senior / Staff / Lead" />
         </div>
+        ${
+          allowInvite
+            ? `<div class="apm-invite">
+          <label class="apm-invite__check">
+            <input type="checkbox" class="js-invite" />
+            <span>Invite them by email to log in</span>
+          </label>
+          <div class="apm-field js-invite-email" hidden>
+            <input class="apm-field__input js-email" type="email" autocomplete="off" spellcheck="false"
+                   placeholder="name@company.com" aria-label="Email address" aria-describedby="apm-err" />
+            <div class="apm-field__opt">We'll email them a one-time link to set a password and see only their own 1:1s.</div>
+          </div>
+        </div>`
+            : ""
+        }
       </div>
       <div class="apm__foot">
         <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
@@ -82,6 +100,9 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
     const nameInput = modal.querySelector<HTMLInputElement>(".js-name")!;
     const roleInput = modal.querySelector<HTMLInputElement>(".js-role")!;
     const seniorityInput = modal.querySelector<HTMLInputElement>(".js-seniority")!;
+    const inviteCheck = modal.querySelector<HTMLInputElement>(".js-invite"); // absent when !allowInvite
+    const emailWrap = modal.querySelector<HTMLElement>(".js-invite-email");
+    const emailInput = modal.querySelector<HTMLInputElement>(".js-email");
     const err = modal.querySelector<HTMLElement>(".js-err")!;
     nameInput.value = initial.name ?? "";
     roleInput.value = initial.role ?? "";
@@ -103,12 +124,22 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
         name: nameInput.value,
         role: roleInput.value,
         seniority: seniorityInput.value,
+        email: emailInput?.value,
+        invite: inviteCheck?.checked === true,
       });
       if (!draft) {
         err.textContent = "Add a name to continue.";
         err.hidden = false;
         nameInput.setAttribute("aria-invalid", "true");
         nameInput.focus();
+        return;
+      }
+      const emailErr = inviteEmailError({ invite: draft.invite, email: draft.email });
+      if (emailErr) {
+        err.textContent = emailErr;
+        err.hidden = false;
+        emailInput?.setAttribute("aria-invalid", "true");
+        emailInput?.focus();
         return;
       }
       close(draft);
@@ -138,8 +169,8 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
     }
 
     // Enter from any field submits.
-    [nameInput, roleInput, seniorityInput].forEach((input) =>
-      input.addEventListener("keydown", (e) => {
+    [nameInput, roleInput, seniorityInput, emailInput].forEach((input) =>
+      input?.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
           submit();
@@ -151,6 +182,21 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
       if (!err.hidden) {
         err.hidden = true;
         nameInput.removeAttribute("aria-invalid");
+      }
+    });
+    // The email field only appears once "invite" is ticked, so adding one name stays fast.
+    inviteCheck?.addEventListener("change", () => {
+      if (emailWrap) emailWrap.hidden = !inviteCheck.checked;
+      if (!err.hidden) {
+        err.hidden = true;
+        emailInput?.removeAttribute("aria-invalid");
+      }
+      if (inviteCheck.checked) setTimeout(() => emailInput?.focus({ preventScroll: true }), 0);
+    });
+    emailInput?.addEventListener("input", () => {
+      if (!err.hidden) {
+        err.hidden = true;
+        emailInput.removeAttribute("aria-invalid");
       }
     });
     backdrop.addEventListener("click", (e) => {

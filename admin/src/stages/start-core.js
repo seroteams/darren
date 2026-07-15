@@ -11,6 +11,8 @@ import { escapeHtml as escape } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
+import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
+import "../styles/ux-audit-fixes.css";
 import { Check } from "lucide";
 
 let keyHandler = null;
@@ -113,6 +115,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     try {
       const o = await getRunOverview(id);
       const run = runs.find((x) => x.id === id);
+      if (run) run.person = o.person || null; // remembered so a failed Resume can heal by name
       const finished = run?.stage === "BRIEFING";
       // A plain meeting overview for the manager — who it's with, the type, where
       // it's up to, and their own note. No engine/version wording (that's admin-only
@@ -157,9 +160,23 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   async function resume(id) {
     const ok = await rehydrateById(id);
-    if (!ok) {
-      await alertAction({ message: "Could not resume that session. It may have been deleted or expired." });
-    }
+    if (ok) return;
+    // The session is gone (expired/deleted server-side). Heal the row in place — no native
+    // alert, no dead Resume button left behind — and offer the one useful move: start fresh
+    // with the same person. (audit M3/X7)
+    const run = runs.find((x) => x.id === id);
+    const body = list.querySelector(`.js-body[data-id="${cssEscape(id)}"]`);
+    if (!body) return;
+    body.hidden = false;
+    body.innerHTML = staleRunRecoveryHtml(run?.person || "");
+    body.querySelector(".js-start-fresh")?.addEventListener("click", () => startFreshWith(run));
+  }
+
+  function startFreshWith(run) {
+    store.scripted = null;
+    Object.assign(store.ctx, emptyCtx());
+    if (run?.person) store.ctx.name = run.person; // continuity: pre-seed the same person's name
+    setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   }
 
   function review(id) {

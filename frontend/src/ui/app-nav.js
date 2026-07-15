@@ -8,7 +8,7 @@ import { STAGES, isAdmin } from "../../../admin/src/state.js";
 import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
-import { House, CirclePlus, UsersRound, FileCheck, LogOut, Lock, Info, MessageSquare, Menu } from "lucide";
+import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Lock, Info, MessageSquare, Menu } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
   <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
@@ -24,6 +24,7 @@ const ICON = {
   home: icon(House),
   new: icon(CirclePlus),
   team: icon(UsersRound),
+  members: icon(UserCog),
   runs: icon(FileCheck),
   logout: icon(LogOut),
   privacy: icon(Lock),
@@ -41,6 +42,7 @@ const LINKS = [
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
+  { key: "mgmembers", label: "Members", stage: STAGES.MEMBERS, icon: ICON.members, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
 ];
 
@@ -131,6 +133,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
     },
     mgteam: () => setState && setState({ stage: STAGES.TEAM }),
+    mgmembers: () => setState && setState({ stage: STAGES.MEMBERS }),
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
     about: () => setState && setState({ stage: STAGES.ABOUT }),
@@ -158,6 +161,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: "mghome",
     [STAGES.TEAM]: "mgteam",
+    [STAGES.MEMBERS]: "mgmembers",
     [STAGES.MEMBER_HOME]: "runs",
     [STAGES.RUNS]: "mgruns",
     [STAGES.INTAKE]: "mgnew",

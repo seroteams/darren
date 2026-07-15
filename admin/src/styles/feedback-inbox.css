@@ -14,12 +14,12 @@
   display: flex;
   gap: 12px;
   padding: 14px 16px;
-  background: var(--color-surface, #fff);
-  border: 1px solid var(--color-border, #e8e8e8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-card, 12px);
   transition: background-color 0.12s ease;
 }
-.fb-item:hover { background: var(--sero-active-state-bg, #eef6fd); }
+.fb-item:hover { background: var(--sero-active-state-bg); }
 
 /* Initials avatar — the sender's identity mark (same recipe as the session topbar). */
 .fb-avatar {
@@ -29,8 +29,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--color-accent, #5aa9e6);
-  color: #fff;
+  background: var(--color-accent);
+  color: var(--sero-offwhite-50);
   font-size: var(--type-body-sm, 15px);
   font-weight: var(--type-weight-bold, 700);
   line-height: 1;
@@ -46,12 +46,12 @@
   gap: 12px;
 }
 .fb-head__who { min-width: 0; }
-.fb-name { color: var(--color-ink, #303030); font-weight: var(--type-weight-medium, 500); }
-.fb-company { font-size: var(--type-caption, 14px); color: var(--color-ink-dim, #5f5f5f); }
+.fb-name { color: var(--color-ink); font-weight: var(--type-weight-medium, 500); }
+.fb-company { font-size: var(--type-caption, 14px); color: var(--color-ink-dim); }
 .fb-head__meta { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
 .fb-time {
   font-size: var(--type-caption, 14px);
-  color: var(--color-ink-mute, #757575);
+  color: var(--color-ink-mute);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -60,7 +60,7 @@
    ellipsis if long (full text on hover, always intact via Copy) — plus a quiet Copy
    button so the address can be grabbed for a follow-up email without retyping. */
 .fb-who__email { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.fb-mail-ico { flex: none; display: inline-flex; color: var(--color-ink-mute, #757575); }
+.fb-mail-ico { flex: none; display: inline-flex; color: var(--color-ink-mute); }
 .fb-who__mail {
   flex: 0 1 auto;
   min-width: 0;
@@ -68,15 +68,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: var(--type-caption, 14px);
-  color: var(--color-ink-dim, #5f5f5f);
+  color: var(--color-ink-dim);
   text-decoration: none;
 }
 .fb-who__mail:hover { text-decoration: underline; }
 .fb-copy {
   flex: none;
-  border: 1px solid var(--color-border, #e8e8e8);
-  background: var(--color-surface, #fff);
-  color: var(--color-ink-dim, #5f5f5f);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink-dim);
   font: inherit;
   font-size: var(--type-caption, 14px);
   font-weight: var(--type-weight-medium, 500);
@@ -87,14 +87,14 @@
   transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
 }
 .fb-copy:hover {
-  background: var(--sero-active-state-bg, #eef6fd);
-  color: var(--color-ink, #303030);
-  border-color: var(--sero-active-state-bg, #eef6fd);
+  background: var(--sero-active-state-bg);
+  color: var(--color-ink);
+  border-color: var(--sero-active-state-bg);
 }
 .fb-copy.is-copied {
-  background: var(--sero-mint-300, #e1faf4);
-  color: var(--sero-mint-900, #0c4b3c);
-  border-color: var(--sero-mint-300, #e1faf4);
+  background: var(--sero-mint-300);
+  color: var(--sero-mint-900);
+  border-color: var(--sero-mint-300);
 }
 
 /* The note itself: wrap normally AND break a long unbroken run (e.g. "yyyyy…") so it can
@@ -105,7 +105,7 @@
   word-break: break-word;
   font-size: var(--type-body-sm, 14px);
   line-height: 1.55;
-  color: var(--color-ink, #303030);
+  color: var(--color-ink);
 }
 
 /* Source + verdict pills sit below the note, only when there's something to show. */
@@ -115,8 +115,8 @@
   padding: 1px 10px;
   border-radius: var(--sero-radius-badge, var(--sero-radius-full));
   font-size: var(--type-caption, 14px);
-  color: var(--color-ink-dim, #5f5f5f);
-  background: var(--sero-soft-300, #f4f4f4);
+  color: var(--color-ink-dim);
+  background: var(--sero-soft-300);
 }
 .fb-pill--src { font-family: var(--font-mono, ui-monospace, monospace); }
 
@@ -130,8 +130,8 @@
   font-weight: var(--type-weight-medium, 500);
   white-space: nowrap;
 }
-.fb-verdict--yes { background: var(--sero-mint-300, #e1faf4); color: var(--sero-mint-900, #0c4b3c); }
-.fb-verdict--no  { background: var(--sero-soft-300, #f9f9f9); color: var(--color-ink-dim, #5f5f5f); }
+.fb-verdict--yes { background: var(--sero-mint-300); color: var(--sero-mint-900); }
+.fb-verdict--no  { background: var(--sero-soft-300); color: var(--color-ink-dim); }
 
 /* Kind chip (validation-kit Phase 3b): icon + label in the card head, so a 1:1 verdict
    and a plain note read differently at a glance. Muted — the message stays the loudest. */
@@ -143,14 +143,14 @@
   padding: 1px 10px;
   border-radius: var(--sero-radius-badge, var(--sero-radius-full));
   font-size: var(--type-caption, 14px);
-  color: var(--color-ink-dim, #5f5f5f);
-  background: var(--sero-soft-300, #f4f4f4);
+  color: var(--color-ink-dim);
+  background: var(--sero-soft-300);
   white-space: nowrap;
   vertical-align: middle;
 }
 .fb-type--verdict {
-  background: var(--sero-primary-200, #e9f3fb);
-  color: var(--sero-primary-800, #1b5d91);
+  background: var(--sero-primary-200);
+  color: var(--sero-primary-800);
 }
 
 /* Delete: a quiet trash icon, calm until hover — red only on hover so the page reads calm. */
@@ -160,15 +160,15 @@
   justify-content: center;
   border: none;
   background: transparent;
-  color: var(--color-ink-mute, #757575);
+  color: var(--color-ink-mute);
   padding: 4px;
   border-radius: var(--radius-input, 4px);
   cursor: pointer;
   transition: background-color 0.12s ease, color 0.12s ease;
 }
 .fb-del:hover {
-  background: var(--sero-coral-200, #feeae8);
-  color: var(--sero-coral-800, #ac1608);
+  background: var(--sero-coral-200);
+  color: var(--sero-coral-800);
 }
 .fb-del:disabled,
 .fb-del.is-busy { opacity: 0.5; cursor: default; }

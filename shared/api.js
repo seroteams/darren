@@ -370,6 +370,12 @@ export async function renamePerson(key, name) {
 export async function listPeople() {
   return json(await fetch("/api/v1/team/people"));
 }
+// Org Members page (members-page Phase 1): who can log in to the caller's own workspace —
+// login accounts + pending invites, tagged active | invited | deactivated. Manager/admin only,
+// org-fenced server-side. → { members:[...] }.
+export async function getMembers() {
+  return json(await fetch("/api/v1/members"));
+}
 export async function createPerson({ name, role, seniority } = {}) {
   return postJson("/api/v1/team/people", { name, role, seniority });
 }

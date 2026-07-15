@@ -36,6 +36,7 @@ const loaders = {
   START:           () => import("../../admin/src/stages/start-core.js"),
   MEMBER_HOME:     () => import("./stages/member-home.js"),
   TEAM:            () => import("./stages/team.ts"),
+  MEMBERS:         () => import("./stages/members.ts"),
   RUNS:            () => import("../../admin/src/stages/runs.ts"),
   RUN_DETAIL:      () => import("../../admin/src/stages/run-detail.ts"),
   PERSON_DETAIL:   () => import("./stages/person-detail.ts"),

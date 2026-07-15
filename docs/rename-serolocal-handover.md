@@ -1,7 +1,9 @@
 # Handover — rename `darren` → `serolocal`
 
-**Status:** prep complete + committed. Only the manual rename run remains.
-**Scheduled:** Carl is running this **tonight (2026-07-08)** — end of day, once all sessions are closed.
+**Status:** STALLED — prep complete + committed, but the manual rename run never happened
+(was scheduled for the evening of 2026-07-08; still pending as of the 2026-07-15 clean-up sweep).
+The script is ready at `Sero\rename-to-serolocal.ps1`. Everything below still applies — it just
+needs a new evening where all sessions are closed. Carl's call when.
 **Date opened:** 2026-07-08
 
 ---

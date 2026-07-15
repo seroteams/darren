@@ -7,7 +7,7 @@
 ----------------------------------------------------------------------------- */
 .app-nav {
   --app-nav-bg: var(--sero-primary-800);
-  --app-nav-fg: #fff;
+  --app-nav-fg: var(--sero-offwhite-50);
   --app-nav-fg-dim: rgba(255, 255, 255, 0.9);
   --app-nav-hover-bg: rgba(255, 255, 255, 0.14);
   position: fixed;
@@ -138,7 +138,7 @@
   color: var(--app-nav-fg);
 }
 .app-nav__link.is-active {
-  background: #fff;
+  background: var(--color-surface);
   color: var(--color-ink);
   font-weight: var(--type-weight-semibold);
 }
@@ -207,7 +207,7 @@ body.has-app-nav.has-session-topbar {
   gap: var(--sero-space-2);
   max-width: min(60vw, 320px);
   padding: 5px 12px 5px 5px;
-  background: #fff;
+  background: var(--color-surface);
   border: 1px solid rgba(36, 68, 92, 0.14);
   border-radius: var(--sero-radius-full);
   box-shadow: var(--sero-shadow-sm);
@@ -222,15 +222,15 @@ body.has-app-nav.has-session-topbar {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #5aa9e6;
-  color: #fff;
+  background: var(--sero-primary-700);
+  color: var(--sero-offwhite-50);
   font-size: var(--type-body-sm);
   font-weight: var(--type-weight-bold);
   line-height: 1;
 }
 .profile-badge__email {
   font-size: var(--type-body-sm);
-  color: #24445c;
+  color: var(--color-ink);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

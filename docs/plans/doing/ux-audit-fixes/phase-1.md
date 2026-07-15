@@ -1,6 +1,16 @@
 # Phase 1 — The return path
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-15)
+Branch `work/ux-audit-fixes`. Offline proof: **all tests green (2 new suites: finish-destination 3/3, stale-run-recovery 4/4), `npm run typecheck` clean, both apps `vite build` clean.** No paid runs (UI/copy only).
+
+- **M1 — prep above history** — [person-detail.ts](../../../frontend/src/stages/person-detail.ts) render order `sinceBlock + list + prep` → `sinceBlock + prep + list` (prep moved above the Past-1:1s list).
+- **M2 — persistent start on Past 1:1s** — [runs.ts](../../../admin/src/stages/runs.ts) adds a `Start a 1:1` bar above the populated list (manager path), not only inside the empty state.
+- **M3 + X7 — resume self-heals** — [start-core.js](../../../admin/src/stages/start-core.js) `resume()` no longer fires a native `alert()`; on failure the row heals in place with a styled card + `Start fresh with <name>` (person name remembered when the row was expanded). New tested render helper [stale-run-recovery.ts](../../../admin/src/ui/stale-run-recovery.ts).
+- **X5 — finish lands on the person** — [briefing.js](../../../admin/src/stages/briefing.js) routes to the person's page after Finish when the run carries a `personId` (captured before `resetSession()`), else Home. New tested decision helper [finish-destination.ts](../../../admin/src/stages/finish-destination.ts).
+- Feature CSS isolated in [ux-audit-fixes.css](../../../admin/src/styles/ux-audit-fixes.css) (own file, no re-skin).
+- **X8 deviation (flagged):** the *placement rule* ("primary action above the list, always") is implemented on both surfaces, but the **full shared run-list component was NOT extracted** — Home's accordion, Past-1:1s rows, and person-page rows are genuinely different shapes, and forcing one component now is high-risk/invisible-to-QA. Recommend it stays in the plan's parked "full component-extraction pass." Engineer's call, per simplicity-first; Carl to confirm.
 
 ## Goal
 A returning manager can always see and press "prep the next 1:1" without scrolling, and nothing they click can dead-end.
