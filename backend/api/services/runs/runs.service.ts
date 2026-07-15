@@ -46,9 +46,10 @@ export interface RunsService {
   // stored as a rating.json sidecar. Fenced by org AND user — a run the caller doesn't
   // own is a 404 (same answer a stranger gets), so ids can't be probed or rated.
   rateMine(id: string | undefined, body: unknown, orgId: string | null | undefined, userId: string | null | undefined): Promise<{ ok: true; stars: number; note: string }>;
-  // Dev-only "prefill a run" (admin-guarded at the route). clonable lists every finished
-  // run on disk (unfenced) so there's always something to seed from; clone copies one into
-  // a fresh run owned by the caller so it drops straight into their /mine.
+  // Internal "prefill a run" tool (superadmin-guarded in production at the route). clonable
+  // lists every finished run on disk (unfenced) so there's always something to seed from;
+  // clone copies one into a fresh run owned by the caller so it drops straight into their
+  // /mine. The cross-company read is safe ONLY because the route is superadmin-gated.
   clonable(): Promise<{ runs: unknown[] }>;
   clone(sourceId: string | undefined, orgId: string | null, userId: string | null): Promise<{ id: string }>;
 }

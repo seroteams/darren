@@ -63,6 +63,22 @@ export function requireSuperadmin(identity: RequestIdentity): void {
   if (!isSuperadminIdentity(identity)) throw forbidden("Superadmins only");
 }
 
+// The access policy for the internal "prefill a run" tool (/runs/clonable + /runs/clone),
+// factored out so it's unit-testable (H-1 fix, personal-data-security Phase 1). That tool
+// reads runs UNFENCED across every company, so in production it must be SUPERADMIN-only —
+// NOT requireAdmin, which passes for `manager`, the role every customer signup gets (so a
+// customer could clone another company's run and read its notes/briefing). The superadmin
+// email allowlist is the same wall that guards every other cross-company internal endpoint,
+// and it fails safe: an empty allowlist denies everyone. Non-production keeps the
+// any-logged-in convenience for the local QA one-click.
+export function requirePrefillAccess(
+  identity: RequestIdentity,
+  isProduction: boolean = process.env.NODE_ENV === "production",
+): void {
+  if (isProduction) requireSuperadmin(identity);
+  else requireAuth(identity);
+}
+
 // The internal-admin gate (Monthly Check-in / guided sessions). Deliberately NARROWER
 // than requireAdmin: a plain `manager` does NOT pass — corridor managers keep the current
 // flow — but a superadmin-by-email DOES, so a superadmin whose stored role is `manager`

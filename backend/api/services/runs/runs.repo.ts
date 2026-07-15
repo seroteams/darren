@@ -85,9 +85,10 @@ export interface RunsRepo {
   // list. Minimal rows by design (type + dates + managerId); privacy lives in the engine.
   listAboutPerson(orgId: string | null | undefined, personIds: string[]): Promise<unknown[]>;
   memberRun(id: string, orgId: string | null | undefined, userId: string | null | undefined): Promise<unknown>;
-  // Dev-only "prefill a run": copy a finished run into a fresh one owned by the caller.
-  // Source is UNFENCED across companies, so the route MUST stay dev-only (see F-002).
-  // Returns the new run's id, or null when the source is unknown / not finished.
+  // Internal "prefill a run": copy a finished run into a fresh one owned by the caller.
+  // Source is UNFENCED across companies, so the route MUST stay superadmin-only in
+  // production (requirePrefillAccess — H-1 fix). Returns the new run's id, or null when
+  // the source is unknown / not finished.
   cloneRun(sourceId: string, orgId: string | null, userId: string | null): Promise<{ id: string } | null>;
 }
 

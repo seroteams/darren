@@ -8,7 +8,7 @@ import { runsRepo } from "./runs.repo.ts";
 import { aboutMeService } from "./about-me.service.ts";
 import { listCompletedGuidedSlim } from "../guided-sessions/guided-slim.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
+import { requireAdmin, requireAuth, requirePrefillAccess } from "../../middleware/require-auth.ts";
 
 // Finished Monthly Check-ins merge into the manager's run history (Phase 6, add-a-source).
 const service = createRunsService(runsRepo, { listCompletedGuidedSlim });
@@ -25,14 +25,14 @@ async function callerOrgId(c: RequestContext): Promise<string | null> {
 }
 
 // The caller's full identity for the "prefill a run" tool. Returns userId too, because
-// clone stamps the caller as the run's owner so it lands in their own /mine list. Access:
-// admins always; in dev, ANY logged-in user — so the test manager account we use for QA
-// (member@seroteams.com, a plain member) can prefill while experiencing the manager side.
-// In production it stays admin-only, so real members never clone.
+// clone stamps the caller as the run's owner so it lands in their own /mine list. Access
+// is SUPERADMIN-only in production (requirePrefillAccess) — this tool reads runs unfenced
+// across every company, and `manager` is what every customer signup gets, so an admin/
+// manager gate would let any customer clone another company's run. In dev it stays
+// any-logged-in, so the local QA one-click (member@seroteams.com) is unaffected.
 async function callerPrefill(c: RequestContext): Promise<{ userId: string | null; orgId: string | null }> {
   const identity = await buildIdentity(c.req);
-  if (process.env.NODE_ENV === "production") requireAdmin(identity);
-  else requireAuth(identity);
+  requirePrefillAccess(identity);
   return { userId: identity.userId, orgId: identity.orgId };
 }
 
@@ -80,9 +80,10 @@ async function callerIdentity(c: RequestContext): Promise<{ userId: string | nul
   return { userId: identity.userId, orgId: identity.orgId };
 }
 
-// Dev-only "prefill a run" (admin-guarded): list clonable finished runs, and clone one
-// into a fresh run owned by the caller so they can walk a full run without paying to
-// generate it. clone reads { sourceId } from the body and returns { id } of the new run.
+// Internal "prefill a run" tool (superadmin-only in production, see callerPrefill): list
+// clonable finished runs, and clone one into a fresh run owned by the caller so they can
+// walk a full run without paying to generate it. clone reads { sourceId } from the body
+// and returns { id } of the new run.
 export async function clonable(c: RequestContext): Promise<void> {
   await callerPrefill(c);
   c.json(200, await service.clonable());
