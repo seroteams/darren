@@ -13,6 +13,7 @@ import { icon } from "../../../admin/src/ui/icon.js";
 import { Star } from "lucide";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { relTime } from "../../../admin/src/ui/time.ts";
+import { renderLastAxes, type AxisRead } from "./person-axes.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 
 type MyRun = {
@@ -35,7 +36,7 @@ type Person = {
   avgStars: number | null;
 };
 type NextAction = { when?: string; action?: string };
-type Briefing = { next_actions?: NextAction[]; watch_for?: string[] } | null;
+type Briefing = { next_actions?: NextAction[]; watch_for?: string[]; axes?: AxisRead[] } | null;
 
 // Local one-use time-ago (mirrors runs.ts / team.ts) — four lines, no shared util for one caller.
 // The summary line under the name: role, then meetings / last met / average as a scannable
@@ -59,12 +60,13 @@ function summaryHtml(p: Person): string {
 // slice). The two lists are colour-coded (agreed vs watch) so they read apart at a glance.
 // Returns "" — the block is hidden entirely — when neither field has content, so there's no
 // empty scaffolding. Every value escaped.
-function sinceLastTime(b: Briefing): string {
-  if (!b) return "";
-  const actions = (b.next_actions || []).filter((a) => a && (a.action || a.when));
-  const watch = (b.watch_for || []).filter(Boolean);
-  if (!actions.length && !watch.length) return "";
+function sinceLastTime(b: Briefing, whenLabel: string): string {
+  const axisRow = renderLastAxes(b?.axes, whenLabel);
+  const actions = b ? (b.next_actions || []).filter((a) => a && (a.action || a.when)) : [];
+  const watch = b ? (b.watch_for || []).filter(Boolean) : [];
+  if (!axisRow && !actions.length && !watch.length) return "";
   const parts: string[] = [];
+  if (axisRow) parts.push(axisRow);
   if (actions.length) {
     const items = actions
       .map((a) => `<li>${a.when ? `<span class="since__when">${escapeHtml(a.when)}:</span> ` : ""}${escapeHtml(a.action || "")}</li>`)
@@ -204,7 +206,7 @@ export const mount: Mount = async (root, { setState }) => {
   let sinceBlock = "";
   try {
     const latest = (await getMyRun(mine[0]!.id)) as { briefing: Briefing };
-    sinceBlock = sinceLastTime(latest?.briefing ?? null);
+    sinceBlock = sinceLastTime(latest?.briefing ?? null, relTime(mine[0]!.lastSeenAt));
   } catch { /* omit the block, keep the page */ }
 
   const list = `<section class="l-stack l-stack--2">
