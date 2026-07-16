@@ -16,10 +16,11 @@ function fakeRepo() {
   const repo: InvitesRepo = {
     findPersonForManager: async (id, orgId, managerId) =>
       id === "p1" && orgId === "o1" && managerId === "m1" ? { id: "p1", name: "Priya QA", userId: null } : null,
-    // status: the DB default; personId nullable (absent for a workspace invite).
-    insertInvite: async (row) => { const r = { status: "pending", ...row, personId: row.personId ?? null, id: `i${++n}` }; invites.push(r); return { id: r.id }; },
+    // status: the DB default; personId nullable (absent for a workspace invite); openedAt null until opened.
+    insertInvite: async (row) => { const r = { status: "pending", ...row, personId: row.personId ?? null, openedAt: null as Date | null, id: `i${++n}` }; invites.push(r); return { id: r.id }; },
     findByTokenHash: async (hash) => invites.find((i) => i.tokenHash === hash) ?? null,
     markAccepted: async (id) => { const i = invites.find((x) => x.id === id); if (i) i.status = "accepted"; },
+    markOpened: async (id) => { const i = invites.find((x) => x.id === id); if (i && !i.openedAt) i.openedAt = new Date(); },
     findPendingInviteForOrg: async (id, orgId) => invites.find((i) => i.id === id && i.orgId === orgId && i.status === "pending") ?? null,
     updateInviteToken: async (id, tokenHash, expiresAt) => { const i = invites.find((x) => x.id === id); if (i) { i.tokenHash = tokenHash; i.expiresAt = expiresAt; } },
     setInviteStatus: async (id, status) => { const i = invites.find((x) => x.id === id); if (i) i.status = status; },
@@ -126,6 +127,22 @@ test("accept mints the user with the invite's role (manager, not defaulted to me
   const { token } = await svc.createForOrg("o1", "m1", "boss@qa.test", "manager");
   const { user } = await svc.accept(token, { name: "Boss", password: "longenough1" });
   assert.equal(user.role, "manager"); // the chosen role flowed through accept
+});
+
+test("opening the join link stamps opened_at once; the internal preview never does", async () => {
+  const { repo, invites } = fakeRepo();
+  const svc = createInvitesService(repo, hasher);
+  const { token } = await svc.createForOrg("o1", "m1", "opener@qa.test", "member");
+  assert.equal(invites[0]!.openedAt, null); // sent, not opened
+  await svc.preview(token, { stampOpen: true }); // the invitee opens their /join link
+  const first = invites[0]!.openedAt;
+  assert.ok(first, "opened_at is stamped on first open");
+  await svc.preview(token, { stampOpen: true }); // re-open keeps the first timestamp
+  assert.equal(invites[0]!.openedAt, first);
+  // The internal reuse (composing the invite email) must NOT self-mark opened.
+  const { token: t2 } = await svc.createForOrg("o1", "m1", "quiet@qa.test", "member");
+  await svc.preview(t2);
+  assert.equal(invites[1]!.openedAt, null);
 });
 
 test("revokeForOrg kills a pending invite — the old link stops working; wrong org is not-found", async () => {

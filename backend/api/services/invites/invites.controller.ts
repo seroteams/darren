@@ -59,9 +59,10 @@ export async function createInvite(c: RequestContext): Promise<void> {
   c.json(201, { link, expiresAt });
 }
 
-// GET /api/v1/invites/:token — public preview for the join page.
+// GET /api/v1/invites/:token — public preview for the join page. This IS the invitee opening
+// their link, so stamp opened_at (team-page-redesign Phase 2) the first time it's hit.
 export async function previewInvite(c: RequestContext): Promise<void> {
-  c.json(200, await service.preview(c.params.token));
+  c.json(200, await service.preview(c.params.token, { stampOpen: true }));
 }
 
 // POST /api/v1/invites/:token/accept — { name, password } → creates the member, links the

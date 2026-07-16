@@ -281,6 +281,10 @@ export const invitations = pgTable(
     invitedBy: uuid("invited_by").references(() => users.id),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     expiresAt: timestamp("expires_at", { withTimezone: true }),
+    // Stamped the first time the invitee opens their /join link (team-page-redesign Phase 2).
+    // Null = sent-but-not-opened; set-but-status-pending = "opened, didn't finish" (the state a
+    // reminder targets). Recorded from now on — older invites can't know if they were opened.
+    openedAt: timestamp("opened_at", { withTimezone: true }),
     // The join flow (member-onboarding-invites): the one-time token is stored HASHED
     // (sha256) — never plaintext at rest — and the invite carries which roster person
     // it's for, so accepting auto-links people.user_id (no manual matching).

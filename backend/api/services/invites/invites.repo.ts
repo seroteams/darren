@@ -4,7 +4,7 @@
 // hashes it (sha256) and only the hash is stored or queried. The service depends on the
 // interface, so it's unit-tested against an in-memory fake without a database.
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
 import { invitations, organizations, people, users } from "../../../db/schema.ts";
 
@@ -19,6 +19,7 @@ export interface InviteRow {
   expiresAt: Date;
   tokenHash: string;
   personId: string | null;
+  openedAt: Date | null;
 }
 
 export interface NewInvite {
@@ -39,6 +40,8 @@ export interface InvitesRepo {
   insertInvite(row: NewInvite): Promise<{ id: string }>;
   findByTokenHash(hash: string): Promise<InviteRow | null>;
   markAccepted(id: string): Promise<void>;
+  /** Stamp opened_at the first time the join link is opened (only if still null). */
+  markOpened(id: string): Promise<void>;
   /** A pending invite by id, fenced to the org (members-page Phase 4) — null otherwise. */
   findPendingInviteForOrg(id: string, orgId: string): Promise<InviteRow | null>;
   /** Re-point an invite at a fresh token + expiry (resend) — the old hash stops matching. */
@@ -81,6 +84,7 @@ export const pgInvitesRepo: InvitesRepo = {
         expiresAt: invitations.expiresAt,
         tokenHash: invitations.tokenHash,
         personId: invitations.personId,
+        openedAt: invitations.openedAt,
       })
       .from(invitations)
       .where(eq(invitations.tokenHash, hash))
@@ -91,6 +95,10 @@ export const pgInvitesRepo: InvitesRepo = {
   },
   async markAccepted(id) {
     await getDb().update(invitations).set({ status: "accepted" }).where(eq(invitations.id, id));
+  },
+  async markOpened(id) {
+    // Only the FIRST open counts — don't overwrite an earlier timestamp on a re-open.
+    await getDb().update(invitations).set({ openedAt: new Date() }).where(and(eq(invitations.id, id), isNull(invitations.openedAt)));
   },
   async findPendingInviteForOrg(id, orgId) {
     const rows = await getDb()
@@ -104,6 +112,7 @@ export const pgInvitesRepo: InvitesRepo = {
         expiresAt: invitations.expiresAt,
         tokenHash: invitations.tokenHash,
         personId: invitations.personId,
+        openedAt: invitations.openedAt,
       })
       .from(invitations)
       .where(and(eq(invitations.id, id), eq(invitations.orgId, orgId), eq(invitations.status, "pending")))

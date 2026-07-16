@@ -91,9 +91,12 @@ export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: 
       return { token, expiresAt };
     },
 
-    /** What the join page shows before any account exists. */
-    async preview(token: unknown) {
+    /** What the join page shows before any account exists. `stampOpen` records the first
+     *  link-open (team-page-redesign Phase 2) — ONLY the public join-page load passes it;
+     *  the internal reuse (composing the invite email) must not, or every send self-marks opened. */
+    async preview(token: unknown, opts: { stampOpen?: boolean } = {}) {
       const inv = await liveInvite(token);
+      if (opts.stampOpen) await repo.markOpened(inv.id);
       return {
         orgName: await repo.orgName(inv.orgId),
         inviterName: inv.invitedBy ? await repo.userName(inv.invitedBy) : null,
