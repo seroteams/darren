@@ -1,6 +1,8 @@
 # Phase 2 — Make it the default
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl QA
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done
+
+## ✅ GREEN-LIT 2026-07-17 — Carl signed off ("1 fine go"). Every manager now lands on Arc. Committed `cacd3818`.
 
 ## Built (Thu 16 Jul 2026)
 - `frontend/src/stages/preparation-brief.ts` — `DEFAULT_VARIANT` set to "L", so every non-admin

@@ -76,6 +76,6 @@ scaffolding. Deferred (needs eyes): slot reclassification, name-as-hero, page-he
   re-lays-out; separate decision.
 - JS→TS migration of admin stages — separate track; not needed for any of this.
 - Net-new component redesigns / new features — out of scope.
-- **Coordination:** the in-flight Arc briefing plan (`docs/plans/doing/briefing-before-during-after/`)
-  touches briefing surfaces — its QA + close-out happens first; this initiative doesn't edit those
-  files until it's closed.
+- **Coordination:** ✅ the Arc briefing plan **closed 2026-07-17** — briefing/prep surfaces are now
+  UNBLOCKED. The items deferred for it (the reading column + `.prep-callout` restyle) can land in a
+  later step.

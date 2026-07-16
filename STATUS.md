@@ -25,9 +25,15 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> ### ✅ [briefing-before-during-after](docs/plans/doing/briefing-before-during-after/plan.md) — TRACK CLOSED 2026-07-17 (Carl: "1 fine go"), $0, local only.
+> Darren said the run's last page (the pre-1:1 briefing) was confusing. Carl picked "Before · During · After" from 5 mockups; it's now the default layout every manager lands on — the 7 brief pieces reframed onto the meeting's shape (walk-in → in the room → leave with), built in Sero's real tokens. Both phases ✅. `build`/tests 54/54. Committed `cacd3818`; **not deployed** (local until Carl says go live). Folder → done/.
+
+> ### 🔨 [ui-look-and-feel](docs/plans/doing/ui-look-and-feel/plan.md) — whole-app polish to the artifact bar (started 2026-07-17, light-only; dark mode parked)
+> 6 steps. **P1 core 🔨** built overnight (`f4bb7869`) — calmer display type + token scaffolding + safe defect fixes (invisible Pulse bars, top-bar tuck-under). **P2 core 🔨** built overnight (`4bb411b9`) — section labels now blue accent-dark (the artifact eyebrow), one-word revert; `.eyebrow--slot`/`.ident-name` scaffolding. Both await Carl's QA. Deferred within each (needs eyes): briefing column + `.prep-callout` (was Arc-blocked — now unblocked), name-as-hero, slot reclassification, `.stage` tail, micro-defects. P3–P6 ⬜.
+
 > ### 🔨 [members-page](docs/plans/doing/members-page/plan.md) — Notion-style Members page (started 2026-07-15)
 > Replacing the confusing per-person "give access / link an existing account" model with a standard SaaS Members page (Carl's call: build a Members page, not merge the two records). Add-someone becomes name-only; inviting gets ONE engine with a Members home + a per-person card shortcut (Carl's "no double email" refinement).
-> **P1 ✅ GREEN-LIT 2026-07-15** ("yeah all good") — read-only Members list + nav: new `backend/api/services/members/` domain + `GET /api/v1/members` (org-fenced, requireAdmin) + a customer-app `Members` stage/nav/route. Offline proof: members tests 9/9, typecheck clean (live screenshot blocked by shared dev-server being down — Carl's walk was the on-screen check). **P2 (invite with role) next**, P3–P5 ⬜.
+> **P1 ✅** read-only list + nav. **P2 ✅** invite people (email + role). **P3–P5 🔨 built + committed 2026-07-16** (batched on Carl's "finish this"), awaiting his one final walk: **P3** row ⋯ menu (role / deactivate / reactivate + last-manager guard, `e2b351e3`) · **P4** revoke / resend pending invites (`c36fff01`) · **P5 (adjusted)** the confusing "Link an existing account" dropdown removed + the Add-someone double-email checkbox removed. Offline proof P3–5: tests 36/36, typecheck clean. **Parked:** invite-time auto-match + Team-card chip redesign + add-person dead-code cleanup (touch `team.ts`, which other sessions are editing — deferred to avoid sweeping their work).
 
 > ### 🔨 In flight right now (2026-07-12) — parallel sessions
 > Surfaced by the clean-up sweep; these were building while this board lagged. Status per each folder:

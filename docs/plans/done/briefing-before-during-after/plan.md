@@ -35,14 +35,15 @@ After" layout, so a manager lands on a clear, meeting-shaped page instead of the
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Build the layout | "Before · During · After" exists as a real Sero-tokened layout; admin can switch to it and it renders right | 🔨 built — awaiting Carl QA |
-| 2 | Make it the default | Every manager lands on it by default; confirm no other brief surface broke | 🔨 built — awaiting Carl QA |
+| 1 | Build the layout | "Before · During · After" exists as a real Sero-tokened layout; admin can switch to it and it renders right | ✅ done |
+| 2 | Make it the default | Every manager lands on it by default; confirm no other brief surface broke | ✅ done |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Both phases **built in one pass** (Carl asked to "complete it locally"), awaiting his QA walk +
-green light. Nothing marked done or deployed until he signs off.
+**✅ TRACK CLOSED 2026-07-17 — Carl green-lit ("1 fine go").** Both phases done. The pre-1:1
+briefing (last page of a run) is now the "Before · During · After" layout for every manager, built
+in Sero's real tokens. Not deployed — local only until Carl says "go live". Committed `cacd3818`.
 
 **What landed (all front-end, no engine/cost):**
 - New layout variant **L "Arc"** (Before · During · After) added to `preparation-brief.ts`

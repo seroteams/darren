@@ -1,6 +1,8 @@
 # Phase 1 — Build the layout
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl QA
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done
+
+## ✅ GREEN-LIT 2026-07-17 — Carl walked the briefing ("1 fine go"). Committed `cacd3818`.
 
 ## Built (Thu 16 Jul 2026)
 - `frontend/src/stages/preparation-brief.ts` — added variant **L "Arc"**: `renderL` (the
