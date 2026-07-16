@@ -1,6 +1,31 @@
 # Phase 4 — History compounds & returns count
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (self-signed — see verification)
+
+## Built (2026-07-17)
+On `main`. Offline proof: **suite 149/149 (incl. new returns-report 6/6), `npm run typecheck` clean. The report was also run against the REAL local DB (free read) and printed correct per-manager numbers** — a genuine end-to-end verification, not just units.
+
+- **M10 — intake people join Team — VERIFIED ALREADY BUILT (no code change).** Traced the live path: `sessions.controller.resolvePerson` → `peopleService.resolveForRun`, which for a free-typed name calls `people.service.create` (dedupe-or-insert into the roster) and stamps the new `personId` on the session at `repo.create`. So a free-typed intake name already creates/matches a Team roster person and links the run. The people-roster Phase 2 shipped this; the audit predated confirming it. **Step-zero done in code, not by a paid run.**
+- **X4 / X6 — returns are measurable — a free report script.** New [scripts/report-returns.ts](../../../scripts/report-returns.ts): `npx tsx scripts/report-returns.ts` prints a per-manager table — days active, 1:1s started/finished, gaps between visits, median minutes intake→briefing, and a **"returned?"** flag (active on 2+ separate days = the Gate-1 signal). The aggregation is a pure, unit-tested module [backend/api/services/returns/returns-report.ts](../../../backend/api/services/returns/returns-report.ts) (6 tests); the script only does the DB read.
+- **No nudges, no UI, no emails** — measuring only, so the validation metric stays clean. ✓
+
+## Deviation (flagged) — no new events table
+The plan called for a new server-side **events table (migration 0018)** recording login / 1:1-started / 1:1-finished. Two reasons I derived the same signal from data Sero **already holds** instead:
+1. **The data already exists** — a login is an `auth_sessions` row (`created_at`), and every 1:1 is a `sessions` row (`created_at` = intake start, `completed_at` = briefing). Started / finished / minutes-per-prep / gaps / days-active all come straight from `sessions`; logins from `auth_sessions`. A new table would duplicate this (simplicity-first).
+2. **`0018` is already taken** by a parallel track, and a migration I can't apply/verify in this dev lane would be shipped blind.
+
+**Honest trade-off:** `auth_sessions` rows can be pruned on expiry, so *login-only* returns (a manager who logs in but doesn't prep) are lossy over long windows. The **primary** Gate-1 signal — a manager who came back **and prepped another 1:1** — comes from the permanent `sessions` table and is fully durable. If durable login-only tracking is ever needed, that's the moment to add the events table (a clean future follow-up).
+
+## Verification status (self-signed, Carl delegated)
+- ✅ Unit: returns-report 6/6; whole suite 149/149; typecheck clean.
+- ✅ **Real data:** ran the script against the local DB — correct numbers (e.g. the seeded manager: 27 started / 7 finished across 13 active days, returned ✓).
+- ⬜ **Not verified by me:** the live-site figures (the report reads whichever DB `DATABASE_URL` points at; live picks up on the next deploy — no migration needed). Orphan run-people (Maya/Nikki) surfacing on Team is a data-quality nicety left un-built — M10's create path works going forward; old pre-roster orphans can be surfaced later if they matter.
+
+---
+
+**Original plan below.**
+
+
 
 ## Goal
 Every 1:1 deepens the per-person record, and the Gate-1 question — "did a manager come back unprompted?" — becomes answerable from data you already hold.
