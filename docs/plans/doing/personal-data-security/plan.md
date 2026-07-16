@@ -20,7 +20,7 @@
 |---|---|---|---|
 | 1 | Close the H-1 leak | Superadmin-gate the clone routes + regression test | ✅ |
 | 2 | Quick hardening (code) | Gemini key → header + security headers | 🔨 built, awaiting walk |
-| 3 | Purge committed logs | Scrub real names from git history (needs all sessions closed) | ⬜ |
+| 3 | Purge committed logs | Interim done (names off HEAD/future clones); full history scrub pending | 🟡 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 

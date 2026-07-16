@@ -1,6 +1,16 @@
 # Phase 3 — Purge committed test-run logs from git history
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ (needs a coordinated moment — all sessions closed)
+**Part of:** [plan.md](plan.md) · **Status:** 🟡 INTERIM DONE (names off HEAD + future clones) · full history scrub still PENDING
+
+## ✅ Interim done 2026-07-16 (safe, non-destructive)
+Untracked all 66 committed log files (`logs/may/*`, `logs/sweeps/*`) via `git rm --cached` and dropped the `.gitignore` keep-set so `logs/**` is fully ignored. Real names/notes/briefings now leave HEAD and every future clone's working tree; files kept on Carl's disk. No history rewrite, no force-push. Commits `f577ed63` (.gitignore) + the 66-file untrack (both local-only on main).
+
+## ❌ Still pending — the full history scrub
+The names remain in PAST commits. Removing them needs ALL of:
+- `git filter-repo` installed (NOT currently installed — only filter-branch/BFG available),
+- a **clean tree with every other session closed** (blocked 2026-07-16 — tree had another session's uncommitted STATUS.md + runtime files),
+- a **force-push** on go-live (rewrites every commit hash; conflicts with trunk-only "push only on go-live").
+Do it from a FRESH clone when the above line up. Steps below.
 
 ## Why this is its own phase
 The `.gitignore` keep-set (`logs/may/2026_May24_*`, `logs/may/2026_May25_*`, `logs/sweeps/*`) put real employee names, manager notes and briefings into **git history**. Removing them isn't a normal edit — it's a **history rewrite** (git filter-repo / BFG) that:
