@@ -1,16 +1,28 @@
-// Team card — the pure render for one person on the Team screen. Kept DOM-free and CSS-free
-// (no modal/menu imports) so it unit-tests as a plain string, the way the other stage renders do.
-// The mount, data loading and click wiring live in ./team.ts.
+// Team card — the pure render for one person on the Team screen (team-page-redesign Phase 3).
+// DOM-free and CSS-free so it unit-tests as a plain string. The mount, data loading and click
+// wiring live in ./team.ts; the card styles live in ../styles/team-card.css (imported there).
+//
+// The redesign (Carl's mock): one calm row per person — initials avatar, name · role, a quiet
+// meta line, then the access shown as ONE clear status pill (Not on Sero / Invited / Opened /
+// On Sero) with its action right beside it (Invite / Remind), and Prep 1:1 + the ⋯ menu.
 
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { icon } from "../../../admin/src/ui/icon.js";
-import { Star, MoreHorizontal, Link2, Lock } from "lucide";
+import { Star, MoreHorizontal, Lock, Clock, Eye, Check } from "lucide";
 import { relTime } from "../../../admin/src/ui/time.ts";
 
+export type AccessState = "none" | "invited" | "opened" | "joined";
+export type PersonAccess = {
+  state: AccessState;
+  inviteId: string | null;
+  invitedAt: number | null;
+  openedAt: number | null;
+};
 export type Person = {
   key: string; // the roster personId
   name: string;
   userId: string | null; // linked member account
+  access: PersonAccess;
   role: string;
   count: number;
   openCount: number;
@@ -20,6 +32,14 @@ export type Person = {
   met: boolean;
 };
 export type OrgUser = { id: string; name: string; email: string };
+
+/** Up to two initials from a display name (skips punctuation-y bits like "qa-overnight"). */
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const letters = (parts.length ? [parts[0]!, parts[parts.length - 1]!] : [name])
+    .map((w) => (w.match(/[a-z0-9]/i)?.[0] ?? "")).join("");
+  return (letters || name.slice(0, 2)).slice(0, 2).toUpperCase();
+}
 
 // The meta line under a name. A never-touched roster person reads "not met yet"; one with only
 // an open prep says so; a met person shows meetings / last / average.
@@ -31,45 +51,55 @@ function metaLine(p: Person): string {
   if (p.openCount > 0) bits.push("prep in progress");
   const rated =
     p.avgStars != null
-      ? `${icon(Star, { size: 16, fill: "currentColor" })} ${escapeHtml(p.avgStars.toFixed(1))} avg (${p.ratedCount} rated)`
+      ? `${icon(Star, { size: 15, fill: "currentColor" })} ${escapeHtml(p.avgStars.toFixed(1))}`
       : "not yet rated";
   return `${escapeHtml(bits.join(" · "))} · ${rated}`;
 }
 
-// The access line on every card — can this person log in and see their own 1:1s (list-only:
-// dates + meeting types, never the notes)? A linked person shows their account; an unlinked one
-// shows "No access yet". The single js-access button opens the give/change menu (wired in team.ts).
-function accessLine(p: Person, orgUsers: OrgUser[]): string {
-  const chip = (body: string) =>
-    `<span class="text-sm text-ink-dim l-cluster l-cluster--1" style="align-items:center;gap:6px;">${body}</span>`;
-  const btn = (label: string, linked: 0 | 1) =>
-    `<button type="button" class="btn btn--ghost btn--sm js-access" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-userid="${escapeHtml(p.userId ?? "")}" data-linked="${linked}">${label}</button>`;
-  const row = (inner: string) =>
-    `<div class="l-cluster" style="justify-content:space-between;align-items:center;gap:8px;">${inner}</div>`;
-  if (p.userId) {
-    const u = orgUsers.find((o) => o.id === p.userId);
-    const label = u ? escapeHtml(u.email) : "Has access";
-    return row(`${chip(`${icon(Link2, { size: 14 })} ${label}`)}${btn("Change", 1)}`);
+// The access status: one pill + (usually) one inline action. The pill colour + the action are
+// chosen from the access state. Invite/Change open the give-access modal (js-access); Remind
+// resends the pending invite (js-remind, carries the inviteId).
+function accessBlock(p: Person, orgUsers: OrgUser[]): string {
+  const st = p.access.state;
+  const pill = (mod: AccessState, glyph: string, label: string) =>
+    `<span class="team-pill team-pill--${mod}">${glyph}<span>${escapeHtml(label)}</span></span>`;
+  const inviteBtn = `<button type="button" class="team-link js-access" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-userid="${escapeHtml(p.userId ?? "")}" data-linked="0">Invite</button>`;
+  const remindBtn = `<button type="button" class="team-link js-remind" data-invite="${escapeHtml(p.access.inviteId ?? "")}" data-name="${escapeHtml(p.name)}">Remind</button>`;
+  const changeBtn = `<button type="button" class="team-link js-access" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-userid="${escapeHtml(p.userId ?? "")}" data-linked="1">Change</button>`;
+
+  let body: string;
+  if (st === "joined") {
+    body = `${pill("joined", icon(Check, { size: 13 }), "On Sero")}${changeBtn}`;
+  } else if (st === "opened") {
+    body = `${pill("opened", icon(Eye, { size: 13 }), "Opened link")}${remindBtn}`;
+  } else if (st === "invited") {
+    const ago = p.access.invitedAt ? relTime(p.access.invitedAt) : "";
+    body = `${pill("invited", icon(Clock, { size: 13 }), ago ? `Invited · ${ago}` : "Invited")}${remindBtn}`;
+  } else {
+    body = `${pill("none", icon(Lock, { size: 13 }), "Not on Sero")}${inviteBtn}`;
   }
-  return row(`${chip(`${icon(Lock, { size: 14 })} No access yet`)}${btn("Give access", 0)}`);
+  void orgUsers; // email lookup no longer shown inline — the pill carries the state
+  return `<div class="team-card__access">${body}</div>`;
 }
 
-// One card for one person — used for everyone (there is no separate "edit mode" any more). The
-// primary Prep stays visible ("Prep first 1:1" until you've met, "Prep 1:1" after); View, Edit and
-// Delete tuck into the ⋯ menu; the access line sits below.
+// One card for one person. Two columns: identity (avatar + name + meta) on the left, and on the
+// right the access pill over the actions (Prep + ⋯).
 export function personCard(p: Person, orgUsers: OrgUser[]): string {
-  const role = p.role ? `<span class="text-ink-dim"> · ${escapeHtml(p.role)}</span>` : "";
-  const inner = `<span class="l-stack l-stack--2"><span class="text-sm"><strong>${escapeHtml(p.name)}</strong>${role}</span><span class="text-sm text-ink-dim">${metaLine(p)}</span></span>`;
+  const role = p.role ? ` <span class="team-card__role">· ${escapeHtml(p.role)}</span>` : "";
   const prepLabel = p.met ? "Prep 1:1" : "Prep first 1:1";
   return `
-    <div class="card-flat runs-list__row l-stack l-stack--3">
-      <div class="l-cluster" style="justify-content:space-between;align-items:center;gap:12px;">
-        ${inner}
-        <span class="l-cluster l-cluster--2" style="flex-shrink:0;">
+    <div class="card-flat team-card">
+      <div class="team-card__avatar team-card__avatar--${p.access.state}" aria-hidden="true">${escapeHtml(initials(p.name))}</div>
+      <div class="team-card__who">
+        <div class="team-card__name"><strong>${escapeHtml(p.name)}</strong>${role}</div>
+        <div class="team-card__meta">${metaLine(p)}</div>
+      </div>
+      <div class="team-card__right">
+        ${accessBlock(p, orgUsers)}
+        <div class="team-card__do">
           <button type="button" class="btn btn--ghost btn--sm js-prep-new" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-role="${escapeHtml(p.role)}">${prepLabel}</button>
           <button type="button" class="row-menu-btn js-row-menu" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" aria-haspopup="menu" aria-label="More actions for ${escapeHtml(p.name)}">${icon(MoreHorizontal, { size: 18 })}</button>
-        </span>
+        </div>
       </div>
-      ${accessLine(p, orgUsers)}
     </div>`;
 }

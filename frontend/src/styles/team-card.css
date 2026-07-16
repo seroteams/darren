@@ -1,0 +1,84 @@
+/* Team card (team-page-redesign Phase 3) — its OWN file so parallel CSS edits can't clobber it.
+   The calmer roster row from Carl's mock: initials avatar · name/meta · access status pill + action
+   · Prep + ⋯. Tokens only (DESIGN §5), 14px floor, one 12px-radius card, 4px controls. */
+
+.team-card {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.team-card__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full, 9999px);
+  display: grid;
+  place-items: center;
+  font-family: var(--type-family-display, inherit);
+  font-weight: var(--type-weight-semibold, 600);
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: var(--color-accent-dark, var(--color-accent));
+  background: var(--color-accent-soft);
+}
+.team-card__avatar--joined { background: var(--sero-mint-300); color: var(--color-positive-text); }
+.team-card__avatar--invited { background: var(--sero-gold-200); color: var(--sero-gold-900); }
+.team-card__avatar--opened { background: var(--color-accent-soft); color: var(--color-accent-dark); }
+.team-card__avatar--none { background: var(--sero-soft-200); color: var(--color-ink-mute); }
+
+.team-card__who { min-width: 0; }
+.team-card__name { font-size: var(--type-body-sm, 0.9375rem); color: var(--color-ink); }
+.team-card__name strong { font-family: var(--type-family-display, inherit); font-weight: var(--type-weight-semibold, 600); font-size: 1.0625rem; letter-spacing: -0.01em; }
+.team-card__role { color: var(--color-ink-dim); }
+.team-card__meta {
+  margin-top: 2px;
+  font-size: var(--type-label);
+  color: var(--color-ink-mute);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.team-card__meta svg { color: var(--sero-gold-900, var(--color-ink-dim)); vertical-align: -2px; }
+
+.team-card__right { display: flex; flex-direction: column; align-items: flex-end; gap: 9px; flex-shrink: 0; }
+.team-card__do { display: flex; align-items: center; gap: 6px; }
+
+/* Access status: pill + inline action */
+.team-card__access { display: inline-flex; align-items: center; gap: 8px; }
+.team-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-medium, 500);
+  padding: 3px 10px 3px 8px;
+  border-radius: var(--radius-full, 9999px);
+  white-space: nowrap;
+}
+.team-pill svg { width: 13px; height: 13px; }
+.team-pill--none { background: var(--sero-soft-200); color: var(--color-ink-mute); }
+.team-pill--invited { background: var(--sero-gold-200); color: var(--sero-gold-900); }
+.team-pill--opened { background: var(--color-accent-soft); color: var(--color-accent-dark); }
+.team-pill--joined { background: var(--sero-mint-300); color: var(--color-positive-text); }
+
+.team-link {
+  background: none;
+  border: none;
+  padding: 3px 4px;
+  font: inherit;
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-semibold, 600);
+  color: var(--color-accent-dark);
+  cursor: pointer;
+  border-radius: var(--radius-sm, 4px);
+}
+.team-link:hover { text-decoration: underline; }
+.team-link:focus-visible { outline: 2px solid var(--color-accent-dark); outline-offset: 2px; }
+
+@media (max-width: 560px) {
+  .team-card { grid-template-columns: 40px 1fr; }
+  .team-card__right { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 2px; }
+}

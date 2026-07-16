@@ -32,7 +32,7 @@ function getFocusables(root: HTMLElement): HTMLElement[] {
 
 export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccessResult | null> {
   const linked = !!opts.currentUserId;
-  const title = linked ? `${opts.name}'s access` : `Give ${opts.name} access`;
+  const title = linked ? `${opts.name}'s access` : `Invite ${opts.name} to Sero`;
   return new Promise((resolve) => {
     const backdrop = document.createElement("div");
     backdrop.className = "modal-backdrop";
@@ -54,11 +54,11 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
     modal.innerHTML = `
       <div class="apm__head">
         <div class="apm__title" id="give-access-title"></div>
-        <div class="apm__sub">They'll see the list of their own 1:1s — dates and meeting types, never your notes.</div>
+        <div class="apm__sub">They'll get a login to follow their own 1:1s with you — the dates and topics you met on. They never see your private notes, your ratings, or anyone else on your team.</div>
       </div>
       <div class="apm__body">
         <div class="apm-field">
-          <label class="apm-field__label" for="ga-email">Invite by email</label>
+          <label class="apm-field__label" for="ga-email">Their email</label>
           <div class="l-cluster l-cluster--2" style="align-items:center;gap:8px;">
             <input class="apm-field__input js-email" id="ga-email" type="email" autocomplete="off"
                    spellcheck="false" placeholder="name@company.com" style="flex:1;min-width:0;" aria-describedby="ga-err" />

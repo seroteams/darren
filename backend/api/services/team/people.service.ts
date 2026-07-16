@@ -7,6 +7,34 @@ import { pgPeopleRepo } from "./people.repo.ts";
 import type { PeopleRepo, PersonRow } from "./people.repo.ts";
 import { badRequest, notFound } from "../../middleware/http-error.ts";
 
+/** A roster person's login-access state, shown on the Team card (team-page-redesign Phase 3). */
+export type PersonAccessState = "joined" | "opened" | "invited" | "none";
+export interface PersonAccess {
+  state: PersonAccessState;
+  inviteId: string | null;
+  invitedAt: number | null; // epoch ms — the card shows "Invited Nd ago"
+  openedAt: number | null;
+}
+
+/** Derive the access state: a linked account = joined; else a pending invite that's been opened
+ *  = opened, un-opened = invited; else no access. Pure so the card logic is unit-tested. */
+export function accessFor(
+  person: { userId: string | null },
+  invite: { inviteId: string; invitedAt: Date; openedAt: Date | null } | undefined,
+): PersonAccess {
+  if (person.userId) return { state: "joined", inviteId: null, invitedAt: null, openedAt: null };
+  if (invite)
+    return {
+      state: invite.openedAt ? "opened" : "invited",
+      inviteId: invite.inviteId,
+      invitedAt: invite.invitedAt.getTime(),
+      openedAt: invite.openedAt ? invite.openedAt.getTime() : null,
+    };
+  return { state: "none", inviteId: null, invitedAt: null, openedAt: null };
+}
+
+export type PersonWithAccess = PersonRow & { access: PersonAccess };
+
 const NAME_CAP = 80; // same cap as team.service.ts rename
 const FIELD_CAP = 120;
 
@@ -39,7 +67,7 @@ function resolveCanonical(rows: PersonRow[], id: string): string {
 }
 
 export interface PeopleService {
-  list(orgId: string, managerId: string): Promise<{ people: PersonRow[] }>;
+  list(orgId: string, managerId: string): Promise<{ people: PersonWithAccess[] }>;
   create(
     orgId: string,
     managerId: string,
@@ -90,7 +118,11 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
       const active = rows
         .filter(isActive)
         .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-      return { people: active };
+      // Attach each person's login-access state (none / invited / opened / joined) for the card.
+      const invites = await repo.listPendingInvitesForManager(orgId, managerId);
+      const byPerson = new Map(invites.map((i) => [i.personId, i]));
+      const people = active.map((p) => ({ ...p, access: accessFor(p, byPerson.get(p.id)) }));
+      return { people };
     },
 
     async create(orgId, managerId, input) {

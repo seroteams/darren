@@ -1,7 +1,19 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createPeopleService } from "./people.service.ts";
+import { createPeopleService, accessFor } from "./people.service.ts";
 import type { PeopleRepo, PersonRow } from "./people.repo.ts";
+
+// The Team card's access state (team-page-redesign Phase 3): a linked account = joined; a pending
+// invite that's been opened = opened, else invited; nothing = none.
+test("accessFor derives the four access states", () => {
+  assert.equal(accessFor({ userId: "u1" }, undefined).state, "joined"); // linked wins
+  assert.equal(accessFor({ userId: null }, undefined).state, "none"); // no invite
+  assert.equal(accessFor({ userId: null }, { inviteId: "i1", invitedAt: new Date(), openedAt: null }).state, "invited");
+  const opened = accessFor({ userId: null }, { inviteId: "i1", invitedAt: new Date(1000), openedAt: new Date(2000) });
+  assert.equal(opened.state, "opened");
+  assert.equal(opened.inviteId, "i1");
+  assert.equal(opened.openedAt, 2000); // epoch ms for the client
+});
 
 // An in-memory repo proves the service logic is storage-agnostic — no real database
 // in the test (the injected-boundary seam; mirrors feedback.service.test.ts).
@@ -44,6 +56,7 @@ function fakeRepo(seed: PersonRow[] = []): { repo: PeopleRepo; rows: PersonRow[]
               { id: "m1", name: "Manager", email: "manager@seroteams.com" },
             ]
           : [],
+      listPendingInvitesForManager: async () => [],
     },
     rows,
   };
@@ -228,6 +241,7 @@ test("resolveForRun: a repo failure on the auto path is swallowed (a run start m
     remove: async () => { throw new Error("db down"); },
     findByLinkedUser: async () => { throw new Error("db down"); },
     listOrgUsers: async () => { throw new Error("db down"); },
+    listPendingInvitesForManager: async () => { throw new Error("db down"); },
   };
   const service = createPeopleService(broken);
   assert.equal(await service.resolveForRun("o1", "m1", { name: "Priya" }), null);

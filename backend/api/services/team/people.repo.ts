@@ -46,6 +46,12 @@ export interface PeopleRepo {
   /** The org's ACTIVE login accounts, minimal fields — the link-picker options and the
    *  manager-name lookup. Never selects password_hash. */
   listOrgUsers(orgId: string): Promise<{ id: string; name: string; email: string }[]>;
+  /** Pending invitations for THIS manager's roster people (team-page-redesign Phase 3) —
+   *  so each card can show Invited / Opened, keyed by personId. Org + manager fenced. */
+  listPendingInvitesForManager(
+    orgId: string,
+    managerId: string,
+  ): Promise<{ personId: string; inviteId: string; invitedAt: Date; openedAt: Date | null }[]>;
 }
 
 // people.org_id / manager_id / user_id are uuid columns. A synthetic dev identity
@@ -145,5 +151,20 @@ export const pgPeopleRepo: PeopleRepo = {
       .select({ id: users.id, name: users.name, email: users.email })
       .from(users)
       .where(and(eq(users.orgId, orgId), isNull(users.deactivatedAt)));
+  },
+  async listPendingInvitesForManager(orgId, managerId) {
+    if (!isUuid(orgId) || !isUuid(managerId)) return [];
+    const db = getDb();
+    const rows = await db
+      .select({
+        personId: invitations.personId,
+        inviteId: invitations.id,
+        invitedAt: invitations.createdAt,
+        openedAt: invitations.openedAt,
+      })
+      .from(invitations)
+      .innerJoin(people, eq(invitations.personId, people.id))
+      .where(and(eq(people.orgId, orgId), eq(people.managerId, managerId), eq(invitations.status, "pending")));
+    return rows.filter((r): r is { personId: string; inviteId: string; invitedAt: Date; openedAt: Date | null } => r.personId != null);
   },
 };
