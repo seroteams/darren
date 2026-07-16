@@ -99,12 +99,33 @@ textarea { resize: vertical; }
   line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
+/* Two-tier label system (artifact voice, UI polish P2):
+   .eyebrow = SECTION tier (accent-dark, wider tracking) — sits above a title.
+   .eyebrow--slot = SLOT tier (quiet dim) — sits above a field/value.
+   Note: .eyebrow is used ~146x app-wide, many as slot labels today; those get
+   reclassified to --slot in a later, eyes-on pass. Dark-ground eyebrows
+   (.pv-j__eyebrow, .app-nav__group-label) keep their own colour via the cascade. */
 .eyebrow {
   font-size: var(--type-small);
-  font-weight: var(--type-weight-medium);
-  color: var(--color-ink-mute);
-  letter-spacing: var(--type-tracking-wider);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-accent-dark);
+  letter-spacing: var(--type-tracking-caps-lg);
   text-transform: uppercase;
+}
+.eyebrow--slot {
+  color: var(--color-ink-dim);
+  letter-spacing: var(--type-tracking-caps);
+}
+/* Identity — a person's name as the hero of their card/header, in the display
+   face. Scaffolding for the eyes-on adoption pass (compact list rows need a
+   layout call first, so this isn't applied yet). */
+.ident-name {
+  font-family: var(--type-family-display);
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tight);
+  line-height: var(--type-leading-snug);
+  color: var(--color-ink);
 }
 .label {
   font-size: var(--type-label);

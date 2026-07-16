@@ -40,7 +40,7 @@ Full detail in [audit-findings.md](audit-findings.md) (9-agent audit, 2026-07-17
 | # | Phase | What it lands | Effort | Status |
 |---|---|---|---|---|
 | 1 | Calm the type, fix the freebies | Token-layer retune (display size/weight, tracking + spacing + shadow/radius tokens, reading measure) + ~15 near-free defect fixes — every screen calms at once | M | 🔨 core built — Carl QA |
-| 2 | The label & content voice | Two-tier uppercase labels everywhere; names/questions/openers set in the display face; one brand mark | M | ⬜ |
+| 2 | The label & content voice | Two-tier uppercase labels everywhere; names/questions/openers set in the display face; one brand mark | M | 🔨 core built — Carl QA |
 | 3 | One chip, one button, one motif | One `.chip` primitive replaces ~15 pill families; dot-meter confidence chip; `.btn` retune; one segmented control | L | ⬜ |
 | 4 | The frame & the customer flagship | The artifact's framed-screen treatment on briefing/prep; guided flow + member home join the system; skeletons everywhere | L | ⬜ |
 | 5 | Long-tail sweep | Error/empty states (no more browser alerts), overlay recipe, spacing rhythm, off-barrel CSS, tasks board de-nested | L | ⬜ |
@@ -57,6 +57,12 @@ top-bar tuck-under, phantom tokens). Deferred within the phase: the briefing col
 `.stage` page-tail (centring risk), and the micro-defect long-tail (~10 un-eyeballed tweaks). Full
 detail in [phase-1.md](phase-1.md). Proof: `build:all` clean, tests 54/54, typecheck unchanged.
 Nothing deployed.
+
+**Phase 2 core built overnight too (2026-07-17)** — one careful step, per Carl. A 3-agent sweep
+mapped every label + name; then the safe core landed: `.eyebrow` became the blue accent-dark
+section tier (matching the mock Carl liked; one-word revert), plus `.eyebrow--slot`/`.ident-name`
+scaffolding. Deferred (needs eyes): slot reclassification, name-as-hero, page-header/brand. Proof:
+`build:all` clean, tests 54/54. See [phase-2.md](phase-2.md). Both P1 + P2 cores await Carl's QA.
 
 ## Open calls for Carl (flagged inside phases, not blockers now)
 - **Phase 4:** keep or fence the body gradient wash where the new frame is used.

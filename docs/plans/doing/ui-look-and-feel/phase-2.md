@@ -1,6 +1,31 @@
 # Phase 2 — The label & content voice
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 core built — awaiting Carl QA (rest needs eyes)
+
+## Built (Fri 17 Jul 2026, overnight — Carl chose "one careful step")
+First ran a 3-agent discovery sweep (full label + name map, saved in the run journal). It surfaced
+two blind-build traps, which shaped a conservative scope:
+- `.eyebrow` is used **~146× across 53 files**, many as *slot* labels — a blind global reclassify
+  would over-blue the app, so slots are reclassified later with eyes on.
+- The Team "name" is a **compact list row**, not a hero card — a display-face name would break the
+  row, so name-as-hero waits for a layout call.
+
+**Landed** (`admin/src/styles/design/base.css`):
+- `.eyebrow` → the **section tier**: accent-dark, `--type-tracking-caps-lg` (0.08em), semibold —
+  the blue uppercase eyebrow from the artifact Carl loved. One shared class → **one-word revert**
+  if it's too much blue. (Also refines the briefing/prep labels toward the approved Arc mock;
+  dark-ground eyebrows keep their own colour via the cascade.)
+- Added `.eyebrow--slot` (quiet dim tier) + `.ident-name` (display-face identity) as scaffolding
+  for the eyes-on adoption pass.
+
+**Deferred within P2 (needs Carl's eyes — teed up, homework done):**
+- Reclassifying the ~7 hand-rolled label variants + the slot-role `.eyebrow` uses onto the two
+  tiers (which are section vs slot is a per-usage judgement).
+- Name-as-hero on Team/rows (compact-row layout call).
+- `.page-header` eyebrow slot on the ~12 main screens; brand-mark consolidation.
+
+**Offline proof (free):** `npm run build:all` exit 0; brief+css tests 54/54; typecheck unchanged.
+Not screenshotted (pane bug) — on-screen sign-off is Carl's QA.
 
 ## Goal
 The artifact's two-tier label system and "content is the hero" typography land everywhere via
