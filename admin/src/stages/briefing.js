@@ -20,9 +20,9 @@ export async function mount(root, { store, setState, resetSession }) {
   if (!b) {
     root.innerHTML = `
       <div class="stage-inner l-stack l-stack--6">
-        <h1 class="h1">Briefing not available</h1>
+        <h1 class="h1">Recap not available</h1>
         <div class="error-card">
-          <div class="text-ink-dim">This 1:1 has no saved briefing yet. You can try again or start a new 1:1.</div>
+          <div class="text-ink-dim">This 1:1 has no saved recap yet. You can try again or start a new 1:1.</div>
         </div>
         <div class="l-cluster l-cluster--2">
           <button class="btn js-retry-eval" type="button">Try again</button>
@@ -53,7 +53,7 @@ export async function mount(root, { store, setState, resetSession }) {
     <div class="stage-wide max-w-wide mx-auto briefing-page relative z-10 py-8">
       <header class="briefing-block space-y-4">
         <div class="briefing-section-head">
-          <div class="eyebrow reveal">Briefing · For ${escape(store.ctx.name)}</div>
+          <div class="eyebrow reveal">Recap · For ${escape(store.ctx.name)}</div>
           <button type="button" class="btn btn--ghost btn--sm js-copy-all-briefing">Copy all</button>
         </div>
         <h1 class="briefing-headline reveal"></h1>
@@ -177,7 +177,7 @@ export async function mount(root, { store, setState, resetSession }) {
   else revealSequence(initialReveals, { stagger: 80, initialDelay: 80 });
 
   const headline = root.querySelector(".briefing-headline");
-  headline.textContent = b.headline || "Briefing";
+  headline.textContent = b.headline || "Recap";
 
   await pause(400);
 
@@ -583,7 +583,7 @@ function formatActionCopy(a) {
 function formatBriefingForCopy(b, ctx) {
   const lines = [];
   const name = (ctx?.name || "").trim();
-  lines.push(name ? `Briefing · For ${name}` : "Briefing");
+  lines.push(name ? `Recap · For ${name}` : "Recap");
 
   const headline = String(b.headline || "").trim();
   if (headline) {

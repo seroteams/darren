@@ -1,0 +1,274 @@
+<title>Recap — redesign</title>
+<style>
+  :root{
+    --page:#eef6fc; --page-2:#f5fafd; --surface:#ffffff;
+    --ink:#1f2a37; --ink-dim:#636363; --ink-mute:#8a8f98;
+    --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb;
+    --line:#e8e8e8; --line-soft:#eef1f4;
+    --mint-bg:#f4fdfa; --mint-line:#cdf3ea; --mint-ink:#0c4b3c; --mint-dot:#1aa887;
+    --gold-bg:#fffaf0; --gold-line:#ffe7b7; --gold-ink:#523600; --gold-dot:#d9a300;
+    --coral-bg:#fff6f5; --coral-line:#fcc5c0; --coral-ink:#ac1608;
+    --shadow-lift:0 1px 2px rgba(27,93,145,.04), 0 8px 24px rgba(27,93,145,.06);
+    --radius-card:14px; --radius-ctl:6px;
+    --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+    --body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --measure:64ch;
+  }
+  *{box-sizing:border-box;}
+  body,.wrap{margin:0;}
+  .wrap{
+    font-family:var(--body); color:var(--ink);
+    background:
+      radial-gradient(1100px 480px at 50% -8%, #ffffff 0%, rgba(255,255,255,0) 60%),
+      linear-gradient(180deg, var(--page) 0%, var(--page-2) 30%, var(--page-2) 100%);
+    min-height:100%; padding-bottom:64px; -webkit-font-smoothing:antialiased;
+  }
+  .eyebrow{font-size:12px; font-weight:600; letter-spacing:.09em; text-transform:uppercase; color:var(--accent-dark);}
+  .eyebrow--slot{color:var(--ink-mute); font-weight:600;}
+
+  /* ---- top chrome (context only) ---- */
+  .topbar{display:flex; align-items:center; gap:20px; padding:14px 28px; border-bottom:1px solid var(--line-soft); background:rgba(255,255,255,.7); backdrop-filter:blur(6px);}
+  .topbar .sess{font-size:13px; font-weight:600; color:var(--ink-dim); border:1px solid var(--line); border-radius:var(--radius-ctl); padding:5px 12px; background:#fff;}
+  .steps{display:flex; align-items:center; gap:9px; flex-wrap:wrap; font-size:13px; color:var(--ink-mute); flex:1;}
+  .steps .s{display:inline-flex; align-items:center; gap:6px;}
+  .steps .s.done{color:var(--ink-dim);}
+  .steps .s .tick{color:var(--mint-dot); font-weight:700;}
+  .steps .now{color:var(--accent-dark); font-weight:600; background:var(--accent-soft); padding:4px 11px; border-radius:999px;}
+  .steps .sep{width:16px; height:1px; background:var(--line);}
+  .who{display:flex; align-items:center; gap:9px; font-size:13px; color:var(--ink-dim);}
+  .who .av{width:26px; height:26px; border-radius:999px; background:var(--accent); color:#fff; display:grid; place-items:center; font-weight:700; font-size:12px;}
+
+  /* ---- annotation strip: the design moves ---- */
+  .moves{max-width:1000px; margin:22px auto 4px; padding:0 28px;}
+  .moves h2{font-family:var(--display); font-size:15px; margin:0 0 12px; color:var(--accent-dark); font-weight:600; letter-spacing:.02em;}
+  .movegrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px;}
+  .move{background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 13px; box-shadow:var(--shadow-lift);}
+  .move .n{font-family:var(--display); font-size:13px; font-weight:700; color:var(--accent); }
+  .move .t{font-size:13px; font-weight:600; margin:3px 0 2px; color:var(--ink);}
+  .move .d{font-size:12.5px; color:var(--ink-dim); line-height:1.45;}
+
+  .divider-note{max-width:1000px; margin:26px auto 0; padding:0 28px; display:flex; align-items:center; gap:12px;}
+  .divider-note .lbl{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-mute); font-weight:600; white-space:nowrap;}
+  .divider-note .rule{height:1px; background:var(--line); flex:1;}
+
+  /* ---- the page ---- */
+  .page{max-width:1000px; margin:18px auto 0; padding:0 28px;}
+  .head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:22px;}
+  .btn-ghost{font-family:var(--body); font-size:14px; font-weight:600; color:var(--accent-dark); background:#fff; border:1px solid var(--line); border-radius:var(--radius-ctl); padding:8px 14px; cursor:pointer;}
+  .btn-ghost:hover{background:var(--accent-soft); border-color:#d3e6f6;}
+
+  /* HERO: result first, caveat as a chip */
+  .hero{margin-bottom:8px;}
+  .chip{display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600; padding:5px 12px 5px 10px; border-radius:999px; white-space:nowrap;}
+  .chip .cd{width:7px; height:7px; border-radius:999px; background:currentColor; flex:none;}
+  .chip.gold{background:var(--gold-bg); color:var(--gold-ink); border:1px solid var(--gold-line);}
+  .chip.mint{background:var(--mint-bg); color:var(--mint-ink); border:1px solid var(--mint-line);}
+  .chip.accent{background:var(--accent-soft); color:var(--accent-dark);}
+  .hero .line{font-family:var(--display); font-weight:600; font-size:31px; line-height:1.16; letter-spacing:-.01em; text-wrap:balance; color:var(--ink); margin:14px 0 12px; max-width:22ch;}
+  .hero .line em{font-style:normal; color:var(--accent-dark);}
+  .hero .sub{font-size:16px; line-height:1.55; color:var(--ink-dim); max-width:var(--measure);}
+
+  section.act{margin-top:34px;}
+  .act > .eyebrow{display:block; margin-bottom:14px;}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); box-shadow:var(--shadow-lift); padding:22px 24px;}
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media(max-width:760px){.two{grid-template-columns:1fr;}}
+
+  .slotlabel{font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-mute); margin:0 0 10px;}
+  .sig{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px;}
+  .sig li{display:flex; gap:12px; font-size:15.5px; line-height:1.5; color:var(--ink);}
+  .sig li::before{content:""; width:8px; height:8px; border-radius:999px; background:var(--accent); margin-top:8px; flex:none;}
+  .sig li.mute{color:var(--ink-dim);}
+  .sig li.mute::before{background:var(--line);}
+  .read-p{font-size:15.5px; line-height:1.6; color:var(--ink-dim); margin:0; max-width:var(--measure);}
+
+  /* compact axis read */
+  .axes{display:flex; flex-direction:column; gap:0;}
+  .axis{display:grid; grid-template-columns:110px 1fr auto; align-items:center; gap:14px; padding:11px 0; border-bottom:1px solid var(--line-soft);}
+  .axis:last-child{border-bottom:0;}
+  .axis .an{font-size:14px; color:var(--ink-dim); font-weight:500;}
+  .axis .track{height:6px; border-radius:999px; background:var(--line-soft); position:relative;}
+  .axis .track .mid{position:absolute; left:50%; top:-2px; width:2px; height:10px; background:var(--line); transform:translateX(-50%);}
+  .axis .val{font-size:14px; color:var(--ink-mute); font-variant-numeric:tabular-nums;}
+  .axes-note{font-size:13.5px; color:var(--ink-mute); margin:14px 0 0; padding-top:14px; border-top:1px dashed var(--line); display:flex; gap:8px; align-items:baseline;}
+  .axes-note b{color:var(--gold-ink); font-weight:600;}
+
+  /* honest reads — differentiated */
+  .honest{border-radius:var(--radius-card); padding:20px 22px; position:relative; box-shadow:var(--shadow-lift);}
+  .honest.share{background:var(--mint-bg); border:1px solid var(--mint-line);}
+  .honest.priv{background:var(--gold-bg); border:1px solid var(--gold-line);}
+  .honest .htop{display:flex; align-items:center; gap:10px; margin-bottom:11px;}
+  .honest .who2{font-size:13px; font-weight:600; color:var(--ink-dim);}
+  .honest.share .who2{color:var(--mint-ink);}
+  .honest.priv .who2{color:var(--gold-ink);}
+  .tag{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border-radius:999px;}
+  .tag.ok{background:#e4f7f1; color:var(--mint-ink);}
+  .tag.lock{background:#f8eccf; color:var(--gold-ink); display:inline-flex; gap:5px; align-items:center;}
+  .honest p{font-size:15px; line-height:1.55; color:var(--ink); margin:0;}
+  .honest.priv p{color:#4a3d1e;}
+  .honest .foot{font-size:13px; font-style:italic; color:var(--ink-mute); margin-top:11px;}
+  .lockico{width:12px; height:12px;}
+
+  /* ACT III — the payoff, elevated */
+  .payoff{background:linear-gradient(180deg,#ffffff 0%, #fbfdff 100%); border:1px solid #dfeaf5; border-radius:18px; box-shadow:0 2px 4px rgba(27,93,145,.05), 0 14px 40px rgba(27,93,145,.09); padding:26px 26px 24px;}
+  .payoff .eyebrow{color:var(--accent-dark);}
+  .payoff-grid{display:grid; grid-template-columns:1.15fr 1fr; gap:26px; margin-top:16px;}
+  @media(max-width:760px){.payoff-grid{grid-template-columns:1fr;}}
+  .helper{font-size:14px; color:var(--ink-dim); margin:0 0 16px; line-height:1.5;}
+  .action{display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--line-soft);}
+  .owner{display:inline-flex; border:1px solid var(--line); border-radius:var(--radius-ctl); overflow:hidden; font-size:12.5px; font-weight:600; flex:none;}
+  .owner span{padding:5px 10px; color:var(--ink-mute); background:#fff;}
+  .owner span.on{background:var(--accent-soft); color:var(--accent-dark);}
+  .action .txt{flex:1; font-size:15px; color:var(--ink); font-weight:500;}
+  .when{font-size:12px; font-weight:600; color:var(--accent-dark); background:var(--accent-soft); padding:4px 10px; border-radius:999px; white-space:nowrap;}
+  .x{font-size:13px; color:var(--ink-mute); background:none; border:0; cursor:pointer; padding:4px;}
+  .lockrow{display:flex; align-items:center; gap:14px; margin-top:18px;}
+  .btn-primary{font-family:var(--body); font-size:15px; font-weight:600; color:#fff; background:var(--accent); border:0; border-radius:var(--radius-ctl); padding:11px 20px; cursor:pointer; box-shadow:0 1px 0 rgba(27,93,145,.25); flex:none;}
+  .btn-primary:hover{background:#4b9cda;}
+  .locknote{font-size:13.5px; color:var(--ink-dim); line-height:1.45;}
+  .reminders{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
+  .reminders li{display:flex; gap:11px; font-size:14.5px; line-height:1.5; color:var(--ink);}
+  .reminders li .rd{width:7px; height:7px; border-radius:999px; background:var(--ink-mute); margin-top:8px; flex:none;}
+  .reminders b{color:var(--accent-dark); font-weight:600;}
+
+  .foot-row{max-width:1000px; margin:34px auto 0; padding:0 28px; display:flex; align-items:center; gap:16px;}
+  .saved{font-size:13.5px; color:var(--ink-mute); display:flex; align-items:center; gap:8px;}
+  .saved .cd{width:7px; height:7px; border-radius:999px; background:var(--mint-dot);}
+  .foot-row .spacer{flex:1;}
+  .btn-quiet{font-family:var(--body); font-size:14px; font-weight:600; color:var(--ink-dim); background:none; border:1px solid var(--line); border-radius:var(--radius-ctl); padding:9px 16px; cursor:pointer;}
+</style>
+
+<div class="wrap">
+
+  <!-- context chrome -->
+  <div class="topbar">
+    <span class="sess">Session</span>
+    <div class="steps">
+      <span class="s done"><span class="tick">✓</span> Setup</span><span class="sep"></span>
+      <span class="s done"><span class="tick">✓</span> Focus areas</span><span class="sep"></span>
+      <span class="s done"><span class="tick">✓</span> Prep brief</span><span class="sep"></span>
+      <span class="s done"><span class="tick">✓</span> Questions</span><span class="sep"></span>
+      <span class="s done"><span class="tick">✓</span> Live Q&amp;A</span><span class="sep"></span>
+      <span class="s done"><span class="tick">✓</span> Synthesis</span><span class="sep"></span>
+      <span class="now">Recap</span>
+    </div>
+    <div class="who"><span class="av">D</span> manager@seroteams.com · Manager</div>
+  </div>
+
+  <!-- the five design moves (annotation, not part of the screen) -->
+  <div class="moves">
+    <h2>What changed, and why</h2>
+    <div class="movegrid">
+      <div class="move"><div class="n">01</div><div class="t">Result first</div><div class="d">The signal leads. The "partial record" caveat shrinks from a 3-line hero to a small chip.</div></div>
+      <div class="move"><div class="n">02</div><div class="t">Three acts, not seven boxes</div><div class="d">Read → Honest read → Do. A story with a destination, instead of a flat stack.</div></div>
+      <div class="move"><div class="n">03</div><div class="t">The payoff is elevated</div><div class="d">"What to do next" is the visual anchor — and the only solid-blue action lives there.</div></div>
+      <div class="move"><div class="n">04</div><div class="t">Honest reads, clearly split</div><div class="d">Shareable (green) vs private (locked amber) read apart at a glance.</div></div>
+      <div class="move"><div class="n">05</div><div class="t">Caveat said once</div><div class="d">"Not enough signal" was repeated 3×. Now it's one compact empty-state.</div></div>
+    </div>
+  </div>
+
+  <div class="divider-note"><span class="lbl">The redesigned page</span><span class="rule"></span></div>
+
+  <div class="page">
+    <div class="head">
+      <div>
+        <span class="eyebrow">Recap · Carl</span>
+      </div>
+      <button class="btn-ghost">Copy all</button>
+    </div>
+
+    <!-- HERO: result first, caveat demoted -->
+    <div class="hero">
+      <span class="chip gold"><span class="cd"></span>Partial record · 1 note captured</span>
+      <h1 class="line">Checkout Flow Refresh <em>slipped a day</em> — the Figma link was missing from the handoff notes.</h1>
+      <p class="sub">That's the one concrete signal this session. Motivation, team mood and friction with the team stayed untested — treat this as a starting point, not a verdict on Carl.</p>
+    </div>
+
+    <!-- ACT I — THE READ -->
+    <section class="act">
+      <span class="eyebrow">The read</span>
+      <div class="two">
+        <div class="card">
+          <p class="slotlabel">What stood out</p>
+          <ul class="sig">
+            <li>The only signal is operational: "Checkout Flow Refresh slipped a day" because the Figma link was missing from the handoff notes.</li>
+            <li class="mute">Nothing else was covered — motivation, team mood and friction with teammates stay untested this check-in.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="slotlabel">Where they're tracking</p>
+          <div class="axes">
+            <div class="axis"><span class="an">Wellbeing</span><span class="track"><span class="mid"></span></span><span class="val">—</span></div>
+            <div class="axis"><span class="an">Engagement</span><span class="track"><span class="mid"></span></span><span class="val">—</span></div>
+            <div class="axis"><span class="an">Clarity</span><span class="track"><span class="mid"></span></span><span class="val">—</span></div>
+            <div class="axis"><span class="an">Growth</span><span class="track"><span class="mid"></span></span><span class="val">—</span></div>
+          </div>
+          <p class="axes-note"><b>Not enough signal</b><span>One handoff miss isn't enough to read these four this session.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT II — THE HONEST READ -->
+    <section class="act">
+      <span class="eyebrow">The honest read</span>
+      <div class="two">
+        <div class="honest share">
+          <div class="htop"><span class="who2">Share with Carl</span><span class="tag ok">OK to share</span></div>
+          <p>Too few turns hold a real note on Carl to call anything beyond the handoff miss. The only concrete signal is "Checkout Flow Refresh slipped a day", and the Figma link was missing from #checkout.</p>
+        </div>
+        <div class="honest priv">
+          <div class="htop">
+            <span class="who2">Just for you</span>
+            <span class="tag lock"><svg class="lockico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Private</span>
+          </div>
+          <p>The opener got one concrete answer but stopped at the miss — it didn't test what broke in the handoff or what changed after the delay. Next time, stay on that moment and ask for the exact step where the Figma link fell out.</p>
+          <p class="foot">Your reflection — don't paste this into shared notes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT III — WHAT TO DO NEXT (the payoff) -->
+    <section class="act">
+      <span class="eyebrow">What to do next</span>
+      <div class="payoff">
+        <div class="payoff-grid">
+          <div>
+            <p class="slotlabel">What you agreed</p>
+            <p class="helper">Sero heard these in the conversation. Fix the wording and set who owns what — only what you lock in is kept.</p>
+            <div class="action">
+              <span class="owner"><span class="on">You</span><span>Carl</span></span>
+              <span class="txt">Send Carl the checkout handoff checklist</span>
+              <span class="when">today</span>
+              <button class="x">✕</button>
+            </div>
+            <div class="action">
+              <span class="owner"><span class="on">You</span><span>Carl</span></span>
+              <span class="txt">Re-ask what changed after the delay</span>
+              <span class="when">next 1:1</span>
+              <button class="x">✕</button>
+            </div>
+            <div class="lockrow">
+              <button class="btn-primary">Lock these in</button>
+              <span class="locknote">They come back at the start of your next 1:1 with Carl.</span>
+            </div>
+          </div>
+          <div>
+            <p class="slotlabel">Reminders</p>
+            <ul class="reminders">
+              <li><span class="rd"></span><span><b>Before next 1:1</b> — check whether the checkout handoff notes include the Figma link.</span></li>
+              <li><span class="rd"></span><span><b>Within two weeks</b> — see whether another checkout slip comes from the same handoff step.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="foot-row">
+    <span class="saved"><span class="cd"></span> This run is complete and saved.</span>
+    <span class="spacer"></span>
+    <button class="btn-quiet">Copy QA prompt</button>
+    <button class="btn-quiet">Finish</button>
+  </div>
+
+</div>
