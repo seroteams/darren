@@ -58,7 +58,7 @@ function fakeRepo(
 ): {
   repo: SessionsRepo;
   store: Map<string, Session>;
-  created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null; personId?: string | null }>;
+  created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null; personId?: string | null; totalBudget?: number }>;
   dropped: string[];
   persisted: Session[];
   logged: Array<{ dir: string; entries: unknown }>;
@@ -69,7 +69,7 @@ function fakeRepo(
   commits: Array<{ keepIds: string[] }>;
 } {
   const store = new Map<string, Session>(seed.map((s) => [s.id, s]));
-  const created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null; personId?: string | null }> = [];
+  const created: Array<{ ctx: MeetingContext; introQueue: Question[]; orgId?: string | null; userId?: string | null; personId?: string | null; totalBudget?: number }> = [];
   const dropped: string[] = [];
   const persisted: Session[] = [];
   const logged: Array<{ dir: string; entries: unknown }> = [];
@@ -80,8 +80,8 @@ function fakeRepo(
   const commits: Array<{ keepIds: string[] }> = [];
   const repo: SessionsRepo = {
     get: (id) => store.get(id),
-    create: (ctx, introQueue, orgId, userId, personId) => {
-      created.push({ ctx, introQueue, orgId, userId, personId });
+    create: (ctx, introQueue, orgId, userId, personId, totalBudget) => {
+      created.push({ ctx, introQueue, orgId, userId, personId, totalBudget });
       const s = fakeSession(`new-${store.size}`);
       s.orgId = orgId ?? null;
       s.userId = userId ?? null;
@@ -264,7 +264,7 @@ test("create forwards ctx + introQueue through the seam and returns the new sess
   const queue: Question[] = [];
   const out = createSessionsService(repo).create(ctx, queue);
   assert.equal(out.id, "new-0");
-  assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined, userId: undefined, personId: undefined }]);
+  assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined, userId: undefined, personId: undefined, totalBudget: undefined }]);
 });
 
 test("drop forwards the id through the seam", () => {
@@ -743,6 +743,9 @@ test("start (manual) creates via the seam, persists, fires the pre-warm once, an
     notes: "busy week",
   });
   assert.ok(call.introQueue.length >= 1 && call.introQueue.length <= INTRO_BUDGET);
+  // Budget follows the arc: index 0 is the bi-weekly check-in, whose arc sums to 6
+  // (not the old flat 9). This is what stops the light meeting types over-running.
+  assert.equal(call.totalBudget, 6);
 
   // persisted once; pre-warm fired once with the live session + the same ctx
   assert.equal(persisted.length, 1);

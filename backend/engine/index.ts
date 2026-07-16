@@ -1,5 +1,5 @@
 import { MEETING_TYPES } from "./meeting-types.ts";
-import { getType, listTypes, promptFor, getArc, listStageIds } from "./one-on-one-types/index.ts";
+import { getType, listTypes, promptFor, getArc, listStageIds, arcBudget } from "./one-on-one-types/index.ts";
 import { generateFocusPoints } from "./generate.ts";
 import { generatePreparation } from "./preparation.ts";
 import { generateBankWithFallback } from "./question-generator.ts";
@@ -15,6 +15,7 @@ export {
   promptFor,
   getArc,
   listStageIds,
+  arcBudget,
   generateFocusPoints,
   generatePreparation,
   generateBankWithFallback,

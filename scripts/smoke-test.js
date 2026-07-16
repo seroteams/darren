@@ -29,6 +29,7 @@ const { loadEnv } = require("../backend/engine/env.ts");
 const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");
 const { allResolved } = require("../backend/engine/models.ts");
 const { TOTAL_BUDGET, INTRO_BUDGET, DYNAMIC_BUDGET } = require("../backend/engine/budgets.ts");
+const { arcBudgetDefault } = require("../backend/engine/meeting-arcs.ts");
 const { scanSessions, resolveNewSession } = require("./lib/session-fs");
 const { stringifyYaml, parseYaml } = require("../backend/engine/questions.ts");
 const { CONTENT_DIR, QUESTIONS_DIR } = require("../backend/engine/paths.mts");
@@ -218,7 +219,10 @@ if (meetingIdx < 0) {
 }
 
 const answers = scenario.answers || [];
-const BUDGET = TOTAL_BUDGET;
+// Per-type budget: the meeting's arc length (sum of target_questions), not the old
+// flat 9. Overlay-free (fixtures validate the default arc); meeting_type is already
+// validated to resolve above.
+const BUDGET = arcBudgetDefault(scenario.meeting_type);
 const substantiveAnswers = answers.filter((a) => {
   const t = String(a || "").trim();
   return t && t !== "(skipped)";

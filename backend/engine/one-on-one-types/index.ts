@@ -102,4 +102,30 @@ function listStageIds(meetingType: string): string[] {
   return getArc(meetingType).arc.map((s) => s.id);
 }
 
-export { TYPES, getType, listTypes, promptFor, MEETING_ARCS, getArc, listStageIds };
+function sumTargets(arc: ArcPhase[]): number {
+  return arc.reduce((n, s) => n + (s.target_questions || 0), 0);
+}
+
+// A type's designed question count = the sum of every arc phase's target_questions.
+// This is what a session's totalBudget follows, so lighter arcs (6) don't get
+// stretched to the old flat 9. Built on the overlay-aware getArc, so a manager's
+// saved arc edit changes the budget with no restart — used on the LIVE paths
+// (server + CLI), which hydrate the overlay cache at boot.
+function arcBudget(meetingType: string): number {
+  return sumTargets(getArc(meetingType).arc);
+}
+
+// Overlay-FREE designed length, read straight from the code-default type. For
+// offline/static callers (the fixture validators) that never hydrate the overlay
+// cache — committed fixtures validate against the default arc, not a local runtime
+// overlay, so this stays a pure sync read with no DB dependency.
+function arcBudgetDefault(meetingType: string): number {
+  const base = BY_LABEL[meetingType] || BY_SLUG[meetingType];
+  if (!base) {
+    const known = Object.keys(MEETING_ARCS).join(", ");
+    throw new Error(`arcBudgetDefault: unknown meeting type "${meetingType}". Known: ${known}`);
+  }
+  return sumTargets(base.arc);
+}
+
+export { TYPES, getType, listTypes, promptFor, MEETING_ARCS, getArc, listStageIds, arcBudget, arcBudgetDefault };

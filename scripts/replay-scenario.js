@@ -17,6 +17,7 @@ loadEnv();
 
 const { MEETING_TYPES } = require("../backend/engine/meeting-types.ts");
 const { TOTAL_BUDGET } = require("../backend/engine/budgets.ts");
+const { arcBudgetDefault } = require("../backend/engine/meeting-arcs.ts");
 const { validateBrief, generatePreparation } = require("../backend/engine/preparation.ts");
 const { resolveSelectedFocus } = require("../backend/engine/selected-focus.ts");
 const {
@@ -176,15 +177,19 @@ function runSmokeSchemaChecks(scenario) {
     console.log(`  PASS  ${label} — meeting_type resolves (${raw.meeting_type})`);
   }
 
+  // Budget is now per-type (sum of the arc's target_questions), so a valid bi-weekly
+  // needs only its 6 answers, not the old flat 9. Fall back to the flat total when the
+  // meeting_type didn't resolve (already failed above).
+  const budget = meetingIdx >= 0 ? arcBudgetDefault(raw.meeting_type) : TOTAL_BUDGET;
   const answers = Array.isArray(raw.answers) ? raw.answers : [];
   const substantive = answers.filter(isSubstantiveAnswer).length;
-  if (substantive < TOTAL_BUDGET) {
+  if (substantive < budget) {
     console.error(
-      `  FAIL  ${label} — ${substantive} substantive answer(s), need >= ${TOTAL_BUDGET} for smoke-test budget`
+      `  FAIL  ${label} — ${substantive} substantive answer(s), need >= ${budget} for smoke-test budget`
     );
     failed += 1;
   } else {
-    console.log(`  PASS  ${label} — ${substantive} substantive answers (budget ${TOTAL_BUDGET})`);
+    console.log(`  PASS  ${label} — ${substantive} substantive answers (budget ${budget})`);
   }
 
   if (typeof raw.manager_notes === "string" && raw.manager_notes.trim().length >= 20) {

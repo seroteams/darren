@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { loadEnv } from "./engine/env.ts";
 import { createAsker } from "./engine/ask.ts";
-import { MEETING_TYPES, INTRO_BUDGET, DYNAMIC_BUDGET } from "./engine/index.ts";
+import { MEETING_TYPES, INTRO_BUDGET, arcBudget } from "./engine/index.ts";
 import { createSession } from "./engine/session.ts";
 import { listRecentRuns, summarizeRun, deleteRun, findLatestRunWithLock } from "./engine/run-history.ts";
 import { buildPipelineStatus } from "./engine/pipeline-lock.ts";
@@ -252,7 +252,10 @@ async function main() {
 
   const prepResult = await runPreparationStage({ ctx, focusPoints: result.focus_points, session });
 
-  const introQueue = loadIntroQueue(meetingType.label, INTRO_BUDGET);
+  // Budget follows the arc's designed length; cap intro so a closer turn is reserved.
+  const totalBudget = arcBudget(meetingType.label);
+  const introCap = Math.min(INTRO_BUDGET, Math.max(1, totalBudget - 1));
+  const introQueue = loadIntroQueue(meetingType.label, introCap);
   const { queue, closer, prepOpener } = await runQuestionBankStage({
     ctx,
     focusPoints: result.focus_points,
@@ -262,7 +265,6 @@ async function main() {
     session,
   });
 
-  const totalBudget = INTRO_BUDGET + DYNAMIC_BUDGET;
   const { transcript, axisState, scoring } = await runQuestioningLoop({
     ctx,
     focusPoints: result.focus_points,

@@ -77,7 +77,7 @@ Every run goes through these in order. Each stage logs `inputs.json`, `prompt.md
 
 ### Stage 3 — Live questioning (`src/queue-manager.js`, `prompts/plan-turn.md`)
 - Model: `gpt-4o` (per turn).
-- Budget: `INTRO_BUDGET = 4`, `DYNAMIC_BUDGET = 5` → `TOTAL_BUDGET = 9` questions/run. Defined in `frontend/server/sessions.js`; CLI imports same constants.
+- Budget: **per meeting type — the arc's designed length** (`arcBudget()` = sum of each arc phase's `target_questions`): bi-weekly / feels-off / onboarding = 6, performance = 8, growth = 9. Set on the session at `/start` (`backend/api/services/sessions/sessions.service.ts`); CLI computes the same. `INTRO_BUDGET = 4` still caps the scripted intro seed (capped down to reserve a closer turn on short arcs); the old flat `TOTAL_BUDGET = 9` remains exported for back-compat but no longer gates a run.
 - The queue is seeded from the intro queue (`src/intro-queue.js`, `questions/_intro/<meeting-slug>/`) + the bank from stage 2.
 - After every answer, **plan-turn** runs:
   1. Score the answer into axis deltas (signature-bound, magnitude-clamped to question's signature).

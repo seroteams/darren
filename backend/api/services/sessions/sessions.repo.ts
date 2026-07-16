@@ -69,8 +69,10 @@ export interface SessionsRepo {
   /** Create a new live session (throws 503 at the concurrency cap, as today).
    *  orgId stamps the owning company (null = unfenced legacy/anonymous). Phase 007/2.
    *  userId stamps the creating member (null = unattributed). member-nav Phase 2.
-   *  personId stamps the roster person this 1:1 is ABOUT (null = unlinked). people-roster Phase 2. */
-  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null, personId?: string | null): Session;
+   *  personId stamps the roster person this 1:1 is ABOUT (null = unlinked). people-roster Phase 2.
+   *  totalBudget sets the session's question count (defaults to the flat TOTAL_BUDGET when
+   *  omitted; /start passes the meeting type's arc length so lighter arcs stop sooner). */
+  create(ctx: MeetingContext, introQueue: Question[], orgId?: string | null, userId?: string | null, personId?: string | null, totalBudget?: number): Session;
   /** Evict a session from the live store (on-disk record is left in place). */
   drop(id: string): void;
   /** Write the session's current state to disk. */
@@ -108,7 +110,7 @@ const LEXICON_DECISIONS_FILE = "lexicon-decisions.jsonl";
 
 export const fileSessionsRepo: SessionsRepo = {
   get: (id) => getSession(id),
-  create: (ctx, introQueue, orgId, userId, personId) => createWebSession(ctx, introQueue, orgId ?? null, userId ?? null, personId ?? null),
+  create: (ctx, introQueue, orgId, userId, personId, totalBudget) => createWebSession(ctx, introQueue, orgId ?? null, userId ?? null, personId ?? null, totalBudget),
   drop: (id) => {
     dropSession(id);
   },
@@ -175,8 +177,8 @@ export const fileSessionsRepo: SessionsRepo = {
 // Postgres so a session can survive a server restart.
 export const pgSessionsRepo: SessionsRepo = {
   ...fileSessionsRepo,
-  create: (ctx, introQueue, orgId, userId, personId) => {
-    const session = fileSessionsRepo.create(ctx, introQueue, orgId, userId, personId);
+  create: (ctx, introQueue, orgId, userId, personId, totalBudget) => {
+    const session = fileSessionsRepo.create(ctx, introQueue, orgId, userId, personId, totalBudget);
     queueSessionUpsert(session);
     return session;
   },

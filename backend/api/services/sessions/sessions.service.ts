@@ -27,7 +27,7 @@ import { checkQuestionEligibility, dropIneligibleHeads } from "../../../engine/q
 import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
 import { pickOpener } from "../../../engine/opener.ts";
 import { loadIntroQueue } from "../../../engine/intro-queue.ts";
-import { getArc } from "../../../engine/meeting-arcs.ts";
+import { getArc, arcBudget } from "../../../engine/meeting-arcs.ts";
 import { buildFingerprint } from "../../../engine/run-fingerprint.ts";
 import { scriptAnswers } from "../../persona-script.ts";
 import { renderNotesMarkdown } from "./notes-format.ts";
@@ -453,6 +453,11 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
 
       const arc = getArc(meetingType.label);
       const anchorStageId = arc.arc[0]?.id || null;
+      // Budget follows the arc's designed length (sum of target_questions), so a
+      // light bi-weekly stops at 6 instead of the old flat 9. Cap intro so a closer
+      // turn is always reserved (only bites if a manager overlays an unusually short arc).
+      const totalBudget = arcBudget(meetingType.label);
+      const introCap = Math.min(INTRO_BUDGET, Math.max(1, totalBudget - 1));
       const ctx: MeetingContext = {
         name: name.trim(),
         role: role.trim(),
@@ -463,9 +468,9 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
 
       const openerRejections: EligibilityLogEntries = [];
       const opener = pickOpener(ctx, { rejections: openerRejections });
-      const introRest = loadIntroQueue(meetingType.label, INTRO_BUDGET - 1);
-      const introQueue = [opener, buildAgendaCheck(anchorStageId), ...introRest].slice(0, INTRO_BUDGET);
-      const session = repo.create(ctx, introQueue, orgId, userId, personId);
+      const introRest = loadIntroQueue(meetingType.label, introCap - 1);
+      const introQueue = [opener, buildAgendaCheck(anchorStageId), ...introRest].slice(0, introCap);
+      const session = repo.create(ctx, introQueue, orgId, userId, personId, totalBudget);
       if (openerRejections.length) {
         repo.appendEligibilityLog(session.dir, openerRejections);
       }
