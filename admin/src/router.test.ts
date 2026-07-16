@@ -15,14 +15,16 @@ test("the guest front door (WELCOME) left the admin app (frontend-admin-split Ph
 });
 
 test("isInternalStage: the workshop is internal-only", () => {
+  // REVIEW_RUN (the raw QA verdict tool) joined the internal set — a manager never sees engine
+  // hashes / Pass-Fail; their "Review" opens the clean run detail instead (audit M4).
   for (const s of [STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS, STAGES.LEXICON_REVIEW,
-    STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.TASKS, STAGES.GUIDE]) {
+    STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.TASKS, STAGES.GUIDE, STAGES.REVIEW_RUN]) {
     assert.equal(isInternalStage(s), true, `${s} is internal-only`);
   }
 });
 
 test("isInternalStage: a manager's own destinations are NOT internal-only", () => {
-  for (const s of [STAGES.START, STAGES.REVIEW_RUN, STAGES.INTAKE, STAGES.TEAM, STAGES.RUNS,
+  for (const s of [STAGES.START, STAGES.INTAKE, STAGES.TEAM, STAGES.RUNS,
     STAGES.MEMBER_HOME, STAGES.ABOUT, STAGES.FEEDBACK]) {
     assert.equal(isInternalStage(s), false, `${s} stays manager-reachable`);
   }

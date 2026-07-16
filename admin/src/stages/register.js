@@ -3,10 +3,11 @@
 // immediately log in with the same credentials to land the user in. A link
 // switches back to the login screen.
 
-import { STAGES, isAdmin } from "../state.js";
+import { STAGES, store } from "../state.js";
 import { register, login } from "../../../shared/api.js";
 import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
+import { landingStage } from "../ui/landing.ts";
 
 export async function mount(root, { setState }) {
   root.innerHTML = `
@@ -79,12 +80,10 @@ export async function mount(root, { setState }) {
       // A guest saving their finished run (guest-run Phase 3): claim it and land on
       // it. A failed claim falls through to the normal landing — never a dead end.
       if (await completeClaimAfterAuth(user, setState)) return;
-      // A brand-new manager lands on their Home (the START dashboard), where the
-      // first-run empty state greets them — not the setup wizard. They start a prep
-      // when they choose to. Members go to their own Home. (Mirrors main.js boot.)
-      setState(isAdmin(user)
-        ? { user, stage: STAGES.START }
-        : { user, stage: STAGES.MEMBER_HOME });
+      // Land in the SAME place a fresh reload would (audit B1): one resolver, the per-app
+      // member home injected into store.memberHome by each main.js. A brand-new manager
+      // reaches their Home (START) and its first-run empty state, not the setup wizard.
+      setState({ user, stage: landingStage(user, store.memberHome ?? STAGES.RUNS) });
     } catch (e2) {
       showError(e2.message || "Could not create your account.");
       submitBtn.disabled = false;

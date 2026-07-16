@@ -1,4 +1,4 @@
-import { STAGES, resetSession } from "../state.js";
+import { STAGES, resetSession, isAdmin } from "../state.js";
 import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns, createPerson, createGuidedSession } from "../../../shared/api.js";
 import { firstRunIntroHtml, firstRunNotesExampleHtml } from "./intake-firstrun.ts";
 import { swapField, focusField } from "../ui/field.js";
@@ -37,6 +37,13 @@ const COPY = {
 };
 
 export async function mount(root, { store, setState }) {
+  // Role gate (audit B2): the prep flow is a manager tool. A logged-in member who reaches
+  // this stage by any path is bounced to their own home before a single "Who are you
+  // prepping for?" renders. A logged-OUT visitor is the guest lane — always allowed in.
+  if (store.user && !isAdmin(store.user)) {
+    setState({ stage: store.memberHome ?? STAGES.RUNS });
+    return;
+  }
   root.innerHTML = `
     <div class="stage-inner intake-shell l-stack l-stack--10">
       <header class="space-y-3">

@@ -130,11 +130,13 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 
 // The internal toolset (manager-ready Phase 1) — the workshop screens only the internal
 // `admin` role should meet. A manager deep-linking here is bounced to their Home (START).
-// Deliberately NOT including START (the manager's dashboard) or REVIEW_RUN (their own run
-// reviews) — the backend fences whose data those show.
+// Deliberately NOT including START (the manager's dashboard) — the backend fences its data.
+// REVIEW_RUN (the raw QA verdict tool: engine hashes, Pass/Fail, judged counts) IS internal
+// now (audit M4) — a manager's "Review" opens the clean run detail instead; only internal QA
+// reaches the verdict page.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GUIDED]);
+  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GUIDED, STAGES.REVIEW_RUN]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2): the Test engine

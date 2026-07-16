@@ -3,7 +3,7 @@
 // sessions; the admin app's start.js composes the bench on top via the `bench`
 // argument. The customer app imports THIS file directly, so no bench markup or
 // persona code ever reaches the customer bundle.
-import { STAGES, store } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.js";
 import { listRecentRuns, getRunOverview, deleteRun } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { stageLabel } from "../ui/stage-labels.js";
@@ -180,7 +180,11 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
   }
 
   function review(id) {
-    setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
+    // A manager's "Review" opens the clean run detail (Overview / Briefing / Answers) — not
+    // the raw QA verdict tool (engine hashes, Pass/Fail) which is internal-only now (audit
+    // M4). Internal QA still gets the verdict page from their own Home.
+    if (isInternalAdmin(store.user)) setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
+    else setState({ myRunId: id, stage: STAGES.RUN_DETAIL });
   }
 
   async function del(id) {

@@ -2,10 +2,11 @@
 // server sets the session cookie; we store the user in state and land on START.
 // A link switches to the register screen.
 
-import { STAGES, isAdmin } from "../state.js";
+import { STAGES, store } from "../state.js";
 import { login, me } from "../../../shared/api.js";
 import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
+import { landingStage } from "../ui/landing.ts";
 
 // Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
 // admin/public/login/ — one is picked at random per visit. Exported so the
@@ -92,15 +93,11 @@ export async function mount(root, { setState }) {
       // A guest saving their finished run (guest-run Phase 3): claim it and land on
       // it. A failed claim falls through to the normal landing — never a dead end.
       if (await completeClaimAfterAuth(identity, setState)) return;
-      // Mirror the boot routing in main.js so login and a fresh reload land in the same
-      // place. A plain member lands on their own clean Home; a manager lands on their
-      // Home (the START dashboard), where the first-run empty state greets a newcomer —
-      // never dumped into the setup wizard. They start a prep when they choose to.
-      if (!isAdmin(identity)) {
-        setState({ user: identity, stage: STAGES.MEMBER_HOME });
-      } else {
-        setState({ user: identity, stage: STAGES.START });
-      }
+      // Land in the SAME place a fresh reload would (audit B1 split-brain): one resolver,
+      // the per-app member home injected into store.memberHome by each main.js. A manager
+      // gets their Home (START), where the first-run empty state greets a newcomer — never
+      // the setup wizard. The ?? guards a stage loaded before boot set memberHome.
+      setState({ user: identity, stage: landingStage(identity, store.memberHome ?? STAGES.RUNS) });
     } catch (e2) {
       showError(e2.message || "Could not log in.");
       submitBtn.disabled = false;

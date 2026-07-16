@@ -19,6 +19,11 @@ import { createAppNav } from "./ui/app-nav.js";
 import { createProfileBadge } from "../../admin/src/ui/profile-badge.js";
 import { createNotesPanel } from "../../admin/src/ui/notes-panel.js";
 import { installGlobalErrorReporter, reportError } from "../../admin/src/ui/error-reporter.js";
+
+// This app's member home (audit B1): a plain member lands on MEMBER_HOME. Injected once so
+// the shared login/register resolver lands them where a reload does — no split-brain.
+store.memberHome = STAGES.MEMBER_HOME;
+
 // Lazy stage modules — customer stages only.
 const loaders = {
   // Customer-owned screens live HERE (frontend-admin-split Phase 3); the rest
@@ -327,6 +332,15 @@ async function boot() {
   if (route?.stage === STAGES.REVIEW_RUN) {
     if (route.params?.reviewRunId) { setState({ reviewRunId: route.params.reviewRunId, stage: STAGES.REVIEW_RUN }); return; }
     history.replaceState(null, "", "/"); setState({ stage: STAGES.START }); return;
+  }
+
+  // /team/:person deep link (audit M9) — a refresh on a person page must stay on that
+  // person. person-detail reads store.personKey, so carry the URL param into state here the
+  // same way popstate does; without it the page mounted to "No one selected". Bare /team
+  // (no key) falls through to the standalone-path handler below and shows the Team list.
+  if (route?.stage === STAGES.PERSON_DETAIL && route.params?.personKey) {
+    setState({ personKey: route.params.personKey, stage: STAGES.PERSON_DETAIL });
+    return;
   }
 
   let rehydrated = false;

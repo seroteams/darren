@@ -13,6 +13,11 @@ import { createAppNav } from "./ui/app-nav.js";
 import { createProfileBadge } from "./ui/profile-badge.js";
 import { createNotesPanel } from "./ui/notes-panel.js";
 import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js";
+
+// This app's member home (audit B1): a plain member lands on their Past 1:1s (RUNS).
+// Injected once so the shared login/register resolver lands them where a reload does.
+store.memberHome = STAGES.RUNS;
+
 // Lazy stage modules — kept in a map so HMR + code-split both work nicely.
 const loaders = {
   // The customer shell (welcome/join/team/person-detail) lives in the customer

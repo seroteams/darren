@@ -1,6 +1,26 @@
 # Phase 2 — Right doors, right roles
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-17)
+On `main`. Offline proof: **suite 148/148 (incl. new `landing.test.ts` 3/3 + updated `router.test.ts`), `npm run typecheck` (root + admin) clean, both apps `vite build` clean.** No paid runs (routing/role only). App boots with zero console errors after HMR.
+
+- **B1 — one member home per app** — new pure resolver [landing.ts](../../../admin/src/ui/landing.ts) (`landingStage(user, memberHome)` → START for a manager, the injected member home for a member). Each app injects its own home once at boot: admin `store.memberHome = RUNS` ([main.js](../../../admin/src/main.js)), customer `= MEMBER_HOME` ([main.js](../../../frontend/src/main.js)). [login.js](../../../admin/src/stages/login.js) + [register.js](../../../admin/src/stages/register.js) now use the resolver, so login and a reload land in the SAME place. *(Root cause found: the admin app's login sent a member to `/home` but its boot sent them to `/runs` — that mismatch was the split-brain. The customer app already agreed; the fix unifies both through one helper.)*
+- **M9 — person deep-links survive** — [frontend/main.js](../../../frontend/src/main.js) boot now carries `personKey` from `/team/:person` into state (mirroring popstate), so a refresh stays on the person instead of mounting to "No one selected".
+- **M4 — QA verdict page internal** — `REVIEW_RUN` added to `INTERNAL_ONLY` in [router.js](../../../admin/src/router.js) (admin boot bounces a plain manager off `/run/:id` to Home; internal QA still reaches it). The manager's **Review** button ([start-core.js](../../../admin/src/stages/start-core.js)) now opens the clean run detail (Overview / Briefing / Answers); only an internal admin's Review opens the raw verdict tool.
+- **B2 — role-gate the prep flow** — belt-and-braces render guard at the top of [intake.js](../../../admin/src/stages/intake.js) mount: a logged-in member is bounced home before any "Who are you prepping for?" renders. (Boot + popstate already bounced members off `/new`; this shuts the render path too. A logged-out guest is always let in.)
+
+## Resolved by earlier tracks — no code change (flagged)
+- **B6 "dead member run-detail route"** — NOT dead any more. The **past-1on1-view** track (closed 2026-07-12, after the audit was captured) gave `RUN_DETAIL` real member data: [run-detail.ts](../../../admin/src/stages/run-detail.ts) reads `/runs/mine/:id` (turns + briefing, planner note stripped) as Overview / Briefing / Answers. Removing it would break the member's Past-1:1 view. Left in place; item retired.
+
+## Honest residuals (not blockers)
+- **M4 on the customer app** — the admin router's `INTERNAL_ONLY` gate is admin-app only; the customer app has no internal-QA concept, so the Review-button repoint (which both apps share) is what keeps a customer manager out of the verdict page. A manager manually typing `/run/:id` on the *customer* app isn't hard-bounced — out of the phase's stated scope (it named the admin router). Raise as a follow-up if it matters.
+
+---
+
+**Original plan below.**
+
+
 
 ## Goal
 A member only ever sees member things, arrives at the same home every time, and a manager never sees QA machinery.
