@@ -10,7 +10,8 @@
 // data loading and the click wiring.
 
 import { STAGES, store } from "../../../admin/src/state.js";
-import { listMyRuns, listPeople, createPerson, updatePerson, deletePerson, getLinkableUsers, linkPerson, unlinkPerson, invitePerson } from "../../../shared/api.js";
+import "../styles/team-card.css";
+import { listMyRuns, listPeople, createPerson, updatePerson, deletePerson, getLinkableUsers, linkPerson, unlinkPerson, invitePerson, resendInvite } from "../../../shared/api.js";
 import { showAddPersonModal } from "../../../admin/src/ui/add-person-modal.ts";
 import { showDeletePersonModal } from "../../../admin/src/ui/delete-person-modal.ts";
 import { openRowMenu } from "../../../admin/src/ui/row-menu.ts";
@@ -18,6 +19,7 @@ import { showGiveAccessModal } from "../../../admin/src/ui/give-access-modal.ts"
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { personCard, type Person, type OrgUser } from "./team-card.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
+import { prepStartSubstage } from "../../../admin/src/ui/intake-start.ts";
 
 export const mount: Mount = async (root, { setState }) => {
   let people: Person[] = [];
@@ -40,16 +42,19 @@ export const mount: Mount = async (root, { setState }) => {
 
   const startOneOnOne = (seed: { personId?: string; name?: string; role?: string } = {}) => {
     store.scripted = null;
+    const roster = seed.personId ? rosterById.get(seed.personId) : undefined;
     Object.assign(store.ctx, {
       personId: seed.personId ?? null,
       name: seed.name ?? "",
-      role: seed.role ?? "",
-      seniority: "",
+      role: seed.role ?? roster?.role ?? "",
+      seniority: roster?.seniority ?? "", // carried from the roster so the skipped step loses nothing
       meetingType: "",
       meetingTypeIndex: null,
       notes: "",
     });
-    setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
+    // A person already on the roster was picked — we hold their details, so don't re-ask who they
+    // are; open at the meeting type. Free text / new names still start at NAME. (audit QA follow-up)
+    setState({ sessionId: null, stage: STAGES.INTAKE, substage: prepStartSubstage({ personId: store.ctx.personId, name: store.ctx.name }) });
   };
 
   const emptyCard = `
@@ -108,6 +113,28 @@ export const mount: Mount = async (root, { setState }) => {
         void doAccess(el.dataset.key || "", el.dataset.name || "", el.dataset.userid || "");
       });
     });
+    // "Remind" on an invited/opened person — resend their pending invite (team-page-redesign P3).
+    root.querySelectorAll<HTMLButtonElement>(".js-remind").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        void doRemind(el.dataset.invite || "", el.dataset.name || "");
+      });
+    });
+  };
+
+  // Resend a pending invite as a reminder; surface the fresh link too, in case the email lags.
+  const doRemind = async (inviteId: string, name: string) => {
+    if (!inviteId) return;
+    try {
+      const res = (await resendInvite(inviteId)) as { link: string };
+      window.prompt(
+        `Reminder sent to ${name}. If the email doesn't arrive, share this one-time link (valid 7 days):`,
+        `${window.location.origin}${res.link}`,
+      );
+      await load();
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Couldn't send the reminder — please try again.");
+    }
   };
 
   // The card's access control → one sheet (give-access-modal): link an existing account, invite

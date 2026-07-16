@@ -15,6 +15,7 @@ import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { relTime } from "../../../admin/src/ui/time.ts";
 import { renderAxisMemory, type AxisRead } from "./person-axes.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
+import { prepStartSubstage } from "../../../admin/src/ui/intake-start.ts";
 
 type MyRun = {
   id: string;
@@ -179,7 +180,9 @@ export const mount: Mount = async (root, { setState }) => {
         meetingTypeIndex: null,
         notes: "",
       });
-      setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
+      // Known person from their own page — don't re-ask who they are; open at the meeting type.
+      // (audit QA follow-up)
+      setState({ sessionId: null, stage: STAGES.INTAKE, substage: prepStartSubstage({ personId: key, name: person.name }) });
     });
 
   // Not met yet — a real roster person with no 1:1s. Show who they are and invite prepping

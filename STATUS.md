@@ -25,6 +25,9 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
+> ### 🔨 [ux-audit-fixes](docs/plans/doing/ux-audit-fixes/plan.md) — Phase 1 BUILT, awaiting Carl's walk. Start fresh via [HANDOVER.md](docs/plans/doing/ux-audit-fixes/HANDOVER.md).
+> The recovered 2026-07-14 UX audit became a 5-phase, 44-item plan. **Phase 1 ("the return path") is built + tested** (6 fixes: prep-button above history · persistent Start on Past 1:1s · Resume self-heals · finish→person page · Prep-a-known-person skips to meeting type). Tests 147/147, typecheck clean, both apps build; on branch `work/ux-audit-fixes`, local only. **Next: Carl walks phase-1.md's 6 scenarios on localhost:3000 as Manager → "green light Phase 1" → phase-close, then Phase 2.** Live board: https://claude.ai/code/artifact/b5f23732-4629-4350-86ae-b3ea662541a8
+
 > ### ✅ [briefing-before-during-after](docs/plans/doing/briefing-before-during-after/plan.md) — TRACK CLOSED 2026-07-17 (Carl: "1 fine go"), $0, local only.
 > Darren said the run's last page (the pre-1:1 briefing) was confusing. Carl picked "Before · During · After" from 5 mockups; it's now the default layout every manager lands on — the 7 brief pieces reframed onto the meeting's shape (walk-in → in the room → leave with), built in Sero's real tokens. Both phases ✅. `build`/tests 54/54. Committed `cacd3818`; **not deployed** (local until Carl says go live). Folder → done/.
 
