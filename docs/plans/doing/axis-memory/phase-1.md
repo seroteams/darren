@@ -1,6 +1,12 @@
 # Phase 1 — Last-1:1 axis read on the person page
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-16 — Carl signed off ("signed off") (commit 075b1aec)
+The "Last 1:1" axis line ships on the manager's person page: last session's four reads as
+labelled past context, unread axes honest ("not read", never a 0), no scoring change.
+Committed local-only; **not pushed** (a release would ship 8 other sessions' unpushed commits —
+held for Carl's separate go).
 
 ## Built (2026-07-16)
 Landed while Carl was asleep (he asked me to finish it + report). Files:

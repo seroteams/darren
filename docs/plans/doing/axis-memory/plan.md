@@ -22,13 +22,14 @@ Dug out of the code so the phases don't stall:
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Last-1:1 axis read on the person page | A dated "Last 1:1" axis line on the manager's person page — display only, data already present, no scoring touch | 🔨 built, awaiting walk |
+| 1 | Last-1:1 axis read on the person page | A dated "Last 1:1" axis line on the manager's person page — display only, data already present, no scoring touch | ✅ |
 | 2 | Multi-1:1 axis trend | A new fenced axis-history reader (mirrors `focus-history.ts`, personId+userId, dual-store) → a real a→b→c trend line | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 built 2026-07-16 (Carl asleep, asked me to finish + report), awaiting his live walk before green-light.** Baseline `npm test` 143/143; after build 143/145 (the 2 fails are a parallel session's uncommitted `backend/api/router.ts`, not this work). Helper 7/7, typecheck + build clean, rendered + verified on screen. Committed my-own-files-only to `main` (local); **not pushed** — `main` carries 8 other sessions' unpushed commits, so a release would ship all of them, not just this. Push held for Carl. Next: Carl walks Phase 1 scenarios → green-light → then Phase 2 (multi-run trend).
+**Phase 1 ✅ GREEN-LIT 2026-07-16 (Carl: "signed off"), commit `075b1aec`.** The "Last 1:1" axis line ships on the manager's person page. Helper 7/7, typecheck + build clean, verified on screen (14px, unread = "not read"). Committed my-own-files-only to `main` (local); **not pushed** — `main` carries 8 other sessions' unpushed commits, so a release ships all of them; held for Carl's separate "go live". (2 backend test fails in the tree are a parallel session's uncommitted `router.ts`, not this work.) STATUS.md left untouched — another chat has it open with uncommitted edits.
+**Next: Phase 2 (multi-run trend a→b→c via a fenced axis-history reader) — not started, awaiting Carl's go.**
 
 ## Parked
 - **The full engine-uses-it version** (the trend feeds the questioning/focus so the engine re-probes a dipped axis) — Carl chose "manager sees it" first; this is the later "engine uses it" build.
