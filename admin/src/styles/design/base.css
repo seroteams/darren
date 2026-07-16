@@ -51,18 +51,20 @@ textarea { resize: vertical; }
 .text-display {
   font-family: var(--type-family-display);
   font-size: var(--type-display);
-  font-weight: var(--type-weight-bold);
+  font-weight: var(--type-weight-semibold); /* 700→600 — calmer display, matches DESIGN.md §3 (UI polish P1) */
   letter-spacing: var(--type-tracking-tighter);
   line-height: var(--type-leading-tight);
+  text-wrap: balance;
   color: var(--color-ink);
 }
 .h1 {
   /* kept mapped to display size for back-compat */
   font-family: var(--type-family-display);
   font-size: var(--type-display);
-  font-weight: var(--type-weight-bold);
+  font-weight: var(--type-weight-semibold); /* 700→600 (UI polish P1) */
   letter-spacing: var(--type-tracking-tighter);
   line-height: var(--type-leading-tight);
+  text-wrap: balance;
   color: var(--color-ink);
 }
 .h2 {
@@ -71,6 +73,7 @@ textarea { resize: vertical; }
   font-weight: var(--type-weight-semibold);
   letter-spacing: var(--type-tracking-tight);
   line-height: 1.2;
+  text-wrap: balance;
   color: var(--color-ink);
 }
 .h3 {

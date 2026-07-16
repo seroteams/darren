@@ -272,6 +272,7 @@
 
   /* Surfaces */
   --color-bg: var(--sero-primary-100);             /* #f5fafd */
+  --color-page: var(--sero-primary-100);           /* #f5fafd — was referenced (Pulse tracks/pills) but never defined, so those backgrounds rendered transparent; alias to the paper tint (UI polish P1) */
   --color-surface: var(--sero-soft-50);            /* #ffffff */
   --color-border: var(--sero-soft-700);            /* #e8e8e8 */
   --color-border-strong: var(--sero-charcoal-300); /* #cccccc */
@@ -320,7 +321,7 @@
      sizes (display/h2/h3/body/small) are preserved.
      ========================================================================= */
   --type-family-display: "Bricolage Grotesque Variable", "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
-  --type-display: clamp(2.75rem, 6vw, 3.5rem);    /* hero */
+  --type-display: clamp(1.875rem, 5vw, 2.625rem); /* hero — calmed from 44-56px to DESIGN.md's ~40px spec (30-42px) (UI polish P1) */
   --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* large page title */
   --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);
   --type-h3: 1.25rem;                             /* kept (safe) */
@@ -355,6 +356,8 @@
   --type-tracking-normal: 0;
   --type-tracking-wide: 0.02em;
   --type-tracking-wider: 0.04em;
+  --type-tracking-caps: 0.06em;                   /* slot/label uppercase (UI polish P1) */
+  --type-tracking-caps-lg: 0.08em;                /* section eyebrow uppercase (UI polish P1) */
 
   /* Layout */
   --measure: 38rem;
@@ -388,5 +391,42 @@
   --dur-slow: 720ms;
   --dur-hero: 1200ms;
   --stagger: 60ms;
+
+  /* =========================================================================
+     UI polish (P1) — pure additions adopted by later phases + two backfills.
+     Grouped here so the whole initiative is easy to review/revert.
+     ========================================================================= */
+  /* Promote the session top-bar height to :root so the ~30 call sites that used
+     the 44px fallback (they were 6px short of the real 50px bar) now clear it. */
+  --session-topbar-h: 50px;
+
+  /* Role spacing — named landing spots (map onto the 8px grid) */
+  --space-section: var(--sero-space-10);           /* 40px — between major sections */
+  --space-card-pad: var(--sero-space-6);           /* 24px — card interior */
+  --space-page-tail: var(--sero-space-24);         /* 96px — breathing room at page end */
+
+  /* The one sanctioned lift shadow — ink-tinted (not black), two-layer; frames only */
+  --shadow-lift: 0 1px 2px rgba(31, 42, 55, .04), 0 8px 24px rgba(31, 42, 55, .06);
+
+  /* Frame radius — the artifact's framed-screen corner */
+  --radius-frame: 18px;
+
+  /* Reading measures — calmer than the dashboard grid */
+  --measure-tight: 32rem;
+  --measure-lede: 44rem;
+  --container-reading: 56rem;                      /* book-like briefing column */
+
+  /* Tint-triad hairlines — a same-hue line border for soft-tint panels */
+  --color-mint-line: var(--sero-mint-400);         /* #d0f8ef */
+  --color-coral-line: var(--sero-coral-400);       /* #fcc5c0 */
+  --color-gold-line: var(--sero-gold-400);         /* #ffe7b7 */
+  --color-primary-line: var(--sero-primary-400);   /* #c1def4 */
+
+  /* Phantom-token backfill — these were referenced only via var(x, #hex)
+     fallbacks (tasks.js, guide.js), so #hex always rendered. Defined to the
+     EXACT fallback so appearance is unchanged; a later phase remaps them onto
+     the Sero mint/coral families. */
+  --sero-emerald-500: #10b981;
+  --sero-rose-700: #b4232a;
 }
 

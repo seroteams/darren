@@ -39,7 +39,7 @@ Full detail in [audit-findings.md](audit-findings.md) (9-agent audit, 2026-07-17
 ## Phases
 | # | Phase | What it lands | Effort | Status |
 |---|---|---|---|---|
-| 1 | Calm the type, fix the freebies | Token-layer retune (display size/weight, tracking + spacing + shadow/radius tokens, reading measure) + ~15 near-free defect fixes — every screen calms at once | M | ⬜ |
+| 1 | Calm the type, fix the freebies | Token-layer retune (display size/weight, tracking + spacing + shadow/radius tokens, reading measure) + ~15 near-free defect fixes — every screen calms at once | M | 🔨 core built — Carl QA |
 | 2 | The label & content voice | Two-tier uppercase labels everywhere; names/questions/openers set in the display face; one brand mark | M | ⬜ |
 | 3 | One chip, one button, one motif | One `.chip` primitive replaces ~15 pill families; dot-meter confidence chip; `.btn` retune; one segmented control | L | ⬜ |
 | 4 | The frame & the customer flagship | The artifact's framed-screen treatment on briefing/prep; guided flow + member home join the system; skeletons everywhere | L | ⬜ |
@@ -49,9 +49,14 @@ Full detail in [audit-findings.md](audit-findings.md) (9-agent audit, 2026-07-17
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Plan set up from the approved assessment + audit; dark mode stripped out on Carl's call
-(2026-07-17) — phase files renumbered 1–6. Awaiting Carl's go on Phase 1. Nothing built.
-Baseline (free tests + typecheck) runs at the start of Phase 1.
+**Phase 1 core built overnight (2026-07-17), awaiting Carl's QA.** Carl chose to build all of
+Phase 1 in one pass (aware it's un-eyeballed since the preview pane can't screenshot this session).
+Landed: the display calm + token scaffolding + the safe defect fixes (invisible Pulse bars,
+top-bar tuck-under, phantom tokens). Deferred within the phase: the briefing column + `.prep-callout`
+(coordination — the Arc briefing change is still awaiting QA and shares those surfaces), the
+`.stage` page-tail (centring risk), and the micro-defect long-tail (~10 un-eyeballed tweaks). Full
+detail in [phase-1.md](phase-1.md). Proof: `build:all` clean, tests 54/54, typecheck unchanged.
+Nothing deployed.
 
 ## Open calls for Carl (flagged inside phases, not blockers now)
 - **Phase 4:** keep or fence the body gradient wash where the new frame is used.

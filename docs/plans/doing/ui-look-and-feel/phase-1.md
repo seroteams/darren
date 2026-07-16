@@ -1,6 +1,34 @@
 # Phase 1 — Calm the type, fix the freebies
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 core built — awaiting Carl QA (some items deferred)
+
+## Built (Fri 17 Jul 2026, overnight — Carl chose "all of Phase 1")
+**Landed:**
+- `admin/src/styles/design/tokens.css` — the calm + scaffolding + defect defs:
+  `--type-display` retuned 44–56px → **30–42px** (DESIGN.md's ~40px spec); `--type-tracking-caps`
+  /`-caps-lg`; role spacing (`--space-section/-card-pad/-page-tail`); `--shadow-lift` (ink-tinted);
+  `--radius-frame` 18px; reading measures (`--measure-tight/-lede`, `--container-reading` 56rem);
+  tint-triad `-line` hairlines. **Defect fixes:** defined `--color-page` (un-hides Pulse bar
+  tracks + pills — were transparent); promoted `--session-topbar-h` to `:root` at 50px (fixes the
+  6px content-under-bar tuck); defined phantom `--sero-emerald-500`/`--sero-rose-700` to their
+  exact current fallback hexes (zero visual change).
+- `admin/src/styles/design/base.css` — `.text-display`/`.h1`/`.h2` weight **700→600** +
+  `text-wrap: balance` (calmer titles that wrap evenly).
+
+**Deferred within Phase 1 (honest — done next, fast):**
+- **Briefing reading column + `.prep-callout` restyle** — deferred on the plan's coordination rule:
+  these are the exact briefing/prep surfaces the Arc change (awaiting Carl's QA) renders through;
+  editing them now would muddy that QA. Do once Arc is green-lit + closed.
+- **96px page tail on `.stage`** — `.stage` is a vertically-centred container; a bottom tail fights
+  its centring. Needs eyeballing to attach to the right (scrolling) containers.
+- **Micro-defect long tail** (`.tk-phase` radius, `.error-card`, `.num` tabular, guided sub-14px,
+  resting shadows, `transition:all`→explicit, chip text-safety colours, amber/warn remap) — ~10
+  small un-eyeballed colour/spacing tweaks; batching them blind carried more risk than value
+  tonight. Safe to sweep next.
+
+**Offline proof (free):** `npm run build:all` exit 0 (both apps' CSS compiles); brief+css tests
+54/54; typecheck unchanged (only the pre-existing `guided-arcs` error). Not screenshotted — the
+preview pane's screenshot path hung all session (known bug); on-screen sign-off is Carl's QA.
 
 ## Goal
 One pass over the token layer that visibly re-calms every screen in both apps, plus every
