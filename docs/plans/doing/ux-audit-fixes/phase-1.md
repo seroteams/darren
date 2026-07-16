@@ -1,6 +1,9 @@
 # Phase 1 — The return path
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit
+
+## ✅ GREEN-LIT 2026-07-17
+Carl walked all six scenarios live on localhost:3000 as manager and gave the go. Committed on `main` (`6346f891`). X8 deviation accepted: placement rule only, full run-list component extraction stays parked.
 
 ## Built (2026-07-15)
 Branch `work/ux-audit-fixes`. Offline proof: **all tests green (2 new suites: finish-destination 3/3, stale-run-recovery 4/4), `npm run typecheck` clean, both apps `vite build` clean.** No paid runs (UI/copy only).

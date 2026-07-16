@@ -25,8 +25,8 @@ parallel session's pre-go-live-close edits; committing would sweep their work (s
 
 ## ▶ Your move
 
-> ### 🔨 [ux-audit-fixes](docs/plans/doing/ux-audit-fixes/plan.md) — Phase 1 BUILT, awaiting Carl's walk. Start fresh via [HANDOVER.md](docs/plans/doing/ux-audit-fixes/HANDOVER.md).
-> The recovered 2026-07-14 UX audit became a 5-phase, 44-item plan. **Phase 1 ("the return path") is built + tested** (6 fixes: prep-button above history · persistent Start on Past 1:1s · Resume self-heals · finish→person page · Prep-a-known-person skips to meeting type). Tests 147/147, typecheck clean, both apps build; on branch `work/ux-audit-fixes`, local only. **Next: Carl walks phase-1.md's 6 scenarios on localhost:3000 as Manager → "green light Phase 1" → phase-close, then Phase 2.** Live board: https://claude.ai/code/artifact/b5f23732-4629-4350-86ae-b3ea662541a8
+> ### 🔨 [ux-audit-fixes](docs/plans/doing/ux-audit-fixes/plan.md) — Phase 1 ✅ GREEN-LIT 2026-07-17. Phase 2 next.
+> The recovered 2026-07-14 UX audit became a 5-phase, 44-item plan. **Phase 1 ("the return path") ✅ green-lit** — Carl walked all 6 scenarios live on localhost:3000 as manager and gave the go. Six fixes landed: prep-button above history · persistent Start on Past 1:1s · Resume self-heals (no native alert) · finish→person page · Prep-a-known-person skips to meeting type. Committed `6346f891` on `main`, local only. X8 full component-extraction parked (placement-rule-only deviation accepted). **Next: Phase 2 — Right doors, right roles** (one member home · member gates on manager flows · QA page internal-only · person deep-links survive). Phases 3–5 ⬜. Live board: https://claude.ai/code/artifact/b5f23732-4629-4350-86ae-b3ea662541a8
 
 > ### ✅ [briefing-before-during-after](docs/plans/doing/briefing-before-during-after/plan.md) — TRACK CLOSED 2026-07-17 (Carl: "1 fine go"), $0, local only.
 > Darren said the run's last page (the pre-1:1 briefing) was confusing. Carl picked "Before · During · After" from 5 mockups; it's now the default layout every manager lands on — the 7 brief pieces reframed onto the meeting's shape (walk-in → in the room → leave with), built in Sero's real tokens. Both phases ✅. `build`/tests 54/54. Committed `cacd3818`; **not deployed** (local until Carl says go live). Folder → done/.
@@ -349,4 +349,4 @@ When one becomes live, move it up into "Your move" above and start its phases.
 A pass isn't ✅ until its QA is walked and green-lit — I never self-certify.
 Closed tracks are moved out of this file to [docs/plans/done/](docs/plans/done/) — check there for anything not listed above.
 
-- Last updated: 2026-07-12 (clean-up sweep — surfaced 2 in-flight parallel tracks (promises-loop, admin-live-deploy) at the top of Your-move + parked dormant design-stage-native to future/. Earlier: past-1on1-view TRACK CLOSED, both phases ✅ "a" ×2, 127/127)
+- Last updated: 2026-07-17 (ux-audit-fixes Phase 1 ✅ GREEN-LIT — Carl walked all 6 return-path scenarios live, gave the go; committed `6346f891`, Phase 2 next. Earlier: clean-up sweep surfaced 2 in-flight parallel tracks + parked design-stage-native)
