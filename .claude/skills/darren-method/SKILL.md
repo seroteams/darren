@@ -42,6 +42,7 @@ docs/plans/doing/<slug>/
 - [ ] Fewer big phases beats lots of tiny ones.
 - [ ] Write `plan.md` (template below).
 - [ ] Write one `phase-N.md` per phase (template below). Each MUST end with test scenarios. Can't write real scenarios? The phase is too big or too techy — split it.
+- [ ] **Mockup gate — visual plans only.** Does this plan change anything users will *see* (a screen, a card, a layout)? If yes: build ONE artifact mockup of the end result — a self-contained claude.ai HTML mock using the real Sero tokens, labelled "Preview · not the live app" — and hand it to the product owner **with** the phase files. Their mockup feedback updates `plan.md` / the phase files **before** any building starts. Record the approved link in `plan.md` (`**Mockup:**` line). Backend-only plan (engine / API / no visible surface)? Skip this — write `**Mockup:** none — no visual surface` in `plan.md` and move on. (One mockup at plan setup, not per-phase; only re-show it if a later decision changes the picture. The mockup is the *design* the owner signs off; the board below is the *status tracker* — different jobs.)
 - [ ] **Build the board:** `node scripts/plan-board.js <slug>` → writes `board.html`, then publish it as an artifact and record the URL in `plan.md`'s "Current state". This is the visual "Where we are" board Carl opens to see the whole plan at a glance — a phase timeline with each phase's status, what landed, and how to test it. It regenerates itself at each phase-close (the [phase-close](../phase-close/SKILL.md) skill re-runs it), so it's never stale.
 - [ ] **Stop.** Tell the user to read the phases (or open the board) and confirm before any work starts.
 
@@ -69,6 +70,7 @@ docs/plans/doing/<slug>/
 **Goal:** <one sentence — what's different when this is all done>
 **Driver:** <who>
 **Created:** <date>
+**Mockup:** <artifact url> — approved <date>   (or: none — no visual surface)
 
 ## Done means
 - <thing you can see>
@@ -134,6 +136,7 @@ Two sections get ADDED to the phase file as work happens (top of file, newest fi
 ## The rules (don't skip these)
 
 - [ ] **The product owner gives the green light — not you.** Your own checks don't count. Show the scenarios, let them test, wait for "tested, good".
+- [ ] **The approved mockup is part of the plan (visual plans).** Once the owner signs off the picture, that's the contract: a visual phase isn't done unless what shipped matches it. If a phase needs to differ from the approved mock, update the mock and get a fresh nod first — don't quietly drift. (This is the *pre-build* design gate; the real-screenshot-before-done rule is still the *post-build* check — different moments, both required.)
 - [ ] **One phase per run.** No starting phase N+1 in the same run unless the user says "keep going".
 - [ ] **Every phase ends with test scenarios.** No real scenarios = phase is wrong-sized. Split it.
 - [ ] **Set up, confirm, then build.** Don't set up the folder and run phase 1 in one go.
