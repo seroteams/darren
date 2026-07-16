@@ -138,6 +138,32 @@ textarea { resize: vertical; }
 .chip--plain { background: var(--color-surface); color: var(--color-ink-dim); border-color: var(--color-border); }
 .chip__dot { width: 7px; height: 7px; border-radius: var(--sero-radius-full); background: currentColor; flex: none; }
 
+/* Confidence dot-meter (artifact signature motif, UI polish P3): three dots,
+   N lit for low/medium/high — an at-a-glance "how sure is this" read. It pairs
+   with the plain-language sentence, never replaces it (engine honesty — the
+   words that explain the reading always stay). Lit + unlit both derive from the
+   pill's own colour, so it stays on-token in any tint context. */
+.conf {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  padding: 4px 11px 4px 9px;
+  border-radius: var(--sero-radius-full);
+  white-space: nowrap;
+}
+.conf__dots { display: inline-flex; gap: 3px; }
+.conf__dots > i {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--sero-radius-full);
+  background: color-mix(in srgb, currentColor 22%, transparent);
+}
+.conf__dots > i.is-on { background: currentColor; }
+
 /* Identity — a person's name as the hero of their card/header, in the display
    face. Scaffolding for the eyes-on adoption pass (compact list rows need a
    layout call first, so this isn't applied yet). */

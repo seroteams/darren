@@ -140,6 +140,26 @@ function pairHtml(s: BriefSlots): string {
   return cells ? `<div class="pv-pair">${cells}</div>` : "";
 }
 
+// Confidence dot-meter — the artifact's at-a-glance "how sure is this" motif: a
+// small pill with three dots, N lit by level. It sits ALONGSIDE the plain
+// sentence, never in place of it (engine honesty — the words that explain the
+// reading always stay). An unreadable level shows no meter, only the sentence,
+// so we never paint a false reading.
+const CONF_STEPS: Record<Exclude<ConfidenceLevel, "unknown">, { lit: number; word: string }> = {
+  low: { lit: 1, word: "Low" },
+  medium: { lit: 2, word: "Medium" },
+  high: { lit: 3, word: "High" },
+};
+function confMeter(level: ConfidenceLevel): string {
+  if (level === "unknown") return "";
+  const { lit, word } = CONF_STEPS[level];
+  const dots = [0, 1, 2].map((i) => `<i${i < lit ? ' class="is-on"' : ""}></i>`).join("");
+  return `<span class="conf conf--${level}" aria-label="Confidence: ${word.toLowerCase()}">
+    <span class="conf__dots" aria-hidden="true">${dots}</span>
+    <span class="conf__word">${word}</span>
+  </span>`;
+}
+
 /* ---------------------------------------------------------------------------
    The five variants — same seven slots, one design direction each
 --------------------------------------------------------------------------- */
@@ -377,6 +397,7 @@ function renderL(s: BriefSlots): string {
       : "";
   const before = [
     mini(SLOT_LABELS.theme, para(s.theme)),
+    confMeter(s.confidenceLevel),
     s.confidence ? `<p class="pv-l__confidence">${esc(s.confidence)}</p>` : "",
   ].join("");
   const during = [
