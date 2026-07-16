@@ -14,20 +14,12 @@
      option and said "put white back", 2026-07-05). Recorded in DESIGN.md §2. */
   color: var(--sero-offwhite-50);
   border: 1px solid transparent;
-  transition: background-color var(--dur-instant) ease-out,
-              transform var(--dur-instant) var(--ease-out-expo),
-              box-shadow var(--dur-instant) ease-out;
+  transition: background-color var(--dur-instant) ease-out;
   cursor: pointer;
   user-select: none;
 }
 .btn:hover {
-  background: var(--color-accent-dark); /* white label passes 7:1 here */
-  box-shadow: var(--sero-shadow-md);
-  transform: translateY(-1px); /* subtle lift; :active presses back down */
-}
-.btn:active { transform: translateY(1px) scale(0.99); }
-@media (prefers-reduced-motion: reduce) {
-  .btn:hover, .btn:active { transform: none; }
+  background: var(--color-accent-dark); /* white label passes 7:1 here — colour-only hover, no lift/jump (UI polish P3) */
 }
 .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
 .btn:focus-visible { box-shadow: var(--sero-shadow-focus); outline: none; }
