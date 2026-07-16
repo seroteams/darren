@@ -1,8 +1,11 @@
 # Phase 2 — Multi-1:1 axis trend
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's sign-off
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
 
-## ✅ GREEN-LIT — (pending)
+## ✅ GREEN-LIT 2026-07-16 — Carl signed off ("A") (commit 3f17304f)
+Per-axis trend across the last ≤4 1:1s ships on the manager's person page. Built local-only;
+Carl to deploy himself via `/release` (a push ships 19 mixed commits from ~5 chats, so it's his
+conscious call, not an auto-push).
 
 ## Built (2026-07-16)
 Evolves Phase 1's single "Last 1:1" line into a real trend across the person's last few 1:1s.
