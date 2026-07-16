@@ -5,7 +5,15 @@
 ## Built (2026-07-17)
 - Backend: `wrapUp` service (sessions.service.ts) + `POST /api/v1/sessions/:id/wrap-up` (controller + server.ts) — shortens the budget to turn+1 and fronts the closer; scripted/finished/no-closer fall back safely.
 - Client: `wrapUpSession` in shared/api.js; questioning.js relabels the escape from Q4 ("Wrap up — get my briefing"), warm confirm, routes through the closer (one shared file = both apps).
-- Proof: 6 new unit tests (91/91 in the service file), npm test 147/147, typecheck clean. One paid run (~$0.35): live walk verified Q1–3 keep "Skip to briefing", Q5 shows the wrap button, cancel preserves typed notes, wrap → "Question 5 of 5" with the real closer + "Agree next actions" fork, briefing generated complete. Pixel screenshot NOT captured — the Browser pane's capture is stuck (known env limitation); verified against the rendered DOM of the running app instead. Carl's walk is the visual confirmation.
+- Proof: 6 new unit tests (91/91 in the service file), npm test 147/147, typecheck clean. Manual UI walk verified Q1–3 keep "Skip to briefing", Q5 shows the wrap button, cancel preserves typed notes, wrap → "Question 5 of 5" with the real closer + "Agree next actions" fork, briefing complete. Pixel screenshot NOT captured — the Browser pane's capture is stuck (known env limitation); verified against the rendered DOM instead.
+- Paid API test sweep (~$1.85 of a $2 budget, 4 real engine runs): all 4 wrapped correctly and ended after a real closer —
+  | Type | wrapped after | budget before→after | closer served | ended |
+  |---|---|---|---|---|
+  | bi-weekly | Q4 | 6→5 | q_closer_20 (5/5) | done + briefing 5760ch |
+  | growth | Q5 | 9→6 | q_next_move_47 (6/6) | done |
+  | feels-off | Q4 | 6→5 | q_next_move_80 (5/5) | done |
+  | edge wrap@2 | Q2 | 6→3 | q_shared_definition (3/3) | done |
+- FINDING: the floor of 4 is enforced in the UI only (button hidden before Q4); the backend `wrapUp` has NO floor, so the edge wrap@2 produced a valid 3-question run. Harmless today (no UI path reaches it) but the API contract doesn't match the stated policy. Recommend a one-line `session.turn >= 4` guard in the service for defense-in-depth — flagged to Carl, not yet added.
 
 ## Goal
 From Q4 onward the escape button becomes "Wrap up — get my briefing" and routes through the closing question instead of dumping straight to the briefing.
