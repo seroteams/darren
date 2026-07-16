@@ -1,6 +1,9 @@
 # Phase 2 — Right doors, right roles
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit
+
+## ✅ GREEN-LIT 2026-07-17
+Carl walked it and gave the go. Committed on `main` (`4a9e4cec` + earlier). B6 confirmed already-resolved by past-1on1-view (route not removed). One residual recorded below: the customer app doesn't hard-bounce a manually-typed `/run/:id` — out of this phase's scope.
 
 ## Built (2026-07-17)
 On `main`. Offline proof: **suite 148/148 (incl. new `landing.test.ts` 3/3 + updated `router.test.ts`), `npm run typecheck` (root + admin) clean, both apps `vite build` clean.** No paid runs (routing/role only). App boots with zero console errors after HMR.
