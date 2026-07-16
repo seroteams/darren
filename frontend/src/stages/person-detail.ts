@@ -13,7 +13,7 @@ import { icon } from "../../../admin/src/ui/icon.js";
 import { Star } from "lucide";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { relTime } from "../../../admin/src/ui/time.ts";
-import { renderLastAxes, type AxisRead } from "./person-axes.ts";
+import { renderAxisMemory, type AxisRead } from "./person-axes.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 
 type MyRun = {
@@ -60,13 +60,12 @@ function summaryHtml(p: Person): string {
 // slice). The two lists are colour-coded (agreed vs watch) so they read apart at a glance.
 // Returns "" — the block is hidden entirely — when neither field has content, so there's no
 // empty scaffolding. Every value escaped.
-function sinceLastTime(b: Briefing, whenLabel: string): string {
-  const axisRow = renderLastAxes(b?.axes, whenLabel);
+function sinceLastTime(b: Briefing, axisBlock: string): string {
   const actions = b ? (b.next_actions || []).filter((a) => a && (a.action || a.when)) : [];
   const watch = b ? (b.watch_for || []).filter(Boolean) : [];
-  if (!axisRow && !actions.length && !watch.length) return "";
+  if (!axisBlock && !actions.length && !watch.length) return "";
   const parts: string[] = [];
-  if (axisRow) parts.push(axisRow);
+  if (axisBlock) parts.push(axisBlock);
   if (actions.length) {
     const items = actions
       .map((a) => `<li>${a.when ? `<span class="since__when">${escapeHtml(a.when)}:</span> ` : ""}${escapeHtml(a.action || "")}</li>`)
@@ -201,12 +200,23 @@ export const mount: Mount = async (root, { setState }) => {
 
   if (sub) sub.innerHTML = summaryHtml(person);
 
-  // The list carries no briefing, so fetch just the most recent run's detail for "Since
-  // last time". A failure omits the block — the run list still renders. No OpenAI call.
+  // The list carries no briefings, so fetch the last few runs' details: the newest
+  // feeds "Since last time" (agreed + watch), and all of them feed the axis trend
+  // (oldest → newest). A failure omits the block — the run list still renders. No
+  // OpenAI call. Capped at 4 so a long history can't fan out into many fetches.
   let sinceBlock = "";
   try {
-    const latest = (await getMyRun(mine[0]!.id)) as { briefing: Briefing };
-    sinceBlock = sinceLastTime(latest?.briefing ?? null, relTime(mine[0]!.lastSeenAt));
+    const recent = mine.slice(0, 4);
+    const details = await Promise.all(
+      recent.map((r) =>
+        getMyRun(r.id)
+          .then((d) => ((d as { briefing?: Briefing })?.briefing ?? null))
+          .catch(() => null),
+      ),
+    );
+    // details is newest→oldest (mine is sorted that way); the trend wants oldest→newest.
+    const axisBlock = renderAxisMemory([...details].reverse().map((b) => b?.axes));
+    sinceBlock = sinceLastTime(details[0] ?? null, axisBlock);
   } catch { /* omit the block, keep the page */ }
 
   const list = `<section class="l-stack l-stack--2">

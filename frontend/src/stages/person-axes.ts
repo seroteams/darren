@@ -1,10 +1,11 @@
-// "Last 1:1" axis reads for a person's page (axis-memory Phase 1).
+// Axis memory for a person's page (axis-memory Phase 2).
 //
-// The four health scores from the person's most recent finished 1:1, shown to
-// the manager as clearly-labelled PAST context — NEVER merged into this
-// session's live scoring. Honesty rule: an axis that wasn't read shows
-// "not read", never a 0 it didn't earn. Kept in its own module (no browser
-// imports) so the render logic is pure and node-testable.
+// The four health scores across a person's last few finished 1:1s, shown to the
+// manager as a trend (oldest → newest) — clearly-labelled PAST context, NEVER
+// merged into the current session's live scoring. Honesty rule: only a session
+// that actually read an axis contributes a point; an axis never read in any of
+// them shows "not read", never a 0 it didn't earn. Kept in its own module (no
+// browser imports) so the render logic is pure and node-testable.
 
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 
@@ -21,26 +22,40 @@ const AXIS_LABELS: Record<string, string> = {
 // null when the axis wasn't read; read_status is the authoritative flag.
 export type AxisRead = { id?: string; score?: number | null; read_status?: string };
 
-// Returns the inner HTML for the "Last 1:1" axis line, or "" when no axis was
-// actually read (so there's no empty scaffold). whenLabel is the pre-formatted
-// "4 days ago" string — passed in so this stays free of any date/browser dep.
-export function renderLastAxes(axes: AxisRead[] | undefined | null, whenLabel: string): string {
-  if (!Array.isArray(axes)) return "";
-  const cells: string[] = [];
+function fmt(score: number): string {
+  return score > 0 ? `+${score}` : `${score}`;
+}
+
+// Render the per-axis memory block. `axesPerRun` is the axes array from each of
+// the person's recent 1:1s, ORDERED OLDEST → NEWEST, so a trend reads left to
+// right. Returns "" when no axis was ever read (no empty scaffold).
+export function renderAxisMemory(axesPerRun: Array<AxisRead[] | null | undefined>): string {
+  const runs = Array.isArray(axesPerRun) ? axesPerRun : [];
+  const rows: string[] = [];
   let anyRead = false;
   for (const id of AXIS_ORDER) {
-    const a = axes.find((x) => x && x.id === id);
-    if (!a) continue;
-    const read = a.read_status === "read" && typeof a.score === "number";
-    if (read) anyRead = true;
-    const val = read ? (a.score! > 0 ? `+${a.score}` : `${a.score}`) : "not read";
-    cells.push(
-      `<span class="since-axes__cell"><span class="since-axes__axis">${escapeHtml(AXIS_LABELS[id] || id)}</span> <b>${escapeHtml(val)}</b></span>`,
+    const points: string[] = [];
+    for (const axes of runs) {
+      const a = Array.isArray(axes) ? axes.find((x) => x && x.id === id) : null;
+      if (a && a.read_status === "read" && typeof a.score === "number") {
+        points.push(fmt(a.score));
+      }
+    }
+    const label = escapeHtml(AXIS_LABELS[id] || id);
+    if (points.length === 0) {
+      rows.push(
+        `<div class="axis-mem__row"><span class="axis-mem__axis">${label}</span><span class="axis-mem__nr">not read</span></div>`,
+      );
+      continue;
+    }
+    anyRead = true;
+    const series = points
+      .map((p) => `<b>${escapeHtml(p)}</b>`)
+      .join(`<span class="axis-mem__arrow" aria-hidden="true"> → </span>`);
+    rows.push(
+      `<div class="axis-mem__row"><span class="axis-mem__axis">${label}</span><span class="axis-mem__series">${series}</span></div>`,
     );
   }
   if (!anyRead) return "";
-  const from = whenLabel
-    ? `<span class="since-axes__from">Last 1:1 · ${escapeHtml(whenLabel)}</span>`
-    : `<span class="since-axes__from">Last 1:1</span>`;
-  return `<div class="since-axes">${from}${cells.join("")}</div>`;
+  return `<div class="axis-mem">${rows.join("")}</div>`;
 }

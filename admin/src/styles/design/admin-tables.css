@@ -240,18 +240,20 @@
 }
 .since__when { font-weight: var(--type-weight-semibold); }
 
-/* "Last 1:1" axis reads — last session's four scores as labelled past context. */
-.since-axes {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--sero-space-2) var(--sero-space-3);
+/* Axis memory — each axis's read across the last few 1:1s (oldest → newest),
+   as labelled past context. Read points only; unread axes say "not read". */
+.axis-mem {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--sero-space-1) var(--sero-space-3);
   font-size: var(--type-body-sm);
 }
-.since-axes__from { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
-.since-axes__cell { color: var(--color-ink-dim); }
-.since-axes__axis { color: var(--color-ink-mute); }
-.since-axes__cell b { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.axis-mem__row { display: contents; }
+.axis-mem__axis { color: var(--color-ink-mute); }
+.axis-mem__series { color: var(--color-ink); }
+.axis-mem__series b { font-weight: var(--type-weight-semibold); }
+.axis-mem__arrow { color: var(--color-ink-mute); }
+.axis-mem__nr { color: var(--color-ink-dim); font-style: italic; }
 
 .person-runs__heading {
   margin: 0 0 var(--sero-space-1);

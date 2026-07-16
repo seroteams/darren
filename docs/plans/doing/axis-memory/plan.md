@@ -23,13 +23,13 @@ Dug out of the code so the phases don't stall:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Last-1:1 axis read on the person page | A dated "Last 1:1" axis line on the manager's person page — display only, data already present, no scoring touch | ✅ |
-| 2 | Multi-1:1 axis trend | A new fenced axis-history reader (mirrors `focus-history.ts`, personId+userId, dual-store) → a real a→b→c trend line | ⬜ |
+| 2 | Multi-1:1 axis trend | Per-axis trend across the last ≤4 1:1s (oldest→newest) on the person page, reusing the fenced `getMyRun` | 🔨 built, awaiting sign-off |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 **Phase 1 ✅ GREEN-LIT 2026-07-16 (Carl: "signed off"), commit `075b1aec`.** The "Last 1:1" axis line ships on the manager's person page. Helper 7/7, typecheck + build clean, verified on screen (14px, unread = "not read"). Committed my-own-files-only to `main` (local); **not pushed** — `main` carries 8 other sessions' unpushed commits, so a release ships all of them; held for Carl's separate "go live". (2 backend test fails in the tree are a parallel session's uncommitted `router.ts`, not this work.) STATUS.md left untouched — another chat has it open with uncommitted edits.
-**Next: Phase 2 (multi-run trend a→b→c via a fenced axis-history reader) — not started, awaiting Carl's go.**
+**Phase 2 built 2026-07-16, awaiting Carl's final sign-off.** Per-axis trend across the last ≤4 1:1s on the person page. **Deviation from the original plan (simpler + lower-risk):** reused the existing, already-fenced `getMyRun` per run instead of building a new backend `axis-history.ts` reader — same personId+userId fence, no new API surface, no touch to the risky `runs-store.ts`. The dedicated backend reader is only needed for the parked "engine uses the trend" version. Helper 8/8, full suite 146/146, typecheck + build clean, verified on screen. On sign-off: close Phase 2 → whole track done → move folder to done/ → then Carl's push.
 
 ## Parked
 - **The full engine-uses-it version** (the trend feeds the questioning/focus so the engine re-probes a dipped axis) — Carl chose "manager sees it" first; this is the later "engine uses it" build.

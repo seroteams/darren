@@ -1,57 +1,58 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { renderLastAxes, type AxisRead } from "./person-axes.ts";
+import { renderAxisMemory, type AxisRead } from "./person-axes.ts";
 
-// A full four-axis read: two read (one positive, one negative), two not read.
-const MIXED: AxisRead[] = [
-  { id: "wellbeing", score: null, read_status: "not_read" },
-  { id: "engagement", score: 6, read_status: "read" },
-  { id: "clarity", score: -5, read_status: "read" },
-  { id: "growth", score: null, read_status: "not_read" },
-];
+// Helper: a run's axes with a given read for each of the four axes. Pass a
+// number for a read score, or null for "not read".
+function run(w: number | null, e: number | null, c: number | null, g: number | null): AxisRead[] {
+  const cell = (id: string, v: number | null): AxisRead =>
+    v === null ? { id, score: null, read_status: "not_read" } : { id, score: v, read_status: "read" };
+  return [cell("wellbeing", w), cell("engagement", e), cell("clarity", c), cell("growth", g)];
+}
 
-test("read axes show their signed score with the axis label", () => {
-  const html = renderLastAxes(MIXED, "4 days ago");
-  assert.match(html, /Engagement<\/span> <b>\+6<\/b>/);
-  assert.match(html, /Clarity<\/span> <b>-5<\/b>/);
+test("multiple runs draw a trend oldest→newest for a read axis", () => {
+  // engagement: -1 (oldest) → +3 → +6 (newest)
+  const html = renderAxisMemory([run(null, -1, null, null), run(null, 3, null, null), run(null, 6, null, null)]);
+  assert.match(html, /Engagement<\/span><span class="axis-mem__series"><b>-1<\/b>.*<b>\+3<\/b>.*<b>\+6<\/b>/s);
 });
 
-test("a not-read axis shows 'not read', never a 0", () => {
-  const html = renderLastAxes(MIXED, "4 days ago");
-  assert.match(html, /Wellbeing<\/span> <b>not read<\/b>/);
-  assert.match(html, /Growth<\/span> <b>not read<\/b>/);
-  // The honesty guarantee: no zero stands in for an unread axis.
-  assert.doesNotMatch(html, /Wellbeing<\/span> <b>0<\/b>/);
+test("an axis never read in any run shows 'not read', never a 0", () => {
+  const html = renderAxisMemory([run(null, 6, null, null), run(null, 3, null, null)]);
+  assert.match(html, /Wellbeing<\/span><span class="axis-mem__nr">not read<\/span>/);
+  assert.doesNotMatch(html, /Wellbeing<\/span>.*<b>0<\/b>/s);
 });
 
-test("the dated 'Last 1:1' label carries the when", () => {
-  assert.match(renderLastAxes(MIXED, "4 days ago"), /Last 1:1 · 4 days ago/);
+test("only sessions that read the axis contribute a point", () => {
+  // clarity read only in the middle run → single point, not three
+  const html = renderAxisMemory([run(null, null, null, null), run(null, null, -4, null), run(null, null, null, null)]);
+  assert.match(html, /Clarity<\/span><span class="axis-mem__series"><b>-4<\/b><\/span>/);
 });
 
 test("a genuinely read score of 0 shows '0' — a read zero is real signal", () => {
-  const html = renderLastAxes(
-    [{ id: "clarity", score: 0, read_status: "read" }],
-    "today",
-  );
-  assert.match(html, /Clarity<\/span> <b>0<\/b>/);
+  const html = renderAxisMemory([run(null, null, 0, null)]);
+  assert.match(html, /Clarity<\/span><span class="axis-mem__series"><b>0<\/b><\/span>/);
 });
 
-test("nothing was read → empty string (no empty scaffold)", () => {
-  const allUnread: AxisRead[] = [
-    { id: "wellbeing", score: null, read_status: "not_read" },
-    { id: "engagement", score: null, read_status: "not_read" },
-  ];
-  assert.equal(renderLastAxes(allUnread, "1 week ago"), "");
+test("a single run still renders (one point per read axis)", () => {
+  const html = renderAxisMemory([run(-2, 6, null, null)]);
+  assert.match(html, /Wellbeing<\/span><span class="axis-mem__series"><b>-2<\/b><\/span>/);
+  assert.match(html, /Engagement<\/span><span class="axis-mem__series"><b>\+6<\/b><\/span>/);
+  assert.match(html, /Clarity<\/span><span class="axis-mem__nr">not read<\/span>/);
 });
 
-test("no axes at all (undefined / missing) → empty string", () => {
-  assert.equal(renderLastAxes(undefined, "today"), "");
-  assert.equal(renderLastAxes(null, "today"), "");
-  assert.equal(renderLastAxes([], "today"), "");
+test("nothing ever read → empty string (no empty scaffold)", () => {
+  assert.equal(renderAxisMemory([run(null, null, null, null), run(null, null, null, null)]), "");
+  assert.equal(renderAxisMemory([]), "");
+  assert.equal(renderAxisMemory(undefined as unknown as AxisRead[][]), "");
 });
 
 test("axes render in the canonical wellbeing→engagement→clarity→growth order", () => {
-  const html = renderLastAxes(MIXED, "today");
+  const html = renderAxisMemory([run(1, 2, 3, 4)]);
   const order = ["Wellbeing", "Engagement", "Clarity", "Growth"].map((l) => html.indexOf(l));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
+});
+
+test("runs missing an axes array are skipped, not crashed on", () => {
+  const html = renderAxisMemory([null, run(null, 5, null, null), undefined]);
+  assert.match(html, /Engagement<\/span><span class="axis-mem__series"><b>\+5<\/b><\/span>/);
 });
