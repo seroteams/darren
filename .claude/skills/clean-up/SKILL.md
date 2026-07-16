@@ -85,7 +85,7 @@ Then STOP and wait for Carl's picks. The sweep alone is a complete, useful deliv
       dies with it before deleting.
 - [ ] Tracker refreshes, stale-TODO removals, doc fixes: small path-scoped commits, one per theme.
 - [ ] After tidying: `npm test` + `npm run typecheck` (free). Red → say what broke, raw.
-- [ ] Close with a files-touched table and the bottom box.
+- [ ] Close with a files-touched table, in the Carl output style's final-message shape.
 
 ## Rules
 

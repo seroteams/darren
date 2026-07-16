@@ -74,7 +74,7 @@ open. The one thing worse than leaving something open is *hiding* that it's open
 - [ ] Final report: a commits table (what each tied off), a tests table (free + paid, with spend),
       deploy status, and — most important — **the open list**: every deliberately-open item, live
       session, and unmerged branch, each with one plain sentence on why it's open and whose move
-      it is. Bottom box as always.
+      it is. Final message in the Carl output style shape, as always.
 
 ## Rules
 

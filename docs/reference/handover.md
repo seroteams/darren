@@ -286,10 +286,12 @@ types — goal drift (features/polish over the goal), pace drift (jumping ahead 
 honesty drift (flattery / hiding problems), money drift (paid runs), scope creep. If one fires,
 the reply leads with a ⚠️ warning block. Advise, never block — Carl can always proceed.
 
-**Communication with Carl:** plain language, short. Every agent reply opens with a slim
-`📌 TITLE` line (his current ask) and ends with one bottom box — `🧭 ORIGINALLY` (the thread's
-opening request, pinned) / `🔵 DOING` (what just happened) / `🔴 YOU` (his single move, or
-lettered A/B/C options with a recommendation). At genuine forks: 2–4 options, one recommended.
+**Communication with Carl:** plain language, short. The reply contract is the **Carl output
+style** (`.claude/output-styles/carl.md`, set via `outputStyle` in settings — 2026-07-17,
+supersedes the 📌 TITLE + bottom box AND the Handoff block): nothing between tool calls,
+everything in the turn's final message — what it does now / Before-Now table / ≤3 checks /
+numbered Reply options / 🔧 Under the hood last. At genuine forks: stop first, one question,
+options table, starred recommendation.
 
 **Other standing rules:** no silent masking (engine honesty, §2) · commits are explicit, never
 assumed automated · work locally, no PR/CI noise · never bulk-delete untracked files in
