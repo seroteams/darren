@@ -1,35 +1,38 @@
-# Phase 1 — Saturation early-close (Balanced, floor 4)
+# Phase 1 — Saturation + the "Complete / Continue deeper" choice
 
 **Part of:** [plan.md](plan.md) · **Status:** ⬜
 
 ## Goal
-On the live web 1:1, once the answers have covered the whole picture (and it's turn 4+), move to the closing question and end — instead of running the full arc. Thin / still-opening conversations are untouched.
+On the live web 1:1, once the answers have covered the whole picture (turn 4+), present the manager a wrap-up moment with two buttons — **Complete 1:1** (primary) and **Continue deeper** (secondary) — instead of silently running the full arc. Complete wraps to the briefing; Continue deeper keeps the conversation going. Thin / still-opening conversations never see the offer.
 
 ## Changes
-- **`backend/api/services/sessions/session-streams.ts`** (`planStream`): after the answered turn is recorded, add one guarded check — if saturated, set `session.totalBudget = turn + 1`. The existing closer force-insert + done-gate then wrap the run with the closer as the last question. (Import the coverage/arc helpers, which aren't imported here today.)
-- **A small saturation helper** (co-located, e.g. `backend/engine/saturation.ts` + mirrored test): pure function `isSaturated({ turn, axisState, transcript, arc, closerAlias, askedAliases })` → boolean. Keeps the rule testable in isolation and easy to tune.
-- The rule (Balanced, v1): return true only when **all** hold —
-  1. `turn >= 4` (the floor — never wrap before Q4),
-  2. every axis has at least one **substantive** (non-shallow) touch — the briefing has signal across the whole picture,
-  3. the just-answered turn was **not** shallow (don't wrap on a weak final note),
-  4. the reserved closer exists and hasn't been asked yet.
+- **Detect saturation** — a small co-located helper (e.g. `backend/engine/saturation.ts` + mirrored test): pure `isSaturated({ turn, axisState, transcript, arc, lastAnswerShallow })` → boolean. Balanced rule v1, true only when **all** hold:
+  1. `turn >= 4` (floor — never offer before Q4),
+  2. every axis has ≥1 **substantive** (non-shallow) touch (signal across the whole picture),
+  3. the just-answered turn was **not** shallow,
+  4. a closer is reserved and not yet asked.
+- **Surface the offer (backend)** — `backend/api/services/sessions/session-streams.ts` (`planStream`) + the `question`/snapshot shape: when saturated, mark the served turn with an `offerComplete` flag the client can read. No auto-end.
+- **The choice (backend)** — **Complete 1:1** ends the run by setting `session.totalBudget = turn + 1` (existing closer force-insert + done-gate do the rest). **Continue deeper** clears the offer and continues the normal flow (Phase 2 makes it dig into raised issues).
+- **The two buttons (frontend, both apps)** — on the questioning screen (`admin/src/stages/questioning.js` and the frontend equivalent), when `offerComplete` is set, show a primary **Complete 1:1** and secondary **Continue deeper**, styled per DESIGN.md (one blue primary action). Wire each to the backend choice.
 
 ## Not in this phase
-- Tuning the eagerness / changing the signal (that's Phase 2, driven by Carl's real-run QA).
-- Any planner/model-judged saturation (parked).
+- Making **Continue deeper** ask *deeper questions about the issues raised* — that's Phase 2. Here it just resumes the normal conversation.
+- Tuning the eagerness / the exact signal (later, from Carl's real-run QA).
 - CLI parity (parked).
 
 ## Done when
-- [ ] `isSaturated` unit test: passes for a covered turn-5 state, false for turn-3 (floor), false when an axis is untouched, false on a shallow last answer.
-- [ ] Driven on the real running app: a rich bi-weekly ends with the closer around Q4–5 (verify the session snapshot — `totalBudget` shrinks to `turn+1` and the transcript ends on the closer), and a thin bi-weekly still runs full length.
-- [ ] `npm test` green (new test + regression) and `npm run typecheck` clean.
+- [ ] `isSaturated` unit test: true for a covered turn-5 state; false at turn 3 (floor); false when an axis is untouched; false on a shallow last answer.
+- [ ] Driven on the real running app: a rich bi-weekly reaches the offer around Q4–5; **Complete 1:1** produces a complete briefing; **Continue deeper** keeps it going. Verified against the session snapshot (the `offerComplete` flag; `totalBudget` drops to `turn+1` only on Complete).
+- [ ] The two-button moment **screenshotted** on the running app (design-work-not-done-until-seen rule).
+- [ ] `npm test` green + `npm run typecheck` clean.
 - [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
-Walk these yourself on the dev app (I'll have it running + tell you exactly where to click). Next phase waits for your green light.
+Walk these on the dev app (I'll have it running + point you to the screen). Next phase waits for your green light.
 
-1. **Rich conversation ends early** — start a **bi-weekly**, give full, specific answers covering how you're doing, what's snagging, and what's moving (4-ish strong answers). You should see it move to a wrap-up / "how can I help" question **around Q4–5** and finish, with a briefing that still feels complete. ❌ Not OK if it ends before Q4, or the briefing is missing a whole area.
-2. **Thin conversation is NOT cut early** — start a **bi-weekly**, answer everything weakly ("fine", "ok", "dunno"). You should see it behave like today — it keeps going / offers to reschedule, it does **not** wrap early just because answers are short. ❌ Not OK if weak answers trigger an early finish.
-3. **Half-covered runs full** — start a **bi-weekly**, give good answers on *one* area but leave others thin. You should see it keep asking to cover the gaps, running the normal length, closer last. ❌ Not OK if it ends while an area's still uncovered.
-4. **Growth stays deep** — start a **growth** 1:1, answer normally. It should still run its longer arc (up to 9), not get truncated early on a couple of good answers. ❌ Not OK if a deep career chat wraps up short.
-5. **Back button is safe** — after a run wraps early, use the step-back once. The conversation should reopen the previous turn cleanly with no stuck/finished state. ❌ Not OK if it jams or won't continue.
+1. **The choice appears on a rich run** — start a **bi-weekly**, give full, specific answers covering how you're doing, what's snagging, what's moving (≈4 strong answers). You should see, around Q4–5, a primary **Complete 1:1** and a secondary **Continue deeper**. ❌ Not OK if it appears before Q4, or never appears on a clearly-covered conversation.
+2. **Complete 1:1 wraps cleanly** — at that moment, click **Complete 1:1**. You should land on a briefing that still feels complete (nothing missing). ❌ Not OK if the briefing is thin or errors.
+3. **Continue deeper keeps going** — on a fresh rich run, click **Continue deeper** instead. The 1:1 should carry on with more questions and end normally later. ❌ Not OK if it ends anyway, or jams.
+4. **Thin conversation never gets the offer** — start a **bi-weekly**, answer weakly ("fine", "ok", "dunno"). You should **not** see the two buttons — it behaves like today. ❌ Not OK if weak answers trigger the offer.
+5. **Growth stays deep** — start a **growth** 1:1, answer normally. It should run its longer arc; the offer only appears if the ground's genuinely covered, never truncating a real career chat on a couple of good answers. ❌ Not OK if it offers to wrap up prematurely.
+6. **Button styling** — the two buttons read as a clear primary (**Complete 1:1**) and secondary (**Continue deeper**), matching the app's design (one blue action). ❌ Not OK if they look like two equal/competing buttons.
