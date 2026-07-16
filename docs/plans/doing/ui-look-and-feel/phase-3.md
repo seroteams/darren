@@ -1,38 +1,38 @@
-# Phase 3 — The label & content voice
+# Phase 3 — One chip, one button, one motif
 
 **Part of:** [plan.md](plan.md) · **Status:** ⬜
 
 ## Goal
-The artifact's two-tier label system and "content is the hero" typography land everywhere via
-shared classes — chrome gets quiet uppercase labels; the words that matter get the display face.
+Collapse ~15 pill families, 3 segmented controls and 2 dropdown builds into one detail language,
+and land the artifact's signature dot-meter — meaning by motif, not fifteen local inventions.
 
 ## Changes
-- **Two label tiers:** restyle `.eyebrow` to the accent-dark section tier (600 / 0.08em /
-  uppercase) + add `.eyebrow--slot` (ink-dim / 0.06em); sweep the ~7 hand-rolled uppercase
-  variants and the three table-header recipes onto the tiers (`base.css`, `admin-tables.css`,
-  `notes-panel.css`, `stage-review.css`…).
-- **Content is the hero:** `.question-stem` → display face 600 balanced; shared `.ident-name`
-  class so people's names become the card hero (`team-card.ts`, `.rd-name`, person-detail);
-  `.mcr-h1` weight fix; measure caps applied to ledes/support text.
-- **Page headers:** `.page-header` gains an eyebrow slot; adopted on the ~12 main list/landing
-  screens ("Your team", "This week"…).
-- **One brand mark:** `ui/brand-mark.js` SVG replaces 3 inline copies + the 11px "S"; one
-  `.brand-word` rule so "Sero" is Bricolage in rail, mobile bar, topbar and auth screens.
+- **One `.chip` primitive** (999px, 14px/500, tint-triad variants) in a new `design/pills.css`;
+  refit `um-badge`, `pd-pill`, `lp-pill`, `el-pill`, `fb-*`, `arc-chip`, `mcr-chip`…;
+  `.chip--dot` leading-dot status motif; fix all non-text-safe chip colours.
+- **The confidence dot-meter** `.conf` chip (3 × 6px currentColor dots) wired into all briefing
+  layouts + admin briefing (`frontend/src/stages/preparation-brief.ts`, `admin/src/stages/briefing.js`).
+- **`.btn` retune:** 15px/600, 10×16 padding, colour-only hover (no lift); `.btn--sm` moved home;
+  `.btn--quiet` added; the `--md` fork deleted; disabled-hover scoped off.
+- **One-blue-action restored:** selected intake chips → tinted; verdict tags → soft triads;
+  timeline numbers → accent-soft numbered medallions.
+- **One `.seg` segmented control** (artifact recipe) refitting the 3 builds; dropdowns merged onto
+  `.row-menu`; checkbox promoted to primitives; shared `ratingChip()`.
 
 ## Not in this phase
-- Chips/buttons (Phase 4). Frame (Phase 5). Off-barrel CSS (Phase 6).
+- The frame (Phase 4). Off-barrel CSS + alerts (Phase 5).
 
 ## Done when
 - [ ] `npm test` + `npm run typecheck` green.
-- [ ] Seen on the running app in both themes: Team, a run, login, 3 admin screens.
-- [ ] Product owner has walked the scenarios below and said go.
+- [ ] Seen on the running app: briefing, Pulse, Registered, Error log, Feedback, intake.
+- [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
-1. **Names are the hero** — open Team. Each person's name is the biggest, warmest thing on their
-   card, in the display face; job titles stay quiet.
-2. **Two tiers, everywhere the same** — open any main screen: a small blue-toned uppercase word
-   above the title. Open a briefing: quieter grey section labels beneath. Clearly two tiers.
-3. **The question reads like it matters** — during a run, the question you're answering is set in
-   the display face — not like a form label.
-4. **One brand** — login and the mobile bar both show "Sero" in the brand typeface with the same
-   mark.
+Walk through these yourself. Next phase waits for your green light.
+1. **Dot-meter** — open a prep briefing. "How sure is this" is a small blue pill with three dots
+   (2 of 3 lit = medium), not a bare sentence.
+2. **One chip family** — walk Pulse, Registered, Error log, Feedback. Every status pill is the
+   same shape/size family, with a tiny coloured dot signalling state.
+3. **Buttons behave** — hover any button anywhere: colour changes, nothing jumps or grows a
+   shadow. Still exactly one solid-blue action per screen (intake's selected chips no longer
+   compete).

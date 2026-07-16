@@ -1,39 +1,39 @@
-# Phase 6 — Long-tail sweep (states, spacing, stragglers)
+# Phase 6 — Prove it & write it down
 
 **Part of:** [plan.md](plan.md) · **Status:** ⬜
 
 ## Goal
-Every remaining off-system pocket joins up: error/empty states, overlays, spacing rhythm,
-off-barrel CSS — so there are no light-mode islands or off-brand corners left.
+Contrast-verify the polished light theme properly (measured, not eyeballed), lock the new language
+into DESIGN.md + the in-app design sheet, and extend the automated guards so it can't drift back.
 
 ## Changes
-- **Calm errors:** shared coral-triad notice/toast helper in `admin/src/ui/`; swap all ~14
-  `window.alert()` call sites; promote `notice()` as the one empty-state builder.
-- **Spacing rhythm:** card padding unified onto the role tokens; hairline-row padding to 16px;
-  mobile rhythm + `space-y` sweep on the heaviest stages (intake, onepage, briefing, questioning).
-- **One overlay recipe** (modal/popover/menu/slide-over) with shared ink-tinted
-  `--shadow-overlay`; tasks board de-nested to the hairline-ruled cell pattern (side-stripes gone).
-- **Off-barrel CSS onto tokens:** `row-menu`, `error-log`, `feedback-inbox`, `pulse-drilldowns`,
-  `add-person-modal`, `finish-feedback-modal`; extract `admin-pulse.ts`'s inline STYLE string to
-  `design/pulse.css`; flatten the gradient hero tile; shared meta-row pattern replaces " · " stat
-  dumps.
-- **Motion:** duration-token sweep (~14 files); remaining ungated motion (pulse-caret,
-  notes/tasks panels, orb) behind reduced-motion.
+- **Contrast audit:** every text-on-tint pair and chip variant measured against 4.5:1 (3:1
+  large/UI); fixes land at the token step so they propagate. (Known suspect going in:
+  white-on-mint-800 ≈ 2.2:1.)
+- **DESIGN.md updated:** the sanctioned `--shadow-lift` exception; the `.screen` frame; two-tier
+  labels; the one chip spec; the committed-colour-block rule (rail/navy); reconciled button spec.
+- **In-app design sheet** (`admin/public/sero-flowbite/` + `stages/design.js`) refreshed — every
+  new building block (chips, buttons, labels, frame, dot-meter) shown.
+- **Guard tests extended:** 14px floor + no-literal-colour checks across the design barrel,
+  `guided.css`, `members.css`.
+- **Comms:** changelog + how-it-works deck refreshed (per the keep-the-guide-updated rule).
 
 ## Not in this phase
-- Contrast audit + docs (Phase 7).
+- Nothing follows — this closes the initiative; folder moves to `docs/plans/done/`.
+- Dark mode stays parked (see plan.md) — the audit notes in
+  [audit-findings.md](audit-findings.md) keep it a one-phase pickup later.
 
 ## Done when
-- [ ] `npm test` + `npm run typecheck` green.
-- [ ] Seen on the running app in both themes: tasks board, intake, one-page run, a forced error,
-      reduced-motion on.
-- [ ] Product owner has walked the scenarios below and said go.
+- [ ] Measured contrast table complete; all pairs pass (or consciously recorded as accepted
+      deviations, like the primary button).
+- [ ] `npm test` green including new guards; deliberately adding a 12px font or a raw hex to a
+      design file makes them fail.
+- [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
-1. **Calm errors** — make a save fail (e.g. rename a person offline). A calm coral notice card
-   appears in the page instead of a browser popup.
-2. **Tasks board** — rows read as one card divided by fine lines; no coloured side-stripes, no
-   boxes-in-boxes.
-3. **Even rhythm** — open intake and the one-page run: section spacing feels even and unhurried;
-   on a phone, gaps tighten sensibly.
-4. **Reduce motion** — turn it on in your OS: nothing slides, pulses or lifts; things just appear.
+Walk through these yourself. This green light closes the initiative.
+1. **Spot-check** — 8 key screens: nothing hard to read. You sign the contrast pass.
+2. **The sheet is true** — open the in-app design sheet: every building block (chips, buttons,
+   labels, frame, dot-meter) shown, matching what's live.
+3. **Guards bite** — I add a deliberate 12px font to a design file in front of you: the test run
+   fails; revert: green.

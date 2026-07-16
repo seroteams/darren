@@ -1,39 +1,42 @@
-# Phase 4 — One chip, one button, one motif
+# Phase 4 — The frame & the customer flagship
 
 **Part of:** [plan.md](plan.md) · **Status:** ⬜
 
 ## Goal
-Collapse ~15 pill families, 3 segmented controls and 2 dropdown builds into one detail language,
-and land the artifact's signature dot-meter — meaning by motif, not fifteen local inventions.
+The artifact's signature framed-screen treatment lands on the briefing/prep, and the guided
+customer flow + member home join the design system — the customer-facing surfaces reach the full
+artifact bar.
 
 ## Changes
-- **One `.chip` primitive** (999px, 14px/500, tint-triad variants) in a new `design/pills.css`;
-  refit `um-badge`, `pd-pill`, `lp-pill`, `el-pill`, `fb-*`, `arc-chip`, `mcr-chip`…;
-  `.chip--dot` leading-dot status motif; fix all non-text-safe chip colours.
-- **The confidence dot-meter** `.conf` chip (3 × 6px currentColor dots) wired into all briefing
-  layouts + admin briefing (`frontend/src/stages/preparation-brief.ts`, `admin/src/stages/briefing.js`).
-- **`.btn` retune:** 15px/600, 10×16 padding, colour-only hover (no lift); `.btn--sm` moved home;
-  `.btn--quiet` added; the `--md` fork deleted; disabled-hover scoped off.
-- **One-blue-action restored:** selected intake chips → tinted; verdict tags → soft triads;
-  timeline numbers → accent-soft numbered medallions.
-- **One `.seg` segmented control** (artifact recipe) refitting the 3 builds; dropdowns merged onto
-  `.row-menu`; checkbox promoted to primitives; shared `ratingChip()`.
+- **The `.screen` frame** (page-tint ground inside an 18px hairline + `--shadow-lift` frame, white
+  cards floating on it) added to `cards.css`; adopted on briefing + prep first; resting/hover
+  shadows stripped from in-frame cards (`test.js`, `start-stage.css`, `guided.css`).
+  **Carl call:** keep or fence the body gradient wash where framed — shown at QA.
+- **`guided.css` full rebase:** `mcr-btn` → shared `.btn`; chips onto the `.chip` primitive at
+  14px; ~120 hexes → tokens; global focus ring; reduced-motion gating; base font onto the type
+  scale; brand mark strip. *Layout untouched — the nav-paradigm question stays parked.*
+- **`member-home.js`:** inline styles → helper classes + tokens; error text onto
+  `--color-negative-text`.
+- **Skeleton adoption:** `createSkeleton()` replaces "Loading…" text on `team.ts`, `members.ts`,
+  `person-detail.ts`, `member-home.js`, `runs.ts`, `guided.page.ts`.
 
 ## Not in this phase
-- The frame (Phase 5). Off-barrel CSS + alerts (Phase 6).
+- Long-tail admin pockets, alerts, overlays, off-barrel CSS (Phase 5).
+- Any guided-flow layout/navigation change (parked — Carl's separate call).
 
 ## Done when
 - [ ] `npm test` + `npm run typecheck` green.
-- [ ] Seen on the running app in both themes: briefing, Pulse, Registered, Error log, Feedback,
-      intake.
-- [ ] Product owner has walked the scenarios below and said go.
+- [ ] Seen on the running app: a full guided run end-to-end, briefing, member home, Team on a
+      slow reload.
+- [ ] Product owner has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
-1. **Dot-meter** — open a prep briefing. "How sure is this" is a small blue pill with three dots
-   (2 of 3 lit = medium), not a bare sentence.
-2. **One chip family** — walk Pulse, Registered, Error log, Feedback. Every status pill is the
-   same shape/size family, with a tiny coloured dot signalling state.
-3. **Buttons behave** — hover any button anywhere: colour changes, nothing jumps or grows a
-   shadow. Still exactly one solid-blue action per screen (intake's selected chips no longer
-   compete).
-4. **Dark holds** — repeat 1–3 in dark mode: chips stay readable (pale text on dark tints).
+Walk through these yourself. Next phase waits for your green light.
+1. **The frame** — open a briefing. The whole thing sits inside a softly-lifted rounded frame with
+   the tinted page colour inside it and white cards floating on top — the artifact's signature.
+2. **Flagship flow** — run a monthly check-in end to end. No tiny text; buttons and chips match
+   the rest of the app; the flow itself behaves exactly as before.
+3. **Member home belongs** — open it: looks like part of the same product (proper labels, proper
+   controls).
+4. **Skeletons** — reload Team on a slow connection: ghost cards shimmer where content will land,
+   instead of a bare "Loading…" line.
