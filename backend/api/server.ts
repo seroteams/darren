@@ -365,6 +365,11 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.agendaCover(c);
   }));
+  // Wrap-up exit — the warm early door routes through the reserved closer.
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/wrap-up$/, v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return sessions.wrapUp(c);
+  }));
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/verdict$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return sessions.verdict(c);

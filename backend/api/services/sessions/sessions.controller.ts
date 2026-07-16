@@ -156,6 +156,15 @@ export async function agendaCover(c: RequestContext): Promise<void> {
   c.json(200, service.agendaCover(id, body));
 }
 
+// POST /api/v1/sessions/:id/wrap-up — the warm early door (wrap-up-exit Phase 1):
+// route the early leave through the reserved closer instead of straight to EVAL.
+export async function wrapUp(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  c.json(200, service.wrapUp(id));
+}
+
 // POST /api/v1/sessions/:id/promises — the wrap-up confirm (Promises loop phase 1):
 // stores the manager-confirmed agreements on the run.
 export async function promises(c: RequestContext): Promise<void> {

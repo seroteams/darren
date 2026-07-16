@@ -17,7 +17,7 @@ import type { Question } from "../../../shared/question.types.ts";
 // real store uses (initState/createTracker) — no disk, no model. The service treats
 // a Session as opaque (it only resolves + forwards it), so this is enough to prove
 // the seam without fabricating engine internals.
-function fakeSession(id: string): Session {
+function fakeSession(id: string, over: Partial<Session> = {}): Session {
   return {
     id,
     dir: `/fake/${id}`,
@@ -46,6 +46,7 @@ function fakeSession(id: string): Session {
     lastPlanByTurn: new Map(),
     inFlight: new Map(),
     tracker: createTracker(),
+    ...over,
   };
 }
 
@@ -265,6 +266,76 @@ test("create forwards ctx + introQueue through the seam and returns the new sess
   const out = createSessionsService(repo).create(ctx, queue);
   assert.equal(out.id, "new-0");
   assert.deepEqual(created, [{ ctx, introQueue: queue, orgId: undefined, userId: undefined, personId: undefined, totalBudget: undefined }]);
+});
+
+// --- wrap-up exit (wrap-up-exit Phase 1): the warm early door routes through the closer ---
+
+test("wrapUp reroutes through the closer: budget = turn+1, closer at the head", () => {
+  const closer = fakeQuestion({ alias: "q_close_lift", name: "What would make the next two weeks lighter?" });
+  const s = fakeSession("abc", {
+    turn: 4,
+    totalBudget: 6,
+    closer,
+    queueRef: [fakeQuestion({ alias: "q_next" }), closer, fakeQuestion({ alias: "q_later" })],
+  });
+  const { repo, persisted } = fakeRepo([s]);
+  const out = createSessionsService(repo).wrapUp("abc");
+  assert.deepEqual(out, { ok: true, closerNext: true, totalBudget: 5 });
+  assert.equal(s.totalBudget, 5);
+  assert.equal(s.queueRef[0]?.alias, "q_close_lift");
+  // the closer appears exactly once
+  assert.equal(s.queueRef.filter((q) => q.alias === "q_close_lift").length, 1);
+  assert.equal(persisted.length, 1);
+});
+
+test("wrapUp with no reserved closer falls back: closerNext false, session untouched", () => {
+  const s = fakeSession("abc", { turn: 4, totalBudget: 6, closer: null, queueRef: [fakeQuestion()] });
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).wrapUp("abc");
+  assert.deepEqual(out, { ok: true, closerNext: false, totalBudget: 6 });
+  assert.equal(s.totalBudget, 6);
+});
+
+test("wrapUp when the closer was already asked falls back untouched", () => {
+  const closer = fakeQuestion({ alias: "q_close_lift" });
+  const s = fakeSession("abc", {
+    turn: 4,
+    totalBudget: 6,
+    closer,
+    transcript: [{ turn: 4, question: closer, answer: "we said goodbye", skipped: false }],
+    queueRef: [fakeQuestion()],
+  });
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).wrapUp("abc");
+  assert.equal(out.closerNext, false);
+  assert.equal(s.totalBudget, 6);
+});
+
+test("wrapUp on the scripted QA lane is a no-op fallback", () => {
+  const closer = fakeQuestion({ alias: "q_close_lift" });
+  const s = fakeSession("abc", { turn: 4, totalBudget: 6, closer, queueRef: [fakeQuestion()] });
+  s.mode = "scripted";
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).wrapUp("abc");
+  assert.equal(out.closerNext, false);
+  assert.equal(s.totalBudget, 6);
+});
+
+test("wrapUp on a finished session falls back (no budget games after the end)", () => {
+  const closer = fakeQuestion({ alias: "q_close_lift" });
+  const s = fakeSession("abc", { turn: 6, totalBudget: 6, closer, queueRef: [] });
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).wrapUp("abc");
+  assert.equal(out.closerNext, false);
+  assert.equal(s.totalBudget, 6);
+});
+
+test("wrapUp throws 404 for an unknown session", () => {
+  const { repo } = fakeRepo();
+  assert.throws(
+    () => createSessionsService(repo).wrapUp("ghost"),
+    (err: unknown) => err instanceof HttpError && err.status === 404
+  );
 });
 
 test("drop forwards the id through the seam", () => {

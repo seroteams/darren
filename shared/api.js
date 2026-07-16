@@ -306,6 +306,12 @@ export async function setAgendaCovered(sessionId, covered) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/agenda/cover`, { covered });
 }
 
+// Wrap-up exit — leave early through the closing question. Returns { ok, closerNext,
+// totalBudget }; closerNext false = no usable closer, fall back to the plain skip.
+export async function wrapUpSession(sessionId) {
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/wrap-up`, {});
+}
+
 // Promises loop phase 1 — save the wrap-up's manager-confirmed agreements.
 // promises: [{ owner: "manager"|"report", action, when }]. Returns { ok, promises }.
 export async function savePromises(sessionId, promises) {

@@ -28,6 +28,7 @@ import { MEETING_TYPES } from "../../../engine/meeting-types.ts";
 import { pickOpener } from "../../../engine/opener.ts";
 import { loadIntroQueue } from "../../../engine/intro-queue.ts";
 import { getArc, arcBudget } from "../../../engine/meeting-arcs.ts";
+import { isForbiddenCloser } from "../../../engine/closer.ts";
 import { buildFingerprint } from "../../../engine/run-fingerprint.ts";
 import { scriptAnswers } from "../../persona-script.ts";
 import { renderNotesMarkdown } from "./notes-format.ts";
@@ -151,6 +152,10 @@ interface AnswerResult { turn: number; skipped: boolean; truncated: boolean }
 interface BackResult { turn: number; total: number; answer: string; axes: ReturnType<typeof summarizeAxes> }
 interface NotesResult { ok: true; count: number }
 interface AgendaResult { ok: true; covered: boolean }
+// Wrap-up exit (wrap-up-exit Phase 1): closerNext=true means the closer was moved
+// to the head and the budget shortened — the client should show the next question.
+// false = no usable closer; the client falls back to the plain skip-to-briefing.
+interface WrapUpResult { ok: true; closerNext: boolean; totalBudget: number }
 interface VerdictResult { ok: true; verdict: TesterVerdict }
 interface PromisesResult { ok: true; promises: SessionPromise[] }
 interface SelectedFocusResult { selectedFocusPoints: string[] }
@@ -278,6 +283,8 @@ export interface SessionsService {
   back(id: string): BackResult;
   notes(id: string, body: Record<string, unknown>): NotesResult;
   agendaCover(id: string, body: Record<string, unknown>): AgendaResult;
+  // Wrap-up exit: route the early leave through the reserved closer.
+  wrapUp(id: string): WrapUpResult;
   verdict(id: string, body: Record<string, unknown>): VerdictResult;
   // Promises loop phase 1: store the wrap-up's manager-confirmed agreements.
   promises(id: string, body: Record<string, unknown>): PromisesResult;
@@ -619,6 +626,28 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       session.agendaCovered = body.covered === true;
       repo.persist(session);
       return { ok: true, covered: session.agendaCovered };
+    },
+
+    // Wrap-up exit (wrap-up-exit Phase 1): the manager leaves through the warm
+    // closing question instead of the trapdoor. Shorten the budget to "this turn +
+    // the closer" and put the closer at the head — the existing done-gate ends the
+    // run after it's answered. Ineligible (scripted lane, finished, no unasked
+    // closer) → closerNext:false and the client uses the plain skip as before.
+    wrapUp: (id) => {
+      const session = requireExisting(id);
+      const closer = session.closer;
+      const asked = new Set(session.transcript.map((t) => t.question.alias));
+      const eligible =
+        session.mode !== "scripted" &&
+        session.turn < session.totalBudget &&
+        closer != null &&
+        !asked.has(closer.alias) &&
+        !isForbiddenCloser(closer);
+      if (!eligible) return { ok: true, closerNext: false, totalBudget: session.totalBudget };
+      session.totalBudget = session.turn + 1;
+      session.queueRef = [closer, ...session.queueRef.filter((q) => q.alias !== closer.alias)];
+      repo.persist(session);
+      return { ok: true, closerNext: true, totalBudget: session.totalBudget };
     },
 
     // Promises loop phase 1: the wrap-up confirm. The engine only SUGGESTS

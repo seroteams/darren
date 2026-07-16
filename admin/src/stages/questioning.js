@@ -1,5 +1,5 @@
 import { STAGES } from "../state.js";
-import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack } from "../../../shared/api.js";
+import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession } from "../../../shared/api.js";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { openSse } from "../../../shared/sse.js";
@@ -76,7 +76,30 @@ export async function mount(root, { store, setState }) {
     }
   }
 
-  root.querySelector(".js-save-exit").addEventListener("click", async () => {
+  // Wrap-up exit (wrap-up-exit Phase 1): from Q4 the escape becomes a warm door —
+  // one closing question, then the briefing — instead of the straight-to-briefing
+  // trapdoor. showNextQuestion() sets wrapMode + relabels per question.
+  const saveExitBtn = root.querySelector(".js-save-exit");
+  let wrapMode = false;
+  saveExitBtn.addEventListener("click", async () => {
+    if (wrapMode) {
+      const ok = await confirmAction({
+        message: "You've covered good ground. One closing question, then your briefing — everything you've answered is kept.",
+        confirmLabel: "Wrap up",
+        cancelLabel: "Keep going",
+      });
+      if (!ok) return;
+      const res = await wrapUpSession(store.sessionId).catch(() => null);
+      if (res?.closerNext) {
+        teardown();
+        showNextQuestion();
+        return;
+      }
+      // No usable closer — fall through to the plain skip below (no second confirm).
+      teardown();
+      setState({ stage: STAGES.EVAL });
+      return;
+    }
     const ok = await confirmAction({
       message: "Skip the remaining questions and open the briefing now? Any unanswered questions will be dropped.",
       confirmLabel: "Open briefing",
@@ -130,6 +153,12 @@ export async function mount(root, { store, setState }) {
     // from an earlier run can't leak into this one. Scripted QA lane keeps Skip.
     const isFinal = res.turn >= res.total && !scripted;
     if (isFinal) store.promisesConfirmSkip = false;
+
+    // Wrap-up exit: from Q4 (and before the final question) the escape button
+    // becomes the warm door. Floor of 4 = the shortest possible 1:1 (3 answers +
+    // the closer) — Balanced policy. Scripted lane keeps the plain skip.
+    wrapMode = !scripted && !isFinal && res.turn >= 4;
+    saveExitBtn.textContent = wrapMode ? "Wrap up — get my briefing" : "Skip to briefing";
 
     const card = document.createElement("div");
     card.className = "card questioning-card space-y-4 reveal";
