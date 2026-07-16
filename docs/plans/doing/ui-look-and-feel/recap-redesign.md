@@ -1,7 +1,7 @@
 # Recap redesign — the end-of-1:1 results screen
 
 **Part of:** [plan.md](plan.md) (this is the P4 "customer flagship" work, pulled forward on Carl's
-ask). **Status:** R1 done · R2 awaiting build.
+ask). **Status:** R1 done · R2 built (2026-07-17) — awaiting Carl's on-screen QA.
 **Approved mockup:** [recap-redesign-mockup.html](recap-redesign-mockup.html) ·
 live: https://claude.ai/code/artifact/1b882e99-3b05-4f5a-bd0f-0d1ed2b3ce54
 **Carl approved the direction 2026-07-17** ("direction's right"). The mockup is the source of truth.
@@ -38,7 +38,19 @@ Display strings only — the internal stage **key** `BRIEFING` is untouched (eng
   ("Final briefing" section). These are internal admin/review tools, not the live flow — lower
   urgency, but rename for consistency.
 
-### R2 — The three-act restructure (the main build) ⬜ NEXT — awaiting Carl
+### R2 — The three-act restructure (the main build) 🔨 BUILT — awaiting Carl's QA
+**Honesty note (deviation from the mockup):** the mockup's hero showed a *finding* leading with the
+caveat demoted to a chip. The engine owns `b.headline`, so the build keeps the engine's own headline
+as the hero (unmasked) and *adds* a gold "Partial record" chip **only when no axis got a real read**
+(derived from `read_status`, never invented). In a normal session the engine headline IS the finding,
+so it leads automatically; only in a genuinely thin session does the caveat lead — now softened by
+the chip + structure. Making the engine *always* lead with a finding is a prompt change (separate
+track), not a client-side reshuffle (that would violate engine-honesty).
+Built: `admin/src/stages/briefing.js` (three-act markup, hero chip, empty-act guards, Finish steps
+down to ghost when "Lock these in" is present), `briefing.css` (act rhythm, calmer hero weight,
+payoff frame), `stage-extras.css` (honest-read badges reworked for the recoloured cards). Honest
+reads recoloured mint (share) / gold (private). Proof: `build:all` clean, run-detail + intake tests
+11/11. **Not eyeballed by me — screenshots hang this session and a live Recap needs a finished 1:1.**
 Rebuild `admin/src/stages/briefing.js` markup + its CSS (`run-onepage.css` / briefing blocks) to the
 mockup:
 - Result-first hero: honest chip (gold, "Partial record · N notes") + the finding in the display

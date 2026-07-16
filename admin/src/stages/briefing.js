@@ -50,54 +50,66 @@ export async function mount(root, { store, setState, resetSession }) {
   }
 
   root.innerHTML = `
-    <div class="stage-wide max-w-wide mx-auto briefing-page relative z-10 py-8">
-      <header class="briefing-block space-y-4">
+    <div class="stage-wide max-w-wide mx-auto briefing-page recap-page relative z-10 py-8">
+      <header class="briefing-block recap-hero space-y-3">
         <div class="briefing-section-head">
           <div class="eyebrow reveal">Recap · For ${escape(store.ctx.name)}</div>
           <button type="button" class="btn btn--ghost btn--sm js-copy-all-briefing">Copy all</button>
         </div>
+        <div class="recap-hero__signal reveal"></div>
         <h1 class="briefing-headline reveal"></h1>
       </header>
 
-      <section class="briefing-block bullets-section space-y-3">
-        <div class="eyebrow reveal">What stood out</div>
-        <div class="card bullets-host"></div>
-      </section>
+      <section class="recap-act recap-act--read">
+        <div class="eyebrow recap-act__label">What came out</div>
+        <div class="briefing-grid briefing-grid--pair">
+          <section class="briefing-block bullets-section space-y-3">
+            <div class="eyebrow eyebrow--slot reveal">What stood out</div>
+            <div class="card bullets-host"></div>
+          </section>
 
-      <div class="briefing-grid briefing-grid--pair">
+          <section class="briefing-block axes-section space-y-4">
+            <div class="eyebrow eyebrow--slot reveal" title="Scores reflect meaning in answers, not word count or typing style">Final read</div>
+            <div class="card axes-mount"></div>
+            <div class="axis-meanings space-y-2"></div>
+          </section>
+        </div>
+
         <section class="briefing-block paragraph-section space-y-3 reveal-soft">
-          <div class="eyebrow">What we understood</div>
+          <div class="eyebrow eyebrow--slot">What we understood</div>
           <p class="briefing-prose paragraph-body"></p>
         </section>
 
-        <section class="briefing-block axes-section space-y-4">
-          <div class="eyebrow reveal" title="Scores reflect meaning in answers, not word count or typing style">Final read</div>
-          <div class="card axes-mount"></div>
-          <div class="axis-meanings space-y-2"></div>
+        <section class="briefing-block engagement-section space-y-3 reveal-soft hidden">
+          <div class="eyebrow eyebrow--slot">How engaged they seem</div>
+          <div class="card engagement-host"></div>
         </section>
-      </div>
-
-      <section class="briefing-block brutal-host"></section>
-
-      <section class="briefing-block engagement-section space-y-3 reveal-soft hidden">
-        <div class="eyebrow">How engaged they seem</div>
-        <div class="card engagement-host"></div>
       </section>
 
-      <div class="briefing-grid briefing-grid--pair">
-        <section class="briefing-block actions-section space-y-3">
-          <div class="eyebrow reveal">What to do next</div>
-          <div class="card actions-host"></div>
-        </section>
+      <section class="recap-act recap-act--honest">
+        <div class="eyebrow recap-act__label">The honest read</div>
+        <div class="briefing-block brutal-host"></div>
+      </section>
 
-        <section class="briefing-block watch-section space-y-3">
-          <div class="briefing-section-head">
-            <div class="eyebrow reveal">Reminders</div>
-            <button type="button" class="btn btn--ghost btn--sm js-copy-all-reminders hidden">Copy all</button>
+      <section class="recap-act recap-act--payoff">
+        <div class="eyebrow recap-act__label">What to do next</div>
+        <div class="recap-payoff-frame">
+          <div class="briefing-grid briefing-grid--pair">
+            <section class="briefing-block actions-section space-y-3">
+              <div class="eyebrow eyebrow--slot reveal">What you agreed</div>
+              <div class="actions-host"></div>
+            </section>
+
+            <section class="briefing-block watch-section space-y-3">
+              <div class="briefing-section-head">
+                <div class="eyebrow eyebrow--slot reveal">Reminders</div>
+                <button type="button" class="btn btn--ghost btn--sm js-copy-all-reminders hidden">Copy all</button>
+              </div>
+              <div class="watch-host"></div>
+            </section>
           </div>
-          <div class="card watch-host"></div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       ${store.scripted ? `
       <section class="briefing-block verdict-block card space-y-3">
@@ -164,6 +176,9 @@ export async function mount(root, { store, setState, resetSession }) {
 
   const PACE = 0.45; // tighten the staggered reveal so the full briefing lands in ~2s
   const pause = (ms) => (fastPath ? Promise.resolve() : sleep(ms * PACE));
+  // When the "Lock these in" action is present, IT is the screen's one blue
+  // action — Finish steps down to a quiet button (one-blue-action house rule).
+  let hasLockAction = false;
 
   // The whole briefing is hidden behind reveal animations (opacity:0 until
   // `.is-in`). If any beat below throws, fail open: reveal everything and drop
@@ -171,7 +186,19 @@ export async function mount(root, { store, setState, resetSession }) {
   // the handler wiring further down still runs and the footer stays usable.
   try {
 
-  // --- 1) Eyebrow + hero headline
+  // --- 1) Hero: an at-a-glance signal chip, then the engine's own headline.
+  // The chip only appears when NO axis got a real read — a genuinely thin
+  // session, drawn straight from the engine's per-axis read_status (never
+  // invented). The headline itself is always the engine's, unmasked.
+  const heroSignal = root.querySelector(".recap-hero__signal");
+  const axisWasRead = (a) => (a.read_status ? a.read_status !== "not_read" : a.score !== 0);
+  const anyAxisRead = (b.axes || []).some(axisWasRead);
+  if (!anyAxisRead && (b.axes || []).length) {
+    heroSignal.innerHTML = `<span class="chip chip--gold"><span class="chip__dot"></span>Partial record</span>`;
+  } else {
+    heroSignal.remove();
+  }
+
   const initialReveals = Array.from(root.querySelectorAll("header .reveal"));
   if (fastPath) initialReveals.forEach((el) => el.classList.add("is-in"));
   else revealSequence(initialReveals, { stagger: 80, initialDelay: 80 });
@@ -292,6 +319,8 @@ export async function mount(root, { store, setState, resetSession }) {
       await pause(420);
     }
   }
+  // No honest reads this run → drop the whole act so its label isn't orphaned.
+  if (!brutalHost.children.length) root.querySelector(".recap-act--honest")?.remove();
 
   // --- 5b) Engagement read (plain prose, sentence-first; no badge chrome).
   // New shape: read_status + observable content, no state labels. Old stored
@@ -342,6 +371,7 @@ export async function mount(root, { store, setState, resetSession }) {
   const confirmable = Boolean(actions.length && store.user && store.sessionId
     && !store.scripted && !store.promisesConfirmSkip && !store.promisesConfirmed);
   if (confirmable) {
+    hasLockAction = true;
     await pause(fastPath ? 0 : 400);
     const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
     actionsEyebrow.textContent = "Lock in what you two agreed";
@@ -405,6 +435,11 @@ export async function mount(root, { store, setState, resetSession }) {
     });
   } else {
     root.querySelector(".watch-section").remove();
+  }
+
+  // Neither agreed-actions nor reminders → drop the empty payoff frame + label.
+  if (!root.querySelector(".actions-section") && !root.querySelector(".watch-section")) {
+    root.querySelector(".recap-act--payoff")?.remove();
   }
 
   } catch (e) {
@@ -475,6 +510,8 @@ export async function mount(root, { store, setState, resetSession }) {
   const seesDebrief = isInternalAdmin(store.user);
   if (finishBtn) {
     if (!seesDebrief) finishBtn.textContent = "Finish";
+    // Yield the solid-blue slot to "Lock these in" when it's on screen.
+    if (hasLockAction) finishBtn.classList.add("btn--ghost");
     finishBtn.addEventListener("click", () => {
       void (async () => {
         // The one feedback moment (validation-kit Phase 3b): stars + the verdict

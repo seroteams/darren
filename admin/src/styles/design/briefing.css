@@ -2,19 +2,50 @@
    Briefing hero headline — larger, sentence case, tight leading
 ----------------------------------------------------------------------------- */
 .briefing-headline {
-  /* results hero — display size to match page titles; keeps its own max-width */
+  /* results hero — the engine's own headline, in the calmed display face */
   font-size: var(--type-display);
-  line-height: 1.12;
+  line-height: 1.14;
   letter-spacing: -0.02em;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink);
-  max-width: 44rem;
+  max-width: 40rem;
+  text-wrap: balance;
 }
 
 .briefing-page {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+}
+
+/* -----------------------------------------------------------------------------
+   Recap — three acts (What came out · The honest read · What to do next)
+----------------------------------------------------------------------------- */
+.recap-page { gap: 2.75rem; }
+.recap-hero { gap: 0.75rem; }
+.recap-hero__signal:empty { display: none; }
+
+.recap-act {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+/* The act label is the blue section tier (P2 eyebrow); the slot labels inside
+   each act use .eyebrow--slot (quiet) so the act reads as the header. */
+.recap-act__label { color: var(--color-accent-dark); }
+
+/* The payoff act — the destination. A soft framed ground the two working
+   columns (agreed actions + reminders) float inside, so "what to do next"
+   carries the most visual weight on the page. */
+.recap-payoff-frame {
+  background: var(--color-page);
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-frame);
+  box-shadow: var(--shadow-lift);
+  padding: 1.5rem 1.75rem;
+}
+@media (min-width: 768px) {
+  .recap-payoff-frame { padding: 1.75rem 2rem; }
 }
 .briefing-block { width: 100%; }
 .briefing-prose {
@@ -175,10 +206,14 @@
 ----------------------------------------------------------------------------- */
 .brutal {
   padding: 1.25rem 1.5rem;
-  border: 1px solid var(--color-purple);
-  background: var(--color-purple-soft);
+  border: 1px solid var(--color-mint-line);
+  background: var(--sero-mint-100);
   border-radius: var(--radius-card);
   opacity: 0;
+}
+.brutal--private {
+  border-color: var(--color-gold-line);
+  background: var(--sero-gold-100);
 }
 .brutal + .brutal {
   margin-top: 1.25rem;
@@ -199,9 +234,13 @@
 }
 .brutal__eyebrow {
   font-size: var(--type-small);
-  color: var(--color-purple);
+  color: var(--color-ink-dim);
   font-weight: 500;
   margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 .brutal__body {
   font-size: var(--type-body);
