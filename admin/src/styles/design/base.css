@@ -116,6 +116,28 @@ textarea { resize: vertical; }
   color: var(--color-ink-dim);
   letter-spacing: var(--type-tracking-caps);
 }
+/* One chip primitive (artifact detail language, UI polish P3): a pill with the
+   tint-triad variants (soft bg + same-hue line border + dark text of that hue).
+   Scaffolding — the ~15 hand-rolled pill families get refitted onto this in the
+   eyes-on pass. The .chip__dot is the leading status motif / confidence meter. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  padding: 5px 11px;
+  border-radius: var(--sero-radius-full);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.chip--accent { background: var(--color-accent-soft); color: var(--color-accent-dark); }
+.chip--mint { background: var(--sero-mint-100); color: var(--color-positive-text); border-color: var(--color-mint-line); }
+.chip--coral { background: var(--sero-coral-100); color: var(--color-negative-text); border-color: var(--color-coral-line); }
+.chip--gold { background: var(--sero-gold-100); color: var(--sero-gold-900); border-color: var(--color-gold-line); }
+.chip--plain { background: var(--color-surface); color: var(--color-ink-dim); border-color: var(--color-border); }
+.chip__dot { width: 7px; height: 7px; border-radius: var(--sero-radius-full); background: currentColor; flex: none; }
+
 /* Identity — a person's name as the hero of their card/header, in the display
    face. Scaffolding for the eyes-on adoption pass (compact list rows need a
    layout call first, so this isn't applied yet). */
