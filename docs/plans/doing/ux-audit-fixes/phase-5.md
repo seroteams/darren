@@ -1,6 +1,25 @@
 # Phase 5 — Craft batch
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 PARTLY built — 2 of 7 items done, 5 remain (see below)
+
+## Built so far (2026-07-17)
+On `main`. Offline proof: suite 149/149 (+1 new M8 test), root typecheck clean, both apps build. **M8 verified live** on localhost:3000 (clicking a Team card opened the person page).
+
+- **M8 — clickable person cards ✅.** The whole Team card now opens the person (`js-card-open` on the card root); the name is a real focusable `<button>` (`js-open-person`) so keyboards get the same action; the action buttons (Invite / Remind / Prep / ⋯) stop propagation so they still do their own job; the cursor now tells the truth. [team-card.ts](../../../frontend/src/stages/team-card.ts) + [team.ts](../../../frontend/src/stages/team.ts) + [team-card.css](../../../frontend/src/styles/team-card.css) + a new test. **Verified on screen.**
+- **M11 — invite link inside a sheet ✅ (built, not screen-verified).** The raw `window.prompt` that surfaced a one-time join link is gone from all five call sites (Team invite / change-access / add-with-invite, Members invite / resend). New shared [share-link-modal.ts](../../../admin/src/ui/share-link-modal.ts): a styled dialog with a read-only link field, a **Copy** button (async clipboard + execCommand fallback), and a "valid 7 days · works once" note. *Not screen-verified — triggering it sends a real invite email; the markup compiles and both apps build.*
+
+## Still to build (5 items) — NOT done
+- **M5 — top-bar / progress:** one progress system, labels collapse gracefully at narrow widths, intake stops running its own competing "Step N of 5". *(Needs careful multi-width visual verification.)*
+- **M6 — accent budget:** expanded Home row = one blue action (Resume); Start-new → ghost; Delete → ⋯ menu.
+- **M12 — account settings sheet + change-password.** **RECOMMEND SPLITTING OUT** (the plan sanctions this): it needs a NEW backend chain (route → auth.service → auth.repo, current-password check, mirrored tests) for a security-sensitive endpoint, and scenario 5 (log out → log in with the new password) can only be truly verified with a live auth round-trip — Carl's to walk, or a deliberate go-ahead to build + API-test it.
+- **M15 — mobile wrap:** run-list meta truncates to name + meeting type at phone width.
+- **X1 — star reframe:** rating labelled "prep rating", moved off the name line into the meta row.
+
+---
+
+**Original plan below.**
+
+
 
 ## Goal
 The remaining interaction rough edges are gone: honest affordances, one progress story, one blue action, an invite flow inside the design system, and a manager who can manage their own account.

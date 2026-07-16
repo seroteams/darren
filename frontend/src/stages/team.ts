@@ -20,6 +20,7 @@ import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { personCard, type Person, type OrgUser } from "./team-card.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 import { prepStartSubstage } from "../../../admin/src/ui/intake-start.ts";
+import { showShareLinkModal } from "../../../admin/src/ui/share-link-modal.ts";
 
 export const mount: Mount = async (root, { setState }) => {
   let people: Person[] = [];
@@ -88,9 +89,20 @@ export const mount: Mount = async (root, { setState }) => {
       el.addEventListener("click", () => { void doAdd(); }),
     );
     root.querySelectorAll<HTMLButtonElement>(".js-prep-new").forEach((el) => {
-      el.addEventListener("click", () =>
-        startOneOnOne({ personId: el.dataset.key, name: el.dataset.name, role: el.dataset.role }),
-      );
+      el.addEventListener("click", (e) => {
+        e.stopPropagation(); // don't let the card-open handler also fire
+        startOneOnOne({ personId: el.dataset.key, name: el.dataset.name, role: el.dataset.role });
+      });
+    });
+    // The whole card opens the person (audit M8). The name button gives keyboard users the same
+    // action and stops propagation so it doesn't double-fire the card handler. Action buttons
+    // (Prep / access / remind / ⋯) already stop propagation, so they still do their own job.
+    const openPerson = (key: string | undefined) => { if (key) setState({ personKey: key, stage: STAGES.PERSON_DETAIL }); };
+    root.querySelectorAll<HTMLButtonElement>(".js-open-person").forEach((el) => {
+      el.addEventListener("click", (e) => { e.stopPropagation(); openPerson(el.dataset.key); });
+    });
+    root.querySelectorAll<HTMLElement>(".js-card-open").forEach((el) => {
+      el.addEventListener("click", () => openPerson(el.dataset.key));
     });
     // The card's ⋯ opens View / Edit / Delete (Delete flagged destructive).
     root.querySelectorAll<HTMLButtonElement>(".js-row-menu").forEach((el) => {
@@ -127,10 +139,11 @@ export const mount: Mount = async (root, { setState }) => {
     if (!inviteId) return;
     try {
       const res = (await resendInvite(inviteId)) as { link: string };
-      window.prompt(
-        `Reminder sent to ${name}. If the email doesn't arrive, share this one-time link (valid 7 days):`,
-        `${window.location.origin}${res.link}`,
-      );
+      await showShareLinkModal({
+        title: "Reminder sent",
+        message: `We've emailed ${name} again. If it doesn't arrive, share this link with them directly:`,
+        link: `${window.location.origin}${res.link}`,
+      });
       await load();
     } catch (e) {
       window.alert(e instanceof Error ? e.message : "Couldn't send the reminder — please try again.");
@@ -153,10 +166,11 @@ export const mount: Mount = async (root, { setState }) => {
         await load();
       } else {
         const res = (await invitePerson(personId, choice.email)) as { link: string };
-        window.prompt(
-          `Send ${personName} this link (valid 7 days, works once). They'll set a password and see their own 1:1 history — never your notes:`,
-          `${window.location.origin}${res.link}`,
-        );
+        await showShareLinkModal({
+          title: `Invite sent to ${personName}`,
+          message: "They'll set a password and see their own 1:1 history — never your notes. Share this link if the email doesn't arrive:",
+          link: `${window.location.origin}${res.link}`,
+        });
         await load();
       }
     } catch (e) {
@@ -176,10 +190,11 @@ export const mount: Mount = async (root, { setState }) => {
       const personId = res.person?.id;
       if (draft.invite && personId) {
         const inv = (await invitePerson(personId, draft.email)) as { link: string };
-        window.prompt(
-          `Send ${draft.name} this link (valid 7 days, works once). They'll set a password and see their own 1:1 history — never your notes:`,
-          `${window.location.origin}${inv.link}`,
-        );
+        await showShareLinkModal({
+          title: `Invite sent to ${draft.name}`,
+          message: "They'll set a password and see their own 1:1 history — never your notes. Share this link if the email doesn't arrive:",
+          link: `${window.location.origin}${inv.link}`,
+        });
       }
       await load();
     } catch {

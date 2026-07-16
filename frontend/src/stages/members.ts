@@ -8,6 +8,7 @@ import "../../../admin/src/styles/design/admin-tables.css";
 import "../styles/members.css";
 import { getMembers, inviteMember, setMemberRole, deactivateMember, reactivateMember, revokeInvite, resendInvite } from "../../../shared/api.js";
 import { showInviteMemberModal } from "../../../admin/src/ui/invite-member-modal.ts";
+import { showShareLinkModal } from "../../../admin/src/ui/share-link-modal.ts";
 import { openRowMenu, closeRowMenu } from "../../../admin/src/ui/row-menu.ts";
 import { membersTable, type MemberRow } from "./members-table.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
@@ -44,10 +45,11 @@ export const mount: Mount = async (root) => {
     if (!draft) return; // cancelled
     try {
       const res = (await inviteMember(draft.email, draft.role)) as { link: string };
-      window.prompt(
-        `Invite sent to ${draft.email}. If the email doesn't arrive, share this one-time link (valid 7 days):`,
-        `${window.location.origin}${res.link}`,
-      );
+      await showShareLinkModal({
+        title: `Invite sent to ${draft.email}`,
+        message: "If the email doesn't arrive, share this link with them directly:",
+        link: `${window.location.origin}${res.link}`,
+      });
       await load();
     } catch (e) {
       window.alert(e instanceof Error ? e.message : "Couldn't send the invite — please try again.");
@@ -69,7 +71,11 @@ export const mount: Mount = async (root) => {
   const doResend = async (id: string) => {
     try {
       const res = (await resendInvite(id)) as { link: string };
-      window.prompt("New invite sent. If the email doesn't arrive, share this link (valid 7 days):", `${window.location.origin}${res.link}`);
+      await showShareLinkModal({
+        title: "New invite sent",
+        message: "If the email doesn't arrive, share this link with them directly:",
+        link: `${window.location.origin}${res.link}`,
+      });
       await load();
     } catch (e) {
       window.alert(e instanceof Error ? e.message : "Couldn't resend — please try again.");

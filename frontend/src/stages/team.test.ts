@@ -54,3 +54,10 @@ test("card keeps Prep and the ⋯ menu", () => {
   assert.ok(personCard(none, users).includes(">Prep first 1:1<"), "unmet person: Prep first 1:1");
   assert.ok(personCard(joined, users).includes("js-row-menu"), "the ⋯ View/Edit/Delete menu stays");
 });
+
+test("the whole card opens the person, with a keyboard-focusable name (audit M8)", () => {
+  const html = personCard(joined, users);
+  assert.match(html, /team-card js-card-open/, "card root is clickable");
+  assert.match(html, /data-key="p1"/, "card carries the personId to open");
+  assert.ok(html.includes('js-open-person'), "the name is a focusable open control for keyboards");
+});

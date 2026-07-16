@@ -30,8 +30,25 @@
 
 .team-card__who { min-width: 0; }
 .team-card__name { font-size: var(--type-body-sm, 0.9375rem); color: var(--color-ink); }
-.team-card__name strong { font-family: var(--type-family-display, inherit); font-weight: var(--type-weight-semibold, 600); font-size: 1.0625rem; letter-spacing: -0.01em; }
+/* The name is a button now (audit M8 — keyboard-openable) but reads as the same heading text. */
+.team-card__name-btn {
+  font-family: var(--type-family-display, inherit);
+  font-weight: var(--type-weight-semibold, 600);
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.team-card__name-btn:hover { text-decoration: underline; }
 .team-card__role { color: var(--color-ink-dim); }
+
+/* The whole card opens the person (audit M8) — the cursor now tells the truth. */
+.team-card.js-card-open { cursor: pointer; }
+.team-card.js-card-open:hover { background: var(--color-surface-hover, var(--sero-soft-100, rgba(0,0,0,0.02))); }
 .team-card__meta {
   margin-top: 2px;
   font-size: var(--type-label);

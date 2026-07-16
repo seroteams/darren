@@ -87,11 +87,15 @@ function accessBlock(p: Person, orgUsers: OrgUser[]): string {
 export function personCard(p: Person, orgUsers: OrgUser[]): string {
   const role = p.role ? ` <span class="team-card__role">· ${escapeHtml(p.role)}</span>` : "";
   const prepLabel = p.met ? "Prep 1:1" : "Prep first 1:1";
+  // The whole card opens the person (audit M8) — `js-card-open` on the root handles a mouse
+  // click anywhere; the name is a real focusable button so keyboard users can open it too. The
+  // action buttons (Invite / Remind / Prep / ⋯) stop propagation in team.ts, so they still do
+  // their own job. `data-key` carries the roster personId to open.
   return `
-    <div class="card-flat team-card">
+    <div class="card-flat team-card js-card-open" data-key="${escapeHtml(p.key)}">
       <div class="team-card__avatar team-card__avatar--${p.access.state}" aria-hidden="true">${escapeHtml(initials(p.name))}</div>
       <div class="team-card__who">
-        <div class="team-card__name"><strong>${escapeHtml(p.name)}</strong>${role}</div>
+        <div class="team-card__name"><button type="button" class="team-card__name-btn js-open-person" data-key="${escapeHtml(p.key)}">${escapeHtml(p.name)}</button>${role}</div>
         <div class="team-card__meta">${metaLine(p)}</div>
       </div>
       <div class="team-card__right">
