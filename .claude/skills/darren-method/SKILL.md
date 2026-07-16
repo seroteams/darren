@@ -30,6 +30,7 @@ docs/plans/doing/<slug>/
   phase-1.md   one phase + its test scenarios
   phase-2.md
   ...
+  board.html   the visual "Where we are" board — generated, never hand-edited
 ```
 
 `<slug>` = short name, e.g. `fixes-june-10`.
@@ -41,7 +42,8 @@ docs/plans/doing/<slug>/
 - [ ] Fewer big phases beats lots of tiny ones.
 - [ ] Write `plan.md` (template below).
 - [ ] Write one `phase-N.md` per phase (template below). Each MUST end with test scenarios. Can't write real scenarios? The phase is too big or too techy — split it.
-- [ ] **Stop.** Tell the user to read the phases and confirm before any work starts.
+- [ ] **Build the board:** `node scripts/plan-board.js <slug>` → writes `board.html`, then publish it as an artifact and record the URL in `plan.md`'s "Current state". This is the visual "Where we are" board Carl opens to see the whole plan at a glance — a phase timeline with each phase's status, what landed, and how to test it. It regenerates itself at each phase-close (the [phase-close](../phase-close/SKILL.md) skill re-runs it), so it's never stale.
+- [ ] **Stop.** Tell the user to read the phases (or open the board) and confirm before any work starts.
 
 ## Job B — do one phase
 

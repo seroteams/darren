@@ -14,6 +14,11 @@ Carl said "tested, good". Now every tracker moves together — this exact list, 
       phase status → ✅ in `plan.md`'s Phases table, update "Current state" (what landed, how
       tested, what's next). Add the `## ✅ GREEN-LIT <date>` header to the phase file (see the
       darren-method phase template).
+- [ ] **1b. The board** — after step 1's edits, refresh the visual "Where we are" board:
+      `node scripts/plan-board.js <slug>` (regenerates `board.html` from the plan folder), then
+      republish it to the **same artifact URL** recorded in `plan.md` (Artifact tool, pass that
+      `url`) so Carl's board link now shows the new sign-off. The board is generated, never
+      hand-edited — just re-run and republish.
 - [ ] **2. [STATUS.md](../../../STATUS.md)** — tick the phase's `[ ]` boxes → ✅, open the next
       phase (🔨 if starting), refresh the ▶ Your move banner.
 - [ ] **3. [SERO_BOARD.md](../../../SERO_BOARD.md)** — only if a board-level feature moved
