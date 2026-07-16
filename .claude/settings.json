@@ -21,6 +21,7 @@
       "Read(//c/Users/User/.claude/**)"
     ]
   },
+  "outputStyle": "Carl",
   "hooks": {
     "UserPromptSubmit": [
       {
