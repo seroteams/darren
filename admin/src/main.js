@@ -444,6 +444,15 @@ async function boot() {
     history.replaceState(null, "", "/new"); setState({ stage: STAGES.INTAKE }); return;
   }
 
+  // /team/:person deep link (audit M9) — a refresh on a person page must stay on that
+  // person. person-detail reads store.personKey, so carry the URL param into state here (the
+  // generic standalone handler below drops params); without it the page mounted to "No one
+  // selected". Bare /team falls through to that handler and shows the Team list.
+  if (route?.stage === STAGES.PERSON_DETAIL && route.params?.personKey) {
+    setState({ personKey: route.params.personKey, stage: STAGES.PERSON_DETAIL });
+    return;
+  }
+
   let rehydrated = false;
   try {
     const id = localStorage.getItem("seroSessionId");
