@@ -42,8 +42,9 @@ const LINKS = [
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
-  { key: "mgmembers", label: "Members", stage: STAGES.MEMBERS, icon: ICON.members, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
+  // "Members" (workspace access admin) is NOT here — it lives in the account/admin group at the
+  // foot of the rail (Notion/Linear pattern: your daily nav is your work; access lives in settings).
 ];
 
 const MENU_ICON = icon(Menu);
@@ -104,7 +105,11 @@ export function createAppNav({ setState, resetSession } = {}) {
           <span class="app-nav__label">${it.label}</span>
         </button>`).join("")}
       </nav>
-      <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
+      <nav class="app-nav__links app-nav__links--foot" aria-label="Workspace">
+        <button type="button" class="app-nav__link js-nav-mgmembers" data-key="mgmembers" data-mgr="1">
+          <span class="app-nav__icon">${ICON.members}</span>
+          <span class="app-nav__label">Members</span>
+        </button>
         <button type="button" class="app-nav__link js-nav-about" data-key="about">
           <span class="app-nav__icon">${ICON.about}</span>
           <span class="app-nav__label">What is Sero?</span>
@@ -147,7 +152,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   el.querySelector(".js-home").addEventListener("click", goHome);
   bar.querySelector(".js-bar-home").addEventListener("click", goHome);
   LINKS.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
-  ["about", "feedback", "privacy"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
+  ["mgmembers", "about", "feedback", "privacy"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
