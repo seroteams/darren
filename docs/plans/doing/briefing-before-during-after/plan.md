@@ -35,14 +35,30 @@ After" layout, so a manager lands on a clear, meeting-shaped page instead of the
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Build the layout | "Before · During · After" exists as a real Sero-tokened layout; admin can switch to it and it renders right | ⬜ |
-| 2 | Make it the default | Every manager lands on it by default; confirm no other brief surface broke | ⬜ |
+| 1 | Build the layout | "Before · During · After" exists as a real Sero-tokened layout; admin can switch to it and it renders right | 🔨 built — awaiting Carl QA |
+| 2 | Make it the default | Every manager lands on it by default; confirm no other brief surface broke | 🔨 built — awaiting Carl QA |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Plan drafted, awaiting Carl's OK to start Phase 1. Nothing built yet. Baseline will be run at the
-start of Phase 1 (free tests only — this doesn't touch the engine, so the paid gate is skipped).
+Both phases **built in one pass** (Carl asked to "complete it locally"), awaiting his QA walk +
+green light. Nothing marked done or deployed until he signs off.
+
+**What landed (all front-end, no engine/cost):**
+- New layout variant **L "Arc"** (Before · During · After) added to `preparation-brief.ts`
+  (render fn, `VARIANTS` entry, `RENDERERS`, preview thumbnail) + its styles in `preparation.css`
+  (token-only, 14px floor). Set as `DEFAULT_VARIANT`, so every manager now lands on it.
+- Tests updated for the new default; `preparation-brief.test.ts` loop auto-covers the new variant.
+
+**Offline proof (free checks only):**
+- Baseline before: `preparation-brief` + `preparation-css` tests 51/51 green.
+- After: **54/54 green** (+3 the loop generated for variant L). `tsc -p frontend` — my 3 files
+  clean; one pre-existing error in `guided/guided-arcs.ts` (unrelated, present at HEAD).
+- Rendered the real `renderBrief("L")` output under the real tokens+`preparation.css`: 3 phases
+  present, opener in the shared callout, listen/avoid pair, correct CTA, tokens resolve
+  (dot `#e9f3fb`, labels `#1b5d91`, page `#f5fafd`), min font 14px.
+- ⚠️ **Not screenshotted** — the Browser pane's screenshot path hung (a known pane bug this
+  session); the on-screen visual sign-off is Carl's QA walk.
 
 ## Parked
 - **Auto-pick layout by meeting type** (lane C from the discussion) — a bigger, later build.

@@ -9,7 +9,7 @@ import { icon } from "../../../admin/src/ui/icon.js";
 import { ArrowRight, Ban, Ear, Gauge, Lightbulb, MessageCircle, Target } from "lucide";
 
 export type ConfidenceLevel = "low" | "medium" | "high" | "unknown";
-export type VariantId = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K";
+export type VariantId = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L";
 
 // Defensive mirror of the backend brief shape — the store value is untyped.
 export interface PrepBrief {
@@ -38,6 +38,7 @@ export interface BriefSlots {
 
 // Alphabetical by label — this order is the dropdown order.
 export const VARIANTS = [
+  { id: "L", label: "Arc" },
   { id: "G", label: "Bento" },
   { id: "J", label: "Contrast" },
   { id: "A", label: "Editorial" },
@@ -66,7 +67,7 @@ export const SLOT_LABELS = {
 } as const;
 
 export function isVariantId(v: unknown): v is VariantId {
-  return typeof v === "string" && v.length === 1 && v >= "A" && v <= "K";
+  return typeof v === "string" && v.length === 1 && v >= "A" && v <= "L";
 }
 
 // The engine guarantees brief.confidence starts with Low/Medium/High
@@ -357,6 +358,40 @@ function renderK(s: BriefSlots): string {
   </div>`;
 }
 
+// L "Arc" — Before · During · After. The same seven slots reframed onto the
+// meeting's shape: a left spine with three phase nodes — what to know walking
+// in (theme + confidence), what to do in the room (opener callout, the
+// listen/avoid pair, your move), what to leave with (the outcome). No new
+// colour — the accent family only. Carl's pick from the 5 briefing mocks.
+function renderL(s: BriefSlots): string {
+  const mini = (label: string, body: string) =>
+    body ? `<div class="pv-l__mini">${eyebrow(label)}${body}</div>` : "";
+  const para = (t: string) => (t ? `<p class="text-ink leading-relaxed">${esc(t)}</p>` : "");
+  const phase = (name: string, sub: string, body: string, mod = "") =>
+    body
+      ? `<div class="pv-l__phase${mod ? ` ${mod}` : ""}">
+          <span class="pv-l__dot" aria-hidden="true"></span>
+          <div class="pv-l__head"><span class="pv-l__name">${esc(name)}</span><span class="pv-l__sub">${esc(sub)}</span></div>
+          <div class="pv-l__body">${body}</div>
+        </div>`
+      : "";
+  const before = [
+    mini(SLOT_LABELS.theme, para(s.theme)),
+    s.confidence ? `<p class="pv-l__confidence">${esc(s.confidence)}</p>` : "",
+  ].join("");
+  const during = [
+    s.opener ? `<blockquote class="prep-callout">${esc(s.opener)}</blockquote>` : "",
+    pairHtml(s),
+    mini(SLOT_LABELS.yourMove, para(s.yourMove)),
+  ].join("");
+  const after = mini(SLOT_LABELS.leaveWith, para(s.leaveWith));
+  return `<div class="pv pv-l">
+    ${phase("Before you walk in", "the read", before)}
+    ${phase("In the room", "the moves", during)}
+    ${phase("Leave with", "the goal", after, "pv-l__phase--after")}
+  </div>`;
+}
+
 const RENDERERS: Record<VariantId, (s: BriefSlots) => string> = {
   A: renderA,
   B: renderB,
@@ -369,6 +404,7 @@ const RENDERERS: Record<VariantId, (s: BriefSlots) => string> = {
   I: renderI,
   J: renderJ,
   K: renderK,
+  L: renderL,
 };
 
 export function renderBrief(variant: VariantId, slots: BriefSlots): string {
@@ -403,6 +439,7 @@ const PV_THUMB: Record<VariantId, string> = {
   I: `<span class="pv-thmb pv-thmb--split"><span class="pv-trail">${tbar("70%")}${tbar("60%")}</span><span class="pv-tcol">${tbar("90%")}${tbar("80%")}${tbar("70%")}</span></span>`,
   J: `<span class="pv-thmb pv-thmb--contrast"><b class="pv-tband"></b>${tbar("85%")}<span class="pv-trow"><i></i><i></i></span></span>`,
   K: `<span class="pv-thmb pv-thmb--runner"><span class="pv-tkrow"><u></u>${tbar("70%")}</span><span class="pv-tkrow"><u></u>${tbar("60%")}</span><span class="pv-tkrow"><u></u>${tbar("65%")}</span></span>`,
+  L: `<span class="pv-thmb pv-thmb--arc"><span class="pv-tarc"><s></s>${tbar("60%")}</span><span class="pv-tarc"><s></s>${tbar("80%")}</span><span class="pv-tarc"><s></s>${tbar("50%")}</span></span>`,
 };
 
 // The layout switcher: a quiet trigger chip showing the current layout; clicking
@@ -439,8 +476,9 @@ export interface StorageLike {
   setItem(key: string, value: string): void;
 }
 
-// "J" is the Contrast layout — the default for anyone without a saved choice.
-const DEFAULT_VARIANT: VariantId = "J";
+// "L" is the Arc (Before · During · After) layout — the default every manager
+// lands on when they have no saved choice (Carl's pick, 2026-07-16).
+const DEFAULT_VARIANT: VariantId = "L";
 
 export function readVariant(storage: StorageLike | null | undefined): VariantId {
   try {

@@ -1,6 +1,15 @@
 # Phase 2 — Make it the default
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl QA
+
+## Built (Thu 16 Jul 2026)
+- `frontend/src/stages/preparation-brief.ts` — `DEFAULT_VARIANT` set to "L", so every non-admin
+  manager lands on Before/During/After with no action.
+- `frontend/src/stages/preparation-brief.test.ts` — the three default assertions updated J → L.
+- Dependency check: the other brief surfaces (`admin/src/ui/briefing-view.ts`, `review-run.js`,
+  `onepage.js`, `review-html.ts`) don't import this variant renderer — they're separate admin/
+  review views, unaffected by the default swap. Confirm visually in QA scenario 2.
+- Offline proof: same 54/54 test run; default-fallback tests now assert "L".
 
 ## Goal
 Every manager finishing a run lands on the "Before · During · After" layout by default — and

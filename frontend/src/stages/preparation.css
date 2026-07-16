@@ -782,3 +782,118 @@
     padding: var(--sero-space-4);
   }
 }
+
+/* L — Arc: Before · During · After. The seven slots on the meeting's shape —
+   a left spine with three phase nodes (walk-in read, in-the-room moves, the
+   goal). Accent family only; the opener reuses the shared .prep-callout. */
+.pv-l {
+  display: flex;
+  flex-direction: column;
+}
+.pv-l__phase {
+  position: relative;
+  padding-left: var(--sero-space-8);
+  padding-bottom: var(--sero-space-8);
+}
+.pv-l__phase:last-child {
+  padding-bottom: 0;
+}
+/* the spine — a hairline down the left, joining each node to the next */
+.pv-l__phase::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: var(--sero-space-1);
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border);
+}
+.pv-l__phase:last-child::before {
+  display: none;
+}
+.pv-l__dot {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent-soft);
+  border: 2px solid var(--color-accent);
+}
+.pv-l__phase--after .pv-l__dot {
+  background: var(--color-accent);
+}
+.pv-l__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sero-space-2);
+  margin-bottom: var(--sero-space-3);
+}
+.pv-l__name {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+}
+.pv-l__sub {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+}
+.pv-l__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-4);
+}
+.pv-l__mini {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.pv-l__mini p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+.pv-l__confidence {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+
+/* Arc preview thumbnail — a spine with three dotted nodes */
+.pv-thmb--arc {
+  flex-direction: column;
+  gap: 3px;
+  justify-content: center;
+  position: relative;
+  padding-left: 9px;
+}
+.pv-thmb--arc::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--color-accent);
+  opacity: 0.4;
+}
+.pv-tarc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pv-tarc s {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex: none;
+}
+.pv-tarc .pv-tb {
+  flex: 1;
+}

@@ -1,6 +1,15 @@
 # Phase 1 — Build the layout
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl QA
+
+## Built (Thu 16 Jul 2026)
+- `frontend/src/stages/preparation-brief.ts` — added variant **L "Arc"**: `renderL` (the
+  Before/During/After spine), registered in `VARIANTS` (label "Arc", sorts first) + `RENDERERS`,
+  with an `PV_THUMB` timeline thumbnail; `VariantId`/`isVariantId` extended to "L".
+- `frontend/src/stages/preparation.css` — `.pv-l*` styles + `.pv-thmb--arc` thumb, token-only
+  (accent family), 14px floor.
+- Offline proof: brief+css tests **54/54** (loop auto-covers L); typecheck clean for these files.
+  Real-CSS render verified (3 phases, callout, pair, tokens resolve). Not screenshotted — pane bug.
 
 ## Goal
 Add "Before · During · After" as a real, production layout for the prep brief — built in Sero's
