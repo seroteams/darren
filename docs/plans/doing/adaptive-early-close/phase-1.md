@@ -13,7 +13,7 @@ On the live web 1:1, once the answers have covered the whole picture (turn 4+), 
   4. a closer is reserved and not yet asked.
 - **Surface the offer (backend)** — `backend/api/services/sessions/session-streams.ts` (`planStream`) + the `question`/snapshot shape: when saturated, mark the served turn with an `offerComplete` flag the client can read. No auto-end.
 - **The choice (backend)** — **Complete 1:1** ends the run by setting `session.totalBudget = turn + 1` (existing closer force-insert + done-gate do the rest). **Continue deeper** clears the offer and continues the normal flow (Phase 2 makes it dig into raised issues).
-- **The two buttons (frontend, both apps)** — on the questioning screen (`admin/src/stages/questioning.js` and the frontend equivalent), when `offerComplete` is set, show a primary **Complete 1:1** and secondary **Continue deeper**, styled per DESIGN.md (one blue primary action). Wire each to the backend choice.
+- **The two buttons (frontend, both apps)** — **placement (Carl's pick): under the warm closing question.** At saturation the engine serves its closer/wrap-up question ("what would make the next stretch lighter / how can I help"), and the two buttons sit beneath it: primary **Complete 1:1**, secondary **Continue deeper** (`admin/src/stages/questioning.js` + the frontend equivalent), styled per DESIGN.md (one blue primary action). The manager answers the wrap-up, then Complete → briefing; Continue deeper → the closer steps aside and the conversation carries on. Wire each to the backend choice.
 
 ## Not in this phase
 - Making **Continue deeper** ask *deeper questions about the issues raised* — that's Phase 2. Here it just resumes the normal conversation.
