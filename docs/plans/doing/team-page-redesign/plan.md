@@ -14,7 +14,7 @@
 |---|---|---|---|
 | 1 | The picture | Clickable artifact mock of the redesigned page + both popups | ✅ |
 | 2 | Opened-link signal (backend) | `opened_at` column + stamp on the real join-page open ("opened but didn't finish") | 🔨 |
-| 3 | Rebuild the page + popups | Per-person invite status on the roster · Team card rebuilt to the mock (status pill + avatar) · "Invite to Sero" + what-they'll-see copy · Remind (reuse resend) | 🔨 |
+| 3 | Rebuild the page + popups | Per-person invite status on the roster · Team card rebuilt to the mock (status pill + avatar) · "Invite to Sero" + what-they'll-see copy · Remind (reuse resend) | ✅ LIVE |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
