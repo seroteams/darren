@@ -209,6 +209,13 @@ body.has-session-topbar .stage {
   max-width: var(--container-medium);
   margin: 0 auto;
 }
+/* Reading column — calmer than the dashboard grid, for text-first pages like the
+   prep briefing (UI polish). */
+.stage-reading {
+  width: 100%;
+  max-width: var(--container-reading);
+  margin: 0 auto;
+}
 /* Questioning carries a wide action row (up to 5 buttons), so it gets a roomier
    container than the reading-width default and the buttons wrap if space runs out. */
 .stage-questioning {

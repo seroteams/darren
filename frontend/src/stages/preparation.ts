@@ -42,7 +42,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   const sessionId = store.sessionId || "";
 
   root.innerHTML = `
-    <div class="stage-medium l-stack l-stack--8">
+    <div class="stage-reading l-stack l-stack--8">
       <header class="page-header">
         <div class="eyebrow">Prep brief</div>
         <div class="page-header__row">
