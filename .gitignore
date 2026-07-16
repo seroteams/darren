@@ -52,16 +52,13 @@ content/data/people-aliases/
 # Guest daily-cap counter (guest-run Phase 1) — a {date, count} runtime file, never committed.
 content/data/guest-cap.json
 
-# Runtime logs (keep-set only)
+# Runtime logs — fully ignored, NO keep-set. The old keep-set committed real
+# employee names/notes/briefings into the repo; untracked here so they leave HEAD
+# and every future clone (personal-data-security Phase 3, interim). The full scrub
+# of them from past history is still pending — see docs/plans/doing/personal-data-security/phase-3.md.
 debug-be19bb.log
 .cursor/debug-*.log
 logs/**
-!logs/may/
-!logs/may/2026_May24_batch/
-!logs/may/2026_May24_21-46-1eb839fd/
-!logs/may/2026_May25_14-23-5252887f/
-!logs/sweeps/
-!logs/sweeps/2026-05-31T11-49-46-826Z/
 
 # Runtime-generated questions. The engine writes source:generated questions to the
 # questions ROOT during runs; authored banks live in the _seed/_intro/_runtime
