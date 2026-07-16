@@ -68,10 +68,13 @@ export const mount: Mount = async (root, { setState }) => {
   // A plain member sees the list-only "about me" view (privacy ruling); a manager sees
   // their own authored prep sessions with ratings. The two paths diverge in load().
   const memberView = !isAdmin(store.user);
+  // Member list has one name everywhere — "Your 1:1s" (audit B4); the manager keeps "Past
+  // 1:1s". The manager's echo subtitle ("Your past 1:1s.") is dropped as redundant under its
+  // own heading (audit C5); the member gets a plain, member-voiced line (audit B5/C4).
   const header = `
     <header class="page-header">
-      <h1 class="h1">Past 1:1s</h1>
-      <div class="text-ink-dim">${memberView ? "The 1:1s your manager prepped about you." : "Your past 1:1s."}</div>
+      <h1 class="h1">${memberView ? "Your 1:1s" : "Past 1:1s"}</h1>
+      ${memberView ? `<div class="text-ink-dim">Your 1:1 history — dates and meeting types, nothing else.</div>` : ""}
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
 

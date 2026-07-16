@@ -73,7 +73,7 @@ function renderRating(run: RunDetail): string {
       <div class="eyebrow">Did this help you run the 1:1?</div>
       <div class="js-stars-mount"></div>
       <div class="star-rating__note l-stack l-stack--2" ${stars && stars <= 2 ? "" : "hidden"}>
-        <label class="text-sm text-ink-dim" for="rating-note">What missed? (optional)</label>
+        <label class="text-sm text-ink-dim" for="rating-note">What did it miss? (optional)</label>
         <textarea id="rating-note" class="input" rows="2">${escapeHtml(note)}</textarea>
         <div><button type="button" class="btn btn--sm js-note-save">Save note</button></div>
       </div>
@@ -120,7 +120,7 @@ export function renderRunDetail(run: RunDetail): string {
       <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="answers">Answers</button>
     </div>
     <div class="js-pane" data-pane="overview">${renderOverview(run)}</div>
-    <div class="js-pane" data-pane="briefing" hidden><div class="l-stack l-stack--4">${renderReadonlyBriefing(run.briefing)}</div></div>
+    <div class="js-pane" data-pane="briefing" hidden><div class="l-stack l-stack--4">${renderReadonlyBriefing(run.briefing, run.ctx?.name)}</div></div>
     <div class="js-pane" data-pane="answers" hidden>${renderAnswers(run)}</div>`;
 }
 

@@ -2,10 +2,44 @@
 // and that it's an early alpha. Static content, no API. Reachable by members and admins
 // from the nav footer. (Named ABOUT, not ONEPAGE — ONEPAGE is the run-flow stage.)
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store, isAdmin } from "../state.js";
 
-export async function mount(root, { setState }) {
-  root.innerHTML = `
+// The member's "What is Sero?" is written in the MEMBER's voice (audit B3): what Sero holds
+// about them, what their manager can and can't see, no manager CTA. A manager keeps the
+// how-to-use-it version. One shared stage, two voices — decided by role at mount.
+function memberHtml() {
+  return `
+    <div class="stage-inner l-stack l-stack--8">
+      <header class="page-header">
+        <h1 class="h1">What is Sero?</h1>
+        <div class="text-ink-dim">How your 1:1s are recorded, and what stays private.</div>
+      </header>
+
+      <section class="card-flat space-y-3">
+        <div class="eyebrow">Early alpha</div>
+        <p>This is an early version. Some things are still being built, and your feedback shapes what comes next.</p>
+      </section>
+
+      <section class="card-flat space-y-3">
+        <div class="eyebrow">What Sero is</div>
+        <p>Sero is a tool your manager uses to prepare for your one-to-ones. It helps them come to the conversation ready and focused.</p>
+      </section>
+
+      <section class="card-flat space-y-3">
+        <div class="eyebrow">What you can see</div>
+        <p>Your 1:1s — the dates and meeting types, so you have a record of when you met. Nothing more, nothing hidden.</p>
+      </section>
+
+      <section class="card-flat space-y-3">
+        <div class="eyebrow">What stays private</div>
+        <p class="text-ink-dim">Your manager's own prep notes and briefings are theirs — you don't see them, and they're never shared back to you here. Sero doesn't ask you for anything or score you.</p>
+      </section>
+    </div>
+  `;
+}
+
+function managerHtml() {
+  return `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">What is Sero?</h1>
@@ -24,8 +58,8 @@ export async function mount(root, { setState }) {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What to do first</div>
-        <p>Start a session from your Home page. It takes a few minutes.</p>
-        <button type="button" class="btn js-start">Start a 1:1</button>
+        <p>Prep a 1:1 from your Home page. It takes a few minutes.</p>
+        <button type="button" class="btn js-start">Prep a 1:1</button>
       </section>
 
       <section class="card-flat space-y-3">
@@ -37,8 +71,14 @@ export async function mount(root, { setState }) {
       </section>
     </div>
   `;
+}
 
-  root.querySelector(".js-start").addEventListener("click", () => {
+export async function mount(root, { setState }) {
+  const memberView = store.user && !isAdmin(store.user);
+  root.innerHTML = memberView ? memberHtml() : managerHtml();
+
+  // The Start CTA only exists on the manager version.
+  root.querySelector(".js-start")?.addEventListener("click", () => {
     store.scripted = null;
     Object.assign(store.ctx, { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" });
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });

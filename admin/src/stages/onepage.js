@@ -62,7 +62,7 @@ export async function mount(root, { store, setState }) {
       <header class="space-y-3">
         <div class="intake-header__row">
           <div class="space-y-1 min-w-0">
-            <div class="eyebrow">One-page run</div>
+            <div class="eyebrow">Everything on one page</div>
             <h1 class="h1">Prep your 1:1</h1>
             <p class="text-ink-dim js-flow-lede">Answer each step and the next appears below.</p>
           </div>
@@ -197,7 +197,7 @@ export async function mount(root, { store, setState }) {
       </label>
       <div class="field__actions">
         <button class="btn js-submit" type="button">Continue</button>
-        <button class="btn btn--ghost js-skip" type="button">Skip (optional)</button>
+        <button class="btn btn--ghost js-skip" type="button">Skip</button>
       </div>
     `;
     wrap.querySelector(".flow-q").textContent = step.question;

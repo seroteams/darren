@@ -76,14 +76,14 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const sessionBtn = document.createElement("button");
   sessionBtn.className = "session-topbar__start";
   sessionBtn.type = "button";
-  sessionBtn.textContent = "Session";
+  sessionBtn.textContent = "This 1:1";
   sessionBtn.setAttribute("aria-haspopup", "menu");
   sessionBtn.setAttribute("aria-expanded", "false");
   row.appendChild(sessionBtn);
 
   const stages = document.createElement("div");
   stages.className = "session-topbar__stages";
-  stages.setAttribute("aria-label", "Run progress");
+  stages.setAttribute("aria-label", "1:1 progress");
   row.appendChild(stages);
 
   // Who's signed in — an initials circle + email, in the spot the old
@@ -118,7 +118,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     popover.setAttribute("role", "menu");
     popover.innerHTML = `
       <button class="js-save" type="button" role="menuitem">Save and exit</button>
-      <button class="js-delete is-danger" type="button" role="menuitem">Delete session and logs</button>
+      <button class="js-delete is-danger" type="button" role="menuitem">Delete this 1:1</button>
     `;
     document.body.appendChild(popover);
     sessionBtn.setAttribute("aria-expanded", "true");
@@ -154,9 +154,9 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
 
   async function deleteAndExit() {
     const ok = await confirmAction({
-      message: "Delete this session permanently? This cannot be undone.",
-      confirmLabel: "Delete session",
-      cancelLabel: "Keep session",
+      message: "Delete this 1:1 permanently? This cannot be undone.",
+      confirmLabel: "Delete 1:1",
+      cancelLabel: "Keep it",
       destructive: true,
     });
     if (!ok) return;

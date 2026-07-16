@@ -23,13 +23,16 @@ function bullets(items: string[]): string {
   return `<ul class="l-stack l-stack--2">${items.map((x) => `<li class="text-sm">${escapeHtml(x)}</li>`).join("")}</ul>`;
 }
 
-export function renderReadonlyBriefing(b: Briefing | null): string {
+export function renderReadonlyBriefing(b: Briefing | null, name?: string): string {
   const none = `<section class="card-flat"><p class="text-sm text-ink-dim">No briefing was recorded for this 1:1.</p></section>`;
   if (!b) return none;
+  // The honest-read card names the person when we know who (audit C6) — "Honest read — Priya",
+  // not the impersonal "them". Falls back to "them" for surfaces without a name to hand.
+  const who = (name || "").trim() || "them";
   const out: string[] = [];
   if ((b.summary_bullets || []).length) out.push(card("What stood out", bullets(b.summary_bullets!)));
   if (b.understanding_paragraph) out.push(card("What we understood", `<p class="text-sm">${escapeHtml(b.understanding_paragraph)}</p>`));
-  if (b.brutal_truth_employee) out.push(card("Honest read — them", `<p class="text-sm">${escapeHtml(b.brutal_truth_employee)}</p>`));
+  if (b.brutal_truth_employee) out.push(card(`Honest read — ${who}`, `<p class="text-sm">${escapeHtml(b.brutal_truth_employee)}</p>`));
   if (b.brutal_truth_manager) out.push(card("Honest read — you", `<p class="text-sm">${escapeHtml(b.brutal_truth_manager)}</p>`));
   if ((b.next_actions || []).length) {
     const items = b.next_actions!.map((a) => `<li class="text-sm">${a.when ? escapeHtml(a.when) + ": " : ""}${escapeHtml(a.action || "")}</li>`);

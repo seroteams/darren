@@ -41,7 +41,7 @@ const SLOTS = extractSlots(BRIEF, "Priya");
 --------------------------------------------------------------------------- */
 
 const LOW_COPY =
-  "This brief is based on the role and meeting type only — you haven't added notes yet. Treat it as a starting point, not a read on Priya.";
+  "This brief is based on the role and meeting type only — you haven't added notes yet. Treat it as a starting point; it says nothing about Priya personally.";
 const MEDIUM_COPY =
   "This brief uses your notes plus role defaults. The more specific parts come from what you wrote.";
 const HIGH_COPY = "This brief is grounded in your notes and recent context.";
@@ -67,7 +67,7 @@ test("confidence: unreadable level falls back to the raw sentence, never masked"
 });
 
 test("confidence: missing name falls back to 'them' in the low copy", () => {
-  assert.ok(confidenceCopy("Low, nothing to go on", "").endsWith("not a read on them."));
+  assert.ok(confidenceCopy("Low, nothing to go on", "").endsWith("it says nothing about them personally."));
 });
 
 /* ---------------------------------------------------------------------------

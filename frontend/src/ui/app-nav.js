@@ -38,7 +38,7 @@ const LINKS = [
   // Member app — Past 1:1s only (member-view: about-me only). A member can't start or run a
   // 1:1, so their rail is a single row: the 1:1s their manager prepped ABOUT them
   // (MEMBER_HOME → about-me, list-only). Shown only to members.
-  { key: "runs", label: "Past 1:1s", stage: STAGES.MEMBER_HOME, icon: ICON.runs, member: true },
+  { key: "runs", label: "Your 1:1s", stage: STAGES.MEMBER_HOME, icon: ICON.runs, member: true },
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
   { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },

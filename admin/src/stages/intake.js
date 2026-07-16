@@ -52,7 +52,7 @@ export async function mount(root, { store, setState }) {
             <div class="eyebrow">Setup</div>
             <div class="stage-step text-sm text-ink-mute"></div>
           </div>
-          <button class="btn btn--ghost js-start-fresh flex-shrink-0" type="button">Cancel setup</button>
+          <button class="btn btn--ghost js-start-fresh flex-shrink-0" type="button">Discard prep</button>
         </div>
         <p class="text-ink-dim text-sm max-w-measure js-intake-lede">Two minutes of prep. One sharper conversation.</p>
         <div class="intake-progress" role="progressbar" aria-valuemin="1" aria-valuemax="${SUBSTAGES.length}" aria-valuenow="1">
@@ -298,7 +298,7 @@ export async function mount(root, { store, setState }) {
       </label>
       <div class="field__actions">
         <button class="btn js-submit">Continue</button>
-        <button class="btn btn--ghost js-skip">Skip (optional)</button>
+        <button class="btn btn--ghost js-skip">Skip</button>
       </div>
     `;
     const selected = new Set(store.ctx.issuePills || []);

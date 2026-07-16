@@ -25,20 +25,20 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
-        <h1 class="h1">Start a 1:1 prep session</h1>
-        <div class="text-ink-dim">Resume a session or start a new one.</div>
+        <h1 class="h1">Prep a 1:1</h1>
+        <div class="text-ink-dim">Pick up where you left off, or start a new one.</div>
         <div class="field__actions">
           ${bench
-            ? `<button type="button" class="btn js-onepage">One-page run</button>`
-            : `<button type="button" class="btn js-startnew">Start a new session</button>
-               <button type="button" class="btn btn--ghost js-onepage">One-page run</button>`}
+            ? `<button type="button" class="btn js-onepage">Everything on one page</button>`
+            : `<button type="button" class="btn js-startnew">Start a new 1:1</button>
+               <button type="button" class="btn btn--ghost js-onepage">Everything on one page</button>`}
         </div>
       </header>
 
       ${bench ? bench.html : ""}
 
       <section class="space-y-2">
-        <div class="eyebrow">Recent sessions</div>
+        <div class="eyebrow">Recent 1:1s</div>
         <ul class="js-runs space-y-2"></ul>
       </section>
     </div>

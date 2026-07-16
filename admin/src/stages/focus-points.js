@@ -19,7 +19,7 @@ export async function mount(root, { store, setState }) {
         <div class="eyebrow">Focus areas</div>
         <div class="page-header__row">
           <h1 class="h1">What we'll cover</h1>
-          <button class="btn btn--ghost js-start-fresh" type="button">Reset session</button>
+          <button class="btn btn--ghost js-start-fresh" type="button">Discard prep</button>
         </div>
         <p class="text-ink-dim">Pick what this 1:1 should cover.</p>
       </header>

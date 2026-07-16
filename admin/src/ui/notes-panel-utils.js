@@ -5,9 +5,9 @@ export const STAGE_LABEL = {
   FOCUS_POINTS: "Focus areas",
   PREPARATION: "Prep brief",
   BANK: "Questions",
-  QUESTIONING: "Live Q&A",
-  EVAL: "Synthesis",
-  BRIEFING: "Briefing",
+  QUESTIONING: "During the meeting",
+  EVAL: "Pulling it together",
+  BRIEFING: "Recap",
 };
 
 export function groupNotes(notes) {

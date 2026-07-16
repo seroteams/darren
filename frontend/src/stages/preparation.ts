@@ -49,7 +49,7 @@ export const mount: Mount = async (root, { store, setState }) => {
           <h1 class="h1">What to walk in with</h1>
           <div class="pv-header-tools">
             ${isAdmin(store.user) ? variantSwitchHtml(readVariant(storage())) : ""}
-            <button class="link js-start-fresh" type="button">Reset session</button>
+            <button class="link js-start-fresh" type="button">Discard prep</button>
           </div>
         </div>
         <p class="text-ink-dim">The core issue, your opener, and what to listen for.</p>

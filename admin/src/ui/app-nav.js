@@ -65,7 +65,7 @@ const ICON = {
 const LINKS = [
   // Member app — Past 1:1s only (member-view: only-runs). A member can't start or run a
   // 1:1, so their rail is a single row: their own past 1:1s. Shown only to members.
-  { key: "runs", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
+  { key: "runs", label: "Your 1:1s", stage: STAGES.RUNS, icon: ICON.runs, member: true },
   // Manager app (manager-ready Phase 1) — the paying customer's rail. Reuses existing
   // stages; managers keep console access but never see the internal toolset below.
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
