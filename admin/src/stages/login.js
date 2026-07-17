@@ -29,7 +29,7 @@ export async function mount(root, { setState }) {
       <div class="auth-split__form">
         <div class="auth-panel l-stack l-stack--6">
           <div class="auth-brand">
-            <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
+            <img class="auth-brand__logo" src="${import.meta.env.BASE_URL}logo.png" alt="" aria-hidden="true" />
             <h1 class="auth-brand__title">Welcome back</h1>
             <p class="auth-brand__sub">Log in to prep your next 1:1.</p>
           </div>

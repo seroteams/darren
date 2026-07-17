@@ -5,19 +5,22 @@ import type { Mount, Unmount } from "./stage.types.ts";
 
 export const mount: Mount = async (root, { store, setState }) => {
   const retryTo = store.retryStage || STAGES.INTAKE;
+  // Record the raw error for the Error log (error-log Phase 3); deduped/throttled
+  // in the reporter. "Unknown error" only when we truly have nothing.
   const technical = store.error || "Unknown error";
-  // Landing here means the app caught something that blew up (incl. a failed load) — record
-  // it so it shows in the Error log (error-log Phase 3). Deduped/throttled in the reporter.
   reportError(technical);
+  // Show the manager the actual message — every consumer sets store.error to a plain
+  // sentence ("This is taking longer than usual. Please try again.", "Lost connection
+  // while generating the prep brief.", etc.). It used to be buried under a "Technical
+  // details" fold behind a generic line, so the one thing that told them what to do
+  // was the one thing they couldn't see.
+  const shown = store.error || "Something went wrong on this step.";
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--6">
       <h1 class="h1">We hit a snag.</h1>
       <div class="error-card">
-        <div class="text-ink">Something went wrong on this step. You can retry or start a new session.</div>
-        <details class="error-details mt-3">
-          <summary class="text-sm text-ink-dim cursor-pointer">Technical details</summary>
-          <div class="text-ink-dim text-sm mt-2">${escape(technical)}</div>
-        </details>
+        <div class="text-ink">${escape(shown)}</div>
+        <div class="text-ink-dim text-sm mt-2">You can retry this step, or start a new session.</div>
       </div>
       <div class="space-y-2">
         <div class="text-ink-mute text-sm">What you can do:</div>
