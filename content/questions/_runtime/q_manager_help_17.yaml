@@ -1,0 +1,11 @@
+alias: q_manager_help_17
+label: Manager help
+name: What do you need from me to make the next stretch lighter?
+description: Surface the support or decisions that would reduce load over the next two weeks.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_manager_help_16"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_what_helps_most_3
+label: What helps most
+name: What would make the next two weeks feel steadier for you?
+description: Close by surfacing the support or changes that would help most next.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_what_helps_most_2"
+grounding: open

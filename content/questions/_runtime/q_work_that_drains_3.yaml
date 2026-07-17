@@ -1,0 +1,11 @@
+alias: q_work_that_drains_3
+label: Work that drains
+name: Which part of your UX work has been costing you the most energy recently?
+description: Identify the work pattern that is draining him most.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_work_that_drains_2"
+grounding: open

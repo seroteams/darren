@@ -1,0 +1,11 @@
+alias: q_support_needed_82
+label: Support needed
+name: What would make the next two weeks lighter for you?
+description: Close by turning the discussion into useful manager support.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_support_needed_81"
+grounding: open

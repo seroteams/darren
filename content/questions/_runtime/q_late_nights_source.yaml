@@ -1,0 +1,11 @@
+alias: q_late_nights_source
+label: Late nights source
+name: You mentioned late nights — where is that time actually going in the migration?
+description: Locate the specific work creating the unsustainable load.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added
+grounding: a couple of late nights

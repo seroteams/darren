@@ -1,0 +1,11 @@
+alias: q_direction
+label: Direction
+name: "When you imagine yourself eighteen months from now, what's actually different?"
+description: Open a concrete picture of the role, scope, or outcomes Ada wants next.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: "reworded_from:q_intro_growth_direction"
+grounding: open

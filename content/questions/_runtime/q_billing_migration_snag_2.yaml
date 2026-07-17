@@ -1,0 +1,11 @@
+alias: q_billing_migration_snag_2
+label: Billing migration snag
+name: On the billing migration, where is it getting snagged right now?
+description: Locate the main source of friction in the migration work before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: billing migration

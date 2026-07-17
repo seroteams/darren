@@ -1,0 +1,11 @@
+alias: q_switching_cost
+label: Switching cost
+name: With the migration and reviews competing, where is the switching cost hitting hardest?
+description: Locate the main point of drag so the conversation can move from friction into what is and is not moving.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: context-switching between the migration and reviews

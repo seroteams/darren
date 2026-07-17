@@ -1,0 +1,11 @@
+alias: q_billing_takeover
+label: Billing takeover
+name: When the billing migration has taken over your weeks, where is it actually eating the most time?
+description: Locate the part of the migration consuming time so the observable shift can be named concretely.
+purpose: topic
+stage: observation
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: planner_added
+grounding: taken over my weeks

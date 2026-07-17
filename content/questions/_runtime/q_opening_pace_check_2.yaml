@@ -1,0 +1,11 @@
+alias: q_opening_pace_check_2
+label: Opening pace check
+name: "How's the last two weeks actually felt — energy-wise?"
+description: Check whether the recent pace feels sustainable or is starting to wear on her.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: "reworded_from:q_intro_biweekly_pace"
+grounding: open

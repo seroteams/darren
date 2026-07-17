@@ -1,0 +1,9 @@
+alias: q_thread_follow_32
+label: Thread follow
+name: "You said \"Energy's ok but constant context-switching between\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

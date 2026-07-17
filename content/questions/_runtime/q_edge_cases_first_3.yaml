@@ -1,0 +1,10 @@
+alias: q_edge_cases_first_3
+label: Edge cases first
+name: On a recent flow, which edge case or empty state did review catch?
+description: Anchor the pattern in one concrete recent example of what was missed before review.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "doesn't check edge cases"

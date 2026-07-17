@@ -1,0 +1,11 @@
+alias: q_support_needed_84
+label: Support needed
+name: What do you need from me to help clear the cutover path?
+description: Surface the manager support that would most directly reduce friction on the cutover.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_support_needed_83"
+grounding: open

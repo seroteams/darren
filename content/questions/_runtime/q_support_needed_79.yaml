@@ -1,0 +1,11 @@
+alias: q_support_needed_79
+label: Support needed
+name: What do you need from me before we talk billing rewrite?
+description: Surface the support or air cover she wants from you for the next cycle.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_support_needed_78"
+grounding: open

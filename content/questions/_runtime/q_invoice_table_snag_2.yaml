@@ -1,0 +1,10 @@
+alias: q_invoice_table_snag_2
+label: Invoice table snag
+name: On the legacy invoice table, where are the manual edge cases biting most?
+description: Drill into the concrete snag she named so you can locate the highest-friction part of the cutover.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: legacy invoice table

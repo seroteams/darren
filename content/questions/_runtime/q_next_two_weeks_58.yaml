@@ -1,0 +1,11 @@
+alias: q_next_two_weeks_58
+label: Next two weeks
+name: Given that sign-off is the block, where do you want to focus first in the next two weeks?
+description: Close by turning the named blocker into an open next-step focus.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added
+grounding: product sign-off on the cutover date

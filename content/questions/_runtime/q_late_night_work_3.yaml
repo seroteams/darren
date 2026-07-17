@@ -1,0 +1,11 @@
+alias: q_late_night_work_3
+label: Late-night work
+name: What has been pulling the late nights on the billing migration?
+description: Identify the specific work or pattern driving the extra hours.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_late_night_work_2"
+grounding: open

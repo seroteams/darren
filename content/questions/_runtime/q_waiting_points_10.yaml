@@ -1,0 +1,11 @@
+alias: q_waiting_points_10
+label: Waiting points
+name: What are you waiting on most right now?
+description: Identify the main dependency or blocker affecting momentum.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_waiting_points_9"
+grounding: open

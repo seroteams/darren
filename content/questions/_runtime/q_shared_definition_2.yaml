@@ -1,0 +1,11 @@
+alias: q_shared_definition_2
+label: Shared definition
+name: "What would you want us to agree on about 'done' for this billing migration?"
+description: Close by aligning on a shared definition of done for the migration.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_shared_definition"
+grounding: open

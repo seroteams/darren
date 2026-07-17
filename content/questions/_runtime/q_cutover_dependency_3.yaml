@@ -1,0 +1,11 @@
+alias: q_cutover_dependency_3
+label: Cutover dependency
+name: What dependency is holding the cutover up most right now?
+description: Identify the main external or cross-team hold-up affecting the cutover.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_cutover_dependency_2"
+grounding: open

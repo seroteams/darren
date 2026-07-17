@@ -1,0 +1,11 @@
+alias: q_q_next_review_focus_9
+label: q_next_review_focus
+name: What do you want to focus on before the next review round?
+description: Close by naming the next behaviour to change before review.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_review_focus"
+grounding: open

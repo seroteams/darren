@@ -1,0 +1,11 @@
+alias: q_crowded_out_work_4
+label: Crowded out work
+name: What work have you had to park while the billing migration runs?
+description: Identify trade-offs and what is being deprioritized during the cutover.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_crowded_out_work_3"
+grounding: open

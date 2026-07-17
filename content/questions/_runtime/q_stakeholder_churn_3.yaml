@@ -1,0 +1,11 @@
+alias: q_stakeholder_churn_3
+label: Stakeholder churn
+name: What stakeholder churn is taking the most time right now?
+description: Find out whether cross-team changes are driving avoidable load.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_stakeholder_churn_2"
+grounding: open

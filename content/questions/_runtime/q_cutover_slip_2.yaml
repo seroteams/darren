@@ -1,0 +1,11 @@
+alias: q_cutover_slip_2
+label: Cutover slip
+name: What keeps pushing the cutover date back?
+description: Identify the main dependencies or decisions behind the slipping timeline.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_cutover_slip"
+grounding: open

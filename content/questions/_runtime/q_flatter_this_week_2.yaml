@@ -1,0 +1,11 @@
+alias: q_flatter_this_week_2
+label: Flatter this week
+name: "You said this week feels flatter than expected — what's behind that?"
+description: Locate what is making the post-launch week feel flatter before moving on.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added
+grounding: flatter this week than expected

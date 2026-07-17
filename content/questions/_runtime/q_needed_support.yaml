@@ -1,0 +1,10 @@
+alias: q_needed_support
+label: Needed support
+name: What support from me would make the biggest difference on the cutover date?
+description: Close by surfacing the manager help that would make the next two weeks lighter or sharper.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: firm date

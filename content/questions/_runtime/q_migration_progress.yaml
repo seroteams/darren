@@ -1,0 +1,11 @@
+alias: q_migration_progress
+label: Migration progress
+name: On the migration, what is actually moving forward right now?
+description: Surface concrete momentum on the main priority before returning to what is stuck.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added
+grounding: billing migration

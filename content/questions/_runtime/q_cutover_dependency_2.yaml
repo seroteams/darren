@@ -1,0 +1,11 @@
+alias: q_cutover_dependency_2
+label: Cutover dependency
+name: What dependency is holding the cutover up most right now?
+description: Identify the key external or internal dependency behind the slip.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_cutover_dependency"
+grounding: open

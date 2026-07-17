@@ -1,0 +1,11 @@
+alias: q_tradeoff_call_10
+label: Tradeoff call
+name: What would you be willing to trade off to keep the migration moving?
+description: Surface what she would deprioritize or stop doing to protect the migration.
+purpose: topic
+stage: investment
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_tradeoff_call_9"
+grounding: open

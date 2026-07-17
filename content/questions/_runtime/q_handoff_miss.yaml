@@ -1,0 +1,10 @@
+alias: q_handoff_miss
+label: Handoff miss
+name: On the checkout handoff, where did the Figma link get missed from your side?
+description: Locate the specific handoff breakdown he just mentioned before widening out.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: missed the Figma link

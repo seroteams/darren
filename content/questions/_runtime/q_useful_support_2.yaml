@@ -1,0 +1,10 @@
+alias: q_useful_support_2
+label: Useful support
+name: What support from me would make the biggest difference on that cutover?
+description: Surface the manager help that would most reduce friction on the next step.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: cutover date

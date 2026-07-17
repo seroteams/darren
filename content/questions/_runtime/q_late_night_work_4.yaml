@@ -1,0 +1,11 @@
+alias: q_late_night_work_4
+label: Late-night work
+name: What has been pulling the late nights on the billing migration?
+description: Locate what work is extending the day and whether it is a short push or a pattern.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_late_night_work_3"
+grounding: open

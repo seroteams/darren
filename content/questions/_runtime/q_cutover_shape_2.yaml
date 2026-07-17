@@ -1,0 +1,11 @@
+alias: q_cutover_shape_2
+label: Cutover shape
+name: What feels like the main thing holding the billing cutover open right now?
+description: Surface the primary blocker or unresolved condition keeping cutover from closing.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_cutover_shape"
+grounding: open

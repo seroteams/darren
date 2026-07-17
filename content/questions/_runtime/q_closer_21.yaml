@@ -1,0 +1,10 @@
+alias: q_closer_21
+label: Closer
+name: What do you want to have settled by the time we meet next?
+description: Close by naming what Ada wants clarified or moved before the next check-in.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_closer_20"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_next_move_51
+label: Next move
+name: What is the one move you want to make on the billing migration before we meet again?
+description: Land on the next concrete move Ada wants to take before the next check-in.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_move_47"
+grounding: open

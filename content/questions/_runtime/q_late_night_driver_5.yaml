@@ -1,0 +1,11 @@
+alias: q_late_night_driver_5
+label: Late-night driver
+name: What’s been making the days run long for you most often?
+description: Locate the main driver of late nights and whether it is workload, rework, or waiting.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_late_night_driver_4"
+grounding: open

@@ -1,0 +1,10 @@
+alias: q_best_support_now
+label: Best support now
+name: What support from me would make the biggest difference over the next two weeks?
+description: Close by surfacing the most useful manager support for the immediate next stretch.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: pause my code reviews

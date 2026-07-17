@@ -1,0 +1,11 @@
+alias: q_support_ask_13
+label: Support ask
+name: What would make the next two weeks feel more manageable from my side?
+description: Identify the manager support that would reduce load and sharpen the next stretch.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_support_ask_12"
+grounding: open

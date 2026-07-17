@@ -1,0 +1,10 @@
+alias: q_invoice_table_snag
+label: Invoice table snag
+name: With the legacy invoice table, where do the edge cases most often show up?
+description: Drill into the concrete failure points in the schema mismatch before moving on.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: legacy invoice table is the snag

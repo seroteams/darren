@@ -1,0 +1,11 @@
+alias: q_schema_mismatch_detail
+label: Schema mismatch detail
+name: With the schema mismatch, where do the manual edge cases pile up most?
+description: Pin down where the mismatch is creating the most manual work so the blocker is concrete.
+purpose: topic
+stage: observation
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+grounding: schema mismatch

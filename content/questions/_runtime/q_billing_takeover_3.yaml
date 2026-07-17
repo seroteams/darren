@@ -1,0 +1,11 @@
+alias: q_billing_takeover_3
+label: Billing takeover
+name: When the context-switching drains you, where is the switching happening most?
+description: Locate the main source of switching so the observed drag is concrete before moving deeper.
+purpose: topic
+stage: observation
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_billing_takeover_2"
+grounding: context-switching between the migration and reviews

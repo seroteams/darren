@@ -1,0 +1,11 @@
+alias: q_migration_stretch
+label: Migration stretch
+name: With the billing migration taking over, which part is stretching you most right now?
+description: Drill into the concrete part of the migration that is creating stretch.
+purpose: topic
+stage: anchor
+axis_effects:
+  growth: +3
+  engagement: +1
+source: planner_added
+grounding: billing migration has taken over

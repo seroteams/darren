@@ -1,0 +1,11 @@
+alias: q_boundary_to_learn_6
+label: Boundary to learn
+name: What service boundary or API contract would you want to get sharper on here?
+description: Identify a concrete technical boundary that marks the next level of growth.
+purpose: topic
+stage: gap
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_boundary_to_learn_5"
+grounding: open

@@ -1,0 +1,10 @@
+alias: q_billing_taking_over
+label: Billing taking over
+name: When the billing migration has taken over your weeks, where is it eating the most time?
+description: Drill into the concrete thread she named to locate the main source of drag in the migration work.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: taken over my weeks

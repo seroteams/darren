@@ -1,0 +1,11 @@
+alias: q_priority_reset_6
+label: Priority reset
+name: What are you treating as the top priority on the billing cutover this week?
+description: Surface how Ada is prioritising the cutover amid competing work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_priority_reset_5"
+grounding: open

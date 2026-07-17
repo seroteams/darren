@@ -1,0 +1,11 @@
+alias: q_manager_support_99
+label: Manager support
+name: What would help from me most before the next billing milestone?
+description: Clarify the most useful support or air cover the manager can provide next.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_manager_support_98"
+grounding: open

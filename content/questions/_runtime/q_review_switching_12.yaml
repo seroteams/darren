@@ -1,0 +1,10 @@
+alias: q_review_switching_12
+label: Review switching
+name: What keeps pulling you from the migration into reviews right now?
+description: Locate the source of the context-switching so the manager can reduce churn.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: context-switching between the migration and reviews

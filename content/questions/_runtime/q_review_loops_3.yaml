@@ -1,0 +1,11 @@
+alias: q_review_loops_3
+label: Review loops
+name: You mentioned shorter review loops — where do they drag out most right now?
+description: Locate where review timing is creating rework or delay.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_review_loops_2"
+grounding: open

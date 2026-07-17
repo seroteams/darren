@@ -1,0 +1,11 @@
+alias: q_pipeline_upside
+label: Pipeline upside
+name: With the new pipeline working better, what does that free up or unblock next?
+description: Surface the practical next step created by the pipeline improvement before moving to the close.
+purpose: topic
+stage: momentum
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: planner_added
+grounding: new pipeline

@@ -1,0 +1,11 @@
+alias: q_crowded_out_work_3
+label: Crowded out work
+name: What work have you had to park while the billing migration runs?
+description: Surface what is being deprioritized so workload tradeoffs are explicit.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_crowded_out_work_2"
+grounding: open

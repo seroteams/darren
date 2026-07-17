@@ -1,0 +1,11 @@
+alias: q_agenda_check_5
+label: Agenda check
+name: Before we get into it, anything you want to make sure we cover today?
+description: Open space for Ada to add priorities or concerns for the check-in.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: "reworded_from:q_intro_agenda_check"
+grounding: open

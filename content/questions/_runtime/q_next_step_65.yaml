@@ -1,0 +1,11 @@
+alias: q_next_step_65
+label: Next step
+name: What is the one thing you want to change first before we next meet?
+description: Close by turning the conversation into a practical first focus.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_next_step_64"
+grounding: open

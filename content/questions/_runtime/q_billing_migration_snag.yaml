@@ -1,0 +1,11 @@
+alias: q_billing_migration_snag
+label: Billing migration snag
+name: On the billing migration, where has it got most tangled lately?
+description: Drill into the concrete friction inside the migration before moving the arc on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: billing migration

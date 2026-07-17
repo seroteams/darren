@@ -1,0 +1,10 @@
+alias: q_ready_to_share_bar
+label: Ready-to-share bar
+name: "When you judge something as 'ready to share,' what are you checking for?"
+description: Clarify the criteria she uses before bringing design work into review.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "judges 'ready to share'"

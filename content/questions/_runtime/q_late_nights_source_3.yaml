@@ -1,0 +1,11 @@
+alias: q_late_nights_source_3
+label: Late nights source
+name: You mentioned late nights — where is that time actually going in the migration?
+description: Surface what is consuming extra hours so workload and clarity can be tested concretely.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_late_nights_source_2"
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_direction_5
+label: Direction
+name: "When you imagine yourself eighteen months from now, what's actually different?"
+description: Surface a concrete picture of the next scope or role she wants to grow into.
+purpose: topic
+stage: aspiration
+axis_effects:
+  growth: +3
+  engagement: +1
+source: "reworded_from:q_direction_3"
+grounding: open

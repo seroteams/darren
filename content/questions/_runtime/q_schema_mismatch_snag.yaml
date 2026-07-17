@@ -1,0 +1,11 @@
+alias: q_schema_mismatch_snag
+label: Schema mismatch snag
+name: With that schema mismatch, where does the cutover get stuck most right now?
+description: Drill the concrete blocker she named so the bottleneck is located before moving the arc forward.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: planner_added
+grounding: schema mismatch

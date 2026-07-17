@@ -1,0 +1,11 @@
+alias: q_next_two_weeks_59
+label: Next two weeks
+name: Given that sign-off is the block, where do you want to focus first in the next two weeks?
+description: "Land the session on Ada's near-term focus now that the main dependency is clear."
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_next_two_weeks_58"
+grounding: open

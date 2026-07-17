@@ -1,0 +1,11 @@
+alias: q_priority_trade_off_7
+label: Priority trade-off
+name: Between the migration and reviews, what is actually taking priority day to day?
+description: Surface how work is being traded off so priorities and alignment are clearer.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added
+grounding: migration and reviews

@@ -1,0 +1,11 @@
+alias: q_agenda_check_4
+label: Agenda check
+name: Before we get into it, anything you want to make sure we cover today?
+description: Open space for anything important she wants on the table.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: "reworded_from:q_agenda_check_3"
+grounding: open

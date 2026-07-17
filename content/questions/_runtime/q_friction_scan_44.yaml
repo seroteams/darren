@@ -1,0 +1,11 @@
+alias: q_friction_scan_44
+label: Friction scan
+name: What needs to happen to get product sign-off on the cutover date?
+description: Surface the decision or dependency that now determines whether cutover can move.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_friction_scan_43"
+grounding: product sign-off

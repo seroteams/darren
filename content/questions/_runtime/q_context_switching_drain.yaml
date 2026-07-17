@@ -1,0 +1,11 @@
+alias: q_context_switching_drain
+label: Context switching drain
+name: When reviews pull you off the migration, what work gets disrupted most?
+description: Locate where the context-switching is creating the most friction in the migration work.
+purpose: topic
+stage: anchor
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: planner_added
+grounding: context-switching between the migration and reviews

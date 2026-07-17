@@ -1,0 +1,9 @@
+alias: q_thread_follow_26
+label: Thread follow
+name: "You said \"missed the zero-data path for new\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: scripted
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added

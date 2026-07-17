@@ -1,0 +1,10 @@
+alias: q_schema_mismatch_snag_2
+label: Schema mismatch snag
+name: With that schema mismatch, where do the manual edge cases pile up most?
+description: Drill the named technical snag to locate the highest-friction part of the migration.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: schema mismatch

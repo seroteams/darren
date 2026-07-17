@@ -1,0 +1,11 @@
+alias: q_support_needed_87
+label: Support needed
+name: What do you need from me to help clear the cutover path?
+description: Identify the manager support or air cover that would help move the cutover forward.
+purpose: topic
+stage: support
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_support_needed_86"
+grounding: open

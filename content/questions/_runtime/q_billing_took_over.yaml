@@ -1,0 +1,11 @@
+alias: q_billing_took_over
+label: Billing took over
+name: When billing migration took over your weeks, where did it get most tangled?
+description: Drill the concrete thread she raised to locate the main source of friction in the cutover.
+purpose: topic
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added
+grounding: taken over my weeks

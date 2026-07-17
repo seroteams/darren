@@ -1,0 +1,11 @@
+alias: q_milestone_shape_3
+label: Milestone shape
+name: What does the next billing migration milestone need to include for you to call it real progress?
+description: Surface the concrete definition of the next milestone and what counts as meaningful progress.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_milestone_shape_2"
+grounding: open

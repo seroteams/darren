@@ -1,0 +1,9 @@
+alias: q_thread_follow_31
+label: Thread follow
+name: "You said \"The new pipeline is moving well\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+source: planner_added

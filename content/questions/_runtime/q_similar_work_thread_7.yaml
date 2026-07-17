@@ -1,0 +1,11 @@
+alias: q_similar_work_thread_7
+label: Similar work thread
+name: When you say similar work, which work has started to feel too samey?
+description: Pin down the concrete work pattern behind the stuck feeling before moving on.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: planner_added
+grounding: similar work for months

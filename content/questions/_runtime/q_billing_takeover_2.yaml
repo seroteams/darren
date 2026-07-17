@@ -1,0 +1,11 @@
+alias: q_billing_takeover_2
+label: Billing takeover
+name: When the billing migration has taken over your weeks, where is it actually eating the most time?
+description: Surface where the work is consuming time and whether the load is concentrated in one part of the migration.
+purpose: topic
+stage: observation
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_billing_takeover"
+grounding: open

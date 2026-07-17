@@ -1,0 +1,11 @@
+alias: q_next_move_74
+label: Next move
+name: What is the one move you want to make on the billing migration before we meet again?
+description: Land on a concrete next step before the next conversation.
+purpose: topic
+stage: commitment
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_move_67"
+grounding: open

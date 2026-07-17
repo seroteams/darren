@@ -1,0 +1,11 @@
+alias: q_review_loops
+label: Review loops
+name: You mentioned shorter review loops — where do they drag out most right now?
+description: Pinpoint where feedback timing is stretching tasks so the manager can reduce rework.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+grounding: shorter review loops

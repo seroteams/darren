@@ -1,0 +1,11 @@
+alias: q_manual_edge_cases_3
+label: Manual edge cases
+name: With the manual edge cases, where is that work piling up most right now?
+description: Drill into the named schema-mismatch thread to locate the heaviest friction point.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: every edge case is manual

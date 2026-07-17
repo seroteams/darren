@@ -1,0 +1,11 @@
+alias: q_cutover_sequence_3
+label: Cutover sequence
+name: What needs to happen before you would want to call the cutover window ready?
+description: Identify the concrete conditions for readiness and what can wait.
+purpose: topic
+stage: underneath
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_cutover_sequence_2"
+grounding: open

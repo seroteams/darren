@@ -1,0 +1,11 @@
+alias: q_done_looks_like_3
+label: Done looks like
+name: "When you pick up a task here, what does 'done' need to include for you?"
+description: Surface whether expectations for a solid junior-level design output are clear enough.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_done_looks_like_2"
+grounding: open

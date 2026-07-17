@@ -1,0 +1,11 @@
+alias: q_migration_pressure
+label: Migration pressure
+name: Where has the billing migration taken the most energy this week?
+description: Locate the main source of pressure inside the migration before widening out.
+purpose: topic
+stage: friction
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added
+grounding: billing migration

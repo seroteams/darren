@@ -1,0 +1,10 @@
+alias: q_missed_build_path
+label: Missed build path
+name: How did the updated copy end up missing the build before QA review?
+description: Drill the specific handoff gap he raised so the issue is located before the arc moves on.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+source: planner_added
+grounding: missed the build before QA review

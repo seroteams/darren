@@ -1,0 +1,11 @@
+alias: q_friction_scan_39
+label: Friction scan
+name: "What's been slower or harder than it should have been?"
+description: Surface where work is dragging or taking extra effort.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_friction_scan_38"
+grounding: open
