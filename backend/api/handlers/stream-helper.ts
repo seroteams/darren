@@ -16,6 +16,24 @@ function isInFlightEntry(v: unknown): v is InFlightEntry {
   return isObjectRecord(v) && Array.isArray(v.subscribers) && v.controller instanceof AbortController;
 }
 
+// Dev-only stall switch. Set SERO_STALL_STAGE=<stageKey> (e.g. "preparation",
+// "focus-points") to make that stage hang on purpose, so the client's stall
+// handling is walkable without waiting for a rare real one. It replaces the
+// model call entirely, so a walk costs nothing. Never active in production —
+// same guard style as DEV_AUTOLOGIN (request-context.ts).
+function shouldStall(stageKey: string): boolean {
+  if (process.env.NODE_ENV === "production") return false;
+  return !!process.env.SERO_STALL_STAGE && process.env.SERO_STALL_STAGE === stageKey;
+}
+
+// Hangs until aborted — never resolves, never calls the model.
+function stallForever(signal: AbortSignal): Promise<never> {
+  return new Promise((_resolve, reject) => {
+    if (signal.aborted) return reject(new Error("aborted"));
+    signal.addEventListener("abort", () => reject(new Error("aborted")), { once: true });
+  });
+}
+
 interface RunStageOptions<T> {
   thinkingLabel: string;
   produce: (signal: AbortSignal) => Promise<T>; // async () => result
@@ -98,7 +116,9 @@ async function runStage<T>(
   const prevTracker = getActive();
   setActive(session.tracker);
   try {
-    const result = await produce(entry.controller.signal);
+    if (shouldStall(stageKey)) console.warn(`[${stageKey}] SERO_STALL_STAGE active — stalling on purpose (dev only)`);
+    const run = shouldStall(stageKey) ? stallForever : produce;
+    const result = await run(entry.controller.signal);
     setCached(result);
     persist(session);
     broadcast(resultEvent, buildPayload(result));
@@ -115,4 +135,4 @@ async function runStage<T>(
   }
 }
 
-export { runStage };
+export { runStage, shouldStall };

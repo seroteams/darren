@@ -43,11 +43,13 @@ function findTests(dir, predicate) {
 }
 
 // `*.test.ts` everywhere under backend/ EXCEPT the integration tree (those are .js),
-// plus co-located admin unit tests (pure logic only — node has no DOM).
+// plus co-located admin unit tests (pure logic only — node has no DOM), plus shared/
+// (code both apps import — e.g. the SSE wrapper).
 const COLOCATED_TESTS = [
   ...findTests(path.join(ROOT, "backend"), (n) => n.endsWith(".test.ts")),
   ...findTests(path.join(ROOT, "admin", "src"), (n) => n.endsWith(".test.ts")),
   ...findTests(path.join(ROOT, "frontend", "src"), (n) => n.endsWith(".test.ts")),
+  ...findTests(path.join(ROOT, "shared"), (n) => n.endsWith(".test.ts")),
 ];
 // `test-*.js` integration/e2e scripts under the domain-shaped backend/tests/ tree.
 const INTEGRATION_TESTS = findTests(

@@ -20,12 +20,28 @@
 // the evaluation stream.
 const TERMINAL = ["done", "briefing", "next"];
 
+// Watchdog. A stream can connect, emit `thinking`, and then go silent forever —
+// the server keeps the socket alive with a heartbeat, so no native error ever
+// fires and the screen sits on its skeleton indefinitely. Nothing else in the
+// path has a timeout, so this is the only thing standing between a stalled
+// stage and a manager staring at a spinner through their 1:1.
+//
+// 60s is ~6x a real stage (prep briefs measure ~10s end to end). A legitimately
+// slow run CAN exceed it during an upstream rate-limit storm; that degrades to
+// an error the manager can retry, and the retry is instant because a finished
+// result is already cached server-side.
+//
+// `thinking` deliberately does NOT clear or reset it: `thinking` is exactly what
+// the stalled path emits before going quiet, so trusting it would defeat this.
+const STALL_MS = 60_000;
+
 export function openSse(url) {
   const handlers = new Map();
   let errorHandler = null;
   let es = null;
   let closed = false;
   let receivedTerminal = false;
+  let stallTimer = null;
 
   function on(event, fn) {
     handlers.set(event, fn);
@@ -44,8 +60,30 @@ export function openSse(url) {
     }
   }
 
+  function clearStall() {
+    if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
+  }
+
+  // Nothing but `thinking` arrived for STALL_MS: give up and tell the consumer,
+  // honestly. Routed through the consumer's own `error` handler where there is
+  // one (so it renders the normal error card with its Retry), falling back to
+  // onError for consumers that only registered that.
+  function onStall() {
+    if (closed || receivedTerminal) return;
+    receivedTerminal = true;
+    const data = {
+      message: "This is taking longer than usual. Please try again.",
+      timeout: true,
+      recoverable: true,
+    };
+    if (handlers.has("error")) dispatch("error", data);
+    else if (errorHandler) errorHandler(data);
+    close();
+  }
+
   function open() {
     es = new EventSource(url);
+    stallTimer = setTimeout(onStall, STALL_MS);
 
     // Always listen for the terminal events internally so we can track them
     // even if the consumer hasn't registered their own handlers.
@@ -54,6 +92,7 @@ export function openSse(url) {
         if (closed) return;
         const data = safeParse(e.data);
         receivedTerminal = true;
+        clearStall();
         dispatch(ev, data);
         close();
       });
@@ -65,6 +104,7 @@ export function openSse(url) {
       if (!e.data) return;   // native close error, not a server frame
       const data = safeParse(e.data);
       receivedTerminal = true;
+      clearStall();
       dispatch("error", data);
       close();
     });
@@ -75,6 +115,8 @@ export function openSse(url) {
       es.addEventListener(ev, (e) => {
         if (closed) return;
         const data = safeParse(e.data);
+        // Real progress cancels the watchdog — but `thinking` is not progress.
+        if (ev !== "thinking") clearStall();
         try { fn(data); } catch (err) {
           console.error(`[sse] handler error for '${ev}':`, err);
         }
@@ -93,6 +135,7 @@ export function openSse(url) {
   function close() {
     if (closed) return;
     closed = true;
+    clearStall();
     if (es) try { es.close(); } catch {}
   }
 
