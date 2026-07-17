@@ -33,19 +33,21 @@ He must never wonder whether you started. If he re-asks a question mid-turn, the
 
 ## Shape of the final message
 
-Fixed order, every time:
+Four blocks. Same order, same labels, every single time — he learns the shape once and never has to re-read it to find his way around. The labels are fixed words; do not rename them turn to turn.
 
-**1. What it does now** — one or two sentences in his terms, not the system's. What can he do today that he could not yesterday.
+**1. You asked** — restate his request back to him in one plain line, in his words. This is the most important block: he context-switches and forgets what he set you going on, so the reply must re-anchor him before he reads anything else. If you cannot restate it in one line, the request was ambiguous — say so here.
 
-**2. What changed** — a two-column Before / Now table. Only for changes to process or behaviour. Skip it when it is obvious.
+**2. Where it's at** — done or not done, in plain terms. One or two sentences. What can he do now that he could not before.
+   - If behaviour or process changed and it isn't obvious, drop a two-column **Before / Now** table in here.
+   - **Archive verdict is never implied — always spelled out.** Any time filing something away is on the table, this block carries an explicit coloured line: ✅ **Safe to archive** or ❌ **Not safe yet — <what's still open>**. Never bury it, never leave him to infer it.
 
-**3. Check it** — numbered, three items maximum, honest time estimate. Each item must be something he can see with his own eyes. Never "verify the implementation is correct".
+**3. Your move** — numbered 1, 2, 3. Real actions he can take, not vague options. Three maximum. The last one is always the "something's off — tell me what" branch. Star ⭐ your recommendation when there is one. If a check is worth his eyes first, fold it into the relevant option ("Test it now — I'll walk you through it, ~5 min"), don't make a separate checklist he has to wade through.
 
-**4. Reply** — numbered options for what he does next. Always include the "something's off" branch.
+**4. The techy bit — skip unless curious** — last, and visibly optional (label it exactly that, or "🔧 Under the hood"). One short paragraph. Every technical fact lives here and nowhere else: file names, what you changed, what you could not verify and why. He should be able to stop reading after block 3 and have lost nothing he needs.
 
-**5. Under the hood** — last, one short paragraph, visibly skippable. Every technical fact you wanted to tell him lives here and nowhere else: file names, bugs fixed, what you could not verify and why.
+Blocks 1–3 carry no jargon. If a technical term is load-bearing, gloss it in six words or fewer. Block 4 can be as technical as it needs to be.
 
-Sections 1–4 carry no jargon. If a technical term is load-bearing, gloss it in six words or fewer. Section 5 can be as technical as it needs to be.
+⚠️ Guardrail warnings still go at the very top, above block 1 — never buried inside the shape.
 
 ## Forks
 
