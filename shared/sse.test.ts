@@ -141,3 +141,62 @@ test("a terminal done clears the watchdog", (t) => {
 
   assert.equal(seen.errors.length, 0, "a completed stream never stalls");
 });
+
+// Phase 3 — the one hang the watchdog can't catch. The result ARRIVES (so the
+// 60s timer is cleared), but the handler that draws it onto the screen throws.
+// A crash while rendering the brief must show the error card, not leave the
+// manager on a half-drawn skeleton with no word and no timeout coming.
+
+test("a crash while drawing the brief shows an error, not a silent skeleton", () => {
+  useFakeEventSource();
+  const seen = { errors: [] as unknown[] };
+  openSse("/api/v1/sessions/abc/preparation/stream")
+    .on("thinking", () => {})
+    .on("result", () => {
+      throw new Error("render blew up");
+    })
+    .on("error", (d: unknown) => seen.errors.push(d))
+    .open();
+  const es = FakeEventSource.last as FakeEventSource;
+
+  es.emit("thinking", { label: "Preparing your briefing" });
+  es.emit("result", { brief: {}, runId: "r1" });
+
+  assert.equal(seen.errors.length, 1, "a render crash surfaces an error card");
+  const err = seen.errors[0] as { recoverable?: boolean };
+  assert.equal(err.recoverable, true, "and offers a Retry");
+  assert.ok(es.closed, "and closes the dead stream");
+});
+
+test("an async render rejection is surfaced too, not swallowed", async () => {
+  useFakeEventSource();
+  const seen = { errors: [] as unknown[] };
+  openSse("/api/v1/sessions/abc/preparation/stream")
+    .on("result", async () => {
+      throw new Error("async render blew up");
+    })
+    .on("error", (d: unknown) => seen.errors.push(d))
+    .open();
+  const es = FakeEventSource.last as FakeEventSource;
+
+  es.emit("result", { brief: {}, runId: "r1" });
+  await Promise.resolve();
+  await Promise.resolve();
+
+  assert.equal(seen.errors.length, 1, "a rejected async render becomes an error card");
+});
+
+test("a handler that succeeds is never turned into an error", () => {
+  useFakeEventSource();
+  const seen: { errors: unknown[]; results: unknown[] } = { errors: [], results: [] };
+  openSse("/api/v1/sessions/abc/preparation/stream")
+    .on("result", (d: unknown) => seen.results.push(d))
+    .on("error", (d: unknown) => seen.errors.push(d))
+    .open();
+  const es = FakeEventSource.last as FakeEventSource;
+
+  es.emit("result", { brief: { coreIssue: "x" }, runId: "r1" });
+
+  assert.equal(seen.results.length, 1, "the brief drew fine");
+  assert.equal(seen.errors.length, 0, "no phantom error from a working render");
+});

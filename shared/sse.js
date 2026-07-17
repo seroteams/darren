@@ -55,9 +55,42 @@ export function openSse(url) {
   function dispatch(ev, data) {
     const fn = handlers.get(ev);
     if (!fn) return;
-    try { fn(data); } catch (err) {
-      console.error(`[sse] handler error for '${ev}':`, err);
+    invoke(ev, fn, data);
+  }
+
+  // Run a consumer handler and, if it throws or (being async) rejects, surface
+  // an error card instead of swallowing it. This is the one hang the 60s watchdog
+  // can't catch: the result ARRIVED — so the timer was cleared — but drawing it
+  // onto the screen crashed, leaving a half-rendered skeleton with no word and no
+  // timeout coming. A crash while drawing the brief must end on an error, not a
+  // spinner. We attach a rejection handler rather than blocking the stream.
+  function invoke(ev, fn, data) {
+    let result;
+    try {
+      result = fn(data);
+    } catch (err) {
+      surfaceHandlerCrash(ev, err);
+      return;
     }
+    if (result && typeof result.then === "function") {
+      result.then(undefined, (err) => surfaceHandlerCrash(ev, err));
+    }
+  }
+
+  function surfaceHandlerCrash(ev, err) {
+    console.error(`[sse] handler error for '${ev}':`, err);
+    if (closed || receivedTerminal) return;
+    receivedTerminal = true;
+    clearStall();
+    const data = {
+      message: "Something went wrong showing your briefing. Please try again.",
+      recoverable: true,
+    };
+    // Route to the error card — unless the crashing handler IS the error handler
+    // (surfacing to it again would just recurse into the same broken code).
+    if (ev !== "error" && handlers.has("error")) dispatch("error", data);
+    else if (errorHandler) errorHandler(data);
+    close();
   }
 
   function clearStall() {
@@ -117,9 +150,7 @@ export function openSse(url) {
         const data = safeParse(e.data);
         // Real progress cancels the watchdog — but `thinking` is not progress.
         if (ev !== "thinking") clearStall();
-        try { fn(data); } catch (err) {
-          console.error(`[sse] handler error for '${ev}':`, err);
-        }
+        invoke(ev, fn, data);
       });
     }
 
