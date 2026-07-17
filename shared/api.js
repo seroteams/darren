@@ -47,6 +47,13 @@ export async function submitPasswordReset({ token, password }) {
   return postJson("/api/v1/auth/reset-password", { token, password });
 }
 
+// Change-password (audit M12): the signed-in manager changes their own. The server takes
+// the user id from the session cookie, not the body — so this only ever changes YOUR
+// password. A wrong current password throws the server's plain message.
+export async function changePassword({ currentPassword, newPassword }) {
+  return postJson("/api/v1/auth/change-password", { currentPassword, newPassword });
+}
+
 // Hand an ownerless (guest) finished run to the logged-in caller (guest-run Phase 1
 // endpoint). Owned-by-someone-else answers 404; re-claim by the owner is a no-op.
 export async function claimSession(id) {

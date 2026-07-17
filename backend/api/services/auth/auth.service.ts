@@ -33,6 +33,12 @@ export interface LoginInput {
   password: string;
 }
 
+export interface ChangePasswordInput {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
 /** The safe user shape that leaves the server — no password hash, ever. */
 export interface PublicUser {
   id: string;
@@ -45,6 +51,7 @@ export interface PublicUser {
 export interface AuthService {
   register(input: RegisterInput): Promise<PublicUser>;
   login(input: LoginInput): Promise<PublicUser>;
+  changePassword(input: ChangePasswordInput): Promise<void>;
 }
 
 function normalizeEmail(email: string): string {
@@ -96,6 +103,23 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
         throw forbidden("This account has been deactivated. Contact your administrator.");
       }
       return toPublic(user);
+    },
+
+    async changePassword(input) {
+      // The signed-in manager changing their OWN password (audit M12). We know who they are
+      // from the session, so we look them up by id — never by an email the body supplies.
+      const newPassword = input.newPassword ?? "";
+      if (newPassword.length < MIN_PASSWORD_LENGTH) {
+        throw badRequest(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
+      }
+      const user = await repo.findById(input.userId);
+      // A missing user or a wrong current password give the same "current password is
+      // incorrect" — a re-auth gate, so we never confirm the new value was written unless
+      // the old one genuinely matched. Nothing is stored on either failure.
+      if (!user || !user.passwordHash || !(await hasher.verify(input.currentPassword ?? "", user.passwordHash))) {
+        throw unauthenticated("Your current password is incorrect.");
+      }
+      await repo.updatePasswordHash(user.id, await hasher.hash(newPassword));
     },
   };
 }

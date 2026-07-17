@@ -102,6 +102,22 @@ export async function me(c: RequestContext, lookup?: IdentityLookup): Promise<vo
   });
 }
 
+// POST /api/v1/auth/change-password — protected. { currentPassword, newPassword } → 200
+// { ok: true }. The signed-in manager changes their OWN password (audit M12): the user id
+// comes from the SESSION, never the body, so a caller can only ever change their own. The
+// current password must re-verify (a re-auth gate) before the new one is written.
+export async function changePassword(c: RequestContext, lookup?: IdentityLookup): Promise<void> {
+  const identity = await buildIdentity(c.req, lookup);
+  requireAuth(identity);
+  const body = asRecord(await c.readBody());
+  await service.changePassword({
+    userId: identity.userId!,
+    currentPassword: asString(body.currentPassword),
+    newPassword: asString(body.newPassword),
+  });
+  c.json(200, { ok: true });
+}
+
 // POST /api/v1/auth/forgot-password — { email } → 200 { ok: true }, ALWAYS. The answer is
 // the same generic success whether or not the email has an account (no account-existence
 // leak — same posture as login). Only a real, active account gets a reset link, emailed

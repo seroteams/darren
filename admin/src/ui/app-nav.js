@@ -6,15 +6,16 @@
 // (brand + menu button) that this module also owns — same DOM, same role
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
-import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
+import { STAGES, store, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
 import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
+import { showAccountSheet } from "./account-sheet.ts";
 import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
   Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
-  FlaskConical, Gauge,
+  FlaskConical, Gauge, Settings,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -44,6 +45,7 @@ const ICON = {
   registered: icon(UserRoundCog),
   design: icon(Palette),
   logout: icon(LogOut),
+  account: icon(Settings),
   privacy: icon(Lock),
   about: icon(Info),
   feedback: icon(MessageSquare),
@@ -197,6 +199,10 @@ export function createAppNav({ setState, resetSession } = {}) {
         </button>
       </nav>
       <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
+        <button type="button" class="app-nav__link js-account" data-key="account">
+          <span class="app-nav__icon">${ICON.account}</span>
+          <span class="app-nav__label">Account</span>
+        </button>
         <button type="button" class="app-nav__link js-logout" data-key="logout">
           <span class="app-nav__icon">${ICON.logout}</span>
           <span class="app-nav__label">Log out</span>
@@ -250,6 +256,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     if (resetSession) resetSession();
     setState && setState({ user: null, stage: STAGES.LOGIN });
   }
+  el.querySelector(".js-account")?.addEventListener("click", () => showAccountSheet(store.user));
   el.querySelector(".js-logout").addEventListener("click", onLogout);
 
   // A stage may light a different row per audience (admin "home" vs manager "mghome") —
@@ -309,7 +316,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     const internal = isInternalAdmin(user);
     el.classList.toggle("app-nav--member", !internal); // compact, ungrouped rail styling
     const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
-    const alwaysShown = new Set(["logout", "privacy", "about", "feedback"]); // account/utility rows
+    const alwaysShown = new Set(["account", "logout", "privacy", "about", "feedback"]); // account/utility rows
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
       let show = b.dataset[wanted] === "1";

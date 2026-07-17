@@ -37,6 +37,11 @@ export interface NewOrgOwner {
 export interface AuthRepo {
   /** The user with this (already-normalized) email, or null. */
   findByEmail(email: string): Promise<AuthUser | null>;
+  /** The user with this id, or null — for a signed-in caller changing their own password
+   *  (audit M12), where we already know who they are from the session, not an email. */
+  findById(id: string): Promise<AuthUser | null>;
+  /** Overwrite one user's password hash (change-password, M12). Only ever a hash. */
+  updatePasswordHash(id: string, passwordHash: string): Promise<void>;
   /** Create the company AND its owner together, in one transaction (both succeed or
    *  neither does); returns the stored owner. This is what makes signup create the
    *  company (Phase 4). */
@@ -50,6 +55,17 @@ export const pgAuthRepo: AuthRepo = {
     const u = rows[0];
     if (!u) return null;
     return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash, deactivatedAt: u.deactivatedAt };
+  },
+  async findById(id) {
+    const db = getDb();
+    const rows = await db.select().from(users).where(eq(users.id, id)).limit(1);
+    const u = rows[0];
+    if (!u) return null;
+    return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash, deactivatedAt: u.deactivatedAt };
+  },
+  async updatePasswordHash(id, passwordHash) {
+    const db = getDb();
+    await db.update(users).set({ passwordHash }).where(eq(users.id, id));
   },
   async createOrgWithOwner(input) {
     const db = getDb();

@@ -19,6 +19,13 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[]; compani
     async findByEmail(email) {
       return rows.find((u) => u.email === email) ?? null;
     },
+    async findById(id) {
+      return rows.find((u) => u.id === id) ?? null;
+    },
+    async updatePasswordHash(id, passwordHash) {
+      const u = rows.find((x) => x.id === id);
+      if (u) u.passwordHash = passwordHash;
+    },
     async createOrgWithOwner(input: NewOrgOwner) {
       companies.push(input.company);
       const u: AuthUser = {
@@ -153,6 +160,54 @@ test("with the REAL bcrypt hasher, the stored value is a bcrypt scramble that ve
   assert.match(stored, /^\$2[aby]\$/); // a bcrypt hash, not the raw password
   const ok = await service.login({ email: "frank@acme.com", password: "s3cretpassword" });
   assert.equal(ok.email, "frank@acme.com");
+});
+
+// --- Change password (the signed-in manager, audit M12) ------------------------------
+// Same seam: current password must verify against the stored hash before a new hash is
+// written. The raw passwords never leave the call; the new value is stored scrambled.
+
+test("changePassword: right current password → the new scramble is stored", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "amy@acme.com", name: "Amy", password: "oldpassword1" });
+
+  await service.changePassword({ userId: user.id, currentPassword: "oldpassword1", newPassword: "brandnewpass2" });
+
+  const stored = repo.rows.find((u) => u.id === user.id)!;
+  assert.equal(stored.passwordHash, "scrambled:brandnewpass2");
+  // The new password logs in; the old one no longer does.
+  assert.equal((await service.login({ email: "amy@acme.com", password: "brandnewpass2" })).id, user.id);
+  await assert.rejects(() => service.login({ email: "amy@acme.com", password: "oldpassword1" }), /incorrect/i);
+});
+
+test("changePassword: wrong current password is refused and stores nothing", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "bo@acme.com", name: "Bo", password: "oldpassword1" });
+
+  await assert.rejects(
+    () => service.changePassword({ userId: user.id, currentPassword: "WRONG", newPassword: "brandnewpass2" }),
+    /current password/i,
+  );
+  assert.equal(repo.rows.find((u) => u.id === user.id)!.passwordHash, "scrambled:oldpassword1"); // unchanged
+});
+
+test("changePassword: a too-short new password is refused", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "cj@acme.com", name: "CJ", password: "oldpassword1" });
+  await assert.rejects(
+    () => service.changePassword({ userId: user.id, currentPassword: "oldpassword1", newPassword: "short" }),
+    /at least/i,
+  );
+});
+
+test("changePassword: an unknown user id is refused", async () => {
+  const service = createAuthService(fakeRepo(), fakeHasher);
+  await assert.rejects(
+    () => service.changePassword({ userId: "ghost", currentPassword: "whatever1", newPassword: "brandnewpass2" }),
+    /not found|current password/i,
+  );
 });
 
 // --- Password reset (forgot-password) ------------------------------------------------
