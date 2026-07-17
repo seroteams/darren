@@ -67,9 +67,18 @@ mockup:
   serialiser all read the same `b.*` fields. Confirm the restructure doesn't break the read-only /
   review reuses, or fork a view cleanly.
 
-### R3 — Consistency + guard ⬜
-- The R1 rename follow-ups above (incl. updating `run-detail.test.ts`).
-- A guard test locking "Recap" as the display label + the three-act structure.
+### R3 — Consistency + guard ✅ DONE (2026-07-17)
+Every remaining manager-facing "Briefing" label swept to "Recap" — display strings only, the
+internal `BRIEFING` key untouched everywhere:
+`run-detail.ts` (past-run tab, **+ its test**), `compare.js` (row label + "no recap yet" empties),
+`review-run.js` ("Final briefing" → "Recap"), `pulse-labels.ts`, `stage-review.js`,
+`review-serialize.js` (QA dimension label), `personas.js` (RUN_STEPS).
+**Left alone on purpose:** `stages/design.js` — the design-system sheet is exempt (DESIGN.md §6).
+New guard: `admin/src/ui/stage-labels.test.ts` — locks `Recap` as the display + topbar label, asserts
+the after-stage carries no "brief"-word, and asserts the internal key stays `BRIEFING`.
+Proof: `build:all` clean, tests **15/15**.
+**Deferred:** a guard on the three-act *structure* — that waits until Carl has approved the R2 look
+on screen (locking an un-eyeballed layout would cement a design nobody has seen).
 
 ## Done when (R2)
 - [ ] `build:all` clean; admin tests green; no literal hex in the new CSS (token guard).

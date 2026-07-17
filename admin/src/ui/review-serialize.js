@@ -12,7 +12,7 @@ export const DIMENSIONS = [
   { key: "no_overreach", label: "Does not over-infer", hint: "No diagnosis beyond what the answers support." },
   { key: "trust", label: "No private leak", hint: "Manager's private concern never surfaced in output." },
   { key: "next_actions", label: "Useful next actions", hint: "Concrete, manager-owned next steps." },
-  { key: "briefing_usable", label: "Briefing short & usable", hint: "A manager could walk in on it as-is." },
+  { key: "briefing_usable", label: "Recap short & usable", hint: "A manager could walk in on it as-is." },
 ];
 
 export const OVERALL_VALUES = ["keep", "fix", "block"];

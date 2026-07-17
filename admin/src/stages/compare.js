@@ -207,9 +207,9 @@ function renderDiff(a, b, metaA, metaB) {
         <div class="cmp-cell">${identityCell(b, a, metaB, "b")}</div>
       </div>
       <div class="cmp-row${headChanged ? " cmp-row--changed" : ""}">
-        <div class="cmp-row__label">Briefing</div>
-        <div class="cmp-cell${headA ? "" : " cmp-cell--muted"}">${escape(headA || "no briefing yet")}</div>
-        <div class="cmp-cell${headB ? "" : " cmp-cell--muted"}">${escape(headB || "no briefing yet")}</div>
+        <div class="cmp-row__label">Recap</div>
+        <div class="cmp-cell${headA ? "" : " cmp-cell--muted"}">${escape(headA || "no recap yet")}</div>
+        <div class="cmp-cell${headB ? "" : " cmp-cell--muted"}">${escape(headB || "no recap yet")}</div>
       </div>
       ${factRow("Questions", String((a.turns || []).length), String((b.turns || []).length))}
       ${factRow("Notes", String((a.notes || []).length), String((b.notes || []).length))}

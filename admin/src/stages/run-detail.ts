@@ -116,7 +116,7 @@ export function renderRunDetail(run: RunDetail): string {
   return `
     <div class="ds-tabs" role="tablist">
       <button type="button" class="ds-tab is-active" role="tab" aria-selected="true" data-tab="overview">Overview</button>
-      <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="briefing">Briefing</button>
+      <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="briefing">Recap</button>
       <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="answers">Answers</button>
     </div>
     <div class="js-pane" data-pane="overview">${renderOverview(run)}</div>

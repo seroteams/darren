@@ -15,7 +15,7 @@ export const prettyType = (t: string): string =>
 const STAGE_LABELS: Record<string, string> = {
   intake: "Setting up", onepage: "Setting up", focus_points: "Focus", focus: "Focus",
   preparation: "Prep", bank: "Questions", questioning: "Questions", questions: "Questions",
-  eval: "Evaluate", briefing: "Briefing", run_debrief: "Debrief", debrief: "Debrief",
+  eval: "Evaluate", briefing: "Recap", run_debrief: "Debrief", debrief: "Debrief",
 };
 export const prettyStage = (s: string): string =>
   STAGE_LABELS[s.toLowerCase()] ?? (s.charAt(0).toUpperCase() + s.slice(1));

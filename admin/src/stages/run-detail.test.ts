@@ -28,7 +28,7 @@ const run: RunDetail = {
 test("renders the three tabs, Overview active first", () => {
   const html = renderRunDetail(run);
   assert.ok(html.includes(">Overview</button>"), "Overview tab");
-  assert.ok(html.includes(">Briefing</button>"), "Briefing tab");
+  assert.ok(html.includes(">Recap</button>"), "Recap tab");
   assert.ok(html.includes(">Answers</button>"), "Answers tab");
   assert.ok(html.includes('class="ds-tab is-active" role="tab" aria-selected="true" data-tab="overview"'), "Overview starts active");
   assert.ok(html.includes('data-pane="briefing" hidden') && html.includes('data-pane="answers" hidden'), "non-active panes start hidden");
@@ -45,7 +45,7 @@ test("Overview shows the profile, meeting type, when-row and the one-line read",
   assert.ok(html.includes("Did this help you run the 1:1?"), "rating card on Overview");
 });
 
-test("Briefing tab reuses the shared briefing cards", () => {
+test("Recap tab reuses the shared briefing cards", () => {
   assert.ok(renderRunDetail(run).includes("What stood out"), "briefing section rendered");
 });
 

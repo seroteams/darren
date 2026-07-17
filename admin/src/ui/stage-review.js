@@ -219,7 +219,7 @@ const SECTIONS = {
     const actions = b.next_actions || [];
     const watch = b.watch_for || [];
     return `
-      ${head("Briefing")}
+      ${head("Recap")}
       ${b.headline ? `<p class="stage-review__headline">${esc(b.headline)}</p>` : ""}
       ${bullets.length ? `<div class="stage-review__card"><div class="eyebrow">What stood out</div><ul class="stage-review__bullets">${bullets.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
       ${b.understanding_paragraph ? `<div class="stage-review__card"><div class="eyebrow">What we understood</div><p>${esc(b.understanding_paragraph)}</p></div>` : ""}

@@ -177,7 +177,7 @@ export async function mount(root, { setState }) {
         <section><div class="stage-review__section-title">Manager setup</div>${renderManagerSetup(ctx) || `<p class="stage-review__empty caption">No setup notes.</p>`}</section>
         <section><div class="stage-review__section-title">Prep brief</div>${renderPrep(run.prep)}</section>
         <section><div class="stage-review__section-title">Questions</div>${renderQuestions(run.turns)}</section>
-        <section><div class="stage-review__section-title">Final briefing</div>${renderBriefing(run.briefing)}</section>
+        <section><div class="stage-review__section-title">Recap</div>${renderBriefing(run.briefing)}</section>
       </div>
       <aside class="run-review__verdict">
         <div class="card-flat l-stack l-stack--4">

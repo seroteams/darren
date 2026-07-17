@@ -22,7 +22,7 @@ const COST_LINE =
 
 // The engine stages, in the order the runner drives them — the staged progress bar
 // lights these up one by one. Kept plain-language (not the internal stage names).
-const RUN_STEPS = ["Setup", "Focus", "Prep", "Interview", "Briefing"];
+const RUN_STEPS = ["Setup", "Focus", "Prep", "Interview", "Recap"];
 
 // Map the runner's live stageLabel onto a step index. The labels come from
 // persona-runs.runner.ts: "Starting session" / "Role profile" → Setup, then
