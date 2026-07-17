@@ -321,7 +321,7 @@ export const mount: Mount = async (root, { store, setState }) => {
         err.className = "mcr-panel__err";
         err.textContent = "Couldn't save — try again.";
         err.style.cssText =
-          "color:var(--sero-coral-800,#a3372c);font-size:13px;margin-right:auto;align-self:center;";
+          "color:var(--sero-coral-800,#ac1608);font-size:14px;margin-right:auto;align-self:center;";
         foot.prepend(err);
       }
     }
