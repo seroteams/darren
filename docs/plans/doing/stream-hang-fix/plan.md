@@ -32,7 +32,7 @@ We're in VALIDATION. The bar is *a real HR manager gets insight worth paying for
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The prep screen can never wait forever | 60s watchdog in `shared/sse.js` (all 10 streams) + dev stall switch so the hang is walkable | ✅ |
-| 2 | The server always tells every waiting screen what happened | Terminal guarantee, per-screen isolation, `abortStage`, subscriber log | ⬜ |
+| 2 | The server always tells every waiting screen what happened | Terminal guarantee, per-screen isolation, `abortStage`, subscriber log | ✅ |
 | 3 | A crash while drawing your brief shows an error | `sse.js` await async handlers → error path | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -44,7 +44,9 @@ We're in VALIDATION. The bar is *a real HR manager gets insight worth paying for
 
 **Phase 1 ✅ GREEN-LIT 2026-07-17** — Carl walked the stall and the normal brief ("tested good"). Committed `21d2d714`. Proven on the real screen: stall armed → error card at **62s** with Retry; stall off → brief lands at **12s**, no false alarm. `npm test` 153/153, typecheck clean. **A stalled stage can no longer hang any of the 10 streaming screens forever.**
 
-**Next: Phase 2** — the server-side half. Phase 1 gives the manager a Retry; Phase 2 makes sure that Retry lands somewhere sound (the attach path is what's broken) and fixes the guaranteed regenerate hang. Not started.
+**Phase 2 ✅ VERIFIED 2026-07-17 (self-signed, real-server proof)** — Committed `28cb0cab`. The server-side terminal guarantee: `abortStage` now snapshots subscribers before closing (`s.close()` fires `onClose`, which splices the subscriber out of the live array — iterating it directly skipped the very screen we were rescuing; same hazard fixed in `closeAll`). The guaranteed **regenerate hang** is closed: "Suggest different topics" used to drop the in-flight run without telling attached screens; it now sends each a recoverable error first. **Proven through the real server** (`SERO_STALL_STAGE=focus-points`, two live SSE connections): a second screen attached mid-flight to a stalled run receives `event: error {recoverable:true}` when the run is thrown away — not silence. Red proof earned it: the new test failed against the old code (skipped screen), passed after the snapshot fix. `npm test` **154/154**, typecheck clean. Local on `main`, unpushed. Carl's hand-walk optional (backend/streaming, no visual surface).
+
+**Next: Phase 3** — a crash while drawing the brief (a throwing async SSE handler) must show an error, not a spinner — the one hang the watchdog can't catch. Not started.
 
 ## Parked
 - **Logo `/logo.png` hardcoded** (`admin/src/stages/login.js:32`, `:15-19`; `forgot-password.js:20`; `reset-password.js:22`). Literal string in a template literal, so Vite never rewrites it; admin base is `/admin/` → 404s locally. **Live works only by luck** — `server.ts` routes non-`/admin` paths to `frontend/dist`, which happens to hold an identical `logo.png`. One file-move from breaking the real login. Fix = `import.meta.env.BASE_URL` (no precedent in repo yet). Carl's call 2026-07-17: own task, ~30 min.
