@@ -3,7 +3,7 @@
 // 7 stages (architecture.md §2b). The floating pill nav + the right-hand side panel live in a
 // body portal. Everything the manager types/selects auto-saves (debounced PATCH) into the
 // session's state jsonb, so a hard reload lands them back where they were. Ported from the
-// approved prototype (admin/src/stages/tests/monthly-checkin.js).
+// approved monthly-checkin prototype (since retired).
 
 import type { Mount } from "../../../../admin/src/stages/stage.types.ts";
 import { STAGES } from "../../../../admin/src/state.js";

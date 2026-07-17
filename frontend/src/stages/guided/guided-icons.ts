@@ -1,6 +1,6 @@
 // The runner's inline icon set — lucide-style SVG strings, ported verbatim from the approved
-// prototype (admin/src/stages/tests/monthly-checkin.js) so the look is byte-identical. Kept
-// inline + self-contained on purpose: the prototype IS the design sign-off.
+// monthly-checkin prototype (since retired) so the look is byte-identical. Kept inline +
+// self-contained on purpose: the prototype was the design sign-off.
 
 const I = (d: string): string =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;

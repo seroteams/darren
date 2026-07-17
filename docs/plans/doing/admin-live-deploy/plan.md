@@ -48,8 +48,8 @@ Every dashboard element traced to its live source:
 | "Guest became a signup" | ❌ no marker — a claimed run silently leaves the guest pile | Phase 5 adds `claimed_at`/`claimed_by`; until then the tile shows unclaimed count only |
 | "Last active" from logins (not just runs) | ❌ no source (`users.last_seen_at` missing) | Phase 6 |
 
-## Current state (RESUME HERE — updated end of 2026-07-12)
-**P1 ✅ closed + committed to main (`dab7d403`).** **P2 + P3 BUILT + verified, committed on branch `work/admin-serve` — NOT yet merged/green-lit.**
+## Current state (RESUME HERE — updated by the clean-up sweep 2026-07-17)
+**P1 ✅ closed + committed to main (`dab7d403`).** **P2 + P3 BUILT + verified, now MERGED to `main` (`ffc5165d`, 2026-07-14) — but NOT yet Carl-walked / green-lit.** (The old "merge blocked on `work/admin-serve`" note below is superseded — the branch merged and was deleted; its orphaned worktree folder `../serolocal-admin-serve` was removed in the sweep.)
 
 - **P1 — backend live fence ✅** green-lit ("okay next"). typecheck clean, 126/126. On main.
 - **P2 — serve /admin ✅ built** (`b3196472`): vite base `/admin/`, base-aware router (`withBase`/`stripBase`/`replaceUrl`), `static.ts` `{prefix,noindex}`, `server.ts` mounts `admin/dist` at `/admin`, `build:all` + `render.yaml`, Test engine/Tasks trimmed on live + deep-link bounce. New `scripts/test-admin-serving.js` **13/13** (real prod boot: `/admin`=admin, `/`=customer, deep-link fallback, noindex, logged-out 401, no secret values). typecheck clean.
@@ -57,11 +57,11 @@ Every dashboard element traced to its live source:
 - Full suite **126/127** throughout (the 1 fail = known fresh-worktree `test-persona-bench`, missing untracked `_runtime` files — not a regression). $0 (no paid runs).
 - **Blocker fix landed:** the orphaned `promise-confirm.css` (a committed `@import` with no committed file, swept in by past-1on1-view P2 `ee8fb475`) was committed to main (`6aadec58`) so a clean checkout / the live Render build no longer fails.
 
-**⚠️ Merge to main is BLOCKED** — 5 of the branch's files (`admin/src/main.js`, `router.js`, `state.js`, `ui/app-nav.js`, `backend/api/server.ts`) are mid-edit (uncommitted) in parallel sessions; `git merge work/admin-serve` aborts safely rather than clobber them. **Do not force.** Merge once those files are committed by their owners (or Carl confirms them stale).
+**~~⚠️ Merge to main is BLOCKED~~ (RESOLVED 2026-07-14)** — the merge that this note warned about has since landed on `main` (`ffc5165d`); the `work/admin-serve` branch is gone. No further merge step is needed.
 
-**To resume / walk locally:** the worktree is `../serolocal-admin-serve` on `work/admin-serve`. Dev servers may still be up: **admin at `localhost:3020/admin/pulse`** (API on 3051). If down, from the worktree: `npx cross-env API_PORT=3051 node backend/api/server.ts` + `npx cross-env API_PORT=3051 node node_modules/vite/bin/vite.js --host --port 3020 --strictPort`, then Dev login → Admin → "Pulse".
+**To resume / walk locally:** P2 + P3 are on `main` now — run the app normally (no separate worktree). **Admin Pulse is at `/admin/pulse`.**
 
-**Next:** Carl walks P2 (localhost:3020/admin/ deep-link reload) + P3 (the Pulse screen) → green light → merge `work/admin-serve` → main (when unblocked) → phase-close trackers → the 2 Render steps + `/release`. Then P4 (drill-ins) · P5 (runs explorer) · P6 (last-seen).
+**Next:** Carl walks P2 (`/admin/` deep-link reload) + P3 (the Pulse screen) → green light → phase-close trackers → the 2 Render steps + `/release`. Then P4 (drill-ins) · P5 (runs explorer) · P6 (last-seen).
 
 ## Parked
 - Login-based visit tracking beyond last_seen_at (cohorts, retention curves) — post-validation.

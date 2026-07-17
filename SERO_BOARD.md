@@ -12,6 +12,16 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**🔨 Open tracks in flight (refreshed by the clean-up sweep 2026-07-17 — full detail in [STATUS.md](STATUS.md)):**
+- **[ui-look-and-feel](docs/plans/doing/ui-look-and-feel/plan.md)** — whole-app polish; Recap redesign green-lit, P1–P3 built awaiting Carl's walk, P4–P6 ⬜.
+- **[team-page-redesign](docs/plans/doing/team-page-redesign/plan.md)** — P3 shipped live 07-17; P2 built, awaiting walk.
+- **[wrap-up-exit](docs/plans/doing/wrap-up-exit/plan.md)** — P1 in progress; the manual-door pick over adaptive-early-close.
+- **[personal-data-security](docs/plans/doing/personal-data-security/plan.md)** — security track; P1 done, P2 built (uncommitted), P3 git-history scrub interim.
+- **[members-page](docs/plans/doing/members-page/plan.md)** — P1/P2 green-lit; P3–P5 built, awaiting one final walk.
+- **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — ⏸ dormant since 07-12; P1 green-lit, P2/P3 never started. Not archive-safe.
+- **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P1 green-lit; P2/P3 merged to main 07-14, awaiting walk; P4–P6 ⬜.
+- Recently closed + live: **stream-hang-fix**, **ux-audit-fixes**, **briefing-before-during-after** (all 2026-07-17 → done/).
+
 **✅ CLOSED 2026-07-16 (built, not yet live): [axis-memory](docs/plans/done/axis-memory/plan.md) — Sero now shows a manager where a person's health axes stood in recent 1:1s.** Both phases signed off. From a data-engineer sweep of the 101 July runs (6 open systemic findings; honesty rule intact), the top fix: the manager's person page shows a per-axis trend across the last ≤4 1:1s (e.g. *Engagement −1 → +3 → +6*) — labelled past context, unread axes honest ("not read", never a 0), no scoring/engine change. Aimed straight at the validation metric: a manager who comes back gets a Sero that visibly remembers the person. Display-only, reuses the already-fenced `getMyRun`. Helper 8/8, suite 146/146. **Not live yet — Carl to `/release`** (a push ships ~19 mixed commits from ~5 parallel chats, so it's a conscious call). The other 5 open findings (scoring skew, briefing sameness, bank bloat, blind lint, key mismatch) are parked as future tracks.
 
 **✅ CLOSED 2026-07-11: mobile-ux — the whole product works on a phone (Carl walked it live: "looks ok").** Carl's phone walk found the flow unusable on mobile — keyboard opening on its own over the question, the focus page panning sideways, desktop spacing/type squeezed onto a phone, every step opening mid-scroll. Fixed in 5 commits (`7139440`→`fc0874c`, PR #11 merged, live on Render): keyboard only opens when tapped (both apps), the question stays visible above the keyboard, phone type scale + top-aligned pages, every screen/question/step restarts at the top. Proven with a $0 Playwright phone harness across 14 manager + 6 member + 15 internal screens: zero keyboard steal, zero sideways scroll. Matters directly for the corridor test — a manager can now run a 1:1 from their phone next to the person. Ad-hoc track, no plan folder; record lives in STATUS.md + this line.
@@ -198,7 +208,7 @@ mirrors it:
 The QA pile is cleared and the three finished plans are archived. Still open here:
 briefing-grounding-fixes (Phases 2–4 not started) and briefing-readability P0 (scaffolded, parked).
 
-Tests: `npm test` **127/127** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
+Tests: `npm test` **153/153** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
 (not automated); `main` was **pushed to origin 2026-07-04** — local and origin are now in sync.
 
 ## 2. Next — after Now is green
@@ -259,7 +269,7 @@ origin** (local-only by Carl's call for the ultra batch — pushing remains a de
 old stashes were archived as `archive/*` tags + dropped 2026-06-29; the stash list is clean — keep it clean.
 `logs/**` is gitignored apart from a small May keep-set (de-identified — no real names or notes).
 
-**Test status:** `npm test` **127/127** green, `npm run typecheck` clean, offline ($0). Live
+**Test status:** `npm test` **153/153** green, `npm run typecheck` clean, offline ($0). Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 
