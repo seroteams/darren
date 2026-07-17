@@ -34,7 +34,6 @@ export function firstRunIntroHtml(): string {
       <div class="eyebrow">First time?</div>
       <div class="intake-firstrun__title">Your first prep, in three moves</div>
       <ol class="intake-firstrun__steps">${steps}</ol>
-      <p class="text-ink-dim text-sm">About two minutes. Most managers spend zero.</p>
     </div>
   `;
 }
