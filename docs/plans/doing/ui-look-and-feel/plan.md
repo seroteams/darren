@@ -42,7 +42,7 @@ Full detail in [audit-findings.md](audit-findings.md) (9-agent audit, 2026-07-17
 | 1 | Calm the type, fix the freebies | Token-layer retune (display size/weight, tracking + spacing + shadow/radius tokens, reading measure) + ~15 near-free defect fixes — every screen calms at once | M | 🔨 core built — Carl QA |
 | 2 | The label & content voice | Two-tier uppercase labels everywhere; names/questions/openers set in the display face; one brand mark | M | 🔨 core built — Carl QA |
 | 3 | One chip, one button, one motif | One `.chip` primitive replaces ~15 pill families; dot-meter confidence chip; `.btn` retune; one segmented control | L | 🔨 part built — Carl QA |
-| 4 | The frame & the customer flagship | The artifact's framed-screen treatment on briefing/prep; guided flow + member home join the system; skeletons everywhere | L | ⬜ |
+| 4 | The frame & the customer flagship | The artifact's framed-screen treatment on briefing/prep; guided flow + member home join the system; skeletons everywhere | L | 🔨 Recap slice ✅ done — rest ⬜ |
 | 5 | Long-tail sweep | Error/empty states (no more browser alerts), overlay recipe, spacing rhythm, off-barrel CSS, tasks board de-nested | L | ⬜ |
 | 6 | Prove it & write it down | Contrast audit of the light theme; DESIGN.md + design sheet updated; guard tests extended | M | ⬜ |
 
@@ -57,6 +57,17 @@ top-bar tuck-under, phantom tokens). Deferred within the phase: the briefing col
 `.stage` page-tail (centring risk), and the micro-defect long-tail (~10 un-eyeballed tweaks). Full
 detail in [phase-1.md](phase-1.md). Proof: `build:all` clean, tests 54/54, typecheck unchanged.
 Nothing deployed.
+
+**The Recap redesign ✅ SHIPPED-LOCAL + GREEN-LIT (2026-07-17)** — a P4 "customer flagship" slice
+pulled forward on Carl's ask, and **the first piece of this plan he's verified on the real screen**
+(he ran a full 1:1 and checked it against real engine output — "looks right"). It renamed the
+end-of-1:1 screen **Briefing → Recap** (a before-word was labelling the after-screen, clashing with
+the "Prep brief" step) and rebuilt it into three acts: *What came out · The honest read · What to do
+next* — result-first hero with an at-a-glance "Partial record" chip, honest reads split mint/gold,
+the actions elevated into a framed destination carrying the screen's one blue action. Mockup-approved
+first, per the artifact-mockup gate. Full detail + the honesty note on the hero:
+[recap-redesign.md](recap-redesign.md). Proof: `build:all` clean, tests 22/22 (label + structure
+guards added). Nothing deployed.
 
 **Phase 2 core built overnight too (2026-07-17)** — one careful step, per Carl. A 3-agent sweep
 mapped every label + name; then the safe core landed: `.eyebrow` became the blue accent-dark

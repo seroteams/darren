@@ -1,7 +1,7 @@
 # Recap redesign — the end-of-1:1 results screen
 
 **Part of:** [plan.md](plan.md) (this is the P4 "customer flagship" work, pulled forward on Carl's
-ask). **Status:** R1 done · R2 built (2026-07-17) — awaiting Carl's on-screen QA.
+ask). **Status:** ✅ **COMPLETE — all three steps green-lit 2026-07-17.**
 **Approved mockup:** [recap-redesign-mockup.html](recap-redesign-mockup.html) ·
 live: https://claude.ai/code/artifact/1b882e99-3b05-4f5a-bd0f-0d1ed2b3ce54
 **Carl approved the direction 2026-07-17** ("direction's right"). The mockup is the source of truth.
@@ -38,7 +38,10 @@ Display strings only — the internal stage **key** `BRIEFING` is untouched (eng
   ("Final briefing" section). These are internal admin/review tools, not the live flow — lower
   urgency, but rename for consistency.
 
-### R2 — The three-act restructure (the main build) 🔨 BUILT — awaiting Carl's QA
+### R2 — The three-act restructure (the main build) ✅ GREEN-LIT 2026-07-17
+Carl ran a full 1:1 on localhost:3000 (the admin console) and checked the real Recap on screen —
+"looks right". The three acts, the hero chip, the mint/gold honest-read split, the elevated payoff
+frame and the one-blue-action rule all confirmed against real engine output, not the mockup.
 **Honesty note (deviation from the mockup):** the mockup's hero showed a *finding* leading with the
 caveat demoted to a chip. The engine owns `b.headline`, so the build keeps the engine's own headline
 as the hero (unmasked) and *adds* a gold "Partial record" chip **only when no axis got a real read**
@@ -77,8 +80,16 @@ internal `BRIEFING` key untouched everywhere:
 New guard: `admin/src/ui/stage-labels.test.ts` — locks `Recap` as the display + topbar label, asserts
 the after-stage carries no "brief"-word, and asserts the internal key stays `BRIEFING`.
 Proof: `build:all` clean, tests **15/15**.
-**Deferred:** a guard on the three-act *structure* — that waits until Carl has approved the R2 look
-on screen (locking an un-eyeballed layout would cement a design nobody has seen).
+**Structure guard — landed after the green light (as planned):**
+`admin/src/stages/briefing-structure.test.ts` (7 tests) locks the signed-off shape — the three acts
+in narrative order, the payoff frame carrying `--shadow-lift` with no nested cards, the engine's own
+headline as hero, the "Partial record" chip staying gated on `read_status`, the mint/gold honest-read
+split, Finish yielding the blue slot to "Lock these in", and empty acts self-removing.
+
+## Done when (R2) — all met
+- [x] `build:all` clean; admin tests green; tokens-only CSS.
+- [x] Seen on the running app by Carl — real 1:1, real engine output.
+- [x] Carl green-lit (2026-07-17).
 
 ## Done when (R2)
 - [ ] `build:all` clean; admin tests green; no literal hex in the new CSS (token guard).
