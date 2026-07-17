@@ -1,6 +1,8 @@
 # Phase 1 — The prep screen can never wait forever
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-17 — Carl walked the stall + the normal brief ("tested good") (commit 21d2d714)
 
 ## Built (2026-07-17)
 - `shared/sse.js` — 60s watchdog (`STALL_MS`). Armed in `open()`, cleared by any non-`thinking` event and by `close()`. Fires an honest, retryable payload (`{ message, timeout: true, recoverable: true }`) through the consumer's `error` handler, falling back to `onError`. All 10 `openSse` call sites covered.

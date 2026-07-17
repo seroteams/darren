@@ -31,7 +31,7 @@ We're in VALIDATION. The bar is *a real HR manager gets insight worth paying for
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The prep screen can never wait forever | 60s watchdog in `shared/sse.js` (all 10 streams) + dev stall switch so the hang is walkable | 🔨 |
+| 1 | The prep screen can never wait forever | 60s watchdog in `shared/sse.js` (all 10 streams) + dev stall switch so the hang is walkable | ✅ |
 | 2 | The server always tells every waiting screen what happened | Terminal guarantee, per-screen isolation, `abortStage`, subscriber log | ⬜ |
 | 3 | A crash while drawing your brief shows an error | `sse.js` await async handlers → error path | ⬜ |
 
@@ -40,9 +40,9 @@ We're in VALIDATION. The bar is *a real HR manager gets insight worth paying for
 ## Current state
 **Baseline (2026-07-17, before any changes): `npm test` → 150/150 passed.** Clean — nothing pre-existing.
 
-**Phase 1 BUILT 2026-07-17 — awaiting Carl's walk.** Proven on the real screen: stall armed → error card at **62s** with Retry; stall off → brief lands at **12s**, no false alarm. `npm test` 153/153, typecheck clean. Two honest caveats recorded in [phase-1.md](phase-1.md): the error card shows generic copy (the timeout wording sits under *Technical details* — a parked copy decision), and each walk costs a few pence rather than nothing (only the brief call is replaced).
+**Phase 1 ✅ GREEN-LIT 2026-07-17** — Carl walked the stall and the normal brief ("tested good"). Committed `21d2d714`. Proven on the real screen: stall armed → error card at **62s** with Retry; stall off → brief lands at **12s**, no false alarm. `npm test` 153/153, typecheck clean. **A stalled stage can no longer hang any of the 10 streaming screens forever.**
 
-Phase 2 does not start until Carl green-lights Phase 1.
+**Next: Phase 2** — the server-side half. Phase 1 gives the manager a Retry; Phase 2 makes sure that Retry lands somewhere sound (the attach path is what's broken) and fixes the guaranteed regenerate hang. Not started.
 
 ## Parked
 - **Logo `/logo.png` hardcoded** (`admin/src/stages/login.js:32`, `:15-19`; `forgot-password.js:20`; `reset-password.js:22`). Literal string in a template literal, so Vite never rewrites it; admin base is `/admin/` → 404s locally. **Live works only by luck** — `server.ts` routes non-`/admin` paths to `frontend/dist`, which happens to hold an identical `logo.png`. One file-move from breaking the real login. Fix = `import.meta.env.BASE_URL` (no precedent in repo yet). Carl's call 2026-07-17: own task, ~30 min.
