@@ -1,6 +1,17 @@
 # Phase 5 — Craft batch
 
-**Part of:** [plan.md](plan.md) · **Status:** ✅ 6 of 7 built (self-signed) — **M12 split out** at Carl's direction
+**Part of:** [plan.md](plan.md) · **Status:** ✅ ALL 7 built — M12 landed 2026-07-17, verified end-to-end over HTTP
+
+## M12 — account sheet + change password ✅ (VERIFIED over HTTP)
+Carl's "finish all". New `POST /api/v1/auth/change-password` — protected + origin-guarded; the
+user id comes from the **session**, never the body, and the current password must re-verify
+before the new hash is written. Service chain test-first (`auth.service` +4 tests; repo gains
+`findById` + `updatePasswordHash`). A shared [account-sheet.ts](../../../admin/src/ui/account-sheet.ts)
+(name/email read-only + a working password form) opens from a new **Account** row in both apps' nav.
+**Proven end-to-end against the dev API:** wrong current → 401, right → 200, old password then
+rejected, new accepted, logged-out → 401. Suite 154/154, typecheck clean, both build, no paid runs.
+**Deferred (thin follow-up):** editable display-name / company — there's no self-update endpoint
+yet, and the security-critical piece (the password) is done and verified.
 
 ## Built (2026-07-17)
 On `main`. Offline proof: suite **150/150**, root typecheck clean, both apps build. **M5, M6 and M8 verified live** on localhost:3000.
@@ -13,8 +24,6 @@ On `main`. Offline proof: suite **150/150**, root typecheck clean, both apps bui
 - **M15 — phone rows ✅ (built).** At ≤480px a Home row stays two tidy lines: the headline truncates with an ellipsis, the meta drops to line two. Full detail on expand.
 - *Also swept two "session" nouns Phase 3 missed (the Home delete confirm + the empty state) — now "Delete this 1:1 permanently?" / "Start a new 1:1".*
 
-## Not built — M12, split out (Carl's call)
-**M12 (account settings sheet + change password)** is deliberately NOT built. It needs a new backend chain (route → auth.service → auth.repo with a current-password check) for a **security-sensitive endpoint**, and its only true test is a live log-out → log-in-with-the-new-password round-trip. The plan explicitly sanctions splitting it. Carl to green-light building + API-testing it, or to walk it himself.
 
 - **M8 — clickable person cards ✅.** The whole Team card now opens the person (`js-card-open` on the card root); the name is a real focusable `<button>` (`js-open-person`) so keyboards get the same action; the action buttons (Invite / Remind / Prep / ⋯) stop propagation so they still do their own job; the cursor now tells the truth. [team-card.ts](../../../frontend/src/stages/team-card.ts) + [team.ts](../../../frontend/src/stages/team.ts) + [team-card.css](../../../frontend/src/styles/team-card.css) + a new test. **Verified on screen.**
 - **M11 — invite link inside a sheet ✅ (built, not screen-verified).** The raw `window.prompt` that surfaced a one-time join link is gone from all five call sites (Team invite / change-access / add-with-invite, Members invite / resend). New shared [share-link-modal.ts](../../../admin/src/ui/share-link-modal.ts): a styled dialog with a read-only link field, a **Copy** button (async clipboard + execCommand fallback), and a "valid 7 days · works once" note. *Not screen-verified — triggering it sends a real invite email; the markup compiles and both apps build.*
