@@ -171,6 +171,7 @@ function renderA(s: BriefSlots): string {
     body ? `<div class="pv-a__slot">${eyebrow(label)}${body}</div>` : "";
   const para = (t: string) => (t ? `<p class="text-ink leading-relaxed">${esc(t)}</p>` : "");
   return `<div class="pv pv-a">
+    ${confMeter(s.confidenceLevel)}
     ${s.confidence ? `<p class="pv-a__confidence">${esc(s.confidence)}</p>` : ""}
     ${slot(SLOT_LABELS.theme, para(s.theme))}
     ${s.opener ? `<div class="pv-a__slot">${eyebrow(SLOT_LABELS.opener)}<blockquote class="pv-a__opener">${esc(s.opener)}</blockquote></div>` : ""}
@@ -188,6 +189,7 @@ function renderB(s: BriefSlots): string {
     text ? `<div class="pv-b__row">${eyebrow(label)}<p>${esc(text)}</p></div>` : "";
   return `<div class="pv pv-b">
     ${s.opener ? `<blockquote class="prep-callout">${esc(s.opener)}</blockquote>` : ""}
+    ${confMeter(s.confidenceLevel)}
     ${s.confidence ? `<p class="pv-b__confidence">${esc(s.confidence)}</p>` : ""}
     ${row(SLOT_LABELS.theme, s.theme)}
     ${pairHtml(s)}
@@ -207,7 +209,7 @@ function renderC(s: BriefSlots): string {
   const block = (label: string, text: string) =>
     text ? `<div>${eyebrow(label, "mb-2")}<p class="text-ink leading-relaxed">${esc(text)}</p></div>` : "";
   return `<div class="pv pv-c space-y-6">
-    ${block(SLOT_LABELS.confidence, s.confidence)}
+    ${s.confidence ? `<div>${eyebrow(SLOT_LABELS.confidence, "mb-2")}${confMeter(s.confidenceLevel)}<p class="text-ink leading-relaxed">${esc(s.confidence)}</p></div>` : ""}
     ${block(SLOT_LABELS.theme, s.theme)}
     ${steps.length ? `<ol class="prep-timeline">${steps.map((body, i) => `
       <li class="prep-timeline__step">
@@ -227,7 +229,7 @@ function renderD(s: BriefSlots): string {
   const list = (items: string[]) =>
     items.length ? `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>` : "";
   return `<div class="pv pv-d">
-    ${row(SLOT_LABELS.confidence, para(s.confidence))}
+    ${row(SLOT_LABELS.confidence, `${confMeter(s.confidenceLevel)}${para(s.confidence)}`)}
     ${row(SLOT_LABELS.theme, para(s.theme))}
     ${row(SLOT_LABELS.opener, para(s.opener, "pv-d__opener"))}
     ${row(SLOT_LABELS.listenFor, list(s.listenFor))}
@@ -246,6 +248,7 @@ function renderE(s: BriefSlots): string {
     text ? `<div class="pv-e__slot">${eyebrow(label)}<p>${esc(text)}</p></div>` : "";
   return `<div class="pv pv-e">
     <div class="pv-e__top">
+      ${confMeter(s.confidenceLevel)}
       ${s.confidence ? `<p class="pv-e__lead">${esc(s.confidence)}</p>` : ""}
       ${topSlot(SLOT_LABELS.opener, s.opener, "pv-e__lead pv-e__opener")}
       ${topSlot(SLOT_LABELS.leaveWith, s.leaveWith, "pv-e__lead")}
@@ -267,6 +270,7 @@ function renderF(s: BriefSlots): string {
   return `<div class="pv pv-f">
     <div class="pv-f__stagezone">
       ${s.opener ? `${eyebrow(SLOT_LABELS.opener)}<p class="pv-f__opener">${esc(s.opener)}</p>` : ""}
+      ${confMeter(s.confidenceLevel)}
       ${s.confidence ? `<p class="pv-f__confidence">${esc(s.confidence)}</p>` : ""}
     </div>
     <div class="pv-f__grid">
@@ -289,7 +293,7 @@ function renderG(s: BriefSlots): string {
   const para = (t: string) => (t ? `<p>${esc(t)}</p>` : "");
   return `<div class="pv pv-g">
     ${s.opener ? cell(SLOT_LABELS.opener, `<p class="pv-g__opener">${esc(s.opener)}</p>`, "pv-g__cell--opener") : ""}
-    ${s.confidence ? cell("", `<p class="pv-g__confidence">${esc(s.confidence)}</p>`, "pv-g__cell--quiet") : ""}
+    ${s.confidence ? cell("", `${confMeter(s.confidenceLevel)}<p class="pv-g__confidence">${esc(s.confidence)}</p>`, "pv-g__cell--quiet") : ""}
     ${cell(SLOT_LABELS.theme, para(s.theme))}
     ${s.listenFor.length ? cell(SLOT_LABELS.listenFor, prepList(s.listenFor)) : ""}
     ${s.dontAssume.length ? cell(SLOT_LABELS.dontAssume, prepList(s.dontAssume)) : ""}
@@ -305,6 +309,7 @@ function renderH(s: BriefSlots): string {
     body ? `<div class="pv-h__section">${eyebrow(label)}${body}</div>` : "";
   const para = (t: string) => (t ? `<p>${esc(t)}</p>` : "");
   return `<div class="pv pv-h">
+    ${confMeter(s.confidenceLevel)}
     ${s.confidence ? `<p class="pv-h__confidence">${esc(s.confidence)}</p>` : ""}
     ${section(SLOT_LABELS.theme, para(s.theme))}
     ${s.opener ? `<div class="pv-h__section">${eyebrow(SLOT_LABELS.opener)}<p class="pv-h__opener">${esc(s.opener)}</p></div>` : ""}
@@ -323,6 +328,7 @@ function renderI(s: BriefSlots): string {
   const para = (t: string) => (t ? `<p>${esc(t)}</p>` : "");
   return `<div class="pv pv-i">
     <aside class="pv-i__side">
+      ${confMeter(s.confidenceLevel)}
       ${s.confidence ? `<p class="pv-i__confidence">${esc(s.confidence)}</p>` : ""}
       ${slot(SLOT_LABELS.theme, para(s.theme))}
       ${slot(SLOT_LABELS.leaveWith, para(s.leaveWith))}
@@ -344,6 +350,7 @@ function renderJ(s: BriefSlots): string {
   const para = (t: string) => (t ? `<p>${esc(t)}</p>` : "");
   return `<div class="pv pv-j">
     <div class="pv-j__band">
+      ${confMeter(s.confidenceLevel)}
       ${s.confidence ? `<p class="pv-j__confidence">${esc(s.confidence)}</p>` : ""}
       ${s.opener ? `${eyebrow(SLOT_LABELS.opener, "pv-j__eyebrow")}<p class="pv-j__opener">${esc(s.opener)}</p>` : ""}
     </div>
@@ -368,7 +375,7 @@ function renderK(s: BriefSlots): string {
       : "";
   const para = (t: string) => (t ? `<p>${esc(t)}</p>` : "");
   return `<div class="pv pv-k">
-    ${row(Gauge, SLOT_LABELS.confidence, para(s.confidence))}
+    ${row(Gauge, SLOT_LABELS.confidence, `${confMeter(s.confidenceLevel)}${para(s.confidence)}`)}
     ${row(Lightbulb, SLOT_LABELS.theme, para(s.theme))}
     ${row(MessageCircle, SLOT_LABELS.opener, s.opener ? `<blockquote class="prep-callout">${esc(s.opener)}</blockquote>` : "")}
     ${row(Ear, SLOT_LABELS.listenFor, s.listenFor.length ? prepList(s.listenFor) : "")}

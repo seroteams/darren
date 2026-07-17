@@ -713,6 +713,14 @@
   font-size: var(--type-body-sm);
   color: var(--sero-offwhite-300);
 }
+/* The dot-meter on J's committed navy band: the light accent pill would fight
+   the dark ground, so it re-grounds on white-alpha. Both dot states derive from
+   currentColor, so the meter keeps working with no extra tokens. */
+.pv-j__band .conf {
+  background: color-mix(in srgb, var(--sero-offwhite-50) 12%, transparent);
+  color: var(--sero-offwhite-50);
+  align-self: flex-start;
+}
 .pv-j__eyebrow {
   color: var(--sero-offwhite-300);
 }

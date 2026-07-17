@@ -199,8 +199,8 @@
   font-family: var(--font-mono, ui-monospace, monospace);
   color: var(--color-ink-mute);
   background: var(--color-accent-soft);
-  border-radius: var(--radius-input);
-  padding: 0.1rem 0.4rem;
+  border-radius: var(--sero-radius-full);
+  padding: 0.1rem 0.5rem;
 }
 .script-state {
   font-weight: 600;
@@ -355,13 +355,15 @@
 .cmp-fix-out-wrap { margin-top: 0.5rem; }
 .cmp-fix-out-wrap .js-fix-copy { margin-bottom: 0.35rem; }
 .fp-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.35rem; }
+/* A mono code chip, so it keeps its own type + tighter padding — but it takes
+   the house pill radius rather than staying squared (UI polish P3). */
 .fp-chip {
   font-size: var(--type-label);
   font-family: var(--font-mono, ui-monospace, monospace);
   color: var(--color-ink-mute);
   background: var(--color-accent-soft);
-  border-radius: var(--radius-input);
-  padding: 0.1rem 0.4rem;
+  border-radius: var(--sero-radius-full);
+  padding: 0.1rem 0.5rem;
 }
 .fp-chip--label { color: var(--color-ink); font-family: inherit; }
 .fp-chip--ok { color: var(--color-positive-text); }
@@ -374,14 +376,11 @@
   font-weight: 600;
 }
 .cmp-verdict { font-size: var(--type-body-sm); }
+/* Geometry (incl. the pill radius — this was squared at 4px) comes from the
+   shared chip recipe in design/base.css; the uppercase treatment stays local. */
 .cmp-verdict-tag {
-  display: inline-block;
-  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  font-size: var(--type-label);
-  border-radius: var(--radius-input);
-  padding: 0.1rem 0.45rem;
 }
 .cmp-verdict-issue { margin-left: 0.4rem; font-size: var(--type-caption); color: var(--color-ink-mute); }
 /* Soft tint triads, not solid fills with white text: --color-positive/-negative

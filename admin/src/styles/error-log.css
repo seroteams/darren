@@ -39,10 +39,7 @@
 .el-anon { color: var(--color-ink-mute); font-style: italic; }
 
 /* Pills. */
-.el-pill {
-  display: inline-block; padding: 1px 9px; border-radius: var(--sero-radius-badge, var(--sero-radius-full));
-  font-size: var(--type-caption, 14px); font-weight: var(--type-weight-medium, 500); line-height: 1.6; white-space: nowrap;
-}
+/* Geometry comes from the shared chip recipe (design/base.css) — colours only here. */
 .el-pill--live    { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
 .el-pill--local   { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
 .el-pill--api     { background: transparent; border: 1px solid var(--color-border); color: var(--color-ink-dim); }
@@ -55,14 +52,8 @@
 .el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
 .el-control { display: inline-flex; align-items: center; gap: 8px; }
 .el-control__label { font-size: var(--type-caption, 14px); color: var(--color-ink-mute); font-weight: var(--type-weight-medium, 500); }
-.el-filters { display: inline-flex; gap: 3px; padding: 3px; background: var(--sero-soft-400); border-radius: var(--sero-radius-badge, var(--sero-radius-full)); }
-.el-filter {
-  border: 0; background: transparent; cursor: pointer; font: inherit;
-  font-size: var(--type-body-sm, 14px); font-weight: var(--type-weight-medium, 500); color: var(--color-ink-dim);
-  padding: 4px 14px; border-radius: var(--sero-radius-badge, var(--sero-radius-full)); line-height: 1.4;
-}
-.el-filter:hover { color: var(--color-ink); }
-.el-filter.is-active { background: var(--color-surface); color: var(--color-ink); box-shadow: var(--shadow-card, 0 1px 2px rgba(16, 24, 40, 0.08)); }
+/* The segmented control itself now comes from the shared .seg recipe
+   (design/base.css) — this file only carries what's local to the error log. */
 .el-filter__n { color: var(--color-ink-mute); font-size: var(--type-caption, 14px); margin-left: 3px; }
 .el-resolved-toggle { border: 1px solid var(--color-border); background: transparent; }
 .el-resolved-toggle.is-active { background: var(--sero-primary-200); color: var(--sero-primary-800); border-color: transparent; box-shadow: none; }

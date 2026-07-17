@@ -3,14 +3,7 @@
    .um-table skin (styles/design/admin-tables.css); this file adds only the pills and
    the small header-count line. All text ≥14px (the accessibility floor). */
 
-.pd-pill {
-  display: inline-block;
-  border-radius: 9999px;
-  padding: 1px 10px;
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-}
+/* Geometry comes from the shared chip recipe (design/base.css) — colours only here. */
 .pd-pill--back { background: var(--sero-mint-100); color: var(--color-positive-text); }
 .pd-pill--once { background: var(--sero-gold-100); color: var(--sero-gold-900); }
 .pd-pill--none { background: var(--color-page); color: var(--color-ink-dim); border: 1px solid var(--color-border); font-weight: 500; }

@@ -110,11 +110,8 @@
 
 /* Source + verdict pills sit below the note, only when there's something to show. */
 .fb-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+/* Geometry comes from the shared chip recipe (design/base.css) — colours only here. */
 .fb-pill {
-  display: inline-block;
-  padding: 1px 10px;
-  border-radius: var(--sero-radius-badge, var(--sero-radius-full));
-  font-size: var(--type-caption, 14px);
   color: var(--color-ink-dim);
   background: var(--sero-soft-300);
 }
@@ -122,27 +119,13 @@
 
 /* Briefing verdict pill (validation-kit Phase 3): the one-tap answer, colour-coded —
    "yes" (would change how they run it = the insight landed) reads positive. */
-.fb-verdict {
-  display: inline-block;
-  padding: 1px 10px;
-  border-radius: var(--sero-radius-badge, var(--sero-radius-full));
-  font-size: var(--type-caption, 14px);
-  font-weight: var(--type-weight-medium, 500);
-  white-space: nowrap;
-}
 .fb-verdict--yes { background: var(--sero-mint-300); color: var(--sero-mint-900); }
 .fb-verdict--no  { background: var(--sero-soft-300); color: var(--color-ink-dim); }
 
 /* Kind chip (validation-kit Phase 3b): icon + label in the card head, so a 1:1 verdict
    and a plain note read differently at a glance. Muted — the message stays the loudest. */
 .fb-type {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
   margin-left: 8px;
-  padding: 1px 10px;
-  border-radius: var(--sero-radius-badge, var(--sero-radius-full));
-  font-size: var(--type-caption, 14px);
   color: var(--color-ink-dim);
   background: var(--sero-soft-300);
   white-space: nowrap;

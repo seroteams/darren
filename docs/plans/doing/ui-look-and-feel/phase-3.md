@@ -1,6 +1,49 @@
 # Phase 3 — One chip, one button, one motif
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ BUILT 2026-07-17 on Carl's "keep going it's all
+good and finish this run" — the defect half needed no eyes; the re-shaping is his to walk.
+
+## ✅ What landed
+- **One chip recipe.** Nine families (`um-badge`, `pd-pill`, `el-pill`, `fb-pill`, `fb-verdict`,
+  `fb-type`, `cl-badge`, `lib-badge`, `cmp-verdict-tag`) are grouped into the single `.chip` rule in
+  `design/base.css`; each file now keeps **only its colours**. Paddings that drifted 1px/2px/5px and
+  four families squared at 4px are gone. **CSS-only re-base — no markup touched**, so every class
+  name in the stages still works. Deliberately excluded: `.pill` (an interactive tap target —
+  shrinking it would hurt mobile) and the mono code chips (`.fp-chip`/`.script-alias`, radius only).
+- **Status-dot motif** via `::before` on the *state* pills only (back/once/active/pending/off/
+  yes/no/done/doing) — never on label pills (role/source/type); a dot on everything says nothing.
+  `currentColor` means each dot matches its own chip, free.
+- **One `.seg` segmented control** replacing three builds (`el-filter`'s iOS white-and-shadow,
+  `rv-seg`'s squared hairline box, `.ctx-seg`); active segment = accent tint, never a solid blue.
+- **Chip defects fixed** (`352296a1`): `cmp-verdict` pass/warn/fail were white on fill-steps
+  (~2.2:1); `fp-chip--ok`, `cl-badge--done`, `lib-badge--keep/--block`, `el-pill--warn`,
+  `um-badge--off`, `meeting-card__badge`, `cl-tag`, `rv-seg` pass/fail moved onto text-safe ink.
+- **One blue action restored:** `.pill.is-selected` (the manager's intake chips) and
+  `.prep-timeline__num` were solid-accent-with-white, competing with the real button — both now on
+  the accent tint triad.
+- **The dot-meter is in all 12 briefing layouts** + `.btn` colour-only hover (earlier).
+  J's committed navy band re-grounds the meter on white-alpha via `currentColor`.
+- **Guard:** `admin/src/styles/design/chip-system.test.ts` (6 tests) — fails if a family
+  re-declares its own geometry, if a chip goes square, if a segment takes a solid blue, or if the
+  dot motif spreads onto label pills.
+
+## ⚠️ Not eyeballed by me
+Screenshots hang this session, so **the look is Carl's to confirm** — the defect fixes are objective
+(measured contrast, house rules), but the re-shaping (rounder, roomier pills; dots on status) is
+taste. Free proof only: `build:all` clean, **82/82** across the guards + touched suites.
+
+## Deferred, on purpose
+- The **guided flow's** off-system kit (`mcr-btn`/`mcr-chip`/`mcr-owner` at 13px, ~120 hardcoded
+  hexes) → **Phase 4**, which already owns "guided flow joins the system". Not P3's to sweep.
+- The **wider text-on-fill tail** the audit never listed (`rv-ov__btn`, `tk-*`,
+  `run-row__review--done`, `joblex-*`…) → **Phase 6**, the measured contrast pass: each needs a
+  text-vs-graphic judgement, since these tokens are sanctioned for fills and graphics.
+- Dropdowns onto `.row-menu`, checkbox primitive, shared `ratingChip()` — untouched; low value
+  beside the pill unification, and each is its own small refactor.
+
+---
+
+### Original scope
 
 ## Goal
 Collapse ~15 pill families, 3 segmented controls and 2 dropdown builds into one detail language,

@@ -55,15 +55,7 @@
 .um-summary { display: flex; flex-direction: column; gap: var(--sero-space-0-5); }
 
 /* Role pill — one calm tint per account role. */
-.um-badge {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: var(--sero-radius-badge);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-  line-height: 1.4;
-  white-space: nowrap;
-}
+/* Geometry comes from the shared chip recipe (design/base.css) — colours only here. */
 .um-badge--admin   { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
 .um-badge--manager { background: var(--sero-primary-200);  color: var(--sero-primary-800); }
 .um-badge--member  { background: var(--sero-soft-500);     color: var(--sero-soft-800); }

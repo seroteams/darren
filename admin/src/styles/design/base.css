@@ -118,9 +118,26 @@ textarea { resize: vertical; }
 }
 /* One chip primitive (artifact detail language, UI polish P3): a pill with the
    tint-triad variants (soft bg + same-hue line border + dark text of that hue).
-   Scaffolding — the ~15 hand-rolled pill families get refitted onto this in the
-   eyes-on pass. The .chip__dot is the leading status motif / confidence meter. */
-.chip {
+   The .chip__dot is the leading status motif / confidence meter.
+
+   The families below are REFITTED onto this one recipe (P3, 2026-07-17): each
+   used to re-declare its own size/padding/radius, drifting to 1px/2px/5px
+   paddings and four of them squared at 4px against the artifact's single pill.
+   Geometry now lives here once; each family keeps only its own COLOURS in its
+   own file. Markup is untouched — this is a CSS-only re-base, so the class names
+   in the stages still work. Deliberately NOT in this list: `.pill` (an
+   interactive tap target — shrinking it would hurt mobile) and the mono code
+   chips (.fp-chip/.script-alias), which only take the radius. */
+.chip,
+.um-badge,
+.pd-pill,
+.el-pill,
+.fb-pill,
+.fb-verdict,
+.fb-type,
+.cl-badge,
+.lib-badge,
+.cmp-verdict-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -137,6 +154,74 @@ textarea { resize: vertical; }
 .chip--gold { background: var(--sero-gold-100); color: var(--sero-gold-900); border-color: var(--color-gold-line); }
 .chip--plain { background: var(--color-surface); color: var(--color-ink-dim); border-color: var(--color-border); }
 .chip__dot { width: 7px; height: 7px; border-radius: var(--sero-radius-full); background: currentColor; flex: none; }
+
+/* The leading-dot status motif — "meaning by motif", and it costs nothing:
+   currentColor means the dot always matches its chip's own hue. Applied to the
+   STATUS-flavoured pills only (a state you can read at a glance), never to the
+   label-ish ones (role, source, type) — a dot on everything says nothing. Done
+   with ::before so no markup changes. */
+.chip--dot::before,
+.um-badge--back::before,
+.um-badge--active::before,
+.um-badge--pending::before,
+.um-badge--off::before,
+.pd-pill--back::before,
+.pd-pill--once::before,
+.fb-verdict--yes::before,
+.fb-verdict--no::before,
+.cl-badge--done::before,
+.cl-badge--doing::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: var(--sero-radius-full);
+  background: currentColor;
+  flex: none;
+}
+
+/* One segmented control (UI polish P3) — the artifact recipe: a bordered pill
+   container with a 3px inset, quiet segments, and an active segment on the
+   accent tint triad (never a solid blue fill — that slot belongs to the page's
+   one real action). Replaces three unrelated builds (.el-filter's iOS-style
+   white-and-shadow, .rv-seg's squared box, .ctx-seg). Existing class names are
+   grouped in, so no markup changes. */
+.seg,
+.el-filters,
+.rv-seg {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-full);
+  flex-shrink: 0;
+}
+.seg__btn,
+.el-filter,
+.rv-seg__btn {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-dim);
+  padding: 6px 14px;
+  border-radius: var(--sero-radius-full);
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur-instant) ease-out, color var(--dur-instant) ease-out;
+}
+.seg__btn:hover,
+.el-filter:hover,
+.rv-seg__btn:hover { color: var(--color-ink); }
+.seg__btn.is-active,
+.seg__btn[aria-pressed="true"],
+.seg__btn[aria-selected="true"],
+.el-filter.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+}
 
 /* Confidence dot-meter (artifact signature motif, UI polish P3): three dots,
    N lit for low/medium/high — an at-a-glance "how sure is this" read. It pairs
