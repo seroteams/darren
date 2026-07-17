@@ -1,8 +1,9 @@
 // First-run guidance for a brand-new manager account (validation-kit Phase 4).
-// A zero-run manager boots straight into intake (frontend/src/main.js:307-322),
-// so the orientation lives here rather than on Home. The copy is fixed by the
-// house rules — UK English, plain words, no exclamation marks, 14px floor — and
-// kept as pure functions so the copy contract is unit-tested (mirrors welcome.ts).
+// A zero-run manager now lands on Home (START), so firstRunIntroHtml() is hosted
+// in the zero-run empty state of start-core.js; it is also shown above the first
+// intake step. The copy is fixed by the house rules — UK English, plain words,
+// no exclamation marks, 14px floor — and kept as pure functions so the copy
+// contract is unit-tested (mirrors welcome.ts).
 
 // One honest example of what useful notes look like — a real manager's voice, not
 // a "write some notes" prompt. It carries a behaviour change and a rough timeframe,

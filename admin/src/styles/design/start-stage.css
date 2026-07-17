@@ -58,6 +58,16 @@
   list-style: none;
 }
 
+/* Zero-run welcome: the first-run orientation card hosted in the recent-runs
+   <ul> for a brand-new account. Bulletless <li> so the list stays valid; the
+   card supplies its own .card-flat surface and framing. */
+.start-firstrun-cell {
+  list-style: none;
+}
+.start-firstrun-cell .intake-firstrun {
+  max-width: 30rem;
+}
+
 
 .btn--sm {
   font-size: var(--type-caption);

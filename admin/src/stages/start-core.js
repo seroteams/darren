@@ -12,6 +12,7 @@ import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
+import { firstRunIntroHtml } from "./intake-firstrun.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
 import "../styles/ux-audit-fixes.css";
 import { Check, MoreHorizontal } from "lucide";
@@ -39,13 +40,14 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
       ${bench ? bench.html : ""}
 
       <section class="space-y-2">
-        <div class="eyebrow">Recent 1:1s</div>
+        <div class="eyebrow js-recent-label">Recent 1:1s</div>
         <ul class="js-runs space-y-2"></ul>
       </section>
     </div>
   `;
 
   const list = root.querySelector(".js-runs");
+  const recentLabel = root.querySelector(".js-recent-label");
 
   let runs = [];
   let expandedId = null;
@@ -77,9 +79,14 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.setAttribute("aria-busy", "false");
     syncAccentBudget();
     if (runs.length === 0) {
-      list.innerHTML = `<li class="text-ink-mute">No preps yet. Your first one takes about two minutes — tell Sero who the 1:1 is with and what's on your mind, and it writes you a focused brief. Press <kbd class="kbd">Enter</kbd> or click <strong>Start a new 1:1</strong> to begin.</li>`;
+      // Zero-run account: greet them with the first-run orientation card (its own
+      // "First time?" eyebrow), not a bare empty line. Hide the "Recent 1:1s" label
+      // since there are none yet. The card carries its own hint to press Enter / Start.
+      if (recentLabel) recentLabel.hidden = true;
+      list.innerHTML = `<li class="start-firstrun-cell">${firstRunIntroHtml()}</li>`;
       return;
     }
+    if (recentLabel) recentLabel.hidden = false;
     list.innerHTML = runs.map((r) => {
       const isOpen = expandedId === r.id;
       return `
