@@ -7,6 +7,7 @@
 // pipeline from there spends, same as starting any 1:1).
 
 import { STAGES, store } from "../../../admin/src/state.js";
+import "../../../admin/src/styles/ux-audit-fixes.css"; // .btn--cta — this page's own chunk must carry it
 import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { icon } from "../../../admin/src/ui/icon.js";
@@ -195,8 +196,8 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelector(".js-host")!.innerHTML = `
       <section class="card-flat space-y-3">
         <div class="eyebrow">Not met yet</div>
-        <p class="text-ink-dim">You haven't logged a 1:1 with ${escapeHtml(person.name)} yet. Prep your first one to get started.</p>
-        <button type="button" class="btn js-prep">Prep first 1:1 with ${escapeHtml(person.name)}</button>
+        <p class="text-ink-dim">You haven't logged a 1:1 with ${escapeHtml(person.name)} yet. Start your first one to get going.</p>
+        <button type="button" class="btn btn--cta js-prep">Start first 1:1 with ${escapeHtml(person.name)}</button>
       </section>`;
     wireBack();
     wirePrep();
@@ -228,7 +229,11 @@ export const mount: Mount = async (root, { setState }) => {
     <h2 class="person-runs__heading">Past 1:1s</h2>
     <div>${mine.map(runRow).join("")}</div>
   </section>`;
-  const prep = `<section><button type="button" class="btn js-prep">Prep your next 1:1 with ${escapeHtml(person.name)}</button></section>`;
+  // The page's one job (Carl, 2026-07-17: "not big enough, not clear it should be start 1:1").
+  // Full-width, large, and it says the action out loud. Stays ABOVE the history — that
+  // placement was the original complaint and is green-lit (audit M1); only the size and words
+  // change here.
+  const prep = `<section><button type="button" class="btn btn--cta js-prep">Start 1:1 with ${escapeHtml(person.name)}</button></section>`;
   // Prep action ABOVE the history — the moment of highest intent (walking into the next 1:1)
   // must not sit below a scroll of past ones. (audit M1)
   root.querySelector(".js-host")!.innerHTML = sinceBlock + prep + list;

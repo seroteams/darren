@@ -4,7 +4,7 @@ Ten rules so the words stay one voice. Pairs with [DESIGN.md](DESIGN.md). (Added
 
 1. **One noun for the core thing: "1:1".** Never "session", "run", or "prep session" on any customer-facing screen. ("Prep" is the verb — "Prep a 1:1" — not a name for the thing.)
 2. **The manager's list is "Past 1:1s". The member's list is "Your 1:1s".** Use each consistently across nav, heading and eyebrow.
-3. **Keep "prep" as the verb.** "Prep a 1:1", "Prep your next 1:1 with Priya". Not "start a prep session".
+3. **The button that begins one says "Start 1:1".** "Start 1:1 with Priya", "Start a new 1:1" — one name for that action everywhere (Carl, 2026-07-17: "Prep" didn't read as the thing you press). "Prep" stays the verb for the *activity* ("Prep a 1:1" as a page title, "prep in progress"), never as a button that starts one.
 4. **Dialog grammar — title names the outcome, confirm restates the verb, dismiss says what staying does.** e.g. "Discard this prep?" → **Discard** / **Keep going**. The dismiss is never "Cancel" when the action itself IS cancelling.
 5. **Danger buttons follow DESIGN.md** — coral border/text, not a filled red block.
 6. **Write member screens in the member's voice.** What Sero holds about *you*, what your manager sees and doesn't. No manager CTAs on a member screen; never "someone on your team".

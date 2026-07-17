@@ -15,6 +15,19 @@
   align-items: flex-start;
 }
 
+/* The page's primary call to action — the one thing you came here to do (Carl, 2026-07-17:
+   the person page's prep button was "not big enough… not clear it should be start 1:1").
+   Full-width and taller than a normal button so it can't read as just another control. Colour
+   and radius stay the standard accent button — this only changes scale. */
+.btn--cta {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  font-size: var(--type-body, 1rem);
+  font-weight: var(--type-weight-semibold, 600);
+  text-align: center;
+}
+
 /* ---- Phase 5 (craft batch) ---- */
 
 /* M5 — the top bar is the ONE progress system, so it must never clip a letter or slide under

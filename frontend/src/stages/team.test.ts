@@ -49,9 +49,10 @@ test("an opened-link person shows the Opened pill + Remind", () => {
   assert.ok(html.includes(">Remind<"));
 });
 
-test("card keeps Prep and the ⋯ menu", () => {
-  assert.ok(personCard(joined, users).includes(">Prep 1:1<"), "met person: Prep 1:1");
-  assert.ok(personCard(none, users).includes(">Prep first 1:1<"), "unmet person: Prep first 1:1");
+test("card keeps the start action and the ⋯ menu", () => {
+  // One name for the action that begins a prep — "Start 1:1" (Carl, 2026-07-17).
+  assert.ok(personCard(joined, users).includes(">Start 1:1<"), "met person: Start 1:1");
+  assert.ok(personCard(none, users).includes(">Start first 1:1<"), "unmet person: Start first 1:1");
   assert.ok(personCard(joined, users).includes("js-row-menu"), "the ⋯ View/Edit/Delete menu stays");
 });
 

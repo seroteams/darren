@@ -8,9 +8,18 @@ import { loadSessionsFromDb } from "../db/sessions-store.ts";
 import type { Session, MeetingContext } from "../shared/session.types.ts";
 import type { Question } from "../shared/question.types.ts";
 
-const SESSION_TTL_MS = Number(process.env.SESSION_TTL_MS) || 2 * 60 * 60 * 1000;
+// How long an UNFINISHED prep stays resumable. Was 2 hours, which killed any prep that wasn't
+// finished in one sitting — prep in the evening for tomorrow's 1:1 and Home still offered a
+// Resume button that could only fail (Carl, 2026-07-17: "none of these can resume").
+// 7 days matches how a manager actually works: prep whenever, meet whenever.
+// Boot-restore stays cheap because liveSessionsQuery narrows on the indexed last_seen_at — a
+// 7-day window is a few dozen rows here, nothing like the unbounded whole-table select that
+// caused the 2026-07-10 Neon transfer regression.
+const SESSION_TTL_MS = Number(process.env.SESSION_TTL_MS) || 7 * 24 * 60 * 60 * 1000;
 const SWEEP_INTERVAL_MS = 5 * 60 * 1000;
-const MAX_CONCURRENT = 50;
+// A runaway guard, not a product limit. It had to rise with the TTL: live sessions now linger
+// 7 days instead of 2 hours, and at 50 a week of normal prepping would 503 the next "start".
+const MAX_CONCURRENT = 500;
 
 const sessions = new Map<string, Session>();
 

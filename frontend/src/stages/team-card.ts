@@ -87,7 +87,9 @@ function accessBlock(p: Person, orgUsers: OrgUser[]): string {
 // right the access pill over the actions (Prep + ⋯).
 export function personCard(p: Person, orgUsers: OrgUser[]): string {
   const role = p.role ? ` <span class="team-card__role">· ${escapeHtml(p.role)}</span>` : "";
-  const prepLabel = p.met ? "Prep 1:1" : "Prep first 1:1";
+  // One name for one action (VOICE.md): the button that begins a prep says "Start 1:1"
+  // everywhere — the person page's big CTA says the same (Carl, 2026-07-17).
+  const prepLabel = p.met ? "Start 1:1" : "Start first 1:1";
   // The whole card opens the person (audit M8) — `js-card-open` on the root handles a mouse
   // click anywhere; the name is a real focusable button so keyboard users can open it too. The
   // action buttons (Invite / Remind / Prep / ⋯) stop propagation in team.ts, so they still do
