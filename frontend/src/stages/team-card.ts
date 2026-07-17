@@ -49,10 +49,11 @@ function metaLine(p: Person): string {
   const last = relTime(p.lastMet);
   if (last) bits.push(`last ${last}`);
   if (p.openCount > 0) bits.push("prep in progress");
+  // The stars rate the PREP, not the person (audit X1) — the label says so out loud.
   const rated =
     p.avgStars != null
-      ? `${icon(Star, { size: 15, fill: "currentColor" })} ${escapeHtml(p.avgStars.toFixed(1))}`
-      : "not yet rated";
+      ? `<span aria-label="prep rating ${escapeHtml(p.avgStars.toFixed(1))} out of 5">${icon(Star, { size: 15, fill: "currentColor" })} ${escapeHtml(p.avgStars.toFixed(1))} prep rating</span>`
+      : "prep not yet rated";
   return `${escapeHtml(bits.join(" · "))} · ${rated}`;
 }
 

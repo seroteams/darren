@@ -86,9 +86,19 @@ export async function mount(root, { store, setState }) {
   let isFirstRun = false; // zero-run account → show the first-run guidance (validation-kit Phase 4)
   let currentSub = store.substage || "NAME";
 
+  // ONE progress system for setup (audit M5): the label, the bar and the aria values all read
+  // the same list — the steps THIS prep actually has. Prepping a known roster person opens at
+  // the meeting type (name/role/seniority already known), so the old fixed "Step 4 of 5" was a
+  // lie; it's "Step 1 of 2". If the flow ever lands outside that slice (e.g. stepping back to
+  // the name), fall back to the full list so the count can never read zero.
+  const startSub = SUBSTAGES.includes(currentSub) ? currentSub : "NAME";
+  const activeSteps = SUBSTAGES.slice(SUBSTAGES.indexOf(startSub));
+  const stepsFor = (sub) => (activeSteps.includes(sub) ? activeSteps : SUBSTAGES);
+
   function refreshStep() {
-    const idx = SUBSTAGES.indexOf(currentSub) + 1;
-    stepLabel.textContent = `Step ${idx} of ${SUBSTAGES.length}`;
+    const steps = stepsFor(currentSub);
+    const idx = steps.indexOf(currentSub) + 1;
+    stepLabel.textContent = `Step ${idx} of ${steps.length}`;
     if (intakeLede) intakeLede.hidden = currentSub !== "NAME";
     // The orientation card belongs on the entry step only, and only for a
     // brand-new account — a veteran starting another prep never sees it.
@@ -99,7 +109,8 @@ export async function mount(root, { store, setState }) {
     intakeShell?.classList.toggle("intake-shell--split", split);
     intakeBody?.classList.toggle("intake-body--split", split);
     progressBar.setAttribute("aria-valuenow", String(idx));
-    progressFill.style.transform = `scaleX(${idx / SUBSTAGES.length})`;
+    progressBar.setAttribute("aria-valuemax", String(steps.length));
+    progressFill.style.transform = `scaleX(${idx / steps.length})`;
   }
 
   refreshStep();

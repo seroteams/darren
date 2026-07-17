@@ -12,8 +12,9 @@ import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
+import { openRowMenu } from "../ui/row-menu.ts";
 import "../styles/ux-audit-fixes.css";
-import { Check } from "lucide";
+import { Check, MoreHorizontal } from "lucide";
 
 let keyHandler = null;
 
@@ -66,10 +67,17 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.replaceChildren(li);
   }
 
+  // Accent budget (audit M6): while a row is open, its Resume/Review is the screen's ONE blue
+  // action — the header's "Start a new 1:1" steps back to ghost so the two don't compete.
+  function syncAccentBudget() {
+    root.querySelector(".js-startnew")?.classList.toggle("btn--ghost", Boolean(expandedId));
+  }
+
   function render() {
     list.setAttribute("aria-busy", "false");
+    syncAccentBudget();
     if (runs.length === 0) {
-      list.innerHTML = `<li class="text-ink-mute">No preps yet. Your first one takes about two minutes — tell Sero who the 1:1 is with and what's on your mind, and it writes you a focused brief. Press <kbd class="kbd">Enter</kbd> or click <strong>Start a new session</strong> to begin.</li>`;
+      list.innerHTML = `<li class="text-ink-mute">No preps yet. Your first one takes about two minutes — tell Sero who the 1:1 is with and what's on your mind, and it writes you a focused brief. Press <kbd class="kbd">Enter</kbd> or click <strong>Start a new 1:1</strong> to begin.</li>`;
       return;
     }
     list.innerHTML = runs.map((r) => {
@@ -142,7 +150,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
           ${finished
             ? `<button class="btn js-review" data-id="${escape(id)}">Review</button>`
             : `<button class="btn js-resume" data-id="${escape(id)}">Resume</button>`}
-          <button class="btn btn--ghost js-delete" data-id="${escape(id)}">Delete</button>
+          <button class="row-menu-btn js-row-more" data-id="${escape(id)}" aria-haspopup="menu" aria-label="More actions for this 1:1">${icon(MoreHorizontal, { size: 18 })}</button>
         </div>
       `;
     } catch {
@@ -189,9 +197,9 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   async function del(id) {
     const ok = await confirmAction({
-      message: "Delete this session permanently? This cannot be undone.",
-      confirmLabel: "Delete session",
-      cancelLabel: "Keep session",
+      message: "Delete this 1:1 permanently? This cannot be undone.",
+      confirmLabel: "Delete 1:1",
+      cancelLabel: "Keep it",
       destructive: true,
     });
     if (!ok) return;
@@ -240,6 +248,14 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     if (resumeBtn) { resume(resumeBtn.dataset.id); return; }
     const reviewBtn = e.target.closest(".js-review");
     if (reviewBtn) { review(reviewBtn.dataset.id); return; }
+    // Delete moved out of the row and into the ⋯ menu (audit M6) — it still asks first.
+    const moreBtn = e.target.closest(".js-row-more");
+    if (moreBtn) {
+      e.stopPropagation();
+      const id = moreBtn.dataset.id;
+      openRowMenu(moreBtn, [{ label: "Delete 1:1", danger: true, onSelect: () => { void del(id); } }]);
+      return;
+    }
     const delBtn = e.target.closest(".js-delete");
     if (delBtn) { del(delBtn.dataset.id); return; }
   });

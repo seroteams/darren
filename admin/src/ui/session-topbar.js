@@ -213,7 +213,12 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     stages.innerHTML = TOPBAR_STAGES
       .map(
         ([key, fullLabel, shortLabel], i) => {
-          const label = window.matchMedia("(min-width: 768px)").matches ? fullLabel : shortLabel;
+          // Full labels only where they genuinely fit (audit M5). The human stage names
+          // ("During the meeting", "Pulling it together") are longer than the old engine ones,
+          // so the full strip needs a wide screen; between phone and wide we use the short
+          // form rather than let the rail clip letters or slide under the profile chip. The
+          // full name still rides on the title attribute at every width.
+          const label = window.matchMedia("(min-width: 1180px)").matches ? fullLabel : shortLabel;
           // Stages before the current one are "done" (reviewable); the current
           // stage is "current"; anything after is "upcoming". When the run has
           // moved past the board (curIdx === -1, e.g. session review), every

@@ -1,19 +1,23 @@
 # Phase 5 — Craft batch
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 PARTLY built — 2 of 7 items done, 5 remain (see below)
+**Part of:** [plan.md](plan.md) · **Status:** ✅ 6 of 7 built (self-signed) — **M12 split out** at Carl's direction
 
-## Built so far (2026-07-17)
-On `main`. Offline proof: suite 149/149 (+1 new M8 test), root typecheck clean, both apps build. **M8 verified live** on localhost:3000 (clicking a Team card opened the person page).
+## Built (2026-07-17)
+On `main`. Offline proof: suite **150/150**, root typecheck clean, both apps build. **M5, M6 and M8 verified live** on localhost:3000.
+
+- **M5 — one progress system ✅ (verified live).** The setup counter now counts the steps *this* prep actually has: prepping a known roster person opens at the meeting type and reads **"Step 1 of 2"** — the old fixed "Step 4 of 5" was a lie (the exact gap Phase 1 flagged). Label, bar and aria values share one source of truth (`activeSteps`), so they can't disagree. Top-bar: the human stage names are longer than the old engine ones, so full labels now appear only ≥1180px (short form between phone and wide — the full name always rides on `title`), and the strip owns its overflow so it can never clip a letter or slide under the profile chip. *Verified: "Step 1 of 2", aria-valuenow=1/valuemax=2.*
+- **M6 — accent budget ✅ (verified live).** With a Home row open, **Resume is the screen's only blue button** (verified: one visible primary), "Start a new 1:1" steps back to ghost, and **Delete moved into the ⋯ menu** (verified: menu opens with "Delete 1:1") — still behind its confirm.
+- **M8 — clickable person cards ✅ (verified live).** The whole Team card opens the person (`js-card-open`); the name is a real focusable `<button>` for keyboards; action buttons stop propagation; the cursor tells the truth.
+- **M11 — invite link inside a sheet ✅ (built).** The raw `window.prompt` is gone from all five call sites. New shared [share-link-modal.ts](../../../admin/src/ui/share-link-modal.ts): read-only link field + **Copy** + "valid 7 days · works once". *Not screen-verified — triggering it sends a real invite email.*
+- **X1 — star reframe ✅ (built).** Stars now read as **"prep rating"** (person page meta, Team card meta, run-row aria labels) — never as a score of the person. Kept in the meta row, never the name line.
+- **M15 — phone rows ✅ (built).** At ≤480px a Home row stays two tidy lines: the headline truncates with an ellipsis, the meta drops to line two. Full detail on expand.
+- *Also swept two "session" nouns Phase 3 missed (the Home delete confirm + the empty state) — now "Delete this 1:1 permanently?" / "Start a new 1:1".*
+
+## Not built — M12, split out (Carl's call)
+**M12 (account settings sheet + change password)** is deliberately NOT built. It needs a new backend chain (route → auth.service → auth.repo with a current-password check) for a **security-sensitive endpoint**, and its only true test is a live log-out → log-in-with-the-new-password round-trip. The plan explicitly sanctions splitting it. Carl to green-light building + API-testing it, or to walk it himself.
 
 - **M8 — clickable person cards ✅.** The whole Team card now opens the person (`js-card-open` on the card root); the name is a real focusable `<button>` (`js-open-person`) so keyboards get the same action; the action buttons (Invite / Remind / Prep / ⋯) stop propagation so they still do their own job; the cursor now tells the truth. [team-card.ts](../../../frontend/src/stages/team-card.ts) + [team.ts](../../../frontend/src/stages/team.ts) + [team-card.css](../../../frontend/src/styles/team-card.css) + a new test. **Verified on screen.**
 - **M11 — invite link inside a sheet ✅ (built, not screen-verified).** The raw `window.prompt` that surfaced a one-time join link is gone from all five call sites (Team invite / change-access / add-with-invite, Members invite / resend). New shared [share-link-modal.ts](../../../admin/src/ui/share-link-modal.ts): a styled dialog with a read-only link field, a **Copy** button (async clipboard + execCommand fallback), and a "valid 7 days · works once" note. *Not screen-verified — triggering it sends a real invite email; the markup compiles and both apps build.*
-
-## Still to build (5 items) — NOT done
-- **M5 — top-bar / progress:** one progress system, labels collapse gracefully at narrow widths, intake stops running its own competing "Step N of 5". *(Needs careful multi-width visual verification.)*
-- **M6 — accent budget:** expanded Home row = one blue action (Resume); Start-new → ghost; Delete → ⋯ menu.
-- **M12 — account settings sheet + change-password.** **RECOMMEND SPLITTING OUT** (the plan sanctions this): it needs a NEW backend chain (route → auth.service → auth.repo, current-password check, mirrored tests) for a security-sensitive endpoint, and scenario 5 (log out → log in with the new password) can only be truly verified with a live auth round-trip — Carl's to walk, or a deliberate go-ahead to build + API-test it.
-- **M15 — mobile wrap:** run-list meta truncates to name + meeting type at phone width.
-- **X1 — star reframe:** rating labelled "prep rating", moved off the name line into the meta row.
 
 ---
 

@@ -14,3 +14,38 @@
   gap: 0.75rem;
   align-items: flex-start;
 }
+
+/* ---- Phase 5 (craft batch) ---- */
+
+/* M5 — the top bar is the ONE progress system, so it must never clip a letter or slide under
+   the profile chip. The strip owns its overflow (scrolls itself, no visible scrollbar) instead
+   of pushing into its neighbours; the JS picks short labels below 1180px. */
+.session-topbar__stages {
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.session-topbar__stages::-webkit-scrollbar {
+  display: none;
+}
+
+/* M15 — at phone width a Home row stays TWO tidy lines, not four wrapped ones: the headline
+   truncates with an ellipsis on line one, the meta (when · stage) drops to line two. The full
+   detail is a tap away in the expanded body. */
+@media (max-width: 480px) {
+  .run-row__head {
+    flex-wrap: wrap;
+    row-gap: 0.15rem;
+  }
+  .run-row__headline {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .run-row__meta {
+    flex: 1 0 100%;
+    margin-left: 1.5rem;
+  }
+}

@@ -81,7 +81,7 @@ Verified against the real code so phases don't stall on unknowns:
 | 2 | Right doors, right roles | One member home, member gates on manager flows, QA page internal-only, person deep-links survive | ✅ |
 | 3 | One language | The noun sweep, the dialog fix, member-voiced copy, all ten rewrites | ✅ |
 | 4 | History compounds & returns count | Intake people join Team; a free returns report script (derived from existing tables) | ✅ |
-| 5 | Craft batch | Top-bar, accent budget, clickable cards, invite sheet, settings sheet, star reframe, mobile wrap | 🔨 2/7 |
+| 5 | Craft batch | Top-bar, accent budget, clickable cards, invite sheet, star reframe, mobile wrap (M12 settings sheet split out) | ✅ 6/7 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -97,8 +97,9 @@ Folder created 2026-07-15 from the audit + Carl's two interview rounds (all reco
 **Phase 2 ✅ GREEN-LIT 2026-07-17** — Carl walked it and gave the go. Right doors, right roles: B1 one member home per app (a shared `landingStage` resolver; login + reload agree), M9 person deep-links survive a refresh (fixed in BOTH boots), M4 QA verdict page internal-only (manager's Review → clean run detail), B2 render-time member guard on the prep flow. B6 confirmed already-resolved by past-1on1-view — not removed. Offline proof: suite 148/148 (+landing 3/3), typecheck clean, both apps build; no paid runs.
 **Phase 3 ✅ SELF-SIGNED 2026-07-17 (Carl delegated sign-off, "go to the end")** — One language: M13 noun sweep (one "1:1"; stage names now "During the meeting"/"Pulling it together"), M7/C3 discard dialog, B3/B4/B5/C4 member voice + "Your 1:1s", C1/C2/C6/C7/C9/C10 rewrites, new VOICE.md. Deviation: "Recent sessions" → "Recent 1:1s" (not the plan's "In progress", which would mislabel finished runs). Suite 148/148, typecheck clean, both build. Some strings screen-verified (topbar), most build-proven.
 **Phase 4 ✅ SELF-SIGNED 2026-07-17** — Returns measurable: M10 verified already-built (resolveForRun match-or-creates a roster person), X4/X6 free `report-returns.ts` over a unit-tested pure aggregator. Deviation: derived from existing tables (auth_sessions + sessions) instead of a new events table/migration. **Verified against the real local DB** (correct numbers). Suite 149/149.
-**Phase 5 🔨 PARTIAL (2 of 7)** — M8 clickable cards (verified live) + M11 invite sheet (built) done. M5 top-bar, M6 accent budget, M12 change-password (recommend split), M15 mobile wrap, X1 star reframe NOT built. Suite 149/149.
-**Next: finish Phase 5's remaining 5 items** (M12 is a security endpoint — Carl's call to build/split).
+**Phase 5 ✅ SELF-SIGNED 2026-07-17 (6 of 7; M12 split out on Carl's "finish Phase 5")** — M5 one progress system (setup counter no longer lies: "Step 1 of 2" for a known person; top-bar short labels <1180px + owns its overflow) · M6 accent budget (Resume the only blue; Delete → ⋯) · M8 clickable cards · M11 invite sheet (no window.prompt) · X1 "prep rating" · M15 phone rows two tidy lines. **M5/M6/M8 verified live.** Suite 150/150, typecheck clean, both build.
+**Split out: M12** (account settings sheet + change-password) — a security endpoint needing a live log-out/log-in round-trip. Carl to green-light building + API-testing it, or walk it.
+**Next: Carl's walk of P3/P4/P5, then the M12 decision. All 5 phases otherwise complete.**
 
 ## Parked
 - O1 "Bring one thing" — member's single optional prompt feeding the prep brief (IDEO). Revisit after Gate 1.

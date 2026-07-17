@@ -48,10 +48,12 @@ function summaryHtml(p: Person): string {
   items.push(`<span><b>${p.count}</b> meeting${p.count > 1 ? "s" : ""}</span>`);
   const last = relTime(p.lastMet);
   if (last) items.push(`<span>last <b>${escapeHtml(last)}</b></span>`);
+  // The stars rate the PREP, not the person (audit X1) — say so, and keep them in the meta
+  // row rather than anywhere near the name line.
   items.push(
     p.avgStars != null
-      ? `<span><b>${icon(Star, { size: 16, fill: "currentColor" })} ${p.avgStars.toFixed(1)}</b> avg · ${p.ratedCount} rated</span>`
-      : `<span>not yet rated</span>`,
+      ? `<span><b>${icon(Star, { size: 16, fill: "currentColor" })} ${p.avgStars.toFixed(1)}</b> prep rating · ${p.ratedCount} rated</span>`
+      : `<span>prep not yet rated</span>`,
   );
   return items.join(`<span class="person-summary__sep" aria-hidden="true">·</span>`);
 }
@@ -86,7 +88,7 @@ function runRow(r: MyRun): string {
   const when = relTime(r.lastSeenAt);
   const type = r.ctx?.meetingType || r.headline || "1:1";
   const badge = r.rating
-    ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
+    ? `<span class="runs-list__stars text-sm" aria-label="prep rating ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
     : "";
   return `<button type="button" class="person-run js-open" data-id="${escapeHtml(r.id)}" data-kind="${escapeHtml(r.kind ?? "")}"><span class="text-sm"><span class="person-run__type">${escapeHtml(type)}</span>${when ? `<span class="person-run__when"> · ${escapeHtml(when)}</span>` : ""}</span>${badge}</button>`;
 }
