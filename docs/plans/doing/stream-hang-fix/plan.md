@@ -38,6 +38,8 @@ We're in VALIDATION. The bar is *a real HR manager gets insight worth paying for
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Live board:** https://claude.ai/code/artifact/91fb3ca5-9597-4d48-9b98-e5c1059366ba
+
 **Baseline (2026-07-17, before any changes): `npm test` → 150/150 passed.** Clean — nothing pre-existing.
 
 **Phase 1 ✅ GREEN-LIT 2026-07-17** — Carl walked the stall and the normal brief ("tested good"). Committed `21d2d714`. Proven on the real screen: stall armed → error card at **62s** with Retry; stall off → brief lands at **12s**, no false alarm. `npm test` 153/153, typecheck clean. **A stalled stage can no longer hang any of the 10 streaming screens forever.**
