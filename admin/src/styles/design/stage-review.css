@@ -362,7 +362,7 @@
   white-space: nowrap;
 }
 .lib-badge--muted { color: var(--color-ink-mute); background: var(--color-surface-2, rgba(0, 0, 0, 0.05)); }
-.lib-badge--keep { color: var(--color-positive); background: var(--sero-success-light); }
+.lib-badge--keep { color: var(--color-positive-text); background: var(--sero-success-light); }
 .lib-badge--fix { color: var(--color-amber, #b4690e); background: var(--sero-warning-light); }
-.lib-badge--block { color: var(--color-negative); background: var(--sero-error-light); }
+.lib-badge--block { color: var(--color-negative-text); background: var(--sero-error-light); }
 

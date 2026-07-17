@@ -9,7 +9,17 @@ into DESIGN.md + the in-app design sheet, and extend the automated guards so it 
 ## Changes
 - **Contrast audit:** every text-on-tint pair and chip variant measured against 4.5:1 (3:1
   large/UI); fixes land at the token step so they propagate. (Known suspect going in:
-  white-on-mint-800 ≈ 2.2:1.)
+  white-on-mint-800 ≈ 2.2:1 — **fixed in P3**, see below.)
+- **Carried in from P3's defect pass (2026-07-17):** the audit's named text-on-fill offenders are
+  already fixed (`cmp-verdict--pass/warn/fail`, `fp-chip--ok`, `cl-badge--done`,
+  `lib-badge--keep`/`--block`, `el-pill--warn`, `um-badge--off`, `meeting-card__badge`). Grepping
+  `color: var(--color-positive|negative|amber)` while doing it turned up **a wider tail the audit
+  didn't list** — `rv-seg__btn.is-pass/.is-fail`, `rv-ov__btn.is-keep/--block`,
+  `run-row__review--done`, `rv-status`, `tk-run__result`, `tk-verdict`, `cmp-axis__delta--down`,
+  `script-state--*`, `fp-chip--warn`, `um-trend--down`, `joblex-*`. **Judge each one:** these tokens
+  are sanctioned for *fills and graphics* (a tick glyph on `--color-positive` is fine — the token
+  says so); only the ones rendering real **text** are defects. Deliberately left for this phase's
+  measured pass rather than swept blind.
 - **DESIGN.md updated:** the sanctioned `--shadow-lift` exception; the `.screen` frame; two-tier
   labels; the one chip spec; the committed-colour-block rule (rail/navy); reconciled button spec.
 - **In-app design sheet** (`admin/public/sero-flowbite/` + `stages/design.js`) refreshed — every

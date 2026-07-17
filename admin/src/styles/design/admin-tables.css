@@ -154,7 +154,7 @@
 .um-badge--off {
   margin-left: var(--sero-space-2);
   background: var(--sero-error-light);
-  color: var(--sero-error);
+  color: var(--color-negative-text); /* --sero-error is a fill step, unreadable as text */
 }
 .um-row--off .um-user__open,
 .um-row--off .um-user__email,

@@ -16,10 +16,13 @@
     color var(--dur-fast) var(--ease-out-expo);
 }
 .pill:hover { border-color: var(--color-accent); color: var(--color-ink); }
+/* Selected chips sit on the tint triad, not a solid blue fill — a solid-accent
+   chip reads as a second primary action and competes with the screen's one blue
+   button (DESIGN.md one-blue-action; UI polish P3). */
 .pill.is-selected {
-  background: var(--color-accent);
+  background: var(--color-accent-soft);
   border-color: var(--color-accent);
-  color: var(--color-surface);
+  color: var(--color-accent-dark);
 }
 
 /* -----------------------------------------------------------------------------
@@ -27,12 +30,15 @@
 ----------------------------------------------------------------------------- */
 .prep-timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.85rem; }
 .prep-timeline__step { display: grid; grid-template-columns: auto 1fr; gap: 0.85rem; align-items: start; }
+/* Numbered medallion on the tint triad — a solid-accent circle reads as another
+   blue action; the soft-bg/dark-numeral pairing is the artifact's recipe. */
 .prep-timeline__num {
   width: 1.75rem; height: 1.75rem; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   border-radius: var(--sero-radius-full);
-  background: var(--color-accent); color: var(--color-surface);
+  background: var(--color-accent-soft); color: var(--color-accent-dark);
   font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold);
+  font-variant-numeric: tabular-nums;
 }
 .prep-timeline__body { min-width: 0; }
 .prep-timeline__when {
@@ -195,7 +201,7 @@
 .cl-badge--todo { color: var(--color-ink-mute); background: var(--color-surface-2); }
 .cl-badge--doing { color: var(--color-accent-dark); background: var(--color-accent-soft); }
 .cl-badge--done {
-  color: var(--color-positive);
+  color: var(--color-positive-text);
   background: color-mix(in srgb, var(--color-positive) 14%, transparent);
 }
 

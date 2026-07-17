@@ -48,7 +48,7 @@
 .el-pill--api     { background: transparent; border: 1px solid var(--color-border); color: var(--color-ink-dim); }
 .el-pill--browser { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
 .el-pill--err     { background: var(--sero-coral-200);    color: var(--sero-coral-800); }
-.el-pill--warn    { background: var(--sero-gold-200);     color: var(--sero-gold-800); }
+.el-pill--warn    { background: var(--sero-gold-200);     color: var(--sero-gold-900); }
 .el-pill--done    { background: var(--sero-soft-500);     color: var(--sero-soft-800); }
 
 /* Filters: two segmented controls + a show-resolved toggle. */
