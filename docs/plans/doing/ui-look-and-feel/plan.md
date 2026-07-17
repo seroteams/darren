@@ -75,6 +75,13 @@ section tier (matching the mock Carl liked; one-word revert), plus `.eyebrow--sl
 scaffolding. Deferred (needs eyes): slot reclassification, name-as-hero, page-header/brand. Proof:
 `build:all` clean, tests 54/54. See [phase-2.md](phase-2.md). Both P1 + P2 cores await Carl's QA.
 
+## Inbox — handed to this track
+- **[Team + Past 1:1s aren't in the design system](carl-findings-team-past-1on1.md)** (Carl, 2026-07-17,
+  raised while walking ux-audit-fixes; he chose THIS track to own it, not ux-audit, to avoid two chats
+  in the same files). Two findings: the Past-1:1s rows are styled as **table rows** in `admin-tables.css`
+  (no card/frame/chip — the person page falls off a cliff after the framed recap card), and the Team card
+  meta line now **wraps** (partly caused by ux-audit's X1 " prep rating" label). Looks like Phase 4/5 work.
+
 ## Open calls for Carl (flagged inside phases, not blockers now)
 - **Phase 4:** keep or fence the body gradient wash where the new frame is used.
 
