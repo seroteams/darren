@@ -1,0 +1,537 @@
+<title>Past 1:1 — five directions</title>
+<style>
+  /* Type: Sero's real faces named first (they render if installed locally), then the closest
+     system fallback. NOT embedded — the artifact CSP blocks font CDNs and the tool outage
+     blocked inlining them as data URIs. Weight + tracking are set to carry Bricolage's feel
+     even on the fallback. Judge the hierarchy and scale here; the exact face is the app's. */
+  :root{
+    --face-display:'Bricolage Grotesque Variable','Bricolage Grotesque','Segoe UI',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+    --face-body:'Inter Variable','Inter',system-ui,-apple-system,'Segoe UI','Helvetica Neue',sans-serif;
+  }
+
+  /* ---- Review-board chrome. Theme-aware. The MOCKUPS below are pinned light on
+     purpose: Sero ships light-only (dark mode is parked), so a dark mockup would be
+     judging a product that doesn't exist. ---- */
+  :root{
+    --board:#dbe6ef; --board-2:#c9d8e5; --board-ink:#20303d; --board-dim:#5b6f80;
+    --board-rule:#b9cbdb; --board-accent:#1b5d91;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --board:#101820; --board-2:#0a1119; --board-ink:#e6eef5; --board-dim:#8fa5b8;
+      --board-rule:#22323f; --board-accent:#7cc0f0; }
+  }
+  :root[data-theme="dark"]{ --board:#101820; --board-2:#0a1119; --board-ink:#e6eef5;
+    --board-dim:#8fa5b8; --board-rule:#22323f; --board-accent:#7cc0f0; }
+  :root[data-theme="light"]{ --board:#dbe6ef; --board-2:#c9d8e5; --board-ink:#20303d;
+    --board-dim:#5b6f80; --board-rule:#b9cbdb; --board-accent:#1b5d91; }
+
+  /* Sero's real tokens — used inside every .screen, never overridden. */
+  .screen{
+    --ink:#1f2a37; --ink-dim:#636363; --ink-mute:#757575;
+    --page:#f5fafd; --surface:#ffffff; --border:#e8e8e8;
+    --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb;
+    --mint:#88ecd5; --mint-bg:#e1faf4; --gold:#ffc247; --gold-bg:#fff6e5;
+    --r-sm:4px; --r-lg:12px; --r-full:9999px;
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .board{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, var(--board-2), transparent 70%),
+      var(--board);
+    color:var(--board-ink);
+    font-family:var(--face-body);
+    padding:64px 24px 96px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:56px;}
+
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--board-accent);}
+  .lede{max-width:60ch;color:var(--board-dim);font-size:17px;margin:0;}
+  h1.title{
+    font-family:var(--face-display);font-weight:600;font-size:clamp(38px,5.5vw,60px);
+    line-height:1.03;letter-spacing:-.025em;margin:14px 0 16px;text-wrap:balance;color:var(--board-ink);
+  }
+  .head{display:flex;flex-direction:column;gap:0;}
+  .today{
+    border-left:3px solid var(--board-accent);padding:2px 0 2px 18px;margin-top:26px;
+    color:var(--board-dim);font-size:15.5px;max-width:66ch;
+  }
+  .today b{color:var(--board-ink);font-weight:600;}
+
+  /* ---- one direction ---- */
+  .plate{display:flex;flex-direction:column;gap:18px;}
+  .plate__head{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;}
+  .plate__n{
+    font-family:var(--face-display);font-weight:700;font-size:15px;
+    width:30px;height:30px;border-radius:var(--r-full);flex:none;
+    display:grid;place-items:center;background:var(--board-accent);color:#fff;
+    align-self:center;
+  }
+  .plate__name{font-family:var(--face-display);font-weight:600;font-size:27px;letter-spacing:-.015em;color:var(--board-ink);}
+  .plate__move{color:var(--board-dim);font-size:15.5px;max-width:64ch;margin:0;}
+  .plate__move b{color:var(--board-ink);font-weight:600;}
+  .rec{
+    font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--board-accent);color:#fff;padding:4px 10px;border-radius:var(--r-full);
+  }
+
+  /* the app screen */
+  .screen{
+    background:var(--page);border-radius:14px;overflow:hidden;
+    border:1px solid var(--board-rule);
+    box-shadow:0 18px 44px rgba(16,40,60,.16);
+    color:var(--ink);font-family:var(--face-body);font-size:16px;line-height:1.55;
+  }
+  .screen__bar{
+    height:34px;background:#fff;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;gap:7px;padding:0 13px;
+  }
+  .dot{width:9px;height:9px;border-radius:var(--r-full);background:#dfe6ec;}
+  .screen__url{
+    margin-left:8px;font-size:11.5px;color:var(--ink-mute);letter-spacing:.02em;
+  }
+  .pad{padding:34px 40px 40px;}
+
+  /* --- Sero primitives, shared by the mockups --- */
+  .s-h1{font-family:var(--face-display);font-weight:600;font-size:40px;line-height:1.1;letter-spacing:-.02em;margin:0;color:var(--ink);}
+  .s-label{font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-dark);}
+  .s-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px 24px;}
+  .s-btn{
+    background:var(--accent);color:#fff;border:0;border-radius:var(--r-sm);
+    padding:11px 18px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;
+  }
+  .s-btn--ghost{background:transparent;color:var(--accent-dark);border:1px solid var(--border);}
+  .s-pill{
+    display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent-dark);
+    border-radius:var(--r-full);padding:5px 12px;font-size:13.5px;font-weight:600;
+  }
+  .s-av{
+    width:46px;height:46px;border-radius:var(--r-full);background:var(--accent-soft);
+    color:var(--accent-dark);display:grid;place-items:center;
+    font-family:var(--face-display);font-weight:600;font-size:17px;flex:none;
+  }
+  .s-facts{display:flex;gap:20px;flex-wrap:wrap;color:var(--ink-mute);font-size:14px;align-items:center;}
+  .s-facts b{color:var(--ink-dim);font-weight:600;}
+  .s-tabs{display:flex;gap:26px;border-bottom:1px solid var(--border);}
+  .s-tab{padding:10px 0 12px;font-size:15px;font-weight:600;color:var(--ink-mute);border-bottom:2px solid transparent;}
+  .s-tab.is-on{color:var(--accent-dark);border-bottom-color:var(--accent);}
+  .s-stars{color:var(--gold);letter-spacing:2px;font-size:17px;}
+  .s-stars .off{color:#e3e6e9;}
+  .s-read{
+    font-family:var(--face-display);font-weight:500;letter-spacing:-.015em;
+    line-height:1.22;color:var(--ink);text-wrap:balance;margin:0;
+  }
+  .s-sub{color:var(--ink-dim);font-size:15px;}
+  .s-name{font-family:var(--face-display);font-weight:600;letter-spacing:-.01em;}
+
+  /* tint triads */
+  .tint{border-radius:var(--r-lg);padding:18px 20px;}
+  .tint--mint{background:var(--mint-bg);border:1px solid var(--mint);}
+  .tint--gold{background:var(--gold-bg);border:1px solid var(--gold);}
+  .tint__lab{font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;}
+  .tint--mint .tint__lab{color:#0f6b57;}
+  .tint--gold .tint__lab{color:#8a5a00;}
+  .tint p{margin:8px 0 0;font-size:15px;line-height:1.5;}
+
+  .stack{display:flex;flex-direction:column;}
+  .row{display:flex;align-items:center;}
+  .g8{gap:8px;} .g10{gap:10px;} .g12{gap:12px;} .g14{gap:14px;} .g16{gap:16px;}
+  .g20{gap:20px;} .g24{gap:24px;} .g28{gap:28px;} .g36{gap:36px;}
+  .between{justify-content:space-between;} .wrapf{flex-wrap:wrap;}
+
+  .caption{color:var(--board-dim);font-size:14px;max-width:64ch;margin:0;}
+  .caption b{color:var(--board-ink);font-weight:600;}
+
+  .foot{
+    border-top:1px solid var(--board-rule);padding-top:28px;color:var(--board-dim);font-size:15px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .foot b{color:var(--board-ink);}
+
+  @media (max-width:820px){
+    .board{padding:44px 14px 64px;}
+    .pad{padding:22px 18px 26px;}
+    .s-h1{font-size:30px;}
+  }
+</style>
+
+<div class="board">
+<div class="wrap">
+
+  <header class="head">
+    <div class="eyebrow">Sero · design review</div>
+    <h1 class="title">Past 1:1 — five directions.</h1>
+    <p class="lede">Five ways to rebuild the same screen, drawn at full size in Sero's real
+      type and colour. Same content each time — Priya's actual 1:1 — so you're comparing the
+      design, not the words. Pick one and I'll build it.</p>
+    <p class="today"><b>What's wrong today:</b> the most valuable thing on the page — the read
+      on Priya — is one small sentence in a small card, while a rating form takes half the
+      screen. Everything is the same size, so nothing leads.</p>
+  </header>
+
+  <!-- ============ 1 ============ -->
+  <section class="plate">
+    <div class="plate__head">
+      <span class="plate__n">1</span>
+      <span class="plate__name">The headline read</span>
+      <span class="rec">Recommended</span>
+    </div>
+    <p class="plate__move">The read becomes the page. Set it huge in the display face, like a
+      newspaper front. <b>Fixes your exact complaint with the least reshuffling</b> — the read
+      is the thing you come back for, so it gets the size.</p>
+
+    <div class="screen">
+      <div class="screen__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="screen__url">sero · past 1:1</span></div>
+      <div class="pad stack g28">
+
+        <div class="row between g16 wrapf">
+          <div class="row g14">
+            <div class="s-av">QP</div>
+            <div class="stack">
+              <div class="s-name" style="font-size:19px;">qa-overnight Priya</div>
+              <div class="s-sub" style="font-size:14px;">Product Designer · Senior</div>
+            </div>
+          </div>
+          <div class="row g10">
+            <span class="s-pill">Bi-weekly check-in</span>
+            <button class="s-btn s-btn--ghost">Back to Runs</button>
+          </div>
+        </div>
+
+        <div class="stack g16">
+          <div class="s-label">The read · Mon 6 Jul 2026</div>
+          <p class="s-read" style="font-size:44px;">Priya feels stretched by a reorg and handoff
+            rework, but the work itself still holds up.</p>
+          <div class="s-facts">
+            <span><b>12d</b> ago</span><span>·</span><span><b>3</b> questions answered</span>
+            <span>·</span><span><b>1</b> skipped</span>
+          </div>
+        </div>
+
+        <div class="s-tabs">
+          <span class="s-tab is-on">Overview</span><span class="s-tab">Recap</span><span class="s-tab">Answers</span>
+        </div>
+
+        <div class="stack g16">
+          <div class="tint tint--mint">
+            <div class="tint__lab">Honest read — Priya</div>
+            <p>She's carrying the reorg's friction quietly and calling it fine. The work holds
+              because she's absorbing the overhead, not because the overhead went away.</p>
+          </div>
+          <div class="tint tint--gold">
+            <div class="tint__lab">Honest read — you · private</div>
+            <p>You've read her steadiness as capacity. Check whether you've been routing the
+              awkward handoffs to her because she never pushes back.</p>
+          </div>
+        </div>
+
+        <div class="row between g16 wrapf" style="border-top:1px solid var(--border);padding-top:18px;">
+          <div class="row g12">
+            <span class="s-sub" style="font-size:14px;">Did this help you run the 1:1?</span>
+            <span class="s-stars">★★★★<span class="off">★</span></span>
+          </div>
+          <span class="s-sub" style="font-size:14px;color:var(--ink-mute);">Add a note</span>
+        </div>
+
+      </div>
+    </div>
+    <p class="caption"><b>Trade-off:</b> keeps the tabs, so Recap and Answers still sit one
+      click away. The rating drops to a quiet footer strip — still there, no longer shouting.</p>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="plate">
+    <div class="plate__head">
+      <span class="plate__n">2</span>
+      <span class="plate__name">The person file</span>
+    </div>
+    <p class="plate__move">The page becomes a <b>dossier</b> — the framed, document-like look of
+      the briefing artifact you liked. It reads as a record you keep, not a web page you visit.</p>
+
+    <div class="screen">
+      <div class="screen__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="screen__url">sero · past 1:1</span></div>
+      <div class="pad">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:18px;
+          box-shadow:0 10px 30px rgba(27,93,145,.09);overflow:hidden;">
+
+          <div style="padding:30px 34px 24px;border-bottom:1px solid var(--border);">
+            <div class="row between g16 wrapf">
+              <div class="row g16">
+                <div class="s-av" style="width:60px;height:60px;font-size:22px;">QP</div>
+                <div class="stack g8">
+                  <div class="s-name" style="font-size:30px;letter-spacing:-.02em;">qa-overnight Priya</div>
+                  <div class="s-sub">Product Designer · Senior</div>
+                </div>
+              </div>
+              <span class="s-pill">Bi-weekly check-in</span>
+            </div>
+          </div>
+
+          <div style="padding:18px 34px;border-bottom:1px solid var(--border);background:#fcfdfe;">
+            <div class="row g36 wrapf" style="font-size:14px;">
+              <div class="stack"><span class="s-label" style="font-size:11px;">Met</span><span><b>Mon 6 Jul 2026</b></span></div>
+              <div class="stack"><span class="s-label" style="font-size:11px;">Ago</span><span><b>12 days</b></span></div>
+              <div class="stack"><span class="s-label" style="font-size:11px;">Answered</span><span><b>3 of 4</b></span></div>
+              <div class="stack"><span class="s-label" style="font-size:11px;">Prep rating</span><span class="s-stars" style="font-size:14px;">★★★★<span class="off">★</span></span></div>
+            </div>
+          </div>
+
+          <div style="padding:30px 34px;" class="stack g24">
+            <div class="stack g10">
+              <div class="s-label">In a line</div>
+              <p class="s-read" style="font-size:26px;">Priya feels stretched by a reorg and
+                handoff rework, but the work itself still holds up.</p>
+            </div>
+
+            <div class="stack g10">
+              <div class="s-label">What came out</div>
+              <ul style="margin:0;padding-left:20px;font-size:15px;line-height:1.65;color:var(--ink);">
+                <li>The reorg moved her two closest reviewers to another squad.</li>
+                <li>Handoff rework is eating the front of her week.</li>
+                <li>Delivery quality hasn't slipped — she's absorbing the cost herself.</li>
+              </ul>
+            </div>
+
+            <div class="tint tint--mint">
+              <div class="tint__lab">Honest read — Priya</div>
+              <p>She's carrying the reorg's friction quietly and calling it fine.</p>
+            </div>
+
+            <div class="stack g10">
+              <div class="s-label">What to do next</div>
+              <div class="stack g8" style="font-size:15px;">
+                <div><b style="color:var(--accent-dark);">Today ·</b> Ask who reviews her work now the reorg moved her reviewers.</div>
+                <div><b style="color:var(--accent-dark);">Next 1:1 ·</b> Pin down which handoff step is generating the rework.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <p class="caption"><b>Trade-off:</b> no tabs — one long framed record. Most "designed" of the
+      five, and the closest to the artifact language the polish track is heading toward.</p>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section class="plate">
+    <div class="plate__head">
+      <span class="plate__n">3</span>
+      <span class="plate__name">One page, no tabs</span>
+    </div>
+    <p class="plate__move">Kill the tabs. Read → recap → answers, one scroll. <b>Nothing hidden
+      behind a click</b>, and the page finally has the height to breathe.</p>
+
+    <div class="screen">
+      <div class="screen__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="screen__url">sero · past 1:1</span></div>
+      <div class="pad stack g28">
+
+        <div class="row between g16 wrapf">
+          <div class="stack g8">
+            <div class="row g12"><div class="s-av" style="width:34px;height:34px;font-size:13px;">QP</div>
+              <div class="s-name" style="font-size:20px;">qa-overnight Priya</div></div>
+            <div class="s-facts"><span>Bi-weekly check-in</span><span>·</span><span><b>Mon 6 Jul 2026</b></span><span>·</span><span>12d ago</span></div>
+          </div>
+          <button class="s-btn s-btn--ghost">Back to Runs</button>
+        </div>
+
+        <p class="s-read" style="font-size:31px;">Priya feels stretched by a reorg and handoff
+          rework, but the work itself still holds up.</p>
+
+        <div class="stack g14">
+          <div class="s-label">What came out</div>
+          <ul style="margin:0;padding-left:20px;font-size:15.5px;line-height:1.7;">
+            <li>The reorg moved her two closest reviewers to another squad.</li>
+            <li>Handoff rework is eating the front of her week.</li>
+            <li>Delivery quality hasn't slipped — she's absorbing the cost herself.</li>
+          </ul>
+        </div>
+
+        <div class="stack g14">
+          <div class="s-label">The honest read</div>
+          <div class="stack g12">
+            <div class="tint tint--mint"><div class="tint__lab">Priya</div>
+              <p>She's carrying the reorg's friction quietly and calling it fine.</p></div>
+            <div class="tint tint--gold"><div class="tint__lab">You · private</div>
+              <p>You've read her steadiness as capacity.</p></div>
+          </div>
+        </div>
+
+        <div class="stack g14">
+          <div class="s-label">What to do next</div>
+          <div class="s-card stack g10" style="border-color:var(--accent);background:var(--accent-soft);">
+            <div style="font-size:15.5px;"><b style="color:var(--accent-dark);">Today ·</b> Ask who reviews her work now the reorg moved her reviewers.</div>
+            <div style="font-size:15.5px;"><b style="color:var(--accent-dark);">Next 1:1 ·</b> Pin down which handoff step is generating the rework.</div>
+          </div>
+        </div>
+
+        <div class="stack g14">
+          <div class="s-label">What was asked</div>
+          <div class="stack g14">
+            <div class="s-card stack g8">
+              <div class="s-name" style="font-size:15.5px;">What's taken most of your week?</div>
+              <p style="margin:0;font-size:15px;color:var(--ink-dim);">"Honestly the handoff rework. The refresh slipped a day and I redid the specs twice."</p>
+            </div>
+            <div class="s-card stack g8">
+              <div class="s-name" style="font-size:15.5px;">What changed since the reorg?</div>
+              <p style="margin:0;font-size:15px;color:var(--ink-dim);">"Both my reviewers moved to the other squad. I'm sort of self-reviewing now."</p>
+            </div>
+            <div class="s-card stack g8" style="opacity:.6;">
+              <div class="s-name" style="font-size:15.5px;">Anything you'd want changed?</div>
+              <p style="margin:0;font-size:15px;color:var(--ink-mute);"><em>Skipped</em></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="s-card row between g16 wrapf">
+          <span class="s-sub" style="font-size:14px;">Did this help you run the 1:1?</span>
+          <span class="s-stars">★★★★<span class="off">★</span></span>
+        </div>
+
+      </div>
+    </div>
+    <p class="caption"><b>Trade-off:</b> the longest page of the five — but the only one where
+      you can read the whole 1:1 without clicking. Strongest structural fix.</p>
+  </section>
+
+  <!-- ============ 4 ============ -->
+  <section class="plate">
+    <div class="plate__head">
+      <span class="plate__n">4</span>
+      <span class="plate__name">The conversation replay</span>
+    </div>
+    <p class="plate__move">Her <b>actual words</b> lead. The read sits above as a standfirst, then
+      the page becomes the conversation — for when you want to remember what was said, not the summary.</p>
+
+    <div class="screen">
+      <div class="screen__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="screen__url">sero · past 1:1</span></div>
+      <div class="pad stack g28">
+
+        <div class="stack g14" style="max-width:64ch;">
+          <div class="row g12">
+            <div class="s-av" style="width:34px;height:34px;font-size:13px;">QP</div>
+            <div class="s-facts" style="font-size:13.5px;"><span class="s-name" style="font-size:15px;color:var(--ink);">qa-overnight Priya</span><span>·</span><span>Bi-weekly check-in</span><span>·</span><span>Mon 6 Jul 2026</span></div>
+          </div>
+          <p class="s-read" style="font-size:27px;">Priya feels stretched by a reorg and handoff
+            rework, but the work itself still holds up.</p>
+          <div class="s-label">The conversation · 3 answered, 1 skipped</div>
+        </div>
+
+        <div class="stack g24" style="max-width:66ch;">
+          <div class="stack g10">
+            <div class="s-name" style="font-size:17px;color:var(--accent-dark);">What's taken most of your week?</div>
+            <div style="border-left:2px solid var(--accent-soft);padding-left:18px;font-size:16px;line-height:1.6;color:var(--ink);">
+              Honestly the handoff rework. The refresh slipped a day and I redid the specs twice.
+            </div>
+          </div>
+          <div class="stack g10">
+            <div class="s-name" style="font-size:17px;color:var(--accent-dark);">What changed since the reorg?</div>
+            <div style="border-left:2px solid var(--accent-soft);padding-left:18px;font-size:16px;line-height:1.6;color:var(--ink);">
+              Both my reviewers moved to the other squad. I'm sort of self-reviewing now.
+            </div>
+          </div>
+          <div class="stack g10">
+            <div class="s-name" style="font-size:17px;color:var(--accent-dark);">Anything you'd want changed?</div>
+            <div style="border-left:2px solid var(--accent-soft);padding-left:18px;font-size:16px;line-height:1.6;color:var(--ink);">
+              Not really. It's fine — it just takes longer than it should.
+            </div>
+          </div>
+          <div class="stack g10" style="opacity:.55;">
+            <div class="s-name" style="font-size:17px;">How's the workload feeling?</div>
+            <div style="border-left:2px solid var(--border);padding-left:18px;font-size:16px;color:var(--ink-mute);"><em>Skipped</em></div>
+          </div>
+        </div>
+
+        <div class="tint tint--mint" style="max-width:66ch;">
+          <div class="tint__lab">What Sero made of it</div>
+          <p>She's carrying the reorg's friction quietly and calling it fine. "It's fine" is doing
+            a lot of work in that last answer.</p>
+        </div>
+
+      </div>
+    </div>
+    <p class="caption"><b>Trade-off:</b> the most human of the five, and the only one that makes
+      "it's fine" land as a signal. But the recap gets demoted to a footnote.</p>
+  </section>
+
+  <!-- ============ 5 ============ -->
+  <section class="plate">
+    <div class="plate__head">
+      <span class="plate__n">5</span>
+      <span class="plate__name">The split spread</span>
+    </div>
+    <p class="plate__move">Two columns, like an open notebook. <b>Who + the read stay put</b> on
+      the left while the detail scrolls past on the right — using the desktop width today wastes.</p>
+
+    <div class="screen">
+      <div class="screen__bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="screen__url">sero · past 1:1</span></div>
+      <div class="pad">
+        <div style="display:grid;grid-template-columns:minmax(0,0.86fr) minmax(0,1.14fr);gap:44px;">
+
+          <div class="stack g20">
+            <div class="row g14">
+              <div class="s-av">QP</div>
+              <div class="stack">
+                <div class="s-name" style="font-size:19px;">qa-overnight Priya</div>
+                <div class="s-sub" style="font-size:14px;">Product Designer · Senior</div>
+              </div>
+            </div>
+            <p class="s-read" style="font-size:25px;">Priya feels stretched by a reorg and handoff
+              rework, but the work itself still holds up.</p>
+            <div class="stack g10" style="border-top:1px solid var(--border);padding-top:16px;">
+              <div class="s-facts" style="font-size:13.5px;"><span class="s-label" style="font-size:11px;">Met</span><span><b>Mon 6 Jul 2026 · 12d ago</b></span></div>
+              <div class="s-facts" style="font-size:13.5px;"><span class="s-label" style="font-size:11px;">Type</span><span><b>Bi-weekly check-in</b></span></div>
+              <div class="s-facts" style="font-size:13.5px;"><span class="s-label" style="font-size:11px;">Answered</span><span><b>3 of 4</b></span></div>
+              <div class="s-facts" style="font-size:13.5px;"><span class="s-label" style="font-size:11px;">Prep rating</span><span class="s-stars" style="font-size:14px;">★★★★<span class="off">★</span></span></div>
+            </div>
+            <button class="s-btn" style="width:100%;">Start 1:1 with Priya</button>
+          </div>
+
+          <div class="stack g20">
+            <div class="stack g12">
+              <div class="s-label">What came out</div>
+              <ul style="margin:0;padding-left:20px;font-size:15px;line-height:1.65;">
+                <li>The reorg moved her two closest reviewers to another squad.</li>
+                <li>Handoff rework is eating the front of her week.</li>
+                <li>Delivery quality hasn't slipped — she's absorbing the cost herself.</li>
+              </ul>
+            </div>
+            <div class="tint tint--mint"><div class="tint__lab">Honest read — Priya</div>
+              <p>She's carrying the reorg's friction quietly and calling it fine.</p></div>
+            <div class="tint tint--gold"><div class="tint__lab">Honest read — you · private</div>
+              <p>You've read her steadiness as capacity.</p></div>
+            <div class="stack g12">
+              <div class="s-label">What to do next</div>
+              <div class="s-card stack g10" style="border-color:var(--accent);background:var(--accent-soft);">
+                <div style="font-size:15px;"><b style="color:var(--accent-dark);">Today ·</b> Ask who reviews her work now.</div>
+                <div style="font-size:15px;"><b style="color:var(--accent-dark);">Next 1:1 ·</b> Pin down which handoff step causes the rework.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <p class="caption"><b>Trade-off:</b> best use of a wide screen, and the read never scrolls
+      away. Needs a separate single-column layout for phones — the most work of the five.</p>
+  </section>
+
+  <footer class="foot">
+    <div><b>My pick: 1 — the headline read.</b> It fixes the exact complaint with the least
+      structural change, and the read is genuinely what you come back for.</div>
+    <div><b>If you want the bigger fix:</b> 3 — one page, no tabs. It's the only one where the
+      whole 1:1 reads without a click.</div>
+    <div>All five are mockups only — no app code touched. Light-only on purpose: Sero ships
+      light, dark mode is parked.</div>
+  </footer>
+
+</div>
+</div>
