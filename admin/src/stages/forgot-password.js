@@ -38,7 +38,7 @@ export async function mount(root, { setState }) {
         </div>
       </div>
       <div class="auth-split__media" aria-hidden="true">
-        <img class="auth-split__img" src="${photo}" alt="" onerror="this.remove()" />
+        <img class="auth-split__img" src="${import.meta.env.BASE_URL}${photo}" alt="" onerror="this.remove()" />
       </div>
     </div>
   `;

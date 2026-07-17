@@ -10,13 +10,17 @@ import { landingStage } from "../ui/landing.ts";
 
 // Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
 // admin/public/login/ — one is picked at random per visit. Exported so the
-// start screen (welcome.ts) draws from the same pool.
+// start screen (welcome.ts) draws from the same pool. Stored base-relative (no
+// leading slash); each use site prefixes import.meta.env.BASE_URL ("/admin/") at
+// render time so they load under the /admin/ mount instead of 404-ing at the site
+// root. (Kept as bare strings — the prefix is applied in the template, not here,
+// so importing this list never touches import.meta.env under the Node test runner.)
 export const LOGIN_PHOTOS = [
-  "/login/pexels-alex-green-5699419.jpg",
-  "/login/pexels-cottonbro-4861338.jpg",
-  "/login/pexels-george-milton-6953779.jpg",
-  "/login/pexels-ketut-subiyanto-4623308.jpg",
-  "/login/pexels-sarah-chai-7267386.jpg",
+  "login/pexels-alex-green-5699419.jpg",
+  "login/pexels-cottonbro-4861338.jpg",
+  "login/pexels-george-milton-6953779.jpg",
+  "login/pexels-ketut-subiyanto-4623308.jpg",
+  "login/pexels-sarah-chai-7267386.jpg",
 ];
 
 export async function mount(root, { setState }) {
@@ -59,7 +63,7 @@ export async function mount(root, { setState }) {
         </div>
       </div>
       <div class="auth-split__media" aria-hidden="true">
-        <img class="auth-split__img" src="${photo}" alt="" onerror="this.remove()" />
+        <img class="auth-split__img" src="${import.meta.env.BASE_URL}${photo}" alt="" onerror="this.remove()" />
       </div>
     </div>
   `;

@@ -38,6 +38,10 @@ class FakeEventSource {
       fn(data === undefined ? {} : { data: JSON.stringify(data) });
     }
   }
+  fail() {
+    // Simulate a native connection drop (EventSource fires onerror with no data).
+    if (this.onerror) this.onerror();
+  }
 }
 
 function useFakeEventSource() {
@@ -184,6 +188,65 @@ test("an async render rejection is surfaced too, not swallowed", async () => {
   await Promise.resolve();
 
   assert.equal(seen.errors.length, 1, "a rejected async render becomes an error card");
+});
+
+// Bounded auto-recovery. A transient drop should reopen the stream — but the
+// reconnect must NEVER replay a one-shot `?regenerate=1`, or a flaky connection
+// would quietly rack up paid runs. That safety is the whole reason this was parked.
+
+test("a dropped connection reconnects with the regenerate trigger stripped — never re-fires a paid run", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  useFakeEventSource();
+  const seen = { errors: [] as unknown[], nativeErrors: 0 };
+  openSse("/api/v1/sessions/abc/focus-points/stream?regenerate=1")
+    .on("thinking", () => {})
+    .on("error", (d: unknown) => seen.errors.push(d))
+    .onError(() => { seen.nativeErrors++; })
+    .open();
+  const first = FakeEventSource.last as FakeEventSource;
+  assert.match(first.url, /regenerate=1/, "first connect carries the one-shot regenerate");
+
+  first.fail();               // the connection drops
+  t.mock.timers.tick(1000);   // past the reconnect delay
+
+  const second = FakeEventSource.last as FakeEventSource;
+  assert.notEqual(second, first, "it reconnected to a fresh source");
+  assert.doesNotMatch(second.url, /regenerate/, "the reconnect must NOT replay regenerate (no new paid run)");
+  assert.equal(seen.errors.length, 0, "a transient drop recovers silently — no error card");
+  assert.equal(seen.nativeErrors, 0, "and no premature native error");
+});
+
+test("reconnect is bounded — after repeated drops it gives up and tells the manager once", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  useFakeEventSource();
+  const seen = { nativeErrors: 0 };
+  openSse("/api/v1/sessions/abc/preparation/stream")
+    .onError(() => { seen.nativeErrors++; })
+    .open();
+
+  for (let i = 0; i < 3; i++) {
+    (FakeEventSource.last as FakeEventSource).fail();
+    t.mock.timers.tick(1000);
+  }
+
+  assert.equal(seen.nativeErrors, 1, "surfaces exactly one error after exhausting retries");
+});
+
+test("a reconnected stream still delivers its result", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  useFakeEventSource();
+  const seen = { results: [] as unknown[], errors: [] as unknown[] };
+  openSse("/api/v1/sessions/abc/preparation/stream")
+    .on("result", (d: unknown) => seen.results.push(d))
+    .on("error", (d: unknown) => seen.errors.push(d))
+    .open();
+
+  (FakeEventSource.last as FakeEventSource).fail();
+  t.mock.timers.tick(1000);
+  (FakeEventSource.last as FakeEventSource).emit("result", { brief: { coreIssue: "x" } });
+
+  assert.equal(seen.results.length, 1, "the brief still arrives after a reconnect");
+  assert.equal(seen.errors.length, 0, "and no error card");
 });
 
 test("a handler that succeeds is never turned into an error", () => {

@@ -35,6 +35,17 @@ const TERMINAL = ["done", "briefing", "next"];
 // the stalled path emits before going quiet, so trusting it would defeat this.
 const STALL_MS = 60_000;
 
+// Bounded auto-recovery. A transient connection drop (wifi blip, proxy hiccup)
+// used to end the stream on an error card even though the server still had the
+// result waiting. We now reopen the stream a couple of times before giving up.
+//
+// The reconnect URL is SANITISED first: any one-shot trigger like `?regenerate=1`
+// is stripped, so a reconnect can only ever RE-ATTACH to the in-flight or cached
+// result — never kick off a brand-new (paid) run. That paid-loop risk is the whole
+// reason this was parked until the trigger could be made one-shot on reconnect.
+const MAX_RECONNECTS = 2;
+const RECONNECT_DELAY_MS = 800;
+
 export function openSse(url) {
   const handlers = new Map();
   let errorHandler = null;
@@ -42,6 +53,7 @@ export function openSse(url) {
   let closed = false;
   let receivedTerminal = false;
   let stallTimer = null;
+  let reconnects = 0;
 
   function on(event, fn) {
     handlers.set(event, fn);
@@ -114,9 +126,12 @@ export function openSse(url) {
     close();
   }
 
-  function open() {
-    es = new EventSource(url);
-    stallTimer = setTimeout(onStall, STALL_MS);
+  // Wire a fresh EventSource. Called for the initial connect and for each bounded
+  // reconnect (with a sanitised URL — see MAX_RECONNECTS). The watchdog timer is
+  // started once in open() and spans all reconnect attempts, so recovery can never
+  // outlive the overall 60s cap.
+  function connect(connectUrl) {
+    es = new EventSource(connectUrl);
 
     // Always listen for the terminal events internally so we can track them
     // even if the consumer hasn't registered their own handlers.
@@ -154,12 +169,30 @@ export function openSse(url) {
       });
     }
 
-    // Native connection error. Only surface if nothing terminal arrived first.
+    // Native connection error (no `.data`). Try a bounded reconnect before giving
+    // up — never after a terminal event, and always on a URL with one-shot triggers
+    // stripped so a reconnect can only re-attach, never re-fire a paid run. We close
+    // the failed source ourselves to stop EventSource's own reconnect, which would
+    // replay the ORIGINAL (un-sanitised) URL.
     es.onerror = () => {
       if (closed || receivedTerminal) return;
+      if (reconnects < MAX_RECONNECTS) {
+        reconnects += 1;
+        try { es.close(); } catch {}
+        setTimeout(() => {
+          if (closed || receivedTerminal) return;
+          connect(withoutOneShot(url));
+        }, RECONNECT_DELAY_MS);
+        return;
+      }
       if (errorHandler) errorHandler();
       close();
     };
+  }
+
+  function open() {
+    stallTimer = setTimeout(onStall, STALL_MS);
+    connect(url);
     return api;
   }
 
@@ -177,4 +210,14 @@ export function openSse(url) {
 function safeParse(raw) {
   if (!raw) return {};
   try { return JSON.parse(raw); } catch { return { raw }; }
+}
+
+// Strip one-shot query triggers (currently just `regenerate`) so a reconnect
+// re-attaches to the existing result instead of starting a fresh paid run.
+function withoutOneShot(u) {
+  const i = u.indexOf("?");
+  if (i === -1) return u;
+  const path = u.slice(0, i);
+  const kept = u.slice(i + 1).split("&").filter((p) => p && !/^regenerate=/.test(p));
+  return kept.length ? `${path}?${kept.join("&")}` : path;
 }
