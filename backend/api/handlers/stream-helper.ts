@@ -16,6 +16,38 @@ function isInFlightEntry(v: unknown): v is InFlightEntry {
   return isObjectRecord(v) && Array.isArray(v.subscribers) && v.controller instanceof AbortController;
 }
 
+// Tell one subscriber, and never let its failure reach the others. A subscriber
+// whose socket has gone can throw on write; without this guard that throw
+// escapes the broadcast loop, so every subscriber BEHIND it in the list hears
+// nothing — not the result, not even an error — and sits on its skeleton
+// forever behind the heartbeat. One dead screen must not strand the rest.
+function tell(stream: SseStream, event: string, data: unknown): void {
+  try {
+    stream.write(event, data);
+  } catch (err) {
+    console.warn(`[stream] dropping a dead subscriber on '${event}':`, err instanceof Error ? err.message : err);
+  }
+}
+
+// Throw away an in-flight stage, telling everyone waiting on it FIRST.
+// Callers that just delete the entry and abort the controller leave every
+// attached screen hanging forever (an attached subscriber has no completion
+// path of its own — it only ever hears from the driving request's broadcast).
+function abortStage(session: Session, stageKey: string, reason: string): void {
+  const entry = session.inFlight.get(stageKey);
+  if (!entry || !isInFlightEntry(entry)) return;
+  // Snapshot first: closing a stream fires its onClose, which splices itself out
+  // of this very array — iterating it live would skip the next subscriber and
+  // strand exactly the screen we are here to rescue.
+  for (const s of [...entry.subscribers]) {
+    tell(s, "error", { message: reason, recoverable: true });
+    try { s.close(); } catch {}
+  }
+  entry.subscribers.length = 0;
+  entry.controller.abort();
+  session.inFlight.delete(stageKey);
+}
+
 // Dev-only stall switch. Set SERO_STALL_STAGE=<stageKey> (e.g. "preparation",
 // "focus-points") to make that stage hang on purpose, so the client's stall
 // handling is walkable without waiting for a rare real one. It replaces the
@@ -99,11 +131,22 @@ async function runStage<T>(
   };
   session.inFlight.set(stageKey, entry);
 
+  // Who has been told how this stage ended. The `finally` uses it to guarantee
+  // that nobody is left waiting in silence — see the terminal guarantee below.
+  const told = new WeakSet<SseStream>();
   const broadcast = (event: string, data: unknown) => {
-    for (const s of entry.subscribers) s.write(event, data);
+    const terminal = event === resultEvent || event === "error";
+    if (terminal) console.log(`[${stageKey}] ${event} -> ${entry.subscribers.length} subscriber(s)`);
+    for (const s of entry.subscribers) {
+      tell(s, event, data);
+      if (terminal) told.add(s);
+    }
   };
   const closeAll = () => {
-    for (const s of entry.subscribers) s.close();
+    // Snapshot — s.close() fires onClose, which splices s out of this array.
+    for (const s of [...entry.subscribers]) {
+      try { s.close(); } catch {}
+    }
     entry.subscribers.length = 0;
   };
 
@@ -130,9 +173,18 @@ async function runStage<T>(
     broadcast("error", { message: (err instanceof Error && err.message) || String(err), recoverable });
     closeAll();
   } finally {
+    // Terminal guarantee. Whatever happened above — including an error thrown
+    // somewhere that never reached a broadcast — no subscriber leaves this
+    // function un-told. Silence is the one outcome a waiting screen cannot
+    // recover from: the heartbeat keeps it alive, so it never even errors.
+    for (const s of entry.subscribers) {
+      if (told.has(s)) continue;
+      tell(s, "error", { message: "This step stopped unexpectedly. Please try again.", recoverable: true });
+    }
+    closeAll();
     session.inFlight.delete(stageKey);
     setActive(prevTracker);
   }
 }
 
-export { runStage, shouldStall };
+export { runStage, shouldStall, abortStage };

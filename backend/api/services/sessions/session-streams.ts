@@ -27,7 +27,7 @@ import { logTurn, logRunRoot } from "../../../engine/session.ts";
 import * as cost from "../../../engine/cost.ts";
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
 import { loadPersona, scriptedQuestions } from "../../persona-script.ts";
-import { runStage } from "../../handlers/stream-helper.ts";
+import { runStage, abortStage } from "../../handlers/stream-helper.ts";
 import { openStream } from "../../sse.ts";
 import { summarizeAxes } from "./session-views.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
@@ -44,11 +44,9 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
   const force = c.query.regenerate === "1" || c.query.regenerate === "true";
   if (force) {
     session.focusPointsResult = null;
-    const inFlight = session.inFlight.get("focus-points");
-    if (isObjectRecord(inFlight) && inFlight.controller instanceof AbortController) {
-      inFlight.controller.abort();
-      session.inFlight.delete("focus-points");
-    }
+    // Throw away the in-flight run — but tell anyone already waiting on it
+    // first. Dropping it silently strands every attached screen forever.
+    abortStage(session, "focus-points", "Suggesting different topics — start again from this step.");
   }
 
   await runStage(c, session, "focus-points", {
