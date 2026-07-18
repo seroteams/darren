@@ -16,9 +16,18 @@ this started — so it was deferred on Carl's "build safe" call. **Built here (t
 - Tests: `run-history.test.ts` (+3), `briefing-view.test.ts` (new, +5). Typecheck clean, `npm test` 156/156.
 - ⚠️ **Not visually screenshot-verified** — the Browser pane hung this session; needs Carl's on-screen walk.
 
-**Still to build (engine feed — now unblocked):** turn-1 planner injection, reviewer context +
-unfinished-promise roll-forward into next_actions, the honesty-gate run-log flag. Scenarios 1, 2, 5 below
-exercise that half; 3 and 4 exercise the surfacing built now.
+**Engine feed — progress (2026-07-18):**
+- ✅ **Scorer-trust fix** (was item #2 in the sweep, folded in here): the live briefing now hears
+  degraded scoring like the CLI does (`scoringFromTranscript` → reviewer's low-confidence guard).
+- ✅ **Reviewer feed** — `formatPromiseCheckin` + `<promise_checkin_rule>` + `{{PROMISE_CHECKIN}}`
+  in final-evaluation.md; `session.priorCheckin` threaded through `evaluate()` on live + CLI. The
+  briefing now acknowledges follow-through and rolls every unfinished promise into `next_actions`
+  (rule-enforced — scenario 5's review half). Unit-tested, typecheck clean, replay 7/7 ($0).
+- ⬜ **Turn-1 planner nudge** — inject the check-in into the first planner turn so a not-done promise
+  can shape an early question (scenario 1). NON-deterministic; needs a paid run to observe. NOT built.
+- ⬜ **Honesty-gate run-log flag** (if turn-1 ignores a not-done promise, flag not rewrite). NOT built.
+- ⬜ **Paid proof** — one single-case run (~$0.35) to confirm a "no"-tapped promise reaches the
+  briefing's next_actions (and, if built, Q1). Awaiting Carl's spend nod.
 
 ## Goal
 The check-in isn't a dead tap: an unfinished promise can shape the session's first question, the end-of-session review acknowledges the follow-through, and the person page shows the loop closing over time.
