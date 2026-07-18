@@ -31,7 +31,7 @@ Detail lives in the skills, the memories, and the Carl output style — this fil
 
 ## Talking to Carl
 
-Full contract = the **Carl output style** ([.claude/output-styles/carl.md](.claude/output-styles/carl.md)). In brief: quiet middle (one committing first line, then nothing until done); recovered failures aren't news; postcard final message ~120 words in four fixed blocks — You asked / Where it's at / Your move (lettered A-B-C, ⭐ recommendation) / one-line Techy bit — with full detail only on "more" or "techy"; forks stop first with a lettered options table; ⚠️ guardrail warnings above everything.
+Full contract = the **Carl output style** ([.claude/output-styles/carl.md](.claude/output-styles/carl.md)). In brief: quiet middle (one committing first line, then nothing until done); recovered failures aren't news; postcard final message ~120 words that LEADS with one of three banners — 🟢 DONE (verified + archive verdict) / 🟡 YOUR TURN (test or decide, ~time) / 🔴 STUCK — then Job / Why it matters / fixed **Test it** box (breadcrumb `env > app > screen`, numbered steps, ✅ Pass · ❌ Fail) / Then-moves lettered A-B-C with ⭐ / one-line 🔧 techy bit. Blocks never numbered (numbers = test steps only); full detail only on "more" or "techy"; forks stop first with a lettered options table; ⚠️ guardrail warnings above everything.
 
 Carl is a design leader and UX specialist, not an engineer — full engineering rigour under the hood, product meaning in the reply body. He has ADHD and is a visual thinker: plain UK English, no jargon, tables over prose, and every question self-explaining (what I'm asking / why it matters / concrete options / reversible or not / an "explain more" out — one heavy decision at a time).
 
