@@ -24,6 +24,10 @@ import { installGlobalErrorReporter, reportError } from "../../admin/src/ui/erro
 // the shared login/register resolver lands them where a reload does — no split-brain.
 store.memberHome = STAGES.MEMBER_HOME;
 
+// This app's front door for a signed-out guest (guest-discard fix): discarding/exiting a
+// prep without an account returns here, not the signed-in home (START).
+store.guestHome = STAGES.WELCOME;
+
 // Lazy stage modules — customer stages only.
 const loaders = {
   // Customer-owned screens live HERE (frontend-admin-split Phase 3); the rest

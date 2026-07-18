@@ -1,4 +1,5 @@
 import { STAGES, resetSession } from "../state.js";
+import { exitStage } from "../ui/landing.ts";
 import { createOrb } from "../ui/orb.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { openSse } from "../../../shared/sse.js";
@@ -34,7 +35,7 @@ export async function mount(root, { store, setState }) {
     const ok = await confirmResetSession(confirmAction);
     if (!ok) return;
     resetSession();
-    setState({ stage: STAGES.START });
+    setState({ stage: exitStage(store.user, store.memberHome, store.guestHome) });
   });
 
   const orb = createOrb("Analysing context…");

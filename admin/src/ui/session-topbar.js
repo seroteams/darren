@@ -7,6 +7,7 @@
 
 import { Check } from "lucide";
 import { STAGES } from "../state.js";
+import { exitStage } from "./landing.ts";
 import { deleteRun } from "../../../shared/api.js";
 import { confirmAction } from "./confirm.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
@@ -149,7 +150,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   function saveAndExit() {
     try { localStorage.removeItem("seroSessionId"); } catch {}
     if (resetSession) resetSession();
-    setState && setState({ stage: STAGES.START });
+    setState && setState({ stage: exitStage(store.user, store.memberHome, store.guestHome) });
   }
 
   async function deleteAndExit() {
@@ -166,7 +167,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     }
     try { localStorage.removeItem("seroSessionId"); } catch {}
     if (resetSession) resetSession();
-    setState && setState({ stage: STAGES.START });
+    setState && setState({ stage: exitStage(store.user, store.memberHome, store.guestHome) });
   }
 
   sessionBtn.addEventListener("click", (e) => {

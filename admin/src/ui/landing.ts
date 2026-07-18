@@ -15,3 +15,11 @@ type UserLike = { roles?: string[]; role?: string } | null | undefined;
 export function landingStage(user: UserLike, memberHome: string): string {
   return isAdmin(user) ? STAGES.START : memberHome;
 }
+
+// Where a discard/exit should land: a signed-in user goes to their real home (same as a
+// reload); a signed-out guest goes to the app's front door (guestHome). Without this the
+// discard handlers hardcoded START, dropping a guest onto the signed-in home while
+// store.user was null — the "logged in but not logged in" half-state (guest-discard fix).
+export function exitStage(user: UserLike, memberHome: string, guestHome: string): string {
+  return user ? landingStage(user, memberHome) : guestHome;
+}

@@ -11,6 +11,7 @@
 // Reuses api.js, sse.js, orb.js, reveal.js and the existing design-system classes.
 
 import { STAGES, resetSession } from "../state.js";
+import { exitStage } from "../ui/landing.ts";
 import { getMeetingTypes, startSession, setSelectedFocus, getQuestion, submitAnswer, setAgendaCovered, getRoleProfile } from "../../../shared/api.js";
 import { focusField } from "../ui/field.js";
 import { revealOne, sleep } from "../ui/reveal.js";
@@ -91,7 +92,7 @@ export async function mount(root, { store, setState }) {
     const ok = await confirmResetSession(confirmAction, { to: STAGES.START });
     if (!ok) return;
     resetSession();
-    setState({ stage: STAGES.START });
+    setState({ stage: exitStage(store.user, store.memberHome, store.guestHome) });
   });
 
   let types = [];

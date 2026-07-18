@@ -1,4 +1,5 @@
 import { STAGES, resetSession, isAdmin } from "../state.js";
+import { exitStage } from "../ui/landing.ts";
 import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns, createPerson, createGuidedSession } from "../../../shared/api.js";
 import { firstRunIntroHtml, firstRunNotesExampleHtml } from "./intake-firstrun.ts";
 import { swapField, focusField } from "../ui/field.js";
@@ -78,7 +79,7 @@ export async function mount(root, { store, setState }) {
     const ok = await confirmResetSession(confirmAction, { to: STAGES.START });
     if (!ok) return;
     resetSession();
-    setState({ stage: STAGES.START });
+    setState({ stage: exitStage(store.user, store.memberHome, store.guestHome) });
   });
 
   let types = null;

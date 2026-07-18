@@ -19,6 +19,10 @@ import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js"
 // Injected once so the shared login/register resolver lands them where a reload does.
 store.memberHome = STAGES.RUNS;
 
+// This app has no guest lane, so a signed-out discard/exit falls back to LOGIN
+// (guest-discard fix — shared exit handlers read store.guestHome per app).
+store.guestHome = STAGES.LOGIN;
+
 // Lazy stage modules live in ./stage-loaders.js — the single registry the Screen
 // Gallery also reads, so a new screen appears there automatically.
 
