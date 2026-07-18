@@ -8,7 +8,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 82c442a0 | Agency engagement — hardening (Phase 2) | docs/plans/doing/agency-engagement/, docs/reports/, backend/api/server.ts, backend/api/router.ts, backend/db/env-guard.ts, backend/db/sessions-store.ts, backend/db/schema.ts, backend/db/migrations/, backend/api/services/auth/, backend/api/services/sessions/sessions.service.ts, backend/api/services/health/, backend/engine/reviewer.ts, backend/engine/cost.ts, backend/api/handlers/stream-helper.ts, backend/api/services/sessions/session-streams.ts, backend/api/static.ts, scripts/backup-db.js, frontend/src/stages/guided/guided.css, frontend/src/stages/team.ts, frontend/src/stages/members.ts | 2026-07-18 |
+
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).
