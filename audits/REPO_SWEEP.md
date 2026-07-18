@@ -217,3 +217,39 @@ CI per-app typecheck gap · registering the unregistered mirrors.
 own-file snapshot). Highest-risk finding: **P5 — a live run whose per-turn scorer failed still gets a
 briefing prompted as if axis scores are reliable; the degraded-scoring guard is unreachable from the
 production path** (session-streams.ts:371-384 vs cli/stages/questioning.ts:255-264).
+
+---
+
+# Phase 2 + 3 outcome (2026-07-18, Carl's GO on the safe batch)
+
+**Executed:** items 2–7 plus the leftover truth fixes (C1, C11, C12). Item 8 resolved externally
+before GO (`acb47807` committed the STATUS rewrite); C2/C13/C14/C15 resolved externally by the
+blanket green-light (`f0f8a61f`). Items 10–21 remain open, awaiting per-item approval.
+
+**⚠️ Item 1 PARKED — and the standing pick-A advice from the 07-12→07-17 sweeps is WRONG.**
+`git show f875c32a` proves the untracked `_runtime/*.yaml` files are NOT disposable noise: a
+"checkpoint question bank" ritual commits them (213 files landed 2026-07-18 00:19; 918 _runtime
+files are git-tracked). A gitignore rule would silently hide new engine-written questions from
+every future checkpoint — a content-pipeline behaviour change, not a tidy. Future sweeps: stop
+recommending it; the status noise resolves itself at each bank checkpoint.
+
+**Commits (all pathspec-scoped):** `docs(maps)` structure+engine-map · `docs(paths)` dead paths
+×7 files (+1 follow-up stray found by the post-tidy grep, contracts.md:99) · `docs(board)`
+de-contradiction + axis-memory live · `docs(trackers)` wrap-up truth + parked list ·
+`docs(rooms)` RENDER_SETUP → docs/reference/, runner concept → docs/archive/ (+ render.yaml /
+repo-map / seeds refs) · `chore(skills)` worktree ceremony retired (script deleted, 4 skills
+stripped, parallel-sessions.md rewritten for trunk-only). No behaviour changes; no prompt,
+schema or detector files touched.
+
+**Phase 3 (free ladder, $0):**
+| Check | Result |
+|---|---|
+| `npm run typecheck` | ✅ clean |
+| `npm test` | ✅ **153/153** |
+| `replay-scenario --regression-all --fixtures-only` | ⚠️ 2 fixture fails — **pre-existing**, recorded as the baseline in wrap-up-exit plan.md on 07-17, NOT caused by this tidy: `good_shape_example` + `may24_good_prep_snapshot` both trip the listenFor rule at [backend/engine/preparation.ts:263](../backend/engine/preparation.ts) (fixture text says "if he/if she…", validator demands "whether/if they"; fixtures live in content/scenarios/regression/). Assertions NOT touched, per the sweep rules — the fixture-vs-rule mismatch is a call for Carl's session to make |
+| `npm run replay` | ✅ 7/7 still good (incl. both safety sentinels), $0 |
+| `npm run gate` | ⛔ NOT run (paid, ~$3) — the final manual step, Carl's call |
+
+**Phase 2+3 close** — Files touched: 18 (docs, trackers, skills, render.yaml comments, seeds.json;
+zero product code). Commits: 7. Highest-risk item this phase: none introduced — the pre-existing
+listenFor fixture pair is the only red, and it predates the sweep.
