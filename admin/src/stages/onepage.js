@@ -38,7 +38,7 @@ const SETUP = [
   { key: "SENIORITY", field: "seniority", type: "text", required: true,
     question: "And their seniority?", hint: "IC level, staff, manager, director — whatever reads naturally.", placeholder: "e.g. Senior / Staff / Lead" },
   { key: "MEETING_TYPE", type: "meeting",
-    question: "What kind of meeting?", hint: "Pick the shape that fits today." },
+    question: "What kind of meeting?", hint: "Pick whichever is closest — you can add detail next." },
   { key: "NOTES", field: "notes", type: "textarea", required: false,
     question: "Anything Sero should know?", placeholder: "e.g. They've been working late. Something feels off." },
 ];

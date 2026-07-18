@@ -386,7 +386,7 @@ export async function mount(root, { store, setState }) {
     wrap.setAttribute("data-autofocus", "");
     wrap.innerHTML = `
       <h1 class="h1 mb-2">What kind of meeting?</h1>
-      <div class="hint mb-3">Pick the shape that fits today. Click a card to continue — you can add nuance in the notes step.</div>
+      <div class="hint mb-3">Pick whichever is closest — you can add detail next.</div>
       <div class="grid gap-3 js-cards"></div>
     `;
     const cards = wrap.querySelector(".js-cards");
