@@ -21,6 +21,11 @@
 - Verified on screen (Playwright): starts closed → logo toggles open/closed → picking Team auto-closes and mounts it. typecheck clean.
 - Polish (Carl): the Sero logo now **rotates 90°** while the drawer is open (runtime class on the shared nav's `.js-home`/`.js-bar-home`, CSS in the stage's own `<style>`, cleared on unmount). Verified: closed→`none`, open→`rotate(90°)`, re-closed→`none`.
 
+## Rework 2 (18 Jul — Carl: drawer scrapped)
+- The left drawer collided with the app nav rail's hover-expand and the dark backdrop annoyed Carl. Showed a 10-option board; Carl picked **#2 top dropdown**, wants the grouped titles visible, styled **soft yellow**.
+- Rebuilt: removed the drawer, backdrop and logo-rotation hook entirely. The list is now a **soft-yellow “Screens ▾” dropdown** in the top bar (Sero gold tokens: `gold-100` panel, `gold-400` border, `gold-900` headings). Grouped titles with ▾, filter box, "needs data" chips (white-on-yellow for legibility). Opens on click, closes on pick / click-away / Escape. No page dimming, no nav collision. Sero logo is back to "home" (hook removed).
+- Verified on screen (Playwright): menu hidden by default → opens soft-yellow (`#fffbf4`) with all 7 group titles + 46 items → picking Team closes it and mounts Team. typecheck clean.
+
 ## Goal
 The `/gallery` page exists: a grouped tree of every screen on the left, the real screen rendered on the right, deep links that survive reload — with every self-fetching screen already showing real local data.
 
