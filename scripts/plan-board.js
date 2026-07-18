@@ -141,6 +141,10 @@ const phases = phaseFiles.map(file => {
   const testSec = section(md, 'Test scenarios');
   const port = (testSec.match(/localhost:(\d+)/) || [, '3000'])[1];
   const role = (testSec.match(/\b(Manager|Member|Admin)\b/i) || [, 'Manager'])[1];
+  // A phase whose walk isn't in the app (e.g. "read the report") gets its scenario
+  // names on the TEST IT line instead of a misleading localhost pointer.
+  const inApp = /localhost|sign in|log ?in|screen|click/i.test(testSec);
+  const scenarioNames = [...testSec.matchAll(/^\s*\d+\.\s+\*\*(.+?)\*\*/gm)].map(m => clean(m[1]));
 
   return {
     num, name, status,
@@ -148,6 +152,7 @@ const phases = phaseFiles.map(file => {
     lands: lands[num] || '',
     items,
     port, role: role.charAt(0).toUpperCase() + role.slice(1).toLowerCase(),
+    inApp, scenarioNames,
   };
 });
 
@@ -185,9 +190,13 @@ const itemsHtml = p => p.items.map(t => {
   return `<li class="${p.status === 'todo' ? 'item-todo' : ''}">${mark}<span>${esc(t)}</span></li>`;
 }).join('');
 
-const testFoot = p => p.status === 'built'
-  ? `<div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:${esc(p.port)}</code> · sign in as <span class="role">${esc(p.role)}</span></div>`
-  : '';
+const testFoot = p => {
+  if (p.status !== 'built') return '';
+  if (!p.inApp && p.scenarioNames.length) {
+    return `<div class="testit"><span class="testit-tag">TEST IT</span> ${p.scenarioNames.map(n => `<span class="role">${esc(n)}</span>`).join(' · ')}</div>`;
+  }
+  return `<div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:${esc(p.port)}</code> · sign in as <span class="role">${esc(p.role)}</span></div>`;
+};
 
 const phaseCards = phases.map((p, i) => `
   <div class="row ${i === currentIdx && !allDone ? 'row-here' : ''}">

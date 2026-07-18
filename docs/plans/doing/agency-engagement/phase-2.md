@@ -34,7 +34,7 @@ and a live boot smoke on a spare port — server starts, migration 0019 applied 
 - F16 [team.ts] add/edit/delete failures now surface the server's real message. *(Half: the alert→on-design-toast visual swap is PARKED — it needs a new component + a screenshot-verified design pass, per the see-it-on-screen rule.)*
 
 ## Goal
-Fix what the Phase 1 audit confirms, in ranked order — the first confirmed item is already known: slow down repeated wrong-password login attempts.
+Carl said "do it all": 16 of the audit's 17 findings are fixed and committed; the last half-item (swapping browser pop-ups for the on-brand message) is queued behind another chat's lane. What's left is your walk — the wrong-password test below.
 
 ## Changes
 - Login-attempt throttling: after several wrong guesses on an account/IP, further tries get slowed or briefly blocked, with a plain message ("Too many attempts — try again in a minute"). Likely area: `backend/api/services/auth/` + the existing rate-limiter pattern in `backend/api/server.ts`.

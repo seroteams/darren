@@ -67,7 +67,7 @@
 <div class="board">
   <div class="eyebrow"><span class="dot">●</span> SERO · AGENCY ENGAGEMENT</div>
   <h1>Where we are<span class="dot">.</span></h1>
-  <p class="lead">The plan is 2 phases and 6 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
+  <p class="lead">The plan is 2 phases and 10 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
 
   <div class="panel">
     <div class="prog-head">
@@ -98,8 +98,8 @@
         <span class="here">● YOU ARE HERE</span>
       </div>
       <p class="desc">A full, honest code audit of Sero — the thing the agency sells "from $30" — done in-house for free, with evidence behind every finding.</p>
-      
-      <div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:3000</code> · sign in as <span class="role">Manager</span></div>
+      <ul class="items"><li class=""><span class="tick tick-built">✓</span><span>The audit report — verdict box + per-area verdicts</span></li><li class=""><span class="tick tick-built">✓</span><span>No emergency found — Sero's core checked out solid</span></li><li class=""><span class="tick tick-built">✓</span><span>17 ranked findings</span></li><li class=""><span class="tick tick-built">✓</span><span>Zero XSS holes in the sweep; company walls verified intact</span></li></ul>
+      <div class="testit"><span class="testit-tag">TEST IT</span> <span class="role">Read the summary</span> · <span class="role">Spot-check a finding</span> · <span class="role">The fix-list</span></div>
     </div>
   </div>
   <div class="row ">
@@ -110,7 +110,7 @@
         <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         
       </div>
-      <p class="desc">Fix what the Phase 1 audit confirms, in ranked order — the first confirmed item is already known: slow down repeated wrong-password login attempts.</p>
+      <p class="desc">Carl said "do it all": 16 of the audit's 17 findings are fixed and committed; the last half-item (swapping browser pop-ups for the on-brand message) is queued behind another chat's lane. What's left is your walk — the wrong-password test below.</p>
       <ul class="items"><li class=""><span class="tick tick-built">✓</span><span>F1 [server.ts] refuse to boot a live deploy with no database</span></li><li class=""><span class="tick tick-built">✓</span><span>F3 [server.ts] per-IP rate limit on login + register</span></li><li class=""><span class="tick tick-built">✓</span><span>F4 [auth.controller/service/repo] password change/reset now revoke the user's other sessions</span></li><li class=""><span class="tick tick-built">✓</span><span>F9 [auth.repo] session tokens stored hashed</span></li><li class=""><span class="tick tick-built">✓</span><span>F10 [server.ts] origin fence on login/register/logout</span></li><li class=""><span class="tick tick-built">✓</span><span>F11 [server.ts] rate limiters key on the trustworthy last XFF hop, not the spoofable first</span></li></ul>
       <div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:3000</code> · sign in as <span class="role">Manager</span></div>
     </div>
