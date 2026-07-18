@@ -32,6 +32,15 @@
             "command": "node .claude/hooks/lane-check.js"
           }
         ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/git-add-guard.js"
+          }
+        ]
       }
     ],
     "SessionStart": [

@@ -1,117 +1,49 @@
-﻿Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+# Sero house rules (slim, 2026-07-18)
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+Detail lives in the skills, the memories, and the Carl output style — this file is the short index that must hold every session. If this file and the output style disagree on reply format, **the style wins**.
 
-## 1. Think Before Acting
+## Commands
 
-**Make the reasonable call. Move forward. Flag assumptions after, not before.**
+- `npm test` — full unit suite (free)
+- `npm run typecheck` — strict TS (free)
+- `node scripts/replay-scenario.js <id> --fixtures-only` — engine replay (free)
+- PAID (hits OpenAI — see Cost): `npm run gate` (~$3 full; smallest proof: `node scripts/gate.js --only <case>` ~$0.35), `npm run smoke`, `npm run eval`
+- Never `require()`/`import` scripts/gate.js — it executes on import. Read/grep it only.
 
-- Pick the most likely interpretation and go. Don't present multiple options and wait.
-- State assumptions briefly in your response — don't stop to ask about them first.
-- Push back when a simpler approach exists. Say so once, then do it the better way.
-- Only stop if you're genuinely blocked on something only the user can answer.
+## How to work
 
-## 2. Simplicity First
+1. Make the reasonable call and move; state assumptions after, don't stop to ask. Only stop when genuinely blocked on something only Carl can answer.
+2. Minimum code that solves the problem. No speculative features, abstractions, or configurability.
+3. Surgical changes: every changed line traces to the request. Don't improve neighbouring code; clean up only your own orphans.
+4. Before multi-step work, state what "done" means.
+5. Anything big enough to need a plan = the `darren-method` skill (docs/plans/doing/<slug>/, ONE phase at a time, Carl green-lights each — never self-certify; visual plans get ONE artifact mockup at setup). Green light → `phase-close` skill.
 
-**Minimum code that solves the problem. Nothing speculative.**
+## Non-negotiables
 
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
+- **Git is invisible to Carl. ONE branch: `main`.** No branches, worktrees, PRs, or merges. Commit silently at natural stops, MY-OWN-FILES-ONLY: `git add -- <my paths> && git commit -m "..." -- <my paths>`. Blanket staging (`git add -A`/`.`/`-u`, `commit -a`) is blocked by a hook — parallel chats share this folder. Push ONLY on Carl's "go live" (push = deploy to Render).
+- **Lane board:** claim a row in [LANES.md](LANES.md) before editing, clear it when committed. A hook blocks edits inside another live chat's lane — surface it to Carl, never edit through.
+- **Engine honesty:** surface raw model output; flag problems, never hardcode rewrites to mask them.
+- **Never train or fine-tune on manager notes about employees** ([docs/reference/prompt-improvement-spec.md](docs/reference/prompt-improvement-spec.md)).
+- **Focus arc gate:** bi-weekly and "feels-off" meetings exclude competencies (input filter + `FOCUS_ARC_LEAK`).
+- **Cost:** free checks first, always. Max ONE paid OpenAI run per task, only if free can't prove it — smallest run, state rough cost. A 2nd paid run needs Carl's explicit yes.
+- **Verify before "done":** never claim done from code alone. Engine changes → run the relevant check and report it. Frontend/design → screenshot the real rendered screen (Browser pane); no screenshot = "not verified on screen yet".
+- **Archive verdicts are explicit:** ✅ safe to archive / ❌ not safe yet — and only ever green-light genuinely finished, signed-off work.
 
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+## Talking to Carl
 
-## 3. Surgical Changes
+Full contract = the **Carl output style** ([.claude/output-styles/carl.md](.claude/output-styles/carl.md)). In brief: quiet middle (one committing first line, then nothing until done); recovered failures aren't news; postcard final message ~120 words in four fixed blocks — You asked / Where it's at / Your move (lettered A-B-C, ⭐ recommendation) / one-line Techy bit — with full detail only on "more" or "techy"; forks stop first with a lettered options table; ⚠️ guardrail warnings above everything.
 
-**Touch only what you must. Clean up only your own mess.**
+Carl is a design leader and UX specialist, not an engineer — full engineering rigour under the hood, product meaning in the reply body. He has ADHD and is a visual thinker: plain UK English, no jargon, tables over prose, and every question self-explaining (what I'm asking / why it matters / concrete options / reversible or not / an "explain more" out — one heavy decision at a time).
 
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
+## Trackers & rituals (each is a skill — trigger on the word)
 
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
+- "check point" → `checkpoint` skill: mid-work = save, fresh session = restore — never ask which.
+- "goodnight" → `goodnight` skill · "night test" → `night-test` skill · "clean up" → `clean-up` skill · run reviews → `reviewrun` skill.
+- [STATUS.md](STATUS.md) = tactical, [SERO_BOARD.md](SERO_BOARD.md) = strategic (map: [docs/reference/trackers.md](docs/reference/trackers.md)). Stale trackers when Carl asks "where are we" is a miss.
+- Chat-history log: `python scripts/chat-log.py` at session boundaries — local-only, gitignored, never commit.
 
-The test: Every changed line should trace directly to the user's request.
+## Code
 
-## 4. Define Done
-
-**Know what success looks like before you start.**
-
-Before starting a multi-step task, state briefly what "done" means:
-- What will be different when this is complete?
-- How will you know it worked?
-
-For this project, "done" usually means: the behavior changed in the way asked, it looks right, and nothing nearby broke.
-
----
-
-## 5. The Darren Method (multi-step work)
-
-For any change big enough to need a plan, use the **[`darren-method`](.claude/skills/darren-method/SKILL.md) skill**: split into `docs/plans/doing/<slug>/` (plan.md + phase files ending in QA scenarios), one phase at a time, Carl green-lights each — never self-certify. All the rituals (baseline first, green light = commit, park don't expand, close-out) and the templates live in the skill. **Any plan with a visual surface gets ONE artifact mockup at plan setup — Carl approves the picture (his changes flow into the plan) before building starts; backend-only plans skip it.** Commits are trunk-only per §6 (plain snapshot on `main`, silent) — no phase branches. When Carl approves a phase, the [`phase-close`](.claude/skills/phase-close/SKILL.md) skill runs the tracker checklist.
-
----
-
-## 6. This Project's Standing Rules
-
-These are recurring corrections, promoted from memory so they hold every session:
-
-- **Solo trunk-only — git is INVISIBLE to Carl.** *(Carl's call 2026-07-15: "I am the ONLY person building — stop the git gymnastics. Local and live, that's it." He picked model B: one shared folder, many chats, I handle safety silently.)* Carl is a solo builder who runs **many Claude chats at once in this ONE folder**. There is exactly ONE branch: `main`. **No feature branches, no worktrees, no PRs, no merges** — all team ceremony, RETIRED. Git has two jobs only: an undo/save point, and the bridge to live. Carl must never see a git word unless he asks.
-  - **Work directly on `main`.** Never create a branch. If a session lands on one, surface it — don't add more.
-  - **Commit silently, MY-OWN-FILES-ONLY.** Snapshot at natural stopping points. Because chats share the folder, this is the ONE safety that stays — but it runs *under the hood, never narrated*: stage and commit ONLY the specific files THIS session touched — `git add -- <my paths> && git commit -- <my paths>`. **NEVER `git add -A`** (it would sweep a parallel chat's work — the exact clobber Carl is sick of). Don't put git/branches/PRs/status in replies unless he asks.
-  - **Push only on "go live."** `main` → push deploys to Render. Never push unless Carl says go live / release / deploy. A push is the one-way door to production — the ONE git thing worth a heads-up.
-  - **What "invisible" means:** the my-own-files-only commit logic is machinery I run quietly (it's the old `safe-commit` core, minus the branch/worktree faff — simpler now because everything's always on `main`). Carl chose to keep one folder and let me handle traffic; my job is to make git a non-event for him. Keep the non-git steps of `safe-commit`/`checkpoint`/`phase-close`/`goodnight`/`darren-method`; drop their branch/worktree/PR parts.
-- **Lane board — claim before you touch (parallel-chat collision guard, Carl's call 2026-07-18).** [LANES.md](LANES.md) at the repo root is the "who's working on what" board. Every session: as soon as your work area is clear, add a row (first 8 chars of your session id, a narrow path list, today's date); remove it when the work is committed. A `PreToolUse` hook (`.claude/hooks/lane-check.js`) blocks any Edit/Write inside ANOTHER live session's lane — when it fires, tell Carl which chat holds the lane and let him decide; never edit through it. Claims older than 2 days are ignored as stale. Like git, this machinery is invisible to Carl — he never maintains the board.
-- **Engine honesty — no silent masking.** Surface raw model output. Detect problems and flag them; never hardcode text rewrites to hide them.
-- **Never train or fine-tune on manager notes about employees.** Manager-authored notes are input for the current session only — never training data, in any form (per the no-inference ruling, [docs/reference/prompt-improvement-spec.md](docs/reference/prompt-improvement-spec.md)).
-- **Focus arc gate.** Bi-weekly and "feels-off" meeting types exclude competencies. Respect the input filter and the `FOCUS_ARC_LEAK` gate.
-- **Carl is a design leader, not an engineer — do the engineer's work, report to a product/UX leader.** Carl is a product design leader and UX specialist/leader; he does not read or write code. Keep the engineering rigour fully intact under the hood — explore the codebase, trace real call paths, weigh architecture and trade-offs, verify against the artifact. Then split the output: any code-level / engineering detail is **clearly labelled** (a short `🔧 Under the hood` aside, kept brief and skimmable) so he can skip it; the **main body** of the reply is written for a non-engineer — what changed in product and experience terms, what it means for the manager/member using Sero, and what his call is. **Balance rule:** label and reframe the engineering, never dilute it — no loss of depth, accuracy, or surfaced context. Lead with product meaning; keep the technical truth one glance away, not gone.
-- **Plain language.** User-facing copy and my own replies stay short and jargon-free.
-- **Ask so Carl actually understands — never lead him blind.** *(Accessibility rule — Carl has ADHD and loses the thread easily; a confusing question means he's being led, not choosing. He asked for this directly 2026-07-15.)* Every question I put to Carl — especially a decision or multiple-choice — must be understandable on its own, so he can answer with confidence and never feels pushed down a path he doesn't grasp. Each ask must: **(1)** say what I'm asking in one plain sentence, no jargon, re-anchoring context (don't assume he remembers); **(2)** say why it matters — what the choice changes; **(3)** make each option concrete — what it means and what happens if he picks it, not an abstract label; **(4)** flag reversibility — easy to undo, or a one-way door? ("scary" usually means it feels permanent — name it when it isn't); **(5)** give him an out — "explain more" / "I don't get it" is always welcome and I slow down and re-explain differently, no rush; **(6)** one heavy decision at a time, break big ones down. **The test:** after reading my question, could Carl explain back what he's choosing and what each choice does? If not, I wrote it wrong — I rewrite it, I don't make him decode it. (Full detail in memory `feedback_ask_so_carl_understands`; pairs with the multiple-choice + plain-language rules.)
-- **Carl is a visual thinker — show, don't just tell.** He takes things in better through layout and visuals than walls of text. Lean on structure in every reply: headings, short bullet lists, tables for comparisons, before/after side-by-sides, simple ASCII diagrams for flows, and clear visual separation between choices. When there's a decision, lay the options out visually so the trade-offs are scannable at a glance — this helps him understand faster and make better calls. (Stays inside the plain-language rule and the Carl output style's final-message shape — more visual structure, not more words.)
-- **How I talk to Carl = the "Carl" output style — one source, not two.** *(Carl's call 2026-07-17, after the output-style review. Supersedes the 2026-07-16 Handoff code-fence block — same job, now done by the style's fixed final-message shape.)* The full reply contract lives in the **Carl output style** ([.claude/output-styles/carl.md](.claude/output-styles/carl.md), selected via `outputStyle` in settings) — the style sits in the system prompt and is re-reinforced all session, so it holds where a CLAUDE.md rule fades. If this file and the style ever disagree on reply format, **the style wins**. The contract in brief, for any session where the style didn't load:
-  - **Quiet middle.** Everything Carl reads goes in the FINAL message of the turn. Between tool calls, write nothing — no "let me check X", no "found it". If the turn takes more than a few seconds, ONE first line saying what I'm doing ("Building the board generator. Back when it's done."), then silence until done.
-  - **Recovered failures are not news.** Retries, blocked tools, wrong flags, dead ends that self-corrected inside the turn never reach Carl — narrating six recovered failures reads to him as six things going wrong. Only surface a failure still unresolved at turn end, or one that changes his next action.
-  - **Final message, four fixed blocks** *(redesigned 2026-07-17 on Carl's brief — cures "the end isn't useful / under-the-hood confuses / layout unclear / need a clear archive yes-no")*: **(1) You asked** — restate his request in one plain line, his words, so he re-anchors after context-switching (the most important block); **(2) Where it's at** — done/not-done in plain terms, Before/Now table only if behaviour changed, and an explicit coloured ✅ Safe to archive / ❌ Not safe yet — <what's open> line whenever archiving is on the table (never implied); **(3) Your move** — numbered 1-2-3 real actions, max 3, star ⭐ the recommendation, last one always "something's off"; **(4) The techy bit — skip unless curious** (a.k.a. 🔧 Under the hood) — last, visibly optional, ALL technical facts live there and nowhere else. Blocks 1–3 jargon-free. ⚠️ Guardrails go above block 1.
-  - **Forks stop first.** A real choice = one question, options as a table with what he weighs as columns, star the recommendation, wait. Never build first and ask after; never manufacture a fork that isn't one.
-  - ⚠️ guardrail warnings still go at the TOP of the reply, never buried.
-- **Verify before "done".** For any prompt or engine change, run `npm run gate` (and `npm run smoke` / `npm run eval` as relevant) and report the result — don't self-certify — but see the cost rule below: paid checks need a go-ahead; report offline results otherwise.
-- **Design work is NOT done until I've SEEN it on the real screen — screenshot, then say done.** *(Carl's direct correction 2026-07-15 — I kept saying Test-page/new-design work was finished when it wasn't actually rendering there.)* For ANY frontend design work — a new Tests card, a new prototype/design screen, any visible UI change — "done" requires me to load the running app (Browser pane: `preview_start` the dev server, navigate to the exact screen), take a **screenshot of the actual rendered result**, and confirm with my own eyes that the thing is really there and looks right. Reading the code, the route, or the JS is NOT proof — the screen is. If I can't get a screenshot, I say "not verified on screen yet" — I never claim done from the code alone. Pairs with [[feedback_verify_destination_not_code]] and the `✅ DONE?` sign-off line (only "safe to sign off" once I've seen it).
-- **Cost control — free first; one paid run per task if really needed; ask before a second.** Free checks come FIRST, always — `npm test`, `node scripts/replay-scenario.js <id> --fixtures-only`, unit scripts. A task **may** use ONE paid run (anything that hits the OpenAI API — `npm run gate`, `npm run smoke`, `npm run eval`, persona runs, live replays) without asking, but only when a free check genuinely can't prove the point — it's a ceiling, not a freebie to spend by default. A **second or further** paid run on the same task needs Carl's explicit go-ahead *for that specific run*. When you do use the one allowed run, pick the smallest thing that proves it — `node scripts/gate.js --only <case>`, single case, never the full 8-case sweep — and state the rough cost (~$0.35 per pipeline run, ~$3 for the full gate). (Updated 2026-07-07 — Carl loosened the old no-paid-runs-without-a-yes rule: "all tasks can have one paid run… you must ask if you want to do more," then "free first, but if really needed it can be paid.")
-- **Guardrails — warn Carl when he strays.** The five drift checks are now injected automatically on every prompt (a `UserPromptSubmit` hook reads `.claude/hooks/guardrails-reminder.txt`). Full spec: [docs/reference/guardrails.md](docs/reference/guardrails.md). Advise, never block.
-- **Status lives in two trackers; keep them current so Carl never has to ask.** [STATUS.md](STATUS.md) = tactical (this phase, ▶ Your move banner); [SERO_BOARD.md](SERO_BOARD.md) = strategic. Everything else (progress log, build badges in [admin/src/stages/tasks.js](admin/src/stages/tasks.js), changelog) is subordinate — the map is [docs/reference/trackers.md](docs/reference/trackers.md). Every tracker that must move on a phase boundary, in order, is the [`phase-close`](.claude/skills/phase-close/SKILL.md) skill's checklist — run it whenever Carl green-lights a phase. Stale STATUS.md when Carl asks "where are we" is a miss on me.
-
-- **Archive-safe or not — say it plainly, and only ever green-light a finished thing.** Any time a reply hands Carl an "archive" move — filing a plan/phase/doc away to `docs/plans/done/` or `docs/archive/` — I must state clearly, in the same breath, whether it is actually safe to archive. **Only recommend archiving when the work is genuinely complete and signed off.** Half-done, mid-phase, "still testing", or any-doubt work is **never** archive-safe: in that case I say so out loud — `not safe to archive yet — <what's still open>` — instead of nudging him to file it away. Never tell Carl to archive something that's only halfway there. When it truly is done, say plainly "safe to archive" so he can act with confidence. (This lives in the final message's Reply options: an archive nudge always carries its safe / not-safe verdict.)
-
-- **"Check point" — one word, two jobs.** Mid-work = save (snapshot commit on `main` + STATUS refresh + chat-log); fresh session = restore (read the trackers, give the full picture — never ask what he means). The full ritual is the [`checkpoint`](.claude/skills/checkpoint/SKILL.md) skill. Commits follow the trunk-only rule above — silent, my-own-files-only on `main`, never `git add -A`.
-
-- **Keep the chat-history log fresh — a local-only habit on Carl's machine.** `docs/chat-history/` is our re-readable record of every Claude Code session (an `INDEX.md` plus one readable transcript per session), generated by `scripts/chat-log.py` from the local transcripts under `~/.claude/projects/…` — **free, reads local files only, no API**. Both the archive and the generator are **git-ignored on purpose** (see `.gitignore`) — they live only on Carl's machine and are never committed, so remote/cloud sessions won't find them in the clone (expected, not a missing file). On Carl's machine: run `python scripts/chat-log.py` at natural session boundaries (when wrapping up a chunk of work, or whenever Carl asks to look back). Don't let it silently drift — a stale INDEX is a miss.
-
----
-
-## 7. House Rules — auto-loaded skills (Phase 002)
-
-The agent auto-loads the right rulebook for the work (each skill triggers on its own description). Apply:
-
-- **Backend work** (engine, API, services, repos, types) → [`backend-conventions`](.claude/skills/backend-conventions/SKILL.md): TypeScript tight contracts, kebab-case + role-suffix names, slim controller → service → co-located repo, RESTful `/api/v1/`, honest errors, mirrored tests.
-- **Frontend / UI work** (admin console, future customer app) → [`frontend-conventions`](.claude/skills/frontend-conventions/SKILL.md): TypeScript, component/page/hook naming, composition, 14px text floor, plain language, mirrored tests.
-- **Any feature or bugfix** → [`test-driven-development`](.claude/skills/test-driven-development/SKILL.md): red → green → refactor; no production code without a failing test first.
-- **Any new feature or feature update** → [`dependency-check`](.claude/skills/dependency-check/SKILL.md): map every other surface that must change (both apps, test-engine page, engine catalogues, DB/API, content, docs) BEFORE coding, grep for real consumers, and verify them before saying "done".
-- **Security review** → [`security-review`](.claude/skills/security-review/SKILL.md): confidence-gated, research before flagging, no false alarms.
-- **"Checkpoint" / "where are we"** → [`checkpoint`](.claude/skills/checkpoint/SKILL.md): save (commit + STATUS + chat-log) or restore (full picture from the trackers).
-- **Phase approved / green light** → [`phase-close`](.claude/skills/phase-close/SKILL.md): the ordered every-tracker close-out checklist.
-- **Committing anything** → trunk-only rule (§6): silent, my-own-files-only (`git add -- <my paths> && git commit -- <my paths>`) on `main`, never `git add -A`, push only on "go live." Carl never sees git. *(The `safe-commit` core lives on as this silent machinery; only its branch/worktree/PR parts are retired.)*
-- **"Night test" / overnight QA** → [`night-test`](.claude/skills/night-test/SKILL.md): runs [docs/reference/night-test-prompt.md](docs/reference/night-test-prompt.md) with the cost ceiling + report shape enforced.
-- **"Goodnight" / end-of-day sweep** → [`goodnight`](.claude/skills/goodnight/SKILL.md): all free tests (+ paid to a stated budget, default $2), tie off green-lit work, tidy junk, fold finished branches, push live via /release, honest open-list report. Never sweeps live sessions' work.
-- **Run reviews** → [`reviewrun`](.claude/skills/reviewrun/SKILL.md): assembles the run-context block itself — Carl never pastes it.
-
-From Phase 002 on: all **new** code is TypeScript (strict — `npm run typecheck`) and **test-first**. (Converting the existing JavaScript is Phase 003.)
-
----
-
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and fewer interruptions mid-task.
+- Backend → `backend-conventions` skill · frontend → `frontend-conventions` skill (14px text floor) · any feature/bugfix → `test-driven-development` + `dependency-check` skills.
+- From Phase 002 on: all new code is strict TypeScript, test-first.
+- Guardrails (5 drift checks) auto-inject on every prompt via hook — advise, never block ([docs/reference/guardrails.md](docs/reference/guardrails.md)).
