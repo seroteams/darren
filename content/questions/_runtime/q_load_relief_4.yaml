@@ -1,0 +1,11 @@
+alias: q_load_relief_4
+label: Load relief
+name: What would make the next two weeks feel lighter?
+description: Close by identifying what would reduce load or sharpen the next stretch.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_load_relief_3"
+grounding: open

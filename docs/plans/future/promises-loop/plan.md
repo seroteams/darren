@@ -1,5 +1,7 @@
 # Promises Loop — the real build
 
+> **PARKED 2026-07-18 (Carl: "finish all, moving on").** P1-P2 green-lit + shipping (promises lock in at wrap-up, card zero checks them next time); P3 (Q1 feed, review feed, person-page surfacing) parked. Un-park by saying so in any chat.
+
 **Goal:** Every 1:1 ends by locking in what you both agreed, and the next 1:1 with that person opens by closing those promises off — one tap each — with the first question picking up whatever slipped.
 **Driver:** Carl
 **Created:** 2026-07-12

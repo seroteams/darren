@@ -1,5 +1,7 @@
 # Personal-data security — close the leak + quick hardening
 
+> **PARKED 2026-07-18 (Carl: "finish all, moving on").** P1-P2 green-lit + LIVE (leak closed, hardening shipped); P3 - the git-history purge of old test-run logs - parked until a night when EVERY chat is closed (destructive force-push). Names are already off HEAD and future clones.
+
 **Goal:** Personal data in Sero (manager notes, names, 1:1 answers, briefings) is safe to put in front of alpha users — no cross-company leak, no key-in-logs, no real names sitting in git.
 **Driver:** Carl
 **Created:** 2026-07-16

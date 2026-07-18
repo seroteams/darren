@@ -12,14 +12,12 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-**🔨 Open tracks in flight (refreshed by the 2026-07-18 blanket green-light sweep — Carl walked the whole system and signed off everything built; full detail in [STATUS.md](STATUS.md)):**
-- **[ui-look-and-feel](docs/plans/doing/ui-look-and-feel/plan.md)** — P1–P3 ✅ green-lit 07-18 (token calm, label voice, one-chip system); P4–P6 ⬜ not built.
-- **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P2–P3 ✅ green-lit 07-18, LIVE (admin console + Pulse at /admin); P4–P6 ⬜ not built.
-- **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — P1 green-lit; P2/P3 never started. Not archive-safe.
-- **[personal-data-security](docs/plans/doing/personal-data-security/plan.md)** — P1–P2 ✅ (hardening green-lit 07-18, live); P3 git-history scrub held for an all-sessions-closed window.
-- **[wrap-up-exit](docs/plans/done/wrap-up-exit/plan.md)** — ✅ CLOSED 2026-07-18 (Carl walked it: "yeah works, nice"): from Q4 the escape becomes "Wrap up — get my briefing" and exits through a real closer. Paid-tested 4/4 types 07-17; **live** (shipped with the 07-17/18 pushes, deploy health-checked by the goodnight). Open follow-up call: the server-side turn≥4 floor guard.
-- Closed 2026-07-18 (Carl's walk) → done/: **members-page** (all 5 phases — one invite flow, row actions, link-dropdown retired) · **team-page-redesign** (all 3 phases — status pill, opened-link signal, Remind).
-- Recently closed + live: **stream-hang-fix**, **ux-audit-fixes**, **briefing-before-during-after** (all 2026-07-17 → done/).
+**🧹 BOARD CLEARED 2026-07-18 + PUSHED LIVE (Carl: "finish all, moving on").** His full-system walk green-lit every built pass; the promises **card zero** (P2) was built, screen-proven, and green-lit the same day; every unbuilt tail was then parked with a banner (nothing lost — one sentence un-parks). Open now:
+- **[screen-gallery](docs/plans/doing/screen-gallery/plan.md)** — the ONLY track in doing/: new 2026-07-18 (another chat), mockup awaiting Carl's approval.
+- Newly parked → future/: **ui-look-and-feel** (P4–P6) · **admin-live-deploy** (P4–P6) · **promises-loop** (P3; P1–P2 live) · **personal-data-security** (P3 history-scrub — needs an all-chats-closed night).
+- Closed 2026-07-18 → done/: **members-page** (all 5) · **team-page-redesign** (all 3) · **wrap-up-exit** ("yeah works, nice"; its server-side turn≥4 floor call rides in the parked list).
+- Recently closed + live: **stream-hang-fix**, **ux-audit-fixes**, **briefing-before-during-after** (2026-07-17).
+- **Carl's move: the corridor test** — name the 3 managers, flip Render to paid.
 
 **✅ CLOSED 2026-07-16, LIVE since the 2026-07-17 deploy: [axis-memory](docs/plans/done/axis-memory/plan.md) — Sero now shows a manager where a person's health axes stood in recent 1:1s.** Both phases signed off. From a data-engineer sweep of the 101 July runs (6 open systemic findings; honesty rule intact), the top fix: the manager's person page shows a per-axis trend across the last ≤4 1:1s (e.g. *Engagement −1 → +3 → +6*) — labelled past context, unread axes honest ("not read", never a 0), no scoring/engine change. Aimed straight at the validation metric: a manager who comes back gets a Sero that visibly remembers the person. Display-only, reuses the already-fenced `getMyRun`. Helper 8/8, suite 146/146 at close. **Shipped with the 2026-07-17 pushes** — the running site was verified that day at build `89ce2a5`, which includes this track (the old "not live yet — Carl to /release" line was stale). The other 5 open findings (scoring skew, briefing sameness, bank bloat, blind lint, key mismatch) are parked as future tracks.
 

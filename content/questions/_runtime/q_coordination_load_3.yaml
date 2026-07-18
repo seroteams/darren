@@ -1,0 +1,11 @@
+alias: q_coordination_load_3
+label: Coordination load
+name: Where is the coordination work heavier than it should be?
+description: Surface where coordination overhead is creating drag or confusion.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_coordination_load_2"
+grounding: open

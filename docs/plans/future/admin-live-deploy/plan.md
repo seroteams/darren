@@ -1,5 +1,7 @@
 # Live Admin — ship the admin console to the live site + founder pulse dashboard
 
+> **PARKED 2026-07-18 (Carl: "finish all, moving on").** P1-P3 green-lit + LIVE (admin console + Pulse at /admin); P4-P6 (drill-ins, runs explorer, last-seen) parked. Un-park by saying so in any chat.
+
 **Goal:** Carl logs in at `seroteams live /admin` with carl@seroteams.com (phone or laptop) and sees the live site's real life: managers, their teams, runs with types, answers, feedback, guests, drop-offs, errors.
 **Driver:** Carl
 **Created:** Sat 12 Jul 2026

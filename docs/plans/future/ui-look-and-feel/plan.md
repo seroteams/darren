@@ -1,5 +1,7 @@
 # Whole-project UI polish — the artifact look & feel
 
+> **PARKED 2026-07-18 (Carl: "finish all, moving on").** P1-P3 green-lit + in the product; P4-P6 (frame, long-tail sweep, prove-it) parked. Un-park by saying so in any chat - this folder has everything.
+
 **Goal:** Bring the entire product (customer app + admin console, ~50 surfaces) to the bar of the
 briefing artifact Carl loved — calmer type, content set in the display face, one consistent
 pill/dot/chip detail language, generous even spacing, soft framed depth. A re-theme and polish of

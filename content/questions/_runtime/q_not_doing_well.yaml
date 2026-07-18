@@ -1,0 +1,11 @@
+alias: q_not_doing_well
+label: Not doing well
+name: You said not doing so well — what’s been the hardest part lately?
+description: Clarify the broad negative pulse with one concrete friction point.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added
+grounding: NOt been doing so well

@@ -1,0 +1,11 @@
+alias: q_load_drivers_4
+label: Load drivers
+name: What has been taking the most energy for you this fortnight?
+description: Surface the main sources of load and whether the pace is sustainable.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_load_drivers_3"
+grounding: open

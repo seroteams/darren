@@ -1,0 +1,11 @@
+alias: q_priority_tradeoff_14
+label: Priority tradeoff
+name: What are you choosing to keep at the top of the list right now?
+description: Surface current priorities and trade-offs.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_priority_tradeoff_13"
+grounding: open

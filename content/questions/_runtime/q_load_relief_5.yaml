@@ -1,0 +1,11 @@
+alias: q_load_relief_5
+label: Load relief
+name: What would make the next two weeks feel lighter?
+description: Surface what support or changes would reduce load next.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_load_relief_4"
+grounding: open

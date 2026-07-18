@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1784362452791,
+  "role_title_raw": "Carl",
+  "role_slug": "carl",
+  "seniority_raw": "Lead",
+  "seniority_key": "lead",
+  "role_family": "general",
+  "profile": {
+    "summary": "\"Carl\" is not a recognisable job title. At lead level, this likely means a company-specific role or a person's name rather than a standard function, so the exact scope, ownership, and partners cannot be inferred reliably from the title alone.",
+    "role_confidence": "low",
+    "known_challenges": [
+      {
+        "text": "Unclear role boundaries can create confusion about what they own versus what others expect.",
+        "category": "topic"
+      },
+      {
+        "text": "Leading without a clearly understood remit can make prioritisation and delegation harder.",
+        "category": "competency"
+      },
+      {
+        "text": "Ambiguity about success measures can wear down confidence and energy.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Role clarity and remit",
+        "why": "A lead with an ambiguous title needs shared understanding of ownership, decision rights, and expectations.",
+        "category": "topic"
+      },
+      {
+        "theme": "Success measures",
+        "why": "Clear outcomes help avoid drift and give the person a fair basis for prioritising work.",
+        "category": "competency"
+      },
+      {
+        "theme": "Stakeholder alignment",
+        "why": "Lead-level work usually depends on getting peers and managers aligned around scope and tradeoffs.",
+        "category": "topic"
+      },
+      {
+        "theme": "Load and sustainability",
+        "why": "Ambiguous leadership roles often absorb extra coordination work that can become draining.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [],
+    "terminology_groups": [],
+    "listen_for": [
+      "They spend time explaining what their role is before describing the work.",
+      "They describe repeated confusion about ownership or decision-making.",
+      "They talk more about coordination and expectation-setting than domain-specific craft.",
+      "They struggle to name clear measures of success."
+    ],
+    "avoid": [
+      "Pretending the title maps cleanly to a standard role when it does not.",
+      "Judging performance against assumptions about a function you have not confirmed.",
+      "Giving advice based on invented domain jargon or responsibilities.",
+      "Treating title ambiguity as a personal failing rather than an org clarity issue."
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+alias: q_northstar_handoff_2
+label: Northstar handoff
+name: On Northstar, where did the handoff notes slip from your side?
+description: Pin down the specific coordination gap he just named before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: planner_added
+grounding: handoff notes slipped
