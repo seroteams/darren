@@ -21,7 +21,7 @@ Standing constraints (from CLAUDE.md):
 - Closed 2026-07-18 (Carl's walk) → done/: **members-page** (all 5 phases — one invite flow, row actions, link-dropdown retired) · **team-page-redesign** (all 3 phases — status pill, opened-link signal, Remind).
 - Recently closed + live: **stream-hang-fix**, **ux-audit-fixes**, **briefing-before-during-after** (all 2026-07-17 → done/).
 
-**✅ CLOSED 2026-07-16 (built, not yet live): [axis-memory](docs/plans/done/axis-memory/plan.md) — Sero now shows a manager where a person's health axes stood in recent 1:1s.** Both phases signed off. From a data-engineer sweep of the 101 July runs (6 open systemic findings; honesty rule intact), the top fix: the manager's person page shows a per-axis trend across the last ≤4 1:1s (e.g. *Engagement −1 → +3 → +6*) — labelled past context, unread axes honest ("not read", never a 0), no scoring/engine change. Aimed straight at the validation metric: a manager who comes back gets a Sero that visibly remembers the person. Display-only, reuses the already-fenced `getMyRun`. Helper 8/8, suite 146/146. **Not live yet — Carl to `/release`** (a push ships ~19 mixed commits from ~5 parallel chats, so it's a conscious call). The other 5 open findings (scoring skew, briefing sameness, bank bloat, blind lint, key mismatch) are parked as future tracks.
+**✅ CLOSED 2026-07-16, LIVE since the 2026-07-17 deploy: [axis-memory](docs/plans/done/axis-memory/plan.md) — Sero now shows a manager where a person's health axes stood in recent 1:1s.** Both phases signed off. From a data-engineer sweep of the 101 July runs (6 open systemic findings; honesty rule intact), the top fix: the manager's person page shows a per-axis trend across the last ≤4 1:1s (e.g. *Engagement −1 → +3 → +6*) — labelled past context, unread axes honest ("not read", never a 0), no scoring/engine change. Aimed straight at the validation metric: a manager who comes back gets a Sero that visibly remembers the person. Display-only, reuses the already-fenced `getMyRun`. Helper 8/8, suite 146/146 at close. **Shipped with the 2026-07-17 pushes** — the running site was verified that day at build `89ce2a5`, which includes this track (the old "not live yet — Carl to /release" line was stale). The other 5 open findings (scoring skew, briefing sameness, bank bloat, blind lint, key mismatch) are parked as future tracks.
 
 **✅ CLOSED 2026-07-11: mobile-ux — the whole product works on a phone (Carl walked it live: "looks ok").** Carl's phone walk found the flow unusable on mobile — keyboard opening on its own over the question, the focus page panning sideways, desktop spacing/type squeezed onto a phone, every step opening mid-scroll. Fixed in 5 commits (`7139440`→`fc0874c`, PR #11 merged, live on Render): keyboard only opens when tapped (both apps), the question stays visible above the keyboard, phone type scale + top-aligned pages, every screen/question/step restarts at the top. Proven with a $0 Playwright phone harness across 14 manager + 6 member + 15 internal screens: zero keyboard steal, zero sideways scroll. Matters directly for the corridor test — a manager can now run a 1:1 from their phone next to the person. Ad-hoc track, no plan folder; record lives in STATUS.md + this line.
 
@@ -207,8 +207,8 @@ mirrors it:
 The QA pile is cleared and the three finished plans are archived. Still open here:
 briefing-grounding-fixes (Phases 2–4 not started) and briefing-readability P0 (scaffolded, parked).
 
-Tests: `npm test` **153/153** (offline, $0) · `npm run typecheck` clean. Commits are made explicitly
-(not automated); `main` was **pushed to origin 2026-07-04** — local and origin are now in sync.
+Tests: `npm test` + `npm run typecheck` offline ($0) — current counts and push state live in ONE
+place: the **Repo state** block below (this line used to carry its own copies; they drifted).
 
 ## 2. Next — after Now is green
 
@@ -260,15 +260,16 @@ Completed work has been cleared from this board. The record lives in git history
 
 ---
 
-## Repo state (audited 2026-06-29)
+## Repo state (refreshed 2026-07-18, repo sweep)
 
 Phases 001–006 are all closed and archived under `docs/plans/done/`; Phase 007 (login screen, folded into the admin console) is **done** — both phases committed, plan closed to `docs/plans/done/login-screen/`.
-**There is no auto-commit/push automation** — commits are made explicitly. `main` is currently **ahead of
-origin** (local-only by Carl's call for the ultra batch — pushing remains a deliberate manual step). The three
-old stashes were archived as `archive/*` tags + dropped 2026-06-29; the stash list is clean — keep it clean.
-`logs/**` is gitignored apart from a small May keep-set (de-identified — no real names or notes).
+**There is no auto-commit/push automation** — commits are made explicitly. `main` runs **ahead of
+origin between releases** — pushing is a deliberate manual step ("go live"), so a local lead is
+normal, not a problem. One branch (`main`), stash list clean — keep both that way.
+`logs/**` is **fully gitignored, no keep-set** — the old May keep-set was untracked in the
+personal-data-security purge; baseline copies live only on Carl's machine.
 
-**Test status:** `npm test` **153/153** green, `npm run typecheck` clean, offline ($0). Live
+**Test status:** `npm test` **153/153** green, `npm run typecheck` clean, offline ($0) — as of 2026-07-17. Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 
