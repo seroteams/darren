@@ -1,17 +1,18 @@
 // Test: "Runner v2" — the questioning screen as a TRUE 50/50, Typeform-style. Mock only —
 // hardcoded data, zero API/engine calls, nothing saved. Opened from the /test gallery.
 //
-// Carl's brief (2026-07-18, round 2): the split fills the whole screen. LEFT = the standard
+// Carl's brief (2026-07-18, round 4): the split fills the whole screen. LEFT = the standard
 // question design on the quiet paper tint — big stem, notes, actions. RIGHT = a full-bleed
-// soft-mint half (design-system mint, dark-green text) carrying max THREE hints per question
-// — "How to ask" or "Listen for" — and it should be striking, not a floating card.
-// Live scores collapse behind a button (open/close), closed by default.
-// Tokens only (DESIGN.md); the one blue action stays Submit.
+// light-LAVENDER half (design-system lavender, dark text) carrying max THREE hints per
+// question — "How to ask" or "Listen for". No panel heading (the eyebrow is enough).
+// Live scores live on the lavender half behind an open/close button, closed by default,
+// shown as four stat tiles (big delta, direction arrow, colour by direction) instead of
+// the grey bars. Tokens only (DESIGN.md); the one blue action stays Submit.
 // Questions carry no hints field today (closed contract in question.types.ts), so the
 // hints here are hand-written mock coaching — wiring real data is a later decision.
 
 import { icon } from "../../ui/icon.js";
-import { MessageCircle, Ear, Sparkles, Check, ChevronDown } from "lucide";
+import { MessageCircle, Ear, Sparkles, Check, ChevronDown, TrendingUp, TrendingDown } from "lucide";
 
 // ---- Mock data ---------------------------------------------------------------------------
 const CTX_SEGMENTS = ["Aisha", "junior", "Product designer", "Bi-weekly 1:1"];
@@ -99,17 +100,8 @@ const STYLE = `
     max-width:600px; width:100%; }
   .rv2-mocknote { font-size:14px; color:var(--color-ink-mute); font-style:italic; }
 
-  /* Live scores — live on the mint half, closed by default */
-  .rv2-scores-block { margin-bottom:auto; max-width:520px; margin-top:var(--sero-space-6);
-    padding-top:var(--sero-space-4); border-top:1px solid var(--sero-mint-700);
-    display:flex; flex-direction:column; gap:var(--sero-space-3); }
-  .rv2-scores-btn { align-self:flex-start; display:inline-flex; align-items:center;
-    gap:var(--sero-space-2); }
-  .rv2-scores-btn .sero-icon { transition:transform .15s ease; }
-  .rv2-scores-btn[aria-expanded="true"] .sero-icon { transform:rotate(180deg); }
-
-  /* RIGHT — full-bleed soft mint, dark-green text, no card chrome */
-  .rv2-coach { background:var(--sero-mint-300); color:var(--sero-mint-900);
+  /* RIGHT — full-bleed light lavender, dark text, no card chrome */
+  .rv2-coach { background:var(--sero-lavender-300); color:var(--sero-lavender-900);
     display:flex; flex-direction:column; overflow-y:auto;
     padding:clamp(24px, 5vw, 88px); }
   /* margin:auto pair centres the group when it fits but never clips it when it scrolls */
@@ -122,33 +114,52 @@ const STYLE = `
   }
   .rv2-coach-eyebrow { display:flex; align-items:center; gap:var(--sero-space-2);
     font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--sero-mint-900); }
-  .rv2-coach-title { font-family:var(--type-family-display); font-weight:600;
-    font-size:clamp(24px, 2.4vw, 32px); line-height:1.2; margin:0;
-    color:var(--sero-mint-900); }
+    color:var(--sero-lavender-800); }
   .rv2-hints { display:flex; flex-direction:column; }
   .rv2-hint { display:flex; align-items:flex-start; gap:var(--sero-space-4);
-    padding:var(--sero-space-5) 0; border-top:1px solid var(--sero-mint-700); }
+    padding:var(--sero-space-5) 0; border-top:1px solid var(--sero-lavender-600); }
   .rv2-hint:first-child { border-top:0; padding-top:0; }
   .rv2-hint__icon { display:grid; place-items:center; width:36px; height:36px; flex:none;
-    border-radius:9999px; background:var(--sero-mint-100); color:var(--sero-mint-900);
-    margin-top:2px; }
+    border-radius:9999px; background:var(--sero-lavender-100);
+    color:var(--sero-lavender-800); margin-top:2px; }
   .rv2-hint__body { flex:1; min-width:0; }
   .rv2-pill { display:inline-block; font-size:14px; font-weight:600;
     letter-spacing:.04em; border-radius:9999px; padding:2px 12px; margin-bottom:6px;
-    background:var(--sero-mint-100); color:var(--sero-mint-900);
-    border:1px solid var(--sero-mint-800); }
-  .rv2-hint__text { font-size:18px; line-height:1.5; color:var(--sero-mint-900); margin:0; }
-  .rv2-coach-foot { font-size:14px; color:var(--sero-mint-900); opacity:.75; }
+    background:var(--sero-lavender-100); color:var(--sero-lavender-800);
+    border:1px solid var(--sero-lavender-700); }
+  .rv2-hint__text { font-size:18px; line-height:1.5; color:var(--sero-lavender-900); margin:0; }
+  .rv2-coach-foot { font-size:14px; color:var(--sero-lavender-800); }
+
+  /* Live scores — four stat tiles behind an open/close button, closed by default */
+  .rv2-scores-block { margin-bottom:auto; max-width:520px; margin-top:var(--sero-space-6);
+    padding-top:var(--sero-space-4); border-top:1px solid var(--sero-lavender-600);
+    display:flex; flex-direction:column; gap:var(--sero-space-3); }
+  .rv2-scores-btn { align-self:flex-start; display:inline-flex; align-items:center;
+    gap:var(--sero-space-2); }
+  .rv2-scores-btn .sero-icon { transition:transform .15s ease; }
+  .rv2-scores-btn[aria-expanded="true"] .sero-icon { transform:rotate(180deg); }
+  .rv2-ax-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sero-space-3); }
+  .rv2-ax { background:var(--color-surface); border-radius:var(--radius-card);
+    padding:var(--sero-space-3) var(--sero-space-4); display:flex; flex-direction:column;
+    gap:2px; border:1px solid var(--color-border); }
+  .rv2-ax__label { font-size:14px; color:var(--color-ink-dim); }
+  .rv2-ax__row { display:flex; align-items:center; gap:var(--sero-space-2); }
+  .rv2-ax__value { font-family:var(--type-family-display); font-size:26px; font-weight:600;
+    line-height:1.1; color:var(--color-ink-mute); }
+  .rv2-ax--up .rv2-ax__value, .rv2-ax--up .sero-icon { color:var(--color-positive-text); }
+  .rv2-ax--down .rv2-ax__value, .rv2-ax--down .sero-icon { color:var(--color-negative-text); }
+  .rv2-ax .sero-icon { color:var(--color-ink-mute); }
+  .rv2-scores-note { font-size:14px; color:var(--sero-lavender-800); }
 
   /* End scene */
   .rv2-done-wrap { position:fixed; inset:0; z-index:200; display:grid; place-items:center;
-    background:var(--sero-mint-300); padding:var(--sero-space-6); }
+    background:var(--sero-lavender-300); padding:var(--sero-space-6); }
   .rv2-done { display:flex; flex-direction:column; align-items:flex-start;
     gap:var(--sero-space-3); max-width:520px; }
   .rv2-done__glyph { display:grid; place-items:center; width:44px; height:44px;
-    border-radius:9999px; background:var(--sero-mint-100); color:var(--sero-mint-900); }
-  .rv2-done .rv2-stem, .rv2-done p { color:var(--sero-mint-900); }
+    border-radius:9999px; background:var(--sero-lavender-100);
+    color:var(--sero-lavender-800); }
+  .rv2-done .rv2-stem, .rv2-done p { color:var(--sero-lavender-900); }
 `;
 
 // ---- small builders ------------------------------------------------------------------------
@@ -157,22 +168,21 @@ const ctxHtml = () =>
     (s, i) => `${i ? `<span class="sep">·</span>` : ""}<span${i === 0 ? ` class="is-strong"` : ""}>${s}</span>`,
   ).join("");
 
+// Four stat tiles: big delta, direction arrow, colour by direction. "—" until measured.
 const axesHtml = (turnIdx) => {
   const values = AXES_BY_TURN[Math.min(turnIdx, AXES_BY_TURN.length - 1)];
-  const rows = AXIS_LABELS.map((label, i) => {
+  const tiles = AXIS_LABELS.map((label, i) => {
     const v = values[i];
-    if (v === 0) {
-      return `<div class="axis"><div class="axis__label">${label}</div>
-        <div class="axis__track"><div class="axis__midline"></div><div class="axis__fill axis__fill--neutral"></div></div>
-        <div class="axis__value axis__value--baseline">—</div></div>`;
-    }
-    const dir = v > 0 ? "positive" : "negative";
-    return `<div class="axis"><div class="axis__label">${label}</div>
-      <div class="axis__track"><div class="axis__midline"></div>
-        <div class="axis__fill axis__fill--${dir}" style="transform:scaleX(${Math.abs(v) * 0.25})"></div></div>
-      <div class="axis__value">${v > 0 ? "+" : ""}${v}</div></div>`;
+    const dir = v > 0 ? "up" : v < 0 ? "down" : "flat";
+    const glyph = v > 0 ? icon(TrendingUp, { size: 18 }) : v < 0 ? icon(TrendingDown, { size: 18 }) : "";
+    const value = v === 0 ? "—" : `${v > 0 ? "+" : "−"}${Math.abs(v)}`;
+    return `<div class="rv2-ax rv2-ax--${dir}">
+      <span class="rv2-ax__label">${label}</span>
+      <span class="rv2-ax__row"><span class="rv2-ax__value">${value}</span>${glyph}</span>
+    </div>`;
   }).join("");
-  return `<div class="card axes-host">${rows}</div>`;
+  return `<div class="rv2-ax-grid">${tiles}</div>
+    <p class="rv2-scores-note">Moves as ${CTX_SEGMENTS[0]} answers — it's a live read, not the final briefing.</p>`;
 };
 
 const hintRow = (h) => {
@@ -237,10 +247,7 @@ export function mount(host) {
         </div>
         <aside class="rv2-coach" aria-label="Coaching for this question">
           <div class="rv2-coach__inner js-hints">
-            <div>
-              <div class="rv2-coach-eyebrow">${icon(Sparkles, { size: 16 })} In your corner</div>
-              <h2 class="rv2-coach-title">How to get the most from this question</h2>
-            </div>
+            <div class="rv2-coach-eyebrow">${icon(Sparkles, { size: 16 })} In your corner</div>
             <div class="rv2-hints">${q.hints.map(hintRow).join("")}</div>
             <div class="rv2-coach-foot">Coaching only — none of this is shown to ${CTX_SEGMENTS[0]}.</div>
           </div>
@@ -296,7 +303,7 @@ export function mount(host) {
         <div class="rv2-done">
           <span class="rv2-done__glyph">${icon(Check, { size: 22 })}</span>
           <h1 class="rv2-stem">That's the walk.</h1>
-          <p>Five questions, each with its own coaching on the mint half — how to ask it, and what to listen for.</p>
+          <p>Five questions, each with its own coaching on the lavender half — how to ask it, and what to listen for.</p>
           <div class="field__actions">
             <button class="btn btn--ghost js-restart" type="button">Start again</button>
             <button class="btn btn--ghost js-gallery" type="button">← All tests</button>

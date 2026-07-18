@@ -56,13 +56,13 @@ const THUMB_SPLIT = `
     <rect class="ink" x="28" y="40" width="70" height="6" rx="3" opacity="0.3"/>
     <rect class="card" x="28" y="54" width="104" height="26" rx="4"/>
     <rect class="accent" x="28" y="88" width="40" height="10" rx="4"/>
-    <rect x="150" y="0" width="150" height="120" fill="var(--sero-mint-200)"/>
-    <rect x="166" y="22" width="46" height="8" rx="4" fill="var(--sero-mint-800)" opacity="0.7"/>
-    <rect x="166" y="38" width="110" height="6" rx="3" fill="var(--sero-mint-900)" opacity="0.55"/>
-    <rect x="166" y="52" width="46" height="8" rx="4" fill="var(--sero-mint-800)" opacity="0.7"/>
-    <rect x="166" y="68" width="96" height="6" rx="3" fill="var(--sero-mint-900)" opacity="0.55"/>
-    <rect x="166" y="82" width="46" height="8" rx="4" fill="var(--sero-mint-800)" opacity="0.7"/>
-    <rect x="166" y="98" width="104" height="6" rx="3" fill="var(--sero-mint-900)" opacity="0.55"/>
+    <rect x="150" y="0" width="150" height="120" fill="var(--sero-lavender-300)"/>
+    <rect x="166" y="22" width="46" height="8" rx="4" fill="var(--sero-lavender-800)" opacity="0.7"/>
+    <rect x="166" y="38" width="110" height="6" rx="3" fill="var(--sero-lavender-900)" opacity="0.55"/>
+    <rect x="166" y="52" width="46" height="8" rx="4" fill="var(--sero-lavender-800)" opacity="0.7"/>
+    <rect x="166" y="68" width="96" height="6" rx="3" fill="var(--sero-lavender-900)" opacity="0.55"/>
+    <rect x="166" y="82" width="46" height="8" rx="4" fill="var(--sero-lavender-800)" opacity="0.7"/>
+    <rect x="166" y="98" width="104" height="6" rx="3" fill="var(--sero-lavender-900)" opacity="0.55"/>
   </svg>`;
 
 const TESTS = [
