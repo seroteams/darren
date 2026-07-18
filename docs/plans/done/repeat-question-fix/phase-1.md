@@ -1,6 +1,8 @@
 # Phase 1 — Resolved-causes gate
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit 2026-07-18
+
+## ✅ GREEN-LIT 2026-07-18 — Carl walked a live bi-weekly on the dev app (build 53801cdc); no reworded re-ask of the answered cause. Real-model proof satisfied by the live walk (the paid-replay alternative not needed). Commit 53801cdc.
 
 ## Built (2026-07-18)
 - **Prompt** `content/prompts/plan-turn.md`: `<dedup_rules>` rewritten — planner now outputs `resolved_causes` (causes the manager has named + explained) and tags every `new_queue` item with `probes_cause` (copied from that list) + `new_layer`; output-shape + field-contract updated to match.
