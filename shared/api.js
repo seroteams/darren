@@ -325,6 +325,18 @@ export async function savePromises(sessionId, promises) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/promises`, { promises });
 }
 
+// Promises loop phase 2 — card zero. getPriorPromises reads the previous 1:1's
+// still-open promises ({ prior: null } when there's nothing to check in on);
+// savePromiseOutcomes writes the taps back ({ outcomes: [{ id, outcome }] })
+// or records a skip ({ skipped: true }).
+export async function getPriorPromises(sessionId) {
+  return json(await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/prior-promises`));
+}
+
+export async function savePromiseOutcomes(sessionId, payload) {
+  return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/promise-outcomes`, payload);
+}
+
 export async function setSelectedFocus(sessionId, focusPointIds) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/focus-points/select`, { focusPointIds });
 }

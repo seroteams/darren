@@ -1,5 +1,6 @@
 import { STAGES } from "../state.js";
-import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession } from "../../../shared/api.js";
+import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession, getPriorPromises, savePromiseOutcomes } from "../../../shared/api.js";
+import { renderPromiseCheckin } from "../ui/promise-checkin.ts";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { openSse } from "../../../shared/sse.js";
@@ -492,7 +493,65 @@ export async function mount(root, { store, setState }) {
     }
   }
 
-  showNextQuestion();
+  // Card zero (Promises loop phase 2): before question 1, check in on last
+  // time's promises with this person. The server decides eligibility (fresh
+  // person, scripted lane, resumed run, already answered → prior: null), so a
+  // failed read just falls through to the questions — never blocks a 1:1.
+  async function bootQuestioning() {
+    let prior = null;
+    try {
+      ({ prior } = await getPriorPromises(store.sessionId));
+    } catch (e) {
+      console.warn("[questioning] prior-promises read failed (skipping check-in):", e.message);
+    }
+    if (prior?.promises?.length) {
+      showPromiseCheckin(prior);
+      return;
+    }
+    showNextQuestion();
+  }
+
+  function showPromiseCheckin(prior) {
+    qHost.innerHTML = "";
+    thinkingHost.innerHTML = "";
+    footerHost.innerHTML = "";
+    turnLabel.textContent = "Before question 1";
+
+    const card = document.createElement("div");
+    card.className = "card questioning-card space-y-4 reveal";
+    const head = document.createElement("h1");
+    head.className = "question-stem leading-snug";
+    head.textContent = "How did last time's agreements go?";
+    card.appendChild(head);
+    const body = document.createElement("div");
+    card.appendChild(body);
+    renderPromiseCheckin(body, {
+      promises: prior.promises,
+      reportName: store.ctx?.name || "",
+      onDone: async (outcomes) => {
+        // The save must land (it writes the PRIOR run) — renderPromiseCheckin
+        // keeps the card up with a retry note if this throws.
+        await savePromiseOutcomes(store.sessionId, { outcomes });
+        await exitQuestion(card);
+        showNextQuestion();
+      },
+      onSkip: async () => {
+        // Best-effort stamp so a refresh doesn't re-ask; promises stay open.
+        try {
+          await savePromiseOutcomes(store.sessionId, { skipped: true });
+        } catch (e) {
+          console.warn("[questioning] check-in skip stamp failed:", e.message);
+        }
+        await exitQuestion(card);
+        showNextQuestion();
+      },
+    });
+    qHost.appendChild(card);
+    revealOne(card, 40);
+    window.scrollTo(0, 0);
+  }
+
+  bootQuestioning();
 
   unmountFn = teardown;
 }

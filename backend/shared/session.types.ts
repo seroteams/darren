@@ -132,6 +132,23 @@ export interface SessionPromise {
   at: number; // when the manager confirmed it
 }
 
+/** The card-zero check-in result stored on the CURRENT session (Promises loop
+ *  phase 2) — a copy of what the manager tapped about the PRIOR run's promises,
+ *  so phase 3's engine feed reads its own session (no second history query).
+ *  skipped=true means the manager waved it off: nothing was written back and
+ *  the prior promises stay open. */
+export interface PriorCheckin {
+  fromSessionId: string; // the prior run the taps were written onto ("" on a skip with no prior)
+  skipped: boolean;
+  outcomes: Array<{
+    id: string;
+    owner: "manager" | "report";
+    action: string;
+    outcome: "yes" | "partly" | "no" | "changed";
+  }>;
+  at: number;
+}
+
 export interface Session {
   id: string;
   dir: string;
@@ -167,6 +184,8 @@ export interface Session {
   // The wrap-up's manager-confirmed agreements (Promises loop phase 1). null/absent =
   // the manager skipped confirming (loop not armed for this run).
   promises?: SessionPromise[] | null;
+  // Card zero's result on THIS session (Promises loop phase 2) — see PriorCheckin.
+  priorCheckin?: PriorCheckin | null;
   turnSnapshots: TurnSnapshot[];
   pendingAnswer: { raw: string; skipped: boolean; text: string } | null;
 

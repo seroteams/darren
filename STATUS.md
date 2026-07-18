@@ -16,7 +16,7 @@ Everything below is either unbuilt work awaiting your build/park call, or yours 
 |---|---|
 | [ui-look-and-feel](docs/plans/doing/ui-look-and-feel/plan.md) | P1–P3 ✅ green-lit 07-18; P4–P6 (frame, long-tail, prove-it) ⬜ not built |
 | [admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md) | P2–P3 ✅ green-lit 07-18 + live; P4–P6 (drill-ins, runs explorer, last-seen) ⬜ not built |
-| [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1 ✅; P2–P3 (card zero + Q1 feed) ⬜ not built |
+| [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1 ✅; **P2 (card zero) 🔨 built 2026-07-18, screen-proven — awaits your walk**; P3 (Q1 feed) ⬜ |
 | [personal-data-security](docs/plans/doing/personal-data-security/plan.md) | P2 ✅ green-lit 07-18 + live; P3 history-scrub held for an all-sessions-closed window |
 | [wrap-up-exit](docs/plans/doing/wrap-up-exit/plan.md) | P1 built + committed 07-17, paid-tested 4/4 meeting types — **awaits your walk** (one small follow-up call after) |
 

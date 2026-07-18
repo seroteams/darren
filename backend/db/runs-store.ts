@@ -43,6 +43,8 @@ import {
 } from "../engine/run-history.ts";
 import { historyRunMatches, historySessionFromState } from "../engine/focus-history.ts";
 import type { FocusHistorySession } from "../engine/focus-history.ts";
+import { priorPromiseRunFromState, applyPromiseOutcomes } from "../engine/promise-history.ts";
+import type { PriorPromiseRun, PriorPromiseQuery, OutcomeTap } from "../engine/promise-history.ts";
 import { createSession, monthFolderFor, LOGS_ROOT } from "../engine/session.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
@@ -453,6 +455,51 @@ export async function pgFocusHistory({
     .map((r) => historySessionFromState(r.state))
     .filter((s): s is FocusHistorySession => s !== null)
     .slice(0, limit);
+}
+
+// Promises loop phase 2 — the pg twin of filePriorPromiseRun. Same double fence
+// as pgFocusHistory: SQL narrows on the denormalized columns, then the engine's
+// own historyRunMatches re-checks every row against the authoritative state.
+export async function pgPriorPromiseRun({ orgId, userId, personId, excludeId }: PriorPromiseQuery): Promise<PriorPromiseRun | null> {
+  if (!userId || !personId) return null;
+  const rows = fenceOrgRows(
+    await rowsWhere([
+      sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
+      sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
+      sqlSafeId(personId) ? eq(sessionsTable.personId, sqlSafeId(personId)!) : undefined,
+    ]),
+    orgId,
+  );
+  const candidates = rows
+    .filter((r) => r.id !== excludeId && historyRunMatches(r.state, { userId, personId }))
+    .sort((a, b) => b.lastSeenAt - a.lastSeenAt);
+  for (const r of candidates) {
+    const prior = priorPromiseRunFromState(r.state);
+    if (prior) return prior;
+  }
+  return null;
+}
+
+// Promises loop phase 2 — write the taps back onto the PRIOR run's state jsonb.
+// Fenced like the read (org row + historyRunMatches); false when the run is
+// missing, foreign, or no tap matched a stored promise. The echo copy keeps the
+// file-store rollback honest.
+export async function pgWritePromiseOutcomes(
+  runId: string,
+  { orgId, userId, personId }: { orgId?: string | null; userId?: string | null; personId?: string | null },
+  taps: OutcomeTap[],
+): Promise<boolean> {
+  const row = await ownedRow(runId, orgId);
+  if (!row) return false;
+  if (!historyRunMatches(row.state, { userId, personId })) return false;
+  const applied = applyPromiseOutcomes(row.state, taps);
+  if (applied === 0) return false;
+  await getDb()
+    .update(sessionsTable)
+    .set({ state: row.state, updatedAt: new Date() })
+    .where(eq(sessionsTable.sessionKey, row.id));
+  echoSidecar(row.dir, "session-state.json", row.state);
+  return true;
 }
 
 export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null; createdAt: number; lastSeenAt: number; stars: number | null }[]> {

@@ -1,6 +1,6 @@
 # Phase 2 — Card zero: resurface + close-out
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + verified on the real screen 2026-07-18 — awaiting Carl's walk
 
 ## Goal
 Starting a 1:1 with someone you've met before opens on last time's promises — manager's own first — closed off with one tap each before question 1.
@@ -20,6 +20,16 @@ Starting a 1:1 with someone you've met before opens on last time's promises — 
 - [ ] Verify the DESTINATION: after tapping, the PRIOR run's stored state shows each promise's `outcome` + the `outcomeCheck` roll-up — read the stored record itself.
 - [ ] First-ever 1:1 with a person shows no card zero and nothing breaks.
 - [ ] Product owner has tested the scenarios below and said go.
+
+## Build record (2026-07-18)
+Built + proven end-to-end on the real screen with a real (local test) account, one paid walk (~$0.25):
+card zero rendered at `/interview` with the seeded prior promises (manager's first, "You" chip),
+"Start the questions" stayed greyed until both taps, question 1 arrived after, and the DESTINATION
+was read back from the database — the PRIOR run's promises now carry `yes`/`partly` and its
+`outcomeCheck` rolled up to `partly`; the current session carries `priorCheckin` for phase 3.
+Offline proof: 156/156 tests (3 new test files: engine read/write halves, the api glue with a live-map
+fake, the card's ordering + gate), typecheck clean. Scenarios 4 (fresh person → no card) and 5
+(skip → nothing written, promises stay open) are unit-covered; Carl's walk below stays the sign-off.
 
 ## Test scenarios — for the product owner
 Walk through these yourself. Next phase waits for your green light.

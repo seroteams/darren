@@ -1,0 +1,54 @@
+/* -----------------------------------------------------------------------------
+   Promise check-in card — card zero, "Before question 1" (Promises loop phase 2).
+   Last time's promises with one tap each (Yes / Partly / Not yet / Things
+   changed). Tokens only; 14px floor holds. The owner chip rides the shared
+   .chip recipe (colour only here — geometry stays in base.css).
+----------------------------------------------------------------------------- */
+.pck-lead { margin-bottom: var(--sero-space-3); }
+.pck-rows { display: flex; flex-direction: column; }
+.pck-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  padding: var(--sero-space-3) 0;
+  border-top: 1px solid var(--color-border);
+}
+.pck-row:first-child { border-top: 0; }
+.pck-row__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sero-space-2);
+  flex-wrap: wrap;
+}
+.pck-owner {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+}
+.pck-action { font-weight: var(--type-weight-semibold); }
+.pck-when {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+.pck-taps {
+  display: flex;
+  gap: var(--sero-space-2);
+  flex-wrap: wrap;
+}
+.pck-tap {
+  font: inherit;
+  font-size: var(--type-body-sm);
+  cursor: pointer;
+  padding: 6px 12px;
+  background: var(--color-surface);
+  color: var(--color-ink-dim);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+}
+.pck-tap:focus-visible { outline: none; box-shadow: var(--shadow-focus); position: relative; }
+.pck-tap.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-weight: var(--type-weight-semibold);
+  border-color: var(--color-accent);
+}
+.pck-actions { margin-top: var(--sero-space-3); }

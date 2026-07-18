@@ -16,6 +16,7 @@ import { guestCap } from "./guest-cap.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
 import { unauthenticated } from "../../middleware/http-error.ts";
+import { priorPromisesForSession, recordPromiseOutcomes } from "./promise-checkin.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
 import { peopleService } from "../team/people.service.ts";
 import { hasDatabaseUrl } from "../../../db/client.ts";
@@ -172,6 +173,29 @@ export async function promises(c: RequestContext): Promise<void> {
   const id = writeId(c, body);
   await assertOwner(c, id);
   c.json(200, service.promises(id, body));
+}
+
+// GET /api/v1/sessions/:id/prior-promises — card zero's read (Promises loop
+// phase 2): the previous 1:1 with the same person that still holds OPEN
+// promises. { prior: null } for a fresh person, a scripted run, past question 1,
+// or once the check-in is answered/skipped — the client renders nothing then.
+export async function priorPromises(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  const session = service.get(id);
+  c.json(200, { prior: session ? await priorPromisesForSession(session) : null });
+}
+
+// POST /api/v1/sessions/:id/promise-outcomes — card zero's write (Promises loop
+// phase 2): taps land on the PRIOR run's promises + its outcomeCheck roll-up;
+// { skipped: true } stamps the session and writes nothing back.
+export async function promiseOutcomes(c: RequestContext): Promise<void> {
+  const body = asRecord(await c.readBody());
+  const id = writeId(c, body);
+  await assertOwner(c, id);
+  const session = service.get(id);
+  if (!session) throw unauthenticated(); // unreachable after assertOwner; narrows the type
+  c.json(200, await recordPromiseOutcomes(session, body));
 }
 
 // POST /api/v1/sessions/:id/verdict  ·  POST /api/verdict
