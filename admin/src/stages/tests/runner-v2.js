@@ -108,10 +108,11 @@ const STYLE = `
     color:var(--sero-lavender-800); }
   .rv2-head__note { font-size:14px; color:var(--sero-lavender-800); }
 
-  /* Datum 2 — both columns start their content 48px under the hairline, same width */
-  .rv2-col { padding-top:48px; width:100%; max-width:560px; min-width:0;
+  /* Datum 2 — both columns centre in the middle band and adapt to the viewport height;
+     the margin:auto pair centres when there's room but never clips when there isn't */
+  .rv2-col { margin:auto 0; padding:40px 0; width:100%; max-width:560px; min-width:0;
     display:flex; flex-direction:column; align-items:flex-start; }
-  @media (max-width: 900px) { .rv2-col { padding-top:24px; } }
+  @media (max-width: 900px) { .rv2-col { padding:24px 0; margin:0; } }
 
   .rv2-drill { font-size:14px; color:var(--color-ink-dim); margin:0 0 var(--sero-space-3); }
   .rv2-stem { font-family:var(--type-family-display); font-weight:600;
