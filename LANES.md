@@ -8,8 +8,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 75619dcd | design-system token sweep | docs/plans/doing/design-system-tokens/, frontend/src/stages/, frontend/src/styles/, frontend/src/ui/, admin/src/styles/design/, scripts/lint-design-tokens.js | 2026-07-18 |
-| 82c442a0 | Agency engagement (F16 swap QUEUED behind token sweep) | docs/plans/doing/agency-engagement/ | 2026-07-18 |
+| ccee819a | Sidebar re-org (nav groups + top-right avatar menu) | admin/src/ui/app-nav.js, admin/src/ui/profile-badge.js, admin/src/main.js | 2026-07-18 |
+| 1b4b459f | Promises-loop P3 engine feed + scorer-trust fix | backend/engine/run-health.ts, backend/engine/run-health.test.ts, backend/api/services/sessions/session-streams.ts, backend/engine/reviewer.ts, backend/engine/cli/stages/, backend/engine/preparation-inputs.ts, content/prompts/, docs/plans/doing/promises-loop/ | 2026-07-18 |
 
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
