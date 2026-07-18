@@ -16,7 +16,8 @@ Plain summary at a glance. Full detail is in the sections below.
 | 19 | 4 leftover git branches | Trunk-only rule = only `main` should exist | Verified all stale/already-landed, deleted all 4 | ✅ Done — remote is now `main` only |
 | — | Free safety checks | Prove nothing broke | typecheck clean · tests 156/156 · $0 | ✅ Passed |
 | 18 | Launch-config repair | Two entries point at wrong/missing files | Held — needs all chats closed | ⏸ Waiting |
-| 21 | Promises-loop P3 · folder rename | Both are your forward calls, not cleanup | Laid out for your decision | 🤔 Your call |
+| 21a | Folder rename (darren→serolocal) | Stalled since 8 Jul; only you can run it | Shelved the handover doc to docs/archive/ | ✅ Done |
+| 21b | Promises-loop P3 | Carl green-lit building it | ⚠️ Blocked — its 2 core engine files are held by another live chat (see note) | ⏸ Waiting on lane |
 
 **Recoverable branch IDs** (if ever needed): `6ddb0f67` · `8479ba49` · `17cac21e` · `ed970fc2` · `f9c686b0`.
 
