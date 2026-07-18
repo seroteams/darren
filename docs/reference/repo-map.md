@@ -742,7 +742,7 @@ _1144 entries · 849 described · 295 to fill · `npm run build-map`._
 - `scripts/test-role-profile.js` — Verifies the role-profile layer offline — no API spend.
 - `scripts/test-rule-registry.js` — Prompt↔gate coupling registry test (agent-native P5).
 - `scripts/test-stage-tags.js` — Standing gate (arc-editor Phase 4): no question may be tagged to a phase id
-- `scripts/test-trust-checks.js` — Offline unit test for the deterministic trust checks (evals/trust-checks.js).
+- `scripts/test-trust-checks.js` — Offline unit test for the deterministic trust checks (evals/trust-checks.ts).
 - `scripts/uninstall-autostart.ps1` — _(no summary yet)_
 - `scripts/verdict-template.html` — _(no summary yet)_
 

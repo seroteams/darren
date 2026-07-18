@@ -7,7 +7,7 @@ answers. It does **not** judge whether a read is *good* — see Limitations.
 ## How it works
 
 `npm run gate` re-runs the human-ratified golden set (`evals/golden/`) through the
-live pipeline and applies the deterministic checks in `trust-checks.js`. Those
+live pipeline and applies the deterministic checks in `trust-checks.ts`. Those
 checks decide pass/fail. The LLM judge (`--judge`) only adds advisory warnings —
 it can never flip a verdict.
 

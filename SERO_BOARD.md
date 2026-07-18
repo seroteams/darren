@@ -274,7 +274,7 @@ gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-ph
 
 ## Trust boundary rules (what's enforced today)
 
-Enforced in code by `evals/trust-checks.js` + `scripts/gate.js` (hard-fail on regression):
+Enforced in code by `evals/trust-checks.ts` + `scripts/gate.js` (hard-fail on regression):
 
 1. **Manager-only field:** `brutal_truth_manager` never appears in employee-facing/shared output. Everything else in the briefing is written as shareable.
 2. **Private-note leak:** manager judgment markers from private notes (doubt, worry, flight risk, readiness…) must not surface verbatim in employee-facing briefing fields.
@@ -289,5 +289,5 @@ Enforced in code by `evals/trust-checks.js` + `scripts/gate.js` (hard-fail on re
 - **Regression gate** — `scripts/gate.js`: 8 golden scenarios through the live pipeline, deterministic trust checks vs baseline. *Costs ~$3 full / ~$0.35 single case — needs go-ahead.*
 - **Smoke test** — `scripts/smoke-test.js`: full 5-stage run, log/transcript/briefing shape asserts. *Costs API — needs go-ahead.*
 - **Schema validation** — every stage validates against its `RESPONSE_SCHEMA` before logging; `SCHEMA_INVALID` flags, never silent.
-- **Deterministic fallbacks** — broken/leaky questions get a safe stem (`src/question-validator.js`); missing role profile gets a stated fallback block; closer failure logged, not masked. *Known hole: no briefing-generation fallback — in the next-stage spec.*
+- **Deterministic fallbacks** — broken/leaky questions get a safe stem (`backend/engine/question-validator.ts`); missing role profile gets a stated fallback block; closer failure logged, not masked. *Known hole: no briefing-generation fallback — in the next-stage spec.*
 - **Free checks** — `npm test`, `node scripts/replay-scenario.js <id> --fixtures-only`, offline trust-check tests. Default to these.

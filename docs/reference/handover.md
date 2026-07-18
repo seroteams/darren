@@ -152,7 +152,7 @@ per stage: `inputs.json`, `prompt.md`, `response.json` (**raw model output**), `
 the model, look at `response.json`. Per-run sidecars: `rating.json` (manager's stars),
 `review.json` (QA verdicts).
 
-**Trust boundary rules (enforced in code, `evals/trust-checks.js` + `scripts/gate.js`):**
+**Trust boundary rules (enforced in code, `evals/trust-checks.ts` + `scripts/gate.js`):**
 1. `brutal_truth_manager` never appears in employee-facing/shared output.
 2. Private-note manager judgments (doubt, flight risk, readiness…) must not surface verbatim.
 3. No HR labels ("flight risk", "doesn't care") unless quoting the transcript.

@@ -32,7 +32,7 @@ catalogue (`focus-points.json`).
 `category` (`wellbeing` | `topic` | `competency`), and `known` (boolean).
 
 **Boundary:** for relational arcs (bi-weekly, feels-off) a `competency` category
-is a hard fail — `FOCUS_ARC_LEAK` gate (`src/golden-checks.js`).
+is a hard fail — `FOCUS_ARC_LEAK` gate (`backend/engine/golden-checks.ts`).
 
 ---
 
@@ -142,7 +142,7 @@ non-finite or out of `[-10, 10]`, or history isn't an array.
 - engagement guard forces `level: inconclusive` (and clears evidence/action/
   watch_next) when the read is partial or engagement/wellbeing barely registered
 
-**Boundaries (enforced by `evals/trust-checks.js` + `scripts/gate.js`):**
+**Boundaries (enforced by `evals/trust-checks.ts` + `scripts/gate.js`):**
 - `brutal_truth_manager` never appears in employee-facing/shared output
 - no private-note judgment markers leak verbatim into employee-facing fields
 - no flat HR labels ("flight risk", "doesn't care") unless quoting transcript

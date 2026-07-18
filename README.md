@@ -28,7 +28,7 @@ Requires `OPENAI_API_KEY` in `.env` for live AI stages.
 | `frontend/` | Placeholder for the future customer app (Phase 007) |
 | `content/` | Product content — `prompts/`, `questions/`, `lexicons/`, `scenarios/`, `config/`, `data/`, `notes/`, `axes.json`, `focus-points.json` |
 | `scripts/` | Verify, replay, sweep, promote helpers |
-| `evals/` | Engine-correctness checks (`trust-checks.js`, golden, fixtures) |
+| `evals/` | Engine-correctness checks (`trust-checks.ts`, golden, fixtures) |
 | `logs/` | Run artifacts (git keep-set only — see `.gitignore`) |
 | `docs/` | Technical docs, `plans/`, `archives/`, active `todo/` work |
 | `.claude/skills/reviewrun/` | `/reviewrun` skill for log review |
