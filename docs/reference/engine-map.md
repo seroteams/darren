@@ -17,7 +17,8 @@ One page: where the pipeline lives, what "correct" means, and the couplings that
 - **Public facade:** `backend/engine/index.ts` — consume the engine through this, not by reaching into internals.
 - **Every model call** goes through one function: `callAI()` in `backend/engine/ai-client.ts`. That is the seam for interception (recording, replay, provider switch).
 - **State:** one `Session` object threads through everything — contract in `backend/shared/session.types.ts`.
-- **Prompts:** `content/prompts/` (7 files), per-meeting-type overlays in `backend/engine/one-on-one-types/<slug>/type.ts`.
+- **Prompts:** `content/prompts/` (8 `.md` files + `rule-registry.ts`, the prompt↔gate coupling registry verified by `scripts/test-rule-registry.js` in `npm test`), per-meeting-type overlays in `backend/engine/one-on-one-types/<slug>/type.ts`.
+- **Other model-call surfaces (added after this map was first drawn):** the guided check-in runner (`backend/engine/guided/wrapup.ts` + `content/prompts/guided-wrapup.md`) and the lexicon review stage (`backend/engine/lexicon-reviewer.ts` + `backend/engine/lexicon/` + `content/prompts/review-session-for-lexicon.md`). Both carry prompts — treat them with the same care as the 5 stages.
 
 ## ⚠️ The two orchestrators — must move in lockstep
 
@@ -28,7 +29,12 @@ The stage chain is wired **twice**. A change to stage wiring must be made in **b
 | Web (production, SSE) | `backend/api/services/sessions/session-streams.ts` |
 | CLI / batch (gate, smoke) | `backend/engine/cli/stages/*.ts` (5 files), driven by `backend/cli.ts` |
 
-Nothing enforces parity today except the paid gate. If you change one, grep the other.
+Nothing enforces parity today except the paid gate (the offline `test-stage-parity.js` asserts stage
+*presence/order* only, not per-stage inputs). If you change one, grep the other. Known input-level
+divergences between the two paths are catalogued in `audits/REPO_SWEEP.md` §4 (2026-07-18, 11 findings).
+A **third** orchestration also exists: `backend/api/services/persona-runs/persona-runs.runner.ts`
+(the scripted QA lane) — its divergence from the live path is deliberate, but stage-wiring changes
+should be checked against it too.
 
 ## What "correct" means
 
