@@ -29,6 +29,23 @@ export interface RunHealth {
   degraded: boolean;
 }
 
+// Scoring health for the reviewer, rebuilt from the finished transcript. The CLI
+// counts {failures, scoredTurns} inline as it runs; the live orchestrator has no
+// such running tally, so it reconstructs the same two numbers here — both then feed
+// the reviewer's low-confidence guard identically (formatScoringStatus). A skipped
+// turn was never scored, so it counts toward neither number (mirrors the CLI, which
+// only tallies non-skipped turns).
+export function scoringFromTranscript(
+  transcript: ReadonlyArray<{ note?: string | null; skipped?: boolean }> | null | undefined,
+): { failures: number; scoredTurns: number } {
+  const turns = Array.isArray(transcript) ? transcript : [];
+  const scored = turns.filter((t) => !t?.skipped);
+  return {
+    failures: scored.filter((t) => t?.note === PLANNER_FAILED_NOTE).length,
+    scoredTurns: scored.length,
+  };
+}
+
 // Pure summary of one run's health from its transcript, whether evaluation fell
 // back, and any serve-time leak reasons that forced a block. Reads only `note`,
 // so any turn-shaped object works.

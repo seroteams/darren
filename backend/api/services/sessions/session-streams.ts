@@ -10,7 +10,7 @@ import path from "node:path";
 import type { RequestContext } from "../../router.ts";
 import { service, IS_DEV, sessionId, callerFence } from "./session-runtime.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
-import { PLANNER_FAILED_NOTE } from "../../../engine/run-health.ts";
+import { PLANNER_FAILED_NOTE, scoringFromTranscript } from "../../../engine/run-health.ts";
 import { focusHistoryFor } from "../../../engine/focus-history.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
 import { generateSuggestions, shouldReview } from "../../../engine/lexicon-reviewer.ts";
@@ -231,6 +231,12 @@ export async function evaluationStream(c: RequestContext): Promise<void> {
             summary: session.agendaInput?.summary ?? null,
             covered: session.agendaCovered ?? null,
           },
+          // Scoring health: if the per-turn planner failed on any scored turn, the
+          // briefing must lead with low confidence. The CLI tallies this inline; the
+          // live path has no running counter, so we rebuild it from the transcript
+          // here — without it the reviewer always heard "OK" and a run on broken
+          // scores still read as fully confident.
+          scoring: scoringFromTranscript(session.transcript),
         },
         { session: { id: session.id, dir: session.dir } }
       );
