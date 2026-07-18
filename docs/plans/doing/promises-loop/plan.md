@@ -28,7 +28,7 @@
 |---|---|---|---|
 | 1 | Promise contract + wrap-up confirm | `promises[]` type + persistence; briefing opens on a confirm card (owners, edit, skip); Q9 primary CTA "Agree next actions →" | ✅ |
 | 2 | Card zero — resurface + close-out | Prior promises fetched for same person; "Before question 1" card with yes/partly/no/changed taps; outcomes written back + roll-up to `outcomeCheck` | ✅ green-lit 2026-07-18 |
-| 3 | Q1 feed, review feed + surfacing | Check-in injected into turn-1 planning AND the reviewer; unfinished promises roll forward into next_actions; person page shows outcomes | ⬜ |
+| 3 | Q1 feed, review feed + surfacing | Check-in injected into turn-1 planning AND the reviewer; unfinished promises roll forward into next_actions; person page shows outcomes | 🟡 SPLIT — surfacing half (person page + Recap show promises + outcome chips) ✅ green-lit 2026-07-18 (Carl walked the seeded Priya data); engine feed (turn-1 planner + reviewer roll-forward) still to build |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 

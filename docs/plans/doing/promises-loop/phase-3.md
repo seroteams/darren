@@ -1,6 +1,6 @@
 # Phase 3 — Q1 feed, review feed + closed-loop surfacing
 
-**Part of:** [plan.md](plan.md) · **Status:** 🟡 SPLIT — safe half (read-only surfacing) BUILT + tested, awaiting Carl's walk. Engine feed (turn-1 planner + reviewer) NOT started — was lane-blocked, now unblocked.
+**Part of:** [plan.md](plan.md) · **Status:** 🟡 SPLIT — safe half (read-only surfacing) ✅ GREEN-LIT 2026-07-18 (Carl walked the seeded Priya data via `scripts/seed-promises.ts`). Engine feed (turn-1 planner + reviewer) NOT started — was lane-blocked, now unblocked.
 
 ## Split note (2026-07-18)
 The engine-feed half (turn-1 planner injection + reviewer context/next_actions roll-forward)

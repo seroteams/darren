@@ -14,7 +14,7 @@ Standing constraints (from CLAUDE.md):
 
 **🧹 BOARD CLEARED 2026-07-18 + PUSHED LIVE (Carl: "finish all, moving on").** His full-system walk green-lit every built pass; the promises **card zero** (P2) was built, screen-proven, and green-lit the same day; every unbuilt tail was then parked with a banner (nothing lost — one sentence un-parks). Open now:
 - **[screen-gallery](docs/plans/doing/screen-gallery/plan.md)** — the ONLY track in doing/: new 2026-07-18 (another chat), mockup awaiting Carl's approval.
-- Newly parked → future/: **ui-look-and-feel** (P4–P6) · **admin-live-deploy** (P4–P6) · **promises-loop** (P3; P1–P2 live) · **personal-data-security** (P3 history-scrub — needs an all-chats-closed night).
+- Newly parked → future/: **ui-look-and-feel** (P4–P6) · **admin-live-deploy** (P4–P6) · **personal-data-security** (P3 history-scrub — needs an all-chats-closed night). *(**promises-loop** un-parked 2026-07-18 → doing/; P3 surfacing half green-lit, engine feed still to build.)*
 - Closed 2026-07-18 → done/: **members-page** (all 5) · **team-page-redesign** (all 3) · **wrap-up-exit** ("yeah works, nice"; its server-side turn≥4 floor guard was BUILT + shipped live the same day, `b1b09fb` — not parked).
 - Recently closed + live: **stream-hang-fix**, **ux-audit-fixes**, **briefing-before-during-after** (2026-07-17).
 - **Carl's move: the corridor test** — name the 3 managers, flip Render to paid.

@@ -17,7 +17,7 @@ Plain summary at a glance. Full detail is in the sections below.
 | — | Free safety checks | Prove nothing broke | typecheck clean · tests 156/156 · $0 | ✅ Passed |
 | 18 | Launch-config repair | Two entries point at wrong/missing files | Held — needs all chats closed | ⏸ Waiting |
 | 21a | Folder rename (darren→serolocal) | Stalled since 8 Jul; only you can run it | Shelved the handover doc to docs/archive/ | ✅ Done |
-| 21b | Promises-loop P3 — safe half | Carl green-lit building it | Built the read-only surfacing (person page + Recap show promises + outcome chips); typecheck clean, tests 156/156 | 🟡 Awaiting your walk — not screenshot-verified (Browser pane hung) |
+| 21b | Promises-loop P3 — safe half | Carl green-lit building it | Built the read-only surfacing (person page + Recap show promises + outcome chips); typecheck clean, tests 156/156; seeded Priya on manager@ for the walk | ✅ Green-lit 2026-07-18 (Carl walked it) |
 | 21c | Promises-loop P3 — engine feed | The core payoff (a broken promise shaping Q1 + the review) | Deferred (was another chat's lane, now unblocked) — not started | ⏸ Next, on your word |
 
 **Recoverable branch IDs** (if ever needed): `6ddb0f67` · `8479ba49` · `17cac21e` · `ed970fc2` · `f9c686b0`.
