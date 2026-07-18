@@ -1,6 +1,14 @@
 # Phase 1 — Resolved-causes gate
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's walk
+
+## Built (2026-07-18)
+- **Prompt** `content/prompts/plan-turn.md`: `<dedup_rules>` rewritten — planner now outputs `resolved_causes` (causes the manager has named + explained) and tags every `new_queue` item with `probes_cause` (copied from that list) + `new_layer`; output-shape + field-contract updated to match.
+- **Schema** `backend/engine/queue-manager.ts`: `resolved_causes` added to the response schema, `probes_cause`/`new_layer` to each queue item (both required, so the model must tag every question); `resolvedCauses` parsed and passed to `reconcileQueue`.
+- **Enforcement** `backend/engine/reconcile-queue.ts`: new pure `resolvedCauseHit()` — drops any item (carried-forward OR new) that re-probes a resolved cause with `new_layer=false`, placed early in the loop so a just-resolved cause kills a previously-queued twin; every drop logged to `planResult.issues` (engine-honesty, nothing silent).
+- **Type** `backend/engine/queue-constants.ts`: `probes_cause?`/`new_layer?` on `RawQueueItem`, read defensively so old replay fixtures still parse.
+- **Offline proof:** `npm test` 157/157 (5 new `resolvedCauseHit` cases green); `npm run typecheck` clean.
+- **Honest limitation:** the drop is deterministic *given* the model's tags — if the planner mis-tags a real repeat as `new_layer=true`, it still slips. Embedding-based enforcement is parked (see plan.md).
 
 ## Goal
 Each planning turn, the engine must explicitly name the causes the manager has **already explained** and check every waiting question against them — a question that re-asks a resolved cause is dropped in code, not left to the model's mood.

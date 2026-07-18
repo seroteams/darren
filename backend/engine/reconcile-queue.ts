@@ -128,9 +128,49 @@ function groundingQuoteSupported(grounding: unknown, corpusNorm: string): boolea
   return tokens.length > 0 && tokens.every((w) => corpusNorm.includes(w));
 }
 
+// Resolved-cause repeat gate -------------------------------------------------
+// A "resolved cause" is a snag the manager has already NAMED and EXPLAINED this
+// session. The planner lists them each turn (`resolved_causes`) and tags every
+// queued item — carried-forward or new — with the cause it re-probes
+// (`probes_cause`, copied verbatim from that list) and whether it seeks a
+// genuinely new layer (`new_layer`). An item that re-probes a resolved cause
+// with no new layer is a reworded repeat: dropped here in code and logged, never
+// left to the prompt's discretion. This catches same-cause questions that share
+// no wording — the Jul tester answered "other pressing deadlines", then got
+// re-asked "what deadlines crowd out the work" (near-zero token overlap, so the
+// lexical repeat gate sailed right past it).
+
+// Overlap of the item's cause tag against a resolved-cause label, relative to
+// the smaller token set — a short label ("pressing deadlines") fully inside a
+// longer tag still counts. The planner is asked to COPY the resolved-cause
+// string into probes_cause, so this is usually an exact hit; the tolerance only
+// absorbs light drift between the two model outputs.
+const RESOLVED_CAUSE_OVERLAP = 0.6;
+
+function causeOverlap(a: Set<string>, b: Set<string>): number {
+  if (!a.size || !b.size) return 0;
+  let inter = 0;
+  for (const w of a) if (b.has(w)) inter++;
+  return inter / Math.min(a.size, b.size);
+}
+
+// Returns the matched resolved cause when `item` re-probes it with no new layer,
+// else null. Pure — the reconcile loop uses it to drop; unit-tested directly.
+function resolvedCauseHit(item: RawQueueItem, resolvedCauses: string[]): string | null {
+  if (!item || !item.probes_cause || item.new_layer) return null;
+  const cand = contentTokens(item.probes_cause);
+  if (cand.size === 0) return null;
+  for (const cause of resolvedCauses || []) {
+    const ct = contentTokens(cause);
+    if (ct.size === 0) continue;
+    if (causeOverlap(cand, ct) >= RESOLVED_CAUSE_OVERLAP) return cause;
+  }
+  return null;
+}
+
 // Reconcile AI-returned items against the existing remaining queue +
 // transcript. Produces the materialised queue of question objects.
-function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remainingQueue, askedAliases, askedNames = [], meetingType = null, groundingCorpus = null }: { remainingQueue: Question[]; askedAliases: Set<string>; askedNames?: string[]; meetingType?: string | null; groundingCorpus?: string | null }): { queue: Question[]; issues: string[] } {
+function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remainingQueue, askedAliases, askedNames = [], meetingType = null, groundingCorpus = null, resolvedCauses = [] }: { remainingQueue: Question[]; askedAliases: Set<string>; askedNames?: string[]; meetingType?: string | null; groundingCorpus?: string | null; resolvedCauses?: string[] }): { queue: Question[]; issues: string[] } {
   const byAlias = new Map(remainingQueue.map((q) => [q.alias, q]));
   const existingAliases = listAllAliases();
   for (const q of remainingQueue) existingAliases.add(q.alias);
@@ -151,6 +191,14 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
     }
     if (item.ref_alias && askedAliases.has(item.ref_alias)) {
       issues.push(`ref_alias ${item.ref_alias} already asked — dropping`);
+      continue;
+    }
+    // Resolved-cause gate — runs before the unchanged/ref carry-forward so it
+    // catches a previously-queued item that re-probes a cause the manager just
+    // resolved this turn, not only freshly-written ones.
+    const causeHit = resolvedCauseHit(item, resolvedCauses);
+    if (causeHit) {
+      issues.push(`resolved-cause: dropped "${item.label || item.name || item.ref_alias}" — re-probes resolved cause "${causeHit}" with no new layer`);
       continue;
     }
     // Check the WHITELISTED axis set, not the raw array: an item can arrive with
@@ -284,4 +332,4 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
 }
 
 
-export { snapToAllowedDelta, toAxisObject, nameWordCount, plannerNameIssue, isUnchanged, normalizeGrounding, reconcileQueue };
+export { snapToAllowedDelta, toAxisObject, nameWordCount, plannerNameIssue, isUnchanged, normalizeGrounding, resolvedCauseHit, reconcileQueue };

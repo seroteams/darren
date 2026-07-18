@@ -94,8 +94,14 @@ const QUEUE_ITEM = {
     // question's premise, or the literal "open" for premise-free questions.
     // Verified in reconcileQueue against the session's grounding corpus.
     grounding: { type: "string" },
+    // Resolved-cause repeat gate: the cause this question re-probes (copied
+    // verbatim from resolved_causes, or "" for fresh ground), and whether it
+    // asks a genuinely new layer on it. reconcileQueue drops an item that
+    // re-probes a resolved cause with new_layer=false.
+    probes_cause: { type: "string" },
+    new_layer: { type: "boolean" },
   },
-  required: ["ref_alias", "label", "name", "description", "purpose", "stage", "axis_effects", "grounding"],
+  required: ["ref_alias", "label", "name", "description", "purpose", "stage", "axis_effects", "grounding", "probes_cause", "new_layer"],
   additionalProperties: false,
 };
 
@@ -111,9 +117,13 @@ const RESPONSE_SCHEMA = {
       required: ["deltas", "note"],
       additionalProperties: false,
     },
+    // Causes the manager has already named AND explained this session. The
+    // planner tags each new_queue item's probes_cause against this list; the
+    // reconcile gate drops same-cause repeats that seek no new layer.
+    resolved_causes: { type: "array", items: { type: "string" } },
     new_queue: { type: "array", items: QUEUE_ITEM },
   },
-  required: ["assessment", "new_queue"],
+  required: ["assessment", "resolved_causes", "new_queue"],
   additionalProperties: false,
 };
 
@@ -412,12 +422,16 @@ async function planTurn({
       .join("\n")
   );
   const newQueueRaw = isRawQueueArray(parsed.new_queue) ? parsed.new_queue : undefined;
+  const resolvedCauses = Array.isArray(parsed.resolved_causes)
+    ? parsed.resolved_causes.filter((s): s is string => typeof s === "string")
+    : [];
   const { queue: reconciledQueue, issues: queueIssues } = reconcileQueue(newQueueRaw, {
     remainingQueue: remainingQueue || [],
     askedAliases,
     askedNames,
     meetingType: ctx.meetingType,
     groundingCorpus,
+    resolvedCauses,
   });
   const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
   let newQueue = enforceThreadFollow({

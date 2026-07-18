@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { toAxisObject, nameWordCount, plannerNameIssue } from "./reconcile-queue.ts";
+import { toAxisObject, nameWordCount, plannerNameIssue, resolvedCauseHit } from "./reconcile-queue.ts";
 
 // Item-shape gates (Phase 1). These pure predicates are the decision logic the
 // reconcile loop calls to drop malformed planner items before they materialise.
@@ -46,4 +46,48 @@ test("plannerNameIssue: 18 words is allowed, 19 is over the cap", () => {
 
 test("plannerNameIssue: a normal short question passes", () => {
   assert.equal(plannerNameIssue("Where is your energy at, and what's driving that?"), null);
+});
+
+// --- Resolved-cause repeat gate --------------------------------------------
+// The planner tags each queued item with the cause it re-probes (`probes_cause`,
+// copied from `resolved_causes`) and whether it seeks a new layer (`new_layer`).
+// resolvedCauseHit is the pure decision the reconcile loop uses to drop reworded
+// repeats the lexical gate misses — the Jul tester answered "other pressing
+// deadlines", then got re-asked "what deadlines crowd out the work".
+
+const RESOLVED = ["other pressing deadlines eating the time"];
+
+test("resolvedCauseHit: a reworded twin of a resolved cause is caught", () => {
+  const item = {
+    label: "deadline pressure",
+    name: "What deadlines keep crowding out the Thailand work?",
+    probes_cause: "other pressing deadlines eating the time",
+    new_layer: false,
+  };
+  assert.equal(resolvedCauseHit(item, RESOLVED), RESOLVED[0]);
+});
+
+test("resolvedCauseHit: a new-layer follow-up on the same cause is kept", () => {
+  const item = {
+    label: "relieve pressure",
+    name: "What would take the deadline pressure off you?",
+    probes_cause: "other pressing deadlines eating the time",
+    new_layer: true,
+  };
+  assert.equal(resolvedCauseHit(item, RESOLVED), null);
+});
+
+test("resolvedCauseHit: a question opening fresh ground is kept", () => {
+  const item = { label: "growth", name: "Where do you want to stretch next quarter?", probes_cause: "", new_layer: false };
+  assert.equal(resolvedCauseHit(item, RESOLVED), null);
+});
+
+test("resolvedCauseHit: a probe of a cause not yet resolved is kept", () => {
+  const item = { label: "handoff", name: "Where does the handoff snag?", probes_cause: "handoff ownership unclear", new_layer: false };
+  assert.equal(resolvedCauseHit(item, RESOLVED), null);
+});
+
+test("resolvedCauseHit: no resolved causes yet drops nothing", () => {
+  const item = { name: "anything", probes_cause: "some cause", new_layer: false };
+  assert.equal(resolvedCauseHit(item, []), null);
 });

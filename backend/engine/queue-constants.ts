@@ -28,6 +28,13 @@ export interface RawQueueItem {
   stage?: string | null;
   axis_effects?: AxisEffect[];
   grounding?: string;
+  // Resolved-cause repeat gate (reconcile-queue.ts): the cause this question
+  // re-probes, copied verbatim from the turn's `resolved_causes`, or "" if it
+  // opens fresh ground; `new_layer` true iff it asks a genuinely new layer on
+  // that cause (what would help / what's been tried) rather than the same
+  // what/why reworded.
+  probes_cause?: string;
+  new_layer?: boolean;
 }
 
 // One {axis, delta} pair on the wire.

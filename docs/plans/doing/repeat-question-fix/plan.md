@@ -22,13 +22,12 @@ Tester feedback (Peitho test drive, 2026-07): asked "where did things grind to a
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Resolved-causes gate | Planner must name the causes already answered and tag queue items; code drops any item probing a resolved cause with no new layer | ⬜ |
+| 1 | Resolved-causes gate | Planner must name the causes already answered and tag queue items; code drops any item probing a resolved cause with no new layer | 🔨 built — awaiting walk |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-18 — awaiting Carl's read-through and green light before any code. One phase only.
-Baseline to run at the START of Phase 1 (free first): `npm test` + `npm run typecheck`.
+**Built 2026-07-18, offline-proven, awaiting Carl's walk.** Baseline was 157/157; after the build, `npm test` 157/157 (+5 new gate cases) and typecheck clean. Not green-lit — Carl walks the phase-1 scenarios, then phase-close. Still owed before done: ONE smallest paid replay (~$0.35) OR Carl's live dev-app walk as the real-model proof.
 Board: https://claude.ai/code/artifact/d28be040-93ad-4df9-9235-46a37b3e84d3
 
 ## Parked

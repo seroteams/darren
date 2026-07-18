@@ -56,6 +56,7 @@ Output shape:
     "deltas": [ { "axis": "<id>", "delta": <int> } ],
     "note": "<one sentence rationale>"
   },
+  "resolved_causes": [ "<short phrase for a cause the manager already named + explained>" ],
   "new_queue": [
     {
       "ref_alias": "<existing alias>" | null,
@@ -65,12 +66,14 @@ Output shape:
       "purpose": "wellbeing" | "topic" | "competency",
       "stage": "<arc stage id>" | null,
       "axis_effects": [ { "axis": "<id>", "delta": <int> } ],
-      "grounding": "<≤10-word verbatim quote from the note/transcript, or \"open\">"
+      "grounding": "<≤10-word verbatim quote from the note/transcript, or \"open\">",
+      "probes_cause": "<a resolved_causes phrase this question re-probes, or \"\">",
+      "new_layer": true | false
     }
   ]
 }
 
-Every item carries all of: ref_alias, label (2–5 words), name, description, purpose, stage, axis_effects, grounding. Construction rules (thread-follow, shallow, crisis, generated closer) override only the fields they name. For thread-follow, shallow, and crisis items, `purpose` is "wellbeing" or "topic", never "competency".
+Every item carries all of: ref_alias, label (2–5 words), name, description, purpose, stage, axis_effects, grounding, probes_cause, new_layer. Construction rules (thread-follow, shallow, crisis, generated closer) override only the fields they name. For thread-follow, shallow, and crisis items, `purpose` is "wellbeing" or "topic", never "competency".
 
 Per item:
 - **Carried unchanged:** `ref_alias` = original alias, copy fields verbatim incl. `stage`, but set `grounding` to "open" (engine re-verifies grounding only on added/reworded items).
@@ -160,7 +163,17 @@ Realise deltas ONLY for signature axes. Off-signature signal goes in `note`, not
 </assessment_rules>
 
 <dedup_rules>
-**Before building `new_queue`, check first:** for every remaining-queue item, has the last answer effectively answered it already? DROP any whose topic the answer volunteered, whose angle earlier context rendered redundant, or whose wording overlaps a question already asked (check aliases AND wording). When in doubt, drop — a redundant question wastes a turn.
+**Before building `new_queue`, resolve what's already been answered.**
+
+First, list `resolved_causes`: the specific snags or causes the manager has already NAMED AND EXPLAINED this session — e.g. "other pressing deadlines eating the time", "unclear ownership on the cutover". A cause counts as resolved once they've said what it is, not merely mentioned it in passing. One short phrase each; `[]` if none yet.
+
+Then tag EVERY item in `new_queue` (carried-forward and new alike):
+- `probes_cause`: if the question digs into one of the resolved causes above, COPY that cause's exact phrase here; otherwise `""`. Opening fresh ground is not a re-probe — leave it `""`.
+- `new_layer`: `true` only when the question asks a genuinely NEW layer on that cause — what would help, what they've tried, what they'd change — not the same what/why in new words. `false` otherwise.
+
+**DROP any item that re-probes a resolved cause without a new layer** — however differently it's worded (the tester answered "other pressing deadlines", so "what deadlines keep crowding out the work" is the same question again). When in doubt, drop — a redundant question wastes a turn. The engine also enforces this in code from your tags, so tag honestly.
+
+Also still DROP any item whose wording overlaps a question already asked (check aliases AND wording).
 </dedup_rules>
 
 <planning_rules>
