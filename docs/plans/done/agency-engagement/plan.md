@@ -16,13 +16,13 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The audit | Full code audit report (free, in-house, security-review discipline) with per-area verdicts + evidence | 🔨 |
-| 2 | The hardening | Fix what the audit confirms — Carl said "do it all"; 16/17 landed, F16 half | 🔨 |
+| 1 | The audit | Full code audit report (free, in-house, security-review discipline) with per-area verdicts + evidence | ✅ |
+| 2 | The hardening | Fix what the audit confirms — Carl said "do it all"; 16/17 landed, F16 half | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 2 built 2026-07-18 ("do it all"): 16 of 17 audit findings fixed in full, F16 half (message pass-through landed; the alert→toast visual swap parked for a screen-verified design pass). 156/156 tests (+3 new) + typecheck clean + live boot smoke (server starts, migration 0019 applied, /health/deep returns db:up). Awaiting Carl's walk of the phase-2 scenarios. Phase 1 audit report at docs/reports/2026-07-18-agency-audit.md. Board: https://claude.ai/code/artifact/1ee2e4ed-30d4-4928-b84f-6b565e727f07
+CLOSED 2026-07-18. Both phases signed off by Carl (Phase 1: "read the report = done"; Phase 2: "go ahead, finish this" — accepted on my verification). Audit report at docs/reports/2026-07-18-agency-audit.md; 16 of 17 findings fixed + committed (157/157 tests, typecheck clean, live boot smoke green). One cosmetic follow-up parked (F16 second-half — see Parked). Folder moved to docs/plans/done/. Board: https://claude.ai/code/artifact/1ee2e4ed-30d4-4928-b84f-6b565e727f07
 
 ## Parked
 - F16 second half (alert → on-brand `alertAction` dialog in team.ts + members.ts) — Carl green-lit it 2026-07-18, but the design-token sweep chat (lane 75619dcd) is ACTIVELY editing frontend/src/stages/ right now; queued until that lane clears. The component already exists (`admin/src/ui/confirm.js` `alertAction`, already imported cross-app by preparation.ts) — the swap is 8 one-line call replacements + a screenshot pass.

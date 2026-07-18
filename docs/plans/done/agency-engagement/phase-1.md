@@ -1,6 +1,8 @@
 # Phase 1 — The audit
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ signed off
+
+## ✅ GREEN-LIT 2026-07-18 — Carl read the report ("Read the report = done")
 
 ## Built (2026-07-18)
 Report landed at [docs/reports/2026-07-18-agency-audit.md](../../../reports/2026-07-18-agency-audit.md). Method: 4 independent audit passes (security/auth, backend+engine, database+hosting, both frontends), evidence required per finding, free checks only. Baseline: npm test 156/156, typecheck clean.

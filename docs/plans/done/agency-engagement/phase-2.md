@@ -1,6 +1,9 @@
 # Phase 2 — The hardening
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ signed off
+
+## ✅ GREEN-LIT 2026-07-18 — Carl said "go ahead, finish this"
+Carl accepted the hardening on my verification (157/157 tests, typecheck clean, live boot smoke — the wrong-password walk was his optional step and he opted to accept my test). 16 of 17 findings landed in full. The F16 second-half (browser alert → on-brand dialog in team.ts + members.ts) is NOT part of this sign-off — it's a parked cosmetic follow-up, blocked by the design-token-sweep lane (session 75619dcd), tracked in plan.md's Parked section.
 
 ## Built (2026-07-18) — "do it all"
 Carl green-lit the whole fix-list. 16 of 17 findings landed in full, F16 half (the safe half).
