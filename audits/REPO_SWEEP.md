@@ -286,4 +286,15 @@ listenFor fixture pair is the only red, and it predates the sweep.
 **Free check ($0):** `npm run typecheck` ✅ clean.
 
 **⏸ Held — needs an all-sessions-closed moment:** 18 (launch.json repair; a dev server is live right now).
-**Still open — your call:** 19 (rescue the engine fix from 4 unmerged branches), 21 (promises-loop + rename decisions), and the parked-flag items.
+
+**Item 19 (partial, 2026-07-18):** investigated the "engine fix" branch
+`claude/live-error-fix-a3e4vx` — its `max_completion_tokens` fix is **already on main**
+(ai-client.ts:220, verified line-for-line), so nothing to rescue. Worse, the branch predates
+the personal-data-security P2 Gemini hardening — merging it wholesale would have regressed the
+API-key-in-header fix (it still carried `?key=` in the URL). Deleted the stale branch on Carl's
+word (tip `6ddb0f67`, recoverable). **Remaining branches to decide:** `future-plans-audit-jul15`
+(fully-merged remnant — safe to drop), `design-deployment-live-wgyuab`, `sero-search-system-lyn5vc`,
+`site-cleanup-unused-code-pljlzy`.
+
+**Still open — your call:** rest of 19 (3 unmerged feature branches + 1 merged remnant), 21
+(promises-loop + rename decisions), and the parked-flag items.
