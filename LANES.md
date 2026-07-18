@@ -9,6 +9,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | 3ccab509 | Lane board setup | LANES.md, .claude/hooks/, .claude/settings.json, CLAUDE.md | 2026-07-18 |
+| 6940787a | wrap-up-exit phase close | docs/plans/doing/wrap-up-exit/, docs/plans/done/wrap-up-exit/, STATUS.md, SERO_BOARD.md, docs/archive/prototype-to-production/progress.md, docs/reports/sero-changelog.html | 2026-07-18 |
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).

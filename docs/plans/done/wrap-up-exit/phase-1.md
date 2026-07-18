@@ -1,6 +1,11 @@
 # Phase 1 — The wrap-up door
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 (built, awaiting Carl's QA walk)
+## ✅ GREEN-LIT 2026-07-18
+Carl walked the door on the real app ("yeah works, nice") — button relabels from Q4, warm confirm,
+exits through a real closer into the briefing. Open finding below (the turn≥4 backend floor guard)
+handed to Carl as a separate call; not part of this close.
+
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit 2026-07-18
 
 ## Built (2026-07-17)
 - Backend: `wrapUp` service (sessions.service.ts) + `POST /api/v1/sessions/:id/wrap-up` (controller + server.ts) — shortens the budget to turn+1 and fronts the closer; scripted/finished/no-closer fall back safely.
