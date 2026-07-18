@@ -1,0 +1,76 @@
+/* --- Login split screen (form left, photo right) ------------------------- */
+/* The login stage runs edge to edge, so drop the centered/padded stage default. */
+.stage--auth {
+  padding: 0;
+  place-items: stretch;
+}
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100dvh;
+  width: 100%;
+}
+/* Left column — centers the form panel in the available space. */
+.auth-split__form {
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+.auth-panel {
+  width: 100%;
+  max-width: 380px;
+}
+/* The submit button stretches to the panel width, so center its label
+   (base .btn is inline-flex with no justify-content → text hugs the left). */
+.auth-panel .btn {
+  justify-content: center;
+}
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sero-space-3);
+}
+.auth-brand__logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  display: block;
+}
+.auth-brand__title {
+  font-size: var(--type-h1);
+  font-weight: var(--type-weight-bold);
+  line-height: var(--type-leading-tight);
+  margin: 0;
+}
+.auth-brand__sub {
+  color: var(--color-ink-dim);
+  margin: 0;
+}
+/* Right column — full-height photo over a brand gradient (the gradient shows
+   through if the image is missing, so the panel never looks broken). */
+.auth-split__media {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--sero-primary-800), var(--sero-mint-800));
+}
+.auth-split__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Portrait photos crop vertically — anchor to the top so faces stay in frame. */
+  object-position: top;
+  display: block;
+}
+/* On narrow screens the photo drops away and the form takes the full width. */
+@media (max-width: 820px) {
+  .auth-split {
+    grid-template-columns: 1fr;
+  }
+  .auth-split__media {
+    display: none;
+  }
+}
