@@ -1,0 +1,71 @@
+/* Member Home — requests & goals form.
+   Replaces the former inline style="" attributes with token-based classes (design-system
+   sweep P3). Geometry matches the approved prototype; the only deliberate changes are
+   control radius 8px → 4px (var(--radius-input/button), DESIGN §5) and the error colour,
+   which was a non-token #a3372c and is now var(--color-negative-text). */
+
+.mh-sub {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.mh-eyebrow {
+  margin-bottom: 1rem;
+}
+.mh-item {
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.mh-form {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.mh-input {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  font-size: var(--type-body-md);
+}
+.mh-input--grow {
+  flex: 1 1 12rem;
+}
+.mh-input--pct {
+  width: 5rem;
+  padding: 0.4rem;
+}
+.mh-input--note {
+  flex: 1 1 10rem;
+  padding: 0.4rem 0.7rem;
+}
+.mh-select {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  font-size: var(--type-body-md);
+}
+.mh-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-button);
+  border: 0;
+  background: var(--sero-primary-700);
+  color: var(--sero-offwhite-50);
+  font-weight: 600;
+  cursor: pointer;
+}
+.mh-btn--outline {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--sero-primary-500);
+  background: var(--color-surface);
+  color: var(--sero-primary-800);
+}
+.mh-goal-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+.mh-error {
+  color: var(--color-negative-text);
+}

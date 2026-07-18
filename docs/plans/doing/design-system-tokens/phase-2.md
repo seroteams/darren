@@ -1,6 +1,11 @@
 # Phase 2 — Member runner (guided.css)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-18 — under Carl's continuous-run authorisation. Verified in-browser (frontend tab 3041): `.mcr-btn` + `.mcr-field input` radius now 4px, tokens resolve, no console errors.
+
+## Built (2026-07-18)
+`frontend/src/stages/guided/guided.css` rewritten token-pure: dropped all 46 stale hex fallbacks, mapped exact-match font-sizes to `--type-*` (15px→`--type-body-md`), 9999px→`--sero-radius-full`, 12px cards→`--radius-card`, the 4 controls 8px→4px (`--radius-button`), z-index near-max-int→`--sero-z-*`, backdrop→`--color-backdrop`, 6 shadows→`--sero-shadow-*`. **Deliberate nudges:** 4 control corners crisper (8→4px); backdrop scrim uses the sanctioned `--color-backdrop`; row-hover/pill/panel shadows use nearest scale token (near-identical). **Left literal (approved layout, snapping would reflow):** off-grid spacing, plus 3 bespoke display sizes (hero clamp, 30px score, 19px summary h3) and the 6px logo box. Typecheck clean.
 
 ## Goal
 Detox the single biggest offender — `frontend/src/stages/guided/guided.css`, a verbatim prototype port that was never tokenised.

@@ -22,8 +22,8 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Token foundation | `--type-body-md:15px` + `--color-surface-hover` + fix stale surface comment | ✅ |
-| 2 | Member runner (guided.css) | Detox the single biggest offender — 46 stale fallbacks, type/spacing/shadow/z/radius | ⬜ |
-| 3 | Member forms + team card | `member-home.js` inline form → classes; error colour + radius fixes; team-card.css | ⬜ |
+| 2 | Member runner (guided.css) | Detox the single biggest offender — 46 stale fallbacks, type/spacing/shadow/z/radius | ✅ |
+| 3 | Member forms + team card | `member-home.js` inline form → classes; error colour + radius fixes; team-card.css | ✅ |
 | 4 | Admin CSS pocket | Stray hex, off-palette rgba retints, 14 stale fallbacks, literal radii/z, side-stripe | ⬜ |
 | 5 | Admin JS + a11y floor | Fix 11/12px caret (Lucide chevron), mismatched fallbacks, off-scale radii/type | ⬜ |
 | 6 | Lint guard | `scripts/lint-design-tokens.js` + `npm run lint:tokens` (free) with exempt allowlist | ⬜ |

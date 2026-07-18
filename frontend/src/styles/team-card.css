@@ -13,14 +13,14 @@
 .team-card__avatar {
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--sero-radius-full);
   display: grid;
   place-items: center;
-  font-family: var(--type-family-display, inherit);
-  font-weight: var(--type-weight-semibold, 600);
-  font-size: 15px;
+  font-family: var(--type-family-display);
+  font-weight: var(--type-weight-semibold);
+  font-size: var(--type-body-md);
   letter-spacing: -0.01em;
-  color: var(--color-accent-dark, var(--color-accent));
+  color: var(--color-accent-dark);
   background: var(--color-accent-soft);
 }
 .team-card__avatar--joined { background: var(--sero-mint-300); color: var(--color-positive-text); }
@@ -29,12 +29,12 @@
 .team-card__avatar--none { background: var(--sero-soft-200); color: var(--color-ink-mute); }
 
 .team-card__who { min-width: 0; }
-.team-card__name { font-size: var(--type-body-sm, 0.9375rem); color: var(--color-ink); }
+.team-card__name { font-size: var(--type-body-sm); color: var(--color-ink); }
 /* The name is a button now (audit M8 — keyboard-openable) but reads as the same heading text. */
 .team-card__name-btn {
-  font-family: var(--type-family-display, inherit);
-  font-weight: var(--type-weight-semibold, 600);
-  font-size: 1.0625rem;
+  font-family: var(--type-family-display);
+  font-weight: var(--type-weight-semibold);
+  font-size: var(--type-body-lg);
   letter-spacing: -0.01em;
   color: inherit;
   background: none;
@@ -48,7 +48,7 @@
 
 /* The whole card opens the person (audit M8) — the cursor now tells the truth. */
 .team-card.js-card-open { cursor: pointer; }
-.team-card.js-card-open:hover { background: var(--color-surface-hover, var(--sero-soft-100, rgba(0,0,0,0.02))); }
+.team-card.js-card-open:hover { background: var(--color-surface-hover); }
 .team-card__meta {
   margin-top: 2px;
   font-size: var(--type-label);
@@ -58,7 +58,7 @@
   gap: 5px;
   flex-wrap: wrap;
 }
-.team-card__meta svg { color: var(--sero-gold-900, var(--color-ink-dim)); vertical-align: -2px; }
+.team-card__meta svg { color: var(--sero-gold-900); vertical-align: -2px; }
 
 .team-card__right { display: flex; flex-direction: column; align-items: flex-end; gap: 9px; flex-shrink: 0; }
 .team-card__do { display: flex; align-items: center; gap: 6px; }
@@ -70,9 +70,9 @@
   align-items: center;
   gap: 5px;
   font-size: var(--type-label);
-  font-weight: var(--type-weight-medium, 500);
+  font-weight: var(--type-weight-medium);
   padding: 3px 10px 3px 8px;
-  border-radius: var(--radius-full, 9999px);
+  border-radius: var(--sero-radius-full);
   white-space: nowrap;
 }
 .team-pill svg { width: 13px; height: 13px; }
@@ -87,10 +87,10 @@
   padding: 3px 4px;
   font: inherit;
   font-size: var(--type-label);
-  font-weight: var(--type-weight-semibold, 600);
+  font-weight: var(--type-weight-semibold);
   color: var(--color-accent-dark);
   cursor: pointer;
-  border-radius: var(--radius-sm, 4px);
+  border-radius: var(--sero-radius-sm);
 }
 .team-link:hover { text-decoration: underline; }
 .team-link:focus-visible { outline: 2px solid var(--color-accent-dark); outline-offset: 2px; }

@@ -91,7 +91,7 @@ export function renderRecord(ctx: RecordCtx): string {
     <div class="mcr">
       <div class="mcr-col mcr-rec">
         <div class="mcr-done-banner">${ICONS.check}<span>Completed${when ? ` · ${esc(when)}` : ""}</span></div>
-        <h1 class="mcr-h1" style="font-size:clamp(24px,3.4vw,34px)">Monthly Check-in with ${esc(copy.full || copy.name)}</h1>
+        <h1 class="mcr-h1 mcr-h1--rec">Monthly Check-in with ${esc(copy.full || copy.name)}</h1>
 
         <div class="mcr-rec__block"><h3>Summary</h3>${summaryBody}</div>
         ${scoresSection(ctx)}

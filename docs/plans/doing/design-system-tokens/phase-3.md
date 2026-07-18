@@ -1,6 +1,11 @@
 # Phase 3 — Member forms + team card
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-18 — under Carl's continuous-run authorisation. Verified in-browser (tab 3041): `.mh-btn` bg = primary #5aa9e6, radius 4px; `.mh-input` 4px/15px; `.mh-error` = #ac1608 (the correct token, was #a3372c); no console errors.
+
+## Built (2026-07-18)
+`member-home.js` — the requests/goals form de-inlined into new `member-home.css` (`.mh-*` token classes); error colour `#a3372c` → `var(--color-negative-text)`; control radius 8→4px; 15px → `--type-body-md`. `team-card.css` — dropped stale/absent-token fallbacks (`--radius-full`→`--sero-radius-full`, `--radius-sm`→`--sero-radius-sm`, `--color-surface-hover` now real), 15px avatar → `--type-body-md`, 17px name → `--type-body-lg`. `guided.page.ts` — error cssText hex fallback dropped → `--color-negative-text` + `--type-body-sm`. `record.component.ts` — inline clamp font-size → `.mcr-h1--rec` class. Typecheck clean.
 
 ## Goal
 Kill the inline-style drift in the member home form and clean the remaining member-app CSS.
