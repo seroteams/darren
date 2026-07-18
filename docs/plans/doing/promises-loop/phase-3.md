@@ -26,8 +26,12 @@ this started — so it was deferred on Carl's "build safe" call. **Built here (t
 - ⬜ **Turn-1 planner nudge** — inject the check-in into the first planner turn so a not-done promise
   can shape an early question (scenario 1). NON-deterministic; needs a paid run to observe. NOT built.
 - ⬜ **Honesty-gate run-log flag** (if turn-1 ignores a not-done promise, flag not rewrite). NOT built.
-- ⬜ **Paid proof** — one single-case run (~$0.35) to confirm a "no"-tapped promise reaches the
-  briefing's next_actions (and, if built, Q1). Awaiting Carl's spend nod.
+- ✅ **Paid proof (reviewer feed)** — one evaluation call (2026-07-18, ~few pence) with a check-in of
+  {workload=NO, Q3 goals=PARTLY, deck=YES}. Result: both the NOT-done and PARTLY items appeared in
+  `next_actions` ("Revisit … workload before the next sprint"; "close the loop on the partly done Q3
+  goals document"), and a summary_bullet acknowledged "the follow-through picture is unfinished: two of
+  three prior items were not done." The all-done item was not pushed as its own action. Behaviour confirmed.
+- ⬜ **Turn-1 planner nudge** + honesty flag — still to build (needs its own paid, non-deterministic proof).
 
 ## Goal
 The check-in isn't a dead tap: an unfinished promise can shape the session's first question, the end-of-session review acknowledges the follow-through, and the person page shows the loop closing over time.
