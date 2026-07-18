@@ -17,7 +17,7 @@ Standing constraints (from CLAUDE.md):
 - **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P2–P3 ✅ green-lit 07-18, LIVE (admin console + Pulse at /admin); P4–P6 ⬜ not built.
 - **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — P1 green-lit; P2/P3 never started. Not archive-safe.
 - **[personal-data-security](docs/plans/doing/personal-data-security/plan.md)** — P1–P2 ✅ (hardening green-lit 07-18, live); P3 git-history scrub held for an all-sessions-closed window.
-- **[wrap-up-exit](docs/plans/done/wrap-up-exit/plan.md)** — ✅ CLOSED 2026-07-18 (Carl walked it: "yeah works, nice"): from Q4 the escape becomes "Wrap up — get my briefing" and exits through a real closer. Paid-tested 4/4 types 07-17. Local only — ships with the next release. Open follow-up call: the server-side turn≥4 floor guard.
+- **[wrap-up-exit](docs/plans/done/wrap-up-exit/plan.md)** — ✅ CLOSED 2026-07-18 (Carl walked it: "yeah works, nice"): from Q4 the escape becomes "Wrap up — get my briefing" and exits through a real closer. Paid-tested 4/4 types 07-17; **live** (shipped with the 07-17/18 pushes, deploy health-checked by the goodnight). Open follow-up call: the server-side turn≥4 floor guard.
 - Closed 2026-07-18 (Carl's walk) → done/: **members-page** (all 5 phases — one invite flow, row actions, link-dropdown retired) · **team-page-redesign** (all 3 phases — status pill, opened-link signal, Remind).
 - Recently closed + live: **stream-hang-fix**, **ux-audit-fixes**, **briefing-before-during-after** (all 2026-07-17 → done/).
 
