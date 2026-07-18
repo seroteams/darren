@@ -19,6 +19,7 @@
     "cli": "node backend/cli.ts",
     "test": "node scripts/run-tests.js",
     "lint": "eslint .",
+    "lint:tokens": "node scripts/lint-design-tokens.js",
     "typecheck": "tsc --noEmit",
     "typecheck:admin": "tsc --noEmit -p admin/tsconfig.json",
     "typecheck:customer": "tsc --noEmit -p frontend/tsconfig.json",

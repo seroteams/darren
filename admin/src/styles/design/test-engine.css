@@ -130,7 +130,7 @@
   font-size: var(--type-label);
   font-weight: 600;
   color: var(--color-ink-mute);
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  background: var(--color-surface-2);
   border-radius: var(--radius-input);
   padding: 0.05rem 0.45rem;
   margin-left: 0.4rem;
@@ -181,7 +181,7 @@
 .joblex-hidden__row .flow-glossary__term { color: var(--color-ink-mute); font-weight: var(--type-weight-regular); }
 .joblex-restore {
   border: 0;
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  background: var(--color-surface-2);
   cursor: pointer;
   color: var(--color-ink);
   font-size: var(--type-label);

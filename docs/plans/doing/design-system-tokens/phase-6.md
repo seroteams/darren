@@ -1,6 +1,11 @@
 # Phase 6 — Lint guard
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-18 — under Carl's continuous-run authorisation. `npm run lint:tokens` PASSES clean on the whole tree (153 files, 0 hard violations). Self-tested: a probe with `#hex` + `rgba()` + a `var()` hex-fallback + `font-size:11px` triggers all four error classes; an allowlisted file (dev-badge.js) with the same bad values stays PASS.
+
+## Built (2026-07-18)
+`scripts/lint-design-tokens.js` (pure Node, zero deps, free) + `npm run lint:tokens`. **Errors (fail):** raw hex, rgb/rgba literals, `var(--token, literal)` fallbacks, sub-14px font. **Warn/report (`--report`):** 47 non-token font-sizes, 43 literal radii, 154 off-grid spacing (the deliberately-kept approved-layout values). **Allowlist:** tokens.css, dev-badge/build-stamp, design.js, universe.*, orb.css + motion.css + app-nav.css (decorative signatures), the brandmark LOGO JS files, `*.test.*`; per-line `lint-tokens-ignore` waiver (used once, base.css hero glow). **The guard earned its keep immediately:** first run surfaced **11 stale fallbacks the sampling audit missed** (stage-review.css ×9, test-engine.css ×2) — all fixed. Guard now green.
 
 ## Goal
 Stop drift ever creeping back — a free, zero-dependency check that fails on raw hex, off-grid values, off-scale radii, sub-14px text and stale fallbacks.

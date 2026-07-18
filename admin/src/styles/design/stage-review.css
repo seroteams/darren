@@ -58,7 +58,7 @@
   white-space: nowrap;
 }
 .stage-review__tab:hover {
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  background: var(--color-surface-2);
   color: var(--color-ink);
 }
 .stage-review__tab.is-active {
@@ -79,7 +79,7 @@
   line-height: 1;
 }
 .stage-review__close:hover {
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  background: var(--color-surface-2);
   color: var(--color-ink);
 }
 .stage-review__body {
@@ -123,7 +123,7 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  background: var(--color-surface-2);
   display: grid;
   place-items: center;
   font-size: var(--type-caption);
@@ -174,7 +174,7 @@
   white-space: nowrap;
 }
 .run-row__review--done { color: var(--color-positive); background: var(--sero-success-light); }
-.run-row__review--partial { color: var(--color-amber, #b4690e); background: var(--sero-warning-light); }
+.run-row__review--partial { color: var(--color-amber); background: var(--sero-warning-light); }
 
 .run-review { grid-template-columns: minmax(0, 1fr) 22rem; gap: 1.5rem; align-items: start; }
 .run-review__verdict { position: sticky; top: 1rem; }
@@ -251,11 +251,11 @@
 }
 .rv-ov__btn + .rv-ov__btn { border-left: 1px solid var(--color-border); }
 .rv-ov__btn.is-keep { background: var(--sero-success-light); color: var(--color-positive); font-weight: 600; }
-.rv-ov__btn.is-fix { background: var(--sero-warning-light); color: var(--color-amber, #b4690e); font-weight: 600; }
+.rv-ov__btn.is-fix { background: var(--sero-warning-light); color: var(--color-amber); font-weight: 600; }
 .rv-ov__btn.is-block { background: var(--sero-error-light); color: var(--color-negative); font-weight: 600; }
 
 .stage-review__card--private {
-  border-color: var(--color-amber, #b4690e);
+  border-color: var(--color-amber);
   background: var(--sero-warning-light);
 }
 
@@ -299,7 +299,7 @@
 .lib-filter.is-active {
   background: var(--color-accent);
   border-color: var(--color-accent);
-  color: var(--sero-offwhite-50, #fff);
+  color: var(--sero-offwhite-50);
 }
 .lib-search { max-width: 16rem; }
 
@@ -349,8 +349,8 @@
 }
 /* Geometry (incl. the pill radius — this was squared at 4px) comes from the
    shared chip recipe in design/base.css. Colours only here. */
-.lib-badge--muted { color: var(--color-ink-mute); background: var(--color-surface-2, rgba(0, 0, 0, 0.05)); }
+.lib-badge--muted { color: var(--color-ink-mute); background: var(--color-surface-2); }
 .lib-badge--keep { color: var(--color-positive-text); background: var(--sero-success-light); }
-.lib-badge--fix { color: var(--color-amber, #b4690e); background: var(--sero-warning-light); }
+.lib-badge--fix { color: var(--color-amber); background: var(--sero-warning-light); }
 .lib-badge--block { color: var(--color-negative-text); background: var(--sero-error-light); }
 

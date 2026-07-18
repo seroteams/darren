@@ -3,7 +3,7 @@
 ----------------------------------------------------------------------------- */
 html, body {
   background:
-    radial-gradient(circle at 72% 0%, rgba(90, 169, 230, 0.10), transparent 36%),
+    radial-gradient(circle at 72% 0%, rgba(90, 169, 230, 0.10) /* lint-tokens-ignore: decorative hero accent glow, no alpha token */, transparent 36%),
     var(--color-bg);
   /* Pin the wash to the viewport so it never tiles or restretches on long,
      scrolling pages — one fixed blob, identical on every page. */
