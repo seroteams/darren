@@ -273,7 +273,8 @@
   /* Surfaces */
   --color-bg: var(--sero-primary-100);             /* #f5fafd */
   --color-page: var(--sero-primary-100);           /* #f5fafd — was referenced (Pulse tracks/pills) but never defined, so those backgrounds rendered transparent; alias to the paper tint (UI polish P1) */
-  --color-surface: var(--sero-soft-50);            /* #ffffff */
+  --color-surface: var(--sero-soft-50);            /* #fdfefe — never-pure-white surface (comment was mislabelled #ffffff) */
+  --color-surface-hover: var(--sero-soft-100);     /* #fefefe — subtle hover wash; referenced by team-card.css but never defined, so it rendered via fallback. Defined to match that fallback exactly (design-system sweep P1). */
   --color-border: var(--sero-soft-700);            /* #e8e8e8 */
   --color-border-strong: var(--sero-charcoal-300); /* #cccccc */
   --color-border-tinted: color-mix(in srgb, var(--sero-primary-300) 30%, var(--color-border));
@@ -330,6 +331,7 @@
   --type-body: 16px;
   --type-body-lg: 1.0625rem;                      /* 17px — slightly-larger body (planner titles) */
   --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
+  --type-body-md: 15px;                           /* mid step — fills the 14→16 gap so 15px call sites get a token home (design-system sweep P1) */
   /* Accessibility rule: NO text token may render below 14px. caption/label
      were 13px/12px; raised to the 14px floor. Do not lower these. */
   --type-caption: 14px;                           /* was 13px → floored to 14px */
