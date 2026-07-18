@@ -294,8 +294,14 @@ the personal-data-security P2 Gemini hardening — merging it wholesale would ha
 API-key-in-header fix (it still carried `?key=` in the URL). Deleted the stale branch on Carl's
 word (tip `6ddb0f67`, recoverable). The fully-merged remnant `future-plans-audit-jul15`
 (tip `8479ba49`) was pruned too — already gone from the remote (a parallel session had removed it).
-**3 unmerged feature branches remain to decide:** `design-deployment-live-wgyuab` (/new setup rework),
-`sero-search-system-lyn5vc` (search Phase 2), `site-cleanup-unused-code-pljlzy` (a cleanup pass).
+**Item 19 CLOSED (2026-07-18, "bin all three"):** the 3 remaining branches were all stranded far
+behind main (each diff vs current main = 650+ files / ±22k lines) with their headline work already
+landed by other routes — `design-deployment-live-wgyuab` (setup rework, superseded by the ux-audit
+passes; tip `17cac21e`), `sero-search-system-lyn5vc` (repo-map + `build-map` already on main; tip
+`ed970fc2`), `site-cleanup-unused-code-pljlzy` (its delete-targets already gone from main; tip
+`f9c686b0`). All deleted; merging any would have reverted hundreds of main commits. **The remote is
+now trunk-only — `main` is the only branch, matching CLAUDE.md §6.** All four tips recoverable by sha
+for the git reflog window.
 
-**Still open — your call:** rest of 19 (3 unmerged feature branches — each a fold-or-discard call),
-21 (promises-loop + rename decisions), and the parked-flag items.
+**Still open — your call:** 21 (promises-loop + rename decisions) and the parked-flag items.
+18 (launch.json) still held for an all-sessions-closed moment.
