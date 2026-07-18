@@ -253,3 +253,21 @@ schema or detector files touched.
 **Phase 2+3 close** — Files touched: 18 (docs, trackers, skills, render.yaml comments, seeds.json;
 zero product code). Commits: 7. Highest-risk item this phase: none introduced — the pre-existing
 listenFor fixture pair is the only red, and it predates the sweep.
+
+---
+
+# Safe-bin batch (2026-07-18, Carl's "bin the safe ones")
+
+**Executed:** items 10, 11, 13, 14, 15, 17. All verified consumer-free before removal.
+
+| # | Removed | Notes |
+|---|---|---|
+| 10 | `images/` (6 files, 2.0 MB) | Triplicate login photos + unused logo. Tracked — recoverable |
+| 11 | `backend/engine/review-html.ts` (508 lines) | Zero importers; only a stale doc-comment mention left in run-artifacts-store.ts:38 (prose, untouched) |
+| 13 | `admin/src/stages/tests/{live-pulse,setup-redesign}.js` | Shipped features; removed their imports + gallery entries + the two now-orphaned thumbnails (THUMB_DASHBOARD, THUMB_SETUP) from test.js. promises-loop mock kept |
+| 14 | `scripts/{benchmark.js,suggest-judge.js,verdict-template.html}` | No npm script, no caller |
+| 15 | `logs/may` + index.html + 2 baseline strays (~1.2 MB) | **Untracked — permanent delete**, done |
+| 17 | `.cursor/` + `.cursorignore` + untracked debug log | Cursor-era config, workflow moved to Claude Code |
+
+**Free checks ($0):** `npm run typecheck` ✅ clean · `npm test` ✅ **156/156**.
+**Still open:** 12, 16, 18, 19, 20, 21 (and the parked-flag items).

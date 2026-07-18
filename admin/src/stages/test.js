@@ -4,37 +4,10 @@
 // New tests: add a module under ./tests/ exporting mount(root), then one entry to TESTS.
 
 import { mount as promisesLoop } from "./tests/promises-loop.js";
-import { mount as livePulse } from "./tests/live-pulse.js";
-import { mount as setupRedesign } from "./tests/setup-redesign.js";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
 // recognisable at a glance. Pure SVG (no captured PNGs to go stale); colours
 // come from the design tokens via the .tg-thumb CSS classes below.
-const THUMB_DASHBOARD = `
-  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect class="bg" width="300" height="120"/>
-    <rect class="ink" x="16" y="14" width="86" height="8" rx="4" opacity="0.5"/>
-    <rect class="accent" x="248" y="12" width="38" height="12" rx="6"/>
-    <rect class="card" x="16" y="34" width="80" height="30" rx="6"/>
-    <rect class="card" x="110" y="34" width="80" height="30" rx="6"/>
-    <rect class="card" x="204" y="34" width="80" height="30" rx="6"/>
-    <rect class="accent" x="24" y="42" width="34" height="7" rx="3.5"/>
-    <rect class="accent" x="118" y="42" width="34" height="7" rx="3.5"/>
-    <rect class="accent" x="212" y="42" width="34" height="7" rx="3.5"/>
-    <rect class="ink" x="24" y="53" width="22" height="5" rx="2.5" opacity="0.35"/>
-    <rect class="ink" x="118" y="53" width="22" height="5" rx="2.5" opacity="0.35"/>
-    <rect class="ink" x="212" y="53" width="22" height="5" rx="2.5" opacity="0.35"/>
-    <rect class="card" x="16" y="74" width="268" height="34" rx="6"/>
-    <g class="accent" opacity="0.85">
-      <rect x="28" y="92" width="12" height="12" rx="2"/>
-      <rect x="52" y="86" width="12" height="18" rx="2"/>
-      <rect x="76" y="96" width="12" height="8" rx="2"/>
-      <rect x="100" y="88" width="12" height="16" rx="2"/>
-      <rect x="124" y="82" width="12" height="22" rx="2"/>
-      <rect x="148" y="90" width="12" height="14" rx="2"/>
-      <rect x="172" y="84" width="12" height="20" rx="2"/>
-    </g>
-  </svg>`;
 const THUMB_RUNNER = `
   <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect class="bg" width="300" height="120"/>
@@ -50,25 +23,6 @@ const THUMB_RUNNER = `
     <rect class="ink" x="50" y="88" width="160" height="8" rx="4" opacity="0.45"/>
   </svg>`;
 
-// Two-column setup screen: left = title + input + two person cards, right = the guide card.
-const THUMB_SETUP = `
-  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect class="bg" width="300" height="120"/>
-    <rect class="ink" x="16" y="14" width="70" height="7" rx="3.5" opacity="0.5"/>
-    <rect class="accent" x="16" y="28" width="130" height="6" rx="3"/>
-    <rect class="card" x="16" y="42" width="130" height="18" rx="4"/>
-    <rect class="accent" x="112" y="46" width="30" height="10" rx="3"/>
-    <rect class="card" x="16" y="66" width="130" height="20" rx="4"/>
-    <rect class="card" x="16" y="90" width="130" height="20" rx="4"/>
-    <rect class="card" x="164" y="14" width="120" height="96" rx="6"/>
-    <rect class="accent" x="176" y="26" width="40" height="6" rx="3"/>
-    <circle class="accent" cx="182" cy="48" r="6"/>
-    <rect class="ink" x="196" y="45" width="76" height="6" rx="3" opacity="0.4"/>
-    <circle class="accent" cx="182" cy="68" r="6"/>
-    <rect class="ink" x="196" y="65" width="76" height="6" rx="3" opacity="0.4"/>
-    <circle class="accent" cx="182" cy="88" r="6"/>
-    <rect class="ink" x="196" y="85" width="76" height="6" rx="3" opacity="0.4"/>
-  </svg>`;
 const THUMB_PICKER = `
   <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect class="bg" width="300" height="120"/>
@@ -94,28 +48,6 @@ const THUMB_PICKER = `
   </svg>`;
 
 const TESTS = [
-  {
-    id: "setup-redesign",
-    title: "Setup screen redesign — \"Who are you prepping for?\"",
-    blurb:
-      "The reworked /new setup step: no run stage-rail up top, a 50/50 layout with the \"First time?\" guide moved to the right, and the \"add someone new\" input lifted above the existing people.",
-    date: "15 Jul 2026",
-    tag: "setup",
-    thumb: THUMB_SETUP,
-    wide: true, // the 50/50 layout needs more than the reading column
-    mount: setupRedesign,
-  },
-  {
-    id: "live-pulse",
-    title: "Live pulse — the founder dashboard",
-    blurb:
-      "Your window into the live site: who registered, their runs and run TYPES, who came back unprompted (the Gate 1 number), where runs break off, guest runs, errors. Click a manager → their team and every run; click a run → the answers they typed and the feedback they left.",
-    date: "12 Jul 2026",
-    tag: "live admin",
-    thumb: THUMB_DASHBOARD,
-    wide: true, // a dashboard wants the full width, not the reading column
-    mount: livePulse,
-  },
   {
     id: "promises-loop",
     title: "Promises loop in the runner",
