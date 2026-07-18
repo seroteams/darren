@@ -4,6 +4,7 @@
 // New tests: add a module under ./tests/ exporting mount(root), then one entry to TESTS.
 
 import { mount as promisesLoop } from "./tests/promises-loop.js";
+import { mount as runnerV2 } from "./tests/runner-v2.js";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
 // recognisable at a glance. Pure SVG (no captured PNGs to go stale); colours
@@ -47,7 +48,36 @@ const THUMB_PICKER = `
     <rect class="ink" x="30" y="100" width="140" height="6" rx="3" opacity="0.3"/>
   </svg>`;
 
+const THUMB_SPLIT = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect class="card" x="16" y="14" width="128" height="92" rx="8"/>
+    <rect class="ink" x="28" y="26" width="90" height="8" rx="4" opacity="0.55"/>
+    <rect class="ink" x="28" y="40" width="70" height="6" rx="3" opacity="0.3"/>
+    <rect class="card" x="28" y="54" width="104" height="26" rx="4"/>
+    <rect class="accent" x="28" y="88" width="40" height="10" rx="4"/>
+    <rect class="card" x="156" y="14" width="128" height="92" rx="8"/>
+    <rect class="accent" x="168" y="26" width="46" height="8" rx="4" opacity="0.45"/>
+    <rect class="ink" x="168" y="40" width="100" height="6" rx="3" opacity="0.3"/>
+    <rect class="accent" x="168" y="54" width="46" height="8" rx="4" opacity="0.45"/>
+    <rect class="ink" x="168" y="68" width="90" height="6" rx="3" opacity="0.3"/>
+    <rect class="accent" x="168" y="82" width="46" height="8" rx="4" opacity="0.45"/>
+    <rect class="ink" x="168" y="96" width="96" height="6" rx="3" opacity="0.3"/>
+  </svg>`;
+
 const TESTS = [
+  {
+    id: "runner-v2",
+    title: "Runner v2 — split coach panel",
+    blurb:
+      "The questioning screen as a 50/50: the familiar question card on the left, and a light coach panel on the right with up to three hints per question — how to ask it, and what to listen for.",
+    date: "18 Jul 2026",
+    tag: "runner",
+    thumb: THUMB_SPLIT,
+    mount: runnerV2,
+    bare: true,
+    wide: true,
+  },
   {
     id: "promises-loop",
     title: "Promises loop in the runner",
