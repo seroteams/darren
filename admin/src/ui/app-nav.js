@@ -15,7 +15,7 @@ import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
   Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
-  FlaskConical, Gauge, Settings,
+  FlaskConical, Gauge, Settings, LayoutGrid,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -54,6 +54,7 @@ const ICON = {
   guests: icon(UserRoundSearch),
   tests: icon(FlaskConical),
   pulse: icon(Gauge),
+  gallery: icon(LayoutGrid),
 };
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -98,6 +99,9 @@ const LINKS = [
   // The prototype gallery (stages/test.js) — throwaway mocks we walk before building for
   // real. Internal-only, like Design system; router gates keep managers/members out.
   { key: "tests", label: "Tests", stage: STAGES.TEST, icon: ICON.tests, admin: true, group: "Admin" },
+  // Screen Gallery (stages/gallery/) — the design "edit mode" over every real screen.
+  // Internal-only + hidden on live (like Tests); the router gate + the live-hide at ~L328 enforce it.
+  { key: "gallery", label: "Screens", stage: STAGES.GALLERY, icon: ICON.gallery, admin: true, group: "Admin" },
   // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
   // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
   { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
@@ -235,6 +239,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     tasks: () => setState && setState({ stage: STAGES.TASKS }),
     design: () => setState && setState({ stage: STAGES.DESIGN }),
     tests: () => setState && setState({ stage: STAGES.TEST }),
+    gallery: () => setState && setState({ stage: STAGES.GALLERY, galleryScreen: null }),
     pulse: () => setState && setState({ stage: STAGES.ADMIN_PULSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
@@ -276,6 +281,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.TASKS]: "tasks",
     [STAGES.DESIGN]: "design",
     [STAGES.TEST]: "tests",
+    [STAGES.GALLERY]: "gallery",
     [STAGES.ADMIN_PULSE]: "pulse",
     // Pulse drill-down list pages keep the Pulse rail item lit (no nav rows of their own).
     [STAGES.ADMIN_GATE1]: "pulse",
@@ -325,7 +331,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
       // Live site: Test engine (paid persona runs) and the Tasks board are off (admin-live-
       // deploy Phase 2). Trimmed from the rail; the deep-link bounce + backend fence back it.
-      if (show && isLiveEnv() && (b.dataset.key === "personas" || b.dataset.key === "tasks")) show = false;
+      if (show && isLiveEnv() && (b.dataset.key === "personas" || b.dataset.key === "tasks" || b.dataset.key === "gallery")) show = false;
       b.hidden = !show;
     });
     // Section headers belong to the internal rail only.

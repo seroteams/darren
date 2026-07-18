@@ -26,6 +26,12 @@
 - Rebuilt: removed the drawer, backdrop and logo-rotation hook entirely. The list is now a **soft-yellow “Screens ▾” dropdown** in the top bar (Sero gold tokens: `gold-100` panel, `gold-400` border, `gold-900` headings). Grouped titles with ▾, filter box, "needs data" chips (white-on-yellow for legibility). Opens on click, closes on pick / click-away / Escape. No page dimming, no nav collision. Sero logo is back to "home" (hook removed).
 - Verified on screen (Playwright): menu hidden by default → opens soft-yellow (`#fffbf4`) with all 7 group titles + 46 items → picking Team closes it and mounts Team. typecheck clean.
 
+## Rework 3 (18 Jul — "edit mode" top bar + rail icon)
+- Carl's model: a **Screens icon in the left rail** enters an **edit mode** where the picker becomes a **full-width toolbar pinned to the very top**, above everything — rail + content shift down beneath it.
+- `admin/src/ui/app-nav.js`: added a `Screens` rail item (`LayoutGrid` icon, `gallery` key → `setState({stage:GALLERY})`), `ACTIVE_BY_STAGE[GALLERY]="gallery"` (rail highlights), and `"gallery"` added to the live-hide list (off the live rail like `personas`/`tasks`).
+- `gallery.js` restructured: the toolbar is now a `position:fixed` bar **appended to `document.body`** (not inside the stage — the stage's transform would break `position:fixed`) + a `body.gallery-edit` class whose CSS offsets `.app-nav`/`#root`/`.profile-badge` down by 56px. Slim toolbar + the soft-yellow `Screens ▾` dropdown (Carl's pick). Removed on unmount, first thing.
+- Verified on screen (Playwright): rail Screens icon present + highlights on the gallery; bar is full-width (1575px) at top:0, rail top and #root padding both 56px; open the dropdown, pick Team → loads below; **click Pulse to leave → bar removed, `gallery-edit` class gone, rail top + #root padding back to 0** (the "going back out" bug is fixed). typecheck clean.
+
 ## Goal
 The `/gallery` page exists: a grouped tree of every screen on the left, the real screen rendered on the right, deep links that survive reload — with every self-fetching screen already showing real local data.
 

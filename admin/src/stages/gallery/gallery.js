@@ -1,10 +1,11 @@
 // Screen Gallery — /gallery (internal-only, local-only; gated like /test + /design).
-// A soft-yellow "Screens ▾" dropdown in the top bar lists EVERY screen in the app, grouped;
-// pick one and the REAL screen module mounts below, filled with your local data. Because it
-// mounts the real modules with the real deps, a design change to a screen's source lands on
-// the actual site — there are no copies to keep in sync. Each screen also has a one-click
-// "Copy design prompt" that puts a ready-to-paste chat prompt (file path + live URL) on the
-// clipboard.
+// A design "edit mode": entered from the Screens icon in the left rail. A soft-yellow
+// toolbar pins full-width across the very top (above the rail — the rail and content shift
+// down beneath it); its "Screens ▾" dropdown lists EVERY screen in the app, grouped. Pick
+// one and the REAL screen module mounts below, filled with your local data. Because it mounts
+// the real modules with the real deps, a design change to a screen's source lands on the
+// actual site — there are no copies to keep in sync. Each screen also has a one-click
+// "Copy design prompt" (file path + live URL) for starting a design chat.
 //
 // The list is read from ../../stage-loaders.js (the same registry main.js boots from), so a
 // newly-added screen appears here automatically. Labels/grouping come from ./screens.js.
@@ -16,10 +17,10 @@ import { GROUPS, SCREENS, HIDDEN, EXTRA_LOADERS, designPrompt } from "./screens.
 // Every loadable screen = the boot registry + the customer-app-only extras.
 const REGISTRY = { ...loaders, ...EXTRA_LOADERS };
 
-// The currently-open child screen, so we can unmount it before mounting the next one.
-let active = { key: null, mod: null, host: null };
-// The document click-away listener that closes the dropdown; held so unmount can detach it.
-let awayHandler = null;
+// Held across the stage's life so unmount can tear them down.
+let active = { key: null, mod: null, host: null }; // the mounted child screen
+let editBar = null;                                // the fixed top toolbar (lives in <body>)
+let awayHandler = null;                            // click-away closer for the dropdown
 
 // ---- helpers ---------------------------------------------------------------
 
@@ -31,9 +32,9 @@ const metaFor = (key) => SCREENS[key] || { label: humanize(key), group: "unsorte
 
 // The repo-relative source path of a screen, derived from its lazy loader. In Vite dev the
 // import specifier is already resolved to a served URL — either base-prefixed
-// ("/admin/src/stages/briefing.js") or, for cross-package files, an absolute "/@fs/…" path
-// ("/admin/@fs/C:/…/frontend/src/stages/team.ts"). Normalise both to a repo path by
-// anchoring on the first top-level package dir. A `file:` override in SCREENS wins.
+// ("/admin/src/stages/briefing.js") or, for cross-package files, an absolute "/@fs/…" path.
+// Normalise both to a repo path by anchoring on the first top-level package dir. A `file:`
+// override in SCREENS wins.
 function importPathOf(loaderFn) {
   const m = String(loaderFn).match(/import\(\s*["']([^"']+)["']\s*\)/);
   return m ? m[1] : null;
@@ -44,17 +45,15 @@ function fileFor(key) {
   const fn = EXTRA_LOADERS[key] || loaders[key];
   let spec = fn ? importPathOf(fn) : null;
   if (!spec) return "(source unknown)";
-  spec = spec.split("?")[0];                    // drop Vite's ?t= cache-bust query
+  spec = spec.split("?")[0];
   const fs = spec.indexOf("/@fs/");
-  if (fs >= 0) spec = spec.slice(fs + 5);       // cross-package: keep the absolute path after /@fs/
+  if (fs >= 0) spec = spec.slice(fs + 5);
   const anchor = spec.match(/(?:^|\/)(admin|frontend|shared|backend)\/.*/);
   return anchor ? anchor[0].replace(/^\//, "") : spec.replace(/^\//, "");
 }
 const screenIdOf = (key) => key.toLowerCase();
 const liveUrlFor = (key) => window.location.origin + withBase(`/gallery/${screenIdOf(key)}`);
 
-// Ordered [{ group, label, items:[key,...] }] for the list — GROUPS order, SCREENS order
-// within each group, with any un-annotated loadable stage falling into "New / unsorted".
 function buildTree() {
   const loadable = Object.keys(REGISTRY).filter((k) => !HIDDEN.has(k));
   const declared = Object.keys(SCREENS);
@@ -68,15 +67,23 @@ function buildTree() {
 }
 
 // ---- styles ----------------------------------------------------------------
-// Soft-yellow dropdown menu (Sero gold tokens). No side panel, no page dimming.
+// The bar is fixed to the very top of the viewport; body.gallery-edit shifts the rail,
+// content and top-right badge down by the bar height so nothing hides under it.
 
 const STYLE = `
-  .gal { min-height:calc(100vh - var(--app-nav-h)); display:flex; flex-direction:column; }
-  .gal__banner { font-size:14px; color:var(--sero-gold-900); background:var(--sero-gold-200);
-    padding:6px var(--sero-space-5); }
-  .gal__bar { display:flex; align-items:center; gap:var(--sero-space-3); flex-wrap:wrap;
-    padding:var(--sero-space-3) var(--sero-space-5); border-bottom:1px solid var(--color-border);
-    background:var(--color-surface); position:relative; z-index:2; }
+  body.gallery-edit { --gal-bar-h: 56px; }
+  body.gallery-edit .app-nav { top: var(--gal-bar-h); }
+  body.gallery-edit #root { padding-top: var(--gal-bar-h); }
+  body.gallery-edit .profile-badge { top: calc(var(--gal-bar-h) + var(--sero-space-2)); }
+  body.gallery-edit .session-topbar { top: var(--gal-bar-h); }
+
+  .gal-editbar { position:fixed; top:0; left:0; right:0; height:var(--gal-bar-h, 56px);
+    background:var(--sero-gold-100); border-bottom:1px solid var(--sero-gold-400);
+    box-shadow:var(--shadow-lift); z-index:var(--sero-z-toast, 80); }
+  .gal-editbar__inner { display:flex; align-items:center; gap:var(--sero-space-3);
+    height:100%; padding:0 var(--sero-space-5); }
+  .gal__spark { font-size:16px; line-height:1; cursor:default; }
+
   .gal__dropdown { position:relative; }
   .gal__screens-btn { display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:15px;
     font-weight:600; color:var(--sero-gold-900); background:var(--sero-gold-200);
@@ -85,11 +92,10 @@ const STYLE = `
   .gal__screens-btn:focus-visible { outline:none; box-shadow:var(--shadow-focus); }
   .gal__caret { transition:transform .18s ease; font-size:12px; }
   .gal__dropdown.is-open .gal__caret { transform:rotate(180deg); }
-  /* the menu */
-  .gal__menu { position:absolute; top:calc(100% + 6px); left:0; width:360px; max-height:74vh;
+  .gal__menu { position:absolute; top:calc(100% + 8px); left:0; width:360px; max-height:78vh;
     overflow:auto; background:var(--sero-gold-100); border:1px solid var(--sero-gold-400);
     border-radius:var(--radius-card); box-shadow:var(--shadow-lift); padding:var(--sero-space-3);
-    z-index:var(--sero-z-dropdown); display:none; }
+    z-index:var(--sero-z-popover, 60); display:none; }
   .gal__dropdown.is-open .gal__menu { display:block; }
   .gal__filter { width:100%; font:inherit; font-size:14px; color:var(--color-ink);
     background:var(--color-surface); border:1px solid var(--sero-gold-400);
@@ -109,18 +115,20 @@ const STYLE = `
   .gal__item.is-on { background:var(--sero-gold-400); font-weight:600; }
   .gal__tag { font-size:14px; background:var(--color-surface); color:var(--sero-gold-900);
     border:1px solid var(--sero-gold-400); border-radius:9999px; padding:0 8px; white-space:nowrap; }
-  .gal__bar-id { min-width:0; }
-  .gal__bar-title { font-family:var(--type-family-display); font-size:20px; font-weight:600;
-    color:var(--color-ink); line-height:1.2; }
-  .gal__bar-file { font-family:var(--font-mono); font-size:14px; color:var(--color-ink-dim);
-    word-break:break-all; }
+
+  .gal__bar-id { min-width:0; line-height:1.2; }
+  .gal__bar-title { font-family:var(--type-family-display); font-size:18px; font-weight:600;
+    color:var(--color-ink); }
+  .gal__bar-file { font-family:var(--font-mono); font-size:14px; color:var(--sero-gold-900);
+    opacity:.85; word-break:break-all; }
   .gal__bar-actions { margin-left:auto; display:flex; gap:var(--sero-space-2); align-items:center; }
   .gal__needs { font-size:14px; color:var(--sero-gold-900); background:var(--sero-gold-200);
     border:1px solid var(--sero-gold-400); border-radius:9999px; padding:2px 10px; }
-  .gal__host { flex:1; overflow:auto; }
+
+  .gal__host { min-height:calc(100vh - var(--gal-bar-h, 56px)); }
   .gal__placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:var(--sero-space-2); height:100%; min-height:320px; color:var(--color-ink-dim);
-    text-align:center; padding:var(--sero-space-6); }
+    gap:var(--sero-space-2); min-height:60vh; color:var(--color-ink-dim); text-align:center;
+    padding:var(--sero-space-6); }
   .gal__placeholder h2 { font-family:var(--type-family-display); font-size:22px; color:var(--color-ink); }
   @media (prefers-reduced-motion: reduce) { .gal__caret { transition:none; } }
 `;
@@ -130,42 +138,49 @@ const STYLE = `
 export async function mount(node, deps) {
   const tree = buildTree();
 
+  // Stage node holds only the picked screen; the toolbar is a separate fixed bar in <body>.
   node.innerHTML = `
-    <style>${STYLE}</style>
-    <div class="gal">
-      <div class="gal__banner">⚡ Preview of real screens — buttons are live against your local test data. This page is hidden and never shows on the live site.</div>
-      <div class="gal__bar">
-        <div class="gal__dropdown js-dropdown">
-          <button type="button" class="gal__screens-btn js-screens" aria-haspopup="true" aria-expanded="false">
-            Screens <span class="gal__caret" aria-hidden="true">▾</span>
-          </button>
-          <div class="gal__menu" role="menu">
-            <input class="gal__filter" type="search" placeholder="Type a screen name…  e.g. brief" aria-label="Filter screens" />
-            <div class="js-tree"></div>
-          </div>
-        </div>
-        <div class="gal__bar-id">
-          <div class="gal__bar-title js-title">Screen Gallery</div>
-          <div class="gal__bar-file js-file">Click “Screens” to pick a page.</div>
-        </div>
-        <div class="gal__bar-actions js-actions"></div>
-      </div>
-      <div class="gal__host js-host">
-        <div class="gal__placeholder">
-          <h2>Every screen, in one place</h2>
-          <p>Click the yellow <strong>Screens ▾</strong> button up top, pick a page, and it opens here filled with your local data — edit its design and the change lands on the real app.</p>
-        </div>
+    <div class="gal__host js-host">
+      <div class="gal__placeholder">
+        <h2>Every screen, in one place</h2>
+        <p>Click the yellow <strong>Screens ▾</strong> up top and pick a page — it opens here filled with your local data. Edit its design and the change lands on the real app.</p>
       </div>
     </div>`;
 
-  const dropdownEl = node.querySelector(".js-dropdown");
-  const screensBtn = node.querySelector(".js-screens");
-  const treeEl = node.querySelector(".js-tree");
-  const filterEl = node.querySelector(".gal__filter");
+  // Remove any stray bar from a previous mount, then build the fixed edit-mode toolbar.
+  if (editBar) editBar.remove();
+  editBar = document.createElement("div");
+  editBar.className = "gal-editbar";
+  editBar.innerHTML = `
+    <style>${STYLE}</style>
+    <div class="gal-editbar__inner">
+      <span class="gal__spark" title="Preview of real screens — buttons are live against your local test data. This page is hidden and never shows on the live site.">⚡</span>
+      <div class="gal__dropdown js-dropdown">
+        <button type="button" class="gal__screens-btn js-screens" aria-haspopup="true" aria-expanded="false">
+          Screens <span class="gal__caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="gal__menu" role="menu">
+          <input class="gal__filter" type="search" placeholder="Type a screen name…  e.g. brief" aria-label="Filter screens" />
+          <div class="js-tree"></div>
+        </div>
+      </div>
+      <div class="gal__bar-id">
+        <div class="gal__bar-title js-title">Screen Gallery</div>
+        <div class="gal__bar-file js-file">Pick a page to preview it.</div>
+      </div>
+      <div class="gal__bar-actions js-actions"></div>
+    </div>`;
+  document.body.appendChild(editBar);
+  document.body.classList.add("gallery-edit");
+
   const hostEl = node.querySelector(".js-host");
-  const titleEl = node.querySelector(".js-title");
-  const fileEl = node.querySelector(".js-file");
-  const actionsEl = node.querySelector(".js-actions");
+  const dropdownEl = editBar.querySelector(".js-dropdown");
+  const screensBtn = editBar.querySelector(".js-screens");
+  const treeEl = editBar.querySelector(".js-tree");
+  const filterEl = editBar.querySelector(".gal__filter");
+  const titleEl = editBar.querySelector(".js-title");
+  const fileEl = editBar.querySelector(".js-file");
+  const actionsEl = editBar.querySelector(".js-actions");
 
   // --- dropdown open/close ---
   const openMenu = () => { dropdownEl.classList.add("is-open"); screensBtn.setAttribute("aria-expanded", "true"); filterEl.focus(); };
@@ -174,10 +189,9 @@ export async function mount(node, deps) {
     e.stopPropagation();
     dropdownEl.classList.contains("is-open") ? closeMenu() : openMenu();
   });
-  // click anywhere outside the dropdown, or Escape, closes it
   awayHandler = (e) => { if (!dropdownEl.contains(e.target)) closeMenu(); };
   document.addEventListener("click", awayHandler);
-  node.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+  editBar.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
 
   // --- build the grouped list ---
   treeEl.innerHTML = tree.map((g) => `
@@ -210,25 +224,22 @@ export async function mount(node, deps) {
   async function openScreen(key) {
     if (!REGISTRY[key]) return;
 
-    // unmount whatever is currently mounted
     if (active.mod && typeof active.mod.unmount === "function") {
       try { await active.mod.unmount(active.host); } catch (e) { console.error("[gallery] unmount", e); }
     }
     active = { key: null, mod: null, host: null };
 
-    // reflect selection in the list + URL + store (no notify → gallery isn't torn down)
     treeEl.querySelectorAll(".gal__item").forEach((b) =>
       b.classList.toggle("is-on", b.dataset.screen === key));
     deps.store.galleryScreen = key;
     replaceUrl(`/gallery/${screenIdOf(key)}`);
-    closeMenu(); // tuck the list away so the picked screen has the full width
+    closeMenu();
 
     const m = metaFor(key);
     const file = fileFor(key);
     titleEl.textContent = m.label;
     fileEl.textContent = file;
 
-    // header actions: copy-prompt + (in Phase 1) a needs-data note
     actionsEl.innerHTML = `
       ${m.needsData ? `<span class="gal__needs" title="Phase 2 will seed a demo session so this fills in">empty until Phase 2</span>` : ""}
       <button type="button" class="btn btn--ghost js-copy">Copy design prompt</button>`;
@@ -245,7 +256,6 @@ export async function mount(node, deps) {
       }
     });
 
-    // mount the real screen with the real deps
     hostEl.innerHTML = "";
     const host = document.createElement("div");
     host.className = "stage";
@@ -261,7 +271,7 @@ export async function mount(node, deps) {
     }
   }
 
-  node.querySelectorAll(".gal__item").forEach((b) =>
+  treeEl.querySelectorAll(".gal__item").forEach((b) =>
     b.addEventListener("click", () => openScreen(b.dataset.screen)));
 
   // deep link / reload: open the requested screen straight away
@@ -270,7 +280,11 @@ export async function mount(node, deps) {
 }
 
 export async function unmount() {
+  // Tear the edit-mode chrome down FIRST so leaving the gallery restores normal layout even
+  // if a child unmount throws.
   if (awayHandler) { document.removeEventListener("click", awayHandler); awayHandler = null; }
+  if (editBar) { editBar.remove(); editBar = null; }
+  document.body.classList.remove("gallery-edit");
   if (active.mod && typeof active.mod.unmount === "function") {
     try { await active.mod.unmount(active.host); } catch (e) { console.error("[gallery] unmount", e); }
   }
