@@ -8,6 +8,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
+| 75619dcd | design-system token sweep | docs/plans/doing/design-system-tokens/, frontend/src/stages/, frontend/src/styles/, frontend/src/ui/, admin/src/styles/design/, scripts/lint-design-tokens.js | 2026-07-18 |
+| 82c442a0 | Agency engagement (F16 swap QUEUED behind token sweep) | docs/plans/doing/agency-engagement/ | 2026-07-18 |
 
 
 **Rules (for Claude sessions — Carl never has to touch this file):**

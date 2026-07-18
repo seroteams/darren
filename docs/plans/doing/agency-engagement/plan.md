@@ -25,6 +25,7 @@
 Phase 2 built 2026-07-18 ("do it all"): 16 of 17 audit findings fixed in full, F16 half (message pass-through landed; the alert→toast visual swap parked for a screen-verified design pass). 156/156 tests (+3 new) + typecheck clean + live boot smoke (server starts, migration 0019 applied, /health/deep returns db:up). Awaiting Carl's walk of the phase-2 scenarios. Phase 1 audit report at docs/reports/2026-07-18-agency-audit.md. Board: https://claude.ai/code/artifact/1ee2e4ed-30d4-4928-b84f-6b565e727f07
 
 ## Parked
+- F16 second half (alert → on-brand `alertAction` dialog in team.ts + members.ts) — Carl green-lit it 2026-07-18, but the design-token sweep chat (lane 75619dcd) is ACTIVELY editing frontend/src/stages/ right now; queued until that lane clears. The component already exists (`admin/src/ui/confirm.js` `alertAction`, already imported cross-app by preparation.ts) — the swap is 8 one-line call replacements + a screenshot pass.
 - Payments (Stripe) — REMOVED from this engagement entirely on Carl's word (2026-07-18). Not planned, not built. Revisit only if he raises it.
 - 2FA — audit will note it; not in the hardening phase unless the audit raises its urgency.
 - Admin console TS conversion + UI tests — real, but that's Phase 003 of the main roadmap, not this engagement.
