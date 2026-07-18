@@ -31,7 +31,7 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**All 6 phases built + verified (2026-07-18), committed locally, under Carl's continuous-run authorisation ("keep going").** Awaiting Carl's own final walk before this moves to `done/` — the product owner gives the green light, not me.
+**✅ COMPLETE — signed off by Carl 2026-07-18, moved to `done/`.** All 6 phases built, verified, committed locally (6 commits). Not pushed (no "go live"). `npm run lint:tokens` is the standing guard against re-drift.
 **Board:** [board.html](board.html) (regenerates at each phase-close).
 **Baseline (P1, 2026-07-18):** `npm run typecheck` clean · `npm test` 157/157 pass — captured before any edit.
 **Final gate:** `npm run lint:tokens` PASS (0 hard violations, 153 files) · typecheck clean. Deliberate visible nudges to re-check on the walk: control corners 8→4px (member runner + forms), error red `#a3372c`→`#ac1608`, gallery caret now a Lucide chevron, review-row side-stripe → tint, error-card + a few off-palette one-offs retinted to Sero.
