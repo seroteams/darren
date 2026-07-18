@@ -76,36 +76,36 @@ const LINKS = [
   // matches live (Carl: live and local should look the same).
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
-  // Admin toolset, grouped into sections. The founder Pulse dashboard is the admin console's
-  // landing + first nav item (Carl's call 2026-07-14, admin-live follow-up): opening the console
-  // drops you on Pulse (boot lands here — see main.js). Superadmin-only. The old "Home" (the
-  // 1:1-prep launcher) lives on right below as "Start a 1:1".
-  { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Sessions" },
-  { key: "home", label: "Start a 1:1", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
-  { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Sessions" },
-  { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Sessions" },
-  // Compare + Regression folded into the Test engine hub (test-engine-hub Phase 4):
-  // Compare is reached from a persona's run history; the safety check is a strip on
-  // the hub. Compare's page/route stays; only its nav rows are gone.
-  { key: "personas", label: "Test engine", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Sessions" },
+  // Admin toolset, grouped by JOB (Carl's re-org 2026-07-18): Work (use the coach) ·
+  // Engine (tune the coach) · Build (dev tooling) · Operate (run the live service). The old
+  // "Sessions/Engine/Admin" split lumped dev tools and live-ops into one "Admin" dump — this
+  // splits them. Group headers render for the internal rail only (see render()). Account +
+  // Log out no longer live here — they moved to the top-right avatar menu (ui/profile-badge.js).
+
+  // WORK — using the product. Pulse is the console landing + first item (Carl 2026-07-14):
+  // opening the console drops you on Pulse (boot lands here — see main.js). Superadmin-only.
+  { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Work" },
+  { key: "home", label: "Start a 1:1", stage: STAGES.START, icon: ICON.home, admin: true, group: "Work" },
+  { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Work" },
+  { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Work" },
+  // ENGINE — tuning how the coach talks + paces.
   { key: "lexicon", label: "Coaching phrases", stage: STAGES.LEXICON_REVIEW, icon: ICON.lexicon, admin: true, group: "Engine" },
   { key: "joblex", label: "Role words", stage: STAGES.ROLE_LEXICONS, icon: ICON.joblex, admin: true, group: "Engine" },
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
-  // Native in-shell stage (stages/design.js) — the design system sheet with its own
-  // second-level rail, routed like any other stage.
-  { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Admin" },
-  // The prototype gallery (stages/test.js) — throwaway mocks we walk before building for
-  // real. Internal-only, like Design system; router gates keep managers/members out.
-  { key: "tests", label: "Tests", stage: STAGES.TEST, icon: ICON.tests, admin: true, group: "Admin" },
-  // Screen Gallery (stages/gallery/) — the design "edit mode" over every real screen.
-  // Internal-only + hidden on live (like Tests); the router gate + the live-hide at ~L328 enforce it.
-  { key: "gallery", label: "Screens", stage: STAGES.GALLERY, icon: ICON.gallery, admin: true, group: "Admin" },
-  // Superadmin-only (pre-go-live PG7). `admin: true` puts it in the admin rail; `superadmin:
-  // true` hides it from every owner but Carl. Cosmetic — the backend 403 is the real wall.
-  { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Admin" },
-  { key: "errors", label: "Error log", stage: STAGES.ADMIN_ERROR_LOG, icon: ICON.errors, admin: true, superadmin: true, group: "Admin" },
-  { key: "guests", label: "Guest runs", stage: STAGES.ADMIN_GUEST_RUNS, icon: ICON.guests, admin: true, superadmin: true, group: "Admin" },
-  { key: "inbox", label: "Feedback inbox", stage: STAGES.ADMIN_FEEDBACK, icon: ICON.inbox, admin: true, superadmin: true, group: "Admin" },
+  // BUILD — internal dev tooling. Test engine (was under Sessions) is a testing tool, not a
+  // session, so it sits here. Compare + Regression fold into the Test engine hub (its page/route
+  // stays; only its nav rows are gone). Screens + Tests are hidden on live (live-hide in render()).
+  { key: "personas", label: "Test engine", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Build" },
+  { key: "tests", label: "Tests", stage: STAGES.TEST, icon: ICON.tests, admin: true, group: "Build" },
+  { key: "gallery", label: "Screens", stage: STAGES.GALLERY, icon: ICON.gallery, admin: true, group: "Build" },
+  { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Build" },
+  // OPERATE — running the live service. All superadmin-only (pre-go-live PG7): `admin: true`
+  // puts them in the admin rail, `superadmin: true` hides them from every owner but Carl.
+  // Cosmetic — the backend 403 is the real wall.
+  { key: "registered", label: "User management", stage: STAGES.ADMIN_REGISTERED, icon: ICON.registered, admin: true, superadmin: true, group: "Operate" },
+  { key: "guests", label: "Guest runs", stage: STAGES.ADMIN_GUEST_RUNS, icon: ICON.guests, admin: true, superadmin: true, group: "Operate" },
+  { key: "inbox", label: "Feedback inbox", stage: STAGES.ADMIN_FEEDBACK, icon: ICON.inbox, admin: true, superadmin: true, group: "Operate" },
+  { key: "errors", label: "Error log", stage: STAGES.ADMIN_ERROR_LOG, icon: ICON.errors, admin: true, superadmin: true, group: "Operate" },
 ];
 
 const MENU_ICON = icon(Menu);
@@ -158,7 +158,8 @@ export function createAppNav({ setState, resetSession } = {}) {
   });
 
   const items = [...LINKS];
-  if (import.meta.env.DEV) items.push({ key: "guide", label: "Guide", stage: STAGES.GUIDE, icon: ICON.guide, admin: true, group: "Admin" });
+  // Guide (DEV-only help) no longer has a rail row — the old footer/meta strip it belonged
+  // with was dropped from the internal rail in the 2026-07-18 re-org. Still reachable at /guide.
 
   el.innerHTML = `
     <div class="app-nav__inner">
@@ -317,6 +318,15 @@ export function createAppNav({ setState, resetSession } = {}) {
     // 1:1s), members get Home · Team · Runs. Log out sits outside this and always shows.
     const internal = isInternalAdmin(user);
     el.classList.toggle("app-nav--member", !internal); // compact, ungrouped rail styling
+    // Internal rail drops the whole footer strip — What is Sero? · Send feedback · Privacy ·
+    // Account · Log out. Account + Log out moved to the top-right avatar menu (ui/profile-badge.js),
+    // the rest aren't needed for an internal operator (Carl 2026-07-18). Managers/members keep the
+    // footer (they still need Privacy + Log out there). Inline display so no CSS-file edit is
+    // required (design/ CSS is another chat's lane); reversible once that clears.
+    const utilNav = el.querySelector(".app-nav__links--util");
+    const footNav = el.querySelector(".app-nav__links--foot");
+    if (utilNav) utilNav.style.display = internal ? "none" : "";
+    if (footNav) footNav.style.display = internal ? "none" : "";
     const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
     const alwaysShown = new Set(["account", "logout", "privacy", "about", "feedback"]); // account/utility rows
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {

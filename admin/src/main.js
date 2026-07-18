@@ -43,8 +43,10 @@ document.body.appendChild(topbar.el);
 const appNav = createAppNav({ setState, resetSession });
 document.body.appendChild(appNav.el);
 
-// Top-right "who's signed in" chip — members only (see ui/profile-badge.js).
-const profileBadge = createProfileBadge();
+// Top-right "who's signed in" chip — shown for every signed-in role. For the internal
+// operator it doubles as the Account + Log out menu (those left the rail 2026-07-18), so
+// it needs setState + resetSession to drive logout (see ui/profile-badge.js).
+const profileBadge = createProfileBadge({ setState, resetSession });
 document.body.appendChild(profileBadge.el);
 
 // Quietly run the (free, offline, no-AI) regression check and flag the nav with
