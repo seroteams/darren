@@ -282,3 +282,28 @@
   padding: 0.45rem 0;
 }
 
+/* -----------------------------------------------------------------------------
+   Save as PDF — the recap prints via the browser's print-to-PDF dialog.
+   Reveal animations park content at opacity 0; force it visible on paper,
+   and drop everything interactive (buttons, feedback cards, nav, footer).
+----------------------------------------------------------------------------- */
+@media print {
+  .recap-page .reveal,
+  .recap-page .reveal-soft,
+  .recap-page .brutal,
+  .recap-page .paragraph-section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .recap-page .briefing-finish,
+  .recap-page .verdict-block,
+  .recap-page button,
+  .app-nav,
+  .app-nav-mobilebar,
+  .session-topbar,
+  #build-stamp,
+  .celebration-wash {
+    display: none !important;
+  }
+}
+

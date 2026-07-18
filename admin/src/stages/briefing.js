@@ -163,6 +163,10 @@ export async function mount(root, { store, setState, resetSession }) {
             Already have an account?
             <button type="button" class="link js-guest-login">Log in</button>
           </p>
+        </div>
+        <div class="l-cluster l-cluster--2 items-center">
+          <button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>
+          <button type="button" class="btn btn--ghost js-guest-restart">Start a new 1:1</button>
         </div>` : `
         <div class="text-ink-mute">This run is complete and saved.</div>
         <div class="l-cluster l-cluster--2 items-center">
@@ -501,6 +505,15 @@ export async function mount(root, { store, setState, resetSession }) {
     };
     saveCard.querySelector(".js-guest-register").addEventListener("click", () => saveVia(STAGES.REGISTER));
     saveCard.querySelector(".js-guest-login").addEventListener("click", () => saveVia(STAGES.LOGIN));
+    // Save as PDF = the browser's own print-to-PDF; print styles in briefing.css
+    // strip the buttons and force the reveal-hidden content visible.
+    root.querySelector(".js-save-pdf").addEventListener("click", () => window.print());
+    // Start fresh without saving — same reset as the "no recap" branch above.
+    root.querySelector(".js-guest-restart").addEventListener("click", () => {
+      try { localStorage.removeItem("seroSessionId"); } catch {}
+      resetSession();
+      setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    });
   }
 
   // The run debrief (API time / cost / CLI replay / QA prompt) is internal QA tooling —
