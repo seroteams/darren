@@ -56,7 +56,11 @@ function roleLabelOf(user) {
 export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const stageReview = createStageReview({ store });
   const el = document.createElement("div");
-  el.className = "session-topbar";
+  // Mount HIDDEN: whether a run is live is only known once boot's async auth
+  // check resolves. Starting visible painted a stray "This 1:1" bar over the
+  // blank page for the whole auth round-trip on first load — same fix as the
+  // nav rail (ui/app-nav.js). render() reveals it when a run stage is on.
+  el.className = "session-topbar is-hidden";
 
   const row = document.createElement("div");
   row.className = "session-topbar__row session-topbar__row--main";
@@ -99,7 +103,8 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const profileEmail = profile.querySelector(".session-topbar__email");
   row.appendChild(profile);
 
-  document.body.classList.add("has-session-topbar");
+  // No eager has-session-topbar here: render() adds/removes it alongside
+  // is-hidden, so the body class and the bar can never disagree during boot.
 
   let popover = null;
   let outsideHandler = null;
