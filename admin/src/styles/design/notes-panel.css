@@ -78,7 +78,7 @@
   transition: background 120ms ease, border-color 120ms ease;
 }
 .notes-panel__item:hover {
-  background: var(--sero-primary-100, rgba(0, 0, 0, 0.02));
+  background: var(--sero-primary-100);
 }
 .notes-panel__item.is-editing {
   background: var(--color-surface);
@@ -138,7 +138,7 @@
   text-underline-offset: 2px;
 }
 .notes-panel__delete:hover {
-  color: var(--sero-coral-800, #ac1608);
+  color: var(--sero-coral-800);
 }
 .notes-panel__compose {
   border-top: 1px solid var(--color-border);
@@ -154,7 +154,7 @@
 .notes-panel__error {
   margin-top: 0.5rem;
   font-size: var(--type-label);
-  color: var(--color-danger, #c0392b);
+  color: var(--color-danger);
 }
 .notes-panel__error.is-hidden {
   display: none;
@@ -230,7 +230,7 @@
 .stage-io__pre {
   margin: 0.25rem 0 0;
   padding: 0.55rem 0.65rem;
-  background: var(--sero-primary-100, rgba(0, 0, 0, 0.03));
+  background: var(--sero-primary-100);
   border: 1px solid var(--color-border);
   border-radius: 6px;
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);

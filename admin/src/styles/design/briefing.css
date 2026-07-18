@@ -126,7 +126,7 @@
 .copy-snippet-btn.is-copied {
   color: var(--color-positive-text); /* text-safe mint (a11y) */
   border-color: var(--color-positive);
-  background: rgba(26, 168, 135, 0.08);
+  background: var(--sero-mint-100);
 }
 /* Fade-in "Saved"/"Copied" confirmations (was an inline style in briefing.js) */
 .feedback-confirm {

@@ -244,7 +244,7 @@
   transition: all 0.15s ease;
 }
 .cl-cb:hover .cl-tick { border-color: var(--color-accent); }
-.cl-tick svg { width: 0.8rem; height: 0.8rem; opacity: 0; transform: scale(0.6); transition: all 0.15s ease; color: #fff; }
+.cl-tick svg { width: 0.8rem; height: 0.8rem; opacity: 0; transform: scale(0.6); transition: all 0.15s ease; color: var(--color-surface); }
 .cl-cb input:checked + .cl-tick { background: var(--color-positive); border-color: var(--color-positive); }
 .cl-cb input:checked + .cl-tick svg { opacity: 1; transform: scale(1); }
 .cl-row--gate .cl-cb input:checked + .cl-tick { background: var(--color-amber); border-color: var(--color-amber); }

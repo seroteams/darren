@@ -437,7 +437,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-surface);
   transition: transform var(--dur-instant) ease-out;
 }
 .ds-toggle input:checked + .ds-toggle__track {

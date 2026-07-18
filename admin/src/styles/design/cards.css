@@ -30,5 +30,5 @@
 .runs-list__row:hover { background: var(--sero-active-state-bg); }
 
 /* Star badge on a rated run row (PG3). */
-.runs-list__stars { color: var(--sero-gold-700, #ad7400); white-space: nowrap; }
+.runs-list__stars { color: var(--sero-gold-700); white-space: nowrap; }
 

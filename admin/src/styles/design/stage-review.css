@@ -231,8 +231,9 @@
 .page-header__actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
 
 .rv-row.is-selected {
-  background: var(--color-accent-soft, rgba(0, 0, 0, 0.04));
-  box-shadow: inset 3px 0 0 var(--color-accent);
+  /* Selected state = accent-soft tint (DESIGN §6 rule 10 bans side-stripe borders;
+     the former inset 3px accent stripe is replaced by the tint). */
+  background: var(--color-accent-soft);
   border-bottom-color: transparent;
 }
 

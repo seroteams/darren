@@ -35,7 +35,7 @@
     padding-left: calc(0.25rem + env(safe-area-inset-left));
     padding-right: calc(0.75rem + env(safe-area-inset-right));
     background: var(--sero-primary-800);
-    color: #fff;
+    color: var(--color-surface);
     z-index: var(--sero-z-fixed, 30);
   }
   .app-nav-mobilebar.is-hidden {
@@ -51,7 +51,7 @@
     background: transparent;
     border: 0;
     border-radius: 10px;
-    color: #fff;
+    color: var(--color-surface);
     cursor: pointer;
   }
   .app-nav-mobilebar__brand {

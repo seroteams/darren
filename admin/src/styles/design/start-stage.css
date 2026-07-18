@@ -232,7 +232,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--sero-shadow-lg);
   z-index: var(--sero-z-popover);
   min-width: 220px;
   padding: 6px;
@@ -254,10 +254,10 @@
   align-items: center;
 }
 .start-popover button:hover {
-  background: var(--color-surface-2, rgba(0, 0, 0, 0.05));
+  background: var(--color-surface-2);
 }
 .start-popover button.is-danger {
-  color: var(--color-danger, #c0392b);
+  color: var(--color-danger);
 }
 
 /* Lexicon review rows */

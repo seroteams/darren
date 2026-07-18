@@ -16,7 +16,7 @@
 .axis__track {
   position: relative;
   height: 10px;
-  background: #eef1f6;
+  background: var(--sero-soft-500);
   border-radius: var(--sero-radius-full);
   overflow: visible;
 }

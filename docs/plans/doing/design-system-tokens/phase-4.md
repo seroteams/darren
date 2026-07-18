@@ -1,6 +1,11 @@
 # Phase 4 — Admin CSS pocket
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-18 — under Carl's continuous-run authorisation. Verified live (admin tab 3093): avatar bg = accent #5aa9e6, selected-row boxShadow **none** (side-stripe gone), error-card retinted to Sero coral (#fff6f5 / #fcc5c0), 1338 stylesheet rules parsed, zero console errors.
+
+## Built (2026-07-18)
+16 files. Raw hex → tokens (session-topbar avatar/chip, axes track, design-stage/mobile/stage-extras/test-engine `#fff`). Dropped all mismatched hex/rgba `var()` fallbacks (the latent-bug class): `#c0392b`, `#ad7400`, `#303030`, `#ac1608`, `surface-2`/`primary-100`/`accent-soft` rgba fallbacks, `radius-sm 6px`, `z-popover 1000`. Off-palette retints → Sero: `#24445c` navy → `--color-ink-dim`; one-page-run `#d2435a` red → coral tokens; briefing mint tint → `--sero-mint-100`. `start-stage` raw drop-shadow → `--sero-shadow-lg`. **stage-review side-stripe removed** (DESIGN §6 rule 10) → accent-soft tint. **Left as accepted decorative signatures** (documented, allowlisted in the P6 guard): orb gradient, motion aura, base hero glow, app-nav dark-rail translucency. Typecheck clean.
 
 ## Goal
 Clear the thin scatter of drift across `admin/src/styles/` — mostly pixel-identical token swaps plus a few off-palette retints.

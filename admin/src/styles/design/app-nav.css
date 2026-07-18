@@ -208,7 +208,7 @@ body.has-app-nav.has-session-topbar {
   max-width: min(60vw, 320px);
   padding: 5px 12px 5px 5px;
   background: var(--color-surface);
-  border: 1px solid rgba(36, 68, 92, 0.14);
+  border: 1px solid var(--color-border);
   border-radius: var(--sero-radius-full);
   box-shadow: var(--sero-shadow-sm);
 }
