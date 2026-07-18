@@ -9,6 +9,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 
+
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).
