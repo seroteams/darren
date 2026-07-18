@@ -20,10 +20,13 @@
 **TRACK CLOSED 2026-07-18** — Carl walked the door on the real app ("yeah works, nice"). Built +
 committed 2026-07-17 (`70a2998d`), paid-tested the same day 4/4 meeting types (`3aaec419`,
 ~$1.85), green-lit 2026-07-18. P1 was the only phase, so the track is done and filed to done/.
-**One follow-up call left with Carl (outside this close):** whether to add the one-line backend
-`turn >= 4` floor guard the paid sweep flagged (UI already enforces the floor; the API alone does
-not — see phase-1.md FINDING). The feature code shipped with the 07-17/18 pushes and is **live**
-(verified: `70a2998d` is on origin/main, and the 07-18 goodnight watched that deploy go healthy).
+**Follow-up call — RESOLVED 2026-07-18 (Carl: "do what you need... finish ALL"):** the backend
+`turn >= 4` floor guard the paid sweep flagged is now **added** (test-first) in `wrapUp`
+(sessions.service.ts) — the endpoint refuses an early wrap before Q4, mirroring the UI's
+`res.turn >= 4` so the API contract matches the stated Balanced floor. New test
+`wrapUp below the 4-question floor falls back untouched`; suite 156/156, typecheck clean.
+The feature code shipped with the 07-17/18 pushes and is **live** (`70a2998d` on origin/main,
+07-18 goodnight watched the deploy go healthy); this guard ships with the next push.
 
 ## Parked
 - Adaptive auto-offer (Complete/Continue deeper) — parked at docs/plans/future/adaptive-early-close/ pending corridor feedback on the 6-question bi-weekly.

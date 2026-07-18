@@ -18,7 +18,7 @@ handed to Carl as a separate call; not part of this close.
   | growth | Q5 | 9→6 | q_next_move_47 (6/6) | done |
   | feels-off | Q4 | 6→5 | q_next_move_80 (5/5) | done |
   | edge wrap@2 | Q2 | 6→3 | q_shared_definition (3/3) | done |
-- FINDING: the floor of 4 is enforced in the UI only (button hidden before Q4); the backend `wrapUp` has NO floor, so the edge wrap@2 produced a valid 3-question run. Harmless today (no UI path reaches it) but the API contract doesn't match the stated policy. Recommend a one-line `session.turn >= 4` guard in the service for defense-in-depth — flagged to Carl, not yet added.
+- FINDING (RESOLVED 2026-07-18): the floor of 4 was enforced in the UI only (button hidden before Q4); the backend `wrapUp` had NO floor, so the edge wrap@2 produced a valid 3-question run. The API contract now matches the policy — a `session.turn >= 4` guard was added to `wrapUp` (test-first: `wrapUp below the 4-question floor falls back untouched`), mirroring the UI's `res.turn >= 4`. Below the floor the endpoint returns `closerNext:false` and leaves the session untouched, exactly like the no-closer fallback.
 
 ## Goal
 From Q4 onward the escape button becomes "Wrap up — get my briefing" and routes through the closing question instead of dumping straight to the briefing.

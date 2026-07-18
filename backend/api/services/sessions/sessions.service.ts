@@ -639,6 +639,8 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       const asked = new Set(session.transcript.map((t) => t.question.alias));
       const eligible =
         session.mode !== "scripted" &&
+        session.turn >= 4 && // Balanced 4-question floor — mirrors the UI (questioning.js: wrapMode = turn >= 4).
+                             // Defense-in-depth: the button is hidden before Q4, but the endpoint must refuse too.
         session.turn < session.totalBudget &&
         closer != null &&
         !asked.has(closer.alias) &&

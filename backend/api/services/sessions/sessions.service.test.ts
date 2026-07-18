@@ -288,6 +288,15 @@ test("wrapUp reroutes through the closer: budget = turn+1, closer at the head", 
   assert.equal(persisted.length, 1);
 });
 
+test("wrapUp below the 4-question floor falls back untouched (defense-in-depth vs the UI-only floor)", () => {
+  const closer = fakeQuestion({ alias: "q_close_lift" });
+  const s = fakeSession("abc", { turn: 3, totalBudget: 6, closer, queueRef: [fakeQuestion(), closer] });
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).wrapUp("abc");
+  assert.deepEqual(out, { ok: true, closerNext: false, totalBudget: 6 });
+  assert.equal(s.totalBudget, 6);
+});
+
 test("wrapUp with no reserved closer falls back: closerNext false, session untouched", () => {
   const s = fakeSession("abc", { turn: 4, totalBudget: 6, closer: null, queueRef: [fakeQuestion()] });
   const { repo } = fakeRepo([s]);
