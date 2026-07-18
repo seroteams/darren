@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Gallery — test results</title>
+<style>
+  :root{--page:#f5fafd;--surface:#fff;--border:#e8e8e8;--ink:#1f2a37;--dim:#636363;--accent:#5aa9e6;--accent-dark:#1b5d91;
+    --pass-bg:#eefcf9;--pass-tx:#0c4b3c;--warn-bg:#fff6e5;--warn-tx:#523600;--fail-bg:#fff6f5;--fail-tx:#ac1608;
+    --sans:Inter,ui-sans-serif,system-ui,sans-serif;--display:"Bricolage Grotesque",Inter,sans-serif;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);line-height:1.5;font-size:15px}
+  .wrap{max-width:1200px;margin:0 auto;padding:28px 20px 72px}
+  h1{font-family:var(--display);font-weight:600;font-size:30px;margin:0 0 4px}
+  .sub{color:var(--dim);margin:0 0 18px}
+  .summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+  .pill{border-radius:9999px;padding:6px 14px;font-weight:600;font-size:14px}
+  .pill--pass{background:var(--pass-bg);color:var(--pass-tx)} .pill--warn{background:var(--warn-bg);color:var(--warn-tx)} .pill--fail{background:var(--fail-bg);color:var(--fail-tx)}
+  .pill--all{background:var(--surface);border:1px solid var(--border);color:var(--ink)}
+  h2{font-family:var(--display);font-weight:600;font-size:20px;margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+  .count{font-size:14px;font-weight:600;color:var(--dim);background:var(--surface);border:1px solid var(--border);border-radius:9999px;padding:1px 9px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .card{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+  .card--warn{border-color:#ffe7b7} .card--fail{border-color:#fddad7}
+  .card img{display:block;width:100%;height:auto;border-bottom:1px solid var(--border);background:var(--page)}
+  figcaption{padding:10px 12px}
+  .cap-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .name{font-weight:600}
+  .cap-note{color:var(--dim);font-size:14px;margin-top:3px}
+  .b{font-size:13px;font-weight:600;border-radius:9999px;padding:2px 9px;white-space:nowrap}
+  .b--pass{background:var(--pass-bg);color:var(--pass-tx)} .b--warn{background:var(--warn-bg);color:var(--warn-tx)} .b--fail{background:var(--fail-bg);color:var(--fail-tx)}
+  .legend{color:var(--dim);font-size:14px;margin:14px 0 0;max-width:70ch}
+  .legend b{color:var(--ink)}
+</style></head><body>
+<div class="wrap">
+  <h1>Screen Gallery — every screen, tested</h1>
+  <p class="sub">Playwright opened all 46 screens through the new edit-mode gallery, one by one, and screenshotted each. Click any shot to see it full-size. Run: Fri 18 Jul 2026.</p>
+  <div class="summary">
+    <span class="pill pill--all">46 screens</span>
+    <span class="pill pill--pass">✓ 34 opened with data</span>
+    <span class="pill pill--warn">✓ 10 opened, empty (Phase 2)</span>
+    <span class="pill pill--fail">2 need an id (Phase 2)</span>
+  </div>
+  
+  <section>
+    <h2>Auth & entry <span class="count">6</span></h2>
+    <div class="grid">
+  <figure class="card card--pass">
+    <a href="test-shots/LOGIN.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/LOGIN.png" alt="Login">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Login</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/REGISTER.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/REGISTER.png" alt="Register">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Register</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/FORGOT_PASSWORD.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/FORGOT_PASSWORD.png" alt="Forgot password">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Forgot password</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/RESET_PASSWORD.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/RESET_PASSWORD.png" alt="Reset password">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Reset password</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/WELCOME.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/WELCOME.png" alt="Welcome">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Welcome</span><span class="b b--pass">✓ opened</span></div>
+      <div class="cap-note">one 404 for an optional asset — screen fine</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/JOIN.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/JOIN.png" alt="Join">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Join</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure></div>
+  </section>
+  <section>
+    <h2>Manager home & team <span class="count">6</span></h2>
+    <div class="grid">
+  <figure class="card card--pass">
+    <a href="test-shots/START.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/START.png" alt="Start (manager home)">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Start (manager home)</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/TEAM.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/TEAM.png" alt="Team">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Team</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/PERSON_DETAIL.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/PERSON_DETAIL.png" alt="Person detail">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Person detail</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">needs a person id (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/MEMBERS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/MEMBERS.png" alt="Members">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Members</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/RUNS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/RUNS.png" alt="Runs">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Runs</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/RUN_DETAIL.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/RUN_DETAIL.png" alt="Run detail">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Run detail</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">needs a run id (Phase 2)</div>
+    </figcaption>
+  </figure></div>
+  </section>
+  <section>
+    <h2>1:1 prep flow <span class="count">10</span></h2>
+    <div class="grid">
+  <figure class="card card--pass">
+    <a href="test-shots/INTAKE.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/INTAKE.png" alt="Intake">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Intake</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/ONEPAGE.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ONEPAGE.png" alt="One-page">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">One-page</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/FOCUS_POINTS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/FOCUS_POINTS.png" alt="Focus points">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Focus points</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/PREPARATION.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/PREPARATION.png" alt="Preparation">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Preparation</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/BANK.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/BANK.png" alt="Question bank">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Question bank</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/QUESTIONING.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/QUESTIONING.png" alt="Interview">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Interview</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/EVAL.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/EVAL.png" alt="Evaluate">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Evaluate</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/BRIEFING.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/BRIEFING.png" alt="Briefing">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Briefing</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--warn">
+    <a href="test-shots/RUN_DEBRIEF.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/RUN_DEBRIEF.png" alt="Debrief">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Debrief</span><span class="b b--warn">✓ opened · empty</span></div>
+      <div class="cap-note">empty until demo data (Phase 2)</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--fail">
+    <a href="test-shots/GUIDED.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/GUIDED.png" alt="Guided session">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Guided session</span><span class="b b--fail">needs id</span></div>
+      <div class="cap-note">redirects to /new without a session id — needs Phase 2 seed</div>
+    </figcaption>
+  </figure></div>
+  </section>
+  <section>
+    <h2>Member view <span class="count">1</span></h2>
+    <div class="grid">
+  <figure class="card card--pass">
+    <a href="test-shots/MEMBER_HOME.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/MEMBER_HOME.png" alt="Member home">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Member home</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure></div>
+  </section>
+  <section>
+    <h2>Content pages <span class="count">4</span></h2>
+    <div class="grid">
+  <figure class="card card--pass">
+    <a href="test-shots/ABOUT.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ABOUT.png" alt="About">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">About</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/PRIVACY.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/PRIVACY.png" alt="Privacy">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Privacy</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/FEEDBACK.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/FEEDBACK.png" alt="Feedback">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Feedback</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/GUIDE.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/GUIDE.png" alt="Guide">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Guide</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure></div>
+  </section>
+  <section>
+    <h2>Superadmin <span class="count">9</span></h2>
+    <div class="grid">
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_PULSE.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_PULSE.png" alt="Pulse">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Pulse</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_GATE1.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_GATE1.png" alt="Gate 1">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Gate 1</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_RUNS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_RUNS.png" alt="All runs">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">All runs</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_RATINGS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_RATINGS.png" alt="Ratings">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Ratings</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_REGISTERED.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_REGISTERED.png" alt="Registered users">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Registered users</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--fail">
+    <a href="test-shots/ADMIN_USER.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_USER.png" alt="User detail">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">User detail</span><span class="b b--fail">needs id</span></div>
+      <div class="cap-note">redirects to the user list without a user id — needs Phase 2 seed</div>
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_ERROR_LOG.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_ERROR_LOG.png" alt="Error log">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Error log</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_FEEDBACK.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_FEEDBACK.png" alt="Feedback inbox">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Feedback inbox</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ADMIN_GUEST_RUNS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ADMIN_GUEST_RUNS.png" alt="Guest runs">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Guest runs</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure></div>
+  </section>
+  <section>
+    <h2>Internal tools <span class="count">10</span></h2>
+    <div class="grid">
+  <figure class="card card--pass">
+    <a href="test-shots/LIBRARY.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/LIBRARY.png" alt="Library">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Library</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/COMPARE.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/COMPARE.png" alt="Compare">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Compare</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/PERSONAS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/PERSONAS.png" alt="Personas">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Personas</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/LEXICON_REVIEW.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/LEXICON_REVIEW.png" alt="Lexicon review">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Lexicon review</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/ROLE_LEXICONS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/ROLE_LEXICONS.png" alt="Job lexicons">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Job lexicons</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/MEETING_ARCS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/MEETING_ARCS.png" alt="Meeting arcs">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Meeting arcs</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/REVIEW_RUN.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/REVIEW_RUN.png" alt="Review a run">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Review a run</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/TASKS.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/TASKS.png" alt="Tasks board">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Tasks board</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/DESIGN.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/DESIGN.png" alt="Design system sheet">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Design system sheet</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure>
+  <figure class="card card--pass">
+    <a href="test-shots/TEST.png" target="_blank" rel="noopener">
+      <img loading="lazy" src="test-shots/TEST.png" alt="Test prototypes">
+    </a>
+    <figcaption>
+      <div class="cap-top"><span class="name">Test prototypes</span><span class="b b--pass">✓ opened</span></div>
+      
+    </figcaption>
+  </figure></div>
+  </section>
+  <p class="legend"><b>What the labels mean.</b> <b>opened</b> = the real screen rendered with your local data. <b>opened · empty</b> = it rendered but shows its empty state because the 1:1-flow demo data isn't wired yet (that's Phase 2). <b>needs id</b> = a detail screen that can't stand alone without a specific run/user/session id, so it redirects out — also a Phase 2 seed. Nothing here is a broken screen; the two "needs id" cases behave exactly as the live app does when you open them without a target.</p>
+</div></body></html>

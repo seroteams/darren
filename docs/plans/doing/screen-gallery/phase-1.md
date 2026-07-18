@@ -32,6 +32,11 @@
 - `gallery.js` restructured: the toolbar is now a `position:fixed` bar **appended to `document.body`** (not inside the stage — the stage's transform would break `position:fixed`) + a `body.gallery-edit` class whose CSS offsets `.app-nav`/`#root`/`.profile-badge` down by 56px. Slim toolbar + the soft-yellow `Screens ▾` dropdown (Carl's pick). Removed on unmount, first thing.
 - Verified on screen (Playwright): rail Screens icon present + highlights on the gallery; bar is full-width (1575px) at top:0, rail top and #root padding both 56px; open the dropdown, pick Team → loads below; **click Pulse to leave → bar removed, `gallery-edit` class gone, rail top + #root padding back to 0** (the "going back out" bug is fixed). typecheck clean.
 
+## Full-sweep test (18 Jul — Carl asked)
+- Playwright opened all 46 screens through the edit-mode gallery, one by one, screenshotted each. Report: [test-results.html](test-results.html) (contact sheet, opens locally — shots in `test-shots/`, uncommitted/local).
+- **44/46 mounted; 34 rendered with real local data, 10 flow screens rendered their empty state (Phase 2 demo data), 2 redirected out because they need an id (GUIDED → /new, ADMIN_USER → user list).** The 2 redirects are the parameterised screens already flagged for Phase 2 seeding — not broken screens; they behave exactly as the live app does when opened without a target.
+- Benign console 404s on a few screens (optional assets) + a `Unknown session: null` on Interview — all expected empty-state noise, none blocked mounting.
+
 ## Goal
 The `/gallery` page exists: a grouped tree of every screen on the left, the real screen rendered on the right, deep links that survive reload — with every self-fetching screen already showing real local data.
 
