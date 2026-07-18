@@ -95,7 +95,7 @@ const SCREEN_GROUPS = {
   "team.ts": "member", "runs.ts": "member", "run-detail.ts": "member",
   "person-detail.ts": "member",
   "start.js": "admin", "library.js": "admin", "compare.js": "admin",
-  "review-run.js": "admin", "regression.js": "admin", "personas.js": "admin",
+  "review-run.js": "admin", "personas.js": "admin",
   "meeting-arcs.js": "admin", "job-lexicons.js": "admin", "tasks.js": "admin",
   "admin-registered.ts": "admin", "admin-user-detail.ts": "admin",
   "guide.js": "admin",

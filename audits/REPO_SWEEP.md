@@ -270,4 +270,20 @@ listenFor fixture pair is the only red, and it predates the sweep.
 | 17 | `.cursor/` + `.cursorignore` + untracked debug log | Cursor-era config, workflow moved to Claude Code |
 
 **Free checks ($0):** `npm run typecheck` ✅ clean · `npm test` ✅ **156/156**.
-**Still open:** 12, 16, 18, 19, 20, 21 (and the parked-flag items).
+
+---
+
+# Housekeeping batch (2026-07-18, Carl's "keep going")
+
+**Executed:** items 12, 16, 20.
+
+| # | Done | Notes |
+|---|---|---|
+| 12 | Removed inert `"regression.js"` entry from guide.js:98 | No such stage file in either app; fossil |
+| 16 | Dropped the per-event subscriber-count `console.log` at stream-helper.ts:139 | `terminal` still used one line down; no orphan |
+| 20 | `docs/reports/` → dated one-offs moved to `docs/reports/archive/` | Living dashboards (sero-changelog.html, sero-how-it-works.html) + the `cleanup/` series stay at root. 2 untracked night-test HTMLs moved but left untracked |
+
+**Free check ($0):** `npm run typecheck` ✅ clean.
+
+**⏸ Held — needs an all-sessions-closed moment:** 18 (launch.json repair; a dev server is live right now).
+**Still open — your call:** 19 (rescue the engine fix from 4 unmerged branches), 21 (promises-loop + rename decisions), and the parked-flag items.

@@ -136,7 +136,6 @@ async function runStage<T>(
   const told = new WeakSet<SseStream>();
   const broadcast = (event: string, data: unknown) => {
     const terminal = event === resultEvent || event === "error";
-    if (terminal) console.log(`[${stageKey}] ${event} -> ${entry.subscribers.length} subscriber(s)`);
     for (const s of entry.subscribers) {
       tell(s, event, data);
       if (terminal) told.add(s);
