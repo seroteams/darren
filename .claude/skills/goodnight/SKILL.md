@@ -1,6 +1,6 @@
 ---
 name: goodnight
-description: "The end-of-day sweep, so Carl can walk away with nothing left open. Trigger when Carl says 'goodnight', 'good night', 'end of day sweep', 'closing up for the night', 'tie everything off for the night'. Runs every free check, spends at most the stated paid-test budget (default $2) only where a run proves something owed, ties off green-lit-but-uncommitted work, tidies junk and docs, checks worktrees/branches for finished work to fold in, pushes main (Render auto-deploys) and watches it go live — then reports honestly what stayed open and why. Never sweeps a live session's work; never self-certifies a phase closed."
+description: "The end-of-day sweep, so Carl can walk away with nothing left open. Trigger when Carl says 'goodnight', 'good night', 'end of day sweep', 'closing up for the night', 'tie everything off for the night'. Runs every free check, spends at most the stated paid-test budget (default $2) only where a run proves something owed, ties off green-lit-but-uncommitted work, tidies junk and docs, surfaces any stray branches (trunk-only — there shouldn't be any), pushes main (Render auto-deploys) and watches it go live — then reports honestly what stayed open and why. Never sweeps a live session's work; never self-certifies a phase closed."
 argument-hint: "(optional: a paid-test budget, e.g. 'goodnight, $1' — default $2)"
 user-invocable: true
 disable-model-invocation: true
@@ -11,7 +11,7 @@ open. The one thing worse than leaving something open is *hiding* that it's open
 
 ## 1. Survey — before touching anything
 
-- [ ] `git status --porcelain` + `git worktree list` + `git log --oneline -10`.
+- [ ] `git status --porcelain` + `git log --oneline -10`.
 - [ ] Read [STATUS.md](../../../STATUS.md) and glance at every `docs/plans/doing/<slug>/` folder.
 - [ ] Classify every changed/untracked file by owner (this is [safe-commit](../safe-commit/SKILL.md)'s
       mine-vs-foreign call, done for the whole tree):
@@ -53,11 +53,11 @@ open. The one thing worse than leaving something open is *hiding* that it's open
       nothing *silently* open — a phase awaiting Carl's green light is reported open, never
       self-certified closed.
 
-## 4. Merge — fold in only what's finished
+## 4. Stray branches — surface, don't ceremony
 
-- [ ] `git worktree list` + `git branch --no-merged main`: for each, is its work done (its plan
-      says green-lit / its handoff says fold)? Then merge it into main and note it. Anything
-      still mid-work or unclear → leave it, name it in the report.
+- [ ] Trunk-only (2026-07-15): everything lives on `main`, so `git branch --no-merged main`
+      should return nothing local. If it doesn't — or a remote `claude/*` branch holds unmerged
+      work — name it in the report with what's on it. Fold only with Carl's explicit say-so.
 
 ## 5. Push — the release flow
 

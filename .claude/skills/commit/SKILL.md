@@ -10,7 +10,7 @@ Save Carl's work to git on this machine. **Never push** — that's `/release`'s 
 
 ## Steps
 
-1. **Look at what changed** — `git status` + `git diff --stat`. Also `git worktree list`: Carl runs many sessions in one folder, so some changes may not be this session's.
+1. **Look at what changed** — `git status` + `git diff --stat`. Carl runs many sessions in this one folder, so some changes may not be this session's.
 2. **Only commit this session's work.** Follow [safe-commit](../safe-commit/SKILL.md): add **specific paths** (`git add <path>`), never `git add -A`/`.`. If the tree holds files this session didn't touch, leave them — say so in the reply.
 3. **Group + message.** One commit if it's one logical change; split if there are clearly separate ones. Message = conventional style, plain words: `type(scope): what changed` (e.g. `fix(login): stop double-submit`). Use Carl's hint if given.
 4. **Commit** — path-scoped, local only:

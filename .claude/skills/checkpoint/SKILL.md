@@ -10,8 +10,8 @@ One word, two jobs. Mid-work = **save**. Fresh session = **restore**. Don't ask 
 ## Job A — Save (mid-work, or the moment a phase gets Carl's sign-off)
 
 - [ ] **Commit the working tree** — message: `chore: checkpoint — <plain-words state>`.
-      If `git status` shows files that are NOT from this session's work, or `git worktree list`
-      shows parallel sessions, follow the [safe-commit](../safe-commit/SKILL.md) rules —
+      If `git status` shows files that are NOT from this session's work (parallel chats share
+      this one folder), follow the [safe-commit](../safe-commit/SKILL.md) rules —
       path-scoped adds only, never sweep foreign work into a checkpoint. (A checkpoint commit
       once swept another session's uncommitted fix. Never again.)
 - [ ] **Refresh [STATUS.md](../../../STATUS.md)** so its 📍 checkpoint note matches what was just committed, and commit that too.

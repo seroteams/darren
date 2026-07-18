@@ -685,7 +685,6 @@ _1144 entries · 849 described · 295 to fill · `npm run build-map`._
 - `scripts/lib/session-fs.js` — Locate session directories under logs/<month>/<id>/. Shared by smoke-test.js
 - `scripts/lib/session-scores.ts` — _(no summary yet)_
 - `scripts/lint-bank.js` — Phase-0 DIAGNOSTIC lint over the question bank. Reports only — gates nothing.
-- `scripts/new-worktree.ps1` — _(no summary yet)_
 - `scripts/org-inventory.ts` — Read-only: list every org with its users (email/role) and run count, so we can
 - `scripts/plan-turn-size-report.js` — Plan-turn prompt size report (free, offline — no API).
 - `scripts/promote-candidates.js` — Hand-review tool: walk lexicons/_candidates, diff each candidate file

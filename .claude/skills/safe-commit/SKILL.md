@@ -13,8 +13,9 @@ The working tree is shared ground. Commit only what's yours.
       - **Mine** — created or edited by THIS session, traceable to the current task.
       - **Foreign** — everything else: another session's WIP, Carl's own edits, generated
         artifacts (e.g. `content/questions/_runtime/*`, log files) your task didn't touch.
-- [ ] **2. Check for parallel sessions**: `git worktree list`. Multiple worktrees, or any doubt
-      that another session is live in this folder → treat all unclassifiable files as foreign.
+- [ ] **2. Assume parallel sessions.** Carl runs many chats in this ONE folder (trunk-only,
+      model B — worktrees/branches retired 2026-07-15). Any doubt that another session is live
+      → treat all unclassifiable files as foreign.
 - [ ] **3. Path-scoped only.** Stage with `git add <specific paths>` or commit with
       `git commit -- <paths>`. **Never `git add -A`, `git add .`, or `git commit -a`** while a
       single foreign file exists.
@@ -28,10 +29,11 @@ The working tree is shared ground. Commit only what's yours.
 - [ ] **6. Generated artifacts**: never bulk-delete or bulk-commit untracked files under
       `content/questions/` — they're runtime artifacts with their own rules.
 
-## The better fix for parallel work
+## Parallel work — how it's handled now
 
-One session = one worktree = one branch. `scripts/new-worktree.ps1 <name>` spins up an isolated
-copy (.env copied, node_modules linked). Full guide: [docs/reference/parallel-sessions.md](../../../docs/reference/parallel-sessions.md).
+There is no worktree/branch ceremony any more (retired 2026-07-15, Carl's call — trunk-only,
+model B): every session works on `main` in this one folder, and **this skill's my-own-files-only
+commit IS the safety**. If a session finds itself on a branch anyway, surface it — don't add more.
 
 ## Rules
 
