@@ -89,7 +89,10 @@ function get(pathname) {
 async function main() {
   const child = spawn(process.execPath, [path.join(ROOT, "backend", "api", "server.ts")], {
     cwd: ROOT,
-    env: { ...process.env, NODE_ENV: "production", PORT: String(PORT), API_PORT: "" },
+    // APP_ENV: "local" — this test only proves prod STATIC serving, not live-DB behaviour.
+    // Without it, NODE_ENV=production classifies the boot as "live" and server.ts refuses to
+    // start with no DATABASE_URL (fine locally via .env, red in CI).
+    env: { ...process.env, NODE_ENV: "production", APP_ENV: "local", PORT: String(PORT), API_PORT: "" },
     stdio: ["ignore", "pipe", "pipe"],
   });
   let serverErr = "";
