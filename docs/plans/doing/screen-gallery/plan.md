@@ -23,8 +23,8 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Gallery shell (in-app) | Tree + host + deep links; all API-backed screens render live | ✅ superseded by v2 |
-| 2 | **v2: static HTML gallery** | Remove the in-app gallery; raw HTML snapshots in `docs/screen-gallery/` + export script + sample-data fixtures | 🔨 |
+| 1 | Gallery shell (in-app) | Tree + host + deep links; all API-backed screens render live | ✅ **kept** (Carl: keep both) |
+| 2 | **v2: static HTML gallery** | Raw HTML snapshots in `docs/screen-gallery/` + export script + sample-data fixtures (Part A removal **cancelled**) | ✅ built, awaiting green light |
 | 3 | Design-loop polish (optional) | "Open real route" links, width toggle, empty/error-state stubs — only if wanted | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -36,9 +36,11 @@ screens rendered empty. Carl's final call: **scrap the in-app machinery** (feels
 system) and replace it with **raw HTML snapshots in a folder he opens directly**. Full v2 design
 in [phase-2.md](phase-2.md) and the approved plan `id-like-to-look-golden-zephyr.md`.
 
-**Now:** Phase 2 v2 — (A) remove the in-app gallery, (B+C) static HTML gallery at
-`docs/screen-gallery/` + `scripts/gallery-export.mjs` + sample-data fixtures. Part A's two
-files (main.js, app-nav.js) are held behind another chat's lane; B+C are independent and built first.
+**Now:** Phase 2 v2 built — static HTML gallery at `docs/screen-gallery/` +
+`scripts/gallery-export.mjs` + sample-data fixtures (committed 4ad0c42e). 42/45 screens
+captured, Briefing/Team/Pulse verified on screen with sample data. **Part A (removing the in-app
+gallery) is CANCELLED** — Carl chose to keep both the live in-app gallery and the static
+snapshots (they do different jobs). Awaiting Carl's green-light walk to close the phase.
 
 ## Parked
 - Fetch-stub layer for designing empty/error states (only if Carl asks — Phase 3 candidate).

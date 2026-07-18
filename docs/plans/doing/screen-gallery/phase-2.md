@@ -14,18 +14,12 @@ change the real site. Loop: open a snapshot → "Copy design prompt" → paste i
 chat edits the REAL screen code → the chat re-runs the export so snapshots match again. Every
 page carries its generation date, so staleness is visible at a glance.
 
-## Part A — REMOVE the in-app gallery
-- `admin/src/stages/gallery/` — delete (gallery.js, screens.js).
-- `admin/src/state.js` — remove `STAGES.GALLERY` + `galleryScreen`.
-- `admin/src/router.js` — remove `/gallery` routes + gallery from `INTERNAL_ONLY`/`LIVE_HIDDEN`.
-- `admin/src/main.js` — remove the GALLERY boot + popstate branches. **(locked lane ccee819a)**
-- `admin/src/ui/app-nav.js` — remove the Screens rail item + `LayoutGrid`. **(locked lane ccee819a)**
-- `admin/src/stage-loaders.js` — KEEP; remove only its `GALLERY:` entry.
-- Verify: `npm run typecheck` + `npm test` + boot smoke; grep for `gallery`/`GALLERY` in admin/src is clean.
-
-> ⚠️ main.js + app-nav.js are claimed by another live chat (sidebar re-org). Part A waits on
-> Carl's call — done atomically once the lane clears, or the gallery half-removed leaves a
-> dead rail icon.
+## Part A — REMOVE the in-app gallery — ❌ CANCELLED (Carl's call, 18 Jul)
+Carl looked at the live in-app `/gallery` (e.g. `/gallery/run_debrief`) and decided to **keep
+both**: the in-app live gallery AND the static HTML snapshot folder — they do different jobs
+(live, real-data, mounts real modules · vs · no-server, sample-data, opens from disk). So the
+in-app gallery **stays**; nothing in `admin/src/` is removed. Verified rendering on main
+(build 07b784bd). This phase is now **Parts B + C only**.
 
 ## Part B — the static gallery: `docs/screen-gallery/`
 Self-contained HTML files opened via `file://`:
@@ -58,11 +52,12 @@ Free, local Playwright script; regenerates the whole folder in one run.
 Carl can too). Re-export is the ONLY sync mechanism; the date stamp shows staleness.
 
 ## Done when
-- [ ] Part B/C: export runs, every screen page + index.html written; flow screens (Briefing full
-      of sample content — the previously-empty case) render filled.
-- [ ] `docs/screen-gallery/index.html` opens via `file://` and screenshots prove the tree + 3
-      screen pages (incl. Briefing).
-- [ ] Part A done cleanly (once the lane clears) — grep-clean, typecheck + test pass.
+- [x] Part B/C: export runs, every screen page + index.html written; flow screens (Briefing full
+      of sample content — the previously-empty case) render filled. **42/45 captured, 0 fail**
+      (the 3 customer-only screens need the :3002 server).
+- [x] `docs/screen-gallery/index.html` opens via `file://`; screenshots proved the tree + Briefing
+      / Team / Pulse full of sample data (18 Jul).
+- [x] ~~Part A~~ — **cancelled, keep both** (above).
 - [ ] Carl has walked it and said go.
 
 ## Test scenarios — for the product owner
