@@ -1,3 +1,27 @@
+# ✅ DONE CHECKLIST — what got actioned (2026-07-18)
+
+Plain summary at a glance. Full detail is in the sections below.
+
+| # | What | Why we needed it | What I did | Status |
+|---|---|---|---|---|
+| 10 | Duplicate login photos + unused logo (2 MB) | Dead weight — triplicated, nothing loads them | Deleted (recoverable) | ✅ Done |
+| 11 | Old page-builder `review-html.ts` (508 lines) | No code used it anymore | Deleted (recoverable) | ✅ Done |
+| 13 | Two shipped `/test` demo mockups | The real features already shipped | Deleted mocks + their orphaned thumbnails | ✅ Done |
+| 14 | Old benchmark testing toolset (3 files) | No script or code ran it | Deleted (recoverable) | ✅ Done |
+| 15 | May log files (~1 MB) | 6–8 weeks stale, pure clutter | Deleted from disk (permanent) | ✅ Done |
+| 17 | Cursor-editor leftovers | Workflow moved to Claude Code | Deleted config + debug log | ✅ Done |
+| 12 | Fossil `regression.js` map entry | Pointed at a screen that no longer exists | Removed the line | ✅ Done |
+| 16 | Stray debug log line in the engine | Console noise, no purpose | Removed it | ✅ Done |
+| 20 | Messy `docs/reports/` folder | Old reports mixed with live dashboards | Old ones → `archive/`; 2 live dashboards kept | ✅ Done |
+| 19 | 4 leftover git branches | Trunk-only rule = only `main` should exist | Verified all stale/already-landed, deleted all 4 | ✅ Done — remote is now `main` only |
+| — | Free safety checks | Prove nothing broke | typecheck clean · tests 156/156 · $0 | ✅ Passed |
+| 18 | Launch-config repair | Two entries point at wrong/missing files | Held — needs all chats closed | ⏸ Waiting |
+| 21 | Promises-loop P3 · folder rename | Both are your forward calls, not cleanup | Laid out for your decision | 🤔 Your call |
+
+**Recoverable branch IDs** (if ever needed): `6ddb0f67` · `8479ba49` · `17cac21e` · `ed970fc2` · `f9c686b0`.
+
+---
+
 # REPO SWEEP — Phase 1 Discovery (2026-07-18)
 
 Read-only audit; nothing was changed. HEAD at sweep: `e08093d9` on `main` (3 commits ahead of origin,
