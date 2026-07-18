@@ -28,7 +28,7 @@ Thanks for trying this. Sero helps you **prepare a 1:1** with someone on your te
 ---
 
 ## Optional — see what your teammate would see
-If you'd like to see the other side: on the **Team** page, click **Tidy up → Invite**, enter a teammate's email, and send them the link it gives you. When they join, they see **only the date and type** of the 1:1s you prepped about them — **never your notes**. (Skip this if you don't have someone handy — it's not essential.)
+If you'd like to see the other side: on the **Team** page, click **Add someone** to add your teammate, then **Invite** on their card — enter their email and send them the link it gives you. When they join, they see **only the date and type** of the 1:1s you prepped about them — **never your notes**. (Skip this if you don't have someone handy — it's not essential.)
 
 ---
 

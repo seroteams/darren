@@ -31,7 +31,7 @@
    - Add a teammate any time: **Team** rail → **Add someone** (creates a roster row, *not* a login)
 
 ### Member (managed person)
-1. Manager: **Team → Tidy up → Invite…** → enter email → copy the `/join/:token` link (valid 7 days, one use)
+1. Manager: **Team → Add someone → Invite…** (on their card) → enter email → copy the `/join/:token` link (valid 7 days, one use)
 2. Member opens `/join/:token` → "Join your team on Sero" → set name + password → **Join {org}**
 3. Lands on `/home` **MEMBER_HOME** — read-only list of the 1:1s their manager ran about them. Nothing to *do*. (Intentional.)
 
