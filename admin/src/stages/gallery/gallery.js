@@ -19,6 +19,8 @@ const REGISTRY = { ...loaders, ...EXTRA_LOADERS };
 
 // The currently-open child screen, so we can unmount it before mounting the next one.
 let active = { key: null, mod: null, host: null };
+// The capture-phase Sero-logo click hook, held so unmount can detach it.
+let logoHandler = null;
 
 // ---- helpers ---------------------------------------------------------------
 
@@ -69,10 +71,24 @@ function buildTree() {
 // ---- styles ----------------------------------------------------------------
 
 const STYLE = `
-  .gal { display:flex; min-height:calc(100vh - var(--app-nav-h)); }
-  .gal__tree { width:264px; flex:none; border-right:1px solid var(--color-border);
-    background:var(--color-surface); padding:var(--sero-space-4) var(--sero-space-3);
-    overflow:auto; position:sticky; top:0; align-self:flex-start; max-height:100vh; }
+  .gal { position:relative; min-height:calc(100vh - var(--app-nav-h)); display:flex; flex-direction:column; }
+  /* The screen list is a slide-out drawer — hidden until the Sero logo (or the bar toggle)
+     opens it, so the gallery isn't a second permanent left column. */
+  .gal__drawer { position:fixed; top:0; left:var(--app-nav-w); width:264px; height:100vh;
+    background:var(--color-surface); border-right:1px solid var(--color-border);
+    padding:var(--sero-space-4) var(--sero-space-3); overflow:auto; z-index:var(--sero-z-fixed);
+    transform:translateX(calc(-100% - var(--app-nav-w) - 8px)); transition:transform .22s var(--ease-out-expo);
+    box-shadow:var(--shadow-lift); }
+  .gal.is-open .gal__drawer { transform:translateX(0); }
+  .gal__backdrop { position:fixed; inset:0; background:var(--color-backdrop); opacity:0;
+    pointer-events:none; transition:opacity .2s ease; z-index:var(--sero-z-modal-backdrop); }
+  .gal.is-open .gal__backdrop { opacity:1; pointer-events:auto; }
+  .gal__drawer-head { display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:var(--sero-space-3); }
+  .gal__drawer-title { font-family:var(--type-family-display); font-size:16px; font-weight:600; color:var(--color-ink); }
+  .gal__close { font:inherit; font-size:14px; color:var(--color-ink-dim); background:none; border:0;
+    border-radius:var(--radius-button); padding:4px 8px; cursor:pointer; }
+  .gal__close:hover { background:var(--color-surface-2); }
   .gal__filter { width:100%; font:inherit; font-size:14px; color:var(--color-ink);
     background:var(--color-surface); border:1px solid var(--color-border);
     border-radius:var(--radius-input); padding:8px 12px; margin-bottom:var(--sero-space-3); }
@@ -92,6 +108,11 @@ const STYLE = `
   .gal__bar { display:flex; align-items:center; gap:var(--sero-space-3); flex-wrap:wrap;
     padding:var(--sero-space-3) var(--sero-space-5); border-bottom:1px solid var(--color-border);
     background:var(--color-surface); }
+  .gal__screens-btn { display:inline-flex; align-items:center; gap:6px; font:inherit; font-size:14px;
+    font-weight:600; color:var(--color-ink); background:var(--color-surface);
+    border:1px solid var(--color-border); border-radius:var(--radius-button); padding:6px 12px; cursor:pointer; }
+  .gal__screens-btn:hover { border-color:var(--color-accent); }
+  .gal__screens-btn:focus-visible { outline:none; box-shadow:var(--shadow-focus); }
   .gal__bar-id { min-width:0; }
   .gal__bar-title { font-family:var(--type-family-display); font-size:20px; font-weight:600;
     color:var(--color-ink); line-height:1.2; }
@@ -107,6 +128,7 @@ const STYLE = `
   .gal__placeholder h2 { font-family:var(--type-family-display); font-size:22px; color:var(--color-ink); }
   .gal__needs { font-size:14px; color:var(--sero-gold-900); background:var(--sero-gold-200);
     border-radius:9999px; padding:2px 10px; }
+  @media (prefers-reduced-motion: reduce) { .gal__drawer { transition:none; } .gal__backdrop { transition:none; } }
 `;
 
 // ---- mount -----------------------------------------------------------------
@@ -117,34 +139,62 @@ export async function mount(node, deps) {
   node.innerHTML = `
     <style>${STYLE}</style>
     <div class="gal">
-      <nav class="gal__tree" aria-label="All screens">
+      <div class="gal__backdrop js-backdrop"></div>
+      <nav class="gal__drawer" aria-label="All screens">
+        <div class="gal__drawer-head">
+          <span class="gal__drawer-title">Screens</span>
+          <button type="button" class="gal__close js-close" aria-label="Close screen list">Close ✕</button>
+        </div>
         <input class="gal__filter" type="search" placeholder="Type a screen name…  e.g. brief" aria-label="Filter screens" />
         <div class="js-tree"></div>
       </nav>
       <div class="gal__pane">
         <div class="gal__banner">⚡ Preview of real screens — buttons are live against your local test data. This page is hidden and never shows on the live site.</div>
         <div class="gal__bar">
+          <button type="button" class="gal__screens-btn js-screens" aria-label="Show the screen list">☰ Screens</button>
           <div class="gal__bar-id">
             <div class="gal__bar-title js-title">Screen Gallery</div>
-            <div class="gal__bar-file js-file">Pick a screen on the left to preview it.</div>
+            <div class="gal__bar-file js-file">Click the Sero logo (top-left) or “Screens” to open the list.</div>
           </div>
           <div class="gal__bar-actions js-actions"></div>
         </div>
         <div class="gal__host js-host">
           <div class="gal__placeholder">
             <h2>Every screen, in one place</h2>
-            <p>Choose a screen on the left. It opens here filled with your local data — edit its design and the change lands on the real app.</p>
+            <p>Click the <strong>Sero logo</strong> in the top-left, or the <strong>☰ Screens</strong> button, to open the list. Pick a screen and it opens here filled with your local data — edit its design and the change lands on the real app.</p>
           </div>
         </div>
       </div>
     </div>`;
 
+  const galEl = node.querySelector(".gal");
   const treeEl = node.querySelector(".js-tree");
   const filterEl = node.querySelector(".gal__filter");
   const hostEl = node.querySelector(".js-host");
   const titleEl = node.querySelector(".js-title");
   const fileEl = node.querySelector(".js-file");
   const actionsEl = node.querySelector(".js-actions");
+
+  // --- drawer open/close ---
+  const openDrawer = () => { galEl.classList.add("is-open"); filterEl.focus(); };
+  const closeDrawer = () => galEl.classList.remove("is-open");
+  const toggleDrawer = () => galEl.classList.toggle("is-open");
+  node.querySelector(".js-screens").addEventListener("click", openDrawer);
+  node.querySelector(".js-close").addEventListener("click", closeDrawer);
+  node.querySelector(".js-backdrop").addEventListener("click", closeDrawer);
+
+  // Hijack the Sero logo (shared nav's .js-home / .js-bar-home) to toggle the drawer while
+  // the gallery is open — capture-phase so it runs before the nav's own "go home" handler.
+  // Removed on unmount, so the logo means "home" again everywhere else.
+  if (logoHandler) document.removeEventListener("click", logoHandler, true);
+  logoHandler = (e) => {
+    if (e.target.closest && e.target.closest(".js-home, .js-bar-home")) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      toggleDrawer();
+    }
+  };
+  document.addEventListener("click", logoHandler, true);
 
   // --- build the tree DOM ---
   treeEl.innerHTML = tree.map((g) => `
@@ -188,6 +238,7 @@ export async function mount(node, deps) {
       b.classList.toggle("is-on", b.dataset.screen === key));
     deps.store.galleryScreen = key;
     replaceUrl(`/gallery/${screenIdOf(key)}`);
+    closeDrawer(); // get the list out of the way so the picked screen has the full width
 
     const m = metaFor(key);
     const file = fileFor(key);
@@ -236,6 +287,7 @@ export async function mount(node, deps) {
 }
 
 export async function unmount() {
+  if (logoHandler) { document.removeEventListener("click", logoHandler, true); logoHandler = null; }
   if (active.mod && typeof active.mod.unmount === "function") {
     try { await active.mod.unmount(active.host); } catch (e) { console.error("[gallery] unmount", e); }
   }

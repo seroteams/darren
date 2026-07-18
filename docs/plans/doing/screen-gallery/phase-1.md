@@ -14,6 +14,12 @@
 - Offline proof: `npm run typecheck` clean · `npm test` 156/156.
 - Known edge (accepted v1): the Design component-sheet screen renders live demo nav that can self-navigate — browser Back returns.
 
+## Revision (18 Jul — Carl feedback)
+- The screen list was a permanent second left column, stacked next to the app nav rail = cluttered.
+- Reworked it into a **hidden slide-out drawer**: closed by default (screen gets full width), opens on clicking the **Sero logo** (Carl's pick) or a **☰ Screens** button in the bar. Picking a screen, the backdrop, or Close tucks it away.
+- Logo hook is a capture-phase click listener on the shared nav's `.js-home`/`.js-bar-home`, attached only while the gallery is mounted and removed on unmount — the shared `app-nav.js` is untouched, and the logo means "home" everywhere else.
+- Verified on screen (Playwright): starts closed → logo toggles open/closed → picking Team auto-closes and mounts it. typecheck clean.
+
 ## Goal
 The `/gallery` page exists: a grouped tree of every screen on the left, the real screen rendered on the right, deep links that survive reload — with every self-fetching screen already showing real local data.
 
