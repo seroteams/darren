@@ -505,9 +505,26 @@ export async function mount(root, { store, setState, resetSession }) {
     };
     saveCard.querySelector(".js-guest-register").addEventListener("click", () => saveVia(STAGES.REGISTER));
     saveCard.querySelector(".js-guest-login").addEventListener("click", () => saveVia(STAGES.LOGIN));
-    // Save as PDF = the browser's own print-to-PDF; print styles in briefing.css
-    // strip the buttons and force the reveal-hidden content visible.
-    root.querySelector(".js-save-pdf").addEventListener("click", () => window.print());
+    // Save as PDF: generate a designed PDF from the briefing and download it
+    // straight away (ui/recap-pdf.ts; pdfmake is lazy-loaded on first click).
+    const pdfBtn = root.querySelector(".js-save-pdf");
+    pdfBtn.addEventListener("click", async () => {
+      const prev = pdfBtn.textContent;
+      pdfBtn.disabled = true;
+      pdfBtn.textContent = "Preparing…";
+      try {
+        const { downloadRecapPdf } = await import("../ui/recap-pdf.ts");
+        await downloadRecapPdf(b, store.ctx);
+      } catch (e) {
+        console.error("[briefing] PDF export failed:", e);
+        pdfBtn.textContent = "Couldn't build the PDF — try again";
+        setTimeout(() => { pdfBtn.textContent = prev; }, 2500);
+        pdfBtn.disabled = false;
+        return;
+      }
+      pdfBtn.textContent = prev;
+      pdfBtn.disabled = false;
+    });
     // Start fresh without saving — same reset as the "no recap" branch above.
     root.querySelector(".js-guest-restart").addEventListener("click", () => {
       try { localStorage.removeItem("seroSessionId"); } catch {}
