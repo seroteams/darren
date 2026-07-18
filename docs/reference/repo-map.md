@@ -1167,7 +1167,7 @@ _1144 entries · 849 described · 295 to fill · `npm run build-map`._
 - `docs/board.md` — 📋 The board — moved
 - `docs/decisions/0001-generated-questions-out-of-git.md` — Decision 0001 — Engine-generated questions live outside git
 - `docs/newrunnerdesign.png` — _(no summary yet)_
-- `docs/ONE-ON-ONE-RUNNER-CONCEPT.md` — The 1:1 Runner — Concept & Flow
+- `docs/archive/ONE-ON-ONE-RUNNER-CONCEPT.md` — The 1:1 Runner — Concept & Flow (archived 2026-07-18)
 - `docs/README.md` — docs — index
 - `docs/rename-serolocal-handover.md` — Handover — rename `darren` → `serolocal`
 - `docs/reports/2026-07-02-admin-smoke.md` — Admin smoke test — 2026-07-02 (overnight)
@@ -1217,7 +1217,7 @@ _1144 entries · 849 described · 295 to fill · `npm run build-map`._
 - `package-lock.json` — _(no summary yet)_
 - `package.json` — _(no summary yet)_
 - `README.md` — Sero
-- `RENDER_SETUP.md` — Put Sero on the internet — Render setup (one time, ~15 minutes)
+- `docs/reference/RENDER_SETUP.md` — Put Sero on the internet — Render setup (one time, ~15 minutes)
 - `render.yaml` — _(no summary yet)_
 - `SERO_BOARD.md` — SERO BOARD — the single source of truth
 - `skills-lock.json` — _(no summary yet)_

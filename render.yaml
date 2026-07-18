@@ -4,7 +4,7 @@
 #
 # Secrets are marked `sync: false` — Render asks you for the values ONCE in the
 # dashboard and stores them there; they never live in this file or in git.
-# See RENDER_SETUP.md for the click-by-click.
+# See docs/reference/RENDER_SETUP.md for the click-by-click.
 
 services:
   - type: web
@@ -40,7 +40,7 @@ services:
         value: https://sero-obwq.onrender.com
       # Secrets — Render prompts for each once, in the dashboard. Never in git.
       # ⚠️ DATABASE_URL must be the "Sero Live" Neon URL (the LIVE_DATABASE_URL
-      #    value from your .env), NOT your local one. See RENDER_SETUP.md.
+      #    value from your .env), NOT your local one. See docs/reference/RENDER_SETUP.md.
       - key: DATABASE_URL
         sync: false
       - key: OPENAI_API_KEY
