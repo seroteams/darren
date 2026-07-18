@@ -39,9 +39,6 @@ Four rooms:
 | Report | Date |
 |---|---|
 | [2026-07-07-night-test-report.md](reports/2026-07-07-night-test-report.md) | Overnight full-QA raw log. |
-| [2026-07-06-overnight-qa.md](reports/2026-07-06-overnight-qa.md) | Overnight QA pass. |
-| [2026-07-05-live-data-audit.md](reports/2026-07-05-live-data-audit.md) | Live-data / API-migration audit. |
-| [2026-07-02-admin-smoke.md](reports/2026-07-02-admin-smoke.md) | Admin smoke walk. |
 | [sero-changelog.html](reports/sero-changelog.html) | Founder/customer-facing changelog (hand-maintained). |
 | [sero-how-it-works.html](reports/sero-how-it-works.html) | Founder-facing how-it-works deck (hand-maintained). |
 
