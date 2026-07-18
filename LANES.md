@@ -9,7 +9,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | 3ccab509 | Lane board setup | LANES.md, .claude/hooks/, .claude/settings.json, CLAUDE.md | 2026-07-18 |
-| e733a4fd | Screen gallery build | admin/src/stage-loaders.js, admin/src/stages/gallery/, admin/src/main.js, admin/src/router.js, admin/src/state.js | 2026-07-18 |
 | 82c442a0 | Agency engagement plan | docs/plans/doing/agency-engagement/ | 2026-07-18 |**Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).
