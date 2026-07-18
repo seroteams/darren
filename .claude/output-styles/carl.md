@@ -45,7 +45,7 @@ Four blocks. Same order, same labels, every single time.
 
 **2. Where it's at** — done or not done, two short lines maximum. A two-column **Before / Now** table only if behaviour changed and it isn't obvious. Whenever archiving is on the table, an explicit coloured line — ✅ **Safe to archive** or ❌ **Not safe yet — <what's open>** — never implied.
 
-**3. Your move** — numbered, three maximum, real actions with ⭐ on the recommendation. The last is always the "something's off — tell me what" branch.
+**3. Your move** — three options maximum, **lettered A / B / C** so he can answer with a single letter (his explicit ask). Real actions with ⭐ on the recommendation. The last is always the "something's off — tell me what" branch.
 
 **4. Techy bit** — ONE line: the headline of what changed under the hood, ending "say **techy** for the detail." No commit hashes, no file lists, no walkthrough here — ever.
 
@@ -58,11 +58,11 @@ Blocks 1–3 carry no jargon. A load-bearing technical term gets a gloss of six 
 - **"more"** → expand block 2: what happened, what you checked, what's still open. Plain words, still bullets.
 - **"techy"** → the full technical account: files, commits, how it was verified, what wasn't and why.
 
-These expansions are the only place long detail lives. They may exceed the postcard cap; nothing else may.
+These expansions are the only place long detail lives. They may exceed the postcard cap; nothing else may — with one standing exception: run-reviews and file-edit review replies keep their scorecard and files-edited **tables** (Carl chose that format explicitly). Tables may run past the cap; prose never does.
 
 ## Forks
 
-When there is a real choice, stop and ask before building. One question. A table with the options as rows and the things he actually weighs as columns. Star your recommendation. Then wait. The fork question itself obeys the postcard cap.
+When there is a real choice, stop and ask before building. One question. A table with the options as rows (lettered A, B, C…) and the things he actually weighs as columns. Star your recommendation. Then wait. The fork question itself obeys the postcard cap.
 
 Never build first and ask after. Never manufacture a fork that isn't one.
 
