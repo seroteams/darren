@@ -1,0 +1,165 @@
+<title>Screen Gallery — 10 ways to pick a screen</title>
+<style>
+  :root{
+    --page:#f5fafd; --surface:#ffffff; --border:#e8e8e8; --border-strong:#cccccc;
+    --ink:#1f2a37; --dim:#636363; --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb;
+    --rail:#1b5d91; --gold-tint:#fff6e5; --gold-text:#523600; --mint-tint:#eefcf9; --mint-text:#0c4b3c;
+    --r:12px; --sans:Inter,ui-sans-serif,system-ui,sans-serif;
+    --display:"Bricolage Grotesque",Inter,ui-sans-serif,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--page:#0d2c44;--surface:#0f3450;--border:#1b5d91;--border-strong:#2e6b95;
+      --ink:#eaf3fb;--dim:#a9c6de;--accent:#85bde9;--accent-dark:#c1def4;--accent-soft:#123a57;
+      --rail:#081c2b;--gold-tint:#3a2f12;--gold-text:#ffdd98;--mint-tint:#0c3b32;--mint-text:#a4f1df;}
+  }
+  :root[data-theme="dark"]{--page:#0d2c44;--surface:#0f3450;--border:#1b5d91;--border-strong:#2e6b95;
+    --ink:#eaf3fb;--dim:#a9c6de;--accent:#85bde9;--accent-dark:#c1def4;--accent-soft:#123a57;
+    --rail:#081c2b;--gold-tint:#3a2f12;--gold-text:#ffdd98;--mint-tint:#0c3b32;--mint-text:#a4f1df;}
+  :root[data-theme="light"]{--page:#f5fafd;--surface:#ffffff;--border:#e8e8e8;--border-strong:#cccccc;
+    --ink:#1f2a37;--dim:#636363;--accent:#5aa9e6;--accent-dark:#1b5d91;--accent-soft:#e9f3fb;--rail:#1b5d91;
+    --gold-tint:#fff6e5;--gold-text:#523600;--mint-tint:#eefcf9;--mint-text:#0c4b3c;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);line-height:1.55;font-size:15px}
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 22px 72px}
+  .eyebrow{display:inline-block;background:var(--gold-tint);color:var(--gold-text);font-size:14px;font-weight:600;
+    padding:4px 12px;border-radius:9999px;letter-spacing:.03em;margin-bottom:14px}
+  h1{font-family:var(--display);font-weight:600;font-size:32px;letter-spacing:-0.01em;margin:0 0 8px;text-wrap:balance}
+  .lede{color:var(--dim);max-width:60ch;margin:0 0 10px}
+  .problem{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:8px;padding:14px 18px;margin:18px 0 30px;max-width:70ch}
+  .problem b{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;
+    display:flex;flex-direction:column;gap:10px}
+  .card.rec{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  .card__top{display:flex;align-items:baseline;gap:10px}
+  .num{font-family:var(--display);font-size:22px;font-weight:600;color:var(--accent-dark);min-width:1.4em}
+  .name{font-family:var(--display);font-size:18px;font-weight:600;line-height:1.2}
+  .pick{font-size:13px;font-weight:600;background:var(--mint-tint);color:var(--mint-text);
+    border-radius:9999px;padding:2px 9px;margin-left:auto;white-space:nowrap}
+  .how{color:var(--dim);font-size:14px;margin:0}
+  .how b{color:var(--ink)}
+  /* mini sketch: a tiny app frame with dark rail on the left */
+  .sk{height:104px;border:1px solid var(--border);border-radius:8px;overflow:hidden;position:relative;background:var(--page);display:flex}
+  .sk .rail{width:16px;background:var(--rail);flex:none}
+  .sk .body{flex:1;position:relative}
+  .sk .content{position:absolute;inset:8px;border-radius:4px;background:var(--accent-soft);opacity:.55}
+  .sk .panel{position:absolute;top:0;bottom:0;width:44%;background:var(--surface);border-right:1px solid var(--border-strong);
+    box-shadow:2px 0 6px rgba(0,0,0,.06)}
+  .sk .rows{position:absolute;top:10px;left:8px;right:8px;display:flex;flex-direction:column;gap:5px}
+  .sk .rows i{height:5px;border-radius:3px;background:var(--dim);opacity:.5;display:block}
+  .sk .rows i.a{width:70%} .sk .rows i.b{width:55%} .sk .rows i.c{width:64%} .sk .rows i.d{width:48%}
+  .sk .chip{position:absolute;height:12px;border-radius:6px;background:var(--accent)}
+  .tag{font-size:13px;color:var(--dim)}
+  .foot{margin-top:34px;color:var(--dim);font-size:14px;max-width:70ch}
+  .foot b{color:var(--ink)}
+</style>
+<div class="wrap">
+  <span class="eyebrow">Screen Gallery · pick an approach</span>
+  <h1>10 ways to choose a screen — without the mess</h1>
+  <p class="lede">Same job every time: get from "I want to see screen X" to that screen, fast, then back out cleanly. These differ in <em>where the list lives</em> and <em>whether anything covers the page.</em></p>
+  <div class="problem"><b>What went wrong with the current one:</b> it added a floating panel <em>next to</em> your app's nav rail — and your rail expands on hover, so the two collide. The dark wash was a backdrop I added to make the panel pop. Options below mostly drop both problems.</div>
+
+  <div class="grid">
+    <!-- 1 -->
+    <div class="card rec">
+      <div class="card__top"><span class="num">1</span><span class="name">Command bar</span><span class="pick">★ top pick</span></div>
+      <div class="sk"><div class="rail"></div><div class="body"><div class="content"></div>
+        <div style="position:absolute;top:34px;left:18%;right:18%;height:34px;background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;box-shadow:0 6px 16px rgba(0,0,0,.12)"></div>
+        <div style="position:absolute;top:44px;left:23%;width:40%;height:6px;border-radius:3px;background:var(--dim);opacity:.5"></div></div></div>
+      <p class="how">Hit <b>/</b> (or click a search box). Type "brief", press Enter — you're there. The list only appears as you type. <b>No panel, no dark.</b> Fastest once you know the names.</p>
+    </div>
+    <!-- 2 -->
+    <div class="card">
+      <div class="card__top"><span class="num">2</span><span class="name">Top dropdown</span></div>
+      <div class="sk"><div class="rail"></div><div class="body"><div class="content"></div>
+        <div style="position:absolute;top:0;left:8px;width:70px;height:16px;background:var(--surface);border:1px solid var(--border);border-radius:4px"></div>
+        <div style="position:absolute;top:20px;left:8px;width:120px;bottom:8px;background:var(--surface);border:1px solid var(--border-strong);border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.12)"></div>
+        <div class="rows" style="left:16px;right:auto;width:104px;top:28px"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div></div></div>
+      <p class="how">A <b>“Screens ▾”</b> button in the top bar drops a menu down under it. Pick one, it closes. Familiar as a normal dropdown; nothing slides over the page.</p>
+    </div>
+    <!-- 3 -->
+    <div class="card rec">
+      <div class="card__top"><span class="num">3</span><span class="name">Fold into your nav</span><span class="pick">★ tidy</span></div>
+      <div class="sk"><div class="rail" style="width:46%;background:var(--rail)"></div><div class="body"><div class="content"></div></div>
+        <div class="rows" style="left:8px;width:38%;top:10px"><i class="a" style="background:#cfe4f5;opacity:.8"></i><i class="b" style="background:#cfe4f5;opacity:.8"></i><i class="c" style="background:#cfe4f5;opacity:.8"></i><i class="d" style="background:#cfe4f5;opacity:.8"></i></div></div>
+      <p class="how">No second panel at all — the screen list becomes a <b>“Gallery” section inside your existing left nav</b> (the one that already opens on hover). One panel, ever. Can't collide with itself.</p>
+    </div>
+    <!-- 4 -->
+    <div class="card rec">
+      <div class="card__top"><span class="num">4</span><span class="name">All-screens grid</span><span class="pick">★ visual</span></div>
+      <div class="sk"><div class="rail"></div><div class="body">
+        <div style="position:absolute;inset:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+          <span style="background:var(--accent-soft);border:1px solid var(--border);border-radius:3px"></span>
+          <span style="background:var(--accent-soft);border:1px solid var(--border);border-radius:3px"></span>
+          <span style="background:var(--accent-soft);border:1px solid var(--border);border-radius:3px"></span>
+          <span style="background:var(--accent-soft);border:1px solid var(--border);border-radius:3px"></span>
+          <span style="background:var(--accent-soft);border:1px solid var(--border);border-radius:3px"></span>
+          <span style="background:var(--accent-soft);border:1px solid var(--border);border-radius:3px"></span>
+        </div></div></div>
+      <p class="how">The logo/“Screens” opens a <b>full-page grid of screen cards</b> (like your Tests page). Click a card → it fills the screen with a small <b>“← All screens”</b> to go back. Great for browsing; zero overlap.</p>
+    </div>
+    <!-- 5 -->
+    <div class="card">
+      <div class="card__top"><span class="num">5</span><span class="name">Push, don't cover</span></div>
+      <div class="sk"><div class="rail"></div>
+        <div style="width:38%;background:var(--surface);border-right:1px solid var(--border-strong);position:relative"><div class="rows" style="left:8px;right:8px;top:10px"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div></div>
+        <div class="body"><div class="content"></div></div></div>
+      <p class="how">The list slides in and <b>pushes the screen across</b> instead of covering it — both fully visible, nothing dimmed. Toggle to slide it back. Needs the screen to be OK a bit narrower while open.</p>
+    </div>
+    <!-- 6 -->
+    <div class="card">
+      <div class="card__top"><span class="num">6</span><span class="name">Top tab strip</span></div>
+      <div class="sk"><div class="rail"></div><div class="body">
+        <div style="position:absolute;top:6px;left:8px;right:8px;height:16px;display:flex;gap:5px;overflow:hidden">
+          <span style="width:34px;background:var(--accent);border-radius:4px;flex:none"></span>
+          <span style="width:30px;background:var(--accent-soft);border:1px solid var(--border);border-radius:4px;flex:none"></span>
+          <span style="width:38px;background:var(--accent-soft);border:1px solid var(--border);border-radius:4px;flex:none"></span>
+          <span style="width:28px;background:var(--accent-soft);border:1px solid var(--border);border-radius:4px;flex:none"></span>
+          <span style="width:40px;background:var(--accent-soft);border:1px solid var(--border);border-radius:4px;flex:none"></span>
+        </div>
+        <div class="content" style="top:30px"></div></div></div>
+      <p class="how">A thin <b>horizontal strip of screen names</b> across the top (scrolls sideways, grouped). Always there, never a column. Good if you hop between a handful a lot; busy with 40+.</p>
+    </div>
+    <!-- 7 -->
+    <div class="card">
+      <div class="card__top"><span class="num">7</span><span class="name">Prev / next stepper</span></div>
+      <div class="sk"><div class="rail"></div><div class="body">
+        <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center">
+          <span style="width:16px;height:16px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface)"></span>
+          <span style="width:70px;height:8px;border-radius:3px;background:var(--dim);opacity:.5"></span>
+          <span style="width:16px;height:16px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface)"></span>
+        </div><div class="content" style="top:30px"></div></div></div>
+      <p class="how"><b>‹ Prev · Screen name · Next ›</b> in the bar — step through screens one at a time, plus a small jump menu. Lovely for reviewing every screen in order; slow for jumping to one specific.</p>
+    </div>
+    <!-- 8 -->
+    <div class="card">
+      <div class="card__top"><span class="num">8</span><span class="name">Floating launcher</span></div>
+      <div class="sk"><div class="rail"></div><div class="body"><div class="content"></div>
+        <span style="position:absolute;left:10px;bottom:10px;width:22px;height:22px;border-radius:50%;background:var(--accent);box-shadow:0 4px 10px rgba(0,0,0,.2)"></span>
+        <div style="position:absolute;left:10px;bottom:38px;width:110px;height:52px;background:var(--surface);border:1px solid var(--border-strong);border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.14)"></div></div></div>
+      <p class="how">A small round <b>floating button</b> (corner) pops a compact list right beside it; pick and it closes. Sits on top, touches nothing else — but it's an extra floating dot on every gallery screen.</p>
+    </div>
+    <!-- 9 -->
+    <div class="card">
+      <div class="card__top"><span class="num">9</span><span class="name">Right-side panel</span></div>
+      <div class="sk"><div class="rail"></div><div class="body"><div class="content"></div>
+        <div style="position:absolute;top:0;bottom:0;right:0;width:42%;background:var(--surface);border-left:1px solid var(--border-strong);box-shadow:-2px 0 6px rgba(0,0,0,.06)"></div>
+        <div class="rows" style="left:auto;right:8px;width:38%;top:10px"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div></div></div>
+      <p class="how">Same slide-out list, but from the <b>right edge</b> — nowhere near the nav rail, so no collision, and no need to dim. The list just sits away from everything else.</p>
+    </div>
+    <!-- 10 -->
+    <div class="card">
+      <div class="card__top"><span class="num">10</span><span class="name">Breadcrumb only</span></div>
+      <div class="sk"><div class="rail"></div><div class="body">
+        <div style="position:absolute;top:8px;left:8px;display:flex;gap:5px;align-items:center">
+          <span style="width:44px;height:8px;border-radius:3px;background:var(--dim);opacity:.4"></span>
+          <span style="width:6px;height:8px;color:var(--dim)">/</span>
+          <span style="width:50px;height:14px;border:1px solid var(--border);border-radius:4px;background:var(--surface)"></span>
+        </div><div class="content" style="top:30px"></div></div></div>
+      <p class="how">Ultra-minimal: just a <b>“Gallery / About ▾”</b> breadcrumb in the bar with a small jump menu, plus typing the name in the address bar. Almost no UI at all. Leanest, least discoverable.</p>
+    </div>
+  </div>
+
+  <p class="foot"><b>My steer:</b> if you want it to feel effortless and never cover the page, <b>#1 Command bar</b> (type-to-jump) or <b>#4 All-screens grid</b> (browse cards) are the cleanest. If you'd rather keep one single left panel, <b>#3 Fold into your nav</b> removes the collision entirely. Tell me a number (or mix — e.g. “#4 grid + #1 search on it”) and I'll rebuild it that way.</p>
+</div>
