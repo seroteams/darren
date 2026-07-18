@@ -10,19 +10,21 @@ import { createStaticHandler } from "./static.ts";
 import { startSweep } from "./sessions.ts";
 import { getBuildInfo } from "./build-info.ts";
 import { runMigrations } from "../db/migrate.ts";
-import { runEnvironmentGuard, EnvGuardError } from "../db/env-guard.ts";
+import { runEnvironmentGuard, EnvGuardError, resolveAppEnv } from "../db/env-guard.ts";
 import { flushArtifactWrites } from "../db/run-artifacts-store.ts";
 import { hydrateQuestionCache, flushQuestionWrites } from "../db/questions-store.ts";
 import { hydrateArcOverlays, flushArcOverlayWrites } from "../db/arc-overlays-store.ts";
 import { hydrateRoleProfiles, flushRoleProfileWrites } from "../db/role-profiles-store.ts";
 import { flushTraceWrites } from "../engine/lexicon/candidates-io.ts";
-import { flushSessionWrites } from "../db/sessions-store.ts";
+import { flushSessionWrites, setMirrorFailureSink } from "../db/sessions-store.ts";
+import { logSystemError } from "./middleware/error-log.ts";
 import { PROFILES_DIR } from "../engine/role-profile.ts";
 import { OVERLAYS_DIR } from "../engine/arc-overlay.ts";
 import { hasDatabaseUrl } from "../db/client.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
+import { pgAuthSessionRepo, pgPasswordResetRepo } from "./services/auth/auth.repo.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
 import { originOk } from "./middleware/origin.ts";
@@ -48,7 +50,7 @@ import * as feedback from "./services/feedback/feedback.controller.ts";
 import * as superadmin from "./services/superadmin/superadmin.controller.ts";
 import * as heartbeat from "./services/heartbeat/heartbeat.controller.ts";
 import * as errorLog from "./services/error-log/error-log.controller.ts";
-import { health } from "./services/health/health.controller.ts";
+import { health, healthDeep } from "./services/health/health.controller.ts";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 : 3001));
@@ -67,11 +69,14 @@ const MAX_PER_IP = 5;
 const ipCounts = new Map<string, number>();
 setInterval(() => ipCounts.clear(), RATE_WINDOW_MS).unref?.();
 
-// The caller's IP: first x-forwarded-for hop (Render sits behind a proxy) else the
-// socket address. Shared by both per-IP rate limiters.
+// The caller's IP, used to key every per-IP rate limiter. Take the LAST
+// x-forwarded-for hop — the value our own proxy (Render) appended — not the first.
+// The first hop is client-supplied and can be spoofed to dodge the limiters
+// (audit F11); the last hop is the trustworthy one behind a single known proxy.
 function clientIp(req: IncomingMessage): string {
   const xff = req.headers["x-forwarded-for"];
-  const fromXff = typeof xff === "string" ? xff.split(",")[0]?.trim() : undefined;
+  const hops = typeof xff === "string" ? xff.split(",").map((h) => h.trim()).filter(Boolean) : [];
+  const fromXff = hops.length ? hops[hops.length - 1] : undefined;
   return fromXff || req.socket?.remoteAddress || "unknown";
 }
 
@@ -106,6 +111,21 @@ function rateLimitReset(req: IncomingMessage): boolean {
   const count = (resetCounts.get(ip) || 0) + 1;
   resetCounts.set(ip, count);
   return count > MAX_RESET_PER_IP;
+}
+
+// Per-IP cap on login + register attempts (audit F3) — the one sensitive door that
+// had no limiter, so online password guessing (and signup/notification spam) was
+// unbounded. Own counter, generous enough that a real person fat-fingering a
+// password a few times is never caught: 10 tries a minute per IP.
+const MAX_AUTH_PER_IP = 10;
+const authAttemptCounts = new Map<string, number>();
+setInterval(() => authAttemptCounts.clear(), RATE_WINDOW_MS).unref?.();
+
+function rateLimitAuth(req: IncomingMessage): boolean {
+  const ip = clientIp(req);
+  const count = (authAttemptCounts.get(ip) || 0) + 1;
+  authAttemptCounts.set(ip, count);
+  return count > MAX_AUTH_PER_IP;
 }
 
 function warnIfNoKey(): void {
@@ -151,6 +171,18 @@ async function main(): Promise<void> {
     throw e;
   }
 
+  // A live deploy with no database is a data-loss trap (audit F1): every write would
+  // silently land on Render's ephemeral disk and vanish on the next restart. Refuse to
+  // start rather than run in that state — better a loud failure than quiet loss.
+  if (resolveAppEnv() === "live" && !hasDatabaseUrl()) {
+    console.error(
+      "\n  \x1b[1;31mNo database on a live deploy\x1b[0m — DATABASE_URL is not set. " +
+        "Refusing to start so customer data can't be written to disk that a restart wipes. " +
+        "Set DATABASE_URL in the Render dashboard.\n",
+    );
+    process.exit(1);
+  }
+
   // The engine's question reads are synchronous — hydrate the DB-backed pool
   // BEFORE any route can run a stage (postgres-runtime-data Phase 4). Reading
   // unhydrated is a loud error by design, never a silent empty pool.
@@ -166,6 +198,25 @@ async function main(): Promise<void> {
 
   startSweep();
 
+  // Escalate repeated session mirror-write failures into the superadmin Error log
+  // (audit F8) — otherwise a run silently living only in memory dies on the next
+  // restart with nothing but a console.warn to show for it.
+  setMirrorFailureSink((key, message) => {
+    void logSystemError(`sessions.pg mirror (${key})`, message);
+  });
+
+  // Periodically delete expired login sessions + used/expired reset tokens (audit F13).
+  // Expiry is already enforced at read time; this just stops dead rows (now hashed) piling
+  // up forever. Hourly, best-effort — a failed purge is a warning, never fatal.
+  if (hasDatabaseUrl()) {
+    const purgeExpired = (): void => {
+      void pgAuthSessionRepo.deleteExpired().catch((e) => console.warn("[db] session purge failed:", e));
+      void pgPasswordResetRepo.deleteExpired().catch((e) => console.warn("[db] reset-token purge failed:", e));
+    };
+    purgeExpired();
+    setInterval(purgeExpired, 60 * 60 * 1000).unref?.();
+  }
+
   const router = createRouter();
 
   // version — the running API's build id (git short SHA + commit date), captured
@@ -175,12 +226,29 @@ async function main(): Promise<void> {
   // health — public liveness probe for Render's health check and the /release
   // watch loop. No auth on purpose.
   router.add("GET", "/api/v1/health", v1Route(health));
+  // deep readiness probe (audit F17) — pings the DB so a wedged instance stops
+  // reporting healthy. Auth-free + unlinked, for the /release watch loop.
+  router.add("GET", "/api/v1/health/deep", v1Route(healthDeep));
 
   // auth — register + login (Phase 006). v1-only (no legacy alias): new endpoints,
   // the one error shape from the start.
-  router.add("POST", "/api/v1/auth/register", v1Route(auth.register));
-  router.add("POST", "/api/v1/auth/login", v1Route(auth.login));
-  router.add("POST", "/api/v1/auth/logout", v1Route(auth.logout));
+  // register + login are origin-guarded like every other mutating route (audit F10 —
+  // stops login-CSRF logging a victim into an attacker's account) and per-IP
+  // rate-limited (audit F3 — caps online password guessing + signup/email spam).
+  router.add("POST", "/api/v1/auth/register", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts — try again in a minute.");
+    return auth.register(c);
+  }));
+  router.add("POST", "/api/v1/auth/login", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts — try again in a minute.");
+    return auth.login(c);
+  }));
+  router.add("POST", "/api/v1/auth/logout", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return auth.logout(c);
+  }));
   router.add("GET", "/api/v1/auth/me", v1Route(auth.me));
 
   // forgot password (forgot-password): request a reset link, then set a new password with

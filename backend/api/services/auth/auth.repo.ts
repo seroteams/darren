@@ -7,9 +7,15 @@
 // attach new users to. ensureDefaultOrg is a Phase-2 stand-in — Phase 4 replaces it
 // with "register creates the company". Reading/writing auth_sessions is Phase 3.
 
-import { eq } from "drizzle-orm";
+import { and, eq, isNotNull, lt, ne, or } from "drizzle-orm";
+import { createHash } from "node:crypto";
 import { getDb } from "../../../db/client.ts";
 import { users, organizations, authSessions, passwordResetTokens } from "../../../db/schema.ts";
+
+/** Session tokens are stored HASHED at rest (audit F9) — the cookie carries the raw
+ *  token, only its sha256 is ever written to or queried in the DB, so a database dump
+ *  can't yield usable logins. Same rule the reset + invite tokens already follow. */
+const sha256 = (s: string): string => createHash("sha256").update(s).digest("hex");
 
 /** A user as auth reads it — includes the password hash (login needs it); the
  *  service strips it before anything leaves the server (see PublicUser). */
@@ -120,13 +126,21 @@ export interface AuthSessionRepo {
   findIdentityByToken(token: string): Promise<SessionIdentity | null>;
   /** Remove a session (logout). */
   delete(token: string): Promise<void>;
+  /** Remove every session for a user EXCEPT the one carrying keepToken (audit F4) —
+   *  a password change evicts other devices but not the one making the change. */
+  deleteOthersForUser(userId: string, keepToken: string): Promise<void>;
+  /** Remove ALL of a user's sessions (audit F4) — the reset ("I'm compromised") path. */
+  deleteAllForUser(userId: string): Promise<void>;
+  /** Delete rows past their expiry (audit F13) — a periodic sweep so dead (and hashed)
+   *  session rows don't accumulate forever. */
+  deleteExpired(): Promise<void>;
 }
 
 export const pgAuthSessionRepo: AuthSessionRepo = {
   async create(input) {
     const db = getDb();
     await db.insert(authSessions).values({
-      token: input.token,
+      token: sha256(input.token),
       userId: input.userId,
       orgId: input.orgId,
       expiresAt: input.expiresAt,
@@ -145,7 +159,7 @@ export const pgAuthSessionRepo: AuthSessionRepo = {
       })
       .from(authSessions)
       .innerJoin(users, eq(users.id, authSessions.userId))
-      .where(eq(authSessions.token, token))
+      .where(eq(authSessions.token, sha256(token)))
       .limit(1);
     const r = rows[0];
     if (!r) return null;
@@ -154,7 +168,21 @@ export const pgAuthSessionRepo: AuthSessionRepo = {
   },
   async delete(token) {
     const db = getDb();
-    await db.delete(authSessions).where(eq(authSessions.token, token));
+    await db.delete(authSessions).where(eq(authSessions.token, sha256(token)));
+  },
+  async deleteOthersForUser(userId, keepToken) {
+    const db = getDb();
+    await db
+      .delete(authSessions)
+      .where(and(eq(authSessions.userId, userId), ne(authSessions.token, sha256(keepToken))));
+  },
+  async deleteAllForUser(userId) {
+    const db = getDb();
+    await db.delete(authSessions).where(eq(authSessions.userId, userId));
+  },
+  async deleteExpired() {
+    const db = getDb();
+    await db.delete(authSessions).where(lt(authSessions.expiresAt, new Date()));
   },
 };
 
@@ -192,6 +220,8 @@ export interface PasswordResetRepo {
   markUsed(id: string): Promise<void>;
   /** Overwrite a user's password hash (the actual reset). */
   updatePasswordHash(userId: string, passwordHash: string): Promise<void>;
+  /** Delete used or expired reset rows (audit F13) — periodic cleanup. */
+  deleteExpired(): Promise<void>;
 }
 
 export const pgPasswordResetRepo: PasswordResetRepo = {
@@ -234,5 +264,11 @@ export const pgPasswordResetRepo: PasswordResetRepo = {
   async updatePasswordHash(userId, passwordHash) {
     const db = getDb();
     await db.update(users).set({ passwordHash, updatedAt: new Date() }).where(eq(users.id, userId));
+  },
+  async deleteExpired() {
+    const db = getDb();
+    await db
+      .delete(passwordResetTokens)
+      .where(or(isNotNull(passwordResetTokens.usedAt), lt(passwordResetTokens.expiresAt, new Date())));
   },
 };

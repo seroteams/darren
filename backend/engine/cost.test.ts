@@ -1,7 +1,7 @@
 // Cost tracker — per-call latency capture (engine-hardening Phase 1).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createTracker, setActive, getActive, record, CostCeilingError } from "./cost.ts";
+import { createTracker, setActive, getActive, runWithTracker, record, CostCeilingError } from "./cost.ts";
 
 // H2 — spend cap. The module-level record() enforces a per-run USD ceiling
 // (SERO_RUN_USD_CAP) against the active tracker so a runaway session aborts
@@ -59,6 +59,31 @@ test("CostCeilingError is non-retryable so withRetry won't re-bill it", () => {
   const e = new CostCeilingError(2, 1);
   assert.equal(e.retryable, false);
   assert.equal(e.name, "CostCeilingError");
+});
+
+// F7 — two concurrent runs each keep their OWN tracker. Interleave the records the way
+// two managers prepping at once would; before the AsyncLocalStorage fix, a shared global
+// meant A's cost could land on B's tracker (or on none). Here each run must see only its own.
+test("runWithTracker isolates cost between concurrently interleaved runs", async () => {
+  const a = createTracker();
+  const b = createTracker();
+  const usage = { prompt_tokens: 10, completion_tokens: 5, total_tokens: 15 };
+  const step = () => new Promise((r) => setImmediate(r)); // force interleaving
+
+  await Promise.all([
+    runWithTracker(a, async () => {
+      record("A1", "gpt-4o-mini", usage);
+      await step();
+      record("A2", "gpt-4o-mini", usage); // still lands on A even after B ran in between
+    }),
+    runWithTracker(b, async () => {
+      await step();
+      record("B1", "gpt-4o-mini", usage);
+    }),
+  ]);
+
+  assert.deepEqual(a.summary().calls.map((c) => c.stage), ["A1", "A2"]);
+  assert.deepEqual(b.summary().calls.map((c) => c.stage), ["B1"]);
 });
 
 test("records per-call ms and sums total_ms", () => {

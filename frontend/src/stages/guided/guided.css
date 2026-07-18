@@ -94,7 +94,7 @@
   justify-content: center;
   font-family: var(--type-family-display);
   font-weight: 700;
-  font-size: 11px;
+  font-size: 14px; /* 14px text floor (audit F15) — was 11px */
 }
 .mcr-q__n {
   color: var(--sero-charcoal-700, #3f4c5a);
@@ -382,7 +382,7 @@
 }
 .mcr-block__label svg {
   color: var(--color-ink-mute, #8fa3b3);
-  font-size: 13px;
+  font-size: 14px; /* 14px text floor (audit F15) — was 13px */
 }
 .mcr-block__score {
   margin-left: auto;

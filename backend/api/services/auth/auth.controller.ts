@@ -115,6 +115,12 @@ export async function changePassword(c: RequestContext, lookup?: IdentityLookup)
     currentPassword: asString(body.currentPassword),
     newPassword: asString(body.newPassword),
   });
+  // A password change evicts every OTHER session (audit F4) — a stolen cookie can't
+  // outlive the change. The device making the change keeps its session, so the manager
+  // isn't logged out mid-task.
+  const currentToken = readCookie(c.req, SESSION_COOKIE);
+  if (currentToken) await pgAuthSessionRepo.deleteOthersForUser(identity.userId!, currentToken);
+  else await pgAuthSessionRepo.deleteAllForUser(identity.userId!);
   c.json(200, { ok: true });
 }
 
@@ -138,7 +144,10 @@ export async function forgotPassword(c: RequestContext): Promise<void> {
 // too-short password. No auto-login — the app sends them to the login screen to prove it.
 export async function resetPassword(c: RequestContext): Promise<void> {
   const body = asRecord(await c.readBody());
-  await resetService.resetPassword(asString(body.token), asString(body.password));
+  const userId = await resetService.resetPassword(asString(body.token), asString(body.password));
+  // A reset is the "I think I'm compromised" move (audit F4) — evict ALL of that user's
+  // sessions so a stolen cookie can't survive the reset.
+  await pgAuthSessionRepo.deleteAllForUser(userId);
   c.json(200, { ok: true });
 }
 

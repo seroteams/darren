@@ -254,6 +254,12 @@ function fakeResetRepo(seed: ResetUser[] = []): PasswordResetRepo & {
       const u = users.find((x) => x.id === userId);
       if (u) u.passwordHash = passwordHash;
     },
+    async deleteExpired() {
+      const now = Date.now();
+      for (let i = tokens.length - 1; i >= 0; i--) {
+        if (tokens[i]!.usedAt || tokens[i]!.expiresAt.getTime() < now) tokens.splice(i, 1);
+      }
+    },
   };
 }
 
@@ -293,9 +299,25 @@ test("resetPassword with a valid token sets the new password hash and burns the 
   const req = await service.requestPasswordReset("amy@acme.com");
   assert.ok(req);
 
-  await service.resetPassword(req.token, "brandnewpass");
+  const userId = await service.resetPassword(req.token, "brandnewpass");
   assert.equal(repo.users[0]!.passwordHash, "scrambled:brandnewpass");
   assert.ok(repo.tokens[0]!.usedAt, "token was marked used");
+  // The reset returns the affected user id so the controller can revoke that user's
+  // sessions (audit F4).
+  assert.equal(userId, "u1");
+});
+
+test("deleteExpired removes used and expired reset tokens, keeps live ones", async () => {
+  const repo = fakeResetRepo([{ id: "u1", email: "amy@acme.com", deactivatedAt: null }]);
+  const service = createPasswordResetService(repo, fakeHasher);
+  const live = await service.requestPasswordReset("amy@acme.com");
+  assert.ok(live);
+  // A second token, then burn it — it should be swept; the live one should remain.
+  const used = await service.requestPasswordReset("amy@acme.com");
+  assert.ok(used);
+  await service.resetPassword(used.token, "burneditpass");
+  await repo.deleteExpired();
+  assert.equal(repo.tokens.length, 1, "only the live token survives");
 });
 
 test("resetPassword refuses an already-used token", async () => {

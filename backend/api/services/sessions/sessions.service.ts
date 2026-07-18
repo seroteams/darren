@@ -523,6 +523,10 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
       const text = raw.slice(0, MAX_ANSWER_CHARS);
       const skipped = isSkip(text);
       session.pendingAnswer = { raw: text, skipped, text: skipped ? "(skipped)" : text };
+      // Persist the moment the answer is received (audit F5) — not only when the plan
+      // turn later completes. A restart/deploy in that window used to lose the manager's
+      // typed answer; its siblings (notes, wrap-up) already persist on receipt.
+      repo.persist(session);
 
       // Scripted test lane only: track scripted vs fallback coverage, persisted to
       // its own file through the seam (log-only — moved from recordCoverage).

@@ -291,7 +291,13 @@ export const invitations = pgTable(
     tokenHash: text("token_hash"),
     personId: uuid("person_id").references(() => people.id),
   },
-  (t) => [index("invitations_org_id_idx").on(t.orgId)],
+  (t) => [
+    index("invitations_org_id_idx").on(t.orgId),
+    // The /join flow looks invites up by token hash on every open — index it so that's
+    // not a full scan, and make it unique like its siblings (audit F14). A plain unique
+    // index still allows the many NULLs (invites with no token sent). Backed by migration 0019.
+    uniqueIndex("invitations_token_hash_idx").on(t.tokenHash),
+  ],
 );
 
 /** The login pass (Phase 006). One row per active login. The cookie carries `token`

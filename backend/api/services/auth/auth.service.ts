@@ -150,9 +150,10 @@ export interface PasswordResetService {
    *  or deactivated email (the controller still answers with the same generic 200, so
    *  neither case leaks whether an account exists). */
   requestPasswordReset(email: string): Promise<PasswordResetRequest | null>;
-  /** Redeem a token: validate it, set the new password, burn the token. Throws a
-   *  plain-words error for an invalid link or a too-short password. */
-  resetPassword(token: string, newPassword: string): Promise<void>;
+  /** Redeem a token: validate it, set the new password, burn the token. Returns the id of
+   *  the user whose password was reset (so the caller can revoke their sessions — audit F4).
+   *  Throws a plain-words error for an invalid link or a too-short password. */
+  resetPassword(token: string, newPassword: string): Promise<string>;
 }
 
 export function createPasswordResetService(repo: PasswordResetRepo, hasher: PasswordHasher): PasswordResetService {
@@ -181,6 +182,7 @@ export function createPasswordResetService(repo: PasswordResetRepo, hasher: Pass
       }
       await repo.updatePasswordHash(row.userId, await hasher.hash(password));
       await repo.markUsed(row.id);
+      return row.userId;
     },
   };
 }

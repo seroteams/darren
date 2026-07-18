@@ -92,11 +92,15 @@ function createRouter() {
 
   function sendError(res: ServerResponse, err: unknown, req?: IncomingMessage): void {
     const status = (isObjectRecord(err) && typeof err.status === "number" ? err.status : 0) || 500;
-    const msg = (isObjectRecord(err) && typeof err.message === "string" ? err.message : "") || "Internal error";
+    const rawMsg = (isObjectRecord(err) && typeof err.message === "string" ? err.message : "") || "Internal error";
     if (status >= 500) {
       console.error("[api]", err);
       void logApiError(req, err, status); // fire-and-forget → error_logs (error-log Phase 1)
     }
+    // Never leak a raw internal message on a 5xx (audit F12) — the full error is logged
+    // server-side above; the client gets a generic string. 4xx messages are caller-facing
+    // and safe to return. Matches the v1 error mask (toErrorBody) for routes that bypass it.
+    const msg = status >= 500 ? "Internal error" : rawMsg;
     sendJson(res, status, { error: msg });
   }
 

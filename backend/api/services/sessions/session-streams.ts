@@ -340,9 +340,10 @@ export async function planStream(c: RequestContext): Promise<void> {
 
   const remainingBudget = Math.max(0, session.totalBudget - turn);
 
-  let planResult: PlanResult;
-  const prevTracker = cost.getActive();
-  cost.setActive(session.tracker);
+  let planResult!: PlanResult;
+  // The plan turn runs inside this run's own cost context (audit F7) — race-free spend
+  // attribution and ceiling enforcement even when several managers prep at once.
+  await cost.runWithTracker(session.tracker, async () => {
   try {
     const selectedFocus = getSessionSelectedFocus(session);
     // Original engine accessed focusPointsResult.focus_points directly: a null
@@ -379,9 +380,8 @@ export async function planStream(c: RequestContext): Promise<void> {
       response: "",
     };
     stream.write("note", { note: "The model hiccuped — continuing." });
-  } finally {
-    cost.setActive(prevTracker);
   }
+  });
 
   applyDeltas(session.axisState, {
     questionAlias: q.alias,

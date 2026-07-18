@@ -197,8 +197,9 @@ export const mount: Mount = async (root, { setState }) => {
         });
       }
       await load();
-    } catch {
-      window.alert("Couldn't add them — please try again.");
+    } catch (e) {
+      // Pass the server's real reason through instead of a generic string (audit F16).
+      window.alert(e instanceof Error ? e.message : "Couldn't add them — please try again.");
     }
   };
 
@@ -219,8 +220,8 @@ export const mount: Mount = async (root, { setState }) => {
     try {
       await updatePerson(id, { name: draft.name, role: draft.role, seniority: draft.seniority });
       await load();
-    } catch {
-      window.alert("Couldn't save the changes — please try again.");
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Couldn't save the changes — please try again.");
     }
   };
 
@@ -232,8 +233,8 @@ export const mount: Mount = async (root, { setState }) => {
     try {
       await deletePerson(id);
       await load();
-    } catch {
-      window.alert("Couldn't delete them — please try again.");
+    } catch (e) {
+      window.alert(e instanceof Error ? e.message : "Couldn't delete them — please try again.");
     }
   };
 

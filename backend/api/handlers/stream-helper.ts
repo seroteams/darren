@@ -1,6 +1,6 @@
 import { openStream } from "../sse.ts";
 import { persist } from "../session-persistence.ts";
-import { getActive, setActive } from "../../engine/cost.ts";
+import { runWithTracker } from "../../engine/cost.ts";
 import type { SseStream } from "../sse.ts";
 import type { RequestContext } from "../router.ts";
 import type { Session } from "../../shared/session.types.ts";
@@ -155,8 +155,9 @@ async function runStage<T>(
     if (i >= 0) entry.subscribers.splice(i, 1);
   });
 
-  const prevTracker = getActive();
-  setActive(session.tracker);
+  // The whole stage runs inside this run's own cost context (audit F7) — concurrent
+  // stages can't cross-attribute spend or slip past the per-run ceiling.
+  await runWithTracker(session.tracker, async () => {
   try {
     if (shouldStall(stageKey)) console.warn(`[${stageKey}] SERO_STALL_STAGE active — stalling on purpose (dev only)`);
     const run = shouldStall(stageKey) ? stallForever : produce;
@@ -182,8 +183,8 @@ async function runStage<T>(
     }
     closeAll();
     session.inFlight.delete(stageKey);
-    setActive(prevTracker);
   }
+  });
 }
 
 export { runStage, shouldStall, abortStage };

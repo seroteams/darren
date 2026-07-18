@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { DATA_DIR } from "./paths.mts";
 import type { OpenAiUsage, CostCall, CostSummary, CostTracker } from "../shared/cost.types.ts";
 
@@ -135,21 +136,32 @@ function createTracker(): CostTracker {
   return { record, summary };
 }
 
-// Single process-scoped active tracker. Modules that make API calls import
-// and call record() without having to thread the tracker through every layer.
+// The active tracker. Modules that make API calls call record() without threading
+// the tracker through every layer. Concurrent runs each get their OWN tracker via an
+// AsyncLocalStorage context (audit F7): before this, a single mutable global meant two
+// managers prepping at once could record one run's cost on the other's tracker — or on
+// none, so the per-run $5 ceiling silently didn't apply. The store is authoritative when
+// set; setActive/getActive stay for single-flow callers (the CLI, persona runs, tests).
+const trackerStore = new AsyncLocalStorage<CostTracker>();
 let _active: CostTracker | null = null;
 const setActive = (t: CostTracker | null): void => {
   _active = t;
 };
-const getActive = (): CostTracker | null => _active;
+const getActive = (): CostTracker | null => trackerStore.getStore() ?? _active;
+/** Run `fn` with `tracker` as the active tracker for its entire async call tree — the
+ *  race-free replacement for the setActive/await/restore dance on concurrent paths. */
+function runWithTracker<T>(tracker: CostTracker, fn: () => Promise<T>): Promise<T> {
+  return trackerStore.run(tracker, fn);
+}
 const record = (stage: string, model: string, usage: OpenAiUsage | undefined, ms = 0): void => {
-  if (!_active) return;
-  _active.record(stage, model, usage, ms);
+  const active = trackerStore.getStore() ?? _active;
+  if (!active) return;
+  active.record(stage, model, usage, ms);
   // Enforce the per-run spend ceiling after recording (so the call that tipped
   // it over is still logged honestly), then abort the run.
   const cap = runUsdCap();
   if (cap > 0) {
-    const total = _active.summary().usd_total;
+    const total = active.summary().usd_total;
     if (total > cap) throw new CostCeilingError(total, cap);
   }
 };
@@ -174,6 +186,7 @@ export {
   createTracker,
   setActive,
   getActive,
+  runWithTracker,
   record,
   formatUsd,
   formatTokens,

@@ -146,6 +146,32 @@ export async function logApiError(
   }
 }
 
+/** Record an internal/background failure that has no request behind it (audit F8) — e.g.
+ *  a session mirror-write that keeps failing, which would otherwise only be a console.warn
+ *  nobody reads. Best-effort + self-swallowing like logApiError; lands in the same
+ *  superadmin Error log (source "api", status 500, anonymous identity). Secret-free:
+ *  callers pass a path label + message only, never a session body. */
+export async function logSystemError(
+  path: string,
+  message: string,
+  details?: { stack?: string },
+): Promise<void> {
+  try {
+    if (!hasDatabaseUrl()) return;
+    const entry: ErrorLogEntry = {
+      ...errorLogEntry(
+        anonymousIdentity(),
+        { method: null, path, status: 500, environment: resolveEnvironment() },
+        new Error(message),
+      ),
+      details: details?.stack ? { stack: details.stack } : null,
+    };
+    await getDb().insert(errorLogs).values(entry);
+  } catch (writeErr) {
+    console.error("[error-log] failed to record system error:", writeErr);
+  }
+}
+
 /** Record a client-side error the app reported (POST /api/v1/errors, Phase 3). Best-effort
  *  + self-swallowing like logApiError — a failed write must never turn a report into a new
  *  error. Identity comes from the session cookie (anonymous if none). */

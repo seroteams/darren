@@ -130,7 +130,33 @@ export function createWriteQueue<T>(
   };
 }
 
-const sessionWrites = createWriteQueue<Session>((s) => upsertSession(s));
+// Escalation sink for repeated mirror-write failures (audit F8). The DB layer can't
+// import the API error-log (layering + cycle), so the server wires this at boot. When a
+// session's mirror write fails several times in a row, we stop swallowing silently and
+// surface it — a failing mirror means that in-progress run only exists in memory and dies
+// on the next restart. Consecutive count resets on the first success.
+type MirrorFailureSink = (key: string, message: string) => void;
+let mirrorFailureSink: MirrorFailureSink | null = null;
+export function setMirrorFailureSink(sink: MirrorFailureSink | null): void {
+  mirrorFailureSink = sink;
+}
+const MIRROR_FAILURE_ESCALATE_AT = 3;
+const consecutiveMirrorFailures = new Map<string, number>();
+
+const sessionWrites = createWriteQueue<Session>(
+  // Reset the failure streak on a successful mirror; the onError below counts failures.
+  (s) => upsertSession(s).then(() => { consecutiveMirrorFailures.delete(s.id); }),
+  (key, e) => {
+    const message = e instanceof Error ? e.message : String(e);
+    console.warn(`[sessions.pg] mirror write failed (${key}):`, message);
+    const n = (consecutiveMirrorFailures.get(key) || 0) + 1;
+    consecutiveMirrorFailures.set(key, n);
+    if (n >= MIRROR_FAILURE_ESCALATE_AT) {
+      console.error(`[sessions.pg] mirror write failing repeatedly (${key}, ${n}x) — run may be lost on restart`);
+      mirrorFailureSink?.(key, `session mirror write failed ${n}x in a row: ${message}`);
+    }
+  },
+);
 
 /** Queue a session mirror upsert (the sync facade pgSessionsRepo calls). Coalesced
  *  per session; errors are logged and swallowed; no-op without a database. */

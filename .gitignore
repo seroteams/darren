@@ -5,6 +5,8 @@ admin/dist
 
 # Local credentials for outside services (Render API key etc.) — never committed
 .secrets/
+# Database dumps from scripts/backup-db.js — local-only, never in git history
+backups/
 .DS_Store
 *.zip
 !docs/archive/**/*.zip

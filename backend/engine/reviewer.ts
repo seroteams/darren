@@ -406,10 +406,14 @@ function applyAxisConfidence(
       const harsh =
         /\b(defining signal|ignore at your cost|very weak)\b/i.test(ax.meaning);
       if (harsh) {
-        ax.meaning = ax.meaning
-          .replace(/\bdefining signal\b/gi, "notable pattern")
-          .replace(/\bignore at your cost\b/gi, "worth watching")
-          .replace(/\bvery weak\b/gi, "weak");
+        // Surface, don't mask (engine honesty, audit F6): a low-confidence axis whose
+        // meaning still uses over-certain framing is FLAGGED and logged, never silently
+        // reworded. The model's own words stand; softening over-certainty belongs in the
+        // prompt tier, not a find-and-replace that hides the mismatch. Mirrors
+        // applyMeaningRuleEchoGuard below, which handles its echo case the same honest way.
+        console.warn(
+          `[evaluator] axis ${ax.id} low-confidence meaning uses over-certain framing — flagged, not rewritten`,
+        );
       }
     }
 

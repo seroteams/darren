@@ -17,12 +17,12 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The audit | Full code audit report (free, in-house, security-review discipline) with per-area verdicts + evidence | 🔨 |
-| 2 | The hardening | Fix what the audit confirms — first item: login-attempt throttling | ⬜ |
+| 2 | The hardening | Fix what the audit confirms — Carl said "do it all"; 16/17 landed, F16 half | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 built 2026-07-18: audit report at docs/reports/2026-07-18-agency-audit.md (no emergency; 2 high / 6 medium / 9 low findings, ranked). Baseline npm test 156/156 + typecheck clean. Awaiting Carl's walk of the phase-1 scenarios + his ticks on the fix-list — those ticks become Phase 2's scope. Board: https://claude.ai/code/artifact/1ee2e4ed-30d4-4928-b84f-6b565e727f07
+Phase 2 built 2026-07-18 ("do it all"): 16 of 17 audit findings fixed in full, F16 half (message pass-through landed; the alert→toast visual swap parked for a screen-verified design pass). 156/156 tests (+3 new) + typecheck clean + live boot smoke (server starts, migration 0019 applied, /health/deep returns db:up). Awaiting Carl's walk of the phase-2 scenarios. Phase 1 audit report at docs/reports/2026-07-18-agency-audit.md. Board: https://claude.ai/code/artifact/1ee2e4ed-30d4-4928-b84f-6b565e727f07
 
 ## Parked
 - Payments (Stripe) — REMOVED from this engagement entirely on Carl's word (2026-07-18). Not planned, not built. Revisit only if he raises it.
