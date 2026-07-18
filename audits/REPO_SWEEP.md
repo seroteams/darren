@@ -292,9 +292,10 @@ listenFor fixture pair is the only red, and it predates the sweep.
 (ai-client.ts:220, verified line-for-line), so nothing to rescue. Worse, the branch predates
 the personal-data-security P2 Gemini hardening — merging it wholesale would have regressed the
 API-key-in-header fix (it still carried `?key=` in the URL). Deleted the stale branch on Carl's
-word (tip `6ddb0f67`, recoverable). **Remaining branches to decide:** `future-plans-audit-jul15`
-(fully-merged remnant — safe to drop), `design-deployment-live-wgyuab`, `sero-search-system-lyn5vc`,
-`site-cleanup-unused-code-pljlzy`.
+word (tip `6ddb0f67`, recoverable). The fully-merged remnant `future-plans-audit-jul15`
+(tip `8479ba49`) was pruned too — already gone from the remote (a parallel session had removed it).
+**3 unmerged feature branches remain to decide:** `design-deployment-live-wgyuab` (/new setup rework),
+`sero-search-system-lyn5vc` (search Phase 2), `site-cleanup-unused-code-pljlzy` (a cleanup pass).
 
-**Still open — your call:** rest of 19 (3 unmerged feature branches + 1 merged remnant), 21
-(promises-loop + rename decisions), and the parked-flag items.
+**Still open — your call:** rest of 19 (3 unmerged feature branches — each a fold-or-discard call),
+21 (promises-loop + rename decisions), and the parked-flag items.
