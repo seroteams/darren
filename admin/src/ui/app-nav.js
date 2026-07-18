@@ -13,7 +13,7 @@ import { showAccountSheet } from "./account-sheet.ts";
 import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
-  Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, ClipboardCheck, UserRoundCog,
+  Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, UserRoundCog,
   Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
   FlaskConical, Gauge, Settings, LayoutGrid,
 } from "lucide";
@@ -41,7 +41,6 @@ const ICON = {
   runs: icon(FileCheck),
   regression: icon(ShieldCheck),
   guide: icon(BookOpen),
-  tasks: icon(ClipboardCheck),
   registered: icon(UserRoundCog),
   design: icon(Palette),
   logout: icon(LogOut),
@@ -83,7 +82,6 @@ const LINKS = [
   // 1:1-prep launcher) lives on right below as "Start a 1:1".
   { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Sessions" },
   { key: "home", label: "Start a 1:1", stage: STAGES.START, icon: ICON.home, admin: true, group: "Sessions" },
-  { key: "tasks", label: "Tasks", stage: STAGES.TASKS, icon: ICON.tasks, admin: true, group: "Sessions" },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Sessions" },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Sessions" },
   // Compare + Regression folded into the Test engine hub (test-engine-hub Phase 4):
@@ -236,7 +234,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     lexicon: () => setState && setState({ stage: STAGES.LEXICON_REVIEW }),
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
-    tasks: () => setState && setState({ stage: STAGES.TASKS }),
     design: () => setState && setState({ stage: STAGES.DESIGN }),
     tests: () => setState && setState({ stage: STAGES.TEST }),
     gallery: () => setState && setState({ stage: STAGES.GALLERY, galleryScreen: null }),
@@ -278,7 +275,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.LEXICON_REVIEW]: "lexicon",
     [STAGES.ROLE_LEXICONS]: "joblex",
     [STAGES.MEETING_ARCS]: "arcs",
-    [STAGES.TASKS]: "tasks",
     [STAGES.DESIGN]: "design",
     [STAGES.TEST]: "tests",
     [STAGES.GALLERY]: "gallery",
@@ -329,9 +325,9 @@ export function createAppNav({ setState, resetSession } = {}) {
       // A superadmin-only row (Registered, PG7) shows only for Carl — the flag comes from
       // /auth/me. This is cosmetic; the endpoint still enforces the 403.
       if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
-      // Live site: Test engine (paid persona runs) and the Tasks board are off (admin-live-
-      // deploy Phase 2). Trimmed from the rail; the deep-link bounce + backend fence back it.
-      if (show && isLiveEnv() && (b.dataset.key === "personas" || b.dataset.key === "tasks" || b.dataset.key === "gallery")) show = false;
+      // Live site: the Test engine (paid persona runs) is off (admin-live-deploy Phase 2).
+      // Trimmed from the rail; the deep-link bounce + backend fence back it.
+      if (show && isLiveEnv() && (b.dataset.key === "personas" || b.dataset.key === "gallery")) show = false;
       b.hidden = !show;
     });
     // Section headers belong to the internal rail only.

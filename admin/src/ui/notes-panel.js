@@ -254,7 +254,7 @@ export function createNotesPanel({ store, setState }) {
     const stage = state?.stage;
     // Internal QA tooling: only the internal admin role, and only while actually
     // doing a run — see notes-panel-gate.ts. Guests/members/managers never see it,
-    // nor do admin pages like Universe/Tasks where a lingering sessionId used to
+    // nor do admin pages like Universe/Library where a lingering sessionId used to
     // leak it in.
     const hidden = !notesPanelVisible(state);
     railCollapsed = stage === STAGES.BRIEFING;

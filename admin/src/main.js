@@ -191,7 +191,7 @@ startPopstate((parsed) => {
     setState({ stage: STAGES.START });
     return;
   }
-  // Live site: Test engine + Tasks are off — a back/forward to them bounces to Home
+  // Live site: the Test engine is off — a back/forward to it bounces to Home
   // (admin-live-deploy Phase 2), even for a superadmin.
   if (store.user && isLiveEnv() && isLiveHiddenStage(parsed.stage)) {
     setState({ stage: STAGES.START });
@@ -351,10 +351,10 @@ async function boot() {
     return;
   }
 
-  // On the LIVE site the Test engine (paid persona runs) and the Tasks board are off — a
-  // deep link to either lands on Home (admin-live-deploy Phase 2). This bounces even a
-  // superadmin: those tools don't belong on live. The nav hides them too; the Phase-1
-  // backend fence 403s the paid start regardless.
+  // On the LIVE site the Test engine (paid persona runs) is off — a deep link to it
+  // lands on Home (admin-live-deploy Phase 2). This bounces even a superadmin: those
+  // tools don't belong on live. The nav hides them too; the Phase-1 backend fence 403s
+  // the paid start regardless.
   if (isLiveEnv() && route && isLiveHiddenStage(route.stage)) {
     replaceUrl("/");
     setState({ stage: STAGES.START });

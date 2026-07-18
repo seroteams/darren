@@ -23,8 +23,8 @@ test("an internal admin sees it during a live run — and only then", () => {
   assert.equal(notesPanelVisible({ ...inRun, user: admin }), true);
   // No live session (e.g. wandering the console) — hidden.
   assert.equal(notesPanelVisible({ sessionId: null, stage: STAGES.QUESTIONING, user: admin }), false);
-  // A lingering session id on a non-run page (Universe, Tasks…) — hidden.
-  assert.equal(notesPanelVisible({ sessionId: "s1", stage: STAGES.TASKS, user: admin }), false);
+  // A lingering session id on a non-run page (Universe, Library…) — hidden.
+  assert.equal(notesPanelVisible({ sessionId: "s1", stage: STAGES.LIBRARY, user: admin }), false);
 });
 
 test("handles the login-shape user object too (single role field)", () => {

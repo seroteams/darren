@@ -42,7 +42,6 @@ export const loaders = {
   PERSONAS:        () => import("./stages/personas.js"),
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
-  TASKS:           () => import("./stages/tasks.js"),
   ADMIN_PULSE:     () => import("./stages/admin-pulse.ts"),
   ADMIN_GATE1:     () => import("./stages/admin-gate1.ts"),
   ADMIN_RUNS:      () => import("./stages/admin-runs.ts"),

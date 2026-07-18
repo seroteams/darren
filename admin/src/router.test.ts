@@ -18,7 +18,7 @@ test("isInternalStage: the workshop is internal-only", () => {
   // REVIEW_RUN (the raw QA verdict tool) joined the internal set — a manager never sees engine
   // hashes / Pass-Fail; their "Review" opens the clean run detail instead (audit M4).
   for (const s of [STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS, STAGES.LEXICON_REVIEW,
-    STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.TASKS, STAGES.GUIDE, STAGES.REVIEW_RUN]) {
+    STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.GUIDE, STAGES.REVIEW_RUN]) {
     assert.equal(isInternalStage(s), true, `${s} is internal-only`);
   }
 });
@@ -39,7 +39,7 @@ test("isGuestStage: a guest may take a run — intake + the run flow, nothing el
   }
   // …but the internal QA debrief, dashboards, history and admin tooling are not.
   for (const s of [STAGES.RUN_DEBRIEF, STAGES.START, STAGES.RUNS, STAGES.RUN_DETAIL,
-    STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.TASKS, STAGES.LIBRARY,
+    STAGES.MEMBER_HOME, STAGES.TEAM, STAGES.LIBRARY,
     STAGES.ADMIN_REGISTERED, STAGES.ADMIN_ERROR_LOG, STAGES.LEXICON_REVIEW]) {
     assert.equal(isGuestStage(s), false, `${s} needs an account`);
   }

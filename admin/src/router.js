@@ -66,7 +66,6 @@ const PATH_FOR = {
   [STAGES.MEETING_ARCS]:   () => "/meeting-arcs",
   [STAGES.PERSONAS]:       () => "/personas",
   [STAGES.GUIDE]:          () => "/guide",
-  [STAGES.TASKS]:          () => "/tasks",
   [STAGES.DESIGN]:         () => "/design",
   [STAGES.TEST]:           () => "/test",
   [STAGES.GALLERY]:        (s) => (s.galleryScreen ? `/gallery/${encodeURIComponent(String(s.galleryScreen).toLowerCase())}` : "/gallery"),
@@ -95,7 +94,7 @@ const STAGE_FOR = {
   "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,
   "/job-lexicons": STAGES.ROLE_LEXICONS, "/meeting-arcs": STAGES.MEETING_ARCS,
   "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
-  "/tasks": STAGES.TASKS, "/design": STAGES.DESIGN,
+  "/design": STAGES.DESIGN,
   "/test": STAGES.TEST, "/gallery": STAGES.GALLERY,
   "/pulse": STAGES.ADMIN_PULSE,
   "/admin/gate1": STAGES.ADMIN_GATE1,
@@ -115,8 +114,8 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
 const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
   STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
-  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
+  STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS,
   STAGES.ADMIN_GATE1, STAGES.ADMIN_RUNS, STAGES.ADMIN_RATINGS]);
 export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
@@ -137,14 +136,14 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // reaches the verdict page.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.TASKS, STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GALLERY, STAGES.GUIDED, STAGES.REVIEW_RUN]);
+  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GALLERY, STAGES.GUIDED, STAGES.REVIEW_RUN]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2): the Test engine
-// (paid persona runs — the Phase-1 backend fence already 403s the start) and the build
-// Tasks board. Hidden from the nav and bounced on deep link when appEnv is "live". Cosmetic
-// on top of the backend fence; local dev shows them as before.
-const LIVE_HIDDEN = new Set([STAGES.PERSONAS, STAGES.TASKS, STAGES.GALLERY]);
+// (paid persona runs — the Phase-1 backend fence already 403s the start). Hidden from the
+// nav and bounced on deep link when appEnv is "live". Cosmetic on top of the backend
+// fence; local dev shows them as before.
+const LIVE_HIDDEN = new Set([STAGES.PERSONAS, STAGES.GALLERY]);
 export const isLiveHiddenStage = (stage) => LIVE_HIDDEN.has(stage);
 
 // The plain-member destinations (member-view: only-runs): a member can view their own

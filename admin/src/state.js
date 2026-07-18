@@ -35,7 +35,6 @@ export const STAGES = Object.freeze({
   PERSONAS: "PERSONAS",
   REVIEW_RUN: "REVIEW_RUN",
   GUIDE: "GUIDE",
-  TASKS: "TASKS",
   ADMIN_PULSE: "ADMIN_PULSE",
   ADMIN_GATE1: "ADMIN_GATE1",
   ADMIN_RUNS: "ADMIN_RUNS",
@@ -112,7 +111,7 @@ export function isAdmin(user) {
 }
 
 // Manager-ready Phase 1: only the internal `admin` role sees the internal toolset rail
-// (Library, Compare, Personas, lexicons, Universe, Tasks…). Managers keep console access
+// (Library, Compare, Personas, lexicons, Universe…). Managers keep console access
 // (isAdmin above) but get their own customer rail: Home · New 1:1 · Team · Past 1:1s.
 // A superadmin-by-email is internal too — otherwise a superadmin whose stored role is
 // `manager` would be walled out of their own internal tools (mirrors the server-side
@@ -131,7 +130,7 @@ export function isSuperadmin(user) {
 }
 
 // True when the app is running as the LIVE site (appEnv from /auth/me, server truth —
-// admin-live-deploy Phase 2). Drives the live nav trim (Test engine + Tasks hidden) and
+// admin-live-deploy Phase 2). Drives the live nav trim (Test engine hidden) and
 // the deep-link bounce. Cosmetic on top of the Phase-1 backend fence.
 export function isLiveEnv() {
   return store.appEnv === "live";

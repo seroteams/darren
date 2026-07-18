@@ -9,8 +9,6 @@ import { ROOT } from "../../../engine/paths.mts";
 import { isObjectRecord } from "../../../shared/guards.ts";
 
 const STAGES_DIR = path.join(ROOT, "admin", "src", "stages");
-const WORKSTREAMS_DIR = path.join(ROOT, "docs", "plans", "doing");
-const DONE_DIR = path.join(ROOT, "docs", "plans", "done");
 const HEAD_BYTES = 2048; // plenty for a header comment, cheap for 30 files
 
 export interface HeartbeatRepo {
@@ -19,20 +17,6 @@ export interface HeartbeatRepo {
   scriptNames(): string[];
   axesRaw(): unknown;
   questionCountRaw(): unknown;
-  todoSlugs(): string[]; // active plan folders under docs/plans/doing/
-  doneSlugs(): string[]; // finished plan folders under docs/plans/done/
-  planText(slug: string): string; // raw docs/plans/doing/<slug>/plan.md, "" when missing
-}
-
-function dirNames(dir: string): string[] {
-  try {
-    return fs
-      .readdirSync(dir, { withFileTypes: true })
-      .filter((d) => d.isDirectory())
-      .map((d) => d.name);
-  } catch {
-    return [];
-  }
 }
 
 function readJson(rel: string): unknown {
@@ -72,13 +56,4 @@ export const fileHeartbeatRepo: HeartbeatRepo = {
   },
   axesRaw: () => readJson(path.join("content", "axes.json")),
   questionCountRaw: () => readJson(path.join("content", "questions", "_index.json")),
-  todoSlugs: () => dirNames(WORKSTREAMS_DIR),
-  doneSlugs: () => dirNames(DONE_DIR),
-  planText: (slug) => {
-    try {
-      return fs.readFileSync(path.join(WORKSTREAMS_DIR, slug, "plan.md"), "utf8");
-    } catch {
-      return "";
-    }
-  },
 };

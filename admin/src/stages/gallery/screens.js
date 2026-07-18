@@ -80,7 +80,6 @@ export const SCREENS = {
   ROLE_LEXICONS:    { label: "Job lexicons",        group: "internal" },
   MEETING_ARCS:     { label: "Meeting arcs",        group: "internal" },
   REVIEW_RUN:       { label: "Review a run",        group: "internal", needsData: true },
-  TASKS:            { label: "Tasks board",         group: "internal" },
   DESIGN:           { label: "Design system sheet", group: "internal" },
   TEST:             { label: "Test prototypes",     group: "internal" },
 };

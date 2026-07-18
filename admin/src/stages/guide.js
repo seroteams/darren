@@ -96,7 +96,7 @@ const SCREEN_GROUPS = {
   "person-detail.ts": "member",
   "start.js": "admin", "library.js": "admin", "compare.js": "admin",
   "review-run.js": "admin", "personas.js": "admin",
-  "meeting-arcs.js": "admin", "job-lexicons.js": "admin", "tasks.js": "admin",
+  "meeting-arcs.js": "admin", "job-lexicons.js": "admin",
   "admin-registered.ts": "admin", "admin-user-detail.ts": "admin",
   "guide.js": "admin",
   "about.js": "shared", "feedback.js": "shared", "privacy.js": "shared", "error.ts": "shared",
@@ -112,7 +112,7 @@ const SCREEN_GROUP_ORDER = [
 
 const NAV = [
   ["Left rail", "Brand mark + icon strip down the left edge; opens on hover. Admin sees the full toolset; a member sees just Home · Team · Past 1:1s."],
-  ["Admin links", "Home · New session · Library · Compare runs · Regression · Personas · Coaching phrases · Role words · Meeting arcs · Tasks · User management (Guide in dev only)."],
+  ["Admin links", "Home · New session · Library · Compare runs · Regression · Personas · Coaching phrases · Role words · Meeting arcs · User management (Guide in dev only)."],
   ["Member links", "Home · Team · Past 1:1s."],
   ["Account footer", "What is Sero? · Send feedback · Privacy · Log out."],
   ["Session topbar", "Breadcrumb to review past stages mid-run."],
