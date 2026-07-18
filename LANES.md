@@ -8,8 +8,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 3ccab509 | Lane board setup | LANES.md, .claude/hooks/, .claude/settings.json, CLAUDE.md | 2026-07-18 |
-| 82c442a0 | Agency engagement plan | docs/plans/doing/agency-engagement/ | 2026-07-18 |**Rules (for Claude sessions — Carl never has to touch this file):**
+| 82c442a0 | Agency engagement — audit | docs/plans/doing/agency-engagement/, docs/reports/2026-07-18-agency-audit.md | 2026-07-18 |
+**Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).
 - `paths` = comma-separated files or folders (folders end with `/` or just match by prefix).
