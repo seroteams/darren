@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf, costFromState, overviewFields } from "./run-history.ts";
+import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf, costFromState, overviewFields, promiseHistoryOf } from "./run-history.ts";
 
 // costFromState (universe-monitoring P3): a run's model spend off its saved briefing.
 // Null when absent or malformed — an old run must never claim "$0.00".
@@ -120,6 +120,37 @@ test("cloneRunState does not mutate the source run", () => {
   assert.equal(source.id, "SRC");
   assert.equal(source.orgId, "org-src");
   assert.equal(source.userId, "someone-else");
+});
+
+// promiseHistoryOf (Promises loop phase 3): the manager-confirmed agreements a finished
+// run carries, projected for the read-only member surfaces (person page + run detail) with
+// their check-in outcome. The internal `at` timestamp is dropped; null when a run armed no loop.
+test("promiseHistoryOf projects promises with their outcome, dropping the internal timestamp", () => {
+  const state = {
+    promises: [
+      { id: "p1", owner: "manager", action: "revisit workload", when: "this week", outcome: "no", at: 123 },
+      { id: "p2", owner: "report", action: "share the deck", when: "today", outcome: null, at: 456 },
+    ],
+  };
+  assert.deepEqual(promiseHistoryOf(state), [
+    { id: "p1", owner: "manager", action: "revisit workload", when: "this week", outcome: "no" },
+    { id: "p2", owner: "report", action: "share the deck", when: "today", outcome: null },
+  ]);
+});
+
+test("promiseHistoryOf is null when the loop was never armed (absent / empty / malformed)", () => {
+  assert.equal(promiseHistoryOf({}), null, "no promises field");
+  assert.equal(promiseHistoryOf({ promises: null }), null);
+  assert.equal(promiseHistoryOf({ promises: [] }), null, "empty list surfaces nothing");
+  assert.equal(promiseHistoryOf(null), null);
+  assert.equal(promiseHistoryOf("nope"), null);
+});
+
+test("promiseHistoryOf skips malformed rows but keeps the well-formed ones", () => {
+  const state = { promises: [{ id: "p1", owner: "manager", action: "do the thing", when: "today", outcome: "yes", at: 1 }, null, { action: "no id" }] };
+  assert.deepEqual(promiseHistoryOf(state), [
+    { id: "p1", owner: "manager", action: "do the thing", when: "today", outcome: "yes" },
+  ]);
 });
 
 // personaTagOf feeds the Test-engine hub: which persona a run came from + whether

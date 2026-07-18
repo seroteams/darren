@@ -1,6 +1,24 @@
 # Phase 3 — Q1 feed, review feed + closed-loop surfacing
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🟡 SPLIT — safe half (read-only surfacing) BUILT + tested, awaiting Carl's walk. Engine feed (turn-1 planner + reviewer) NOT started — was lane-blocked, now unblocked.
+
+## Split note (2026-07-18)
+The engine-feed half (turn-1 planner injection + reviewer context/next_actions roll-forward)
+touches `session-streams.ts` and `reviewer.ts`, which were held by another live chat's lane when
+this started — so it was deferred on Carl's "build safe" call. **Built here (the read-only surfacing):**
+- `backend/engine/run-history.ts` — new `promiseHistoryOf()` projects a run's confirmed promises +
+  their check-in outcomes into the member view (`memberRunView`); mirrored in the PG store
+  (`runs-store.ts toMemberView`) for parity.
+- `admin/src/ui/briefing-view.ts` — `renderPromiseList()` + a "Promises & follow-through" card,
+  outcomes as house `.chip`s (mint/gold/coral/plain + status dot). Wired into run-detail Recap.
+- `frontend/src/stages/person-detail.ts` — "Since last time" now shows the last run's promises with
+  their follow-through chip (legacy runs without promises keep the plain agreed list).
+- Tests: `run-history.test.ts` (+3), `briefing-view.test.ts` (new, +5). Typecheck clean, `npm test` 156/156.
+- ⚠️ **Not visually screenshot-verified** — the Browser pane hung this session; needs Carl's on-screen walk.
+
+**Still to build (engine feed — now unblocked):** turn-1 planner injection, reviewer context +
+unfinished-promise roll-forward into next_actions, the honesty-gate run-log flag. Scenarios 1, 2, 5 below
+exercise that half; 3 and 4 exercise the surfacing built now.
 
 ## Goal
 The check-in isn't a dead tap: an unfinished promise can shape the session's first question, the end-of-session review acknowledges the follow-through, and the person page shows the loop closing over time.

@@ -10,6 +10,7 @@ import { STAGES, store } from "../../../admin/src/state.js";
 import "../../../admin/src/styles/ux-audit-fixes.css"; // .btn--cta — this page's own chunk must carry it
 import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
+import { renderPromiseList, type PromiseRow } from "../../../admin/src/ui/briefing-view.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { Star } from "lucide";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
@@ -64,13 +65,18 @@ function summaryHtml(p: Person): string {
 // slice). The two lists are colour-coded (agreed vs watch) so they read apart at a glance.
 // Returns "" — the block is hidden entirely — when neither field has content, so there's no
 // empty scaffolding. Every value escaped.
-function sinceLastTime(b: Briefing, axisBlock: string): string {
+function sinceLastTime(b: Briefing, promises: PromiseRow[] | null, axisBlock: string): string {
   const actions = b ? (b.next_actions || []).filter((a) => a && (a.action || a.when)) : [];
   const watch = b ? (b.watch_for || []).filter(Boolean) : [];
-  if (!axisBlock && !actions.length && !watch.length) return "";
+  // Promises loop phase 3: when the last run armed the loop, the agreed actions show as
+  // promises WITH their follow-through chip. Legacy runs (no promises) keep the plain list.
+  const promiseList = renderPromiseList(promises);
+  if (!axisBlock && !promiseList && !actions.length && !watch.length) return "";
   const parts: string[] = [];
   if (axisBlock) parts.push(axisBlock);
-  if (actions.length) {
+  if (promiseList) {
+    parts.push(`<div class="since__group"><span class="since__label since__label--agreed">What you agreed · follow-through</span>${promiseList}</div>`);
+  } else if (actions.length) {
     const items = actions
       .map((a) => `<li>${a.when ? `<span class="since__when">${escapeHtml(a.when)}:</span> ` : ""}${escapeHtml(a.action || "")}</li>`)
       .join("");
@@ -216,13 +222,15 @@ export const mount: Mount = async (root, { setState }) => {
     const details = await Promise.all(
       recent.map((r) =>
         getMyRun(r.id)
-          .then((d) => ((d as { briefing?: Briefing })?.briefing ?? null))
+          .then((d) => (d as { briefing?: Briefing; promises?: PromiseRow[] | null }) ?? null)
           .catch(() => null),
       ),
     );
     // details is newest→oldest (mine is sorted that way); the trend wants oldest→newest.
-    const axisBlock = renderAxisMemory([...details].reverse().map((b) => b?.axes));
-    sinceBlock = sinceLastTime(details[0] ?? null, axisBlock);
+    const briefings = details.map((d) => d?.briefing ?? null);
+    const axisBlock = renderAxisMemory([...briefings].reverse().map((b) => b?.axes));
+    // The newest run's promises feed "Since last time" — what to close off next time.
+    sinceBlock = sinceLastTime(briefings[0] ?? null, details[0]?.promises ?? null, axisBlock);
   } catch { /* omit the block, keep the page */ }
 
   const list = `<section class="l-stack l-stack--2">

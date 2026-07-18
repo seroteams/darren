@@ -394,6 +394,31 @@ function listFinishedRunsForUser(userId: string | null | undefined) {
 // A read-only view of ONE of the member's own runs (member-nav Phase 2): the briefing
 // plus its context. Fenced by company AND user — a run the caller doesn't own resolves
 // to null (the same "unknown" answer a stranger gets, so ids can't be probed).
+// Promises loop phase 3: the manager-confirmed agreements a finished run carries,
+// projected for the read-only member surfaces (person page + run detail) with the
+// check-in outcome phase 2 wrote back. The internal `at` timestamp is dropped, and a
+// run that armed no loop returns null — so callers render nothing, not empty scaffolding.
+function promiseHistoryOf(
+  state: unknown,
+): Array<{ id: string; owner: string; action: string; when: string; outcome: string | null }> | null {
+  const s = asRecord(state);
+  const raw = Array.isArray(s.promises) ? s.promises : [];
+  const rows = raw
+    .map((p) => asRecord(p))
+    .filter((p) => asString(p.id))
+    .map((p) => ({
+      id: asString(p.id),
+      owner: asString(p.owner),
+      action: asString(p.action),
+      when: asString(p.when),
+      outcome:
+        p.outcome === "yes" || p.outcome === "partly" || p.outcome === "no" || p.outcome === "changed"
+          ? p.outcome
+          : null,
+    }));
+  return rows.length ? rows : null;
+}
+
 function memberRunView(id: string, orgId: string | null | undefined, userId: string | null | undefined) {
   const dir = findRunDir(id, orgId);
   if (!dir) return null;
@@ -429,6 +454,9 @@ function memberRunView(id: string, orgId: string | null | undefined, userId: str
     lastSeenAt: asNumber(s.lastSeenAt),
     completedAt: s.completedAt ?? null,
     rating: ratingOf(dir),
+    // The manager-confirmed promises + their check-in outcomes (Promises loop phase 3).
+    // null when this run armed no loop, so the read views show nothing rather than a shell.
+    promises: promiseHistoryOf(state),
   };
 }
 
@@ -794,6 +822,7 @@ export {
   ratingFromValue,
   costFromState,
   personaTagOf,
+  promiseHistoryOf,
   inferStage,
   notesSummary,
   overviewFields,

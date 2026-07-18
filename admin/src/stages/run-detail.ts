@@ -9,7 +9,7 @@ import { STAGES, store } from "../state.js";
 import { getMyRun, rateMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
-import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
+import { renderReadonlyBriefing, type Briefing, type PromiseRow } from "../ui/briefing-view.ts";
 import { formatDate, relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { Check, Calendar, Clock, MessageSquare } from "lucide";
@@ -25,6 +25,7 @@ export type RunDetail = {
   lastSeenAt: number;
   completedAt: number | null;
   rating: { stars: number; note: string; updatedAt: string | null } | null;
+  promises?: PromiseRow[] | null; // Promises loop phase 3 — the wrap-up agreements + outcomes
 };
 
 // First letter of the name (falls back to "?") — the glyph in the avatar circle.
@@ -120,7 +121,7 @@ export function renderRunDetail(run: RunDetail): string {
       <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="answers">Answers</button>
     </div>
     <div class="js-pane" data-pane="overview">${renderOverview(run)}</div>
-    <div class="js-pane" data-pane="briefing" hidden><div class="l-stack l-stack--4">${renderReadonlyBriefing(run.briefing, run.ctx?.name)}</div></div>
+    <div class="js-pane" data-pane="briefing" hidden><div class="l-stack l-stack--4">${renderReadonlyBriefing(run.briefing, run.ctx?.name, run.promises)}</div></div>
     <div class="js-pane" data-pane="answers" hidden>${renderAnswers(run)}</div>`;
 }
 

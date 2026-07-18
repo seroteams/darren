@@ -40,6 +40,7 @@ import {
   notesSummary,
   overviewFields,
   cloneRunState,
+  promiseHistoryOf,
 } from "../engine/run-history.ts";
 import { historyRunMatches, historySessionFromState } from "../engine/focus-history.ts";
 import type { FocusHistorySession } from "../engine/focus-history.ts";
@@ -242,6 +243,8 @@ export function toMemberView(r: DbRun): Record<string, unknown> {
     lastSeenAt: asNumber(r.state.lastSeenAt),
     completedAt: r.state.completedAt ?? null,
     rating: ratingFromValue(r.rating),
+    // Promises loop phase 3 — kept in parity with the file store's memberRunView.
+    promises: promiseHistoryOf(r.state),
   };
 }
 
