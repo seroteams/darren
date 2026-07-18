@@ -1,6 +1,9 @@
 # Phase 1 — The audit
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-18)
+Report landed at [docs/reports/2026-07-18-agency-audit.md](../../../reports/2026-07-18-agency-audit.md). Method: 4 independent audit passes (security/auth, backend+engine, database+hosting, both frontends), evidence required per finding, free checks only. Baseline: npm test 156/156, typecheck clean. Result: no emergency; 17 ranked findings (2 high — live-boot-without-DB fallback, no backups; 6 medium incl. the known login-throttle gap, a silent-masking house-rule violation in reviewer.ts, and a cost-cap race; 9 low), plus 4 on-the-record roadmap items. Zero XSS holes found in the sweep; company walls verified intact.
 
 ## Goal
 A full, honest code audit of Sero — the thing the agency sells "from $30" — done in-house for free, with evidence behind every finding.

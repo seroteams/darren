@@ -16,13 +16,13 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The audit | Full code audit report (free, in-house, security-review discipline) with per-area verdicts + evidence | ⬜ |
+| 1 | The audit | Full code audit report (free, in-house, security-review discipline) with per-area verdicts + evidence | 🔨 |
 | 2 | The hardening | Fix what the audit confirms — first item: login-attempt throttling | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-18; payments phase removed same day on Carl's word (two phases remain). Waiting on Carl's go before Phase 1 (the audit) starts. Board: https://claude.ai/code/artifact/1ee2e4ed-30d4-4928-b84f-6b565e727f07
+Phase 1 built 2026-07-18: audit report at docs/reports/2026-07-18-agency-audit.md (no emergency; 2 high / 6 medium / 9 low findings, ranked). Baseline npm test 156/156 + typecheck clean. Awaiting Carl's walk of the phase-1 scenarios + his ticks on the fix-list — those ticks become Phase 2's scope. Board: https://claude.ai/code/artifact/1ee2e4ed-30d4-4928-b84f-6b565e727f07
 
 ## Parked
 - Payments (Stripe) — REMOVED from this engagement entirely on Carl's word (2026-07-18). Not planned, not built. Revisit only if he raises it.
