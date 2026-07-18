@@ -1,0 +1,14 @@
+{
+  "ready": true,
+  "terminology": [
+    { "term": "Wireframe", "meaning": "A low-fidelity layout that shows structure before visual polish.", "group": "craft" },
+    { "term": "Hi-fi mockup", "meaning": "A high-fidelity design that looks close to the final product.", "group": "craft" },
+    { "term": "Empty state", "meaning": "What a screen shows when there's no data yet — often missed in first drafts.", "group": "craft" },
+    { "term": "Design review", "meaning": "The session where work is critiqued before it's handed off.", "group": "process" },
+    { "term": "Handoff", "meaning": "Passing a finished design to engineering with the specs they need.", "group": "process" }
+  ],
+  "terminologyGroups": [
+    { "key": "craft", "label": "Craft" },
+    { "key": "process", "label": "Process" }
+  ]
+}

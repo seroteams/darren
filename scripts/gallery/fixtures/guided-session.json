@@ -1,0 +1,17 @@
+{
+  "id": "demo-guided-1",
+  "personId": "p-amira",
+  "personName": "Amira Khan",
+  "stage": "catchup",
+  "completed": false,
+  "createdAt": "2026-07-15T10:00:00Z",
+  "state": {
+    "arc": "monthly-checkin",
+    "step": 0,
+    "catchup": { "notes": "" },
+    "feedback": {},
+    "rating": {},
+    "wrapup": {},
+    "summary": {}
+  }
+}

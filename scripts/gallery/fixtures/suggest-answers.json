@@ -1,0 +1,7 @@
+{
+  "answers": [
+    "Onboarding dashboard — it took three review rounds because the empty state read as too generic.",
+    "The billing settings screen, where the edge cases only surfaced once someone else clicked through the flow.",
+    "A search results page — the main view was fine, but the no-results and error states came up late in review."
+  ]
+}

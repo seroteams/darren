@@ -75,3 +75,8 @@ logs/**
 /docs/chat-history/
 /scripts/chat-log.py
 frontend/dist
+
+# Screen-gallery static snapshots (screen-gallery Phase 2 v2) — generated build artifacts,
+# ~26MB with fonts inlined. Regenerate with `node scripts/gallery-export.mjs` (dev server up).
+# The README + export script + fixtures are tracked; the generated .html is not.
+/docs/screen-gallery/*.html

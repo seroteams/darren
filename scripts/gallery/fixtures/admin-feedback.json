@@ -1,0 +1,40 @@
+{
+  "notes": [
+    {
+      "id": "fb-001",
+      "email": "elena@auroralabs.io",
+      "userName": "Elena Ward",
+      "company": "Aurora Labs",
+      "page": "/briefing",
+      "message": "The opening question was spot on — got straight to the real issue with my report.",
+      "createdAt": "2026-07-16T10:50:00Z"
+    },
+    {
+      "id": "fb-002",
+      "email": "david@meridianhealth.com",
+      "userName": "David Osei",
+      "company": "Meridian Health",
+      "page": "/briefing",
+      "message": "Briefing felt a bit generic for a senior report. I wanted sharper, more concrete next steps.",
+      "createdAt": "2026-07-15T14:41:00Z"
+    },
+    {
+      "id": "fb-003",
+      "email": "priya@velarobotics.com",
+      "userName": "Priya Menon",
+      "company": "Vela Robotics",
+      "page": "/questioning",
+      "message": "Loved that it flagged what to avoid saying — saved me from a misstep on a sensitive topic.",
+      "createdAt": "2026-07-14T09:35:00Z"
+    },
+    {
+      "id": "fb-004",
+      "email": "tom@northwind.studio",
+      "userName": "Tom Blake",
+      "company": "Northwind Studio",
+      "page": "/team",
+      "message": "Would be great to reorder the team list by who I've met most recently.",
+      "createdAt": "2026-07-13T12:02:00Z"
+    }
+  ]
+}

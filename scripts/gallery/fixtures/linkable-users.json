@@ -1,0 +1,8 @@
+{
+  "users": [
+    { "id": "u-sofia-berg", "name": "Sofia Berg", "email": "sofia@northwind.studio" },
+    { "id": "u-lena-sorensen", "name": "Lena Sørensen", "email": "lena@northwind.studio" },
+    { "id": "u-tom-blake", "name": "Tom Blake", "email": "tom@northwind.studio" },
+    { "id": "u-ravi-desai", "name": "Ravi Desai", "email": "ravi@northwind.studio" }
+  ]
+}

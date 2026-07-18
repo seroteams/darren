@@ -1,0 +1,93 @@
+{
+  "arcs": [
+    {
+      "slug": "bi_weekly_check_in",
+      "label": "Bi-weekly check-in",
+      "edited": false,
+      "tone_register": "Casual, fluent, peer-tempered. The manager is checking in, not auditing. Short questions, plain words. Willing to go deeper if something opens, but no agenda performance.",
+      "anti_patterns": [
+        "Agenda-heavy openers that read like a HR form.",
+        "Performative intimacy ('the real version', 'no filter', 'real talk') — sounds like an audition, not a check-in.",
+        "Pivoting to growth/career framing in a routine check-in.",
+        "Generic 'how do you feel about X' instead of locating the friction."
+      ],
+      "arc": [
+        { "id": "pulse", "label": "Pulse", "intent": "How is the last stretch sitting — fast read.", "target_questions": 1 },
+        { "id": "friction", "label": "Friction", "intent": "Where is anything snagging — work, energy, people.", "target_questions": 2 },
+        { "id": "momentum", "label": "Momentum", "intent": "What's moving forward and what's stuck.", "target_questions": 2 },
+        { "id": "lift", "label": "Lift", "intent": "Closer. What would make the next two weeks lighter or sharper.", "target_questions": 1 }
+      ]
+    },
+    {
+      "slug": "performance_feedback",
+      "label": "Performance & feedback",
+      "edited": false,
+      "tone_register": "Direct, adult-to-adult. No softening-as-cushioning. The manager has a view; the employee has a view; the meeting reconciles them. Name things plainly without dressing them up.",
+      "anti_patterns": [
+        "Softening the gap so much it disappears.",
+        "Leading the employee toward the manager's prewritten conclusion.",
+        "Closing on 'how do you feel about that' instead of a concrete commitment."
+      ],
+      "arc": [
+        { "id": "self_read", "label": "Self-read", "intent": "Their read of the last stretch before any manager view lands.", "target_questions": 1 },
+        { "id": "evidence", "label": "Evidence", "intent": "Anchor on observable moments, not impressions.", "target_questions": 2 },
+        { "id": "gap_naming", "label": "Gap naming", "intent": "Name the specific gap or pattern at issue.", "target_questions": 2 },
+        { "id": "cause", "label": "Cause", "intent": "What's driving it from their side — capability, clarity, context, or capacity.", "target_questions": 2 },
+        { "id": "commit", "label": "Commit", "intent": "Closer. A concrete behavioural change with a date.", "target_questions": 1 }
+      ]
+    },
+    {
+      "slug": "growth_career_plan",
+      "label": "Growth & career plan",
+      "edited": true,
+      "tone_register": "Aspirational, forward-leaning, generative. Future-tense. The employee is the protagonist of their own next chapter; the manager is a coach, not an HR checkbox.",
+      "anti_patterns": [
+        "Round-robin axis coverage that never deepens a single thread.",
+        "Asking 'what skill do you want to develop' before knowing where they want to go.",
+        "Closing on 'what support do you need from me' without first earning the gap and the investment.",
+        "Reframing growth questions as role-clarity or feedback questions — that's a different meeting type."
+      ],
+      "arc": [
+        { "id": "anchor", "label": "Anchor", "intent": "Where they are now in role — what's solid, what's stretching.", "target_questions": 2 },
+        { "id": "aspiration", "label": "Aspiration", "intent": "Where they want to go, concretely — named roles, named scopes, named outcomes.", "target_questions": 2 },
+        { "id": "gap", "label": "Gap", "intent": "What's between here and there — skills, exposure, decisions, time.", "target_questions": 2 },
+        { "id": "investment", "label": "Investment", "intent": "What has to change from them, from you as manager, from the org — and what gets traded off.", "target_questions": 2 },
+        { "id": "commitment", "label": "Commitment", "intent": "Closer. One concrete next move before the next conversation.", "target_questions": 1 }
+      ]
+    },
+    {
+      "slug": "something_feels_off",
+      "label": "Something feels off",
+      "edited": false,
+      "tone_register": "Observation-first, opt-in, low-pressure. The manager names what they saw; the employee chooses whether and how to engage. No diagnosis, no leading, no probing for an emotion the employee hasn't named.",
+      "anti_patterns": [
+        "Naming an emotion or diagnosis the employee hasn't named themselves.",
+        "Stacking 'what's wrong' probes without giving them an opt-out.",
+        "Treating the meeting like a performance review."
+      ],
+      "arc": [
+        { "id": "landing", "label": "Landing", "intent": "Surface a no-pressure space to arrive.", "target_questions": 1 },
+        { "id": "observation", "label": "Observation", "intent": "Name the observable shift, hand them the mic.", "target_questions": 2 },
+        { "id": "underneath", "label": "Underneath", "intent": "If they open the door, follow it — what's underneath.", "target_questions": 2 },
+        { "id": "support", "label": "Support", "intent": "Closer. What would help, if anything, right now.", "target_questions": 1 }
+      ]
+    },
+    {
+      "slug": "onboarding_check_in",
+      "label": "Onboarding check-in",
+      "edited": false,
+      "tone_register": "Welcoming, orienting, low-bar. The new joiner is still forming a map of the place — make it safe to admit confusion. Short, concrete, helpful. The manager is a guide removing friction, not assessing performance.",
+      "anti_patterns": [
+        "Evaluating performance in the first weeks instead of removing friction.",
+        "Assuming silence means things are fine — new joiners under-report blockers.",
+        "Overloading them with information instead of surfacing what they actually need next."
+      ],
+      "arc": [
+        { "id": "settling", "label": "Settling", "intent": "How they're landing — environment, tools, people, the basics.", "target_questions": 1 },
+        { "id": "orientation", "label": "Orientation", "intent": "What's still unclear — role, expectations, who's who, how things work here.", "target_questions": 2 },
+        { "id": "blockers", "label": "Blockers", "intent": "What's slowing them down or missing to actually do the work.", "target_questions": 2 },
+        { "id": "connection", "label": "Connection", "intent": "Closer. Who they've connected with, and what support to line up next.", "target_questions": 1 }
+      ]
+    }
+  ]
+}

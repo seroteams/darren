@@ -23,16 +23,22 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Gallery shell | Tree + host + deep links; all API-backed screens render live | ✅ |
-| 2 | Flow-screen prefill | Demo session seeds Intake → Debrief + parameterised screens | ⬜ |
+| 1 | Gallery shell (in-app) | Tree + host + deep links; all API-backed screens render live | ✅ superseded by v2 |
+| 2 | **v2: static HTML gallery** | Remove the in-app gallery; raw HTML snapshots in `docs/screen-gallery/` + export script + sample-data fixtures | 🔨 |
 | 3 | Design-loop polish (optional) | "Open real route" links, width toggle, empty/error-state stubs — only if wanted | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ GREEN-LIT Fri 18 Jul 2026** ("love it, keep it, I can use it"). The gallery is live in the local admin app — reach it via the **Screens** icon in the left rail (or `/admin/gallery`). It opens an edit-mode top bar with a soft-yellow **Screens ▾** dropdown of every screen; pick one → the real screen mounts below → edit its source and the change lands on the real app. Each screen has a **Copy design prompt** button. Verified by a full 46-screen Playwright sweep ([test-results.html](test-results.html)): 44/46 mounted, 34 with real data, 10 flow screens empty (Phase 2), 2 need an id (Phase 2). Internal-only + hidden on live.
+**Phase 1 ✅ happened, now superseded by v2.** The in-app `/gallery` (rail icon + edit-mode top
+bar mounting the real modules) was green-lit 18 Jul — but on his own near-empty dev DB most
+screens rendered empty. Carl's final call: **scrap the in-app machinery** (feels stuck inside the
+system) and replace it with **raw HTML snapshots in a folder he opens directly**. Full v2 design
+in [phase-2.md](phase-2.md) and the approved plan `id-like-to-look-golden-zephyr.md`.
 
-**Next:** Phase 2 — seed the demo session so the 12 empty/needs-id screens fill in. Not started; awaiting Carl's go.
+**Now:** Phase 2 v2 — (A) remove the in-app gallery, (B+C) static HTML gallery at
+`docs/screen-gallery/` + `scripts/gallery-export.mjs` + sample-data fixtures. Part A's two
+files (main.js, app-nav.js) are held behind another chat's lane; B+C are independent and built first.
 
 ## Parked
 - Fetch-stub layer for designing empty/error states (only if Carl asks — Phase 3 candidate).

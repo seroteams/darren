@@ -1,0 +1,36 @@
+{
+  "baseline": {
+    "runId": "run-amira-perf-01",
+    "headline": "Amira's review churn comes from checking screens before the flow is ready.",
+    "capturedAt": 1784020800000,
+    "hasLock": true,
+    "aggregates": {
+      "content": "c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00",
+      "engine": "1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd",
+      "all": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef0"
+    }
+  },
+  "current": {
+    "capturedAt": 1784197800000,
+    "aggregates": {
+      "content": "c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00",
+      "engine": "1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd",
+      "all": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef0"
+    },
+    "manifestCounts": { "content": 42, "engine": 21, "total": 63 }
+  },
+  "unchanged": true,
+  "hasBaseline": true,
+  "summary": {
+    "contentModified": 0,
+    "contentAdded": 0,
+    "contentRemoved": 0,
+    "engineModified": 0,
+    "engineAdded": 0,
+    "engineRemoved": 0,
+    "modelsChanged": [],
+    "gitChanged": false
+  },
+  "groups": [],
+  "changelogMarkdown": "## Pipeline delta\n\nNo changes detected."
+}

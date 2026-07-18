@@ -1,26 +1,75 @@
-# Phase 2 — Flow-screen prefill
+# Phase 2 (v2) — remove the in-app gallery + build the static HTML gallery
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 (v2 — replaces the dead in-app approach)
 
-## Goal
-The 1:1 flow screens (Intake → One-page → Focus → Preparation → Bank → Interview → Evaluate → Briefing → Debrief) open in the gallery genuinely filled in, from one shared demo session.
+## Why v2
+Phase 1 built an in-app `/gallery` (rail icon + edit-mode top bar mounting the real modules).
+Carl's call 18 Jul, after most screens rendered empty from a near-empty dev DB: **scrap the
+in-app machinery — it feels stuck inside the system and messy — and replace it with raw HTML
+files in a folder he opens directly** (double-click, no server, no login). Data = **baked-in
+sample data** (one fictional company), **sample-only**.
 
-## Changes
-- `admin/src/stages/gallery/screens.js` — pin `DEMO_SESSION_ID` (a real completed local run); add per-screen `seed` hooks.
-- `admin/src/stages/gallery/fixtures.js` (NEW) — `seedFlowSession`: try `getSession(DEMO_SESSION_ID)` live first, fall back to a static snapshot copied once from a real response.
-- Small seeds for the four parameterised screens (Run detail, Person detail, Admin user, Review run): list real items, pick the first.
+The honest trade Carl accepted: the HTML files are **snapshots** — editing a snapshot does NOT
+change the real site. Loop: open a snapshot → "Copy design prompt" → paste into a chat → the
+chat edits the REAL screen code → the chat re-runs the export so snapshots match again. Every
+page carries its generation date, so staleness is visible at a glance.
 
-## Not in this phase
-- Empty/error-state design variants (Phase 3, only if wanted).
+## Part A — REMOVE the in-app gallery
+- `admin/src/stages/gallery/` — delete (gallery.js, screens.js).
+- `admin/src/state.js` — remove `STAGES.GALLERY` + `galleryScreen`.
+- `admin/src/router.js` — remove `/gallery` routes + gallery from `INTERNAL_ONLY`/`LIVE_HIDDEN`.
+- `admin/src/main.js` — remove the GALLERY boot + popstate branches. **(locked lane ccee819a)**
+- `admin/src/ui/app-nav.js` — remove the Screens rail item + `LayoutGrid`. **(locked lane ccee819a)**
+- `admin/src/stage-loaders.js` — KEEP; remove only its `GALLERY:` entry.
+- Verify: `npm run typecheck` + `npm test` + boot smoke; grep for `gallery`/`GALLERY` in admin/src is clean.
+
+> ⚠️ main.js + app-nav.js are claimed by another live chat (sidebar re-org). Part A waits on
+> Carl's call — done atomically once the lane clears, or the gallery half-removed leaves a
+> dead rail icon.
+
+## Part B — the static gallery: `docs/screen-gallery/`
+Self-contained HTML files opened via `file://`:
+- `index.html` — grouped tree of every screen (from the GROUPS/labels metadata, copied into the script).
+- one page per screen — a slim soft-yellow top strip (screen name · source file · **Copy design
+  prompt** with a select-all textarea fallback · "Snapshot · <date> · sample data") above the
+  screen exactly as rendered, CSS inlined, scripts stripped.
+
+## Part C — the generator: `scripts/gallery-export.mjs` (+ `scripts/gallery/fixtures/`)
+Free, local Playwright script; regenerates the whole folder in one run.
+1. Needs the **Vite dev server** running (`npm run dev`). Backend NOT required — every `/api/**`
+   GET is answered from fixtures via `page.route`, so `/auth/me` (superadmin) and every list are
+   controlled. Non-GETs are stubbed. A no-op EventSource is injected. **Builder's call:** route
+   interception supersedes the plan's DEV_AUTOLOGIN note — no app code is involved, app stays clean.
+2. Flow screens: inject `localStorage.seroSessionId` + serve `GET /sessions/:id` from the
+   snapshot fixture so the app's own boot (`rehydrateById`) fills the store. The snapshot's
+   `stage` is overridden per flow route so ONE session drives Briefing, Interview, Preparation…
+3. Per screen: navigate the real route → wait settled → freeze animations → capture
+   `documentElement.outerHTML` → inline same-origin stylesheets → strip `<script>`s → wrap with
+   the header strip → write the file. `index.html` built from the metadata.
+4. Console OK/MISS table; exits non-zero if any expected fixture missed (stale fixture = loud).
+
+### Fixtures (`scripts/gallery/fixtures/`)
+- Shapes from `shared/api.js` call-site comments + backend types, not guessed.
+- `session.json` = a real completed local run (`session-state.json` → `snapshot()` shape), names
+  swapped to the fictional team (Amira Khan / Jonas Okafor / Lena Sørensen). **$0 — no OpenAI.**
+
+### The refresh ritual
+"Refresh the gallery" → `node scripts/gallery-export.mjs` with the dev server up (chats do this;
+Carl can too). Re-export is the ONLY sync mechanism; the date stamp shows staleness.
 
 ## Done when
-- [ ] Every flow screen opens prefilled — verified by screenshots of Briefing (full recap) and Interview (mid-run question) actually rendered.
-- [ ] Run detail / Person detail / Admin user / Review run open on a real item without hand-typing an id.
-- [ ] The "needs demo data" tags from Phase 1 are gone.
-- [ ] `npm run typecheck` + `npm test` clean.
-- [ ] Product owner has tested the scenarios below and said go.
+- [ ] Part B/C: export runs, every screen page + index.html written; flow screens (Briefing full
+      of sample content — the previously-empty case) render filled.
+- [ ] `docs/screen-gallery/index.html` opens via `file://` and screenshots prove the tree + 3
+      screen pages (incl. Briefing).
+- [ ] Part A done cleanly (once the lane clears) — grep-clean, typecheck + test pass.
+- [ ] Carl has walked it and said go.
 
 ## Test scenarios — for the product owner
-1. **The flow, filled** — in the gallery, click each 1:1 flow screen in order, Intake through Debrief. Every one should look like a real mid-flight or finished session — Briefing shows a full written briefing, Interview shows a question on screen. ❌ Not OK if any shows "nothing here yet" or a blank.
-2. **Detail screens** — click "Run detail" and "Person detail". Each should open showing a real run / real person, without you picking one first.
-3. **Still safe** — the banner still reminds you buttons are live; clicking around doesn't error.
+1. **Double-click it** — open `docs/screen-gallery/index.html` from the folder (no server). You
+   see the grouped tree of every screen. Click Briefing → it opens full of a real-looking recap
+   for the fictional team, with the soft-yellow strip on top. ❌ Not OK if blank.
+2. **Copy a prompt** — on any screen page, click "Copy design prompt" — it copies (or selects the
+   textarea to copy manually). That's what you paste into a chat to restyle that screen.
+3. **Freshness** — every page shows "Snapshot · <date> · sample data". After any design work
+   lands, a chat re-runs the export and the date moves on.

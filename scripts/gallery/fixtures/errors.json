@@ -1,0 +1,74 @@
+{
+  "errors": [
+    {
+      "id": "err-001",
+      "environment": "live",
+      "source": "client",
+      "email": "elena@auroralabs.io",
+      "userName": "Elena Ward",
+      "company": "Aurora Labs",
+      "method": "GET",
+      "path": "/api/v1/sessions/abc123/question",
+      "status": 500,
+      "message": "TypeError: Cannot read properties of undefined (reading 'alias')",
+      "createdAt": "2026-07-16T10:32:00Z",
+      "resolved": false
+    },
+    {
+      "id": "err-002",
+      "environment": "live",
+      "source": "server",
+      "email": null,
+      "userName": null,
+      "company": null,
+      "method": "POST",
+      "path": "/api/v1/sessions",
+      "status": 429,
+      "message": "Rate limit exceeded for new-session creation",
+      "createdAt": "2026-07-15T18:11:00Z",
+      "resolved": false
+    },
+    {
+      "id": "err-003",
+      "environment": "live",
+      "source": "client",
+      "email": "david@meridianhealth.com",
+      "userName": "David Osei",
+      "company": "Meridian Health",
+      "method": "GET",
+      "path": "/admin/assets/index-9f2c.js",
+      "status": 404,
+      "message": "Failed to load module chunk after deploy",
+      "createdAt": "2026-07-15T09:04:00Z",
+      "resolved": true
+    },
+    {
+      "id": "err-004",
+      "environment": "local",
+      "source": "server",
+      "email": "sofia@northwind.studio",
+      "userName": "Sofia Berg",
+      "company": "Northwind Studio",
+      "method": "POST",
+      "path": "/api/v1/sessions/xyz789/answer",
+      "status": 502,
+      "message": "Upstream model timeout during plan-turn",
+      "createdAt": "2026-07-14T13:47:00Z",
+      "resolved": true
+    },
+    {
+      "id": "err-005",
+      "environment": "live",
+      "source": "client",
+      "email": "priya@velarobotics.com",
+      "userName": "Priya Menon",
+      "company": "Vela Robotics",
+      "method": "GET",
+      "path": "/api/v1/runs/mine",
+      "status": 401,
+      "message": "Session expired mid-run",
+      "createdAt": "2026-07-12T08:22:00Z",
+      "resolved": true
+    }
+  ]
+}

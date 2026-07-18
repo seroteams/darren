@@ -1,0 +1,9 @@
+{
+  "userId": "u-sofia-berg",
+  "orgId": "org-northwind",
+  "roles": ["admin"],
+  "email": "sofia@northwind.studio",
+  "name": "Sofia Berg",
+  "isSuperadmin": true,
+  "appEnv": "local"
+}

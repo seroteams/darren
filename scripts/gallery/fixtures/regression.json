@@ -1,0 +1,5 @@
+{
+  "verdict": "pass",
+  "summary": { "ok": 12, "regressed": 0, "error": 0, "total": 12 },
+  "cases": []
+}

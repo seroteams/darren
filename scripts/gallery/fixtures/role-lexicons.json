@@ -1,0 +1,48 @@
+{
+  "roles": [
+    {
+      "key": "product-designer--junior",
+      "role": "Product Designer",
+      "seniority": "Junior",
+      "terms": [
+        { "term": "Wireframe", "meaning": "A low-fidelity layout that shows structure before visual polish.", "source": "ai" },
+        { "term": "Hi-fi mockup", "meaning": "A high-fidelity design that looks close to the final product.", "source": "ai" },
+        { "term": "Empty state", "meaning": "What a screen shows when there's no data yet — often missed in first drafts.", "source": "ai" },
+        { "term": "Design review", "meaning": "The session where work is critiqued before it's handed off.", "source": "ai" },
+        { "term": "Handoff", "meaning": "Passing a finished design to engineering with the specs they need.", "source": "you" }
+      ]
+    },
+    {
+      "key": "engineer--senior",
+      "role": "Engineer",
+      "seniority": "Senior",
+      "terms": [
+        { "term": "Migration", "meaning": "Moving code or data from one system or schema to another.", "source": "ai" },
+        { "term": "On-call", "meaning": "The rota for responding to production incidents out of hours.", "source": "ai" },
+        { "term": "Tech debt", "meaning": "Shortcuts in the codebase that slow future work until repaid.", "source": "ai" },
+        { "term": "Code review", "meaning": "Peer inspection of a change before it merges.", "source": "ai", "hidden": true }
+      ]
+    },
+    {
+      "key": "product-manager--mid",
+      "role": "Product Manager",
+      "seniority": "Mid",
+      "terms": [
+        { "term": "Roadmap", "meaning": "The planned sequence of what's being built and roughly when.", "source": "ai" },
+        { "term": "Scope", "meaning": "The boundary of what a piece of work includes and excludes.", "source": "ai" },
+        { "term": "Trade-off call", "meaning": "A decision that gains one thing at the cost of another.", "source": "ai" },
+        { "term": "Discovery", "meaning": "Research to understand a problem before committing to a solution.", "source": "you" }
+      ]
+    },
+    {
+      "key": "data-analyst--mid",
+      "role": "Data Analyst",
+      "seniority": "Mid",
+      "terms": [
+        { "term": "Dashboard", "meaning": "A live view of key metrics for a team or stakeholder.", "source": "ai" },
+        { "term": "Caveat", "meaning": "A stated limitation on what a number can be trusted to mean.", "source": "ai" },
+        { "term": "Cohort", "meaning": "A group tracked together over time, e.g. users who signed up the same month.", "source": "ai" }
+      ]
+    }
+  ]
+}

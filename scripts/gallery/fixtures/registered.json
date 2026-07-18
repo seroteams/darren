@@ -1,0 +1,161 @@
+{
+  "summary": { "avgStars": 4.3, "ratedCount": 14, "lowCount": 1 },
+  "companies": [
+    {
+      "id": "org-aurora",
+      "name": "Aurora Labs",
+      "createdAt": "2026-06-24T09:00:00Z",
+      "users": [
+        {
+          "id": "u-elena-ward",
+          "name": "Elena Ward",
+          "email": "elena@auroralabs.io",
+          "role": "manager",
+          "createdAt": "2026-06-24T09:00:00Z",
+          "runCount": 6,
+          "lastActiveAt": "2026-07-16T10:30:00Z",
+          "runsThisWeek": 3,
+          "runsLastWeek": 2,
+          "firstRunAt": "2026-06-28T08:30:00Z",
+          "gapDays": 3,
+          "cameBack": true,
+          "internal": false,
+          "deactivated": false
+        },
+        {
+          "id": "u-marco-rossi",
+          "name": "Marco Rossi",
+          "email": "marco@auroralabs.io",
+          "role": "manager",
+          "createdAt": "2026-07-09T14:00:00Z",
+          "runCount": 1,
+          "lastActiveAt": "2026-07-11T15:10:00Z",
+          "runsThisWeek": 1,
+          "runsLastWeek": 0,
+          "firstRunAt": "2026-07-11T15:10:00Z",
+          "gapDays": null,
+          "cameBack": false,
+          "internal": false,
+          "deactivated": false
+        }
+      ]
+    },
+    {
+      "id": "org-meridian",
+      "name": "Meridian Health",
+      "createdAt": "2026-06-30T11:00:00Z",
+      "users": [
+        {
+          "id": "u-david-osei",
+          "name": "David Osei",
+          "email": "david@meridianhealth.com",
+          "role": "manager",
+          "createdAt": "2026-06-30T11:00:00Z",
+          "runCount": 4,
+          "lastActiveAt": "2026-07-15T14:05:00Z",
+          "runsThisWeek": 2,
+          "runsLastWeek": 2,
+          "firstRunAt": "2026-07-02T09:00:00Z",
+          "gapDays": 5,
+          "cameBack": true,
+          "internal": false,
+          "deactivated": false
+        },
+        {
+          "id": "u-hannah-cole",
+          "name": "Hannah Cole",
+          "email": "hannah@meridianhealth.com",
+          "role": "member",
+          "createdAt": "2026-07-05T10:00:00Z",
+          "runCount": 0,
+          "lastActiveAt": null,
+          "runsThisWeek": 0,
+          "runsLastWeek": 0,
+          "firstRunAt": null,
+          "gapDays": null,
+          "cameBack": false,
+          "internal": false,
+          "deactivated": false
+        }
+      ]
+    },
+    {
+      "id": "org-vela",
+      "name": "Vela Robotics",
+      "createdAt": "2026-07-08T13:30:00Z",
+      "users": [
+        {
+          "id": "u-priya-menon",
+          "name": "Priya Menon",
+          "email": "priya@velarobotics.com",
+          "role": "manager",
+          "createdAt": "2026-07-08T13:30:00Z",
+          "runCount": 3,
+          "lastActiveAt": "2026-07-14T09:20:00Z",
+          "runsThisWeek": 3,
+          "runsLastWeek": 0,
+          "firstRunAt": "2026-07-10T16:45:00Z",
+          "gapDays": 4,
+          "cameBack": true,
+          "internal": false,
+          "deactivated": false
+        }
+      ]
+    },
+    {
+      "id": "org-northwind",
+      "name": "Northwind Studio",
+      "createdAt": "2026-06-20T08:00:00Z",
+      "users": [
+        {
+          "id": "u-sofia-berg",
+          "name": "Sofia Berg",
+          "email": "sofia@northwind.studio",
+          "role": "admin",
+          "createdAt": "2026-06-20T08:00:00Z",
+          "runCount": 9,
+          "lastActiveAt": "2026-07-16T16:00:00Z",
+          "runsThisWeek": 4,
+          "runsLastWeek": 3,
+          "firstRunAt": "2026-06-21T09:15:00Z",
+          "gapDays": 1,
+          "cameBack": true,
+          "internal": true,
+          "deactivated": false
+        },
+        {
+          "id": "u-tom-blake",
+          "name": "Tom Blake",
+          "email": "tom@northwind.studio",
+          "role": "manager",
+          "createdAt": "2026-07-01T09:00:00Z",
+          "runCount": 2,
+          "lastActiveAt": "2026-07-13T11:40:00Z",
+          "runsThisWeek": 1,
+          "runsLastWeek": 1,
+          "firstRunAt": "2026-07-08T11:00:00Z",
+          "gapDays": 5,
+          "cameBack": true,
+          "internal": false,
+          "deactivated": false
+        },
+        {
+          "id": "u-mark-two",
+          "name": "Mark Two",
+          "email": "mark@northwind.studio",
+          "role": "member",
+          "createdAt": "2026-07-03T09:00:00Z",
+          "runCount": 0,
+          "lastActiveAt": null,
+          "runsThisWeek": 0,
+          "runsLastWeek": 0,
+          "firstRunAt": null,
+          "gapDays": null,
+          "cameBack": false,
+          "internal": false,
+          "deactivated": true
+        }
+      ]
+    }
+  ]
+}

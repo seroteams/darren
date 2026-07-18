@@ -1,0 +1,89 @@
+{
+  "personas": [
+    {
+      "id": "maya-chen",
+      "order": 1,
+      "name": "Maya",
+      "displayName": "Maya Chen",
+      "role": "Junior Product Designer",
+      "seniority": "Junior",
+      "meeting_type": "Performance & feedback",
+      "meetingTypeIndex": 1,
+      "issue": "Review-loop drag",
+      "notes": "Maya is talented, but her recent design work has needed too many review rounds before it feels ready.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "comes back to checking the full flow before sharing, not just the main screens",
+      "script": [
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "self_read", "answer": "wants to dig into how she judges 'ready to share' — thinks that's where the rework starts" },
+        { "alias": "q_ready_to_share", "name": "When you say 'ready to share,' what are you looking for before you bring work in?", "stage": "self_read", "answer": "checks main screens. doesn't check edge cases / empty states before sharing" },
+        { "alias": "q_review_round_example", "name": "Can you walk me through a recent design that took more review rounds than you expected?", "stage": "evidence", "answer": "onboarding dashboard. 3 review rounds. missed the edge cases in the empty states" },
+        { "alias": "q_ready_sooner", "name": "What part of the design usually gets discovered too late for first review?", "stage": "gap_naming", "answer": "flow and edge cases surface late. screens look fine, review finds missing states / unclear rationale" },
+        { "alias": "q_drafting_habit", "name": "What part of your drafting process most affects how ready the design feels on first pass?", "stage": "cause", "answer": "depends how much of the flow she checks before sharing. main screens only leads to gaps in review" },
+        { "alias": "q_next_review_focus", "name": "What do you want to focus on before the next review round?", "stage": "commit", "answer": "wants to check the full flow before review. empty states, edge cases, explain the direction" }
+      ]
+    },
+    {
+      "id": "rachel-singh",
+      "order": 2,
+      "name": "Rachel",
+      "displayName": "Rachel Singh",
+      "role": "UX Researcher",
+      "seniority": "Senior",
+      "meeting_type": "Something feels off",
+      "meetingTypeIndex": 3,
+      "issue": "Quieter in meetings",
+      "notes": "Rachel is usually thoughtful, but she has been much quieter in team conversations recently.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "not sure it's one thing. just less lately that felt worth interrupting for",
+      "script": [
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "landing", "answer": "nothing specific. happy to just talk through how the last few weeks have felt" },
+        { "alias": "q_recent_change", "name": "I've noticed you've been a bit quieter in team conversations lately — does that match how it feels to you?", "stage": "observation", "answer": "agrees. been holding back more than usual" },
+        { "alias": "q_what_shifted", "name": "When did that start to shift for you?", "stage": "observation", "answer": "shifted when research got pushed later in the cycle. findings land, decisions already feel made" },
+        { "alias": "q_safe_to_share", "name": "When you do have something to say, what makes it feel worth raising or not?", "stage": "underneath", "answer": "raises things if it'll actually change a decision. lately the timing hasn't felt there" },
+        { "alias": "q_support_needed", "name": "What would make it feel more worth speaking up again?", "stage": "support", "answer": "wants research in earlier, before the direction's set, so it can actually shape things" },
+        { "alias": "q_next_step", "name": "What's one thing we could try in the next couple of weeks?", "stage": "support", "answer": "pull her into the framing stage on the next project, not just validation" }
+      ]
+    },
+    {
+      "id": "jordan-kim",
+      "order": 3,
+      "name": "Jordan",
+      "displayName": "Jordan Kim",
+      "role": "Product Manager",
+      "seniority": "Mid-level",
+      "meeting_type": "Growth & career plan",
+      "meetingTypeIndex": 2,
+      "issue": "Wants more scope",
+      "notes": "Jordan wants more scope, but we need to define what stronger ownership actually means.",
+      "script_version": "v2-plain",
+      "scripted_fallback": "sees ownership as driving the decision, not just running the process around it",
+      "script": [
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "anchor", "answer": "wants to talk about taking on more scope, and what that actually needs to look like" },
+        { "alias": "q_scope_meaning", "name": "When you say more scope, what would you actually be running that you don't now?", "stage": "aspiration", "answer": "running a problem area end to end, not just shipping features someone else scoped" },
+        { "alias": "q_stakeholder_trust", "name": "Where do stakeholders already come to you directly, and where do they still go around you?", "stage": "gap", "answer": "eng comes to her direct now. roadmap calls still go to her lead first" },
+        { "alias": "q_readiness_gap", "name": "What's the gap between where you are and owning that area fully?", "stage": "gap", "answer": "gap is being trusted to make the trade-off calls without checking first" },
+        { "alias": "q_next_step", "name": "What's one thing you could take on next quarter to start heading that way?", "stage": "commitment", "answer": "wants to own the trade-off decisions on one area outright. bring the reasoning, not the question" }
+      ]
+    },
+    {
+      "id": "liam-brooks",
+      "order": 4,
+      "name": "Liam",
+      "displayName": "Liam Brooks",
+      "role": "Product Manager",
+      "seniority": "Senior",
+      "meeting_type": "Performance & feedback",
+      "meetingTypeIndex": 1,
+      "issue": "Stakeholder alignment weak",
+      "notes": "Liam works hard, but stakeholders still seem unclear on decisions and next steps.",
+      "script_version": "v1-messy",
+      "scripted_fallback": "decisions clear in his head, just not closing the loop with everyone in writing",
+      "script": [
+        { "alias": "q_open_anything_to_cover", "name": "Before we start, is there anything specific you want to make sure we cover today?", "stage": "self_read", "answer": "happy to talk the stakeholder side. knows there's been confusion on where things land" },
+        { "alias": "q_alignment_observed", "name": "After a decision, stakeholders still seem unclear on what was decided. Does that match what you see?", "stage": "self_read", "answer": "agrees. happens more than he'd like. people leave the room thinking different things" },
+        { "alias": "q_communication_gap", "name": "Between the decision and people acting on it, where does the clarity get lost?", "stage": "gap_naming", "answer": "decides in the meeting, doesn't always send the written summary, so everyone fills the gaps themselves" },
+        { "alias": "q_next_step", "name": "What's one change you'd make on the next big decision?", "stage": "commit", "answer": "will send a short written decision plus owners plus next steps within a day, confirm each stakeholder agrees" }
+      ]
+    }
+  ]
+}

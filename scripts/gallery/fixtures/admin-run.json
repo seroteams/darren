@@ -1,0 +1,35 @@
+{
+  "id": "run-amira-perf-01",
+  "ctx": {
+    "name": "Amira Khan",
+    "role": "Junior Product Designer",
+    "seniority": "Junior",
+    "meetingType": "Performance & feedback"
+  },
+  "lastSeenAt": 1784020800000,
+  "completedAt": 1784022600000,
+  "briefing": {
+    "headline": "Amira's review churn comes from checking screens before the flow and edge cases are ready.",
+    "summary_bullets": [
+      "The same gap shows up across turns: main screens look fine, then review finds missing states and a weak rationale.",
+      "Amira's own fix is clear — she wants to check the full flow, empty states, and edge cases before sharing."
+    ],
+    "understanding_paragraph": "The session confirmed that Amira's rework starts early, before the full flow is ready. What we learned is that the miss is specific: edge cases and empty states are not being checked before first review.",
+    "axes": [
+      { "id": "wellbeing", "score": 0, "meaning": "This didn't come up in the conversation — not enough signal to read.", "read_status": "not_read", "confidence": "low", "evidence_basis": "axis_state_only" },
+      { "id": "engagement", "score": 0, "meaning": "This didn't come up in the conversation — not enough signal to read.", "read_status": "not_read", "confidence": "low", "evidence_basis": "axis_state_only" },
+      { "id": "clarity", "score": -5, "meaning": "Worth noting: she shares before the full flow is settled, so review keeps finding missing states and unclear rationale.", "read_status": "read", "confidence": "high", "evidence_basis": "transcript_quotes" },
+      { "id": "growth", "score": -5, "meaning": "A real pattern: she can name the miss and the fix, but the draft habit still leaves key checks for review.", "read_status": "read", "confidence": "high", "evidence_basis": "transcript_quotes" }
+    ],
+    "brutal_truth_employee": "Amira is not failing on taste; she's failing on readiness. She is sending work before the edge cases and empty states are checked.",
+    "brutal_truth_manager": "You stayed on the right problem, but the conversation could have pushed harder on the moment she said \"still working out why one direction beats another.\" That was the place to separate unfinished thinking from a review-ready draft.",
+    "next_actions": [
+      { "when": "today", "action": "Ask Amira to write a pre-share checklist for full flow, empty states, edge cases, and design rationale." },
+      { "when": "next 1:1", "action": "Review one recent design against that checklist and name exactly which missing state would have cut a review round." }
+    ],
+    "watch_for": [
+      "Before next review: does Amira bring the full flow and empty states without prompting?",
+      "If review still finds unclear rationale, the draft habit has not changed."
+    ]
+  }
+}

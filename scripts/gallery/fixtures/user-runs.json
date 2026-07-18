@@ -1,0 +1,32 @@
+{
+  "runs": [
+    {
+      "id": "run-elena-perf-02",
+      "headline": "Elena's report is coasting; the meeting names the stretch he's avoiding.",
+      "ctx": { "name": "Chris Palmer", "role": "Backend Engineer", "seniority": "Senior", "meetingType": "Performance & feedback" },
+      "lastSeenAt": 1784020800000,
+      "rating": { "stars": 5 }
+    },
+    {
+      "id": "run-elena-biweekly-05",
+      "headline": "Steady check-in — workload is fine, but two priorities are colliding.",
+      "ctx": { "name": "Dana Fox", "role": "Frontend Engineer", "seniority": "Mid", "meetingType": "Bi-weekly check-in" },
+      "lastSeenAt": 1783701900000,
+      "rating": { "stars": 4 }
+    },
+    {
+      "id": "run-elena-growth-01",
+      "headline": "Mapping a path from senior IC toward tech lead.",
+      "ctx": { "name": "Owen Reed", "role": "Platform Engineer", "seniority": "Senior", "meetingType": "Growth & career plan" },
+      "lastSeenAt": 1783508400000,
+      "rating": null
+    },
+    {
+      "id": "run-elena-onboarding-02",
+      "headline": "New joiner settling well; one blocker is unclear on-call expectations.",
+      "ctx": { "name": "Mia Grant", "role": "Software Engineer", "seniority": "Junior", "meetingType": "Onboarding check-in" },
+      "lastSeenAt": 1782635400000,
+      "rating": { "stars": 4 }
+    }
+  ]
+}

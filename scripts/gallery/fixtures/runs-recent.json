@@ -1,0 +1,25 @@
+{
+  "runs": [
+    {
+      "id": "run-amira-perf-01",
+      "headline": "1:1 with Amira Khan — Performance & feedback",
+      "lastSeenAt": 1784020800000,
+      "stage": "BRIEFING",
+      "reviewStatus": "complete"
+    },
+    {
+      "id": "run-jonas-growth-01",
+      "headline": "1:1 with Jonas Okafor — Growth & career plan",
+      "lastSeenAt": 1783508400000,
+      "stage": "QUESTIONING",
+      "reviewStatus": "partial"
+    },
+    {
+      "id": "run-lena-biweekly-01",
+      "headline": "1:1 with Lena Sørensen — Bi-weekly check-in",
+      "lastSeenAt": 1783701900000,
+      "stage": "BRIEFING",
+      "reviewStatus": "none"
+    }
+  ]
+}

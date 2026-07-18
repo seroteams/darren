@@ -1,0 +1,83 @@
+{
+  "externalThisWeek": 12,
+  "runs": [
+    {
+      "id": "run-aurora-perf-02",
+      "userName": "Elena Ward",
+      "company": "Aurora Labs",
+      "internal": false,
+      "guest": false,
+      "meetingType": "Performance & feedback",
+      "startedAt": 1784020800000,
+      "lastSeenAt": 1784022600000,
+      "finished": true,
+      "stage": "BRIEFING",
+      "rating": { "stars": 5, "note": "Straight to the real issue.", "updatedAt": "2026-07-14T09:50:00Z" }
+    },
+    {
+      "id": "run-meridian-growth-01",
+      "userName": "David Osei",
+      "company": "Meridian Health",
+      "internal": false,
+      "guest": false,
+      "meetingType": "Growth & career plan",
+      "startedAt": 1784124300000,
+      "lastSeenAt": 1784126100000,
+      "finished": true,
+      "stage": "BRIEFING",
+      "rating": { "stars": 2, "note": "Wanted sharper next steps.", "updatedAt": "2026-07-15T14:40:00Z" }
+    },
+    {
+      "id": "run-vela-feelsoff-01",
+      "userName": "Priya Menon",
+      "company": "Vela Robotics",
+      "internal": false,
+      "guest": false,
+      "meetingType": "Something feels off",
+      "startedAt": 1784197800000,
+      "lastSeenAt": 1784199600000,
+      "finished": true,
+      "stage": "BRIEFING",
+      "rating": { "stars": 4, "note": "", "updatedAt": "2026-07-16T11:05:00Z" }
+    },
+    {
+      "id": "run-northwind-biweekly-03",
+      "userName": "Tom Blake",
+      "company": "Northwind Studio",
+      "internal": false,
+      "guest": false,
+      "meetingType": "Bi-weekly check-in",
+      "startedAt": 1783701900000,
+      "lastSeenAt": 1783703400000,
+      "finished": false,
+      "stage": "QUESTIONING",
+      "rating": null
+    },
+    {
+      "id": "run-guest-perf-07",
+      "userName": null,
+      "company": null,
+      "internal": false,
+      "guest": true,
+      "meetingType": "Performance & feedback",
+      "startedAt": 1783508400000,
+      "lastSeenAt": 1783510200000,
+      "finished": true,
+      "stage": "BRIEFING",
+      "rating": null
+    },
+    {
+      "id": "run-internal-smoke-01",
+      "userName": "Sofia Berg",
+      "company": "Northwind Studio",
+      "internal": true,
+      "guest": false,
+      "meetingType": "Onboarding check-in",
+      "startedAt": 1782982800000,
+      "lastSeenAt": 1782984600000,
+      "finished": true,
+      "stage": "BRIEFING",
+      "rating": { "stars": 4, "note": "Test run for the onboarding arc.", "updatedAt": "2026-07-02T09:45:00Z" }
+    }
+  ]
+}

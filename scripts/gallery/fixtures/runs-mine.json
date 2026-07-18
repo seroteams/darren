@@ -1,0 +1,44 @@
+{
+  "runs": [
+    {
+      "id": "run-amira-perf-01",
+      "headline": "Amira's review churn comes from checking screens before the flow is ready.",
+      "ctx": { "name": "Amira Khan", "role": "Junior Product Designer", "seniority": "Junior", "meetingType": "Performance & feedback" },
+      "lastSeenAt": 1784020800000,
+      "rating": { "stars": 5 },
+      "finished": true
+    },
+    {
+      "id": "run-lena-biweekly-01",
+      "headline": "Lena is steady but stretched thin across two migrations at once.",
+      "ctx": { "name": "Lena Sørensen", "role": "Senior Engineer", "seniority": "Senior", "meetingType": "Bi-weekly check-in" },
+      "lastSeenAt": 1783701900000,
+      "rating": { "stars": 4 },
+      "finished": true
+    },
+    {
+      "id": "run-jonas-growth-01",
+      "headline": "Jonas wants more scope; the gap is owning trade-off calls without checking first.",
+      "ctx": { "name": "Jonas Okafor", "role": "Product Manager", "seniority": "Mid", "meetingType": "Growth & career plan" },
+      "lastSeenAt": 1783508400000,
+      "rating": null,
+      "finished": true
+    },
+    {
+      "id": "run-priya-perf-01",
+      "headline": "Priya's dashboards land, but stakeholders miss the caveats behind the numbers.",
+      "ctx": { "name": "Priya Nair", "role": "Data Analyst", "seniority": "Mid", "meetingType": "Performance & feedback" },
+      "lastSeenAt": 1782635400000,
+      "rating": { "stars": 4 },
+      "finished": true
+    },
+    {
+      "id": "run-mateo-feelsoff-01",
+      "headline": "Mateo's energy dipped when campaign sign-off kept slipping past him.",
+      "ctx": { "name": "Mateo Rossi", "role": "Marketing Lead", "seniority": "Senior", "meetingType": "Something feels off" },
+      "lastSeenAt": 1782982800000,
+      "rating": { "stars": 2 },
+      "finished": true
+    }
+  ]
+}

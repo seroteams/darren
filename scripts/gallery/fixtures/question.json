@@ -1,0 +1,12 @@
+{
+  "done": false,
+  "turn": 3,
+  "total": 8,
+  "scripted": null,
+  "question": {
+    "alias": "q_review_round_example",
+    "name": "Can you walk me through a recent design that took more review rounds than you expected?",
+    "description": "You're anchoring on an observable moment rather than an impression — a specific piece of work you can both look at."
+  },
+  "agenda": { "summary": null, "covered": null }
+}

@@ -1,0 +1,15 @@
+{
+  "meetingType": "Performance & feedback",
+  "active": [
+    { "title": "No repeats", "detail": "The planner won't re-ask something you've already covered." },
+    { "title": "Grounded questions", "detail": "A new question has to connect to what's actually been said — no generic probing." },
+    { "title": "Shallow-answer damping", "detail": "A vague or one-word answer moves the live scores less than a full one." },
+    { "title": "Skip shortcut", "detail": "If an answer adds no new signal, the planner skips re-planning and moves straight on." }
+  ],
+  "lastTurn": {
+    "turn": 2,
+    "fired": [
+      { "title": "Shallow answer", "detail": "That answer looked thin, so the scoring was damped for this turn." }
+    ]
+  }
+}

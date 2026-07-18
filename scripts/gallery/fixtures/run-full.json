@@ -1,0 +1,384 @@
+{
+  "id": "demo-run-1",
+  "ctx": {
+    "name": "Amira Khan",
+    "role": "Junior Product Designer",
+    "seniority": "Junior",
+    "meetingType": "Performance & feedback",
+    "notes": "Amira is talented, but her recent design work has needed too many review rounds before it feels ready."
+  },
+  "headline": "Amira's review churn comes from checking screens before the flow and edge cases are ready.",
+  "prep": {
+    "coreIssue": "Amira Khan's recent design work is taking too many review rounds to reach a ready standard, and this meeting should pinpoint where that loop is happening.",
+    "openingQuestion": "What usually feels unfinished or uncertain to you when you share a wireframe or hi-fi mockup for review the first time?",
+    "listenFor": [
+      "whether she names a specific recent screen, flow, or handoff instead of speaking in generalities",
+      "whether she pauses, hedges, or redirects when asked what she checked before bringing work to review",
+      "if they mention edge cases, constraints, or design rationale on their own when describing a recent iteration"
+    ],
+    "avoid": [
+      "do not turn this into a verdict on Amira Khan's talent instead of a discussion about where the review loop is breaking down",
+      "do not give broad advice like \"be more polished\" without naming one concrete standard for first-pass junior design work"
+    ],
+    "goodOutcome": "You and Amira Khan have agreed one clear first-pass checklist for junior product design work and one current feature where she will use it before your next 1:1.",
+    "suggestedAction": "During the 1:1, bring one recent design example and ask Amira Khan to walk through what she considered before review, then agree on the two checks she will add next time.",
+    "confidence": "Medium — based on your note naming repeated review rounds as the issue",
+    "dontAssume": "That Amira Khan is careless or not learning fast enough: the notes show a pattern in the work, not yet why it is happening."
+  },
+  "turns": [
+    {
+      "turn": 1,
+      "question": {
+        "alias": "q_open_anything_to_cover",
+        "label": "q_open_anything_to_cover",
+        "name": "Before we start, is there anything specific you want to make sure we cover today?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "self_read",
+        "axis_effects": {},
+        "source": "scripted"
+      },
+      "answer": "wants to dig into how she judges 'ready to share' — thinks that's where the rework starts",
+      "skipped": false,
+      "realized_deltas": {},
+      "note": "The answer names a concrete thread about how she judges 'ready to share' and where rework starts, but the asked question had no scored axis signature."
+    },
+    {
+      "turn": 2,
+      "question": {
+        "alias": "q_ready_to_share",
+        "label": "q_ready_to_share",
+        "name": "When you say 'ready to share,' what are you looking for before you bring work in?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "self_read",
+        "axis_effects": {
+          "clarity": 1
+        },
+        "source": "scripted"
+      },
+      "answer": "checks main screens. doesn't check edge cases / empty states before sharing",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1
+      },
+      "note": "She names a specific readiness gap: she checks main screens but skips edge cases and empty states before review."
+    },
+    {
+      "turn": 3,
+      "question": {
+        "alias": "q_review_round_example",
+        "label": "q_review_round_example",
+        "name": "Can you walk me through a recent design that took more review rounds than you expected?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "evidence",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "scripted"
+      },
+      "answer": "onboarding dashboard. 3 review rounds. missed the edge cases in the empty states",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -1
+      },
+      "note": "Names a concrete quality miss in a specific design — missing edge cases in empty states — which strongly signals a readiness/coverage gap and a mild growth gap."
+    },
+    {
+      "turn": 4,
+      "question": {
+        "alias": "q_empty_states_miss",
+        "label": "q_empty_states_miss",
+        "name": "In those empty states, what did you not see until review?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "evidence",
+        "axis_effects": {
+          "clarity": 3
+        },
+        "source": "scripted"
+      },
+      "answer": "missed the zero-data path for new users. empty state read as too generic",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1
+      },
+      "note": "She names a specific missed path and a too-generic empty state, which is clear evidence of a review-readiness gap in what she checked before sharing."
+    },
+    {
+      "turn": 5,
+      "question": {
+        "alias": "q_ready_sooner",
+        "label": "q_ready_sooner",
+        "name": "What part of the design usually gets discovered too late for first review?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "gap_naming",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "scripted"
+      },
+      "answer": "flow and edge cases surface late. screens look fine, review finds missing states / unclear rationale",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -1
+      },
+      "note": "She names a clear recurring gap: work looks finished at the screen level, but flow, edge cases, and design rationale are still unresolved when she shares it."
+    },
+    {
+      "turn": 6,
+      "question": {
+        "alias": "q_gap_pattern",
+        "label": "q_gap_pattern",
+        "name": "When rationale is unclear in review, what were you still deciding as you shared it?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "cause",
+        "axis_effects": {
+          "clarity": 3,
+          "growth": 1
+        },
+        "source": "scripted"
+      },
+      "answer": "still working out why one direction beats another. mostly edge cases and flow",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -1
+      },
+      "note": "She names an active decision gap before review — she is still deciding between directions, especially around edge cases and flow, which strongly signals low clarity and mild growth need. [THREAD-DEFERRED-WINDDOWN] 'why one direction beats another'"
+    },
+    {
+      "turn": 7,
+      "question": {
+        "alias": "q_drafting_habit",
+        "label": "q_drafting_habit",
+        "name": "What part of your drafting process most affects how ready the design feels on first pass?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "cause",
+        "axis_effects": {
+          "growth": 3,
+          "clarity": 1
+        },
+        "source": "scripted"
+      },
+      "answer": "depends how much of the flow she checks before sharing. main screens only → gaps in review",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": -1,
+        "growth": -3
+      },
+      "note": "She names a repeatable readiness gap in her process: checking main screens but not enough of the flow before review, which signals both a growth gap and mild clarity weakness."
+    },
+    {
+      "turn": 8,
+      "question": {
+        "alias": "q_next_review_focus",
+        "label": "q_next_review_focus",
+        "name": "What do you want to focus on before the next review round?",
+        "description": "",
+        "purpose": "scripted",
+        "stage": "commit",
+        "axis_effects": {
+          "growth": 1,
+          "clarity": 1
+        },
+        "source": "scripted"
+      },
+      "answer": "wants to check the full flow before review. empty states, edge cases, explain the direction",
+      "skipped": false,
+      "realized_deltas": {
+        "clarity": 1,
+        "growth": 1
+      },
+      "note": "Names a specific next-review focus — full flow, empty states, edge cases, and clearer rationale — which is a concrete positive commitment on both clarity and growth."
+    }
+  ],
+  "briefing": {
+    "headline": "Amira's review churn comes from checking screens before the flow and edge cases are ready.",
+    "summary_bullets": [
+      "The same gap shows up across turns: main screens look fine, then review finds missing states and a weak rationale.",
+      "Amira's own fix is clear — she wants to check the full flow, empty states, and edge cases before sharing."
+    ],
+    "understanding_paragraph": "The session confirmed that Amira's rework starts early, before the full flow is ready. What we learned is that the miss is specific: edge cases and empty states are not being checked before first review.",
+    "axes": [
+      {
+        "id": "wellbeing",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "engagement",
+        "score": 0,
+        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "read_status": "not_read",
+        "not_read_reason": "no_history",
+        "confidence": "low",
+        "evidence_basis": "axis_state_only"
+      },
+      {
+        "id": "clarity",
+        "score": -5,
+        "meaning": "Worth noting: she shares before the full flow is settled, so review keeps finding missing states and unclear rationale.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      },
+      {
+        "id": "growth",
+        "score": -5,
+        "meaning": "A real pattern: she can name the miss and the fix, but the draft habit still leaves key checks for review.",
+        "read_status": "read",
+        "confidence": "high",
+        "evidence_basis": "transcript_quotes"
+      }
+    ],
+    "brutal_truth_employee": "Amira is not failing on taste; she's failing on readiness. The phrase \"main screens only → gaps in review\" is the whole problem: she is sending work before the edge cases and empty states are checked.",
+    "brutal_truth_manager": "You stayed on the right problem, but the conversation could have pushed harder on the moment she said \"still working out why one direction beats another.\" That was the place to separate unfinished thinking from a review-ready draft and ask for the decision rule.",
+    "next_actions": [
+      {
+        "when": "today",
+        "action": "Ask Amira to write a pre-share checklist for full flow, empty states, edge cases, and design rationale."
+      },
+      {
+        "when": "next 1:1",
+        "action": "Review one recent design against that checklist and name exactly which missing state would have cut a review round."
+      }
+    ],
+    "watch_for": [
+      "Before next review: does Amira bring the full flow and empty states without prompting?",
+      "If review still finds unclear rationale, the draft habit has not changed."
+    ],
+    "engagement_read": {
+      "level": "inconclusive",
+      "evidence": [],
+      "missing_evidence": "This session showed craft and readiness issues, not a pattern of pulling away or low investment.",
+      "recommended_action": "",
+      "watch_next": ""
+    },
+    "cost": {
+      "call_count": 8,
+      "usd_total": 0.27829000000000004,
+      "unknown_price_calls": 0,
+      "prompt_tokens": 95800,
+      "completion_tokens": 2586,
+      "cached_tokens": 0,
+      "total_tokens": 98386,
+      "calls": [
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 12092,
+          "completion_tokens": 556,
+          "cached_tokens": 0,
+          "total_tokens": 12648,
+          "usd_cost": 0.03857,
+          "known_price": true,
+          "at": "2026-07-05T10:37:56.308Z"
+        },
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 12070,
+          "completion_tokens": 496,
+          "cached_tokens": 0,
+          "total_tokens": 12566,
+          "usd_cost": 0.037615,
+          "known_price": true,
+          "at": "2026-07-05T10:38:00.153Z"
+        },
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 12063,
+          "completion_tokens": 424,
+          "cached_tokens": 0,
+          "total_tokens": 12487,
+          "usd_cost": 0.0365175,
+          "known_price": true,
+          "at": "2026-07-05T10:38:03.505Z"
+        },
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 11992,
+          "completion_tokens": 351,
+          "cached_tokens": 0,
+          "total_tokens": 12343,
+          "usd_cost": 0.035245,
+          "known_price": true,
+          "at": "2026-07-05T10:38:06.767Z"
+        },
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 11970,
+          "completion_tokens": 298,
+          "cached_tokens": 0,
+          "total_tokens": 12268,
+          "usd_cost": 0.034395,
+          "known_price": true,
+          "at": "2026-07-05T10:38:10.017Z"
+        },
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 11944,
+          "completion_tokens": 245,
+          "cached_tokens": 0,
+          "total_tokens": 12189,
+          "usd_cost": 0.033535,
+          "known_price": true,
+          "at": "2026-07-05T10:38:13.305Z"
+        },
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 11873,
+          "completion_tokens": 145,
+          "cached_tokens": 0,
+          "total_tokens": 12018,
+          "usd_cost": 0.0318575,
+          "known_price": true,
+          "at": "2026-07-05T10:38:15.569Z"
+        },
+        {
+          "stage": "04-plan-turn",
+          "model": "gpt-5.4",
+          "prompt_tokens": 11796,
+          "completion_tokens": 71,
+          "cached_tokens": 0,
+          "total_tokens": 11867,
+          "usd_cost": 0.030555,
+          "known_price": true,
+          "at": "2026-07-05T10:38:17.113Z"
+        }
+      ]
+    },
+    "completedAt": 1783247901738
+  },
+  "fingerprint": {
+    "mode": "scripted",
+    "runLabel": "test-engine",
+    "personaId": "maya-chen",
+    "scriptVersion": "v1-messy",
+    "promptVersion": "882f4276",
+    "modelConfigVersion": "bd8cc326"
+  },
+  "review": {
+    "marks": {},
+    "overall": null,
+    "note": ""
+  }
+}

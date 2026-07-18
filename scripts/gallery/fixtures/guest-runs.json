@@ -1,0 +1,28 @@
+{
+  "runs": [
+    {
+      "id": "run-guest-perf-07",
+      "headline": "Guest run — naming a missed deadline without crushing motivation.",
+      "ctx": { "name": "Sam", "role": "Software Engineer", "seniority": "Mid", "meetingType": "Performance & feedback" },
+      "lastSeenAt": 1783510200000
+    },
+    {
+      "id": "run-guest-biweekly-04",
+      "headline": "Guest run — routine check-in with a quiet team member.",
+      "ctx": { "name": "Alex", "role": "Designer", "seniority": "Junior", "meetingType": "Bi-weekly check-in" },
+      "lastSeenAt": 1783508400000
+    },
+    {
+      "id": "run-guest-growth-02",
+      "headline": "Guest run — mapping a step up to team lead.",
+      "ctx": { "name": "Jordan", "role": "Product Manager", "seniority": "Senior", "meetingType": "Growth & career plan" },
+      "lastSeenAt": 1782982800000
+    },
+    {
+      "id": "run-guest-feelsoff-03",
+      "headline": "Guest run — checking in after a noticeable dip in energy.",
+      "ctx": { "name": "Riya", "role": "Customer Success Manager", "seniority": "Mid", "meetingType": "Something feels off" },
+      "lastSeenAt": 1782635400000
+    }
+  ]
+}

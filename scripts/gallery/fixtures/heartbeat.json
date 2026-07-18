@@ -1,0 +1,26 @@
+{
+  "build": "a1b2c3d",
+  "committedAt": "2026-07-16T18:22:10Z",
+  "screens": [
+    { "file": "start.js", "desc": "The ADMIN app's start screen: the shared benchless core plus the internal persona bench." },
+    { "file": "team.ts", "desc": "Team — the manager's roster, roster-driven so a person shows before any 1:1 has happened." },
+    { "file": "runs.ts", "desc": "Runs — the member's own finished 1:1s, fenced server-side by company and user." },
+    { "file": "library.js", "desc": "Library (internal QA tooling). Full-page list of every finished run, newest first." },
+    { "file": "compare.js", "desc": "Compare runs — two runs side by side to see what a prompt change moved." },
+    { "file": "personas.js", "desc": "Test engine — the persona hub. Browse the demo people Sero practises on, and run one." },
+    { "file": "meeting-arcs.js", "desc": "Meeting arcs — a browsable, editable home for every 1:1 type's arc." },
+    { "file": "job-lexicons.js", "desc": "Job lexicons — a browsable home for every role's words." },
+    { "file": "admin-pulse.ts", "desc": "The founder Pulse dashboard — the one-screen view of the live site." },
+    { "file": "admin-registered.ts", "desc": "User management — the superadmin's read-only view of everyone across the alpha." },
+    { "file": "questioning.js", "desc": "The live interview — one question at a time with live axis scoring." },
+    { "file": "guide.js", "desc": "Operator guide (internal, for the founder/tester)." }
+  ],
+  "commands": ["dev", "build", "start", "cli", "test", "typecheck", "lint", "smoke", "eval", "gate", "replay"],
+  "axes": [
+    { "id": "wellbeing", "label": "Wellbeing" },
+    { "id": "engagement", "label": "Engagement" },
+    { "id": "clarity", "label": "Clarity" },
+    { "id": "growth", "label": "Growth" }
+  ],
+  "questionCount": 1284
+}

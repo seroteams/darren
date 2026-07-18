@@ -1,0 +1,69 @@
+{
+  "people": [
+    {
+      "id": "p-amira",
+      "name": "Amira Khan",
+      "role": "Junior Product Designer",
+      "seniority": "Junior",
+      "userId": null,
+      "access": {
+        "state": "invited",
+        "inviteId": "inv-amira-01",
+        "invitedAt": 1783701900000,
+        "openedAt": null
+      }
+    },
+    {
+      "id": "p-lena",
+      "name": "Lena Sørensen",
+      "role": "Senior Engineer",
+      "seniority": "Senior",
+      "userId": "u-lena-sorensen",
+      "access": {
+        "state": "joined",
+        "inviteId": null,
+        "invitedAt": 1782635400000,
+        "openedAt": 1782982800000
+      }
+    },
+    {
+      "id": "p-jonas",
+      "name": "Jonas Okafor",
+      "role": "Product Manager",
+      "seniority": "Mid",
+      "userId": null,
+      "access": {
+        "state": "none",
+        "inviteId": null,
+        "invitedAt": null,
+        "openedAt": null
+      }
+    },
+    {
+      "id": "p-mateo",
+      "name": "Mateo Rossi",
+      "role": "Marketing Lead",
+      "seniority": "Senior",
+      "userId": null,
+      "access": {
+        "state": "opened",
+        "inviteId": "inv-mateo-01",
+        "invitedAt": 1783508400000,
+        "openedAt": 1783701900000
+      }
+    },
+    {
+      "id": "p-priya",
+      "name": "Priya Nair",
+      "role": "Data Analyst",
+      "seniority": "Mid",
+      "userId": null,
+      "access": {
+        "state": "none",
+        "inviteId": null,
+        "invitedAt": null,
+        "openedAt": null
+      }
+    }
+  ]
+}

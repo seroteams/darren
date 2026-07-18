@@ -1,0 +1,95 @@
+{
+  "gate1": { "cameBack": 4, "total": 7 },
+  "managersOnLive": 7,
+  "managersNewThisWeek": 2,
+  "runsThisWeek": 12,
+  "runsLastWeek": 9,
+  "ratings": { "avgStars": 4.3, "ratedCount": 14, "lowCount": 1 },
+  "guestCount": 5,
+  "runsPerDay": [0, 1, 2, 1, 3, 2, 0, 1, 2, 3, 1, 2, 4, 2],
+  "runTypeMix": [
+    { "type": "Bi-weekly check-in", "count": 5 },
+    { "type": "Performance & feedback", "count": 4 },
+    { "type": "Growth & career plan", "count": 2 },
+    { "type": "Something feels off", "count": 1 }
+  ],
+  "dropOffs": [
+    { "stage": "QUESTIONING", "count": 3 },
+    { "stage": "FOCUS_POINTS", "count": 2 },
+    { "stage": "PREPARATION", "count": 1 }
+  ],
+  "errors": { "total": 6, "unresolved": 2 },
+  "latestFeedback": [
+    { "message": "The opening question was spot on — got straight to the real issue.", "verdict": "yes", "runId": "run-aurora-perf-02" },
+    { "message": "Briefing felt a bit generic for a senior report, wanted sharper next steps.", "verdict": "no", "runId": "run-meridian-growth-01" },
+    { "message": "Loved how it flagged what to avoid saying. Saved me from a misstep.", "verdict": "yes", "runId": "run-vela-feelsoff-01" }
+  ],
+  "managers": [
+    {
+      "id": "u-elena-ward",
+      "name": "Elena Ward",
+      "company": "Aurora Labs",
+      "runCount": 6,
+      "lastActiveAt": "2026-07-16T10:30:00Z",
+      "firstRunAt": "2026-06-28T08:30:00Z",
+      "cameBack": true,
+      "gapDays": 3,
+      "status": "back"
+    },
+    {
+      "id": "u-david-osei",
+      "name": "David Osei",
+      "company": "Meridian Health",
+      "runCount": 4,
+      "lastActiveAt": "2026-07-15T14:05:00Z",
+      "firstRunAt": "2026-07-02T09:00:00Z",
+      "cameBack": true,
+      "gapDays": 5,
+      "status": "back"
+    },
+    {
+      "id": "u-priya-menon",
+      "name": "Priya Menon",
+      "company": "Vela Robotics",
+      "runCount": 3,
+      "lastActiveAt": "2026-07-14T09:20:00Z",
+      "firstRunAt": "2026-07-10T16:45:00Z",
+      "cameBack": true,
+      "gapDays": 4,
+      "status": "back"
+    },
+    {
+      "id": "u-tom-blake",
+      "name": "Tom Blake",
+      "company": "Northwind Studio",
+      "runCount": 2,
+      "lastActiveAt": "2026-07-13T11:40:00Z",
+      "firstRunAt": "2026-07-08T11:00:00Z",
+      "cameBack": true,
+      "gapDays": 5,
+      "status": "back"
+    },
+    {
+      "id": "u-marco-rossi",
+      "name": "Marco Rossi",
+      "company": "Aurora Labs",
+      "runCount": 1,
+      "lastActiveAt": "2026-07-11T15:10:00Z",
+      "firstRunAt": "2026-07-11T15:10:00Z",
+      "cameBack": false,
+      "gapDays": null,
+      "status": "once"
+    },
+    {
+      "id": "u-hannah-cole",
+      "name": "Hannah Cole",
+      "company": "Meridian Health",
+      "runCount": 0,
+      "lastActiveAt": null,
+      "firstRunAt": null,
+      "cameBack": false,
+      "gapDays": null,
+      "status": "none"
+    }
+  ]
+}
