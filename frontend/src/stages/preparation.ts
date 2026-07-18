@@ -5,6 +5,7 @@
 // replaces (admin/src/stages/preparation.js, which the admin console keeps).
 
 import { STAGES, resetSession, isAdmin } from "../../../admin/src/state.js";
+import { exitStage } from "../../../admin/src/ui/landing.ts";
 import type { Mount } from "../../../admin/src/stages/stage.types.ts";
 import { createOrb } from "../../../admin/src/ui/orb.js";
 import { createSkeleton } from "../../../admin/src/ui/skeleton.js";
@@ -66,7 +67,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     const ok = await confirmResetSession(confirmAction);
     if (!ok) return;
     resetSession();
-    setState({ stage: STAGES.START });
+    setState({ stage: exitStage(store.user, store.memberHome, store.guestHome) });
   });
 
   let lastBrief: PrepBrief | null = null;
