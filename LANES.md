@@ -9,6 +9,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | 3ccab509 | Lane board setup | LANES.md, .claude/hooks/, .claude/settings.json, CLAUDE.md | 2026-07-18 |
+| e733a4fd | Screen gallery plan setup | docs/plans/doing/screen-gallery/ | 2026-07-18 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

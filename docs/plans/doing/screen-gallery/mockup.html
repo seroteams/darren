@@ -1,0 +1,131 @@
+<title>Screen Gallery — mockup</title>
+<style>
+  /* Sero tokens (from admin/src/styles/design/tokens.css) — light-only on purpose: it previews the light-only app */
+  :root{
+    --page:#f5fafd; --surface:#ffffff; --border:#e8e8e8; --border-strong:#cccccc;
+    --ink:#1f2a37; --dim:#636363; --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb;
+    --gold-tint:#fff6e5; --gold-text:#523600; --mint-tint:#eefcf9; --mint-text:#0c4b3c;
+    --r-card:12px; --r-btn:4px;
+    --sans:Inter,ui-sans-serif,system-ui,sans-serif;
+    --display:"Bricolage Grotesque",Inter,ui-sans-serif,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e6edf2;font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.55}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 64px}
+  .eyebrow{display:inline-block;background:var(--gold-tint);color:var(--gold-text);font-size:14px;font-weight:600;
+    padding:4px 12px;border-radius:9999px;letter-spacing:.04em;margin-bottom:14px}
+  h1{font-family:var(--display);font-weight:600;font-size:30px;letter-spacing:-0.01em;line-height:1.15;margin:0 0 6px;text-wrap:balance}
+  .lede{color:var(--dim);max-width:44rem;margin:0 0 24px}
+  /* the mocked browser frame */
+  .frame{background:var(--page);border:1px solid var(--border-strong);border-radius:18px;overflow:hidden;
+    box-shadow:0 1px 2px rgba(31,42,55,.04),0 8px 24px rgba(31,42,55,.06)}
+  .chrome{display:flex;align-items:center;gap:10px;background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px}
+  .dots span{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--border-strong);margin-right:5px}
+  .urlbar{flex:1;background:var(--page);border:1px solid var(--border);border-radius:6px;padding:5px 12px;
+    font-size:14px;color:var(--dim);font-variant-numeric:tabular-nums}
+  .urlbar b{color:var(--ink);font-weight:600}
+  .banner{display:flex;gap:8px;align-items:center;background:var(--gold-tint);color:var(--gold-text);
+    font-size:14px;padding:8px 16px;border-bottom:1px solid var(--border)}
+  .layout{display:flex;min-height:560px}
+  /* left tree */
+  .tree{width:264px;flex:none;background:var(--surface);border-right:1px solid var(--border);padding:14px 12px;overflow:auto}
+  .filter{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--r-btn);padding:8px 12px;margin-bottom:14px}
+  .filter::placeholder{color:var(--dim)}
+  .grp{font-size:14px;font-weight:600;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;margin:14px 4px 6px}
+  .grp:first-of-type{margin-top:0}
+  .item{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;
+    font:inherit;font-size:14px;color:var(--ink);background:none;border:0;border-radius:var(--r-btn);
+    padding:7px 10px;cursor:pointer}
+  .item:hover{background:rgba(0,0,0,.04)}
+  .item:focus-visible{outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px var(--accent-dark)}
+  .item.on{background:var(--accent-soft);color:var(--accent-dark);font-weight:600}
+  .tag{font-size:14px;background:var(--gold-tint);color:var(--gold-text);border-radius:9999px;padding:1px 8px;white-space:nowrap}
+  .muted-note{color:var(--dim);font-size:14px;padding:6px 10px}
+  /* right pane */
+  .pane{flex:1;padding:24px 28px;overflow:auto}
+  .pane h2{font-family:var(--display);font-weight:600;font-size:26px;letter-spacing:-0.01em;margin:0 0 2px}
+  .pane .sub{color:var(--dim);font-size:14px;margin:0 0 18px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px 24px}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th{font-size:14px;color:var(--dim);font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+  td{padding:12px 10px;border-bottom:1px solid var(--border)}
+  tr:last-child td{border-bottom:0}
+  .avatar{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);
+    font-size:14px;font-weight:600;align-items:center;justify-content:center;margin-right:10px}
+  .pill{font-size:14px;border-radius:9999px;padding:2px 10px;background:var(--mint-tint);color:var(--mint-text)}
+  .pill.warn{background:var(--gold-tint);color:var(--gold-text)}
+  .btn{display:inline-block;font:inherit;font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+    border:0;border-radius:var(--r-btn);padding:8px 16px;cursor:pointer}
+  .empty{border:1px dashed var(--border-strong);border-radius:var(--r-card);padding:40px 24px;text-align:center;color:var(--dim)}
+  .empty b{color:var(--ink)}
+  .cap{color:var(--dim);font-size:14px;margin-top:18px;max-width:65ch}
+  .cap b{color:var(--ink)}
+  @media (max-width:760px){.layout{flex-direction:column}.tree{width:100%;border-right:0;border-bottom:1px solid var(--border)}}
+</style>
+
+<div class="wrap">
+  <span class="eyebrow">Preview · not the live app</span>
+  <h1>The Screen Gallery</h1>
+  <p class="lede">One hidden page listing every screen in Sero. Click a name on the left (or type to find it) — the real screen appears on the right, filled with your local data. The three tree items below are clickable so you can feel how it works.</p>
+
+  <div class="frame">
+    <div class="chrome">
+      <span class="dots"><span></span><span></span><span></span></span>
+      <span class="urlbar">localhost:3000/admin/<b id="url">gallery/team</b></span>
+    </div>
+    <div class="banner">⚡ Preview of real screens — buttons are live against your local test data. Nothing here touches the live site.</div>
+    <div class="layout">
+      <nav class="tree" aria-label="All screens">
+        <input class="filter" placeholder="Type a screen name…  e.g. brief" aria-label="Filter screens">
+        <div class="grp">Manager home &amp; team</div>
+        <button class="item on" data-s="team">Team</button>
+        <button class="item" data-s="runs">Runs</button>
+        <div class="grp">1:1 prep flow</div>
+        <button class="item" data-s="briefing">Briefing <span class="tag">needs demo data</span></button>
+        <div class="muted-note">Intake · One-page · Focus · Preparation · Bank · Interview · Evaluate · Debrief…</div>
+        <div class="grp">Auth &amp; entry</div>
+        <div class="muted-note">Login · Register · Welcome · Join…</div>
+        <div class="grp">Member view</div>
+        <div class="muted-note">Member home…</div>
+        <div class="grp">Content</div>
+        <div class="muted-note">About · Privacy · Feedback · Guide</div>
+        <div class="grp">Superadmin</div>
+        <div class="muted-note">Pulse · Gate 1 · Runs · Ratings · Errors…</div>
+        <div class="grp">Internal tools</div>
+        <div class="muted-note">Library · Compare · Personas · Design · Test…</div>
+      </nav>
+      <main class="pane" id="pane"></main>
+    </div>
+  </div>
+
+  <p class="cap"><b>What the tags mean:</b> most screens fill themselves with your real local data the moment they open. Screens marked <span class="tag">needs demo data</span> are the 1:1 flow — in Phase 1 they open empty; Phase 2 feeds them a saved demo session so they look mid-flight. Greyed names are shown here as one line to keep the mock short — the real tree lists every screen individually (~44 of them).</p>
+</div>
+
+<script>
+  const SCREENS = {
+    team: { url:"gallery/team", html: `
+      <h2>Team</h2><p class="sub">The real Team screen, filled with your local data.</p>
+      <div class="card"><table>
+        <tr><th>Person</th><th>Role</th><th>Last 1:1</th><th>Status</th></tr>
+        <tr><td><span class="avatar">AK</span>Amira Khan</td><td>Product designer</td><td>Mon 14 Jul 2026</td><td><span class="pill">On track</span></td></tr>
+        <tr><td><span class="avatar">JO</span>Jonas Okafor</td><td>Frontend engineer</td><td>Thu 10 Jul 2026</td><td><span class="pill warn">Check in</span></td></tr>
+        <tr><td><span class="avatar">LS</span>Lena Sørensen</td><td>Researcher</td><td>Tue 8 Jul 2026</td><td><span class="pill">On track</span></td></tr>
+      </table></div>` },
+    runs: { url:"gallery/runs", html: `
+      <h2>Runs</h2><p class="sub">Your real runs list — exactly what the normal Runs page shows.</p>
+      <div class="card"><table>
+        <tr><th>Session</th><th>With</th><th>Date</th><th></th></tr>
+        <tr><td>Bi-weekly 1:1</td><td><span class="avatar">AK</span>Amira Khan</td><td>Mon 14 Jul 2026</td><td><button class="btn">Open briefing</button></td></tr>
+        <tr><td>Feels-off check-in</td><td><span class="avatar">JO</span>Jonas Okafor</td><td>Thu 10 Jul 2026</td><td></td></tr>
+      </table></div>` },
+    briefing: { url:"gallery/briefing", html: `
+      <h2>Briefing</h2><p class="sub">A 1:1 flow screen — empty in Phase 1, prefilled in Phase 2.</p>
+      <div class="empty"><b>Needs demo data</b><br>Phase 2 loads a saved demo session here, so this shows a full written briefing you can restyle.</div>` }
+  };
+  const pane = document.getElementById("pane"), url = document.getElementById("url");
+  function show(k){ pane.innerHTML = SCREENS[k].html; url.textContent = SCREENS[k].url;
+    document.querySelectorAll(".item").forEach(b=>b.classList.toggle("on", b.dataset.s===k)); }
+  document.querySelectorAll(".item").forEach(b=>b.addEventListener("click",()=>show(b.dataset.s)));
+  show("team");
+</script>
