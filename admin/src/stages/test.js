@@ -90,7 +90,7 @@ const STYLE = `
   .tg-thumb .line { stroke:var(--color-border); }
   .tg-thumb .dot-done { fill:var(--color-accent); }
   .tg-thumb .dot-todo { fill:var(--color-surface); stroke:var(--color-border); stroke-width:1.5; }
-  .tg-thumb .check { fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .tg-thumb .check { fill:none; stroke:var(--color-surface); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
   a.tg-card { text-decoration:none; }
   .tg-card__ext { color:var(--color-accent); font-weight:400; }
   .tg-card__link { margin-left:auto; color:var(--color-accent-dark); font-weight:600; }

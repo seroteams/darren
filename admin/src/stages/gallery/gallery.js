@@ -10,8 +10,10 @@
 // The list is read from ../../stage-loaders.js (the same registry main.js boots from), so a
 // newly-added screen appears here automatically. Labels/grouping come from ./screens.js.
 
+import { ChevronDown } from "lucide";
 import { loaders } from "../../stage-loaders.js";
 import { withBase, replaceUrl } from "../../router.js";
+import { icon } from "../../ui/icon.js";
 import { GROUPS, SCREENS, HIDDEN, EXTRA_LOADERS, designPrompt } from "./screens.js";
 
 // Every loadable screen = the boot registry + the customer-app-only extras.
@@ -90,7 +92,7 @@ const STYLE = `
     border:1px solid var(--sero-gold-400); border-radius:var(--radius-button); padding:8px 14px; cursor:pointer; }
   .gal__screens-btn:hover { background:var(--sero-gold-300); }
   .gal__screens-btn:focus-visible { outline:none; box-shadow:var(--shadow-focus); }
-  .gal__caret { transition:transform .18s ease; font-size:12px; }
+  .gal__caret { transition:transform .18s ease; display:inline-flex; align-items:center; }
   .gal__dropdown.is-open .gal__caret { transform:rotate(180deg); }
   .gal__menu { position:absolute; top:calc(100% + 8px); left:0; width:360px; max-height:78vh;
     overflow:auto; background:var(--sero-gold-100); border:1px solid var(--sero-gold-400);
@@ -105,7 +107,7 @@ const STYLE = `
   .gal__grp { display:flex; align-items:center; gap:6px; font-size:14px; font-weight:600;
     color:var(--sero-gold-900); letter-spacing:0.04em; text-transform:uppercase;
     margin:var(--sero-space-3) 4px var(--sero-space-1); }
-  .gal__grp::before { content:"▾"; font-size:11px; opacity:.7; }
+  .gal__grp svg { opacity:.7; flex:none; }
   .gal__group:first-child .gal__grp { margin-top:2px; }
   .gal__item { display:flex; align-items:center; justify-content:space-between; gap:8px;
     width:100%; text-align:left; font:inherit; font-size:14px; color:var(--color-ink);
@@ -143,7 +145,7 @@ export async function mount(node, deps) {
     <div class="gal__host js-host">
       <div class="gal__placeholder">
         <h2>Every screen, in one place</h2>
-        <p>Click the yellow <strong>Screens ▾</strong> up top and pick a page — it opens here filled with your local data. Edit its design and the change lands on the real app.</p>
+        <p>Click the yellow <strong>Screens</strong> button up top and pick a page — it opens here filled with your local data. Edit its design and the change lands on the real app.</p>
       </div>
     </div>`;
 
@@ -157,7 +159,7 @@ export async function mount(node, deps) {
       <span class="gal__spark" title="Preview of real screens — buttons are live against your local test data. This page is hidden and never shows on the live site.">⚡</span>
       <div class="gal__dropdown js-dropdown">
         <button type="button" class="gal__screens-btn js-screens" aria-haspopup="true" aria-expanded="false">
-          Screens <span class="gal__caret" aria-hidden="true">▾</span>
+          Screens <span class="gal__caret" aria-hidden="true">${icon(ChevronDown, { size: 16 })}</span>
         </button>
         <div class="gal__menu" role="menu">
           <input class="gal__filter" type="search" placeholder="Type a screen name…  e.g. brief" aria-label="Filter screens" />
@@ -196,7 +198,7 @@ export async function mount(node, deps) {
   // --- build the grouped list ---
   treeEl.innerHTML = tree.map((g) => `
     <div class="gal__group" data-group="${g.id}">
-      <div class="gal__grp">${g.label}</div>
+      <div class="gal__grp">${icon(ChevronDown, { size: 14 })}${g.label}</div>
       ${g.items.map((key) => {
         const m = metaFor(key);
         return `<button type="button" class="gal__item" data-screen="${key}" data-label="${m.label.toLowerCase()}">

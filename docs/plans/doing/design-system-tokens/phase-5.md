@@ -1,6 +1,11 @@
 # Phase 5 — Admin JS + accessibility floor
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-18 — under Carl's continuous-run authorisation. Verified live (admin `/admin/gallery`): `.gal__caret` + `.gal__grp` now render Lucide chevron SVGs (16px + 14px, `sero-icon` class); no sub-14px `▾` glyph remains in the UI; console clean.
+
+## Built (2026-07-18)
+**The a11y fix:** `gallery.js` — the 11px/12px `▾` caret + group marker (below the 14px floor, non-Lucide) replaced with Lucide `ChevronDown` via `ui/icon.js`; help-text `▾` tidied to match. **Colour integrity:** `personas.js` — dropped mismatched `#6b7280`/`#4b5563` ink fallbacks; `account-sheet.ts` — dropped `#0f6b57` positive-text fallback; `guide.js` — phantom `--sero-rose-700 #b4232a` error red → `--color-negative-text`; `test.js` — thumbnail `stroke:#fff` → `var(--color-surface)`. **Left as warn-level** (floor-safe literal font-sizes + pill radii in admin-pulse/meeting-arcs/promises-loop — pixel-identical to their tokens, low value). Typecheck clean.
 
 ## Goal
 Fix the admin JS/TS drift and the **one real accessibility breach** in the audit.

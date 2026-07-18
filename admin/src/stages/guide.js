@@ -287,13 +287,13 @@ const ARC_STYLE = `<style>
   .g-arc-edited { font-size:var(--type-body-sm); font-weight:600; padding:2px 8px; border-radius:6px;
     background:var(--sero-gold-200); color:var(--sero-gold-800); }
   .g-arc-note { font-size:var(--type-body-sm); margin:0 0 12px; }
-  .g-arc-note--err { color:var(--sero-rose-700, #b4232a); }
+  .g-arc-note--err { color:var(--color-negative-text); }
   .js-sys-note:empty { display:none; }
   .sys-note { font-size:var(--type-body-sm); }
   .sys-note--ok, .sys-note--err { display:inline-block; padding:8px 13px; border-radius:10px;
     border:1px solid var(--color-border); background:var(--color-surface); }
   .sys-note--ok { color:var(--color-ink-dim); }
-  .sys-note--err { color:var(--sero-rose-700, #b4232a); border-color:var(--sero-rose-700, #b4232a); }
+  .sys-note--err { color:var(--color-negative-text); border-color:var(--color-negative-text); }
   .sys-note--change { border:1px solid var(--color-border-strong); border-radius:10px;
     padding:12px 14px; background:var(--sero-soft-200); color:var(--color-ink); }
   .sys-note__title { font-weight:600; margin-bottom:6px; }

@@ -40,7 +40,7 @@ export function showAccountSheet(user: User): void {
         <input class="input js-new" type="password" autocomplete="new-password" required />
       </label>
       <p class="js-err text-negative text-sm" hidden></p>
-      <p class="js-ok text-sm" style="color:var(--color-positive-text,#0f6b57);" hidden></p>
+      <p class="js-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="modal__actions">
         <button type="button" class="btn btn--ghost js-close">Close</button>
         <button type="submit" class="btn js-save">Change password</button>

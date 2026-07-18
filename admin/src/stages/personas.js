@@ -130,17 +130,17 @@ function cardHtml(p, inSuite, runs) {
   const sub = [p.role, p.seniority].filter(Boolean).map(esc).join(" · ");
   const meta = [p.meeting_type, p.issue].filter(Boolean).map(esc).join(" · ");
   const badge = inSuite
-    ? `<span style="font-size:var(--type-small,14px);color:var(--color-positive);background:var(--sero-success-light);border-radius:999px;padding:1px 9px;margin-left:8px;white-space:nowrap;">in regression suite</span>`
+    ? `<span style="font-size:var(--type-small);color:var(--color-positive);background:var(--sero-success-light);border-radius:999px;padding:1px 9px;margin-left:8px;white-space:nowrap;">in regression suite</span>`
     : "";
   const script = Array.isArray(p.script) ? p.script : [];
   const scriptHtml = script.length
     ? `<details style="margin-top:8px;">
-         <summary style="cursor:pointer;font-size:var(--type-small,14px);color:var(--color-ink-mute,#6b7280);">View the scripted conversation (${script.length} turns)</summary>
+         <summary style="cursor:pointer;font-size:var(--type-small);color:var(--color-ink-mute);">View the scripted conversation (${script.length} turns)</summary>
          <div class="l-stack l-stack--2" style="margin-top:8px;">
            ${script
              .map(
                (s) =>
-                 `<div style="font-size:var(--type-small,14px);"><div style="color:var(--color-ink-mute,#6b7280);">${esc(s.name || s.alias || "")}</div><div>${esc(s.answer || "")}</div></div>`
+                 `<div style="font-size:var(--type-small);"><div style="color:var(--color-ink-mute);">${esc(s.name || s.alias || "")}</div><div>${esc(s.answer || "")}</div></div>`
              )
              .join("")}
          </div>
@@ -150,21 +150,21 @@ function cardHtml(p, inSuite, runs) {
   const canRun = script.length > 0;
   const runControls = canRun
     ? `<button class="btn js-run" data-persona="${esc(p.id)}" style="white-space:nowrap;">${icon(Play, { size: 16 })} Run</button>`
-    : `<span class="text-ink-mute" style="font-size:var(--type-small,14px);">No script — can't run</span>`;
+    : `<span class="text-ink-mute" style="font-size:var(--type-small);">No script — can't run</span>`;
 
   return `
     <div class="card js-card" data-persona="${esc(p.id)}" style="padding:0.85rem 1.1rem;">
       <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;">
         <div style="font-weight:500;">${title}${badge}</div>
-        <div style="font-size:var(--type-small,14px);color:var(--color-ink-mute,#6b7280);">${sub}</div>
+        <div style="font-size:var(--type-small);color:var(--color-ink-mute);">${sub}</div>
       </div>
-      <div style="font-size:var(--type-small,14px);color:var(--color-ink-dim,#4b5563);margin-top:2px;">${meta}</div>
+      <div style="font-size:var(--type-small);color:var(--color-ink-dim);margin-top:2px;">${meta}</div>
       ${historyHtml(runs)}
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;">
         ${runControls}
-        <span class="js-cost text-ink-mute" style="font-size:var(--type-small,14px);">${canRun ? COST_LINE : ""}</span>
+        <span class="js-cost text-ink-mute" style="font-size:var(--type-small);">${canRun ? COST_LINE : ""}</span>
       </div>
-      <div class="js-progress" style="font-size:var(--type-small,14px);color:var(--color-ink-dim,#4b5563);margin-top:8px;display:none;"></div>
+      <div class="js-progress" style="font-size:var(--type-small);color:var(--color-ink-dim);margin-top:8px;display:none;"></div>
       ${scriptHtml}
     </div>`;
 }
@@ -181,7 +181,7 @@ function historyHtml(runs) {
       ? `<button class="btn btn--ghost btn--sm js-compare" data-a="${esc(runs[0].id)}" data-b="${esc(runs[1].id)}">Compare with previous run</button>`
       : "";
   return `
-    <div class="js-history" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--type-small,14px);margin-top:6px;">
+    <div class="js-history" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--type-small);margin-top:6px;">
       <span class="text-ink-mute">Last run ${esc(fmtDate(lastRun.lastSeenAt))}</span>
       <span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}</span>
       <button class="btn btn--ghost btn--sm js-see-result" data-run="${esc(lastRun.id)}">See result</button>
@@ -216,7 +216,7 @@ async function mountSafetyStrip(host, opts) {
   host.innerHTML = `
     <div class="card" style="padding:0.6rem 0.9rem;">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-        <div style="font-size:var(--type-small,14px);">
+        <div style="font-size:var(--type-small);">
           <strong>Free safety check</strong> <span class="text-ink-mute">(no AI)</span>
           — <span class="js-safety-summary text-ink-mute">checking…</span>
         </div>
@@ -254,7 +254,7 @@ async function mountSafetyStrip(host, opts) {
     failsEl.innerHTML = bad
       .map(
         (c) =>
-          `<div style="font-size:var(--type-small,14px);color:var(--color-negative);">${icon(X, { size: 16 })} ${esc(c.name || c.id)}${
+          `<div style="font-size:var(--type-small);color:var(--color-negative);">${icon(X, { size: 16 })} ${esc(c.name || c.id)}${
             (c.reasons || []).length ? " — " + esc(c.reasons[0]) : ""
           }</div>`
       )
@@ -278,7 +278,7 @@ async function onRun(resultHost, personaId) {
   try {
     await startPersonaRun(personaId);
   } catch (e) {
-    if (progress) progress.innerHTML = `<span style="color:var(--color-negative);font-size:var(--type-small,14px);">Couldn't start: ${esc(e.message)}</span>`;
+    if (progress) progress.innerHTML = `<span style="color:var(--color-negative);font-size:var(--type-small);">Couldn't start: ${esc(e.message)}</span>`;
     setRunningLock(resultHost, false);
     return;
   }
