@@ -1,13 +1,14 @@
 // Test: "Runner v2" — the questioning screen as a TRUE 50/50, Typeform-style. Mock only —
 // hardcoded data, zero API/engine calls, nothing saved. Opened from the /test gallery.
 //
-// Carl's brief (2026-07-18, round 4): the split fills the whole screen. LEFT = the standard
-// question design on the quiet paper tint — big stem, notes, actions. RIGHT = a full-bleed
-// light-LAVENDER half (design-system lavender, dark text) carrying max THREE hints per
-// question — "How to ask" or "Listen for". No panel heading (the eyebrow is enough).
-// Live scores live on the lavender half behind an open/close button, closed by default,
-// shown as four stat tiles (big delta, direction arrow, colour by direction) instead of
-// the grey bars. Tokens only (DESIGN.md); the one blue action stays Submit.
+// Round 5 (2026-07-18): rebuilt on a strict grid after Carl's "messy / not on a grid" call.
+// The two halves share three datum lines — a 72px header row closed by a full-width hairline,
+// a content line both columns start on, and a footer line (mock note left, live scores right).
+// Each half has ONE left edge: every element in a column starts on it (no floating icon
+// circles). LEFT = paper, the standard runner pieces. RIGHT = light lavender (Carl's pick),
+// dark lavender text, max three hints per question tagged "How to ask" / "Listen for",
+// live scores as a four-across scoreboard behind an open/close button (closed by default).
+// Tokens only (DESIGN.md); the one blue action stays Submit; fixed type scale (no clamp).
 // Questions carry no hints field today (closed contract in question.types.ts), so the
 // hints here are hand-written mock coaching — wiring real data is a later decision.
 
@@ -76,86 +77,92 @@ const AXES_BY_TURN = [
 ];
 const AXIS_LABELS = ["Wellbeing", "Engagement", "Clarity", "Growth"];
 
-// ---- Prototype-only CSS (scoped .rv2-) — the full-screen split. -----------------------------
+// ---- Prototype-only CSS (scoped .rv2-) ------------------------------------------------------
+// The grid: both halves run header 72px / content 1fr / footer auto, share the same horizontal
+// padding and 560px column width, and close the header with a full-width hairline. Three datum
+// lines, one left edge per column.
 const STYLE = `
   .rv2-screen { position:fixed; inset:0; z-index:200; display:grid;
-    grid-template-columns:1fr 1fr; background:var(--color-page); }
-  @media (max-width: 900px) { .rv2-screen { grid-template-columns:1fr;
-    grid-template-rows:auto auto; overflow-y:auto; position:absolute; } }
-
-  /* LEFT — the standard runner look, given room to breathe */
-  .rv2-left { display:flex; flex-direction:column; overflow-y:auto;
-    padding:clamp(20px, 4vw, 56px); }
-  .rv2-left__top { display:flex; justify-content:space-between; align-items:flex-start;
-    gap:var(--sero-space-3); }
-  .rv2-left__mid { flex:1; display:flex; flex-direction:column; justify-content:center;
-    gap:var(--sero-space-4); max-width:600px; width:100%;
-    padding:var(--sero-space-6) 0; }
-  .rv2-stem { font-family:var(--type-family-display); font-weight:600;
-    color:var(--color-ink); font-size:clamp(28px, 3vw, 40px); line-height:1.15; margin:0; }
-  .rv2-actions-row { display:flex; align-items:center; gap:var(--sero-space-2);
-    flex-wrap:nowrap; flex:none; }
-  .rv2-actions-row .btn { white-space:nowrap; }
-  .rv2-left__bottom { display:flex; flex-direction:column; gap:var(--sero-space-3);
-    max-width:600px; width:100%; }
-  .rv2-mocknote { font-size:14px; color:var(--color-ink-mute); font-style:italic; }
-
-  /* RIGHT — full-bleed light lavender, dark text, no card chrome */
-  .rv2-coach { background:var(--sero-lavender-300); color:var(--sero-lavender-900);
-    display:flex; flex-direction:column; overflow-y:auto;
-    padding:clamp(24px, 5vw, 88px); }
-  /* margin:auto pair centres the group when it fits but never clips it when it scrolls */
-  .rv2-coach__inner { margin-top:auto; max-width:520px; display:flex; flex-direction:column;
-    gap:var(--sero-space-5); transition:opacity .18s ease, transform .18s ease; }
-  .rv2-coach__inner.rv2-fade { opacity:0; transform:translateY(6px); }
-  @media (prefers-reduced-motion: reduce) {
-    .rv2-coach__inner { transition:none; }
-    .rv2-coach__inner.rv2-fade { transform:none; }
+    grid-template-columns:1fr 1fr; }
+  .rv2-half { display:grid; grid-template-rows:72px 1fr auto; min-height:0;
+    padding:0 56px 32px; overflow-y:auto; overflow-x:hidden; }
+  .rv2-half--q { background:var(--color-page); }
+  .rv2-half--coach { background:var(--sero-lavender-300); color:var(--sero-lavender-900); }
+  @media (max-width: 900px) {
+    .rv2-screen { position:absolute; grid-template-columns:1fr; overflow-y:auto; }
+    .rv2-half { overflow:visible; padding:0 24px 24px; }
   }
-  .rv2-coach-eyebrow { display:flex; align-items:center; gap:var(--sero-space-2);
+
+  /* Datum 1 — the header row, closed by a hairline that runs across both halves */
+  .rv2-head { display:flex; align-items:center; justify-content:space-between;
+    gap:var(--sero-space-4); border-bottom:1px solid var(--color-border); }
+  .rv2-half--coach .rv2-head { border-bottom-color:var(--sero-lavender-600); }
+  .rv2-head__facts { display:flex; align-items:baseline; gap:var(--sero-space-3);
+    min-width:0; flex:1; white-space:nowrap; }
+  .rv2-head__turn { font-size:14px; font-weight:600; color:var(--color-ink); flex:none; }
+  .rv2-head .ctx-segments { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+  .rv2-head__actions { display:flex; gap:var(--sero-space-2); flex:none; }
+  .rv2-head__actions .btn { white-space:nowrap; }
+  .rv2-eyebrow { display:inline-flex; align-items:center; gap:var(--sero-space-2);
     font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
     color:var(--sero-lavender-800); }
-  .rv2-hints { display:flex; flex-direction:column; }
-  .rv2-hint { display:flex; align-items:flex-start; gap:var(--sero-space-4);
-    padding:var(--sero-space-5) 0; border-top:1px solid var(--sero-lavender-600); }
-  .rv2-hint:first-child { border-top:0; padding-top:0; }
-  .rv2-hint__icon { display:grid; place-items:center; width:36px; height:36px; flex:none;
-    border-radius:9999px; background:var(--sero-lavender-100);
-    color:var(--sero-lavender-800); margin-top:2px; }
-  .rv2-hint__body { flex:1; min-width:0; }
-  .rv2-pill { display:inline-block; font-size:14px; font-weight:600;
-    letter-spacing:.04em; border-radius:9999px; padding:2px 12px; margin-bottom:6px;
-    background:var(--sero-lavender-100); color:var(--sero-lavender-800);
-    border:1px solid var(--sero-lavender-700); }
-  .rv2-hint__text { font-size:18px; line-height:1.5; color:var(--sero-lavender-900); margin:0; }
-  .rv2-coach-foot { font-size:14px; color:var(--sero-lavender-800); }
+  .rv2-head__note { font-size:14px; color:var(--sero-lavender-800); }
 
-  /* Live scores — four stat tiles behind an open/close button, closed by default */
-  .rv2-scores-block { margin-bottom:auto; max-width:520px; margin-top:var(--sero-space-6);
-    padding-top:var(--sero-space-4); border-top:1px solid var(--sero-lavender-600);
-    display:flex; flex-direction:column; gap:var(--sero-space-3); }
-  .rv2-scores-btn { align-self:flex-start; display:inline-flex; align-items:center;
-    gap:var(--sero-space-2); }
+  /* Datum 2 — both columns start their content 48px under the hairline, same width */
+  .rv2-col { padding-top:48px; width:100%; max-width:560px; min-width:0;
+    display:flex; flex-direction:column; align-items:flex-start; }
+  @media (max-width: 900px) { .rv2-col { padding-top:24px; } }
+
+  .rv2-drill { font-size:14px; color:var(--color-ink-dim); margin:0 0 var(--sero-space-3); }
+  .rv2-stem { font-family:var(--type-family-display); font-weight:600;
+    color:var(--color-ink); font-size:32px; line-height:1.2; margin:0; }
+  .rv2-desc { font-size:16px; color:var(--color-ink-dim); margin:var(--sero-space-2) 0 0; }
+  .rv2-col .block { width:100%; margin-top:var(--sero-space-5); }
+  .rv2-col .field__actions { margin-top:var(--sero-space-4); }
+
+  /* Coach column — one left edge: pill row, then text, hairline between hints */
+  .rv2-hint { width:100%; padding:var(--sero-space-5) 0;
+    border-top:1px solid var(--sero-lavender-600); }
+  .rv2-hint:first-child { border-top:0; padding-top:0; }
+  .rv2-pill { display:inline-flex; align-items:center; gap:var(--sero-space-2);
+    font-size:14px; font-weight:600; border-radius:9999px; padding:3px 12px;
+    background:var(--sero-lavender-100); color:var(--sero-lavender-800); }
+  .rv2-hint__text { font-size:17px; line-height:1.55; color:var(--sero-lavender-900);
+    margin:var(--sero-space-2) 0 0; max-width:62ch; }
+  .rv2-hints { width:100%; transition:opacity .18s ease; }
+  .rv2-hints.rv2-fade { opacity:0; }
+  @media (prefers-reduced-motion: reduce) { .rv2-hints { transition:none; } }
+
+  /* Datum 3 — the footer line: mock note left, live scores right */
+  .rv2-foot { display:flex; flex-direction:column; justify-content:flex-end;
+    align-items:flex-start; gap:var(--sero-space-3); padding-top:var(--sero-space-5);
+    width:100%; max-width:560px; }
+  .rv2-mocknote { font-size:14px; color:var(--color-ink-mute); font-style:italic; margin:0; }
+  .rv2-quiet { font:inherit; font-size:14px; font-style:normal; color:var(--color-ink-dim);
+    background:none; border:0; padding:0; margin-left:var(--sero-space-3); cursor:pointer;
+    text-decoration:underline; text-underline-offset:3px; }
+  .rv2-quiet:hover { color:var(--color-ink); }
+  .rv2-scores-btn { display:inline-flex; align-items:center; gap:var(--sero-space-2); }
   .rv2-scores-btn .sero-icon { transition:transform .15s ease; }
   .rv2-scores-btn[aria-expanded="true"] .sero-icon { transform:rotate(180deg); }
-  .rv2-ax-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sero-space-3); }
-  .rv2-ax { background:var(--color-surface); border-radius:var(--radius-card);
-    padding:var(--sero-space-3) var(--sero-space-4); display:flex; flex-direction:column;
-    gap:2px; border:1px solid var(--color-border); }
+  .rv2-ax-grid { display:grid; grid-template-columns:repeat(4, 1fr);
+    gap:var(--sero-space-3); width:100%; }
+  @media (max-width: 1240px) { .rv2-ax-grid { grid-template-columns:repeat(2, 1fr); } }
+  .rv2-ax { background:var(--color-surface); border:1px solid var(--color-border);
+    border-radius:var(--radius-card); padding:var(--sero-space-3) var(--sero-space-4);
+    display:flex; flex-direction:column; gap:2px; }
   .rv2-ax__label { font-size:14px; color:var(--color-ink-dim); }
-  .rv2-ax__row { display:flex; align-items:center; gap:var(--sero-space-2); }
-  .rv2-ax__value { font-family:var(--type-family-display); font-size:26px; font-weight:600;
-    line-height:1.1; color:var(--color-ink-mute); }
+  .rv2-ax__row { display:flex; align-items:center; gap:var(--sero-space-1); }
+  .rv2-ax__value { font-size:20px; font-weight:600; line-height:1.2;
+    color:var(--color-ink-mute); }
   .rv2-ax--up .rv2-ax__value, .rv2-ax--up .sero-icon { color:var(--color-positive-text); }
   .rv2-ax--down .rv2-ax__value, .rv2-ax--down .sero-icon { color:var(--color-negative-text); }
-  .rv2-ax .sero-icon { color:var(--color-ink-mute); }
-  .rv2-scores-note { font-size:14px; color:var(--sero-lavender-800); }
 
   /* End scene */
   .rv2-done-wrap { position:fixed; inset:0; z-index:200; display:grid; place-items:center;
     background:var(--sero-lavender-300); padding:var(--sero-space-6); }
   .rv2-done { display:flex; flex-direction:column; align-items:flex-start;
-    gap:var(--sero-space-3); max-width:520px; }
+    gap:var(--sero-space-3); max-width:560px; }
   .rv2-done__glyph { display:grid; place-items:center; width:44px; height:44px;
     border-radius:9999px; background:var(--sero-lavender-100);
     color:var(--sero-lavender-800); }
@@ -168,31 +175,27 @@ const ctxHtml = () =>
     (s, i) => `${i ? `<span class="sep">·</span>` : ""}<span${i === 0 ? ` class="is-strong"` : ""}>${s}</span>`,
   ).join("");
 
-// Four stat tiles: big delta, direction arrow, colour by direction. "—" until measured.
+// Four-across scoreboard: label, delta, direction arrow. "—" until measured.
 const axesHtml = (turnIdx) => {
   const values = AXES_BY_TURN[Math.min(turnIdx, AXES_BY_TURN.length - 1)];
   const tiles = AXIS_LABELS.map((label, i) => {
     const v = values[i];
     const dir = v > 0 ? "up" : v < 0 ? "down" : "flat";
-    const glyph = v > 0 ? icon(TrendingUp, { size: 18 }) : v < 0 ? icon(TrendingDown, { size: 18 }) : "";
+    const glyph = v > 0 ? icon(TrendingUp, { size: 16 }) : v < 0 ? icon(TrendingDown, { size: 16 }) : "";
     const value = v === 0 ? "—" : `${v > 0 ? "+" : "−"}${Math.abs(v)}`;
     return `<div class="rv2-ax rv2-ax--${dir}">
       <span class="rv2-ax__label">${label}</span>
       <span class="rv2-ax__row"><span class="rv2-ax__value">${value}</span>${glyph}</span>
     </div>`;
   }).join("");
-  return `<div class="rv2-ax-grid">${tiles}</div>
-    <p class="rv2-scores-note">Moves as ${CTX_SEGMENTS[0]} answers — it's a live read, not the final briefing.</p>`;
+  return `<div class="rv2-ax-grid">${tiles}</div>`;
 };
 
 const hintRow = (h) => {
   const ask = h.kind === "ask";
   return `<div class="rv2-hint">
-    <span class="rv2-hint__icon">${icon(ask ? MessageCircle : Ear, { size: 18 })}</span>
-    <div class="rv2-hint__body">
-      <span class="rv2-pill">${ask ? "How to ask" : "Listen for"}</span>
-      <p class="rv2-hint__text">${h.text}</p>
-    </div>
+    <span class="rv2-pill">${icon(ask ? MessageCircle : Ear, { size: 16 })}${ask ? "How to ask" : "Listen for"}</span>
+    <p class="rv2-hint__text">${h.text}</p>
   </div>`;
 };
 
@@ -212,24 +215,23 @@ export function mount(host) {
     host.innerHTML = `
       <style>${STYLE}</style>
       <div class="rv2-screen">
-        <div class="rv2-left">
-          <div class="rv2-left__top">
-            <div class="questioning-head min-w-0 space-y-1">
-              <p class="turn-label page-header__step">Question ${turnIdx + 1} of ${QUESTIONS.length}</p>
-              <div class="question-session-ctx ctx-segments" aria-label="Session context">${ctxHtml()}</div>
+        <div class="rv2-half rv2-half--q">
+          <header class="rv2-head">
+            <div class="rv2-head__facts">
+              <span class="rv2-head__turn">Question ${turnIdx + 1} of ${QUESTIONS.length}</span>
+              <span class="ctx-segments" aria-label="Session context">${ctxHtml()}</span>
             </div>
-            <div class="rv2-actions-row">
+            <div class="rv2-head__actions">
               <button type="button" class="btn btn--ghost js-exit">Skip to briefing</button>
-              <button type="button" class="btn btn--ghost js-gallery">← All tests</button>
             </div>
-          </div>
-          <div class="rv2-left__mid">
-            ${q.followUp ? `<div class="question-drill-hint text-ink-dim">↳ Following up on what you just said.</div>` : ""}
+          </header>
+          <div class="rv2-col">
+            ${q.followUp ? `<p class="rv2-drill">↳ Following up on what you just said.</p>` : ""}
             <h1 class="rv2-stem">${q.name}</h1>
-            ${q.description ? `<div class="question-desc">${q.description}</div>` : ""}
+            ${q.description ? `<p class="rv2-desc">${q.description}</p>` : ""}
             <label class="block">
               <span class="sr-only">Your notes</span>
-              <textarea class="textarea textarea--question" rows="5"
+              <textarea class="textarea textarea--question" rows="4"
                 placeholder="Jot what they said — your shorthand, not a transcript"
                 aria-label="Your notes"></textarea>
             </label>
@@ -241,20 +243,23 @@ export function mount(host) {
               ${turnIdx > 0 ? `<button class="btn btn--ghost js-back" type="button">Back</button>` : ""}
             </div>
           </div>
-          <div class="rv2-left__bottom">
-            <p class="rv2-mocknote">Mock — nothing is saved. The hints are hand-written for this walk.</p>
+          <div class="rv2-foot">
+            <p class="rv2-mocknote">Mock — nothing is saved. The hints are hand-written for this walk.
+              <button type="button" class="rv2-quiet js-gallery">← All tests</button></p>
           </div>
         </div>
-        <aside class="rv2-coach" aria-label="Coaching for this question">
-          <div class="rv2-coach__inner js-hints">
-            <div class="rv2-coach-eyebrow">${icon(Sparkles, { size: 16 })} In your corner</div>
-            <div class="rv2-hints">${q.hints.map(hintRow).join("")}</div>
-            <div class="rv2-coach-foot">Coaching only — none of this is shown to ${CTX_SEGMENTS[0]}.</div>
+        <aside class="rv2-half rv2-half--coach" aria-label="Coaching for this question">
+          <header class="rv2-head">
+            <span class="rv2-eyebrow">${icon(Sparkles, { size: 16 })} In your corner</span>
+            <span class="rv2-head__note">Only you see this — never ${CTX_SEGMENTS[0]}.</span>
+          </header>
+          <div class="rv2-col">
+            <div class="rv2-hints js-hints">${q.hints.map(hintRow).join("")}</div>
           </div>
-          <div class="rv2-scores-block">
+          <div class="rv2-foot">
             <button type="button" class="btn btn--ghost rv2-scores-btn js-scores-btn"
               aria-expanded="${scoresOpen}">Live scores ${icon(ChevronDown, { size: 16 })}</button>
-            <div class="js-scores" ${scoresOpen ? "" : "hidden"}>${axesHtml(turnIdx)}</div>
+            <div class="js-scores" style="width:100%" ${scoresOpen ? "" : "hidden"}>${axesHtml(turnIdx)}</div>
           </div>
         </aside>
       </div>`;
@@ -281,7 +286,7 @@ export function mount(host) {
     host.querySelector(".js-gallery").addEventListener("click", exitToGallery);
   };
 
-  // Crossfade: fade the coach content out, swap the whole screen, fade the new one in.
+  // Question change: brief fade on the hints (state change, nothing decorative).
   const advance = (dir) => {
     const hints = host.querySelector(".js-hints");
     if (hints) hints.classList.add("rv2-fade");
