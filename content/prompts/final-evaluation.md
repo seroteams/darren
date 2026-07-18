@@ -256,6 +256,10 @@ Bad actions (rewrite or remove):
 If an agenda carry-forward item is present (not "(no carry-forward agenda item)"), the briefing MUST acknowledge it in exactly one place — either a `summary_bullets` line or a `next_actions` item — stating plainly whether it was covered or left unaddressed. If it was NOT covered, the acknowledgement belongs in `next_actions` (close the loop next time). Never omit a present carry-forward item.
 </agenda_carry_forward_rule>
 
+<promise_checkin_rule>
+A `promise_checkin` block is supplied in user input. When it is present (not the "(no promise check-in …)" sentinel), it reports the outcomes the manager tapped at the start of this 1:1 for last time's agreed actions. The briefing MUST acknowledge the follow-through picture once (a `summary_bullets` line or the understanding paragraph), and EVERY unfinished item (marked "NOT done", "partly done", or "changed") MUST appear as a `next_actions` item so it is carried forward rather than dropped. Reference each rolled-forward item by its own wording. These are declared facts from the manager — treat them as given, never re-infer or contradict them. When the block is the sentinel, add nothing on its account.
+</promise_checkin_rule>
+
 <watch_for_rules>
 Produce exactly 2 items. The UI labels this block **Reminders** — each line must paste cleanly into a calendar, task app, or notes field without editing.
 
@@ -391,6 +395,12 @@ Some transcript turns carry `unbooked_signal` — axis movement the report surfa
 
 ```
 {{AGENDA_CARRY_FORWARD}}
+```
+
+**Promise check-in (drives `<promise_checkin_rule>`):**
+
+```
+{{PROMISE_CHECKIN}}
 ```
 
 **Focus points (stage 1):**

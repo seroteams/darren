@@ -5,7 +5,42 @@ import {
   priorPromiseRunFromState,
   rollupOutcome,
   applyPromiseOutcomes,
+  formatPromiseCheckin,
 } from "./promise-history.ts";
+
+// Promises loop phase 3 — the check-in as a reviewer/planner prompt block. Manager's
+// own first, unfinished items called out for roll-forward; a skip/empty check-in is inert.
+test("formatPromiseCheckin lists outcomes (manager first) and flags the unfinished for roll-forward", () => {
+  const out = formatPromiseCheckin({
+    fromSessionId: "s1",
+    skipped: false,
+    at: 1,
+    outcomes: [
+      { id: "a", owner: "report", action: "Share the deck", outcome: "yes" },
+      { id: "b", owner: "manager", action: "Revisit workload", outcome: "no" },
+    ],
+  });
+  assert.ok(out.indexOf("Revisit workload") < out.indexOf("Share the deck"), "manager's own promise is listed first");
+  assert.match(out, /NOT done/);
+  assert.match(out, /roll every unfinished item into next_actions/);
+});
+
+test("formatPromiseCheckin: all-done adds nothing to next_actions", () => {
+  const out = formatPromiseCheckin({
+    fromSessionId: "s1", skipped: false, at: 1,
+    outcomes: [{ id: "a", owner: "manager", action: "Book the room", outcome: "yes" }],
+  });
+  assert.match(out, /All were done/);
+  assert.doesNotMatch(out, /roll every unfinished/);
+});
+
+test("formatPromiseCheckin returns the inert sentinel for skip / empty / missing", () => {
+  const NONE = "(no promise check-in";
+  assert.ok(formatPromiseCheckin(null).startsWith(NONE));
+  assert.ok(formatPromiseCheckin(undefined).startsWith(NONE));
+  assert.ok(formatPromiseCheckin({ fromSessionId: "", skipped: true, at: 1, outcomes: [] }).startsWith(NONE));
+  assert.ok(formatPromiseCheckin({ fromSessionId: "", skipped: false, at: 1, outcomes: [] }).startsWith(NONE));
+});
 
 // Promises loop phase 2 — the card-zero read/write halves. The prior run's
 // promises resurface at the next 1:1 with the same person; taps write outcomes

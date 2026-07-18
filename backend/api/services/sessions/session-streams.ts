@@ -237,6 +237,10 @@ export async function evaluationStream(c: RequestContext): Promise<void> {
           // here — without it the reviewer always heard "OK" and a run on broken
           // scores still read as fully confident.
           scoring: scoringFromTranscript(session.transcript),
+          // Promises loop phase 3: what the manager tapped at card zero about last
+          // time's promises — so the briefing acknowledges follow-through and rolls
+          // any unfinished promise into next_actions.
+          priorCheckin: session.priorCheckin ?? null,
         },
         { session: { id: session.id, dir: session.dir } }
       );

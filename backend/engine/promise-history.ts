@@ -17,7 +17,7 @@ import path from "node:path";
 import { walkRuns, findRunDir } from "./run-history.ts";
 import { historyRunMatches } from "./focus-history.ts";
 import { asRecord, asString } from "../shared/guards.ts";
-import type { SessionPromise } from "../shared/session.types.ts";
+import type { SessionPromise, PriorCheckin } from "../shared/session.types.ts";
 
 export interface PriorPromiseRun {
   sessionId: string;
@@ -86,6 +86,38 @@ export function rollupOutcome(promises: Array<{ outcome: SessionPromise["outcome
   if (declared.length === 0) return null;
   const first = declared[0]!;
   return declared.every((o) => o === first) ? first : "partly";
+}
+
+// Promises loop phase 3 — the check-in as a prompt block for the reviewer (and the
+// turn-1 planner). Reads the CURRENT session's priorCheckin (what the manager tapped
+// about last time's promises at card zero). Manager's own promises first. Declared
+// facts only: a skip or an empty check-in yields the sentinel, so the prompt slot is
+// inert and the model adds nothing. Unfinished (no/partly/changed) are called out so
+// the reviewer rolls them into next_actions and the planner can raise them early.
+const OUTCOME_WORD: Record<PromiseOutcome, string> = {
+  yes: "done",
+  partly: "partly done",
+  no: "NOT done",
+  changed: "changed",
+};
+export function formatPromiseCheckin(checkin: PriorCheckin | null | undefined): string {
+  const NONE = "(no promise check-in — none was recorded for this 1:1)";
+  if (!checkin || checkin.skipped || !Array.isArray(checkin.outcomes) || checkin.outcomes.length === 0) return NONE;
+  const rows = checkin.outcomes
+    .filter((o) => o && typeof o.action === "string" && o.action.trim() && OUTCOMES.has(o.outcome))
+    .slice()
+    .sort((a, b) => Number(a.owner !== "manager") - Number(b.owner !== "manager"));
+  if (rows.length === 0) return NONE;
+  const lines = rows.map((o) => {
+    const who = o.owner === "manager" ? "manager's own" : "the team member's";
+    return `- "${o.action.trim()}" (${who}) — ${OUTCOME_WORD[o.outcome as PromiseOutcome]}`;
+  });
+  const unfinished = rows.filter((o) => o.outcome !== "yes").length;
+  const tail =
+    unfinished > 0
+      ? `${unfinished} of these is unfinished (not "done"). Acknowledge the follow-through picture, and roll every unfinished item into next_actions so it is not dropped.`
+      : `All were done — acknowledge the follow-through briefly; add nothing to next_actions on their account.`;
+  return `At the start of this 1:1 the manager checked off last time's agreed actions:\n${lines.join("\n")}\n${tail}`;
 }
 
 // Write taps onto a state record (the PRIOR run's), in place: matches by

@@ -15,7 +15,8 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 
 import type { Briefing, AxisRead, EngagementRead } from "../shared/briefing.types.ts";
-import type { AxisSlot, MeetingContext } from "../shared/session.types.ts";
+import type { AxisSlot, MeetingContext, PriorCheckin } from "../shared/session.types.ts";
+import { formatPromiseCheckin } from "./promise-history.ts";
 import { isObjectRecord } from "../shared/guards.ts";
 
 // evaluate is called with EITHER the live AxisState (Record<string, AxisSlot>) or
@@ -554,6 +555,7 @@ interface BuildMessagesArgs {
   selectedFocus?: SelectedFocusInput | null;
   agenda?: AgendaInput;
   scoring?: ScoringInput;
+  priorCheckin?: PriorCheckin | null;
 }
 
 function buildMessages({
@@ -565,6 +567,7 @@ function buildMessages({
   selectedFocus,
   agenda,
   scoring,
+  priorCheckin,
 }: BuildMessagesArgs) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "evaluation"), "utf8");
   const axes = loadAxes();
@@ -601,6 +604,7 @@ function buildMessages({
     READ_QUALITY_JSON: JSON.stringify(computeReadQuality(transcript), null, 2),
     SCORING_STATUS: formatScoringStatus(scoring),
     AGENDA_CARRY_FORWARD: formatAgendaCarryForward(agenda),
+    PROMISE_CHECKIN: formatPromiseCheckin(priorCheckin),
     ROLE_PROFILE_BLOCK: renderRoleProfileBlock(
       loadRoleProfile({ role: ctx.role, seniority: ctx.seniority }),
       { slice: "eval", meetingType: ctx.meetingType }
@@ -632,6 +636,7 @@ function assembleEvaluation(
     selectedFocus: sf,
     agenda: args.agenda,
     scoring: args.scoring,
+    priorCheckin: args.priorCheckin,
   });
   return { model, prompt: msgs.filled };
 }
@@ -818,10 +823,11 @@ interface EvaluateArgs {
   selectedFocus?: SelectedFocusInput | null;
   agenda?: AgendaInput;
   scoring?: ScoringInput;
+  priorCheckin?: PriorCheckin | null;
 }
 
 async function evaluate(
-  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring }: EvaluateArgs,
+  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring, priorCheckin }: EvaluateArgs,
   { model = getDefaultModel(), session, stage = "05-evaluation" }: { model?: string; session?: SessionArg; stage?: string } = {}
 ): Promise<Briefing> {
   const sf =
@@ -839,6 +845,7 @@ async function evaluate(
     selectedFocus: sf,
     agenda,
     scoring,
+    priorCheckin,
   });
   const evalPromptPath = promptFor(ctx.meetingType, "evaluation");
   const logInputs = withPromptVersion(

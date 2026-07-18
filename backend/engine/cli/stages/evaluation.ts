@@ -5,16 +5,17 @@ import { renderBriefing } from "../../briefing.ts";
 import { logRunRoot } from "../../session.ts";
 import { bold, dim, yellow, HR, pad, withThinking } from "../../ui.ts";
 
-import type { MeetingContext, AxisState, TranscriptEntry } from "../../../shared/session.types.ts";
+import type { MeetingContext, AxisState, TranscriptEntry, PriorCheckin } from "../../../shared/session.types.ts";
 import type { CostTracker, CostSummary } from "../../../shared/cost.types.ts";
 
-async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, session, name }: {
+async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, priorCheckin, session, name }: {
   ctx: MeetingContext;
   focusPoints: unknown;
   transcript: TranscriptEntry[];
   axisState: AxisState;
   notes?: string;
   scoring?: { failures?: number; scoredTurns?: number };
+  priorCheckin?: PriorCheckin | null; // Promises loop phase 3 — usually null in CLI (no card-zero step); kept for parity
   session: { dir: string };
   name: string;
 }) {
@@ -36,6 +37,7 @@ async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, not
         axisState: serialize(axisState),
         notes,
         scoring,
+        priorCheckin: priorCheckin ?? null,
       },
       { session }
     )
