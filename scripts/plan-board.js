@@ -170,9 +170,12 @@ const eyebrowTitle = planTitle.split(/\s+[—–-]\s+/)[0].toUpperCase();
 // ---- render ----------------------------------------------------------------
 const barSeg = (p, i) => {
   const fill = p.status === 'signed' ? 'seg-signed' : p.status === 'built' ? 'seg-built' : 'seg-todo';
+  // Label mirrors the segment's own status — a built phase never reads "Next"
+  // just because an earlier one is still awaiting sign-off.
   let label = '—';
   if (p.status === 'signed') label = 'Signed';
-  else if (i === currentIdx) label = p.status === 'built' ? 'Built' : 'Now';
+  else if (p.status === 'built') label = 'Built';
+  else if (i === currentIdx) label = 'Now';
   else if (i === currentIdx + 1) label = 'Next';
   return `<div class="seg"><div class="seg-bar ${fill}"></div><div class="seg-label">${label}</div></div>`;
 };
