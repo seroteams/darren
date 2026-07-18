@@ -1,6 +1,6 @@
 # Phase 2 — The label & content voice
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 core built — awaiting Carl QA (rest needs eyes)
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-18 (deferred items folded into later phases)
 
 ## Built (Fri 17 Jul 2026, overnight — Carl chose "one careful step")
 First ran a 3-agent discovery sweep (full label + name map, saved in the run journal). It surfaced
@@ -62,3 +62,7 @@ Walk through these yourself. Next phase waits for your green light.
    the display face — not like a form label.
 4. **One brand** — login and the mobile bar both show "Sero" in the brand typeface with the same
    mark.
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

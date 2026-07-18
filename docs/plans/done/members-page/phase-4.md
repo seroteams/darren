@@ -1,6 +1,6 @@
 # Phase 4 — Pending-invite actions: revoke / resend
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + committed (`c36fff01`), awaiting final walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ built + committed (`c36fff01`), GREEN-LIT 2026-07-18
 
 ## Built (2026-07-16)
 `invites.service.revokeForOrg` (status→revoked, old link 404s) + `resendForOrg` (fresh token, old dies, re-email) — both org-fenced. Endpoints `DELETE /members/invitations/:id` + `POST /members/invitations/:id/resend`. Invite rows get a ⋯ menu (Resend / Revoke). Tests 26/26, typecheck clean.
@@ -24,3 +24,7 @@ Manage invites that haven't been accepted yet: revoke one (kills the link) or re
 ## Test scenarios — for the product owner
 1. **Revoke** — on a pending invite, choose Revoke. The row leaves the list, and the old join link now says it's no longer valid ("ask your manager for a fresh one"). ❌ Not OK if the old link still works.
 2. **Resend** — choose Resend on a pending invite. A new email arrives; the **new** link works, the **old** one is dead.
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

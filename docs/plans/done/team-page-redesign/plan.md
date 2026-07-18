@@ -13,12 +13,17 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The picture | Clickable artifact mock of the redesigned page + both popups | ✅ |
-| 2 | Opened-link signal (backend) | `opened_at` column + stamp on the real join-page open ("opened but didn't finish") | 🔨 |
+| 2 | Opened-link signal (backend) | `opened_at` column + stamp on the real join-page open ("opened but didn't finish") | ✅ |
 | 3 | Rebuild the page + popups | Per-person invite status on the roster · Team card rebuilt to the mock (status pill + avatar) · "Invite to Sero" + what-they'll-see copy · Remind (reuse resend) | ✅ LIVE |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**ALL PHASES ✅ — TRACK CLOSED 2026-07-18.** Carl walked the whole system 2026-07-18 ("I've just been
+through the system and they look fine") — P2 (opened-link signal) green-lit in that sweep; P1 + P3
+were already green-lit/live. The team.ts bits that rode uncommitted are now committed (working tree
+clean at close).
+
 **Phase 1 ✅ green-lit 2026-07-16** ("1 build it") — mock at `mock.html`, published + verified (artifact `820104ca`).
 **Phase 2 🔨 built 2026-07-16 (the opened-link signal):** new nullable `invitations.opened_at` (migration `0018`), stamped the first time the invitee opens their `/join` link (public preview only — the internal email-compose reuse deliberately doesn't self-mark). Offline proof: tests 22/22, typecheck clean. No screen change (it's the signal).
 **Phase 3 🔨 built + verified on screen 2026-07-16 (both apps — team.ts/team-card.ts are shared):** the Team card is rebuilt to the mock — initials avatar, one calm meta line, and access as ONE status pill (Not on Sero / Invited / Opened / On Sero) with its action beside it (Invite / Remind / Change). Roster read now attaches each person's access state (`people.service.accessFor`, from `user_id` + their pending invite). The invite modal is renamed **"Invite to Sero"** with a plain what-they'll-see line; **Remind** resends the pending invite. Offline proof: tests 40/40, typecheck clean. Screenshot-verified live (Carl = Not-on-Sero + Invite, Priya = On-Sero + Change). Invited/Opened pills show once a person has a pending invite (unit-tested).

@@ -1,6 +1,6 @@
 # Phase 1 — Calm the type, fix the freebies
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 core built — awaiting Carl QA (some items deferred)
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-18 (deferred items folded into later phases)
 
 ## Built (Fri 17 Jul 2026, overnight — Carl chose "all of Phase 1")
 **Landed:**
@@ -81,3 +81,7 @@ Walk through these yourself. Next phase waits for your green light.
    pixels.
 5. **Nothing else moved** — flick through 3 screens you know well. Same layouts, same features;
    only calmer.
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

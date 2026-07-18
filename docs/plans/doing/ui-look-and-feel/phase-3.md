@@ -1,6 +1,6 @@
 # Phase 3 — One chip, one button, one motif
 
-**Part of:** [plan.md](plan.md) · **Status:** ✅ BUILT 2026-07-17 on Carl's "keep going it's all
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-18 — BUILT 2026-07-17 on Carl's "keep going it's all
 good and finish this run" — the defect half needed no eyes; the re-shaping is his to walk.
 
 ## ✅ What landed
@@ -79,3 +79,7 @@ Walk through these yourself. Next phase waits for your green light.
 3. **Buttons behave** — hover any button anywhere: colour changes, nothing jumps or grows a
    shadow. Still exactly one solid-blue action per screen (intake's selected chips no longer
    compete).
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

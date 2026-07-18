@@ -1,6 +1,6 @@
 # Phase 2 — Quick hardening (code)
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + verified, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-18
 
 ## Built (2026-07-16)
 - **Gemini key out of the URL** — `backend/engine/ai-client.ts`: key now sent as the `x-goog-api-key` header, URL drops `?key=` (can't leak into proxy/access logs). OpenAI/Resend already used headers.
@@ -17,3 +17,7 @@
 1. **App still works** — nothing you see changes; the headers are invisible protective wrapping. ❌ Not OK if any page breaks. (I already loaded the real built app under the new rules and it rendered perfectly with no errors — scenario 3.)
 2. **The Gemini change is behind-the-scenes** — the backup AI now hands over its password privately instead of in the web address. No visible change.
 3. **Proof I ran** — `npm test` 145/145 (incl. the new headers test), and a browser load of the real built app under the security rules with zero violations. ❌ Not OK if either failed.
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

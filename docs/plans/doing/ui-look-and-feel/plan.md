@@ -39,9 +39,9 @@ Full detail in [audit-findings.md](audit-findings.md) (9-agent audit, 2026-07-17
 ## Phases
 | # | Phase | What it lands | Effort | Status |
 |---|---|---|---|---|
-| 1 | Calm the type, fix the freebies | Token-layer retune (display size/weight, tracking + spacing + shadow/radius tokens, reading measure) + ~15 near-free defect fixes — every screen calms at once | M | 🔨 core built — Carl QA |
-| 2 | The label & content voice | Two-tier uppercase labels everywhere; names/questions/openers set in the display face; one brand mark | M | 🔨 core built — Carl QA |
-| 3 | One chip, one button, one motif | One `.chip` primitive replaces ~15 pill families; dot-meter confidence chip; `.btn` retune; one segmented control | L | 🔨 BUILT — Carl QA (guided kit → P4, contrast tail → P6) |
+| 1 | Calm the type, fix the freebies | Token-layer retune (display size/weight, tracking + spacing + shadow/radius tokens, reading measure) + ~15 near-free defect fixes — every screen calms at once | M | ✅ green-lit 2026-07-18 |
+| 2 | The label & content voice | Two-tier uppercase labels everywhere; names/questions/openers set in the display face; one brand mark | M | ✅ green-lit 2026-07-18 |
+| 3 | One chip, one button, one motif | One `.chip` primitive replaces ~15 pill families; dot-meter confidence chip; `.btn` retune; one segmented control | L | ✅ green-lit 2026-07-18 (guided kit → P4, contrast tail → P6) |
 | 4 | The frame & the customer flagship | The artifact's framed-screen treatment on briefing/prep; guided flow + member home join the system; skeletons everywhere | L | 🔨 Recap slice ✅ done — rest ⬜ |
 | 5 | Long-tail sweep | Error/empty states (no more browser alerts), overlay recipe, spacing rhythm, off-barrel CSS, tasks board de-nested | L | ⬜ |
 | 6 | Prove it & write it down | Contrast audit of the light theme; DESIGN.md + design sheet updated; guard tests extended | M | ⬜ |
@@ -49,6 +49,13 @@ Full detail in [audit-findings.md](audit-findings.md) (9-agent audit, 2026-07-17
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**P1 + P2 + P3 ✅ GREEN-LIT 2026-07-18** — Carl walked the whole system ("I've just been through the
+system and they look fine") and signed off all three built passes in one sweep. Their in-phase
+deferrals (P1: briefing column, `.prep-callout`, `.stage` page-tail, micro-defect tail · P2: slot
+reclassification, name-as-hero, page-header/brand · P3: guided kit, contrast tail) fold into P4–P6 as
+already noted per phase. **Next: Phase 4 (the frame & the customer flagship)** — not started beyond
+the Recap slice.
+
 **Phase 1 core built overnight (2026-07-17), awaiting Carl's QA.** Carl chose to build all of
 Phase 1 in one pass (aware it's un-eyeballed since the preview pane can't screenshot this session).
 Landed: the display calm + token scaffolding + the safe defect fixes (invisible Pulse bars,

@@ -1,6 +1,6 @@
 # Phase 5 — Retire the link dropdown + drop the double-email
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (core), awaiting final walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ built (core), GREEN-LIT 2026-07-18
 
 ## Built (2026-07-16) — adjusted scope
 - **"Link an existing account" dropdown removed** from `give-access-modal.ts` — the per-person access sheet is now just "invite by email" (the shortcut Carl chose) + "remove access" when linked. This is the confusing UI from Carl's screenshot, gone. (Committable — clean file.)
@@ -36,3 +36,7 @@ Kill the confusing "Link an existing account" dropdown for good. The Team card s
 1. **Dropdown gone** — open a Team person's card. You see a plain **Has access / No access yet** status and (if not yet invited) a simple **Invite** action. There is **no** "choose an account" dropdown anywhere. ❌ Not OK if the old dropdown appears.
 2. **Auto-link** — invite a roster person whose email already belongs to an existing account. They should be connected instantly ("already has access"), no email/link needed.
 3. **Normal invite still works** — invite a roster person with a brand-new email; the join link arrives and links them on accept (unchanged from before).
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

@@ -12,14 +12,13 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
-**🔨 Open tracks in flight (refreshed by the clean-up sweep 2026-07-17 — full detail in [STATUS.md](STATUS.md)):**
-- **[ui-look-and-feel](docs/plans/doing/ui-look-and-feel/plan.md)** — whole-app polish; Recap redesign green-lit, P1–P3 built awaiting Carl's walk, P4–P6 ⬜.
-- **[team-page-redesign](docs/plans/doing/team-page-redesign/plan.md)** — P3 shipped live 07-17; P2 built, awaiting walk.
+**🔨 Open tracks in flight (refreshed by the 2026-07-18 blanket green-light sweep — Carl walked the whole system and signed off everything built; full detail in [STATUS.md](STATUS.md)):**
+- **[ui-look-and-feel](docs/plans/doing/ui-look-and-feel/plan.md)** — P1–P3 ✅ green-lit 07-18 (token calm, label voice, one-chip system); P4–P6 ⬜ not built.
+- **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P2–P3 ✅ green-lit 07-18, LIVE (admin console + Pulse at /admin); P4–P6 ⬜ not built.
+- **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — P1 green-lit; P2/P3 never started. Not archive-safe.
+- **[personal-data-security](docs/plans/doing/personal-data-security/plan.md)** — P1–P2 ✅ (hardening green-lit 07-18, live); P3 git-history scrub held for an all-sessions-closed window.
 - **[wrap-up-exit](docs/plans/doing/wrap-up-exit/plan.md)** — P1 in progress; the manual-door pick over adaptive-early-close.
-- **[personal-data-security](docs/plans/doing/personal-data-security/plan.md)** — security track; P1 done, P2 built (uncommitted), P3 git-history scrub interim.
-- **[members-page](docs/plans/doing/members-page/plan.md)** — P1/P2 green-lit; P3–P5 built, awaiting one final walk.
-- **[promises-loop](docs/plans/doing/promises-loop/plan.md)** — ⏸ dormant since 07-12; P1 green-lit, P2/P3 never started. Not archive-safe.
-- **[admin-live-deploy](docs/plans/doing/admin-live-deploy/plan.md)** — P1 green-lit; P2/P3 merged to main 07-14, awaiting walk; P4–P6 ⬜.
+- Closed 2026-07-18 (Carl's walk) → done/: **members-page** (all 5 phases — one invite flow, row actions, link-dropdown retired) · **team-page-redesign** (all 3 phases — status pill, opened-link signal, Remind).
 - Recently closed + live: **stream-hang-fix**, **ux-audit-fixes**, **briefing-before-during-after** (all 2026-07-17 → done/).
 
 **✅ CLOSED 2026-07-16 (built, not yet live): [axis-memory](docs/plans/done/axis-memory/plan.md) — Sero now shows a manager where a person's health axes stood in recent 1:1s.** Both phases signed off. From a data-engineer sweep of the 101 July runs (6 open systemic findings; honesty rule intact), the top fix: the manager's person page shows a per-axis trend across the last ≤4 1:1s (e.g. *Engagement −1 → +3 → +6*) — labelled past context, unread axes honest ("not read", never a 0), no scoring/engine change. Aimed straight at the validation metric: a manager who comes back gets a Sero that visibly remembers the person. Display-only, reuses the already-fenced `getMyRun`. Helper 8/8, suite 146/146. **Not live yet — Carl to `/release`** (a push ships ~19 mixed commits from ~5 parallel chats, so it's a conscious call). The other 5 open findings (scoring skew, briefing sameness, bank bloat, blind lint, key mismatch) are parked as future tracks.

@@ -20,8 +20,8 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Backend live fence | internal-tool guard (superadmin on live, admin locally), persona-runs blocked on live, `appEnv` on /auth/me | ✅ |
-| 2 | Admin served at /admin | Both SPAs built + served on live; router base threading; Test engine/Tasks hidden on live; fence test | 🔨 built on branch, awaiting walk |
-| 3 | Pulse dashboard | `GET /api/v1/admin/pulse` + the Pulse stage; every card links to its "view all" (the four existing admin screens) | 🔨 built on branch, awaiting walk |
+| 2 | Admin served at /admin | Both SPAs built + served on live; router base threading; Test engine/Tasks hidden on live; fence test | ✅ green-lit 2026-07-18 |
+| 3 | Pulse dashboard | `GET /api/v1/admin/pulse` + the Pulse stage; every card links to its "view all" (the four existing admin screens) | ✅ green-lit 2026-07-18 |
 | 4 | Drill-ins | Manager detail (team + ALL their runs incl. unfinished, w/ types + verdicts) and run detail (answers + feedback) | ⬜ |
 | 5 | Runs explorer + honest guest tile | The "view ALL runs" sub-page (cross-company, filters: type/status/manager/date) + `claimed_at` marker so "guest became a signup" is real | ⬜ |
 | 6 | Last-seen visits (optional) | `users.last_seen_at` + "active today/this week" | ⬜ |
@@ -49,6 +49,11 @@ Every dashboard element traced to its live source:
 | "Last active" from logins (not just runs) | ❌ no source (`users.last_seen_at` missing) | Phase 6 |
 
 ## Current state (RESUME HERE — updated by the clean-up sweep 2026-07-17)
+**P2 + P3 ✅ GREEN-LIT 2026-07-18** — Carl walked the whole system ("I've just been through the
+system and they look fine"); both are on `main` and went out in the 2026-07-18 goodnight release
+(deploy verified live + healthy). **Next: P4 (drill-ins) · P5 (runs explorer) · P6 (last-seen) — all
+⬜, Carl's call to build or park.**
+
 **P1 ✅ closed + committed to main (`dab7d403`).** **P2 + P3 BUILT + verified, now MERGED to `main` (`ffc5165d`, 2026-07-14) — but NOT yet Carl-walked / green-lit.** (The old "merge blocked on `work/admin-serve`" note below is superseded — the branch merged and was deleted; its orphaned worktree folder `../serolocal-admin-serve` was removed in the sweep.)
 
 - **P1 — backend live fence ✅** green-lit ("okay next"). typecheck clean, 126/126. On main.

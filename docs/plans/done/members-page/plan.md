@@ -29,13 +29,17 @@ Two different jobs kept apart, per modern SaaS (Linear / Notion / Slack / Figma)
 |---|---|---|---|
 | 1 | Read-only Members list + nav | The screen exists — everyone + pending invites, read-only | ✅ |
 | 2 | Invite with role | "Invite people" actually sends invites | ✅ |
-| 3 | Row actions: role / deactivate | ⋯ menu works, with last-manager safety | 🔨 |
-| 4 | Pending-invite: revoke / resend | Manage invites that haven't been accepted | 🔨 |
-| 5 | Retire the link dropdown + drop double-email | Old dropdown gone; Add = name-only | 🔨 |
+| 3 | Row actions: role / deactivate | ⋯ menu works, with last-manager safety | ✅ |
+| 4 | Pending-invite: revoke / resend | Manage invites that haven't been accepted | ✅ |
+| 5 | Retire the link dropdown + drop double-email | Old dropdown gone; Add = name-only | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**ALL PHASES ✅ — TRACK CLOSED 2026-07-18.** Carl walked the whole system 2026-07-18 ("I've just been
+through the system and they look fine") — P3–P5 green-lit in that sweep; P1–P2 were green-lit earlier.
+The parked remainders below stay parked (deliberate scope calls, not open work).
+
 **Phases 1–2 ✅ green-lit. Phases 3–5 🔨 built + committed 2026-07-16, awaiting Carl's one final walk** (batched on his "finish this, stop asking").
 - **P3** — row ⋯ menu: change role, deactivate/reactivate, last-active-manager guard, session-kick, audit. Commit `e2b351e3`.
 - **P4** — pending-invite revoke / resend (fresh token, old dies). Commit `c36fff01`.

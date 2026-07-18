@@ -1,6 +1,6 @@
 # Phase 2 — Admin app served at /admin on live
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-18
 
 ## Goal
 Carl opens `https://sero-obwq.onrender.com/admin` on his phone, logs in as carl@seroteams.com, and the admin console works — while the customer app at `/` is untouched.
@@ -33,3 +33,7 @@ Carl opens `https://sero-obwq.onrender.com/admin` on his phone, logs in as carl@
 3. **Live nav is trimmed** — the sidebar has no Test engine and no Tasks on live.
 4. **Customer app untouched** — open `https://sero-obwq.onrender.com/` (no /admin): the normal customer app, exactly as before.
 5. **Local untouched-ish** — local admin now lives at `localhost:3000/admin/` (bookmark change, one time). Everything else identical, Test engine visible locally.
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

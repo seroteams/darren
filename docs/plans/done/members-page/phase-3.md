@@ -1,6 +1,6 @@
 # Phase 3 — Row actions: role / deactivate / reactivate
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + committed (`e2b351e3`), awaiting final walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ built + committed (`e2b351e3`), GREEN-LIT 2026-07-18
 
 ## Built (2026-07-16)
 Org-fenced `setRole` / `deactivate` / `reactivate` in `members.service` with a shared `account-guards.ts` last-active-lead guard (never lock a workspace out of its only manager), self + superadmin protection, session-kick on deactivate, and `audit_log` rows. Endpoints `PATCH /members/:id/role` + `POST /members/:id/{deactivate,reactivate}`. Row ⋯ menu on the Members page (reuses `openRowMenu`). Tests 14/14, typecheck clean. (Superadmin-guard extraction kept as a small duplicate in `account-guards.ts` rather than refactoring the live founder console — noted, no behaviour change.)
@@ -26,3 +26,7 @@ The ⋯ menu on each active member works: change their role, deactivate (switch 
 2. **Last-manager safety** — try to deactivate the *only* manager in a workspace. You should be **blocked** with a plain message. ❌ Not OK if it lets you (that would lock the workspace out).
 3. **Deactivate a second manager** — with two managers, switch one off. Tag flips to **Deactivated**; if they were logged in, their session is kicked.
 4. **Reactivate** — switch them back on; access returns.
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).

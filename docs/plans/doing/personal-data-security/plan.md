@@ -19,12 +19,17 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Close the H-1 leak | Superadmin-gate the clone routes + regression test | ✅ |
-| 2 | Quick hardening (code) | Gemini key → header + security headers | 🔨 built, awaiting walk |
+| 2 | Quick hardening (code) | Gemini key → header + security headers | ✅ green-lit 2026-07-18 |
 | 3 | Purge committed logs | Interim done (names off HEAD/future clones); full history scrub pending | 🟡 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Phase 2 ✅ GREEN-LIT 2026-07-18** — Carl walked the whole system ("they look fine"); the hardening
+is committed and went live in the 2026-07-18 goodnight release. **Only Phase 3 (the git-history log
+purge) remains open** — a destructive history rewrite that needs every parallel session closed +
+a force-push window; Carl's call on when.
+
 **Phase 1 ✅ committed (81029bca). Phase 2 built + verified, awaiting Carl's walk. Phase 3 (log purge) newly split out.**
 - Phase 1 superadmin-gated the clone routes. `npm test` was 143/143.
 - Phase 2 (code hardening): Gemini key now in a header, security headers on every response, CSP validated against the real built bundle in a browser (rendered clean, zero CSP violations). `npm test` **145/145**, typecheck clean. NOT committed yet — waiting on Carl's green light.

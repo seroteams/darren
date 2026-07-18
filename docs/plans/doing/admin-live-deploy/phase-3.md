@@ -1,6 +1,6 @@
 # Phase 3 — Pulse dashboard
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-18
 
 ## Goal
 Logging in at /admin on live lands Carl on one phone-first Pulse screen: the Gate-1 number, managers, runs (with type mix), sparkline, drop-offs, guests, latest feedback, errors — matching the walked mock on the Tests page.
@@ -29,3 +29,7 @@ Logging in at /admin on live lands Carl on one phone-first Pulse screen: the Gat
 3. **Run types visible** — the runs tile / table shows the meeting types (first, bi-weekly, feels-off…), not just counts.
 4. **Guests visible** — the guest-runs card lists guest sessions with how far they got.
 5. **Phone check** — everything readable single-column on the phone, no sideways page scroll.
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the whole system ("I've just been through the system and they look fine") and green-lit every built pass in one sweep (goodnight close-out).
