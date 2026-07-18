@@ -25,20 +25,20 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Promise contract + wrap-up confirm | `promises[]` type + persistence; briefing opens on a confirm card (owners, edit, skip); Q9 primary CTA "Agree next actions →" | ✅ |
-| 2 | Card zero — resurface + close-out | Prior promises fetched for same person; "Before question 1" card with yes/partly/no/changed taps; outcomes written back + roll-up to `outcomeCheck` | 🔨 built 2026-07-18 — Carl's walk |
+| 2 | Card zero — resurface + close-out | Prior promises fetched for same person; "Before question 1" card with yes/partly/no/changed taps; outcomes written back + roll-up to `outcomeCheck` | ✅ green-lit 2026-07-18 |
 | 3 | Q1 feed, review feed + surfacing | Check-in injected into turn-1 planning AND the reviewer; unfinished promises roll forward into next_actions; person page shows outcomes | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 **Phase 1 ✅ GREEN-LIT 2026-07-12** (Carl: "i love it push green light" + "go" → agent-driven live walk on his say-so). Committed `47c0024b` (+ CSS pre-committed in `6aadec58`). Proof: 124/124 tests + typecheck clean; live end-to-end walk — Q9 fork seen, confirm card grounded in real notes, edits + owner flip, "Locked in ✓" (1 paid run, ~$0.35). One caveat on the dev lane: the PG mirror write fails for the synthetic dev identity (known non-uuid limit, pre-existing, not phase-1 code) — promises-in-PG proved by the roundtrip test; real accounts use the normal write path. Skip-path walked in unit tests only.
-**Phase 2 🔨 BUILT 2026-07-18, awaiting Carl's walk.** Card zero is live end-to-end: a GET/POST pair
+**Phase 2 ✅ GREEN-LIT 2026-07-18 (Carl: "signed off its nice").** Card zero is live end-to-end: a GET/POST pair
 (`/sessions/:id/prior-promises` + `/promise-outcomes`) on the focus-history fence pattern, the
 "Before question 1" card in the shared runner (both apps), taps written back onto the PRIOR run
 (live in-memory copy first — without touching its lastSeenAt — else the store row) + `outcomeCheck`
 roll-up, and `priorCheckin` stamped on the current session for phase 3's feed. Proven on the real
 screen + read back from the DB (one paid walk ~$0.25); 156/156 tests, typecheck clean. Build detail
-in [phase-2.md](phase-2.md). **Next: Carl walks phase 2 → then phase 3 (Q1 feed + surfacing).**
+in [phase-2.md](phase-2.md). **Next: phase 3 (Q1 feed, review feed + surfacing) — Carl's call to start.**
 
 ## Parked
 - **3×-rolled-over promise as a countable routing event** — engine nudge/routing territory; also validation-stage rule says no nudge features until Gate 1.

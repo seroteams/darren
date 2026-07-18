@@ -1,6 +1,10 @@
 # Phase 2 — Card zero: resurface + close-out
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built + verified on the real screen 2026-07-18 — awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-18 (Carl: "signed off its nice")
+
+## ✅ GREEN-LIT 2026-07-18
+
+Carl walked the card and signed it off ("signed off its nice") the same day it was built.
 
 ## Goal
 Starting a 1:1 with someone you've met before opens on last time's promises — manager's own first — closed off with one tap each before question 1.
