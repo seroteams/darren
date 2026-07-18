@@ -108,7 +108,7 @@ export function createPeopleService(repo: PeopleRepo = pgPeopleRepo): PeopleServ
   /** The caller's own row or a 404 — the fencing everything else builds on. */
   async function owned(id: string, orgId: string, managerId: string): Promise<PersonRow> {
     const row = await repo.findForManager(id, orgId, managerId);
-    if (!row) throw notFound("Person not found");
+    if (!row) throw notFound("We couldn't find that person — refresh and try again.");
     return row;
   }
 

@@ -20,13 +20,12 @@ export const mount: Mount = async (root, { store, setState }) => {
       <h1 class="h1">We hit a snag.</h1>
       <div class="error-card">
         <div class="text-ink">${escape(shown)}</div>
-        <div class="text-ink-dim text-sm mt-2">You can retry this step, or start a new session.</div>
+        <div class="text-ink-dim text-sm mt-2">You can retry this step, or start a new 1:1.</div>
       </div>
       <div class="space-y-2">
-        <div class="text-ink-mute text-sm">What you can do:</div>
         <div class="l-cluster l-cluster--2">
           <button class="btn js-retry">Retry this step</button>
-          <button class="btn btn--ghost js-restart">New session</button>
+          <button class="btn btn--ghost js-restart">Start a new 1:1</button>
         </div>
       </div>
     </div>

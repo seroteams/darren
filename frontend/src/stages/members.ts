@@ -63,7 +63,7 @@ export const mount: Mount = async (root) => {
       await fn();
       await load();
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't do that — please try again.");
+      window.alert(e instanceof Error ? e.message : "Couldn't make that change — please try again.");
     }
   };
 
@@ -94,13 +94,13 @@ export const mount: Mount = async (root) => {
         { label: "Revoke invite", danger: true, onSelect: () => { void runAction(() => revokeInvite(id)); } },
       ];
     } else if (status === "deactivated") {
-      items = [{ label: "Reactivate", onSelect: () => { void runAction(() => reactivateMember(id)); } }];
+      items = [{ label: "Switch back on", onSelect: () => { void runAction(() => reactivateMember(id)); } }];
     } else {
       items = [
         role === "manager"
           ? { label: "Make member", onSelect: () => { void runAction(() => setMemberRole(id, "member")); } }
           : { label: "Make manager", onSelect: () => { void runAction(() => setMemberRole(id, "manager")); } },
-        { label: "Deactivate", danger: true, onSelect: () => { void runAction(() => deactivateMember(id)); } },
+        { label: "Switch off access", danger: true, onSelect: () => { void runAction(() => deactivateMember(id)); } },
       ];
     }
     openRowMenu(btn, items);

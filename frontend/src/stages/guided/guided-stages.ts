@@ -167,7 +167,7 @@ const rating: StageRenderer = (state, copy, ctx) => {
         <div class="mcr-slider">
           ${marker}
           <input type="range" min="1" max="10" step="0.5" value="${val}" data-block="${b.id}" aria-label="${esc(b.label)} score 1 to 10" />
-          <div class="mcr-slider__labels"><span>1 Low score</span><span>5 Normal</span><span>10 Thriving</span></div>
+          <div class="mcr-slider__labels"><span>1 Struggling</span><span>5 Okay</span><span>10 Thriving</span></div>
         </div>
         <div class="mcr-block__note"><input type="text" data-blocknote="${b.id}" value="${esc(blockNotes[b.id] ?? "")}" placeholder="Add a note about this rating..." /></div>
       </div>`;

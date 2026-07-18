@@ -187,13 +187,13 @@ export async function mount(root, { store, setState }) {
       <div class="field__actions">
         <button class="btn js-submit">${isFinal ? "Agree next actions" : "Submit answer"}</button>
         ${isFinal
-          ? `<button class="btn btn--ghost js-finish" type="button" title="Wrap up without agreeing next actions">Finish — skip agreeing</button>`
+          ? `<button class="btn btn--ghost js-finish" type="button" title="Wrap up without agreeing next actions">Finish without next steps</button>`
           : `<button class="btn btn--ghost js-skip">Skip</button>`}
         ${res.turn > 1 && !scripted ? `<button class="btn btn--ghost js-back" type="button" title="Go back and fix your last answer">Back</button>` : ""}
         ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
         ${!scripted && import.meta.env.DEV ? `<button class="btn btn--ghost js-suggest" type="button">Suggest notes (dev)</button>` : ""}
       </div>
-      <p class="hint hint--kbd text-xs text-ink-mute">Enter · Skip · Esc</p>
+      <p class="hint hint--kbd text-xs text-ink-mute">Enter to submit · Esc to skip</p>
       ${import.meta.env.DEV ? `<div class="answer-suggestions" hidden></div>` : ""}
     `;
     qHost.appendChild(card);
@@ -366,7 +366,7 @@ export async function mount(root, { store, setState }) {
       if (result?.truncated) {
         const warn = document.createElement("div");
         warn.className = "hint mt-2 text-amber-500";
-        warn.textContent = "Answer was too long — trimmed to 4000 characters.";
+        warn.textContent = "That answer was very long — we kept the first 4,000 characters.";
         footerHost.appendChild(warn);
       }
       await runPlanStream(val);
@@ -455,14 +455,14 @@ export async function mount(root, { store, setState }) {
       .on("error", (d) => {
         setState({
           stage: STAGES.ERROR,
-          error: d.message || "Planning failed.",
+          error: d.message || "Couldn't line up the next question — try again.",
           retryStage: STAGES.QUESTIONING,
         });
       })
       .onError(() => {
         setState({
           stage: STAGES.ERROR,
-          error: "Lost connection while scoring the answer.",
+          error: "Lost connection while scoring your answer — try again.",
           retryStage: STAGES.QUESTIONING,
         });
       })

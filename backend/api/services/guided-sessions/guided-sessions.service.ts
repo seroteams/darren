@@ -241,7 +241,7 @@ export function createGuidedSessionsService(
     managerId: string,
   ): Promise<{ id: string; name: string }> {
     const person = await people.findForManager(personId, orgId, managerId);
-    if (!person) throw notFound("Person not found");
+    if (!person) throw notFound("We couldn't find that person — refresh and try again.");
     return person;
   }
 

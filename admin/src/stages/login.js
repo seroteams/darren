@@ -47,7 +47,7 @@ export async function mount(root, { setState }) {
               <input class="input js-password" type="password" autocomplete="current-password" required />
             </label>
             <p class="js-err text-negative text-sm" hidden></p>
-            <button type="submit" class="btn js-submit">Sign in</button>
+            <button type="submit" class="btn js-submit">Log in</button>
           </form>
           <p class="text-ink-dim text-sm">
             <button type="button" class="link js-to-forgot">Forgot password?</button>
@@ -103,9 +103,9 @@ export async function mount(root, { setState }) {
       // the setup wizard. The ?? guards a stage loaded before boot set memberHome.
       setState({ user: identity, stage: landingStage(identity, store.memberHome ?? STAGES.RUNS) });
     } catch (e2) {
-      showError(e2.message || "Could not log in.");
+      showError(e2.message || "That didn't work. Check your email and password, then try again.");
       submitBtn.disabled = false;
-      submitBtn.textContent = "Sign in";
+      submitBtn.textContent = "Log in";
     }
   }
 

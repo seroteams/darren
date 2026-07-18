@@ -36,7 +36,7 @@ const SETUP = [
   { key: "ROLE", field: "role", type: "text", required: true,
     question: "What do they do?", hint: "Their role as you'd say it out loud.", placeholder: "e.g. Senior backend engineer" },
   { key: "SENIORITY", field: "seniority", type: "text", required: true,
-    question: "And their seniority?", hint: "IC level, staff, manager, director — whatever reads naturally.", placeholder: "e.g. Senior / Staff / Lead" },
+    question: "And their seniority?", hint: "Junior, senior, staff, director — whatever reads naturally.", placeholder: "e.g. Senior / Staff / Lead" },
   { key: "MEETING_TYPE", type: "meeting",
     question: "What kind of meeting?", hint: "Pick whichever is closest — you can add detail next." },
   { key: "NOTES", field: "notes", type: "textarea", required: false,
@@ -313,7 +313,7 @@ export async function mount(root, { store, setState }) {
   }
 
   function runFocusPoints() {
-    const working = appendWorking("Analyzing context…");
+    const working = appendWorking("Reading your notes…");
     const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/focus-points/stream`);
     currentSse = sse;
     sse
@@ -325,7 +325,7 @@ export async function mount(root, { store, setState }) {
         working.node.remove();
         renderFocusPick(d);
       })
-      .on("error", (d) => failTo(d.message || "Focus-point generation failed."))
+      .on("error", (d) => failTo(d.message || "Couldn't pull your focus areas together. Try again — your notes are safe."))
       .onError(() => failTo("Lost connection while generating focus areas."))
       .open();
   }
@@ -399,7 +399,7 @@ export async function mount(root, { store, setState }) {
         setState({ preparation: d.brief, preparationRunId: d.runId });
         renderPrep(d.brief);
       })
-      .on("error", (d) => failTo(d.message || "Preparation briefing failed."))
+      .on("error", (d) => failTo(d.message || "Couldn't write your prep brief. Try again — your notes are safe."))
       .onError(() => failTo("Lost connection while generating the prep brief."))
       .open();
   }
@@ -493,7 +493,7 @@ export async function mount(root, { store, setState }) {
         working.node.remove();
         startInterview();
       })
-      .on("error", (d) => failTo(d.message || "Question generation failed."))
+      .on("error", (d) => failTo(d.message || "Couldn't build your questions — try again."))
       .onError(() => failTo("Lost connection while building questions."))
       .open();
   }
@@ -642,8 +642,8 @@ export async function mount(root, { store, setState }) {
       })
       .on("next", () => { terminal = "next"; })
       .on("done", () => { terminal = "done"; })
-      .on("error", (d) => failTo(d.message || "Planning failed."))
-      .onError(() => failTo("Lost connection while scoring the answer."))
+      .on("error", (d) => failTo(d.message || "Couldn't line up the next question — try again."))
+      .onError(() => failTo("Lost connection while scoring your answer — try again."))
       .open();
 
     // The planner takes as long as it takes (often 5–15s). Wait for its terminal
@@ -685,8 +685,8 @@ export async function mount(root, { store, setState }) {
         setState({ briefing: d, completedAt: d.completedAt ?? store.completedAt ?? null });
         await renderBriefing(d);
       })
-      .on("error", (d) => failTo(d.message || "Evaluation failed."))
-      .onError(() => failTo("Lost connection during synthesis."))
+      .on("error", (d) => failTo(d.message || "Couldn't finish your briefing — try again."))
+      .onError(() => failTo("Lost connection while pulling your briefing together — try again."))
       .open();
   }
 
@@ -700,7 +700,7 @@ export async function mount(root, { store, setState }) {
       await mod.mount(section, { store, setState, resetSession });
     } catch (e) {
       console.error("[onepage] inline briefing render failed:", e);
-      failTo("Couldn't render the briefing.");
+      failTo("Couldn't display the briefing — try again.");
       return;
     }
     requestAnimationFrame(() => section.scrollIntoView({ behavior: scrollBehavior(), block: "start" }));

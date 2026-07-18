@@ -51,7 +51,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   function reviewChip(run) {
     if (run.reviewStatus === "complete") return ` <span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ${icon(Check, { size: 16 })}</span>`;
-    if (run.reviewStatus === "partial") return ` <span class="run-row__review run-row__review--partial" title="Review in progress">Review · partial</span>`;
+    if (run.reviewStatus === "partial") return ` <span class="run-row__review run-row__review--partial" title="Review in progress">Review half-done</span>`;
     return "";
   }
 
@@ -158,7 +158,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
         </div>
       `;
     } catch {
-      body.innerHTML = `<div class="text-ink-mute text-sm">Failed to load overview.</div>`;
+      body.innerHTML = `<div class="text-ink-mute text-sm">Couldn't open this one — try again in a moment.</div>`;
     }
   }
 
@@ -210,7 +210,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     try {
       await deleteRun(id);
     } catch (e) {
-      await alertAction({ message: "Delete failed: " + (e.message || e) });
+      await alertAction({ message: "Couldn't delete this 1:1 — please try again." });
       return;
     }
     if (expandedId === id) expandedId = null;

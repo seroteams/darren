@@ -148,9 +148,9 @@ test("update edits name/role/seniority on the caller's own person; misses 404", 
   assert.equal(out.person.name, "Priya S.");
   assert.equal(rows[0]?.name, "Priya S.");
   // fencing: another manager / another org / unknown id → not found, not forbidden
-  await assert.rejects(() => service.update("a", "o1", "OTHER", { name: "X" }), /not found/i);
-  await assert.rejects(() => service.update("a", "OTHER", "m1", { name: "X" }), /not found/i);
-  await assert.rejects(() => service.update("nope", CALLER.orgId, CALLER.managerId, { name: "X" }), /not found/i);
+  await assert.rejects(() => service.update("a", "o1", "OTHER", { name: "X" }), /(not found|couldn.t find)/i);
+  await assert.rejects(() => service.update("a", "OTHER", "m1", { name: "X" }), /(not found|couldn.t find)/i);
+  await assert.rejects(() => service.update("nope", CALLER.orgId, CALLER.managerId, { name: "X" }), /(not found|couldn.t find)/i);
 });
 
 test("update with a blank name rejects; role/seniority may be cleared to null", async () => {
@@ -195,8 +195,8 @@ test("merge rejects self, cycles, and unknown/foreign rows", async () => {
   await assert.rejects(() => service.merge("a", CALLER.orgId, CALLER.managerId, "a"), /themselves/i);
   // b already points at a — merging a into b would loop
   await assert.rejects(() => service.merge("a", CALLER.orgId, CALLER.managerId, "b"), /loop/i);
-  await assert.rejects(() => service.merge("a", CALLER.orgId, CALLER.managerId, "x"), /not found/i);
-  await assert.rejects(() => service.merge("x", CALLER.orgId, CALLER.managerId, "a"), /not found/i);
+  await assert.rejects(() => service.merge("a", CALLER.orgId, CALLER.managerId, "x"), /(not found|couldn.t find)/i);
+  await assert.rejects(() => service.merge("x", CALLER.orgId, CALLER.managerId, "a"), /(not found|couldn.t find)/i);
 });
 
 test("resolveForRun: explicit personId must be the caller's own — returns its canonical id, 400 otherwise", async () => {
@@ -269,7 +269,7 @@ test("link on someone else's person answers not-found (never forbidden)", async 
   const { repo } = fakeRepo([person({ id: "a", managerId: "OTHER" })]);
   await assert.rejects(
     () => createPeopleService(repo).link("a", CALLER.orgId, CALLER.managerId, "u-member"),
-    /not found/i,
+    /(not found|couldn.t find)/i,
   );
 });
 
@@ -296,16 +296,16 @@ test("archive stamps archivedAt on the caller's own person; misses 404", async (
   const out = await service.archive("a", CALLER.orgId, CALLER.managerId);
   assert.equal(out.ok, true);
   assert.ok(rows[0]?.archivedAt instanceof Date);
-  await assert.rejects(() => service.archive("a", "o1", "OTHER"), /not found/i);
+  await assert.rejects(() => service.archive("a", "o1", "OTHER"), /(not found|couldn.t find)/i);
 });
 
 test("remove hard-deletes the caller's own person; fences foreign/unknown to 404", async () => {
   const { repo, rows } = fakeRepo([person({ id: "a" }), person({ id: "b", name: "Ben" })]);
   const service = createPeopleService(repo);
   // fencing runs BEFORE any delete — a foreign/unknown id must not remove anything
-  await assert.rejects(() => service.remove("a", "o1", "OTHER"), /not found/i);
-  await assert.rejects(() => service.remove("a", "OTHER", "m1"), /not found/i);
-  await assert.rejects(() => service.remove("nope", CALLER.orgId, CALLER.managerId), /not found/i);
+  await assert.rejects(() => service.remove("a", "o1", "OTHER"), /(not found|couldn.t find)/i);
+  await assert.rejects(() => service.remove("a", "OTHER", "m1"), /(not found|couldn.t find)/i);
+  await assert.rejects(() => service.remove("nope", CALLER.orgId, CALLER.managerId), /(not found|couldn.t find)/i);
   assert.equal(rows.length, 2); // nothing removed yet
   // the real delete drops only that row
   const out = await service.remove("a", CALLER.orgId, CALLER.managerId);

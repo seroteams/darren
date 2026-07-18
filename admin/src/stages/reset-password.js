@@ -38,8 +38,8 @@ export async function mount(root, { setState }) {
   if (!token) {
     host.innerHTML = `
       <div class="card-flat space-y-3">
-        <p>This reset link isn't valid — it's missing its code. Request a fresh one from the login screen.</p>
-        <button type="button" class="btn btn--ghost js-to-login">Go to log in</button>
+        <p>This reset link didn't come through properly. Request a fresh one from the log-in screen.</p>
+        <button type="button" class="btn btn--ghost js-to-login">Log in</button>
       </div>`;
     host.querySelector(".js-to-login").addEventListener("click", toLogin);
     return;
@@ -77,7 +77,7 @@ export async function mount(root, { setState }) {
       host.innerHTML = `
         <div class="card-flat space-y-3">
           <p><strong>Password updated.</strong> Log in with your new password to continue.</p>
-          <button type="button" class="btn js-to-login">Go to log in</button>
+          <button type="button" class="btn js-to-login">Log in</button>
         </div>`;
       host.querySelector(".js-to-login").addEventListener("click", toLogin);
     } catch (e2) {

@@ -1,13 +1,22 @@
 // Fetch wrappers for /api endpoints.
 
+// Customer-facing server messages read as sentences and start with a capital letter.
+// Anything else (lowercase validation stubs like "sessionId required", bare "HTTP 502",
+// or the generic gateway words) is engineering text that must never reach a screen —
+// it's softened to one friendly line; the raw text stays on err.raw and in the console.
+const RAW_STUB = /^[a-z]|^HTTP \d+$|^(Not found|Internal error|Forbidden|Bad origin)$/;
+const FRIENDLY_FALLBACK = "Something went wrong on our end — try again in a moment.";
+
 async function json(res) {
   let body = {};
   try { body = await res.json(); } catch { /* non-JSON body (e.g. 502 HTML gateway page) */ }
   if (!res.ok) {
     // Legacy /api/ returns { error: "msg" }; v1 returns { error: { code, message } }.
     const e = body.error;
-    const msg = (typeof e === "string" ? e : e?.message) || `HTTP ${res.status}`;
-    throw Object.assign(new Error(msg), { status: res.status });
+    const raw = (typeof e === "string" ? e : e?.message) || `HTTP ${res.status}`;
+    const msg = RAW_STUB.test(raw) ? FRIENDLY_FALLBACK : raw;
+    if (msg !== raw) console.warn("[api] raw error softened:", raw);
+    throw Object.assign(new Error(msg), { status: res.status, raw });
   }
   return body;
 }

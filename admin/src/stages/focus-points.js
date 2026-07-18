@@ -38,7 +38,7 @@ export async function mount(root, { store, setState }) {
     setState({ stage: exitStage(store.user, store.memberHome, store.guestHome) });
   });
 
-  const orb = createOrb("Analysing context…");
+  const orb = createOrb("Reading your notes…");
   thinkingHost.appendChild(orb.el);
   resultHost.appendChild(createSkeleton(4));
 
@@ -57,7 +57,7 @@ export async function mount(root, { store, setState }) {
     .on("error", (d) => {
       setState({
         stage: STAGES.ERROR,
-        error: d.message || "Focus-point generation failed.",
+        error: d.message || "Couldn't pull your focus areas together. Try again — your notes are safe.",
         retryStage: STAGES.FOCUS_POINTS,
       });
     })

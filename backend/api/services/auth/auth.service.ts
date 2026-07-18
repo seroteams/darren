@@ -75,7 +75,7 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
         throw badRequest(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
       }
       if (await repo.findByEmail(email)) {
-        throw conflict("That email is already registered.");
+        throw conflict("That email already has an account — log in instead.");
       }
 
       // Because it's HR, signing up creates the company too: the first person becomes
@@ -100,7 +100,7 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
       // A deactivated account is refused even with the right password (user-management
       // Phase 3). They authenticated, so it's honest to say why rather than "wrong password".
       if (user.deactivatedAt) {
-        throw forbidden("This account has been deactivated. Contact your administrator.");
+        throw forbidden("This account has been switched off. Ask your admin to switch it back on.");
       }
       return toPublic(user);
     },

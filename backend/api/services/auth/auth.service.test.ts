@@ -118,7 +118,7 @@ test("login: a deactivated user is refused even with the RIGHT password (user-ma
   const service = createAuthService(fakeRepo([seeded]), fakeHasher);
   await assert.rejects(
     () => service.login({ email: "gone@acme.com", password: "rightpassword" }),
-    /deactivated/i,
+    /switched off/i,
   );
 });
 
@@ -141,7 +141,7 @@ test("a duplicate email is refused", async () => {
   await service.register({ email: "eve@acme.com", name: "Eve", password: "longenough1" });
   await assert.rejects(
     () => service.register({ email: "Eve@acme.com", name: "Eve Again", password: "longenough1" }),
-    /already registered/i,
+    /already has an account/i,
   );
 });
 

@@ -1121,7 +1121,7 @@ test("promises caps the list at 10 — a 1:1 is not a project plan", () => {
   const { repo } = fakeRepo([s]);
   const eleven = Array.from({ length: 11 }, (_, i) => ({ owner: "manager", action: `a${i}`, when: "this week" }));
   assert.throws(() => createSessionsService(repo).promises("abc", { promises: eleven }),
-    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "too many promises (max 10)");
+    (e: unknown) => e instanceof HttpError && e.status === 400 && e.message === "You can lock in up to 10 promises — remove one first.");
 });
 
 test("verdict validates then stamps the structured verdict and persists", () => {

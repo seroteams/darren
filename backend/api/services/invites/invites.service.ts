@@ -24,7 +24,7 @@ const sha256 = (s: string): string => createHash("sha256").update(s).digest("hex
 
 function cleanEmail(v: unknown): string {
   const email = String(v ?? "").trim().toLowerCase();
-  if (!email || !email.includes("@") || email.length < 5) throw badRequest("A real email address is required");
+  if (!email || !email.includes("@") || email.length < 5) throw badRequest("Enter a real email address.");
   return email;
 }
 
@@ -33,7 +33,7 @@ function cleanEmail(v: unknown): string {
 const ORG_INVITE_ROLES = new Set(["manager", "member"]);
 function cleanRole(v: unknown): string {
   const role = String(v ?? "").trim().toLowerCase();
-  if (!ORG_INVITE_ROLES.has(role)) throw badRequest("Pick a role: manager or member");
+  if (!ORG_INVITE_ROLES.has(role)) throw badRequest("Choose a role — manager or member.");
   return role;
 }
 
@@ -52,7 +52,7 @@ export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: 
      *  once — the caller composes the /join link; nothing else ever sees it. */
     async create(orgId: string, managerId: string, personId: string, emailRaw: unknown) {
       const person = await repo.findPersonForManager(personId, orgId, managerId);
-      if (!person) throw notFound("Person not found");
+      if (!person) throw notFound("We couldn't find that person — refresh and try again.");
       const email = cleanEmail(emailRaw);
       const token = randomBytes(32).toString("hex");
       const expiresAt = new Date(Date.now() + INVITE_TTL_MS);

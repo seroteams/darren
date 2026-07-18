@@ -168,9 +168,9 @@ export async function mount(root, { store, setState, resetSession }) {
           <button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>
           <button type="button" class="btn btn--ghost js-guest-restart">Start a new 1:1</button>
         </div>` : `
-        <div class="text-ink-mute">This run is complete and saved.</div>
+        <div class="text-ink-mute">All saved. This 1:1 is in your Past 1:1s.</div>
         <div class="l-cluster l-cluster--2 items-center">
-          <button class="btn js-restart">Finish &amp; review this run</button>
+          <button class="btn js-restart">Finish &amp; review this 1:1</button>
           <button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>
           <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
           <span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>

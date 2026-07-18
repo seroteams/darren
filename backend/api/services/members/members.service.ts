@@ -82,7 +82,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
       if (!SETTABLE_ROLES.has(role)) throw badRequest("Role must be manager or member.");
       const users = await repo.listOrgUsers(orgId);
       const target = users.find((u) => u.id === targetId);
-      if (!target) throw notFound("member not found");
+      if (!target) throw notFound("We couldn't find that person — refresh and try again.");
       // Never leave the workspace with no active manager: block demoting its last active lead.
       if (isActiveLead(target) && role === "member" && users.filter(isActiveLead).length <= 1) {
         throw conflict("This is the workspace's only manager — make someone else a manager first.");
@@ -95,7 +95,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
     async deactivate(orgId, actor, targetId) {
       const users = await repo.listOrgUsers(orgId);
       const target = users.find((u) => u.id === targetId);
-      if (!target) throw notFound("member not found");
+      if (!target) throw notFound("We couldn't find that person — refresh and try again.");
       if (actor.userId && actor.userId === targetId) throw conflict("You can't switch off your own account.");
       if (isSuperadminEmail(target.email)) throw conflict("This account can't be deactivated.");
       if (isActiveLead(target) && users.filter(isActiveLead).length <= 1) {
@@ -110,7 +110,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
     async reactivate(orgId, actor, targetId) {
       const users = await repo.listOrgUsers(orgId);
       const target = users.find((u) => u.id === targetId);
-      if (!target) throw notFound("member not found");
+      if (!target) throw notFound("We couldn't find that person — refresh and try again.");
       await repo.setDeactivated(targetId, null);
       await repo.writeAudit(actor.userId, "members.reactivate", { target: targetId });
       return { id: targetId, deactivated: false };

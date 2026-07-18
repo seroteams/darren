@@ -27,12 +27,12 @@ export async function mount(root, { setState }) {
     host.innerHTML = `
       <section class="card-flat space-y-3">
         <p>${esc(message)}</p>
-        <button type="button" class="btn btn--ghost js-to-login">Go to login</button>
+        <button type="button" class="btn btn--ghost js-to-login">Log in</button>
       </section>`;
     host.querySelector(".js-to-login").addEventListener("click", () => setState({ stage: STAGES.LOGIN }));
   };
 
-  if (!token) return deadInvite("No invite token in the link.");
+  if (!token) return deadInvite("This invite link is incomplete — ask your manager to send it again.");
 
   let invite;
   try {
@@ -46,7 +46,7 @@ export async function mount(root, { setState }) {
   host.innerHTML = `
     <form class="card-flat space-y-3 js-form" novalidate>
       <p class="text-ink-dim">Your manager preps your 1:1s with Sero. Once you join,
-      you'll see your own check-in history — dates and meeting types, always.</p>
+      you'll see your own 1:1 history — dates and meeting types, always.</p>
       <label class="l-stack l-stack--2">
         <span class="eyebrow">Email</span>
         <input class="input" type="email" value="${esc(invite.email)}" disabled />

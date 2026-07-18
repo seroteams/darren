@@ -26,7 +26,7 @@ const COPY = {
   },
   SENIORITY: {
     question: "And their seniority?",
-    hint: "IC level, staff, manager, director — whatever reads naturally.",
+    hint: "Junior, senior, staff, director — whatever reads naturally.",
     placeholder: "e.g. Senior / Staff / Lead",
     key: "seniority",
   },
@@ -243,7 +243,7 @@ export async function mount(root, { store, setState }) {
   // selected → notes is exactly the free text (today's behaviour).
   function composeNotes({ pills, free }) {
     const parts = [];
-    if (pills.length) parts.push(`On the manager's mind: ${pills.map((p) => p.label.toLowerCase()).join(", ")}.`);
+    if (pills.length) parts.push(`On my mind: ${pills.map((p) => p.label.toLowerCase()).join(", ")}.`);
     if (free) parts.push(free);
     return parts.join("\n");
   }

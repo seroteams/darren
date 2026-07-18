@@ -35,7 +35,7 @@ export function stageCopy(id: GuidedStageId, ctx: CopyCtx): { title: string; sub
     case "requests":
       return {
         title: `${ctx.name} has ${ctx.requestCount} ${ctx.requestCount === 1 ? "thing" : "things"} to discuss`,
-        sub: "Click any request to open it — discuss priorities, blockers, and next steps in the side panel.",
+        sub: "Open any request — talk through priorities, blockers and next steps in the side panel.",
       };
     case "rating":
       return {

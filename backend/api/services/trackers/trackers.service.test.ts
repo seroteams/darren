@@ -62,7 +62,7 @@ test("create validates kind + text, sets initial status + a created history even
   assert.equal(item.history[0]?.type, "created");
   await assert.rejects(() => svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "nope", text: "x" }), /kind must be/i);
   await assert.rejects(() => svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "request", text: "  " }), /text is required/i);
-  await assert.rejects(() => svc.create("not-mine", CALLER.orgId, CALLER.managerId, { kind: "goal", text: "x" }), /not found/i);
+  await assert.rejects(() => svc.create("not-mine", CALLER.orgId, CALLER.managerId, { kind: "goal", text: "x" }), /(not found|couldn.t find)/i);
 });
 
 test("promise defaults owner=manager/status=open; a bad owner is rejected", async () => {
@@ -97,7 +97,7 @@ test("update: status change + progress clamp + note each append history; wrong-k
 test("update + applyOutcome are fenced; applyOutcome resolves a promise", async () => {
   const svc = createTrackersService(fakeRepo(), fakePeople(AISHA));
   const { item: p } = await svc.create("p1", CALLER.orgId, CALLER.managerId, { kind: "promise", text: "send the budget" });
-  await assert.rejects(() => svc.update(p.id, CALLER.orgId, "mgr-OTHER", { status: "done" }), /not found/i);
+  await assert.rejects(() => svc.update(p.id, CALLER.orgId, "mgr-OTHER", { status: "done" }), /(not found|couldn.t find)/i);
   const { item } = await svc.applyOutcome(p.id, CALLER.orgId, CALLER.managerId, "yes");
   assert.equal(item.status, "done");
   assert.equal(item.history.at(-1)?.type, "outcome");
@@ -116,7 +116,7 @@ test("listForPerson groups by kind, manager promises first, hides archived by de
   assert.equal(g.requests.length, 0); // archived hidden
   const withArch = await svc.listForPerson("p1", CALLER.orgId, CALLER.managerId, { includeArchived: true });
   assert.equal(withArch.requests.length, 1);
-  await assert.rejects(() => svc.listForPerson("p1", CALLER.orgId, "mgr-OTHER"), /not found/i);
+  await assert.rejects(() => svc.listForPerson("p1", CALLER.orgId, "mgr-OTHER"), /(not found|couldn.t find)/i);
 });
 
 const MEMBER = { userId: "mem-1", orgId: "org-1" };
@@ -148,10 +148,10 @@ test("member goal fence: own goal updates; a promise / request / another person'
   const { item: u } = await svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, goal.id, { progress: 60, note: "made headway" });
   assert.equal(u.progress, 60);
   assert.ok(u.history.some((h) => h.type === "progress") && u.history.some((h) => h.type === "note"));
-  await assert.rejects(() => svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, promise.id, { progress: 50 }), /not found/i); // never a promise
-  await assert.rejects(() => svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, req.id, { progress: 50 }), /not found/i); // must be a goal
+  await assert.rejects(() => svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, promise.id, { progress: 50 }), /(not found|couldn.t find)/i); // never a promise
+  await assert.rejects(() => svc.updateGoalForMember(MEMBER.userId, MEMBER.orgId, req.id, { progress: 50 }), /(not found|couldn.t find)/i); // must be a goal
   const svcOther = createTrackersService(repo, fakePeople(AISHA, { "mem-2:org-1": [{ id: "p-other" }] }));
-  await assert.rejects(() => svcOther.updateGoalForMember("mem-2", "org-1", goal.id, { progress: 50 }), /not found/i); // another person's goal
+  await assert.rejects(() => svcOther.updateGoalForMember("mem-2", "org-1", goal.id, { progress: 50 }), /(not found|couldn.t find)/i); // another person's goal
 });
 
 test("member wall never exposes promises / another person; manager wall org-scoped", () => {

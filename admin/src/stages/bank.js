@@ -32,7 +32,7 @@ export async function mount(root, { store, setState }) {
     .on("error", (d) => {
       setState({
         stage: STAGES.ERROR,
-        error: d.message || "Question generation failed.",
+        error: d.message || "Couldn't build your questions — try again.",
         retryStage: STAGES.BANK,
       });
     })

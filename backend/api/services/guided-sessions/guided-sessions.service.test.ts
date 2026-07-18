@@ -106,16 +106,16 @@ test("create fences the person to the caller (foreign person → not found)", as
   assert.equal(created.completedAt, null);
   await assert.rejects(
     () => svc.create(CALLER.orgId, CALLER.managerId, { personId: "not-mine" }),
-    /not found/i,
+    /(not found|couldn.t find)/i,
   );
 });
 
 test("get is fenced — another manager's / org's / an unknown session is not found", async () => {
   const svc = createGuidedSessionsService(fakeRepo(), fakePeople(AISHA));
   const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
-  await assert.rejects(() => svc.get(gs.id, CALLER.orgId, "mgr-OTHER"), /not found/i);
-  await assert.rejects(() => svc.get(gs.id, "org-OTHER", CALLER.managerId), /not found/i);
-  await assert.rejects(() => svc.get("nope", CALLER.orgId, CALLER.managerId), /not found/i);
+  await assert.rejects(() => svc.get(gs.id, CALLER.orgId, "mgr-OTHER"), /(not found|couldn.t find)/i);
+  await assert.rejects(() => svc.get(gs.id, "org-OTHER", CALLER.managerId), /(not found|couldn.t find)/i);
+  await assert.rejects(() => svc.get("nope", CALLER.orgId, CALLER.managerId), /(not found|couldn.t find)/i);
 });
 
 test("patch auto-saves stage + state; a reload reads them back", async () => {
@@ -140,7 +140,7 @@ test("patch is fenced and rejects an unknown stage / a non-object state", async 
   const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
   await assert.rejects(
     () => svc.patch(gs.id, CALLER.orgId, "mgr-OTHER", { stage: "requests" }),
-    /not found/i,
+    /(not found|couldn.t find)/i,
   );
   await assert.rejects(
     () => svc.patch(gs.id, CALLER.orgId, CALLER.managerId, { stage: "haxxor" }),
@@ -171,7 +171,7 @@ test("listForPerson is fenced and returns the person's sessions", async () => {
   await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
   const list = await svc.listForPerson("p1", CALLER.orgId, CALLER.managerId);
   assert.equal(list.sessions.length, 1);
-  await assert.rejects(() => svc.listForPerson("p1", CALLER.orgId, "mgr-OTHER"), /not found/i);
+  await assert.rejects(() => svc.listForPerson("p1", CALLER.orgId, "mgr-OTHER"), /(not found|couldn.t find)/i);
 });
 
 test("complete applies the Catch-up promise outcomes to the tracker rows (Phase 2)", async () => {
@@ -253,7 +253,7 @@ test("listBlockScores is person-fenced and returns the history", async () => {
   assert.equal(scores.length, 1);
   assert.equal(scores[0]?.block, "fun");
   assert.equal(scores[0]?.score, 6);
-  await assert.rejects(() => svc.listBlockScores("p1", CALLER.orgId, "mgr-OTHER"), /not found/i);
+  await assert.rejects(() => svc.listBlockScores("p1", CALLER.orgId, "mgr-OTHER"), /(not found|couldn.t find)/i);
 });
 
 test("wrapupDraft calls the AI boundary and returns the draft (Phase 5)", async () => {

@@ -97,7 +97,7 @@ test("setRole refuses admin / unknown roles and a cross-org target", async () =>
   const svc = createMembersService(fakeRepo({ users: [user({ id: "u1", role: "member" })] }));
   await assert.rejects(() => svc.setRole("o1", actor, "u1", "admin"), /manager or member/i);
   await assert.rejects(() => svc.setRole("o1", actor, "u1", "wizard"), /manager or member/i);
-  await assert.rejects(() => svc.setRole("o1", actor, "ghost", "manager"), /not found/i); // not in this org
+  await assert.rejects(() => svc.setRole("o1", actor, "ghost", "manager"), /(not found|couldn.t find)/i); // not in this org
 });
 
 test("setRole blocks demoting the workspace's only active manager", async () => {

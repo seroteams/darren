@@ -54,7 +54,7 @@ test("create mints a token, stores only its hash, and pins expiry", async () => 
 
 test("create on someone else's person answers not-found", async () => {
   const { repo } = fakeRepo();
-  await assert.rejects(() => createInvitesService(repo, hasher).create("o1", "OTHER", "p1", "a@b.c"), /not found/i);
+  await assert.rejects(() => createInvitesService(repo, hasher).create("o1", "OTHER", "p1", "a@b.c"), /(not found|couldn.t find)/i);
 });
 
 test("create refuses a blank or nonsense email", async () => {

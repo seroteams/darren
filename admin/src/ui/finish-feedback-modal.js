@@ -104,7 +104,7 @@ export function showFinishFeedbackModal({ sessionId, initialStars = 0 }) {
         await rateMyRun(sessionId, { stars: STARS_FOR[useful] });
         status.textContent = "Thanks!";
       } catch {
-        status.textContent = "You can rate it later from Runs.";
+        status.textContent = "You can rate it later from Past 1:1s.";
       }
       // Keep the inbox row's "Useful:" in step once a verdict exists.
       if (verdict) saveVerdict();

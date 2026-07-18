@@ -169,7 +169,7 @@ export function createTrackersService(
   /** The caller's own roster person or a 404 (never confirm someone else's exists). */
   async function ownedPerson(personId: string, orgId: string, managerId: string): Promise<void> {
     const person = await people.findForManager(personId, orgId, managerId);
-    if (!person) throw notFound("Person not found");
+    if (!person) throw notFound("We couldn't find that person — refresh and try again.");
   }
 
   /** An item the caller may touch: org-fenced AND its person is the caller's. */

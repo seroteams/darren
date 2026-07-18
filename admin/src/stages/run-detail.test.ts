@@ -59,7 +59,7 @@ test("Answers tab lists each question with its answer; skipped turns are marked"
 
 test("Answers tab shows an empty state when nothing was captured", () => {
   const html = renderRunDetail({ ...run, turns: [] });
-  assert.ok(html.includes("No answers were captured in this session."), "empty state");
+  assert.ok(html.includes("No answers were captured in this 1:1."), "empty state");
   assert.ok(html.includes("0 questions answered"), "count is zero, plural");
 });
 

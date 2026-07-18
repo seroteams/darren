@@ -14,7 +14,7 @@ export async function mount(root, { setState }) {
     <div class="stage-inner l-stack l-stack--8 auth-card">
       <header class="page-header">
         <h1 class="h1">Create your account</h1>
-        <div class="text-ink-dim">This also creates your company — you'll be its owner.</div>
+        <div class="text-ink-dim">Your account comes with a private space for your company — you're the admin.</div>
       </header>
       <form class="card-flat space-y-3 js-form" novalidate>
         <label class="l-stack l-stack--2">
@@ -23,7 +23,7 @@ export async function mount(root, { setState }) {
         </label>
         <label class="l-stack l-stack--2">
           <span class="eyebrow">Company <span class="text-ink-mute">(optional)</span></span>
-          <input class="input js-company" type="text" autocomplete="organization" placeholder="Defaults to your name's company" />
+          <input class="input js-company" type="text" autocomplete="organization" placeholder="Leave blank and we'll name it after you" />
         </label>
         <label class="l-stack l-stack--2">
           <span class="eyebrow">Email</span>
@@ -85,7 +85,7 @@ export async function mount(root, { setState }) {
       // reaches their Home (START) and its first-run empty state, not the setup wizard.
       setState({ user, stage: landingStage(user, store.memberHome ?? STAGES.RUNS) });
     } catch (e2) {
-      showError(e2.message || "Could not create your account.");
+      showError(e2.message || "Couldn't create your account. Try again — nothing you typed is lost.");
       submitBtn.disabled = false;
       submitBtn.textContent = "Create account";
     }

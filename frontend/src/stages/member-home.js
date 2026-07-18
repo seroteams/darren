@@ -40,7 +40,7 @@ async function loadTrackers(host) {
             : `<p class="text-sm text-ink-mute">No requests yet.</p>`
         }
         <form class="js-add-req mh-form">
-          <input class="js-req-text mh-input mh-input--grow" type="text" placeholder="Raise a request…" />
+          <input class="js-req-text mh-input mh-input--grow" type="text" placeholder="What would help? Add a request…" />
           <select class="js-req-cat mh-select"><option value="growth_development">Growth &amp; development</option><option value="ideas_suggestions">Ideas &amp; suggestions</option><option value="concerns_feedback">Concerns &amp; feedback</option></select>
           <button type="submit" class="mh-btn">Add</button>
         </form>
@@ -76,7 +76,7 @@ async function loadTrackers(host) {
       await createMyRequest({ text, category });
       await loadTrackers(host);
     } catch {
-      host.querySelector(".js-add-req")?.insertAdjacentHTML("afterend", `<p class="text-sm mh-error">Couldn't add — try again.</p>`);
+      host.querySelector(".js-add-req")?.insertAdjacentHTML("afterend", `<p class="text-sm mh-error">Couldn't save that — try again in a moment.</p>`);
     }
   });
   host.querySelectorAll(".js-goal").forEach((el) => {
@@ -88,7 +88,7 @@ async function loadTrackers(host) {
         await updateMyGoal(id, { progress, note });
         await loadTrackers(host);
       } catch {
-        el.insertAdjacentHTML("beforeend", `<p class="text-sm mh-error">Couldn't save — try again.</p>`);
+        el.insertAdjacentHTML("beforeend", `<p class="text-sm mh-error">Couldn't save that — try again in a moment.</p>`);
       }
     });
   });

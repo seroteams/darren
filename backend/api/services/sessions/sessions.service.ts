@@ -663,7 +663,7 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
     promises: (id, body) => {
       const session = requireExisting(id);
       if (!Array.isArray(body.promises)) throw badRequest("promises must be a list");
-      if (body.promises.length > 10) throw badRequest("too many promises (max 10)");
+      if (body.promises.length > 10) throw badRequest("You can lock in up to 10 promises — remove one first.");
       const confirmed: SessionPromise[] = body.promises.map((raw: unknown) => {
         const p = asRecord(raw);
         if (p.owner !== "manager" && p.owner !== "report") throw badRequest("promise owner must be manager or report");

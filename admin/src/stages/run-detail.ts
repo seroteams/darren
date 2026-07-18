@@ -94,7 +94,7 @@ function renderOverview(run: RunDetail): string {
 function renderAnswers(run: RunDetail): string {
   const turns = run.turns || [];
   if (!turns.length) {
-    return `<section class="card-flat"><p class="text-sm text-ink-dim">No answers were captured in this session.</p></section>`;
+    return `<section class="card-flat"><p class="text-sm text-ink-dim">No answers were captured in this 1:1.</p></section>`;
   }
   const rows = turns
     .map((t) => {
@@ -186,7 +186,7 @@ export const mount: Mount = async (root, { setState }) => {
       <header class="page-header">
         <div class="page-header__row">
           <h1 class="h1">Past 1:1</h1>
-          <button type="button" class="btn btn--ghost js-back">Back to Runs</button>
+          <button type="button" class="btn btn--ghost js-back">Back</button>
         </div>
         <div class="text-ink-dim js-sub"></div>
       </header>
@@ -194,7 +194,7 @@ export const mount: Mount = async (root, { setState }) => {
     </div>`;
 
   const notice = (eyebrow: string, msg: string) =>
-    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back to Runs</button></section>`;
+    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back</button></section>`;
 
   const wireBack = () => {
     root.querySelector(".js-back")?.addEventListener("click", toRuns);
@@ -206,7 +206,7 @@ export const mount: Mount = async (root, { setState }) => {
   wireBack();
 
   if (!id) {
-    root.querySelector(".js-host")!.innerHTML = notice("No 1:1 selected", "Pick one from your Runs list.");
+    root.querySelector(".js-host")!.innerHTML = notice("No 1:1 selected", "Pick one from your 1:1s list.");
     wireBack();
     return;
   }
@@ -217,7 +217,7 @@ export const mount: Mount = async (root, { setState }) => {
   } catch {
     root.querySelector(".js-host")!.innerHTML = notice(
       "Couldn't open this 1:1",
-      "It may not be one of yours, or something went wrong. Try again from your Runs list.",
+      "It may not be one of yours, or something went wrong. Try again from your 1:1s list.",
     );
     wireBack();
     return;

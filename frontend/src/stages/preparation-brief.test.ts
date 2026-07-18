@@ -157,7 +157,7 @@ for (const { id, label } of VARIANTS) {
 
 test("CTA: renamed to 1:1 questions", () => {
   const html = ctaRowHtml();
-  assert.ok(html.includes("Generate 1:1 questions"));
+  assert.ok(html.includes("Get my questions"));
   assert.ok(!/interview/i.test(html));
 });
 
