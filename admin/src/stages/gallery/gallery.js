@@ -128,7 +128,12 @@ const STYLE = `
   .gal__placeholder h2 { font-family:var(--type-family-display); font-size:22px; color:var(--color-ink); }
   .gal__needs { font-size:14px; color:var(--sero-gold-900); background:var(--sero-gold-200);
     border-radius:9999px; padding:2px 10px; }
-  @media (prefers-reduced-motion: reduce) { .gal__drawer { transition:none; } .gal__backdrop { transition:none; } }
+  /* Sero logo spins 90° while the list is open (the toggle lives in the shared nav). */
+  .js-home .app-nav__icon, .js-bar-home .app-nav__icon { transition:transform .22s var(--ease-out-expo); }
+  .js-home.gal-logo-open .app-nav__icon, .js-bar-home.gal-logo-open .app-nav__icon { transform:rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .gal__drawer, .gal__backdrop, .js-home .app-nav__icon, .js-bar-home .app-nav__icon { transition:none; }
+  }
 `;
 
 // ---- mount -----------------------------------------------------------------
@@ -176,9 +181,17 @@ export async function mount(node, deps) {
   const actionsEl = node.querySelector(".js-actions");
 
   // --- drawer open/close ---
-  const openDrawer = () => { galEl.classList.add("is-open"); filterEl.focus(); };
-  const closeDrawer = () => galEl.classList.remove("is-open");
-  const toggleDrawer = () => galEl.classList.toggle("is-open");
+  // Rotate the Sero logo 90° while the drawer is open, as a visual "it's open" cue. The logo
+  // lives in the shared nav; we only toggle a class on it at runtime (CSS is in this stage's
+  // <style>, so it's gone on unmount) — app-nav.js stays untouched.
+  const syncLogo = () => {
+    const open = galEl.classList.contains("is-open");
+    document.querySelectorAll(".js-home, .js-bar-home").forEach((b) =>
+      b.classList.toggle("gal-logo-open", open));
+  };
+  const openDrawer = () => { galEl.classList.add("is-open"); syncLogo(); filterEl.focus(); };
+  const closeDrawer = () => { galEl.classList.remove("is-open"); syncLogo(); };
+  const toggleDrawer = () => { galEl.classList.toggle("is-open"); syncLogo(); };
   node.querySelector(".js-screens").addEventListener("click", openDrawer);
   node.querySelector(".js-close").addEventListener("click", closeDrawer);
   node.querySelector(".js-backdrop").addEventListener("click", closeDrawer);
@@ -288,6 +301,9 @@ export async function mount(node, deps) {
 
 export async function unmount() {
   if (logoHandler) { document.removeEventListener("click", logoHandler, true); logoHandler = null; }
+  // Leaving the gallery: un-spin the logo (the stage's <style> goes with the node, but clear
+  // the class too so no stray state rides along).
+  document.querySelectorAll(".js-home, .js-bar-home").forEach((b) => b.classList.remove("gal-logo-open"));
   if (active.mod && typeof active.mod.unmount === "function") {
     try { await active.mod.unmount(active.host); } catch (e) { console.error("[gallery] unmount", e); }
   }
