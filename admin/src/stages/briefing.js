@@ -171,6 +171,7 @@ export async function mount(root, { store, setState, resetSession }) {
         <div class="text-ink-mute">This run is complete and saved.</div>
         <div class="l-cluster l-cluster--2 items-center">
           <button class="btn js-restart">Finish &amp; review this run</button>
+          <button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>
           <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
           <span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>
         </div>`}
@@ -505,9 +506,19 @@ export async function mount(root, { store, setState, resetSession }) {
     };
     saveCard.querySelector(".js-guest-register").addEventListener("click", () => saveVia(STAGES.REGISTER));
     saveCard.querySelector(".js-guest-login").addEventListener("click", () => saveVia(STAGES.LOGIN));
-    // Save as PDF: generate a designed PDF from the briefing and download it
-    // straight away (ui/recap-pdf.ts; pdfmake is lazy-loaded on first click).
-    const pdfBtn = root.querySelector(".js-save-pdf");
+    // Start fresh without saving — same reset as the "no recap" branch above.
+    root.querySelector(".js-guest-restart").addEventListener("click", () => {
+      try { localStorage.removeItem("seroSessionId"); } catch {}
+      resetSession();
+      setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    });
+  }
+
+  // Save as PDF — guests and logged-in users alike: generate a designed PDF
+  // from the briefing and download it straight away (ui/recap-pdf.ts; pdfmake
+  // is lazy-loaded on first click).
+  const pdfBtn = root.querySelector(".js-save-pdf");
+  if (pdfBtn) {
     pdfBtn.addEventListener("click", async () => {
       const prev = pdfBtn.textContent;
       pdfBtn.disabled = true;
@@ -524,12 +535,6 @@ export async function mount(root, { store, setState, resetSession }) {
       }
       pdfBtn.textContent = prev;
       pdfBtn.disabled = false;
-    });
-    // Start fresh without saving — same reset as the "no recap" branch above.
-    root.querySelector(".js-guest-restart").addEventListener("click", () => {
-      try { localStorage.removeItem("seroSessionId"); } catch {}
-      resetSession();
-      setState({ stage: STAGES.INTAKE, substage: "NAME" });
     });
   }
 
