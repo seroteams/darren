@@ -4,6 +4,7 @@ import "./styles/tailwind.css";
 import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.js";
+import { loaders } from "./stage-loaders.js";
 import { getSession, runRegression, me } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, replaceUrl, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage, isSuperadminStage, isLiveHiddenStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
@@ -18,58 +19,8 @@ import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js"
 // Injected once so the shared login/register resolver lands them where a reload does.
 store.memberHome = STAGES.RUNS;
 
-// Lazy stage modules — kept in a map so HMR + code-split both work nicely.
-const loaders = {
-  // The customer shell (welcome/join/team/person-detail) lives in the customer
-  // app now (frontend-admin-split Phase 3). MEMBER_HOME is kept only because the
-  // shared login.js still lands members there — it cross-imports the moved file.
-  LOGIN:           () => import("./stages/login.js"),
-  REGISTER:        () => import("./stages/register.js"),
-  FORGOT_PASSWORD: () => import("./stages/forgot-password.js"),
-  RESET_PASSWORD:  () => import("./stages/reset-password.js"),
-  PRIVACY:         () => import("./stages/privacy.js"),
-  ABOUT:           () => import("./stages/about.js"),
-  FEEDBACK:        () => import("./stages/feedback.js"),
-  START:           () => import("./stages/start.js"),
-  MEMBER_HOME:     () => import("../../frontend/src/stages/member-home.js"),
-  // Team + person pages are customer-app stages, cross-imported so the local Engine app's
-  // manager rail matches live (Carl: live and local should look the same).
-  TEAM:            () => import("../../frontend/src/stages/team.ts"),
-  PERSON_DETAIL:   () => import("../../frontend/src/stages/person-detail.ts"),
-  RUNS:            () => import("./stages/runs.ts"),
-  RUN_DETAIL:      () => import("./stages/run-detail.ts"),
-  GUIDED:          () => import("../../frontend/src/stages/guided/guided.page.ts"), // Monthly Check-in runner (customer-owned so Phase 7 can reuse it)
-  INTAKE:          () => import("./stages/intake.js"),
-  ONEPAGE:         () => import("./stages/onepage.js"),
-  FOCUS_POINTS:    () => import("./stages/focus-points.js"),
-  PREPARATION:     () => import("../../frontend/src/stages/preparation.ts"), // customer-owned rebuild (prepare-variants)
-  BANK:            () => import("./stages/bank.js"),
-  QUESTIONING:     () => import("./stages/questioning.js"),
-  EVAL:            () => import("./stages/eval.js"),
-  BRIEFING:        () => import("./stages/briefing.js"),
-  LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
-  RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
-  COMPARE:         () => import("./stages/compare.js"),
-  LIBRARY:         () => import("./stages/library.js"),
-  ROLE_LEXICONS:   () => import("./stages/job-lexicons.js"),
-  MEETING_ARCS:    () => import("./stages/meeting-arcs.js"),
-  PERSONAS:        () => import("./stages/personas.js"),
-  REVIEW_RUN:      () => import("./stages/review-run.js"),
-  GUIDE:           () => import("./stages/guide.js"),
-  TASKS:           () => import("./stages/tasks.js"),
-  ADMIN_PULSE:     () => import("./stages/admin-pulse.ts"),
-  ADMIN_GATE1:     () => import("./stages/admin-gate1.ts"),
-  ADMIN_RUNS:      () => import("./stages/admin-runs.ts"),
-  ADMIN_RATINGS:   () => import("./stages/admin-ratings.ts"),
-  ADMIN_REGISTERED: () => import("./stages/admin-registered.ts"),
-  ADMIN_USER:      () => import("./stages/admin-user-detail.ts"),
-  ADMIN_ERROR_LOG: () => import("./stages/admin-error-log.ts"),
-  ADMIN_FEEDBACK:  () => import("./stages/admin-feedback.ts"),
-  ADMIN_GUEST_RUNS: () => import("./stages/admin-guest-runs.ts"),
-  DESIGN:          () => import("./stages/design.js"),
-  TEST:            () => import("./stages/test.js"),
-  ERROR:           () => import("./stages/error.ts"),
-};
+// Lazy stage modules live in ./stage-loaders.js — the single registry the Screen
+// Gallery also reads, so a new screen appears there automatically.
 
 const root = document.getElementById("root");
 // Catch browser crashes / unhandled rejections and forward them to the Error log (error-log Phase 3).
@@ -266,6 +217,12 @@ startPopstate((parsed) => {
     else setState({ stage: STAGES.ADMIN_REGISTERED });
     return;
   }
+  // Screen Gallery — /gallery or /gallery/:screenId. The screenId rides into state and the
+  // stageTick bump makes main re-render the gallery so it opens on that screen.
+  if (parsed.stage === STAGES.GALLERY) {
+    setState({ galleryScreen: parsed.params?.galleryScreen || null, stage: STAGES.GALLERY, stageTick: store.stageTick + 1 });
+    return;
+  }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
     if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
     // No session: a logged-in user goes home; a guest goes to login.
@@ -450,6 +407,14 @@ async function boot() {
   // selected". Bare /team falls through to that handler and shows the Team list.
   if (route?.stage === STAGES.PERSON_DETAIL && route.params?.personKey) {
     setState({ personKey: route.params.personKey, stage: STAGES.PERSON_DETAIL });
+    return;
+  }
+
+  // /gallery/:screenId deep link — carry the screen id into state so a reload lands back on
+  // the same screen inside the gallery. The internal/superadmin/live guards above already
+  // bounced non-internal callers and the live site, so this is safe.
+  if (route?.stage === STAGES.GALLERY) {
+    setState({ galleryScreen: route.params?.galleryScreen || null, stage: STAGES.GALLERY });
     return;
   }
 

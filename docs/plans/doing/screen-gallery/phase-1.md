@@ -1,6 +1,18 @@
 # Phase 1 — Gallery shell
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's QA walk
+
+## Built (18 Jul 2026)
+- New registry `admin/src/stage-loaders.js` (loaders moved verbatim from main.js + GALLERY entry); main.js imports it.
+- `admin/src/state.js` — `STAGES.GALLERY` + `galleryScreen` state.
+- `admin/src/router.js` — `/gallery` + `/gallery/:screenId` routes, parse regex, gated `INTERNAL_ONLY` + `LIVE_HIDDEN`.
+- `admin/src/main.js` — boot + popstate branches carry `galleryScreen`.
+- `admin/src/stages/gallery/gallery.js` — tree (groups + filter) + host pane + child mount/unmount + URL sync + live-buttons banner + **Copy design prompt** button.
+- `admin/src/stages/gallery/screens.js` — labels/groups overlay, frontend-only loaders (welcome/join/members), prompt template, DEMO_SESSION_ID placeholder (Phase 2).
+- Copy-prompt file path derived from the Vite-resolved specifier — handles both admin-local and `/@fs/` cross-package screens (verified: `admin/src/stages/briefing.js`, `frontend/src/stages/team.ts`).
+- Verified on screen (Playwright, animations frozen): tree renders all groups + `needs data` tags, About/Team/Briefing/Library mount live, filter narrows ("brief" → Briefing + Debrief), deep link `/gallery/about` + `/gallery/briefing` survive reload.
+- Offline proof: `npm run typecheck` clean · `npm test` 156/156.
+- Known edge (accepted v1): the Design component-sheet screen renders live demo nav that can self-navigate — browser Back returns.
 
 ## Goal
 The `/gallery` page exists: a grouped tree of every screen on the left, the real screen rendered on the right, deep links that survive reload — with every self-fetching screen already showing real local data.

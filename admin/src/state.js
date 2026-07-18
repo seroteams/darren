@@ -47,6 +47,7 @@ export const STAGES = Object.freeze({
   ADMIN_GUEST_RUNS: "ADMIN_GUEST_RUNS",
   DESIGN: "DESIGN",
   TEST: "TEST",
+  GALLERY: "GALLERY",
   ERROR: "ERROR",
 });
 
@@ -70,6 +71,7 @@ const initial = {
   resetToken: null,
   adminUserId: null,
   adminUserName: null,
+  galleryScreen: null, // Screen Gallery: which screen the /gallery host is showing (stage key or null)
   currentQuestion: null,
   axes: [],
   briefing: null,
