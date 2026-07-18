@@ -96,7 +96,7 @@ Questions are YAML files; each carries:
 - `grounding`: string quote (audited against the session record)
 
 **Fallback:** a broken/leaky question gets a safe stem
-(`FALLBACK_STEM`, `src/question-validator.js`), logged not masked.
+(`FALLBACK_STEM`, `backend/engine/question-validator.ts`), logged not masked.
 
 ---
 
