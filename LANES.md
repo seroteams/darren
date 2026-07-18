@@ -10,9 +10,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 |---------|------|-------|---------|
 | 1b4b459f | Promises-loop P3 engine feed + scorer-trust fix | backend/engine/run-health.ts, backend/engine/run-health.test.ts, backend/api/services/sessions/session-streams.ts, backend/engine/reviewer.ts, backend/engine/cli/stages/, backend/engine/preparation-inputs.ts, content/prompts/, docs/plans/doing/promises-loop/ | 2026-07-18 |
 | 2ee8127c | Screen-gallery v2 — static HTML gallery + export script + fixtures (Part B/C) | scripts/gallery-export.mjs, scripts/gallery/, docs/screen-gallery/, docs/plans/doing/screen-gallery/ | 2026-07-18 |
-| 6633b27d | Guest-discard routing — last exit handler | frontend/src/stages/preparation.ts | 2026-07-18 |
-| 7fc9f370 | Auth split-screen 50/50 layout fix | admin/src/styles/design/auth.css | 2026-07-18 |
-| ebee7f1e | Runner v2 POC — 50/50 coach-panel test page | admin/src/stages/tests/runner-v2.js, admin/src/stages/test.js | 2026-07-18 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
