@@ -34,6 +34,16 @@ export type RecapBriefing = {
   completedAt?: string | number | null;
 };
 
+// What the manager gave Sero at intake — shown at the top of the PDF so the
+// recap is self-explaining when it's forwarded or filed.
+export type RecapCtx = {
+  name?: string;
+  role?: string;
+  seniority?: string;
+  meetingType?: string;
+  notes?: string;
+};
+
 const COLOR = {
   ink: "#1f2a37",        // --color-ink
   inkDim: "#636363",     // --color-ink-dim
@@ -49,7 +59,19 @@ const COLOR = {
   goldBg: "#fffbf4",     // --sero-gold-100
   goldLine: "#fff0d1",   // --sero-gold-300
   goldText: "#523600",   // --sero-gold-900
+  accentBg: "#e9f3fb",   // --color-accent-soft (primary-200)
+  accentLine: "#d7eaf8", // --sero-primary-300
 };
+
+// The app logo (session-topbar.js), with the CSS-variable fill resolved to the
+// ink token — pdfmake renders it as a vector.
+const LOGO_SVG = `<svg viewBox="0 0 48 48" width="22" height="22">
+  <rect width="48" height="48" rx="12" fill="#1f2a37"/>
+  <rect x="9" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
+  <rect x="32.5" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
+  <circle cx="24" cy="18.5" r="5" fill="#fff"/>
+  <circle cx="24" cy="31" r="5" fill="#fff"/>
+</svg>`;
 
 const VISUAL_MAX = 6; // same visual clamp as the on-screen axis bars (ui/axes.js)
 
@@ -144,8 +166,11 @@ export function recapPdfFilename(name: string | undefined, completedAt?: string 
   return `sero-recap-${slug}-${stamp}.pdf`;
 }
 
-export function buildRecapDocDefinition(b: RecapBriefing, ctx: { name?: string } | undefined) {
+export function buildRecapDocDefinition(b: RecapBriefing, ctx: RecapCtx | undefined) {
   const name = pdfSafe((ctx?.name || "").trim());
+  const role = pdfSafe((ctx?.role || "").trim());
+  const meetingType = pdfSafe((ctx?.meetingType || "").trim());
+  const notes = pdfSafe((ctx?.notes || "").trim());
   const when = b.completedAt ? new Date(b.completedAt) : new Date();
   const dateLine = isNaN(when.getTime())
     ? ""
@@ -153,11 +178,12 @@ export function buildRecapDocDefinition(b: RecapBriefing, ctx: { name?: string }
 
   const content: unknown[] = [];
 
-  // Header band: wordmark + date, ruled off in accent.
+  // Header band: logo + wordmark + date, ruled off in accent.
   content.push({
     columns: [
-      { text: "Sero", fontSize: 15, bold: true, color: COLOR.accentDark },
-      { text: dateLine, alignment: "right", fontSize: 9, color: COLOR.inkMute, margin: [0, 4, 0, 0] },
+      { svg: LOGO_SVG, width: 20 },
+      { text: "Sero", fontSize: 15, bold: true, color: COLOR.accentDark, margin: [7, 1, 0, 0] },
+      { text: dateLine, alignment: "right", fontSize: 9, color: COLOR.inkMute, margin: [0, 5, 0, 0] },
     ],
   });
   content.push({
@@ -165,8 +191,29 @@ export function buildRecapDocDefinition(b: RecapBriefing, ctx: { name?: string }
     margin: [0, 0, 0, 14],
   });
 
-  content.push(eyebrow(name ? `1:1 recap · for ${name}` : "1:1 recap", { margin: [0, 4, 0, 8] }));
-  content.push({ text: pdfSafe(b.headline || "Recap"), fontSize: 20, bold: true, color: COLOR.ink, lineHeight: 1.12 });
+  // Who this was for + what the manager gave Sero at intake — verbatim, so the
+  // PDF stands on its own when it's forwarded or filed.
+  if (name || role || meetingType || notes) {
+    const ctxLines: unknown[] = [];
+    if (name || role) {
+      ctxLines.push({ text: "Who this was for".toUpperCase(), fontSize: 8, bold: true, color: COLOR.accentDark, characterSpacing: 1, margin: [0, 0, 0, 3] });
+      ctxLines.push({
+        text: [
+          { text: name || "—", bold: true },
+          ...(role ? [{ text: `  ·  ${role}`, color: COLOR.inkDim }] : []),
+        ],
+      });
+      if (meetingType) ctxLines.push({ text: `Meeting: ${meetingType}`, fontSize: 9.5, color: COLOR.inkDim, margin: [0, 2, 0, 0] });
+    }
+    if (notes) {
+      ctxLines.push({ text: "What Sero was told going in".toUpperCase(), fontSize: 8, bold: true, color: COLOR.accentDark, characterSpacing: 1, margin: [0, name || role ? 8 : 0, 0, 3] });
+      ctxLines.push({ text: `“${notes}”`, color: COLOR.inkDim });
+    }
+    content.push(tintedBox(ctxLines, COLOR.accentBg, COLOR.accentLine));
+  }
+
+  content.push(eyebrow("1:1 recap", { margin: [0, 8, 0, 8] }));
+  content.push({ text: pdfSafe(b.headline || "Recap"), font: "Bricolage", fontSize: 20, color: COLOR.ink, lineHeight: 1.12 });
 
   const bullets = b.summary_bullets || [];
   if (bullets.length) {
@@ -276,7 +323,7 @@ export function buildRecapDocDefinition(b: RecapBriefing, ctx: { name?: string }
   return {
     pageSize: "A4",
     pageMargins: [48, 52, 48, 58] as [number, number, number, number],
-    defaultStyle: { fontSize: 10.5, color: COLOR.ink, lineHeight: 1.4 },
+    defaultStyle: { font: "Inter", fontSize: 10.5, color: COLOR.ink, lineHeight: 1.4 },
     info: { title: name ? `Sero 1:1 recap — ${name}` : "Sero 1:1 recap", creator: "Sero" },
     footer: (currentPage: number, pageCount: number) => ({
       columns: [
@@ -289,12 +336,56 @@ export function buildRecapDocDefinition(b: RecapBriefing, ctx: { name?: string }
   };
 }
 
-export async function downloadRecapPdf(b: RecapBriefing, ctx: { name?: string } | undefined): Promise<void> {
+// The app's own typefaces (Bricolage headline, Inter everything else), served as
+// static TTF instances generated from the same @fontsource variable fonts the
+// screens use (admin/src/assets/pdf-fonts/). Fetched once, then cached.
+const PDF_FONTS = {
+  Inter: { normal: "inter-regular.ttf", bold: "inter-bold.ttf", italics: "inter-regular.ttf", bolditalics: "inter-bold.ttf" },
+  Bricolage: { normal: "bricolage-semibold.ttf", bold: "bricolage-semibold.ttf", italics: "bricolage-semibold.ttf", bolditalics: "bricolage-semibold.ttf" },
+};
+
+let vfsPromise: Promise<Record<string, string>> | null = null;
+
+function toBase64(buf: ArrayBuffer): string {
+  const bytes = new Uint8Array(buf);
+  let bin = "";
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(bin);
+}
+
+function loadFontVfs(): Promise<Record<string, string>> {
+  if (!vfsPromise) {
+    vfsPromise = (async () => {
+      const files: [string, URL][] = [
+        ["inter-regular.ttf", new URL("../assets/pdf-fonts/inter-regular.ttf", import.meta.url)],
+        ["inter-bold.ttf", new URL("../assets/pdf-fonts/inter-bold.ttf", import.meta.url)],
+        ["bricolage-semibold.ttf", new URL("../assets/pdf-fonts/bricolage-semibold.ttf", import.meta.url)],
+      ];
+      const vfs: Record<string, string> = {};
+      await Promise.all(files.map(async ([nameKey, url]) => {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`font fetch failed: ${nameKey} (${res.status})`);
+        vfs[nameKey] = toBase64(await res.arrayBuffer());
+      }));
+      return vfs;
+    })();
+    // A failed fetch shouldn't poison every later click.
+    vfsPromise.catch(() => { vfsPromise = null; });
+  }
+  return vfsPromise;
+}
+
+export async function downloadRecapPdf(b: RecapBriefing, ctx: RecapCtx | undefined): Promise<void> {
   // @ts-expect-error pdfmake's browser build ships without type declarations
   const pdfMakeMod = await import("pdfmake/build/pdfmake");
-  // @ts-expect-error same — the vfs module is a plain font map
-  const vfsMod = await import("pdfmake/build/vfs_fonts");
   const pdfMake = pdfMakeMod.default ?? pdfMakeMod;
-  pdfMake.addVirtualFileSystem(vfsMod.default ?? vfsMod);
-  pdfMake.createPdf(buildRecapDocDefinition(b, ctx)).download(recapPdfFilename(ctx?.name, b.completedAt));
+  const vfs = await loadFontVfs();
+  pdfMake.addVirtualFileSystem(vfs);
+  pdfMake.addFonts(PDF_FONTS);
+  pdfMake
+    .createPdf(buildRecapDocDefinition(b, ctx))
+    .download(recapPdfFilename(ctx?.name, b.completedAt));
 }

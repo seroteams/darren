@@ -24,10 +24,21 @@ const FULL = {
 const flat = (doc: { content: unknown[] }) => JSON.stringify(doc.content);
 
 test("full briefing renders every section with the engine's own words", () => {
-  const doc = buildRecapDocDefinition(FULL, { name: "Amira" });
+  const doc = buildRecapDocDefinition(FULL, {
+    name: "Amira",
+    role: "Junior Product Designer",
+    meetingType: "Performance & feedback",
+    notes: "Her recent work needs too many review rounds.",
+  });
   const s = flat(doc);
   assert.match(s, /review churn/);
-  assert.match(s, /1:1 RECAP · FOR AMIRA/);
+  // Top context block: who it was for + the intake detail, verbatim.
+  assert.match(s, /WHO THIS WAS FOR/);
+  assert.match(s, /Junior Product Designer/);
+  assert.match(s, /Meeting: Performance & feedback/);
+  assert.match(s, /WHAT SERO WAS TOLD GOING IN/);
+  assert.match(s, /too many review rounds/);
+  assert.match(s, /1:1 RECAP/);
   assert.match(s, /WHAT STOOD OUT/);
   assert.match(s, /WHAT WE UNDERSTOOD/);
   assert.match(s, /FINAL READ/);
@@ -51,6 +62,9 @@ test("empty sections are dropped, not rendered blank", () => {
   const s = flat(doc);
   assert.match(s, /Just a headline/);
   assert.doesNotMatch(s, /WHAT STOOD OUT|FINAL READ|HONEST READ|WHAT TO DO NEXT|REMINDERS/);
+  // No intake notes → the "what Sero was told" label stays out too.
+  assert.match(s, /WHO THIS WAS FOR/);
+  assert.doesNotMatch(s, /WHAT SERO WAS TOLD/);
 });
 
 test("filename slugs the name and stamps the completed date", () => {
