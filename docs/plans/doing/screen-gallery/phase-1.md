@@ -1,6 +1,9 @@
 # Phase 1 — Gallery shell
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's QA walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT
+
+## ✅ GREEN-LIT 18 Jul 2026 — Carl walked the gallery + the full 46-screen test sweep ("love it, keep it, I can use it")
+Reached via the Screens rail icon → edit-mode top bar → soft-yellow Screens ▾ dropdown; picks the real screen, Copy design prompt per screen. 44/46 screens mounted (34 with data, 10 empty + 2 needs-id → Phase 2). Committed on main, local only.
 
 ## Built (18 Jul 2026)
 - New registry `admin/src/stage-loaders.js` (loaders moved verbatim from main.js + GALLERY entry); main.js imports it.
