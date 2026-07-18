@@ -99,18 +99,21 @@ const STYLE = `
     max-width:600px; width:100%; }
   .rv2-mocknote { font-size:14px; color:var(--color-ink-mute); font-style:italic; }
 
-  /* Live scores — closed by default, opens above the button */
+  /* Live scores — live on the mint half, closed by default */
+  .rv2-scores-block { margin-bottom:auto; max-width:520px; margin-top:var(--sero-space-6);
+    padding-top:var(--sero-space-4); border-top:1px solid var(--sero-mint-700);
+    display:flex; flex-direction:column; gap:var(--sero-space-3); }
   .rv2-scores-btn { align-self:flex-start; display:inline-flex; align-items:center;
     gap:var(--sero-space-2); }
   .rv2-scores-btn .sero-icon { transition:transform .15s ease; }
   .rv2-scores-btn[aria-expanded="true"] .sero-icon { transform:rotate(180deg); }
-  .rv2-scores { max-width:600px; }
 
   /* RIGHT — full-bleed soft mint, dark-green text, no card chrome */
-  .rv2-coach { background:var(--sero-mint-500); color:var(--sero-mint-900);
-    display:flex; flex-direction:column; justify-content:center; overflow-y:auto;
+  .rv2-coach { background:var(--sero-mint-300); color:var(--sero-mint-900);
+    display:flex; flex-direction:column; overflow-y:auto;
     padding:clamp(24px, 5vw, 88px); }
-  .rv2-coach__inner { max-width:520px; display:flex; flex-direction:column;
+  /* margin:auto pair centres the group when it fits but never clips it when it scrolls */
+  .rv2-coach__inner { margin-top:auto; max-width:520px; display:flex; flex-direction:column;
     gap:var(--sero-space-5); transition:opacity .18s ease, transform .18s ease; }
   .rv2-coach__inner.rv2-fade { opacity:0; transform:translateY(6px); }
   @media (prefers-reduced-motion: reduce) {
@@ -140,7 +143,7 @@ const STYLE = `
 
   /* End scene */
   .rv2-done-wrap { position:fixed; inset:0; z-index:200; display:grid; place-items:center;
-    background:var(--sero-mint-500); padding:var(--sero-space-6); }
+    background:var(--sero-mint-300); padding:var(--sero-space-6); }
   .rv2-done { display:flex; flex-direction:column; align-items:flex-start;
     gap:var(--sero-space-3); max-width:520px; }
   .rv2-done__glyph { display:grid; place-items:center; width:44px; height:44px;
@@ -229,9 +232,6 @@ export function mount(host) {
             </div>
           </div>
           <div class="rv2-left__bottom">
-            <div class="rv2-scores js-scores" ${scoresOpen ? "" : "hidden"}>${axesHtml(turnIdx)}</div>
-            <button type="button" class="btn btn--ghost rv2-scores-btn js-scores-btn"
-              aria-expanded="${scoresOpen}">Live scores ${icon(ChevronDown, { size: 16 })}</button>
             <p class="rv2-mocknote">Mock — nothing is saved. The hints are hand-written for this walk.</p>
           </div>
         </div>
@@ -243,6 +243,11 @@ export function mount(host) {
             </div>
             <div class="rv2-hints">${q.hints.map(hintRow).join("")}</div>
             <div class="rv2-coach-foot">Coaching only — none of this is shown to ${CTX_SEGMENTS[0]}.</div>
+          </div>
+          <div class="rv2-scores-block">
+            <button type="button" class="btn btn--ghost rv2-scores-btn js-scores-btn"
+              aria-expanded="${scoresOpen}">Live scores ${icon(ChevronDown, { size: 16 })}</button>
+            <div class="js-scores" ${scoresOpen ? "" : "hidden"}>${axesHtml(turnIdx)}</div>
           </div>
         </aside>
       </div>`;
