@@ -4,8 +4,8 @@ Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished 
 
 📍 **2026-07-19 — the meeting picker got honest.** Onboarding check-in is off the picker
 (old runs still open fine), and Monthly Check-in now shows for real managers in BOTH apps —
-it was built but hidden behind the internal-admin wall. Verified on screen as a manager;
-committed locally, ships on next push (your walk first).
+it was built but hidden behind the internal-admin wall. **LIVE 2026-07-19** (pushed 65109d0e;
+confirmed on sero-obwq — anon meeting-types dropped to 4 cards, no Onboarding).
 
 📍 **2026-07-19 — promises got their moment.** The promises step is now its own full-screen
 "lock in what you two agreed" page BEFORE the recap (two lists: you / them), guests included;
