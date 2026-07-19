@@ -42,7 +42,6 @@ export const SCREENS = {
 
   // 1:1 prep flow (in walking order)
   INTAKE:           { label: "Intake",              group: "flow" },
-  ONEPAGE:          { label: "One-page",            group: "flow", needsData: true },
   FOCUS_POINTS:     { label: "Focus points",        group: "flow", needsData: true },
   PREPARATION:      { label: "Preparation",         group: "flow", needsData: true },
   BANK:             { label: "Question bank",       group: "flow", needsData: true },

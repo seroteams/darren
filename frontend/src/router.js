@@ -28,7 +28,6 @@ const PATH_FOR = {
   [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
   [STAGES.PERSON_DETAIL]:  (s) => (s.personKey ? `/team/${encodeURIComponent(s.personKey)}` : "/team"),
   [STAGES.INTAKE]:         () => "/new",
-  [STAGES.ONEPAGE]:        () => "/flow",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
   [STAGES.PREPARATION]:    () => "/prepare",
   [STAGES.BANK]:           () => "/bank",
@@ -46,7 +45,7 @@ const STAGE_FOR = {
   "/privacy": STAGES.PRIVACY,
   "/about": STAGES.ABOUT, "/feedback": STAGES.FEEDBACK,
   "/": STAGES.START, "/home": STAGES.MEMBER_HOME, "/team": STAGES.TEAM, "/members": STAGES.MEMBERS, "/runs": STAGES.RUNS,
-  "/new": STAGES.INTAKE, "/flow": STAGES.ONEPAGE, "/focus": STAGES.FOCUS_POINTS,
+  "/new": STAGES.INTAKE, "/focus": STAGES.FOCUS_POINTS,
   "/prepare": STAGES.PREPARATION, "/bank": STAGES.BANK, "/interview": STAGES.QUESTIONING,
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
 };

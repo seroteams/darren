@@ -50,7 +50,6 @@ const loaders = {
   RUN_DETAIL:      () => import("../../admin/src/stages/run-detail.ts"),
   PERSON_DETAIL:   () => import("./stages/person-detail.ts"),
   INTAKE:          () => import("../../admin/src/stages/intake.js"),
-  ONEPAGE:         () => import("../../admin/src/stages/onepage.js"),
   FOCUS_POINTS:    () => import("../../admin/src/stages/focus-points.js"),
   PREPARATION:     () => import("./stages/preparation.ts"), // customer-owned (prepare-variants); admin imports this same file
   BANK:            () => import("../../admin/src/stages/bank.js"),

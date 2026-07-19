@@ -87,7 +87,7 @@ const PIPELINE = [
 // header comment. Only the grouping is curated here; a file the map doesn't know
 // lands in "New screens — not yet grouped" so additions are impossible to miss.
 const SCREEN_GROUPS = {
-  "intake.js": "flow", "onepage.js": "flow", "focus-points.js": "flow",
+  "intake.js": "flow", "focus-points.js": "flow",
   "bank.js": "flow", "questioning.js": "flow",
   "eval.js": "flow", "briefing.js": "flow", "run-debrief.js": "flow",
   "lexicon-review.js": "flow",

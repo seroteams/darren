@@ -26,7 +26,6 @@ export const loaders = {
   RUN_DETAIL:      () => import("./stages/run-detail.ts"),
   GUIDED:          () => import("../../frontend/src/stages/guided/guided.page.ts"), // Monthly Check-in runner (customer-owned so Phase 7 can reuse it)
   INTAKE:          () => import("./stages/intake.js"),
-  ONEPAGE:         () => import("./stages/onepage.js"),
   FOCUS_POINTS:    () => import("./stages/focus-points.js"),
   PREPARATION:     () => import("../../frontend/src/stages/preparation.ts"), // customer-owned rebuild (prepare-variants)
   BANK:            () => import("./stages/bank.js"),

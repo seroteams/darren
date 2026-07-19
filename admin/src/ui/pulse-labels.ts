@@ -13,7 +13,7 @@ export const prettyType = (t: string): string =>
   TYPE_LABELS[t.toLowerCase()] ?? (t.charAt(0).toUpperCase() + t.slice(1));
 
 const STAGE_LABELS: Record<string, string> = {
-  intake: "Setting up", onepage: "Setting up", focus_points: "Focus", focus: "Focus",
+  intake: "Setting up", focus_points: "Focus", focus: "Focus",
   preparation: "Prep", bank: "Questions", questioning: "Questions", questions: "Questions",
   eval: "Evaluate", briefing: "Recap", run_debrief: "Debrief", debrief: "Debrief",
 };
