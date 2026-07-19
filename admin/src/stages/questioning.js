@@ -3,6 +3,7 @@ import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wr
 import { renderPromiseCheckin } from "../ui/promise-checkin.ts";
 import { createOrb } from "../ui/orb.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
+import { createCoachPanel } from "../ui/coach-panel.ts";
 import { openSse } from "../../../shared/sse.js";
 import { revealOne, sleep } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
@@ -14,9 +15,13 @@ import { Copy } from "lucide";
 
 let unmountFn = null;
 
+// The coach panel (coach-panel Phase 1) is the ADMIN app only for now — this stage
+// module is shared with the customer app, which keeps the single-column layout.
+// BASE_URL is a per-app build constant: "/admin/" for the admin app, "/" for frontend.
+const IS_ADMIN_APP = import.meta.env.BASE_URL === "/admin/";
+
 export async function mount(root, { store, setState }) {
-  root.innerHTML = `
-    <div class="stage-questioning l-stack l-stack--6">
+  const leftInner = `
       <header class="page-header">
         <div class="page-header__row">
           <div class="questioning-head min-w-0 space-y-1">
@@ -29,13 +34,19 @@ export async function mount(root, { store, setState }) {
       </header>
       <div class="question-host"></div>
       <div class="thinking-host min-h-[72px]"></div>
+      ${IS_ADMIN_APP ? "" : `
       <div class="axes-wrap space-y-2" aria-label="Live scores — updated each answer, not the final briefing">
         <div class="eyebrow" title="Live scores — updated each answer, not the final briefing">Live scores</div>
         <div class="card axes-host"></div>
-      </div>
+      </div>`}
       <div class="footer-host text-sm text-ink-mute"></div>
-    </div>
   `;
+  root.innerHTML = IS_ADMIN_APP
+    ? `<div class="stage-questioning coach-split">
+        <div class="coach-split__left l-stack l-stack--6">${leftInner}</div>
+        <aside class="coach-split__right"><div class="coach-host"></div></aside>
+      </div>`
+    : `<div class="stage-questioning l-stack l-stack--6">${leftInner}</div>`;
   const turnLabel = root.querySelector(".turn-label");
   const sessionCtxEl = root.querySelector(".question-session-ctx");
   const qHost = root.querySelector(".question-host");
@@ -50,10 +61,13 @@ export async function mount(root, { store, setState }) {
     sessionNotesEl.hidden = false;
   }
   const thinkingHost = root.querySelector(".thinking-host");
-  const axesHost = root.querySelector(".axes-host");
+  const axesHost = root.querySelector(IS_ADMIN_APP ? ".coach-host" : ".axes-host");
   const footerHost = root.querySelector(".footer-host");
 
-  const axes = createAxesPanel({ celebrate: false });
+  // Same duck-type surface either way: renderInitial / update (+ setNote on the coach panel).
+  const axes = IS_ADMIN_APP
+    ? createCoachPanel({ sessionId: store.sessionId, personName: store.ctx?.name || "" })
+    : createAxesPanel({ celebrate: false });
   axes.renderInitial(
     store.axes?.length
       ? store.axes
@@ -444,6 +458,11 @@ export async function mount(root, { store, setState }) {
       .on("note", (d) => {
         if (!d.note || noteShown) return;
         noteShown = true;
+        // Admin: the note IS the coach panel's per-axis "why" — no duplicate footer hint.
+        if (IS_ADMIN_APP) {
+          axes.setNote(d.note);
+          return;
+        }
         const n = document.createElement("div");
         n.className = "hint mt-2 reveal";
         n.textContent = d.note;

@@ -1,0 +1,66 @@
+/* Coach panel (coach-panel Phase 1) — the lavender right half of the questioning
+   split, plus the split layout itself. Meters are the runner-v2 POC's design 5
+   ("Gradient meter", Carl's pick 2026-07-19). Tokens only; 14px floor. */
+
+/* The 50/50 split (admin app only — the customer app keeps the single column). */
+.coach-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: stretch; }
+.coach-split__left { min-width: 0; padding-right: var(--sero-space-6); }
+.coach-split__right { min-width: 0; }
+@media (max-width: 1100px) {
+  .coach-split { grid-template-columns: 1fr; }
+  .coach-split__left { padding-right: 0; }
+}
+
+.coach-panel {
+  background: var(--sero-lavender-300);
+  color: var(--sero-lavender-900);
+  border-radius: var(--sero-radius-lg, 12px);
+  padding: var(--sero-space-5) var(--sero-space-6);
+  height: 100%;
+  min-height: 320px;
+}
+
+.coach-panel__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sero-space-3); flex-wrap: wrap;
+  padding-bottom: var(--sero-space-3);
+  border-bottom: 1px solid var(--sero-lavender-600);
+}
+.coach-panel__privacy { font-size: 14px; color: var(--sero-lavender-800); }
+
+.coach-row { padding: var(--sero-space-5) 0; border-top: 1px solid var(--sero-lavender-600); }
+.coach-row:first-child { border-top: 0; }
+
+.coach-row__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.coach-row__label { font-size: 15px; font-weight: 600; color: var(--sero-lavender-900); }
+.coach-row__delta { font-size: 15px; font-weight: 700; }
+.coach-row__delta--up { color: var(--color-positive-text); }
+.coach-row__delta--down { color: var(--color-negative-text); }
+.coach-row__delta--flat { color: var(--sero-lavender-800); }
+
+.coach-row__why {
+  font-size: 15px; line-height: 1.5; color: var(--sero-lavender-900);
+  margin: var(--sero-space-2) 0 0; max-width: 60ch;
+}
+.coach-row__why--idle { color: var(--sero-lavender-800); }
+
+/* The gradient meter (POC V5): centre-out fill, numbered thumb. */
+.coach-meter {
+  position: relative; height: 14px; border-radius: 9999px;
+  background: var(--sero-lavender-200); margin: 14px 0;
+}
+.coach-meter__mid {
+  position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px;
+  background: var(--sero-lavender-500);
+}
+.coach-meter__fill {
+  position: absolute; top: 0; bottom: 0; border-radius: 9999px;
+  background: linear-gradient(90deg, var(--sero-lavender-400), var(--sero-lavender-700));
+}
+.coach-meter__thumb {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  min-width: 36px; height: 26px; padding: 0 8px; border-radius: 9999px;
+  background: var(--color-surface); border: 1px solid var(--sero-lavender-600);
+  box-shadow: var(--shadow-card); display: grid; place-items: center;
+  font-size: 14px; font-weight: 700; color: var(--sero-lavender-900);
+}

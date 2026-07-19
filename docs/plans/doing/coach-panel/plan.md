@@ -24,16 +24,15 @@ Research behind this plan (all file:line evidence, cost estimates, privacy check
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Split screen + live scores | Real questioning screen goes 50/50; gradient meters wired to real deltas + the model's real "why" per axis | ⬜ |
+| 1 | Split screen + live scores | Real questioning screen goes 50/50; gradient meters wired to real deltas + the model's real "why" per axis | 🔨 |
 | 2 | Support hints | Questions generated with 3 hints each; Support/Live-scores toggle appears | ⬜ |
 | 3 | Rationale arc gate | FOCUS_ARC_LEAK-style check so score "why" text can't carry competency framing into bi-weekly / feels-off meetings | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-19. Board: https://claude.ai/code/artifact/7638a835-d749-4676-88ce-db2fbd9c57f3
-Waiting for Carl to read the phases and green-light Phase 1.
-Baseline for Phase 1 will be the FREE checks (npm test — 157/157 green at deploy today — plus typecheck); the paid gate is not needed for a frontend + 5-line-engine phase.
+Phase 1 BUILT 2026-07-19 (baseline 157/157 before, 158/158 after; typecheck clean; cassette-replay walk + screenshot in phase-1.md). Board: https://claude.ai/code/artifact/7638a835-d749-4676-88ce-db2fbd9c57f3
+Waiting for Carl's test walk on the phase-1 scenarios. Free walk: localhost:3143/admin (cassette servers `sero-api-coach` + `sero-web-coach` — $0, replays a recorded run); a live-engine walk on his own words = one paid run ~$0.35, his call.
 
 ## Parked
 - Per-axis whys minted by the model each turn (Phase C of the research) — cache-cliff risk, est. +$0.10–0.25/run. Only if the corridor proves value.

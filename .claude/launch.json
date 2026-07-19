@@ -38,6 +38,16 @@
       "port": 3000
     },
     {
+      "name": "splash-static",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/serve-static.js",
+        "frontend",
+        "4183"
+      ],
+      "port": 4183
+    },
+    {
       "name": "verdict-review",
       "runtimeExecutable": "node",
       "runtimeArgs": [
@@ -266,6 +276,61 @@
         "--strictPort"
       ],
       "port": 3123
+    },
+    {
+      "name": "sero-api-copy",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3131",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3131
+    },
+    {
+      "name": "sero-web-copy",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3131",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3133",
+        "--strictPort"
+      ],
+      "port": 3133
+    },
+    {
+      "name": "sero-api-coach",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3141",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "SERO_CASSETTE_REPLAY=C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Documents-Sero-darren\\5d716aaf-0d07-4498-a9d8-26026dc72482\\scratchpad\\coach-cassette",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3141
+    },
+    {
+      "name": "sero-web-coach",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3141",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3143",
+        "--strictPort"
+      ],
+      "port": 3143
     },
     {
       "name": "sero-prod-iso",
