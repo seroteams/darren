@@ -4,6 +4,7 @@
 // New tests: add a module under ./tests/ exporting mount(root), then one entry to TESTS.
 
 import { mount as promisesLoop } from "./tests/promises-loop.js";
+import { mount as promisesBeforeRecap } from "./tests/promises-before-recap.js";
 import { mount as runnerV2 } from "./tests/runner-v2.js";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
@@ -77,6 +78,16 @@ const TESTS = [
     mount: runnerV2,
     bare: true,
     wide: true,
+  },
+  {
+    id: "promises-before-recap",
+    title: "Promises before the recap",
+    blurb:
+      "The promises step as its own moment after the last question: two lists — you promise / they promise — edit, move, lock in. Then the recap's payoff band shows what was actually agreed (and what the skip path looks like).",
+    date: "19 Jul 2026",
+    tag: "runner",
+    thumb: THUMB_RUNNER,
+    mount: promisesBeforeRecap,
   },
   {
     id: "promises-loop",

@@ -1,0 +1,203 @@
+<title>Promises before the recap — preview</title>
+<style>
+  /* Sero tokens (lifted from admin/src/styles/design/tokens.css) — light theme by design:
+     this is a preview of the light-only Sero app, not a themed document. */
+  :root{
+    --bg:#f5fafd; --surface:#fdfefe; --border:#e8e8e8; --border-strong:#cccccc;
+    --ink:#1f2a37; --ink-dim:#636363; --ink-mute:#757575;
+    --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb; --primary-200:#e9f3fb; --primary-400:#c1def4;
+    --mint-100:#f8fefc; --mint-400:#d0f8ef; --mint-900:#0c4b3c;
+    --gold-100:#fffbf4; --gold-400:#ffe7b7; --gold-900:#523600;
+    --soft-500:#f2f2f2;
+    --radius-card:12px; --radius-btn:4px; --radius-frame:18px;
+    --shadow-lift:0 1px 2px rgba(31,42,55,.04), 0 8px 24px rgba(31,42,55,.06);
+    --payoff-shadow:0 2px 4px rgba(27,93,145,.05), 0 14px 40px rgba(27,93,145,.09);
+  }
+  *{box-sizing:border-box; margin:0;}
+  body{background:var(--bg); color:var(--ink);
+    font:16px/1.5 "InterVariable","Inter",ui-sans-serif,system-ui,sans-serif;
+    padding:40px 20px 96px;}
+  .wrap{max-width:1180px; margin:0 auto; display:grid; gap:36px;}
+
+  /* page chrome */
+  .banner{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+  .banner .tag{font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--gold-900); background:var(--gold-100); border:1px solid var(--gold-400);
+    border-radius:9999px; padding:3px 14px;}
+  .banner h1{font-size:clamp(1.6rem,3.5vw,2.1rem); letter-spacing:-0.01em; text-wrap:balance;
+    font-weight:700; width:100%;}
+  .flow{display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:14px; color:var(--ink-dim);}
+  .flow .step{background:var(--surface); border:1px solid var(--border); border-radius:9999px; padding:4px 14px;}
+  .flow .step--new{background:var(--accent-soft); border-color:var(--primary-400); color:var(--accent-dark); font-weight:600;}
+  .flow .arrow{color:var(--ink-mute);}
+
+  .screens{display:grid; grid-template-columns:1.15fr 1fr; gap:32px; align-items:start;}
+  @media (max-width:960px){ .screens{grid-template-columns:1fr;} }
+  .shot{display:grid; gap:12px;}
+  .shot > .caption{font-size:14px; color:var(--ink-dim); padding:0 4px;}
+  .caption b{color:var(--ink);}
+
+  /* framed app screen */
+  .frame{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-frame);
+    box-shadow:var(--shadow-lift); padding:34px 34px 30px;}
+
+  .eyebrow{display:block; font-size:14px; font-weight:600; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--accent-dark);}
+  .frame h2{font-family:"Bricolage Grotesque","InterVariable","Inter",ui-sans-serif,system-ui,sans-serif;
+    font-size:1.75rem; line-height:1.15; letter-spacing:-0.01em; margin:10px 0 6px; text-wrap:balance;}
+  .lede{color:var(--ink-dim); max-width:34rem;}
+
+  /* promise group cards */
+  .group{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card);
+    padding:18px 20px 14px; margin-top:22px;}
+  .group--you{border-color:var(--primary-400); background:linear-gradient(180deg,#fdfeff, var(--surface));}
+  .group .eyebrow{color:var(--ink-mute); letter-spacing:.06em;}
+  .group--you .eyebrow{color:var(--accent-dark);}
+  .rows{margin-top:6px;}
+  .row{display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--border);}
+  .row:first-child{border-top:0;}
+  .row .dot{width:8px; height:8px; border-radius:9999px; background:var(--accent); flex:none;}
+  .row .text{flex:1; min-width:0; font-size:16px; color:var(--ink);
+    border:1px solid transparent; border-radius:var(--radius-btn); padding:4px 8px; margin:-4px -8px;}
+  .row .text:hover{border-color:var(--border-strong); background:#fff;}
+  .when{font-size:14px; color:var(--ink-dim); border:1px solid var(--border);
+    border-radius:9999px; padding:0 10px; white-space:nowrap;}
+  .iconbtn{font:inherit; font-size:14px; color:var(--ink-dim); background:none; cursor:pointer;
+    border:1px solid var(--border); border-radius:var(--radius-btn); padding:4px 10px; white-space:nowrap;}
+  .iconbtn:hover{border-color:var(--accent); color:var(--ink);}
+  .iconbtn--quiet{border-color:transparent;}
+  .addrow{margin-top:8px;}
+  .addbtn{font:inherit; font-size:14px; color:var(--ink-dim); background:none; cursor:pointer;
+    border:1px dashed var(--border-strong); border-radius:var(--radius-btn); padding:6px 14px;}
+  .addbtn:hover{color:var(--accent-dark); border-color:var(--accent);}
+
+  /* footer actions */
+  .actions{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:26px;}
+  .btn{font:inherit; font-size:16px; font-weight:600; cursor:pointer; border-radius:var(--radius-btn);
+    padding:10px 22px; border:1px solid transparent;}
+  .btn--primary{background:var(--accent); color:#fff;}
+  .btn--primary:hover{background:var(--accent-dark);}
+  .btn--ghost{background:none; color:var(--ink-dim); border-color:var(--border);}
+  .btn--ghost:hover{color:var(--ink); border-color:var(--border-strong);}
+  .loopnote{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--ink-mute); margin-top:14px;}
+
+  /* recap payoff band (screen 2) */
+  .payoff{background:linear-gradient(180deg,#ffffff 0%, #fbfdff 100%); border:1px solid #dfeaf5;
+    border-radius:var(--radius-frame); box-shadow:var(--payoff-shadow); padding:24px 26px;}
+  .payoff .eyebrow{color:var(--accent-dark);}
+  .owner-block{margin-top:16px;}
+  .owner-label{font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-mute);}
+  .owner-label--you{color:var(--accent-dark);}
+  .pact{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--soft-500);}
+  .pact:last-child{border-bottom:0;}
+  .pact .txt{flex:1; font-size:15px; font-weight:500; color:var(--ink);}
+  .pill{display:inline-block; font-size:14px; font-weight:600; border-radius:9999px; padding:1px 10px;}
+  .pill--you{background:var(--primary-200); color:var(--accent-dark);}
+  .pill--them{background:var(--soft-500); color:var(--ink-dim);}
+  .done-note{display:inline-flex; align-items:center; gap:8px; margin-top:14px; font-size:14px;
+    color:var(--mint-900); background:var(--mint-100); border:1px solid var(--mint-400);
+    border-radius:var(--radius-btn); padding:8px 12px;}
+
+  /* decisions strip */
+  .notes{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:760px){ .notes{grid-template-columns:1fr;} }
+  .note{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); padding:16px 18px;}
+  .note .k{font-size:14px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gold-900);}
+  .note p{font-size:15px; color:var(--ink-dim); margin-top:6px;}
+  .note b{color:var(--ink);}
+</style>
+
+<div class="wrap">
+  <header class="banner">
+    <span class="tag">Preview · not the live app</span>
+    <h1>Promises get their own moment — before the recap</h1>
+    <div class="flow">
+      <span class="step">Questions end</span><span class="arrow">→</span>
+      <span class="step step--new">1 · Lock in promises</span><span class="arrow">→</span>
+      <span class="step">2 · Recap (wash plays here)</span><span class="arrow">→</span>
+      <span class="step">PDF carries the promises</span>
+    </div>
+  </header>
+
+  <div class="screens">
+    <!-- SCREEN 1 — the new promises step -->
+    <div class="shot">
+      <div class="frame">
+        <span class="eyebrow">Before your recap · Aisha</span>
+        <h2>Lock in what you two agreed</h2>
+        <p class="lede">Sero heard these in the conversation. Fix the wording, move each one to whoever owns it — only what you lock in is kept.</p>
+
+        <section class="group group--you">
+          <span class="eyebrow">You promise</span>
+          <div class="rows">
+            <div class="row">
+              <span class="dot"></span>
+              <span class="text" contenteditable="true" spellcheck="false">Book Aisha's onboarding buddy</span>
+              <span class="when">this week</span>
+              <button class="iconbtn" type="button" title="Move to Aisha's list">→ Aisha</button>
+              <button class="iconbtn iconbtn--quiet" type="button">Remove</button>
+            </div>
+            <div class="row">
+              <span class="dot"></span>
+              <span class="text" contenteditable="true" spellcheck="false">Intro Aisha to the design guild</span>
+              <span class="when">this month</span>
+              <button class="iconbtn" type="button" title="Move to Aisha's list">→ Aisha</button>
+              <button class="iconbtn iconbtn--quiet" type="button">Remove</button>
+            </div>
+          </div>
+          <div class="addrow"><button class="addbtn" type="button">+ Add one of yours</button></div>
+        </section>
+
+        <section class="group">
+          <span class="eyebrow">Aisha promises</span>
+          <div class="rows">
+            <div class="row">
+              <span class="dot"></span>
+              <span class="text" contenteditable="true" spellcheck="false">Track where her hours actually go for a week</span>
+              <span class="when">before next 1:1</span>
+              <button class="iconbtn" type="button" title="Move to your list">→ You</button>
+              <button class="iconbtn iconbtn--quiet" type="button">Remove</button>
+            </div>
+          </div>
+          <div class="addrow"><button class="addbtn" type="button">+ Add one for Aisha</button></div>
+        </section>
+
+        <div class="actions">
+          <button class="btn btn--primary" type="button">Lock these in</button>
+          <button class="btn btn--ghost" type="button">Skip — straight to the recap</button>
+        </div>
+        <div class="loopnote">↩&nbsp; They come back at the start of your next 1:1 with Aisha.</div>
+      </div>
+      <p class="caption"><b>Screen 1 — the moment.</b> Full screen, after the last question. Rows are editable in place; the arrow button moves a promise to the other person. Max 10 across both lists. Lock in is the only blue action.</p>
+    </div>
+
+    <!-- SCREEN 2 — the recap band -->
+    <div class="shot">
+      <div class="payoff">
+        <span class="eyebrow">What you agreed</span>
+        <div class="owner-block">
+          <span class="owner-label owner-label--you">You promised</span>
+          <div class="pact"><span class="pill pill--you">You</span><span class="txt">Book Aisha's onboarding buddy</span><span class="when">this week</span></div>
+          <div class="pact"><span class="pill pill--you">You</span><span class="txt">Intro Aisha to the design guild</span><span class="when">this month</span></div>
+        </div>
+        <div class="owner-block">
+          <span class="owner-label">Aisha promised</span>
+          <div class="pact"><span class="pill pill--them">Aisha</span><span class="txt">Track where her hours actually go for a week</span><span class="when">before next 1:1</span></div>
+        </div>
+        <span class="done-note">✓ Locked in — these open your next 1:1 with Aisha</span>
+      </div>
+      <p class="caption"><b>Screen 2 — the recap's payoff band.</b> Replaces today's raw suggestions with what was actually agreed, grouped by owner, yours first. The PDF's "What to do next" gets the same two blocks. If you skipped, the recap shows Sero's suggestions like today.</p>
+    </div>
+  </div>
+
+  <div class="notes">
+    <div class="note">
+      <span class="k">Call 1 — guests</span>
+      <p>Trial (guest) runs get this step too, so their <b>PDF finally shows real agreed promises</b> — today guests only ever see Sero's raw list. Say the word if guests should skip it instead.</p>
+    </div>
+    <div class="note">
+      <span class="k">Call 2 — nothing suggested</span>
+      <p>If Sero heard no actions, the step <b>still appears with two empty lists</b> and the add buttons — skip is one tap away. Alternative: jump straight to the recap.</p>
+    </div>
+  </div>
+</div>
