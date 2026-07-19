@@ -692,6 +692,38 @@ test("question returns the next question and writes nothing when the head is eli
   assert.equal(persisted.length, 0);
 });
 
+test("question carries manager-only hints to the wire when the question has them (coach-panel Phase 2)", () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...s.ctx, meetingType: "" };
+  s.queueRef = [
+    fakeQuestion({
+      alias: "q1",
+      name: "What risk do you see ahead",
+      hints: [
+        { kind: "ask", text: "Ask it slowly, then wait." },
+        { kind: "listen", text: "Energy words, not a task list." },
+      ],
+    }),
+  ];
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).question("abc");
+  assert.ok("question" in out);
+  assert.deepEqual(out.question.hints, [
+    { kind: "ask", text: "Ask it slowly, then wait." },
+    { kind: "listen", text: "Energy words, not a task list." },
+  ]);
+});
+
+test("question omits the hints key entirely for a hint-less question (lean wire)", () => {
+  const s = fakeSession("abc");
+  s.ctx = { ...s.ctx, meetingType: "" };
+  s.queueRef = [fakeQuestion({ alias: "q1", name: "What risk do you see ahead" })];
+  const { repo } = fakeRepo([s]);
+  const out = createSessionsService(repo).question("abc");
+  assert.ok("question" in out);
+  assert.ok(!("hints" in out.question));
+});
+
 test("question drops an ineligible head, logs the rejection through the seam, and persists", () => {
   const dup = "How are you feeling about the project this week";
   const s = fakeSession("abc");

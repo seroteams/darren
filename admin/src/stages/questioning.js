@@ -45,9 +45,12 @@ export async function mount(root, { store, setState }) {
           </div>
           <div class="cp-foot"></div>
         </div>
-        <aside class="cp-half cp-half--coach" aria-label="Live scores — only you see this">
+        <aside class="cp-half cp-half--coach" aria-label="Coaching — only you see this">
           <header class="cp-head">
-            <span class="cp-eyebrow">Live scores</span>
+            <div class="cp-toggle" role="tablist" aria-label="Coach panel view">
+              <button type="button" class="cp-seg js-coach-seg" data-mode="support" role="tab" aria-selected="true">Support</button>
+              <button type="button" class="cp-seg js-coach-seg" data-mode="scores" role="tab" aria-selected="false">Live scores</button>
+            </div>
             <span class="cp-privacy">Only you see this — never ${escape(store.ctx?.name || "them")}.</span>
           </header>
           <div class="cp-col"><div class="coach-host"></div></div>
@@ -117,6 +120,18 @@ export async function mount(root, { store, setState }) {
   );
   axesHost.appendChild(axes.el);
 
+  // Coach panel (Phase 2): the Support / Live-scores toggle drives the panel view.
+  // Admin app only (createCoachPanel provides setMode / setQuestionHints).
+  if (IS_ADMIN_APP && axes.setMode) {
+    ui.querySelectorAll(".js-coach-seg").forEach((seg) =>
+      seg.addEventListener("click", () => {
+        const next = seg.dataset.mode;
+        ui.querySelectorAll(".js-coach-seg").forEach((s) =>
+          s.setAttribute("aria-selected", String(s.dataset.mode === next)));
+        axes.setMode(next);
+      }));
+  }
+
   let activeSse = null;
   let activeEscListener = null;
 
@@ -183,6 +198,8 @@ export async function mount(root, { store, setState }) {
     turnLabel.textContent = `Question ${res.turn} of ${res.total}`;
     const q = res.question;
     store.currentQuestion = q;
+    // Feed this question's manager-only hints to the coach panel's Support view.
+    if (IS_ADMIN_APP && axes.setQuestionHints) axes.setQuestionHints(q.hints);
 
     // Replay test lane: prefer the server's current scripted answer so refreshes
     // and resumed sessions do not silently fall back to manual/dev controls.

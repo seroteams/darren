@@ -1,6 +1,16 @@
 # Phase 2 — Support hints
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (contract + panel), awaiting Carl's walk — one piece deferred
+
+## Built (2026-07-19)
+- **Contract carries hints, end to end.** New `QuestionHint {kind:"ask"|"listen", text}` on `Question` + `WireQuestion` ([question.types.ts](../../../backend/shared/question.types.ts)); optional in the generator `RESPONSE_SCHEMA`; a `toHints` gate mints ≤3 clean tagged hints in both the bank mint and the seed loader ([question-generator.ts](../../../backend/engine/question-generator.ts)); the `/question` wire literal carries `hints` when present and omits them otherwise ([sessions.service.ts](../../../backend/api/services/sessions/sessions.service.ts)).
+- **Panel: the Support / Live-scores toggle** (POC), Support view renders the "How to ask" / "Listen for" pills; honest empty state when a question has none. `cleanHints` validates wire data ([coach-panel.ts](../../../admin/src/ui/coach-panel.ts) + coach-panel-state.ts).
+- **Proof (all $0):** 158/158 tests incl. new ones — wire carries hints when present + omits when absent (real service), `toHints`/schema/`cleanHints` units; typecheck + lint:tokens clean. On-screen: toggle + honest empty state on the live split ([shots/phase2-support-empty.png](shots/phase2-support-empty.png)); the populated Support view rendered by the shipping component fed the exact wire shape the service emits ([shots/phase2-support-populated.png](shots/phase2-support-populated.png)).
+
+## ⚠️ Deferred / honest gaps (needs Carl to know before green-light)
+1. **The generation PROMPT is not edited yet** — `content/prompts/generate-questions.md` (+ its example + the hard "never emit other fields" rule) is inside another live chat's lane (promises-loop). Until it's edited to WRITE hints, no generated question carries any. Carl chose "build the rest now, prompt last" (2026-07-19).
+2. **File/seed YAML can't store hints** — the in-house YAML codec (questions.ts) has no array support (a listed touchpoint I did NOT extend, to keep scope tight). Seeds + file-mode questions therefore never carry hints; only the live Postgres `generated_questions.doc` jsonb path does. So on a local file/seed-heavy walk the Support view stays on its empty state — real hints appear once the prompt lands and questions come from the DB path (or the codec is later extended).
+
 
 ## Goal
 Every generated question carries up to 3 short coaching hints ("How to ask" / "Listen for"), shown in the coach panel behind the POC's Support/Live-scores toggle.

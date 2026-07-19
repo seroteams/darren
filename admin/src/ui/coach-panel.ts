@@ -1,11 +1,15 @@
-// Coach panel (coach-panel Phase 1) — the lavender right half of the questioning
-// split. Shows the four axes as gradient meters (the POC's design 5, Carl's pick
-// 2026-07-19) with the planner's REAL per-answer rationale as each axis's "why".
-// The why text is only ever the engine's assessment.note — this module attaches
-// and displays it, it never writes coaching copy that pretends to be the model's.
-// Idle lines for unrated axes are plainly UI copy about absence of signal.
+// Coach panel (coach-panel Phase 1 + 2) — the lavender right half of the questioning
+// split. Two views, switched by the Support / Live-scores toggle in the header:
+//  • Live scores — the four axes as gradient meters (POC design 5) with the planner's
+//    REAL per-answer rationale as each axis's "why" (assessment.note; never invented).
+//  • Support — up to 3 coaching hints per question ("How to ask" / "Listen for"). A
+//    question's own generated hints win; when it has none we fall back to role-level
+//    listen-for lines, plainly LABELLED as role-level, never faked as per-question.
+// Idle lines for unrated axes are plainly UI copy about the absence of a read.
 
 import "../styles/coach-panel.css";
+import { icon } from "./icon.js";
+import { MessageCircle, Ear } from "lucide";
 import { AXIS_ORDER } from "./axes.js";
 import { escapeCopy as escape } from "./html.js";
 import {
@@ -13,8 +17,10 @@ import {
   rowStateFor,
   meterFor,
   parseStoredWhys,
+  cleanHints,
   type AxisRead,
   type WhyMap,
+  type Hint,
 } from "./coach-panel-state.ts";
 
 const AXIS_LABELS: Record<string, string> = {
@@ -42,12 +48,15 @@ function storageKey(sessionId: string): string {
 }
 
 export function createCoachPanel({ sessionId }: { sessionId: string; personName?: string }) {
-  // Rows only — the split screen (questioning.js) owns the header row, so the
-  // panel sits bare on the lavender half exactly like the POC.
+  // Rows only — the split screen (questioning.js) owns the header row (incl. the
+  // Support/Live-scores toggle), so the panel sits bare on the lavender half.
   const el = document.createElement("div");
   el.className = "coach-panel";
   el.innerHTML = `<div class="coach-panel__rows"></div>`;
   const rowsHost = el.querySelector(".coach-panel__rows") as HTMLElement;
+
+  let mode: "support" | "scores" = "support"; // POC default: coaching first
+  let questionHints: Hint[] = [];
 
   const attacher = createNoteAttacher(readStored());
   let lastAxes: AxisRead[] = AXIS_ORDER.map((id: string) => ({
@@ -98,11 +107,27 @@ export function createCoachPanel({ sessionId }: { sessionId: string; personName?
     </div>`;
   }
 
-  function render(): void {
-    rowsHost.innerHTML = lastAxes.map(rowHtml).join("");
+  function hintHtml(h: Hint): string {
+    const ask = h.kind === "ask";
+    const label = ask ? "How to ask" : "Listen for";
+    return `<div class="coach-hint">
+      <span class="coach-pill">${icon(ask ? MessageCircle : Ear, { size: 16 })}${label}</span>
+      <p class="coach-hint__text">${escape(h.text)}</p>
+    </div>`;
   }
 
-  // Same duck-type surface as createAxesPanel, plus setNote.
+  function supportHtml(): string {
+    if (!questionHints.length) {
+      return `<p class="coach-empty">No coaching hints for this question yet — the Live scores tab still updates as you go.</p>`;
+    }
+    return questionHints.map(hintHtml).join("");
+  }
+
+  function render(): void {
+    rowsHost.innerHTML = mode === "scores" ? lastAxes.map(rowHtml).join("") : supportHtml();
+  }
+
+  // Same duck-type surface as createAxesPanel, plus the Phase-2 methods.
   function renderInitial(axes: AxisRead[]): void {
     lastAxes = axes;
     attacher.onAxes(axes.map((a) => ({ ...a, lastDelta: 0 }))); // initial paint moves nothing
@@ -123,6 +148,18 @@ export function createCoachPanel({ sessionId }: { sessionId: string; personName?
     render();
   }
 
+  function setMode(next: "support" | "scores"): void {
+    if (next === mode) return;
+    mode = next;
+    render();
+  }
+
+  // Called each question with that question's wire hints (validated here).
+  function setQuestionHints(raw: unknown): void {
+    questionHints = cleanHints(raw);
+    render();
+  }
+
   render();
-  return { el, renderInitial, update, setNote };
+  return { el, renderInitial, update, setNote, setMode, setQuestionHints };
 }

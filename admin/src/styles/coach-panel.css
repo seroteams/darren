@@ -39,6 +39,17 @@
   letter-spacing: .08em; text-transform: uppercase; }
 .cp-privacy { font-size: 14px; color: var(--sero-lavender-800); }
 
+/* The Support / Live-scores toggle (POC) — two segments, pill container */
+.cp-toggle { display: inline-flex; padding: 3px; gap: 2px; border-radius: 9999px;
+  background: var(--sero-lavender-200); border: 1px solid var(--sero-lavender-600); }
+.cp-seg { font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  border: 0; border-radius: 9999px; padding: 5px 16px; background: none;
+  color: var(--sero-lavender-800); display: inline-flex; align-items: center;
+  gap: var(--sero-space-2); transition: background .12s ease, color .12s ease; }
+.cp-seg[aria-selected="true"] { background: var(--color-surface);
+  color: var(--sero-lavender-900); box-shadow: var(--shadow-card); }
+.cp-seg:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+
 /* Datum 2 — both columns start on the half's centre line */
 .cp-col { padding: 40px 0; width: 100%; max-width: 560px; min-width: 0;
   display: flex; flex-direction: column; align-items: flex-start; }
@@ -76,6 +87,18 @@
   margin: var(--sero-space-2) 0 0; max-width: 60ch;
 }
 .coach-row__why--idle { color: var(--sero-lavender-800); }
+
+/* Support view — coaching hints (POC), one left edge, hairline between hints */
+.coach-hint { width: 100%; padding: var(--sero-space-5) 0;
+  border-top: 1px solid var(--sero-lavender-600); }
+.coach-hint:first-child { border-top: 0; padding-top: 0; }
+.coach-pill { display: inline-flex; align-items: center; gap: var(--sero-space-2);
+  font-size: 14px; font-weight: 600; border-radius: 9999px; padding: 3px 12px;
+  background: var(--sero-lavender-100); color: var(--sero-lavender-800); }
+.coach-hint__text { font-size: 17px; line-height: 1.55; color: var(--sero-lavender-900);
+  margin: var(--sero-space-2) 0 0; max-width: 62ch; }
+.coach-empty { font-size: 15px; line-height: 1.5; color: var(--sero-lavender-800);
+  margin: 0; max-width: 60ch; }
 
 /* The gradient meter (POC V5): centre-out fill, numbered thumb. */
 .coach-meter {

@@ -71,6 +71,29 @@ export function createNoteAttacher(initial: WhyMap = {}) {
   };
 }
 
+// --- Support hints (coach-panel Phase 2) ----------------------------------------------------
+
+/** One coaching hint shown in the Support view. Mirrors backend QuestionHint. */
+export interface Hint {
+  kind: "ask" | "listen";
+  text: string;
+}
+
+/** Validate wire hints from a question → ≤3 clean {kind,text}; drops anything malformed. */
+export function cleanHints(raw: unknown): Hint[] {
+  if (!Array.isArray(raw)) return [];
+  const out: Hint[] = [];
+  for (const item of raw) {
+    if (out.length >= 3) break;
+    const kind = (item as { kind?: unknown })?.kind;
+    const text = (item as { text?: unknown })?.text;
+    if ((kind === "ask" || kind === "listen") && typeof text === "string" && text.trim()) {
+      out.push({ kind, text: text.trim() });
+    }
+  }
+  return out;
+}
+
 /** sessionStorage payload → WhyMap; anything malformed collapses to {}. */
 export function parseStoredWhys(raw: string | null): WhyMap {
   if (!raw) return {};
