@@ -13,7 +13,7 @@
 // hints here are hand-written mock coaching — wiring real data is a later decision.
 
 import { icon } from "../../ui/icon.js";
-import { MessageCircle, Ear, Check, TrendingUp, TrendingDown, Minus } from "lucide";
+import { MessageCircle, Ear, Check, ChevronLeft, ChevronRight } from "lucide";
 
 // ---- Mock data ---------------------------------------------------------------------------
 const CTX_SEGMENTS = ["Aisha", "junior", "Product designer", "Bi-weekly 1:1"];
@@ -92,13 +92,6 @@ const AXES = [
     idle: "No growth signal yet — it moves when a stretch or ambition comes up.",
   },
 ];
-const AXES_BY_TURN = [
-  [0, 0, 0, 0],
-  [-1, 0, 0, 0],
-  [-1, 1, 1, 0],
-  [-1, 1, 1, 0],
-  [-1, 2, 1, 1],
-];
 
 // ---- Prototype-only CSS (scoped .rv2-) ------------------------------------------------------
 // The grid: both halves run header 72px / content 1fr / footer auto, share the same horizontal
@@ -167,12 +160,80 @@ const STYLE = `
   .rv2-hints.rv2-fade { opacity:0; }
   @media (prefers-reduced-motion: reduce) { .rv2-hints { transition:none; } }
 
-  /* Live-scores view — SAME badge + text anatomy as a hint row; the delta lives in the
-     pill, coloured by direction, and the text explains how it was rated. */
-  .rv2-pill__delta { display:inline-flex; align-items:center; gap:2px; font-weight:700; }
-  .rv2-hint--up .rv2-pill__delta { color:var(--color-positive-text); }
-  .rv2-hint--down .rv2-pill__delta { color:var(--color-negative-text); }
-  .rv2-hint--flat .rv2-pill__delta { color:var(--sero-lavender-800); }
+  /* Live-scores view — five slider designs, flipped with a ‹ › pager. Every version keeps
+     the same anatomy: axis label, a coloured delta, a slider, and the reasoning line. */
+  .rv2-pager { display:flex; align-items:center; gap:var(--sero-space-3); width:100%;
+    margin-bottom:var(--sero-space-4); }
+  .rv2-pager__label { font-size:14px; font-weight:600; color:var(--sero-lavender-800); }
+  .rv2-pager__spacer { flex:1; }
+  .rv2-arrow { display:grid; place-items:center; width:34px; height:34px; border-radius:9999px;
+    border:1px solid var(--sero-lavender-600); background:var(--color-surface);
+    color:var(--sero-lavender-800); cursor:pointer; }
+  .rv2-arrow:hover { background:var(--sero-lavender-100); }
+  .rv2-arrow:focus-visible { outline:none; box-shadow:var(--shadow-focus); }
+
+  .rv2-srow { width:100%; padding:var(--sero-space-5) 0;
+    border-top:1px solid var(--sero-lavender-600); }
+  .rv2-srow:first-of-type { border-top:0; padding-top:0; }
+  .rv2-srow__head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .rv2-srow__label { font-size:15px; font-weight:600; color:var(--sero-lavender-900); }
+  .rv2-delta { font-size:15px; font-weight:700; }
+  .rv2-delta--up { color:var(--color-positive-text); }
+  .rv2-delta--down { color:var(--color-negative-text); }
+  .rv2-delta--flat { color:var(--sero-lavender-800); }
+  .rv2-why { font-size:15px; line-height:1.5; color:var(--sero-lavender-900);
+    margin:var(--sero-space-2) 0 0; max-width:60ch; }
+  .rv2-why--muted { color:var(--sero-lavender-800); }
+
+  /* shared slider primitives (V2 / V4) */
+  .rv2-sl { position:relative; height:8px; border-radius:9999px;
+    background:var(--sero-lavender-200); margin:12px 0; }
+  .rv2-sl__mid { position:absolute; left:50%; top:-4px; bottom:-4px; width:1px;
+    background:var(--sero-lavender-500); }
+  .rv2-sl__fill { position:absolute; top:0; bottom:0; border-radius:9999px;
+    background:var(--sero-lavender-700); }
+  .rv2-sl__thumb { position:absolute; top:50%; width:16px; height:16px; border-radius:9999px;
+    transform:translate(-50%,-50%); background:var(--color-surface);
+    border:3px solid var(--sero-lavender-700); box-shadow:var(--shadow-card); }
+  .rv2-sl__ends { display:flex; justify-content:space-between; font-size:14px;
+    color:var(--sero-lavender-800); margin-top:4px; }
+
+  /* V1 — the app's real axis bar (mint up / coral down, fill from centre) */
+  .rv2-bar { position:relative; height:10px; border-radius:9999px;
+    background:var(--sero-lavender-200); margin:10px 0; overflow:hidden; }
+  .rv2-bar__mid { position:absolute; left:50%; top:0; bottom:0; width:1px;
+    background:var(--sero-lavender-500); z-index:1; }
+  .rv2-bar__fill { position:absolute; top:0; bottom:0; }
+  .rv2-bar__fill--up { background:var(--sero-mint-700); }
+  .rv2-bar__fill--down { background:var(--sero-coral-700); }
+
+  /* V3 — stepped pips (−3…+3) */
+  .rv2-pips { display:flex; align-items:center; gap:8px; margin:14px 0; height:18px; }
+  .rv2-pip { width:12px; height:12px; border-radius:9999px;
+    background:var(--sero-lavender-200); }
+  .rv2-pip--on { background:var(--sero-lavender-700); }
+  .rv2-pip--val { width:18px; height:18px; background:var(--sero-lavender-800);
+    box-shadow:0 0 0 3px var(--sero-lavender-300); }
+  .rv2-pip--mid { outline:1px solid var(--sero-lavender-500); outline-offset:1px; }
+
+  /* V4 — compact one-line rows */
+  .rv2-crow { display:grid; grid-template-columns:104px 1fr auto;
+    align-items:center; gap:var(--sero-space-3); }
+  .rv2-crow .rv2-sl { margin:0; }
+  .rv2-why--compact { grid-column:1 / -1; margin-top:6px; font-size:14px; }
+
+  /* V5 — gradient meter with a numbered thumb */
+  .rv2-meter { position:relative; height:14px; border-radius:9999px;
+    background:var(--sero-lavender-200); margin:14px 0; }
+  .rv2-meter__mid { position:absolute; left:50%; top:-3px; bottom:-3px; width:1px;
+    background:var(--sero-lavender-500); }
+  .rv2-meter__fill { position:absolute; top:0; bottom:0; border-radius:9999px;
+    background:linear-gradient(90deg, var(--sero-lavender-400), var(--sero-lavender-700)); }
+  .rv2-meter__thumb { position:absolute; top:50%; transform:translate(-50%,-50%);
+    min-width:36px; height:26px; padding:0 8px; border-radius:9999px;
+    background:var(--color-surface); border:1px solid var(--sero-lavender-600);
+    box-shadow:var(--shadow-card); display:grid; place-items:center;
+    font-size:14px; font-weight:700; color:var(--sero-lavender-900); }
 
   /* Datum 3 — the footer line: mock note left, live scores right */
   .rv2-foot { display:flex; flex-direction:column; justify-content:flex-end;
@@ -209,27 +270,87 @@ const hintRow = (h) => {
   </div>`;
 };
 
-// A score reads like a hint: the pill carries the axis + its delta (coloured by direction),
-// the text below explains HOW it was rated. Same anatomy, so both views feel like one panel.
-const scoreRow = (axis, v) => {
-  const dir = v > 0 ? "up" : v < 0 ? "down" : "flat";
-  const glyph = v > 0 ? icon(TrendingUp, { size: 15 }) : v < 0 ? icon(TrendingDown, { size: 15 }) : icon(Minus, { size: 15 });
-  const value = v === 0 ? "Not rated" : `${v > 0 ? "+" : "−"}${Math.abs(v)}`;
-  return `<div class="rv2-hint rv2-hint--${dir}">
-    <span class="rv2-pill">${axis.label}<span class="rv2-pill__delta">${glyph}${value}</span></span>
-    <p class="rv2-hint__text">${v === 0 ? axis.idle : axis.why}</p>
-  </div>`;
+// Scores are shown on a −3…+3 scale. A representative reading keeps every slider design
+// lively to compare, independent of how far the mock walk has got.
+const READING = [-1, 2, 1, 0];
+const pctOf = (v) => ((v + 3) / 6) * 100; // −3..+3 → 0..100%
+const signed = (v) => (v > 0 ? `+${v}` : v < 0 ? `−${Math.abs(v)}` : "0");
+const dirOf = (v) => (v > 0 ? "up" : v < 0 ? "down" : "flat");
+// Fill runs from the centre line out to the value.
+const fillStyle = (v) => {
+  const p = pctOf(v);
+  return v >= 0 ? `left:50%;width:${p - 50}%` : `left:${p}%;width:${50 - p}%`;
 };
 
-const scoresHtml = (turnIdx) => {
-  const values = AXES_BY_TURN[Math.min(turnIdx, AXES_BY_TURN.length - 1)];
-  return AXES.map((axis, i) => scoreRow(axis, values[i])).join("");
+const srowHead = (axis, v) => `<div class="rv2-srow__head">
+    <span class="rv2-srow__label">${axis.label}</span>
+    <span class="rv2-delta rv2-delta--${dirOf(v)}">${v === 0 ? "Not rated" : signed(v)}</span>
+  </div>`;
+const srowWhy = (axis, v, cls = "") =>
+  `<p class="rv2-why ${v === 0 ? "rv2-why--muted" : ""} ${cls}">${v === 0 ? axis.idle : axis.why}</p>`;
+
+// The five slider designs — each returns one axis row.
+const V1 = (axis, v) => `<div class="rv2-srow">${srowHead(axis, v)}
+    <div class="rv2-bar"><span class="rv2-bar__mid"></span>
+      ${v !== 0 ? `<span class="rv2-bar__fill rv2-bar__fill--${dirOf(v)}" style="${fillStyle(v)}"></span>` : ""}
+    </div>${srowWhy(axis, v)}</div>`;
+
+const V2 = (axis, v) => `<div class="rv2-srow">${srowHead(axis, v)}
+    <div class="rv2-sl"><span class="rv2-sl__mid"></span>
+      <span class="rv2-sl__fill" style="${fillStyle(v)}"></span>
+      <span class="rv2-sl__thumb" style="left:${pctOf(v)}%"></span>
+    </div>
+    <div class="rv2-sl__ends"><span>Low</span><span>High</span></div>${srowWhy(axis, v)}</div>`;
+
+const V3 = (axis, v) => {
+  const pips = [-3, -2, -1, 0, 1, 2, 3].map((step) => {
+    const isVal = step === v && v !== 0;
+    const on = (v > 0 && step > 0 && step <= v) || (v < 0 && step < 0 && step >= v);
+    const mid = step === 0;
+    return `<span class="rv2-pip ${on ? "rv2-pip--on" : ""} ${isVal ? "rv2-pip--val" : ""} ${mid ? "rv2-pip--mid" : ""}"></span>`;
+  }).join("");
+  return `<div class="rv2-srow">${srowHead(axis, v)}<div class="rv2-pips">${pips}</div>${srowWhy(axis, v)}</div>`;
+};
+
+const V4 = (axis, v) => `<div class="rv2-srow"><div class="rv2-crow">
+    <span class="rv2-srow__label">${axis.label}</span>
+    <div class="rv2-sl"><span class="rv2-sl__mid"></span>
+      <span class="rv2-sl__fill" style="${fillStyle(v)}"></span>
+      <span class="rv2-sl__thumb" style="left:${pctOf(v)}%"></span></div>
+    <span class="rv2-delta rv2-delta--${dirOf(v)}">${v === 0 ? "—" : signed(v)}</span>
+    ${srowWhy(axis, v, "rv2-why--compact")}
+  </div></div>`;
+
+const V5 = (axis, v) => `<div class="rv2-srow">${srowHead(axis, v)}
+    <div class="rv2-meter"><span class="rv2-meter__mid"></span>
+      ${v !== 0 ? `<span class="rv2-meter__fill" style="${fillStyle(v)}"></span>` : ""}
+      <span class="rv2-meter__thumb" style="left:${pctOf(v)}%">${signed(v)}</span>
+    </div>${srowWhy(axis, v)}</div>`;
+
+const VARIANTS = [
+  { name: "App bars", row: V1 },
+  { name: "Track & thumb", row: V2 },
+  { name: "Stepped pips", row: V3 },
+  { name: "Compact rows", row: V4 },
+  { name: "Gradient meter", row: V5 },
+];
+
+const scoresHtml = (variant) => {
+  const V = VARIANTS[variant];
+  const rows = AXES.map((axis, i) => V.row(axis, READING[i])).join("");
+  return `<div class="rv2-pager">
+      <button type="button" class="rv2-arrow js-prev" aria-label="Previous slider design">${icon(ChevronLeft, { size: 18 })}</button>
+      <span class="rv2-pager__label">Slider design · ${variant + 1} of ${VARIANTS.length} — ${V.name}</span>
+      <span class="rv2-pager__spacer"></span>
+      <button type="button" class="rv2-arrow js-next" aria-label="Next slider design">${icon(ChevronRight, { size: 18 })}</button>
+    </div>${rows}`;
 };
 
 // ---- mount ---------------------------------------------------------------------------------
 export function mount(host) {
   let turnIdx = 0;
   let panelMode = "support"; // "support" = coaching hints · "scores" = live scores + why
+  let scoreVariant = 0; // which of the 5 slider designs is on show
   const notes = QUESTIONS.map(() => "");
 
   // The mock lives in a fixed overlay (the split must fill the screen), so the gallery's
@@ -287,7 +408,7 @@ export function mount(host) {
           </header>
           <div class="rv2-col">
             <div class="rv2-hints js-hints">${
-              panelMode === "scores" ? scoresHtml(turnIdx) : q.hints.map(hintRow).join("")
+              panelMode === "scores" ? scoresHtml(scoreVariant) : q.hints.map(hintRow).join("")
             }</div>
           </div>
           <div class="rv2-foot"></div>
@@ -307,6 +428,16 @@ export function mount(host) {
         panelMode = seg.dataset.mode;
         render();
       }));
+
+    const N = VARIANTS.length;
+    host.querySelector(".js-prev")?.addEventListener("click", () => {
+      scoreVariant = (scoreVariant + N - 1) % N;
+      render();
+    });
+    host.querySelector(".js-next")?.addEventListener("click", () => {
+      scoreVariant = (scoreVariant + 1) % N;
+      render();
+    });
 
     host.querySelector(".js-submit").addEventListener("click", () => advance(1));
     host.querySelector(".js-skip").addEventListener("click", () => advance(1));
