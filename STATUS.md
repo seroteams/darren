@@ -18,7 +18,7 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Coach panel Phase 2 — Support hints** — Phase 1 (the split screen + live scores) is green-lit. Phase 2 adds the "How to ask / Listen for" hints per question (~2¢/run + one ~$0.35 quality proof). Say go when you want it.
+1. **Coach panel Phase 3 — Rationale arc gate** — Phases 1 + 2 green-lit. Phase 3 stops score "why" text carrying performance-review tone into check-in meetings. Partly lane-blocked (one prompt line); the gate + tests are free to build. Say go.
 2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
 3. **Screen-gallery Phase 2** — seeds demo data so the 12 empty/needs-id screens fill in. Not started.
 4. Or just start something new — nothing here is waiting on a build.
@@ -26,7 +26,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [coach-panel](docs/plans/doing/coach-panel/plan.md) | Phase 1 ✅ green-lit 2026-07-19 (questioning goes full-screen 50/50; live scores with the engine's real "why", admin app only). Phase 2 (support hints) not started. |
+| [coach-panel](docs/plans/doing/coach-panel/plan.md) | Phases 1 + 2 ✅ green-lit 2026-07-19 (full-screen 50/50; live scores with the engine's real "why"; Support/Live-scores toggle + hints contract). Two Phase-2 bits parked (prompt edit behind another lane, YAML codec). Phase 3 (rationale arc gate) not started. |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18 (gallery + edit-mode bar, usable now). Phase 2 (demo data) not started. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 
@@ -44,4 +44,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-19 — coach-panel Phase 1 green-lit (split screen + live scores; committed local, ships next push).
+Last updated: 2026-07-19 — coach-panel Phase 2 green-lit (support-hints contract + toggle; two bits parked; committed local, ships next push).

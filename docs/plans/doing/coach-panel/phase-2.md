@@ -1,6 +1,9 @@
 # Phase 2 — Support hints
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (contract + panel), awaiting Carl's walk — one piece deferred
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (green-lit; two pieces parked — see below)
+
+## ✅ GREEN-LIT 2026-07-19 — Carl walked the toggle + Support view, "looks good" (commit ecf9b28b)
+Signed off on the built slice: the hints contract end to end + the Support/Live-scores toggle + Support view. The two deferrals below stay PARKED (not part of this sign-off) — real generated hints go live only once the prompt edit lands and questions flow via the DB jsonb path.
 
 ## Built (2026-07-19)
 - **Contract carries hints, end to end.** New `QuestionHint {kind:"ask"|"listen", text}` on `Question` + `WireQuestion` ([question.types.ts](../../../backend/shared/question.types.ts)); optional in the generator `RESPONSE_SCHEMA`; a `toHints` gate mints ≤3 clean tagged hints in both the bank mint and the seed loader ([question-generator.ts](../../../backend/engine/question-generator.ts)); the `/question` wire literal carries `hints` when present and omits them otherwise ([sessions.service.ts](../../../backend/api/services/sessions/sessions.service.ts)).

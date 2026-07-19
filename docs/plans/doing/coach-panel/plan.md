@@ -25,17 +25,20 @@ Research behind this plan (all file:line evidence, cost estimates, privacy check
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Split screen + live scores | Real questioning screen goes 50/50; gradient meters wired to real deltas + the model's real "why" per axis | ✅ |
-| 2 | Support hints | Questions generated with 3 hints each; Support/Live-scores toggle appears | 🔨 |
+| 2 | Support hints | Questions generated with 3 hints each; Support/Live-scores toggle appears | ✅ |
 | 3 | Rationale arc gate | FOCUS_ARC_LEAK-style check so score "why" text can't carry competency framing into bi-weekly / feels-off meetings | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 **Phase 1 ✅ GREEN-LIT 2026-07-19** — Carl walked the split screen and said "looks good" (after one rebuild: v1 sat inside the page, v2 is the POC's true full-screen 50/50). Committed 936a23a3. 158/158 tests, typecheck + lint:tokens clean, verified on a $0 cassette walk + screenshot.
-**Phase 2 BUILT 2026-07-19 (contract + panel), awaiting Carl's walk.** Two honest deferrals (see phase-2.md): the generation PROMPT edit is parked behind another chat's lane (Carl's call — build rest first), and the YAML codec array-support touchpoint was left out, so real hints only flow via the live DB jsonb path. Toggle + empty state walkable now; populated Support proven by the shipping component fed the real wire shape.
+**Phase 2 ✅ GREEN-LIT 2026-07-19** (commit ecf9b28b) — Carl walked the toggle + Support view, "looks good". Contract + panel signed off; two pieces PARKED (below).
+**Next: Phase 3 — Rationale arc gate.** NOTE it is partly lane-blocked too (its prompt line lives in content/prompts/plan-turn.md, another chat's lane) — the golden-checks.ts gate + tests are free to build; the prompt reminder waits with Phase 2's prompt edit.
 Board: https://claude.ai/code/artifact/7638a835-d749-4676-88ce-db2fbd9c57f3
 
 ## Parked
+- **Phase 2 prompt edit** — teach content/prompts/generate-questions.md to WRITE ≤3 hints/question (+ example + the "never emit other fields" hard rule + RESPONSE_SCHEMA already accepts them). Blocked by the promises-loop chat's lane on content/prompts/. Do it when the lane frees; then one ~$0.35 gate proof for hint quality (Carl's nod).
+- **YAML codec array support** — the file/seed path (questions.ts codec) can't store hints; extend stringify/parse for a list-of-objects, OR keep hints DB-jsonb-only (works live). Decide when the prompt edit lands.
 - Per-axis whys minted by the model each turn (Phase C of the research) — cache-cliff risk, est. +$0.10–0.25/run. Only if the corridor proves value.
 - Planner-minted mid-run questions carrying hints — v1 shows the role-profile "listen for" lines as a labelled fallback instead.
 - Mobile layout beyond the POC's simple stack.
