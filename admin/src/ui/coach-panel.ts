@@ -41,17 +41,12 @@ function storageKey(sessionId: string): string {
   return `sero.coach.whys.${sessionId}`;
 }
 
-export function createCoachPanel({ sessionId, personName }: { sessionId: string; personName?: string }) {
+export function createCoachPanel({ sessionId }: { sessionId: string; personName?: string }) {
+  // Rows only — the split screen (questioning.js) owns the header row, so the
+  // panel sits bare on the lavender half exactly like the POC.
   const el = document.createElement("div");
   el.className = "coach-panel";
-  el.setAttribute("aria-label", "Live scores — only you see this");
-  el.innerHTML = `
-    <div class="coach-panel__head">
-      <span class="eyebrow">Live scores</span>
-      <span class="coach-panel__privacy">Only you see this${personName ? ` — never ${escape(personName)}` : ""}.</span>
-    </div>
-    <div class="coach-panel__rows"></div>
-  `;
+  el.innerHTML = `<div class="coach-panel__rows"></div>`;
   const rowsHost = el.querySelector(".coach-panel__rows") as HTMLElement;
 
   const attacher = createNoteAttacher(readStored());

@@ -21,7 +21,48 @@ let unmountFn = null;
 const IS_ADMIN_APP = import.meta.env.BASE_URL === "/admin/";
 
 export async function mount(root, { store, setState }) {
-  const leftInner = `
+  // Admin: the POC's TRUE full-screen 50/50 (runner-v2, Carl-approved) — fixed overlay,
+  // three datum lines (72px header row + hairline, shared content line, footer line),
+  // 560px columns, paper left / lavender right. Customer app: today's single column.
+  // The overlay is appended to <body>: the stage host lives inside animated/contained
+  // shell ancestors, which trap position:fixed and shrink the split (Carl's 2026-07-19
+  // "this is not the design" catch). The nav rail stays; topbar + dev rail sit under it.
+  const adminScreenHtml = `<div class="cp-screen">
+        <div class="cp-half cp-half--q">
+          <header class="cp-head">
+            <div class="cp-head__facts">
+              <span class="turn-label cp-head__turn"></span>
+              <span class="question-session-ctx ctx-segments" aria-label="Session context"></span>
+            </div>
+            <div class="cp-head__actions">
+              <button class="btn btn--ghost js-save-exit" type="button">Skip to briefing</button>
+            </div>
+          </header>
+          <div class="cp-col">
+            <div class="question-host"></div>
+            <div class="thinking-host"></div>
+            <div class="footer-host text-sm text-ink-mute"></div>
+          </div>
+          <div class="cp-foot"></div>
+        </div>
+        <aside class="cp-half cp-half--coach" aria-label="Live scores — only you see this">
+          <header class="cp-head">
+            <span class="cp-eyebrow">Live scores</span>
+            <span class="cp-privacy">Only you see this — never ${escape(store.ctx?.name || "them")}.</span>
+          </header>
+          <div class="cp-col"><div class="coach-host"></div></div>
+          <div class="cp-foot"></div>
+        </aside>
+      </div>`;
+  let screenEl = null;
+  if (IS_ADMIN_APP) {
+    root.innerHTML = "";
+    screenEl = document.createElement("div");
+    screenEl.innerHTML = adminScreenHtml;
+    screenEl = screenEl.firstElementChild;
+    document.body.appendChild(screenEl);
+  } else {
+    root.innerHTML = `<div class="stage-questioning l-stack l-stack--6">
       <header class="page-header">
         <div class="page-header__row">
           <div class="questioning-head min-w-0 space-y-1">
@@ -34,35 +75,31 @@ export async function mount(root, { store, setState }) {
       </header>
       <div class="question-host"></div>
       <div class="thinking-host min-h-[72px]"></div>
-      ${IS_ADMIN_APP ? "" : `
       <div class="axes-wrap space-y-2" aria-label="Live scores — updated each answer, not the final briefing">
         <div class="eyebrow" title="Live scores — updated each answer, not the final briefing">Live scores</div>
         <div class="card axes-host"></div>
-      </div>`}
+      </div>
       <div class="footer-host text-sm text-ink-mute"></div>
-  `;
-  root.innerHTML = IS_ADMIN_APP
-    ? `<div class="stage-questioning coach-split">
-        <div class="coach-split__left l-stack l-stack--6">${leftInner}</div>
-        <aside class="coach-split__right"><div class="coach-host"></div></aside>
-      </div>`
-    : `<div class="stage-questioning l-stack l-stack--6">${leftInner}</div>`;
-  const turnLabel = root.querySelector(".turn-label");
-  const sessionCtxEl = root.querySelector(".question-session-ctx");
-  const qHost = root.querySelector(".question-host");
+    </div>`;
+  }
+  const ui = screenEl || root;
+  const turnLabel = ui.querySelector(".turn-label");
+  const sessionCtxEl = ui.querySelector(".question-session-ctx");
+  const qHost = ui.querySelector(".question-host");
 
   renderCtxSegments(sessionCtxEl, store.ctx || {}, { compact: true });
   // Echo what the manager told Sero at setup (chips summary + their own words) so
-  // the full context stays visible the whole way through the interview.
-  const sessionNotesEl = root.querySelector(".question-session-notes");
+  // the full context stays visible the whole way through the interview. The POC split
+  // (admin) has no notes echo — its header keeps the single 72px facts row.
+  const sessionNotesEl = ui.querySelector(".question-session-notes");
   const ctxNotes = String(store.ctx?.notes || "").replace(/\s*\n+\s*/g, " ").trim();
-  if (ctxNotes) {
+  if (ctxNotes && sessionNotesEl) {
     sessionNotesEl.textContent = `“${ctxNotes}”`;
     sessionNotesEl.hidden = false;
   }
-  const thinkingHost = root.querySelector(".thinking-host");
-  const axesHost = root.querySelector(IS_ADMIN_APP ? ".coach-host" : ".axes-host");
-  const footerHost = root.querySelector(".footer-host");
+  const thinkingHost = ui.querySelector(".thinking-host");
+  const axesHost = ui.querySelector(IS_ADMIN_APP ? ".coach-host" : ".axes-host");
+  const footerHost = ui.querySelector(".footer-host");
 
   // Same duck-type surface either way: renderInitial / update (+ setNote on the coach panel).
   const axes = IS_ADMIN_APP
@@ -94,7 +131,7 @@ export async function mount(root, { store, setState }) {
   // Wrap-up exit (wrap-up-exit Phase 1): from Q4 the escape becomes a warm door —
   // one closing question, then the briefing — instead of the straight-to-briefing
   // trapdoor. showNextQuestion() sets wrapMode + relabels per question.
-  const saveExitBtn = root.querySelector(".js-save-exit");
+  const saveExitBtn = ui.querySelector(".js-save-exit");
   let wrapMode = false;
   saveExitBtn.addEventListener("click", async () => {
     if (wrapMode) {
@@ -176,7 +213,7 @@ export async function mount(root, { store, setState }) {
     saveExitBtn.textContent = wrapMode ? "Wrap up — get my briefing" : "Skip to briefing";
 
     const card = document.createElement("div");
-    card.className = "card questioning-card space-y-4 reveal";
+    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     card.innerHTML = `
       ${isFollowUp
         ? `<div class="question-drill-hint text-ink-dim">↳ Following up on what you just said.</div>`
@@ -394,7 +431,7 @@ export async function mount(root, { store, setState }) {
     turnLabel.textContent = "Before we wrap";
 
     const card = document.createElement("div");
-    card.className = "card questioning-card space-y-4 reveal";
+    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     card.innerHTML = `
       <div class="question-card-head__text space-y-2">
         <h1 class="question-stem leading-snug">Earlier they wanted to cover ${escape(agenda.summary)}. Did you get to it?</h1>
@@ -537,7 +574,7 @@ export async function mount(root, { store, setState }) {
     turnLabel.textContent = "Before question 1";
 
     const card = document.createElement("div");
-    card.className = "card questioning-card space-y-4 reveal";
+    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     const head = document.createElement("h1");
     head.className = "question-stem leading-snug";
     head.textContent = "How did last time's agreements go?";
@@ -572,7 +609,11 @@ export async function mount(root, { store, setState }) {
 
   bootQuestioning();
 
-  unmountFn = teardown;
+  unmountFn = () => {
+    teardown();
+    // The admin split lives on <body> (portal) — remove it with the stage.
+    if (screenEl) { screenEl.remove(); screenEl = null; }
+  };
 }
 
 export function unmount() {

@@ -1,35 +1,68 @@
-/* Coach panel (coach-panel Phase 1) — the lavender right half of the questioning
-   split, plus the split layout itself. Meters are the runner-v2 POC's design 5
-   ("Gradient meter", Carl's pick 2026-07-19). Tokens only; 14px floor. */
+/* Coach panel (coach-panel Phase 1) — the POC's TRUE full-screen 50/50 (runner-v2,
+   Carl's approved mock) carried onto the real questioning screen, admin app only.
+   Three datum lines: a 72px header row closed by a hairline, a shared content line,
+   a footer line. Paper left, lavender right, 560px columns, gradient meters
+   (POC design 5). Tokens only; 14px floor. */
 
-/* The 50/50 split (admin app only — the customer app keeps the single column). */
-.coach-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: stretch; }
-.coach-split__left { min-width: 0; padding-right: var(--sero-space-6); }
-.coach-split__right { min-width: 0; }
-@media (max-width: 1100px) {
-  .coach-split { grid-template-columns: 1fr; }
-  .coach-split__left { padding-right: 0; }
+/* Appended to <body> (portal): the app shell's animated ancestors would trap
+   position:fixed. Leaves the nav rail visible (POC look); covers the session
+   topbar + dev rail; stays under modals (--sero-z-modal-backdrop is 40). */
+.cp-screen { position: fixed; top: 0; right: 0; bottom: 0;
+  left: var(--app-nav-w, 60px); z-index: 35; display: grid;
+  grid-template-columns: 1fr 1fr; }
+/* Balanced rows: header and footer take equal 1fr shares so the content row sits
+   on the same centre line in both halves, whatever its height (POC datum 2). */
+.cp-half { display: grid; grid-template-rows: 1fr auto 1fr; min-height: 0;
+  padding: 0 56px; overflow-y: auto; overflow-x: hidden; }
+.cp-half--q { background: var(--color-page); }
+.cp-half--coach { background: var(--sero-lavender-300); color: var(--sero-lavender-900); }
+@media (max-width: 900px) {
+  .cp-screen { position: absolute; left: 0; grid-template-columns: 1fr; overflow-y: auto; }
+  .cp-half { overflow: visible; padding: 0 24px 24px; grid-template-rows: auto auto auto; }
 }
 
-.coach-panel {
-  background: var(--sero-lavender-300);
-  color: var(--sero-lavender-900);
-  border-radius: var(--sero-radius-lg, 12px);
-  padding: var(--sero-space-5) var(--sero-space-6);
-  height: 100%;
-  min-height: 320px;
-}
+/* Datum 1 — the 72px header row, closed by a hairline on both halves */
+.cp-head { display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sero-space-4); border-bottom: 1px solid var(--color-border);
+  height: 72px; align-self: start; min-width: 0; }
+.cp-half--coach .cp-head { border-bottom-color: var(--sero-lavender-600); }
+.cp-head__facts { display: flex; align-items: baseline; gap: var(--sero-space-3);
+  min-width: 0; flex: 1; white-space: nowrap; }
+.cp-head__turn { font-size: 14px; font-weight: 600; color: var(--color-ink); flex: none; }
+/* display:block so the inline segment spans ellipsize as one line (the global
+   .ctx-segments can lay out as flex, which overflows instead of shrinking) */
+.cp-head .ctx-segments { display: block; flex: 1; min-width: 0; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; }
+.cp-head__actions { display: flex; gap: var(--sero-space-2); flex: none; }
+.cp-head__actions .btn { white-space: nowrap; }
+.cp-eyebrow { font-size: 14px; font-weight: 600; color: var(--sero-lavender-800);
+  letter-spacing: .08em; text-transform: uppercase; }
+.cp-privacy { font-size: 14px; color: var(--sero-lavender-800); }
 
-.coach-panel__head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: var(--sero-space-3); flex-wrap: wrap;
-  padding-bottom: var(--sero-space-3);
-  border-bottom: 1px solid var(--sero-lavender-600);
-}
-.coach-panel__privacy { font-size: 14px; color: var(--sero-lavender-800); }
+/* Datum 2 — both columns start on the half's centre line */
+.cp-col { padding: 40px 0; width: 100%; max-width: 560px; min-width: 0;
+  display: flex; flex-direction: column; align-items: flex-start; }
+@media (max-width: 900px) { .cp-col { padding: 24px 0; } }
 
-.coach-row { padding: var(--sero-space-5) 0; border-top: 1px solid var(--sero-lavender-600); }
-.coach-row:first-child { border-top: 0; }
+/* Datum 3 — the footer line */
+.cp-foot { align-self: end; width: 100%; max-width: 560px;
+  padding: var(--sero-space-5) 0 var(--sero-space-6); }
+
+/* Left column — the POC's bare Typeform look (no card chrome) */
+.cp-q { width: 100%; }
+.cp-screen .question-host, .cp-screen .thinking-host, .cp-screen .footer-host { width: 100%; }
+.cp-screen .question-stem { font-family: var(--type-family-display); font-weight: 600;
+  color: var(--color-ink); font-size: 32px; line-height: 1.2; margin: 0; }
+.cp-screen .question-desc { font-size: 16px; color: var(--color-ink-dim);
+  margin: var(--sero-space-2) 0 0; }
+.cp-screen .question-drill-hint { font-size: 14px; color: var(--color-ink-dim);
+  margin: 0 0 var(--sero-space-3); }
+
+/* Coach half — bare rows on the lavender, one left edge */
+.coach-panel { width: 100%; }
+.coach-row { width: 100%; padding: var(--sero-space-5) 0;
+  border-top: 1px solid var(--sero-lavender-600); }
+.coach-row:first-child { border-top: 0; padding-top: 0; }
 
 .coach-row__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .coach-row__label { font-size: 15px; font-weight: 600; color: var(--sero-lavender-900); }

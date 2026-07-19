@@ -2,7 +2,13 @@
 
 **Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
 
-## Built (2026-07-19)
+## Built (2026-07-19) — layout rebuilt same day after Carl's catch
+Carl's first walk: "this is not the design" — v1 had put the panel inside the normal
+page layout. Rebuilt to the POC's TRUE full-screen 50/50 (fixed overlay on <body>,
+nav rail visible, three datum lines, 560px columns, bare Typeform question, 32px
+display stem). Re-verified end-to-end on the cassette walk; new screenshot below
+matches the approved mock.
+
 - New: `admin/src/ui/coach-panel.ts` (DOM) + `admin/src/ui/coach-panel-state.ts` (pure logic) + `coach-panel-state.test.ts` (7 tests) + `admin/src/styles/coach-panel.css`. Changed: `admin/src/stages/questioning.js` (split layout + panel wiring, gated by the app's build-time base URL — customer app keeps the single column).
 - **Scope deviation from the phase file:** the `backend/engine/axes.ts` note-in-history change was dropped — its call site (`session-streams.ts`) is another chat's live lane. Refresh-persistence is done client-side instead (sessionStorage per session). The note is already durable in run logs (transcript + turn.json). Revisit only if cross-device mid-run resume matters.
 - Offline proof: npm test 158/158, typecheck clean, `lint:tokens` clean for these files. Verified live on a $0 cassette replay of run `2026_Jul01_22-30-eb6e254d…` (server `sero-api-coach` on 3141 + web 3143, dev autologin): split renders, Wellbeing/Engagement moved with the planner's real note shown as the why, idle axes show labelled UI copy, refresh kept scores + whys, submit/skip/back unchanged. Screenshot: [shots/phase1-live-scores.png](shots/phase1-live-scores.png).
