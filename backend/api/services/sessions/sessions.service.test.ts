@@ -373,6 +373,24 @@ test("getSnapshot resolves through the seam and returns the session snapshot", (
   assert.equal(out.stage, "FOCUS_POINTS");
 });
 
+// Promises-before-recap: the snapshot must carry the locked-in promises so a
+// reload never re-shows the agreement step. null = not locked yet; an empty
+// array is a valid "confirmed none" and must survive the round-trip as [].
+test("getSnapshot carries promises — null until locked, the stored list after", () => {
+  const fresh = fakeSession("fresh");
+  const locked = fakeSession("locked");
+  locked.promises = [
+    { id: "p1", owner: "manager", action: "Book the buddy", when: "this week", outcome: null, at: 1 },
+  ];
+  const none = fakeSession("none");
+  none.promises = [];
+  const svc = createSessionsService(fakeRepo([fresh, locked, none]).repo);
+  assert.equal(svc.getSnapshot("fresh").promises, null);
+  assert.equal(svc.getSnapshot("locked").promises?.length, 1);
+  assert.equal(svc.getSnapshot("locked").promises?.[0]?.owner, "manager");
+  assert.deepEqual(svc.getSnapshot("none").promises, []);
+});
+
 test("getSnapshot throws a 404 for an unknown session", () => {
   const { repo } = fakeRepo();
   assert.throws(

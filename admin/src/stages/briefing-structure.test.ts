@@ -45,10 +45,33 @@ test("honest reads stay split — shareable vs private", () => {
   assert.ok(/\.brutal--private\s*\{[^}]*--sero-gold-100/.test(CSS), "private reads gold");
 });
 
-test("one blue action: Finish yields to 'Lock these in' when it's on screen", () => {
-  assert.ok(SRC.includes("hasLockAction"), "the lock-present flag exists");
-  assert.ok(SRC.includes(`if (hasLockAction) finishBtn.classList.add("btn--ghost")`),
-    "Finish steps down to ghost when the lock action is present");
+// --- Promises before the recap (signed off 2026-07-19): the agreement step is
+// its own full-screen view AHEAD of the recap, not a card inside it.
+
+test("the promises step renders before any recap, and gates correctly", () => {
+  const gate = SRC.indexOf("const showPromises");
+  const wash = SRC.indexOf("celebration-wash");
+  assert.ok(gate > -1, "the view picker exists");
+  assert.ok(wash > -1, "the wash survives");
+  assert.ok(gate < wash, "the promises step is decided before the recap wash plays");
+  assert.ok(SRC.includes("renderPromiseAgree"), "the dedicated step renders");
+  // Gate contract: scripted lane, Q9 skip, and an already-locked run bypass the
+  // step — but NOT guests (no store.user in the gate; guests agree promises too).
+  const gateExpr = SRC.slice(gate, SRC.indexOf(";", gate));
+  assert.ok(gateExpr.includes("!store.scripted"), "scripted lane never sees the step");
+  assert.ok(gateExpr.includes("!store.promisesConfirmSkip"), "Q9 skip bypasses the step");
+  assert.ok(gateExpr.includes("!store.promisesConfirmed"), "locked runs go straight to the recap");
+  assert.ok(!gateExpr.includes("store.user"), "guests get the step too");
+});
+
+test("the recap band shows what was AGREED, with suggestions only as a labelled fallback", () => {
+  assert.ok(SRC.includes("store.promises"), "the locked list drives the band");
+  const agreedIdx = SRC.indexOf("agreed.filter((p) => p.owner");
+  const fallbackIdx = SRC.indexOf(`actionsEyebrow.textContent = "Sero's suggestions"`);
+  assert.ok(agreedIdx > -1, "agreed promises render grouped by owner");
+  assert.ok(fallbackIdx > -1, "unlocked runs label the list as Sero's suggestions, never as agreed");
+  assert.ok(SRC.includes(`"You promised"`), "manager group labelled");
+  assert.ok(SRC.includes("You promised") && agreedIdx < fallbackIdx, "agreed list is preferred over the fallback");
 });
 
 test("empty acts remove themselves rather than orphan a label", () => {

@@ -1,6 +1,9 @@
 # Phase 1 — The moment
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-19)
+`admin/src/ui/promise-agree.ts` + `.test.ts` + `styles/design/promise-agree.css` (new), promise-confirm trio deleted, `design.css` import swapped, `briefing.js` view switch (gate: sessionId && !scripted && !skip && !confirmed — no store.user, guests included), wash now plays on the recap view, `state.js` initial gains promises/promisesConfirmed/promisesConfirmSkip/promisesSaveFailed (leak fixed, regression test in `state.test.ts`), `briefing-structure.test.ts` rewritten. Offline proof: typecheck clean, npm test 157/157. Real-module browser proof (Vite dev, actual briefing.js): unlocked → step with both groups; edit + move + lock → recap grouped band; skip → "Sero's suggestions" fallback; scripted → no step; locked-empty → section dropped.
 
 ## Goal
 Finishing the questions lands on a dedicated full-screen Promises step — two owner groups, lock in or skip — before any recap is shown.

@@ -93,7 +93,7 @@ const TESTS = [
     id: "promises-loop",
     title: "Promises loop in the runner",
     blurb:
-      "The loop that makes 1:1 №2 feel connected to №1: last question → agree next actions (primary CTA) → two weeks later they return as card zero, yours first, one tap each — and question 1 picks up whatever slipped.",
+      "The loop that makes 1:1 №2 feel connected to №1: last question → agree next actions (primary CTA) → two weeks later they return as card zero, yours first, one tap each — and question 1 picks up whatever slipped. (Wrap-step design since superseded by 'Promises before the recap' — kept for the loop story.)",
     date: "11 Jul 2026",
     tag: "runner",
     thumb: THUMB_RUNNER,

@@ -1,0 +1,117 @@
+/* -----------------------------------------------------------------------------
+   The promises moment (promises-before-recap) — the full-screen "lock in what
+   you two agreed" step between the last question and the recap. Two owner
+   groups; rows edit in place and move across. 14px floor holds.
+----------------------------------------------------------------------------- */
+.pa-group {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-4) var(--sero-space-5) var(--sero-space-3);
+}
+.pa-group--you {
+  border-color: var(--color-primary-line);
+  background: linear-gradient(180deg, var(--sero-primary-50), var(--color-surface));
+}
+.pa-group .eyebrow { letter-spacing: var(--type-tracking-caps); }
+.pa-group--you .eyebrow { color: var(--color-accent-dark); }
+
+.pa-rows { display: flex; flex-direction: column; }
+.pa-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-3);
+  padding: var(--sero-space-2) 0;
+  border-top: 1px solid var(--color-border);
+}
+.pa-row:first-child { border-top: 0; }
+.pa-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent);
+  flex: none;
+}
+/* The action reads as text until touched — border appears on hover/focus. */
+.pa-input {
+  flex: 1;
+  min-width: 12rem;
+  border-color: transparent;
+  background: transparent;
+}
+.pa-input:hover { border-color: var(--color-border-strong); background: var(--color-surface); }
+.pa-input:focus { background: var(--color-surface); }
+.pa-when {
+  flex: none;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-full);
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.pa-tool {
+  font: inherit;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  background: none;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  padding: 4px 10px;
+  white-space: nowrap;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+.pa-tool:hover { border-color: var(--color-accent); color: var(--color-ink); }
+.pa-tool:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.pa-tool--quiet { border-color: transparent; }
+.pa-add {
+  font: inherit;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  background: none;
+  cursor: pointer;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-button);
+  padding: 6px 14px;
+  margin-top: var(--sero-space-2);
+}
+.pa-add:hover { color: var(--color-accent-dark); border-color: var(--color-accent); }
+.pa-add:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.pa-cap { font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.pa-empty {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  font-style: italic;
+  padding: var(--sero-space-2) 0;
+}
+.pa-loopnote {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+}
+.pa-actions { align-items: center; }
+
+/* Recap "What you agreed" band — the locked list grouped by owner. */
+.agreed-owner-label {
+  display: block;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+  margin-top: var(--sero-space-3);
+}
+.agreed-owner-label--you { color: var(--color-accent-dark); }
+.agreed-note {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  margin-top: var(--sero-space-2);
+}
+
+@media (max-width: 640px) {
+  .pa-row { align-items: stretch; flex-direction: column; }
+  .pa-input { min-width: 0; }
+}

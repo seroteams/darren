@@ -3,7 +3,7 @@
 **Goal:** When the questions end, the manager lands on one clear "lock in what you two agreed" screen — your promises and theirs, side by side — and only then gets the recap, which (on screen and in the PDF) shows what was actually agreed, not the engine's raw suggestions.
 **Driver:** Carl
 **Created:** 2026-07-19
-**Mockup:** in-app, Carl's choice 2026-07-19 — the clickable walk at `/test → "Promises before the recap"` (admin/src/stages/tests/promises-before-recap.js) is the design gate; the earlier artifact (https://claude.ai/code/artifact/43c1f81c-e2e8-403b-9d39-582e74f3d3ce) stays as reference. _Awaiting Carl's approval._
+**Mockup:** in-app, Carl's choice 2026-07-19 — the clickable walk at `/test → "Promises before the recap"` (admin/src/stages/tests/promises-before-recap.js); earlier artifact (https://claude.ai/code/artifact/43c1f81c-e2e8-403b-9d39-582e74f3d3ce) kept as reference. **Approved by Carl 2026-07-19** ("A and keep going").
 **Board:** https://claude.ai/code/artifact/bbb24b13-18ea-452b-9fc7-3218e9b9e656
 
 ## Done means
@@ -23,15 +23,15 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The moment | `promise-agree` two-group screen + view switch in briefing.js; promise-confirm deleted; state leak fixed | ⬜ |
-| 2 | Memory & guests | snapshot + rehydrate plumbing; guest lane; recap "What you agreed" grouped band + copy-all | ⬜ |
-| 3 | The PDF payoff | recap-pdf owner-grouped promises section | ⬜ |
-| 4 | House in step | /test gallery walk mirrors the real screen; dependency sweep; trackers | ⬜ |
+| 1 | The moment | `promise-agree` two-group screen + view switch in briefing.js; promise-confirm deleted; state leak fixed | 🔨 |
+| 2 | Memory & guests | snapshot + rehydrate plumbing; guest lane; recap "What you agreed" grouped band + copy-all | 🔨 |
+| 3 | The PDF payoff | recap-pdf owner-grouped promises section | 🔨 |
+| 4 | House in step | /test gallery walk mirrors the real screen; dependency sweep; trackers | 🔨 |
 
-⬜ not started · 🔨 in progress · ✅ done (tested)
+⬜ not started · 🔨 built, awaiting Carl's walk · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-19 from the approved plan (`C:\Users\User\.claude\plans\the-promioses-seciotn-for-valiant-kettle.md`). Carl asked for the design gate in-app instead of an artifact: a clickable UX-only walk now lives at `/test → "Promises before the recap"` (mock data, zero API — both views: the two-list lock-in moment, and the recap payoff band incl. the skip fallback). Verified working in the rendered page (move / add / lock / skip / restart all exercised). Waiting on Carl's design sign-off plus two calls (guests get the step; empty-suggestions behaviour) before Phase 1 starts. No baseline paid run yet (free checks cover this work).
+2026-07-19: design approved via the /test walk; Carl said "keep going" while out, so all four phases are BUILT in one stretch (commit pending his walk — statuses stay 🔨, never self-certified). Free proof: typecheck clean, npm test 157/157 (incl. new promise-agree / snapshot / recap-pdf / state-reset tests), real-module browser walk of every path (lock / skip / scripted / locked-empty / fail-soft). NOT yet proven: a pixel screenshot (Browser-pane capture stuck this session) and an actual downloaded PDF — both are Carl's QA scenarios. lint:tokens fails on 25 pre-existing violations (recap-pdf COLOR block + profile-badge.js), none from this diff. Next: Carl walks the consolidated scenarios, then phase-close.
 
 ## Parked
 - Persisting the skip decision server-side (reload after skip re-shows the step once — accepted).

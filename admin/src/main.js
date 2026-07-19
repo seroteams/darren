@@ -265,6 +265,11 @@ export async function rehydrateById(id) {
       completedAt: snap.completedAt ?? snap.briefing?.completedAt ?? null,
       skipBriefingAnimation: snap.stage === STAGES.BRIEFING && !!snap.briefing,
       scripted: snap.scripted || null,
+      // Promises-before-recap: a snapshot that carries promises means they were
+      // locked in — never re-show the step. An empty array is a valid "confirmed
+      // none"; only null/absent means the step hasn't happened yet.
+      promises: snap.promises ?? null,
+      promisesConfirmed: snap.promises != null,
     });
     return true;
   } catch (e) {

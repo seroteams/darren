@@ -1,10 +1,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { draftsFromNextActions } from "./promise-confirm.ts";
+import { draftsFromNextActions, MAX_PROMISES } from "./promise-agree.ts";
 
-// The wrap-up confirm card (Promises loop phase 1) is seeded from the briefing's
+// The promises moment (promises-before-recap) is seeded from the briefing's
 // next_actions — engine SUGGESTIONS. This mapper shapes them into editable drafts;
-// only what the manager locks in gets stored (no-inference ruling).
+// only what the manager locks in gets stored (no-inference ruling). Tests carried
+// over from promise-confirm (superseded 2026-07-19).
 
 test("maps briefing next_actions into manager-owned drafts, trimmed", () => {
   const drafts = draftsFromNextActions([
@@ -13,7 +14,9 @@ test("maps briefing next_actions into manager-owned drafts, trimmed", () => {
   ]);
   assert.equal(drafts.length, 2);
   assert.deepEqual(drafts[0], { owner: "manager", action: "Book the onboarding buddy", when: "this week" });
-  assert.equal(drafts[1].owner, "manager"); // engine can't know owners — default manager, toggled by hand
+  // Engine can't know owners — all drafts seed the manager's group; moving one
+  // to the report's group is the manager's explicit call in the UI.
+  assert.ok(drafts.every((d) => d.owner === "manager"));
 });
 
 test("drops malformed rows and handles junk input without throwing", () => {
@@ -28,4 +31,5 @@ test("drops malformed rows and handles junk input without throwing", () => {
 test("caps at 10 — matches the server's ceiling", () => {
   const many = Array.from({ length: 14 }, (_, i) => ({ when: "today", action: `a${i}` }));
   assert.equal(draftsFromNextActions(many).length, 10);
+  assert.equal(MAX_PROMISES, 10);
 });

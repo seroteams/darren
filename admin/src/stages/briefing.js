@@ -2,7 +2,7 @@ import { STAGES, isInternalAdmin } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
 import { postVerdict, getMyRun, submitRunVerdict, savePromises } from "../../../shared/api.js";
-import { draftsFromNextActions, renderPromiseConfirm } from "../ui/promise-confirm.ts";
+import { draftsFromNextActions, renderPromiseAgree } from "../ui/promise-agree.ts";
 import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
 import { markRunForClaim } from "../guest.ts";
 import { finishDestination } from "./finish-destination.ts";
@@ -12,7 +12,8 @@ import { Check, Copy } from "lucide";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
-export async function mount(root, { store, setState, resetSession }) {
+export async function mount(root, deps) {
+  const { store, setState, resetSession } = deps;
   const b = store.briefing;
   const fastPath = !!store.skipBriefingAnimation;
   if (fastPath) setState({ skipBriefingAnimation: false });
@@ -37,6 +38,42 @@ export async function mount(root, { store, setState, resetSession }) {
       try { localStorage.removeItem("seroSessionId"); } catch {}
       resetSession();
       setState({ stage: STAGES.INTAKE, substage: "NAME" });
+    });
+    return;
+  }
+
+  // The promises moment (promises-before-recap, signed off 2026-07-19): before any
+  // recap is shown, the manager — or a guest — locks in what the two of them agreed,
+  // as its own full-screen step. Q9's ghost path sets promisesConfirmSkip; a re-visit
+  // after locking (promisesConfirmed) goes straight to the recap; the scripted QA
+  // lane never sees the step. Locking or skipping re-mounts this stage, which then
+  // falls through to the recap below (wash and all — the payoff plays after the step).
+  const showPromises = Boolean(store.sessionId && !store.scripted
+    && !store.promisesConfirmSkip && !store.promisesConfirmed);
+  if (showPromises) {
+    root.innerHTML = `<div class="stage-questioning l-stack l-stack--6"></div>`;
+    renderPromiseAgree(root.firstElementChild, {
+      drafts: draftsFromNextActions(b.next_actions || []),
+      reportName: store.ctx?.name || "them",
+      ctxSegments: [store.ctx?.name, store.ctx?.seniority, store.ctx?.role, store.ctx?.meetingType],
+      onLock: async (promises) => {
+        // Keep the locked list on-device first — the recap and PDF must show what
+        // was agreed even if the save can't reach the server (fail soft, never lose it).
+        store.promises = promises;
+        store.promisesConfirmed = true;
+        try {
+          await savePromises(store.sessionId, promises);
+          store.promisesSaveFailed = false;
+        } catch (e) {
+          console.warn("[briefing] promises save failed — keeping them on-device:", e);
+          store.promisesSaveFailed = true;
+        }
+        void mount(root, deps);
+      },
+      onSkip: () => {
+        store.promisesConfirmSkip = true;
+        void mount(root, deps);
+      },
     });
     return;
   }
@@ -181,9 +218,6 @@ export async function mount(root, { store, setState, resetSession }) {
 
   const PACE = 0.45; // tighten the staggered reveal so the full briefing lands in ~2s
   const pause = (ms) => (fastPath ? Promise.resolve() : sleep(ms * PACE));
-  // When the "Lock these in" action is present, IT is the screen's one blue
-  // action — Finish steps down to a quiet button (one-blue-action house rule).
-  let hasLockAction = false;
 
   // The whole briefing is hidden behind reveal animations (opacity:0 until
   // `.is-in`). If any beat below throws, fail open: reveal everything and drop
@@ -366,32 +400,63 @@ export async function mount(root, { store, setState, resetSession }) {
     else revealOne(section, 80);
   }
 
-  // --- 6) Next actions, grouped by `when`
+  // --- 6) What you agreed — the locked-in promises, grouped by owner (manager's
+  // own first, per the promises-loop rule). Falls back to the engine's read-only
+  // suggestions when nothing was locked (Q9 skip path, scripted lane, old runs).
   const actions = b.next_actions || [];
-  // Promises loop phase 1: on a live logged-in run the section becomes the wrap-up
-  // CONFIRM card — the engine suggested these, the manager locks in what's real
-  // (owners included). Q9's ghost "Finish" path sets promisesConfirmSkip, and a
-  // re-visit after locking (promisesConfirmed) falls back to the read-only list.
-  // Guests and the scripted QA lane keep the read-only list untouched.
-  const confirmable = Boolean(actions.length && store.user && store.sessionId
-    && !store.scripted && !store.promisesConfirmSkip && !store.promisesConfirmed);
-  if (confirmable) {
-    hasLockAction = true;
+  const agreed = Array.isArray(store.promises)
+    ? store.promises.filter((p) => p && String(p.action || "").trim())
+    : null;
+  if (agreed && agreed.length) {
     await pause(fastPath ? 0 : 400);
     const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
-    actionsEyebrow.textContent = "Lock in what you two agreed";
-    actionsEyebrow.classList.add("is-in");
-    renderPromiseConfirm(root.querySelector(".actions-host"), {
-      drafts: draftsFromNextActions(actions),
-      reportName: store.ctx?.name || "them",
-      onLock: async (promises) => {
-        await savePromises(store.sessionId, promises);
-        store.promisesConfirmed = true;
-      },
-    });
+    if (fastPath) actionsEyebrow.classList.add("is-in");
+    else revealOne(actionsEyebrow, 0);
+    const host = root.querySelector(".actions-host");
+    let i = 0;
+    for (const g of [
+      { owner: "manager", label: "You promised", cls: " agreed-owner-label--you" },
+      { owner: "report", label: `${store.ctx?.name || "They"} promised`, cls: "" },
+    ]) {
+      const list = agreed.filter((p) => p.owner === g.owner);
+      if (!list.length) continue;
+      const label = document.createElement("span");
+      label.className = `agreed-owner-label${g.cls} reveal`;
+      label.textContent = g.label;
+      host.appendChild(label);
+      if (fastPath) label.classList.add("is-in");
+      else revealOne(label, 100 + i++ * 70);
+      for (const p of list) {
+        const row = createCopyableRow({
+          className: "action-group",
+          mark: "",
+          bodyHtml: `
+            <div class="action-when">${escape(capWhen(p.when))}</div>
+            <div class="action-body">${escape(p.action || "")}</div>
+          `,
+          copyText: formatPromiseCopy(p, store.ctx?.name),
+        });
+        host.appendChild(row);
+        if (fastPath) row.classList.add("is-in");
+        else revealOne(row, 100 + i++ * 70);
+      }
+    }
+    if (store.promisesSaveFailed) {
+      const note = document.createElement("div");
+      note.className = "agreed-note";
+      note.textContent = "Kept on this device — Sero couldn't reach the server, so these may not come back at your next 1:1.";
+      host.appendChild(note);
+    }
+  } else if (agreed) {
+    // An explicitly locked-in EMPTY list — "nothing kept this time" was the
+    // manager's call; don't resurface the engine's suggestions over it.
+    root.querySelector(".actions-section").remove();
   } else if (actions.length) {
     await pause(fastPath ? 0 : 400);
     const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
+    // Nothing was locked in — these are the engine's suggestions, and the label
+    // must say so (never present unconfirmed output as an agreement).
+    actionsEyebrow.textContent = "Sero's suggestions";
     if (fastPath) actionsEyebrow.classList.add("is-in");
     else revealOne(actionsEyebrow, 0);
     const host = root.querySelector(".actions-host");
@@ -456,7 +521,7 @@ export async function mount(root, { store, setState, resetSession }) {
   }
 
   root.querySelector(".js-copy-all-briefing").addEventListener("click", () => {
-    copyFullBriefing(b, store.ctx, root.querySelector(".js-copy-all-briefing"));
+    copyFullBriefing(b, store.ctx, root.querySelector(".js-copy-all-briefing"), store.promises);
   });
 
   // Briefing verdict tap (validation-kit Phase 3, guests-only since 3b — logged-in
@@ -525,7 +590,7 @@ export async function mount(root, { store, setState, resetSession }) {
       pdfBtn.textContent = "Preparing…";
       try {
         const { downloadRecapPdf } = await import("../ui/recap-pdf.ts");
-        await downloadRecapPdf(b, store.ctx);
+        await downloadRecapPdf(b, store.ctx, store.promises);
       } catch (e) {
         console.error("[briefing] PDF export failed:", e);
         pdfBtn.textContent = "Couldn't build the PDF — try again";
@@ -545,8 +610,6 @@ export async function mount(root, { store, setState, resetSession }) {
   const seesDebrief = isInternalAdmin(store.user);
   if (finishBtn) {
     if (!seesDebrief) finishBtn.textContent = "Finish";
-    // Yield the solid-blue slot to "Lock these in" when it's on screen.
-    if (hasLockAction) finishBtn.classList.add("btn--ghost");
     finishBtn.addEventListener("click", () => {
       void (async () => {
         // The one feedback moment (validation-kit Phase 3b): stars + the verdict
@@ -652,7 +715,13 @@ function formatActionCopy(a) {
   return `${capWhen(when)}: ${action}`;
 }
 
-function formatBriefingForCopy(b, ctx) {
+function formatPromiseCopy(p, name) {
+  const who = p.owner === "report" ? (name || "They") : "You";
+  const when = String(p.when || "").trim();
+  return `${who}: ${String(p.action || "").trim()}${when ? ` — ${capWhen(when)}` : ""}`;
+}
+
+function formatBriefingForCopy(b, ctx, promises) {
   const lines = [];
   const name = (ctx?.name || "").trim();
   lines.push(name ? `Recap · For ${name}` : "Recap");
@@ -699,9 +768,16 @@ function formatBriefingForCopy(b, ctx) {
     lines.push("", "Honest read — you (private · just for you, not for sharing)", mgrTruth);
   }
 
+  const agreed = (Array.isArray(promises) ? promises : [])
+    .filter((p) => p && String(p.action || "").trim());
   const actions = b.next_actions || [];
-  if (actions.length) {
-    lines.push("", "What to do next");
+  if (agreed.length) {
+    lines.push("", "What you agreed");
+    // Manager's own first — same order as on screen.
+    [...agreed.filter((p) => p.owner !== "report"), ...agreed.filter((p) => p.owner === "report")]
+      .forEach((p) => lines.push(`- ${formatPromiseCopy(p, name)}`));
+  } else if (actions.length) {
+    lines.push("", "Sero's suggestions");
     [...actions]
       .sort((x, y) => whenRank(x.when) - whenRank(y.when))
       .forEach((a) => lines.push(`- ${formatActionCopy(a)}`));
@@ -716,8 +792,8 @@ function formatBriefingForCopy(b, ctx) {
   return lines.join("\n").trim();
 }
 
-async function copyFullBriefing(briefing, ctx, btn) {
-  const text = formatBriefingForCopy(briefing, ctx);
+async function copyFullBriefing(briefing, ctx, btn, promises) {
+  const text = formatBriefingForCopy(briefing, ctx, promises);
   if (!text) return;
   try {
     await navigator.clipboard.writeText(text);

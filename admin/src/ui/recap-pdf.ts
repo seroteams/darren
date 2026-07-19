@@ -44,6 +44,11 @@ export type RecapCtx = {
   notes?: string;
 };
 
+// A locked-in agreement from the promises step (promises-before-recap). When
+// these exist they replace the raw next_actions in "What to do next" — the PDF
+// says who promised what, not what the engine merely suggested.
+export type RecapPromise = { owner?: string; action?: string; when?: string };
+
 const COLOR = {
   ink: "#1f2a37",        // --color-ink
   inkDim: "#636363",     // --color-ink-dim
@@ -166,7 +171,11 @@ export function recapPdfFilename(name: string | undefined, completedAt?: string 
   return `sero-recap-${slug}-${stamp}.pdf`;
 }
 
-export function buildRecapDocDefinition(b: RecapBriefing, ctx: RecapCtx | undefined) {
+export function buildRecapDocDefinition(
+  b: RecapBriefing,
+  ctx: RecapCtx | undefined,
+  promises?: RecapPromise[] | null,
+) {
   const name = pdfSafe((ctx?.name || "").trim());
   const role = pdfSafe((ctx?.role || "").trim());
   const meetingType = pdfSafe((ctx?.meetingType || "").trim());
@@ -294,9 +303,44 @@ export function buildRecapDocDefinition(b: RecapBriefing, ctx: RecapCtx | undefi
     content.push({ text: [{ text: "Your move  ", bold: true, color: COLOR.accentDark, fontSize: 9.5 }, { text: pdfSafe(er.recommended_action) }] });
   }
 
+  // Locked-in promises beat raw suggestions: when the manager confirmed the
+  // agreements, the PDF shows those, grouped by owner (manager's own first).
+  // Without a lock, the engine's suggestions render as before — labelled as
+  // suggestions, never as an agreement.
+  const locked = Array.isArray(promises); // [] is a lock too — "confirmed none"
+  const agreed = (locked ? promises : []).filter((p) => p && String(p.action || "").trim());
   const actions = (b.next_actions || []).filter((a) => String(a.action || "").trim());
-  if (actions.length) {
-    content.push(eyebrow("What to do next"));
+  if (agreed.length) {
+    content.push(eyebrow("What you agreed"));
+    const groups: [string, RecapPromise[]][] = [
+      ["You promised", agreed.filter((p) => p.owner !== "report")],
+      [`${name || "They"} promised`, agreed.filter((p) => p.owner === "report")],
+    ];
+    for (const [label, list] of groups) {
+      if (!list.length) continue;
+      content.push({
+        text: label.toUpperCase(),
+        fontSize: 8,
+        bold: true,
+        color: COLOR.accentDark,
+        characterSpacing: 1,
+        margin: [0, 4, 0, 4],
+      });
+      for (const p of list) {
+        content.push({
+          columns: [
+            { text: capWhen(p.when), width: 66, fontSize: 9, bold: true, color: COLOR.accentDark, margin: [0, 1, 0, 0] },
+            { text: pdfSafe(p.action) },
+          ],
+          columnGap: 10,
+          margin: [0, 0, 0, 5],
+        });
+      }
+    }
+  } else if (!locked && actions.length) {
+    // A locked-empty list ("confirmed none") suppresses the suggestions too —
+    // the manager's explicit call outranks the engine's list, same as on screen.
+    content.push(eyebrow("Sero's suggestions"));
     [...actions]
       .sort((x, y) => whenRank(x.when) - whenRank(y.when))
       .forEach((a) => {
@@ -378,7 +422,11 @@ function loadFontVfs(): Promise<Record<string, string>> {
   return vfsPromise;
 }
 
-export async function downloadRecapPdf(b: RecapBriefing, ctx: RecapCtx | undefined): Promise<void> {
+export async function downloadRecapPdf(
+  b: RecapBriefing,
+  ctx: RecapCtx | undefined,
+  promises?: RecapPromise[] | null,
+): Promise<void> {
   // @ts-expect-error pdfmake's browser build ships without type declarations
   const pdfMakeMod = await import("pdfmake/build/pdfmake");
   const pdfMake = pdfMakeMod.default ?? pdfMakeMod;
@@ -386,6 +434,6 @@ export async function downloadRecapPdf(b: RecapBriefing, ctx: RecapCtx | undefin
   pdfMake.addVirtualFileSystem(vfs);
   pdfMake.addFonts(PDF_FONTS);
   pdfMake
-    .createPdf(buildRecapDocDefinition(b, ctx))
+    .createPdf(buildRecapDocDefinition(b, ctx, promises))
     .download(recapPdfFilename(ctx?.name, b.completedAt));
 }

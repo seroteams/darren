@@ -67,14 +67,14 @@
 <div class="board">
   <div class="eyebrow"><span class="dot">●</span> SERO · PROMISES BEFORE THE RECAP</div>
   <h1>Where we are<span class="dot">.</span></h1>
-  <p class="lead">The plan is 4 phases and 15 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
+  <p class="lead">The plan is 4 phases and 0 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
 
   <div class="panel">
     <div class="prog-head">
       <h2>Phase 1 of 4 — the moment</h2>
-      <div class="prog-sub">0 of 4 signed off · 0 built</div>
+      <div class="prog-sub">0 of 4 signed off · 4 built</div>
     </div>
-    <div class="segs"><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
+    <div class="segs"><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div></div>
   </div>
 
   <div class="panel setup">
@@ -90,55 +90,55 @@
 
   <div class="rows">
   <div class="row row-here">
-    <div class="node todo">1</div>
+    <div class="node built">1</div>
     <div class="card">
       <div class="card-head">
         <h3>The moment</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
+        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         <span class="here">● YOU ARE HERE</span>
       </div>
       <p class="desc">Finishing the questions lands on a dedicated full-screen Promises step — two owner groups, lock in or skip — before any recap is shown.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>NEW admin/src/ui/promise-agree.ts + .test.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>NEW admin/src/styles/design/promise-agree.css</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>DELETE admin/src/ui/promise-confirm.ts + .test.ts + promise-confirm.css</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/stages/briefing.js</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/state.js + state.test.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/stages/briefing-structure.test.ts</span></li></ul>
       
+      <div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:3000</code> · sign in as <span class="role">Admin</span></div>
     </div>
   </div>
   <div class="row ">
-    <div class="node todo">2</div>
+    <div class="node built">2</div>
     <div class="card">
       <div class="card-head">
         <h3>Memory &amp; guests</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
+        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         
       </div>
       <p class="desc">Locked promises survive a reload, guests get the same agreement moment, and the recap's "What to do next" shows what was actually agreed.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>Backend/api/services/sessions/session-views.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/main.js</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/stages/briefing.js</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Guest lane: gate already dropped store.user in Phase 1</span></li></ul>
       
+      <div class="testit"><span class="testit-tag">TEST IT</span> <span class="role">Memory</span> · <span class="role">Recap shows the agreement</span> · <span class="role">Guest gets it too</span> · <span class="role">Skip fallback</span></div>
     </div>
   </div>
   <div class="row ">
-    <div class="node todo">3</div>
+    <div class="node built">3</div>
     <div class="card">
       <div class="card-head">
         <h3>The PDF payoff</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
+        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         
       </div>
       <p class="desc">The guest recap PDF carries the agreed promises with owner labels — the document says who promised what.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/ui/recap-pdf.ts + .test.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/stages/briefing.js</span></li></ul>
       
+      <div class="testit"><span class="testit-tag">TEST IT</span> <span class="role">PDF with promises</span> · <span class="role">PDF after skip</span></div>
     </div>
   </div>
   <div class="row ">
-    <div class="node todo">4</div>
+    <div class="node built">4</div>
     <div class="card">
       <div class="card-head">
         <h3>House in step</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
+        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         
       </div>
       <p class="desc">Every surface that shows the promises flow matches the shipped design, and the trackers say so.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin/src/stages/tests/promises-loop.js</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Dependency sweep</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Trackers: plan statuses, STATUS.md, changelog/deck if warranted; move folder to done/</span></li></ul>
       
+      <div class="testit"><span class="testit-tag">TEST IT</span> <span class="role">Gallery matches reality</span></div>
     </div>
   </div>
   </div>

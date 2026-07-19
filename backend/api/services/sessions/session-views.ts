@@ -26,6 +26,10 @@ export function snapshot(s: Session) {
     agenda: { summary: s.agendaInput?.summary ?? null, covered: s.agendaCovered ?? null },
     mode: s.mode || "manual",
     runLabel: s.runLabel ?? null,
+    // Promises-before-recap: the wrap-up's locked-in agreements. null until the
+    // manager locks (an empty array IS a lock — "confirmed none"); the client
+    // uses null-vs-array to decide whether to show the agreement step again.
+    promises: s.promises ?? null,
     scripted: s.mode === "scripted"
       ? {
           mode: "scripted",

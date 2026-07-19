@@ -45,7 +45,7 @@ test("full briefing renders every section with the engine's own words", () => {
   assert.match(s, /THE HONEST READ/);
   assert.match(s, /OK to share/);
   assert.match(s, /Private, just for you/);
-  assert.match(s, /WHAT TO DO NEXT/);
+  assert.match(s, /SERO'S SUGGESTIONS/); // no lock → suggestions, labelled as such
   assert.match(s, /REMINDERS/);
   // Unread axis is a quiet caption, not a fabricated bar.
   assert.match(s, /Wellbeing — not enough signal/);
@@ -61,10 +61,31 @@ test("empty sections are dropped, not rendered blank", () => {
   const doc = buildRecapDocDefinition({ headline: "Just a headline." }, { name: "Sam" });
   const s = flat(doc);
   assert.match(s, /Just a headline/);
-  assert.doesNotMatch(s, /WHAT STOOD OUT|FINAL READ|HONEST READ|WHAT TO DO NEXT|REMINDERS/);
+  assert.doesNotMatch(s, /WHAT STOOD OUT|FINAL READ|HONEST READ|SUGGESTIONS|WHAT YOU AGREED|REMINDERS/);
   // No intake notes → the "what Sero was told" label stays out too.
   assert.match(s, /WHO THIS WAS FOR/);
   assert.doesNotMatch(s, /WHAT SERO WAS TOLD/);
+});
+
+// Promises-before-recap: locked agreements replace the suggestions and carry owners.
+test("locked promises render owner-grouped, manager first, and beat the suggestions", () => {
+  const doc = buildRecapDocDefinition(FULL, { name: "Amira" }, [
+    { owner: "report", action: "Track her hours for a week →", when: "before next 1:1" },
+    { owner: "manager", action: "Book the onboarding buddy", when: "this week" },
+  ]);
+  const s = flat(doc);
+  assert.match(s, /WHAT YOU AGREED/);
+  assert.match(s, /YOU PROMISED/);
+  assert.match(s, /AMIRA PROMISED/);
+  assert.ok(s.indexOf("YOU PROMISED") < s.indexOf("AMIRA PROMISED"), "manager's own first");
+  assert.doesNotMatch(s, /SERO'S SUGGESTIONS/, "suggestions never render alongside the agreement");
+  assert.match(s, /Track her hours for a week ->/, "pdfSafe applied to promise text");
+});
+
+test("a locked-empty list suppresses the suggestions too — the manager's call stands", () => {
+  const doc = buildRecapDocDefinition(FULL, { name: "Amira" }, []);
+  const s = flat(doc);
+  assert.doesNotMatch(s, /WHAT YOU AGREED|SUGGESTIONS/);
 });
 
 test("filename slugs the name and stamps the completed date", () => {

@@ -1,6 +1,9 @@
 # Phase 2 — Memory & guests
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-19)
+`session-views.ts` snapshot carries `promises` (null until locked; [] = confirmed none) + service test; `admin/src/main.js` AND `frontend/src/main.js` rehydrate map it (frontend shares admin's briefing.js + state.js — dependency sweep caught the second rehydrate); recap band renders `store.promises` grouped by owner with the fail-soft "kept on this device" note; copy-all prefers agreed promises with owner prefixes. Offline proof: 157/157 incl. new snapshot test.
 
 ## Goal
 Locked promises survive a reload, guests get the same agreement moment, and the recap's "What to do next" shows what was actually agreed.

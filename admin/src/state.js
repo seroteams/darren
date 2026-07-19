@@ -83,6 +83,13 @@ const initial = {
   stageTick: 0,
   regenerateFocusPoints: false,
   scripted: null,
+  // Promises-before-recap. These MUST live in `initial`: resetSession() only
+  // resets keys listed here, so a flag set ad-hoc on the store would leak into
+  // the next run in the same tab (the old confirm card had exactly that bug).
+  promises: null,
+  promisesConfirmed: false,
+  promisesConfirmSkip: false,
+  promisesSaveFailed: false,
 };
 
 export const store = { ...initial };
