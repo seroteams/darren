@@ -71,10 +71,10 @@
 
   <div class="panel">
     <div class="prog-head">
-      <h2>Phase 1 of 3 — split screen + live scores</h2>
-      <div class="prog-sub">0 of 3 signed off · 1 built</div>
+      <h2>Phase 2 of 3 — support hints</h2>
+      <div class="prog-sub">1 of 3 signed off · 0 built</div>
     </div>
-    <div class="segs"><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
+    <div class="segs"><div class="seg"><div class="seg-bar seg-signed"></div><div class="seg-label">Signed</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div></div>
   </div>
 
   <div class="panel setup">
@@ -89,26 +89,26 @@
   </div>
 
   <div class="rows">
-  <div class="row row-here">
-    <div class="node built">1</div>
+  <div class="row ">
+    <div class="node signed">1</div>
     <div class="card">
       <div class="card-head">
         <h3>Split screen + live scores</h3>
-        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
-        <span class="here">● YOU ARE HERE</span>
+        <span class="pill pill-signed">SIGNED OFF</span>
+        
       </div>
       <p class="desc">The real questioning screen becomes the POC's 50/50 split, with the right half showing the four axes as gradient meters — each carrying the model's real one-line reasoning for its last move.</p>
-      <ul class="items"><li class=""><span class="tick tick-built">✓</span><span>New: admin/src/ui/coach-panel.ts</span></li><li class=""><span class="tick tick-built">✓</span><span>Scope deviation from the phase file</span></li><li class=""><span class="tick tick-built">✓</span><span>Offline proof: npm test 158/158, typecheck clean, lint:tokens clean for these files. Verified…</span></li><li class=""><span class="tick tick-built">✓</span><span>Known cosmetic edge: an axis that moved in an earlier browser</span></li><li class=""><span class="tick tick-built">✓</span><span>Customer app checked by build constant + full test suite</span></li></ul>
-      <div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:3000</code> · sign in as <span class="role">Admin</span></div>
+      <ul class="items"><li class=""><span class="tick tick-signed">✓</span><span>New: admin/src/ui/coach-panel.ts</span></li><li class=""><span class="tick tick-signed">✓</span><span>Scope deviation from the phase file</span></li><li class=""><span class="tick tick-signed">✓</span><span>Offline proof: npm test 158/158, typecheck clean, lint:tokens clean for these files. Verified…</span></li><li class=""><span class="tick tick-signed">✓</span><span>Known cosmetic edge: an axis that moved in an earlier browser</span></li><li class=""><span class="tick tick-signed">✓</span><span>Customer app checked by build constant + full test suite</span></li></ul>
+      
     </div>
   </div>
-  <div class="row ">
+  <div class="row row-here">
     <div class="node todo">2</div>
     <div class="card">
       <div class="card-head">
         <h3>Support hints</h3>
         <span class="pill pill-todo">NOT STARTED</span>
-        
+        <span class="here">● YOU ARE HERE</span>
       </div>
       <p class="desc">Every generated question carries up to 3 short coaching hints ("How to ask" / "Listen for"), shown in the coach panel behind the POC's Support/Live-scores toggle.</p>
       <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>Content/prompts/generate-questions.md + the generator's JSON schema + mint</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Backend/shared/question.types.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>YAML codec</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Coach panel: Support view + the toggle; questions without hints</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Affected tests + seed YAMLs updated</span></li></ul>

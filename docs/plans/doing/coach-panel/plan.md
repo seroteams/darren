@@ -24,15 +24,16 @@ Research behind this plan (all file:line evidence, cost estimates, privacy check
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Split screen + live scores | Real questioning screen goes 50/50; gradient meters wired to real deltas + the model's real "why" per axis | 🔨 |
+| 1 | Split screen + live scores | Real questioning screen goes 50/50; gradient meters wired to real deltas + the model's real "why" per axis | ✅ |
 | 2 | Support hints | Questions generated with 3 hints each; Support/Live-scores toggle appears | ⬜ |
 | 3 | Rationale arc gate | FOCUS_ARC_LEAK-style check so score "why" text can't carry competency framing into bi-weekly / feels-off meetings | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 BUILT 2026-07-19 (baseline 157/157 before, 158/158 after; typecheck clean; cassette-replay walk + screenshot in phase-1.md). Board: https://claude.ai/code/artifact/7638a835-d749-4676-88ce-db2fbd9c57f3
-Waiting for Carl's test walk on the phase-1 scenarios. Free walk: localhost:3143/admin (cassette servers `sero-api-coach` + `sero-web-coach` — $0, replays a recorded run); a live-engine walk on his own words = one paid run ~$0.35, his call.
+**Phase 1 ✅ GREEN-LIT 2026-07-19** — Carl walked the split screen and said "looks good" (after one rebuild: v1 sat inside the page, v2 is the POC's true full-screen 50/50). Committed 936a23a3. 158/158 tests, typecheck + lint:tokens clean, verified on a $0 cassette walk + screenshot.
+**Next: Phase 2 — Support hints** (generation-time, ~+$0.01–0.02/run + one ~$0.35 quality proof at the end). Not started; needs Carl's go.
+Board: https://claude.ai/code/artifact/7638a835-d749-4676-88ce-db2fbd9c57f3
 
 ## Parked
 - Per-axis whys minted by the model each turn (Phase C of the research) — cache-cliff risk, est. +$0.10–0.25/run. Only if the corridor proves value.

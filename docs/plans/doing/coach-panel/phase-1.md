@@ -1,6 +1,9 @@
 # Phase 1 — Split screen + live scores
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (green-lit)
+
+## ✅ GREEN-LIT 2026-07-19 — Carl walked the full-screen split, "looks good" (commit 936a23a3)
+First walk caught that v1 sat inside the normal page; rebuilt to the POC's true full-screen 50/50 and re-walked. Live scores move with the planner's real reasoning; idle axes show labelled UI copy; refresh holds. Customer app untouched.
 
 ## Built (2026-07-19) — layout rebuilt same day after Carl's catch
 Carl's first walk: "this is not the design" — v1 had put the panel inside the normal
