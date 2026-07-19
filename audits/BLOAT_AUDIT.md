@@ -1,9 +1,9 @@
 # Bloat audit — 2026-07-18 (read-only)
 
-> **Cleanup executed 2026-07-19** (Carl: "finish all"). Outcome recorded at the
-> [foot of this file](#cleanup-outcome--2026-07-19). ~2,540 LOC removed across 3 commits; all
-> free checks green; customer app boot-verified. Items D and the two live-used routes held with
-> reasons.
+> **Cleanup executed 2026-07-19** (Carl: "finish all" → "keep going"). Outcome recorded at the
+> [foot of this file](#cleanup-outcome--2026-07-19). ~2,880 LOC removed across 5 commits; all
+> free checks green; both apps boot-verified. A–E all landed; only the two live-used routes and
+> one dev-page escaper are deliberately left, with reasons.
 
 Scope: the full tracked tree at HEAD `16cbabee`. Product = notes → focus points → prep brief →
 question bank → live planner → final briefing, plus trust gates and tests. Method: five parallel
@@ -120,9 +120,17 @@ Carl: "finish all." Executed as far as safe without editing through another live
 |---|---|---|---|
 | A · `_archive` bank | ✅ Done | 165 files / ~1,644 LOC | `95c56ae` |
 | B · dead routes | ✅ 7 of 9 | pipeline cluster (4 files) + `checks.controller` + 7 routes + 8 `shared/api.js` wrappers + guide doc lines (~250 LOC) | `95c56ae` |
-| C · one-page flow | ✅ Done (bulk) | `onepage.js` 733 LOC + loader/route/gallery/label refs in both apps | `7b94fa0e` |
-| D · fold helpers | ⏸ Held | — | — |
+| C · one-page flow | ✅ Done | `onepage.js` 733 + `one-page-run.css` 246 LOC + loader/route/gallery/label refs in both apps + the enum/type/@import tail | `7b94fa0e`, `081b81d6` |
+| D · fold helpers | ✅ Done (safe part) | `promise-checkin.ts` now uses the sanctioned `escapeHtml`; its byte-identical twin `promise-confirm.ts` was deleted by another chat | `081b81d6` |
 | E · question index | ✅ Done (safe path) | dangling aliases dropped (4965 → 4536), zero files deleted | `7b94fa0e` |
+
+**C tail closed 2026-07-19** once session `457faf5d` released `state.js`/`design.css`: dropped the
+inert `STAGES.ONEPAGE` enum + type + the `one-page-run.css` @import, deleted the 246-LOC stylesheet,
+fixed a stale `about.js` comment. Admin app boot-verified (renders, styles intact, no console errors).
+
+**D — what's left:** only `admin/src/stages/guide.js:16`'s local `esc()`. It is a genuinely
+*different* helper (escapes `& < >` but not `"`), not a copy of `escapeHtml`, so folding it would
+change escaping behaviour on a dev-only page — left deliberately, not a dedup.
 
 **Verification (all $0):** `npm run typecheck` clean · `typecheck:admin` clean · `typecheck:customer`
 unchanged at its pre-existing 5 errors (`frontend/src/stages/preparation.ts`, not touched by this
