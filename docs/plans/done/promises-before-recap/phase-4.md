@@ -1,6 +1,8 @@
 # Phase 4 — House in step
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (code part), trackers close at sign-off
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-19 — Carl's consolidated walk of all four phases (commit 010e08a5)
 
 ## Built (2026-07-19)
 Dependency sweep: frontend app imports admin's briefing.js + state.js → frontend rehydrate patched (see phase 2); past-run views (briefing-view.ts, run-detail.ts) already promises-aware, untouched; /test gallery: the new "Promises before the recap" walk IS the shipped design's mirror; old "Promises loop" walk blurb now notes its wrap step is superseded (walk kept for the loop story). lint:tokens fails on 25 PRE-EXISTING violations (recap-pdf COLOR block + profile-badge.js — none from this diff; verified `git diff` adds no raw colours). Trackers/changelog move at Carl's green light via phase-close.

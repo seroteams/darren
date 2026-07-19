@@ -1,6 +1,8 @@
 # Phase 3 — The PDF payoff
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-19 — Carl's consolidated walk of all four phases (commit 010e08a5)
 
 ## Built (2026-07-19)
 `recap-pdf.ts`: `buildRecapDocDefinition(b, ctx, promises?)` — locked promises render as "WHAT YOU AGREED" with YOU PROMISED / {NAME} PROMISED blocks (manager first, pdfSafe); no lock → suggestions render labelled "SERO'S SUGGESTIONS" (renamed from "WHAT TO DO NEXT" — engine honesty); locked-empty suppresses both. Call site passes `store.promises`. recap-pdf tests extended (2 new). NOT yet opened as an actual PDF file — Carl's scenario 1 is the destination check.

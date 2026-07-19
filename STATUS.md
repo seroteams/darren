@@ -2,6 +2,11 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-19 — promises got their moment.** The promises step is now its own full-screen
+"lock in what you two agreed" page BEFORE the recap (two lists: you / them), guests included;
+the recap and the PDF now show who promised what instead of Sero's raw suggestions. All four
+phases green-lit same day (your consolidated walk). Committed locally — ships on next push.
+
 📍 **2026-07-18 — the board is CLEAR.** Your full-system walk signed off every built pass, the
 promises card zero shipped and was green-lit the same day, and on your "finish all, moving on"
 every unbuilt tail was parked (nothing deleted — one sentence un-parks any of them). Everything
@@ -18,6 +23,9 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18 (gallery + edit-mode bar, usable now). Phase 2 (demo data) not started. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 
+## ✅ Closed 2026-07-19
+[promises-before-recap](docs/plans/done/promises-before-recap/plan.md) — the agreement step as its own screen between the last question and the recap (You promise / {Name} promises, edit + move + lock, guests too); recap "What you agreed" grouped by owner; PDF carries the same blocks; suggestions now honestly labelled "Sero's suggestions" when nothing was locked; cross-run state leak fixed. Your green light after the consolidated walk.
+
 ## ✅ Closed 2026-07-18
 [agency-engagement](docs/plans/done/agency-engagement/plan.md) (full code audit → 16/17 hardening fixes committed: live-boot DB guard, login rate-limit, session revocation + hashed tokens, cost-race fix, backups, deep health probe, more — [audit report](docs/reports/2026-07-18-agency-audit.md); one cosmetic F16 follow-up parked) · [repeat-question-fix](docs/plans/done/repeat-question-fix/plan.md) (resolved-cause gate — engine stops re-asking an answered snag in new words; from a tester flag) · [members-page](docs/plans/done/members-page/plan.md) · [team-page-redesign](docs/plans/done/team-page-redesign/plan.md) · [wrap-up-exit](docs/plans/done/wrap-up-exit/plan.md) · promises card zero (P2, in [future/promises-loop](docs/plans/future/promises-loop/plan.md) with P3 parked) — all your green lights.
 
@@ -29,4 +37,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-18 — repeat-question-fix green-lit (engine no longer re-asks an already-answered cause; ships next push).
+Last updated: 2026-07-19 — promises-before-recap green-lit (all 4 phases; ships next push).

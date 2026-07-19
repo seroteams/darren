@@ -23,15 +23,15 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The moment | `promise-agree` two-group screen + view switch in briefing.js; promise-confirm deleted; state leak fixed | 🔨 |
-| 2 | Memory & guests | snapshot + rehydrate plumbing; guest lane; recap "What you agreed" grouped band + copy-all | 🔨 |
-| 3 | The PDF payoff | recap-pdf owner-grouped promises section | 🔨 |
-| 4 | House in step | /test gallery walk mirrors the real screen; dependency sweep; trackers | 🔨 |
+| 1 | The moment | `promise-agree` two-group screen + view switch in briefing.js; promise-confirm deleted; state leak fixed | ✅ |
+| 2 | Memory & guests | snapshot + rehydrate plumbing; guest lane; recap "What you agreed" grouped band + copy-all | ✅ |
+| 3 | The PDF payoff | recap-pdf owner-grouped promises section | ✅ |
+| 4 | House in step | /test gallery walk mirrors the real screen; dependency sweep; trackers | ✅ |
 
 ⬜ not started · 🔨 built, awaiting Carl's walk · ✅ done (tested)
 
 ## Current state
-2026-07-19: design approved via the /test walk; Carl said "keep going" while out, so all four phases are BUILT in one stretch (commit pending his walk — statuses stay 🔨, never self-certified). Free proof: typecheck clean, npm test 157/157 (incl. new promise-agree / snapshot / recap-pdf / state-reset tests), real-module browser walk of every path (lock / skip / scripted / locked-empty / fail-soft). NOT yet proven: a pixel screenshot (Browser-pane capture stuck this session) and an actual downloaded PDF — both are Carl's QA scenarios. lint:tokens fails on 25 pre-existing violations (recap-pdf COLOR block + profile-badge.js), none from this diff. Next: Carl walks the consolidated scenarios, then phase-close.
+DONE — all four phases GREEN-LIT by Carl 2026-07-19 after his consolidated walk (built in one stretch on his "keep going", build commit 010e08a5). Free proof: typecheck clean, npm test 157/157, real-module browser walk of every path (lock / skip / scripted / locked-empty / fail-soft). Folder moved to docs/plans/done/. Known non-blocker: lint:tokens fails on 25 pre-existing violations (recap-pdf COLOR block + profile-badge.js — none from this work).
 
 ## Parked
 - Persisting the skip decision server-side (reload after skip re-shows the step once — accepted).
