@@ -13,7 +13,7 @@
 // hints here are hand-written mock coaching — wiring real data is a later decision.
 
 import { icon } from "../../ui/icon.js";
-import { MessageCircle, Ear, Sparkles, Check, ChevronDown, TrendingUp, TrendingDown } from "lucide";
+import { MessageCircle, Ear, Check, TrendingUp, TrendingDown, Minus } from "lucide";
 
 // ---- Mock data ---------------------------------------------------------------------------
 const CTX_SEGMENTS = ["Aisha", "junior", "Product designer", "Bi-weekly 1:1"];
@@ -68,6 +68,30 @@ const QUESTIONS = [
 ];
 
 // Live-scores read per turn (static mock — values drift as the 1:1 progresses).
+// `why` is the whole point of this panel: every score says HOW it was rated, so the
+// number is never bare (the DESIGN.md "no metric without its reasoning" rule).
+const AXES = [
+  {
+    label: "Wellbeing",
+    why: "She called the review cycle “heavy” and paused on the workload question. A small dip, not a red flag — worth a gentle check next time.",
+    idle: "Nothing's touched wellbeing yet — it moves when she talks about energy or load.",
+  },
+  {
+    label: "Engagement",
+    why: "She leaned in naming what she wants to be trusted with — a clear sign she's still invested, not coasting.",
+    idle: "No engagement signal yet — it moves when she shows what she cares about.",
+  },
+  {
+    label: "Clarity",
+    why: "She named the single most important thing without hedging, and it matched your read of the sprint.",
+    idle: "Clarity's unrated so far — it moves when she can (or can't) name priorities cleanly.",
+  },
+  {
+    label: "Growth",
+    why: "A concrete ambition surfaced — something specific she wants to own that she doesn't yet.",
+    idle: "No growth signal yet — it moves when a stretch or ambition comes up.",
+  },
+];
 const AXES_BY_TURN = [
   [0, 0, 0, 0],
   [-1, 0, 0, 0],
@@ -75,7 +99,6 @@ const AXES_BY_TURN = [
   [-1, 1, 1, 0],
   [-1, 2, 1, 1],
 ];
-const AXIS_LABELS = ["Wellbeing", "Engagement", "Clarity", "Growth"];
 
 // ---- Prototype-only CSS (scoped .rv2-) ------------------------------------------------------
 // The grid: both halves run header 72px / content 1fr / footer auto, share the same horizontal
@@ -106,10 +129,18 @@ const STYLE = `
   .rv2-head .ctx-segments { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; }
   .rv2-head__actions { display:flex; gap:var(--sero-space-2); flex:none; }
   .rv2-head__actions .btn { white-space:nowrap; }
-  .rv2-eyebrow { display:inline-flex; align-items:center; gap:var(--sero-space-2);
-    font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--sero-lavender-800); }
   .rv2-head__note { font-size:14px; color:var(--sero-lavender-800); }
+
+  /* The right-panel toggle — two segments, replaces the old eyebrow */
+  .rv2-toggle { display:inline-flex; padding:3px; gap:2px; border-radius:9999px;
+    background:var(--sero-lavender-200); border:1px solid var(--sero-lavender-600); }
+  .rv2-seg { font:inherit; font-size:14px; font-weight:600; cursor:pointer;
+    border:0; border-radius:9999px; padding:5px 16px; background:none;
+    color:var(--sero-lavender-800); display:inline-flex; align-items:center;
+    gap:var(--sero-space-2); transition:background .12s ease, color .12s ease; }
+  .rv2-seg[aria-selected="true"] { background:var(--color-surface);
+    color:var(--sero-lavender-900); box-shadow:var(--shadow-card); }
+  .rv2-seg:focus-visible { outline:none; box-shadow:var(--shadow-focus); }
 
   /* Datum 2 — the middle row: both columns' midpoints share the half's exact centre */
   .rv2-col { padding:40px 0; width:100%; max-width:560px; min-width:0;
@@ -136,6 +167,13 @@ const STYLE = `
   .rv2-hints.rv2-fade { opacity:0; }
   @media (prefers-reduced-motion: reduce) { .rv2-hints { transition:none; } }
 
+  /* Live-scores view — SAME badge + text anatomy as a hint row; the delta lives in the
+     pill, coloured by direction, and the text explains how it was rated. */
+  .rv2-pill__delta { display:inline-flex; align-items:center; gap:2px; font-weight:700; }
+  .rv2-hint--up .rv2-pill__delta { color:var(--color-positive-text); }
+  .rv2-hint--down .rv2-pill__delta { color:var(--color-negative-text); }
+  .rv2-hint--flat .rv2-pill__delta { color:var(--sero-lavender-800); }
+
   /* Datum 3 — the footer line: mock note left, live scores right */
   .rv2-foot { display:flex; flex-direction:column; justify-content:flex-end;
     align-items:flex-start; gap:var(--sero-space-3); padding:var(--sero-space-5) 0
@@ -145,21 +183,6 @@ const STYLE = `
     background:none; border:0; padding:0; margin-left:var(--sero-space-3); cursor:pointer;
     text-decoration:underline; text-underline-offset:3px; }
   .rv2-quiet:hover { color:var(--color-ink); }
-  .rv2-scores-btn { display:inline-flex; align-items:center; gap:var(--sero-space-2); }
-  .rv2-scores-btn .sero-icon { transition:transform .15s ease; }
-  .rv2-scores-btn[aria-expanded="true"] .sero-icon { transform:rotate(180deg); }
-  .rv2-ax-grid { display:grid; grid-template-columns:repeat(4, 1fr);
-    gap:var(--sero-space-3); width:100%; }
-  @media (max-width: 1240px) { .rv2-ax-grid { grid-template-columns:repeat(2, 1fr); } }
-  .rv2-ax { background:var(--color-surface); border:1px solid var(--color-border);
-    border-radius:var(--radius-card); padding:var(--sero-space-3) var(--sero-space-4);
-    display:flex; flex-direction:column; gap:2px; }
-  .rv2-ax__label { font-size:14px; color:var(--color-ink-dim); }
-  .rv2-ax__row { display:flex; align-items:center; gap:var(--sero-space-1); }
-  .rv2-ax__value { font-size:20px; font-weight:600; line-height:1.2;
-    color:var(--color-ink-mute); }
-  .rv2-ax--up .rv2-ax__value, .rv2-ax--up .sero-icon { color:var(--color-positive-text); }
-  .rv2-ax--down .rv2-ax__value, .rv2-ax--down .sero-icon { color:var(--color-negative-text); }
 
   /* End scene */
   .rv2-done-wrap { position:fixed; inset:0; z-index:200; display:grid; place-items:center;
@@ -178,22 +201,6 @@ const ctxHtml = () =>
     (s, i) => `${i ? `<span class="sep">·</span>` : ""}<span${i === 0 ? ` class="is-strong"` : ""}>${s}</span>`,
   ).join("");
 
-// Four-across scoreboard: label, delta, direction arrow. "—" until measured.
-const axesHtml = (turnIdx) => {
-  const values = AXES_BY_TURN[Math.min(turnIdx, AXES_BY_TURN.length - 1)];
-  const tiles = AXIS_LABELS.map((label, i) => {
-    const v = values[i];
-    const dir = v > 0 ? "up" : v < 0 ? "down" : "flat";
-    const glyph = v > 0 ? icon(TrendingUp, { size: 16 }) : v < 0 ? icon(TrendingDown, { size: 16 }) : "";
-    const value = v === 0 ? "—" : `${v > 0 ? "+" : "−"}${Math.abs(v)}`;
-    return `<div class="rv2-ax rv2-ax--${dir}">
-      <span class="rv2-ax__label">${label}</span>
-      <span class="rv2-ax__row"><span class="rv2-ax__value">${value}</span>${glyph}</span>
-    </div>`;
-  }).join("");
-  return `<div class="rv2-ax-grid">${tiles}</div>`;
-};
-
 const hintRow = (h) => {
   const ask = h.kind === "ask";
   return `<div class="rv2-hint">
@@ -202,10 +209,27 @@ const hintRow = (h) => {
   </div>`;
 };
 
+// A score reads like a hint: the pill carries the axis + its delta (coloured by direction),
+// the text below explains HOW it was rated. Same anatomy, so both views feel like one panel.
+const scoreRow = (axis, v) => {
+  const dir = v > 0 ? "up" : v < 0 ? "down" : "flat";
+  const glyph = v > 0 ? icon(TrendingUp, { size: 15 }) : v < 0 ? icon(TrendingDown, { size: 15 }) : icon(Minus, { size: 15 });
+  const value = v === 0 ? "Not rated" : `${v > 0 ? "+" : "−"}${Math.abs(v)}`;
+  return `<div class="rv2-hint rv2-hint--${dir}">
+    <span class="rv2-pill">${axis.label}<span class="rv2-pill__delta">${glyph}${value}</span></span>
+    <p class="rv2-hint__text">${v === 0 ? axis.idle : axis.why}</p>
+  </div>`;
+};
+
+const scoresHtml = (turnIdx) => {
+  const values = AXES_BY_TURN[Math.min(turnIdx, AXES_BY_TURN.length - 1)];
+  return AXES.map((axis, i) => scoreRow(axis, values[i])).join("");
+};
+
 // ---- mount ---------------------------------------------------------------------------------
 export function mount(host) {
   let turnIdx = 0;
-  let scoresOpen = false;
+  let panelMode = "support"; // "support" = coaching hints · "scores" = live scores + why
   const notes = QUESTIONS.map(() => "");
 
   // The mock lives in a fixed overlay (the split must fill the screen), so the gallery's
@@ -253,17 +277,20 @@ export function mount(host) {
         </div>
         <aside class="rv2-half rv2-half--coach" aria-label="Coaching for this question">
           <header class="rv2-head">
-            <span class="rv2-eyebrow">${icon(Sparkles, { size: 16 })} In your corner</span>
+            <div class="rv2-toggle" role="tablist" aria-label="Coach panel view">
+              <button type="button" class="rv2-seg js-seg" data-mode="support"
+                role="tab" aria-selected="${panelMode === "support"}">Support</button>
+              <button type="button" class="rv2-seg js-seg" data-mode="scores"
+                role="tab" aria-selected="${panelMode === "scores"}">Live scores</button>
+            </div>
             <span class="rv2-head__note">Only you see this — never ${CTX_SEGMENTS[0]}.</span>
           </header>
           <div class="rv2-col">
-            <div class="rv2-hints js-hints">${q.hints.map(hintRow).join("")}</div>
+            <div class="rv2-hints js-hints">${
+              panelMode === "scores" ? scoresHtml(turnIdx) : q.hints.map(hintRow).join("")
+            }</div>
           </div>
-          <div class="rv2-foot">
-            <button type="button" class="btn btn--ghost rv2-scores-btn js-scores-btn"
-              aria-expanded="${scoresOpen}">Live scores ${icon(ChevronDown, { size: 16 })}</button>
-            <div class="js-scores" style="width:100%" ${scoresOpen ? "" : "hidden"}>${axesHtml(turnIdx)}</div>
-          </div>
+          <div class="rv2-foot"></div>
         </aside>
       </div>`;
 
@@ -274,13 +301,12 @@ export function mount(host) {
       if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); advance(1); }
     });
 
-    const scoresPanel = host.querySelector(".js-scores");
-    const scoresBtn = host.querySelector(".js-scores-btn");
-    scoresBtn.addEventListener("click", () => {
-      scoresOpen = !scoresOpen;
-      scoresPanel.hidden = !scoresOpen;
-      scoresBtn.setAttribute("aria-expanded", String(scoresOpen));
-    });
+    host.querySelectorAll(".js-seg").forEach((seg) =>
+      seg.addEventListener("click", () => {
+        if (seg.dataset.mode === panelMode) return;
+        panelMode = seg.dataset.mode;
+        render();
+      }));
 
     host.querySelector(".js-submit").addEventListener("click", () => advance(1));
     host.querySelector(".js-skip").addEventListener("click", () => advance(1));
