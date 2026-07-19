@@ -84,18 +84,21 @@ const AXIS_LABELS = ["Wellbeing", "Engagement", "Clarity", "Growth"];
 const STYLE = `
   .rv2-screen { position:fixed; inset:0; z-index:200; display:grid;
     grid-template-columns:1fr 1fr; }
-  .rv2-half { display:grid; grid-template-rows:72px 1fr auto; min-height:0;
-    padding:0 56px 32px; overflow-y:auto; overflow-x:hidden; }
+  /* Balanced rows: header row and footer row take equal 1fr shares, so the middle row
+     (the content) sits at the TRUE centre of the half — same line both sides, any height. */
+  .rv2-half { display:grid; grid-template-rows:1fr auto 1fr; min-height:0;
+    padding:0 56px; overflow-y:auto; overflow-x:hidden; }
   .rv2-half--q { background:var(--color-page); }
   .rv2-half--coach { background:var(--sero-lavender-300); color:var(--sero-lavender-900); }
   @media (max-width: 900px) {
     .rv2-screen { position:absolute; grid-template-columns:1fr; overflow-y:auto; }
-    .rv2-half { overflow:visible; padding:0 24px 24px; }
+    .rv2-half { overflow:visible; padding:0 24px 24px; grid-template-rows:auto auto auto; }
   }
 
   /* Datum 1 — the header row, closed by a hairline that runs across both halves */
   .rv2-head { display:flex; align-items:center; justify-content:space-between;
-    gap:var(--sero-space-4); border-bottom:1px solid var(--color-border); }
+    gap:var(--sero-space-4); border-bottom:1px solid var(--color-border);
+    height:72px; align-self:start; }
   .rv2-half--coach .rv2-head { border-bottom-color:var(--sero-lavender-600); }
   .rv2-head__facts { display:flex; align-items:baseline; gap:var(--sero-space-3);
     min-width:0; flex:1; white-space:nowrap; }
@@ -108,11 +111,10 @@ const STYLE = `
     color:var(--sero-lavender-800); }
   .rv2-head__note { font-size:14px; color:var(--sero-lavender-800); }
 
-  /* Datum 2 — both columns centre in the middle band and adapt to the viewport height;
-     the margin:auto pair centres when there's room but never clips when there isn't */
-  .rv2-col { margin:auto 0; padding:40px 0; width:100%; max-width:560px; min-width:0;
+  /* Datum 2 — the middle row: both columns' midpoints share the half's exact centre */
+  .rv2-col { padding:40px 0; width:100%; max-width:560px; min-width:0;
     display:flex; flex-direction:column; align-items:flex-start; }
-  @media (max-width: 900px) { .rv2-col { padding:24px 0; margin:0; } }
+  @media (max-width: 900px) { .rv2-col { padding:24px 0; } }
 
   .rv2-drill { font-size:14px; color:var(--color-ink-dim); margin:0 0 var(--sero-space-3); }
   .rv2-stem { font-family:var(--type-family-display); font-weight:600;
@@ -136,8 +138,8 @@ const STYLE = `
 
   /* Datum 3 — the footer line: mock note left, live scores right */
   .rv2-foot { display:flex; flex-direction:column; justify-content:flex-end;
-    align-items:flex-start; gap:var(--sero-space-3); padding-top:var(--sero-space-5);
-    width:100%; max-width:560px; }
+    align-items:flex-start; gap:var(--sero-space-3); padding:var(--sero-space-5) 0
+    var(--sero-space-6); width:100%; max-width:560px; align-self:end; }
   .rv2-mocknote { font-size:14px; color:var(--color-ink-mute); font-style:italic; margin:0; }
   .rv2-quiet { font:inherit; font-size:14px; font-style:normal; color:var(--color-ink-dim);
     background:none; border:0; padding:0; margin-left:var(--sero-space-3); cursor:pointer;
