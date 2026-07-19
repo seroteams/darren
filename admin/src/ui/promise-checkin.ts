@@ -4,6 +4,8 @@
 // skip covers the in-a-rush case (nothing is written back — promises stay open).
 // Styles live in styles/design/promise-checkin.css.
 
+import { escapeHtml as esc } from "./html.js";
+
 export interface CheckinPromise {
   id: string;
   owner: "manager" | "report";
@@ -33,8 +35,6 @@ export function orderForCheckin(promises: CheckinPromise[]): CheckinPromise[] {
 export function allTapped(promises: CheckinPromise[], taps: Record<string, string>): boolean {
   return promises.length > 0 && promises.every((p) => Boolean(taps[p.id]));
 }
-
-const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 
 export interface PromiseCheckinOpts {
   promises: CheckinPromise[];
