@@ -1,5 +1,10 @@
 # Bloat audit — 2026-07-18 (read-only)
 
+> **Cleanup executed 2026-07-19** (Carl: "finish all"). Outcome recorded at the
+> [foot of this file](#cleanup-outcome--2026-07-19). ~2,540 LOC removed across 3 commits; all
+> free checks green; customer app boot-verified. Items D and the two live-used routes held with
+> reasons.
+
 Scope: the full tracked tree at HEAD `16cbabee`. Product = notes → focus points → prep brief →
 question bank → live planner → final briefing, plus trust gates and tests. Method: five parallel
 evidence sweeps (dead exports/routes · orphaned features vs the cut list · duplication ·
@@ -102,3 +107,44 @@ git-age pass · 1,211 tracked content files · ~280 in the orphan pass.
 Stranded-but-wired surface, not file clutter: one dormant screen and nine dead API routes are
 still registered, routed and wrapped (findings #2–#7) while nothing can reach them — everything
 else in the repo earns its place.
+
+---
+
+## Cleanup outcome — 2026-07-19
+
+Carl: "finish all." Executed as far as safe without editing through another live chat's lane
+(session `457faf5d`, promises-before-recap, was actively holding `state.js`, `design.css`,
+`promise-confirm.ts`). Three own-files-only commits.
+
+| Item | Result | Removed | Commit |
+|---|---|---|---|
+| A · `_archive` bank | ✅ Done | 165 files / ~1,644 LOC | `95c56ae` |
+| B · dead routes | ✅ 7 of 9 | pipeline cluster (4 files) + `checks.controller` + 7 routes + 8 `shared/api.js` wrappers + guide doc lines (~250 LOC) | `95c56ae` |
+| C · one-page flow | ✅ Done (bulk) | `onepage.js` 733 LOC + loader/route/gallery/label refs in both apps | `7b94fa0e` |
+| D · fold helpers | ⏸ Held | — | — |
+| E · question index | ✅ Done (safe path) | dangling aliases dropped (4965 → 4536), zero files deleted | `7b94fa0e` |
+
+**Verification (all $0):** `npm run typecheck` clean · `typecheck:admin` clean · `typecheck:customer`
+unchanged at its pre-existing 5 errors (`frontend/src/stages/preparation.ts`, not touched by this
+work) · `npm test` **157/157** · customer app booted on a preview server — start screen renders, the
+removed `/flow` route falls back cleanly, zero console errors.
+
+**Held, with reasons:**
+- **B — `runs/clonable` + `runs/clone` (2 of 9):** NOT dead. `scripts/gallery-export.mjs` (another
+  live chat) calls `/runs/clonable`, and both are the surface for the H-1 cross-company prefill
+  security gate (`backend/tests/runs/test-prefill-access-gate.js`). Kept deliberately.
+- **C residuals:** the `STAGES.ONEPAGE` enum line (`admin/src/state.js:22`) and the
+  `@import "./design/one-page-run.css"` (`admin/src/styles/design.css:19`) + the 246-LOC CSS file
+  sit inside session `457faf5d`'s lane. Left for a ~2-minute finish once that chat lands. The enum
+  is now inert (no loader, route, gallery card or label), so this is harmless.
+- **D — helper fold:** dropped as unsafe. `promise-checkin.ts`'s `esc` escapes an **extra**
+  character (the single quote `'`) that the sanctioned `escapeHtml` does not, so folding it is a
+  behaviour change, not a pure dedup — it needs per-call-site checking. Its byte-identical twin
+  `promise-confirm.ts` is also inside session `457faf5d`'s lane. Low payoff (~8 LOC), real subtlety
+  — parked for a considered pass.
+- **E — the `--prune` flag:** the npm script `rebuild-question-index --prune` deletes tracked,
+  protected `_runtime/*.yaml` checkpoint artifacts (241 of them on the first attempt — reverted).
+  Ran the no-`--prune` form instead: it rebuilds the index from disk (dropping dangling aliases,
+  picking up orphan pool files) and deletes nothing. Future note: never run `npm run
+  rebuild-question-index` (which carries `--prune`) — use `node scripts/rebuild-question-index.js`
+  bare.
