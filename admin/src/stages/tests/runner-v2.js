@@ -350,7 +350,7 @@ const scoresHtml = (variant) => {
 export function mount(host) {
   let turnIdx = 0;
   let panelMode = "support"; // "support" = coaching hints · "scores" = live scores + why
-  let scoreVariant = 0; // which of the 5 slider designs is on show
+  let scoreVariant = 4; // Carl's pick (2026-07-19): Gradient meter. Pager stays for comparing.
   const notes = QUESTIONS.map(() => "");
 
   // The mock lives in a fixed overlay (the split must fill the screen), so the gallery's
