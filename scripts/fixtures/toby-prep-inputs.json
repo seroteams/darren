@@ -1,0 +1,9 @@
+{
+  "_note": "Vendored inputs for the offline 'Toby prep prompt substitution' unit check (smoke-test.js). Mirrors the historical logs/may/2026_May24_21-46-1eb839fd prep run, which is no longer kept on disk. Exercises buildMessages() token substitution — do not treat as a live run.",
+  "name": "Toby",
+  "roleTitle": "Expert UX Designer",
+  "seniority": "Expert",
+  "meetingType": "Growth & career plan",
+  "observedShift": "He wants to become a lead but his communication methods suck",
+  "focusPoints": [{ "label": "Communication effectiveness for a future lead role." }]
+}
