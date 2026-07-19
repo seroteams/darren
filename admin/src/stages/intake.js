@@ -470,7 +470,7 @@ export async function mount(root, { store, setState }) {
       // Guided types (Monthly Check-in) don't run the AI-interview pipeline — branch BEFORE
       // startSession, which getArc()-throws on a guided label. Guided sessions are person-fenced,
       // so a free-typed name is turned into a real roster person first, then the session opens
-      // the runner (/guided/:id). The card only exists for internal admins (catalog service).
+      // the runner (/guided/:id). The card exists for admins and managers (catalog service).
       const picked = types[store.ctx.meetingTypeIndex];
       if (picked?.kind === "guided") {
         let personId = store.ctx.personId;

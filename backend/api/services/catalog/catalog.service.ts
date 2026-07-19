@@ -9,7 +9,7 @@ function asNumber(v: unknown): number {
 }
 
 /** A meeting type as the picker sees it: the engine's interview types tagged
- *  kind:"interview", plus — for internal admins only — the appended guided card
+ *  kind:"interview", plus — for admins and managers — the appended guided card
  *  (kind:"guided"). The engine's MEETING_TYPES is never mutated: persona/smoke/CLI
  *  enumerate it positionally, so the guided card lives ONLY in this service response. */
 export interface CatalogMeetingType {
@@ -31,8 +31,14 @@ const GUIDED_CARD: CatalogMeetingType = {
   kind: "guided",
 };
 
+// Hidden from the PICKER only (Carl, 2026-07-19). The engine type + MEETING_TYPES entry stay,
+// so historical sessions, replay/smoke fixtures, and the meetingTypeIndex wire contract keep
+// resolving. Safe to drop from the response because Onboarding is the LAST engine entry —
+// interview indices 0..n-1 stay engine-aligned (risk R6).
+export const HIDDEN_FROM_PICKER = "Onboarding check-in";
+
 export interface CatalogService {
-  listMeetingTypes(opts?: { internal?: boolean }): CatalogMeetingType[];
+  listMeetingTypes(opts?: { guided?: boolean }): CatalogMeetingType[];
   listPersonas(): Record<string, unknown>[];
 }
 
@@ -41,8 +47,9 @@ export function createCatalogService(repo: CatalogRepo): CatalogService {
     listMeetingTypes(opts) {
       const interview: CatalogMeetingType[] = repo
         .getMeetingTypes()
+        .filter((t) => t.label !== HIDDEN_FROM_PICKER)
         .map((t) => ({ ...t, kind: "interview" as const }));
-      return opts?.internal ? [...interview, GUIDED_CARD] : interview;
+      return opts?.guided ? [...interview, GUIDED_CARD] : interview;
     },
     listPersonas() {
       const types = repo.getMeetingTypes();

@@ -333,6 +333,47 @@
       "port": 3143
     },
     {
+      "name": "sero-api-mtypes",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3161",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3161
+    },
+    {
+      "name": "sero-customer-mtypes",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3161",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3163",
+        "--strictPort"
+      ],
+      "port": 3163
+    },
+    {
+      "name": "sero-web-mtypes",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3161",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3165",
+        "--strictPort"
+      ],
+      "port": 3165
+    },
+    {
       "name": "sero-prod-iso",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

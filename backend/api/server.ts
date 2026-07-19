@@ -544,9 +544,9 @@ async function main(): Promise<void> {
     return members.resendMemberInvite(c);
   }));
   // Guided sessions (monthly-checkin Phase 1) — the manager-walked "Monthly Check-in" 1:1.
-  // Internal admin only (requireInternalAdmin in the controller; plain managers 403), fenced
-  // to the caller's org + manager + roster person. Own table — the interview pipeline is
-  // untouched. Mutations origin-guarded like team/people.
+  // Admins + managers (requireAdmin in the controller; members 403 — widened 2026-07-19),
+  // fenced to the caller's org + manager + roster person. Own table — the interview pipeline
+  // is untouched. Mutations origin-guarded like team/people.
   router.add("POST", "/api/v1/guided-sessions", v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return guided.createGuidedSession(c);

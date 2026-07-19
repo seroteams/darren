@@ -1,16 +1,17 @@
-// Thin controller for tracker items (monthly-checkin Phase 2) — HTTP in/out only. Internal
-// admin only this phase (requireInternalAdmin; the member lane is Phase 7's own fenced
+// Thin controller for tracker items (monthly-checkin Phase 2) — HTTP in/out only. Manager
+// lane = requireAdmin (admins + managers; widened from requireInternalAdmin 2026-07-19 when
+// Monthly Check-in went to real managers; the member lane is Phase 7's own fenced
 // endpoints), fenced to the caller's org + roster person in the service. Origin guards on the
 // mutating routes live in server.ts.
 
 import type { RequestContext } from "../../router.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireAuth, requireInternalAdmin } from "../../middleware/require-auth.ts";
+import { requireAuth, requireAdmin } from "../../middleware/require-auth.ts";
 import { trackersService } from "./trackers.service.ts";
 
 async function trackerCaller(c: RequestContext): Promise<{ orgId: string; managerId: string }> {
   const identity = await buildIdentity(c.req);
-  requireInternalAdmin(identity);
+  requireAdmin(identity);
   return { orgId: identity.orgId ?? "", managerId: identity.userId ?? "" };
 }
 

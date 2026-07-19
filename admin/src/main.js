@@ -405,8 +405,8 @@ async function boot() {
     replaceUrl("/admin/registered"); setState({ stage: STAGES.ADMIN_REGISTERED }); return;
   }
 
-  // /guided/:id deep link (monthly-checkin) — id from URL, no live session needed. The
-  // internal-admin bounce above already sent non-internal callers home, so this is safe.
+  // /guided/:id deep link (monthly-checkin) — id from URL, no live session needed. Managers
+  // reach it too since 2026-07-19 (requireAdmin server-side); members were bounced above.
   if (route?.stage === STAGES.GUIDED) {
     if (route.params?.guidedId) { setState({ guidedId: route.params.guidedId, stage: STAGES.GUIDED }); return; }
     history.replaceState(null, "", "/new"); setState({ stage: STAGES.INTAKE }); return;

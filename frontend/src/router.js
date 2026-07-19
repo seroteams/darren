@@ -26,6 +26,7 @@ const PATH_FOR = {
   [STAGES.MEMBERS]:        () => "/members",
   [STAGES.RUNS]:           () => "/runs",
   [STAGES.RUN_DETAIL]:     (s) => (s.myRunId ? `/runs/${encodeURIComponent(s.myRunId)}` : "/runs"),
+  [STAGES.GUIDED]:         (s) => (s.guidedId ? `/guided/${encodeURIComponent(s.guidedId)}` : "/new"),
   [STAGES.PERSON_DETAIL]:  (s) => (s.personKey ? `/team/${encodeURIComponent(s.personKey)}` : "/team"),
   [STAGES.INTAKE]:         () => "/new",
   [STAGES.FOCUS_POINTS]:   () => "/focus",
@@ -85,6 +86,10 @@ export function parseLocation() {
   // A member opening one person's page: /team/:person.
   const person = p.match(/^\/team\/([^/]+)$/);
   if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
+  // A manager walking a Monthly Check-in: /guided/:id (the guided-session id). Members and
+  // guests never reach it — GUIDED is in neither MEMBER_ONLY nor GUEST_OK, so boot/popstate bounce.
+  const guided = p.match(/^\/guided\/([^/]+)$/);
+  if (guided) return { stage: STAGES.GUIDED, params: { guidedId: decodeURIComponent(guided[1]) } };
   // An invitee opening their one-time join link: /join/:token (member-onboarding-invites).
   // Public — the whole point is they have no account yet.
   const join = p.match(/^\/join\/([^/]+)$/);

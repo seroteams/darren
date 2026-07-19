@@ -143,7 +143,7 @@ const QA = [
 ];
 
 const CONCEPTS = [
-  ["Meeting types", "Bi-weekly check-in, Performance & feedback, Growth & career plan, Something feels off, Onboarding check-in. Each has its own arc (stage sequence) and tone."],
+  ["Meeting types", "Bi-weekly check-in, Performance & feedback, Growth & career plan, Something feels off — each with its own arc (stage sequence) and tone — plus the guided Monthly Check-in runner. Onboarding check-in left the picker 2026-07-19 (old runs still resolve)."],
   ["The four axes", "Wellbeing, Engagement, Clarity, Growth — range −10 to +10. Read by magnitude: ±0–1 weak, ±2–4 watch, ±5–7 real pattern (act), ±8–10 defining."],
   ["Question budget", "About 9 per run — ~4 opening (intro queue) + ~5 dynamic follow-ups. Caps stop over-drilling: drill cap, max 2 wellbeing clarifiers in a row, 1 tangent, and shallow-answer gating that zeroes positive deltas on ≤2-word answers."],
   ["Accounts & roles", "admin / manager / member. Manager = the end user who runs 1:1s; member = the managed; admin = internal (Carl). Accounts live in Postgres, gated per company."],

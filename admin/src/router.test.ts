@@ -24,8 +24,9 @@ test("isInternalStage: the workshop is internal-only", () => {
 });
 
 test("isInternalStage: a manager's own destinations are NOT internal-only", () => {
+  // GUIDED joined the manager set 2026-07-19 — Monthly Check-in went to real managers.
   for (const s of [STAGES.START, STAGES.INTAKE, STAGES.TEAM, STAGES.RUNS,
-    STAGES.MEMBER_HOME, STAGES.ABOUT, STAGES.FEEDBACK]) {
+    STAGES.MEMBER_HOME, STAGES.GUIDED, STAGES.ABOUT, STAGES.FEEDBACK]) {
     assert.equal(isInternalStage(s), false, `${s} stays manager-reachable`);
   }
 });

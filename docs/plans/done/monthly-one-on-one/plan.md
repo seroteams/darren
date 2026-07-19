@@ -120,7 +120,7 @@ New `backend/engine/guided/wrapup.ts` — `generateGuidedWrapup`: input = all st
 5. People merge (`people.merged_into_id`) → resolve chain at create/read (alias-resolve pattern).
 6. Global chrome (`createSessionTopbar`/`createNotesPanel`) keys off `store.stage` → verify no-op on GUIDED in Phase 1 QA.
 7. Guest lane: identity requirement keeps the card off the guest picker → confirm in Phase 1 QA.
-8. Onboarding meeting type was REMOVED 2026-07-12 (4 interview types now, not 5) — don't hardcode counts.
+8. ~~Onboarding meeting type was REMOVED 2026-07-12~~ CORRECTION 2026-07-19: that removal never landed in code. Onboarding stayed in `MEETING_TYPES` until 2026-07-19, when it was hidden from the PICKER only (filtered in `catalog.service.ts`; the engine type + fixtures stay so old runs and replays resolve). Still true: don't hardcode counts.
 9. Phase 7 opens the first member WRITE path on tracker data → fence check: member sees/writes only `kind in (request, goal)` rows for THEIR person record (`people.user_id = caller`), never promises, never another person, never guided_sessions.
 
 ## Cost note

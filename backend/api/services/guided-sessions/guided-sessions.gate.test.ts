@@ -1,11 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isInternalIdentity, requireInternalAdmin } from "../../middleware/require-auth.ts";
+import {
+  isInternalIdentity,
+  requireAdmin,
+} from "../../middleware/require-auth.ts";
 import type { RequestIdentity } from "../../middleware/request-context.ts";
 
-// The role wall for guided sessions (Monthly Check-in): internal admins only. A plain
-// `manager` (a corridor manager) must NOT pass — but a superadmin-by-email must, even when
-// their stored role is `manager`, or we'd lock them out of their own tool (architecture §3.1).
+// The role wall for guided sessions (Monthly Check-in): requireAdmin — admins AND managers
+// (the customer end user who runs 1:1s) pass; members are 403. Widened from
+// requireInternalAdmin on 2026-07-19 when Monthly Check-in went to real managers.
+// Ownership stays enforced in the service (org + manager fence, see guided-sessions.service.test.ts).
 const id = (over: Partial<RequestIdentity>): RequestIdentity => ({
   userId: "u",
   orgId: "o",
@@ -15,6 +19,15 @@ const id = (over: Partial<RequestIdentity>): RequestIdentity => ({
   ...over,
 });
 
+test("guided wall: 401 logged out, manager and admin pass, member is 403", () => {
+  assert.throws(() => requireAdmin(id({ userId: null })), /sign/i); // "Not signed in"
+  assert.doesNotThrow(() => requireAdmin(id({ roles: ["manager"] })));
+  assert.doesNotThrow(() => requireAdmin(id({ roles: ["admin"] })));
+  assert.throws(() => requireAdmin(id({ roles: ["member"] })), /admins only/i);
+});
+
+// isInternalIdentity no longer gates guided routes, but it still backs the admin-console
+// internal rail (mirrored client-side in admin/src/state.js) — keep its behaviour pinned.
 test("isInternalIdentity: admin passes, plain manager/member do not", () => {
   assert.equal(isInternalIdentity(id({ roles: ["admin"] })), true);
   assert.equal(isInternalIdentity(id({ roles: ["manager"] })), false);
@@ -31,10 +44,4 @@ test("isInternalIdentity: a superadmin-by-email passes even as a manager", () =>
     if (prev === undefined) delete process.env.SUPERADMIN_EMAILS;
     else process.env.SUPERADMIN_EMAILS = prev;
   }
-});
-
-test("requireInternalAdmin: 401 logged out, 403 plain manager, ok for admin", () => {
-  assert.throws(() => requireInternalAdmin(id({ userId: null })), /sign/i); // "Not signed in"
-  assert.throws(() => requireInternalAdmin(id({ roles: ["manager"] })), /internal only/i);
-  assert.doesNotThrow(() => requireInternalAdmin(id({ roles: ["admin"] })));
 });

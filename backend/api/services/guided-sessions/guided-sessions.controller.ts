@@ -1,19 +1,19 @@
 // Thin controller for guided sessions (monthly-checkin Phase 1) — HTTP in/out only.
-// Internal admin only (requireInternalAdmin: a plain manager is 403, so corridor managers
-// keep the current flow), fenced to the caller's orgId + managerId in the service. Origin
+// Admins and managers (requireAdmin — Monthly Check-in went to real managers 2026-07-19;
+// members are 403), fenced to the caller's orgId + managerId in the service. Origin
 // guards on the mutating routes live in server.ts (mirrors team/people).
 
 import type { RequestContext } from "../../router.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireInternalAdmin } from "../../middleware/require-auth.ts";
+import { requireAdmin } from "../../middleware/require-auth.ts";
 import { badRequest } from "../../middleware/http-error.ts";
 import { guidedSessionsService } from "./guided-runtime.ts";
 
-/** The guided caller — internal admin only (401 logged out; 403 member/plain manager), with
+/** The guided caller — admin or manager (401 logged out; 403 member), with
  *  the org + manager ids the service fences on. */
 async function guidedCaller(c: RequestContext): Promise<{ orgId: string; managerId: string }> {
   const identity = await buildIdentity(c.req);
-  requireInternalAdmin(identity);
+  requireAdmin(identity);
   return { orgId: identity.orgId ?? "", managerId: identity.userId ?? "" };
 }
 

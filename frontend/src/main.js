@@ -48,6 +48,7 @@ const loaders = {
   MEMBERS:         () => import("./stages/members.ts"),
   RUNS:            () => import("../../admin/src/stages/runs.ts"),
   RUN_DETAIL:      () => import("../../admin/src/stages/run-detail.ts"),
+  GUIDED:          () => import("./stages/guided/guided.page.ts"), // Monthly Check-in runner (managers, 2026-07-19)
   PERSON_DETAIL:   () => import("./stages/person-detail.ts"),
   INTAKE:          () => import("../../admin/src/stages/intake.js"),
   FOCUS_POINTS:    () => import("../../admin/src/stages/focus-points.js"),
@@ -197,6 +198,11 @@ startPopstate((parsed) => {
   if (parsed.stage === STAGES.JOIN) {
     if (parsed.params?.joinToken) setState({ joinToken: parsed.params.joinToken, stage: STAGES.JOIN });
     else setState({ stage: STAGES.LOGIN });
+    return;
+  }
+  if (parsed.stage === STAGES.GUIDED) {
+    if (parsed.params?.guidedId) setState({ guidedId: parsed.params.guidedId, stage: STAGES.GUIDED });
+    else setState({ stage: STAGES.INTAKE, substage: "NAME" });
     return;
   }
   if (parsed.stage === STAGES.PERSON_DETAIL) {
@@ -349,6 +355,13 @@ async function boot() {
   if (route?.stage === STAGES.PERSON_DETAIL && route.params?.personKey) {
     setState({ personKey: route.params.personKey, stage: STAGES.PERSON_DETAIL });
     return;
+  }
+
+  // /guided/:id deep link (Monthly Check-in) — id from URL, no live session needed. Only
+  // managers get this far (the member/guest gates above already bounced everyone else).
+  if (route?.stage === STAGES.GUIDED) {
+    if (route.params?.guidedId) { setState({ guidedId: route.params.guidedId, stage: STAGES.GUIDED }); return; }
+    history.replaceState(null, "", "/new"); setState({ stage: STAGES.INTAKE, substage: "NAME" }); return;
   }
 
   let rehydrated = false;

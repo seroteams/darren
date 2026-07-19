@@ -32,6 +32,15 @@ test("isGuestStage: a guest may take a run — intake + the run flow, nothing el
   }
 });
 
+test("the guided runner (Monthly Check-in) routes for managers and stays walled off members/guests", () => {
+  // Monthly Check-in went to real managers 2026-07-19: /guided/:id must resolve in the
+  // customer app. NOT a member or guest destination — boot/popstate bounce those.
+  assert.equal(urlForState({ stage: STAGES.GUIDED, guidedId: "gs1" }), "/guided/gs1");
+  assert.equal(urlForState({ stage: STAGES.GUIDED }), "/new"); // no id -> back to the picker
+  assert.equal(isMemberStage(STAGES.GUIDED), false);
+  assert.equal(isGuestStage(STAGES.GUIDED), false);
+});
+
 test("member-view: about-me only — a member's destinations are the 1:1s about them + shared pages", () => {
   assert.equal(isMemberStage(STAGES.MEMBER_HOME), true);
   assert.equal(isMemberStage(STAGES.RUN_DETAIL), true);

@@ -133,9 +133,11 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // REVIEW_RUN (the raw QA verdict tool: engine hashes, Pass/Fail, judged counts) IS internal
 // now (audit M4) — a manager's "Review" opens the clean run detail instead; only internal QA
 // reaches the verdict page.
+// GUIDED left this set 2026-07-19: Monthly Check-in went to real managers (the backend
+// gate is requireAdmin now), so the runner is a manager destination like RUN_DETAIL.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GALLERY, STAGES.GUIDED, STAGES.REVIEW_RUN]);
+  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GALLERY, STAGES.REVIEW_RUN]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2): the Test engine
@@ -176,7 +178,7 @@ export function parseLocation() {
   // One person's page: /team/:person (after the exact-path map, so bare /team → TEAM).
   const person = p.match(/^\/team\/([^/]+)$/);
   if (person) return { stage: STAGES.PERSON_DETAIL, params: { personKey: decodeURIComponent(person[1]) } };
-  // An internal admin walking a Monthly Check-in: /guided/:id (the guided-session id).
+  // A manager (or admin) walking a Monthly Check-in: /guided/:id (the guided-session id).
   const guided = p.match(/^\/guided\/([^/]+)$/);
   if (guided) return { stage: STAGES.GUIDED, params: { guidedId: decodeURIComponent(guided[1]) } };
   // A superadmin drilling into one user: /admin/users/:id (after the exact-path map, so
