@@ -6,37 +6,14 @@
 
 import type { RequestContext } from "../../router.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireAuth, requireAdmin } from "../../middleware/require-auth.ts";
-import { teamService } from "./team.service.ts";
+import { requireAdmin } from "../../middleware/require-auth.ts";
 import { peopleService } from "./people.service.ts";
-
-async function callerUserId(c: RequestContext): Promise<string> {
-  const identity = await buildIdentity(c.req);
-  requireAuth(identity); // 401 when logged out; no role check
-  return identity.userId ?? "";
-}
 
 /** The roster caller — manager/admin only (403 for a member), with org + user ids. */
 async function rosterCaller(c: RequestContext): Promise<{ orgId: string; managerId: string }> {
   const identity = await buildIdentity(c.req);
   requireAdmin(identity); // 401 logged out; 403 member
   return { orgId: identity.orgId ?? "", managerId: identity.userId ?? "" };
-}
-
-export async function aliases(c: RequestContext): Promise<void> {
-  c.json(200, await teamService.getAliases(await callerUserId(c)));
-}
-
-export async function merge(c: RequestContext): Promise<void> {
-  const userId = await callerUserId(c);
-  const body = (await c.readBody()) as { from?: unknown; into?: unknown };
-  c.json(200, await teamService.merge(userId, body?.from, body?.into));
-}
-
-export async function rename(c: RequestContext): Promise<void> {
-  const userId = await callerUserId(c);
-  const body = (await c.readBody()) as { key?: unknown; name?: unknown };
-  c.json(200, await teamService.rename(userId, body?.key, body?.name));
 }
 
 // ── People roster (people-roster Phase 1) ──────────────────────────────────────
@@ -56,17 +33,6 @@ export async function updatePerson(c: RequestContext): Promise<void> {
   const { orgId, managerId } = await rosterCaller(c);
   const body = (await c.readBody()) as { name?: unknown; role?: unknown; seniority?: unknown };
   c.json(200, await peopleService.update(c.params.id ?? "", orgId, managerId, body ?? {}));
-}
-
-export async function mergePerson(c: RequestContext): Promise<void> {
-  const { orgId, managerId } = await rosterCaller(c);
-  const body = (await c.readBody()) as { intoId?: unknown };
-  c.json(200, await peopleService.merge(c.params.id ?? "", orgId, managerId, String(body?.intoId ?? "")));
-}
-
-export async function archivePerson(c: RequestContext): Promise<void> {
-  const { orgId, managerId } = await rosterCaller(c);
-  c.json(200, await peopleService.archive(c.params.id ?? "", orgId, managerId));
 }
 
 // Hard delete — permanently removes the person and every 1:1 about them. Irreversible;

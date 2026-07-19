@@ -1,9 +1,0 @@
-alias: q_shifted_priorities
-label: Shifted priorities
-name: Where did your plan change most in the last two weeks?
-description: Helps you hear which shift mattered most and what it pushed out.
-purpose: topic
-stage: friction
-axis_effects:
-  clarity: +3
-source: generated

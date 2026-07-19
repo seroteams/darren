@@ -38,14 +38,12 @@ import * as guided from "./services/guided-sessions/guided-sessions.controller.t
 import * as trackers from "./services/trackers/trackers.controller.ts";
 import * as invites from "./services/invites/invites.controller.ts";
 import * as members from "./services/members/members.controller.ts";
-import * as pipeline from "./services/pipeline/pipeline.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
 import * as personaRuns from "./services/persona-runs/persona-runs.controller.ts";
 import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
-import checks from "./services/checks/checks.controller.ts";
 import * as feedback from "./services/feedback/feedback.controller.ts";
 import * as superadmin from "./services/superadmin/superadmin.controller.ts";
 import * as heartbeat from "./services/heartbeat/heartbeat.controller.ts";
@@ -411,10 +409,6 @@ async function main(): Promise<void> {
     },
   )));
   router.add("GET", "/api/v1/persona-runs/current", internalV1(personaRuns.current));
-  router.add("POST", "/api/v1/checks/run", internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return checks(c);
-  }));
   // question is a session read (S1b) — now on the sessions controller. v1 nests it
   // under the session resource (/sessions/:id/question).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/question$/, v1Route(sessions.question));
@@ -474,7 +468,6 @@ async function main(): Promise<void> {
   // v1-only: new endpoint, no legacy clients.
   router.add("GET", "/api/v1/heartbeat", internalV1(heartbeat.snapshot));
 
-  router.add("GET", "/api/v1/pipeline/status", internalV1(pipeline.status));
   // runs — finished-run history + Run Review (controller → service → repo). v1
   // mirrors today's paths under /api/v1/ (the contract's bare /:id and ?status=
   // merge are deferred REST polish). Mutating routes throw forbidden.
@@ -493,18 +486,6 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return runs.rateMine(c);
   }));
-  // Team people-aliases (pre-go-live PG9) — a manager merges/renames people in their OWN
-  // auto-built Team. Member-safe (login required, fenced to the caller's userId in the
-  // controller); the two mutations are origin-guarded like rateMine.
-  router.add("GET", "/api/v1/team/aliases", v1Route(team.aliases));
-  router.add("POST", "/api/v1/team/merge", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.merge(c);
-  }));
-  router.add("POST", "/api/v1/team/rename", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.rename(c);
-  }));
   // People roster (people-roster Phase 1) — a manager's formal list of their reports.
   // Manager/admin only (requireAdmin in the controller; members 403), fenced to the
   // caller's orgId + managerId in the service. Mutations origin-guarded like team/merge.
@@ -516,14 +497,6 @@ async function main(): Promise<void> {
   router.add("PATCH", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, v1Route((c) => {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return team.updatePerson(c);
-  }));
-  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/merge$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.mergePerson(c);
-  }));
-  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/archive$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.archivePerson(c);
   }));
   // Hard delete — permanently wipes the person and every 1:1 about them (irreversible).
   router.add("DELETE", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, v1Route((c) => {

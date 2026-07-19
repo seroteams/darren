@@ -1,9 +1,0 @@
-alias: q_outside_work_pull
-label: Outside-work pull
-name: Has anything outside work been taking more of your attention lately?
-description: Leaves room for personal context without forcing it into the open.
-purpose: wellbeing
-stage: underneath
-axis_effects:
-  wellbeing: +3
-source: generated

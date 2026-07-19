@@ -1,9 +1,0 @@
-alias: q_next_two_weeks_15
-label: Next two weeks
-name: What would make the next two weeks feel more under control?
-description: Closes on a practical adjustment that could improve the next stretch without opening a new topic.
-purpose: topic
-stage: lift
-axis_effects:
-  clarity: +1
-source: generated

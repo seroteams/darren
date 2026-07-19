@@ -209,12 +209,6 @@ export async function submitRunVerdict(runId, verdict, message) {
   return postJson("/api/v1/feedback/verdict", { runId, verdict, message });
 }
 
-// Tasks board (Phase 3): run ONE free, offline check by id ("tests" | "replay").
-// The server allow-lists these and refuses anything paid. Returns { ok, summary, output }.
-export async function runFreeCheck(check) {
-  return postJson("/api/v1/checks/run", { check });
-}
-
 export async function getMeetingTypes() {
   return json(await fetch("/api/v1/meeting-types"));
 }
@@ -385,19 +379,6 @@ export async function rateMyRun(id, { stars, note }) {
   return postJson(`/api/v1/runs/mine/${encodeURIComponent(id)}/rating`, { stars, note });
 }
 
-// Team people-aliases (pre-go-live PG9): the caller's own merge/rename overrides.
-// Keys are the normalized person key the Team groups on. All member-safe + user-fenced.
-// Each returns the updated { merges, names } map. Merge folds `from` into `into`.
-export async function getTeamAliases() {
-  return json(await fetch("/api/v1/team/aliases"));
-}
-export async function mergePeople(from, into) {
-  return postJson("/api/v1/team/merge", { from, into });
-}
-export async function renamePerson(key, name) {
-  return postJson("/api/v1/team/rename", { key, name });
-}
-
 // People roster (people-roster Phase 4): the caller's real roster in the DB — manager/admin
 // only, fenced to their org + managerId server-side. A person can exist with no 1:1 yet, so
 // the Team page is roster-driven. list → { people:[...] }; create/rename → { person }.
@@ -440,13 +421,6 @@ export async function resendInvite(id) {
 }
 export async function createPerson({ name, role, seniority } = {}) {
   return postJson("/api/v1/team/people", { name, role, seniority });
-}
-export async function renamePersonV2(id, name) {
-  return json(await fetch(`/api/v1/team/people/${encodeURIComponent(id)}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name }),
-  }));
 }
 // Full edit — name/job/seniority in one PATCH (the endpoint already accepts all three).
 export async function updatePerson(id, { name, role, seniority } = {}) {
@@ -530,13 +504,6 @@ export async function deletePerson(id) {
     method: "DELETE",
   }));
 }
-export async function mergePeopleV2(id, intoId) {
-  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/merge`, { intoId });
-}
-export async function archivePerson(id) {
-  return postJson(`/api/v1/team/people/${encodeURIComponent(id)}/archive`, {});
-}
-
 // Person ↔ member-account link (people-roster Phase 5). linkable-users lists the org's
 // login accounts (id/name/email) a person can link to; link/unlink stamp/clear the row.
 // getRunsAboutMe is the member read: list-only rows about the caller's linked people.

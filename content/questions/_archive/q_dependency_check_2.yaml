@@ -1,9 +1,0 @@
-alias: q_dependency_check_2
-label: Dependency check
-name: What were you waiting on that slowed the work down?
-description: Identifies external blockers or handoffs that may have stalled delivery.
-purpose: topic
-stage: underneath
-axis_effects:
-  clarity: +3
-source: generated
