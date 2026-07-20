@@ -8,9 +8,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 1b4b459f | Promises-loop P3 engine feed + scorer-trust fix | backend/engine/run-health.ts, backend/engine/run-health.test.ts, backend/api/services/sessions/session-streams.ts, backend/engine/reviewer.ts, backend/engine/cli/stages/, backend/engine/preparation-inputs.ts, content/prompts/, docs/plans/doing/promises-loop/ | 2026-07-18 |
 | 2ee8127c | Screen-gallery v2 — static HTML gallery + export script + fixtures (Part B/C) | scripts/gallery-export.mjs, scripts/gallery/, docs/screen-gallery/, docs/plans/doing/screen-gallery/ | 2026-07-18 |
-| 7e5d8073 | Admin lockdown — /admin superadmin-only + internal-tool guard | backend/api/server.ts, backend/api/static.ts, backend/api/middleware/internal-tool-guard.ts, backend/api/middleware/require-auth.ts, admin/src/main.js, admin/src/ui/login.js, admin/src/ui/register.js, admin/src/ui/landing.ts, docs/plans/doing/admin-lockdown/ | 2026-07-20 |
+| 7d264f5e | Better-reads P3 finish — prep-freshness prompt + wiring (Carl cleared 1b4b459f's claim, 2026-07-20) | content/prompts/preparation.md, backend/api/services/sessions/preparation-inputs.ts, backend/api/services/sessions/session-streams.ts, backend/engine/preparation.ts, backend/engine/preparation.test.ts, backend/engine/prep-history.ts, backend/engine/prep-history.test.ts, docs/plans/doing/better-reads/ | 2026-07-20 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
