@@ -9,7 +9,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | 2ee8127c | Screen-gallery v2 — static HTML gallery + export script + fixtures (Part B/C) | scripts/gallery-export.mjs, scripts/gallery/, docs/screen-gallery/, docs/plans/doing/screen-gallery/ | 2026-07-18 |
-
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).

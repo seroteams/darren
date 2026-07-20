@@ -20,10 +20,16 @@ conversations, no assessment language in onboarding.
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Stage-1 gates + tone relabel | 4 new per-type gates, bi-weekly extension, tone fix, tests | ✅ green-lit 2026-07-20 (evidence-first) |
-| 2 | Question-count trims + length gating | Cause 2→1 (8→7), Anchor 2→1 (9→8); 30 vs 45-min policy — **product call, needs Carl** | ⬜ parked |
-| 3 | Reframes | Self-read as "voice, not rating"; rename feels-off "Underneath" → opt-in exploration; prompt/copy work | ⬜ parked |
+| 2 | Question-count trims + length gating | Cause 2→1 (8→7), Anchor 2→1 (9→8); Growth badge 30-45→35-50 min; budget flows CLI + web via arcBudget | ✅ green-lit 2026-07-20 (evidence-first + badge bump) |
+| 3 | Reframes | Self-read intent → "their view, not the verdict"; feels-off "Underneath" intent → opt-in, employee-led (id kept — shared stage across ~200 Qs) | ✅ green-lit 2026-07-20 (evidence-first) |
 
 ⬜ not started · 🔨 in progress · ✅ done + Carl green-lit
+
+## ✅ Current state — ALL PHASES DONE (green-lit 2026-07-20)
+- **P2:** Performance arc → 7 Qs (Cause 2→1), Growth → 8 Qs (Anchor 2→1); budget flows through CLI + web via `arcBudget()`. Growth picker badge bumped 30-45 → 35-50 min (Carl's call).
+- **P3:** Self-read intent = "their view, not the verdict"; feels-off "Underneath" intent = opt-in, employee-led — `id` kept (shared `stage: underneath` across ~200 question files, so intent sharpened, not renamed).
+- **Tested:** `npm run typecheck` clean, `npm test` 164/164. Badge verified via live `/api/v1/meeting-types` (Growth "35 to 50 min") + picker template `intake.js:407` passing `t.duration` straight through; pixel screenshot blocked by the animated pulse dashboard wedging the Browser pane.
+- **Not pushed** — ships on the next "go live".
 
 ## Why Phase 1 is safe
 - Gate mechanism exists (`backend/engine/question-eligibility.ts`): a matching question is silently
