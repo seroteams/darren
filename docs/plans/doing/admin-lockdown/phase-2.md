@@ -1,6 +1,14 @@
 # Phase 2 — Internal tools admin-only everywhere
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-20 — Carl walked admin tools intact + manager day untouched on :3099; manager-403 proven by API
+
+## Built (2026-07-20)
+- New route wrapper `requireInternalAdminRoute` in `backend/api/middleware/admin-guard.ts` (buildIdentity → `requireInternalAdmin`: role `admin` OR allowlisted superadmin; a plain `manager` is 403).
+- `backend/api/middleware/internal-tool-guard.ts`: the non-live branch now uses `requireInternalAdminRoute` instead of `requireAdminRoute`. So the internal engine tools (arcs, role-lexicons, library, persona-runs, regression, suggest-fix, heartbeat, lexicon promotions) require internal-admin on every environment; live keeps its stricter superadmin escalation. No change to the per-company manager features (team, members, runs, guided, trackers) — those keep `requireAdmin` and a manager keeps them.
+- Tests updated (TDD): the old "manager passes locally" case flipped to "manager 403"; added "internal admin passes" + "superadmin passes" locally; the per-request-env test now uses an admin session (local pass, live 403).
+- **Proof:** `npm test` 163/163, `npm run typecheck` clean. Real prod boot on :3099 (APP_ENV=local, i.e. non-live) with real sessions: manager → `/api/v1/role-lexicons` = **403** (was 200), internal admin (carl@) = **200**, manager → `/api/v1/team/people` (normal day) = **200**. Carl's browser walk below covers the two "still works" checks.
 
 ## Goal
 The internal engine tools (meeting arcs, role lexicons, library, persona runs, regression, suggest-fix, lexicon promotions) answer only to internal admins — on every environment, not just the live one.

@@ -15,12 +15,24 @@
 import type { RouteHandler, RequestContext } from "../router.ts";
 import { buildIdentity } from "./request-context.ts";
 import type { IdentityLookup } from "./request-context.ts";
-import { requireAdmin } from "./require-auth.ts";
+import { requireAdmin, requireInternalAdmin } from "./require-auth.ts";
 
 export function requireAdminRoute(handler: RouteHandler, lookup?: IdentityLookup): RouteHandler {
   return async (c: RequestContext) => {
     const identity = await buildIdentity(c.req, lookup);
     requireAdmin(identity); // 401 for anonymous, 403 for a logged-in non-admin
+    return handler(c);
+  };
+}
+
+// Narrower sibling (admin-lockdown Phase 2): the INTERNAL toolset (arcs, lexicons, library,
+// persona runs…) is role `admin` OR the allowlisted superadmin — a plain `manager` does NOT
+// pass, on any environment. requireAdminRoute above stays the gate for the per-company manager
+// features (team, members, runs); this is only for the global-engine internal tools.
+export function requireInternalAdminRoute(handler: RouteHandler, lookup?: IdentityLookup): RouteHandler {
+  return async (c: RequestContext) => {
+    const identity = await buildIdentity(c.req, lookup);
+    requireInternalAdmin(identity); // 401 anonymous, 403 for a manager/member
     return handler(c);
   };
 }

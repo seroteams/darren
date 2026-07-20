@@ -20,6 +20,8 @@ const SUPER = "carl@seroteams.com";
 const noSession: IdentityLookup = async () => null;
 const managerSession: IdentityLookup = async (token) =>
   token === "manager" ? { userId: "u2", orgId: "o2", roles: ["manager"], email: "someone@acme.com", name: "Owner" } : null;
+const adminSession: IdentityLookup = async (token) =>
+  token === "admin" ? { userId: "u3", orgId: "o3", roles: ["admin"], email: "staff@seroteams.com", name: "Staff" } : null;
 const superSession: IdentityLookup = async (token) =>
   token === "super" ? { userId: "u1", orgId: "o1", roles: ["manager"], email: SUPER, name: "Carl" } : null;
 
@@ -43,16 +45,41 @@ async function withEnv(vars: Record<string, string | undefined>, fn: () => Promi
 
 const BASE_ENV = { NODE_ENV: "development", DEV_AUTOLOGIN: undefined, SUPERADMIN_EMAILS: SUPER };
 
-// --- requireInternalToolRoute: local keeps today's manager/admin gate ---
+// --- requireInternalToolRoute: internal-admin only on EVERY env (admin-lockdown Phase 2) ---
 
-test("internal-tool guard, local: a logged-in manager passes (today's behavior, unchanged)", async () => {
+test("internal-tool guard, local: a plain manager is now refused (403)", async () => {
   await withEnv({ ...BASE_ENV, APP_ENV: "local" }, async () => {
     let ran = false;
     const guarded = requireInternalToolRoute(() => {
       ran = true;
     }, managerSession, noAudit);
-    await guarded(ctxWith("sero_session=manager"));
-    assert.equal(ran, true, "a manager must still reach internal tools locally");
+    await assert.rejects(() => Promise.resolve(guarded(ctxWith("sero_session=manager"))), (err: unknown) => {
+      assert.equal((err as { status?: number }).status, 403);
+      return true;
+    });
+    assert.equal(ran, false, "a manager must not reach internal engine tools, on any env");
+  });
+});
+
+test("internal-tool guard, local: an internal admin (role admin) passes", async () => {
+  await withEnv({ ...BASE_ENV, APP_ENV: "local" }, async () => {
+    let ran = false;
+    const guarded = requireInternalToolRoute(() => {
+      ran = true;
+    }, adminSession, noAudit);
+    await guarded(ctxWith("sero_session=admin"));
+    assert.equal(ran, true, "internal admins own the toolbox");
+  });
+});
+
+test("internal-tool guard, local: the allowlisted superadmin passes", async () => {
+  await withEnv({ ...BASE_ENV, APP_ENV: "local" }, async () => {
+    let ran = false;
+    const guarded = requireInternalToolRoute(() => {
+      ran = true;
+    }, superSession, noAudit);
+    await guarded(ctxWith("sero_session=super"));
+    assert.equal(ran, true, "a superadmin-by-email passes even with a manager role");
   });
 });
 
@@ -98,18 +125,20 @@ test("internal-tool guard, live: the allowlisted superadmin passes", async () =>
 });
 
 test("internal-tool guard reads APP_ENV per request, not at wrap time", async () => {
+  // An internal admin (role admin, NOT superadmin-by-email) passes locally but is refused on
+  // live — where the gate tightens to the superadmin allowlist. Same wrapped route, both envs.
   let ran = 0;
   const guarded = requireInternalToolRoute(() => {
     ran += 1;
-  }, managerSession, noAudit);
+  }, adminSession, noAudit);
   await withEnv({ ...BASE_ENV, APP_ENV: "local" }, async () => {
-    await guarded(ctxWith("sero_session=manager"));
+    await guarded(ctxWith("sero_session=admin"));
   });
   assert.equal(ran, 1);
   await withEnv({ ...BASE_ENV, APP_ENV: "live" }, async () => {
-    await assert.rejects(() => Promise.resolve(guarded(ctxWith("sero_session=manager"))));
+    await assert.rejects(() => Promise.resolve(guarded(ctxWith("sero_session=admin"))));
   });
-  assert.equal(ran, 1, "the same wrapped route must tighten when the env says live");
+  assert.equal(ran, 1, "the same wrapped route must tighten to superadmin when the env says live");
 });
 
 // --- blockOnLive: the paid persona-runs endpoint is off on live, for everyone ---
