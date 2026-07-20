@@ -1,11 +1,11 @@
 # Better reads — fix scoring skew + briefing sameness
 
-**Status:** Phase 1 ✅ green-lit 2026-07-20 · Phase 2 in progress · Phase 3 waiting
+**Status:** Phase 1 ✅ · Phase 2 ✅ green-lit 2026-07-20 (live) · Phase 3 🔨 free half building (prompt + wiring + paid eval deferred behind promises-loop lane)
 **Owner session:** 7d264f5e (2026-07-20)
 **Board:** https://claude.ai/code/artifact/96b7eaec-c5d2-4a1a-8f3f-0c4b7f2dae4a
 
-## Current state (2026-07-20)
-Phase 1 landed and Carl approved on the skew evidence: across the last 8 runs, 24 down-bookings (−34) vs 11 up (+11), 10/34 turns booked nothing. Shallow-gate zeroing now preserved in `unbooked_signal` (reasons `shallow_zeroed` / `shallow_zeroed_protect_eligible`); zero behaviour change, replay diff-free vs baseline. Next: Phase 2 arms the protect gate (delta-gates only — the reviewer single-touch recalibration stays deferred behind the promises-loop lane, alongside the run-health `scoring` block).
+## Current state (2026-07-20, second update)
+P1 + P2 both green-lit same day and pushed live via the day's merge: shallow-zeroed deltas preserved in `unbooked_signal`, and terse-but-concrete answers now keep model-proposed positives (never-invent invariant tested). The origin merge brought `read-quality.ts` (banked per-turn `read` tags) — the deferred reviewer recalibration should consume those when its lane frees. P3 building the free half now: prep-history fence + threading; the `preparation.md` prompt line, `session-streams` wiring and the single ~$0.35 eval wait on the promises-loop lane (content/prompts/, session-streams.ts).
 
 ## Why
 July audit of all 5 engine stages: the deterministic scoring gates only ever push scores toward zero/negative (shallow gate zeroes ALL deltas on terse notes; no positive counterpart), the eval post-process erases strong single-touch reads, and the prep brief has no history so repeat bi-weeklies read near-identical. Net effect: the manager's read clusters flat/low and briefings feel same-y — both dilute the insight Sero is paid for.

@@ -1,6 +1,9 @@
 # Phase 2 — Arm the protect gate
 
-**Status:** 🧪 built 2026-07-20, awaiting Carl's QA (evidence-first: table below)
+## ✅ GREEN-LIT 2026-07-20
+Carl approved off the evidence table (protect gate keeps "Shipped payments-fix" +2, filler stays zeroed; never-invent invariant tested). Merged to origin/main and riding the 2026-07-20 push to live. Reviewer single-touch recalibration remains deferred (promises-loop lane) — folds into a later slice with the new read-quality tags.
+
+**Status:** ✅ closed
 
 ## Scope
 1. **Protect gate** (`backend/engine/delta-gates.ts`): on a terse-but-concrete answer, `applyShallowGate` keeps model-proposed **positive** deltas (negatives still zeroed — a 2-token note isn't evidence of a problem, but a concrete "Shipped X" corroborates the model's own upward read). Protected deltas still pass `clampToSignature`, so nothing can exceed the question's signature. A kept delta is booked, so it leaves the overflow; an `issues` line ("shallow gate — protected momentum +2, answer terse-but-concrete") records that protection fired, keeping the log honest.
