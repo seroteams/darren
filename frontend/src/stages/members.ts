@@ -10,6 +10,7 @@ import { getMembers, inviteMember, setMemberRole, deactivateMember, reactivateMe
 import { showInviteMemberModal } from "../../../admin/src/ui/invite-member-modal.ts";
 import { showShareLinkModal } from "../../../admin/src/ui/share-link-modal.ts";
 import { openRowMenu, closeRowMenu } from "../../../admin/src/ui/row-menu.ts";
+import { showActionError } from "../../../admin/src/ui/action-error.ts";
 import { membersTable, type MemberRow } from "./members-table.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 
@@ -52,7 +53,7 @@ export const mount: Mount = async (root) => {
       });
       await load();
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't send the invite — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't send the invite — please try again.");
     }
   };
 
@@ -63,7 +64,7 @@ export const mount: Mount = async (root) => {
       await fn();
       await load();
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't make that change — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't make that change — please try again.");
     }
   };
 
@@ -78,7 +79,7 @@ export const mount: Mount = async (root) => {
       });
       await load();
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't resend — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't resend — please try again.");
     }
   };
 

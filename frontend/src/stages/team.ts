@@ -21,6 +21,7 @@ import { personCard, type Person, type OrgUser } from "./team-card.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 import { prepStartSubstage } from "../../../admin/src/ui/intake-start.ts";
 import { showShareLinkModal } from "../../../admin/src/ui/share-link-modal.ts";
+import { showActionError } from "../../../admin/src/ui/action-error.ts";
 
 export const mount: Mount = async (root, { setState }) => {
   let people: Person[] = [];
@@ -146,7 +147,7 @@ export const mount: Mount = async (root, { setState }) => {
       });
       await load();
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't send the reminder — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't send the reminder — please try again.");
     }
   };
 
@@ -174,7 +175,7 @@ export const mount: Mount = async (root, { setState }) => {
         await load();
       }
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't update access — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't update access — please try again.");
     }
   };
 
@@ -199,7 +200,7 @@ export const mount: Mount = async (root, { setState }) => {
       await load();
     } catch (e) {
       // Pass the server's real reason through instead of a generic string (audit F16).
-      window.alert(e instanceof Error ? e.message : "Couldn't add them — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't add them — please try again.");
     }
   };
 
@@ -221,7 +222,7 @@ export const mount: Mount = async (root, { setState }) => {
       await updatePerson(id, { name: draft.name, role: draft.role, seniority: draft.seniority });
       await load();
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't save the changes — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't save the changes — please try again.");
     }
   };
 
@@ -234,7 +235,7 @@ export const mount: Mount = async (root, { setState }) => {
       await deletePerson(id);
       await load();
     } catch (e) {
-      window.alert(e instanceof Error ? e.message : "Couldn't delete them — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't delete them — please try again.");
     }
   };
 
