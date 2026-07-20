@@ -4,12 +4,11 @@
 // toolset, no superadmin rows — those live in the admin app only. Same CSS
 // classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
-import { STAGES, store, isAdmin } from "../../../admin/src/state.js";
+import { STAGES, isAdmin } from "../../../admin/src/state.js";
 import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
-import { showAccountSheet } from "../../../admin/src/ui/account-sheet.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
-import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Lock, Info, MessageSquare, Menu, Settings } from "lucide";
+import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Info, MessageSquare, Menu } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
   <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
@@ -27,9 +26,7 @@ const ICON = {
   team: icon(UsersRound),
   members: icon(UserCog),
   runs: icon(FileCheck),
-  account: icon(Settings),
   logout: icon(LogOut),
-  privacy: icon(Lock),
   about: icon(Info),
   feedback: icon(MessageSquare),
 };
@@ -120,14 +117,8 @@ export function createAppNav({ setState, resetSession } = {}) {
           <span class="app-nav__icon">${ICON.feedback}</span>
           <span class="app-nav__label">Send feedback</span>
         </button>
-        <button type="button" class="app-nav__link js-nav-privacy" data-key="privacy">
-          <span class="app-nav__icon">${ICON.privacy}</span>
-          <span class="app-nav__label">Privacy</span>
-        </button>
-        <button type="button" class="app-nav__link js-account" data-key="account">
-          <span class="app-nav__icon">${ICON.account}</span>
-          <span class="app-nav__label">Account</span>
-        </button>
+      </nav>
+      <nav class="app-nav__links app-nav__links--logout" aria-label="Session">
         <button type="button" class="app-nav__link js-logout" data-key="logout">
           <span class="app-nav__icon">${ICON.logout}</span>
           <span class="app-nav__label">Log out</span>
@@ -146,7 +137,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     mgteam: () => setState && setState({ stage: STAGES.TEAM }),
     mgmembers: () => setState && setState({ stage: STAGES.MEMBERS }),
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
-    privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
     about: () => setState && setState({ stage: STAGES.ABOUT }),
     feedback: () => setState && setState({ stage: STAGES.FEEDBACK }),
   };
@@ -158,8 +148,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   el.querySelector(".js-home").addEventListener("click", goHome);
   bar.querySelector(".js-bar-home").addEventListener("click", goHome);
   LINKS.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
-  ["mgmembers", "about", "feedback", "privacy"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
-  el.querySelector(".js-account")?.addEventListener("click", () => showAccountSheet(store.user));
+  ["mgmembers", "about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
@@ -179,7 +168,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.INTAKE]: "mgnew",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",
-    [STAGES.PRIVACY]: "privacy",
   };
 
   function render({ stage, user } = {}) {
@@ -201,7 +189,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     // Show exactly one audience's rows: managers get their rail, members theirs.
     const wanted = isAdmin(user) ? "mgr" : "member";
     homeKey = wanted === "mgr" ? "mghome" : "runs";
-    const alwaysShown = new Set(["account", "logout", "privacy", "about", "feedback"]);
+    const alwaysShown = new Set(["logout", "about", "feedback"]);
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
       b.hidden = b.dataset[wanted] !== "1";

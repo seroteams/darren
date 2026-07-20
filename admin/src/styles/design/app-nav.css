@@ -54,6 +54,12 @@
   flex-direction: column;
   gap: 2px;
 }
+/* Log out sits in its own group pushed to the foot of the rail (Carl's nav re-org,
+   2026-07-21): margin-top:auto in the flex column drops it to the bottom, so it
+   reads as "leave" set apart from the working links above. */
+.app-nav__links--logout {
+  margin-top: auto;
+}
 .app-nav__brand,
 .app-nav__link {
   display: flex;

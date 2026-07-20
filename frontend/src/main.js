@@ -79,8 +79,10 @@ document.body.appendChild(topbar.el);
 const appNav = createAppNav({ setState, resetSession });
 document.body.appendChild(appNav.el);
 
-// Top-right "who's signed in" chip — members only.
-const profileBadge = createProfileBadge();
+// Top-right "who's signed in" chip — a click-to-open menu (Privacy + Account) for
+// the customer app. `customer:true` forces the customer menu even for an admin
+// visitor (the frontend has no internal surface); setState drives the Privacy nav.
+const profileBadge = createProfileBadge({ setState, resetSession, customer: true });
 document.body.appendChild(profileBadge.el);
 
 const notesPanel = createNotesPanel({ store, setState });

@@ -6,16 +6,15 @@
 // (brand + menu button) that this module also owns — same DOM, same role
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
-import { STAGES, store, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
+import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
 import { isGuestStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
-import { showAccountSheet } from "./account-sheet.ts";
 import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, UserRoundCog,
-  Palette, LogOut, Lock, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
-  FlaskConical, Gauge, Settings, LayoutGrid,
+  Palette, LogOut, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
+  FlaskConical, Gauge, LayoutGrid,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -44,8 +43,6 @@ const ICON = {
   registered: icon(UserRoundCog),
   design: icon(Palette),
   logout: icon(LogOut),
-  account: icon(Settings),
-  privacy: icon(Lock),
   about: icon(Info),
   feedback: icon(MessageSquare),
   errors: icon(TriangleAlert),
@@ -196,16 +193,8 @@ export function createAppNav({ setState, resetSession } = {}) {
           <span class="app-nav__icon">${ICON.feedback}</span>
           <span class="app-nav__label">Send feedback</span>
         </button>
-        <button type="button" class="app-nav__link js-nav-privacy" data-key="privacy">
-          <span class="app-nav__icon">${ICON.privacy}</span>
-          <span class="app-nav__label">Privacy</span>
-        </button>
       </nav>
-      <nav class="app-nav__links app-nav__links--foot" aria-label="Account">
-        <button type="button" class="app-nav__link js-account" data-key="account">
-          <span class="app-nav__icon">${ICON.account}</span>
-          <span class="app-nav__label">Account</span>
-        </button>
+      <nav class="app-nav__links app-nav__links--logout" aria-label="Session">
         <button type="button" class="app-nav__link js-logout" data-key="logout">
           <span class="app-nav__icon">${ICON.logout}</span>
           <span class="app-nav__label">Log out</span>
@@ -244,7 +233,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     inbox: () => setState && setState({ stage: STAGES.ADMIN_FEEDBACK }),
     guests: () => setState && setState({ stage: STAGES.ADMIN_GUEST_RUNS }),
     guide: () => setState && setState({ stage: STAGES.GUIDE }),
-    privacy: () => setState && setState({ stage: STAGES.PRIVACY }),
     about: () => setState && setState({ stage: STAGES.ABOUT }),
     feedback: () => setState && setState({ stage: STAGES.FEEDBACK }),
   };
@@ -252,14 +240,13 @@ export function createAppNav({ setState, resetSession } = {}) {
   el.querySelector(".js-home").addEventListener("click", onNav.home);
   bar.querySelector(".js-bar-home").addEventListener("click", onNav.home);
   items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
-  ["about", "feedback", "privacy"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
+  ["about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
     if (resetSession) resetSession();
     setState && setState({ user: null, stage: STAGES.LOGIN });
   }
-  el.querySelector(".js-account")?.addEventListener("click", () => showAccountSheet(store.user));
   el.querySelector(".js-logout").addEventListener("click", onLogout);
 
   // A stage may light a different row per audience (admin "home" vs manager "mghome") —
@@ -292,7 +279,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.GUIDE]: "guide",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",
-    [STAGES.PRIVACY]: "privacy",
   };
 
   // Persistent across every screen — re-assert the body class and light up the
@@ -318,17 +304,18 @@ export function createAppNav({ setState, resetSession } = {}) {
     // 1:1s), members get Home · Team · Runs. Log out sits outside this and always shows.
     const internal = isInternalAdmin(user);
     el.classList.toggle("app-nav--member", !internal); // compact, ungrouped rail styling
-    // Internal rail drops the whole footer strip — What is Sero? · Send feedback · Privacy ·
-    // Account · Log out. Account + Log out moved to the top-right avatar menu (ui/profile-badge.js),
-    // the rest aren't needed for an internal operator (Carl 2026-07-18). Managers/members keep the
-    // footer (they still need Privacy + Log out there). Inline display so no CSS-file edit is
-    // required (design/ CSS is another chat's lane); reversible once that clears.
+    // Internal rail drops the util strip (What is Sero? · Send feedback) and the Log out
+    // group — the internal operator gets Account + Log out from the top-right avatar menu
+    // (ui/profile-badge.js), and the rest aren't needed (Carl 2026-07-18). Managers/members
+    // keep both: util under the primary rail, Log out pinned to the bottom. Their Privacy +
+    // Account now live in the avatar menu too (Carl's nav re-org, 2026-07-21). Inline display
+    // toggle keeps the role gating in JS.
     const utilNav = el.querySelector(".app-nav__links--util");
-    const footNav = el.querySelector(".app-nav__links--foot");
+    const logoutNav = el.querySelector(".app-nav__links--logout");
     if (utilNav) utilNav.style.display = internal ? "none" : "";
-    if (footNav) footNav.style.display = internal ? "none" : "";
+    if (logoutNav) logoutNav.style.display = internal ? "none" : "";
     const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
-    const alwaysShown = new Set(["account", "logout", "privacy", "about", "feedback"]); // account/utility rows
+    const alwaysShown = new Set(["logout", "about", "feedback"]); // utility rows
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
       let show = b.dataset[wanted] === "1";

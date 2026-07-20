@@ -5,10 +5,12 @@
 // in-session prep flow (where the stage topbar + notes panel own the top).
 // Mounted once in main.js; render({ stage, user }) keeps it in sync, same as app-nav.
 //
-// For the INTERNAL rail (admin/superadmin), the chip is also the home for Account +
-// Log out: those left the left-rail footer in the 2026-07-18 re-org, so here the chip
-// becomes a click-to-open menu. Managers/members keep the static chip (their Account +
-// Log out still live in their rail footer) — the menu is gated on isInternalAdmin.
+// The chip is a click-to-open menu whose items depend on the surface:
+//   • Internal rail (admin/superadmin) — Account + Log out (those left the left-rail
+//     footer in the 2026-07-18 re-org).
+//   • Customer surface (manager/member, or the whole frontend app via `customer:true`)
+//     — Privacy + Account. Their Log out stays pinned to the bottom of the left rail
+//     (Carl's nav re-org, 2026-07-21).
 // The menu's styles are injected here (once) rather than added to design/app-nav.css,
 // because that file is another chat's lane; migrate them there when it clears.
 
@@ -65,6 +67,9 @@ function injectMenuStyles() {
     .profile-badge__mi:hover, .profile-badge__mi:focus-visible {
       background: var(--color-surface-hover); outline: none;
     }
+    /* display:flex above outweighs the [hidden] attribute — restore the hide so a
+       role-gated item (Log out on the customer surface) actually stays out. */
+    .profile-badge__mi[hidden] { display: none; }
     .profile-badge__mi svg { width: 15px; height: 15px; opacity: .65; flex: 0 0 auto; }
   `;
   document.head.appendChild(s);
@@ -73,8 +78,11 @@ function injectMenuStyles() {
 const CARET = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
 const IC_ACCOUNT = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/></svg>`;
 const IC_LOGOUT = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4"/><path d="M11 8l-4 4 4 4M7 12h9"/></svg>`;
+const IC_PRIVACY = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>`;
 
-export function createProfileBadge({ setState, resetSession } = {}) {
+// `customer:true` forces the customer menu (Privacy + Account) on every role — the
+// frontend app has no internal surface, so its admin visitor is still a customer there.
+export function createProfileBadge({ setState, resetSession, customer = false } = {}) {
   injectMenuStyles();
   const el = document.createElement("div");
   el.className = "profile-badge";
@@ -84,6 +92,7 @@ export function createProfileBadge({ setState, resetSession } = {}) {
     <span class="profile-badge__email"></span>
     <span class="profile-badge__caret" aria-hidden="true" hidden>${CARET}</span>
     <div class="profile-badge__menu" role="menu" hidden>
+      <button type="button" class="profile-badge__mi" role="menuitem" data-act="privacy">${IC_PRIVACY}<span>Privacy</span></button>
       <button type="button" class="profile-badge__mi" role="menuitem" data-act="account">${IC_ACCOUNT}<span>Account</span></button>
       <button type="button" class="profile-badge__mi" role="menuitem" data-act="logout">${IC_LOGOUT}<span>Log out</span></button>
     </div>
@@ -123,11 +132,17 @@ export function createProfileBadge({ setState, resetSession } = {}) {
     if (resetSession) resetSession();
     if (setState) setState({ user: null, stage: STAGES.LOGIN });
   }
+  const privacyItem = menuEl.querySelector('[data-act="privacy"]');
+  const logoutItem = menuEl.querySelector('[data-act="logout"]');
+  privacyItem.addEventListener("click", () => {
+    setOpen(false);
+    if (setState) setState({ stage: STAGES.PRIVACY });
+  });
   menuEl.querySelector('[data-act="account"]').addEventListener("click", () => {
     setOpen(false);
     showAccountSheet(store.user);
   });
-  menuEl.querySelector('[data-act="logout"]').addEventListener("click", onLogout);
+  logoutItem.addEventListener("click", onLogout);
 
   function render({ stage, user } = {}) {
     const show =
@@ -146,14 +161,17 @@ export function createProfileBadge({ setState, resetSession } = {}) {
     avatarEl.textContent = initialOf(user);
     emailEl.textContent = role ? `${email} · ${role}` : email;
     el.title = email ? `Signed in as ${email}${role ? ` (${role.toLowerCase()})` : ""}` : "Signed in";
-    // Internal operator: the chip becomes the Account + Log out menu (those left the rail).
-    // Everyone else keeps the plain static chip.
-    interactive = isInternalAdmin(user);
-    el.classList.toggle("profile-badge--menu", interactive);
-    caretEl.hidden = !interactive;
-    el.setAttribute("role", interactive ? "button" : "img");
-    if (interactive) el.setAttribute("aria-haspopup", "menu");
-    else { el.removeAttribute("aria-haspopup"); setOpen(false); }
+    // The chip is always a click-to-open menu now. Its items depend on the surface:
+    // customer (mgr/member, or the whole frontend via `customer:true`) → Privacy +
+    // Account (their Log out lives in the rail); internal operator → Account + Log out.
+    const customerSurface = customer || !isInternalAdmin(user);
+    privacyItem.hidden = !customerSurface;
+    logoutItem.hidden = customerSurface;
+    interactive = true;
+    el.classList.add("profile-badge--menu");
+    caretEl.hidden = false;
+    el.setAttribute("role", "button");
+    el.setAttribute("aria-haspopup", "menu");
     el.hidden = false;
   }
 
