@@ -30,8 +30,8 @@ export const mount: Mount = async (root, { setState }) => {
     <div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header l-stack l-stack--2">
         ${backToPulse()}
-        <h1 class="h1">Briefing ratings</h1>
-        <div class="text-ink-dim">Every rated briefing, newest first — the stars and notes behind the Pulse average. Internal and guest runs are tagged.</div>
+        <h1 class="h1">Recap ratings</h1>
+        <div class="text-ink-dim">Every rated recap, newest first — the stars and notes behind the Pulse average. Internal and guest runs are tagged.</div>
       </header>
       ${inner}
       <div class="pd-back-bottom">${backToPulse()}</div>
@@ -61,7 +61,7 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
     if (rated.length === 0) {
-      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No rated briefings yet — when a manager rates one with the stars, it lands here.</p></section>`);
+      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No rated recaps yet — when a manager rates one with the stars, it lands here.</p></section>`);
       wireBack();
       return;
     }

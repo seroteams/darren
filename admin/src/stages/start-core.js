@@ -317,7 +317,7 @@ function cssEscape(s) {
 // Plain "where this session is up to" line for the expanded card. Manager words —
 // the existing human stage label plus question progress when it's reached Q&A.
 function whereUpTo(o, finished) {
-  if (finished) return "Briefing ready to review";
+  if (finished) return "Recap ready to review";
   let line = `Paused at ${stageLabel(o.stage)}`;
   if (o.progress && o.progress.total) {
     line += ` — ${o.progress.answered} of ${o.progress.total} questions answered`;

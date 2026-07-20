@@ -64,7 +64,7 @@ function renderQuestions(turns) {
 }
 
 function renderBriefing(b) {
-  if (!b) return `<p class="stage-review__empty caption">No briefing recorded.</p>`;
+  if (!b) return `<p class="stage-review__empty caption">No recap recorded.</p>`;
   const out = [];
   if (b.headline) out.push(`<p class="stage-review__headline">${esc(b.headline)}</p>`);
   if ((b.summary_bullets || []).length) out.push(card("What stood out", bullets(b.summary_bullets)));
@@ -76,7 +76,7 @@ function renderBriefing(b) {
     out.push(card("What to do next", `<ul class="stage-review__bullets">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`));
   }
   if ((b.watch_for || []).length) out.push(card("Reminders", bullets(b.watch_for)));
-  return out.join("") || `<p class="stage-review__empty caption">No briefing recorded.</p>`;
+  return out.join("") || `<p class="stage-review__empty caption">No recap recorded.</p>`;
 }
 
 function verdictRows(marks) {

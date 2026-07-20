@@ -214,7 +214,7 @@ const SECTIONS = {
 
   BRIEFING(store, run) {
     const b = store?.briefing || run?.briefing;
-    if (!b) return emptyBlock("No briefing recorded.");
+    if (!b) return emptyBlock("No recap recorded.");
     const bullets = b.summary_bullets || [];
     const actions = b.next_actions || [];
     const watch = b.watch_for || [];

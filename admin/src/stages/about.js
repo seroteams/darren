@@ -32,7 +32,7 @@ function memberHtml() {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What stays private</div>
-        <p class="text-ink-dim">Your manager's own prep notes and briefings are theirs — you don't see them, and they're never shared back to you here. Sero doesn't ask you for anything or score you.</p>
+        <p class="text-ink-dim">Your manager's own prep notes and recaps are theirs — you don't see them, and they're never shared back to you here. Sero doesn't ask you for anything or score you.</p>
       </section>
     </div>
   `;
@@ -53,7 +53,7 @@ function managerHtml() {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What Sero is</div>
-        <p>Sero helps you prepare for a one-to-one with someone on your team. You tell it who you're meeting and what's on your mind, and it writes a short briefing to guide the conversation.</p>
+        <p>Sero helps you prepare for a one-to-one with someone on your team. You tell it who you're meeting and what's on your mind, and it writes a short brief to guide the conversation.</p>
       </section>
 
       <section class="card-flat space-y-3">
@@ -67,7 +67,7 @@ function managerHtml() {
         <p class="text-ink-dim">1 &middot; Tell Sero who you're meeting and what's on your mind.</p>
         <p class="text-ink-dim">2 &middot; Pick the focus areas that fit.</p>
         <p class="text-ink-dim">3 &middot; Answer a few short questions.</p>
-        <p class="text-ink-dim">4 &middot; Get a briefing you can use in the meeting.</p>
+        <p class="text-ink-dim">4 &middot; Get a recap you can use in the meeting.</p>
       </section>
     </div>
   `;

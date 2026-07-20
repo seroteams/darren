@@ -158,7 +158,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
           <div class="lp-tile__note">last week ${p.runsLastWeek} ${trend(p.runsThisWeek, p.runsLastWeek)} · ${escapeHtml(typeMixNote)}</div>
         </button>
         <button type="button" class="lp-tile js-tile-ratings">
-          <div class="lp-tile__label">Briefing rating</div>
+          <div class="lp-tile__label">Recap rating</div>
           <div class="lp-tile__value">${p.ratings.avgStars == null ? "—" : p.ratings.avgStars.toFixed(1)}</div>
           <div class="lp-tile__note">${p.ratings.ratedCount} rated${p.ratings.lowCount > 0 ? ` · <span class="lp-down">${p.ratings.lowCount} low</span>` : ""}</div>
         </button>
@@ -204,11 +204,11 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
             ${p.dropOffs.length ? p.dropOffs.map((d) => `
               <div class="lp-bar"><span class="lp-bar__name">${escapeHtml(prettyStage(d.stage))}</span>
                 <div class="lp-bar__track"><div class="lp-bar__fill${d.count >= dropMax ? " lp-bar__fill--warn" : ""}" style="width:${Math.round((d.count / dropMax) * 100)}%"></div></div>
-                <span class="lp-bar__n">${d.count}</span></div>`).join("") : `<p class="lp-empty">No unfinished runs — everyone reached their briefing.</p>`}
+                <span class="lp-bar__n">${d.count}</span></div>`).join("") : `<p class="lp-empty">No unfinished runs — everyone reached their recap.</p>`}
           </div>
           <div class="lp-card">
             <div class="lp-card__head"><h3>Latest feedback</h3><button type="button" class="lp-viewall js-all-feedback">View all →</button></div>
-            <p class="lp-hnote">Straight from the thumbs on live briefings</p>
+            <p class="lp-hnote">Straight from the thumbs on live recaps</p>
             ${p.latestFeedback.length ? `<div class="lp-feed">
               ${p.latestFeedback.map((f) => `
                 <div class="lp-feed__item">

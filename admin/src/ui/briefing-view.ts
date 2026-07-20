@@ -56,7 +56,7 @@ export function renderPromiseList(promises: PromiseRow[] | null | undefined): st
 }
 
 export function renderReadonlyBriefing(b: Briefing | null, name?: string, promises?: PromiseRow[] | null): string {
-  const none = `<section class="card-flat"><p class="text-sm text-ink-dim">No briefing was recorded for this 1:1.</p></section>`;
+  const none = `<section class="card-flat"><p class="text-sm text-ink-dim">No recap was recorded for this 1:1.</p></section>`;
   if (!b) return none;
   // The honest-read card names the person when we know who (audit C6) — "Honest read — Priya",
   // not the impersonal "them". Falls back to "them" for surfaces without a name to hand.

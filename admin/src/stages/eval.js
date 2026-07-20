@@ -13,7 +13,7 @@ export async function mount(root, { store, setState }) {
     </div>
   `;
   const thinkingHost = root.querySelector(".thinking-host");
-  const orb = createOrb("Writing briefing…");
+  const orb = createOrb("Writing recap…");
   thinkingHost.appendChild(orb.el);
 
   const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/evaluation/stream`);
@@ -31,14 +31,14 @@ export async function mount(root, { store, setState }) {
     .on("error", (d) => {
       setState({
         stage: STAGES.ERROR,
-        error: d.message || "Couldn't finish your briefing — try again.",
+        error: d.message || "Couldn't finish your recap — try again.",
         retryStage: STAGES.EVAL,
       });
     })
     .onError(() => {
       setState({
         stage: STAGES.ERROR,
-        error: "Lost connection while pulling your briefing together — try again.",
+        error: "Lost connection while pulling your recap together — try again.",
         retryStage: STAGES.EVAL,
       });
     })

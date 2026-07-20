@@ -33,12 +33,12 @@ export async function mount(root, { setState }) {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What we store</div>
-        <p>The person's name and role, any notes you type when prepping a 1:1, your answers during the prep, and the briefing Sero writes for you. If you rate how useful a 1:1 was, we store that star rating and any note you add with it. Nothing more.</p>
+        <p>The person's name and role, any notes you type when prepping a 1:1, your answers during the prep, and the recap Sero writes for you. If you rate how useful a 1:1 was, we store that star rating and any note you add with it. Nothing more.</p>
       </section>
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">Who can see it</div>
-        <p>Inside your company, only you and your company's owner. Your data is walled off from every <em>other</em> company — no other customer can see it. During this early alpha, a member of the Sero team can view companies' people, 1:1s and ratings to run and support the trial; we only look to keep things working and we never share it. To write your briefing, the text is sent to our AI provider, which processes it to produce the result.</p>
+        <p>Inside your company, only you and your company's owner. Your data is walled off from every <em>other</em> company — no other customer can see it. During this early alpha, a member of the Sero team can view companies' people, 1:1s and ratings to run and support the trial; we only look to keep things working and we never share it. To write your recap, the text is sent to our AI provider, which processes it to produce the result.</p>
       </section>
 
       <section class="card-flat space-y-3">

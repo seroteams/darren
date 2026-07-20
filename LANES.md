@@ -9,6 +9,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | 2ee8127c | Screen-gallery v2 — static HTML gallery + export script + fixtures (Part B/C) | scripts/gallery-export.mjs, scripts/gallery/, docs/screen-gallery/, docs/plans/doing/screen-gallery/ | 2026-07-18 |
+| 6d4593d4 | Brief style-tip — new AI-written styleTip field in prep brief (engine+prompt+render) | content/prompts/preparation.md, backend/engine/preparation.ts, backend/engine/preparation.test.ts, backend/engine/cli/stages/preparation.ts, backend/shared/session.types.ts, scripts/test-prep-wording.js, frontend/src/stages/preparation-brief.ts, frontend/src/stages/preparation.css, docs/plans/doing/brief-style-tip/ | 2026-07-20 || ba75315b | UX-audit Phase A (partial) — customer nav "New 1:1"→"Start 1:1" + promise-status chips → Done/Partly/Not done/Changed | admin/src/ui/app-nav.js, frontend/src/ui/app-nav.js, frontend/src/stages/team.ts, admin/src/ui/promise-checkin.ts, frontend/src/stages/guided/coaching-copy.ts | 2026-07-20 |
+| 0854764d | Promise lock-in redesign (Todoist, desktop+mobile) — promise-agree component + styles + its /test mock | admin/src/ui/promise-agree.ts, admin/src/styles/design/promise-agree.css, admin/src/stages/tests/promises-before-recap.js | 2026-07-20 |
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).

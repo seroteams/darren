@@ -95,7 +95,7 @@ export function openSse(url) {
     receivedTerminal = true;
     clearStall();
     const data = {
-      message: "Something went wrong showing your briefing. Please try again.",
+      message: "Something went wrong showing your recap. Please try again.",
       recoverable: true,
     };
     // Route to the error card — unless the crashing handler IS the error handler

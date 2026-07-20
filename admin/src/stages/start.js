@@ -52,7 +52,7 @@ const BENCH_HTML = `
                 <span class="bench-flow__tag">Fixed script</span>
               </span>
               <span class="bench-flow__desc">Uses fixed questions and fixed answers so prompt changes are comparable.</span>
-              <span class="bench-flow__meta">Focus, prep, and final briefing still run live.</span>
+              <span class="bench-flow__meta">Focus, prep, and final recap still run live.</span>
             </button>
           </div>
           <label class="js-runlabel-wrap" hidden>
@@ -112,7 +112,7 @@ async function wireBench(root, { setState, beginCleanSetup }) {
     personaSummary.textContent = `${p.displayName} · ${p.seniority} · ${p.role} · ${p.meeting_type}`;
     personaNotes.textContent = p.notes || "(no manager context provided)";
     personaFooter.textContent = benchMode === "scripted"
-      ? "This locks the interview questions and scripted answers. You will still review focus areas, prep, and the final briefing."
+      ? "This locks the interview questions and scripted answers. You will still review focus areas, prep, and the final recap."
       : "Setup context is pre-filled. You'll answer each question yourself.";
   }
 

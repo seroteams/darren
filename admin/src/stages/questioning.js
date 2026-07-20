@@ -35,7 +35,7 @@ export async function mount(root, { store, setState }) {
               <span class="question-session-ctx ctx-segments" aria-label="Session context"></span>
             </div>
             <div class="cp-head__actions">
-              <button class="btn btn--ghost js-save-exit" type="button">Skip to briefing</button>
+              <button class="btn btn--ghost js-save-exit" type="button">Skip to recap</button>
             </div>
           </header>
           <div class="cp-col">
@@ -73,13 +73,13 @@ export async function mount(root, { store, setState }) {
             <div class="question-session-ctx ctx-segments" aria-label="Session context"></div>
             <p class="question-session-notes" aria-label="What you told Sero" hidden></p>
           </div>
-          <button class="btn btn--ghost js-save-exit shrink-0" type="button">Skip to briefing</button>
+          <button class="btn btn--ghost js-save-exit shrink-0" type="button">Skip to recap</button>
         </div>
       </header>
       <div class="question-host"></div>
       <div class="thinking-host min-h-[72px]"></div>
-      <div class="axes-wrap space-y-2" aria-label="Live scores — updated each answer, not the final briefing">
-        <div class="eyebrow" title="Live scores — updated each answer, not the final briefing">Live scores</div>
+      <div class="axes-wrap space-y-2" aria-label="Live scores — updated each answer, not the final recap">
+        <div class="eyebrow" title="Live scores — updated each answer, not the final recap">Live scores</div>
         <div class="card axes-host"></div>
       </div>
       <div class="footer-host text-sm text-ink-mute"></div>
@@ -148,10 +148,11 @@ export async function mount(root, { store, setState }) {
   // trapdoor. showNextQuestion() sets wrapMode + relabels per question.
   const saveExitBtn = ui.querySelector(".js-save-exit");
   let wrapMode = false;
+  let answered = 0;
   saveExitBtn.addEventListener("click", async () => {
     if (wrapMode) {
       const ok = await confirmAction({
-        message: "You've covered good ground. One closing question, then your briefing — everything you've answered is kept.",
+        message: "You've covered good ground. One closing question, then your recap — everything you've answered is kept.",
         confirmLabel: "Wrap up",
         cancelLabel: "Keep going",
       });
@@ -168,9 +169,10 @@ export async function mount(root, { store, setState }) {
       return;
     }
     const ok = await confirmAction({
-      message: "Skip the remaining questions and open the briefing now? Any unanswered questions will be dropped.",
-      confirmLabel: "Open briefing",
+      message: `You've only answered ${answered} question${answered === 1 ? "" : "s"} so far — your recap will be thin. Open it now anyway? Anything unanswered is dropped.`,
+      confirmLabel: "Open recap anyway",
       cancelLabel: "Keep questioning",
+      destructive: true,
     });
     if (!ok) return;
     teardown();
@@ -226,8 +228,9 @@ export async function mount(root, { store, setState }) {
     // Wrap-up exit: from Q4 (and before the final question) the escape button
     // becomes the warm door. Floor of 4 = the shortest possible 1:1 (3 answers +
     // the closer) — Balanced policy. Scripted lane keeps the plain skip.
+    answered = res.turn - 1;
     wrapMode = !scripted && !isFinal && res.turn >= 4;
-    saveExitBtn.textContent = wrapMode ? "Wrap up — get my briefing" : "Skip to briefing";
+    saveExitBtn.textContent = wrapMode ? "Wrap up — get my recap" : "Skip to recap";
 
     const card = document.createElement("div");
     card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";

@@ -152,7 +152,7 @@ export function serializeReview(run, review) {
   L.push("## Live questions and notes");
   L.push(...questionLines(run && run.turns));
   L.push("");
-  L.push("## Final briefing");
+  L.push("## Final recap");
   L.push(...briefingLines(run && run.briefing));
   L.push("");
   L.push("## Verdict");

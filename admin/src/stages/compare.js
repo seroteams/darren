@@ -156,7 +156,7 @@ function buildDelta(a, b) {
   }
   const ha = a.briefing?.headline, hb = b.briefing?.headline;
   if (ha && hb && ha !== hb) parts.push({ text: "headline reworded", dir: "flat" });
-  else if (!!ha !== !!hb) parts.push({ text: hb ? "briefing now present" : "briefing dropped", dir: hb ? "up" : "down" });
+  else if (!!ha !== !!hb) parts.push({ text: hb ? "recap now present" : "recap dropped", dir: hb ? "up" : "down" });
   const fa = fallbackCount(a), fb = fallbackCount(b);
   if (fa != null && fb != null && fa !== fb) {
     const d = fb - fa;
@@ -183,7 +183,7 @@ function renderDiff(a, b, metaA, metaB) {
       .map((p) => `<span class="cmp-delta-tok cmp-delta-tok--${p.dir}">${escape(p.text)}</span>`)
       .join(`<span class="cmp-delta-sep">·</span>`)}</div>`;
   } else if (!a.briefing && !b.briefing) {
-    deltaHtml = `<div class="cmp-delta cmp-delta--flat">Neither run reached a briefing yet, so there are no axis reads to compare.</div>`;
+    deltaHtml = `<div class="cmp-delta cmp-delta--flat">Neither run reached a recap yet, so there are no axis reads to compare.</div>`;
   } else {
     deltaHtml = `<div class="cmp-delta cmp-delta--flat">No measurable difference between these two runs.</div>`;
   }
@@ -248,7 +248,7 @@ function renderAxes(a, b) {
   if (!anyRead) {
     return `<div class="cmp-axes">
       <div class="eyebrow">Axis reads</div>
-      <p class="text-ink-mute">No axis reads on either run yet. The four axes appear once a run reaches its briefing.</p>
+      <p class="text-ink-mute">No axis reads on either run yet. The four axes appear once a run reaches its recap.</p>
     </div>`;
   }
   const rows = AXIS_ORDER.map((id) => axisRow(id, ma[id], mb[id])).join("");
