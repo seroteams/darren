@@ -887,6 +887,88 @@
   color: var(--color-ink);
 }
 
+/* Dark highlight header (Arc) — the likely theme + confidence sit in a deep
+   band above the spine; on phones it heads the tabbed layout below. */
+.pv-l__hero {
+  background: var(--sero-navy-800);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-6);
+  margin-bottom: var(--sero-space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+}
+.pv-l__hero .eyebrow {
+  color: var(--sero-offwhite-300);
+}
+.pv-l__hero-theme {
+  margin: 0;
+  font-family: var(--type-family-display);
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-snug);
+  color: var(--sero-offwhite-50);
+}
+/* the dot-meter re-grounds on the dark band (same move as variant J) */
+.pv-l__hero .conf {
+  background: color-mix(in srgb, var(--sero-offwhite-50) 12%, transparent);
+  color: var(--sero-offwhite-50);
+  align-self: flex-start;
+}
+
+/* Before/During/After segmented control — hidden on desktop (the spine shows
+   all three phases); shown on phones, where each phase becomes a tab pane. */
+.pv-l__tabs {
+  display: none;
+  gap: var(--sero-space-1);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  padding: var(--sero-space-1);
+  margin-bottom: var(--sero-space-6);
+}
+.pv-l__tab {
+  flex: 1;
+  min-height: 40px;
+  cursor: pointer;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-dim);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-input);
+  padding: var(--sero-space-2);
+}
+.pv-l__tab.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+}
+.pv-l__tab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+/* Phones (~480px): collapse the spine into tab panes — one phase visible at a
+   time, no left indent, the tab replaces each phase heading. */
+@media (max-width: 30rem) {
+  .pv-l__tabs {
+    display: flex;
+  }
+  .pv-l__phase {
+    display: none;
+    padding-left: 0;
+    padding-bottom: 0;
+  }
+  .pv-l__phase.is-active {
+    display: block;
+  }
+  .pv-l__phase::before,
+  .pv-l__dot,
+  .pv-l__head {
+    display: none;
+  }
+}
+
 /* Arc preview thumbnail — a spine with three dotted nodes */
 .pv-thmb--arc {
   flex-direction: column;

@@ -167,17 +167,28 @@ export const mount: Mount = async (root, { store, setState }) => {
     resultHost.querySelector(".js-continue")?.addEventListener("click", () => {
       setState({ stage: STAGES.BANK });
     });
-    resultHost.querySelector(".js-restart")?.addEventListener("click", async () => {
-      const ok = await confirmResetSession(confirmAction, { to: STAGES.INTAKE });
-      if (!ok) return;
-      try {
-        localStorage.removeItem("seroSessionId");
-      } catch {
-        /* storage blocked */
-      }
-      resetSession();
-      setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
-    });
+    wireArcTabs();
+  }
+
+  // Arc's Before/During/After segmented control (phones only). The tablist and
+  // its phase panes share data-pane; clicking a tab shows its phase, hides the
+  // rest. Re-wired per render since innerHTML rebuilds the brief each time.
+  function wireArcTabs() {
+    if (!resultHost) return;
+    const tabs = Array.from(resultHost.querySelectorAll<HTMLButtonElement>(".pv-l__tab"));
+    const panes = Array.from(resultHost.querySelectorAll<HTMLElement>(".pv-l__phase"));
+    if (!tabs.length) return;
+    tabs.forEach((tab) =>
+      tab.addEventListener("click", () => {
+        const pane = tab.dataset.pane;
+        tabs.forEach((t) => {
+          const on = t === tab;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-selected", String(on));
+        });
+        panes.forEach((p) => p.classList.toggle("is-active", p.dataset.pane === pane));
+      }),
+    );
   }
 
   async function copyBrief(slots: BriefSlots, btn: HTMLButtonElement) {

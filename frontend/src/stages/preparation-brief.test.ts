@@ -132,6 +132,27 @@ test("styleTip: Copy all includes the tip", () => {
 });
 
 /* ---------------------------------------------------------------------------
+   Arc (L) — dark highlight header + Before/During/After tabs (mobile redesign)
+--------------------------------------------------------------------------- */
+
+test("Arc: the likely theme leads inside the dark highlight header", () => {
+  const html = renderBrief("L", SLOTS);
+  assert.match(html, /class="pv-l__hero"/, "dark highlight header present");
+  assert.ok(html.includes(escapeCopy(SLOTS.theme)), "theme carried in the header");
+});
+
+test("Arc: phases sit behind a Before/During/After tablist", () => {
+  const html = renderBrief("L", SLOTS);
+  assert.match(html, /role="tablist"/, "segmented control present");
+  for (const label of ["Before", "During", "After"]) {
+    assert.ok(html.includes(`>${label}</button>`), `${label} tab present`);
+  }
+  // First present phase is active by default (both tab and pane).
+  assert.match(html, /pv-l__tab is-active[^>]*data-pane="before"/, "before tab active");
+  assert.match(html, /pv-l__phase is-active" data-pane="before"/, "before pane active");
+});
+
+/* ---------------------------------------------------------------------------
    Every variant renders all 7 slots, nothing twice
 --------------------------------------------------------------------------- */
 
@@ -189,6 +210,7 @@ test("CTA: renamed to 1:1 questions", () => {
   const html = ctaRowHtml();
   assert.ok(html.includes("Get my questions"));
   assert.ok(!/interview/i.test(html));
+  assert.ok(!/new 1:1/i.test(html), "the New 1:1 restart button is gone");
 });
 
 function fakeStorage(init?: Record<string, string>): StorageLike {

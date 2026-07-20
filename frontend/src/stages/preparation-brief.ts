@@ -389,30 +389,30 @@ function renderK(s: BriefSlots): string {
   </div>`;
 }
 
-// L "Arc" — Before · During · After. The same seven slots reframed onto the
-// meeting's shape: a left spine with three phase nodes — what to know walking
-// in (theme + confidence), what to do in the room (opener callout, the
-// listen/avoid pair, your move), what to leave with (the outcome). No new
-// colour — the accent family only. Carl's pick from the 5 briefing mocks.
+// L "Arc" — Before · During · After, led by a dark highlight header. The likely
+// theme + confidence sit in a deep band up top (the one thing to walk in
+// knowing); the three phases follow. On desktop they stack down a spine; on
+// phones they collapse behind a Before/During/After segmented control so the
+// screen never becomes a wall of text. Accent family + the shared navy band.
 function renderL(s: BriefSlots): string {
   const mini = (label: string, body: string) =>
     body ? `<div class="pv-l__mini">${eyebrow(label)}${body}</div>` : "";
   const para = (t: string) => (t ? `<p class="text-ink leading-relaxed">${esc(t)}</p>` : "");
-  const phase = (name: string, sub: string, body: string, mod = "") =>
-    body
-      ? `<div class="pv-l__phase${mod ? ` ${mod}` : ""}">
-          <span class="pv-l__dot" aria-hidden="true"></span>
-          <div class="pv-l__head"><span class="pv-l__name">${esc(name)}</span><span class="pv-l__sub">${esc(sub)}</span></div>
-          <div class="pv-l__body">${body}</div>
-        </div>`
-      : "";
   const tip = s.styleTip
     ? `<div class="pv-l__tip">${eyebrow(SLOT_LABELS.styleTip)}<p>${esc(s.styleTip)}</p></div>`
     : "";
+  // Dark highlight header — the likely theme, with the confidence meter as an
+  // at-a-glance read. Skipped whole if there's nothing to carry.
+  const heroInner = [
+    s.theme
+      ? `${eyebrow(SLOT_LABELS.theme, "pv-l__hero-eyebrow")}<p class="pv-l__hero-theme">${esc(s.theme)}</p>`
+      : "",
+    confMeter(s.confidenceLevel),
+  ].join("");
+  const hero = heroInner ? `<div class="pv-l__hero">${heroInner}</div>` : "";
+
   const before = [
     tip,
-    mini(SLOT_LABELS.theme, para(s.theme)),
-    confMeter(s.confidenceLevel),
     s.confidence ? `<p class="pv-l__confidence">${esc(s.confidence)}</p>` : "",
   ].join("");
   const during = [
@@ -421,10 +421,40 @@ function renderL(s: BriefSlots): string {
     mini(SLOT_LABELS.yourMove, para(s.yourMove)),
   ].join("");
   const after = mini(SLOT_LABELS.leaveWith, para(s.leaveWith));
+
+  // Each phase is both a spine node (desktop) and a tab pane (mobile). Only
+  // phases with content render; the first present one is active by default.
+  const phases = [
+    { id: "before", tab: "Before", name: "Before you walk in", sub: "the read", body: before, mod: "" },
+    { id: "during", tab: "During", name: "In the room", sub: "the moves", body: during, mod: "" },
+    { id: "after", tab: "After", name: "Leave with", sub: "the goal", body: after, mod: "pv-l__phase--after" },
+  ].filter((p) => p.body);
+  const activeId = phases.length ? phases[0]!.id : "";
+
+  const tabs = phases.length
+    ? `<div class="pv-l__tabs" role="tablist" aria-label="Meeting stages">${phases
+        .map(
+          (p) =>
+            `<button type="button" class="pv-l__tab${p.id === activeId ? " is-active" : ""}" role="tab" data-pane="${p.id}" aria-selected="${p.id === activeId}">${esc(p.tab)}</button>`,
+        )
+        .join("")}</div>`
+    : "";
+
+  const phaseHtml = phases
+    .map(
+      (p) =>
+        `<div class="pv-l__phase${p.mod ? ` ${p.mod}` : ""}${p.id === activeId ? " is-active" : ""}" data-pane="${p.id}">
+          <span class="pv-l__dot" aria-hidden="true"></span>
+          <div class="pv-l__head"><span class="pv-l__name">${esc(p.name)}</span><span class="pv-l__sub">${esc(p.sub)}</span></div>
+          <div class="pv-l__body">${p.body}</div>
+        </div>`,
+    )
+    .join("");
+
   return `<div class="pv pv-l">
-    ${phase("Before you walk in", "the read", before)}
-    ${phase("In the room", "the moves", during)}
-    ${phase("Leave with", "the goal", after, "pv-l__phase--after")}
+    ${hero}
+    ${tabs}
+    ${phaseHtml}
   </div>`;
 }
 
@@ -455,7 +485,6 @@ export function ctaRowHtml(): string {
   return `<div class="l-cluster l-cluster--2 pt-2">
     <button class="btn js-continue">Get my questions</button>
     <button type="button" class="btn btn--ghost js-copy-all-prep">Copy all</button>
-    <button type="button" class="btn btn--ghost js-restart">New 1:1</button>
   </div>`;
 }
 
