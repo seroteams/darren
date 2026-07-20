@@ -25,20 +25,17 @@
           transition:opacity .45s ease;}
         #boot-splash.is-done{opacity:0;pointer-events:none;}
         #boot-splash svg{width:104px;height:104px;}
-        #boot-splash .bs-word{font:600 13px/1 system-ui,sans-serif;letter-spacing:.18em;
-          text-transform:uppercase;color:#8a97a5;}
-        /* The mark is a pong court: bars = paddles, dot = ball. The ball is
-           driven by real bounce physics in /src/boot-splash.js; each paddle
-           steps toward the ball as it returns. Static mark under reduced-motion. */
-        #boot-splash .bs-pad-l,#boot-splash .bs-pad-r{transition:transform .28s ease-out;}
+        /* The mark is a pong court: bars = hands, dot = ball. Every element is
+           driven from /src/boot-splash.js — the ball rallies, the bars chase it
+           on a damped spring. Static mark under reduced-motion. Corner radius
+           matches the core Sero mark (sero-logo.svg: 17.2% → 8.24 on a 48 grid). */
       </style>
       <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-        <rect width="48" height="48" rx="12" fill="#1f2a37"/>
+        <rect width="48" height="48" rx="8.24" fill="#1f2a37"/>
         <rect class="bs-pad-l" x="9" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
         <rect class="bs-pad-r" x="32.5" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
         <circle class="bs-ball" cx="24" cy="18.5" r="5" fill="#fff"/>
       </svg>
-      <span class="bs-word">Sero</span>
     </div>
     <main id="root" class="min-h-dvh"></main>
     <script type="module" src="/src/boot-splash.js"></script>
