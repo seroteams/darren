@@ -11,6 +11,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | 1b4b459f | Promises-loop P3 engine feed + scorer-trust fix | backend/engine/run-health.ts, backend/engine/run-health.test.ts, backend/api/services/sessions/session-streams.ts, backend/engine/reviewer.ts, backend/engine/cli/stages/, backend/engine/preparation-inputs.ts, content/prompts/, docs/plans/doing/promises-loop/ | 2026-07-18 |
 | 2ee8127c | Screen-gallery v2 — static HTML gallery + export script + fixtures (Part B/C) | scripts/gallery-export.mjs, scripts/gallery/, docs/screen-gallery/, docs/plans/doing/screen-gallery/ | 2026-07-18 |
 | 7e5d8073 | Admin lockdown — /admin superadmin-only + internal-tool guard | backend/api/server.ts, backend/api/static.ts, backend/api/middleware/internal-tool-guard.ts, backend/api/middleware/require-auth.ts, admin/src/main.js, admin/src/ui/login.js, admin/src/ui/register.js, admin/src/ui/landing.ts, docs/plans/doing/admin-lockdown/ | 2026-07-20 |
+| be1c1f0c | Landing headline revert | frontend/src/stages/welcome.ts, frontend/src/stages/welcome.test.ts | 2026-07-20 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
