@@ -72,9 +72,9 @@
   <div class="panel">
     <div class="prog-head">
       <h2>Phase 1 of 4 — one read signal</h2>
-      <div class="prog-sub">0 of 4 signed off · 0 built</div>
+      <div class="prog-sub">0 of 4 signed off · 1 built</div>
     </div>
-    <div class="segs"><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
+    <div class="segs"><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
   </div>
 
   <div class="panel setup">
@@ -90,16 +90,16 @@
 
   <div class="rows">
   <div class="row row-here">
-    <div class="node todo">1</div>
+    <div class="node built">1</div>
     <div class="card">
       <div class="card-head">
         <h3>One read signal</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
+        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         <span class="here">● YOU ARE HERE</span>
       </div>
       <p class="desc">Every answered turn gets one quality tag — Good note / Thin / Skipped / Declined — computed once in the engine, saved with the run forever, and visible as a chip in the run detail screen.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>NEW backend/engine/read-quality.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Delta-gates.ts delegates to it</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Queue-manager.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Backend/shared/session.types.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>One line in each lane next to the existing identical writes: cli/stages/questioning.ts:~168,…</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Reviewer.ts</span></li></ul>
-      
+      <ul class="items"><li class=""><span class="tick tick-built">✓</span><span>NEW backend/engine/read-quality.ts</span></li><li class=""><span class="tick tick-built">✓</span><span>Banked at the shared choke-point: queue-manager.ts planTurn returns assessment.read</span></li><li class=""><span class="tick tick-built">✓</span><span>Reviewer.ts computeReadQuality now CONSUMES the stored tag</span></li><li class=""><span class="tick tick-built">✓</span><span>TranscriptEntry.read?</span></li><li class=""><span class="tick tick-built">✓</span><span>Admin chip: run-detail.ts renders Good note / Thin / Skipped / Declined via the base .chip se…</span></li><li class=""><span class="tick tick-built">✓</span><span>Proof</span></li></ul>
+      <div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:3000</code> · sign in as <span class="role">Admin</span></div>
     </div>
   </div>
   <div class="row ">

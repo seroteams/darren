@@ -19,6 +19,7 @@ import { selectReservedCloser, isForbiddenCloser, pickSeedOverflow } from "../..
 import { evaluate } from "../../../engine/reviewer.ts";
 import { applyDeltas, serialize } from "../../../engine/axes.ts";
 import { planTurn } from "../../../engine/queue-manager.ts";
+import { classifyAnswer } from "../../../engine/read-quality.ts";
 import { appendEligibilityLog } from "../../../engine/question-eligibility.ts";
 import { summarizeAgenda, buildCarryForwardQuestion } from "../../../engine/agenda.ts";
 import * as questions from "../../../engine/questions.ts";
@@ -270,7 +271,7 @@ function isCachedPlan(v: unknown): v is CachedPlan {
 // The slice of the planner's result this stream reads. Both planTurn's return and
 // the planner-failed fallback satisfy it.
 interface PlanResult {
-  assessment: { deltas: Record<string, number>; note: string };
+  assessment: { deltas: Record<string, number>; note: string; read?: TranscriptEntry["read"] };
   newQueue: Question[];
   issues?: string[];
   unbooked_signal?: TranscriptEntry["unbooked_signal"];
@@ -401,6 +402,7 @@ export async function planStream(c: RequestContext): Promise<void> {
 
   turnEntry.realized_deltas = planResult.assessment.deltas;
   turnEntry.note = planResult.assessment.note;
+  turnEntry.read = planResult.assessment.read ?? classifyAnswer(pending.text, planResult.assessment.note);
   if (planResult.unbooked_signal?.length) turnEntry.unbooked_signal = planResult.unbooked_signal;
 
   // Scripted test lane: keep the planner's scoring (deltas + note) but ignore its

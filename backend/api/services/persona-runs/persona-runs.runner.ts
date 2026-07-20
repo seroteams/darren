@@ -11,6 +11,7 @@
 
 import { logTurn, logRunRoot } from "../../../engine/session.ts";
 import { PLANNER_FAILED_NOTE } from "../../../engine/run-health.ts";
+import { classifyAnswer } from "../../../engine/read-quality.ts";
 import * as cost from "../../../engine/cost.ts";
 import { applyDeltas, serialize } from "../../../engine/axes.ts";
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
@@ -26,7 +27,7 @@ type StageOpts = { session: { id: string; dir: string } };
 
 // The slice of the planner's result the runner reads (same shape planStream uses).
 interface PlanResult {
-  assessment: { deltas: Record<string, number>; note: string };
+  assessment: { deltas: Record<string, number>; note: string; read?: TranscriptEntry["read"] };
   newQueue: Question[];
   issues?: string[];
   unbooked_signal?: TranscriptEntry["unbooked_signal"];
@@ -131,6 +132,7 @@ export function createPersonaRunner(deps: PersonaRunnerDeps): PersonaRunner {
 
     turnEntry.realized_deltas = planResult.assessment.deltas;
     turnEntry.note = planResult.assessment.note;
+    turnEntry.read = planResult.assessment.read ?? classifyAnswer(pending.text, planResult.assessment.note);
     if (planResult.unbooked_signal?.length) turnEntry.unbooked_signal = planResult.unbooked_signal;
 
     // Scripted lane: the planner's re-plan is discarded — queueRef already holds

@@ -2,6 +2,7 @@
 import { loadDir } from "../../questions.ts";
 import { PLANNER_FAILED_NOTE } from "../../run-health.ts";
 import { planTurn } from "../../queue-manager.ts";
+import { classifyAnswer } from "../../read-quality.ts";
 import { pinPrepOpenerEarly, seedToQuestion } from "../../question-generator.ts";
 import { isForbiddenCloser, pickSeedOverflow } from "../../closer.ts";
 import { dropIneligibleHeads, appendEligibilityLog } from "../../question-eligibility.ts";
@@ -24,13 +25,13 @@ import {
 } from "../../ui.ts";
 
 import type { Question } from "../../../shared/question.types.ts";
-import type { MeetingContext, AxisState, TranscriptEntry, PreparationResult } from "../../../shared/session.types.ts";
+import type { MeetingContext, AxisState, TranscriptEntry, PreparationResult, TurnRead } from "../../../shared/session.types.ts";
 import type { CostTracker } from "../../../shared/cost.types.ts";
 
 // What the questioning loop reads off a planTurn result; the planner returns a
 // superset, and the planner-failed fallback below matches this exactly.
 interface TurnPlan {
-  assessment: { deltas: Record<string, number>; note: string };
+  assessment: { deltas: Record<string, number>; note: string; read?: TurnRead };
   newQueue: Question[];
   issues?: string[];
   unbooked_signal?: Array<{ axis: string; raw: number; booked: number; reason: string }>;
@@ -167,6 +168,7 @@ async function runQuestioningLoop({
 
     entry.realized_deltas = plan.assessment.deltas;
     entry.note = plan.assessment.note;
+    entry.read = plan.assessment.read ?? classifyAnswer(answerText, plan.assessment.note);
     if (plan.unbooked_signal?.length) entry.unbooked_signal = plan.unbooked_signal;
 
     const axesSummary = summarize(axisState);

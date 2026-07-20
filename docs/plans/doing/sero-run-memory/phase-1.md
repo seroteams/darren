@@ -1,6 +1,14 @@
 # Phase 1 — One read signal
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's QA
+
+## Built (2026-07-20)
+- NEW `backend/engine/read-quality.ts` — `classifyAnswer(answer, note)` → skip/decline/thin/note; single home for the shallow/decline word-lists (`REPORTING_PREFIX`, `LOW_SIGNAL_WORDS`) that were duplicated across `delta-gates.ts` + `reviewer.ts`.
+- Banked at the shared choke-point: `queue-manager.ts` `planTurn` returns `assessment.read` (skip-shortcut stamps `"skip"`); all three lanes write `entry.read` (`cli/stages/questioning.ts`, `session-streams.ts`, `persona-runs.runner.ts`).
+- `reviewer.ts` `computeReadQuality` now CONSUMES the stored tag (classify-fallback for legacy runs) — split-brain gone; `delta-gates.ts` imports the shared constants, `isShallowAnswer` behaviour unchanged.
+- `TranscriptEntry.read?` (`session.types.ts`); member-view projections (`run-history.ts` + `runs-store.ts`, kept in parity) expose the derived tag, never the internal note.
+- Admin chip: `run-detail.ts` renders Good note / Thin / Skipped / Declined via the base `.chip` set; layout in `run-detail.css`.
+- Proof (all free): `npm run typecheck` clean · `npm test` 160/160 · new `read-quality.test.ts` + `reviewer.read-quality.test.ts` 19/19 · fixtures replay unchanged (2 `listenFor` fails are pre-existing, confirmed on clean base) · chip rendered with the real admin CSS (mint/gold/plain/coral). Not yet clicked through the live admin app against a real run.
 
 ## Goal
 Every answered turn gets one quality tag — Good note / Thin / Skipped / Declined — computed once in the engine, saved with the run forever, and visible as a chip in the run detail screen.

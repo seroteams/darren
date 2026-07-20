@@ -23,7 +23,7 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | One read signal | Every turn tagged Good note/Thin/Skipped/Declined, saved forever, chip in run detail | ⬜ |
+| 1 | One read signal | Every turn tagged Good note/Thin/Skipped/Declined, saved forever, chip in run detail | 🔨 |
 | 2 | Fresh ground | Second run about a person suppresses well-answered priors, allows back skipped/thin ones | ⬜ |
 | 3 | Origin badges | Real / Friend trial / Internal / QA on every run (org toggle + badge) | ⬜ |
 | 4 | Learning ledger | `question_asks` table + Pool quality screen — every run banks rows | ⬜ |
@@ -31,8 +31,9 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder just set up. Board: https://claude.ai/code/artifact/8aa28dc1-875b-405e-b53c-0430d8ff26a8
-Next: Carl reads the phases + mockup and gives the go for Phase 1.
+Phase 1 BUILT (2026-07-20), awaiting Carl's QA walk. Board: https://claude.ai/code/artifact/8aa28dc1-875b-405e-b53c-0430d8ff26a8
+Proof: typecheck clean, npm test 160/160, 19/19 new tests, fixtures replay unchanged (2 pre-existing listenFor fails), chip rendered in real admin CSS.
+Note: Phase 1 touched three files on chat 1b4b459f's 2-day-old lane (reviewer.ts, session-streams.ts, cli/stages/) — edits went through cleanly under Carl's go-ahead.
 Baseline: free suite only (`npm test` + typecheck) — a paid `npm run gate` baseline needs Carl's explicit yes (house cost rule; the plan's one paid run is reserved for Phase 2 QA).
 ⚠️ Lane note: Phase 1 touches `reviewer.ts`, `session-streams.ts`, `cli/stages/` — currently claimed by chat 1b4b459f (Promises-loop P3, claimed 2026-07-18). Stale after 2 days; Carl decides at Phase 1 start.
 
