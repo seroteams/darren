@@ -2,6 +2,12 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-20 — EVERYTHING WENT LIVE.** Your "go live" pushed the whole backlog (head `3c12e884`,
+two deploys): coach panel, promises step, hardening fixes, repeat-question fix, arc gates, better-reads
+P1+P2, boot-splash, admin lockdown, plus a cloud chat's run-memory P1 (merged — two small overlaps
+reconciled, 163/163 tests). Confirmed on sero-obwq: new bundle signature, `/health/deep` 200, `/admin`
+logged-out now bounces (302). ⚠️ The hashed-token fix logged everyone out once — sign in again once.
+
 📍 **2026-07-20 — the arcs are now evidence-backed, and approvals got lighter.** An external
 evidence review of all five 1:1 types came back (4/5 well-aligned); its "ship now" list is built and
 green-lit: banned-question gates on every type (no diagnosis language, no trait attacks, no promotion
@@ -30,10 +36,9 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Go live** — Phases across today (coach panel 1–3, plus earlier work) are committed locally, NOT pushed. Say "go live" to deploy.
-2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
-3. **Screen-gallery Phase 2** — seeds demo data so the 12 empty/needs-id screens fill in. Not started.
-4. Or just start something new — nothing here is waiting on a build.
+1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
+2. **Screen-gallery Phase 2** — seeds demo data so the 12 empty/needs-id screens fill in. Not started.
+3. Or just start something new — nothing here is waiting on a build.
 
 ## 🔨 Building now
 | Build | State |
@@ -51,7 +56,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## ✅ Closed 2026-07-18
 [agency-engagement](docs/plans/done/agency-engagement/plan.md) (full code audit → 16/17 hardening fixes committed: live-boot DB guard, login rate-limit, session revocation + hashed tokens, cost-race fix, backups, deep health probe, more — [audit report](docs/reports/2026-07-18-agency-audit.md); one cosmetic F16 follow-up parked) · [repeat-question-fix](docs/plans/done/repeat-question-fix/plan.md) (resolved-cause gate — engine stops re-asking an answered snag in new words; from a tester flag) · [members-page](docs/plans/done/members-page/plan.md) · [team-page-redesign](docs/plans/done/team-page-redesign/plan.md) · [wrap-up-exit](docs/plans/done/wrap-up-exit/plan.md) · promises card zero (P2, in [future/promises-loop](docs/plans/future/promises-loop/plan.md) with P3 parked) — all your green lights.
 
-⚠️ **Not yet live:** the hardening fixes are committed locally, NOT pushed. They deploy on the next "go live" — and the hashed-token fix logs everyone out once when it ships.
+✅ **Live 2026-07-20:** the hardening fixes (and everything above) deployed with the go-live push — the one-off everyone-logged-out event has happened.
 
 ## Parked (12, in docs/plans/future/ — each carries a banner saying exactly where it stopped)
 Newly parked 2026-07-18: [ui-look-and-feel](docs/plans/future/ui-look-and-feel/plan.md) (P4–P6) · [admin-live-deploy](docs/plans/future/admin-live-deploy/plan.md) (P4–P6) · [personal-data-security](docs/plans/future/personal-data-security/plan.md) (P3 history-scrub — needs an all-chats-closed night). *(promises-loop un-parked 2026-07-18 — now in doing/, P3 surfacing half green-lit.)*
@@ -59,4 +64,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-20 — admin-lockdown P1 green-lit (/admin locked to internal only, server-side); P2 building.
+Last updated: 2026-07-20 — GO-LIVE: full backlog deployed and confirmed on sero-obwq (head 3c12e884).
