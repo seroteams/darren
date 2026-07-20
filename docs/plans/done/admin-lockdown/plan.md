@@ -22,12 +22,12 @@
 |---|---|---|---|
 | 1 | Lock the door | `/admin` bundle served only to super-admins in prod; everyone else 302 → `/`; same bounce client-side for dev | ✅ |
 | 2 | Internal tools admin-only everywhere | internal-tool guard stops accepting `manager` on any environment | ✅ |
-| 3 | Fix the signposts | no login/register/email/link ever points a manager or member at `/admin` | ⬜ |
+| 3 | Fix the signposts | no login/register/email/link ever points a manager or member at `/admin` | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1 + 2 ✅ GREEN-LIT 2026-07-20 (Phase 1 already live — pushed by another session at head 3c12e884, `/admin` logged-out bounce confirmed on sero-obwq; Phase 2 committed local, ships next push). Phase 3 (login/email signposts) starting now. Board: https://claude.ai/code/artifact/93007886-2e0b-445f-a8cd-8628aa9839f1 .
+✅ PLAN DONE 2026-07-20 — all 3 phases green-lit. P1 (`/admin` server-side lock) is LIVE at head 3c12e884; P2 (internal tools admin-only every env) + P3 (signpost sweep + login/register eject) committed local, ship next push. 164/164, typecheck clean. Board: https://claude.ai/code/artifact/93007886-2e0b-445f-a8cd-8628aa9839f1 .
 
 ## Parked
 - Slim the admin bundle down to console + internal screens only (drop the duplicated manager/member stages) — bigger refactor, not needed once the door is locked.

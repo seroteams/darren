@@ -3,7 +3,7 @@
 // immediately log in with the same credentials to land the user in. A link
 // switches back to the login screen.
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.js";
 import { register, login } from "../../../shared/api.js";
 import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
@@ -80,6 +80,14 @@ export async function mount(root, { setState }) {
       // A guest saving their finished run (guest-run Phase 3): claim it and land on
       // it. A failed claim falls through to the normal landing — never a dead end.
       if (await completeClaimAfterAuth(user, setState)) return;
+      // admin-lockdown Phase 3 — a self-signup is always a manager (their new company's owner),
+      // who belongs in the customer app, never the internal admin shell. If this register ran in
+      // the admin bundle, navigate out to "/". Guarded by the build base so the shared customer
+      // bundle ("/") keeps seating a new manager on its own START.
+      if (import.meta.env.BASE_URL.startsWith("/admin") && !isInternalAdmin(user)) {
+        window.location.href = "/";
+        return;
+      }
       // Land in the SAME place a fresh reload would (audit B1): one resolver, the per-app
       // member home injected into store.memberHome by each main.js. A brand-new manager
       // reaches their Home (START) and its first-run empty state, not the setup wizard.

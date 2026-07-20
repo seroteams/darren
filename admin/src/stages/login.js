@@ -2,7 +2,7 @@
 // server sets the session cookie; we store the user in state and land on START.
 // A link switches to the register screen.
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.js";
 import { login, me } from "../../../shared/api.js";
 import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
@@ -97,6 +97,15 @@ export async function mount(root, { setState }) {
       // A guest saving their finished run (guest-run Phase 3): claim it and land on
       // it. A failed claim falls through to the normal landing — never a dead end.
       if (await completeClaimAfterAuth(identity, setState)) return;
+      // admin-lockdown Phase 3 — the admin bundle is internal-only. A manager or member who
+      // signs in HERE belongs in the customer app; navigate there rather than seat them in the
+      // admin shell. (In prod the server already 302s a non-internal /admin load; this points
+      // the signpost right at the source so there's no bounce, and gives dev the same result.)
+      // Guarded by the build's base URL so the shared customer bundle ("/") is untouched.
+      if (import.meta.env.BASE_URL.startsWith("/admin") && !isInternalAdmin(identity)) {
+        window.location.href = "/";
+        return;
+      }
       // Land in the SAME place a fresh reload would (audit B1 split-brain): one resolver,
       // the per-app member home injected into store.memberHome by each main.js. A manager
       // gets their Home (START), where the first-run empty state greets a newcomer — never

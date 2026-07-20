@@ -47,7 +47,9 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [arc-evidence-fixes](docs/plans/doing/arc-evidence-fixes/plan.md) | P1 ✅ green-lit 2026-07-20 (evidence-first): per-type banned-question gates (all 5 types) + Performance tone relabel. Committed local, ships next push. P2 (question-count trims) + P3 (reframes) parked for your call. |
 | [better-reads](docs/plans/doing/better-reads/plan.md) | P1 ✅ + P2 ✅ both green-lit 2026-07-20 and LIVE (skew measured, protect gate armed — short-but-real answers keep their score). P3 🔨 prep freshness: free half building; prompt line + wiring + one ~$0.35 eval wait on the promises-loop lane. Reviewer + run-health slices also deferred there. |
-| [admin-lockdown](docs/plans/doing/admin-lockdown/plan.md) | P1 ✅ green-lit + LIVE 2026-07-20 (`/admin` locked server-side — managers/members/logged-out bounce to `/`). P2 ✅ green-lit 2026-07-20 (internal engine tools → internal-admin-only on every env, not just live; committed local, ships next push). P3 🔨 login/email signposts — no signpost points a manager at `/admin`. |
+
+## ✅ Closed 2026-07-20
+[admin-lockdown](docs/plans/done/admin-lockdown/plan.md) — `/admin` is now a true internal-only console. All 3 phases green-lit: (P1) the console bundle is served only to internal admins/superadmins server-side — managers, members and logged-out visitors 302 to the normal app, closing an audit hole where the shell was handed to anyone (P1 **LIVE** on sero-obwq); (P2) internal engine tools (arcs, lexicons, library…) refuse managers on every environment, not just live; (P3) signpost sweep confirmed all emails already point at the normal app, plus a login/register eject so the admin bundle never seats a manager. P2+P3 committed local, ship next push. From a Carl bug report → full-system URL/RBAC audit.
 
 ## ✅ Closed 2026-07-19
 [coach-panel](docs/plans/done/coach-panel/plan.md) — all 3 phases green-lit in one day. The questioning screen is now the full-screen 50/50 coach panel: live scores as gradient meters carrying the engine's real per-answer "why", a Support/Live-scores toggle + the manager-only hints contract, and a detect-only gate keeping performance-review language out of check-in "why" text (86 real runs, 0 false alarms). Admin app only. Two prompt lines parked behind another chat's lane (real generated hints + a P3 nudge). Local commits, ships next push.
@@ -64,4 +66,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-20 — admin-lockdown P2 green-lit (internal tools admin-only on every env), P3 building. (Earlier today: GO-LIVE full backlog deployed, head 3c12e884.)
+Last updated: 2026-07-20 — admin-lockdown DONE (all 3 phases green-lit; P1 live, P2+P3 ship next push). (Earlier today: GO-LIVE full backlog deployed, head 3c12e884.)
