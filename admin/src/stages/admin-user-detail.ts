@@ -16,6 +16,7 @@ import { Star } from "lucide";
 import { relTime } from "../ui/time.ts";
 import { groupRunsByPerson } from "../ui/group-people.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
+import { recapHeader, roleLine } from "../ui/recap-header.ts";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -28,19 +29,6 @@ type Run = {
 };
 
 type Person = { key: string; name: string; role: string; count: number; lastMet: number; ratedCount: number; avgStars: number | null };
-
-// First letter of the name (falls back to "?") — the glyph in the recap avatar circle.
-function initialOf(name: string): string {
-  const s = (name || "").trim();
-  return s ? s[0]!.toUpperCase() : "?";
-}
-
-// "Role · Seniority" — the dim line, middot-joined to match the member's own recap
-// (run-detail.ts roleLine). The old comma form ("Role, Seniority") was the odd one out.
-function roleLine(c: Run["ctx"]): string {
-  if (!c.role) return c.seniority || "";
-  return c.seniority ? `${c.role} · ${c.seniority}` : c.role;
-}
 
 export function personCard(p: Person): string {
   const bits = [
@@ -80,31 +68,6 @@ function runRow(r: Run): string {
     : "";
   // A button so it's keyboard-operable — opens the read-only briefing (Step 3).
   return `<button type="button" class="card-flat runs-list__row js-run-row" data-run-id="${escapeHtml(r.id)}"><span class="text-sm">${line}</span>${badge}</button>`;
-}
-
-// The recap's OWN header: the breadcrumb trail (User management › {user} › {meeting}) plus a
-// profile that names the 1:1 you're reading. Reuses the run-detail profile classes for exact
-// parity with the member's own recap header, so nothing new is invented.
-export function recapHeader(ctx: Run["ctx"], userName: string): string {
-  const c = ctx || ({} as Run["ctx"]);
-  const trail = breadcrumb([
-    { label: "User management", nav: "users" },
-    { label: userName, nav: "list" },
-    { label: c.meetingType || "1:1" },
-  ]);
-  const role = roleLine(c);
-  return `
-    <header class="page-header l-stack l-stack--3">
-      ${trail}
-      <div class="rd-profile">
-        <div class="ds-avatar rd-avatar" aria-hidden="true">${escapeHtml(initialOf(c.name))}</div>
-        <div class="rd-profile__id">
-          <h1 class="rd-name">${escapeHtml(c.name || "This 1:1")}</h1>
-          ${role ? `<div class="text-ink-dim text-sm">${escapeHtml(role)}</div>` : ""}
-        </div>
-        ${c.meetingType ? `<span class="rd-type-badge">${escapeHtml(c.meetingType)}</span>` : ""}
-      </div>
-    </header>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
@@ -173,7 +136,10 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
     root.innerHTML = recapShell(
-      recapHeader(run.ctx || ({} as Run["ctx"]), store.adminUserName || "User") + renderReadonlyBriefing(run.briefing),
+      recapHeader(run.ctx || ({} as Run["ctx"]), [
+        { label: "User management", nav: "users" },
+        { label: store.adminUserName || "User", nav: "list" },
+      ]) + renderReadonlyBriefing(run.briefing),
     );
     wireCrumbs();
   };

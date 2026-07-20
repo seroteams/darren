@@ -11,6 +11,8 @@ import { backToPulse } from "../ui/pulse-labels.ts";
 import { getGuestRuns, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
+import { breadcrumb } from "../ui/breadcrumb.ts";
+import { recapHeader, roleLine } from "../ui/recap-header.ts";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -24,7 +26,7 @@ type Run = {
 function runSubtitle(c: Run["ctx"]): string {
   const bits: string[] = [];
   if (c.name) bits.push(c.name);
-  if (c.role) bits.push(c.seniority ? `${c.role}, ${c.seniority}` : c.role);
+  if (c.role) bits.push(roleLine(c));
   if (c.meetingType) bits.push(c.meetingType);
   return bits.join(" · ");
 }
@@ -49,6 +51,9 @@ export const mount: Mount = async (root, { setState }) => {
       <div class="text-ink-dim">1:1s run by visitors with no account — unclaimed, read-only. A guest who saves their run moves it out of this list.</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}<div class="pd-back-bottom">${backToPulse()}</div></div>`;
+  // The recap gets its own bare container — NOT `shell` — so the "Guest runs" header and its
+  // circled Back no longer ride along above it (that was the doubled title + stacked back).
+  const recapShell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
   // Delegated so it survives every innerHTML repaint (pulse-drilldowns back button).
   root.addEventListener("click", (e) => {
     if (e.target instanceof Element && e.target.closest(".js-back-pulse")) setState({ stage: STAGES.ADMIN_PULSE });
@@ -56,31 +61,37 @@ export const mount: Mount = async (root, { setState }) => {
 
   let runs: Run[] = [];
 
+  // The recap breadcrumb's one navigable crumb ("Guest runs" → back to the pile). Re-run
+  // after every innerHTML repaint.
+  const wireCrumbs = () => {
+    root.querySelectorAll<HTMLButtonElement>(".js-crumb").forEach((c) => {
+      c.addEventListener("click", () => { if (c.dataset.nav === "list") renderList(); });
+    });
+  };
+
   // Open ONE guest run's briefing read-only — same superadmin route as the PG8 drilldown.
+  // Renders its own recap header (breadcrumb Guest runs › {meeting} + a profile that names
+  // the 1:1), so the pile's header no longer stacks above it.
   const openRun = async (runId: string) => {
     if (!runId) return;
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+    root.innerHTML = recapShell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
     let run: { ctx: Run["ctx"]; briefing: Briefing | null };
     try {
       run = (await getAdminRun(runId)) as { ctx: Run["ctx"]; briefing: Briefing | null };
     } catch {
-      root.innerHTML = shell(`
+      root.innerHTML = recapShell(`
+        <header class="page-header l-stack l-stack--3">${breadcrumb([{ label: "Guest runs", nav: "list" }, { label: "1:1" }])}</header>
         <section class="card-flat space-y-3">
           <div class="eyebrow">Couldn't open</div>
           <p class="text-ink-dim">This 1:1 couldn't be opened. Go back and try another.</p>
-          <button type="button" class="btn btn--ghost js-back-list">‹ Back</button>
         </section>`);
-      root.querySelector(".js-back-list")?.addEventListener("click", renderList);
+      wireCrumbs();
       return;
     }
-    const sub = runSubtitle(run.ctx || ({} as Run["ctx"]));
-    const head = `
-      <section class="l-stack l-stack--2">
-        <button type="button" class="btn btn--ghost btn--sm js-back-list">‹ Back to Guest runs</button>
-        ${sub ? `<div class="text-ink-dim text-sm">${escapeHtml(sub)}</div>` : ""}
-      </section>`;
-    root.innerHTML = shell(head + renderReadonlyBriefing(run.briefing));
-    root.querySelector(".js-back-list")?.addEventListener("click", renderList);
+    root.innerHTML = recapShell(
+      recapHeader(run.ctx || ({} as Run["ctx"]), [{ label: "Guest runs", nav: "list" }]) + renderReadonlyBriefing(run.briefing),
+    );
+    wireCrumbs();
   };
 
   const renderList = () => {
