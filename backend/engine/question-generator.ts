@@ -16,7 +16,7 @@ import { ALLOWED_DELTAS as QUEUE_ALLOWED_DELTAS } from "./queue-constants.ts";
 import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 
-import type { Question, QuestionPurpose } from "../shared/question.types.ts";
+import type { Question, QuestionPurpose, QuestionHint } from "../shared/question.types.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const getDefaultModel = () => modelFor("bank");
@@ -67,6 +67,22 @@ const RESPONSE_SCHEMA = {
                 delta: { type: "integer", enum: ALLOWED_DELTAS },
               },
               required: ["axis", "delta"],
+              additionalProperties: false,
+            },
+          },
+          // Manager-only coaching hints (coach-panel Phase 2). Optional so the schema
+          // accepts model output both before and after the generate-questions prompt is
+          // taught to write them; when present, ≤3 tagged how-to-ask / listen-for lines.
+          hints: {
+            type: "array",
+            maxItems: 3,
+            items: {
+              type: "object",
+              properties: {
+                kind: { type: "string", enum: ["ask", "listen"] },
+                text: { type: "string" },
+              },
+              required: ["kind", "text"],
               additionalProperties: false,
             },
           },
@@ -431,6 +447,7 @@ async function generateBank(
       purposeRaw === "wellbeing" || purposeRaw === "topic" || purposeRaw === "competency" || purposeRaw === "engagement"
         ? purposeRaw
         : "topic";
+    const hints = toHints(q.hints);
     const obj: Question = {
       alias,
       label,
@@ -440,6 +457,7 @@ async function generateBank(
       stage: stage_,
       axis_effects: toAxisObject(q.axis_effects),
       source: "generated",
+      ...(hints.length ? { hints } : {}),
     };
     saveQuestion(obj);
     saved.push(obj);
@@ -463,7 +481,23 @@ async function generateBank(
   return saved;
 }
 
-// Seed YAML are canonical saved questions (saveQuestion writes exactly the 8
+// Manager-only coaching hints (coach-panel Phase 2). Reads a raw hints array
+// (from the model or a stored question) into ≤3 clean {kind, text} entries;
+// drops anything malformed. Returns [] so callers can spread `...(hints.length ...)`.
+function toHints(raw: unknown): QuestionHint[] {
+  if (!Array.isArray(raw)) return [];
+  const out: QuestionHint[] = [];
+  for (const item of raw) {
+    if (out.length >= 3) break;
+    const r = asRecord(item);
+    const kind = asString(r.kind);
+    const text = asString(r.text).trim();
+    if ((kind === "ask" || kind === "listen") && text) out.push({ kind, text });
+  }
+  return out;
+}
+
+// Seed YAML are canonical saved questions (saveQuestion writes exactly the
 // Question fields). Materialise each into a typed Question — note axis_effects is
 // already a stored {axisId: delta} object here, NOT the planner's wire array, so
 // it is read as-is (not via toAxisObject).
@@ -480,6 +514,7 @@ function seedToQuestion(item: unknown): Question {
       if (typeof delta === "number") axis_effects[axis] = delta;
     }
   }
+  const hints = toHints(r.hints);
   return {
     alias: asString(r.alias),
     label: asString(r.label),
@@ -489,6 +524,7 @@ function seedToQuestion(item: unknown): Question {
     stage: asString(r.stage) || null,
     axis_effects,
     source: asString(r.source) || "seed",
+    ...(hints.length ? { hints } : {}),
   };
 }
 
@@ -518,4 +554,5 @@ export {
   findPrepOpener,
   pinPrepOpenerEarly,
   seedToQuestion,
+  toHints,
 };

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { RESPONSE_SCHEMA, isCompoundName, isKnownStage } from "./question-generator.ts";
+import { RESPONSE_SCHEMA, isCompoundName, isKnownStage, toHints } from "./question-generator.ts";
 
 // The structured-output schema is the first hard gate on model output. These
 // bounds mirror the prompt's <rules> ("8–12 questions", "axis_effects never
@@ -17,6 +17,36 @@ test("RESPONSE_SCHEMA: axis_effects is non-empty and capped at 3", () => {
   const axisEffects = RESPONSE_SCHEMA.properties.questions.items.properties.axis_effects;
   assert.equal(axisEffects.minItems, 1);
   assert.equal(axisEffects.maxItems, 3);
+});
+
+// Coaching hints (coach-panel Phase 2) — optional in the schema so the bank is
+// accepted before and after the prompt is taught to write them; toHints is the
+// gate that keeps only clean ≤3 tagged entries.
+test("RESPONSE_SCHEMA: hints are optional, tagged ask/listen, capped at 3", () => {
+  const hints = RESPONSE_SCHEMA.properties.questions.items.properties.hints;
+  assert.equal(hints.maxItems, 3);
+  assert.deepEqual(hints.items.properties.kind.enum, ["ask", "listen"]);
+  assert.ok(!RESPONSE_SCHEMA.properties.questions.items.required.includes("hints"));
+});
+
+test("toHints keeps valid ask/listen entries and caps at 3", () => {
+  const out = toHints([
+    { kind: "ask", text: "Ask slowly." },
+    { kind: "listen", text: "Energy words." },
+    { kind: "ask", text: "Use their word back." },
+    { kind: "listen", text: "One too many." },
+  ]);
+  assert.equal(out.length, 3);
+  assert.deepEqual(out[0], { kind: "ask", text: "Ask slowly." });
+});
+
+test("toHints drops malformed entries and non-arrays", () => {
+  assert.deepEqual(toHints(undefined), []);
+  assert.deepEqual(toHints("nope"), []);
+  assert.deepEqual(
+    toHints([{ kind: "coach", text: "wrong kind" }, { kind: "ask", text: "" }, { kind: "listen", text: "  keep me  " }]),
+    [{ kind: "listen", text: "keep me" }],
+  );
 });
 
 // Name lint — a bank question must carry a single probe. The backstop drops

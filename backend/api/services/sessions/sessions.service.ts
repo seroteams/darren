@@ -100,7 +100,7 @@ type QuestionResult =
       total: number;
       queueLen: number;
       scripted: { alias: string; answer: string | null; fallback: string } | null;
-      question: Pick<Question, "alias" | "label" | "name" | "description" | "purpose">;
+      question: Pick<Question, "alias" | "label" | "name" | "description" | "purpose" | "hints">;
     };
 
 // The /start 201 body — the new session's id + dir + when it was created + how
@@ -441,6 +441,9 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
           name: q.name,
           description: q.description,
           purpose: q.purpose,
+          // Manager-only coaching (coach-panel Phase 2); omitted when the question
+          // carries none, so the wire shape stays lean for hint-less questions.
+          ...(q.hints?.length ? { hints: q.hints } : {}),
         },
       };
     },

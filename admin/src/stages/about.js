@@ -1,6 +1,6 @@
 // About — the one-pager (009 Phase 5). What Sero is, what to do first, what to expect,
 // and that it's an early alpha. Static content, no API. Reachable by members and admins
-// from the nav footer. (Named ABOUT, not ONEPAGE — ONEPAGE is the run-flow stage.)
+// from the nav footer.
 
 import { STAGES, store, isAdmin } from "../state.js";
 

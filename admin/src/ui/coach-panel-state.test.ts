@@ -5,6 +5,7 @@ import {
   rowStateFor,
   meterFor,
   parseStoredWhys,
+  cleanHints,
   type AxisRead,
   type WhyMap,
 } from "./coach-panel-state.ts";
@@ -77,6 +78,26 @@ test("meterFor: centre-out fill on a −3..+3 scale, clamped", () => {
   assert.ok(Math.abs(m.pct - 100 / 3) < 1e-9 && Math.abs(m.fillLeft - m.pct) < 1e-9);
   assert.ok(Math.abs(m.fillWidth - (50 - m.pct)) < 1e-9);
   assert.deepEqual(meterFor(5), meterFor(3)); // off-scale clamps to the rail
+});
+
+test("cleanHints keeps valid ask/listen entries, trims, caps at 3, drops junk", () => {
+  assert.deepEqual(cleanHints(undefined), []);
+  assert.deepEqual(cleanHints("nope"), []);
+  assert.deepEqual(
+    cleanHints([
+      { kind: "ask", text: "  Ask slowly.  " },
+      { kind: "bogus", text: "wrong kind" },
+      { kind: "listen", text: "" },
+      { kind: "listen", text: "Energy words." },
+      { kind: "ask", text: "Use their word." },
+      { kind: "ask", text: "One too many." },
+    ]),
+    [
+      { kind: "ask", text: "Ask slowly." },
+      { kind: "listen", text: "Energy words." },
+      { kind: "ask", text: "Use their word." },
+    ],
+  );
 });
 
 test("parseStoredWhys survives junk from sessionStorage", () => {
