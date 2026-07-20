@@ -33,13 +33,13 @@ function playPong() {
   const C = 24;            // bar resting centre
   const PAD_MAX = 6;       // furthest a bar drifts from centre
   const REACH = 10.5;      // save window at contact; a corner shot past the tip beats it
-  const REACT_MS = 150;    // right's reaction lag — it reads where the ball *was*
-  const SERVE_MS = 430;    // beat between winning the point and the next serve
+  const REACT_MS = 70;     // right's reaction lag — it reads where the ball *was*
+  const SERVE_MS = 260;    // beat between winning the point and the next serve
 
   const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 
   let x = LEFT, y = C;
-  let vx = 8.5, vy = 0;    // units/sec
+  let vx = 21, vy = 0;     // units/sec
   let lY = 0, lV = 0;      // left bar offset + velocity (the winner: quick hand)
   let rY = 0, rV = 0;      // right bar offset + velocity (the loser: slow hand)
   let passing = false;     // ball has beaten the right bar, running to the wall
@@ -65,21 +65,21 @@ function playPong() {
     const rc = C + rY;                                   // where right is now
     const low = rc < C;                                  // right is high → aim low
     let targetY, cross;
-    if (Math.random() < 0.4) {                           // go for the winner
+    if (Math.random() < 0.25) {                          // go for the winner
       targetY = low ? BOTTOM - Math.random() : TOP + Math.random();
-      vx = 8.8 + Math.random() * 1.8;                    // extra pace
+      vx = 26 + Math.random() * 4;                       // extra pace
     } else {                                             // keep the rally alive
       targetY = clamp(C + (low ? 1 : -1) * (5 + Math.random() * 6), TOP + 6, BOTTOM - 6);
-      vx = 6.6 + Math.random() * 1.6;
+      vx = 20 + Math.random() * 4;
     }
     cross = (RIGHT - LEFT) / vx;                         // time to reach right
-    vy = clamp((targetY - y) / cross, -22, 22);          // steep line to the target
+    vy = clamp((targetY - y) / cross, -52, 52);          // steep line to the target
   }
 
-  // RIGHT scrambling a save back: slow and central — an easy ball for left.
+  // RIGHT scrambling a save back: quick and central — an easy ball for left.
   function defend() {
-    vx = -(4.6 + Math.random() * 1.4);                   // going left, gentler
-    vy = clamp((C - y) * 0.5 + (Math.random() - 0.5) * 3, -5.5, 5.5);
+    vx = -(18 + Math.random() * 4);                      // going left, brisk
+    vy = clamp((C - y) * 0.5 + (Math.random() - 0.5) * 6, -14, 14);
   }
 
   function serve() {
@@ -122,8 +122,8 @@ function playPong() {
     const jit = () => (Math.random() - 0.5) * 1.0;
     const lTarget = vx < 0 ? clamp(y - C + jit(), -PAD_MAX, PAD_MAX) : 0;
     const rTarget = vx > 0 ? clamp(laggedY - C + jit(), -PAD_MAX, PAD_MAX) : 0;
-    [lY, lV] = hand(lY, lV, lTarget, 190, 13, 70, dt);
-    [rY, rV] = hand(rY, rV, rTarget, 60, 6, 22, dt);
+    [lY, lV] = hand(lY, lV, lTarget, 240, 14, 140, dt);
+    [rY, rV] = hand(rY, rV, rTarget, 150, 9, 85, dt);
 
     ball.setAttribute("cx", x.toFixed(2));
     ball.setAttribute("cy", y.toFixed(2));
