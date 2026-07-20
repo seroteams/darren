@@ -61,6 +61,15 @@ Carl-style. The committee table is a STANDING EXCEPTION to the postcard cap (lik
 4. Save to `logs/committee/YYYY-MM-DD-<slug>.html` — `<slug>` is a short kebab-case of the decision (e.g. `2026-07-20-readiness-to-validate-early.html`). `logs/**` is gitignored, so these are local-only, never committed — same as run logs.
 5. Tell Carl in one line where it saved. Don't paste the HTML into chat.
 
+## Always: end with a research handoff (Carl, 2026-07-20)
+
+Every committee session ends with a ready-to-run research brief that a **fresh chat** can pick up to research the issues the committee raised and propose fixes. Do this in the same turn, after the save:
+
+1. **Build the brief** from the seats' `⚠️`/`❌` verdicts and any open concern (skip anything already resolved this turn — say so honestly rather than pad it). It MUST be self-contained: name the committee session + date, link `logs/committee/<file>.html`, list each open issue with the seat that raised it and its concern, name the relevant repo files/surfaces, and state the ask — *research each issue, cite what you find, propose fixes as options (recommended + why), do NOT implement*. Carry the house rules into it: free checks first, one Darren-Method phase at a time, Carl green-lights every build, and the current-stage guardrail (at validation stage, research-for-later — no new builds until the corridor metric is in).
+2. **Store it** in the HTML log's `{{HANDOFF_PROMPT}}` slot (the "Research handoff" section) so it lives with the record.
+3. **Surface it** as a copy-paste block in chat, AND create a `spawn_task` chip (title = the research, prompt = the brief verbatim) so Carl can one-click it into a new session. The chip only fires when he clicks — never auto-runs.
+4. If the committee was a clean ✅ with nothing left open, say the handoff is empty this time — don't manufacture issues to research.
+
 ## Rules
 
 - Committee output is **input to Carl's decision**, never a self-certification. A unanimous committee does not green-light a phase — only Carl does.

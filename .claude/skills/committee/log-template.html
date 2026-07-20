@@ -63,6 +63,8 @@
   .decision .lab{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:6px}
   footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--hair);font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   footer .note::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
+  .handoff{margin-top:12px;border:1px solid var(--hair);border-left:3px solid var(--red);border-radius:0 6px 6px 0;background:#fff}
+  .handoff pre{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:14px;line-height:1.6;color:var(--soft);white-space:pre-wrap;word-break:break-word;padding:18px 20px;margin:0}
   @media(max-width:640px){.sheet{padding:32px 22px}h1{font-size:27px}.who,.register{white-space:normal}}
 </style>
 </head>
@@ -114,6 +116,9 @@
     <div class="lab">Carl's decision</div>
     {{DECISION_MADE}}
   </div>
+
+  <div class="section-label">Research handoff — paste into a new chat</div>
+  <div class="handoff"><pre>{{HANDOFF_PROMPT}}</pre></div>
 
   <footer>
     <span class="note">The committee sharpens the call; it never makes it.</span>
