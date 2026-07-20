@@ -18,7 +18,7 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Coach panel Phase 3 — Rationale arc gate** — Phases 1 + 2 green-lit. Phase 3 stops score "why" text carrying performance-review tone into check-in meetings. Partly lane-blocked (one prompt line); the gate + tests are free to build. Say go.
+1. **Go live** — Phases across today (coach panel 1–3, plus earlier work) are committed locally, NOT pushed. Say "go live" to deploy.
 2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
 3. **Screen-gallery Phase 2** — seeds demo data so the 12 empty/needs-id screens fill in. Not started.
 4. Or just start something new — nothing here is waiting on a build.
@@ -26,11 +26,11 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [coach-panel](docs/plans/doing/coach-panel/plan.md) | Phases 1 + 2 ✅ green-lit 2026-07-19 (full-screen 50/50; live scores with the engine's real "why"; Support/Live-scores toggle + hints contract). Two Phase-2 bits parked (prompt edit behind another lane, YAML codec). Phase 3 (rationale arc gate) not started. |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18 (gallery + edit-mode bar, usable now). Phase 2 (demo data) not started. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 
 ## ✅ Closed 2026-07-19
+[coach-panel](docs/plans/done/coach-panel/plan.md) — all 3 phases green-lit in one day. The questioning screen is now the full-screen 50/50 coach panel: live scores as gradient meters carrying the engine's real per-answer "why", a Support/Live-scores toggle + the manager-only hints contract, and a detect-only gate keeping performance-review language out of check-in "why" text (86 real runs, 0 false alarms). Admin app only. Two prompt lines parked behind another chat's lane (real generated hints + a P3 nudge). Local commits, ships next push.
 [promises-before-recap](docs/plans/done/promises-before-recap/plan.md) — the agreement step as its own screen between the last question and the recap (You promise / {Name} promises, edit + move + lock, guests too); recap "What you agreed" grouped by owner; PDF carries the same blocks; suggestions now honestly labelled "Sero's suggestions" when nothing was locked; cross-run state leak fixed. Your green light after the consolidated walk.
 
 ## ✅ Closed 2026-07-18
@@ -44,4 +44,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-19 — coach-panel Phase 2 green-lit (support-hints contract + toggle; two bits parked; committed local, ships next push).
+Last updated: 2026-07-19 — coach-panel CLOSED (all 3 phases green-lit; two prompt lines parked; committed local, ships next push).

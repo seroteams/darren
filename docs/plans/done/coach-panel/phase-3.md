@@ -1,6 +1,9 @@
 # Phase 3 — Rationale arc gate
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (gate + tests), awaiting Carl's walk — one prompt line parked
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (green-lit; one prompt line parked)
+
+## ✅ GREEN-LIT 2026-07-19 — Carl walked the three-case demo, "nice, let's go"
+Saw the gate stay silent on a clean check-in, raise 6 flags on planted review-language, and stay silent when the same words appear in a performance meeting — with every original sentence printed untouched (surfaces, never rewrites). Closes the whole coach-panel plan (bar two parked prompt lines).
 
 ## Built (overnight 2026-07-19)
 - **`runRationaleArcGate`** in [golden-checks.ts](../../../backend/engine/golden-checks.ts) — in a relational arc (bi-weekly / feels-off), scans the per-turn `assessment.note` AND the briefing's per-axis `meaning` for competency/craft-gap framing (12 blatant tripwires: skills gap, competency, technical depth, below the bar, underperform, next-role readiness, …). **Detect-only — it surfaces a failure so the prompt gets fixed, it never rewrites the model text** (engine-honesty rule). Scoped to relational arcs exactly like the sibling focus/question/role-profile gates; competency framing stays legitimate in the `performance` arc.
