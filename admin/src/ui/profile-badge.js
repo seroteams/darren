@@ -52,7 +52,7 @@ function injectMenuStyles() {
       position: absolute; top: calc(100% + 6px); right: 0; min-width: 168px;
       display: flex; flex-direction: column; gap: 2px; padding: 6px;
       background: var(--color-surface); border: 1px solid var(--color-border);
-      border-radius: var(--sero-radius-md, 12px); box-shadow: var(--sero-shadow-md, 0 16px 40px rgba(8,30,48,.2));
+      border-radius: var(--sero-radius-md); box-shadow: var(--sero-shadow-md);
       z-index: var(--sero-z-fixed, 30);
     }
     .profile-badge__menu[hidden] { display: none; }
@@ -63,7 +63,7 @@ function injectMenuStyles() {
       font-size: var(--type-body-sm, 14px); text-align: left; cursor: pointer;
     }
     .profile-badge__mi:hover, .profile-badge__mi:focus-visible {
-      background: var(--color-surface-hover, rgba(0,0,0,.05)); outline: none;
+      background: var(--color-surface-hover); outline: none;
     }
     .profile-badge__mi svg { width: 15px; height: 15px; opacity: .65; flex: 0 0 auto; }
   `;

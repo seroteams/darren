@@ -44,6 +44,7 @@ const ALLOWLIST = [
   /(^|[\\/])app-nav\.css$/, // dark-rail on-dark alpha-white translucency (no token home)
   /(^|[\\/])app-nav\.js$/, // brandmark LOGO SVG (both apps)
   /(^|[\\/])session-topbar\.js$/, // brandmark LOGO SVG
+  /(^|[\\/])recap-pdf\.ts$/, // pdfmake PDF output — can't read CSS vars; each hex names its token
   /\.test\./,
 ];
 
