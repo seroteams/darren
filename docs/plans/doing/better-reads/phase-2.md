@@ -1,6 +1,6 @@
 # Phase 2 — Arm the protect gate
 
-**Status:** 🔨 in progress (started 2026-07-20)
+**Status:** 🧪 built 2026-07-20, awaiting Carl's QA (evidence-first: table below)
 
 ## Scope
 1. **Protect gate** (`backend/engine/delta-gates.ts`): on a terse-but-concrete answer, `applyShallowGate` keeps model-proposed **positive** deltas (negatives still zeroed — a 2-token note isn't evidence of a problem, but a concrete "Shipped X" corroborates the model's own upward read). Protected deltas still pass `clampToSignature`, so nothing can exceed the question's signature. A kept delta is booked, so it leaves the overflow; an `issues` line ("shallow gate — protected momentum +2, answer terse-but-concrete") records that protection fired, keeping the log honest.
@@ -14,7 +14,15 @@ The gate never writes a delta the model didn't propose: input without a positive
 - Frozen replay fixtures that move are listed below, re-frozen deliberately.
 
 ## Fixture diffs (filled during build)
-_(pending)_
+**None moved.** `--regression-all --fixtures-only` fully green (0 fails — the 2 pre-existing listenFor fails were fixed by another lane in the meantime). Honest read: the regression fixtures' scripted answers are all longer than the 2-token terse floor, so the protect gate never fires on them — its effect shows on real terse manager notes, proven at the unit layer instead:
+
+| Manager's note | Model proposed | Before P2 | After P2 |
+|---|---|---|---|
+| "Shipped payments-fix" | momentum +2, clarity −1 | all zeroed | **momentum +2 kept**, clarity zeroed |
+| "Promoted." | growth +1 | zeroed | **growth +1 kept** |
+| "fine" / "not bad" / "ok good" | any | all zeroed | all zeroed (unchanged) |
+
+Verified 2026-07-20: 15/15 gate tests (incl. never-invent invariant), suite 161/161, typecheck clean.
 
 ## QA scenarios (Carl)
 1. Same skew script re-run: up-bookings should rise only where the answer was concrete; filler stays zeroed.

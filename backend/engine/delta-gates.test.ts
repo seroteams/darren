@@ -72,16 +72,32 @@ test("records one overflow entry per zeroed axis, axis/raw/booked/reason only", 
   assert.deepEqual(trust, { axis: "trust", raw: -1, booked: 0, reason: "shallow_zeroed" });
 });
 
-test("positive delta on a terse-but-concrete answer is tagged protect-eligible", () => {
+// --- Phase 2: the protect gate is ARMED ------------------------------------
+// A terse-but-concrete answer keeps the model's own positive deltas (a
+// concrete "Shipped X" corroborates the model's upward read); negatives are
+// still zeroed (a 2-token note is not evidence of a problem).
+
+test("terse-but-concrete keeps model-proposed positives, still zeroes negatives", () => {
   const deltas: Record<string, number> = { momentum: 2, clarity: -1 };
   const overflow: ShallowOverflowEntry[] = [];
-  applyShallowGate(deltas, { ...gateArgs("Shipped payments-fix"), overflow });
-  // Still zeroed — Phase 1 is detect-only.
-  assert.deepEqual(deltas, { momentum: 0, clarity: 0 });
-  const momentum = overflow.find((o) => o.axis === "momentum");
-  const clarity = overflow.find((o) => o.axis === "clarity");
-  assert.equal(momentum?.reason, "shallow_zeroed_protect_eligible");
-  assert.equal(clarity?.reason, "shallow_zeroed"); // negatives never protect-eligible
+  const issues: string[] = [];
+  applyShallowGate(deltas, { lastAnswer: "Shipped payments-fix", note: "", issues, overflow });
+  assert.deepEqual(deltas, { momentum: 2, clarity: 0 });
+  // Kept delta is booked → not in overflow; zeroed negative is recorded.
+  assert.deepEqual(overflow, [{ axis: "clarity", raw: -1, booked: 0, reason: "shallow_zeroed" }]);
+  // The protection is surfaced in issues, never silent.
+  assert.ok(issues.some((i) => i.includes("protected momentum +2")));
+});
+
+test("honesty invariant: the gate never invents or increases a delta", () => {
+  // No positive proposed → none can appear.
+  const onlyNeg: Record<string, number> = { clarity: -2 };
+  applyShallowGate(onlyNeg, gateArgs("Shipped payments-fix"));
+  assert.deepEqual(onlyNeg, { clarity: 0 });
+  // Magnitude never grows.
+  const pos: Record<string, number> = { momentum: 1 };
+  applyShallowGate(pos, gateArgs("Shipped payments-fix"));
+  assert.deepEqual(pos, { momentum: 1 });
 });
 
 test("positive delta on a filler answer is NOT protect-eligible", () => {

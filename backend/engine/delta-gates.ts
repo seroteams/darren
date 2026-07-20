@@ -55,10 +55,11 @@ function noteMarksShallow(note: unknown): boolean {
 
 // A note that trips the shallow token floor (≤2 tokens) but still names
 // something real — "Shipped payments-fix", "Promoted." — as opposed to pure
-// filler ("fine") or low-signal mush ("ok good"). Phase 1 (better-reads) only
-// *labels* these in the overflow so the skew is measurable; nothing is booked
-// differently. Reuses the same normalization + word lists as isShallowAnswer
-// so the two can never drift apart on what counts as content.
+// filler ("fine") or low-signal mush ("ok good"). The protect gate in
+// applyShallowGate uses this to keep model-proposed positives on concrete
+// terse notes (better-reads Phase 2). Reuses the same normalization + word
+// lists as isShallowAnswer so the two can never drift apart on what counts
+// as content.
 function isTerseButConcrete(answer: string | null | undefined): boolean {
   if (!answer || typeof answer !== "string") return false;
   const trimmed = answer.trim();
@@ -107,21 +108,23 @@ function applyShallowGate(rawDeltas: Record<string, number>, { lastAnswer, note,
   const answerIsSkip = !lastAnswer || lastAnswer === "(skipped)";
   const shallow = !answerIsSkip && (isShallowAnswer(lastAnswer) || noteMarksShallow(note));
   if (!shallow) return false;
-  // Protect-eligibility is about the ANSWER being concrete, so it is decided
-  // once per turn, not per axis — and only ever labels; booking is unchanged.
+  // Protect gate (better-reads Phase 2): a terse-but-concrete answer keeps the
+  // model's own POSITIVE deltas — "Shipped payments-fix" corroborates the
+  // model's upward read, and clampToSignature still bounds it downstream.
+  // Negatives are always zeroed: a 2-token note is not evidence of a problem.
+  // Honesty invariant: this gate only preserves or drops model-proposed
+  // deltas — it never writes one, never raises a magnitude.
   const protectEligible = isTerseButConcrete(lastAnswer);
   for (const axis of Object.keys(rawDeltas)) {
     const raw = rawDeltas[axis] ?? 0;
-    if (raw !== 0) {
-      issues.push(`shallow answer — zeroed ${axis} (${raw > 0 ? "+" : ""}${raw})`);
-      overflow?.push({
-        axis,
-        raw,
-        booked: 0,
-        reason: raw > 0 && protectEligible ? "shallow_zeroed_protect_eligible" : "shallow_zeroed",
-      });
-      rawDeltas[axis] = 0;
+    if (raw === 0) continue;
+    if (raw > 0 && protectEligible) {
+      issues.push(`shallow gate — protected ${axis} +${raw}, answer terse-but-concrete`);
+      continue; // booked as proposed; not overflow — nothing was held back
     }
+    issues.push(`shallow answer — zeroed ${axis} (${raw > 0 ? "+" : ""}${raw})`);
+    overflow?.push({ axis, raw, booked: 0, reason: "shallow_zeroed" });
+    rawDeltas[axis] = 0;
   }
   return true;
 }

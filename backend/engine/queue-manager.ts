@@ -379,7 +379,8 @@ async function planTurn({
   const rawDeltas = toAxisObject(assessmentRaw.deltas);
   const gateIssues: string[] = [];
   // Shallow-zeroed deltas are preserved in unbooked_signal alongside the
-  // signature clamp's overflow (better-reads Phase 1, detect-only).
+  // signature clamp's overflow; terse-but-concrete positives survive the gate
+  // and ride into clampToSignature like any other delta (better-reads P2).
   const shallowOverflow: Array<{ axis: string; raw: number; booked: number; reason: string }> = [];
   applyShallowGate(rawDeltas, {
     lastAnswer,
