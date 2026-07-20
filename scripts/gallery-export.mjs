@@ -64,14 +64,14 @@ const SCREENS = [
   { key: "REGISTER",         label: "Register",           group: "auth",    url: "/register",         file: "admin/src/stages/register.js" },
   { key: "FORGOT_PASSWORD",  label: "Forgot password",    group: "auth",    url: "/forgot-password",  file: "admin/src/stages/forgot-password.js" },
   { key: "RESET_PASSWORD",   label: "Reset password",     group: "auth",    url: "/reset-password/demo-token", file: "admin/src/stages/reset-password.js" },
-  { key: "WELCOME",          label: "Welcome",            group: "auth",    url: "/",                 file: "frontend/src/stages/welcome.ts", app: "customer" },
-  { key: "JOIN",             label: "Join",               group: "auth",    url: "/join/demo-token",  file: "frontend/src/stages/join.js", app: "customer" },
+  { key: "WELCOME",          label: "Welcome",            group: "auth",    url: "/",                 file: "frontend/src/stages/welcome.ts", app: "customer", loggedOut: true, pending: "customer-app capture — renders live, batch snapshot WIP" },
+  { key: "JOIN",             label: "Join",               group: "auth",    url: "/join/demo-token",  file: "frontend/src/stages/join.js", app: "customer", loggedOut: true, pending: "customer-app capture — renders live, batch snapshot WIP" },
 
   // Manager home & team
   { key: "START",            label: "Start (manager home)", group: "manager", url: "/",               file: "admin/src/stages/start.js", me: { isSuperadmin: false } },
   { key: "TEAM",             label: "Team",               group: "manager", url: "/team",             file: "frontend/src/stages/team.ts" },
   { key: "PERSON_DETAIL",    label: "Person detail",      group: "manager", url: "/team/amira-khan",  file: "frontend/src/stages/person-detail.ts", needsData: true },
-  { key: "MEMBERS",          label: "Members",            group: "manager", url: "/members",          file: "frontend/src/stages/members.ts", app: "customer" },
+  { key: "MEMBERS",          label: "Members",            group: "manager", url: "/members",          file: "frontend/src/stages/members.ts", app: "customer", me: { isSuperadmin: false, roles: ["manager"] }, pending: "customer-app capture — renders live, batch snapshot WIP" },
   { key: "RUNS",             label: "Runs",               group: "manager", url: "/runs",             file: "admin/src/stages/runs.ts" },
   { key: "RUN_DETAIL",       label: "Run detail",         group: "manager", url: "/runs/demo-run-1",  file: "admin/src/stages/run-detail.ts", needsData: true },
 
@@ -175,6 +175,7 @@ const FIXTURE_ROUTES = [
   [/\/api\/v1\/admin\/guest-runs$/,                 "guest-runs.json"],
   [/\/api\/v1\/admin\/users\/[^/]+\/runs$/,         "user-runs.json"],
 
+  [/\/api\/v1\/invites\/[^/]+$/,                    "invite.json"],
   [/\/api\/v1\/guided-sessions\/[^/]+$/,            "guided-session.json"],
   [/\/api\/v1\/sessions\/[^/]+\/question$/,         "question.json"],
   [/\/api\/v1\/sessions\/[^/]+\/suggest-answers$/,  "suggest-answers.json"],
@@ -214,8 +215,10 @@ const FREEZE_AND_REVEAL = () => {
     animation-duration:0s!important;caret-color:transparent!important}
     .reveal,.reveal-soft,[class*="reveal"]{opacity:1!important;transform:none!important;filter:none!important}`;
   document.head.appendChild(s);
-  // Remove full-screen celebration/wash overlays that sit above the captured screen.
-  document.querySelectorAll(".celebration-wash,.confetti,.wash").forEach((n) => n.remove());
+  // Remove full-screen overlays that sit above the captured screen: celebration washes and
+  // the customer app's boot-splash (its removal is tied to a boot event we freeze past, so it
+  // otherwise stays up as an opaque cover).
+  document.querySelectorAll(".celebration-wash,.confetti,.wash,#boot-splash,.boot-splash").forEach((n) => n.remove());
   window.scrollTo(0, 0);
 };
 
@@ -369,6 +372,11 @@ async function run() {
     if (req.method() !== "GET") {
       return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) });
     }
+    // Logged-out front-door screens (customer Welcome/Join): make /auth/me 401 so the app boots
+    // as a guest and shows the guest screen instead of routing a logged-in user away.
+    if (currentScreen?.loggedOut && /\/api\/v1\/auth\/me$/.test(path)) {
+      return route.fulfill({ status: 401, contentType: "application/json", body: JSON.stringify({ error: "unauthorized" }) });
+    }
     for (const [re, file] of FIXTURE_ROUTES) {
       if (re.test(path)) {
         let data = loadFixture(file);
@@ -390,6 +398,10 @@ async function run() {
   const results = [];
   for (const screen of SCREENS) {
     const base = screen.app === "customer" ? CUSTOMER : ADMIN;
+    if (screen.pending) {
+      results.push({ key: screen.key, status: "SKIP", note: screen.pending });
+      continue;
+    }
     if (screen.app === "customer" && !customerUp) {
       results.push({ key: screen.key, status: "SKIP", note: "customer server (:3002) not running" });
       continue;
