@@ -190,6 +190,12 @@ The role context block is generated guidance about the job title + seniority, no
 {{OBSERVED_SHIFT}}
 ```
 
+**Last time's brief (same person — shown so this one opens NEW ground):**
+
+{{PREP_HISTORY_BLOCK}}
+
+If a prior brief is shown above: do not repeat or lightly reword its core issue or opener — approach from a different angle unless the manager's notes explicitly re-raise the same theme (then name it as continuing, don't rediscover it). All other field rules are unchanged.
+
 **Focus points for this meeting:**
 
 ```json

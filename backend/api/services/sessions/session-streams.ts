@@ -12,6 +12,7 @@ import { service, IS_DEV, sessionId, callerFence } from "./session-runtime.ts";
 import { generateFocusPoints } from "../../../engine/generate.ts";
 import { PLANNER_FAILED_NOTE, scoringFromTranscript } from "../../../engine/run-health.ts";
 import { focusHistoryFor } from "../../../engine/focus-history.ts";
+import { prepHistoryFor } from "../../../engine/prep-history.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
 import { generateSuggestions, shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener, pinPrepOpenerEarly } from "../../../engine/question-generator.ts";
@@ -86,8 +87,16 @@ export async function preparationStream(c: RequestContext): Promise<void> {
     thinkingLabel: "Preparing your briefing",
     getCached: () => session.preparationResult,
     setCached: (r) => { session.preparationResult = r; },
-    produce: () => generatePreparation(
-      buildPreparationInputs(session),
+    produce: async () => generatePreparation(
+      {
+        ...buildPreparationInputs(session),
+        // Prep freshness (better-reads P3): last brief for this manager+person,
+        // arc-fenced; null (→ first-prep sentinel) for guests/unlinked runs.
+        prepHistory: await prepHistoryFor(
+          { orgId: session.orgId, userId: session.userId, personId: session.personId, excludeId: session.id },
+          session.ctx.meetingType,
+        ),
+      },
       { session: { id: session.id, dir: session.dir } }
     ),
     resultEvent: "result",

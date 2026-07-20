@@ -1,6 +1,18 @@
 # Phase 3 — Prep freshness
 
-**Status:** ⏳ waiting (behind Phase 2 green light + promises-loop lane on content/prompts/ + session-streams.ts)
+**Status:** 🧪 built 2026-07-20, awaiting Carl's QA (evidence below)
+
+## Built + proven (2026-07-20)
+Free half: `prep-history.ts` fence (userId+personId via historyRunMatches, arc fence, brief fields only) + `pgPrepHistory` twin + threading through `buildPrepInput`→`buildMessages`. Finish: `{{PREP_HISTORY_BLOCK}}` + 2 instruction lines in preparation.md's **User half** (System half byte-identical — cache preserved, unit-tested), wired at `preparationStream` via `prepHistoryFor`. Preview endpoint stays sync → renders the first-prep sentinel (same accepted drift as the focus-points preview).
+
+**Paid proof (3 gpt-5.4 prep calls ≈ $0.13, under the $0.35 Carl approved):**
+| Run | Opener overlap vs prior | Read |
+|---|---|---|
+| No history (baseline) | — | attempts 2 (= the known 64/65 validator baseline) |
+| With scripted prior | 0.20 | differs from prior; attempts unchanged |
+| **With its OWN previous brief as prior** | **0.08 opener / 0.27 core-issue** | opener genuinely new; core issue names the theme as *continuing* ("caught in a continuing review loop") instead of rediscovering it — exactly the instructed behaviour |
+
+Not worsened: attempts stayed 2 (the pre-existing validator-strictness retry — that fix is the parked Q1 cost quick-win, not this phase).
 
 ## Scope
 - New `backend/engine/prep-history.ts` (+test) mirroring `promise-history.ts`: `historyRunMatches` fence (same userId+personId, excludeId, error→null); map `state.preparationResult.brief` → `{when, meetingType, coreIssue, openingQuestion}` — brief fields only, never notes text. File walk + `pgPrepHistory` twin in `backend/db/runs-store.ts`. Arc fence: relational-arc meetings only see prior relational-arc briefs (FOCUS_ARC_LEAK backstop stays).

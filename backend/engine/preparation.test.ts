@@ -91,10 +91,15 @@ test("buildPrepInput: relational meeting keeps a relational prior brief", () => 
   assert.deepEqual(out.prepHistory, relPrior);
 });
 
-test("assemblePreparation: prompt is unchanged with/without prepHistory while the placeholder is absent", () => {
+test("assemblePreparation: prior brief renders in the prompt's User half; sentinel without one", () => {
   const base = { name: "A", role: "UX Lead", seniority: "Lead", meetingType: "Bi-weekly check-in", notes: "steady fortnight" };
   const without = assemblePreparation(base as never).prompt;
+  assert.ok(without.includes("(first prep for this person — no prior brief)"));
   const withHistory = assemblePreparation({ ...base, prepHistory: relPrior } as never).prompt;
-  assert.equal(withHistory, without);
-  assert.ok(!withHistory.includes("Core issue then"), "block must not leak into a template without the placeholder");
+  assert.ok(withHistory.includes("Core issue then: perf framing"));
+  assert.ok(withHistory.includes("Opener then: perf opener"));
+  // Cache safety: the System half must be byte-identical either way — the
+  // block lives in the User half only.
+  const sys = (p: string) => p.split(/\n## User/)[0];
+  assert.equal(sys(withHistory), sys(without));
 });
