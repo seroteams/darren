@@ -47,6 +47,8 @@ import { historyRunMatches, historySessionFromState } from "../engine/focus-hist
 import type { FocusHistorySession } from "../engine/focus-history.ts";
 import { priorPromiseRunFromState, applyPromiseOutcomes } from "../engine/promise-history.ts";
 import type { PriorPromiseRun, PriorPromiseQuery, OutcomeTap } from "../engine/promise-history.ts";
+import { prepHistoryFromState, filterPrepHistoryForArc } from "../engine/prep-history.ts";
+import type { PrepHistoryEntry, PrepHistoryQuery } from "../engine/prep-history.ts";
 import { createSession, monthFolderFor, LOGS_ROOT } from "../engine/session.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
@@ -485,6 +487,35 @@ export async function pgPriorPromiseRun({ orgId, userId, personId, excludeId }: 
   for (const r of candidates) {
     const prior = priorPromiseRunFromState(r.state);
     if (prior) return prior;
+  }
+  return null;
+}
+
+// Prep freshness (better-reads Phase 3) — the pg twin of filePrepHistory. Same
+// double fence as pgPriorPromiseRun: SQL narrows on the denormalized columns,
+// then the engine's own historyRunMatches re-checks against authoritative
+// state. Arc fence applied via filterPrepHistoryForArc, same as the file walk.
+export async function pgPrepHistory(
+  { orgId, userId, personId, excludeId }: PrepHistoryQuery,
+  currentMeetingType?: string,
+): Promise<PrepHistoryEntry | null> {
+  if (!userId || !personId) return null;
+  const rows = fenceOrgRows(
+    await rowsWhere([
+      sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
+      sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
+      sqlSafeId(personId) ? eq(sessionsTable.personId, sqlSafeId(personId)!) : undefined,
+    ]),
+    orgId,
+  );
+  const candidates = rows
+    .filter((r) => r.id !== excludeId && historyRunMatches(r.state, { userId, personId }))
+    .sort((a, b) => b.lastSeenAt - a.lastSeenAt);
+  for (const r of candidates) {
+    const entry = prepHistoryFromState(r.state);
+    if (!entry) continue;
+    const kept = currentMeetingType ? filterPrepHistoryForArc([entry], currentMeetingType) : [entry];
+    if (kept.length > 0) return kept[0]!;
   }
   return null;
 }

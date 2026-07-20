@@ -66,3 +66,35 @@ test("validateBrief: a cue-less listenFor is still flagged (fix didn't weaken th
   ]);
   assert.ok(issues.length >= 1, "expected a 'may lack observable behavioural cue' flag");
 });
+
+// --- prep freshness threading (better-reads Phase 3) ------------------------
+// The prompt placeholder isn't in preparation.md yet (that edit waits on the
+// content/prompts lane), so today the block must be a no-op on the assembled
+// prompt — and the arc fence must already hold in buildPrepInput.
+import { buildPrepInput, assemblePreparation } from "./preparation.ts";
+
+const perfPrior = {
+  when: 1750000000000,
+  meetingType: "Performance review",
+  coreIssue: "perf framing",
+  openingQuestion: "perf opener",
+};
+const relPrior = { ...perfPrior, meetingType: "Bi-weekly check-in" };
+
+test("buildPrepInput: relational meeting drops a non-relational prior brief", () => {
+  const out = buildPrepInput({ meetingType: "Bi-weekly check-in", prepHistory: perfPrior } as never) as { prepHistory: unknown };
+  assert.equal(out.prepHistory, null);
+});
+
+test("buildPrepInput: relational meeting keeps a relational prior brief", () => {
+  const out = buildPrepInput({ meetingType: "Bi-weekly check-in", prepHistory: relPrior } as never) as { prepHistory: unknown };
+  assert.deepEqual(out.prepHistory, relPrior);
+});
+
+test("assemblePreparation: prompt is unchanged with/without prepHistory while the placeholder is absent", () => {
+  const base = { name: "A", role: "UX Lead", seniority: "Lead", meetingType: "Bi-weekly check-in", notes: "steady fortnight" };
+  const without = assemblePreparation(base as never).prompt;
+  const withHistory = assemblePreparation({ ...base, prepHistory: relPrior } as never).prompt;
+  assert.equal(withHistory, without);
+  assert.ok(!withHistory.includes("Core issue then"), "block must not leak into a template without the placeholder");
+});

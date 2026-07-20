@@ -11,6 +11,8 @@ import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
 import { findJargon, isCompetencyFocus } from "./golden-checks.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
+import { renderPrepHistoryBlock, filterPrepHistoryForArc } from "./prep-history.ts";
+import type { PrepHistoryEntry } from "./prep-history.ts";
 
 import type { PreparationResult } from "../shared/session.types.ts";
 import { asRecord, asString } from "../shared/guards.ts";
@@ -45,6 +47,7 @@ interface RawPrepInput {
   focusPoints?: PrepFocusPoint[];
   selectedFocus?: { id?: string; label?: string } | null;
   primaryFocusId?: string;
+  prepHistory?: PrepHistoryEntry | null; // last brief for this manager+person (prep freshness, better-reads P3); absent → first-prep sentinel
 }
 
 // The normalised input buildMessages / validateBrief consume (output of buildPrepInput).
@@ -57,6 +60,7 @@ interface PrepInput {
   focusPoints: PrepFocusPoint[];
   selectedFocus: { id?: string; label?: string } | null;
   primaryFocusId?: string;
+  prepHistory: PrepHistoryEntry | null;
 }
 
 // The eval wire is schema-constrained (RESPONSE_SCHEMA, additionalProperties
@@ -144,6 +148,7 @@ function buildMessages({
   observedShift,
   focusPoints,
   selectedFocus,
+  prepHistory,
 }: PrepInput) {
   const template = fs.readFileSync(promptFor(meetingType, "preparation"), "utf8");
   const arc = getArc(meetingType);
@@ -162,6 +167,9 @@ function buildMessages({
     SELECTED_FOCUS_JSON: JSON.stringify(sf || {}, null, 2),
     PRIMARY_FOCUS_ID: sf?.id || "(none)",
     ROLE_PROFILE_BLOCK: renderRoleProfileBlock(loadRoleProfile({ role: roleTitle, seniority }), { slice: "full", meetingType }),
+    // No-op until preparation.md carries the placeholder (that edit waits on
+    // the content/prompts lane) — fillPlaceholders skips unknown keys.
+    PREP_HISTORY_BLOCK: renderPrepHistoryBlock(prepHistory),
   });
 
   return splitSystemUser(filled);
@@ -206,6 +214,9 @@ function buildPrepInput(inputs: RawPrepInput): PrepInput {
     focusPoints,
     selectedFocus,
     primaryFocusId: selectedFocus?.id,
+    // Arc-fenced here too (belt to prep-history's braces): a relational meeting
+    // never carries a non-relational prior brief into the prompt.
+    prepHistory: filterPrepHistoryForArc(inputs.prepHistory ? [inputs.prepHistory] : [], inputs.meetingType)[0] ?? null,
   };
 }
 
