@@ -24,7 +24,7 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 | `frontend/` | The customer app (Vite SPA) — the deployed public surface managers use; shares stage modules with `admin/` by cross-import | **live code** |
 | `shared/` | Cross-app bridge both apps import — `api.js`, `sse.js` (+ test) | **live code** |
 | `testing/` | Human tester pack for the validation stage — `test-plan.md`, `tester-pack.md`, `results/` | **docs (live)** |
-| `images/` | Login-photo originals — duplicates of `admin/frontend public/login/`; flagged for deletion (repo sweep item 10) | **orphan (pending decision)** |
+| `audits/` | Repo-sweep + bloat reports — `REPO_SWEEP*.md`, `BLOAT_AUDIT.md`, `FILE_INVENTORY-*.md` | **docs (reference)** |
 | `content/prompts/` | Stage prompt templates (`.md` + `.notes.yaml`) — what we tell the LLM | **live config** |
 | `content/questions/` | Question bank (`q_*.yaml`), indexed by `_index.json` | **curated data** |
 | `content/lexicons/` | Role wording — canonical role folders, `_candidates/` review queue, `_suggested/` auto-gen | **data + pipeline** |
