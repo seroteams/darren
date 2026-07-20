@@ -84,7 +84,7 @@ function sinceLastTime(b: Briefing, promises: PromiseRow[] | null, axisBlock: st
   }
   if (watch.length) {
     const items = watch.map((w) => `<li>${escapeHtml(w)}</li>`).join("");
-    parts.push(`<div class="since__group"><span class="since__label since__label--watch">What to watch for</span><ul class="since__list">${items}</ul></div>`);
+    parts.push(`<div class="since__group"><span class="since__label since__label--watch">Reminders</span><ul class="since__list">${items}</ul></div>`);
   }
   return `<section class="since"><h2 class="since__title">Since last time</h2>${parts.join("")}</section>`;
 }
