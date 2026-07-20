@@ -71,9 +71,17 @@
   border-left-color: var(--color-border);
 }
 .rd-turn__q {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sero-space-3);
   font-size: var(--type-body-sm);
   font-weight: var(--type-weight-semibold);
   margin-bottom: 0.25rem;
+}
+.rd-turn__read {
+  flex: none;
+  align-self: flex-start;
 }
 .rd-turn__a {
   font-size: var(--type-body-sm);

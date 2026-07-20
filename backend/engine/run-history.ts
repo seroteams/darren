@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { LOGS_ROOT, monthFolderFor, createSession } from "./session.ts";
 import { readPipelineLockFromDir } from "./pipeline-lock.ts";
+import { classifyAnswer } from "./read-quality.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 
 const STATE_FILE = "session-state.json";
@@ -449,6 +450,11 @@ function memberRunView(id: string, orgId: string | null | undefined, userId: str
         name: question.name ?? null,
         answer: entry.answer ?? null,
         skipped: Boolean(entry.skipped),
+        // The per-turn read-quality tag (read-quality.ts). A clean 4-way label
+        // (skip/decline/thin/note), not raw note text, so it's safe to surface.
+        // Runs from before the tag existed derive it on the fly (note is read to
+        // detect [SHALLOW] but never itself exposed).
+        read: entry.read ?? classifyAnswer(entry.answer, entry.note),
       };
     }),
     lastSeenAt: asNumber(s.lastSeenAt),

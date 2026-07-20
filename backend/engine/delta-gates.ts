@@ -2,18 +2,14 @@
 // and the recurring-gap clarity damper. Extracted verbatim from queue-manager.ts
 // (Phase 2 repo-tidy) — pure functions, no behaviour change.
 import type { TranscriptEntry } from "../shared/session.types.ts";
+import { REPORTING_PREFIX, LOW_SIGNAL_WORDS } from "./read-quality.ts";
 
 // Shared by isShallowAnswer and isTerseButConcrete — hoisted so the shallow
 // call and the concreteness label can never disagree on what counts as filler.
+// (REPORTING_PREFIX / LOW_SIGNAL_WORDS come from read-quality.ts — the shared
+// copies reviewer.isLowContentNote uses.)
 const FILLER_ONLY =
   /^(yeah|yes|yep|yup|ok|okay|fine|good|great|sure|cool|thanks|thank you|not bad|doing fine|i am fine|im fine|today is fine|its fine|it's fine|they are okay|every day|every time)$/;
-const LOW_SIGNAL_WORDS = new Set([
-  "things", "stuff", "it", "that", "everything", "work", "the", "a",
-  "have", "has", "had", "are", "is", "was", "were", "be", "been", "being",
-  "feel", "feels", "felt", "seem", "seems", "going",
-  "ok", "okay", "fine", "good", "great", "alright", "steady", "same",
-  "grand", "really", "just", "pretty", "quite", "bit", "so", "far",
-]);
 
 function isShallowAnswer(answer: string | null | undefined): boolean {
   if (!answer || typeof answer !== "string") return false;
@@ -37,10 +33,8 @@ function isShallowAnswer(answer: string | null | undefined): boolean {
 
   // A reporting wrapper ("yeah he said things have been ok") can clear the
   // 2-token floor while carrying no signal. Strip the wrapper; if nothing
-  // concrete is left, it is shallow. Kept aligned with isLowContentNote in
-  // reviewer.ts.
-  const REPORTING_PREFIX =
-    /^(yeah|yes|yep|ok|okay)?[\s,]*\b(he|she|they)?\s*(said|says|told me|mentioned|noted|reckons|feels|felt|thinks)\b[\s,]*(that|it)?\s*/i;
+  // concrete is left, it is shallow. REPORTING_PREFIX / LOW_SIGNAL_WORDS are the
+  // shared copies in read-quality.ts (same lists reviewer.isLowContentNote uses).
   const remainder = normalized.replace(REPORTING_PREFIX, "").trim();
   if (remainder && remainder !== normalized) {
     const content = remainder.split(/\s+/).filter((w) => w && !LOW_SIGNAL_WORDS.has(w));

@@ -56,6 +56,7 @@ import {
   applyMisalignmentClarity,
   applyRecurringGapClarityDamper,
 } from "./delta-gates.ts";
+import { classifyAnswer } from "./read-quality.ts";
 
 const getDefaultModel = () => modelFor("planner");
 
@@ -346,7 +347,7 @@ async function planTurn({
     && (transcript || []).slice(-2).filter((t) => t?.skipped).length < 2;
   if (skipShortcutEligible) {
     return {
-      assessment: { deltas: {}, note: "[SKIP] no signal — planner bypassed, queue carried forward" },
+      assessment: { deltas: {}, note: "[SKIP] no signal — planner bypassed, queue carried forward", read: "skip" as const },
       newQueue: remainingQueue,
       issues: [],
       unbooked_signal: [],
@@ -403,9 +404,14 @@ async function planTurn({
   });
 
   const { deltas, issues: sigIssues, overflow } = clampToSignature(rawDeltas, effectiveSignature);
+  const note = typeof assessmentRaw.note === "string" ? assessmentRaw.note : "";
   const assessment = {
     deltas,
-    note: typeof assessmentRaw.note === "string" ? assessmentRaw.note : "",
+    note,
+    // Bank the per-turn read-quality tag once, here, at the choke-point every
+    // lane shares — reviewer consumes it instead of re-deriving. The note may
+    // carry [SHALLOW] from applyShallowGate above, which classifyAnswer honours.
+    read: classifyAnswer(lastAnswer, note),
   };
 
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));

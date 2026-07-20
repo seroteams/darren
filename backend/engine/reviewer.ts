@@ -15,7 +15,8 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 
 import type { Briefing, AxisRead, EngagementRead } from "../shared/briefing.types.ts";
-import type { AxisSlot, MeetingContext, PriorCheckin } from "../shared/session.types.ts";
+import type { AxisSlot, MeetingContext, PriorCheckin, TurnRead } from "../shared/session.types.ts";
+import { classifyAnswer } from "./read-quality.ts";
 import { formatPromiseCheckin } from "./promise-history.ts";
 import { isObjectRecord } from "../shared/guards.ts";
 
@@ -47,6 +48,7 @@ interface ReadTurn {
   stage?: string | null;
   skipped?: boolean;
   note?: string;
+  read?: TurnRead | null;
   turn?: number;
   // The CLI eval stage passes question as the name *string*; the fallback test
   // passes it as a {name} object. buildFallbackBriefing narrows both.
@@ -153,75 +155,12 @@ function transcriptText(transcript: Transcript): string {
     .join("\n");
 }
 
-function tokenCount(s: unknown): number {
-  return String(s || "").trim().split(/\s+/).filter(Boolean).length;
-}
-
 // Fixed agenda openers. These are self-read intros, not signal probes — they
 // only count toward read-quality when they carry real signal (see below).
 const INTRO_ALIASES = new Set([
   "q_open_anything_to_cover",
   "q_intro_agenda_check",
 ]);
-
-// Tight, multi-word decline / agenda-neutral phrases, matched as normalized
-// substrings. Each is distinctive enough not to fire on real signal — never a
-// bare "nothing" ("nothing has improved" is a real answer, not a decline).
-const DECLINE_PHRASES = [
-  "nothing to add",
-  "nothing extra",
-  "nothing specific",
-  "nothing else",
-  "nothing on my end",
-  "nothing from me",
-  "no nothing",
-  "okay to start",
-  "fine to start",
-  "happy to start",
-];
-
-// Normalize a note before phrase-matching: lowercase, drop punctuation, collapse
-// whitespace. Keeps matching safe and exact-ish rather than broad.
-function normalizeAnswer(s: unknown): string {
-  return String(s || "")
-    .toLowerCase()
-    .replace(/[^\w\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function isDecline(answer: unknown): boolean {
-  const norm = normalizeAnswer(answer);
-  if (!norm) return false;
-  return DECLINE_PHRASES.some((p) => norm.includes(p));
-}
-
-// A note can wrap a content-free answer in a reporting verb ("yeah he said
-// things have been ok", "says it's fine") and clear the ≤2-token floor while
-// carrying no real signal. Strip a leading reporting wrapper, then check whether
-// anything concrete is left. Conservative on purpose: it only fires when a
-// reporting wrapper was actually present, so a bare note with concrete content
-// ("deadlines are tight") is never touched. Kept in sync with the same gate in
-// delta-gates.ts isShallowAnswer.
-const REPORTING_PREFIX =
-  /^(yeah|yes|yep|ok|okay)?[\s,]*\b(he|she|they)?\s*(said|says|told me|mentioned|noted|reckons|feels|felt|thinks)\b[\s,]*(that|it)?\s*/i;
-// Generic, signal-free words. A remainder built only from these carries nothing.
-const LOW_SIGNAL_WORDS = new Set([
-  "things", "stuff", "it", "that", "everything", "work", "the", "a",
-  "have", "has", "had", "are", "is", "was", "were", "be", "been", "being",
-  "feel", "feels", "felt", "seem", "seems", "going",
-  "ok", "okay", "fine", "good", "great", "alright", "steady", "same",
-  "grand", "really", "just", "pretty", "quite", "bit", "so", "far",
-]);
-
-function isLowContentNote(answer: unknown): boolean {
-  const norm = normalizeAnswer(answer);
-  if (!norm) return false;
-  const remainder = norm.replace(REPORTING_PREFIX, "").trim();
-  if (!remainder || remainder === norm) return false; // no reporting wrapper — leave to other checks
-  const content = remainder.split(/\s+/).filter((w) => w && !LOW_SIGNAL_WORDS.has(w));
-  return content.length === 0;
-}
 
 // Precompute the read-quality gate the evaluation prompt consumes, so the
 // determination does not depend on a weak model reasoning it out at generation
@@ -241,23 +180,22 @@ function computeReadQuality(transcript: Transcript) {
     const answer = typeof t === "string" ? t : t?.answer || "";
     const alias = t?.alias || null;
     const stage = t?.stage || null;
-    const skipped = t?.skipped === true;
-    const empty = answer.trim().length === 0;
-    // A turn the per-turn scorer already flagged `[SHALLOW]` (e.g. an answer too
-    // garbled to extract a clear point) is thin, even if it clears the token
-    // floor — reconcile read-quality with the scorer instead of disagreeing.
-    const noteShallow = typeof t?.note === "string" && t.note.includes("[SHALLOW]");
-    const tooShort = tokenCount(answer) <= 2 || isLowContentNote(answer) || noteShallow;
-    const decline = isDecline(answer);
-    // A skip or empty jot is a *refusal* — the manager captured no note (no
-    // data). A two-token answer or a decline is a *thin* note (weak data). Both
-    // carry no real signal, but they are different failures: the first must not
-    // be framed as "the report answered in 2-4 words".
-    let reason: string | null = null;
-    if (skipped || empty) reason = "skip";
-    else if (decline) reason = "decline";
-    else if (tooShort) reason = "thin";
-    const shallow = reason !== null;
+    // The read tag is banked once at plan-turn (read-quality.ts classifyAnswer).
+    // Consume it; classify on the fly only for legacy transcripts written before
+    // it existed — same classifier, so the determination is unchanged. A skip or
+    // empty jot is a *refusal* (no note captured); a two-token answer or a
+    // decline is a *thin* note (weak data) — different failures, both no-signal.
+    const stored = typeof t === "object" && t ? t.read : undefined;
+    let read: TurnRead;
+    if (stored) {
+      read = stored;
+    } else {
+      const skipped = t?.skipped === true;
+      const empty = answer.trim().length === 0;
+      read = skipped || empty ? "skip" : classifyAnswer(answer, typeof t === "object" ? t?.note : undefined);
+    }
+    const reason: string | null = read === "note" ? null : read;
+    const shallow = read !== "note";
     const is_note = !shallow;
     const isIntro = stage === "self_read" || (alias != null && INTRO_ALIASES.has(alias));
     const counted = !(isIntro && shallow);

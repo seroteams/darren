@@ -141,8 +141,9 @@ test("member view projects the transcript to turns — question, answer, skipped
     }),
   );
   assert.deepEqual(view.turns, [
-    { alias: "q_one", name: "How's the workload?", answer: "Stretched thin", skipped: false },
-    { alias: "q_two", name: "Anything at home?", answer: "(skipped)", skipped: true },
+    // read is the derived 4-way tag; the [SHALLOW] note it was derived FROM stays internal.
+    { alias: "q_one", name: "How's the workload?", answer: "Stretched thin", skipped: false, read: "thin" },
+    { alias: "q_two", name: "Anything at home?", answer: "(skipped)", skipped: true, read: "skip" },
   ]);
   assert.ok(!JSON.stringify(view.turns).includes("internal planner note"), "the internal planner note never reaches the member");
 });

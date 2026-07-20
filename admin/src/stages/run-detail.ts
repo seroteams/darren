@@ -15,7 +15,8 @@ import { icon } from "../ui/icon.js";
 import { Check, Calendar, Clock, MessageSquare } from "lucide";
 import type { Mount, Unmount } from "./stage.types.ts";
 
-export type Turn = { alias: string | null; name: string | null; answer: string | null; skipped: boolean };
+export type TurnRead = "skip" | "decline" | "thin" | "note";
+export type Turn = { alias: string | null; name: string | null; answer: string | null; skipped: boolean; read?: TurnRead | null };
 export type RunDetail = {
   id: string;
   headline: string;
@@ -90,6 +91,21 @@ function renderOverview(run: RunDetail): string {
   return `<div class="l-stack l-stack--4">${renderProfile(run)}${lead}${renderRating(run)}</div>`;
 }
 
+// How each read-quality tag shows on the Answers tab: a scannable chip so a
+// manager can see at a glance which questions landed. Reuses the base .chip set.
+const READ_CHIP: Record<TurnRead, { label: string; cls: string }> = {
+  note: { label: "Good note", cls: "chip--mint" },
+  thin: { label: "Thin", cls: "chip--gold" },
+  skip: { label: "Skipped", cls: "chip--plain" },
+  decline: { label: "Declined", cls: "chip--coral" },
+};
+
+function readChip(read: Turn["read"]): string {
+  const c = read ? READ_CHIP[read] : null;
+  if (!c) return "";
+  return `<span class="chip ${c.cls} rd-turn__read">${c.label}</span>`;
+}
+
 // Answers tab — the questions asked and how they were answered. Skipped turns are dimmed.
 function renderAnswers(run: RunDetail): string {
   const turns = run.turns || [];
@@ -102,7 +118,7 @@ function renderAnswers(run: RunDetail): string {
       const body = t.skipped
         ? `<p class="rd-turn__a text-ink-mute"><em>Skipped</em></p>`
         : `<p class="rd-turn__a">${escapeHtml(t.answer || "")}</p>`;
-      return `<div class="rd-turn${t.skipped ? " rd-turn--skipped" : ""}"><div class="rd-turn__q">${q}</div>${body}</div>`;
+      return `<div class="rd-turn${t.skipped ? " rd-turn--skipped" : ""}"><div class="rd-turn__q"><span>${q}</span>${readChip(t.read)}</div>${body}</div>`;
     })
     .join("");
   return `<section class="card-flat space-y-3">
