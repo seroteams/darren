@@ -1,5 +1,10 @@
 # Phase 1 — Stage-1 gates + performance tone relabel
 
+## ✅ GREEN-LIT 2026-07-20
+Carl approved via evidence-first review in chat (his chosen QA style, adopted same day): the
+before/after tone sentence + the 16-case gate test output stood in for the click-walk. No pixels
+changed anywhere except the Meeting arcs tone line.
+
 All edits in `backend/engine/one-on-one-types/` + the offline test script. Free (no OpenAI).
 
 ## Changes
@@ -25,7 +30,7 @@ All edits in `backend/engine/one-on-one-types/` + the offline test script. Free 
 3. I show the eligibility log from a fixtures replay: zero legitimate questions dropped.
 
 ## Status
-🔨 built 2026-07-20, awaiting Carl's walk. All free checks green: integrity script (16 new gate
+✅ Closed. All free checks green: integrity script (16 new gate
 cases PASS), typecheck, npm test (one unrelated in-suite flake: test-admin-serving, passes standalone —
 parallel-session port clash), regression replay (2 pre-existing stale listenFor fixtures flagged as a
 separate chip, unrelated). Gate counts on the live read path: bi-weekly 10 · performance 3 · growth 4 ·

@@ -2,6 +2,13 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-20 — the arcs are now evidence-backed, and approvals got lighter.** An external
+evidence review of all five 1:1 types came back (4/5 well-aligned); its "ship now" list is built and
+green-lit: banned-question gates on every type (no diagnosis language, no trait attacks, no promotion
+promises, no week-one assessment) + the Performance tone relabelled task-directed. Same day you
+switched QA to **evidence-first**: engine changes get approved from proof in chat; click-walks only
+for user-facing screens, screenshots first.
+
 📍 **2026-07-20 — the engine's scoring bias is now measured, and you approved the fix.** A deep
 stage-by-stage audit found scores fall 2× as often and 3× as hard as they rise (24 down/−34 vs
 11 up/+11 across 8 runs). better-reads Phase 1 (detect-only instrumentation) green-lit on that
@@ -33,7 +40,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 |---|---|
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18 (gallery + edit-mode bar, usable now). Phase 2 (demo data) not started. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
-| [arc-evidence-fixes](docs/plans/doing/arc-evidence-fixes/plan.md) | P1 built 2026-07-20, awaiting your walk: evidence review's "ship now" list — per-type banned-question gates (all 5 types) + Performance tone relabel (task-directed, never person-directed). All free checks green. P2 (question-count trims) + P3 (reframes) parked for your call. |
+| [arc-evidence-fixes](docs/plans/doing/arc-evidence-fixes/plan.md) | P1 ✅ green-lit 2026-07-20 (evidence-first): per-type banned-question gates (all 5 types) + Performance tone relabel. Committed local, ships next push. P2 (question-count trims) + P3 (reframes) parked for your call. |
 | [better-reads](docs/plans/doing/better-reads/plan.md) | P1 ✅ green-lit 2026-07-20 (skew instrumentation, detect-only — your call on the 24-down/11-up table). P2 🔨 protect gate building. P3 (prep freshness) waiting. Reviewer + run-health slices deferred behind the promises-loop lane. |
 
 ## ✅ Closed 2026-07-19

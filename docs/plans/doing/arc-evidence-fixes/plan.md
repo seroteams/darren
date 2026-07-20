@@ -5,6 +5,7 @@ performance feedback, no diagnosis language in relational meetings, no promotion
 conversations, no assessment language in onboarding.
 **Driver:** Carl
 **Created:** Sun 20 Jul 2026
+**Board:** https://claude.ai/code/artifact/e310f3ca-a6d5-421b-b350-dd6b1a11854b
 **Source:** [docs/research/compass_artifact_wf-1b5cfffb-c57a-5818-92af-102c7f81742b_text_markdown.md](../../../research/compass_artifact_wf-1b5cfffb-c57a-5818-92af-102c7f81742b_text_markdown.md)
 (evidence review of all 5 arcs; verdict: 4/5 well-aligned, Performance tone off-evidence, 1-2-2-1 shape fine)
 
@@ -18,7 +19,7 @@ conversations, no assessment language in onboarding.
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Stage-1 gates + tone relabel | 4 new per-type gates, bi-weekly extension, tone fix, tests | 🔨 built 2026-07-20, awaiting Carl's walk |
+| 1 | Stage-1 gates + tone relabel | 4 new per-type gates, bi-weekly extension, tone fix, tests | ✅ green-lit 2026-07-20 (evidence-first) |
 | 2 | Question-count trims + length gating | Cause 2→1 (8→7), Anchor 2→1 (9→8); 30 vs 45-min policy — **product call, needs Carl** | ⬜ parked |
 | 3 | Reframes | Self-read as "voice, not rating"; rename feels-off "Underneath" → opt-in exploration; prompt/copy work | ⬜ parked |
 
