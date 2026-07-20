@@ -101,7 +101,7 @@ export interface TranscriptEntry {
   skipped: boolean;
   realized_deltas?: Record<string, number>; // added after planning
   note?: string; // planner note; may carry [SHALLOW]/[SKIP] markers
-  unbooked_signal?: Array<{ axis: string; raw: number; booked: number; reason: string }>; // planner clamp overflow (queue-manager clampToSignature); only when the planner held signal back
+  unbooked_signal?: Array<{ axis: string; raw: number; booked: number; reason: string }>; // planner-held signal: clampToSignature overflow (off_signature/empty_signature/clamped) + shallow-gate zeroing (shallow_zeroed/shallow_zeroed_protect_eligible, better-reads P1)
 }
 
 /** Back-nav snapshot (handlers/plan.js). */

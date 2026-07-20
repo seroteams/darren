@@ -378,10 +378,14 @@ async function planTurn({
   const assessmentRaw = asRecord(parsed.assessment);
   const rawDeltas = toAxisObject(assessmentRaw.deltas);
   const gateIssues: string[] = [];
+  // Shallow-zeroed deltas are preserved in unbooked_signal alongside the
+  // signature clamp's overflow (better-reads Phase 1, detect-only).
+  const shallowOverflow: Array<{ axis: string; raw: number; booked: number; reason: string }> = [];
   applyShallowGate(rawDeltas, {
     lastAnswer,
     note: typeof assessmentRaw.note === "string" ? assessmentRaw.note : "",
     issues: gateIssues,
+    overflow: shallowOverflow,
   });
 
   const effectiveSignature = expandSignatureForSignals(lastQuestion.axis_effects || {}, lastAnswer);
@@ -488,7 +492,7 @@ async function planTurn({
     assessment,
     newQueue,
     issues: [...gateIssues, ...sigIssues, ...queueIssues],
-    unbooked_signal: overflow,
+    unbooked_signal: [...shallowOverflow, ...overflow],
     prompt: msgs.filled,
     response: raw,
   };

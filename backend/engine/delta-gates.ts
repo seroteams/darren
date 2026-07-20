@@ -3,6 +3,18 @@
 // (Phase 2 repo-tidy) — pure functions, no behaviour change.
 import type { TranscriptEntry } from "../shared/session.types.ts";
 
+// Shared by isShallowAnswer and isTerseButConcrete — hoisted so the shallow
+// call and the concreteness label can never disagree on what counts as filler.
+const FILLER_ONLY =
+  /^(yeah|yes|yep|yup|ok|okay|fine|good|great|sure|cool|thanks|thank you|not bad|doing fine|i am fine|im fine|today is fine|its fine|it's fine|they are okay|every day|every time)$/;
+const LOW_SIGNAL_WORDS = new Set([
+  "things", "stuff", "it", "that", "everything", "work", "the", "a",
+  "have", "has", "had", "are", "is", "was", "were", "be", "been", "being",
+  "feel", "feels", "felt", "seem", "seems", "going",
+  "ok", "okay", "fine", "good", "great", "alright", "steady", "same",
+  "grand", "really", "just", "pretty", "quite", "bit", "so", "far",
+]);
+
 function isShallowAnswer(answer: string | null | undefined): boolean {
   if (!answer || typeof answer !== "string") return false;
   const trimmed = answer.trim();
@@ -21,8 +33,6 @@ function isShallowAnswer(answer: string | null | undefined): boolean {
     .replace(/[^\w\s']/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-  const FILLER_ONLY =
-    /^(yeah|yes|yep|yup|ok|okay|fine|good|great|sure|cool|thanks|thank you|not bad|doing fine|i am fine|im fine|today is fine|its fine|it's fine|they are okay|every day|every time)$/;
   if (FILLER_ONLY.test(normalized)) return true;
 
   // A reporting wrapper ("yeah he said things have been ok") can clear the
@@ -31,13 +41,6 @@ function isShallowAnswer(answer: string | null | undefined): boolean {
   // reviewer.ts.
   const REPORTING_PREFIX =
     /^(yeah|yes|yep|ok|okay)?[\s,]*\b(he|she|they)?\s*(said|says|told me|mentioned|noted|reckons|feels|felt|thinks)\b[\s,]*(that|it)?\s*/i;
-  const LOW_SIGNAL_WORDS = new Set([
-    "things", "stuff", "it", "that", "everything", "work", "the", "a",
-    "have", "has", "had", "are", "is", "was", "were", "be", "been", "being",
-    "feel", "feels", "felt", "seem", "seems", "going",
-    "ok", "okay", "fine", "good", "great", "alright", "steady", "same",
-    "grand", "really", "just", "pretty", "quite", "bit", "so", "far",
-  ]);
   const remainder = normalized.replace(REPORTING_PREFIX, "").trim();
   if (remainder && remainder !== normalized) {
     const content = remainder.split(/\s+/).filter((w) => w && !LOW_SIGNAL_WORDS.has(w));
@@ -48,6 +51,37 @@ function isShallowAnswer(answer: string | null | undefined): boolean {
 
 function noteMarksShallow(note: unknown): boolean {
   return typeof note === "string" && note.includes("[SHALLOW]");
+}
+
+// A note that trips the shallow token floor (≤2 tokens) but still names
+// something real — "Shipped payments-fix", "Promoted." — as opposed to pure
+// filler ("fine") or low-signal mush ("ok good"). Phase 1 (better-reads) only
+// *labels* these in the overflow so the skew is measurable; nothing is booked
+// differently. Reuses the same normalization + word lists as isShallowAnswer
+// so the two can never drift apart on what counts as content.
+function isTerseButConcrete(answer: string | null | undefined): boolean {
+  if (!answer || typeof answer !== "string") return false;
+  const trimmed = answer.trim();
+  if (!trimmed || trimmed === "(skipped)") return false;
+  const tokens = trimmed.split(/\s+/).filter(Boolean);
+  if (tokens.length === 0 || tokens.length > 2) return false; // not terse
+  const normalized = trimmed
+    .toLowerCase()
+    .replace(/[^\w\s']/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!normalized || FILLER_ONLY.test(normalized)) return false;
+  const content = normalized.split(/\s+/).filter((w) => w && !LOW_SIGNAL_WORDS.has(w));
+  return content.length > 0;
+}
+
+/** One zeroed-by-the-shallow-gate delta, preserved for unbooked_signal.
+ * Privacy: axis/raw/booked/reason only — never answer text. */
+export interface ShallowOverflowEntry {
+  axis: string;
+  raw: number;
+  booked: number;
+  reason: string;
 }
 
 function detectClarityMisalignment(answer: string | null | undefined): boolean {
@@ -69,13 +103,23 @@ function expandSignatureForSignals(signature: Record<string, number> | null | un
   return sig;
 }
 
-function applyShallowGate(rawDeltas: Record<string, number>, { lastAnswer, note, issues }: { lastAnswer: string | null | undefined; note: unknown; issues: string[] }): boolean {
+function applyShallowGate(rawDeltas: Record<string, number>, { lastAnswer, note, issues, overflow }: { lastAnswer: string | null | undefined; note: unknown; issues: string[]; overflow?: ShallowOverflowEntry[] }): boolean {
   const answerIsSkip = !lastAnswer || lastAnswer === "(skipped)";
   const shallow = !answerIsSkip && (isShallowAnswer(lastAnswer) || noteMarksShallow(note));
   if (!shallow) return false;
+  // Protect-eligibility is about the ANSWER being concrete, so it is decided
+  // once per turn, not per axis — and only ever labels; booking is unchanged.
+  const protectEligible = isTerseButConcrete(lastAnswer);
   for (const axis of Object.keys(rawDeltas)) {
-    if (rawDeltas[axis] !== 0) {
-      issues.push(`shallow answer — zeroed ${axis} (${(rawDeltas[axis] ?? 0) > 0 ? "+" : ""}${rawDeltas[axis]})`);
+    const raw = rawDeltas[axis] ?? 0;
+    if (raw !== 0) {
+      issues.push(`shallow answer — zeroed ${axis} (${raw > 0 ? "+" : ""}${raw})`);
+      overflow?.push({
+        axis,
+        raw,
+        booked: 0,
+        reason: raw > 0 && protectEligible ? "shallow_zeroed_protect_eligible" : "shallow_zeroed",
+      });
       rawDeltas[axis] = 0;
     }
   }
@@ -174,6 +218,7 @@ function applyRecurringGapClarityDamper(rawDeltas: Record<string, number>, { las
 
 export {
   isShallowAnswer,
+  isTerseButConcrete,
   noteMarksShallow,
   detectClarityMisalignment,
   expandSignatureForSignals,
