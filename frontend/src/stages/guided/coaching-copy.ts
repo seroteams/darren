@@ -99,7 +99,7 @@ export const FEEDBACK: FeedbackQuestion[] = [
 export const OUTCOMES: { value: string; label: string }[] = [
   { value: "yes", label: "Done" },
   { value: "partly", label: "Partly" },
-  { value: "no", label: "Not yet" },
+  { value: "no", label: "Not done" },
   { value: "changed", label: "Changed" },
 ];
 /** Machine status → human label (across all three kinds). */

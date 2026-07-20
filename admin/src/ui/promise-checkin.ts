@@ -18,10 +18,10 @@ export interface CheckinPromise {
 export type CheckinTap = "yes" | "partly" | "no" | "changed";
 
 const TAPS: Array<{ value: CheckinTap; label: string }> = [
-  { value: "yes", label: "Yes, done" },
+  { value: "yes", label: "Done" },
   { value: "partly", label: "Partly" },
-  { value: "no", label: "Not yet" },
-  { value: "changed", label: "Things changed" },
+  { value: "no", label: "Not done" },
+  { value: "changed", label: "Changed" },
 ];
 
 // Manager's own first (design verdict 2026-07-12 — the leader goes first),

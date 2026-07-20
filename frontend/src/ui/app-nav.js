@@ -42,7 +42,7 @@ const LINKS = [
   // (MEMBER_HOME → about-me, list-only). Shown only to members.
   { key: "runs", label: "Your 1:1s", stage: STAGES.MEMBER_HOME, icon: ICON.runs, member: true },
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
-  { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
+  { key: "mgnew", label: "Start 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
   // "Members" (workspace access admin) is NOT here — it lives in the account/admin group at the

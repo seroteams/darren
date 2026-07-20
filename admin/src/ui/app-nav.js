@@ -71,7 +71,7 @@ const LINKS = [
   // Manager app (manager-ready Phase 1) — the paying customer's rail. Reuses existing
   // stages; managers keep console access but never see the internal toolset below.
   { key: "mghome", label: "Home", stage: STAGES.START, icon: ICON.home, mgr: true },
-  { key: "mgnew", label: "New 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
+  { key: "mgnew", label: "Start 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
   // Team is a customer-app stage, cross-imported so the local Engine app's manager rail
   // matches live (Carl: live and local should look the same).
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },

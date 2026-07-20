@@ -64,7 +64,7 @@ export const mount: Mount = async (root, { setState }) => {
       <p class="text-ink-dim">Add the people you manage — even before your first 1:1. Their history fills in as you prep and meet.</p>
       <div class="l-cluster l-cluster--2">
         <button type="button" class="btn js-add">Add someone</button>
-        <button type="button" class="btn btn--ghost js-start">Prep a 1:1</button>
+        <button type="button" class="btn btn--ghost js-start">Start 1:1</button>
       </div>
     </section>`;
   const errorCard = `
