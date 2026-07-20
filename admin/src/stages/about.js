@@ -22,7 +22,7 @@ function memberHtml() {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What Sero is</div>
-        <p>Sero is a tool your manager uses to prepare for your one-to-ones. It helps them come to the conversation ready and focused.</p>
+        <p>Sero is a tool your manager uses to prepare for your 1:1s. It helps them come to the conversation ready and focused.</p>
       </section>
 
       <section class="card-flat space-y-3">
@@ -53,7 +53,7 @@ function managerHtml() {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What Sero is</div>
-        <p>Sero helps you prepare for a one-to-one with someone on your team. You tell it who you're meeting and what's on your mind, and it writes a short brief to guide the conversation.</p>
+        <p>Sero helps you prepare for a 1:1 with someone on your team. You tell it who you're meeting and what's on your mind, and it writes a short brief to guide the conversation.</p>
       </section>
 
       <section class="card-flat space-y-3">

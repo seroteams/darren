@@ -12,5 +12,8 @@ Ten rules so the words stay one voice. Pairs with [DESIGN.md](DESIGN.md). (Added
 8. **Dates: absolute in records, relative only in meta.** "Mon 18 Nov 2024" in a record; "2 days ago" is fine only as a secondary meta line.
 9. **Stage names read as the moment, not the machinery.** "During the meeting" not "Live Q&A"; "Pulling it together" not "Synthesis".
 10. **Optional means optional once.** A skippable step's button says "Skip" — don't also tack "(optional)" onto it.
+11. **The end-of-1:1 screen is the "Recap".** It's the *result* of the meeting, not a pre-meeting brief — so every button, heading and link to it says "recap" ("Skip to recap", "get my recap", "Recap ready to review"). "Brief" / "prep brief" is the BEFORE-meeting output; never call the recap a "briefing".
+12. **Promise outcomes read "Done / Partly / Not done / Changed".** One set everywhere a follow-through shows — check-in, guided runner, recap. The didn't-happen state is "Not done", never "Not yet".
+13. **Contractions are the voice.** "Couldn't", "can't", "won't" — not "Could not" / "cannot" — with one exception: a destructive confirm may keep the fuller "This cannot be undone" for weight.
 
 *Internal/QA surfaces (the Test engine, the review-run verdict tool, superadmin drilldowns) are exempt — they can keep engine terms.*

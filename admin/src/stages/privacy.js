@@ -43,7 +43,7 @@ export async function mount(root, { setState }) {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">How to delete it</div>
-        <p>You can delete any run from its row whenever you like. To remove your whole account and company, email <a class="link" href="mailto:carl@seroteams.com">carl@seroteams.com</a> and we'll erase it for you.</p>
+        <p>You can delete any 1:1 from its row whenever you like. To remove your whole account and company, email <a class="link" href="mailto:carl@seroteams.com">carl@seroteams.com</a> and we'll erase it for you.</p>
       </section>
 
       <div>

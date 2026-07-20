@@ -103,7 +103,7 @@ const catchup: StageRenderer = (state, copy, ctx) => {
       </div>
       <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-promise">${ICONS.plus}<span>Add a promise</span></button></div>
       ${notesCard("catchup.notes", `Notes on ${copy.name}'s answers`, state.catchup?.notes ?? "")}
-      ${cta("Continue to requests")}`,
+      ${cta("Continue to Requests")}`,
   };
 };
 
@@ -169,7 +169,7 @@ const rating: StageRenderer = (state, copy, ctx) => {
           <input type="range" min="1" max="10" step="0.5" value="${val}" data-block="${b.id}" aria-label="${esc(b.label)} score 1 to 10" />
           <div class="mcr-slider__labels"><span>1 Struggling</span><span>5 Okay</span><span>10 Thriving</span></div>
         </div>
-        <div class="mcr-block__note"><input type="text" data-blocknote="${b.id}" value="${esc(blockNotes[b.id] ?? "")}" placeholder="Add a note about this rating..." /></div>
+        <div class="mcr-block__note"><input type="text" data-blocknote="${b.id}" value="${esc(blockNotes[b.id] ?? "")}" placeholder="Add a note about this rating…" /></div>
       </div>`;
   }).join("");
   return { title, sub, body: `${rows}${cta("Continue to Feedback")}` };
@@ -201,7 +201,7 @@ const feedback: StageRenderer = (state, copy) => {
       ${notesCard(`feedback.${q.key}`, `Notes on ${copy.name}'s answer`, answer)}
       ${
         last
-          ? cta("Continue to goals")
+          ? cta("Continue to Goals")
           : `<div class="mcr-cta"><button type="button" class="mcr-btn mcr-btn--primary" data-fbnext>Next question →</button></div>`
       }`,
   };

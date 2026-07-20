@@ -52,7 +52,7 @@ export async function mount(root) {
       `;
       root.querySelector(".js-again").addEventListener("click", () => mount(root));
     } catch (e2) {
-      showError(e2.message || "Could not send your feedback.");
+      showError(e2.message || "Couldn't send your feedback.");
       submitBtn.disabled = false;
       submitBtn.textContent = "Send";
     }

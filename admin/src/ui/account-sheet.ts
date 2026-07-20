@@ -76,7 +76,7 @@ export function showAccountSheet(user: User): void {
     saveBtn.disabled = true; saveBtn.textContent = "Changing…";
     try {
       await changePassword({ currentPassword, newPassword });
-      ok.textContent = "Password changed. Use the new one next time you sign in.";
+      ok.textContent = "Password changed. Use the new one next time you log in.";
       ok.hidden = false;
       form.reset();
     } catch (e2) {
