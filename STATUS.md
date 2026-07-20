@@ -2,6 +2,11 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-20 — the engine's scoring bias is now measured, and you approved the fix.** A deep
+stage-by-stage audit found scores fall 2× as often and 3× as hard as they rise (24 down/−34 vs
+11 up/+11 across 8 runs). better-reads Phase 1 (detect-only instrumentation) green-lit on that
+evidence; Phase 2 (let honest up-moves survive, still capped) building now.
+
 📍 **2026-07-19 — the meeting picker got honest.** Onboarding check-in is off the picker
 (old runs still open fine), and Monthly Check-in now shows for real managers in BOTH apps —
 it was built but hidden behind the internal-admin wall. **LIVE 2026-07-19** (pushed 65109d0e;
@@ -29,6 +34,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18 (gallery + edit-mode bar, usable now). Phase 2 (demo data) not started. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [arc-evidence-fixes](docs/plans/doing/arc-evidence-fixes/plan.md) | P1 built 2026-07-20, awaiting your walk: evidence review's "ship now" list — per-type banned-question gates (all 5 types) + Performance tone relabel (task-directed, never person-directed). All free checks green. P2 (question-count trims) + P3 (reframes) parked for your call. |
+| [better-reads](docs/plans/doing/better-reads/plan.md) | P1 ✅ green-lit 2026-07-20 (skew instrumentation, detect-only — your call on the 24-down/11-up table). P2 🔨 protect gate building. P3 (prep freshness) waiting. Reviewer + run-health slices deferred behind the promises-loop lane. |
 
 ## ✅ Closed 2026-07-19
 [coach-panel](docs/plans/done/coach-panel/plan.md) — all 3 phases green-lit in one day. The questioning screen is now the full-screen 50/50 coach panel: live scores as gradient meters carrying the engine's real per-answer "why", a Support/Live-scores toggle + the manager-only hints contract, and a detect-only gate keeping performance-review language out of check-in "why" text (86 real runs, 0 false alarms). Admin app only. Two prompt lines parked behind another chat's lane (real generated hints + a P3 nudge). Local commits, ships next push.
@@ -45,4 +51,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-19 — coach-panel CLOSED (all 3 phases green-lit; two prompt lines parked; committed local, ships next push).
+Last updated: 2026-07-20 — better-reads P1 green-lit (scoring-skew evidence accepted); P2 building.

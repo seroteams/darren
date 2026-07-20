@@ -1,6 +1,9 @@
 # Phase 1 — Measure the skew (detect-only)
 
-**Status:** in progress
+## ✅ GREEN-LIT 2026-07-20
+Carl approved on the QA table (24 down / 11 up across 8 runs; 10/34 turns booked nothing) plus real wiped-answer examples. Verified: 14 new gate tests, suite 160/160, typecheck clean, regression replay diff-free vs baseline (2 listenFor fixture fails pre-exist, other lane).
+
+**Status:** ✅ closed
 **Rule:** zero behaviour change to scores. Every fixture replays identically.
 
 ## Changes
