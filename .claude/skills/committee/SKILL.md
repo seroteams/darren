@@ -51,6 +51,16 @@ Carl-style. The committee table is a STANDING EXCEPTION to the postcard cap (lik
 - If the committee is unanimous and the call is obvious, say so in one line and proceed — don't manufacture a fork.
 - Extra seat-by-seat depth lives behind "more".
 
+## Always: save the session as HTML (Carl, 2026-07-20)
+
+**Every** committee session — every time it's convened, no exceptions — is also saved as a designed HTML log. Do this in the SAME turn you present to Carl, right after the chat reply. It is not optional and not something to ask about.
+
+1. Copy [log-template.html](log-template.html). Keep its `<style>` block byte-for-byte — that's what keeps every log looking the same (Carl's Nordic design language: Fraunces + Inter, red points only, green completes, 14px floor).
+2. Fill every `{{PLACEHOLDER}}`. Repeat the `<tr class="seat">` block once per speaking seat, in the same order as the chat table — including any "no signal" seat (verdict pill `v-none`, label `—`). Verdict pill classes: `v-back` ✅ · `v-change` ⚠️ · `v-against` ❌ · `v-none` —.
+3. Options: mark the recommendation with `class="opt rec"` + a `★`; if Carl has already chosen, add `<span class="chosen">chosen</span>` to his pick and fill `{{DECISION_MADE}}` with what he decided (and, if the decision has since been acted on, one line on the outcome). If no decision yet, write "Pending Carl's call." in `{{DECISION_MADE}}`.
+4. Save to `logs/committee/YYYY-MM-DD-<slug>.html` — `<slug>` is a short kebab-case of the decision (e.g. `2026-07-20-readiness-to-validate-early.html`). `logs/**` is gitignored, so these are local-only, never committed — same as run logs.
+5. Tell Carl in one line where it saved. Don't paste the HTML into chat.
+
 ## Rules
 
 - Committee output is **input to Carl's decision**, never a self-certification. A unanimous committee does not green-light a phase — only Carl does.

@@ -1,0 +1,124 @@
+<!doctype html>
+<!--
+  COMMITTEE LOG TEMPLATE — keep the <style> block byte-for-byte so every log looks the same.
+  Fill only the {{PLACEHOLDERS}} and repeat the <tr class="seat">…</tr> block once per speaking seat.
+  Verdict pill class: v-back (✅ back it) · v-change (⚠️ back with a change) · v-against (❌ against) · v-none (— no verdict / no signal).
+  Save to: logs/committee/YYYY-MM-DD-<slug>.html
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Committee — {{DECISION_SHORT}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#F4F5F3; --stone:#E4E5E0; --stonebg:#DDDED8; --char:#1A1A1A;
+    --soft:#3A3733; --grey:#7A776F; --hair:#C9CAC4; --red:#C8102E;
+    --green:#2E7D32; --amber:#8A6A3A; --paper:#FDFDFC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:16px}
+  body{background:var(--white);color:var(--char);font-family:Inter,system-ui,sans-serif;line-height:1.55;padding:40px 20px}
+  .topbar{position:fixed;top:0;left:0;right:0;height:4px;background:var(--red);z-index:10}
+  .sheet{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--hair);border-radius:6px;box-shadow:0 8px 30px rgba(26,26,26,.06);padding:56px 56px 44px}
+  .kicker{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);display:flex;align-items:center;gap:8px}
+  .kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:500;font-size:34px;line-height:1.18;letter-spacing:-.01em;color:var(--char);margin:18px 0 6px;max-width:26ch}
+  h1 .dot{color:var(--red)}
+  .meta{font-size:14px;color:var(--grey);display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px}
+  .meta b{color:var(--soft);font-weight:500}
+  .tally{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 8px}
+  .chip{font-size:13px;font-weight:500;padding:5px 12px;border-radius:999px;border:1px solid var(--hair);color:var(--soft);background:#fff}
+  .chip .n{font-weight:600}
+  .chip.back{color:var(--green);border-color:#BFD9C0}
+  .chip.change{color:var(--amber);border-color:#DCC9A6}
+  .chip.against{color:var(--red);border-color:#EEC0C7}
+  .section-label{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin:34px 0 12px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  thead th{text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--grey);padding:0 14px 10px;border-bottom:1px solid var(--hair)}
+  tbody td{padding:16px 14px;border-bottom:1px solid var(--stone);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  .seat-role{color:var(--grey);font-size:13px}
+  .who{font-family:Fraunces,Georgia,serif;font-size:17px;font-weight:500;color:var(--char);white-space:nowrap}
+  .said{color:var(--soft);max-width:44ch}
+  .register{color:var(--grey);font-size:12.5px;font-style:italic;white-space:nowrap}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .pill.v-back{color:var(--green);background:#EAF3EA}
+  .pill.v-change{color:var(--amber);background:#F5EEDF}
+  .pill.v-against{color:var(--red);background:#FBE9EC}
+  .pill.v-none{color:var(--grey);background:var(--stone)}
+  .clash{margin-top:14px;padding:16px 20px;background:#fff;border:1px solid var(--hair);border-left:3px solid var(--red);border-radius:0 6px 6px 0;font-size:15px;color:var(--soft)}
+  .options{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:10px}
+  .opt{display:flex;gap:12px;padding:14px 16px;border:1px solid var(--hair);border-radius:6px;background:#fff}
+  .opt .tag{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:16px;color:var(--char);min-width:20px}
+  .opt .body{font-size:14.5px;color:var(--soft)}
+  .opt .body b{color:var(--char);font-weight:600}
+  .opt.rec{border-color:#BFD9C0;box-shadow:inset 3px 0 0 var(--green)}
+  .opt .star{color:var(--amber)}
+  .opt .chosen{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--green);background:#EAF3EA;padding:2px 8px;border-radius:4px;margin-left:8px}
+  .decision{margin-top:28px;padding:18px 20px;background:var(--stonebg);border-radius:6px;font-size:15px;color:var(--char)}
+  .decision .lab{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:6px}
+  footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--hair);font-size:12.5px;color:var(--grey);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer .note::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
+  @media(max-width:640px){.sheet{padding:32px 22px}h1{font-size:27px}.who,.register{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="sheet">
+  <div class="kicker">Sero Advisory Committee</div>
+  <h1>{{DECISION_QUESTION}}<span class="dot">.</span></h1>
+  <div class="meta">
+    <span><b>{{DATE_LONG}}</b></span>
+    <span>{{N_SEATS}} seats convened</span>
+    <span>Advisory only — Carl decides</span>
+  </div>
+
+  <div class="tally">
+    <span class="chip back"><span class="n">{{N_BACK}}</span> back it</span>
+    <span class="chip change"><span class="n">{{N_CHANGE}}</span> back with a change</span>
+    <span class="chip against"><span class="n">{{N_AGAINST}}</span> against</span>
+  </div>
+
+  <div class="section-label">The seats</div>
+  <table>
+    <thead><tr><th>Seat</th><th>Who</th><th>Verdict</th><th>What they said</th><th>Register</th></tr></thead>
+    <tbody>
+      <!-- REPEAT this row per speaking seat -->
+      <tr class="seat">
+        <td class="seat-role">{{SEAT_ROLE}}</td>
+        <td class="who">{{SEAT_WHO}}</td>
+        <td><span class="pill {{VERDICT_CLASS}}">{{VERDICT_LABEL}}</span></td>
+        <td class="said">{{SEAT_QUOTE}}</td>
+        <td class="register">{{SEAT_REGISTER}}</td>
+      </tr>
+      <!-- END repeat -->
+    </tbody>
+  </table>
+
+  <div class="section-label">The clash</div>
+  <div class="clash">{{CLASH}}</div>
+
+  <div class="section-label">Options put to Carl</div>
+  <ul class="options">
+    <!-- one .opt per option; add class "rec" + a <span class="star">★</span> to the recommendation; add <span class="chosen">chosen</span> to the picked one -->
+    <li class="opt rec"><span class="tag">A <span class="star">★</span></span><span class="body"><b>{{OPT_A_TITLE}}</b> — {{OPT_A_BODY}}</span></li>
+    <li class="opt"><span class="tag">B</span><span class="body"><b>{{OPT_B_TITLE}}</b> — {{OPT_B_BODY}}</span></li>
+    <li class="opt"><span class="tag">C</span><span class="body"><b>{{OPT_C_TITLE}}</b> — {{OPT_C_BODY}}</span></li>
+  </ul>
+
+  <div class="decision">
+    <div class="lab">Carl's decision</div>
+    {{DECISION_MADE}}
+  </div>
+
+  <footer>
+    <span class="note">The committee sharpens the call; it never makes it.</span>
+    <span>{{GENERATED_STAMP}}</span>
+  </footer>
+</div>
+</body>
+</html>
