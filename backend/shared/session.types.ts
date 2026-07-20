@@ -93,6 +93,11 @@ export interface PreparationResult {
   attempts: number; // 1 or 2
 }
 
+/** How a turn's answer read — the per-turn quality tag. Computed once at
+ *  plan-turn (backend/engine/read-quality.ts classifyAnswer), banked on the
+ *  transcript entry, and consumed (not re-derived) by reviewer.computeReadQuality. */
+export type TurnRead = "skip" | "decline" | "thin" | "note";
+
 /** One answered turn (handlers/plan.js; the CLI builds the same in cli/stages/questioning.js). */
 export interface TranscriptEntry {
   turn: number;
@@ -101,6 +106,7 @@ export interface TranscriptEntry {
   skipped: boolean;
   realized_deltas?: Record<string, number>; // added after planning
   note?: string; // planner note; may carry [SHALLOW]/[SKIP] markers
+  read?: TurnRead; // per-turn read-quality tag, banked at plan-turn (read-quality.ts)
   unbooked_signal?: Array<{ axis: string; raw: number; booked: number; reason: string }>; // planner clamp overflow (queue-manager clampToSignature); only when the planner held signal back
 }
 

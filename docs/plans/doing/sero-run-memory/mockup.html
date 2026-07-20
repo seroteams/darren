@@ -1,0 +1,123 @@
+<title>Run memory — preview</title>
+<style>
+  :root{
+    --page:#f5fafd; --surface:#ffffff; --ink:#1f2a37; --dim:#636363; --border:#e8e8e8;
+    --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb;
+    --coral:#f76b5e; --coral-soft:#fdeae8; --mint:#88ecd5; --mint-soft:#e6faf4; --mint-dark:#0f6b52;
+    --gold:#ffc247; --gold-soft:#fff4dd; --gold-dark:#7a5300;
+    --lav:#b49edb; --lav-soft:#f1ecf9; --lav-dark:#5b4390;
+    --grey-soft:#eef0f2; --shadow:0 1px 3px rgba(31,42,55,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --page:#10171f; --surface:#1a232e; --ink:#e8eef4; --dim:#9aa7b4; --border:#2a3542;
+      --accent-soft:#16303f; --accent-dark:#8ec7f0; --coral-soft:#3a2320; --mint-soft:#12312a; --mint-dark:#7fe0c4;
+      --gold-soft:#38300f; --gold-dark:#ffd47a; --lav-soft:#292138; --lav-dark:#cbb8ef;
+      --grey-soft:#242e39; --shadow:0 1px 3px rgba(0,0,0,.4); }
+  }
+  :root[data-theme="dark"]{ --page:#10171f; --surface:#1a232e; --ink:#e8eef4; --dim:#9aa7b4; --border:#2a3542;
+    --accent-soft:#16303f; --accent-dark:#8ec7f0; --coral-soft:#3a2320; --mint-soft:#12312a; --mint-dark:#7fe0c4;
+    --gold-soft:#38300f; --gold-dark:#ffd47a; --lav-soft:#292138; --lav-dark:#cbb8ef;
+    --grey-soft:#242e39; --shadow:0 1px 3px rgba(0,0,0,.4); }
+  :root[data-theme="light"]{ --page:#f5fafd; --surface:#ffffff; --ink:#1f2a37; --dim:#636363; --border:#e8e8e8;
+    --accent-soft:#e9f3fb; --accent-dark:#1b5d91; --coral-soft:#fdeae8; --mint-soft:#e6faf4; --mint-dark:#0f6b52;
+    --gold-soft:#fff4dd; --gold-dark:#7a5300; --lav-soft:#f1ecf9; --lav-dark:#5b4390;
+    --grey-soft:#eef0f2; --shadow:0 1px 3px rgba(31,42,55,.08); }
+
+  body{ margin:0; background:var(--page); color:var(--ink);
+    font:400 15px/1.55 Inter, ui-sans-serif, system-ui, sans-serif; }
+  .wrap{ max-width:760px; margin:0 auto; padding:28px 18px 64px; display:flex; flex-direction:column; gap:36px; }
+  .banner{ background:var(--gold-soft); color:var(--gold-dark); border:1px solid var(--gold);
+    border-radius:9999px; padding:8px 18px; font-size:14px; font-weight:600; text-align:center; }
+  h1{ font:600 1.9rem/1.15 'Bricolage Grotesque', Inter, sans-serif; letter-spacing:-.01em; margin:0; text-wrap:balance; }
+  .lede{ color:var(--dim); margin:6px 0 0; max-width:56ch; }
+  .eyebrow{ font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent-dark); margin:0 0 8px; }
+  .screen{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px; box-shadow:var(--shadow); }
+  .screen h2{ font:600 1.2rem/1.3 Inter, sans-serif; margin:0 0 4px; }
+  .screen .sub{ color:var(--dim); font-size:14px; margin:0 0 16px; }
+  .chip{ display:inline-block; border-radius:9999px; padding:3px 12px; font-size:14px; font-weight:600; white-space:nowrap; }
+  .chip.note{ background:var(--mint-soft); color:var(--mint-dark); }
+  .chip.thin{ background:var(--gold-soft); color:var(--gold-dark); }
+  .chip.skip{ background:var(--grey-soft); color:var(--dim); }
+  .chip.decl{ background:var(--coral-soft); color:var(--coral); }
+  .chip.real{ background:var(--accent-soft); color:var(--accent-dark); }
+  .chip.friend{ background:var(--gold-soft); color:var(--gold-dark); }
+  .chip.internal{ background:var(--grey-soft); color:var(--dim); }
+  .chip.qa{ background:var(--lav-soft); color:var(--lav-dark); }
+  .turn{ display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:8px 14px;
+    padding:12px 0; border-top:1px solid var(--border); }
+  .turn > div{ flex:1 1 220px; min-width:0; }
+  .turn:first-of-type{ border-top:none; }
+  .turn p{ margin:0; } .turn .q{ font-weight:500; } .turn .a{ color:var(--dim); font-size:14px; margin-top:2px; }
+  table{ width:100%; border-collapse:collapse; font-size:14px; }
+  th{ text-align:left; color:var(--dim); font-weight:500; padding:0 10px 8px 0; border-bottom:1px solid var(--border); }
+  td{ padding:10px 10px 10px 0; border-bottom:1px solid var(--border); vertical-align:middle; }
+  td.num{ font-variant-numeric:tabular-nums; text-align:right; }
+  th.num{ text-align:right; }
+  .bar{ height:8px; border-radius:4px; background:var(--grey-soft); overflow:hidden; min-width:90px; }
+  .bar i{ display:block; height:100%; background:var(--mint); }
+  .revisit{ background:var(--accent-soft); border-radius:8px; padding:10px 14px; font-size:14px; margin-top:10px; }
+  .strike{ color:var(--dim); text-decoration:line-through; }
+  .tag{ font-size:12px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--dim); }
+  .tablewrap{ overflow-x:auto; }
+</style>
+
+<div class="wrap">
+  <div class="banner">Preview · not the live app — this is the picture we build towards</div>
+
+  <header>
+    <h1>Run memory — what you'll see when it's done</h1>
+    <p class="lede">Three screens, one idea: every run teaches Sero. Chips first, fresh ground second, badges third, the proof screen last.</p>
+  </header>
+
+  <section>
+    <p class="eyebrow">Phase 1 · Run detail</p>
+    <div class="screen">
+      <h2>1:1 with Maya Chen <span class="chip real">Real</span></h2>
+      <p class="sub">Every turn now carries a read chip — how well the question landed.</p>
+      <div class="turn"><div><p class="q">How's the new sprint cadence feeling?</p><p class="a">"Honestly better than expected, the Thursday demo forces us to…"</p></div><span class="chip note">Good note</span></div>
+      <div class="turn"><div><p class="q">What's one thing slowing the team down?</p><p class="a">"Not sure."</p></div><span class="chip thin">Thin</span></div>
+      <div class="turn"><div><p class="q">Anything on workload you're watching?</p><p class="a">(skipped)</p></div><span class="chip skip">Skipped</span></div>
+      <div class="turn"><div><p class="q">How are things outside work?</p><p class="a">"Rather not get into that."</p></div><span class="chip decl">Declined</span></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Phase 2 · Second run, same person</p>
+    <div class="screen">
+      <h2>Run #2 — the bank avoids old ground</h2>
+      <p class="sub">Well-answered questions stay away; the skipped one is allowed back, acknowledged as a revisit.</p>
+      <p><span class="tag">Suppressed</span> — <span class="strike">How's the new sprint cadence feeling?</span> <span class="tag">(answered well last time)</span></p>
+      <div class="revisit">↩ "Last time workload got skipped — worth a look this week?" <span class="tag">revisit</span></div>
+      <div class="revisit" style="background:var(--mint-soft)">＋ "Where does Maya want to stretch next quarter?" <span class="tag">new ground</span></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Phase 3 · Runs list</p>
+    <div class="screen">
+      <h2>Every run badged by source</h2>
+      <p class="sub">So learning data can be filtered — friend trials and tests count, and are never mistaken for customers.</p>
+      <div class="tablewrap"><table>
+        <tr><th>Run</th><th>Manager</th><th>Origin</th></tr>
+        <tr><td>1:1 · Maya Chen</td><td>Carl</td><td><span class="chip internal">Internal</span></td></tr>
+        <tr><td>1:1 · Jonas B</td><td>Anna (trial)</td><td><span class="chip friend">Friend trial</span></td></tr>
+        <tr><td>1:1 · Priya K</td><td>Acme Co</td><td><span class="chip real">Real</span></td></tr>
+        <tr><td>Persona · thin-sam</td><td>test-engine</td><td><span class="chip qa">QA</span></td></tr>
+      </table></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Phase 4 · Pool quality</p>
+    <div class="screen">
+      <h2>The proof screen — every run banks data</h2>
+      <p class="sub">Per question: how often asked, how often it earned a real note. The "not just a wrapper" screen.</p>
+      <div class="tablewrap"><table>
+        <tr><th>Question</th><th class="num">Asked</th><th>Earns a good note</th><th class="num"></th></tr>
+        <tr><td>What's one thing slowing the team down?</td><td class="num">41</td><td><div class="bar"><i style="width:78%"></i></div></td><td class="num">78%</td></tr>
+        <tr><td>How's workload week to week?</td><td class="num">36</td><td><div class="bar"><i style="width:52%"></i></div></td><td class="num">52%</td></tr>
+        <tr><td>Anything you'd change about our 1:1s?</td><td class="num">18</td><td><div class="bar"><i style="width:21%"></i></div></td><td class="num">21%</td></tr>
+      </table></div>
+    </div>
+  </section>
+</div>
