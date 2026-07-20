@@ -28,6 +28,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 |---|---|
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18 (gallery + edit-mode bar, usable now). Phase 2 (demo data) not started. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
+| [arc-evidence-fixes](docs/plans/doing/arc-evidence-fixes/plan.md) | P1 built 2026-07-20, awaiting your walk: evidence review's "ship now" list — per-type banned-question gates (all 5 types) + Performance tone relabel (task-directed, never person-directed). All free checks green. P2 (question-count trims) + P3 (reframes) parked for your call. |
 
 ## ✅ Closed 2026-07-19
 [coach-panel](docs/plans/done/coach-panel/plan.md) — all 3 phases green-lit in one day. The questioning screen is now the full-screen 50/50 coach panel: live scores as gradient meters carrying the engine's real per-answer "why", a Support/Live-scores toggle + the manager-only hints contract, and a detect-only gate keeping performance-review language out of check-in "why" text (86 real runs, 0 false alarms). Admin app only. Two prompt lines parked behind another chat's lane (real generated hints + a P3 nudge). Local commits, ships next push.

@@ -45,6 +45,16 @@ const meetingType: MeetingType = {
     "Asking 'what skill do you want to develop' before knowing where they want to go.",
     "Closing on 'what support do you need from me' without first earning the gap and the investment.",
     "Reframing growth questions as role-clarity or feedback questions — that's a different meeting type.",
+    "Promising or implying promotion, title, or pay outcomes — the meeting coaches; it cannot commit the org (psychological-contract breach).",
+  ],
+  // Machine-checkable subset of anti_patterns — enforced on every question by
+  // backend/engine/question-eligibility.ts before it can reach the manager.
+  // Blocks promise language around promotion/title/pay in either direction.
+  forbidden_question_res: [
+    /\b(?:promise|guarantee)\b[\s\S]{0,60}\b(?:promotion|promote|title|pay|salary|raise|band|level)\b/i,
+    /\b(?:promotion|promote|title|pay|salary|raise|band|level)\b[\s\S]{0,60}\b(?:promise|guarantee)\b/i,
+    /\byou(?:'ll| will)\s+(?:be promoted|get (?:the|that|a) (?:promotion|raise|title))\b/i,
+    /\bI can (?:get|secure) you (?:the|a) (?:promotion|raise|title)\b/i,
   ],
   // Eval rules injected into the shared eval prompt via {{TYPE_EVAL_RULES}}.
   // Was a 289-line forked final-evaluation.md; this is the only part that differed.

@@ -39,6 +39,17 @@ const meetingType: MeetingType = {
     "Assuming silence means things are fine — new joiners under-report blockers.",
     "Overloading them with information instead of surfacing what they actually need next.",
   ],
+  // Machine-checkable subset of anti_patterns — enforced on every question by
+  // backend/engine/question-eligibility.ts before it can reach the manager.
+  // No assessment language in the onboarding window (Bauer: adjustment, not
+  // evaluation, is what predicts onboarding outcomes).
+  forbidden_question_res: [
+    /\b(?:meeting|meet|met)\s+(?:our |the |my )?expectations\b/i,
+    /\bare you on track\b/i,
+    /\b(?:rate|score) your\b/i,
+    /\bperformance review\b/i,
+    /\bhow (?:are you|is it) performing\b/i,
+  ],
   // Eval rules injected into the shared eval prompt via {{TYPE_EVAL_RULES}}.
   // Was a forked final-evaluation.md; this is the only part that differed.
   eval_rules: [

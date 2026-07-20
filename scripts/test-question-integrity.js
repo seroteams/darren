@@ -73,12 +73,66 @@ check(
   ).ok === false
 );
 check(
-  "gate allows outside-work opener where the type has no rule against it",
+  "gate allows outside-work opener for onboarding (its gate is assessment-only)",
   checkQuestionEligibility(
     { name: "What's been the best part of your world outside of work lately?" },
     { meetingType: "Onboarding check-in" }
   ).ok === true
 );
+
+// --- 1b. per-type gates (arc-evidence-fixes P1): each type rejects its banned
+// shapes and accepts a normal question of its own register.
+const TYPE_GATE_CASES = [
+  {
+    type: "Performance & feedback",
+    reject: [
+      "Do you think you're just careless with the details?",
+      "How do you feel about your attitude lately?",
+    ],
+    accept: "Walk me through what you checked before the handoff went to review.",
+  },
+  {
+    type: "Growth & career plan",
+    reject: [
+      "If we promise you the promotion this cycle, what would change for you?",
+      "You'll be promoted once this lands — what would you take on next?",
+    ],
+    accept: "Which stakeholder exposure would stretch you most next quarter?",
+  },
+  {
+    type: "Something feels off",
+    reject: [
+      "Are you feeling burned out by the pace?",
+      "Do you think you're stressed about the reorg?",
+    ],
+    accept: "I've noticed you've been quieter in reviews lately — how are things landing for you?",
+  },
+  {
+    type: "Onboarding check-in",
+    reject: [
+      "Are you on track with what we expect so far?",
+      "How do you feel you're meeting expectations so far?",
+    ],
+    accept: "What's still unclear about how decisions get made here?",
+  },
+  {
+    type: BIWEEKLY,
+    reject: ["Have you been feeling burned out lately?"],
+    accept: "Where would a faster decision from me unblock you?",
+  },
+];
+for (const { type, reject, accept } of TYPE_GATE_CASES) {
+  for (const name of reject) {
+    check(
+      `gate rejects for ${type}: "${name.slice(0, 40)}…"`,
+      checkQuestionEligibility({ name }, { meetingType: type }).ok === false
+    );
+  }
+  check(
+    `gate accepts a normal ${type} question`,
+    checkQuestionEligibility({ name: accept }, { meetingType: type }).ok === true
+  );
+}
 
 // --- 2. opener routing can never serve a forbidden bi-weekly opener
 {

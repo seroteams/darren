@@ -39,6 +39,16 @@ const meetingType: MeetingType = {
     "Stacking 'what's wrong' probes without giving them an opt-out.",
     "Treating the meeting like a performance review.",
   ],
+  // Machine-checkable subset of anti_patterns — enforced on every question by
+  // backend/engine/question-eligibility.ts before it can reach the manager.
+  // A question may not name a state the employee hasn't named themselves
+  // (NICE NG212 / CIPD: notice and ask, never diagnose).
+  forbidden_question_res: [
+    /\bburn(?:ed|t)?[\s-]?out\b/i,
+    /\bdepress(?:ed|ion|ing)?\b/i,
+    /\banxi(?:ous|ety)\b/i,
+    /\b(?:overwhelmed|stressed|disengaged)\b/i,
+  ],
   // Eval rules injected into the shared eval prompt via {{TYPE_EVAL_RULES}}.
   // Was a forked final-evaluation.md; this is the only part that differed.
   eval_rules: [

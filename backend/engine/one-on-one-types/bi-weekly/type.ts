@@ -42,6 +42,7 @@ const meetingType: MeetingType = {
     "Deficit-framing questions that assume or name failure: 'broken down', 'fallen short', 'slower or harder than it should have been' — prefer neutral open frames like 'where did things get complicated' or 'what's taken more energy than expected'.",
     "Personal life or out-of-work openers ('best part of your world outside work', 'what's been good for you personally') — bi-weeklies are professional peer conversations, not pastoral check-ins.",
     "Behavioural interview questions that read like competency audits: 'Where are you taking the lead?', 'What are you doing to drive X?', 'What would make this quarter clearly successful in one sentence?' — check-ins probe situations, not character.",
+    "Naming a wellbeing state the employee hasn't named ('burned out', 'stressed', 'anxious') — noticing belongs to the manager, naming belongs to them.",
   ],
   // Machine-checkable subset of anti_patterns — enforced on every question by
   // src/question-eligibility.js before it can reach the manager. Keep tight:
@@ -53,6 +54,12 @@ const meetingType: MeetingType = {
     /\bwhere are you taking the lead\b/i,
     /\bwhat are you doing to drive\b/i,
     /\bclearly successful\b[\s\S]{0,60}\bone sentence\b/i,
+    // State-inference terms (no-diagnosis rule across relational arcs —
+    // NICE NG212 / CIPD: notice and ask, never name the state for them).
+    /\bburn(?:ed|t)?[\s-]?out\b/i,
+    /\bdepress(?:ed|ion|ing)?\b/i,
+    /\banxi(?:ous|ety)\b/i,
+    /\b(?:overwhelmed|stressed|disengaged)\b/i,
   ],
   // Prompt set: inherits the shared house prompts. Override a slot to fork.
   prompts: { ...SHARED_PROMPTS },
