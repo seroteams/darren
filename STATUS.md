@@ -2,6 +2,13 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-20 — the arcs got right-sized.** Following the evidence review, Performance is now
+7 questions (was 8) and Growth 8 (was 9) — trimmed to fit their slots; the Growth picker badge
+moved 30-45 → 35-50 min to match. Two phase intents sharpened (Self-read = "your view, not the
+verdict"; feels-off "Underneath" = opt-in, employee-led). All 3 arc-evidence phases now green-lit;
+`npm test` 164/164. Committed local — ships next "go live". (Two tiny tone-string syncs —
+`plan-turn.md`, gallery `arcs.json` — still parked behind other lanes.)
+
 📍 **2026-07-20 — EVERYTHING WENT LIVE.** Your "go live" pushed the whole backlog (head `3c12e884`,
 two deploys): coach panel, promises step, hardening fixes, repeat-question fix, arc gates, better-reads
 P1+P2, boot-splash, admin lockdown, plus a cloud chat's run-memory P1 (merged — two small overlaps

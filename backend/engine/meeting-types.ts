@@ -21,7 +21,7 @@ export const MEETING_TYPES: MeetingType[] = [
   {
     label: "Growth & career plan",
     badge: "New",
-    duration: "30 to 45 min",
+    duration: "35 to 50 min",
     description: "When someone wants to grow, step up, or plan what comes next.",
   },
   {

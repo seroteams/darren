@@ -12,7 +12,7 @@ const meetingType: MeetingType = {
     {
       id: "self_read",
       label: "Self-read",
-      intent: "Their read of the last stretch before any manager view lands.",
+      intent: "Their own read of the stretch first — their view, not the verdict — before any manager evidence lands.",
       target_questions: 1,
     },
     {
@@ -31,7 +31,7 @@ const meetingType: MeetingType = {
       id: "cause",
       label: "Cause",
       intent: "What's driving it from their side — capability, clarity, context, or capacity.",
-      target_questions: 2,
+      target_questions: 1,
     },
     {
       id: "commit",

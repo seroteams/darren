@@ -13,7 +13,7 @@ const meetingType: MeetingType = {
       id: "anchor",
       label: "Anchor",
       intent: "Where they are now in role — what's solid, what's stretching.",
-      target_questions: 2,
+      target_questions: 1,
     },
     {
       id: "aspiration",

@@ -694,3 +694,15 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   OVERVIEW and every phase overview.
 - **2026-06-19** — Set up `docs/prototype-to-production/`: `OVERVIEW.md` (orchestrator + map) and a
   `00-phase-overview.md` for each phase, and initialised this `PROGRESS.md`.
+- **2026-07-20** — **Arc-evidence fixes Phases 2 + 3 → done (whole workstream closed).** After the
+  external evidence review, right-sized the two over-long arcs: Performance 8→7 questions (Cause
+  phase 2→1), Growth 9→8 (Anchor 2→1). Budget is single-sourced through `arcBudget()` so both the
+  CLI and web paths shortened together (sessions.service.ts:469). Bumped the Growth picker badge
+  30-45 → 35-50 min so the displayed time matches the new count (Carl's call). Sharpened two phase
+  intents to match the evidence: Performance Self-read = "their view, not the verdict" (voice, not
+  rating — Cawley/Mabe & West), feels-off "Underneath" = opt-in, employee-led (kept the `id` — it's
+  a shared `stage:` bucket across ~200 question files, so renaming would orphan them). Lesson: the
+  research author was working from the arc spec, not the live code — 5 of its 10 recs (all the
+  "ship now" gates) were already built in Phase 1; only the trims, reframes and one badge remained.
+  Verified: `npm run typecheck` clean, `npm test` 164/164; badge confirmed on live
+  `/api/v1/meeting-types`. Not pushed — ships next "go live".

@@ -9,13 +9,13 @@ test("arcBudget sums target_questions per type", () => {
   assert.equal(arcBudget("bi_weekly_check_in"), 6);
   assert.equal(arcBudget("something_feels_off"), 6);
   assert.equal(arcBudget("onboarding_check_in"), 6);
-  assert.equal(arcBudget("performance_feedback"), 8);
-  assert.equal(arcBudget("growth_career_plan"), 9);
+  assert.equal(arcBudget("performance_feedback"), 7);
+  assert.equal(arcBudget("growth_career_plan"), 8);
 });
 
 test("arcBudget resolves by label too", () => {
   assert.equal(arcBudget("Bi-weekly check-in"), 6);
-  assert.equal(arcBudget("Growth & career plan"), 9);
+  assert.equal(arcBudget("Growth & career plan"), 8);
 });
 
 // Overlay-free variant for offline callers (fixture validators) — same default
@@ -24,9 +24,9 @@ test("arcBudgetDefault sums the code-default arc without overlays", () => {
   assert.equal(arcBudgetDefault("bi_weekly_check_in"), 6);
   assert.equal(arcBudgetDefault("something_feels_off"), 6);
   assert.equal(arcBudgetDefault("onboarding_check_in"), 6);
-  assert.equal(arcBudgetDefault("performance_feedback"), 8);
-  assert.equal(arcBudgetDefault("growth_career_plan"), 9);
-  assert.equal(arcBudgetDefault("Growth & career plan"), 9);
+  assert.equal(arcBudgetDefault("performance_feedback"), 7);
+  assert.equal(arcBudgetDefault("growth_career_plan"), 8);
+  assert.equal(arcBudgetDefault("Growth & career plan"), 8);
 });
 
 // Built on the overlay-aware getArc, not the static default map, so a manager's

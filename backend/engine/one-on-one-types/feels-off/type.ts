@@ -24,7 +24,7 @@ const meetingType: MeetingType = {
     {
       id: "underneath",
       label: "Underneath",
-      intent: "If they open the door, follow it — what's underneath.",
+      intent: "Only if they open the door — follow their lead, at their pace. Opt-in and employee-led; never probe for what they haven't named.",
       target_questions: 2,
     },
     {
