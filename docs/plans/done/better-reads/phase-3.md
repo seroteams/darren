@@ -1,6 +1,9 @@
 # Phase 3 — Prep freshness
 
-**Status:** 🧪 built 2026-07-20, awaiting Carl's QA (evidence below)
+## ✅ GREEN-LIT 2026-07-20
+Carl signed off on the self-prior proof (opener 0.08 overlap, theme named as continuing, attempts unchanged; ~$0.13 of the approved ~$0.35).
+
+**Status:** ✅ closed
 
 ## Built + proven (2026-07-20)
 Free half: `prep-history.ts` fence (userId+personId via historyRunMatches, arc fence, brief fields only) + `pgPrepHistory` twin + threading through `buildPrepInput`→`buildMessages`. Finish: `{{PREP_HISTORY_BLOCK}}` + 2 instruction lines in preparation.md's **User half** (System half byte-identical — cache preserved, unit-tested), wired at `preparationStream` via `prepHistoryFor`. Preview endpoint stays sync → renders the first-prep sentinel (same accepted drift as the focus-points preview).

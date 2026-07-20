@@ -12,6 +12,8 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ CLOSED 2026-07-20: [better-reads](docs/plans/done/better-reads/plan.md) — the engine's read got fairer and briefings stopped repeating themselves (all 3 phases green-lit in one day, from Carl's "can we improve our engine?").** A three-lens stage audit measured the sweep's #1 parked finding (scoring skew) at 24 down-bookings/−34 vs 11 up/+11 across 8 runs, then fixed it honestly: every held-back score is now recorded (P1), a short-but-real answer ("Shipped payments-fix") keeps the up-score the model already proposed — never invented, still capped (P2, LIVE), and repeat 1:1s see last time's brief and provably open new ground (self-prior proof: 8% opener overlap, theme named as continuing; ~$0.13 paid) (P3, ships next push). Two systemic findings down (skew + briefing sameness), four still parked (bank bloat, blind lint, key mismatch + the cost quick-wins).
+
 **🧹 BOARD CLEARED 2026-07-18 + PUSHED LIVE (Carl: "finish all, moving on").** His full-system walk green-lit every built pass; the promises **card zero** (P2) was built, screen-proven, and green-lit the same day; every unbuilt tail was then parked with a banner (nothing lost — one sentence un-parks). Open now:
 - **[screen-gallery](docs/plans/doing/screen-gallery/plan.md)** — the ONLY track in doing/: new 2026-07-18 (another chat), mockup awaiting Carl's approval.
 - Newly parked → future/: **ui-look-and-feel** (P4–P6) · **admin-live-deploy** (P4–P6) · **personal-data-security** (P3 history-scrub — needs an all-chats-closed night). *(**promises-loop** un-parked 2026-07-18 → doing/; P3 surfacing half green-lit, engine feed still to build.)*

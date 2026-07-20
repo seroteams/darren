@@ -1,6 +1,8 @@
 # Better reads — fix scoring skew + briefing sameness
 
-**Status:** Phase 1 ✅ · Phase 2 ✅ green-lit 2026-07-20 (live) · Phase 3 🔨 free half building (prompt + wiring + paid eval deferred behind promises-loop lane)
+**Status:** ✅ TRACK CLOSED 2026-07-20 — all 3 phases green-lit by Carl in one day. P1+P2 live; P3 committed, ships next push.
+**Parked follow-ups (cut scope stays cut unless Carl reopens):** reviewer single-touch recalibration (now cleanly buildable on the merged read-quality `read` tags) · run-health `scoring` summary block · the audit's cost quick-wins (prep-retry economics Q1, bank waste Q2, cache lock Q3) + housekeeping (blind-lint promotion, person-key migration, focus-prompt trim) — all in the audit backlog, none blocking.
+**Changelog note:** add "fairer scoring + fresh briefings" to the customer changelog when P3 ships live.
 **Owner session:** 7d264f5e (2026-07-20)
 **Board:** https://claude.ai/code/artifact/96b7eaec-c5d2-4a1a-8f3f-0c4b7f2dae4a
 
