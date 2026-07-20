@@ -23,6 +23,7 @@ import {
   runAxisSilenceCheck,
   runMeaningRuleEchoCheck,
   runRoleProfileArcGate,
+  runRationaleArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
 } from "../backend/engine/golden-checks.ts";
@@ -118,6 +119,7 @@ const HARD_FAIL = {
   FOCUS_ARC_LEAK: "FOCUS_ARC_LEAK",
   FOCUS_SHAPE_LEAK: "FOCUS_SHAPE_LEAK",
   QUESTION_ARC_LEAK: "QUESTION_ARC_LEAK",
+  RATIONALE_ARC_LEAK: "RATIONALE_ARC_LEAK",
   ROLE_PROFILE_ARC_LEAK: "ROLE_PROFILE_ARC_LEAK",
   ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
@@ -476,6 +478,15 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (questionArc.length) {
     hard_fails.push(HARD_FAIL.QUESTION_ARC_LEAK);
     details.push(...questionArc);
+  }
+
+  // Rationale arc gate (coach-panel Phase 3): the score "why" text (per-turn note +
+  // per-axis meaning) must not carry competency framing in a relational arc — the
+  // coach panel now shows it prominently. Detect-only; surfaces for a prompt fix.
+  const rationaleArc = runRationaleArcGate(turns, briefing, type);
+  if (rationaleArc.length) {
+    hard_fails.push(HARD_FAIL.RATIONALE_ARC_LEAK);
+    details.push(...rationaleArc);
   }
 
   // Warning, not a hard fail: a signal-free session is legitimately silent,

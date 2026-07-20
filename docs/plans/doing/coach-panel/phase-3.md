@@ -1,6 +1,20 @@
 # Phase 3 — Rationale arc gate
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built (gate + tests), awaiting Carl's walk — one prompt line parked
+
+## Built (overnight 2026-07-19)
+- **`runRationaleArcGate`** in [golden-checks.ts](../../../backend/engine/golden-checks.ts) — in a relational arc (bi-weekly / feels-off), scans the per-turn `assessment.note` AND the briefing's per-axis `meaning` for competency/craft-gap framing (12 blatant tripwires: skills gap, competency, technical depth, below the bar, underperform, next-role readiness, …). **Detect-only — it surfaces a failure so the prompt gets fixed, it never rewrites the model text** (engine-honesty rule). Scoped to relational arcs exactly like the sibling focus/question/role-profile gates; competency framing stays legitimate in the `performance` arc.
+- Wired into the eval harness as a new hard-fail `RATIONALE_ARC_LEAK` ([evals/trust-checks.ts](../../../evals/trust-checks.ts)), alongside the existing FOCUS/QUESTION/ROLE_PROFILE arc gates.
+- **Proof ($0):** 6 co-located unit tests (fires on planted competency notes + meanings; quiet on clean behavioural text; silent in the performance arc; null-safe) — [golden-checks.rationale-arc.test.ts](../../../backend/engine/golden-checks.rationale-arc.test.ts). Offline sweep of **86 real July relational-arc runs (153 notes + 92 axis meanings): ZERO false positives.** Full suite 159/159, typecheck clean.
+
+## ⚠️ Parked (needs the other lane free)
+- The plan-turn prompt reminder line (register nudge for the note) lives in `content/prompts/plan-turn.md` — another chat's lane, same block as Phase 2's prompt edit. The gate stands on its own without it; the nudge is a belt-and-braces follow-up for when the lane frees.
+
+## ✅ Original checklist status
+- [x] Gate fires on a seeded competency note in a bi-weekly fixture, quiet on July's real relational-arc runs (86 runs, 0 flags).
+- [x] `npm test` (159/159) + typecheck green.
+- [ ] Product owner has tested the scenario below and said go.
+
 
 ## Goal
 The score "why" lines can never carry performance-review framing into the two relational meeting types (bi-weekly check-in, something-feels-off) — closing the gap the research flagged: today nothing checks the free-text rationale, and the split panel makes it prominent.

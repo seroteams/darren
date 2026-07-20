@@ -26,14 +26,14 @@ Research behind this plan (all file:line evidence, cost estimates, privacy check
 |---|---|---|---|
 | 1 | Split screen + live scores | Real questioning screen goes 50/50; gradient meters wired to real deltas + the model's real "why" per axis | ✅ |
 | 2 | Support hints | Questions generated with 3 hints each; Support/Live-scores toggle appears | ✅ |
-| 3 | Rationale arc gate | FOCUS_ARC_LEAK-style check so score "why" text can't carry competency framing into bi-weekly / feels-off meetings | ⬜ |
+| 3 | Rationale arc gate | FOCUS_ARC_LEAK-style check so score "why" text can't carry competency framing into bi-weekly / feels-off meetings | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 **Phase 1 ✅ GREEN-LIT 2026-07-19** — Carl walked the split screen and said "looks good" (after one rebuild: v1 sat inside the page, v2 is the POC's true full-screen 50/50). Committed 936a23a3. 158/158 tests, typecheck + lint:tokens clean, verified on a $0 cassette walk + screenshot.
 **Phase 2 ✅ GREEN-LIT 2026-07-19** (commit ecf9b28b) — Carl walked the toggle + Support view, "looks good". Contract + panel signed off; two pieces PARKED (below).
-**Next: Phase 3 — Rationale arc gate.** NOTE it is partly lane-blocked too (its prompt line lives in content/prompts/plan-turn.md, another chat's lane) — the golden-checks.ts gate + tests are free to build; the prompt reminder waits with Phase 2's prompt edit.
+**Phase 3 BUILT overnight 2026-07-19 (gate + tests), awaiting Carl's walk.** `runRationaleArcGate` flags competency framing in relational-arc score "why" text (detect-only, wired as RATIONALE_ARC_LEAK); 6 unit tests + a $0 sweep of 86 real July relational runs = zero false positives; 159/159, typecheck clean. Parked: the plan-turn prompt reminder line (other chat's lane).
 Board: https://claude.ai/code/artifact/7638a835-d749-4676-88ce-db2fbd9c57f3
 
 ## Parked

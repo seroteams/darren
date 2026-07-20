@@ -33,6 +33,7 @@ interface GateTurn {
   answer?: string;
   skipped?: boolean;
   question?: GateQuestion;
+  note?: string; // the planner's per-turn assessment.note (the score "why")
 }
 type GateTranscript = ReadonlyArray<GateTurn> | null | undefined;
 
@@ -187,6 +188,54 @@ function runRoleProfileArcGate(profileDoc: unknown, meetingType: string): string
         `relational arc "${meetingType}" rendered competency role-profile item: ${text.slice(0, 60)}`
       );
     }
+  }
+  return failures;
+}
+
+// runRationaleArcGate — coach-panel Phase 3. The score "why" text is now shown
+// prominently in the runner's coach panel (per-turn assessment.note) and in the
+// briefing (per-axis meaning). In a relational arc that rationale must stay
+// behaviour/observation-anchored: competency / craft-gap framing reads as the
+// hidden performance review the focus/question/role-profile arc gates already
+// keep out one layer up. Detect-only tripwire over blatant evaluative craft
+// vocabulary — it flags so the PROMPT gets fixed, it never edits the model text.
+// Competency framing is legitimate in the `performance` arc, so this is scoped to
+// relational arcs exactly like the sibling gates.
+const RATIONALE_COMPETENCY_PATTERNS: Array<{ label: string; re: RegExp }> = [
+  { label: "skills gap", re: /\bskills?\s+gap\b/i },
+  { label: "upskill", re: /\bupskill/i },
+  { label: "competency/competence", re: /\bcompeten(?:cy|ce|cies)\b/i },
+  { label: "proficiency", re: /\bproficien(?:t|cy)\b/i },
+  { label: "capability gap / lacks capability", re: /\b(?:capability\s+gap|lacks?\s+the\s+capabilit)/i },
+  { label: "technical depth/ability", re: /\btechnical\s+(?:depth|ability|skill)\b/i },
+  { label: "underperform", re: /\bunder-?perform/i },
+  { label: "not yet at the level / below the bar", re: /\bnot\s+(?:yet\s+)?(?:at|ready)\b[\w\s]*\b(?:level|bar)\b|\bbelow\s+the\s+bar\b/i },
+  { label: "readiness for next role/level", re: /\b(?:readiness|ready)\b[\w\s]*\bnext\s+(?:role|level)\b|\bnext-level\s+readiness\b/i },
+  { label: "weak on/at (a skill)", re: /\bweak(?:ness)?\s+(?:on|at|in)\b/i },
+  { label: "falls/falling short", re: /\bfall(?:s|ing)\s+short\b/i },
+  { label: "performance gap/concern/issue", re: /\bperformance\s+(?:gap|concern|issue|problem)\b/i },
+];
+
+function runRationaleArcGate(
+  transcript: GateTranscript,
+  briefing: unknown,
+  meetingType: string,
+): string[] {
+  const failures: string[] = [];
+  if (!isRelationalArc(meetingType)) return failures;
+  const flag = (text: string | undefined, where: string): void => {
+    if (!text) return;
+    for (const p of RATIONALE_COMPETENCY_PATTERNS) {
+      if (p.re.test(text)) {
+        failures.push(
+          `relational arc "${meetingType}" ${where} rationale uses competency framing "${p.label}": "${text.slice(0, 80)}"`
+        );
+      }
+    }
+  };
+  for (const t of transcript || []) flag(t?.note, `turn ${t?.turn ?? "?"} note`);
+  if (isBriefingShape(briefing)) {
+    for (const ax of briefing.axes || []) flag(ax?.meaning, `axis ${ax?.id ?? "?"} meaning`);
   }
   return failures;
 }
@@ -714,6 +763,7 @@ export {
   runMeaningRuleEchoCheck,
   ruleEchoAxisIds,
   runRoleProfileArcGate,
+  runRationaleArcGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
   runQuestionStemChecks,
