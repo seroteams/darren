@@ -20,14 +20,14 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Lock the door | `/admin` bundle served only to super-admins in prod; everyone else 302 → `/`; same bounce client-side for dev | ⬜ |
+| 1 | Lock the door | `/admin` bundle served only to super-admins in prod; everyone else 302 → `/`; same bounce client-side for dev | ✅ |
 | 2 | Internal tools admin-only everywhere | internal-tool guard stops accepting `manager` on any environment | ⬜ |
 | 3 | Fix the signposts | no login/register/email/link ever points a manager or member at `/admin` | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Plan set up 2026-07-20 from the full-system URL/RBAC audit (two Explore sweeps: app routing + backend guards). Board: https://claude.ai/code/artifact/93007886-2e0b-445f-a8cd-8628aa9839f1 . Waiting on Carl's read-through before Phase 1 starts. Baseline to be run at Phase 1 kickoff.
+Phase 1 ✅ GREEN-LIT 2026-07-20 — Carl walked manager + member bounce and admin console load on the :3099 prod build. Next: Phase 2 (internal tools admin-only everywhere), starting now. Board: https://claude.ai/code/artifact/93007886-2e0b-445f-a8cd-8628aa9839f1 .
 
 ## Parked
 - Slim the admin bundle down to console + internal screens only (drop the duplicated manager/member stages) — bigger refactor, not needed once the door is locked.

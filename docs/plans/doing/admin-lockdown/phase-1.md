@@ -1,6 +1,15 @@
 # Phase 1 — Lock the door
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-20 — Carl walked manager + member bounce and admin-console load on the :3099 prod build
+
+## Built (2026-07-20)
+- New guard `backend/api/middleware/admin-shell-guard.ts` (`requireAdminShell`): builds the request identity, serves the admin bundle only to an internal identity (role `admin` OR allowlisted superadmin), 302s everyone else — manager, member, logged-out — to `/`. Fails closed on a session-lookup error.
+- Wired in `backend/api/server.ts`: the `/admin` static handler is now fronted by `requireAdminShell`, so the raw file server never sees a non-internal caller.
+- Client belt-and-braces + dev parity in `admin/src/main.js` boot: a signed-in non-internal user is full-page redirected out of the admin bundle to `/`.
+- Tests: new `admin-shell-guard.test.ts` (5 cases — anon/manager/member 302, admin/superadmin served). Updated `scripts/test-admin-serving.js` to assert the lock end-to-end (was asserting the old open behaviour).
+- **Proof:** `npm test` 161/161, `npm run typecheck` clean, `node scripts/test-admin-serving.js` — real prod boot on :3099 confirms logged-out `/admin/` + `/admin/errors` both 302→`/`, customer app at `/` untouched, `/api/v1/admin/*` still JSON 401. Baseline before work: 160/160 + typecheck clean. Internal-admin-served path proven by unit test (needs no DB); a live browser walk of a real manager/superadmin session is Carl's QA below.
 
 ## Goal
 Nobody but a super-admin can load anything under `/admin` — the server checks who you are before handing over a single file.

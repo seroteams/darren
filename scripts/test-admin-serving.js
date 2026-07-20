@@ -6,11 +6,13 @@
 //      unlike the customer fence (test-customer-serving.js) — we assert only that
 //      no secrets leak, not "no internal code". Builds admin/dist itself (offline,
 //      base "/admin/") so the check can never pass against a stale build.
-//   2. SERVING WIRING: a real production boot serves the ADMIN app at "/admin/"
-//      (and admin deep links fall back to the admin index), still serves the
-//      CUSTOMER app at "/" (untouched), and a logged-out /api/v1/admin/* still
-//      answers the JSON 401 error shape — never the SPA. Verified by matching each
-//      app's hashed entry script (verify the destination, not the code).
+//   2. SERVING WIRING: a real production boot LOCKS the ADMIN shell (admin-lockdown
+//      Phase 1) — a logged-out visitor hitting "/admin/" or an admin deep link is
+//      302'd to the customer app at "/", never handed the bundle. It still serves the
+//      CUSTOMER app at "/" (untouched), and a logged-out /api/v1/admin/* still answers
+//      the JSON 401 error shape — never the SPA. (That an INTERNAL admin/superadmin IS
+//      served the shell is proven by the unit test backend/api/middleware/
+//      admin-shell-guard.test.ts — it needs no DB session; this boot has no auth.)
 //
 // Offline + $0: no OpenAI calls. Boots with the same local .env the dev API uses.
 // Auto-discovered by scripts/run-tests.js.
@@ -123,17 +125,19 @@ async function main() {
     check(up, "production-mode server boots (health answers)");
     if (!up) { console.error(serverErr.slice(-2000)); return; }
 
-    // ADMIN app under /admin/
+    // ADMIN shell LOCKED (admin-lockdown Phase 1): a logged-out visitor is 302'd to the
+    // customer app — never handed the admin bundle, whatever the deep link.
     const adminRoot = await get("/admin/");
-    check(adminRoot.status === 200 && adminEntry && adminRoot.body.includes(adminEntry[1]),
-      "GET /admin/ serves the ADMIN app (hashed entry matches admin/dist)");
-    check((adminRoot.headers["x-robots-tag"] || "").includes("noindex"),
-      "admin responses carry X-Robots-Tag: noindex");
+    check(adminRoot.status === 302 && adminRoot.headers["location"] === "/",
+      "GET /admin/ logged-out is 302'd to / (shell locked, not served)");
+    check(!adminRoot.body.includes(adminEntry ? adminEntry[1] : "/admin/assets/index-"),
+      "the /admin/ redirect body carries none of the admin bundle");
 
-    // An admin deep link falls back to the admin index (not the customer app, not a 404).
+    // The lock covers the whole /admin/* subtree — a deep link is bounced too, not
+    // fallen back to the admin index.
     const adminDeep = await get("/admin/errors");
-    check(adminDeep.status === 200 && adminEntry && adminDeep.body.includes(adminEntry[1]),
-      "admin deep link (/admin/errors) falls back to the admin index");
+    check(adminDeep.status === 302 && adminDeep.headers["location"] === "/",
+      "admin deep link (/admin/errors) logged-out is 302'd to /");
 
     // CUSTOMER app at "/" is untouched.
     const root = await get("/");

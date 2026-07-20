@@ -330,6 +330,16 @@ async function boot() {
   // directly (no notify) so the real stage is what renders, no login flash.
   store.user = { userId: identity.userId, orgId: identity.orgId, roles: identity.roles, email: identity.email, name: identity.name, isSuperadmin: identity.isSuperadmin };
 
+  // The admin app is internal only (admin-lockdown Phase 1). A signed-in manager or member
+  // has no business in this bundle — their whole app is the customer app at "/". In prod the
+  // server 302s them before the bundle ever loads (requireAdminShell); this is the belt-and-
+  // braces for the same-origin prod build and any path that reaches boot with a non-internal
+  // user — full navigation OUT to the customer app, not a seat inside the admin shell.
+  if (!isInternalAdmin(store.user)) {
+    window.location.href = "/";
+    return;
+  }
+
   // A plain member gets a read-only app: their own past 1:1s, and nothing else
   // (member-view: only-runs). They can't start or run a 1:1, and Home/Team are gone. Honor
   // a deep link to one of their own runs or a shared content page (privacy/about/feedback);

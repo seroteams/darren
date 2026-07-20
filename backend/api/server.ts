@@ -30,6 +30,7 @@ import { v1Route } from "./middleware/v1-route.ts";
 import { originOk } from "./middleware/origin.ts";
 import { requireSuperadminRoute } from "./middleware/superadmin-guard.ts";
 import { requireInternalToolRoute, blockOnLive } from "./middleware/internal-tool-guard.ts";
+import { requireAdminShell } from "./middleware/admin-shell-guard.ts";
 import { forbidden, rateLimited } from "./middleware/http-error.ts";
 import * as sessions from "./services/sessions/sessions.controller.ts";
 import * as runs from "./services/runs/runs.controller.ts";
@@ -686,7 +687,13 @@ async function main(): Promise<void> {
   // The admin console ships under /admin (admin-live-deploy Phase 2), built with vite base
   // "/admin/". noindex keeps it out of search results; the prefix is stripped before file
   // resolution so /admin/assets/x.js -> admin/dist/assets/x.js and /admin(/) -> the index.
-  const adminHandler = IS_PROD ? createStaticHandler(ADMIN_DIST, { prefix: "/admin", noindex: true }) : null;
+  // The raw file handler serves the admin bundle; requireAdminShell fronts it so only an
+  // internal admin / superadmin can load it — a manager, member, or logged-out visitor is
+  // 302'd to the customer app (admin-lockdown Phase 1). The static handler never sees a
+  // non-internal caller.
+  const adminHandler = IS_PROD
+    ? requireAdminShell(createStaticHandler(ADMIN_DIST, { prefix: "/admin", noindex: true }))
+    : null;
 
   const server = http.createServer((req, res) => {
     router.handle(req, res, {
