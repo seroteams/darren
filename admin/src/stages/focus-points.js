@@ -86,7 +86,7 @@ export async function mount(root, { store, setState }) {
         <p class="text-ink-dim">${escape(store.ctx?.notes || "(no notes added)")}</p>
       </div>
       ${store.scripted ? `<div class="focus-select-hint reveal">Choose what the prep brief should emphasise. Replay questions stay fixed.</div>` : `<div class="focus-select-hint reveal">Select at least one topic for this 1:1.</div>`}
-      <div class="card reveal focus-point-list">
+      <div class="reveal focus-point-list">
         ${d.focus_points.map((fp, i) => `
           <div class="js-fp-wrapper">
             <button type="button" class="focus-point focus-point--selectable js-fp-toggle" data-fp-id="${escape(fp.id)}" aria-pressed="false" title="${escape(fp.reason || "")}">
@@ -210,7 +210,7 @@ function evidenceTag(fp) {
         ? "from your note, clearly stated"
         : "from your note"
       : "common for this level";
-  return `<div class="focus-point__evidence text-xs text-ink-mute">${text}</div>`;
+  return `<div class="focus-point__evidence">${text}</div>`;
 }
 
 function formatFocusPointsForCopy(focusPoints, ctx) {

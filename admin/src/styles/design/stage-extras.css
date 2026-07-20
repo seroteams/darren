@@ -230,6 +230,112 @@
   color: var(--color-ink-dim);
 }
 
+/* -----------------------------------------------------------------------------
+   Focus points — the "What we'll cover" selectable list (1:1 prep flow).
+   Each option is a full-width selectable card: number medallion + label/reason +
+   a right-hand tick. Left-aligned and clear on mobile (was an unstyled native
+   <button>, which browsers centre and grey — the source of the "centred / not
+   clear on mobile" report). Selection mirrors the .pill tint recipe so it never
+   competes with the screen's one blue action (the Continue button).
+----------------------------------------------------------------------------- */
+.focus-point-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+}
+.focus-point {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sero-space-3);
+  width: 100%;
+  text-align: left;
+  padding: var(--sero-space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out-expo),
+    background var(--dur-fast) var(--ease-out-expo);
+}
+.focus-point:hover { border-color: var(--color-accent); }
+.focus-point.is-selected {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+/* Number medallion — soft-tint circle (a solid-accent fill would read as a second
+   blue action). Keeps a surface ground once the card is tinted-selected. */
+.focus-point__num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+.focus-point.is-selected .focus-point__num { background: var(--color-surface); }
+
+.focus-point__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.focus-point__label { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.focus-point__reason { font-size: var(--type-body-sm); color: var(--color-ink-dim); line-height: 1.5; }
+.focus-point__evidence { font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+
+/* Selection tick — an empty ring that fills accent with a white check when chosen.
+   A state indicator inside the card, not a tappable chip, so the solid fill is fine. */
+.focus-point__check {
+  flex: none;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--sero-radius-full);
+  border: 1.5px solid var(--color-border-strong);
+  background: var(--color-surface);
+  transition: background var(--dur-fast) var(--ease-out-expo),
+    border-color var(--dur-fast) var(--ease-out-expo);
+}
+.focus-point:hover .focus-point__check { border-color: var(--color-accent); }
+.focus-point.is-selected .focus-point__check {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.focus-point__check::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.25rem;
+  border-left: 2px solid var(--color-surface);
+  border-bottom: 2px solid var(--color-surface);
+  transform: rotate(-45deg) translateY(-1px);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+.focus-point.is-selected .focus-point__check::after { opacity: 1; }
+
+/* Helper line above the list. */
+.focus-select-hint {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+
+/* Action row — inline on desktop; on mobile the buttons stack full-width so the
+   primary Continue is a big tap target and nothing crowds. */
+@media (max-width: 767.98px) {
+  .focus-actions { flex-direction: column; align-items: stretch; }
+  .focus-actions .btn { width: 100%; justify-content: center; }
+}
+
 /* custom checkbox */
 .cl-cb { flex: none; display: inline-flex; cursor: pointer; padding-top: 0.1rem; }
 .cl-cb input { position: absolute; opacity: 0; width: 0; height: 0; }
