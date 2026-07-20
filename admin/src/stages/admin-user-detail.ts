@@ -3,6 +3,10 @@
 // gated by requireSuperadminRoute (a normal owner → 403). Reuses PG4 grouping to show the
 // people this user has met, and PG1 rows + PG3 ratings for their runs. Read-only; opening a
 // briefing is PG8 Step 03.
+//
+// IA (2026-07-21): every level shares ONE breadcrumb trail (ui/breadcrumb.ts) instead of
+// three different back buttons, and the recap renders its OWN header — so the big title names
+// the 1:1 you're reading, not the manager, and no second back button stacks under it.
 
 import { STAGES, store } from "../state.js";
 import { getUserRuns, getAdminRun } from "../../../shared/api.js";
@@ -11,6 +15,7 @@ import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
 import { relTime } from "../ui/time.ts";
 import { groupRunsByPerson } from "../ui/group-people.js";
+import { breadcrumb } from "../ui/breadcrumb.ts";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -24,10 +29,23 @@ type Run = {
 
 type Person = { key: string; name: string; role: string; count: number; lastMet: number; ratedCount: number; avgStars: number | null };
 
-function personCard(p: Person): string {
+// First letter of the name (falls back to "?") — the glyph in the recap avatar circle.
+function initialOf(name: string): string {
+  const s = (name || "").trim();
+  return s ? s[0]!.toUpperCase() : "?";
+}
+
+// "Role · Seniority" — the dim line, middot-joined to match the member's own recap
+// (run-detail.ts roleLine). The old comma form ("Role, Seniority") was the odd one out.
+function roleLine(c: Run["ctx"]): string {
+  if (!c.role) return c.seniority || "";
+  return c.seniority ? `${c.role} · ${c.seniority}` : c.role;
+}
+
+export function personCard(p: Person): string {
   const bits = [
     p.role,
-    `${p.count} ${p.count === 1 ? "meeting" : "meetings"}`,
+    `${p.count} ${p.count === 1 ? "1:1" : "1:1s"}`,
     `last ${relTime(p.lastMet) || "—"}`,
   ].filter(Boolean);
   const rated =
@@ -41,10 +59,10 @@ function personCard(p: Person): string {
     </div>`;
 }
 
-function runSubtitle(c: Run["ctx"]): string {
+export function runSubtitle(c: Run["ctx"]): string {
   const bits: string[] = [];
   if (c.name) bits.push(c.name);
-  if (c.role) bits.push(c.seniority ? `${c.role}, ${c.seniority}` : c.role);
+  if (c.role) bits.push(roleLine(c));
   if (c.meetingType) bits.push(c.meetingType);
   return bits.join(" · ");
 }
@@ -64,15 +82,43 @@ function runRow(r: Run): string {
   return `<button type="button" class="card-flat runs-list__row js-run-row" data-run-id="${escapeHtml(r.id)}"><span class="text-sm">${line}</span>${badge}</button>`;
 }
 
+// The recap's OWN header: the breadcrumb trail (User management › {user} › {meeting}) plus a
+// profile that names the 1:1 you're reading. Reuses the run-detail profile classes for exact
+// parity with the member's own recap header, so nothing new is invented.
+export function recapHeader(ctx: Run["ctx"], userName: string): string {
+  const c = ctx || ({} as Run["ctx"]);
+  const trail = breadcrumb([
+    { label: "User management", nav: "users" },
+    { label: userName, nav: "list" },
+    { label: c.meetingType || "1:1" },
+  ]);
+  const role = roleLine(c);
+  return `
+    <header class="page-header l-stack l-stack--3">
+      ${trail}
+      <div class="rd-profile">
+        <div class="ds-avatar rd-avatar" aria-hidden="true">${escapeHtml(initialOf(c.name))}</div>
+        <div class="rd-profile__id">
+          <h1 class="rd-name">${escapeHtml(c.name || "This 1:1")}</h1>
+          ${role ? `<div class="text-ink-dim text-sm">${escapeHtml(role)}</div>` : ""}
+        </div>
+        ${c.meetingType ? `<span class="rd-type-badge">${escapeHtml(c.meetingType)}</span>` : ""}
+      </div>
+    </header>`;
+}
+
 export const mount: Mount = async (root, { setState }) => {
   const name = store.adminUserName || "This user";
   const header = `
     <header class="page-header l-stack l-stack--2">
-      <button type="button" class="btn btn--ghost btn--sm js-back">‹ User management</button>
+      ${breadcrumb([{ label: "User management", nav: "users" }, { label: name }])}
       <h1 class="h1">${escapeHtml(name)}</h1>
       <div class="text-ink-dim">Their people and 1:1s — read-only.</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
+  // The recap gets its own bare container — NOT `shell` — so the user's page-header no longer
+  // rides along above it (that was the doubled title + stacked back button).
+  const recapShell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
 
   const errorCard = `
     <section class="card-flat space-y-3">
@@ -83,8 +129,20 @@ export const mount: Mount = async (root, { setState }) => {
 
   const back = () => setState({ adminUserId: null, adminUserName: null, stage: STAGES.ADMIN_REGISTERED });
 
+  // The breadcrumb's navigable crumbs, by data-nav key: "users" → back to the registered list,
+  // "list" → back to this user's own People/1:1s. Re-run after every innerHTML repaint.
+  const wireCrumbs = () => {
+    root.querySelectorAll<HTMLButtonElement>(".js-crumb").forEach((c) => {
+      c.addEventListener("click", () => {
+        const nav = c.dataset.nav;
+        if (nav === "users") back();
+        else if (nav === "list") renderList();
+      });
+    });
+  };
+
   const wire = () => {
-    root.querySelector(".js-back")?.addEventListener("click", back);
+    wireCrumbs();
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
   };
 
@@ -92,31 +150,32 @@ export const mount: Mount = async (root, { setState }) => {
   let people: Person[] = [];
 
   // Open ONE run's briefing read-only (PG8 Step 3) — cross-user, via the superadmin
-  // route (getAdminRun). Back returns to this user's list without a re-fetch.
+  // route (getAdminRun). The breadcrumb steps back to this user's list without a re-fetch.
   const openRun = async (runId: string) => {
     if (!runId) return;
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+    root.innerHTML = recapShell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
     let run: { ctx: Run["ctx"]; briefing: Briefing | null };
     try {
       run = (await getAdminRun(runId)) as { ctx: Run["ctx"]; briefing: Briefing | null };
     } catch {
-      root.innerHTML = shell(`
+      const trail = breadcrumb([
+        { label: "User management", nav: "users" },
+        { label: store.adminUserName || "User", nav: "list" },
+        { label: "1:1" },
+      ]);
+      root.innerHTML = recapShell(`
+        <header class="page-header l-stack l-stack--3">${trail}</header>
         <section class="card-flat space-y-3">
           <div class="eyebrow">Couldn't open</div>
           <p class="text-ink-dim">This 1:1 couldn't be opened. Go back and try another.</p>
-          <button type="button" class="btn btn--ghost js-back-list">‹ Back</button>
         </section>`);
-      root.querySelector(".js-back-list")?.addEventListener("click", renderList);
+      wireCrumbs();
       return;
     }
-    const sub = runSubtitle(run.ctx || ({} as Run["ctx"]));
-    const head = `
-      <section class="l-stack l-stack--2">
-        <button type="button" class="btn btn--ghost btn--sm js-back-list">‹ Back to ${escapeHtml(store.adminUserName || "user")}</button>
-        ${sub ? `<div class="text-ink-dim text-sm">${escapeHtml(sub)}</div>` : ""}
-      </section>`;
-    root.innerHTML = shell(head + renderReadonlyBriefing(run.briefing));
-    root.querySelector(".js-back-list")?.addEventListener("click", renderList);
+    root.innerHTML = recapShell(
+      recapHeader(run.ctx || ({} as Run["ctx"]), store.adminUserName || "User") + renderReadonlyBriefing(run.briefing),
+    );
+    wireCrumbs();
   };
 
   const renderList = () => {
