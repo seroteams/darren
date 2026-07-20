@@ -1,6 +1,9 @@
 /* -----------------------------------------------------------------------------
    The thinking orb — tuned for a light background
 ----------------------------------------------------------------------------- */
+/* The loading mark is the animated Sero "pong" logo (see ../../ui/sero-pong.js) —
+   the same mark that plays on app boot, reused as the inline engine-thinking loader.
+   The rally is driven in JS; this file only sizes and colours the mark. */
 .orb {
   position: relative;
   width: 56px;
@@ -9,54 +12,25 @@
   vertical-align: middle;
 }
 
-.orb__core {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 32% 30%,
-    #8ea8ff 0%,
-    var(--color-accent) 55%,
-    var(--color-purple) 100%
-  );
-  box-shadow: 0 0 28px var(--color-accent-glow),
-              0 0 60px 6px var(--color-purple-glow),
-              inset 0 0 10px rgba(255, 255, 255, 0.35);
+.orb__mark {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.orb__ring {
-  position: absolute;
-  inset: -14px;
-  border-radius: 50%;
-  border: 1px solid var(--color-accent-glow);
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .orb__core { animation: orb-pulse 2200ms var(--ease-in-out-cubic) infinite; }
-  .orb__ring { animation: orb-echo 1700ms var(--ease-in-out-cubic) infinite; animation-delay: 200ms; }
-}
-
-.orb--exit .orb__core { animation: orb-exit var(--dur-fast) var(--ease-out-expo) forwards; }
-.orb--exit .orb__ring { opacity: 0; }
+/* Colours are the boot-splash mark literals exactly — charcoal tile #1f2a37, white
+   bars + ball. The ink *token* is a different charcoal (#333333), so the mark keeps
+   its own literals to stay identical to the boot splash + favicon. (orb.css is
+   token-guard allowlisted for this decorative-signature reason.) */
+.orb__tile { fill: #1f2a37; }
+.orb__pad,
+.orb__ball { fill: #fff; }
 /* Thinking-orb container fade-out on stage exit (was an inline style in orb.js) */
 .thinking-orb.is-exiting {
   transition: opacity var(--dur-fast) ease-out;
   opacity: 0;
 }
 
-@keyframes orb-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.95; }
-  50%      { transform: scale(1.08); opacity: 1; }
-}
-@keyframes orb-echo {
-  0%   { transform: scale(1);   opacity: 0; }
-  40%  { opacity: 0.6; }
-  100% { transform: scale(1.4); opacity: 0; }
-}
-@keyframes orb-exit {
-  to { transform: scale(1.2); opacity: 0; }
-}
 @keyframes caret-pulse {
   0%, 100% { opacity: 0.55; transform: translateX(0); }
   50%      { opacity: 1; transform: translateX(2px); }

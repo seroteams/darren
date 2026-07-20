@@ -6,6 +6,8 @@
 // classes (.btn, .card, .um-table*, .um-badge*, .page-header*, .field*, .textarea, .input,
 // .bench-select) where they exist; showcase-only bits are local .ds-* classes.
 
+import { createOrb } from "../ui/orb.js";
+
 // Rail order = section order down the page. Each entry needs a matching builder below and
 // a <section id="ds-<id>">; the scrollspy wires up automatically.
 const SECTIONS = [
@@ -105,6 +107,7 @@ let observer = null;
 let toastTimers = [];
 let liveToasts = [];
 let docClick = null;
+let orbDemo = null; // live loading-mark demo in the states section
 
 function hexOf(el) {
   const c = getComputedStyle(el).backgroundColor;
@@ -599,7 +602,8 @@ function statesHtml() {
            <div class="ds-skel__bar" style="width:83%"></div>
          </div>
          <div class="ds-row" style="border-top:1px solid var(--color-border); padding-top: var(--sero-space-4)">
-           <span class="ds-spinner"></span><span class="caption">Spinner — short waits only. Engine thinking keeps the orb.</span></div>
+           <span class="ds-spinner"></span><span class="caption">Spinner — short waits only. Longer engine waits show the Sero mark, below.</span></div>
+         <div class="ds-row js-orb-demo" style="border-top:1px solid var(--color-border); padding-top: var(--sero-space-4)"></div>
        </div>
      </div>
      <div class="ds-card ds-row">
@@ -668,6 +672,14 @@ export async function mount(root) {
         ${contentHtml()}
       </div>
     </div>`;
+
+  // Live loading mark — the actual animated Sero loader (createOrb) in the states
+  // section, so the sheet shows the real thing, not a still.
+  const orbHost = root.querySelector(".js-orb-demo");
+  if (orbHost) {
+    orbDemo = createOrb("Scoring answer…");
+    orbHost.appendChild(orbDemo.el);
+  }
 
   // Core-swatch captions get the real resolved hex (token → computed colour).
   root.querySelectorAll("[data-swatch]").forEach((w) => {
@@ -750,5 +762,6 @@ export function unmount(root) {
   liveToasts.forEach((t) => t.remove());
   liveToasts = [];
   if (docClick) { document.removeEventListener("click", docClick); docClick = null; }
+  if (orbDemo) { orbDemo.exit(); orbDemo = null; } // halt the mark's rAF loop
   root?.classList.remove("ds-stage");
 }
