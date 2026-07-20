@@ -328,7 +328,11 @@ export function createSuperadminService(
       // external user ids (so the time-series can drop internal + guest runs), the week run
       // totals (summed from the SAME per-user tallies the User-management screen shows, so the
       // numbers can't disagree), and how many managers registered this week.
-      const managers: PulseManager[] = [];
+      // Collect each manager row with its sign-up time as the sort key. `companies` arrives
+      // oldest-first (User management re-sorts client-side); the Pulse card renders this order
+      // as-is, so without re-sorting here the newest sign-ups sink below the fold. Order doesn't
+      // affect the counts below — managersOnLive/gate1 read the whole set.
+      const managerRows: { createdAtMs: number; row: PulseManager }[] = [];
       const externalUserIds = new Set<string>();
       let runsThisWeek = 0, runsLastWeek = 0, managersNewThisWeek = 0;
       for (const co of companies) {
@@ -339,14 +343,21 @@ export function createSuperadminService(
           runsLastWeek += u.runsLastWeek;
           if (!isLead(u.role)) continue;
           if (u.createdAt.getTime() >= weekAgoMs) managersNewThisWeek += 1;
-          managers.push({
-            id: u.id, name: u.name, company: co.name,
-            runCount: u.runCount, lastActiveAt: u.lastActiveAt, firstRunAt: u.firstRunAt,
-            cameBack: u.cameBack, gapDays: u.gapDays,
-            status: u.cameBack ? "back" : u.runCount > 0 ? "once" : "none",
+          managerRows.push({
+            createdAtMs: u.createdAt.getTime(),
+            row: {
+              id: u.id, name: u.name, company: co.name,
+              runCount: u.runCount, lastActiveAt: u.lastActiveAt, firstRunAt: u.firstRunAt,
+              cameBack: u.cameBack, gapDays: u.gapDays,
+              status: u.cameBack ? "back" : u.runCount > 0 ? "once" : "none",
+            },
           });
         }
       }
+      // Newest sign-up first, so a manager who just registered (e.g. a tester) leads the card.
+      const managers: PulseManager[] = managerRows
+        .sort((a, b) => b.createdAtMs - a.createdAtMs)
+        .map((m) => m.row);
       // Gate 1: of the external managers who actually ran at least once, how many came back.
       const tried = managers.filter((m) => m.runCount > 0);
       const buckets = bucketPulseRuns(pulseRuns, externalUserIds, nowMs);

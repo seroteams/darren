@@ -141,6 +141,26 @@ test("pulse folds the Gate-1 number, week counts and the time-series from one da
   assert.deepEqual(p.dropOffs, [{ stage: "questions", count: 1 }]);   // bo's unfinished run
 });
 
+test("pulse lists managers newest sign-up first, so a fresh registration leads the card", async () => {
+  const NOW = new Date("2026-07-21T12:00:00.000Z");
+  // The service reads companies oldest-first; without the re-sort the newest manager renders
+  // last (below the card's fold). Nadia registered today with zero runs — she must still lead.
+  const orgs: OrgRow[] = [
+    { id: "oldco", name: "Old Co", createdAt: new Date("2026-06-01") },
+    { id: "newco", name: "New Co", createdAt: new Date("2026-07-20") },
+  ];
+  const people: UserRow[] = [
+    { id: "old", orgId: "oldco", name: "Olive", email: "olive@oldco.com", role: "manager", createdAt: new Date("2026-06-02") },
+    { id: "mid", orgId: "oldco", name: "Milo",  email: "milo@oldco.com",  role: "manager", createdAt: new Date("2026-07-01") },
+    { id: "new", orgId: "newco", name: "Nadia", email: "nadia@newco.com", role: "manager", createdAt: new Date("2026-07-20") },
+  ];
+
+  const p = await createSuperadminService(fakeRepo(orgs, people)).pulse(NOW);
+
+  assert.deepEqual(p.managers.map((m) => m.id), ["new", "mid", "old"]); // newest → oldest sign-up
+  assert.equal(p.managersOnLive, 3);                                    // re-sort drops no one
+});
+
 // --- pulse-drilldowns: the cross-company run list ------------------------
 
 test("adminRuns: joins owner + company, labels internal and guest, newest-first, tile-rule week count", async () => {
