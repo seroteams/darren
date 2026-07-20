@@ -871,6 +871,21 @@
   font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
+/* the meeting-style tip — a coaching note that frames the whole read */
+.pv-l__tip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  padding: var(--sero-space-4);
+  border-radius: var(--radius-card);
+  background: var(--color-accent-soft);
+}
+.pv-l__tip p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
 
 /* Arc preview thumbnail — a spine with three dotted nodes */
 .pv-thmb--arc {

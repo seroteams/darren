@@ -6,6 +6,7 @@ import {
   confidenceCopy,
   ctaRowHtml,
   extractSlots,
+  formatBriefForCopy,
   parseConfidenceLevel,
   readVariant,
   renderBrief,
@@ -99,6 +100,35 @@ test("slots: merge dedupes and drops blanks; listenFor caps at 3", () => {
 test("slots: confidence is the rewritten statement, not the engine sentence", () => {
   assert.equal(SLOTS.confidence, MEDIUM_COPY);
   assert.equal(SLOTS.confidenceLevel, "medium");
+});
+
+/* ---------------------------------------------------------------------------
+   styleTip — the meeting-style tip (Arc render only for now)
+--------------------------------------------------------------------------- */
+
+const BRIEF_WITH_TIP: PrepBrief = {
+  ...BRIEF,
+  styleTip: "Keep this a light rhythm-keeper — open on how the fortnight felt before the specifics.",
+};
+
+test("styleTip: extractSlots maps the tip through; absent → empty string", () => {
+  assert.equal(extractSlots(BRIEF_WITH_TIP, "Priya").styleTip, BRIEF_WITH_TIP.styleTip);
+  assert.equal(SLOTS.styleTip, "");
+});
+
+test("styleTip: Arc renders the tip with its label", () => {
+  const html = renderBrief("L", extractSlots(BRIEF_WITH_TIP, "Priya"));
+  assert.ok(html.includes(escapeCopy(BRIEF_WITH_TIP.styleTip as string)), "Arc carries the tip text");
+  assert.ok(html.includes("For this kind of meeting"), "tip label present");
+});
+
+test("styleTip: an absent tip renders no empty label", () => {
+  assert.ok(!renderBrief("L", SLOTS).includes("For this kind of meeting"));
+});
+
+test("styleTip: Copy all includes the tip", () => {
+  const text = formatBriefForCopy(extractSlots(BRIEF_WITH_TIP, "Priya"), { name: "Priya" });
+  assert.ok(text.includes(BRIEF_WITH_TIP.styleTip as string), "copy carries the tip");
 });
 
 /* ---------------------------------------------------------------------------

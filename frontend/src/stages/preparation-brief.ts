@@ -21,6 +21,7 @@ export interface PrepBrief {
   suggestedAction?: string;
   confidence?: string;
   dontAssume?: string;
+  styleTip?: string;
 }
 
 // The seven content slots every variant renders — same data, no slot added,
@@ -34,6 +35,7 @@ export interface BriefSlots {
   dontAssume: string[]; // dontAssume + avoid, merged
   yourMove: string; // suggestedAction — a during-the-meeting move
   leaveWith: string; // goodOutcome
+  styleTip: string; // how to run this style of meeting (empty string when absent)
 }
 
 // Alphabetical by label — this order is the dropdown order.
@@ -64,6 +66,7 @@ export const SLOT_LABELS = {
   dontAssume: "Don't assume",
   yourMove: "During the 1:1",
   leaveWith: "Aim to leave with",
+  styleTip: "For this kind of meeting",
 } as const;
 
 export function isVariantId(v: unknown): v is VariantId {
@@ -114,6 +117,7 @@ export function extractSlots(brief: PrepBrief, name: string): BriefSlots {
     dontAssume,
     yourMove: clean(brief.suggestedAction),
     leaveWith: clean(brief.goodOutcome),
+    styleTip: clean(brief.styleTip),
   };
 }
 
@@ -402,7 +406,11 @@ function renderL(s: BriefSlots): string {
           <div class="pv-l__body">${body}</div>
         </div>`
       : "";
+  const tip = s.styleTip
+    ? `<div class="pv-l__tip">${eyebrow(SLOT_LABELS.styleTip)}<p>${esc(s.styleTip)}</p></div>`
+    : "";
   const before = [
+    tip,
     mini(SLOT_LABELS.theme, para(s.theme)),
     confMeter(s.confidenceLevel),
     s.confidence ? `<p class="pv-l__confidence">${esc(s.confidence)}</p>` : "",
@@ -546,6 +554,7 @@ export function formatBriefForCopy(slots: BriefSlots, ctx: CopyCtx | null | unde
   if (notes) lines.push("", "Context notes", notes);
   lines.push("");
   const rows: Array<[string, string | string[]]> = [
+    [SLOT_LABELS.styleTip, slots.styleTip],
     [SLOT_LABELS.confidence, slots.confidence],
     [SLOT_LABELS.theme, slots.theme],
     [SLOT_LABELS.opener, slots.opener],

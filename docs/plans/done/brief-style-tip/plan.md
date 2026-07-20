@@ -22,12 +22,12 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Engine + prompt | `styleTip` generated, schema-enforced, validated, arc-safe; shows in CLI + logs | ✅ |
-| 2 | Render | `styleTip` on the /prepare screen (Arc callout) + Copy-all | 🔨 |
+| 2 | Render | `styleTip` on the /prepare screen (Arc callout) + Copy-all | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ GREEN-LIT 2026-07-20 (Carl approved the tip quality off 3 live tips; typecheck clean, tests 164/164). Phase 2 (render on the /prepare screen) now in progress.
+✅ DONE — both phases green-lit (P1 2026-07-20, P2 2026-07-21). Tip generates on-style + arc-safe, is captured in every run's prep log (`01b-preparation/response.json`, part of the brief), and renders as a callout on the /prepare Arc brief + in Copy-all. Committed local; ships next "go live". Typecheck clean, `npm test` 164/164.
 
 ## Parked
 - Surfacing `styleTip` in the 11 admin-only layout variants (they're experiments; Arc is what managers see). Wire later if a variant is promoted.

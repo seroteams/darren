@@ -2,6 +2,12 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-21 — the prep brief now coaches the meeting, not just the person.** Every brief carries a
+new AI-written "tip for this style of meeting" — a bi-weekly reads as a light rhythm-keeper, a feels-off as
+observation-first — anchored to the style, tuned to your notes, and arc-safe (no hidden performance framing,
+even when baited with a quality note). It's saved in each run's prep log to learn from, and shows as a callout
+on the /prepare screen + in Copy-all. Committed local; ships next "go live".
+
 📍 **2026-07-20 — the arcs got right-sized.** Following the evidence review, Performance is now
 7 questions (was 8) and Growth 8 (was 9) — trimmed to fit their slots; the Growth picker badge
 moved 30-45 → 35-50 min to match. Two phase intents sharpened (Self-read = "your view, not the
@@ -54,6 +60,9 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [arc-evidence-fixes](docs/plans/doing/arc-evidence-fixes/plan.md) | P1 ✅ green-lit 2026-07-20 (evidence-first): per-type banned-question gates (all 5 types) + Performance tone relabel. Committed local, ships next push. P2 (question-count trims) + P3 (reframes) parked for your call. |
 
+## ✅ Closed 2026-07-21
+[brief-style-tip](docs/plans/done/brief-style-tip/plan.md) — a new AI-written "tip for this style of meeting" in the prep brief. Both phases green-lit: (P1) the tip generates on-style and stays relational for bi-weekly/feels-off — a bi-weekly baited with a "quality slipped" note still read "mapping friction, not building a case"; schema-enforced, validated, and auto-saved in every run's prep log (part of the brief) so we can learn from them. (P2) renders as a soft-blue callout at the top of the /prepare Arc brief ("For this kind of meeting") + in Copy-all. Typecheck clean, 164/164. Committed local, ships next push.
+
 ## ✅ Closed 2026-07-20
 [better-reads](docs/plans/done/better-reads/plan.md) — all 3 phases green-lit in one day, from your "can we improve our engine?" A three-lens audit measured the scoring bias (falls 2× as often, 3× as hard as it rises); now every held-back score is recorded (P1), short-but-real answers keep the up-score the engine already wanted to give (P2, LIVE), and repeat 1:1s open new ground instead of rewriting last time's brief — proven by feeding the engine its own prior brief (8% opener overlap, theme named as continuing; ~$0.13 paid total) (P3, committed, ships next push). Parked follow-ups in the plan: reviewer recalibration, run-health scoring block, the cost quick-wins.
 [admin-lockdown](docs/plans/done/admin-lockdown/plan.md) — `/admin` is now a true internal-only console. All 3 phases green-lit: (P1) the console bundle is served only to internal admins/superadmins server-side — managers, members and logged-out visitors 302 to the normal app, closing an audit hole where the shell was handed to anyone (P1 **LIVE** on sero-obwq); (P2) internal engine tools (arcs, lexicons, library…) refuse managers on every environment, not just live; (P3) signpost sweep confirmed all emails already point at the normal app, plus a login/register eject so the admin bundle never seats a manager. P2+P3 committed local, ship next push. From a Carl bug report → full-system URL/RBAC audit.
@@ -73,4 +82,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-20 — admin-lockdown DONE (all 3 phases green-lit; P1 live, P2+P3 ship next push). (Earlier today: GO-LIVE full backlog deployed, head 3c12e884.)
+Last updated: 2026-07-21 — brief-style-tip DONE (both phases green-lit; AI "tip for this style of meeting" in the prep brief, committed local, ships next push).

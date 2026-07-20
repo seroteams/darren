@@ -409,6 +409,16 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   login *screen* yet. Name what a phase does **not** cover at sign-off so the next phase's scope is clear.
 
 ## Activity log (newest first)
+- **2026-07-21** — **brief-style-tip → DONE (2/2 phases green-lit).** New AI-written "tip for this style of
+  meeting" as a brief field (`styleTip`): schema-enforced + validated + relational-arc-gated, generated in the
+  existing preparation call (no new model call). Proven on 3 live tips — a bi-weekly baited with a "quality
+  slipped" note still stayed relational ("mapping friction, not building a case"). Renders as a soft-blue
+  callout at the top of the /prepare Arc brief + in Copy-all. **Lessons:** ① the tip needs no separate logging
+  to "learn from" — it's part of the brief the model returns, so `logStage(response: raw)` already writes it to
+  every run's `01b-preparation/response.json`. ② the preview pane can't screenshot a background tab
+  (document.hidden → no paint); capturing the live DOM+CSS+tokens into a standalone HTML file is a faithful,
+  zero-cost substitute. Verified: typecheck clean, `npm test` 164/164; live render confirmed. Committed local,
+  ships next push.
 - **2026-07-09** — **guest-run → TRACK CLOSED (4/4). P4 (superadmin Guest runs screen) built test-first
   and signed off by DELEGATION** — Carl: "Sign this off if you can"; the agent's live verification stands
   in for the walk and the phase file records exactly what was and wasn't seen (walls proven at three

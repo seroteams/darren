@@ -1,6 +1,13 @@
 # Phase 2 — Render (surface it on screen)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT
+
+## ✅ GREEN-LIT 2026-07-21 — Carl approved the on-screen tip (Arc callout, top of "Before you walk in") off the faithful render
+
+## Built (2026-07-21)
+- 8th slot `styleTip` threaded through the shared render layer: `PrepBrief`, `BriefSlots`, `SLOT_LABELS` (label "For this kind of meeting"), `extractSlots`, and `formatBriefForCopy` (`frontend/src/stages/preparation-brief.ts`); rendered as a soft-blue callout at the top of the Arc "Before you walk in" phase; `.pv-l__tip` style added (`frontend/src/stages/preparation.css`, tokens-only, 16px).
+- 4 new render tests (`frontend/src/stages/preparation-brief.test.ts`): maps through, Arc renders tip + label, absent tip renders nothing, Copy-all carries it.
+- Proof: typecheck clean · `npm test` 164/164 (incl. preparation-brief + preparation-css suites). Rendered live in the customer app (accent-soft #e9f3fb box, correct label, first in the read) — captured to a faithful HTML render for Carl (the preview pane can't screenshot a background tab).
 
 ## Goal
 The manager sees the `styleTip` on the /prepare screen, and it's included in "Copy all".
