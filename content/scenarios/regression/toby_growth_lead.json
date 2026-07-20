@@ -58,7 +58,7 @@
         "openingQuestion": "What kind of communication moments would you like to handle with more confidence as you move toward lead-level work?",
         "listenFor": [
           "whether he names a specific meeting or stakeholder where communication felt strained",
-          "if he offers a concrete example from the last sprint rather than generalities",
+          "if they offer a concrete example from the last sprint rather than generalities",
           "whether he mentions feedback he has actually received on lead readiness"
         ],
         "avoid": ["do not treat lead transition as a performance verdict", "do not rush to a development plan before he defines lead scope"],
