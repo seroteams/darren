@@ -39,6 +39,21 @@ test("renderPromiseList returns empty when the loop armed nothing", () => {
   assert.equal(renderPromiseList([{ id: "x", owner: "manager", action: "", outcome: null }]), "", "a blank action is not a promise");
 });
 
+// The report's promises read as the person's own name (matches the live recap + the
+// check-in card), falling back to "Them" on surfaces that don't know who.
+test("renderPromiseList names the report when given one, and falls back to Them", () => {
+  assert.match(
+    renderPromiseList([{ id: "p", owner: "report", action: "share the deck", outcome: "yes" }], "Priya"),
+    /promise-row__who">Priya</,
+    "the report is named when we know who",
+  );
+  assert.match(
+    renderPromiseList([{ id: "p", owner: "report", action: "share the deck", outcome: "yes" }]),
+    /promise-row__who">Them</,
+    "falls back to Them without a name",
+  );
+});
+
 // The briefing view only grows a Promises card when promises are passed — old callers
 // (guest runs, superadmin) that pass none are unchanged.
 test("renderReadonlyBriefing adds a Promises card only when promises are present", () => {

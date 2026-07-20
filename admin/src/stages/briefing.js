@@ -27,7 +27,7 @@ export async function mount(root, deps) {
         </div>
         <div class="l-cluster l-cluster--2">
           <button class="btn js-retry-eval" type="button">Try again</button>
-          <button class="btn btn--ghost js-restart" type="button">New 1:1</button>
+          <button class="btn btn--ghost js-restart" type="button">Start a new 1:1</button>
         </div>
       </div>
     `;

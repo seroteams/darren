@@ -42,14 +42,14 @@ function outcomeChip(outcome: string | null): string {
 // The manager-confirmed promises of a finished run, each with its check-in outcome
 // (Promises loop phase 3). Manager's own first (plan: "manager's list first in every
 // UI"). Returns "" when the run armed no loop, so a caller adds no empty section.
-export function renderPromiseList(promises: PromiseRow[] | null | undefined): string {
+export function renderPromiseList(promises: PromiseRow[] | null | undefined, who?: string): string {
   const rows = (promises || []).filter((p) => p && p.action);
   if (!rows.length) return "";
   const ordered = [...rows].sort((a, b) => Number(a.owner !== "manager") - Number(b.owner !== "manager"));
   const items = ordered
     .map(
       (p) =>
-        `<li class="promise-row"><span class="promise-row__who">${p.owner === "manager" ? "You" : "Them"}</span><span class="promise-row__action">${escapeHtml(p.action)}</span>${outcomeChip(p.outcome)}</li>`,
+        `<li class="promise-row"><span class="promise-row__who">${p.owner === "manager" ? "You" : escapeHtml((who || "").trim() || "Them")}</span><span class="promise-row__action">${escapeHtml(p.action)}</span>${outcomeChip(p.outcome)}</li>`,
     )
     .join("");
   return `<ul class="promise-list">${items}</ul>`;
@@ -72,7 +72,7 @@ export function renderReadonlyBriefing(b: Briefing | null, name?: string, promis
   }
   // Promises loop phase 3: the agreements the manager confirmed at wrap-up, with the
   // outcome tapped at the next check-in. Shown only when the run armed the loop.
-  const promiseList = renderPromiseList(promises);
+  const promiseList = renderPromiseList(promises, name);
   if (promiseList) out.push(card("Promises & follow-through", promiseList));
   if ((b.watch_for || []).length) out.push(card("Reminders", bullets(b.watch_for!)));
   return out.join("") || none;

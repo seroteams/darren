@@ -59,7 +59,7 @@ function managerHtml() {
       <section class="card-flat space-y-3">
         <div class="eyebrow">What to do first</div>
         <p>Prep a 1:1 from your Home page. It takes a few minutes.</p>
-        <button type="button" class="btn js-start">Prep a 1:1</button>
+        <button type="button" class="btn js-start">Start 1:1</button>
       </section>
 
       <section class="card-flat space-y-3">
