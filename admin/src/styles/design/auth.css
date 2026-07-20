@@ -6,9 +6,9 @@
 }
 .auth-split {
   display: grid;
-  /* 40/60, photo as the hero — an even 50/50 stranded the form in an empty half
-     on wide monitors. The photo carries the warmth; the form gets a calmer column. */
-  grid-template-columns: 2fr 3fr;
+  /* Even 50/50 — form left, photo right. The .auth-panel caps its own width and
+     centres, so the form reads as a tidy column rather than filling the half. */
+  grid-template-columns: 1fr 1fr;
   min-height: 100dvh;
   width: 100%;
 }
