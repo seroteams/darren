@@ -9,8 +9,6 @@ import { confirmResetSession } from "../ui/session-reset.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { setSelectedFocus } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
-import { icon } from "../ui/icon.js";
-import { Check } from "lucide";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
@@ -103,7 +101,6 @@ export async function mount(root, { store, setState }) {
       </div>
       <div class="l-cluster l-cluster--2 pt-6 reveal focus-actions">
         <button class="btn js-continue">Continue to prep brief</button>
-        <button type="button" class="btn btn--ghost js-copy-focus">Copy focus areas</button>
         <button class="btn btn--ghost js-regen">Regenerate focus areas</button>
       </div>
     `;
@@ -168,10 +165,6 @@ export async function mount(root, { store, setState }) {
       setState({ stage: STAGES.PREPARATION });
     });
 
-    resultHost.querySelector(".js-copy-focus").addEventListener("click", () => {
-      copyFocusPoints(d.focus_points, store.ctx, resultHost.querySelector(".js-copy-focus"));
-    });
-
     resultHost.querySelector(".js-regen").addEventListener("click", () => {
       sse.close();
       setState({
@@ -213,29 +206,4 @@ function evidenceTag(fp) {
   return `<div class="focus-point__evidence">${text}</div>`;
 }
 
-function formatFocusPointsForCopy(focusPoints, ctx) {
-  const lines = ["What we'll cover"];
-  const who = [ctx?.name, ctx?.seniority, ctx?.role, ctx?.meetingType].filter(Boolean).join(" · ");
-  if (who) lines.push(who);
-  lines.push("");
-  focusPoints.forEach((fp, i) => {
-    lines.push(`${i + 1}. ${fp.label || fp.type || fp.id}`);
-    if (fp.reason) lines.push(String(fp.reason).trim());
-    lines.push("");
-  });
-  return lines.join("\n").trim();
-}
-
-async function copyFocusPoints(focusPoints, ctx, btn) {
-  const text = formatFocusPointsForCopy(focusPoints, ctx);
-  if (!text) return;
-  try {
-    await navigator.clipboard.writeText(text);
-    const prev = btn.textContent;
-    btn.innerHTML = "Copied " + icon(Check, { size: 16 });
-    setTimeout(() => { btn.textContent = prev; }, 1500);
-  } catch (e) {
-    console.warn("[focus-points] clipboard write failed:", e.message);
-  }
-}
 
