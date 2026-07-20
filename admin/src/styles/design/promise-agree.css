@@ -1,90 +1,151 @@
 /* -----------------------------------------------------------------------------
    The promises moment (promises-before-recap) — the full-screen "lock in what
-   you two agreed" step between the last question and the recap. Two owner
-   groups; rows edit in place and move across. 14px floor holds.
+   you two agreed" step between the last question and the recap. Redrawn in the
+   language of a task app (Todoist): ONE clean list, no owner boxes. Ownership
+   is a tappable avatar (a face for you, an initial for them); the date rides
+   quietly under the text; remove is a quiet ✕. Same on desktop and mobile —
+   the list just breathes wider. Tokens only; 14px floor holds.
 ----------------------------------------------------------------------------- */
-.pa-group {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  padding: var(--sero-space-4) var(--sero-space-5) var(--sero-space-3);
+.pa-hint {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  margin-top: var(--sero-space-1);
 }
-.pa-group--you {
-  border-color: var(--color-primary-line);
-  background: linear-gradient(180deg, var(--sero-primary-50), var(--color-surface));
-}
-.pa-group .eyebrow { letter-spacing: var(--type-tracking-caps); }
-.pa-group--you .eyebrow { color: var(--color-accent-dark); }
 
-.pa-rows { display: flex; flex-direction: column; }
+.pa-list { display: flex; flex-direction: column; margin-top: var(--sero-space-3); }
+
 .pa-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--sero-space-3);
-  padding: var(--sero-space-2) 0;
+  padding: var(--sero-space-3) 0;
   border-top: 1px solid var(--color-border);
 }
 .pa-row:first-child { border-top: 0; }
-.pa-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--sero-radius-full);
-  background: var(--color-accent);
+
+/* Owner avatar — the whole control. Filled accent = you; soft tint + initial = them. */
+.pa-av {
   flex: none;
+  width: 32px;
+  height: 32px;
+  margin-top: 2px;
+  border-radius: var(--sero-radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
 }
-/* The action reads as text until touched — border appears on hover/focus. */
+.pa-av--you { background: var(--color-accent-dark); color: #fff; }
+.pa-av--them { background: var(--color-accent-soft); color: var(--color-accent-dark); border-color: var(--color-primary-line); }
+.pa-av:hover { box-shadow: var(--shadow-card); }
+.pa-av:active { transform: scale(0.94); }
+.pa-av:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.pa-av svg { width: 17px; height: 17px; }
+
+.pa-body { flex: 1; min-width: 0; }
+/* The action reads as plain body text until touched — border appears on hover/focus.
+   contenteditable (not <input>) so long promises WRAP instead of clipping on a phone;
+   self-contained font so it never inherits the questioning card's big answer size. */
 .pa-input {
-  flex: 1;
-  min-width: 12rem;
-  border-color: transparent;
+  font: inherit;
+  font-size: var(--type-body);
+  line-height: 1.35;
+  color: var(--color-ink);
+  border: 1px solid transparent;
+  border-radius: var(--radius-input);
   background: transparent;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
+.pa-input:empty::before { content: attr(data-placeholder); color: var(--color-ink-mute); }
 .pa-input:hover { border-color: var(--color-border-strong); background: var(--color-surface); }
-.pa-input:focus { background: var(--color-surface); }
+.pa-input:focus { outline: none; background: var(--color-surface); border-color: var(--color-border-strong); }
+
+.pa-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-3);
+  margin-top: var(--sero-space-1);
+  padding: 0 6px;
+}
+.pa-who { font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold); }
+.pa-who--you { color: var(--color-accent-dark); }
+.pa-who--them { color: var(--color-ink-mute); font-weight: var(--type-weight-medium); }
 .pa-when {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-1);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  white-space: nowrap;
+}
+.pa-when svg { width: 14px; height: 14px; color: var(--color-ink-mute); }
+
+.pa-x {
   flex: none;
-  font-size: var(--type-body-sm);
-  color: var(--color-ink-dim);
-  border: 1px solid var(--color-border);
-  border-radius: var(--sero-radius-full);
-  padding: 0 10px;
-  white-space: nowrap;
-}
-.pa-tool {
-  font: inherit;
-  font-size: var(--type-body-sm);
-  color: var(--color-ink-dim);
-  background: none;
-  cursor: pointer;
-  border: 1px solid var(--color-border);
+  width: 30px;
+  height: 30px;
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-button);
-  padding: 4px 10px;
-  white-space: nowrap;
-  transition: border-color 0.12s ease, color 0.12s ease;
+  color: var(--color-ink-mute);
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease;
 }
-.pa-tool:hover { border-color: var(--color-accent); color: var(--color-ink); }
-.pa-tool:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
-.pa-tool--quiet { border-color: transparent; }
+.pa-x:hover { color: var(--color-danger); background: var(--color-surface); border-color: var(--color-border); }
+.pa-x:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.pa-x svg { width: 16px; height: 16px; }
+
 .pa-add {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-3);
   font: inherit;
   font-size: var(--type-body-sm);
-  color: var(--color-ink-dim);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-accent-dark);
   background: none;
+  border: 0;
   cursor: pointer;
-  border: 1px dashed var(--color-border-strong);
-  border-radius: var(--radius-button);
-  padding: 6px 14px;
-  margin-top: var(--sero-space-2);
+  padding: var(--sero-space-3) 0;
+  margin-top: var(--sero-space-1);
 }
-.pa-add:hover { color: var(--color-accent-dark); border-color: var(--color-accent); }
-.pa-add:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
-.pa-cap { font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.pa-add__plus {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--sero-radius-full);
+  border: 1.5px dashed var(--color-primary-line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--color-accent);
+}
+.pa-add:hover .pa-add__plus { border-color: var(--color-accent); }
+.pa-add:focus-visible { outline: none; }
+.pa-add:focus-visible .pa-add__plus { box-shadow: var(--shadow-focus); }
+
+.pa-cap { display: block; font-size: var(--type-body-sm); color: var(--color-ink-mute); padding: var(--sero-space-3) 0; }
 .pa-empty {
   font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   font-style: italic;
-  padding: var(--sero-space-2) 0;
+  padding: var(--sero-space-3) 0;
+  border-top: 1px solid var(--color-border);
 }
+.pa-empty:first-child { border-top: 0; }
+
 .pa-loopnote {
   display: flex;
   align-items: center;
@@ -111,7 +172,11 @@
   margin-top: var(--sero-space-2);
 }
 
+/* Phone: full-width actions, thumb-sized controls (matches mobile.css conventions). */
 @media (max-width: 640px) {
-  .pa-row { align-items: stretch; flex-direction: column; }
-  .pa-input { min-width: 0; }
+  .pa-actions { flex-direction: column; align-items: stretch; }
+  .pa-actions .btn { justify-content: center; }
+}
+@media (pointer: coarse) {
+  .pa-av, .pa-x { width: 40px; height: 40px; }
 }
