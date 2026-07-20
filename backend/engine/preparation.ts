@@ -77,6 +77,7 @@ function coercePrepBrief(v: unknown): PrepBrief {
     suggestedAction: asString(r.suggestedAction),
     confidence: asString(r.confidence),
     dontAssume: asString(r.dontAssume),
+    styleTip: asString(r.styleTip),
   };
 }
 
@@ -91,8 +92,9 @@ const RESPONSE_SCHEMA = {
     suggestedAction: { type: "string" },
     confidence:      { type: "string" },
     dontAssume:      { type: "string" },
+    styleTip:        { type: "string" },
   },
-  required: ["coreIssue", "openingQuestion", "listenFor", "avoid", "goodOutcome", "suggestedAction", "confidence", "dontAssume"],
+  required: ["coreIssue", "openingQuestion", "listenFor", "avoid", "goodOutcome", "suggestedAction", "confidence", "dontAssume", "styleTip"],
   additionalProperties: false,
 };
 
@@ -372,6 +374,19 @@ function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; 
   const dontAssume = (brief.dontAssume || "").trim();
   if (dontAssume.split(/\s+/).filter(Boolean).length < 4) {
     issues.push("dontAssume is missing or too short — name the one thing the data does not yet support");
+  }
+
+  // styleTip — one practical line on how to run THIS style of meeting. Real
+  // sentence, not too long, and not just a restatement of coreIssue.
+  const styleTip = (brief.styleTip || "").trim();
+  const styleTipWords = styleTip.split(/\s+/).filter(Boolean).length;
+  if (styleTipWords < 5) {
+    issues.push("styleTip is missing or too short — give one practical line on how to run this style of meeting");
+  } else if (styleTipWords > 40) {
+    issues.push(`styleTip is too long (${styleTipWords} words — keep it to ~35 or fewer)`);
+  }
+  if (styleTip && styleTip.toLowerCase() === (brief.coreIssue || "").trim().toLowerCase()) {
+    issues.push("styleTip must not restate coreIssue — it's advice on the meeting style, not the topic");
   }
 
   // Unsafe interpretation — word-boundary checks with negative lookaheads for common safe-use phrases

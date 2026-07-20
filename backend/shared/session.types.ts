@@ -87,6 +87,7 @@ export interface PreparationResult {
     suggestedAction: string;
     confidence: string; // free text starting Low/Medium/High
     dontAssume: string;
+    styleTip: string; // one or two sentences: how to run THIS style of meeting well
   };
   runId: string;
   validation: { passed: boolean; issues: string[] };

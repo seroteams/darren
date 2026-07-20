@@ -27,6 +27,7 @@ function briefWith(listenFor: string[]) {
     suggestedAction: "During the 1:1, ask Carl to walk through a typical late-start day.",
     confidence: "Medium — based on your note about a repeated pattern",
     dontAssume: "That Carl is careless: late starts alone do not tell you why.",
+    styleTip: "Keep this a light rhythm-keeper — open on how the fortnight felt before you touch the late starts.",
   };
 }
 
@@ -65,6 +66,37 @@ test("validateBrief: a cue-less listenFor is still flagged (fix didn't weaken th
     "whether he is good",
   ]);
   assert.ok(issues.length >= 1, "expected a 'may lack observable behavioural cue' flag");
+});
+
+// styleTip clause — a real, on-style line that isn't just a restatement of the
+// core issue. Filters to styleTip-specific issues so unrelated fixture drift
+// can't mask the assertion.
+const goodListenFor = [
+  "whether he names a specific late-start example",
+  "whether he mentions a recent week",
+  "whether he links his mornings to meetings and workload",
+];
+function styleTipIssues(styleTip: string) {
+  return validateBrief({ ...briefWith(goodListenFor), styleTip } as never, baseInputs as never).issues.filter(
+    (i) => i.toLowerCase().includes("styletip"),
+  );
+}
+
+test("validateBrief: a good styleTip passes the styleTip clause", () => {
+  assert.deepEqual(
+    styleTipIssues("Keep this a light rhythm-keeper — ask how the fortnight felt before the late starts."),
+    [],
+  );
+});
+
+test("validateBrief: a missing styleTip is flagged", () => {
+  assert.ok(styleTipIssues("").some((i) => i.includes("missing or too short")));
+});
+
+test("validateBrief: a styleTip that just restates coreIssue is flagged", () => {
+  assert.ok(
+    styleTipIssues(briefWith(goodListenFor).coreIssue).some((i) => i.includes("must not restate coreIssue")),
+  );
 });
 
 // --- prep freshness threading (better-reads Phase 3) ------------------------

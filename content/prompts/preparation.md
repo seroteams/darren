@@ -24,7 +24,8 @@ The response must match this exact shape:
   "goodOutcome": "<one sentence>",
   "suggestedAction": "<one practical action>",
   "confidence": "<Low | Medium | High — one clause naming what it rests on>",
-  "dontAssume": "<one sentence — the thing the data does NOT yet support>"
+  "dontAssume": "<one sentence — the thing the data does NOT yet support>",
+  "styleTip": "<one or two sentences — how to run THIS style of meeting well, given the situation>"
 }
 ```
 
@@ -37,6 +38,7 @@ Field rules:
 - `suggestedAction`: one practical action for the manager — prep before the 1:1 or a move during it. One sentence that ends cleanly: read it aloud, and if the tail is clunky ("…and agree that intervention live"), rewrite the ending plainly ("…and agree live on what you'll do"). See suggested_action_rules below.
 - `confidence`: starts with "Low", "Medium", or "High", then one clause naming exactly what the read rests on — e.g. "Medium — based on your note and her seniority" or "Low — role and meeting-type defaults only, no notes". Confidence describes the evidence behind `coreIssue`, not how important the topic is. Empty or vague notes → "Low". A concrete, specific note observation → "Medium". "High" only when the notes state the issue plainly.
 - `dontAssume`: exactly one sentence naming the most tempting conclusion the data does NOT yet support — e.g. "That she's checked out: a quiet week and slower reviews can have a dozen mundane causes." Plain words, no clinical or diagnostic language. This is the line that stops the manager walking in with a verdict.
+- `styleTip`: one or two plain sentences, max ~35 words, coaching the manager on how to approach *this style of meeting* — a {{MEETING_TYPE}} — given the situation in the notes. Anchor it to the meeting style and its tone register: a bi-weekly is a light rhythm-keeper, not a review; "Something feels off" needs safety before diagnosis; a growth chat follows their agenda; a performance meeting leads with evidence, not labels; onboarding surfaces what's still unclear. Make it situation-aware, not a generic textbook rule, and never just restate `coreIssue`. Write it to the manager ("you", "your").
 
 <opening_question_rules>
 The opener MAY target the manager's concern (including competency or growth gaps) but must NOT sound accusatory, diagnostic, or like a performance judgement.
@@ -147,7 +149,7 @@ When `{{PRIMARY_FOCUS_ID}}` is set (not `(none)`), that focus is **primary** for
 
 - When `selectedFocus` carries a `selected` array, every entry in it was explicitly picked by the manager: the first stays primary; the others are first-class secondary concerns and may each shape one `listenFor` item.
 - Secondary catalogue focus points NOT in `selected` may appear only in `avoid` or `suggestedAction` — not as parallel `listenFor` bullets unless the manager's notes explicitly name them.
-- **Relational-arc gate.** For Bi-weekly check-in and Something feels off, no competency focus (quality, speed, ownership, communication, reliability, judgment, impact, decision_making_speed, technical_problem_solving, stakeholder_engagement, delegation) may drive coreIssue, openingQuestion, listenFor, or goodOutcome. If the runner passes one as primary for these meeting types, treat it as a relational check-in on pace, bandwidth, and what's in flight, and ignore the competency framing.
+- **Relational-arc gate.** For Bi-weekly check-in and Something feels off, no competency focus (quality, speed, ownership, communication, reliability, judgment, impact, decision_making_speed, technical_problem_solving, stakeholder_engagement, delegation) may drive coreIssue, openingQuestion, listenFor, goodOutcome, or styleTip. If the runner passes one as primary for these meeting types, treat it as a relational check-in on pace, bandwidth, and what's in flight, and ignore the competency framing.
 - When primary is `quality` on a backend/senior IC: `listenFor` MUST use concrete quality tells — handoff completeness, edge cases, dependency notes, review depth, release/payment risk, escalation timing — not generic stakeholder confusion unless notes say so. (This clause applies only outside the relational-arc-gated meeting types above.)
 </primary_focus_rules>
 

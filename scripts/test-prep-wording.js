@@ -163,6 +163,7 @@ check(
     suggestedAction: "Before the 1:1, pick one recent week and note what filled it.",
     confidence: "Medium — based on your note and her workload",
     dontAssume: "That she is overloaded; a busy fortnight can have mundane causes.",
+    styleTip: "Keep this a light rhythm-keeper — open on how the fortnight felt before you touch the workload.",
   };
   const clean = validateBrief(cleanBrief, priya);
   check("clean brief passes the validator", clean.passed, JSON.stringify(clean.issues));

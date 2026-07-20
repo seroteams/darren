@@ -64,6 +64,10 @@ function renderPreparationBrief(
   console.log("  " + gray(prep.suggestedAction));
   console.log();
 
+  console.log("  " + bold("Tip for this style of meeting"));
+  console.log("  " + gray(prep.styleTip));
+  console.log();
+
   if (!validation.passed) {
     console.log("  " + yellow("⚠ Validation warnings:"));
     validation.issues.forEach((issue) => console.log("  " + dim(`  · ${issue}`)));
