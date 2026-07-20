@@ -10,7 +10,7 @@ import { welcomeHtml } from "./welcome.ts";
 const html = welcomeHtml("/login/photo.jpg");
 
 test("welcome: carries the exact agreed copy", () => {
-  assert.ok(html.includes("Going into your 1:1 cold?"), "H1");
+  assert.ok(html.includes("Walk into your next 1:1 well prepared."), "H1");
   assert.ok(
     html.includes(
       "Type a few rough notes. Sero turns them into a clear brief and sharper questions, in about two minutes.",
