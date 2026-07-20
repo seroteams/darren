@@ -67,9 +67,31 @@
   object-position: top;
   display: block;
 }
+/* --- Start screen (welcome.ts) --------------------------------------------- */
+/* An even 50/50 split (the marketing front door, not the login form). The panel
+   caps its own width and centres, so the form never looks stranded in an empty
+   half — the reason the login split stays 40/60. */
+.auth-split--even {
+  grid-template-columns: 1fr 1fr;
+}
+.auth-split--even .auth-panel {
+  text-align: center;
+}
+.auth-alt-label {
+  margin: 0;
+}
+/* Log in / Create account sit side by side as quiet ghost buttons under the one
+   blue action. .auth-panel .btn already centres their labels. */
+.auth-alt-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sero-space-2);
+}
+
 /* On narrow screens the photo drops away and the form takes the full width. */
 @media (max-width: 820px) {
-  .auth-split {
+  .auth-split,
+  .auth-split--even {
     grid-template-columns: 1fr;
   }
   .auth-split__media {
