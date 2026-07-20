@@ -78,7 +78,7 @@ function detailRow(row: ErrorRow): string {
     `<span><b>When:</b> ${escapeHtml(exactWhen(row.createdAt))}</span>`,
     resolved ? `<span><b>Resolved:</b> ${escapeHtml(exactWhen(row.resolvedAt as string))}</span>` : "",
   ].filter(Boolean).join("");
-  return `<tr class="el-detail-row"><td colspan="6">
+  return `<tr class="el-detail-row"><td colspan="7">
     <div class="el-detail">
       <div class="el-detail__meta">${meta}</div>
       ${stack ? `<pre class="el-stack">${escapeHtml(stack)}</pre>` : `<div class="el-detail__msg">${escapeHtml(row.message)}</div>`}
@@ -90,10 +90,12 @@ function detailRow(row: ErrorRow): string {
   </td></tr>`;
 }
 
-function errorRow(row: ErrorRow, open: boolean): string {
+function errorRow(row: ErrorRow, open: boolean, selected: Set<string>): string {
   const resolvedTag = row.resolvedAt ? ` <span class="el-pill el-pill--done">resolved</span>` : "";
+  const checked = selected.has(row.id) ? " checked" : "";
   const main = `
     <tr class="el-row js-row${row.resolvedAt ? " el-row--resolved" : ""}${open ? " is-open" : ""}" data-id="${escapeHtml(row.id)}">
+      <td class="el-check"><input type="checkbox" class="js-check"${checked} data-id="${escapeHtml(row.id)}" aria-label="Select this error"></td>
       <td>${envPill(row.environment)}${resolvedTag}</td>
       <td class="el-when">${escapeHtml(whenText(row.createdAt))}</td>
       <td>${who(row)}</td>
@@ -104,17 +106,30 @@ function errorRow(row: ErrorRow, open: boolean): string {
   return open ? main + detailRow(row) : main;
 }
 
-function table(rows: ErrorRow[], open: Set<string>): string {
+function table(rows: ErrorRow[], open: Set<string>, selected: Set<string>, allChecked: boolean): string {
   return `
     <div class="um-table-wrap el-panel">
       <table class="um-table el-table">
         <thead>
           <tr>
+            <th class="el-check"><input type="checkbox" class="js-check-all"${allChecked ? " checked" : ""} aria-label="Select all shown"></th>
             <th>Where</th><th>When</th><th>Who</th><th>Route / screen</th><th>What went wrong</th><th>Status</th>
           </tr>
         </thead>
-        <tbody>${rows.map((r) => errorRow(r, open.has(r.id))).join("")}</tbody>
+        <tbody>${rows.map((r) => errorRow(r, open.has(r.id), selected)).join("")}</tbody>
       </table>
+    </div>`;
+}
+
+// The bulk-action bar shown above the table once one or more rows are ticked: how many are
+// selected, a one-click Resolve, and a Clear. Resolve fires the per-row endpoint for each id.
+function bulkBar(count: number): string {
+  if (count < 1) return "";
+  return `<div class="el-bulkbar">
+      <span class="el-bulkbar__count">${count} selected</span>
+      <span class="el-bulkbar__spacer"></span>
+      <button type="button" class="btn btn--ghost btn--sm js-bulk-clear">Clear</button>
+      <button type="button" class="btn btn--cta btn--sm js-bulk-resolve">Mark ${count} resolved</button>
     </div>`;
 }
 
@@ -166,6 +181,8 @@ export const mount: Mount = async (root, { setState }) => {
   let source = "all";
   let showResolved = false;
   const open = new Set<string>();
+  const selected = new Set<string>(); // ids ticked for bulk resolve
+  let shownIds: string[] = []; // ids currently visible under the active filters (for select-all)
 
   const wire = () => {
     root.querySelectorAll<HTMLButtonElement>(".js-seg").forEach((b) =>
@@ -177,13 +194,46 @@ export const mount: Mount = async (root, { setState }) => {
     );
     root.querySelector(".js-resolved")?.addEventListener("click", () => { showResolved = !showResolved; paint(); });
     root.querySelectorAll<HTMLElement>(".js-row").forEach((r) =>
-      r.addEventListener("click", () => {
+      r.addEventListener("click", (e) => {
+        if (e.target instanceof Element && e.target.closest(".el-check")) return; // let the checkbox act alone
         const id = r.dataset.id;
         if (!id) return;
         if (open.has(id)) open.delete(id); else open.add(id);
         paint();
       }),
     );
+    root.querySelectorAll<HTMLInputElement>(".js-check").forEach((cb) =>
+      cb.addEventListener("change", () => {
+        const id = cb.dataset.id ?? "";
+        if (cb.checked) selected.add(id); else selected.delete(id);
+        paint();
+      }),
+    );
+    root.querySelector<HTMLInputElement>(".js-check-all")?.addEventListener("change", (e) => {
+      const on = (e.target as HTMLInputElement).checked;
+      shownIds.forEach((id) => { if (on) selected.add(id); else selected.delete(id); });
+      paint();
+    });
+    root.querySelector(".js-bulk-clear")?.addEventListener("click", () => { selected.clear(); paint(); });
+    root.querySelector(".js-bulk-resolve")?.addEventListener("click", () => {
+      const ids = [...selected];
+      if (!ids.length) return;
+      void (async () => {
+        const results = await Promise.allSettled(ids.map((id) => resolveError(id, true)));
+        let failed = 0;
+        results.forEach((res, i) => {
+          if (res.status === "fulfilled") {
+            const r = allRows.find((x) => x.id === ids[i]);
+            if (r) r.resolvedAt = new Date().toISOString();
+            selected.delete(ids[i]);
+          } else {
+            failed += 1;
+          }
+        });
+        if (failed) window.alert(`Couldn't resolve ${failed} of ${ids.length}. Those stay selected.`);
+        paint();
+      })();
+    });
     root.querySelectorAll<HTMLButtonElement>(".js-resolve").forEach((b) =>
       b.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -216,6 +266,8 @@ export const mount: Mount = async (root, { setState }) => {
         (source === "all" || r.source === source) &&
         (showResolved || !r.resolvedAt),
     );
+    shownIds = shown.map((r) => r.id);
+    const allChecked = shownIds.length > 0 && shownIds.every((id) => selected.has(id));
     const controls = `
       <div class="el-controls">
         <div class="el-control"><span class="el-control__label">Where</span>${segbar("env", env, ENV_FILTERS, envCounts)}</div>
@@ -223,10 +275,13 @@ export const mount: Mount = async (root, { setState }) => {
         <button type="button" class="el-filter el-resolved-toggle js-resolved${showResolved ? " is-active" : ""}" aria-pressed="${showResolved ? "true" : "false"}">Show resolved</button>
       </div>`;
     const body = shown.length
-      ? table(shown, open)
+      ? table(shown, open, selected, allChecked)
       : `<section class="card-flat"><p class="text-ink-dim">No errors match this view.</p></section>`;
-    root.innerHTML = shell(`${controls}${body}`);
+    root.innerHTML = shell(`${controls}${bulkBar(selected.size)}${body}`);
     wire();
+    // Partial selection → the header checkbox shows the dash (indeterminate) rather than a tick.
+    const checkAll = root.querySelector<HTMLInputElement>(".js-check-all");
+    if (checkAll) checkAll.indeterminate = !allChecked && shownIds.some((id) => selected.has(id));
   };
 
   const load = async () => {

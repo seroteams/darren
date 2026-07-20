@@ -73,3 +73,16 @@
 }
 .el-ua { font-size: var(--type-caption, 14px); color: var(--color-ink-dim); }
 .el-detail__actions { display: flex; gap: 8px; }
+
+/* Bulk select: a checkbox column + the action bar that appears once rows are ticked. */
+.el-table th.el-check, .el-table td.el-check { width: 40px; padding-right: 6px; text-align: center; }
+.el-check input[type="checkbox"] {
+  width: 16px; height: 16px; cursor: pointer; accent-color: var(--sero-primary-600); vertical-align: middle;
+}
+.el-bulkbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: var(--radius-card, 12px);
+  background: var(--sero-primary-100); border: 1px solid var(--sero-primary-200);
+}
+.el-bulkbar__count { font-size: var(--type-body-sm, 14px); font-weight: var(--type-weight-semibold, 600); color: var(--color-ink); }
+.el-bulkbar__spacer { flex: 1; }
