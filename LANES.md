@@ -8,8 +8,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 2ee8127c | Screen-gallery v2 — static HTML gallery + export script + fixtures (Part B/C) | scripts/gallery-export.mjs, scripts/gallery/, docs/screen-gallery/, docs/plans/doing/screen-gallery/ | 2026-07-18 |
-| 0d882cfb | Admin user-mgmt drill-down IA polish — breadcrumb trail + recap self-heading + label tidy | admin/src/stages/admin-user-detail.ts, admin/src/stages/admin-user-detail.test.ts, admin/src/ui/breadcrumb.ts, admin/src/ui/breadcrumb.test.ts, admin/src/ui/recap-header.ts, admin/src/ui/recap-header.test.ts, admin/src/styles/design/breadcrumb.css, admin/src/styles/design.css, admin/src/stages/admin-guest-runs.ts, docs/plans/doing/ia-consistency/, DESIGN.md | 2026-07-21 |**Rules (for Claude sessions — Carl never has to touch this file):**
+
+**Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).
 - `paths` = comma-separated files or folders (folders end with `/` or just match by prefix).
