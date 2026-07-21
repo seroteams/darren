@@ -136,7 +136,7 @@ export async function mount(root) {
             </li>`;
           })
           .join("")}</ol>`
-      : `<p class="text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here, with the date and meeting type, so you always know where things stand.</p>`;
+      : `<p class="text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here, with the date and 1:1 type, so you always know where things stand.</p>`;
   } catch {
     host.innerHTML = `<p class="text-ink-dim">Couldn't load your 1:1s. Please try again in a moment.</p>`;
   }

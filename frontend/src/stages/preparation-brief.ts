@@ -66,7 +66,7 @@ export const SLOT_LABELS = {
   dontAssume: "Don't assume",
   yourMove: "During the 1:1",
   leaveWith: "Aim to leave with",
-  styleTip: "For this kind of meeting",
+  styleTip: "For this kind of 1:1",
 } as const;
 
 export function isVariantId(v: unknown): v is VariantId {
@@ -87,7 +87,7 @@ export function confidenceCopy(raw: string, name: string): string {
   const who = (name || "").trim() || "them";
   switch (parseConfidenceLevel(raw)) {
     case "low":
-      return `This brief is based on the role and meeting type only. You haven't added notes yet. Treat it as a starting point; it says nothing about ${who} personally.`;
+      return `This brief is based on the role and 1:1 type only. You haven't added notes yet. Treat it as a starting point; it says nothing about ${who} personally.`;
     case "medium":
       return "This brief uses your notes plus role defaults. The more specific parts come from what you wrote.";
     case "high":
@@ -432,7 +432,7 @@ function renderL(s: BriefSlots): string {
   const activeId = phases.length ? phases[0]!.id : "";
 
   const tabs = phases.length
-    ? `<div class="pv-l__tabs" role="tablist" aria-label="Meeting stages">${phases
+    ? `<div class="pv-l__tabs" role="tablist" aria-label="1:1 stages">${phases
         .map(
           (p) =>
             `<button type="button" class="pv-l__tab${p.id === activeId ? " is-active" : ""}" role="tab" data-pane="${p.id}" aria-selected="${p.id === activeId}">${esc(p.tab)}</button>`,
@@ -576,7 +576,7 @@ export interface CopyCtx {
 }
 
 export function formatBriefForCopy(slots: BriefSlots, ctx: CopyCtx | null | undefined): string {
-  const lines: string[] = ["Pre-meeting brief"];
+  const lines: string[] = ["Prep brief"];
   const who = [ctx?.name, ctx?.role, ctx?.seniority, ctx?.meetingType].filter(Boolean).join(" · ");
   if (who) lines.push(who);
   const notes = (ctx?.notes || "").trim();

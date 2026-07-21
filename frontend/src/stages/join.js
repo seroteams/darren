@@ -46,7 +46,7 @@ export async function mount(root, { setState }) {
   host.innerHTML = `
     <form class="card-flat space-y-3 js-form" novalidate>
       <p class="text-ink-dim">Your manager preps your 1:1s with Sero. Once you join,
-      you'll see your own 1:1 history: dates and meeting types, always.</p>
+      you'll see your own 1:1 history: dates and 1:1 types, always.</p>
       <label class="l-stack l-stack--2">
         <span class="eyebrow">Email</span>
         <input class="input" type="email" value="${esc(invite.email)}" disabled />

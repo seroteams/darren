@@ -42,7 +42,7 @@ const SLOTS = extractSlots(BRIEF, "Priya");
 --------------------------------------------------------------------------- */
 
 const LOW_COPY =
-  "This brief is based on the role and meeting type only. You haven't added notes yet. Treat it as a starting point; it says nothing about Priya personally.";
+  "This brief is based on the role and 1:1 type only. You haven't added notes yet. Treat it as a starting point; it says nothing about Priya personally.";
 const MEDIUM_COPY =
   "This brief uses your notes plus role defaults. The more specific parts come from what you wrote.";
 const HIGH_COPY = "This brief is grounded in your notes and recent context.";
@@ -119,11 +119,11 @@ test("styleTip: extractSlots maps the tip through; absent → empty string", () 
 test("styleTip: Arc renders the tip with its label", () => {
   const html = renderBrief("L", extractSlots(BRIEF_WITH_TIP, "Priya"));
   assert.ok(html.includes(escapeCopy(BRIEF_WITH_TIP.styleTip as string)), "Arc carries the tip text");
-  assert.ok(html.includes("For this kind of meeting"), "tip label present");
+  assert.ok(html.includes("For this kind of 1:1"), "tip label present");
 });
 
 test("styleTip: an absent tip renders no empty label", () => {
-  assert.ok(!renderBrief("L", SLOTS).includes("For this kind of meeting"));
+  assert.ok(!renderBrief("L", SLOTS).includes("For this kind of 1:1"));
 });
 
 test("styleTip: Copy all includes the tip", () => {

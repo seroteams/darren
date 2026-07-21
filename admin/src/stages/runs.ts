@@ -51,13 +51,13 @@ function aboutEntry(r: AboutRun): string {
 }
 
 // Local one-use time-ago (mirrors compare.js) — four lines, so no shared util for one caller.
-// One run → "who · role, seniority · meeting · when", falling back to the endpoint's
+// One run → "who · role · seniority · meeting-type · when", falling back to the endpoint's
 // headline when the ctx fields are blank. Every value is escaped.
 function rowLine(r: MyRun): string {
   const c = r.ctx || ({} as MyRun["ctx"]);
   const bits: string[] = [];
   if (c.name) bits.push(c.name);
-  if (c.role) bits.push(c.seniority ? `${c.role}, ${c.seniority}` : c.role);
+  if (c.role) bits.push(c.seniority ? `${c.role} · ${c.seniority}` : c.role);
   if (c.meetingType) bits.push(c.meetingType);
   const when = relTime(r.lastSeenAt);
   if (when) bits.push(when);
@@ -74,7 +74,7 @@ export const mount: Mount = async (root, { setState }) => {
   const header = `
     <header class="page-header">
       <h1 class="h1">${memberView ? "Your 1:1s" : "Past 1:1s"}</h1>
-      ${memberView ? `<div class="text-ink-dim">Your 1:1 history. Dates and meeting types, nothing else.</div>` : ""}
+      ${memberView ? `<div class="text-ink-dim">Your 1:1 history. Dates and 1:1 types, nothing else.</div>` : ""}
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
 
