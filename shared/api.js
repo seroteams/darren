@@ -70,6 +70,17 @@ export async function updateProfile({ name }) {
   return postJson("/api/v1/auth/update-profile", { name });
 }
 
+// Company (audit M12): the signed-in manager reads/renames their own organisation's name.
+// The server takes the org id from the session (never the body), and only a manager/admin
+// may read or write it — a member is refused. getCompany → { company }; updateCompany
+// renames it for the whole org and returns the new { company }.
+export async function getCompany() {
+  return json(await fetch("/api/v1/auth/company"));
+}
+export async function updateCompany({ company }) {
+  return postJson("/api/v1/auth/update-company", { company });
+}
+
 // Hand an ownerless (guest) finished run to the logged-in caller (guest-run Phase 1
 // endpoint). Owned-by-someone-else answers 404; re-claim by the owner is a no-op.
 export async function claimSession(id) {

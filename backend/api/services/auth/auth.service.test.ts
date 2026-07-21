@@ -9,13 +9,19 @@ import type { AuthRepo, AuthUser, NewOrgOwner, PasswordResetRepo, ResetUser } fr
 // In-memory repo: proves the service logic never depends on Postgres (the seam
 // check). Captures exactly what register persists — the stored hash and the company
 // name — so a test can inspect them directly.
-function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[]; companies: string[] } {
+function fakeRepo(seed: AuthUser[] = []): AuthRepo & {
+  rows: AuthUser[];
+  companies: string[];
+  orgs: { id: string; name: string }[];
+} {
   const rows: AuthUser[] = [...seed];
   const companies: string[] = [];
+  const orgs: { id: string; name: string }[] = [];
   let n = 0;
   return {
     rows,
     companies,
+    orgs,
     async findByEmail(email) {
       return rows.find((u) => u.email === email) ?? null;
     },
@@ -32,6 +38,15 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[]; compani
       u.name = name;
       return u;
     },
+    async orgName(orgId) {
+      return orgs.find((o) => o.id === orgId)?.name ?? null;
+    },
+    async updateOrgName(orgId, name) {
+      const o = orgs.find((x) => x.id === orgId);
+      if (!o) return null;
+      o.name = name;
+      return { id: o.id, name: o.name };
+    },
     async createOrgWithOwner(input: NewOrgOwner) {
       companies.push(input.company);
       const u: AuthUser = {
@@ -42,6 +57,7 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[]; compani
         role: "manager",
         passwordHash: input.passwordHash,
       };
+      orgs.push({ id: u.orgId, name: input.company });
       rows.push(u);
       return u;
     },
@@ -244,6 +260,35 @@ test("updateProfile: an empty (or whitespace-only) name is refused and stores no
 test("updateProfile: an unknown user id is refused", async () => {
   const service = createAuthService(fakeRepo(), fakeHasher);
   await assert.rejects(() => service.updateProfile({ userId: "ghost", name: "Nobody" }), /find|account/i);
+});
+
+// --- Update company (rename your own organisation, audit M12) --------------------------
+// orgId comes from the session (never the body); the controller gates it to managers. The
+// new name is trimmed; empty is refused; getCompany reads it back.
+
+test("updateCompany: a new company name is trimmed, stored, and read back by getCompany", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "amy@acme.com", name: "Amy", password: "longenough1", company: "Acme" });
+
+  const org = await service.updateCompany({ orgId: user.orgId, name: "  Acme Corp  " });
+
+  assert.equal(org.name, "Acme Corp");
+  assert.equal(await service.getCompany(user.orgId), "Acme Corp");
+});
+
+test("updateCompany: an empty (or whitespace-only) name is refused and stores nothing", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "bo@acme.com", name: "Bo", password: "longenough1", company: "Bo Ltd" });
+
+  await assert.rejects(() => service.updateCompany({ orgId: user.orgId, name: "  " }), /company/i);
+  assert.equal(await service.getCompany(user.orgId), "Bo Ltd"); // unchanged
+});
+
+test("updateCompany: an unknown org id is refused", async () => {
+  const service = createAuthService(fakeRepo(), fakeHasher);
+  await assert.rejects(() => service.updateCompany({ orgId: "ghost", name: "Ghosts Inc" }), /find|company/i);
 });
 
 // --- Password reset (forgot-password) ------------------------------------------------

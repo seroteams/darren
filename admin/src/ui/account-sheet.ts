@@ -1,14 +1,16 @@
 // Account sheet (audit M12) — a small settings slide-over opened from the profile badge.
-// Shows who you're signed in as, lets you edit your display name, and change your password.
-// Shared by both apps. Both writes go through the session (the server ignores any id in the
-// body), so you can only ever change your OWN name/password.
+// Shows who you're signed in as, lets you edit your display name and (managers only) your
+// company name, and change your password. Shared by both apps. Every write goes through the
+// session (the server ignores any id in the body), so you can only ever change your OWN
+// name/password, or your OWN organisation.
 //
-// Scope note: company (your organisation's name) is NOT editable here — it's shared across
-// everyone in the org and needs a who's-allowed rule, so it's a separate follow-up. Email
-// stays read-only: it's the login identity.
+// Company is your ORGANISATION's name — shared by everyone on the team, so it's manager/admin
+// only (a member never sees the field, and the server 403s them). It's fetched on open (it's
+// not part of the login identity) and saved through a separate endpoint. Email stays
+// read-only: it's the login identity.
 
-import { changePassword, updateProfile } from "../../../shared/api.js";
-import { store, setState } from "../state.js";
+import { changePassword, updateProfile, getCompany, updateCompany } from "../../../shared/api.js";
+import { store, setState, isAdmin } from "../state.js";
 import { escapeHtml } from "./html.js";
 
 type User = { name?: string; email?: string } | null | undefined;
@@ -16,6 +18,7 @@ type User = { name?: string; email?: string } | null | undefined;
 export function showAccountSheet(user: User): void {
   const name = (user?.name || "").trim();
   const email = (user?.email || "").trim();
+  const canEditCompany = isAdmin(store.user);
 
   const backdrop = document.createElement("div");
   backdrop.className = "modal-backdrop";
@@ -24,6 +27,22 @@ export function showAccountSheet(user: User): void {
   sheet.setAttribute("role", "dialog");
   sheet.setAttribute("aria-modal", "true");
   sheet.setAttribute("aria-labelledby", "account-title");
+
+  const companySection = canEditCompany
+    ? `
+    <form class="l-stack l-stack--3 js-company-form" novalidate>
+      <div class="eyebrow">Company</div>
+      <label class="l-stack l-stack--1">
+        <span class="text-sm text-ink-dim">Company name <span class="text-ink-mute">(everyone on your team sees this)</span></span>
+        <input class="input js-company" type="text" autocomplete="organization" placeholder="Loading…" disabled required />
+      </label>
+      <p class="js-company-err text-negative text-sm" hidden></p>
+      <p class="js-company-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
+      <div class="modal__actions">
+        <button type="submit" class="btn btn--ghost js-company-save" disabled>Save company</button>
+      </div>
+    </form>`
+    : "";
 
   sheet.innerHTML = `
     <div class="l-stack l-stack--1">
@@ -42,6 +61,7 @@ export function showAccountSheet(user: User): void {
         <button type="submit" class="btn btn--ghost js-name-save">Save name</button>
       </div>
     </form>
+    ${companySection}
     <form class="l-stack l-stack--3 js-pw-form" novalidate>
       <div class="eyebrow">Change password</div>
       <label class="l-stack l-stack--1">
@@ -108,7 +128,7 @@ export function showAccountSheet(user: User): void {
       identityEl.textContent = [savedName, email].filter(Boolean).join(" · ");
       nameOk.textContent = "Name updated."; nameOk.hidden = false;
     } catch (e2) {
-      nameErr.textContent = e2 instanceof Error ? e2.message : "Couldn't update your name — please try again.";
+      nameErr.textContent = e2 instanceof Error ? e2.message : "Couldn't update your name. Please try again.";
       nameErr.hidden = false;
     } finally {
       nameSaveBtn.disabled = false; nameSaveBtn.textContent = "Save name";
@@ -128,7 +148,7 @@ export function showAccountSheet(user: User): void {
       ok.hidden = false;
       form.reset();
     } catch (e2) {
-      err.textContent = e2 instanceof Error ? e2.message : "Couldn't change your password — please try again.";
+      err.textContent = e2 instanceof Error ? e2.message : "Couldn't change your password. Please try again.";
       err.hidden = false;
     } finally {
       saveBtn.disabled = false; saveBtn.textContent = "Change password";
@@ -141,4 +161,48 @@ export function showAccountSheet(user: User): void {
   backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
   document.addEventListener("keydown", onKey, true);
   setTimeout(() => nameEl.focus({ preventScroll: true }), 0);
+
+  // Company (managers only): the org name isn't in the login identity, so fetch it on open
+  // to prefill; the field stays disabled until it loads so a stray submit can't blank it.
+  if (canEditCompany) {
+    const companyForm = sheet.querySelector<HTMLFormElement>(".js-company-form")!;
+    const companyEl = sheet.querySelector<HTMLInputElement>(".js-company")!;
+    const companyErr = sheet.querySelector<HTMLElement>(".js-company-err")!;
+    const companyOk = sheet.querySelector<HTMLElement>(".js-company-ok")!;
+    const companySaveBtn = sheet.querySelector<HTMLButtonElement>(".js-company-save")!;
+
+    let loaded = "";
+    getCompany()
+      .then((res) => {
+        loaded = ((res?.company as string) || "").trim();
+        companyEl.value = loaded;
+        companyEl.placeholder = "Your company name";
+        companyEl.disabled = false;
+        companySaveBtn.disabled = false;
+      })
+      .catch(() => {
+        companyEl.placeholder = "Couldn't load. Reopen to try again";
+      });
+
+    companyForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      companyErr.hidden = true; companyOk.hidden = true;
+      const next = companyEl.value.trim();
+      if (!next) { companyErr.textContent = "Your company name can't be empty."; companyErr.hidden = false; return; }
+      if (next === loaded) { companyOk.textContent = "That's already your company name."; companyOk.hidden = false; return; }
+      companySaveBtn.disabled = true; companySaveBtn.textContent = "Saving…";
+      try {
+        const res = await updateCompany({ company: next });
+        loaded = ((res?.company as string) || next).trim();
+        companyEl.value = loaded;
+        setState({ user: { ...store.user, company: loaded } });
+        companyOk.textContent = "Company updated for your whole team."; companyOk.hidden = false;
+      } catch (e2) {
+        companyErr.textContent = e2 instanceof Error ? e2.message : "Couldn't update your company. Please try again.";
+        companyErr.hidden = false;
+      } finally {
+        companySaveBtn.disabled = false; companySaveBtn.textContent = "Save company";
+      }
+    });
+  }
 }

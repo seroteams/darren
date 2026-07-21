@@ -44,6 +44,11 @@ export interface UpdateProfileInput {
   name: string;
 }
 
+export interface UpdateCompanyInput {
+  orgId: string;
+  name: string;
+}
+
 /** The safe user shape that leaves the server — no password hash, ever. */
 export interface PublicUser {
   id: string;
@@ -58,6 +63,8 @@ export interface AuthService {
   login(input: LoginInput): Promise<PublicUser>;
   changePassword(input: ChangePasswordInput): Promise<void>;
   updateProfile(input: UpdateProfileInput): Promise<PublicUser>;
+  getCompany(orgId: string): Promise<string | null>;
+  updateCompany(input: UpdateCompanyInput): Promise<{ id: string; name: string }>;
 }
 
 function normalizeEmail(email: string): string {
@@ -136,6 +143,23 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
       const user = await repo.updateName(input.userId, name);
       if (!user) throw notFound("We couldn't find your account.");
       return toPublic(user);
+    },
+
+    async getCompany(orgId) {
+      // The org's display name for the account sheet (audit M12). orgId comes from the
+      // session; the controller gates this to managers/admins.
+      return repo.orgName(orgId);
+    },
+
+    async updateCompany(input) {
+      // Rename the caller's OWN organisation (audit M12). Manager-gated in the controller;
+      // the orgId comes from the session, never the body — so a caller can only rename their
+      // own company. It's shared across the org: everyone on the team sees the new name.
+      const name = (input.name ?? "").trim();
+      if (!name) throw badRequest("Your company name can't be empty.");
+      const org = await repo.updateOrgName(input.orgId, name);
+      if (!org) throw notFound("We couldn't find your company.");
+      return org;
     },
   };
 }

@@ -51,6 +51,11 @@ export interface AuthRepo {
   /** Overwrite one user's display name (audit M12); returns the updated user, or null when
    *  no row matched. Only ever the caller's own id (the controller reads it from the session). */
   updateName(id: string, name: string): Promise<AuthUser | null>;
+  /** The name of an org (audit M12 — the account sheet shows the caller's company). */
+  orgName(orgId: string): Promise<string | null>;
+  /** Rename an org (audit M12 — the caller's own company, manager-gated in the controller);
+   *  returns the updated org, or null when no row matched. orgId comes from the session. */
+  updateOrgName(orgId: string, name: string): Promise<{ id: string; name: string } | null>;
   /** Create the company AND its owner together, in one transaction (both succeed or
    *  neither does); returns the stored owner. This is what makes signup create the
    *  company (Phase 4). */
@@ -82,6 +87,17 @@ export const pgAuthRepo: AuthRepo = {
     const u = rows[0];
     if (!u) return null;
     return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash, deactivatedAt: u.deactivatedAt };
+  },
+  async orgName(orgId) {
+    const db = getDb();
+    const rows = await db.select({ name: organizations.name }).from(organizations).where(eq(organizations.id, orgId)).limit(1);
+    return rows[0]?.name ?? null;
+  },
+  async updateOrgName(orgId, name) {
+    const db = getDb();
+    const rows = await db.update(organizations).set({ name }).where(eq(organizations.id, orgId)).returning();
+    const o = rows[0];
+    return o ? { id: o.id, name: o.name } : null;
   },
   async createOrgWithOwner(input) {
     const db = getDb();

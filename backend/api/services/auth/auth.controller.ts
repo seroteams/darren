@@ -11,7 +11,7 @@ import type { PasswordHasher } from "./auth.service.ts";
 import { pgAuthRepo, pgAuthSessionRepo, pgPasswordResetRepo } from "./auth.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import type { IdentityLookup } from "../../middleware/request-context.ts";
-import { requireAuth, isSuperadminIdentity } from "../../middleware/require-auth.ts";
+import { requireAuth, requireAdmin, isSuperadminIdentity } from "../../middleware/require-auth.ts";
 import { resolveAppEnv } from "../../../db/env-guard.ts";
 import { sessionCookie, clearedSessionCookie, readCookie, SESSION_COOKIE } from "../../middleware/cookies.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
@@ -133,6 +133,27 @@ export async function updateProfile(c: RequestContext, lookup?: IdentityLookup):
   const body = asRecord(await c.readBody());
   const user = await service.updateProfile({ userId: identity.userId!, name: asString(body.name) });
   c.json(200, { user });
+}
+
+// GET /api/v1/auth/company — manager/admin only. Returns { company } (the caller's own org
+// name, resolved from the session's orgId). Members are 403'd (they can't rename the org, so
+// they never see the field). The session-identity path is untouched — this is an isolated read.
+export async function getCompany(c: RequestContext, lookup?: IdentityLookup): Promise<void> {
+  const identity = await buildIdentity(c.req, lookup);
+  requireAdmin(identity); // manager or admin; 401 before 403
+  const company = await service.getCompany(identity.orgId!);
+  c.json(200, { company });
+}
+
+// POST /api/v1/auth/update-company — manager/admin only. { company } → 200 { company }. Renames
+// the caller's OWN organisation (audit M12); the orgId comes from the SESSION, never the body,
+// so a caller can only rename their own company. It's shared: everyone on the team sees it.
+export async function updateCompany(c: RequestContext, lookup?: IdentityLookup): Promise<void> {
+  const identity = await buildIdentity(c.req, lookup);
+  requireAdmin(identity);
+  const body = asRecord(await c.readBody());
+  const org = await service.updateCompany({ orgId: identity.orgId!, name: asString(body.company) });
+  c.json(200, { company: org.name });
 }
 
 // POST /api/v1/auth/forgot-password — { email } → 200 { ok: true }, ALWAYS. The answer is

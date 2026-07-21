@@ -277,6 +277,14 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return auth.updateProfile(c);
   }));
+  // company (audit M12): the SIGNED-IN manager reads/renames their own organisation. Read is
+  // GET (no origin guard, like /me); the rename is POST + origin-guarded. Both manager/admin
+  // only (requireAdmin inside the handler); the org id comes from the session, never the body.
+  router.add("GET", "/api/v1/auth/company", v1Route(auth.getCompany));
+  router.add("POST", "/api/v1/auth/update-company", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return auth.updateCompany(c);
+  }));
 
   // feedback — a tester's in-app note (Phase 5; feedback-inbox moved the store to the
   // feedback_notes table). Login required (any role, not admin); no external service.
