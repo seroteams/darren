@@ -53,7 +53,7 @@ export const mount: Mount = async (root) => {
       });
       await load();
     } catch (e) {
-      showActionError(root, e instanceof Error ? e.message : "Couldn't send the invite — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't send the invite. Please try again.");
     }
   };
 
@@ -64,7 +64,7 @@ export const mount: Mount = async (root) => {
       await fn();
       await load();
     } catch (e) {
-      showActionError(root, e instanceof Error ? e.message : "Couldn't make that change — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't make that change. Please try again.");
     }
   };
 
@@ -79,7 +79,7 @@ export const mount: Mount = async (root) => {
       });
       await load();
     } catch (e) {
-      showActionError(root, e instanceof Error ? e.message : "Couldn't resend — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't resend. Please try again.");
     }
   };
 

@@ -62,7 +62,7 @@ export const mount: Mount = async (root, { setState }) => {
   const emptyCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Your team starts here</div>
-      <p class="text-ink-dim">Add the people you manage — even before your first 1:1. Their history fills in as you prep and meet.</p>
+      <p class="text-ink-dim">Add the people you manage, even before your first 1:1. Their history fills in as you prep and meet.</p>
       <div class="l-cluster l-cluster--2">
         <button type="button" class="btn js-add">Add someone</button>
         <button type="button" class="btn btn--ghost js-start">Start 1:1</button>
@@ -147,7 +147,7 @@ export const mount: Mount = async (root, { setState }) => {
       });
       await load();
     } catch (e) {
-      showActionError(root, e instanceof Error ? e.message : "Couldn't send the reminder — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't send the reminder. Please try again.");
     }
   };
 
@@ -169,13 +169,13 @@ export const mount: Mount = async (root, { setState }) => {
         const res = (await invitePerson(personId, choice.email)) as { link: string };
         await showShareLinkModal({
           title: `Invite sent to ${personName}`,
-          message: "They'll set a password and see their own 1:1 history — never your notes. Share this link if the email doesn't arrive:",
+          message: "They'll set a password and see their own 1:1 history. Never your notes. Share this link if the email doesn't arrive:",
           link: `${window.location.origin}${res.link}`,
         });
         await load();
       }
     } catch (e) {
-      showActionError(root, e instanceof Error ? e.message : "Couldn't update access — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't update access. Please try again.");
     }
   };
 
@@ -193,14 +193,14 @@ export const mount: Mount = async (root, { setState }) => {
         const inv = (await invitePerson(personId, draft.email)) as { link: string };
         await showShareLinkModal({
           title: `Invite sent to ${draft.name}`,
-          message: "They'll set a password and see their own 1:1 history — never your notes. Share this link if the email doesn't arrive:",
+          message: "They'll set a password and see their own 1:1 history. Never your notes. Share this link if the email doesn't arrive:",
           link: `${window.location.origin}${inv.link}`,
         });
       }
       await load();
     } catch (e) {
       // Pass the server's real reason through instead of a generic string (audit F16).
-      showActionError(root, e instanceof Error ? e.message : "Couldn't add them — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't add them. Please try again.");
     }
   };
 
@@ -222,7 +222,7 @@ export const mount: Mount = async (root, { setState }) => {
       await updatePerson(id, { name: draft.name, role: draft.role, seniority: draft.seniority });
       await load();
     } catch (e) {
-      showActionError(root, e instanceof Error ? e.message : "Couldn't save the changes — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't save the changes. Please try again.");
     }
   };
 
@@ -235,7 +235,7 @@ export const mount: Mount = async (root, { setState }) => {
       await deletePerson(id);
       await load();
     } catch (e) {
-      showActionError(root, e instanceof Error ? e.message : "Couldn't delete them — please try again.");
+      showActionError(root, e instanceof Error ? e.message : "Couldn't delete them. Please try again.");
     }
   };
 

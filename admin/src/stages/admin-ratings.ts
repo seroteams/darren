@@ -14,11 +14,11 @@ import { whoCell, starsCell, type AdminRun } from "./admin-runs.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 function ratingRow(r: AdminRun): string {
-  const note = r.rating?.note ? escapeHtml(r.rating.note) : `<span class="text-ink-dim">—</span>`;
+  const note = r.rating?.note ? escapeHtml(r.rating.note) : `<span class="text-ink-dim">–</span>`;
   return `
     <tr>
       <td>${whoCell(r)}</td>
-      <td>${r.meetingType ? escapeHtml(prettyType(r.meetingType)) : "—"}</td>
+      <td>${r.meetingType ? escapeHtml(prettyType(r.meetingType)) : "–"}</td>
       <td>${escapeHtml(dateLabel(r.startedAt ?? r.lastSeenAt))}</td>
       <td>${starsCell(r)}</td>
       <td class="pd-note">${note}</td>
@@ -31,7 +31,7 @@ export const mount: Mount = async (root, { setState }) => {
       <header class="page-header l-stack l-stack--2">
         ${backToPulse()}
         <h1 class="h1">Recap ratings</h1>
-        <div class="text-ink-dim">Every rated recap, newest first — the stars and notes behind the Pulse average. Internal and guest runs are tagged.</div>
+        <div class="text-ink-dim">Every rated recap, newest first. The stars and notes behind the Pulse average. Internal and guest runs are tagged.</div>
       </header>
       ${inner}
       <div class="pd-back-bottom">${backToPulse()}</div>
@@ -61,14 +61,14 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
     if (rated.length === 0) {
-      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No rated recaps yet — when a manager rates one with the stars, it lands here.</p></section>`);
+      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No rated recaps yet. When a manager rates one with the stars, it lands here.</p></section>`);
       wireBack();
       return;
     }
     // Same fold as the Pulse card: plain average over every rated run, low = ≤2 stars.
     const avg = Math.round((rated.reduce((sum, r) => sum + (r.rating?.stars ?? 0), 0) / rated.length) * 10) / 10;
     const low = rated.filter((r) => (r.rating?.stars ?? 0) <= 2).length;
-    const count = `<p class="pd-count"><b>${avg.toFixed(1)}</b> average over <b>${rated.length}</b> rated ${rated.length === 1 ? "run" : "runs"}${low ? ` · ${low} low (≤2)` : ""} — the same numbers as the Pulse card.</p>`;
+    const count = `<p class="pd-count"><b>${avg.toFixed(1)}</b> average over <b>${rated.length}</b> rated ${rated.length === 1 ? "run" : "runs"}${low ? ` · ${low} low (≤2)` : ""}. The same numbers as the Pulse card.</p>`;
     root.innerHTML = shell(`
       <section class="l-stack l-stack--3">
         ${count}

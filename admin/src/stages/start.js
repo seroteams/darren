@@ -15,7 +15,7 @@ const BENCH_HTML = `
         <div class="card-flat space-y-3">
           <div>
             <div class="eyebrow">Demo persona</div>
-            <p class="text-ink-dim mt-1">Sample employee context — or leave blank for your own setup.</p>
+            <p class="text-ink-dim mt-1">Sample employee context. Or leave blank for your own setup.</p>
           </div>
           <div class="bench-select-wrap">
             <select class="bench-select js-bench-select" aria-label="Demo persona" disabled>
@@ -33,7 +33,7 @@ const BENCH_HTML = `
           </div>
           <div class="space-y-2">
             <div class="eyebrow">How to run</div>
-            <p class="text-ink-dim">Manual or scripted replay — each persona supports both.</p>
+            <p class="text-ink-dim">Manual or scripted replay. Each persona supports both.</p>
           </div>
           <div class="bench-flows" role="radiogroup" aria-label="Demo run flow">
             <button type="button" class="bench-flow js-mode is-active" data-mode="manual" role="radio" aria-checked="true">
@@ -57,7 +57,7 @@ const BENCH_HTML = `
           </div>
           <label class="js-runlabel-wrap" hidden>
             <span class="eyebrow">What are you testing? <span class="text-ink-mute">(optional label)</span></span>
-            <input class="input js-runlabel" type="text" autocomplete="off" placeholder="e.g. baseline — no Neutral Cause Rule" />
+            <input class="input js-runlabel" type="text" autocomplete="off" placeholder="e.g. baseline. No Neutral Cause Rule" />
           </label>
           <button type="button" class="btn js-bench-start" disabled>Start demo session</button>
           <p class="js-bench-err text-negative text-sm" hidden></p>

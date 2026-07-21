@@ -22,7 +22,7 @@ function noteItemHtml(n) {
 export function createNotesListController({ listEl, onBeginEdit }) {
   function renderList(notes) {
     if (!notes.length) {
-      listEl.innerHTML = `<div class="notes-panel__empty">No notes yet. Write one below — paragraphs welcome.</div>`;
+      listEl.innerHTML = `<div class="notes-panel__empty">No notes yet. Write one below. Paragraphs welcome.</div>`;
       return;
     }
     const groups = groupNotes(notes);

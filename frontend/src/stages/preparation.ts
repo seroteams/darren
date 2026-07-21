@@ -127,7 +127,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     .on("error", (d: { message?: string }) => {
       setState({
         stage: STAGES.ERROR,
-        error: d.message || "Couldn't write your prep brief. Try again — your notes are safe.",
+        error: d.message || "Couldn't write your prep brief. Try again. Your notes are safe.",
         retryStage: STAGES.PREPARATION,
       });
     })

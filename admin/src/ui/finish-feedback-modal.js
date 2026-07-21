@@ -35,7 +35,7 @@ export function showFinishFeedbackModal({ sessionId, initialStars = 0 }) {
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-labelledby", "ffm-title");
     modal.innerHTML = `
-      <div class="ffm__title" id="ffm-title">Before you go —</div>
+      <div class="ffm__title" id="ffm-title">Before you go. </div>
       <div class="ffm__sec">
         <div class="eyebrow" id="ffm-useful-label">Did the prep give you something useful?</div>
         <div class="l-cluster l-cluster--2 items-center" role="group" aria-labelledby="ffm-useful-label">
@@ -55,7 +55,7 @@ export function showFinishFeedbackModal({ sessionId, initialStars = 0 }) {
       <div class="ffm__sec">
         <div class="eyebrow" id="ffm-stuck-label">Where did you get stuck or confused?</div>
         <input class="input js-ffm-note" type="text" maxlength="200" autocomplete="off"
-          placeholder="One line — optional" aria-labelledby="ffm-stuck-label" />
+          placeholder="One line. Optional" aria-labelledby="ffm-stuck-label" />
       </div>
       <div class="modal__actions">
         <button type="button" class="btn btn--ghost js-ffm-skip">Skip</button>
@@ -86,7 +86,7 @@ export function showFinishFeedbackModal({ sessionId, initialStars = 0 }) {
         await submitRunVerdict(sessionId, verdict, composeMessage());
         status.textContent = "Thanks!";
       } catch {
-        status.textContent = "Couldn't save — fine to skip.";
+        status.textContent = "Couldn't save. Fine to skip.";
       }
     };
 

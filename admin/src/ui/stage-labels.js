@@ -17,7 +17,7 @@ export const STAGE_DISPLAY = Object.freeze({
 });
 
 export function stageLabel(stage) {
-  return STAGE_DISPLAY[stage] || stage || "—";
+  return STAGE_DISPLAY[stage] || stage || "–";
 }
 
 export const TOPBAR_STAGES = Object.freeze([

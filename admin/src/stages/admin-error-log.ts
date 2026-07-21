@@ -159,7 +159,7 @@ export const mount: Mount = async (root, { setState }) => {
       <header class="page-header l-stack l-stack--2">
         ${backToPulse()}
         <h1 class="h1">Error log</h1>
-        <div class="text-ink-dim">Everything that broke — your local dev and the live Sero, newest first. Click a row for the full detail.</div>
+        <div class="text-ink-dim">Everything that broke. Your local dev and the live Sero, newest first. Click a row for the full detail.</div>
       </header>
       ${inner}
       <div class="pd-back-bottom">${backToPulse()}</div>
@@ -296,7 +296,7 @@ export const mount: Mount = async (root, { setState }) => {
     }
     if (allRows.length === 0) {
       root.innerHTML = shell(
-        `<section class="card-flat"><p class="text-ink-dim">No errors logged yet — nothing's broken.</p></section>`,
+        `<section class="card-flat"><p class="text-ink-dim">No errors logged yet. Nothing's broken.</p></section>`,
       );
       return;
     }

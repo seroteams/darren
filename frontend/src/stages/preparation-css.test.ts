@@ -48,7 +48,7 @@ test("every font-size resolves to >= 14px from the existing token set", () => {
   }
 });
 
-test("colours come from tokens only — no literal colour values", () => {
+test("colours come from tokens only. No literal colour values", () => {
   // Strip comments, then look for hex colours or rgb()/hsl() literals.
   const rules = css.replace(/\/\*[\s\S]*?\*\//g, "");
   assert.ok(!/#[0-9a-fA-F]{3,8}\b/.test(rules), "no hex colours");

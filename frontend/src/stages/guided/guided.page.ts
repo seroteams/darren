@@ -319,7 +319,7 @@ export const mount: Mount = async (root, { store, setState }) => {
       if (foot && !foot.querySelector(".mcr-panel__err")) {
         const err = document.createElement("span");
         err.className = "mcr-panel__err";
-        err.textContent = "Couldn't save — try again.";
+        err.textContent = "Couldn't save. Try again.";
         err.style.cssText =
           "color:var(--color-negative-text);font-size:var(--type-body-sm);margin-right:auto;align-self:center;";
         foot.prepend(err);
@@ -380,7 +380,7 @@ export const mount: Mount = async (root, { store, setState }) => {
       lastEngagement,
     });
     const banner = completed
-      ? `<div class="mcr-done-banner">${ICONS.check}<span>This check-in is complete — view only.</span></div>`
+      ? `<div class="mcr-done-banner">${ICONS.check}<span>This check-in is complete. View only.</span></div>`
       : "";
     root.innerHTML = `
       <div class="mcr">

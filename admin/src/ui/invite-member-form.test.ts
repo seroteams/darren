@@ -12,7 +12,7 @@ test("a valid email + role passes through, lowercased + trimmed", () => {
   });
 });
 
-test("email is required — blank or no-@ yields an error, no draft", () => {
+test("email is required. Blank or no-@ yields an error, no draft", () => {
   assert.equal(cleanInvite({ email: "", role: "member" }).draft, null);
   assert.match(cleanInvite({ email: "nope", role: "member" }).error ?? "", /email/i);
 });

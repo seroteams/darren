@@ -45,12 +45,12 @@ test("no refitted family re-declares its own chip geometry", () => {
     if (!rule) continue; // rule deleted entirely — the cleanest outcome
     assert.ok(
       !GEOMETRY.test(rule[1]),
-      `.${family} (${file}) must not re-declare chip geometry — it comes from base.css`,
+      `.${family} (${file}) must not re-declare chip geometry. It comes from base.css`,
     );
   }
 });
 
-test("no chip is squared — the house pill is fully rounded", () => {
+test("no chip is squared. The house pill is fully rounded", () => {
   // These four were squared at 4px against the artifact's single pill recipe.
   for (const family of ["lib-badge", "cmp-verdict-tag", "fp-chip", "cl-tag"]) {
     const all = BASE + read("buttons-inputs.css") + read("stage-extras.css") + read("stage-review.css");
@@ -90,6 +90,6 @@ test("the status-dot motif is on state pills, not on label pills", () => {
   }
   // ...plain labels (role, source, type) do not — a dot on everything says nothing.
   for (const s of ["um-badge--admin", "fb-pill--src", "el-pill--api"]) {
-    assert.ok(!selectors.includes(s), `${s} is a label, not a status — no dot`);
+    assert.ok(!selectors.includes(s), `${s} is a label, not a status. No dot`);
   }
 });

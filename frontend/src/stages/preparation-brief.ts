@@ -87,7 +87,7 @@ export function confidenceCopy(raw: string, name: string): string {
   const who = (name || "").trim() || "them";
   switch (parseConfidenceLevel(raw)) {
     case "low":
-      return `This brief is based on the role and meeting type only — you haven't added notes yet. Treat it as a starting point; it says nothing about ${who} personally.`;
+      return `This brief is based on the role and meeting type only. You haven't added notes yet. Treat it as a starting point; it says nothing about ${who} personally.`;
     case "medium":
       return "This brief uses your notes plus role defaults. The more specific parts come from what you wrote.";
     case "high":

@@ -28,7 +28,7 @@ test("drops malformed rows and handles junk input without throwing", () => {
   assert.deepEqual(drafts[0], { owner: "manager", action: "Real one", when: "" });
 });
 
-test("caps at 10 — matches the server's ceiling", () => {
+test("caps at 10. Matches the server's ceiling", () => {
   const many = Array.from({ length: 14 }, (_, i) => ({ when: "today", action: `a${i}` }));
   assert.equal(draftsFromNextActions(many).length, 10);
   assert.equal(MAX_PROMISES, 10);

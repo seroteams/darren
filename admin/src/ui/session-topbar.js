@@ -72,7 +72,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const brand = document.createElement("button");
   brand.type = "button";
   brand.className = "session-topbar__brand";
-  brand.setAttribute("aria-label", "Sero — go to login");
+  brand.setAttribute("aria-label", "Sero. Go to login");
   brand.hidden = true;
   brand.innerHTML = `<span class="session-topbar__brand-icon">${LOGO}</span><span class="session-topbar__brand-word">Sero</span>`;
   brand.addEventListener("click", () => setState && setState({ stage: STAGES.LOGIN }));

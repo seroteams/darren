@@ -230,7 +230,7 @@ export function createNotesPanel({ store, setState }) {
       resizeComposer();
     } else {
       setState({ notes: prevNotes });
-      showError("Save failed. Note kept in box — try again.");
+      showError("Save failed. Note kept in box. Try again.");
     }
   }
 
@@ -305,7 +305,7 @@ export function createNotesPanel({ store, setState }) {
     const ok = updated ? await persist(updated) : false;
     if (!ok) {
       setState({ notes: prev });
-      showError("Edit failed. Reverted — try again.");
+      showError("Edit failed. Reverted. Try again.");
     }
   }
 
@@ -319,7 +319,7 @@ export function createNotesPanel({ store, setState }) {
     const ok = target ? await persist(target, { deleted: true }) : true;
     if (!ok) {
       setState({ notes: prev });
-      showError("Delete failed. Reverted — try again.");
+      showError("Delete failed. Reverted. Try again.");
     }
   }
 

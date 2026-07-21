@@ -64,11 +64,11 @@ export async function mount(root, { setState }) {
       // has an account, so nothing here reveals which addresses are registered.
       host.innerHTML = `
         <div class="card-flat space-y-3">
-          <p>If <strong>${escapeHtml(email)}</strong> has a Sero account, we've sent a reset link. Check your inbox — it works for 1 hour.</p>
+          <p>If <strong>${escapeHtml(email)}</strong> has a Sero account, we've sent a reset link. Check your inbox. It works for 1 hour.</p>
           <p class="text-ink-dim text-sm">Didn't get it? Check spam, or try again in a minute.</p>
         </div>`;
     } catch (e2) {
-      err.textContent = e2.message || "Something went wrong — try again.";
+      err.textContent = e2.message || "Something went wrong. Try again.";
       err.hidden = false;
       submitBtn.disabled = false;
       submitBtn.textContent = "Send reset link";

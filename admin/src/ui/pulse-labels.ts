@@ -27,9 +27,9 @@ export const activeLabel = (v: string | number | null): string => {
 };
 
 export const dateLabel = (v: string | number | null): string => {
-  if (v == null) return "—";
+  if (v == null) return "–";
   const ms = typeof v === "number" ? v : Date.parse(v);
-  return Number.isFinite(ms) ? formatDate(ms) : "—";
+  return Number.isFinite(ms) ? formatDate(ms) : "–";
 };
 
 /** The drill-down pages' back control (pulse-drilldowns): a circled ‹ plus "Back",

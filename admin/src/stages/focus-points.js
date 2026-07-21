@@ -55,7 +55,7 @@ export async function mount(root, { store, setState }) {
     .on("error", (d) => {
       setState({
         stage: STAGES.ERROR,
-        error: d.message || "Couldn't pull your focus areas together. Try again — your notes are safe.",
+        error: d.message || "Couldn't pull your focus areas together. Try again. Your notes are safe.",
         retryStage: STAGES.FOCUS_POINTS,
       });
     })

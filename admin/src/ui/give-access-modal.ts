@@ -54,7 +54,7 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
     modal.innerHTML = `
       <div class="apm__head">
         <div class="apm__title" id="give-access-title"></div>
-        <div class="apm__sub">They'll get a login to follow their own 1:1s with you — the dates and topics you met on. They never see your private notes, your ratings, or anyone else on your team.</div>
+        <div class="apm__sub">They'll get a login to follow their own 1:1s with you. The dates and topics you met on. They never see your private notes, your ratings, or anyone else on your team.</div>
       </div>
       <div class="apm__body">
         <div class="apm-field">

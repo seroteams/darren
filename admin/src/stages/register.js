@@ -14,7 +14,7 @@ export async function mount(root, { setState }) {
     <div class="stage-inner l-stack l-stack--8 auth-card">
       <header class="page-header">
         <h1 class="h1">Create your account</h1>
-        <div class="text-ink-dim">Your account comes with a private space for your company — you're the admin.</div>
+        <div class="text-ink-dim">Your account comes with a private space for your company. You're the admin.</div>
       </header>
       <form class="card-flat space-y-3 js-form" novalidate>
         <label class="l-stack l-stack--2">
@@ -93,7 +93,7 @@ export async function mount(root, { setState }) {
       // reaches their Home (START) and its first-run empty state, not the setup wizard.
       setState({ user, stage: landingStage(user, store.memberHome ?? STAGES.RUNS) });
     } catch (e2) {
-      showError(e2.message || "Couldn't create your account. Try again — nothing you typed is lost.");
+      showError(e2.message || "Couldn't create your account. Try again. Nothing you typed is lost.");
       submitBtn.disabled = false;
       submitBtn.textContent = "Create account";
     }

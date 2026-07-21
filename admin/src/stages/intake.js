@@ -14,7 +14,7 @@ const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
 const COPY = {
   NAME: {
     question: "Who are you prepping for?",
-    hint: "First name only. Sero works from what you tell it — nothing else.",
+    hint: "First name only. Sero works from what you tell it. Nothing else.",
     placeholder: "e.g. Priya",
     key: "name",
   },
@@ -26,7 +26,7 @@ const COPY = {
   },
   SENIORITY: {
     question: "And their seniority?",
-    hint: "Junior, senior, staff, director — whatever reads naturally.",
+    hint: "Junior, senior, staff, director. Whatever reads naturally.",
     placeholder: "e.g. Senior / Staff / Lead",
     key: "seniority",
   },
@@ -386,7 +386,7 @@ export async function mount(root, { store, setState }) {
     wrap.setAttribute("data-autofocus", "");
     wrap.innerHTML = `
       <h1 class="h1 mb-2">What kind of meeting?</h1>
-      <div class="hint mb-3">Pick whichever is closest — you can add detail next.</div>
+      <div class="hint mb-3">Pick whichever is closest. You can add detail next.</div>
       <div class="grid gap-3 js-cards"></div>
     `;
     const cards = wrap.querySelector(".js-cards");

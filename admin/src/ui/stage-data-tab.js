@@ -106,10 +106,10 @@ function latestTurn(stage) {
 // the whole point. Clearly marked as not-yet-sent so it's never mistaken for a
 // confirmed send.
 function renderPreview(preview) {
-  const note = `<p class="stage-io__note">Not sent yet — this is the exact text we'll send the moment this step runs. Nothing has left your machine.</p>`;
+  const note = `<p class="stage-io__note">Not sent yet. This is the exact text we'll send the moment this step runs. Nothing has left your machine.</p>`;
   const model = field("Model", preview.model);
   const promptFile = field("Prompt file", preview.promptFile);
-  const prompt = block("Show exact text we're about to send (preview — not yet sent)", preview.prompt, { details: true, open: true });
+  const prompt = block("Show exact text we're about to send (preview. Not yet sent)", preview.prompt, { details: true, open: true });
   return `${note}<div class="stage-io__fields">${model}${promptFile}</div>${prompt}`;
 }
 
@@ -153,13 +153,13 @@ function renderReply(stage) {
   const final =
     "final" in stage
       ? block("What shipped (after processing)", pretty(stage.final))
-      : `<p class="stage-io__note">No separate processed copy was logged for this stage — the raw reply is what was used.</p>`;
+      : `<p class="stage-io__note">No separate processed copy was logged for this stage. The raw reply is what was used.</p>`;
   return (raw || placeholder("No reply was logged for this stage.")) + final;
 }
 
 // One guardrail line: bold title + plain explanation.
 function ruleLine(r) {
-  return `<div class="stage-io__field"><div class="stage-io__val"><strong>${escapeHtml(r.title)}</strong> — ${escapeHtml(r.detail)}</div></div>`;
+  return `<div class="stage-io__field"><div class="stage-io__val"><strong>${escapeHtml(r.title)}</strong>. ${escapeHtml(r.detail)}</div></div>`;
 }
 
 // The "Rules" pane: guardrails active for this meeting type + what fired last turn.
@@ -172,7 +172,7 @@ function renderRules(data) {
     const fired = (data.lastTurn.fired || []).map(ruleLine).join("");
     html +=
       `<div class="stage-io__label">What fired last turn (turn ${escapeHtml(String(data.lastTurn.turn))})</div>` +
-      (fired || `<p class="stage-io__note">Nothing special fired — a clean turn.</p>`);
+      (fired || `<p class="stage-io__note">Nothing special fired. A clean turn.</p>`);
   }
   return html;
 }
@@ -198,11 +198,11 @@ export function createStageDataController() {
 
   function paint() {
     sentEl.innerHTML = qEmptyDraft
-      ? placeholder("Start typing your answer above — this fills in live with the exact text we'll send the AI.")
+      ? placeholder("Start typing your answer above. This fills in live with the exact text we'll send the AI.")
       : renderSent(stage, preview);
     replyEl.innerHTML =
       isQuestioning && !latestTurn(stage)
-        ? placeholder("Nothing back yet — the AI's reply to your last answer shows here.")
+        ? placeholder("Nothing back yet. The AI's reply to your last answer shows here.")
         : renderReply(stage);
   }
 

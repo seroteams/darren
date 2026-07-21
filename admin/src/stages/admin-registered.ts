@@ -94,7 +94,7 @@ function returnLine(u: RegUser): string {
       ? "no second prep yet"
       : u.cameBack
         ? `came back after ${u.gapDays === 0 ? "less than a day" : `${u.gapDays} ${u.gapDays === 1 ? "day" : "days"}`}`
-        : `returned after ${u.gapDays} days — outside the 2-week window`;
+        : `returned after ${u.gapDays} days. Outside the 2-week window`;
   return `<div class="um-activity__sub">${escapeHtml(first)} · ${escapeHtml(gap)}</div>`;
 }
 

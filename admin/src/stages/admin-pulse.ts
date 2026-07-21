@@ -127,7 +127,7 @@ function sparkline(series: number[]): string {
 
 function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): void {
   const trend = (a: number, b: number) =>
-    a > b ? `<span class="lp-up">↑${a - b}</span>` : a < b ? `<span class="lp-down">↓${b - a}</span>` : `<span class="lp-tile__note">—</span>`;
+    a > b ? `<span class="lp-up">↑${a - b}</span>` : a < b ? `<span class="lp-down">↓${b - a}</span>` : `<span class="lp-tile__note">–</span>`;
   const typeMixNote = p.runTypeMix.length
     ? p.runTypeMix.map((t) => `${t.count} ${prettyType(t.type).toLowerCase()}`).join(" · ")
     : "no runs yet";
@@ -138,14 +138,14 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
     <div class="l-container l-container--wide l-stack l-stack--4">
       <header class="page-header">
         <h1 class="h1">Live pulse</h1>
-        <p class="text-ink-dim">The live site right now — managers, runs, who came back, what broke. Internal Sero accounts are counted separately.</p>
+        <p class="text-ink-dim">The live site right now. Managers, runs, who came back, what broke. Internal Sero accounts are counted separately.</p>
       </header>
 
       <div class="lp-tiles">
         <button type="button" class="lp-tile lp-tile--hero js-tile-gate1">
           <div class="lp-tile__label">Came back unprompted</div>
           <div class="lp-tile__value">${p.gate1.cameBack} <span class="lp-den">of ${p.gate1.total}</span></div>
-          <div class="lp-tile__note">Gate 1 — a second prep within 14 days, unprompted</div>
+          <div class="lp-tile__note">Gate 1. A second prep within 14 days, unprompted</div>
         </button>
         <button type="button" class="lp-tile js-tile-managers">
           <div class="lp-tile__label">Managers on live</div>
@@ -159,7 +159,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
         </button>
         <button type="button" class="lp-tile js-tile-ratings">
           <div class="lp-tile__label">Recap rating</div>
-          <div class="lp-tile__value">${p.ratings.avgStars == null ? "—" : p.ratings.avgStars.toFixed(1)}</div>
+          <div class="lp-tile__value">${p.ratings.avgStars == null ? "–" : p.ratings.avgStars.toFixed(1)}</div>
           <div class="lp-tile__note">${p.ratings.ratedCount} rated${p.ratings.lowCount > 0 ? ` · <span class="lp-down">${p.ratings.lowCount} low</span>` : ""}</div>
         </button>
         <button type="button" class="lp-tile js-tile-guests">
@@ -183,7 +183,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
           </div>
           <div class="lp-card">
             <div class="lp-card__head"><h3>Managers</h3><button type="button" class="lp-viewall js-all-managers">View all →</button></div>
-            <p class="lp-hnote">Everyone registered on live — click for their full record</p>
+            <p class="lp-hnote">Everyone registered on live. Click for their full record</p>
             ${p.managers.length ? `<div class="lp-scroll"><table class="lp-table">
               <tr><th>Manager</th><th>Runs</th><th>Last active</th><th>First run</th><th>Status</th></tr>
               ${p.managers.map((m) => `
@@ -204,7 +204,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void): vo
             ${p.dropOffs.length ? p.dropOffs.map((d) => `
               <div class="lp-bar"><span class="lp-bar__name">${escapeHtml(prettyStage(d.stage))}</span>
                 <div class="lp-bar__track"><div class="lp-bar__fill${d.count >= dropMax ? " lp-bar__fill--warn" : ""}" style="width:${Math.round((d.count / dropMax) * 100)}%"></div></div>
-                <span class="lp-bar__n">${d.count}</span></div>`).join("") : `<p class="lp-empty">No unfinished runs — everyone reached their recap.</p>`}
+                <span class="lp-bar__n">${d.count}</span></div>`).join("") : `<p class="lp-empty">No unfinished runs. Everyone reached their recap.</p>`}
           </div>
           <div class="lp-card">
             <div class="lp-card__head"><h3>Latest feedback</h3><button type="button" class="lp-viewall js-all-feedback">View all →</button></div>

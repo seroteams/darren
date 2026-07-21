@@ -31,14 +31,14 @@ export async function mount(root, { store, setState }) {
     .on("error", (d) => {
       setState({
         stage: STAGES.ERROR,
-        error: d.message || "Couldn't finish your recap — try again.",
+        error: d.message || "Couldn't finish your recap. Try again.",
         retryStage: STAGES.EVAL,
       });
     })
     .onError(() => {
       setState({
         stage: STAGES.ERROR,
-        error: "Lost connection while pulling your recap together — try again.",
+        error: "Lost connection while pulling your recap together. Try again.",
         retryStage: STAGES.EVAL,
       });
     })

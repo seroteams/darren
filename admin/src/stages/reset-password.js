@@ -81,7 +81,7 @@ export async function mount(root, { setState }) {
         </div>`;
       host.querySelector(".js-to-login").addEventListener("click", toLogin);
     } catch (e2) {
-      err.textContent = e2.message || "Couldn't reset your password — the link may have expired.";
+      err.textContent = e2.message || "Couldn't reset your password. The link may have expired.";
       err.hidden = false;
       submitBtn.disabled = false;
       submitBtn.textContent = "Set new password";

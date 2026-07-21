@@ -89,7 +89,7 @@ function noteCard(note: FeedbackNote): string {
   const body = note.message
     ? `<div class="fb-note">${escapeHtml(note.message)}</div>`
     : note.verdict
-      ? `<div class="fb-note text-ink-dim">(tap only — no comment)</div>`
+      ? `<div class="fb-note text-ink-dim">(tap only. No comment)</div>`
       : "";
   const src = sourcePill(note);
   const ver = verdictPill(note);
@@ -123,7 +123,7 @@ export const mount: Mount = async (root, ctx) => {
       <header class="page-header l-stack l-stack--2">
         ${backToPulse()}
         <h1 class="h1">Feedback inbox</h1>
-        <div class="text-ink-dim text-sm">Every note testers send from "Send feedback" — all companies, newest first.</div>
+        <div class="text-ink-dim text-sm">Every note testers send from "Send feedback". All companies, newest first.</div>
       </header>
       ${inner}
       <div class="pd-back-bottom">${backToPulse()}</div>
@@ -139,7 +139,7 @@ export const mount: Mount = async (root, ctx) => {
     root.innerHTML = shell(
       notes.length
         ? feedList(notes)
-        : `<section class="card-flat"><p class="text-sm text-ink-dim">No feedback yet — when a tester sends a note, it lands here.</p></section>`,
+        : `<section class="card-flat"><p class="text-sm text-ink-dim">No feedback yet. When a tester sends a note, it lands here.</p></section>`,
     );
     root.querySelectorAll<HTMLButtonElement>(".js-copy").forEach((b) =>
       b.addEventListener("click", () => {
@@ -155,7 +155,7 @@ export const mount: Mount = async (root, ctx) => {
               b.classList.remove("is-copied");
             }, 1200);
           },
-          () => window.alert("Couldn't copy — please copy the address manually."),
+          () => window.alert("Couldn't copy. Please copy the address manually."),
         );
       }),
     );

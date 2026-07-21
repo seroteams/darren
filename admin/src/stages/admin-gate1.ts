@@ -37,7 +37,7 @@ function managerRow(m: PulseManager): string {
     <tr>
       <td>${escapeHtml(m.name)}<span class="pd-sub">${escapeHtml(m.company)}</span></td>
       <td>${escapeHtml(dateLabel(m.firstRunAt))}</td>
-      <td class="pd-num">${m.gapDays == null ? "—" : `${m.gapDays}d`}</td>
+      <td class="pd-num">${m.gapDays == null ? "–" : `${m.gapDays}d`}</td>
       <td>${escapeHtml(activeLabel(m.lastActiveAt))}</td>
       <td>${verdictPill(m)}</td>
     </tr>`;
@@ -59,7 +59,7 @@ export const mount: Mount = async (root, { setState }) => {
       <header class="page-header l-stack l-stack--2">
         ${backToPulse()}
         <h1 class="h1">Came back unprompted</h1>
-        <div class="text-ink-dim">Gate 1 — external managers who ran a second prep within 14 days, with no nudge from us.</div>
+        <div class="text-ink-dim">Gate 1. External managers who ran a second prep within 14 days, with no nudge from us.</div>
       </header>
       ${inner}
       <div class="pd-back-bottom">${backToPulse()}</div>
@@ -89,10 +89,10 @@ export const mount: Mount = async (root, { setState }) => {
     const tried = managers.filter((m) => m.runCount > 0);
     const waiting = managers.filter((m) => m.runCount === 0);
     const cameBack = tried.filter((m) => m.cameBack).length;
-    const count = `<p class="pd-count"><b>${cameBack} of ${tried.length}</b> came back unprompted — the same number as the Pulse card.</p>`;
+    const count = `<p class="pd-count"><b>${cameBack} of ${tried.length}</b> came back unprompted. The same number as the Pulse card.</p>`;
     const triedSection = tried.length
       ? `<section class="l-stack l-stack--3">${count}${table(tried)}</section>`
-      : `<section class="card-flat"><p class="text-ink-dim">No external manager has run a 1:1 yet — the Gate-1 count starts when the first one does.</p></section>`;
+      : `<section class="card-flat"><p class="text-ink-dim">No external manager has run a 1:1 yet. The Gate-1 count starts when the first one does.</p></section>`;
     const waitingSection = waiting.length
       ? `<section class="l-stack l-stack--3">
            <div class="eyebrow">Registered, no runs yet (${waiting.length})</div>

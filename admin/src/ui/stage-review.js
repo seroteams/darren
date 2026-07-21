@@ -223,8 +223,8 @@ const SECTIONS = {
       ${b.headline ? `<p class="stage-review__headline">${esc(b.headline)}</p>` : ""}
       ${bullets.length ? `<div class="stage-review__card"><div class="eyebrow">What stood out</div><ul class="stage-review__bullets">${bullets.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
       ${b.understanding_paragraph ? `<div class="stage-review__card"><div class="eyebrow">What we understood</div><p>${esc(b.understanding_paragraph)}</p></div>` : ""}
-      ${b.brutal_truth_employee ? `<div class="stage-review__card"><div class="eyebrow">Honest read — ${esc(store?.ctx?.name || "them")}</div><p>${esc(b.brutal_truth_employee)}</p></div>` : ""}
-      ${b.brutal_truth_manager ? `<div class="stage-review__card"><div class="eyebrow">Honest read — you</div><p>${esc(b.brutal_truth_manager)}</p></div>` : ""}
+      ${b.brutal_truth_employee ? `<div class="stage-review__card"><div class="eyebrow">Honest read:${esc(store?.ctx?.name || "them")}</div><p>${esc(b.brutal_truth_employee)}</p></div>` : ""}
+      ${b.brutal_truth_manager ? `<div class="stage-review__card"><div class="eyebrow">Honest read:You</div><p>${esc(b.brutal_truth_manager)}</p></div>` : ""}
       ${actions.length ? `<div class="stage-review__card"><div class="eyebrow">What to do next</div><ul class="stage-review__bullets">${actions.map((a) => `<li>${esc(capWhen(a.when))}${a.when ? ": " : ""}${esc(a.action || "")}</li>`).join("")}</ul></div>` : ""}
       ${watch.length ? `<div class="stage-review__card"><div class="eyebrow">Reminders</div><ul class="stage-review__bullets">${watch.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
     `;

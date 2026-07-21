@@ -98,7 +98,7 @@ export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts
         await opts.onDone(promises.map((p) => ({ id: p.id, outcome: taps[p.id]! })));
       } catch {
         startBtn.disabled = false;
-        status.textContent = "Couldn't save the check-in — try again, or skip for now.";
+        status.textContent = "Couldn't save the check-in. Try again, or skip for now.";
       }
     })();
   });

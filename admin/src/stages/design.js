@@ -38,14 +38,14 @@ const SECTIONS = [
 ];
 
 const RULES = [
-  "Colours come <strong>only from the tokens</strong> — never type a hex code in a screen file.",
-  "<strong>Nothing under 14px</strong>, and colour used as text passes <strong>4.5:1</strong> — on light backgrounds that means the scale's dark step (coral <strong>800</strong>, mint <strong>900</strong>, gold <strong>900</strong>). Never a 700 as text.",
+  "Colours come <strong>only from the tokens</strong>. Never type a hex code in a screen file.",
+  "<strong>Nothing under 14px</strong>, and colour used as text passes <strong>4.5:1</strong>. On light backgrounds that means the scale's dark step (coral <strong>800</strong>, mint <strong>900</strong>, gold <strong>900</strong>). Never a 700 as text.",
   "<strong>One blue action per screen.</strong> If two blue buttons compete, one is wrong.",
   "Corners: <strong>4px on controls, 12px on cards.</strong>",
   "Every screen ships with its <strong>empty, loading, and error states</strong> designed.",
-  "Layout uses the shared primitives (<code>.l-stack</code>, <code>.l-grid</code>…) — no bespoke scaffolding.",
+  "Layout uses the shared primitives (<code>.l-stack</code>, <code>.l-grid</code>…). No bespoke scaffolding.",
   "Anything destructive goes through the <strong>confirm dialog</strong>.",
-  "<strong>Works at phone width</strong> — no sideways scroll, everything tappable.",
+  "<strong>Works at phone width</strong>. No sideways scroll, everything tappable.",
   "One date format everywhere: <strong>Mon 18 Nov 2024</strong>.",
   "Plain words. Focus ring on everything interactive. No nested cards, no side-stripes, no gradient text.",
 ];
@@ -55,9 +55,9 @@ const CORE = [
   { name: "Blue pressed", token: "primary-800" },
   { name: "Ink", token: "charcoal-750" },
   { name: "Page", token: "primary-100" },
-  { name: "Coral — error", token: "coral-700" },
-  { name: "Mint — success", token: "mint-700" },
-  { name: "Gold — warning", token: "gold-700" },
+  { name: "Coral. Error", token: "coral-700" },
+  { name: "Mint. Success", token: "mint-700" },
+  { name: "Gold. Warning", token: "gold-700" },
   { name: "Lavender", token: "lavender-700" },
 ];
 
@@ -153,20 +153,20 @@ function brandmarkHtml() {
   return sec(
     "brandmark",
     "Brandmark",
-    `<p class="lead">The rounded square with two bars and two dots is <strong>the Sero logo</strong> — the one official
+    `<p class="lead">The rounded square with two bars and two dots is <strong>the Sero logo</strong>. The one official
       mark. Files live in <code>admin/public/sero-flowbite/brand/</code>. Use them as-is: don't recolour the marks,
       squash the square, or add effects.</p>
      <div class="ds-card ds-brandmaster">
        <img src="${brand("charcoal")}" alt="Sero logo" width="96" height="96" style="border-radius: var(--sero-radius-xl)">
-       <div><p class="h4">The master</p><p class="body" style="color: var(--color-ink-dim)"><code>sero-brandmark-charcoal.svg</code> — charcoal tile, white marks. The default; reach for it unless there's a reason to use another colour.</p></div>
+       <div><p class="h4">The master</p><p class="body" style="color: var(--color-ink-dim)"><code>sero-brandmark-charcoal.svg</code>. Charcoal tile, white marks. The default; reach for it unless there's a reason to use another colour.</p></div>
      </div>
-     <p class="label">Colour versions — all from our tokens, marks stay white</p>
+     <p class="label">Colour versions. All from our tokens, marks stay white</p>
      <div class="ds-brandgrid ds-brandgrid--4">${colours}</div>
      <div class="ds-card"><div class="ds-rulesgrid">
        <p><strong>Clear space:</strong> one bar-width clear on every side.</p>
        <p><strong>Minimum size:</strong> never below 24px.</p>
        <p><strong>Don't</strong> recolour the marks, squash the square, or add shadows/gradients.</p>
-       <p><strong>The corners are the mark</strong> — never square off the tile.</p>
+       <p><strong>The corners are the mark</strong>. Never square off the tile.</p>
      </div></div>`,
     "(this is our logo)"
   );
@@ -189,13 +189,13 @@ function coloursHtml() {
     "Colours",
     `<div class="ds-swatchgrid">${core}</div>
      <details class="ds-details">
-       <summary>Full palette — all 11 scales, 50 → 950 (click to open)</summary>
+       <summary>Full palette. All 11 scales, 50 → 950 (click to open)</summary>
        <div class="ds-details__body">
          <div class="ds-palette">${ramps}</div>
          <p class="caption">How to use a scale: <strong>100–300</strong> tinted backgrounds · <strong>700</strong> the
-           colour itself (fills, bars, borders) · text on light needs the step that passes <strong>4.5:1</strong> —
+           colour itself (fills, bars, borders) · text on light needs the step that passes <strong>4.5:1</strong>. 
            coral <strong>800</strong> · mint <strong>900</strong> · gold <strong>900</strong>. In code:
-           <code>var(--sero-&lt;scale&gt;-&lt;step&gt;)</code> — never the hex.</p>
+           <code>var(--sero-&lt;scale&gt;-&lt;step&gt;)</code>. Never the hex.</p>
        </div>
      </details>`
   );
@@ -206,11 +206,11 @@ function typeHtml() {
     "type",
     "Type",
     `<div class="ds-card ds-type">
-       <p class="text-display">Display — Bricolage Grotesque</p>
-       <p class="h2">Headline — Bricolage Grotesque</p>
-       <p class="h3">Title — Inter semibold</p>
-       <p class="body">Body 16 — Inter regular. Most reading happens here; keep lines under 75 characters.</p>
-       <p class="caption">Small 14 — Inter, secondary details. This is the floor; nothing goes smaller.</p>
+       <p class="text-display">Display. Bricolage Grotesque</p>
+       <p class="h2">Headline. Bricolage Grotesque</p>
+       <p class="h3">Title. Inter semibold</p>
+       <p class="body">Body 16. Inter regular. Most reading happens here; keep lines under 75 characters.</p>
+       <p class="caption">Small 14. Inter, secondary details. This is the floor; nothing goes smaller.</p>
      </div>`
   );
 }
@@ -270,8 +270,8 @@ function inputsHtml() {
            <input class="ds-input" id="ds-search" type="search" placeholder="Search people, teams, runs…"></div></div>
      </div>
      <div class="ds-card" style="display:flex; flex-direction:column; gap: var(--sero-space-3)">
-       <h3 class="h4">Session variant — the big "one question at a time" input</h3>
-       <p class="caption">Used only inside the 1:1 session flow (no box, bottom line, large type). Everywhere else uses the compact boxed inputs above — these are the only two input styles.</p>
+       <h3 class="h4">Session variant. The big "one question at a time" input</h3>
+       <p class="caption">Used only inside the 1:1 session flow (no box, bottom line, large type). Everywhere else uses the compact boxed inputs above. These are the only two input styles.</p>
        <input class="input" type="text" placeholder="What's the team member's name?">
      </div>`
   );
@@ -282,15 +282,15 @@ function selectsHtml() {
     "selects",
     "Pick controls",
     `<div class="ds-card ds-pickgrid">
-       <div class="ds-pickcol"><p class="label">Checkboxes — pick many</p>
+       <div class="ds-pickcol"><p class="label">Checkboxes. Pick many</p>
          <label class="ds-optrow"><input class="ds-check" type="checkbox" checked> Wellbeing</label>
          <label class="ds-optrow"><input class="ds-check" type="checkbox" checked> Growth</label>
          <label class="ds-optrow"><input class="ds-check" type="checkbox"> Clarity</label></div>
-       <div class="ds-pickcol"><p class="label">Radios — pick one</p>
+       <div class="ds-pickcol"><p class="label">Radios. Pick one</p>
          <label class="ds-optrow"><input class="ds-radio" type="radio" name="ds-mt" checked> Bi-weekly 1:1</label>
          <label class="ds-optrow"><input class="ds-radio" type="radio" name="ds-mt"> Feels-off check-in</label>
          <label class="ds-optrow"><input class="ds-radio" type="radio" name="ds-mt"> Quarterly review</label></div>
-       <div class="ds-pickcol"><p class="label">Toggles — on / off</p>
+       <div class="ds-pickcol"><p class="label">Toggles. On / off</p>
          <label class="ds-toggle"><input type="checkbox" checked><span class="ds-toggle__track"></span><span>Remind me before each 1:1</span></label>
          <label class="ds-toggle"><input type="checkbox"><span class="ds-toggle__track"></span><span>Weekly summary email</span></label></div>
      </div>
@@ -321,10 +321,10 @@ function toastsHtml() {
          <p class="body">Saved. Your note is on James's page.</p></div>
        <div class="ds-alert ds-alert--error" role="alert"><span class="ds-alert__icon" style="background: var(--sero-coral-200); color: var(--color-negative-text)">!</span>
          <div><p class="body" style="font-weight:600">Couldn't save your note.</p>
-           <p class="caption">The connection dropped. Your text is still here — try again.</p>
+           <p class="caption">The connection dropped. Your text is still here. Try again.</p>
            <button type="button" class="btn btn--ghost" style="margin-top: var(--sero-space-2)">Try again</button></div></div>
        <div class="ds-alert ds-alert--warn" role="status"><span class="ds-alert__icon" style="background: var(--sero-gold-200); color: var(--sero-gold-900)">▲</span>
-         <p class="body">This 1:1 has no agenda yet — James can't prepare.</p></div>
+         <p class="body">This 1:1 has no agenda yet. James can't prepare.</p></div>
        <div><button type="button" class="btn btn--ghost js-toast">▶ Try a live toast</button></div>
      </div>
      <p class="caption">Success = toast, slides in bottom-right, gone in 4s. Errors stay until dealt with. Warnings sit inline, near the thing they warn about.</p>`,
@@ -351,12 +351,12 @@ function tableHtml() {
          <tbody>
            ${row("JW", "primary-200", "primary-800", "James Warren", "Senior UX Writer", "member", "Mon 4 Nov 2024", "<span style=\"font-weight:600\">7.5</span>", " <span style=\"color: var(--color-positive-text)\">↑ 2.5</span>")}
            ${row("AP", "lavender-200", "lavender-800", "Amara Patel", "Product Designer", "manager", "Fri 15 Nov 2024", "<span style=\"font-weight:600\">6.0</span>", " <span style=\"color: var(--color-ink-mute)\">→</span>")}
-           ${row("TK", "mint-300", "mint-900", "Tom Kowalski", "Engineer", "admin", "—", "<span style=\"color: var(--color-ink-dim)\">No 1:1s yet</span>", "")}
+           ${row("TK", "mint-300", "mint-900", "Tom Kowalski", "Engineer", "admin", "–", "<span style=\"color: var(--color-ink-dim)\">No 1:1s yet</span>", "")}
          </tbody>
        </table></div>
      </div>
      <p class="caption">Whole row clickable · header muted · avatar + name + quiet second line · role badges · ⋯ menu right · scrolls sideways inside its card on phones.</p>`,
-    "(one style — user lists, run lists, all of it)"
+    "(one style. User lists, run lists, all of it)"
   );
 }
 
@@ -392,9 +392,9 @@ function tabsHtml() {
     "tabs",
     "Tabs &amp; stages",
     `<div class="ds-card" style="display:flex; flex-direction:column; gap: var(--sero-space-8)">
-       <div><p class="label" style="margin-bottom: var(--sero-space-3)">Tabs — the 1:1 pages</p>
+       <div><p class="label" style="margin-bottom: var(--sero-space-3)">Tabs. The 1:1 pages</p>
          <div class="ds-tabs" role="tablist">${tabs}</div></div>
-       <div><p class="label" style="margin-bottom: var(--sero-space-3)">Stage breadcrumb — session progress</p>
+       <div><p class="label" style="margin-bottom: var(--sero-space-3)">Stage breadcrumb. Session progress</p>
          <div class="ds-crumb">
            <span class="ds-crumb__done">✓ Setup</span><span class="ds-crumb__sep">›</span>
            <span class="ds-crumb__done">✓ Focus areas</span><span class="ds-crumb__sep">›</span>
@@ -420,7 +420,7 @@ function pageheadHtml() {
          </div>
        </div>
        <div class="ds-banner">
-         <div><h3 class="h2">Good morning, Carl</h3><p class="body" style="color: var(--color-ink-dim)">Three 1:1s this week. James is first — Monday 13:45.</p></div>
+         <div><h3 class="h2">Good morning, Carl</h3><p class="body" style="color: var(--color-ink-dim)">Three 1:1s this week. James is first. Monday 13:45.</p></div>
          <button type="button" class="btn">Prep James's 1:1</button>
        </div>
      </div>
@@ -439,12 +439,12 @@ function scoresHtml() {
     "scores",
     "Scores",
     `<div class="ds-card" style="display:flex; flex-direction:column; gap: var(--sero-space-8)">
-       <div><p class="label" style="margin-bottom: var(--sero-space-3)">Star rating — how was this 1:1?</p>
+       <div><p class="label" style="margin-bottom: var(--sero-space-3)">Star rating. How was this 1:1?</p>
          <div class="ds-stars" role="radiogroup" aria-label="Rate this 1:1">${stars}<span class="caption" style="margin-left: var(--sero-space-2)">4 of 5</span></div></div>
        <div style="display:flex; flex-direction:column; gap: var(--sero-space-4)">
-         <p class="label">Axis bars — Sero's signature</p>
+         <p class="label">Axis bars. Sero's signature</p>
          <div class="ds-axes">${axes}</div>
-         <p class="body" style="color: var(--color-ink-dim)">Engagement dipped after the reorg — James said the new split "makes my work invisible". That's the thread to pull on Monday.</p>
+         <p class="body" style="color: var(--color-ink-dim)">Engagement dipped after the reorg. James said the new split "makes my work invisible". That's the thread to pull on Monday.</p>
        </div>
      </div>
      <p class="caption">Every score sits next to the sentence that earned it. No bare-number tiles, ever.</p>`,
@@ -500,7 +500,7 @@ function timelineHtml() {
     "Timeline",
     `<div class="card" style="max-width:36rem">
        <ol class="ds-timeline">
-         ${item("primary-700", "Mon 4 Nov 2024", "1:1 held — scored <strong>7.5</strong>, agreed to hand James the onboarding rewrite.")}
+         ${item("primary-700", "Mon 4 Nov 2024", "1:1 held. Scored <strong>7.5</strong>, agreed to hand James the onboarding rewrite.")}
          ${item("gold-700", "Fri 8 Nov 2024", "James added a request: <em>\"talk about prioritising my tasks\"</em>.")}
          ${item("mint-700", "Tue 12 Nov 2024", "Goal done: error-message guide published.")}
        </ol>
@@ -533,7 +533,7 @@ function overlaysHtml() {
          <div class="ds-modal__foot"><button type="button" class="btn btn--ghost js-modal-close">Cancel</button><button type="button" class="btn js-modal-close">Save note</button></div>
        </div>
      </div>`,
-    "(click them — live)"
+    "(click them. Live)"
   );
 }
 
@@ -602,13 +602,13 @@ function statesHtml() {
            <div class="ds-skel__bar" style="width:83%"></div>
          </div>
          <div class="ds-row" style="border-top:1px solid var(--color-border); padding-top: var(--sero-space-4)">
-           <span class="ds-spinner"></span><span class="caption">Spinner — short waits only. Longer engine waits show the Sero mark, below.</span></div>
+           <span class="ds-spinner"></span><span class="caption">Spinner. Short waits only. Longer engine waits show the Sero mark, below.</span></div>
          <div class="ds-row js-orb-demo" style="border-top:1px solid var(--color-border); padding-top: var(--sero-space-4)"></div>
        </div>
      </div>
      <div class="ds-card ds-row">
        <span class="ds-tooltip-wrap"><button type="button" class="btn btn--ghost">Hover me</button><span class="ds-tooltip">Short, plain, never essential info</span></span>
-       <p class="caption">Tooltips: ink background, for nice-to-know only — never hide something needed to act.</p>
+       <p class="caption">Tooltips: ink background, for nice-to-know only. Never hide something needed to act.</p>
      </div>`
   );
 }
@@ -636,7 +636,7 @@ function inventoryHtml() {
   return sec(
     "inventory",
     "📋 What Sero needs",
-    `<p class="lead">Every component type Sero uses — <strong>all ✅, all on this sheet</strong>. If a screen needs
+    `<p class="lead">Every component type Sero uses. <strong>all ✅, all on this sheet</strong>. If a screen needs
       something not listed here, add it to the sheet first, then build the screen.</p>
      <div class="ds-cardgrid">
        ${group("Basics", ["Buttons (primary / secondary / quiet / danger / disabled)", "Badges &amp; category tags", "Avatars + count badge", "Inputs (boxed + big session variant, error state)", "Checkbox · radio · toggle switch", "Search box", "Date + time picker"])}

@@ -54,7 +54,7 @@ test("a later turn's note replaces the why only on axes that moved again", () =>
 test("a quiet turn (nothing moved) never wipes stored whys", () => {
   const att = createNoteAttacher({ wellbeing: { delta: -1, why: "Kept." } });
   att.onAxes([read("wellbeing", 0, 1)]);
-  const whys = att.onNote("Skipped question — no movement.");
+  const whys = att.onNote("Skipped question. No movement.");
   assert.equal(whys.wellbeing.why, "Kept.");
 });
 

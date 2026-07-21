@@ -33,7 +33,7 @@ export interface PersonModalOptions {
 
 export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<PersonDraft | null> {
   const title = opts.title ?? "Add someone to your team";
-  const sub = opts.sub ?? "Just a name to start — add their role if you know it.";
+  const sub = opts.sub ?? "Just a name to start. Add their role if you know it.";
   const submitLabel = opts.submitLabel ?? "Add";
   const initial = opts.initial ?? {};
   const allowInvite = opts.allowInvite ?? true;

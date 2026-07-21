@@ -31,7 +31,7 @@ test("isInternalStage: a manager's own destinations are NOT internal-only", () =
   }
 });
 
-test("isGuestStage: a guest may take a run — intake + the run flow, nothing else", () => {
+test("isGuestStage: a guest may take a run. Intake + the run flow, nothing else", () => {
   // The guest lane (guest-run Phase 2): intake and the run stages are reachable
   // with no account…
   for (const s of [STAGES.INTAKE, STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,

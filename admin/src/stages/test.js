@@ -69,9 +69,9 @@ const THUMB_SPLIT = `
 const TESTS = [
   {
     id: "runner-v2",
-    title: "Runner v2 — split coach panel",
+    title: "Runner v2. Split coach panel",
     blurb:
-      "The questioning screen as a 50/50: the familiar question card on the left, and a light coach panel on the right with up to three hints per question — how to ask it, and what to listen for.",
+      "The questioning screen as a 50/50: the familiar question card on the left, and a light coach panel on the right with up to three hints per question. How to ask it, and what to listen for.",
     date: "18 Jul 2026",
     tag: "runner",
     thumb: THUMB_SPLIT,
@@ -83,7 +83,7 @@ const TESTS = [
     id: "promises-before-recap",
     title: "Promises before the recap",
     blurb:
-      "The promises step as its own moment after the last question: two lists — you promise / they promise — edit, move, lock in. Then the recap's payoff band shows what was actually agreed (and what the skip path looks like).",
+      "The promises step as its own moment after the last question: two lists. You promise / they promise. Edit, move, lock in. Then the recap's payoff band shows what was actually agreed (and what the skip path looks like).",
     date: "19 Jul 2026",
     tag: "runner",
     thumb: THUMB_RUNNER,
@@ -93,7 +93,7 @@ const TESTS = [
     id: "promises-loop",
     title: "Promises loop in the runner",
     blurb:
-      "The loop that makes 1:1 №2 feel connected to №1: last question → agree next actions (primary CTA) → two weeks later they return as card zero, yours first, one tap each — and question 1 picks up whatever slipped. (Wrap-step design since superseded by 'Promises before the recap' — kept for the loop story.)",
+      "The loop that makes 1:1 №2 feel connected to №1: last question → agree next actions (primary CTA) → two weeks later they return as card zero, yours first, one tap each. And question 1 picks up whatever slipped. (Wrap-step design since superseded by 'Promises before the recap'. Kept for the loop story.)",
     date: "11 Jul 2026",
     tag: "runner",
     thumb: THUMB_RUNNER,
@@ -102,9 +102,9 @@ const TESTS = [
   {
     // Artifact-link card (opens a claude.ai preview in a new tab — no mock code in the repo).
     id: "layout-picker",
-    title: "Layout picker — trigger + popover",
+    title: "Layout picker. Trigger + popover",
     blurb:
-      "A quiet chip shows the current prep-brief layout; click it to open a popover of mini-preview tiles, pick one and the brief hops. All 11 real layouts. (Now shipped — kept here as the design preview.)",
+      "A quiet chip shows the current prep-brief layout; click it to open a popover of mini-preview tiles, pick one and the brief hops. All 11 real layouts. (Now shipped. Kept here as the design preview.)",
     date: "16 Jul 2026",
     tag: "prepare",
     thumb: THUMB_PICKER,
@@ -152,7 +152,7 @@ export async function mount(root) {
     root.innerHTML = `
       <style>${STYLE}</style>
       <div class="stage-inner l-stack l-stack--8">
-        <span class="tg-note">Test area · prototypes only — mock data, nothing is saved</span>
+        <span class="tg-note">Test area · prototypes only. Mock data, nothing is saved</span>
         <header class="page-header">
           <h1 class="h1">Tests</h1>
           <p class="text-ink-dim">Ideas we want to see and feel before building them properly. Walk a mock in place, or open an artifact preview (↗) in a new tab.</p>
@@ -193,7 +193,7 @@ export async function mount(root) {
           <button type="button" class="btn btn--ghost js-all-tests">← All tests</button>
         </div>`
       : `<div class="page-header__row">
-          <span class="tg-note">Test · ${test.title} — mock, nothing is saved</span>
+          <span class="tg-note">Test · ${test.title}. Mock, nothing is saved</span>
           <button type="button" class="btn btn--ghost js-all-tests">← All tests</button>
         </div>`;
     root.innerHTML = `

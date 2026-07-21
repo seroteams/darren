@@ -42,7 +42,7 @@ const SLOTS = extractSlots(BRIEF, "Priya");
 --------------------------------------------------------------------------- */
 
 const LOW_COPY =
-  "This brief is based on the role and meeting type only — you haven't added notes yet. Treat it as a starting point; it says nothing about Priya personally.";
+  "This brief is based on the role and meeting type only. You haven't added notes yet. Treat it as a starting point; it says nothing about Priya personally.";
 const MEDIUM_COPY =
   "This brief uses your notes plus role defaults. The more specific parts come from what you wrote.";
 const HIGH_COPY = "This brief is grounded in your notes and recent context.";
@@ -108,7 +108,7 @@ test("slots: confidence is the rewritten statement, not the engine sentence", ()
 
 const BRIEF_WITH_TIP: PrepBrief = {
   ...BRIEF,
-  styleTip: "Keep this a light rhythm-keeper — open on how the fortnight felt before the specifics.",
+  styleTip: "Keep this a light rhythm-keeper. Open on how the fortnight felt before the specifics.",
 };
 
 test("styleTip: extractSlots maps the tip through; absent → empty string", () => {

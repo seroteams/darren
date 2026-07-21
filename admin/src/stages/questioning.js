@@ -60,13 +60,13 @@ export async function mount(root, { store, setState }) {
           </div>
           <div class="cp-foot"></div>
         </div>
-        <aside class="cp-half cp-half--coach" aria-label="Coaching — only you see this">
+        <aside class="cp-half cp-half--coach" aria-label="Coaching. Only you see this">
           <header class="cp-head">
             <div class="cp-toggle" role="tablist" aria-label="Coach panel view">
               <button type="button" class="cp-seg js-coach-seg" data-mode="support" role="tab" aria-selected="true">Support</button>
               <button type="button" class="cp-seg js-coach-seg" data-mode="scores" role="tab" aria-selected="false">Live scores</button>
             </div>
-            <span class="cp-privacy">Only you see this — never ${escape(store.ctx?.name || "them")}.</span>
+            <span class="cp-privacy">Only you see this. Never ${escape(store.ctx?.name || "them")}.</span>
           </header>
           <div class="cp-col"><div class="coach-host"></div></div>
           <div class="cp-foot"></div>
@@ -93,8 +93,8 @@ export async function mount(root, { store, setState }) {
       </header>
       <div class="question-host"></div>
       <div class="thinking-host min-h-[72px]"></div>
-      <div class="axes-wrap space-y-2" aria-label="Live scores — updated each answer, not the final recap">
-        <div class="eyebrow" title="Live scores — updated each answer, not the final recap">Live scores</div>
+      <div class="axes-wrap space-y-2" aria-label="Live scores. Updated each answer, not the final recap">
+        <div class="eyebrow" title="Live scores. Updated each answer, not the final recap">Live scores</div>
         <div class="card axes-host"></div>
       </div>
       <div class="footer-host text-sm text-ink-mute"></div>
@@ -167,7 +167,7 @@ export async function mount(root, { store, setState }) {
   saveExitBtn.addEventListener("click", async () => {
     if (wrapMode) {
       const ok = await confirmAction({
-        message: "You've covered good ground. One closing question, then your recap — everything you've answered is kept.",
+        message: "You've covered good ground. One closing question, then your recap. Everything you've answered is kept.",
         confirmLabel: "Wrap up",
         cancelLabel: "Keep going",
       });
@@ -184,7 +184,7 @@ export async function mount(root, { store, setState }) {
       return;
     }
     const ok = await confirmAction({
-      message: `You've only answered ${answered} question${answered === 1 ? "" : "s"} so far — your recap will be thin. Open it now anyway? Anything unanswered is dropped.`,
+      message: `You've only answered ${answered} question${answered === 1 ? "" : "s"} so far. Your recap will be thin. Open it now anyway? Anything unanswered is dropped.`,
       confirmLabel: "Open recap anyway",
       cancelLabel: "Keep questioning",
       destructive: true,
@@ -245,7 +245,7 @@ export async function mount(root, { store, setState }) {
     // the closer) — Balanced policy. Scripted lane keeps the plain skip.
     answered = res.turn - 1;
     wrapMode = !scripted && !isFinal && res.turn >= 4;
-    saveExitBtn.textContent = wrapMode ? "Wrap up — get my recap" : "Skip to recap";
+    saveExitBtn.textContent = wrapMode ? "Wrap up. Get my recap" : "Skip to recap";
 
     const card = document.createElement("div");
     card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
@@ -261,7 +261,7 @@ export async function mount(root, { store, setState }) {
         : ""}
       ${scripted ? `<div class="script-meta text-xs">
         <span class="script-alias">${escape(q.alias)}</span>
-        <span class="script-state ${hasScript ? "script-state--matched" : "script-state--missing"}">${hasScript ? "replay answer ready" : "no replay answer — fallback available"}</span>
+        <span class="script-state ${hasScript ? "script-state--matched" : "script-state--missing"}">${hasScript ? "replay answer ready" : "no replay answer. Fallback available"}</span>
       </div>` : ""}
       <div class="question-card-head">
         <div class="question-card-head__text space-y-2">
@@ -274,7 +274,7 @@ export async function mount(root, { store, setState }) {
       </div>
       <label class="block field-live-label">
         <span class="field-live-label__text">${escape(whoSaid)}</span>
-        <textarea class="textarea textarea--question" rows="5" placeholder="Jot their words — your shorthand, not a transcript" aria-label="${escape(whoSaid)}"></textarea>
+        <textarea class="textarea textarea--question" rows="5" placeholder="Jot their words, your shorthand, not a transcript" aria-label="${escape(whoSaid)}"></textarea>
       </label>
       <div class="field__actions">
         <button class="btn js-submit">${isFinal ? "Agree next actions" : "Submit answer"}</button>
@@ -360,7 +360,7 @@ export async function mount(root, { store, setState }) {
           footerHost.innerHTML = "";
           const warn = document.createElement("div");
           warn.className = "hint mt-2 text-amber-500";
-          warn.textContent = "Couldn't go back — the previous answer may already be locked in.";
+          warn.textContent = "Couldn't go back. The previous answer may already be locked in.";
           footerHost.appendChild(warn);
           return;
         }
@@ -423,10 +423,10 @@ export async function mount(root, { store, setState }) {
         suggestBtn.disabled = false;
         suggestBtn.textContent = original;
         if (!answers.length) {
-          sugHost.innerHTML = `<div class="hint">No suggestions came back — write your own or try again.</div>`;
+          sugHost.innerHTML = `<div class="hint">No suggestions came back. Write your own or try again.</div>`;
           return;
         }
-        sugHost.innerHTML = `<div class="hint">Dev only — sample notes to speed up test runs.</div>`;
+        sugHost.innerHTML = `<div class="hint">Dev only. Sample notes to speed up test runs.</div>`;
         answers.forEach((text) => {
           const row = document.createElement("button");
           row.type = "button";
@@ -459,7 +459,7 @@ export async function mount(root, { store, setState }) {
       if (result?.truncated) {
         const warn = document.createElement("div");
         warn.className = "hint mt-2 text-amber-500";
-        warn.textContent = "That answer was very long — we kept the first 4,000 characters.";
+        warn.textContent = "That answer was very long. We kept the first 4,000 characters.";
         footerHost.appendChild(warn);
       }
       await runPlanStream(val);
@@ -553,14 +553,14 @@ export async function mount(root, { store, setState }) {
       .on("error", (d) => {
         setState({
           stage: STAGES.ERROR,
-          error: d.message || "Couldn't line up the next question — try again.",
+          error: d.message || "Couldn't line up the next question. Try again.",
           retryStage: STAGES.QUESTIONING,
         });
       })
       .onError(() => {
         setState({
           stage: STAGES.ERROR,
-          error: "Lost connection while scoring your answer — try again.",
+          error: "Lost connection while scoring your answer. Try again.",
           retryStage: STAGES.QUESTIONING,
         });
       })
@@ -585,7 +585,7 @@ export async function mount(root, { store, setState }) {
       activeSse?.close();
       setState({
         stage: STAGES.ERROR,
-        error: "Scoring this answer is taking too long — the connection may be stuck.",
+        error: "Scoring this answer is taking too long. The connection may be stuck.",
         retryStage: STAGES.QUESTIONING,
       });
     }

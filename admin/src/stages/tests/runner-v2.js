@@ -21,30 +21,30 @@ const CTX_SEGMENTS = ["Aisha", "junior", "Product designer", "Bi-weekly 1:1"];
 // kind: "ask" = how to deliver the question · "listen" = what to hear in the answer.
 const QUESTIONS = [
   {
-    name: "Before we dig in — how have the last two weeks actually felt?",
+    name: "Before we dig in. How have the last two weeks actually felt?",
     description: "A read on energy, not a status update.",
     hints: [
-      { kind: "ask", text: "Ask it slowly, then stay quiet. The first answer is usually the polite one — the real one follows the pause." },
-      { kind: "listen", text: "Energy words — “drained”, “flat”, “buzzing” — rather than a list of tasks." },
+      { kind: "ask", text: "Ask it slowly, then stay quiet. The first answer is usually the polite one. The real one follows the pause." },
+      { kind: "listen", text: "Energy words. “drained”, “flat”, “buzzing”. Rather than a list of tasks." },
       { kind: "listen", text: "A gap between the tone and the words. “Fine” said flatly is worth one gentle follow-up." },
     ],
   },
   {
     name: "If you had to name this sprint's single most important thing, what would it be?",
-    description: "One thing, not a list — the hesitation is the data.",
+    description: "One thing, not a list. The hesitation is the data.",
     hints: [
       { kind: "ask", text: "Hold them to ONE. If they offer three, ask which one they'd protect if the week got cut in half." },
       { kind: "listen", text: "Whether their answer matches yours. A mismatch is a clarity gap, not a performance problem." },
     ],
   },
   {
-    name: "You said the review cycle felt heavy — where exactly does the time go?",
+    name: "You said the review cycle felt heavy. Where exactly does the time go?",
     description: "Map the steps before touching any fixes.",
     followUp: true,
     hints: [
-      { kind: "ask", text: "Use their exact word back — “heavy” — so they know it landed." },
+      { kind: "ask", text: "Use their exact word back. “heavy”. So they know it landed." },
       { kind: "ask", text: "Don't offer a fix yet. Walk the process step by step first." },
-      { kind: "listen", text: "Named steps with owners. If it stays vague, they can't see the process either — that IS the finding." },
+      { kind: "listen", text: "Named steps with owners. If it stays vague, they can't see the process either. That IS the finding." },
     ],
   },
   {
@@ -53,7 +53,7 @@ const QUESTIONS = [
     hints: [
       { kind: "ask", text: "If they blank, offer an example from THEIR recent work, not from yours." },
       { kind: "listen", text: "The size of the ask. A tiny ask can mean low confidence, not low ambition." },
-      { kind: "listen", text: "If “trusted” turns into a person's name, you've found a relationship thread — note it." },
+      { kind: "listen", text: "If “trusted” turns into a person's name, you've found a relationship thread. Note it." },
     ],
   },
   {
@@ -61,8 +61,8 @@ const QUESTIONS = [
     description: "Turn the talk into one or two small promises.",
     final: true,
     hints: [
-      { kind: "ask", text: "Keep it to two promises at most — one yours, one theirs. More than that and none survive." },
-      { kind: "listen", text: "Vague verbs — “look into”, “try to”. Pin a WHEN to each promise before you close." },
+      { kind: "ask", text: "Keep it to two promises at most. One yours, one theirs. More than that and none survive." },
+      { kind: "listen", text: "Vague verbs. “look into”, “try to”. Pin a WHEN to each promise before you close." },
     ],
   },
 ];
@@ -73,23 +73,23 @@ const QUESTIONS = [
 const AXES = [
   {
     label: "Wellbeing",
-    why: "She called the review cycle “heavy” and paused on the workload question. A small dip, not a red flag — worth a gentle check next time.",
-    idle: "Nothing's touched wellbeing yet — it moves when she talks about energy or load.",
+    why: "She called the review cycle “heavy” and paused on the workload question. A small dip, not a red flag. Worth a gentle check next time.",
+    idle: "Nothing's touched wellbeing yet. It moves when she talks about energy or load.",
   },
   {
     label: "Engagement",
-    why: "She leaned in naming what she wants to be trusted with — a clear sign she's still invested, not coasting.",
-    idle: "No engagement signal yet — it moves when she shows what she cares about.",
+    why: "She leaned in naming what she wants to be trusted with. A clear sign she's still invested, not coasting.",
+    idle: "No engagement signal yet. It moves when she shows what she cares about.",
   },
   {
     label: "Clarity",
     why: "She named the single most important thing without hedging, and it matched your read of the sprint.",
-    idle: "Clarity's unrated so far — it moves when she can (or can't) name priorities cleanly.",
+    idle: "Clarity's unrated so far. It moves when she can (or can't) name priorities cleanly.",
   },
   {
     label: "Growth",
-    why: "A concrete ambition surfaced — something specific she wants to own that she doesn't yet.",
-    idle: "No growth signal yet — it moves when a stretch or ambition comes up.",
+    why: "A concrete ambition surfaced. Something specific she wants to own that she doesn't yet.",
+    idle: "No growth signal yet. It moves when a stretch or ambition comes up.",
   },
 ];
 
@@ -317,7 +317,7 @@ const V4 = (axis, v) => `<div class="rv2-srow"><div class="rv2-crow">
     <div class="rv2-sl"><span class="rv2-sl__mid"></span>
       <span class="rv2-sl__fill" style="${fillStyle(v)}"></span>
       <span class="rv2-sl__thumb" style="left:${pctOf(v)}%"></span></div>
-    <span class="rv2-delta rv2-delta--${dirOf(v)}">${v === 0 ? "—" : signed(v)}</span>
+    <span class="rv2-delta rv2-delta--${dirOf(v)}">${v === 0 ? "–" : signed(v)}</span>
     ${srowWhy(axis, v, "rv2-why--compact")}
   </div></div>`;
 
@@ -340,7 +340,7 @@ const scoresHtml = (variant) => {
   const rows = AXES.map((axis, i) => V.row(axis, READING[i])).join("");
   return `<div class="rv2-pager">
       <button type="button" class="rv2-arrow js-prev" aria-label="Previous slider design">${icon(ChevronLeft, { size: 18 })}</button>
-      <span class="rv2-pager__label">Slider design · ${variant + 1} of ${VARIANTS.length} — ${V.name}</span>
+      <span class="rv2-pager__label">Slider design · ${variant + 1} of ${VARIANTS.length}. ${V.name}</span>
       <span class="rv2-pager__spacer"></span>
       <button type="button" class="rv2-arrow js-next" aria-label="Next slider design">${icon(ChevronRight, { size: 18 })}</button>
     </div>${rows}`;
@@ -380,19 +380,19 @@ export function mount(host) {
             <label class="block">
               <span class="sr-only">Your notes</span>
               <textarea class="textarea textarea--question" rows="4"
-                placeholder="Jot what they said — your shorthand, not a transcript"
+                placeholder="Jot what they said. Your shorthand, not a transcript"
                 aria-label="Your notes"></textarea>
             </label>
             <div class="field__actions">
               <button class="btn js-submit">${q.final ? "Agree next actions" : "Submit answer"}</button>
               ${q.final
-                ? `<button class="btn btn--ghost js-skip" type="button">Finish — skip agreeing</button>`
+                ? `<button class="btn btn--ghost js-skip" type="button">Finish. Skip agreeing</button>`
                 : `<button class="btn btn--ghost js-skip" type="button">Skip</button>`}
               ${turnIdx > 0 ? `<button class="btn btn--ghost js-back" type="button">Back</button>` : ""}
             </div>
           </div>
           <div class="rv2-foot">
-            <p class="rv2-mocknote">Mock — nothing is saved. The hints are hand-written for this walk.
+            <p class="rv2-mocknote">Mock. Nothing is saved. The hints are hand-written for this walk.
               <button type="button" class="rv2-quiet js-gallery">← All tests</button></p>
           </div>
         </div>
@@ -404,7 +404,7 @@ export function mount(host) {
               <button type="button" class="rv2-seg js-seg" data-mode="scores"
                 role="tab" aria-selected="${panelMode === "scores"}">Live scores</button>
             </div>
-            <span class="rv2-head__note">Only you see this — never ${CTX_SEGMENTS[0]}.</span>
+            <span class="rv2-head__note">Only you see this. Never ${CTX_SEGMENTS[0]}.</span>
           </header>
           <div class="rv2-col">
             <div class="rv2-hints js-hints">${
@@ -468,7 +468,7 @@ export function mount(host) {
         <div class="rv2-done">
           <span class="rv2-done__glyph">${icon(Check, { size: 22 })}</span>
           <h1 class="rv2-stem">That's the walk.</h1>
-          <p>Five questions, each with its own coaching on the lavender half — how to ask it, and what to listen for.</p>
+          <p>Five questions, each with its own coaching on the lavender half. How to ask it, and what to listen for.</p>
           <div class="field__actions">
             <button class="btn btn--ghost js-restart" type="button">Start again</button>
             <button class="btn btn--ghost js-gallery" type="button">← All tests</button>

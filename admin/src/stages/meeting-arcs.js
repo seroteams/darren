@@ -107,7 +107,7 @@ export async function mount(root) {
         <div class="eyebrow">Configure</div>
         <h1 class="h1">Meeting arcs</h1>
         <div class="text-ink-dim max-w-measure">
-          The phases each 1:1 moves through, with the tone they're asked in and the patterns to avoid. Open any meeting to see its shape, or hit Edit to change it. Edits are saved separately from the code — "Reset to default" undoes them.
+          The phases each 1:1 moves through, with the tone they're asked in and the patterns to avoid. Open any meeting to see its shape, or hit Edit to change it. Edits are saved separately from the code. "Reset to default" undoes them.
         </div>
         <div class="arc-update">
           <button type="button" class="arc-btn arc-btn--primary" id="arc-update-btn">Update</button>
@@ -127,7 +127,7 @@ export async function mount(root) {
   root.querySelector("#arc-update-btn").addEventListener("click", checkForUpdates);
 
   if (!(await load())) {
-    thinkingHost.textContent = "Couldn't load meeting arcs — try again in a moment.";
+    thinkingHost.textContent = "Couldn't load meeting arcs. Try again in a moment.";
     return;
   }
   thinkingHost.remove();
@@ -190,7 +190,7 @@ async function checkForUpdates() {
   const prevLabels = new Map(arcs.map((a) => [a.slug, a.label]));
 
   if (!(await load())) {
-    setUpdateMsg("Couldn't reach the server — try again in a moment.", "err");
+    setUpdateMsg("Couldn't reach the server. Try again in a moment.", "err");
     return;
   }
   renderAll();
@@ -211,8 +211,8 @@ async function checkForUpdates() {
   if (added.length) bits.push(`${added.length} added (${added.join(", ")})`);
   if (removed.length) bits.push(`${removed.length} removed (${removed.join(", ")})`);
 
-  if (!bits.length) setUpdateMsg("Up to date — nothing changed.", "ok");
-  else setUpdateMsg(`Refreshed — ${bits.join("; ")}.`, "ok");
+  if (!bits.length) setUpdateMsg("Up to date. Nothing changed.", "ok");
+  else setUpdateMsg(`Refreshed. ${bits.join("; ")}.`, "ok");
   stampLastChecked();
 }
 
@@ -479,7 +479,7 @@ function editHtml() {
       <div class="arc-sec">Tone</div>
       <textarea class="arc-textarea" data-f="tone" rows="2" placeholder="The register this 1:1 is asked in…">${esc(draft.tone_register || "")}</textarea>
 
-      <div class="arc-sec">Anti-patterns <span style="text-transform:none; font-weight:400;">— one per line</span></div>
+      <div class="arc-sec">Anti-patterns <span style="text-transform:none; font-weight:400;">. One per line</span></div>
       <textarea class="arc-textarea" data-f="anti" rows="4" placeholder="One thing to avoid per line…">${esc((draft.anti_patterns || []).join("\n"))}</textarea>
 
       <div class="arc-edit__foot">

@@ -48,7 +48,7 @@ test("full briefing renders every section with the engine's own words", () => {
   assert.match(s, /SERO'S SUGGESTIONS/); // no lock → suggestions, labelled as such
   assert.match(s, /REMINDERS/);
   // Unread axis is a quiet caption, not a fabricated bar.
-  assert.match(s, /Wellbeing — not enough signal/);
+  assert.match(s, /Wellbeing. Not enough signal/);
 });
 
 test("actions sort by when (today before next 1:1)", () => {
@@ -82,7 +82,7 @@ test("locked promises render owner-grouped, manager first, and beat the suggesti
   assert.match(s, /Track her hours for a week ->/, "pdfSafe applied to promise text");
 });
 
-test("a locked-empty list suppresses the suggestions too — the manager's call stands", () => {
+test("a locked-empty list suppresses the suggestions too. The manager's call stands", () => {
   const doc = buildRecapDocDefinition(FULL, { name: "Amira" }, []);
   const s = flat(doc);
   assert.doesNotMatch(s, /WHAT YOU AGREED|SUGGESTIONS/);

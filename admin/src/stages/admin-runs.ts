@@ -45,7 +45,7 @@ export function statusCell(r: AdminRun): string {
 }
 
 export function starsCell(r: AdminRun): string {
-  if (!r.rating) return `<span class="text-ink-dim">—</span>`;
+  if (!r.rating) return `<span class="text-ink-dim">–</span>`;
   return `<span class="pd-stars" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`;
 }
 
@@ -53,7 +53,7 @@ function runRow(r: AdminRun): string {
   return `
     <tr>
       <td>${whoCell(r)}</td>
-      <td>${r.meetingType ? escapeHtml(prettyType(r.meetingType)) : "—"}</td>
+      <td>${r.meetingType ? escapeHtml(prettyType(r.meetingType)) : "–"}</td>
       <td>${escapeHtml(dateLabel(r.startedAt ?? r.lastSeenAt))}</td>
       <td>${statusCell(r)}</td>
       <td>${starsCell(r)}</td>
@@ -66,7 +66,7 @@ export const mount: Mount = async (root, { setState }) => {
       <header class="page-header l-stack l-stack--2">
         ${backToPulse()}
         <h1 class="h1">Runs</h1>
-        <div class="text-ink-dim">Every 1:1 prep on the site, newest first — real managers plus internal and guest runs, each tagged.</div>
+        <div class="text-ink-dim">Every 1:1 prep on the site, newest first. Real managers plus internal and guest runs, each tagged.</div>
       </header>
       ${inner}
       <div class="pd-back-bottom">${backToPulse()}</div>
@@ -94,11 +94,11 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
     if (runs.length === 0) {
-      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No runs yet — when anyone preps a 1:1, it lands here.</p></section>`);
+      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No runs yet. When anyone preps a 1:1, it lands here.</p></section>`);
       wireBack();
       return;
     }
-    const count = `<p class="pd-count"><b>${externalThisWeek}</b> external ${externalThisWeek === 1 ? "run" : "runs"} this week — the same number as the Pulse card · ${runs.length} total listed.</p>`;
+    const count = `<p class="pd-count"><b>${externalThisWeek}</b> external ${externalThisWeek === 1 ? "run" : "runs"} this week. The same number as the Pulse card · ${runs.length} total listed.</p>`;
     root.innerHTML = shell(`
       <section class="l-stack l-stack--3">
         ${count}

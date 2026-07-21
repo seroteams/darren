@@ -101,7 +101,7 @@ export function renderRecord(ctx: RecordCtx): string {
         ${fbItems ? `<div class="mcr-rec__block"><h3>Feedback</h3>${fbItems}</div>` : ""}
 
         <div class="mcr-rec__block mcr-rec__private">
-          <div class="mcr-private" style="margin:0 0 12px">${ICONS.lock}<span>Private — never shared with ${esc(copy.name)}.</span></div>
+          <div class="mcr-private" style="margin:0 0 12px">${ICONS.lock}<span>Private. Never shared with ${esc(copy.name)}.</span></div>
           <h3>Your private review</h3>
           ${eng != null ? `<div class="mcr-rec__item">Engagement: <strong>${eng}/5</strong></div>` : ""}
           ${priv ? `<div class="mcr-rec__item">${esc(priv).replace(/\n/g, "<br>")}</div>` : ""}

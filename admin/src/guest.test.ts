@@ -58,11 +58,11 @@ test("markRunForClaim: remembers the finished run for after login", () => {
   assert.equal(stored.seroClaimSessionId, "run-7");
 });
 
-test("markRunForClaim: storage blocked — must not throw", () => {
+test("markRunForClaim: storage blocked. Must not throw", () => {
   assert.doesNotThrow(() => markRunForClaim("run-7"));
 });
 
-test("completeClaimAfterAuth: no marker — does nothing, caller lands as usual", async () => {
+test("completeClaimAfterAuth: no marker. Does nothing, caller lands as usual", async () => {
   fakeStorage({});
   let claimed: string | null = null;
   let patch: unknown = null;
@@ -79,7 +79,7 @@ test("completeClaimAfterAuth: no marker — does nothing, caller lands as usual"
   assert.equal(patch, null, "navigation left to the normal login path");
 });
 
-test("completeClaimAfterAuth: claim succeeds — markers cleared, lands on the run", async () => {
+test("completeClaimAfterAuth: claim succeeds. Markers cleared, lands on the run", async () => {
   const stored = fakeStorage({ seroClaimSessionId: "run-7", seroSessionId: "run-7" });
   let claimed: string | null = null;
   let patch: Record<string, unknown> | null = null;
@@ -99,7 +99,7 @@ test("completeClaimAfterAuth: claim succeeds — markers cleared, lands on the r
   assert.deepEqual(patch, { user, stage: STAGES.RUN_DETAIL, myRunId: "run-7" });
 });
 
-test("completeClaimAfterAuth: claim fails — marker cleared, never a dead end", async () => {
+test("completeClaimAfterAuth: claim fails. Marker cleared, never a dead end", async () => {
   const stored = fakeStorage({ seroClaimSessionId: "run-gone" });
   let patch: unknown = null;
   try {
@@ -111,6 +111,6 @@ test("completeClaimAfterAuth: claim fails — marker cleared, never a dead end",
   } finally {
     delete (globalThis as { localStorage?: unknown }).localStorage;
   }
-  assert.equal(stored.seroClaimSessionId, undefined, "stale marker cleared — won't retry forever");
+  assert.equal(stored.seroClaimSessionId, undefined, "stale marker cleared. Won't retry forever");
   assert.equal(patch, null, "no navigation from the helper on failure");
 });

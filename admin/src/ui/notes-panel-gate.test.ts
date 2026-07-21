@@ -9,7 +9,7 @@ import { STAGES } from "../state.js";
 
 const inRun = { sessionId: "s1", stage: STAGES.QUESTIONING };
 
-test("a guest (no account) never sees the notes panel — even mid-run", () => {
+test("a guest (no account) never sees the notes panel. Even mid-run", () => {
   assert.equal(notesPanelVisible({ ...inRun, user: null }), false);
 });
 
@@ -18,7 +18,7 @@ test("members and managers never see the notes panel", () => {
   assert.equal(notesPanelVisible({ ...inRun, user: { roles: ["manager"] } }), false);
 });
 
-test("an internal admin sees it during a live run — and only then", () => {
+test("an internal admin sees it during a live run. And only then", () => {
   const admin = { roles: ["admin"] };
   assert.equal(notesPanelVisible({ ...inRun, user: admin }), true);
   // No live session (e.g. wandering the console) — hidden.

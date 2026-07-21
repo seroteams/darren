@@ -64,8 +64,8 @@ export function renderReadonlyBriefing(b: Briefing | null, name?: string, promis
   const out: string[] = [];
   if ((b.summary_bullets || []).length) out.push(card("What stood out", bullets(b.summary_bullets!)));
   if (b.understanding_paragraph) out.push(card("What we understood", `<p class="text-sm">${escapeHtml(b.understanding_paragraph)}</p>`));
-  if (b.brutal_truth_employee) out.push(card(`Honest read — ${who}`, `<p class="text-sm">${escapeHtml(b.brutal_truth_employee)}</p>`));
-  if (b.brutal_truth_manager) out.push(card("Honest read — you", `<p class="text-sm">${escapeHtml(b.brutal_truth_manager)}</p>`));
+  if (b.brutal_truth_employee) out.push(card(`Honest read:${who}`, `<p class="text-sm">${escapeHtml(b.brutal_truth_employee)}</p>`));
+  if (b.brutal_truth_manager) out.push(card("Honest read:You", `<p class="text-sm">${escapeHtml(b.brutal_truth_manager)}</p>`));
   if ((b.next_actions || []).length) {
     const items = b.next_actions!.map((a) => `<li class="text-sm">${a.when ? escapeHtml(a.when) + ": " : ""}${escapeHtml(a.action || "")}</li>`);
     out.push(card("What to do next", `<ul class="l-stack l-stack--2">${items.join("")}</ul>`));

@@ -63,7 +63,7 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
     return `
     <div class="pa-row" data-id="${r.id}">
       <button type="button" class="pa-av ${you ? "pa-av--you" : "pa-av--them"} js-move"
-        aria-label="Owned by ${you ? "you" : esc(them)} — tap to change">${you ? svgUser : esc(initial)}</button>
+        aria-label="Owned by ${you ? "you" : esc(them)}. Tap to change">${you ? svgUser : esc(initial)}</button>
       <div class="pa-body">
         <div class="pa-input" contenteditable="true" spellcheck="false" role="textbox"
           aria-label="The agreed action" data-placeholder="What was agreed, in your words">${esc(r.action)}</div>
@@ -79,9 +79,9 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
   const listHtml = () => {
     const body = rows.length
       ? rows.map(rowHtml).join("")
-      : `<div class="pa-empty">Nothing to lock in yet — add what you two agreed.</div>`;
+      : `<div class="pa-empty">Nothing to lock in yet. Add what you two agreed.</div>`;
     const foot = rows.length >= MAX_PROMISES
-      ? `<span class="pa-cap">${MAX_PROMISES} of ${MAX_PROMISES} — that's the lot</span>`
+      ? `<span class="pa-cap">${MAX_PROMISES} of ${MAX_PROMISES}. That's the lot</span>`
       : `<button type="button" class="pa-add js-add"><span class="pa-add__plus" aria-hidden="true">+</span> Add a promise</button>`;
     return `<div class="pa-list">${body}${foot}</div>`;
   };
@@ -101,14 +101,14 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
         <div class="question-card-head">
           <div class="question-card-head__text space-y-2">
             <h1 class="question-stem leading-snug">Lock in what you two agreed</h1>
-            <div class="question-desc">Sero heard these in the conversation. Fix the wording, tap a face to set who owns it — only what you lock in is kept.</div>
+            <div class="question-desc">Sero heard these in the conversation. Fix the wording, tap a face to set who owns it. Only what you lock in is kept.</div>
           </div>
         </div>
         ${listHtml()}
         <div class="pa-loopnote">↩&nbsp; They come back at the start of your next 1:1 with ${esc(them)}.</div>
         <div class="field__actions pa-actions">
           <button type="button" class="btn js-lock">Lock these in</button>
-          <button type="button" class="btn btn--ghost js-skip">Skip — straight to the recap</button>
+          <button type="button" class="btn btn--ghost js-skip">Skip. Straight to the recap</button>
         </div>
         <span class="pa-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
       </div>`;
@@ -157,7 +157,7 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
           await opts.onLock(confirmed);
         } catch {
           btn.disabled = false;
-          if (status) status.textContent = "Couldn't save — try again, or skip (skipping costs nothing).";
+          if (status) status.textContent = "Couldn't save. Try again, or skip (skipping costs nothing).";
         }
       })();
     });

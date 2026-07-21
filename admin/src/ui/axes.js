@@ -118,7 +118,7 @@ function createRow(id, celebrate) {
 
   function setValueText(score, { baseline = false } = {}) {
     value.classList.toggle("axis__value--baseline", !!baseline);
-    const text = baseline ? "—" : (score > 0 ? `+${score}` : `${score}`);
+    const text = baseline ? "–" : (score > 0 ? `+${score}` : `${score}`);
     // Preserve chip
     value.firstChild.nodeValue = text;
   }

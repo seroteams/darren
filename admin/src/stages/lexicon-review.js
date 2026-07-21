@@ -195,7 +195,7 @@ export async function mount(root, { store, setState }) {
       } catch (e) {
         console.warn("[lexicon-review] promote failed:", e);
         doneBtn.disabled = false;
-        progress.textContent = "Promotion failed — try again.";
+        progress.textContent = "Promotion failed. Try again.";
       }
     });
 
@@ -209,9 +209,9 @@ export async function mount(root, { store, setState }) {
   if (!candidates.length) {
     const emptyCopy =
       skipped === "reviewer-failed"
-        ? "The lexicon review didn't finish — you can continue without saving phrases."
+        ? "The lexicon review didn't finish. You can continue without saving phrases."
         : skipped === "empty" || skipped === null
-          ? "Nothing strong enough to suggest this time. Shorter or shallow sessions often produce no candidates — that's normal."
+          ? "Nothing strong enough to suggest this time. Shorter or shallow sessions often produce no candidates. That's normal."
           : "No lexicon candidates from this run.";
     resultHost.innerHTML = `
       <div class="card reveal">

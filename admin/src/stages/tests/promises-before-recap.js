@@ -87,15 +87,15 @@ function payoffHtml(state) {
 
   const band = state.skipped
     ? `<div class="eyebrow">What to do next</div>
-       <div class="pb-owner-label">Sero's suggestions — nothing was locked in</div>
+       <div class="pb-owner-label">Sero's suggestions. Nothing was locked in</div>
        ${DRAFTS.map((p) => pact(p, true)).join("")}
        <div class="pb-mocknote" style="margin-top:var(--sero-space-3)">(mock) The skip path keeps today's
-         read-only list — nothing carries to the next 1:1.</div>`
+         read-only list. Nothing carries to the next 1:1.</div>`
     : `<div class="eyebrow">What you agreed</div>
        ${you.length ? `<span class="pb-owner-label pb-owner-label--you">You promised</span>${you.map((p) => pact(p, true)).join("")}` : ""}
        ${them.length ? `<span class="pb-owner-label">${esc(NAME)} promised</span>${them.map((p) => pact(p, false)).join("")}` : ""}
-       ${you.length + them.length === 0 ? `<div class="pb-empty">You locked in an empty list — also allowed.</div>` : ""}
-       <span class="pb-locked">✓ Locked in — these open your next 1:1 with ${esc(NAME)}</span>`;
+       ${you.length + them.length === 0 ? `<div class="pb-empty">You locked in an empty list. Also allowed.</div>` : ""}
+       <span class="pb-locked">✓ Locked in. These open your next 1:1 with ${esc(NAME)}</span>`;
 
   return `
     <header class="page-header">
@@ -108,7 +108,7 @@ function payoffHtml(state) {
     </header>
     <div class="space-y-4 reveal is-in">
       <div class="pb-payoff">${band}</div>
-      <div class="pb-mocknote">(mock) The rest of the recap — the read, the honest read, scores — sits
+      <div class="pb-mocknote">(mock) The rest of the recap. The read, the honest read, scores. Sits
         around this band exactly as today. The guest PDF's "What to do next" gets the same two blocks.</div>
       <div class="pb-footnav">
         <button class="btn btn--ghost" data-back>← Back to the promises step</button>

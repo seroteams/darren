@@ -22,7 +22,7 @@ export function welcomeHtml(photo: string): string {
             <p class="auth-brand__sub">Type a few rough notes. Sero turns them into a clear brief and sharper questions, in about two minutes.</p>
           </div>
           <div class="l-stack l-stack--3">
-            <button type="button" class="btn js-try-guest">Prep my 1:1 — free, no account</button>
+            <button type="button" class="btn js-try-guest">Prep my 1:1 free, no account</button>
             <p class="auth-alt-label text-ink-dim text-sm">Already using Sero?</p>
             <div class="auth-alt-row">
               <button type="button" class="btn btn--ghost js-to-login">Log in</button>

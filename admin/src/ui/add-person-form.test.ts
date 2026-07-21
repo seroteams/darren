@@ -13,13 +13,13 @@ test("trims a full form into a draft", () => {
   );
 });
 
-test("name is required — blank or whitespace-only yields null", () => {
+test("name is required. Blank or whitespace-only yields null", () => {
   assert.equal(cleanPersonForm({ name: "   ", role: "Engineer" }), null);
   assert.equal(cleanPersonForm({ name: "" }), null);
   assert.equal(cleanPersonForm({}), null);
 });
 
-test("role and seniority are optional — absent becomes empty string", () => {
+test("role and seniority are optional. Absent becomes empty string", () => {
   assert.deepEqual(cleanPersonForm({ name: "Sam" }), {
     name: "Sam",
     role: "",
@@ -58,7 +58,7 @@ test("inviteEmailError only complains when inviting with a bad email", () => {
   assert.equal(typeof inviteEmailError({ invite: true, email: "nope" }), "string"); // no @
 });
 
-test("nameMatches gates the delete confirm — trimmed, case-insensitive, never on empty", () => {
+test("nameMatches gates the delete confirm. Trimmed, case-insensitive, never on empty", () => {
   assert.equal(nameMatches("Brandy", "Brandy"), true);
   assert.equal(nameMatches("  brandy ", "Brandy"), true); // trim + case-insensitive
   assert.equal(nameMatches("Brand", "Brandy"), false); // partial doesn't count

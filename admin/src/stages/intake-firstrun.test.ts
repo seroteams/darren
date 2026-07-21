@@ -13,9 +13,9 @@ test("intro: names the three plain steps in order", () => {
   const whoAt = intro.indexOf("Who it's with");
   const mindAt = intro.indexOf("What's on your mind");
   const briefAt = intro.indexOf("Your prep brief");
-  assert.ok(whoAt > -1, "step 1 — who it's with");
-  assert.ok(mindAt > -1, "step 2 — what's on your mind");
-  assert.ok(briefAt > -1, "step 3 — your prep brief");
+  assert.ok(whoAt > -1, "step 1. Who it's with");
+  assert.ok(mindAt > -1, "step 2. What's on your mind");
+  assert.ok(briefAt > -1, "step 3. Your prep brief");
   assert.ok(whoAt < mindAt && mindAt < briefAt, "steps read in order");
 });
 
@@ -29,7 +29,7 @@ test("intro: step 3 uses the pre-meeting term (prep brief), not the post-meeting
   assert.ok(!/\bbriefing\b/i.test(intro), "no 'briefing' in the first-run card");
 });
 
-test("notes hint: shows one concrete, honest example — not generic fluff", () => {
+test("notes hint: shows one concrete, honest example. Not generic fluff", () => {
   assert.ok(notes.includes(GOOD_NOTES_EXAMPLE), "renders the real example");
   // A real example is specific: it carries a rough timeframe and a change over time,
   // the opposite of 'write some notes'. Guard against regressing to fluff.

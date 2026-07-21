@@ -44,7 +44,7 @@ function initials(name: string): string {
 // The meta line under a name. A never-touched roster person reads "not met yet"; one with only
 // an open prep says so; a met person shows meetings / last / average.
 function metaLine(p: Person): string {
-  if (p.count === 0) return escapeHtml(p.openCount > 0 ? "First 1:1 in prep — not met yet" : "not met yet");
+  if (p.count === 0) return escapeHtml(p.openCount > 0 ? "First 1:1 in prep. Not met yet" : "not met yet");
   const bits: string[] = [`${p.count} meeting${p.count > 1 ? "s" : ""}`];
   const last = relTime(p.lastMet);
   if (last) bits.push(`last ${last}`);

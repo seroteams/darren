@@ -21,13 +21,13 @@ test("welcome: carries the exact agreed copy", () => {
     html.includes("What you type stays private to you."),
     "privacy line",
   );
-  assert.ok(html.includes("Prep my 1:1 — free, no account"), "guest CTA label");
+  assert.ok(html.includes("Prep my 1:1 free, no account"), "guest CTA label");
   assert.ok(!html.includes("!"), "no exclamation marks anywhere");
 });
 
 test("welcome: the guest CTA is the one blue action; Log in / Create account are ghost buttons", () => {
   const primary = html.match(/class="btn js-try-guest"/g) || [];
-  assert.equal(primary.length, 1, "exactly one primary (blue) button — the guest CTA");
+  assert.equal(primary.length, 1, "exactly one primary (blue) button. The guest CTA");
   const ghosts = html.match(/class="btn btn--ghost/g) || [];
   assert.equal(ghosts.length, 2, "Log in + Create account are ghost buttons");
   for (const label of ["Log in", "Create account", "Privacy"]) {
@@ -36,7 +36,7 @@ test("welcome: the guest CTA is the one blue action; Log in / Create account are
 });
 
 test("welcome: the guest CTA comes before the alt-auth buttons", () => {
-  const ctaAt = html.indexOf("Prep my 1:1 — free, no account");
+  const ctaAt = html.indexOf("Prep my 1:1 free, no account");
   const loginAt = html.indexOf(">Log in<");
   assert.ok(ctaAt > -1 && loginAt > -1 && ctaAt < loginAt);
 });

@@ -27,12 +27,12 @@ function memberHtml() {
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What you can see</div>
-        <p>Your 1:1s — the dates and meeting types, so you have a record of when you met. Nothing more, nothing hidden.</p>
+        <p>Your 1:1s. The dates and meeting types, so you have a record of when you met. Nothing more, nothing hidden.</p>
       </section>
 
       <section class="card-flat space-y-3">
         <div class="eyebrow">What stays private</div>
-        <p class="text-ink-dim">Your manager's own prep notes and recaps are theirs — you don't see them, and they're never shared back to you here. Sero doesn't ask you for anything or score you.</p>
+        <p class="text-ink-dim">Your manager's own prep notes and recaps are theirs. You don't see them, and they're never shared back to you here. Sero doesn't ask you for anything or score you.</p>
       </section>
     </div>
   `;

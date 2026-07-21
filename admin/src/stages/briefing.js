@@ -65,7 +65,7 @@ export async function mount(root, deps) {
           await savePromises(store.sessionId, promises);
           store.promisesSaveFailed = false;
         } catch (e) {
-          console.warn("[briefing] promises save failed — keeping them on-device:", e);
+          console.warn("[briefing] promises save failed. Keeping them on-device:", e);
           store.promisesSaveFailed = true;
         }
         void mount(root, deps);
@@ -185,7 +185,7 @@ export async function mount(root, deps) {
             <span class="js-rv-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
           </div>
           <div class="l-cluster l-cluster--2 items-center js-rv-more hidden">
-            <input class="input js-rv-note" type="text" maxlength="200" autocomplete="off" placeholder="One line on why — optional" aria-label="Optional comment" />
+            <input class="input js-rv-note" type="text" maxlength="200" autocomplete="off" placeholder="One line on why. Optional" aria-label="Optional comment" />
             <button type="button" class="btn btn--ghost btn--sm js-rv-send">Add</button>
           </div>
         </div>` : ""}
@@ -194,7 +194,7 @@ export async function mount(root, deps) {
           <div class="eyebrow">Want to keep this 1:1?</div>
           <div class="l-cluster l-cluster--2 items-center">
             <button type="button" class="btn js-guest-register">Create a free account</button>
-            <span class="text-ink-dim">— we'll save it for you</span>
+            <span class="text-ink-dim">. We'll save it for you</span>
           </div>
           <p class="text-ink-dim text-sm">
             Already have an account?
@@ -320,7 +320,7 @@ export async function mount(root, deps) {
         ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`
         : names[0];
       meaningRows.push(`
-        <div class="text-ink-mute reveal-soft">${escape(list)} — not enough signal to read this session.</div>
+        <div class="text-ink-mute reveal-soft">${escape(list)}. Not enough signal to read this session.</div>
       `);
     }
     mwrap.innerHTML = meaningRows.join("");
@@ -336,8 +336,8 @@ export async function mount(root, deps) {
   await pause(fastPath ? 0 : 1400);
   const brutalHost = root.querySelector(".brutal-host");
   const truths = [
-    { eyebrow: `Honest read — ${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "", shareable: true },
-    { eyebrow: "Honest read — you", text: b.brutal_truth_manager || "", shareable: false },
+    { eyebrow: `Honest read:${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "", shareable: true },
+    { eyebrow: "Honest read:You", text: b.brutal_truth_manager || "", shareable: false },
   ];
   for (const t of truths) {
     if (!t.text) continue;
@@ -349,7 +349,7 @@ export async function mount(root, deps) {
         <span class="brutal__badge ${t.shareable ? "brutal__badge--shareable" : "brutal__badge--private"}">${t.shareable ? "OK to share" : "Private · just for you"}</span>
       </div>
       <div class="brutal__body">${escape(t.text)}</div>
-      ${t.shareable ? "" : `<div class="brutal__note">Your reflection — don't paste this into shared notes.</div>`}
+      ${t.shareable ? "" : `<div class="brutal__note">Your reflection. Don't paste this into shared notes.</div>`}
     `;
     brutalHost.appendChild(card);
     if (fastPath) card.classList.add("is-in");
@@ -374,8 +374,8 @@ export async function mount(root, deps) {
     const evidence = (er.evidence || []).filter(Boolean);
     const lead = er.read_status
       ? (er.read_status === "read"
-          ? "What this session actually showed on engagement — quotes below, no labels."
-          : "Not enough from this conversation to read engagement — treat it as a partial read.")
+          ? "What this session actually showed on engagement. Quotes below, no labels."
+          : "Not enough from this conversation to read engagement. Treat it as a partial read.")
       : engagementReadLabel(er.level);
     const rows = [
       `<div class="engagement-read__lead">${escape(lead)}</div>`,
@@ -444,7 +444,7 @@ export async function mount(root, deps) {
     if (store.promisesSaveFailed) {
       const note = document.createElement("div");
       note.className = "agreed-note";
-      note.textContent = "Kept on this device — Sero couldn't reach the server, so these may not come back at your next 1:1.";
+      note.textContent = "Kept on this device. Sero couldn't reach the server, so these may not come back at your next 1:1.";
       host.appendChild(note);
     }
   } else if (agreed) {
@@ -538,9 +538,9 @@ export async function mount(root, deps) {
     const rvSave = async (message) => {
       try {
         await submitRunVerdict(store.sessionId, rvChosen, message || "");
-        rvStatus.textContent = message ? "Noted — thanks." : "Thanks.";
+        rvStatus.textContent = message ? "Noted. Thanks." : "Thanks.";
       } catch {
-        rvStatus.textContent = "Couldn't save — fine to skip.";
+        rvStatus.textContent = "Couldn't save. Fine to skip.";
       }
     };
     rvBtns.forEach((btn) => btn.addEventListener("click", () => {
@@ -593,7 +593,7 @@ export async function mount(root, deps) {
         await downloadRecapPdf(b, store.ctx, store.promises);
       } catch (e) {
         console.error("[briefing] PDF export failed:", e);
-        pdfBtn.textContent = "Couldn't build the PDF — try again";
+        pdfBtn.textContent = "Couldn't build the PDF. Try again";
         setTimeout(() => { pdfBtn.textContent = prev; }, 2500);
         pdfBtn.disabled = false;
         return;
@@ -718,7 +718,7 @@ function formatActionCopy(a) {
 function formatPromiseCopy(p, name) {
   const who = p.owner === "report" ? (name || "They") : "You";
   const when = String(p.when || "").trim();
-  return `${who}: ${String(p.action || "").trim()}${when ? ` — ${capWhen(when)}` : ""}`;
+  return `${who}: ${String(p.action || "").trim()}${when ? `. ${capWhen(when)}` : ""}`;
 }
 
 function formatBriefingForCopy(b, ctx, promises) {
@@ -749,7 +749,7 @@ function formatBriefingForCopy(b, ctx, promises) {
       const label = cap(a.id);
       const notRead = a.read_status ? a.read_status === "not_read" : a.score === 0;
       if (notRead) {
-        lines.push(`${label} (not read — not enough signal)`);
+        lines.push(`${label} (not read. Not enough signal)`);
         continue;
       }
       const score = a.score != null ? ` (${a.score})` : "";
@@ -760,12 +760,12 @@ function formatBriefingForCopy(b, ctx, promises) {
 
   const empTruth = String(b.brutal_truth_employee || "").trim();
   if (empTruth) {
-    lines.push("", `Honest read — ${name || "them"}`, empTruth);
+    lines.push("", `Honest read:${name || "them"}`, empTruth);
   }
 
   const mgrTruth = String(b.brutal_truth_manager || "").trim();
   if (mgrTruth) {
-    lines.push("", "Honest read — you (private · just for you, not for sharing)", mgrTruth);
+    lines.push("", "Honest read:You (private · just for you, not for sharing)", mgrTruth);
   }
 
   const agreed = (Array.isArray(promises) ? promises : [])
@@ -849,12 +849,12 @@ function engagementReadLabel(level) {
     case "clear_concern":
       return "There's a clear engagement concern here, worth acting on.";
     case "worth_checking":
-      return "One or two signs worth checking directly — not a pattern yet.";
+      return "One or two signs worth checking directly. Not a pattern yet.";
     case "no_clear_concern":
       return "Nothing here points to them pulling away.";
     case "inconclusive":
     default:
-      return "Not enough from this conversation to read engagement — treat it as a partial read.";
+      return "Not enough from this conversation to read engagement. Treat it as a partial read.";
   }
 }
 

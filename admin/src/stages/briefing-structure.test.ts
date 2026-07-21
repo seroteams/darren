@@ -38,9 +38,9 @@ test("the 'Partial record' chip is earned from read_status, never invented", () 
   assert.ok(/if \(!anyAxisRead[^)]*\)/.test(SRC), "chip only renders when no axis was read");
 });
 
-test("honest reads stay split — shareable vs private", () => {
+test("honest reads stay split. Shareable vs private", () => {
   assert.ok(SRC.includes("brutal--private"), "the private variant survives");
-  assert.ok(SRC.includes("don't paste this into shared notes"), "the private warning survives");
+  assert.ok(SRC.includes("Don't paste this into shared notes"), "the private warning survives");
   assert.ok(/\.brutal\s*\{[^}]*--sero-mint-100/.test(CSS), "shareable reads mint");
   assert.ok(/\.brutal--private\s*\{[^}]*--sero-gold-100/.test(CSS), "private reads gold");
 });

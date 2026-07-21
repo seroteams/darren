@@ -52,7 +52,7 @@ export async function mount(root, { setState }) {
   try {
     ({ runs = [] } = await listRecentRuns(20));
   } catch {
-    err.textContent = "Couldn't load recent runs — is the API server running? (npm run dev)";
+    err.textContent = "Couldn't load recent runs. Is the API server running? (npm run dev)";
     err.hidden = false;
   }
   const opts = `<option value="">Select a run…</option>` +
@@ -267,8 +267,8 @@ function renderAxes(a, b) {
 
 function axisRow(id, sa, sb) {
   if (sa.notRead || sb.notRead) {
-    const valA = sa.notRead ? "—" : fmtScore(sa.score);
-    const valB = sb.notRead ? "—" : fmtScore(sb.score);
+    const valA = sa.notRead ? "–" : fmtScore(sa.score);
+    const valB = sb.notRead ? "–" : fmtScore(sb.score);
     return `
       <div class="cmp-axis cmp-axis--unread">
         <div class="cmp-axis__label">${AXIS_LABELS[id]}</div>
@@ -323,7 +323,7 @@ const VERDICT_TONE = { keep: "pass", fix: "warn", block: "fail" };
 
 function verdictBlock(v) {
   if (!v) {
-    return `<div class="cmp-verdict cmp-verdict--none">No verdict yet — record one to unlock Suggest fix.</div>`;
+    return `<div class="cmp-verdict cmp-verdict--none">No verdict yet. Record one to unlock Suggest fix.</div>`;
   }
   const tone = VERDICT_TONE[v.verdict] || "neutral";
   return `<div class="cmp-verdict cmp-verdict--${tone}">

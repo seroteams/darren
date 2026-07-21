@@ -58,7 +58,7 @@ export async function mount(root, { setState }) {
           </p>
           <p class="text-ink-dim text-sm">
             Just curious?
-            <button type="button" class="link js-try-guest">Try it — no account needed</button>
+            <button type="button" class="link js-try-guest">Try it. No account needed</button>
           </p>
         </div>
       </div>

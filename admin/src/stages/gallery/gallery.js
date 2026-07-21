@@ -145,7 +145,7 @@ export async function mount(node, deps) {
     <div class="gal__host js-host">
       <div class="gal__placeholder">
         <h2>Every screen, in one place</h2>
-        <p>Click the yellow <strong>Screens</strong> button up top and pick a page — it opens here filled with your local data. Edit its design and the change lands on the real app.</p>
+        <p>Click the yellow <strong>Screens</strong> button up top and pick a page. It opens here filled with your local data. Edit its design and the change lands on the real app.</p>
       </div>
     </div>`;
 
@@ -156,7 +156,7 @@ export async function mount(node, deps) {
   editBar.innerHTML = `
     <style>${STYLE}</style>
     <div class="gal-editbar__inner">
-      <span class="gal__spark" title="Preview of real screens — buttons are live against your local test data. This page is hidden and never shows on the live site.">⚡</span>
+      <span class="gal__spark" title="Preview of real screens. Buttons are live against your local test data. This page is hidden and never shows on the live site.">⚡</span>
       <div class="gal__dropdown js-dropdown">
         <button type="button" class="gal__screens-btn js-screens" aria-haspopup="true" aria-expanded="false">
           Screens <span class="gal__caret" aria-hidden="true">${icon(ChevronDown, { size: 16 })}</span>

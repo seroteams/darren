@@ -10,7 +10,7 @@ export async function mount(root) {
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Send feedback</h1>
-        <div class="text-ink-dim">Tell us what's working or what's not — it goes straight to the team.</div>
+        <div class="text-ink-dim">Tell us what's working or what's not. It goes straight to the team.</div>
       </header>
       <form class="card-flat space-y-3 js-form" novalidate>
         <label class="l-stack l-stack--2">

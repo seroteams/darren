@@ -208,7 +208,7 @@ export function buildRecapDocDefinition(
       ctxLines.push({ text: "Who this was for".toUpperCase(), fontSize: 8, bold: true, color: COLOR.accentDark, characterSpacing: 1, margin: [0, 0, 0, 3] });
       ctxLines.push({
         text: [
-          { text: name || "—", bold: true },
+          { text: name || "–", bold: true },
           ...(role ? [{ text: `  ·  ${role}`, color: COLOR.inkDim }] : []),
         ],
       });
@@ -271,7 +271,7 @@ export function buildRecapDocDefinition(
         ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`
         : names[0];
       content.push({
-        text: `${list} — not enough signal to read this session.`,
+        text: `${list}. Not enough signal to read this session.`,
         color: COLOR.inkMute,
         fontSize: 9.5,
         margin: [0, 2, 0, 0],
@@ -285,13 +285,13 @@ export function buildRecapDocDefinition(
     content.push(eyebrow("The honest read"));
     if (empTruth) {
       content.push(tintedBox([
-        { text: (name ? `Honest read — ${name}` : "Honest read — them") + "   ·   OK to share", fontSize: 8.5, bold: true, color: COLOR.mintText, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
+        { text: (name ? `Honest read:${name}` : "Honest read:Them") + "   ·   OK to share", fontSize: 8.5, bold: true, color: COLOR.mintText, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
         { text: empTruth },
       ], COLOR.mintBg, COLOR.mintLine));
     }
     if (mgrTruth) {
       content.push(tintedBox([
-        { text: "Honest read — you   ·   Private, just for you", fontSize: 8.5, bold: true, color: COLOR.goldText, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
+        { text: "Honest read:You   ·   Private, just for you", fontSize: 8.5, bold: true, color: COLOR.goldText, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
         { text: mgrTruth },
       ], COLOR.goldBg, COLOR.goldLine));
     }
@@ -368,7 +368,7 @@ export function buildRecapDocDefinition(
     pageSize: "A4",
     pageMargins: [48, 52, 48, 58] as [number, number, number, number],
     defaultStyle: { font: "Inter", fontSize: 10.5, color: COLOR.ink, lineHeight: 1.4 },
-    info: { title: name ? `Sero 1:1 recap — ${name}` : "Sero 1:1 recap", creator: "Sero" },
+    info: { title: name ? `Sero 1:1 recap. ${name}` : "Sero 1:1 recap", creator: "Sero" },
     footer: (currentPage: number, pageCount: number) => ({
       columns: [
         { text: "Made with Sero · seroapp.com", fontSize: 8.5, color: COLOR.inkMute },

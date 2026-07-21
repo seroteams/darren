@@ -34,7 +34,7 @@ const OUTCOMES = [
 ];
 const OUTCOME_LABEL = { yes: "done", partly: "partly done", no: "not done", changed: "changed" };
 
-const Q9_NOTES = "buddy still not sorted — i'll book it this week. workload heavy but she can't tell where the time goes — she'll track her hours for a week and we look at it together next time.";
+const Q9_NOTES = "buddy still not sorted. I'll book it this week. workload heavy but she can't tell where the time goes. She'll track her hours for a week and we look at it together next time.";
 
 // End-of-session axis read (scene 1–2); the fresh session (scene 3–4) shows baselines.
 const AXES_END = [
@@ -100,7 +100,7 @@ const axesHtml = (fresh) => {
     if (fresh || a.value === 0) {
       return `<div class="axis"><div class="axis__label">${a.label}</div>
         <div class="axis__track"><div class="axis__midline"></div><div class="axis__fill axis__fill--neutral"></div></div>
-        <div class="axis__value axis__value--baseline">—</div></div>`;
+        <div class="axis__value axis__value--baseline">–</div></div>`;
     }
     const dir = a.value > 0 ? "positive" : "negative";
     return `<div class="axis"><div class="axis__label">${a.label}</div>
@@ -158,9 +158,9 @@ function sceneHtml(state) {
         </label>
         <div class="field__actions">
           <button class="btn" data-go="1">Agree next actions →</button>
-          <button class="btn btn--ghost" data-mock-finish>Finish — skip to briefing</button>
+          <button class="btn btn--ghost" data-mock-finish>Finish. Skip to briefing</button>
         </div>
-        <div class="pl-mocknote" data-finish-note hidden>(mock) That path ends the 1:1 at the briefing — nothing carries forward. The primary button is where the loop starts.</div>
+        <div class="pl-mocknote" data-finish-note hidden>(mock) That path ends the 1:1 at the briefing. Nothing carries forward. The primary button is where the loop starts.</div>
         <p class="hint hint--kbd text-xs text-ink-mute">Enter · Skip · Esc</p>`,
     };
   }
@@ -175,7 +175,7 @@ function sceneHtml(state) {
         <div class="question-card-head">
           <div class="question-card-head__text space-y-2">
             <h1 class="question-stem leading-snug">Lock in what you two agreed</h1>
-            <div class="question-desc">Sero heard these in your notes — yours first. They'll come back at the start of your next 1:1, so nothing gets lost.</div>
+            <div class="question-desc">Sero heard these in your notes. Yours first. They'll come back at the start of your next 1:1, so nothing gets lost.</div>
           </div>
         </div>
         <div>${rows}</div>
@@ -193,13 +193,13 @@ function sceneHtml(state) {
     const rows = promises.map((p, i) => promiseRow(p, chipsRow(i, state.outcomes[i]))).join("");
     return {
       label: "Before question 1",
-      before: `<div class="pl-later">two weeks later — your next 1:1 with Aisha</div>`,
+      before: `<div class="pl-later">two weeks later. Your next 1:1 with Aisha</div>`,
       axes: axesHtml(true),
       card: `
         <div class="question-card-head">
           <div class="question-card-head__text space-y-2">
-            <h1 class="question-stem leading-snug">Last time's promises — did they happen?</h1>
-            <div class="question-desc">Yours first, then Aisha's. One tap each — about 90 seconds, then into the questions.</div>
+            <h1 class="question-stem leading-snug">Last time's promises. Did they happen?</h1>
+            <div class="question-desc">Yours first, then Aisha's. One tap each. About 90 seconds, then into the questions.</div>
           </div>
         </div>
         <div>${rows}</div>
@@ -215,9 +215,9 @@ function sceneHtml(state) {
   const p = open >= 0 ? promises[open] : null;
   const stem = p
     ? p.owner === "you"
-      ? `You marked “${p.action.toLowerCase()}” as ${OUTCOME_LABEL[state.outcomes[open]]} — where does that stand today?`
-      : `You marked “${p.action.toLowerCase()}” as ${OUTCOME_LABEL[state.outcomes[open]]} — what got in the way for Aisha?`
-    : `Everything you agreed last time landed — nice. What deserves the spotlight today?`;
+      ? `You marked “${p.action.toLowerCase()}” as ${OUTCOME_LABEL[state.outcomes[open]]}. Where does that stand today?`
+      : `You marked “${p.action.toLowerCase()}” as ${OUTCOME_LABEL[state.outcomes[open]]}. What got in the way for Aisha?`
+    : `Everything you agreed last time landed. Nice. What deserves the spotlight today?`;
   return {
     label: "Question 1 of 9",
     before: "",
@@ -230,14 +230,14 @@ function sceneHtml(state) {
         </div>
       </div>
       <label class="block"><span class="sr-only">Your notes</span>
-        <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" aria-label="Your notes"></textarea>
+        <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said. Your shorthand, not a transcript" aria-label="Your notes"></textarea>
       </label>
       <div class="field__actions">
         <button class="btn" data-mock-submit>Submit answer</button>
         <button class="btn btn--ghost" data-mock-submit>Skip</button>
       </div>
-      <div class="pl-mocknote" data-submit-note hidden>(mock) From here it's the normal runner — question by question to the briefing, where the loop wraps again.</div>
-      <div class="pl-loopnote">↻&nbsp; That's the loop — every 1:1 picks up exactly where the last one left off.</div>
+      <div class="pl-mocknote" data-submit-note hidden>(mock) From here it's the normal runner. Question by question to the briefing, where the loop wraps again.</div>
+      <div class="pl-loopnote">↻&nbsp; That's the loop. Every 1:1 picks up exactly where the last one left off.</div>
       <p class="hint hint--kbd text-xs text-ink-mute">Enter · Skip · Esc</p>
       <div class="pl-footnav">
         <button class="btn btn--ghost" data-go="2">← Back</button>

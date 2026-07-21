@@ -69,8 +69,8 @@ function renderBriefing(b) {
   if (b.headline) out.push(`<p class="stage-review__headline">${esc(b.headline)}</p>`);
   if ((b.summary_bullets || []).length) out.push(card("What stood out", bullets(b.summary_bullets)));
   if (b.understanding_paragraph) out.push(card("What we understood", `<p>${esc(b.understanding_paragraph)}</p>`));
-  if (b.brutal_truth_employee) out.push(card("Honest read — them", `<p>${esc(b.brutal_truth_employee)}</p>`));
-  if (b.brutal_truth_manager) out.push(card("Honest read — you", `<p>${esc(b.brutal_truth_manager)}</p>`));
+  if (b.brutal_truth_employee) out.push(card("Honest read:Them", `<p>${esc(b.brutal_truth_employee)}</p>`));
+  if (b.brutal_truth_manager) out.push(card("Honest read:You", `<p>${esc(b.brutal_truth_manager)}</p>`));
   if ((b.next_actions || []).length) {
     const items = b.next_actions.map((a) => `${a.when ? esc(a.when) + ": " : ""}${esc(a.action || "")}`);
     out.push(card("What to do next", `<ul class="stage-review__bullets">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`));

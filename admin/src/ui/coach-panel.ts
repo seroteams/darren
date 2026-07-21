@@ -32,10 +32,10 @@ const AXIS_LABELS: Record<string, string> = {
 
 // UI copy, deliberately about the ABSENCE of a read — never fake reasoning.
 const IDLE_LINES: Record<string, string> = {
-  wellbeing: "Nothing's touched wellbeing yet — it moves when they talk about energy or load.",
-  engagement: "No engagement signal yet — it moves when they show what they care about.",
-  clarity: "Clarity's unrated so far — it moves when they can (or can't) name priorities cleanly.",
-  growth: "No growth signal yet — it moves when a stretch or ambition comes up.",
+  wellbeing: "Nothing's touched wellbeing yet. It moves when they talk about energy or load.",
+  engagement: "No engagement signal yet. It moves when they show what they care about.",
+  clarity: "Clarity's unrated so far. It moves when they can (or can't) name priorities cleanly.",
+  growth: "No growth signal yet. It moves when a stretch or ambition comes up.",
 };
 
 // ---- DOM (pure state lives in coach-panel-state.ts, tested there) ---------------------------
@@ -118,7 +118,7 @@ export function createCoachPanel({ sessionId }: { sessionId: string; personName?
 
   function supportHtml(): string {
     if (!questionHints.length) {
-      return `<p class="coach-empty">No coaching hints for this question yet — the Live scores tab still updates as you go.</p>`;
+      return `<p class="coach-empty">No coaching hints for this question yet. The Live scores tab still updates as you go.</p>`;
     }
     return questionHints.map(hintHtml).join("");
   }

@@ -40,8 +40,8 @@ export function showInviteMemberModal(): Promise<InviteDraft | null> {
         <div class="apm-field">
           <label class="apm-field__label" for="im-role">Role</label>
           <select class="apm-field__input js-role" id="im-role">
-            <option value="member" selected>Member — sees only their own 1:1s</option>
-            <option value="manager">Manager — runs 1:1s, manages the team</option>
+            <option value="member" selected>Member. Sees only their own 1:1s</option>
+            <option value="manager">Manager. Runs 1:1s, manages the team</option>
           </select>
         </div>
       </div>

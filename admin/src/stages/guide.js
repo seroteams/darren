@@ -36,9 +36,9 @@ const TOC = [
 // added or removed shows up on the next UPDATE. Only these notes are hand-written;
 // a script with no note renders as "New — not described yet."
 const COMMAND_NOTES = {
-  dev: "Web app for testing — API on :3001, Vite UI on :3000 (two processes).",
+  dev: "Web app for testing. API on :3001, Vite UI on :3000 (two processes).",
   up: "One-command dev launcher (scripts/dev.ps1).",
-  build: "Production build (Vite) — then npm start serves it from one Node process.",
+  build: "Production build (Vite). Then npm start serves it from one Node process.",
   start: "Serve the production build from one Node process.",
   cli: "Run the engine from the terminal.",
   test: "Unit + engine tests (scripts/run-tests.js).",
@@ -46,7 +46,7 @@ const COMMAND_NOTES = {
   "typecheck:admin": "TypeScript for the UI, no emit.",
   lint: "ESLint over the repo.",
   smoke: "Scenario smoke tests.",
-  eval: "Offline engine checks — prompt rules + replay.",
+  eval: "Offline engine checks. Prompt rules + replay.",
   gate: "Full quality gate (needs API key).",
   replay: "Replay-regression check against saved runs.",
   sweep: "Full 5-type sweep (needs API key) → logs/sweeps/.",
@@ -63,10 +63,10 @@ const ENV = [
   ["GEMINI_API_KEY", "Used instead when a stage is pointed at a Gemini model."],
   ["OPENAI_MODEL", "Default model for all stages."],
   ["OPENAI_MODEL_<STAGE>", "Per-stage override: FOCUS_POINTS, PREPARATION, BANK, PLANNER, EVALUATION, JUDGE, FIXER, ROLE_PROFILE."],
-  ["DATABASE_URL", "Postgres connection — accounts, auth sessions, runs. Falls back to on-disk JSON if unset."],
+  ["DATABASE_URL", "Postgres connection. Accounts, auth sessions, runs. Falls back to on-disk JSON if unset."],
   ["SUPERADMIN_EMAILS", "Allowlist for the cross-company superadmin views."],
   ["DEV_AUTOLOGIN", "Dev-only convenience login."],
-  ["API_PORT", "API port — 3001 in dev."],
+  ["API_PORT", "API port. 3001 in dev."],
   ["PORT", "Fallback API port if API_PORT is unset (3000 in prod)."],
   ["NODE_ENV", "production makes npm start serve the built admin on one port."],
   ["SESSION_TTL_MS", "In-memory run-session expiry (default 2 hours)."],
@@ -103,7 +103,7 @@ const SCREEN_GROUPS = {
 };
 
 const SCREEN_GROUP_ORDER = [
-  ["new", "New screens — not yet grouped"],
+  ["new", "New screens. Not yet grouped"],
   ["flow", "The run flow"],
   ["member", "The member app"],
   ["admin", "Admin tooling"],
@@ -143,9 +143,9 @@ const QA = [
 ];
 
 const CONCEPTS = [
-  ["Meeting types", "Bi-weekly check-in, Performance & feedback, Growth & career plan, Something feels off — each with its own arc (stage sequence) and tone — plus the guided Monthly Check-in runner. Onboarding check-in left the picker 2026-07-19 (old runs still resolve)."],
-  ["The four axes", "Wellbeing, Engagement, Clarity, Growth — range −10 to +10. Read by magnitude: ±0–1 weak, ±2–4 watch, ±5–7 real pattern (act), ±8–10 defining."],
-  ["Question budget", "About 9 per run — ~4 opening (intro queue) + ~5 dynamic follow-ups. Caps stop over-drilling: drill cap, max 2 wellbeing clarifiers in a row, 1 tangent, and shallow-answer gating that zeroes positive deltas on ≤2-word answers."],
+  ["Meeting types", "Bi-weekly check-in, Performance & feedback, Growth & career plan, Something feels off. Each with its own arc (stage sequence) and tone. Plus the guided Monthly Check-in runner. Onboarding check-in left the picker 2026-07-19 (old runs still resolve)."],
+  ["The four axes", "Wellbeing, Engagement, Clarity, Growth. Range −10 to +10. Read by magnitude: ±0–1 weak, ±2–4 watch, ±5–7 real pattern (act), ±8–10 defining."],
+  ["Question budget", "About 9 per run. ~4 opening (intro queue) + ~5 dynamic follow-ups. Caps stop over-drilling: drill cap, max 2 wellbeing clarifiers in a row, 1 tangent, and shallow-answer gating that zeroes positive deltas on ≤2-word answers."],
   ["Accounts & roles", "admin / manager / member. Manager = the end user who runs 1:1s; member = the managed; admin = internal (Carl). Accounts live in Postgres, gated per company."],
   ["Focus points & notes", "Focus points steer the question bank; the notes panel captures your own thoughts per stage."],
   ["Role profiles", "Cached per title + seniority context (backend/engine/role-profile.ts) so the pipeline doesn't re-derive the role each run."],
@@ -154,10 +154,10 @@ const CONCEPTS = [
 const FILES = [
   ["backend/engine/", "The pipeline + scoring: generate, preparation, question-generator, queue-manager, reviewer, lexicon, plus the shared ai-client and models."],
   ["backend/api/", "The HTTP server (server.ts) + one service folder per domain (services/<domain>/) and middleware/ (auth, v1 routing)."],
-  ["backend/db/", "Postgres via Drizzle — schema.ts (organizations, users, runs, invitations, authSessions) + migrations/."],
-  ["admin/src/", "The web app — stages/ (screens), ui/, state.js, router.js. Built to admin/dist/ for prod."],
+  ["backend/db/", "Postgres via Drizzle. Schema.ts (organizations, users, runs, invitations, authSessions) + migrations/."],
+  ["admin/src/", "The web app. Stages/ (screens), ui/, state.js, router.js. Built to admin/dist/ for prod."],
   ["content/", "All the tunable data: prompts/, questions/, lexicons/, config/models.json, axes.json, focus-points.json, scenarios/, data/."],
-  ["logs/<month>/<run-id>/", "One folder per run. Stage folders 00b-role-profile/, 01-focus-points/, 01b-preparation/, 04-dynamic-answers/, 05-evaluation/ — each with inputs.json, prompt.md, response.json."],
+  ["logs/<month>/<run-id>/", "One folder per run. Stage folders 00b-role-profile/, 01-focus-points/, 01b-preparation/, 04-dynamic-answers/, 05-evaluation/. Each with inputs.json, prompt.md, response.json."],
   ["…run root", "session-state.json, axis-state.json, transcript.json, pipeline-lock.json, and feedback.json once you leave a verdict."],
   ["content/config/models.json", "Which model each stage uses (persona-bench config sits alongside)."],
   ["content/data/openai-models.json", "Model pricing table for cost tracking."],
@@ -166,12 +166,12 @@ const FILES = [
 ];
 
 const GAPS = [
-  "Quality gate is young — a golden dataset + scoreRun() gate exist (npm run gate, evals/golden, the /regression screen), but coverage is thin; most prompt changes are still checked by hand.",
-  "Model drifts on hard rules — e.g. the drill cap is stated many times but still gets ignored; caught only by eye.",
-  "Shallow-answer counting is a heuristic — a refused answer can flip a run into \"partial read\" mode.",
-  "Web hardening — the new-session rate limit still trusts X-Forwarded-For (bypassable); there's no request-body size cap yet.",
+  "Quality gate is young. A golden dataset + scoreRun() gate exist (npm run gate, evals/golden, the /regression screen), but coverage is thin; most prompt changes are still checked by hand.",
+  "Model drifts on hard rules. E.g. the drill cap is stated many times but still gets ignored; caught only by eye.",
+  "Shallow-answer counting is a heuristic. A refused answer can flip a run into \"partial read\" mode.",
+  "Web hardening. The new-session rate limit still trusts X-Forwarded-For (bypassable); there's no request-body size cap yet.",
   "Cost numbers under-report silently for any model missing from content/data/openai-models.json.",
-  "Auth & DB are new — Postgres accounts + cookie sessions landed recently and are still pre-go-live: the invitations table is scaffolded and the superadmin views are read-only.",
+  "Auth & DB are new. Postgres accounts + cookie sessions landed recently and are still pre-go-live: the invitations table is scaffolded and the superadmin views are read-only.",
 ];
 
 function ref(code, desc) {
@@ -208,7 +208,7 @@ function commandsHtml(commands) {
   return commands
     .map((name) => {
       const cmd = name === "test" ? "npm test" : name === "start" ? "npm start" : `npm run ${name}`;
-      return ref(cmd, COMMAND_NOTES[name] || "New — not described yet.");
+      return ref(cmd, COMMAND_NOTES[name] || "New. Not described yet.");
     })
     .join("");
 }
@@ -232,7 +232,7 @@ function screensHtml(screens) {
     .join("");
 }
 
-const LIVE_ERR = `<p class="g-arc-note g-arc-note--err">Couldn't reach the API — is it running?</p>`;
+const LIVE_ERR = `<p class="g-arc-note g-arc-note--err">Couldn't reach the API. Is it running?</p>`;
 
 function fillLive(root, hb) {
   const screens = root.querySelector(".js-screens-host");
@@ -381,7 +381,7 @@ async function readSystem() {
 function diffSystem(oldS, now) {
   const lines = [];
   if (oldS.build !== now.build) {
-    lines.push(`Build <code>${esc(oldS.build)}</code> → <code>${esc(now.build)}</code> — the running server is on new code.`);
+    lines.push(`Build <code>${esc(oldS.build)}</code> → <code>${esc(now.build)}</code>. The running server is on new code.`);
   }
   const typeAdd = now.types.filter((t) => !oldS.types.includes(t));
   const typeRem = oldS.types.filter((t) => !now.types.includes(t));
@@ -477,7 +477,7 @@ function wireSystemCheck(root) {
       void loadArcs(root);
       const prev = readSysSnap();
       if (!prev?.sys) {
-        note.innerHTML = `<div class="sys-note sys-note--ok">First check — saved a snapshot of the build, meeting types, arcs, screens, commands, axes and question count. The next check will show what moved. <span class="sys-note__meta">Build ${esc(now.build)}.</span></div>`;
+        note.innerHTML = `<div class="sys-note sys-note--ok">First check. Saved a snapshot of the build, meeting types, arcs, screens, commands, axes and question count. The next check will show what moved. <span class="sys-note__meta">Build ${esc(now.build)}.</span></div>`;
       } else {
         const lines = diffSystem(prev.sys, now);
         note.innerHTML = lines.length
@@ -487,7 +487,7 @@ function wireSystemCheck(root) {
       writeSysSnap(now);
       showStatus(readSysSnap());
     } catch (e) {
-      note.innerHTML = `<div class="sys-note sys-note--err">Couldn't reach the API — is it running? (${esc(e?.message || "error")})</div>`;
+      note.innerHTML = `<div class="sys-note sys-note--err">Couldn't reach the API. Is it running? (${esc(e?.message || "error")})</div>`;
     } finally {
       setBtnBusy(btn, false, "Check for changes");
     }
@@ -500,10 +500,10 @@ export function mount(root) {
     <div class="stage-medium l-stack l-stack--8 guide">
       <header class="page-header">
         <div class="page-header__row">
-          <h1 class="h1">Sero — operator guide</h1>
+          <h1 class="h1">Sero. Operator guide</h1>
           <button class="btn btn--ghost js-back" type="button">Back</button>
         </div>
-        <div class="page-header__lede">Your map of the whole project — how to run it, what each part does, and where things live. Internal, just for you.</div>
+        <div class="page-header__lede">Your map of the whole project. How to run it, what each part does, and where things live. Internal, just for you.</div>
       </header>
 
       <div class="guide-toc">
@@ -519,7 +519,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-run">
         <h2 class="h2">Run it</h2>
-        <p class="text-ink-dim">The command list is read live from <code>package.json</code> — a new script shows up on its own; only the notes are hand-written.</p>
+        <p class="text-ink-dim">The command list is read live from <code>package.json</code>. A new script shows up on its own; only the notes are hand-written.</p>
         <div class="js-commands-host"><div class="card-flat"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div></div>
         <div class="eyebrow">Environment</div>
         <div class="card-flat">${ENV.map(([c, d]) => ref(c, d)).join("")}</div>
@@ -534,7 +534,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-screens">
         <h2 class="h2">The screens</h2>
-        <p class="text-ink-dim">Read live from <code>admin/src/stages/</code> — the list is the real files on disk and each description is the file's own header comment, so this section can't drift. A file added to the code lands under "New screens" until it's grouped.</p>
+        <p class="text-ink-dim">Read live from <code>admin/src/stages/</code>. The list is the real files on disk and each description is the file's own header comment, so this section can't drift. A file added to the code lands under "New screens" until it's grouped.</p>
         <div class="js-screens-host l-stack l-stack--4"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div>
         <div class="eyebrow">Getting around</div>
         <div class="card-flat">${NAV.map(([t, d]) => labelRow(t, d)).join("")}</div>
@@ -558,7 +558,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-arcs">
         <h2 class="h2">Meeting arcs (live)</h2>
-        <p class="text-ink-dim">Pulled live from the system — not hand-written, so it can't go stale. <strong>Check for changes</strong> (top) refreshes these and reports any that moved. Edit them on the <code>Meeting arcs</code> screen.</p>
+        <p class="text-ink-dim">Pulled live from the system. Not hand-written, so it can't go stale. <strong>Check for changes</strong> (top) refreshes these and reports any that moved. Edit them on the <code>Meeting arcs</code> screen.</p>
         <div class="card-flat js-arcs-host"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div>
       </section>
 

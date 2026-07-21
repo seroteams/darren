@@ -47,7 +47,7 @@ export async function mount(root) {
     roles = Array.isArray(res?.roles) ? res.roles : [];
   } catch (e) {
     console.warn("[job-lexicons] fetch failed:", e);
-    thinkingHost.textContent = "Couldn't load job words — try again in a moment.";
+    thinkingHost.textContent = "Couldn't load job words. Try again in a moment.";
     return;
   }
 
@@ -270,7 +270,7 @@ function sectionHtml(role) {
   }
   const hiddenBlock = hidden.length
     ? `<details class="joblex-hidden">
-        <summary class="joblex-hidden__head">Hidden words (${hidden.length}) — put any back</summary>
+        <summary class="joblex-hidden__head">Hidden words (${hidden.length}). Put any back</summary>
         <div class="card flow-glossary joblex-hidden__list">${hidden.map((t) => hiddenRowHtml(t, role.key)).join("")}</div>
       </details>`
     : "";

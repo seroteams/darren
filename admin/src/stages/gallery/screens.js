@@ -105,9 +105,9 @@ export function designPrompt({ label, file, url }) {
 
 Please:
 1. Open the screen at the URL above and look at it (take a screenshot first).
-2. Interview me ONE question at a time about what I want improved — don't dump a list.
+2. Interview me ONE question at a time about what I want improved. Don't dump a list.
 3. Suggest your own improvement ideas too, grounded in what you can see on the screen.
 4. Follow DESIGN.md (the Sero design system): design tokens only (no hex), 14px text floor, one blue action per screen, Lucide icons.
 5. Screenshot before and after so I can see the change.
-6. Only touch this screen's own files — don't change other screens.`;
+6. Only touch this screen's own files. Don't change other screens.`;
 }

@@ -16,7 +16,7 @@ test("noteKind: a plain note (no run link) is 'note'", () => {
   assert.equal(noteKind({ runId: null, verdict: null }), "note");
 });
 
-test("noteKind: a run link alone is enough — a half-set legacy row still types as verdict", () => {
+test("noteKind: a run link alone is enough. A half-set legacy row still types as verdict", () => {
   assert.equal(noteKind({ runId: "run-3" }), "verdict");
   assert.equal(noteKind({ verdict: "yes" }), "verdict");
 });

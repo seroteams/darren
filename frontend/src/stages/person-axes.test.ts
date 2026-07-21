@@ -28,7 +28,7 @@ test("only sessions that read the axis contribute a point", () => {
   assert.match(html, /Clarity<\/span><span class="axis-mem__series"><b>-4<\/b><\/span>/);
 });
 
-test("a genuinely read score of 0 shows '0' — a read zero is real signal", () => {
+test("a genuinely read score of 0 shows '0'. A read zero is real signal", () => {
   const html = renderAxisMemory([run(null, null, 0, null)]);
   assert.match(html, /Clarity<\/span><span class="axis-mem__series"><b>0<\/b><\/span>/);
 });

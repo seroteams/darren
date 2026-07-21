@@ -81,14 +81,14 @@ export function mountRunDebrief(host, payload) {
     <div class="run-log__grid">
       <div class="run-log__block run-log__block--retest">
         <div class="run-log__block-label">CLI replay</div>
-        <p class="run-log__disclaimer">Replays a scenario file through the CLI — not this session's live answers.</p>
+        <p class="run-log__disclaimer">Replays a scenario file through the CLI. Not this session's live answers.</p>
         <div class="run-log__commands" role="group" aria-label="Smoke test commands"></div>
         <div class="run-log__scenario-pill caption"></div>
       </div>
       <div class="run-log__block run-log__block--folder">
         <div class="run-log__block-label">Log on disk</div>
         <button type="button" class="run-log__path num-tabular"></button>
-        <p class="caption text-ink-mute">Click path to copy — open in your file manager</p>
+        <p class="caption text-ink-mute">Click path to copy. Open in your file manager</p>
         <div class="run-log__tree" aria-label="Log folder structure"></div>
       </div>
     </div>
@@ -96,7 +96,7 @@ export function mountRunDebrief(host, payload) {
     <button type="button" class="run-log__tip caption"></button>
   `;
 
-  section.querySelector(".run-log__id").textContent = payload.sessionId || "—";
+  section.querySelector(".run-log__id").textContent = payload.sessionId || "–";
 
   const actions = section.querySelector(".run-log__actions");
   actions.appendChild(
@@ -112,13 +112,13 @@ export function mountRunDebrief(host, payload) {
     makeStat(
       "API time",
       api.label,
-      api.callCount ? `${api.callCount} call${api.callCount === 1 ? "" : "s"}` : "—"
+      api.callCount ? `${api.callCount} call${api.callCount === 1 ? "" : "s"}` : "–"
     )
   );
   stats.appendChild(
     makeStat(
       "Wall clock",
-      payload.hasWallClock ? payload.wallDuration.label : "—",
+      payload.hasWallClock ? payload.wallDuration.label : "–",
       payload.hasWallClock ? "session" : "after eval"
     )
   );
@@ -194,7 +194,7 @@ export function mountRunDebrief(host, payload) {
     const empty = document.createElement("p");
     empty.className = "run-log__notes-empty caption";
     empty.textContent =
-      "No notes captured — use the notes panel during the run.";
+      "No notes captured. Use the notes panel during the run.";
     notesWrap.appendChild(empty);
   }
 
@@ -208,7 +208,7 @@ export function mountRunDebrief(host, payload) {
 }
 
 function formatUsd(usd) {
-  if (usd == null || Number.isNaN(usd)) return "—";
+  if (usd == null || Number.isNaN(usd)) return "–";
   if (usd < 0.01) return `$${usd.toFixed(4)}`;
   if (usd < 1) return `$${usd.toFixed(3)}`;
   return `$${usd.toFixed(2)}`;

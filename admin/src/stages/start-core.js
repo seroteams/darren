@@ -158,7 +158,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
         </div>
       `;
     } catch {
-      body.innerHTML = `<div class="text-ink-mute text-sm">Couldn't open this one — try again in a moment.</div>`;
+      body.innerHTML = `<div class="text-ink-mute text-sm">Couldn't open this one. Try again in a moment.</div>`;
     }
   }
 
@@ -210,7 +210,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     try {
       await deleteRun(id);
     } catch (e) {
-      await alertAction({ message: "Couldn't delete this 1:1 — please try again." });
+      await alertAction({ message: "Couldn't delete this 1:1. Please try again." });
       return;
     }
     if (expandedId === id) expandedId = null;
@@ -320,7 +320,7 @@ function whereUpTo(o, finished) {
   if (finished) return "Recap ready to review";
   let line = `Paused at ${stageLabel(o.stage)}`;
   if (o.progress && o.progress.total) {
-    line += ` — ${o.progress.answered} of ${o.progress.total} questions answered`;
+    line += `. ${o.progress.answered} of ${o.progress.total} questions answered`;
   }
   return line;
 }

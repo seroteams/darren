@@ -21,7 +21,7 @@ test("join links route in the customer app", () => {
   assert.equal(urlForState({ stage: STAGES.JOIN }), "/login");
 });
 
-test("isGuestStage: a guest may take a run — intake + the run flow, nothing else", () => {
+test("isGuestStage: a guest may take a run. Intake + the run flow, nothing else", () => {
   for (const s of [STAGES.INTAKE, STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
     STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING]) {
     assert.equal(isGuestStage(s), true, `${s} is guest-reachable`);
@@ -41,7 +41,7 @@ test("the guided runner (Monthly Check-in) routes for managers and stays walled 
   assert.equal(isGuestStage(STAGES.GUIDED), false);
 });
 
-test("member-view: about-me only — a member's destinations are the 1:1s about them + shared pages", () => {
+test("member-view: about-me only. A member's destinations are the 1:1s about them + shared pages", () => {
   assert.equal(isMemberStage(STAGES.MEMBER_HOME), true);
   assert.equal(isMemberStage(STAGES.RUN_DETAIL), true);
   // The manager RUNS stage (authored runs + private ratings) is NOT a member destination.

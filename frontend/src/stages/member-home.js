@@ -62,7 +62,7 @@ async function loadTrackers(host) {
                     </div>`,
                 )
                 .join("")
-            : `<p class="text-sm text-ink-mute">No goals yet — your manager sets these with you in your 1:1.</p>`
+            : `<p class="text-sm text-ink-mute">No goals yet. Your manager sets these with you in your 1:1.</p>`
         }
       </div>
     </div>`;
@@ -76,7 +76,7 @@ async function loadTrackers(host) {
       await createMyRequest({ text, category });
       await loadTrackers(host);
     } catch {
-      host.querySelector(".js-add-req")?.insertAdjacentHTML("afterend", `<p class="text-sm mh-error">Couldn't save that — try again in a moment.</p>`);
+      host.querySelector(".js-add-req")?.insertAdjacentHTML("afterend", `<p class="text-sm mh-error">Couldn't save that. Try again in a moment.</p>`);
     }
   });
   host.querySelectorAll(".js-goal").forEach((el) => {
@@ -88,7 +88,7 @@ async function loadTrackers(host) {
         await updateMyGoal(id, { progress, note });
         await loadTrackers(host);
       } catch {
-        el.insertAdjacentHTML("beforeend", `<p class="text-sm mh-error">Couldn't save that — try again in a moment.</p>`);
+        el.insertAdjacentHTML("beforeend", `<p class="text-sm mh-error">Couldn't save that. Try again in a moment.</p>`);
       }
     });
   });
@@ -136,7 +136,7 @@ export async function mount(root) {
             </li>`;
           })
           .join("")}</ol>`
-      : `<p class="text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here — the date and meeting type, so you always know where things stand.</p>`;
+      : `<p class="text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here, with the date and meeting type, so you always know where things stand.</p>`;
   } catch {
     host.innerHTML = `<p class="text-ink-dim">Couldn't load your 1:1s. Please try again in a moment.</p>`;
   }

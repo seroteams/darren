@@ -67,7 +67,7 @@ export function engineTag(fp) {
 function markGlyph(v) {
   if (v === "pass") return "PASS";
   if (v === "fail") return "FAIL";
-  return "—";
+  return "–";
 }
 
 // "2026_Jun06_09-30-c6c3192b" → "2026 Jun 06" (deterministic, from the id).
@@ -116,7 +116,7 @@ function briefingLines(b) {
   if (b.headline) out.push(`Headline: ${String(b.headline).trim()}`);
   for (const x of b.summary_bullets || []) out.push(`- ${String(x).trim()}`);
   if (b.understanding_paragraph) out.push(`Understanding: ${String(b.understanding_paragraph).trim()}`);
-  for (const a of b.next_actions || []) out.push(`Next: ${a.when ? a.when + " — " : ""}${a.action || ""}`.trim());
+  for (const a of b.next_actions || []) out.push(`Next: ${a.when ? a.when + ", " : ""}${a.action || ""}`.trim());
   return out.length ? out : ["(no briefing recorded)"];
 }
 
@@ -143,7 +143,7 @@ export function serializeReview(run, review) {
   L.push(`- Engine fingerprint: ${engineTag(run && run.fingerprint) || "(none)"}`);
   L.push("");
   L.push("## Manager setup");
-  L.push("> ⚠ PRIVATE MANAGER INPUT — not surfaced to the employee.");
+  L.push("> ⚠ PRIVATE MANAGER INPUT. Not surfaced to the employee.");
   L.push(String(ctx.notes || "").trim() || "(none)");
   L.push("");
   L.push("## Prep brief");
@@ -158,7 +158,7 @@ export function serializeReview(run, review) {
   L.push("## Verdict");
   L.push(`- Status: ${status} (${decided}/${DIMENSIONS.length})`);
   L.push(`- Overall: ${overall ? OVERALL_LABEL[overall] : "(not set)"}`);
-  for (const d of DIMENSIONS) L.push(`- ${markGlyph(marks[d.key])} — ${d.label}`);
+  for (const d of DIMENSIONS) L.push(`- ${markGlyph(marks[d.key])}. ${d.label}`);
   L.push(`- Note: ${note.trim() || "(none)"}`);
   L.push("");
   L.push("## Suggested fixes");
@@ -166,7 +166,7 @@ export function serializeReview(run, review) {
   if (!failed.length) {
     L.push("No failed dimensions.");
   } else {
-    L.push("These dimensions failed — propose concrete edits to the named files to fix them, without regressing the passing dimensions:");
+    L.push("These dimensions failed. Propose concrete edits to the named files to fix them, without regressing the passing dimensions:");
     for (const d of failed) L.push(`- ${d.label} → ${FIX_MAP[d.key].join(", ")}`);
   }
   return L.join("\n");

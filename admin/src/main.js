@@ -346,7 +346,7 @@ async function boot() {
         <div class="min-h-dvh flex items-center justify-center p-6">
           <div class="max-w-md text-center">
             <h1 class="text-xl mb-2">This account belongs in the customer app</h1>
-            <p class="text-ink-dim mb-5">You're signed in as a manager or member — this is the internal admin app.
+            <p class="text-ink-dim mb-5">You're signed in as a manager or member. This is the internal admin app.
               In dev, the customer app runs separately (<code>npm run dev:customer</code>, then open its port).</p>
             <button type="button" class="js-logout btn">Log out</button>
           </div>

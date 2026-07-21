@@ -97,9 +97,9 @@ const catchup: StageRenderer = (state, copy, ctx) => {
       <div class="mcr-card mcr-prom">
         <div class="mcr-q__head" style="margin-bottom:4px">
           <span class="mcr-q__logo">S</span>
-          <span class="mcr-q__stem">Last month's promises — did they happen?</span>
+          <span class="mcr-q__stem">Last month's promises: did they happen?</span>
         </div>
-        ${rows || `<p class="mcr-q__coach" style="margin:6px 0 0">Nothing open from last time — you're all caught up.</p>`}
+        ${rows || `<p class="mcr-q__coach" style="margin:6px 0 0">Nothing open from last time. You're all caught up.</p>`}
       </div>
       <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-promise">${ICONS.plus}<span>Add a promise</span></button></div>
       ${notesCard("catchup.notes", `Notes on ${copy.name}'s answers`, state.catchup?.notes ?? "")}
@@ -129,7 +129,7 @@ const requests: StageRenderer = (state, copy, ctx) => {
   return {
     title,
     sub,
-    body: `${rows || `<p class="mcr-sub" style="margin:0 auto 24px">No open requests yet — add the first one below.</p>`}
+    body: `${rows || `<p class="mcr-sub" style="margin:0 auto 24px">No open requests yet. Add the first one below.</p>`}
       <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-request">${ICONS.plus}<span>Add request</span></button></div>
       ${cta("Continue to Ratings")}`,
   };
@@ -141,7 +141,7 @@ const goals: StageRenderer = (state, copy, ctx) => {
   return {
     title,
     sub,
-    body: `${rows || `<p class="mcr-sub" style="margin:0 auto 24px">No goals yet — add one below.</p>`}
+    body: `${rows || `<p class="mcr-sub" style="margin:0 auto 24px">No goals yet. Add one below.</p>`}
       <div class="mcr-addrow"><button type="button" class="mcr-btn mcr-btn--outline" data-open="add-goal">${ICONS.plus}<span>Add a new goal</span></button></div>
       ${cta("Continue to 1:1 Summary")}`,
   };
@@ -214,9 +214,9 @@ const summary: StageRenderer = (state, copy) => {
   let card: string;
   let note = "";
   if (error) {
-    card = `<div class="mcr-card mcr-sum"><p>Sero couldn't draft this one — write it yourself below, or tap Regenerate.</p></div>`;
+    card = `<div class="mcr-card mcr-sum"><p>Sero couldn't draft this one. Write it yourself below, or tap Regenerate.</p></div>`;
   } else if (draft && (draft.headline || draft.bullets.length)) {
-    note = `<p class="mcr-ainote"><span class="mcr-q__logo">S</span> Drafted by Sero from this session + your last check-in — edit freely.</p>`;
+    note = `<p class="mcr-ainote"><span class="mcr-q__logo">S</span> Drafted by Sero from this session + your last check-in. Edit freely.</p>`;
     card = `<div class="mcr-card mcr-sum">${draft.headline ? `<h3>${esc(draft.headline)}</h3>` : ""}${draft.bullets.length ? `<ul>${draft.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</div>`;
   } else {
     card = `<div class="mcr-card mcr-sum"><p>Drafting your summary…</p></div>`;
@@ -227,7 +227,7 @@ const summary: StageRenderer = (state, copy) => {
     body: `
       ${note}
       ${card}
-      ${notesCard("summary.edited", "Edit the summary — your text is what's saved…", state.summary?.edited ?? "")}
+      ${notesCard("summary.edited", "Edit the summary. Your text is what's saved…", state.summary?.edited ?? "")}
       <div class="mcr-cta" style="gap:10px">
         <button type="button" class="mcr-btn mcr-btn--outline" data-regen>Regenerate</button>
         <button type="button" class="mcr-btn mcr-btn--primary" data-next>Continue to Review</button>
@@ -268,11 +268,11 @@ const wrapup: StageRenderer = (state, copy, ctx) => {
     title,
     sub,
     body: `
-      <div class="mcr-private">${ICONS.lock}<span>Private — just for you. ${esc(copy.name)} never sees this stage.</span></div>
+      <div class="mcr-private">${ICONS.lock}<span>Private, just for you. ${esc(copy.name)} never sees this stage.</span></div>
       <p style="text-align:center; font-weight:600; margin:0 0 2px">How engaged did they seem?</p>
       ${lastEng}
       <div class="mcr-eng" role="group" aria-label="Engagement 1 to 5">${eng}</div>
-      ${notesCard("wrapup.privateNotes", "Your private notes — anything you don't want to forget…", state.wrapup?.privateNotes ?? "")}
+      ${notesCard("wrapup.privateNotes", "Your private notes. Anything you don't want to forget…", state.wrapup?.privateNotes ?? "")}
       <div class="mcr-card mcr-sugg">
         <div class="mcr-q__head" style="margin-bottom:6px">
           <span class="mcr-q__logo">S</span>
@@ -281,7 +281,7 @@ const wrapup: StageRenderer = (state, copy, ctx) => {
         ${sugRows || `<p class="mcr-q__coach" style="margin-left:0">Private suggestions appear here once you reach the Summary stage (Sero drafts them together).</p>`}
       </div>
       <div class="mcr-cta" style="margin-top:22px"><button type="button" class="mcr-btn mcr-btn--primary" data-finish>${ICONS.check}<span>Complete 1:1</span></button></div>
-      <div class="mcr-mock" data-finish-note hidden>Saved. Next month, everything here comes back — promises, requests, goals, and the trend lines.</div>`,
+      <div class="mcr-mock" data-finish-note hidden>Saved. Next month, everything here comes back. Promises, requests, goals, and the trend lines.</div>`,
   };
 };
 

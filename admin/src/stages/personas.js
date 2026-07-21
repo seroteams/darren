@@ -72,7 +72,7 @@ export async function mount(root, opts = {}) {
     personas = Array.isArray(res) ? res : res.personas || [];
   } catch (e) {
     console.warn("[personas] fetch failed:", e);
-    thinkingHost.textContent = "Couldn't load personas — make sure the dev server is running.";
+    thinkingHost.textContent = "Couldn't load personas. Make sure the dev server is running.";
     return;
   }
 
@@ -150,7 +150,7 @@ function cardHtml(p, inSuite, runs) {
   const canRun = script.length > 0;
   const runControls = canRun
     ? `<button class="btn js-run" data-persona="${esc(p.id)}" style="white-space:nowrap;">${icon(Play, { size: 16 })} Run</button>`
-    : `<span class="text-ink-mute" style="font-size:var(--type-small);">No script — can't run</span>`;
+    : `<span class="text-ink-mute" style="font-size:var(--type-small);">No script. Can't run</span>`;
 
   return `
     <div class="card js-card" data-persona="${esc(p.id)}" style="padding:0.85rem 1.1rem;">
@@ -218,7 +218,7 @@ async function mountSafetyStrip(host, opts) {
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div style="font-size:var(--type-small);">
           <strong>Free safety check</strong> <span class="text-ink-mute">(no AI)</span>
-          — <span class="js-safety-summary text-ink-mute">checking…</span>
+         . <span class="js-safety-summary text-ink-mute">checking…</span>
         </div>
         <button class="btn btn--ghost btn--sm js-safety-recheck" type="button" disabled>Re-check</button>
       </div>
@@ -236,7 +236,7 @@ async function mountSafetyStrip(host, opts) {
     try {
       data = await runRegression();
     } catch {
-      summaryEl.textContent = "couldn't run the check — is the API running?";
+      summaryEl.textContent = "couldn't run the check. Is the API running?";
       recheckBtn.disabled = false;
       return;
     }
@@ -255,7 +255,7 @@ async function mountSafetyStrip(host, opts) {
       .map(
         (c) =>
           `<div style="font-size:var(--type-small);color:var(--color-negative);">${icon(X, { size: 16 })} ${esc(c.name || c.id)}${
-            (c.reasons || []).length ? " — " + esc(c.reasons[0]) : ""
+            (c.reasons || []).length ? ": " + esc(c.reasons[0]) : ""
           }</div>`
       )
       .join("");
@@ -364,7 +364,7 @@ function runBarHtml(job) {
   } else if (failed) {
     status = `<span style="color:var(--color-negative);">Run failed: ${esc(job.error || "unknown error")}</span>`;
   } else {
-    const turn = inInterview ? ` — question ${job.turn} of ${job.total}` : "";
+    const turn = inInterview ? `. Question ${job.turn} of ${job.total}` : "";
     status = `<span class="text-ink-dim">${esc(job.stageLabel || "Working…")}${esc(turn)}</span>`;
   }
 

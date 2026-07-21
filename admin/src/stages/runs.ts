@@ -74,7 +74,7 @@ export const mount: Mount = async (root, { setState }) => {
   const header = `
     <header class="page-header">
       <h1 class="h1">${memberView ? "Your 1:1s" : "Past 1:1s"}</h1>
-      ${memberView ? `<div class="text-ink-dim">Your 1:1 history — dates and meeting types, nothing else.</div>` : ""}
+      ${memberView ? `<div class="text-ink-dim">Your 1:1 history. Dates and meeting types, nothing else.</div>` : ""}
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
 

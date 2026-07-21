@@ -32,7 +32,7 @@ export async function mount(root, { setState }) {
     host.querySelector(".js-to-login").addEventListener("click", () => setState({ stage: STAGES.LOGIN }));
   };
 
-  if (!token) return deadInvite("This invite link is incomplete — ask your manager to send it again.");
+  if (!token) return deadInvite("This invite link is incomplete. Ask your manager to send it again.");
 
   let invite;
   try {
@@ -42,11 +42,11 @@ export async function mount(root, { setState }) {
   }
 
   const inviter = invite.inviterName ? `${invite.inviterName} at ` : "";
-  lede.textContent = `${inviter}${invite.orgName} invited you — your 1:1 history is waiting.`;
+  lede.textContent = `${inviter}${invite.orgName} invited you. Your 1:1 history is waiting.`;
   host.innerHTML = `
     <form class="card-flat space-y-3 js-form" novalidate>
       <p class="text-ink-dim">Your manager preps your 1:1s with Sero. Once you join,
-      you'll see your own 1:1 history — dates and meeting types, always.</p>
+      you'll see your own 1:1 history: dates and meeting types, always.</p>
       <label class="l-stack l-stack--2">
         <span class="eyebrow">Email</span>
         <input class="input" type="email" value="${esc(invite.email)}" disabled />
@@ -79,7 +79,7 @@ export async function mount(root, { setState }) {
       // Logged in by the accept (cookie set server-side) — land on "Your 1:1s".
       setState({ user: { userId: user.id, orgId: user.orgId, roles: [user.role], email: user.email, name: user.name }, joinToken: null, stage: STAGES.MEMBER_HOME });
     } catch (e2) {
-      err.textContent = e2.message || "Couldn't join — please try again.";
+      err.textContent = e2.message || "Couldn't join. Please try again.";
       err.hidden = false;
       submitBtn.disabled = false;
     }
