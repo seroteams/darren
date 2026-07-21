@@ -186,8 +186,11 @@ export const mount: Mount = async (root, { setState }) => {
 
   const frame = (headerHtml: string, inner: string) =>
     `<div class="stage-inner l-stack l-stack--8">${headerHtml}<div class="l-stack l-stack--4">${inner}</div></div>`;
+  // The back-crumb names its own destination: a manager lands on "Past 1:1s", a member on
+  // "Your 1:1s" (mirrors runs.ts + toList's role split — audit: crumb matched the wrong list).
+  const listLabel = isAdmin(store.user) ? "Past 1:1s" : "Your 1:1s";
   // Before the run loads (and on error) there's no context to name — show the trail alone.
-  const crumbHeader = `<header class="page-header l-stack l-stack--2">${breadcrumb([{ label: "Your 1:1s", nav: "list" }, { label: "1:1" }])}</header>`;
+  const crumbHeader = `<header class="page-header l-stack l-stack--2">${breadcrumb([{ label: listLabel, nav: "list" }, { label: "1:1" }])}</header>`;
 
   const notice = (eyebrow: string, msg: string) =>
     `<section class="card-flat space-y-3"><div class="eyebrow">${escapeHtml(eyebrow)}</div><p class="text-ink-dim">${escapeHtml(msg)}</p></section>`;
@@ -218,7 +221,7 @@ export const mount: Mount = async (root, { setState }) => {
     return;
   }
 
-  root.innerHTML = frame(recapHeader(run.ctx, [{ label: "Your 1:1s", nav: "list" }]), renderRunDetail(run));
+  root.innerHTML = frame(recapHeader(run.ctx, [{ label: listLabel, nav: "list" }]), renderRunDetail(run));
   wireCrumbs();
   wireTabs(root);
   wireRating(root, run);
