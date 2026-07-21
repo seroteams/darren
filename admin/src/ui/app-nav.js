@@ -82,7 +82,7 @@ const LINKS = [
   // WORK — using the product. Pulse is the console landing + first item (Carl 2026-07-14):
   // opening the console drops you on Pulse (boot lands here — see main.js). Superadmin-only.
   { key: "pulse", label: "Pulse", stage: STAGES.ADMIN_PULSE, icon: ICON.pulse, admin: true, superadmin: true, group: "Work" },
-  { key: "home", label: "Start a 1:1", stage: STAGES.START, icon: ICON.home, admin: true, group: "Work" },
+  { key: "home", label: "Start 1:1", stage: STAGES.START, icon: ICON.home, admin: true, group: "Work" },
   { key: "new", label: "New session", stage: STAGES.INTAKE, icon: ICON.new, admin: true, group: "Work" },
   { key: "library", label: "Library", stage: STAGES.LIBRARY, icon: ICON.library, admin: true, group: "Work" },
   // ENGINE — tuning how the coach talks + paces.

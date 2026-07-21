@@ -2,6 +2,15 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-21 — the 15 Jul UX audit is closed out.** Carl re-handed the audit PDF; turned out it was
+already fully built a week ago (`docs/plans/done/ux-audit-fixes/`, all 5 phases, P1–P2 green-lit, P3–P5
+self-signed). Re-verified all 22 findings against current code (20/22 fixed in source with `(audit M#)`
+comments) + a live spot-walk: manager Home + member Home + member About render right, `report-returns.ts`
+shows "4 of 9 managers returned on 2+ days". Two cosmetic tails fixed (member h1 → "Your 1:1s"; start-button
+labels → "Start 1:1"); two low-value tails parked (dead member run-detail branch degrades gracefully; editable
+name/company is a real P2 feature, not validation-critical). Suite 167/167, typecheck clean. Committed local;
+awaiting Carl's confirm to fully close.
+
 📍 **2026-07-21 — the prep brief now coaches the meeting, not just the person.** Every brief carries a
 new AI-written "tip for this style of meeting" — a bi-weekly reads as a light rhythm-keeper, a feels-off as
 observation-first — anchored to the style, tuned to your notes, and arc-safe (no hidden performance framing,

@@ -101,6 +101,13 @@ Folder created 2026-07-15 from the audit + Carl's two interview rounds (all reco
 **Also, post-audit (Carl's live walk):** the 2-hour prep TTL bug fixed (preps now live 7 days) + the person-page "Start 1:1 with X" CTA enlarged.
 **All 5 phases built. Remaining: Carl's own walk of P3/P4/P5 + the editable name/company follow-up (thin).**
 
+**2026-07-21 — CLOSE-OUT PASS (Carl re-handed the audit PDF).** Re-verified all 22 findings against current code via 3 parallel explorer passes: 20/22 confirmed fixed in source (with `(audit M#)` comments); 2 small residuals + tails handled. Live spot-walk (customer app :3002, dev-login Manager + Member): manager Home renders "Prep a 1:1"/"Recent 1:1s" (P3), member Home renders "Your 1:1s" + interactive Requests & goals (P3/B7), member About is member-voiced with no forbidden CTA (B3), `report-returns.ts` prints the Gate-1 signal "4 of 9 managers returned on 2+ days" (P4/X4/X6). Screenshots not captured — the Browser pane can't pixel-capture this SPA (`document.hidden` render issue); verified via live DOM + suite instead.
+- **B4 (member Home h1)** ✅ fixed — `<h1>Welcome to Sero</h1>` → "Your 1:1s" (nav/heading/eyebrow now one name); redundant eyebrow dropped. Rendered live.
+- **M2 (start-button labels)** ✅ fixed — aligned `runs.ts` (Past 1:1s) + admin nav to the established house string "Start 1:1" (`team.test.ts`, Carl 2026-07-17). Home CTA kept "Start a new 1:1" (the "new" contrasts with Resume — intentional).
+- **B6 (member run-detail branch)** — PARKED, deliberately not changed: it degrades gracefully (a member hitting `/runs/:id` gets a styled "No 1:1 selected" / "Couldn't open this 1:1" notice, never a crash), nothing in the member UI links to it, and Phase 2 kept the route because past-1on1-view uses it. Removing risks regressing the member view for ~zero gain.
+- **M12 name/company edit** — PARKED (the account-sheet's own documented thin follow-up): it's a real route→service→repo→client chain + TDD (not cosmetic), P2 craft, not validation-critical. Change-password (the security-critical piece) is done + verified.
+- Offline proof: `npm test` 167/167, `npm run typecheck` clean. Awaiting Carl's confirm to mark the folder fully closed.
+
 ## Parked
 - O1 "Bring one thing" — member's single optional prompt feeding the prep brief (IDEO). Revisit after Gate 1.
 - O2 The minute-before pocket card (IDEO). After Gate 1.

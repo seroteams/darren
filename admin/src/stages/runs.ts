@@ -85,7 +85,7 @@ export const mount: Mount = async (root, { setState }) => {
     <section class="card-flat space-y-3">
       <div class="eyebrow">No 1:1s yet</div>
       <p class="text-ink-dim">You haven't done any 1:1s yet. Start your first one and it'll show up here.</p>
-      <button type="button" class="btn js-start">Start a 1:1</button>
+      <button type="button" class="btn js-start">Start 1:1</button>
     </section>`
     : `
     <section class="card-flat space-y-3">
@@ -182,7 +182,7 @@ export const mount: Mount = async (root, { setState }) => {
     // A persistent way to start the next 1:1, above the list — not buried inside the empty
     // state that vanishes the moment there's history. (audit M2) This path is manager-only
     // (members return early above), so the action always belongs here.
-    const startBar = `<div class="runs-list__actions"><button type="button" class="btn js-start">Start a 1:1</button></div>`;
+    const startBar = `<div class="runs-list__actions"><button type="button" class="btn js-start">Start 1:1</button></div>`;
     root.innerHTML = shell(`<section class="l-stack l-stack--2">${startBar}${rows}</section>`);
     wire();
   };

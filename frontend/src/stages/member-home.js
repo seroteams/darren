@@ -100,12 +100,11 @@ export async function mount(root) {
   root.innerHTML = `
     <div class="stage-inner l-stack l-stack--8">
       <header class="page-header">
-        <h1 class="h1">Welcome to Sero</h1>
+        <h1 class="h1">Your 1:1s</h1>
         <div class="text-ink-dim">Your manager uses Sero to prepare your 1:1s. Here's your history.</div>
       </header>
 
       <section class="member-runs">
-        <div class="eyebrow mh-eyebrow">Your 1:1s</div>
         <div class="js-about-me"><p class="text-sm text-ink-mute">Loading…</p></div>
       </section>
 
