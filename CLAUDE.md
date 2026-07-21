@@ -22,6 +22,7 @@ Detail lives in the skills, the memories, and the Carl output style — this fil
 
 - **Git is invisible to Carl. ONE branch: `main`.** No branches, worktrees, PRs, or merges. Commit silently at natural stops, MY-OWN-FILES-ONLY: `git add -- <my paths> && git commit -m "..." -- <my paths>`. Blanket staging (`git add -A`/`.`/`-u`, `commit -a`) is blocked by a hook — parallel chats share this folder. Push ONLY on Carl's "go live" (push = deploy to Render).
 - **Lane board:** claim a row in [LANES.md](LANES.md) before editing, clear it when committed. A hook blocks edits inside another live chat's lane — surface it to Carl, never edit through.
+- **No em dashes, ever:** em dashes (—) never appear in user-facing Sero copy (Carl, 2026-07-21). Use a full stop, a colon, or reword. Guard: `npm run lint:copy` (free). En dash used as a separator ( – ) is the same sin.
 - **Engine honesty:** surface raw model output; flag problems, never hardcode rewrites to mask them.
 - **Never train or fine-tune on manager notes about employees** ([docs/reference/prompt-improvement-spec.md](docs/reference/prompt-improvement-spec.md)).
 - **Focus arc gate:** bi-weekly and "feels-off" meetings exclude competencies (input filter + `FOCUS_ARC_LEAK`).
