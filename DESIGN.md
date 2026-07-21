@@ -250,7 +250,7 @@ el.innerHTML = `<span class="app-nav__icon">${icon(House)}</span>`;
 
 ## 6. Do's and Don'ts
 
-The "before you build" checklist — every new or touched screen passes all twelve:
+The "before you build" checklist — every new or touched screen passes all thirteen:
 
 1. **Do** take colours only from the tokens; **don't** type hex in a screen file.
 2. **Do** keep every text ≥ **14px** and every colour-as-text at **4.5:1+** (on light: coral 800,
@@ -269,6 +269,9 @@ The "before you build" checklist — every new or touched screen passes all twel
 12. **Do** call a 1:1 a **"1:1"** (or its named cadence, e.g. "Bi-weekly check-in") — **don't**
     write "meeting" or "session" for it; join role and seniority with a middot ("UX Designer ·
     Staff"), never a comma.
+13. **Never use an em dash (—) in user-facing copy** (Carl's hard rule). Use a full stop, a
+    colon, or reword; an en dash used as a spaced separator ( – ) is the same sin. A bare en dash
+    ("–") is fine only as an empty-value glyph in a cell. Guard: `npm run lint:copy` (free).
 
 **Exemptions** (these sit outside the eleven rules — don't "fix" them):
 - **Dev/debug chrome** (`ui/dev-badge.js`, `ui/build-stamp.js`) — deliberate terminal-style kit,
