@@ -1,6 +1,11 @@
 # Phase 4 — Guided dead-ends
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ DONE 2026-07-21 — built + verified (typecheck clean, `npm test` 167/167); proceed-authorized by Carl's "continue until done" (not screen-walked — commit b2d5e337)
+
+## Built (2026-07-21)
+`guided.page.ts` renders the shared breadcrumb `Team › {name} › Monthly Check-in` at the top of BOTH the runner and the finished record, wiring the crumbs (Team → roster, {name} → their page); `record.component.ts` takes an optional `topNav` so the pure component stays pure. Drops to two crumbs when there's no linked person. **Not screenshotted** — SPA stalls in the automated pane + dev-login has no data.
 
 ## Goal
 The Monthly Check-in runner and its finished record are nav dead-ends — you can open them from a person, but there's no breadcrumb back. Give them the same breadcrumb origin.

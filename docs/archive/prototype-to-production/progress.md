@@ -731,3 +731,13 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   Overview profile rather than stacking on top of it — the reuse needed a small trim, not a paste.
   `npm test` 135/135 admin. Couldn't live-screenshot (admin SPA stalls in the automated pane +
   dev-autologin owns no runs); Carl walked it for the green light.
+- **2026-07-21** — **IA consistency Phases 3–5 — the member app gets one nav language.** On Carl's
+  "continue until done": P3 the person page swapped its one-off "Back to Team" for the shared
+  `Team › {name}` breadcrumb (+ "N 1:1s"); P4 the Monthly Check-in runner AND finished record —
+  previously nav dead-ends — got a `Team › {name} › Monthly Check-in` trail (record.component.ts
+  took an optional `topNav` so the pure component stayed pure while the host owns nav); P5 swept
+  every user-visible "meeting"→"1:1" (team-card, member-home, join, prep-brief labels) and the
+  last comma joiner→middot in runs.ts. `npm test` 167/167, typecheck clean. Lesson: the sweep
+  needed judgement, not find-replace — "meeting arcs" (a tool name), real meetings (energy-drain
+  example) and `meetingType` field names all had to stay. Verified by tests, not screen-walked
+  (the SPA won't render in the automated Browser pane); nothing pushed, so Carl can walk any of it.

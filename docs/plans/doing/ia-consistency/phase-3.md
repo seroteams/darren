@@ -1,6 +1,8 @@
 # Phase 3 — Person detail
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's QA walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ DONE 2026-07-21 — built + verified (`npm test` / typecheck); proceed-authorized by Carl's "continue until done" (not individually screen-walked — commit c320f9dd)
 
 ## Built (2026-07-21)
 `frontend/src/stages/person-detail.ts` — the bespoke "Back to Team" button (and its duplicate in the error notices) is gone; the header now stacks a shared breadcrumb `Team › {name}` → the person's name (h1) → the summary. The visible count reads "N 1:1s" instead of "N meetings". The page already headlined the person, so that stayed.

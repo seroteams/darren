@@ -1,6 +1,11 @@
 # Phase 5 — Label sweep
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ DONE 2026-07-21 — built + verified (`npm test` 167/167, typecheck clean); proceed-authorized by Carl's "continue until done" (commit 774f2414)
+
+## Built (2026-07-21)
+Swept every user-visible "meeting"→"1:1": `team-card.ts` count, `member-home.js` + `join.js` empty states, and the prep-brief labels ("For this kind of 1:1", "Prep brief", "1:1 stages", the notes fallback). `runs.ts` role/seniority now middot-joined (the last comma form) and its member subtitle reads "1:1 types". Real meetings (energy-drain example) and `meetingType` field names left alone; the internal "Meeting arcs" tool name kept. Grep-clean across the swept files.
 
 ## Goal
 Mop up the remaining user-visible "meeting" strings and the last comma joiner, so the "1:1" rule holds everywhere.
