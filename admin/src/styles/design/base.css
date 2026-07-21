@@ -283,16 +283,20 @@ textarea { resize: vertical; }
 }
 
 /* -----------------------------------------------------------------------------
-   Stage container — single-field vertical-centre
+   Stage container — top-anchored, horizontally centred
 ----------------------------------------------------------------------------- */
 .stage {
   min-height: 100dvh;
   display: grid;
   /* minmax(0, …) caps the single column at the container width — without it a
      nowrap child (e.g. a long run subtitle) inflates the grid's max-content track
-     and the page scrolls sideways on narrow screens (F-010). Centering is preserved. */
+     and the page scrolls sideways on narrow screens (F-010). */
   grid-template-columns: minmax(0, 1fr);
-  place-items: center;
+  /* Top-anchor content (align: start), keep it horizontally centred (justify: center).
+     Was `center` — that vertically floated every short page (runs, member home, run
+     detail) into the middle of the viewport while tall pages sat at the top, so sibling
+     screens read with two different rhythms (audit #1). Top-anchoring makes them consistent. */
+  place-items: start center;
   padding: clamp(1.5rem, 5vw, 3rem);
 }
 /* In-run screens sit below the fixed session topbar (body gets a matching
