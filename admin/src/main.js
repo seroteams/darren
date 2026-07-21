@@ -5,7 +5,7 @@ import "./styles/design.css";
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.js";
 import { loaders } from "./stage-loaders.js";
-import { getSession, runRegression, me } from "../../shared/api.js";
+import { getSession, runRegression, me, logout } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, replaceUrl, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage, isSuperadminStage, isLiveHiddenStage } from "./router.js";
 import { createDevBadge } from "./ui/dev-badge.js";
 import { createBuildStamp } from "./ui/build-stamp.js";
@@ -336,6 +336,27 @@ async function boot() {
   // braces for the same-origin prod build and any path that reaches boot with a non-internal
   // user — full navigation OUT to the customer app, not a seat inside the admin shell.
   if (!isInternalAdmin(store.user)) {
+    // In dev there IS no customer app at "/" — this admin bundle is the only thing
+    // Vite serves, and Vite bounces "/" straight back to the "/admin/" base. The
+    // navigation below therefore reloads this same bundle in a loop (boot → "/" →
+    // "/admin/" → boot…), the splash flashing on every pass. Park on an honest
+    // signpost instead; prod keeps the real navigation out to the customer app.
+    if (import.meta.env.DEV) {
+      root.innerHTML = `
+        <div class="min-h-dvh flex items-center justify-center p-6">
+          <div class="max-w-md text-center">
+            <h1 class="text-xl mb-2">This account belongs in the customer app</h1>
+            <p class="text-ink-dim mb-5">You're signed in as a manager or member — this is the internal admin app.
+              In dev, the customer app runs separately (<code>npm run dev:customer</code>, then open its port).</p>
+            <button type="button" class="js-logout btn">Log out</button>
+          </div>
+        </div>`;
+      root.querySelector(".js-logout").addEventListener("click", async () => {
+        try { await logout(); } catch { /* cookie may already be gone */ }
+        window.location.replace(import.meta.env.BASE_URL);
+      });
+      return;
+    }
     window.location.href = "/";
     return;
   }
