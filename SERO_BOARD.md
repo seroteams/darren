@@ -15,7 +15,7 @@ Standing constraints (from CLAUDE.md):
 **✅ CLOSED 2026-07-20: [better-reads](docs/plans/done/better-reads/plan.md) — the engine's read got fairer and briefings stopped repeating themselves (all 3 phases green-lit in one day, from Carl's "can we improve our engine?").** A three-lens stage audit measured the sweep's #1 parked finding (scoring skew) at 24 down-bookings/−34 vs 11 up/+11 across 8 runs, then fixed it honestly: every held-back score is now recorded (P1), a short-but-real answer ("Shipped payments-fix") keeps the up-score the model already proposed — never invented, still capped (P2, LIVE), and repeat 1:1s see last time's brief and provably open new ground (self-prior proof: 8% opener overlap, theme named as continuing; ~$0.13 paid) (P3, ships next push). Two systemic findings down (skew + briefing sameness), four still parked (bank bloat, blind lint, key mismatch + the cost quick-wins).
 
 **🧹 BOARD CLEARED 2026-07-18 + PUSHED LIVE (Carl: "finish all, moving on").** His full-system walk green-lit every built pass; the promises **card zero** (P2) was built, screen-proven, and green-lit the same day; every unbuilt tail was then parked with a banner (nothing lost — one sentence un-parks). Open now:
-- **[screen-gallery](docs/plans/doing/screen-gallery/plan.md)** — the ONLY track in doing/: new 2026-07-18 (another chat), mockup awaiting Carl's approval.
+- **In doing/ now (3 tracks):** **[screen-gallery](docs/plans/doing/screen-gallery/plan.md)** (P2 static HTML gallery built, awaiting green-light walk) · **[promises-loop](docs/plans/doing/promises-loop/plan.md)** (P3 surfacing half green-lit; engine feed still to build) · **[sero-run-memory](docs/plans/doing/sero-run-memory/plan.md)** (P1 built 2026-07-20, awaiting QA walk; P2–P4 to build).
 - Newly parked → future/: **ui-look-and-feel** (P4–P6) · **admin-live-deploy** (P4–P6) · **personal-data-security** (P3 history-scrub — needs an all-chats-closed night). *(**promises-loop** un-parked 2026-07-18 → doing/; P3 surfacing half green-lit, engine feed still to build.)*
 - Closed 2026-07-19 → done/: **promises-before-recap** (all 4 phases, one-day design→build→green-light) — the promises step is now its own full-screen "lock in what you two agreed" page before the recap (You promise / {Name} promises), guests included; recap + PDF show who promised what; unlocked runs honestly labelled "Sero's suggestions". Local commit, ships next push.
 - Closed 2026-07-19 → done/: **[coach-panel](docs/plans/done/coach-panel/plan.md)** (all 3 phases, one day) — the questioning screen is now the runner-v2 POC's full-screen 50/50: question left, lavender coach panel right. P1 live scores as gradient meters carrying the engine's REAL per-answer "why" (assessment.note, streamed today — no new model output); P2 a Support/Live-scores toggle + the hints contract end to end (manager-only "How to ask" / "Listen for"); P3 a detect-only RATIONALE_ARC_LEAK gate keeping competency framing out of check-in "why" text (86 real July runs, 0 false positives). Two prompt lines PARKED behind another chat's `content/prompts/` lane (real *generated* hints + the P3 register nudge); everything else stands. Admin app only. 159/159, local commit, ships next push.
@@ -262,7 +262,7 @@ Completed work has been cleared from this board. The record lives in git history
 
 ---
 
-## Repo state (refreshed 2026-07-18, repo sweep)
+## Repo state (refreshed 2026-07-21, repo sweep)
 
 Phases 001–006 are all closed and archived under `docs/plans/done/`; Phase 007 (login screen, folded into the admin console) is **done** — both phases committed, plan closed to `docs/plans/done/login-screen/`.
 **There is no auto-commit/push automation** — commits are made explicitly. `main` runs **ahead of
@@ -271,7 +271,7 @@ normal, not a problem. One branch (`main`), stash list clean — keep both that 
 `logs/**` is **fully gitignored, no keep-set** — the old May keep-set was untracked in the
 personal-data-security purge; baseline copies live only on Carl's machine.
 
-**Test status:** `npm test` **153/153** green, `npm run typecheck` clean, offline ($0) — as of 2026-07-17. Live
+**Test status:** `npm test` **167/167** green, `npm run typecheck` clean, offline ($0) — as of 2026-07-21. Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 

@@ -39,7 +39,7 @@
   border: 1px solid transparent;
   transition: box-shadow 0.12s ease, transform 0.12s ease;
 }
-.pa-av--you { background: var(--color-accent-dark); color: #fff; }
+.pa-av--you { background: var(--color-accent-dark); color: var(--color-surface); }
 .pa-av--them { background: var(--color-accent-soft); color: var(--color-accent-dark); border-color: var(--color-primary-line); }
 .pa-av:hover { box-shadow: var(--shadow-card); }
 .pa-av:active { transform: scale(0.94); }

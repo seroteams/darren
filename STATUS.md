@@ -50,20 +50,21 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 
 ## ▶ Your move
 1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
-2. **Screen-gallery Phase 2** — seeds demo data so the 12 empty/needs-id screens fill in. Not started.
+2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
 3. Or just start something new — nothing here is waiting on a build.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18 (gallery + edit-mode bar, usable now). Phase 2 (demo data) not started. |
+| [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
-| [arc-evidence-fixes](docs/plans/doing/arc-evidence-fixes/plan.md) | P1 ✅ green-lit 2026-07-20 (evidence-first): per-type banned-question gates (all 5 types) + Performance tone relabel. Committed local, ships next push. P2 (question-count trims) + P3 (reframes) parked for your call. |
+| [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail) — awaiting your QA walk. P2–P4 not started. |
 
 ## ✅ Closed 2026-07-21
 [brief-style-tip](docs/plans/done/brief-style-tip/plan.md) — a new AI-written "tip for this style of meeting" in the prep brief. Both phases green-lit: (P1) the tip generates on-style and stays relational for bi-weekly/feels-off — a bi-weekly baited with a "quality slipped" note still read "mapping friction, not building a case"; schema-enforced, validated, and auto-saved in every run's prep log (part of the brief) so we can learn from them. (P2) renders as a soft-blue callout at the top of the /prepare Arc brief ("For this kind of meeting") + in Copy-all. Typecheck clean, 164/164. Committed local, ships next push.
 
 ## ✅ Closed 2026-07-20
+[arc-evidence-fixes](docs/plans/done/arc-evidence-fixes/plan.md) — all 3 phases green-lit (evidence-first): per-type banned-question gates across all 5 meeting types + Performance tone relabel (P1); question-count trims (Cause/Anchor 2→1) + Growth badge 35-50 min (P2); intent reframes — self-read = "their view, not the verdict", feels-off "Underneath" opt-in/employee-led (P3). Committed local, ships next push.
 [better-reads](docs/plans/done/better-reads/plan.md) — all 3 phases green-lit in one day, from your "can we improve our engine?" A three-lens audit measured the scoring bias (falls 2× as often, 3× as hard as it rises); now every held-back score is recorded (P1), short-but-real answers keep the up-score the engine already wanted to give (P2, LIVE), and repeat 1:1s open new ground instead of rewriting last time's brief — proven by feeding the engine its own prior brief (8% opener overlap, theme named as continuing; ~$0.13 paid total) (P3, committed, ships next push). Parked follow-ups in the plan: reviewer recalibration, run-health scoring block, the cost quick-wins.
 [admin-lockdown](docs/plans/done/admin-lockdown/plan.md) — `/admin` is now a true internal-only console. All 3 phases green-lit: (P1) the console bundle is served only to internal admins/superadmins server-side — managers, members and logged-out visitors 302 to the normal app, closing an audit hole where the shell was handed to anyone (P1 **LIVE** on sero-obwq); (P2) internal engine tools (arcs, lexicons, library…) refuse managers on every environment, not just live; (P3) signpost sweep confirmed all emails already point at the normal app, plus a login/register eject so the admin bundle never seats a manager. P2+P3 committed local, ship next push. From a Carl bug report → full-system URL/RBAC audit.
 
@@ -72,7 +73,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 [promises-before-recap](docs/plans/done/promises-before-recap/plan.md) — the agreement step as its own screen between the last question and the recap (You promise / {Name} promises, edit + move + lock, guests too); recap "What you agreed" grouped by owner; PDF carries the same blocks; suggestions now honestly labelled "Sero's suggestions" when nothing was locked; cross-run state leak fixed. Your green light after the consolidated walk.
 
 ## ✅ Closed 2026-07-18
-[agency-engagement](docs/plans/done/agency-engagement/plan.md) (full code audit → 16/17 hardening fixes committed: live-boot DB guard, login rate-limit, session revocation + hashed tokens, cost-race fix, backups, deep health probe, more — [audit report](docs/reports/2026-07-18-agency-audit.md); one cosmetic F16 follow-up parked) · [repeat-question-fix](docs/plans/done/repeat-question-fix/plan.md) (resolved-cause gate — engine stops re-asking an answered snag in new words; from a tester flag) · [members-page](docs/plans/done/members-page/plan.md) · [team-page-redesign](docs/plans/done/team-page-redesign/plan.md) · [wrap-up-exit](docs/plans/done/wrap-up-exit/plan.md) · promises card zero (P2, in [future/promises-loop](docs/plans/future/promises-loop/plan.md) with P3 parked) — all your green lights.
+[agency-engagement](docs/plans/done/agency-engagement/plan.md) (full code audit → 16/17 hardening fixes committed: live-boot DB guard, login rate-limit, session revocation + hashed tokens, cost-race fix, backups, deep health probe, more — [audit report](docs/reports/2026-07-18-agency-audit.md); one cosmetic F16 follow-up parked) · [repeat-question-fix](docs/plans/done/repeat-question-fix/plan.md) (resolved-cause gate — engine stops re-asking an answered snag in new words; from a tester flag) · [members-page](docs/plans/done/members-page/plan.md) · [team-page-redesign](docs/plans/done/team-page-redesign/plan.md) · [wrap-up-exit](docs/plans/done/wrap-up-exit/plan.md) · promises card zero (P2, now in [doing/promises-loop](docs/plans/doing/promises-loop/plan.md) — un-parked, P3 surfacing half green-lit) — all your green lights.
 
 ✅ **Live 2026-07-20:** the hardening fixes (and everything above) deployed with the go-live push — the one-off everyone-logged-out event has happened.
 
