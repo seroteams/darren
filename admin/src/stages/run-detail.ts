@@ -139,7 +139,7 @@ function wireRating(root: HTMLElement, run: RunDetail): void {
       await rateMyRun(run.id, { stars, note: noteEl?.value ?? "" });
       if (status) status.innerHTML = "Saved " + icon(Check, { size: 16 });
     } catch {
-      if (status) status.textContent = "Couldn't save — please try again.";
+      if (status) status.textContent = "Couldn't save. Please try again.";
     }
   };
   const rating = createStarRating({

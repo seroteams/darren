@@ -34,7 +34,7 @@ export function personCard(p: Person): string {
   const bits = [
     p.role,
     `${p.count} ${p.count === 1 ? "1:1" : "1:1s"}`,
-    `last ${relTime(p.lastMet) || "—"}`,
+    `last ${relTime(p.lastMet) || "–"}`,
   ].filter(Boolean);
   const rated =
     p.avgStars == null
@@ -76,7 +76,7 @@ export const mount: Mount = async (root, { setState }) => {
     <header class="page-header l-stack l-stack--2">
       ${breadcrumb([{ label: "User management", nav: "users" }, { label: name }])}
       <h1 class="h1">${escapeHtml(name)}</h1>
-      <div class="text-ink-dim">Their people and 1:1s — read-only.</div>
+      <div class="text-ink-dim">Their people and 1:1s, read-only.</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
   // The recap gets its own bare container — NOT `shell` — so the user's page-header no longer

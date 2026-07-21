@@ -12,7 +12,7 @@ const userTrail = [
   { label: "Eric", nav: "list" },
 ];
 
-test("names the 1:1 you're reading — the person is the heading, not the parent", () => {
+test("names the 1:1 you're reading: the person is the heading, not the parent", () => {
   const html = recapHeader(ctx, userTrail);
   assert.ok(html.includes('<h1 class="rd-name">Ming</h1>'), "person is the heading");
   assert.ok(!/<h1 class="h1">/.test(html), "no parent list <h1 class='h1'> stacked on the recap");

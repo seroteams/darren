@@ -48,7 +48,7 @@ export const mount: Mount = async (root, { setState }) => {
     <header class="page-header l-stack l-stack--2">
       ${backToPulse()}
       <h1 class="h1">Guest runs</h1>
-      <div class="text-ink-dim">1:1s run by visitors with no account — unclaimed, read-only. A guest who saves their run moves it out of this list.</div>
+      <div class="text-ink-dim">1:1s run by visitors with no account. Unclaimed, read-only. A guest who saves their run moves it out of this list.</div>
     </header>`;
   const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}<div class="pd-back-bottom">${backToPulse()}</div></div>`;
   // The recap gets its own bare container — NOT `shell` — so the "Guest runs" header and its
@@ -122,7 +122,7 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
     if (runs.length === 0) {
-      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No unclaimed guest runs yet — when a visitor tries Sero without an account, their finished 1:1 lands here.</p></section>`);
+      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">No unclaimed guest runs yet. When a visitor tries Sero without an account, their finished 1:1 lands here.</p></section>`);
       return;
     }
     renderList();

@@ -7,7 +7,7 @@ import { personCard, runSubtitle } from "./admin-user-detail.ts";
 
 const ctx = { name: "Ming", role: "UX Designer", seniority: "Staff", meetingType: "Bi-weekly check-in" };
 
-test("personCard calls a 1:1 a '1:1', consistently — never 'meeting'", () => {
+test("personCard calls a 1:1 a '1:1', consistently, never 'meeting'", () => {
   const base = { key: "k", name: "Ming", role: "UX Designer", lastMet: 1752000000000, ratedCount: 0, avgStars: null };
   const many = personCard({ ...base, count: 4 });
   assert.ok(many.includes("4 1:1s"), "plural 1:1s");
