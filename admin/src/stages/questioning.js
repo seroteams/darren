@@ -36,6 +36,20 @@ function markRoomGateShown(sessionId) {
   }
 }
 
+// A runtime thread-follow quotes a fragment of the previous answer in its stem
+// ('You said "…"'). Showing the FULL prior answer beside it restores the context
+// the fragment alone lost (2026-07-21 user test). Only show it when it genuinely
+// matches — a stale store.lastAnswer (mid-session refresh) must never front a
+// quote the report didn't say.
+function threadFollowSource(question, lastAnswer) {
+  const src = String(lastAnswer || "").trim();
+  if (!src) return "";
+  const quoted = String(question?.name || "").match(/^you said\s+"([^"]+)"/i);
+  if (!quoted) return src;
+  const norm = (s) => s.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+  return norm(src).includes(norm(quoted[1])) ? src : "";
+}
+
 // The coach panel (coach-panel Phase 1) is the ADMIN app only for now — this stage
 // module is shared with the customer app, which keeps the single-column layout.
 // BASE_URL is a per-app build constant: "/admin/" for the admin app, "/" for frontend.
@@ -256,9 +270,14 @@ export async function mount(root, { store, setState }) {
     const card = document.createElement("div");
     card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     const whoSaid = store.ctx?.name ? `What ${store.ctx.name} said` : "What they said";
+    const followSource = isFollowUp ? threadFollowSource(q, store.lastAnswer) : "";
     card.innerHTML = `
       ${isFollowUp
-        ? `<div class="question-drill-hint text-ink-dim">↳ Following up on what you just said.</div>`
+        ? `<div class="question-drill-hint text-ink-dim">↳ Following up on what you just said.</div>${
+            followSource
+              ? `<blockquote class="question-source-answer">${escape(followSource)}</blockquote>`
+              : ""
+          }`
         : ""}
       ${scripted ? `<div class="script-meta text-xs">
         <span class="script-alias">${escape(q.alias)}</span>
@@ -446,6 +465,7 @@ export async function mount(root, { store, setState }) {
     async function onSubmit(text) {
       if (submitting) return;
       const val = text.trim();
+      store.lastAnswer = val; // source for the next question's thread-follow context block
       submitting = true;
       setState({ draftAnswer: "" }); // answer's leaving the box — stop previewing it as "Sending"
       let result;

@@ -121,8 +121,11 @@ function renderAnswers(run: RunDetail): string {
       return `<div class="rd-turn${t.skipped ? " rd-turn--skipped" : ""}"><div class="rd-turn__q"><span>${q}</span>${readChip(t.read)}</div>${body}</div>`;
     })
     .join("");
+  const answerer = run.ctx?.name
+    ? `The questions you asked, and ${escapeHtml(run.ctx.name)}'s answers.`
+    : "The questions you asked, and their answers.";
   return `<section class="card-flat space-y-3">
-      <p class="text-sm text-ink-dim">The questions you were asked and how you answered them.</p>
+      <p class="text-sm text-ink-dim">${answerer}</p>
       <div>${rows}</div>
     </section>`;
 }

@@ -206,6 +206,18 @@
   font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
 }
+/* The full previous answer, shown beside a thread-follow so the quoted fragment
+   in the stem has visible context (2026-07-21 user test). */
+.question-source-answer {
+  margin: 0;
+  padding: 8px 14px;
+  border-left: 3px solid var(--color-primary-line);
+  background: var(--color-bg);
+  border-radius: var(--radius-input);
+  font-size: var(--type-body-sm);
+  line-height: 1.5;
+  color: var(--color-ink-dim);
+}
 .questioning-card .hint--kbd {
   opacity: 0;
   transition: opacity var(--dur-fast) ease;
