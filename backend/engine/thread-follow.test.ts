@@ -46,3 +46,23 @@ test("buildThreadFollowQuestion still skips an answer with no mirrorable clause"
   const follow = buildThreadFollowQuestion(lastQ, "and but so um uh and but", []);
   assert.equal(follow, null);
 });
+
+// Regression for the 2026-07-21 user test: the quoted mirror cut the first
+// clause's last word off ("some issues on top of her" from "…her mind"), which
+// read as a broken quote with no visible source. The whole clause must survive.
+test("buildThreadFollowQuestion quotes the whole clause, never a mid-phrase cut", () => {
+  const answer = "Some issues on top of her mind. PO is slowing UX down for the team.";
+  const follow = buildThreadFollowQuestion(lastQ, answer, []);
+  assert.ok(follow, "builder returned null on a clean, mirrorable answer");
+  assert.match(
+    follow.name,
+    /some issues on top of her mind/i,
+    `quote was truncated mid-clause: ${follow.name}`,
+  );
+  assert.ok(
+    /her mind/i.test(follow.name),
+    `last word of the clause was lopped off: ${follow.name}`,
+  );
+  const check = validateQuestionBeforeShow({ name: follow.name, answer });
+  assert.ok(check.ok, `validator rejected the whole-clause stem: ${JSON.stringify(check)}`);
+});

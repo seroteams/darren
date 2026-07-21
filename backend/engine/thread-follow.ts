@@ -40,12 +40,23 @@ function firstQueueFollowsThread(queue: Question[] | null | undefined, answer: s
 // the answer — a skip-gram that read as word salad on typo-heavy notes
 // ("tell will working — can you say more…", Jun 02 Luke run).
 const MIRROR_FILLER = /^(yeah|yes|yep|ok|okay|well|so|um|uh|and|but)\s+/i;
+// Quote a WHOLE clause, never a mid-phrase slice. Clauses are already
+// punctuation-bounded, so each is a complete thought — the old `slice(0, 6)` cut
+// "some issues on top of her mind" down to "some issues on top of her", which
+// read as a broken quote with the last word lopped off (2026-07-21 user test).
+// Take the first clause that's a mirrorable length; if the only clauses are too
+// long to quote cleanly, mint nothing (ground-or-skip) rather than truncate one
+// mid-thought — a half-sentence quote fakes a connection the report never made.
+const MIRROR_MIN_WORDS = 3;
+const MIRROR_MAX_WORDS = 12;
 function contiguousAnswerSpan(answer: string | null | undefined): string | null {
   for (const raw of String(answer || "").split(/[.!?;,\n—–]+/)) {
     let clause = raw.replace(/[^a-z0-9\s'-]/gi, " ").replace(/\s+/g, " ").trim();
     while (MIRROR_FILLER.test(clause)) clause = clause.replace(MIRROR_FILLER, "");
     const words = clause.split(" ").filter(Boolean);
-    if (words.length >= 3) return words.slice(0, 6).join(" ");
+    if (words.length >= MIRROR_MIN_WORDS && words.length <= MIRROR_MAX_WORDS) {
+      return words.join(" ");
+    }
   }
   return null;
 }

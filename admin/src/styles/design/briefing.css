@@ -193,6 +193,19 @@
   line-height: 1.55;
   min-height: 7rem;
 }
+/* Live-notes field label — names whose words go in the box, in the moment
+   ("What Ming said"). Replaces the old sr-only "Your notes" (2026-07-21 user
+   test: managers didn't realise they were capturing the report's live words). */
+.field-live-label {
+  display: block;
+}
+.field-live-label__text {
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+}
 .questioning-card .hint--kbd {
   opacity: 0;
   transition: opacity var(--dur-fast) ease;

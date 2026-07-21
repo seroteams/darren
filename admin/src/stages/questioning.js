@@ -15,6 +15,27 @@ import { Copy } from "lucide";
 
 let unmountFn = null;
 
+// Once-per-session guard for the confirm-in-room gate (survives refreshes; a new
+// session id re-arms it). Storage can be unavailable (privacy modes) — treat any
+// failure as "not shown yet" so the gate still appears.
+function roomGateKey(sessionId) {
+  return `sero.roomgate.${sessionId || "current"}`;
+}
+function roomGateShown(sessionId) {
+  try {
+    return sessionStorage.getItem(roomGateKey(sessionId)) === "1";
+  } catch {
+    return false;
+  }
+}
+function markRoomGateShown(sessionId) {
+  try {
+    sessionStorage.setItem(roomGateKey(sessionId), "1");
+  } catch {
+    /* storage blocked — the gate simply shows again next mount */
+  }
+}
+
 // The coach panel (coach-panel Phase 1) is the ADMIN app only for now — this stage
 // module is shared with the customer app, which keeps the single-column layout.
 // BASE_URL is a per-app build constant: "/admin/" for the admin app, "/" for frontend.
@@ -234,6 +255,7 @@ export async function mount(root, { store, setState }) {
 
     const card = document.createElement("div");
     card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
+    const whoSaid = store.ctx?.name ? `What ${store.ctx.name} said` : "What they said";
     card.innerHTML = `
       ${isFollowUp
         ? `<div class="question-drill-hint text-ink-dim">↳ Following up on what you just said.</div>`
@@ -251,9 +273,9 @@ export async function mount(root, { store, setState }) {
           <span class="copy-snippet-btn__label">Copy</span>${COPY_ICON}
         </button>
       </div>
-      <label class="block">
-        <span class="sr-only">Your notes</span>
-        <textarea class="textarea textarea--question" rows="5" placeholder="Jot what they said — your shorthand, not a transcript" aria-label="Your notes"></textarea>
+      <label class="block field-live-label">
+        <span class="field-live-label__text">${escape(whoSaid)}</span>
+        <textarea class="textarea textarea--question" rows="5" placeholder="Jot their words — your shorthand, not a transcript" aria-label="${escape(whoSaid)}"></textarea>
       </label>
       <div class="field__actions">
         <button class="btn js-submit">${isFinal ? "Agree next actions" : "Submit answer"}</button>
@@ -573,7 +595,7 @@ export async function mount(root, { store, setState }) {
   // time's promises with this person. The server decides eligibility (fresh
   // person, scripted lane, resumed run, already answered → prior: null), so a
   // failed read just falls through to the questions — never blocks a 1:1.
-  async function bootQuestioning() {
+  async function proceedBoot() {
     let prior = null;
     try {
       ({ prior } = await getPriorPromises(store.sessionId));
@@ -585,6 +607,67 @@ export async function mount(root, { store, setState }) {
       return;
     }
     showNextQuestion();
+  }
+
+  // Confirm-in-room gate (live-capture clarity, 2026-07-21): user testing showed
+  // managers didn't realise the answers are typed LIVE, mid-conversation. One
+  // orientation gate before question 1 sets that frame. Shown once per session
+  // and never in the scripted QA lane, which drives the runner headlessly.
+  async function gateThenBoot() {
+    if (store.scripted || roomGateShown(store.sessionId)) {
+      proceedBoot();
+      return;
+    }
+    markRoomGateShown(store.sessionId);
+    const name = store.ctx?.name || "them";
+    const ready = await confirmAction({
+      modalClass: "modal--gate",
+      eyebrow: "Before you start",
+      title: `Is ${name} with you?`,
+      message: `This 1:1 runs live — you and ${name}, right now.`,
+      points: [
+        "Ask each question out loud.",
+        `Type what ${name} says, as they say it.`,
+      ],
+      note: `These are your notes of the real conversation — not a form to fill in afterwards. Only you ever see them, never ${name}.`,
+      confirmLabel: "We're together — start",
+      cancelLabel: "Not yet",
+    });
+    if (!ready) {
+      showRoomHold(name);
+      return;
+    }
+    proceedBoot();
+  }
+
+  // "Not yet" — the person isn't here. Don't drop them into a live session; hold
+  // on a calm card until they're ready, then start without re-showing the gate.
+  function showRoomHold(name) {
+    qHost.innerHTML = "";
+    thinkingHost.innerHTML = "";
+    footerHost.innerHTML = "";
+    turnLabel.textContent = "Before question 1";
+
+    const card = document.createElement("div");
+    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
+    const head = document.createElement("h1");
+    head.className = "question-stem leading-snug";
+    head.textContent = `No rush — start when ${name}'s with you.`;
+    const body = document.createElement("p");
+    body.className = "question-desc";
+    body.textContent = `This 1:1 is a live conversation: you'll ask each question and type what ${name} says, as they say it.`;
+    const actions = document.createElement("div");
+    actions.className = "field__actions";
+    const startBtn = document.createElement("button");
+    startBtn.className = "btn js-room-start";
+    startBtn.type = "button";
+    startBtn.textContent = "We're together — start";
+    startBtn.addEventListener("click", () => proceedBoot());
+    actions.appendChild(startBtn);
+    card.append(head, body, actions);
+    qHost.appendChild(card);
+    revealOne(card, 40);
+    window.scrollTo(0, 0);
   }
 
   function showPromiseCheckin(prior) {
@@ -627,7 +710,7 @@ export async function mount(root, { store, setState }) {
     window.scrollTo(0, 0);
   }
 
-  bootQuestioning();
+  gateThenBoot();
 
   unmountFn = () => {
     teardown();
