@@ -1,6 +1,11 @@
 # Phase 2 — Member 1:1 recap (run-detail)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's QA walk
+
+## Built (2026-07-21)
+`admin/src/stages/run-detail.ts` (loaded by both apps) — the generic `<h1>Past 1:1` + bespoke "Back" button are replaced by the shared `recapHeader(ctx, ["Your 1:1s"])`: a breadcrumb trail (`Your 1:1s › {meeting}`) + a heading that names the person (avatar · name · role · badge). The identity block moved out of the Overview tab (now persistent above the tabs); Overview keeps the when-row, one-line read + rating. The back destination is now role-aware — manager → RUNS, member → MEMBER_HOME (was hardwired to the manager-only RUNS, which bounced members). `run-detail.test.ts` updated to match.
+**Proof:** `npm test` 135/135 admin (167 full baseline unchanged), typecheck clean. The header is the same shared `recapHeader` already shipped in the admin drilldown; `ui/recap-header.test.ts` covers it.
+**Not screenshotted:** the admin SPA stalls in the automated Browser pane (known limitation) and the dev-autologin account owns no 1:1s to open — so this needs Carl's real walk to confirm on screen.
 
 ## Goal
 When a manager re-reads one of their past 1:1s, the screen should say whose 1:1 it is — not the generic "Past 1:1" — and offer a breadcrumb back, not a bare "Back". This is the highest-leverage fix: the file is shared, so it lands in both the member app and the superadmin view at once.

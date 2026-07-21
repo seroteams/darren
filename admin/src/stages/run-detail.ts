@@ -5,10 +5,12 @@
 //   Briefing — the field set the manager saw at the end of the meeting
 //   Answers  — the raw questions and how they were answered (the material behind the briefing)
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store, isAdmin } from "../state.js";
 import { getMyRun, rateMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
+import { breadcrumb } from "../ui/breadcrumb.ts";
+import { recapHeader } from "../ui/recap-header.ts";
 import { renderReadonlyBriefing, type Briefing, type PromiseRow } from "../ui/briefing-view.ts";
 import { formatDate, relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
@@ -29,21 +31,10 @@ export type RunDetail = {
   promises?: PromiseRow[] | null; // Promises loop phase 3 — the wrap-up agreements + outcomes
 };
 
-// First letter of the name (falls back to "?") — the glyph in the avatar circle.
-function initialOf(name: string): string {
-  const s = (name || "").trim();
-  return s ? s[0]!.toUpperCase() : "?";
-}
-
-// "Role, Seniority" — the dim line under the name (mirrors the old subtitle logic).
-function roleLine(ctx: RunDetail["ctx"]): string {
-  if (!ctx.role) return ctx.seniority || "";
-  return ctx.seniority ? `${ctx.role} · ${ctx.seniority}` : ctx.role;
-}
-
-// The profile header + the "when it happened" row — the top of the Overview tab.
-function renderProfile(run: RunDetail): string {
-  const { ctx } = run;
+// The "when it happened" row — date · how long ago · questions answered. The profile
+// identity (avatar + name + role + meeting badge) now lives in the shared recap header
+// above the tabs (ui/recap-header.ts), so it's persistent, not Overview-only.
+function renderWhen(run: RunDetail): string {
   const when = run.completedAt || run.lastSeenAt || 0;
   const answered = (run.turns || []).filter((t) => !t.skipped).length;
   const whenBits: string[] = [];
@@ -52,17 +43,7 @@ function renderProfile(run: RunDetail): string {
     whenBits.push(`<span>${icon(Clock, { size: 15 })} ${escapeHtml(relTime(when))}</span>`);
   }
   whenBits.push(`<span>${icon(MessageSquare, { size: 15 })} ${answered} question${answered === 1 ? "" : "s"} answered</span>`);
-
-  return `
-    <div class="rd-profile">
-      <div class="ds-avatar rd-avatar" aria-hidden="true">${escapeHtml(initialOf(ctx.name))}</div>
-      <div class="rd-profile__id">
-        <div class="rd-name">${escapeHtml(ctx.name || "This 1:1")}</div>
-        ${roleLine(ctx) ? `<div class="text-ink-dim text-sm">${escapeHtml(roleLine(ctx))}</div>` : ""}
-      </div>
-      ${ctx.meetingType ? `<span class="rd-type-badge">${escapeHtml(ctx.meetingType)}</span>` : ""}
-    </div>
-    <div class="rd-when">${whenBits.join("")}</div>`;
+  return `<div class="rd-when">${whenBits.join("")}</div>`;
 }
 
 // The "how useful was this?" star rating. A radiogroup of five star buttons —
@@ -88,7 +69,7 @@ function renderOverview(run: RunDetail): string {
   const lead = run.briefing?.headline
     ? `<section class="card-flat space-y-2"><div class="eyebrow">In a line</div><p class="rd-digest">${escapeHtml(run.briefing.headline)}</p></section>`
     : "";
-  return `<div class="l-stack l-stack--4">${renderProfile(run)}${lead}${renderRating(run)}</div>`;
+  return `<div class="l-stack l-stack--4">${renderWhen(run)}${lead}${renderRating(run)}</div>`;
 }
 
 // How each read-quality tag shows on the Answers tab: a scannable chip so a
@@ -198,35 +179,33 @@ function wireTabs(root: HTMLElement): void {
 }
 
 export const mount: Mount = async (root, { setState }) => {
-  const toRuns = () => setState({ myRunId: null, stage: STAGES.RUNS });
+  // Back to the user's own 1:1s list — RUNS for a manager, MEMBER_HOME for a member.
+  // STAGES.RUNS is manager-only, so a member used to bounce through the gate; route by
+  // role instead (mirrors main.js's own-runs fallback).
+  const toList = () => setState({ myRunId: null, stage: isAdmin(store.user) ? STAGES.RUNS : STAGES.MEMBER_HOME });
 
-  const shell = (inner: string) => `
-    <div class="stage-inner l-stack l-stack--8">
-      <header class="page-header">
-        <div class="page-header__row">
-          <h1 class="h1">Past 1:1</h1>
-          <button type="button" class="btn btn--ghost js-back">Back</button>
-        </div>
-        <div class="text-ink-dim js-sub"></div>
-      </header>
-      <div class="l-stack l-stack--4 js-host">${inner}</div>
-    </div>`;
+  const frame = (headerHtml: string, inner: string) =>
+    `<div class="stage-inner l-stack l-stack--8">${headerHtml}<div class="l-stack l-stack--4">${inner}</div></div>`;
+  // Before the run loads (and on error) there's no context to name — show the trail alone.
+  const crumbHeader = `<header class="page-header l-stack l-stack--2">${breadcrumb([{ label: "Your 1:1s", nav: "list" }, { label: "1:1" }])}</header>`;
 
   const notice = (eyebrow: string, msg: string) =>
-    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back</button></section>`;
+    `<section class="card-flat space-y-3"><div class="eyebrow">${escapeHtml(eyebrow)}</div><p class="text-ink-dim">${escapeHtml(msg)}</p></section>`;
 
-  const wireBack = () => {
-    root.querySelector(".js-back")?.addEventListener("click", toRuns);
-    root.querySelector(".js-back2")?.addEventListener("click", toRuns);
+  // The breadcrumb's "Your 1:1s" crumb → back to the list. Re-run after each repaint.
+  const wireCrumbs = () => {
+    root.querySelectorAll<HTMLButtonElement>(".js-crumb").forEach((c) => {
+      c.addEventListener("click", () => { if (c.dataset.nav === "list") toList(); });
+    });
   };
 
   const id = store.myRunId;
-  root.innerHTML = shell(`<p class="text-sm text-ink-dim">Loading your 1:1…</p>`);
-  wireBack();
+  root.innerHTML = frame(crumbHeader, `<p class="text-sm text-ink-dim">Loading your 1:1…</p>`);
+  wireCrumbs();
 
   if (!id) {
-    root.querySelector(".js-host")!.innerHTML = notice("No 1:1 selected", "Pick one from your 1:1s list.");
-    wireBack();
+    root.innerHTML = frame(crumbHeader, notice("No 1:1 selected", "Pick one from your 1:1s list."));
+    wireCrumbs();
     return;
   }
 
@@ -234,19 +213,13 @@ export const mount: Mount = async (root, { setState }) => {
   try {
     run = (await getMyRun(id)) as RunDetail;
   } catch {
-    root.querySelector(".js-host")!.innerHTML = notice(
-      "Couldn't open this 1:1",
-      "It may not be one of yours, or something went wrong. Try again from your 1:1s list.",
-    );
-    wireBack();
+    root.innerHTML = frame(crumbHeader, notice("Couldn't open this 1:1", "It may not be one of yours, or something went wrong. Try again from your 1:1s list."));
+    wireCrumbs();
     return;
   }
 
-  const sub = root.querySelector<HTMLElement>(".js-sub");
-  if (sub) sub.textContent = [run.ctx.name, run.ctx.meetingType].filter(Boolean).join(" · ");
-
-  root.querySelector(".js-host")!.innerHTML = renderRunDetail(run);
-
+  root.innerHTML = frame(recapHeader(run.ctx, [{ label: "Your 1:1s", nav: "list" }]), renderRunDetail(run));
+  wireCrumbs();
   wireTabs(root);
   wireRating(root, run);
 };

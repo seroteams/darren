@@ -34,11 +34,11 @@ test("renders the three tabs, Overview active first", () => {
   assert.ok(html.includes('data-pane="briefing" hidden') && html.includes('data-pane="answers" hidden'), "non-active panes start hidden");
 });
 
-test("Overview shows the profile, meeting type, when-row and the one-line read", () => {
+// The identity block (name · role · meeting badge) now lives in the shared recap header
+// above the tabs (ui/recap-header.ts, tested in recap-header.test.ts) — so Overview carries
+// only the when-row, the one-line read, and the rating.
+test("Overview shows the when-row, the one-line read and the rating", () => {
   const html = renderRunDetail(run);
-  assert.ok(html.includes(">Priya<"), "name");
-  assert.ok(html.includes("Product Designer · Senior"), "role · seniority");
-  assert.ok(html.includes(">Bi-weekly check-in<"), "meeting-type badge");
   assert.ok(html.includes(formatDate(run.completedAt!)), "formatted completed date");
   assert.ok(html.includes("1 question answered"), "count excludes the skipped turn");
   assert.ok(html.includes("Stretched across two launches"), "briefing headline as the digest");
