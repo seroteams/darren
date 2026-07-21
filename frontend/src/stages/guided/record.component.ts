@@ -44,7 +44,9 @@ function trackerList(title: string, items: TrackerItem[], render: (t: TrackerIte
   return `<div class="mcr-rec__block"><h3>${esc(title)}</h3>${items.map((t) => `<div class="mcr-rec__item">${render(t)}</div>`).join("")}</div>`;
 }
 
-export function renderRecord(ctx: RecordCtx): string {
+// `topNav` — the breadcrumb trail (Team › {name} › Monthly Check-in), passed in by the host
+// so the finished record isn't a nav dead-end. The host wires its clicks (this stays pure).
+export function renderRecord(ctx: RecordCtx, topNav = ""): string {
   const { dto, trackers, copy } = ctx;
   const state = dto.state;
   const when = dto.completedAt ? shortDate(dto.completedAt) : "";
@@ -90,6 +92,7 @@ export function renderRecord(ctx: RecordCtx): string {
   return `
     <div class="mcr">
       <div class="mcr-col mcr-rec">
+        ${topNav}
         <div class="mcr-done-banner">${ICONS.check}<span>Completed${when ? ` · ${esc(when)}` : ""}</span></div>
         <h1 class="mcr-h1 mcr-h1--rec">Monthly Check-in with ${esc(copy.full || copy.name)}</h1>
 

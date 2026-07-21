@@ -7,6 +7,7 @@
 
 import type { Mount } from "../../../../admin/src/stages/stage.types.ts";
 import { STAGES } from "../../../../admin/src/state.js";
+import { breadcrumb } from "../../../../admin/src/ui/breadcrumb.ts";
 import {
   getGuidedSession,
   patchGuidedSession,
@@ -82,6 +83,23 @@ export const mount: Mount = async (root, { store, setState }) => {
     goalCount: 0,
   };
 
+  // Breadcrumb origin so the check-in isn't a nav dead-end (both the runner and the finished
+  // record). Team › {name} › Monthly Check-in; the person crumb re-opens their page. Dropping
+  // to two crumbs when there's no linked person. Clicks wired via wireCrumbs after each render.
+  const crumbsHtml = breadcrumb(
+    dto.personId
+      ? [{ label: "Team", nav: "team" }, { label: dto.personName || "Person", nav: "person" }, { label: "Monthly Check-in" }]
+      : [{ label: "Team", nav: "team" }, { label: "Monthly Check-in" }],
+  );
+  const wireCrumbs = (): void => {
+    root.querySelectorAll<HTMLButtonElement>(".js-crumb").forEach((c) =>
+      c.addEventListener("click", () => {
+        if (c.dataset.nav === "team") setState({ personKey: null, stage: STAGES.TEAM });
+        else if (c.dataset.nav === "person") setState({ personKey: dto.personId, stage: STAGES.PERSON_DETAIL });
+      }),
+    );
+  };
+
   async function loadTrackers(): Promise<GroupedTrackers> {
     try {
       const g = (await listTrackerItems(dto.personId)) as GroupedTrackers;
@@ -120,7 +138,8 @@ export const mount: Mount = async (root, { store, setState }) => {
   // the runner — same URL, no nav, no autosave.
   if (dto.completedAt) {
     document.querySelectorAll(".mcr-portal").forEach((n) => n.remove());
-    root.innerHTML = renderRecord({ dto, trackers, blockScores: rawBlockScores, copy });
+    root.innerHTML = renderRecord({ dto, trackers, blockScores: rawBlockScores, copy }, crumbsHtml);
+    wireCrumbs();
     return;
   }
 
@@ -385,6 +404,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     root.innerHTML = `
       <div class="mcr">
         <div class="mcr-col">
+          ${crumbsHtml}
           ${banner}
           <h1 class="mcr-h1">${esc(title)}</h1>
           <p class="mcr-sub">${esc(sub)}</p>
@@ -392,6 +412,7 @@ export const mount: Mount = async (root, { store, setState }) => {
         </div>
       </div>`;
     wireContent();
+    wireCrumbs();
     renderPortal();
   }
 
