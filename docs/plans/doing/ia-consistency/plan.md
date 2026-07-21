@@ -21,7 +21,7 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Write the standard | The 3 rules added to DESIGN.md (breadcrumb, name-the-object, "1:1"-not-"meeting") | ✅ |
-| 2 | Member 1:1 recap | `run-detail.ts` names the person + breadcrumb; fixes a member→manager-page nav bug | ⬜ |
+| 2 | Member 1:1 recap | `run-detail.ts` names the person + breadcrumb; fixes a member→manager-page nav bug | ✅ |
 | 3 | Person detail | `person-detail.ts`: "Back to Team" → `Team › {name}` breadcrumb; "meeting" → "1:1" | ⬜ |
 | 4 | Guided dead-ends | Monthly Check-in record/runner get a breadcrumb origin (no more nav dead-end) | ⬜ |
 | 5 | Label sweep | "meeting" → "1:1" across the remaining member copy; last comma joiner → middot | ⬜ |
@@ -30,8 +30,9 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ (green-lit 2026-07-21)** — the three IA rules are in DESIGN.md (§3 Screen-Names-The-Object, §5 Breadcrumb Rule, §6 checklist #12). Tested by Carl reading the wording.
-**Next: Phase 2** (member 1:1 recap / `run-detail.ts`) — its file is now free again (a parallel chat released it). Awaiting Carl's go. Baseline (`npm run gate`) to be recorded when Phase 2 starts.
+**Phase 1 ✅ (green-lit 2026-07-21)** — the three IA rules are in DESIGN.md.
+**Phase 2 ✅ (green-lit 2026-07-21)** — `run-detail.ts` now leads with the shared `recapHeader` (breadcrumb `Your 1:1s › {meeting}` + person-named heading), identity moved out of the Overview tab, and the back is role-aware (manager→RUNS, member→MEMBER_HOME). Carl walked it. Committed `cbdb71b4`. Baseline was `npm test` 167/167 (frontend render change — no engine `gate` needed).
+**Next: Phase 3** (person-detail — "Back to Team" → `Team › {name}` breadcrumb + "meeting"→"1:1"). Awaiting Carl's go.
 **Board:** https://claude.ai/code/artifact/f6bced93-814a-460c-b5f5-590491d960cc
 
 ## Parked

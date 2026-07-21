@@ -722,3 +722,12 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   admin user drilldown + guest runs (`ui/breadcrumb.ts` + `ui/recap-header.ts`). Lesson: audited both
   apps first — the member app has no breadcrumb concept at all and one generic "Past 1:1" heading
   (`run-detail.ts`), so the rollout is a small phased reuse of the shared components, not a rewrite.
+- **2026-07-21** — **IA consistency Phase 2 — the member 1:1 recap names the person.** `run-detail.ts`
+  (shared by both apps) dropped the generic "Past 1:1" title + bespoke "Back" for the shared
+  `recapHeader` (breadcrumb `Your 1:1s › {meeting}` + person-named heading); the profile identity
+  moved out of the Overview tab to a persistent header, and the back is role-aware (manager→RUNS,
+  member→MEMBER_HOME) — fixing a latent bug where a member's back bounced through the gate. Lesson:
+  `run-detail` is a tabbed screen, not a bare recap, so the shared recap header replaced the
+  Overview profile rather than stacking on top of it — the reuse needed a small trim, not a paste.
+  `npm test` 135/135 admin. Couldn't live-screenshot (admin SPA stalls in the automated pane +
+  dev-autologin owns no runs); Carl walked it for the green light.

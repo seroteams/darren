@@ -1,6 +1,8 @@
 # Phase 2 — Member 1:1 recap (run-detail)
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's QA walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-21 — Carl walked the recap; heading names the person, breadcrumb replaces "Past 1:1" (commit cbdb71b4)
 
 ## Built (2026-07-21)
 `admin/src/stages/run-detail.ts` (loaded by both apps) — the generic `<h1>Past 1:1` + bespoke "Back" button are replaced by the shared `recapHeader(ctx, ["Your 1:1s"])`: a breadcrumb trail (`Your 1:1s › {meeting}`) + a heading that names the person (avatar · name · role · badge). The identity block moved out of the Overview tab (now persistent above the tabs); Overview keeps the when-row, one-line read + rating. The back destination is now role-aware — manager → RUNS, member → MEMBER_HOME (was hardwired to the manager-only RUNS, which bounced members). `run-detail.test.ts` updated to match.
