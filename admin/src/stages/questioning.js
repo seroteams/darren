@@ -50,10 +50,11 @@ function threadFollowSource(question, lastAnswer) {
   return norm(src).includes(norm(quoted[1])) ? src : "";
 }
 
-// The coach panel (coach-panel Phase 1) is the ADMIN app only for now — this stage
-// module is shared with the customer app, which keeps the single-column layout.
-// BASE_URL is a per-app build constant: "/admin/" for the admin app, "/" for frontend.
-const IS_ADMIN_APP = import.meta.env.BASE_URL === "/admin/";
+// The coach panel (coach-panel) is now the layout for BOTH apps — the full-screen
+// 50/50 runner ships to the customer app too (Carl, 2026-07-21). This stage module
+// is shared, so one constant flips both. Kept as a named flag so the single-column
+// fallback below stays readable and easy to restore if ever needed.
+const USE_COACH_SPLIT = true;
 
 export async function mount(root, { store, setState }) {
   // Admin: the POC's TRUE full-screen 50/50 (runner-v2, Carl-approved) — fixed overlay,
@@ -93,7 +94,7 @@ export async function mount(root, { store, setState }) {
         </aside>
       </div>`;
   let screenEl = null;
-  if (IS_ADMIN_APP) {
+  if (USE_COACH_SPLIT) {
     root.innerHTML = "";
     screenEl = document.createElement("div");
     screenEl.innerHTML = adminScreenHtml;
@@ -136,11 +137,11 @@ export async function mount(root, { store, setState }) {
     sessionNotesEl.hidden = false;
   }
   const thinkingHost = ui.querySelector(".thinking-host");
-  const axesHost = ui.querySelector(IS_ADMIN_APP ? ".coach-host" : ".axes-host");
+  const axesHost = ui.querySelector(USE_COACH_SPLIT ? ".coach-host" : ".axes-host");
   const footerHost = ui.querySelector(".footer-host");
 
   // Same duck-type surface either way: renderInitial / update (+ setNote on the coach panel).
-  const axes = IS_ADMIN_APP
+  const axes = USE_COACH_SPLIT
     ? createCoachPanel({ sessionId: store.sessionId, personName: store.ctx?.name || "" })
     : createAxesPanel({ celebrate: false });
   axes.renderInitial(
@@ -157,7 +158,7 @@ export async function mount(root, { store, setState }) {
 
   // Coach panel (Phase 2): the Support / Live-scores toggle drives the panel view.
   // Admin app only (createCoachPanel provides setMode / setQuestionHints).
-  if (IS_ADMIN_APP && axes.setMode) {
+  if (USE_COACH_SPLIT && axes.setMode) {
     ui.querySelectorAll(".js-coach-seg").forEach((seg) =>
       seg.addEventListener("click", () => {
         const next = seg.dataset.mode;
@@ -236,7 +237,7 @@ export async function mount(root, { store, setState }) {
     const q = res.question;
     store.currentQuestion = q;
     // Feed this question's manager-only hints to the coach panel's Support view.
-    if (IS_ADMIN_APP && axes.setQuestionHints) axes.setQuestionHints(q.hints);
+    if (USE_COACH_SPLIT && axes.setQuestionHints) axes.setQuestionHints(q.hints);
 
     // Replay test lane: prefer the server's current scripted answer so refreshes
     // and resumed sessions do not silently fall back to manual/dev controls.
@@ -268,7 +269,7 @@ export async function mount(root, { store, setState }) {
     saveExitBtn.textContent = wrapMode ? "Wrap up — get my recap" : "Skip to recap";
 
     const card = document.createElement("div");
-    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
+    card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     const whoSaid = store.ctx?.name ? `What ${store.ctx.name} said` : "What they said";
     const followSource = isFollowUp ? threadFollowSource(q, store.lastAnswer) : "";
     card.innerHTML = `
@@ -493,7 +494,7 @@ export async function mount(root, { store, setState }) {
     turnLabel.textContent = "Before we wrap";
 
     const card = document.createElement("div");
-    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
+    card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     card.innerHTML = `
       <div class="question-card-head__text space-y-2">
         <h1 class="question-stem leading-snug">Earlier they wanted to cover ${escape(agenda.summary)}. Did you get to it?</h1>
@@ -558,7 +559,7 @@ export async function mount(root, { store, setState }) {
         if (!d.note || noteShown) return;
         noteShown = true;
         // Admin: the note IS the coach panel's per-axis "why" — no duplicate footer hint.
-        if (IS_ADMIN_APP) {
+        if (USE_COACH_SPLIT) {
           axes.setNote(d.note);
           return;
         }
@@ -669,7 +670,7 @@ export async function mount(root, { store, setState }) {
     turnLabel.textContent = "Before question 1";
 
     const card = document.createElement("div");
-    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
+    card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     const head = document.createElement("h1");
     head.className = "question-stem leading-snug";
     head.textContent = `No rush — start when ${name}'s with you.`;
@@ -697,7 +698,7 @@ export async function mount(root, { store, setState }) {
     turnLabel.textContent = "Before question 1";
 
     const card = document.createElement("div");
-    card.className = IS_ADMIN_APP ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
+    card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     const head = document.createElement("h1");
     head.className = "question-stem leading-snug";
     head.textContent = "How did last time's agreements go?";
