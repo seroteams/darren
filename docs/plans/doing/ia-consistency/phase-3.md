@@ -1,6 +1,11 @@
 # Phase 3 — Person detail
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built — awaiting Carl's QA walk
+
+## Built (2026-07-21)
+`frontend/src/stages/person-detail.ts` — the bespoke "Back to Team" button (and its duplicate in the error notices) is gone; the header now stacks a shared breadcrumb `Team › {name}` → the person's name (h1) → the summary. The visible count reads "N 1:1s" instead of "N meetings". The page already headlined the person, so that stayed.
+**Proof:** `typecheck:customer` clean for person-detail; admin suite 135/135. No unit test — the stage imports CSS so it isn't node-testable (like guest-runs); the breadcrumb itself is covered by `ui/breadcrumb.test.ts`.
+**Not screenshotted (honest):** I hoped to grab one, but the same two blockers as Phase 2 hit — the SPA stalls in the automated Browser pane, and the dev auto-login account has no Team/1:1s to reach this page. Needs Carl's real walk.
 
 ## Goal
 The manager's Person page already names the person — it just uses a one-off "Back to Team" button. Swap it for the shared breadcrumb, and fix the "meeting" wording.

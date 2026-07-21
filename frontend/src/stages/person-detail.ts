@@ -10,6 +10,7 @@ import { STAGES, store } from "../../../admin/src/state.js";
 import "../../../admin/src/styles/ux-audit-fixes.css"; // .btn--cta — this page's own chunk must carry it
 import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
+import { breadcrumb } from "../../../admin/src/ui/breadcrumb.ts";
 import { renderPromiseList, type PromiseRow } from "../../../admin/src/ui/briefing-view.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { Star } from "lucide";
@@ -47,7 +48,7 @@ type Briefing = { next_actions?: NextAction[]; watch_for?: string[]; axes?: Axis
 function summaryHtml(p: Person): string {
   const items: string[] = [];
   if (p.role) items.push(`<span class="person-summary__role">${escapeHtml(p.role)}</span>`);
-  items.push(`<span><b>${p.count}</b> meeting${p.count > 1 ? "s" : ""}</span>`);
+  items.push(`<span><b>${p.count}</b> 1:1${p.count > 1 ? "s" : ""}</span>`);
   const last = relTime(p.lastMet);
   if (last) items.push(`<span>last <b>${escapeHtml(last)}</b></span>`);
   // The stars rate the PREP, not the person (audit X1) — say so, and keep them in the meta
@@ -105,31 +106,38 @@ export const mount: Mount = async (root, { setState }) => {
 
   const shell = (inner: string) => `
     <div class="stage-inner l-stack l-stack--8">
-      <header class="page-header">
-        <div class="page-header__row">
-          <h1 class="h1 js-name">Person</h1>
-          <button type="button" class="btn btn--ghost js-back">Back to Team</button>
-        </div>
+      <header class="page-header l-stack l-stack--2">
+        <div class="js-crumbs">${breadcrumb([{ label: "Team", nav: "team" }, { label: "Person" }])}</div>
+        <h1 class="h1 js-name">Person</h1>
         <div class="person-summary js-sub"></div>
       </header>
       <div class="l-stack l-stack--4 js-host">${inner}</div>
     </div>`;
 
   const notice = (eyebrow: string, msg: string) =>
-    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-ink-dim">${msg}</p><button type="button" class="btn js-back2">Back to Team</button></section>`;
+    `<section class="card-flat space-y-3"><div class="eyebrow">${eyebrow}</div><p class="text-ink-dim">${msg}</p></section>`;
 
-  const wireBack = () => {
-    root.querySelector(".js-back")?.addEventListener("click", toTeam);
-    root.querySelector(".js-back2")?.addEventListener("click", toTeam);
+  // The breadcrumb's "Team" crumb → back to the roster; replaces the old bespoke "Back to
+  // Team" buttons. The header persists across repaints; setName() re-renders the trail with
+  // the person's name (and the heading) once it's known, then re-wires.
+  const wireCrumbs = () => {
+    root.querySelector<HTMLButtonElement>('.js-crumb[data-nav="team"]')?.addEventListener("click", toTeam);
+  };
+  // Set the trail's current crumb (and the heading) to the person's name once resolved.
+  const setName = (name: string) => {
+    root.querySelectorAll<HTMLElement>(".js-name").forEach((el) => { el.textContent = name; });
+    const crumbs = root.querySelector<HTMLElement>(".js-crumbs");
+    if (crumbs) crumbs.innerHTML = breadcrumb([{ label: "Team", nav: "team" }, { label: name }]);
+    wireCrumbs();
   };
 
   const key = store.personKey;
   root.innerHTML = shell(`<p class="text-sm text-ink-dim">Loading…</p>`);
-  wireBack();
+  wireCrumbs();
 
   if (!key) {
     root.querySelector(".js-host")!.innerHTML = notice("No one selected", "Pick a person from your Team page.");
-    wireBack();
+    wireCrumbs();
     return;
   }
 
@@ -149,7 +157,7 @@ export const mount: Mount = async (root, { setState }) => {
       "Couldn't load",
       "Something went wrong. Try again from your Team page.",
     );
-    wireBack();
+    wireCrumbs();
     return;
   }
 
@@ -166,12 +174,11 @@ export const mount: Mount = async (root, { setState }) => {
       "Person not found",
       "We couldn't find this person on your team. Head back and pick someone from your Team page.",
     );
-    wireBack();
+    wireCrumbs();
     return;
   }
 
-  const nameEl = root.querySelector<HTMLElement>(".js-name");
-  if (nameEl) nameEl.textContent = person.name;
+  setName(person.name);
   const sub = root.querySelector<HTMLElement>(".js-sub");
 
   // "Prep 1:1" — seed a fresh intake with this person and open the form. Seeding is free;
@@ -205,7 +212,7 @@ export const mount: Mount = async (root, { setState }) => {
         <p class="text-ink-dim">You haven't logged a 1:1 with ${escapeHtml(person.name)} yet. Start your first one to get going.</p>
         <button type="button" class="btn btn--cta js-prep">Start first 1:1 with ${escapeHtml(person.name)}</button>
       </section>`;
-    wireBack();
+    wireCrumbs();
     wirePrep();
     return;
   }
@@ -246,7 +253,7 @@ export const mount: Mount = async (root, { setState }) => {
   // must not sit below a scroll of past ones. (audit M1)
   root.querySelector(".js-host")!.innerHTML = sinceBlock + prep + list;
 
-  wireBack();
+  wireCrumbs();
   // Each row reopens that 1:1's read-only briefing (PG2). No new detail view.
   root.querySelectorAll<HTMLElement>(".js-open").forEach((el) => {
     el.addEventListener("click", () => {
