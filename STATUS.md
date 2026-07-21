@@ -7,10 +7,11 @@ already fully built a week ago (`docs/plans/done/ux-audit-fixes/`, all 5 phases,
 self-signed). Re-verified all 22 findings against current code (20/22 fixed in source with `(audit M#)`
 comments) + a live spot-walk: manager Home + member Home + member About render right, `report-returns.ts`
 shows "4 of 9 managers returned on 2+ days". Two cosmetic tails fixed (member h1 → "Your 1:1s"; start-button
-labels → "Start 1:1"); **edit-your-name shipped** (new session-scoped `update-profile` endpoint + account-sheet
-field, TDD + verified over HTTP against the real DB). Two things parked: the dead member run-detail branch
-(degrades gracefully) and company editing (it's the org's shared name — needs a who's-allowed rule, separate
-piece). Suite 167/167, typecheck clean. Committed local; awaiting Carl's confirm to fully close.
+labels → "Start 1:1"). **Account settings finished:** edit-your-name (session-scoped) **and** manager-only
+company rename (an org-level change — members are 403'd, both server + UI) — both TDD, verified over HTTP
+against the real DB (member correctly refused on the company routes). One thing parked: the dead member
+run-detail branch (degrades gracefully). Suite 167/167 (auth 32 cases), typecheck clean. Committed local;
+awaiting Carl's confirm to fully close.
 
 📍 **2026-07-21 — the prep brief now coaches the meeting, not just the person.** Every brief carries a
 new AI-written "tip for this style of meeting" — a bi-weekly reads as a light rhythm-keeper, a feels-off as
@@ -69,9 +70,9 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail) — awaiting your QA walk. P2–P4 not started. |
-| [ia-consistency](docs/plans/doing/ia-consistency/plan.md) | **P1–P5 ✅ built + committed 2026-07-21** (Carl's "continue until done"): DESIGN.md rules, member 1:1 recap, person page, Monthly Check-in trail, "meeting"→"1:1" sweep. Verified by `npm test` 167/167 — **not screen-walked** (SPA won't render in the automated pane); Carl can walk any, nothing pushed. **P6 = Carl's decision** (keep the circled "Back" on 7 superadmin pages, or convert — reverses his 15 Jul call). [board](https://claude.ai/code/artifact/f6bced93-814a-460c-b5f5-590491d960cc) |
 
 ## ✅ Closed 2026-07-21
+[ia-consistency](docs/plans/done/ia-consistency/plan.md) — the app-wide nav/IA standard. All 6 phases: the 3 rules written into DESIGN.md (breadcrumb trail · a screen names what you opened · "1:1" not "meeting"), then applied across both apps — the member 1:1 recap (`run-detail`) names the person + breadcrumb (was "Past 1:1"), the person page and Monthly Check-in got the same trail (the check-in was a nav dead-end), and every user-visible "meeting"→"1:1" + the last comma joiner→middot. P6 = Carl chose KEEP the superadmin circled "Back". Verified `npm test` 167/167 + typecheck; P3–P5 built under "continue until done" and **not individually screen-walked** (SPA won't render in the automated pane) — nothing pushed, so any real-screen nit is a trivial follow-up. Commits `3068fddc`→`e39ed876`. [board](https://claude.ai/code/artifact/f6bced93-814a-460c-b5f5-590491d960cc).
 [brief-style-tip](docs/plans/done/brief-style-tip/plan.md) — a new AI-written "tip for this style of meeting" in the prep brief. Both phases green-lit: (P1) the tip generates on-style and stays relational for bi-weekly/feels-off — a bi-weekly baited with a "quality slipped" note still read "mapping friction, not building a case"; schema-enforced, validated, and auto-saved in every run's prep log (part of the brief) so we can learn from them. (P2) renders as a soft-blue callout at the top of the /prepare Arc brief ("For this kind of meeting") + in Copy-all. Typecheck clean, 164/164. Committed local, ships next push.
 
 ## ✅ Closed 2026-07-20

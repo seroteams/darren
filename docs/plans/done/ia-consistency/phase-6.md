@@ -1,6 +1,9 @@
 # Phase 6 — Admin back-buttons (decision phase)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ DECIDED 2026-07-21 — KEEP
+Carl chose to leave the circled "Back" control on the 7 superadmin pages (his 2026-07-15 call). No conversion, no code change. The recap-stacking bug — the real problem — was already fixed on the only two pages that had it (user-detail, guest-runs, Phases done earlier). This phase closes the plan as a no-op.
 
 ## Goal
 Decide the fate of the circled "Back" control on the 7 superadmin list pages — and, if the decision is yes, convert them to breadcrumbs for full uniformity.

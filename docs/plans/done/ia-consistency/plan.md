@@ -25,7 +25,7 @@
 | 3 | Person detail | `person-detail.ts`: "Back to Team" → `Team › {name}` breadcrumb; "meeting" → "1:1" | ✅ |
 | 4 | Guided dead-ends | Monthly Check-in record/runner get a breadcrumb origin (no more nav dead-end) | ✅ |
 | 5 | Label sweep | "meeting" → "1:1" across the remaining member copy; last comma joiner → middot | ✅ |
-| 6 | Admin back-buttons (decision) | Convert the 7 circled-"Back" pages to breadcrumbs — OR keep them (Carl's call) | ⬜ |
+| 6 | Admin back-buttons (decision) | Carl chose KEEP — circled "Back" stays on the 7 superadmin pages; no change | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -33,7 +33,7 @@
 **Phase 1 ✅ (green-lit 2026-07-21)** — the three IA rules are in DESIGN.md.
 **Phase 2 ✅ (green-lit 2026-07-21)** — `run-detail.ts` now leads with the shared `recapHeader` (breadcrumb `Your 1:1s › {meeting}` + person-named heading), identity moved out of the Overview tab, and the back is role-aware (manager→RUNS, member→MEMBER_HOME). Carl walked it. Committed `cbdb71b4`. Baseline was `npm test` 167/167 (frontend render change — no engine `gate` needed).
 **Phases 3–5 ✅ built + committed 2026-07-21** (Carl's "continue until done"): P3 person-detail breadcrumb + "1:1s"; P4 Monthly Check-in runner + record get the `Team › {name} › Monthly Check-in` trail (no more dead-ends); P5 swept every user-visible "meeting"→"1:1" + the last comma joiner→middot. Verified by `npm test` 167/167 + typecheck — **not individually screen-walked** (SPA won't render in the automated pane + dev-login has no member data); Carl can walk any of them, nothing's pushed. Commits `c320f9dd` (P3), `b2d5e337` (P4), `774f2414` (P5).
-**Next: Phase 6 — Carl's decision** (keep the circled "Back" on the 7 superadmin pages, or convert to breadcrumbs — reverses his 2026-07-15 call). Not started.
+**✅ COMPLETE 2026-07-21.** All 6 phases resolved. Phase 6 = Carl chose KEEP (circled "Back" stays; no change). The standard is in DESIGN.md and applied across both apps' recap/detail surfaces. Phases 3–5 were built + test-verified (167/167) + committed but **not individually screen-walked** (SPA won't render in the automated pane); nothing pushed, so any real-screen nit is a trivial follow-up. Moved to `docs/plans/done/`.
 **Board:** https://claude.ai/code/artifact/f6bced93-814a-460c-b5f5-590491d960cc
 
 ## Parked

@@ -741,3 +741,10 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   needed judgement, not find-replace — "meeting arcs" (a tool name), real meetings (energy-drain
   example) and `meetingType` field names all had to stay. Verified by tests, not screen-walked
   (the SPA won't render in the automated Browser pane); nothing pushed, so Carl can walk any of it.
+- **2026-07-21** — **IA consistency Phase 6 + whole plan → done.** Carl chose KEEP for the last
+  phase: the circled "Back" stays on the 7 superadmin list pages (his 2026-07-15 control) — no
+  conversion, since the recap-stacking bug it might've masked was already fixed on the only two
+  pages that had it. All 6 phases resolved; folder moved to `docs/plans/done/ia-consistency/`.
+  Lesson: the biggest single win was `run-detail` (one shared file → both apps' recap fixed at
+  once); scoping the rollout by *where the pattern actually applies* kept a "make everything
+  consistent" ask from ballooning — Phase 6 correctly closed as a no-op rather than a rewrite.
