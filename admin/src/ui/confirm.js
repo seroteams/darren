@@ -8,52 +8,30 @@ function getFocusables(root) {
 
 function openDialog({
   message,
-  title = "",
-  eyebrow = "",
-  points = [],
-  note = "",
   confirmLabel = "Confirm",
   cancelLabel = "Cancel",
   destructive = false,
   alert = false,
-  modalClass = "",
 } = {}) {
   return new Promise((resolve) => {
     const backdrop = document.createElement("div");
     backdrop.className = "modal-backdrop";
 
     const modal = document.createElement("div");
-    modal.className = modalClass ? `card modal ${modalClass}` : "card modal";
+    modal.className = "card modal";
     modal.setAttribute("role", alert ? "alertdialog" : "dialog");
     modal.setAttribute("aria-modal", "true");
 
     const titleId = `modal-title-${Date.now()}`;
-    // Optional richer layout (eyebrow / title / numbered points / note). Every
-    // slot is filled via textContent below, so any interpolated value — a
-    // person's name, say — is escaped. Never build these from an HTML string.
-    const pointsHtml = points.length
-      ? `<ul class="modal__points">${points.map(() => "<li></li>").join("")}</ul>`
-      : "";
     modal.innerHTML = `
-      ${eyebrow ? `<div class="modal__eyebrow"></div>` : ""}
-      ${title ? `<h2 class="modal__title" id="${titleId}"></h2>` : ""}
-      <div class="modal__message"${title ? "" : ` id="${titleId}"`}></div>
-      ${pointsHtml}
-      ${note ? `<p class="modal__note"></p>` : ""}
+      <div class="modal__message" id="${titleId}"></div>
       <div class="modal__actions">
         ${alert ? "" : `<button class="btn btn--ghost js-cancel" type="button"></button>`}
         <button class="btn ${destructive ? "btn--danger" : ""} js-confirm" type="button"></button>
       </div>
     `;
     modal.setAttribute("aria-labelledby", titleId);
-    if (eyebrow) modal.querySelector(".modal__eyebrow").textContent = eyebrow;
-    if (title) modal.querySelector(".modal__title").textContent = title;
     modal.querySelector(".modal__message").textContent = message || "Are you sure?";
-    if (points.length) {
-      const lis = modal.querySelectorAll(".modal__points li");
-      points.forEach((p, i) => { if (lis[i]) lis[i].textContent = p; });
-    }
-    if (note) modal.querySelector(".modal__note").textContent = note;
     const cancelBtn = modal.querySelector(".js-cancel");
     const confirmBtn = modal.querySelector(".js-confirm");
     if (cancelBtn) cancelBtn.textContent = cancelLabel;

@@ -15,27 +15,6 @@ import { Copy } from "lucide";
 
 let unmountFn = null;
 
-// Once-per-session guard for the confirm-in-room gate (survives refreshes; a new
-// session id re-arms it). Storage can be unavailable (privacy modes) — treat any
-// failure as "not shown yet" so the gate still appears.
-function roomGateKey(sessionId) {
-  return `sero.roomgate.${sessionId || "current"}`;
-}
-function roomGateShown(sessionId) {
-  try {
-    return sessionStorage.getItem(roomGateKey(sessionId)) === "1";
-  } catch {
-    return false;
-  }
-}
-function markRoomGateShown(sessionId) {
-  try {
-    sessionStorage.setItem(roomGateKey(sessionId), "1");
-  } catch {
-    /* storage blocked — the gate simply shows again next mount */
-  }
-}
-
 // A runtime thread-follow quotes a fragment of the previous answer in its stem
 // ('You said "…"'). Showing the FULL prior answer beside it restores the context
 // the fragment alone lost (2026-07-21 user test). Only show it when it genuinely
@@ -630,67 +609,6 @@ export async function mount(root, { store, setState }) {
     showNextQuestion();
   }
 
-  // Confirm-in-room gate (live-capture clarity, 2026-07-21): user testing showed
-  // managers didn't realise the answers are typed LIVE, mid-conversation. One
-  // orientation gate before question 1 sets that frame. Shown once per session
-  // and never in the scripted QA lane, which drives the runner headlessly.
-  async function gateThenBoot() {
-    if (store.scripted || roomGateShown(store.sessionId)) {
-      proceedBoot();
-      return;
-    }
-    markRoomGateShown(store.sessionId);
-    const name = store.ctx?.name || "them";
-    const ready = await confirmAction({
-      modalClass: "modal--gate",
-      eyebrow: "Before you start",
-      title: `Is ${name} with you?`,
-      message: `This 1:1 runs live — you and ${name}, right now.`,
-      points: [
-        "Ask each question out loud.",
-        `Type what ${name} says, as they say it.`,
-      ],
-      note: `These are your notes of the real conversation — not a form to fill in afterwards. Only you ever see them, never ${name}.`,
-      confirmLabel: "We're together — start",
-      cancelLabel: "Not yet",
-    });
-    if (!ready) {
-      showRoomHold(name);
-      return;
-    }
-    proceedBoot();
-  }
-
-  // "Not yet" — the person isn't here. Don't drop them into a live session; hold
-  // on a calm card until they're ready, then start without re-showing the gate.
-  function showRoomHold(name) {
-    qHost.innerHTML = "";
-    thinkingHost.innerHTML = "";
-    footerHost.innerHTML = "";
-    turnLabel.textContent = "Before question 1";
-
-    const card = document.createElement("div");
-    card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
-    const head = document.createElement("h1");
-    head.className = "question-stem leading-snug";
-    head.textContent = `No rush — start when ${name}'s with you.`;
-    const body = document.createElement("p");
-    body.className = "question-desc";
-    body.textContent = `This 1:1 is a live conversation: you'll ask each question and type what ${name} says, as they say it.`;
-    const actions = document.createElement("div");
-    actions.className = "field__actions";
-    const startBtn = document.createElement("button");
-    startBtn.className = "btn js-room-start";
-    startBtn.type = "button";
-    startBtn.textContent = "We're together — start";
-    startBtn.addEventListener("click", () => proceedBoot());
-    actions.appendChild(startBtn);
-    card.append(head, body, actions);
-    qHost.appendChild(card);
-    revealOne(card, 40);
-    window.scrollTo(0, 0);
-  }
-
   function showPromiseCheckin(prior) {
     qHost.innerHTML = "";
     thinkingHost.innerHTML = "";
@@ -731,7 +649,7 @@ export async function mount(root, { store, setState }) {
     window.scrollTo(0, 0);
   }
 
-  gateThenBoot();
+  proceedBoot();
 
   unmountFn = () => {
     teardown();
