@@ -10,8 +10,8 @@ shows "4 of 9 managers returned on 2+ days". Two cosmetic tails fixed (member h1
 labels → "Start 1:1"). **Account settings finished:** edit-your-name (session-scoped) **and** manager-only
 company rename (an org-level change — members are 403'd, both server + UI) — both TDD, verified over HTTP
 against the real DB (member correctly refused on the company routes). One thing parked: the dead member
-run-detail branch (degrades gracefully). Suite 167/167 (auth 32 cases), typecheck clean. Committed local;
-awaiting Carl's confirm to fully close.
+run-detail branch (degrades gracefully). Suite 167/167 (auth 32 cases), typecheck clean. **✅ Carl confirmed
+closed 2026-07-21** — committed local, ships on the next "go live".
 
 📍 **2026-07-21 — the prep brief now coaches the meeting, not just the person.** Every brief carries a
 new AI-written "tip for this style of meeting" — a bi-weekly reads as a light rhythm-keeper, a feels-off as
