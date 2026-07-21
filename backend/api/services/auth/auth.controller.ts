@@ -124,6 +124,17 @@ export async function changePassword(c: RequestContext, lookup?: IdentityLookup)
   c.json(200, { ok: true });
 }
 
+// POST /api/v1/auth/update-profile — protected. { name } → 200 { user }. The signed-in user
+// edits their OWN display name (audit M12): the id comes from the SESSION, never the body, so
+// a caller can only ever rename themselves. No session eviction — a rename isn't a re-auth event.
+export async function updateProfile(c: RequestContext, lookup?: IdentityLookup): Promise<void> {
+  const identity = await buildIdentity(c.req, lookup);
+  requireAuth(identity);
+  const body = asRecord(await c.readBody());
+  const user = await service.updateProfile({ userId: identity.userId!, name: asString(body.name) });
+  c.json(200, { user });
+}
+
 // POST /api/v1/auth/forgot-password — { email } → 200 { ok: true }, ALWAYS. The answer is
 // the same generic success whether or not the email has an account (no account-existence
 // leak — same posture as login). Only a real, active account gets a reset link, emailed

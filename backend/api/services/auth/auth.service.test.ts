@@ -26,6 +26,12 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & { rows: AuthUser[]; compani
       const u = rows.find((x) => x.id === id);
       if (u) u.passwordHash = passwordHash;
     },
+    async updateName(id, name) {
+      const u = rows.find((x) => x.id === id);
+      if (!u) return null;
+      u.name = name;
+      return u;
+    },
     async createOrgWithOwner(input: NewOrgOwner) {
       companies.push(input.company);
       const u: AuthUser = {
@@ -208,6 +214,36 @@ test("changePassword: an unknown user id is refused", async () => {
     () => service.changePassword({ userId: "ghost", currentPassword: "whatever1", newPassword: "brandnewpass2" }),
     /not found|current password/i,
   );
+});
+
+// --- Update profile (edit your own display name, audit M12) ---------------------------
+// Same session-scoped seam as change-password: the id comes from the caller (the session),
+// never the body. The new name is trimmed; an empty name is refused; the hash never leaves.
+
+test("updateProfile: a new name is trimmed, stored, and returned without the hash", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "amy@acme.com", name: "Amy", password: "longenough1" });
+
+  const updated = await service.updateProfile({ userId: user.id, name: "  Amy Rivera  " });
+
+  assert.equal(updated.name, "Amy Rivera");
+  assert.equal(repo.rows.find((u) => u.id === user.id)!.name, "Amy Rivera");
+  assert.equal("passwordHash" in updated, false);
+});
+
+test("updateProfile: an empty (or whitespace-only) name is refused and stores nothing", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "bo@acme.com", name: "Bo", password: "longenough1" });
+
+  await assert.rejects(() => service.updateProfile({ userId: user.id, name: "   " }), /name/i);
+  assert.equal(repo.rows.find((u) => u.id === user.id)!.name, "Bo"); // unchanged
+});
+
+test("updateProfile: an unknown user id is refused", async () => {
+  const service = createAuthService(fakeRepo(), fakeHasher);
+  await assert.rejects(() => service.updateProfile({ userId: "ghost", name: "Nobody" }), /find|account/i);
 });
 
 // --- Password reset (forgot-password) ------------------------------------------------

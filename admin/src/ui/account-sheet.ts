@@ -1,13 +1,14 @@
-// Account sheet (audit M12) — a small settings slide-over opened from the nav footer.
-// Shows who you're signed in as, and lets you change your own password. Shared by both
-// apps. The change-password call goes through the session (the server ignores any id in
-// the body), so it can only ever change the signed-in user's own password.
+// Account sheet (audit M12) — a small settings slide-over opened from the profile badge.
+// Shows who you're signed in as, lets you edit your display name, and change your password.
+// Shared by both apps. Both writes go through the session (the server ignores any id in the
+// body), so you can only ever change your OWN name/password.
 //
-// Scope note: display-name / company editing is NOT here yet — there's no self-update
-// endpoint, and the security-critical, testable piece is the password change. Name +
-// email are shown read-only; editable fields are a thin follow-up (flagged in phase-5.md).
+// Scope note: company (your organisation's name) is NOT editable here — it's shared across
+// everyone in the org and needs a who's-allowed rule, so it's a separate follow-up. Email
+// stays read-only: it's the login identity.
 
-import { changePassword } from "../../../shared/api.js";
+import { changePassword, updateProfile } from "../../../shared/api.js";
+import { store, setState } from "../state.js";
 import { escapeHtml } from "./html.js";
 
 type User = { name?: string; email?: string } | null | undefined;
@@ -27,8 +28,20 @@ export function showAccountSheet(user: User): void {
   sheet.innerHTML = `
     <div class="l-stack l-stack--1">
       <h2 class="h3" id="account-title">Your account</h2>
-      ${name || email ? `<p class="text-sm text-ink-dim">${escapeHtml([name, email].filter(Boolean).join(" · "))}</p>` : ""}
+      <p class="text-sm text-ink-dim js-identity">${escapeHtml([name, email].filter(Boolean).join(" · "))}</p>
     </div>
+    <form class="l-stack l-stack--3 js-name-form" novalidate>
+      <div class="eyebrow">Your name</div>
+      <label class="l-stack l-stack--1">
+        <span class="text-sm text-ink-dim">Display name</span>
+        <input class="input js-name" type="text" autocomplete="name" value="${escapeHtml(name)}" required />
+      </label>
+      <p class="js-name-err text-negative text-sm" hidden></p>
+      <p class="js-name-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
+      <div class="modal__actions">
+        <button type="submit" class="btn btn--ghost js-name-save">Save name</button>
+      </div>
+    </form>
     <form class="l-stack l-stack--3 js-pw-form" novalidate>
       <div class="eyebrow">Change password</div>
       <label class="l-stack l-stack--1">
@@ -42,14 +55,23 @@ export function showAccountSheet(user: User): void {
       <p class="js-err text-negative text-sm" hidden></p>
       <p class="js-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="modal__actions">
-        <button type="button" class="btn btn--ghost js-close">Close</button>
         <button type="submit" class="btn js-save">Change password</button>
       </div>
     </form>
+    <div class="modal__actions">
+      <button type="button" class="btn btn--ghost js-close">Close</button>
+    </div>
   `;
   backdrop.appendChild(sheet);
   document.body.appendChild(backdrop);
   const previouslyFocused = document.activeElement as HTMLElement | null;
+
+  const identityEl = sheet.querySelector<HTMLElement>(".js-identity")!;
+  const nameForm = sheet.querySelector<HTMLFormElement>(".js-name-form")!;
+  const nameEl = sheet.querySelector<HTMLInputElement>(".js-name")!;
+  const nameErr = sheet.querySelector<HTMLElement>(".js-name-err")!;
+  const nameOk = sheet.querySelector<HTMLElement>(".js-name-ok")!;
+  const nameSaveBtn = sheet.querySelector<HTMLButtonElement>(".js-name-save")!;
 
   const form = sheet.querySelector<HTMLFormElement>(".js-pw-form")!;
   const currentEl = sheet.querySelector<HTMLInputElement>(".js-current")!;
@@ -65,6 +87,32 @@ export function showAccountSheet(user: User): void {
   }
   function onKey(e: KeyboardEvent): void {
     if (e.key === "Escape") { e.preventDefault(); close(); }
+  }
+
+  async function onNameSubmit(e: Event): Promise<void> {
+    e.preventDefault();
+    nameErr.hidden = true; nameOk.hidden = true;
+    const next = nameEl.value.trim();
+    if (!next) { nameErr.textContent = "Your name can't be empty."; nameErr.hidden = false; return; }
+    if (next === (store.user?.name || "").trim()) {
+      nameOk.textContent = "That's already your name."; nameOk.hidden = false; return;
+    }
+    nameSaveBtn.disabled = true; nameSaveBtn.textContent = "Saving…";
+    try {
+      const res = await updateProfile({ name: next });
+      const savedName = ((res?.user?.name as string) || next).trim();
+      // Reflect it wherever the app already shows the name (the avatar initial, the next
+      // time the sheet opens) — setState re-renders the nav + badge from the store.
+      setState({ user: { ...store.user, name: savedName } });
+      nameEl.value = savedName;
+      identityEl.textContent = [savedName, email].filter(Boolean).join(" · ");
+      nameOk.textContent = "Name updated."; nameOk.hidden = false;
+    } catch (e2) {
+      nameErr.textContent = e2 instanceof Error ? e2.message : "Couldn't update your name — please try again.";
+      nameErr.hidden = false;
+    } finally {
+      nameSaveBtn.disabled = false; nameSaveBtn.textContent = "Save name";
+    }
   }
 
   async function onSubmit(e: Event): Promise<void> {
@@ -87,9 +135,10 @@ export function showAccountSheet(user: User): void {
     }
   }
 
+  nameForm.addEventListener("submit", onNameSubmit);
   form.addEventListener("submit", onSubmit);
   sheet.querySelector(".js-close")!.addEventListener("click", close);
   backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
   document.addEventListener("keydown", onKey, true);
-  setTimeout(() => currentEl.focus({ preventScroll: true }), 0);
+  setTimeout(() => nameEl.focus({ preventScroll: true }), 0);
 }

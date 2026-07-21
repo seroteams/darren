@@ -7,9 +7,10 @@ already fully built a week ago (`docs/plans/done/ux-audit-fixes/`, all 5 phases,
 self-signed). Re-verified all 22 findings against current code (20/22 fixed in source with `(audit M#)`
 comments) + a live spot-walk: manager Home + member Home + member About render right, `report-returns.ts`
 shows "4 of 9 managers returned on 2+ days". Two cosmetic tails fixed (member h1 → "Your 1:1s"; start-button
-labels → "Start 1:1"); two low-value tails parked (dead member run-detail branch degrades gracefully; editable
-name/company is a real P2 feature, not validation-critical). Suite 167/167, typecheck clean. Committed local;
-awaiting Carl's confirm to fully close.
+labels → "Start 1:1"); **edit-your-name shipped** (new session-scoped `update-profile` endpoint + account-sheet
+field, TDD + verified over HTTP against the real DB). Two things parked: the dead member run-detail branch
+(degrades gracefully) and company editing (it's the org's shared name — needs a who's-allowed rule, separate
+piece). Suite 167/167, typecheck clean. Committed local; awaiting Carl's confirm to fully close.
 
 📍 **2026-07-21 — the prep brief now coaches the meeting, not just the person.** Every brief carries a
 new AI-written "tip for this style of meeting" — a bi-weekly reads as a light rhythm-keeper, a feels-off as

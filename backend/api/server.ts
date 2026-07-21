@@ -270,6 +270,13 @@ async function main(): Promise<void> {
     if (!originOk(c.req)) throw forbidden("Bad origin");
     return auth.changePassword(c);
   }));
+  // update profile (audit M12): the SIGNED-IN user edits their own display name. Protected
+  // (requireAuth inside the handler) + origin-guarded like the other mutating routes; the
+  // user id is taken from the session, so a caller can only ever rename themselves.
+  router.add("POST", "/api/v1/auth/update-profile", v1Route((c) => {
+    if (!originOk(c.req)) throw forbidden("Bad origin");
+    return auth.updateProfile(c);
+  }));
 
   // feedback — a tester's in-app note (Phase 5; feedback-inbox moved the store to the
   // feedback_notes table). Login required (any role, not admin); no external service.

@@ -105,8 +105,9 @@ Folder created 2026-07-15 from the audit + Carl's two interview rounds (all reco
 - **B4 (member Home h1)** ✅ fixed — `<h1>Welcome to Sero</h1>` → "Your 1:1s" (nav/heading/eyebrow now one name); redundant eyebrow dropped. Rendered live.
 - **M2 (start-button labels)** ✅ fixed — aligned `runs.ts` (Past 1:1s) + admin nav to the established house string "Start 1:1" (`team.test.ts`, Carl 2026-07-17). Home CTA kept "Start a new 1:1" (the "new" contrasts with Resume — intentional).
 - **B6 (member run-detail branch)** — PARKED, deliberately not changed: it degrades gracefully (a member hitting `/runs/:id` gets a styled "No 1:1 selected" / "Couldn't open this 1:1" notice, never a crash), nothing in the member UI links to it, and Phase 2 kept the route because past-1on1-view uses it. Removing risks regressing the member view for ~zero gain.
-- **M12 name/company edit** — PARKED (the account-sheet's own documented thin follow-up): it's a real route→service→repo→client chain + TDD (not cosmetic), P2 craft, not validation-critical. Change-password (the security-critical piece) is done + verified.
-- Offline proof: `npm test` 167/167, `npm run typecheck` clean. Awaiting Carl's confirm to mark the folder fully closed.
+- **M12 edit-your-name** ✅ BUILT (Carl chose to finish it before closing): new `POST /api/v1/auth/update-profile` (session-scoped — id from the cookie, never the body), auth service `updateProfile` + repo `updateName`, `shared/api.js` client, and an editable "Your name" field in the account sheet that live-updates the store. TDD: 3 new service tests (trim, empty-name reject, unknown-user). Verified over HTTP against the real DB (login → rename → `/me` persists → empty-name 400 → seed restored) and the account-sheet name field confirmed rendering live.
+- **M12 company edit** — PARKED (deliberately not folded in): "company" is the *organisation's* name — shared by everyone in the org, no write path exists, and it needs a who's-allowed rule (a member must not rename the company). A separate small piece, not silently bundled into a personal-name edit.
+- Offline proof: `npm test` 167/167, `npm run typecheck` clean; both apps build. Awaiting Carl's confirm to mark the folder fully closed.
 
 ## Parked
 - O1 "Bring one thing" — member's single optional prompt feeding the prep brief (IDEO). Revisit after Gate 1.

@@ -39,6 +39,11 @@ export interface ChangePasswordInput {
   newPassword: string;
 }
 
+export interface UpdateProfileInput {
+  userId: string;
+  name: string;
+}
+
 /** The safe user shape that leaves the server — no password hash, ever. */
 export interface PublicUser {
   id: string;
@@ -52,6 +57,7 @@ export interface AuthService {
   register(input: RegisterInput): Promise<PublicUser>;
   login(input: LoginInput): Promise<PublicUser>;
   changePassword(input: ChangePasswordInput): Promise<void>;
+  updateProfile(input: UpdateProfileInput): Promise<PublicUser>;
 }
 
 function normalizeEmail(email: string): string {
@@ -120,6 +126,16 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
         throw unauthenticated("Your current password is incorrect.");
       }
       await repo.updatePasswordHash(user.id, await hasher.hash(newPassword));
+    },
+
+    async updateProfile(input) {
+      // The signed-in user editing their OWN display name (audit M12). Like changePassword,
+      // the id comes from the session (never the body), so a caller can only rename themselves.
+      const name = (input.name ?? "").trim();
+      if (!name) throw badRequest("Your name can't be empty.");
+      const user = await repo.updateName(input.userId, name);
+      if (!user) throw notFound("We couldn't find your account.");
+      return toPublic(user);
     },
   };
 }

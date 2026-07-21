@@ -48,6 +48,9 @@ export interface AuthRepo {
   findById(id: string): Promise<AuthUser | null>;
   /** Overwrite one user's password hash (change-password, M12). Only ever a hash. */
   updatePasswordHash(id: string, passwordHash: string): Promise<void>;
+  /** Overwrite one user's display name (audit M12); returns the updated user, or null when
+   *  no row matched. Only ever the caller's own id (the controller reads it from the session). */
+  updateName(id: string, name: string): Promise<AuthUser | null>;
   /** Create the company AND its owner together, in one transaction (both succeed or
    *  neither does); returns the stored owner. This is what makes signup create the
    *  company (Phase 4). */
@@ -72,6 +75,13 @@ export const pgAuthRepo: AuthRepo = {
   async updatePasswordHash(id, passwordHash) {
     const db = getDb();
     await db.update(users).set({ passwordHash }).where(eq(users.id, id));
+  },
+  async updateName(id, name) {
+    const db = getDb();
+    const rows = await db.update(users).set({ name, updatedAt: new Date() }).where(eq(users.id, id)).returning();
+    const u = rows[0];
+    if (!u) return null;
+    return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash, deactivatedAt: u.deactivatedAt };
   },
   async createOrgWithOwner(input) {
     const db = getDb();

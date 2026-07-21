@@ -63,6 +63,13 @@ export async function changePassword({ currentPassword, newPassword }) {
   return postJson("/api/v1/auth/change-password", { currentPassword, newPassword });
 }
 
+// Update-profile (audit M12): the signed-in user edits their own display name. Like
+// change-password, the server takes the user id from the session cookie, not the body —
+// so this only ever renames YOU. Returns { user } with the updated name.
+export async function updateProfile({ name }) {
+  return postJson("/api/v1/auth/update-profile", { name });
+}
+
 // Hand an ownerless (guest) finished run to the logged-in caller (guest-run Phase 1
 // endpoint). Owned-by-someone-else answers 404; re-claim by the owner is a no-op.
 export async function claimSession(id) {
