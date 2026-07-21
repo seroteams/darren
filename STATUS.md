@@ -59,6 +59,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail) — awaiting your QA walk. P2–P4 not started. |
+| [ia-consistency](docs/plans/doing/ia-consistency/plan.md) | Phase 1 ✅ green-lit 2026-07-21 (3 nav/IA rules → DESIGN.md). P2 member 1:1 recap (`run-detail.ts`) next — file now free. [board](https://claude.ai/code/artifact/f6bced93-814a-460c-b5f5-590491d960cc) |
 
 ## ✅ Closed 2026-07-21
 [brief-style-tip](docs/plans/done/brief-style-tip/plan.md) — a new AI-written "tip for this style of meeting" in the prep brief. Both phases green-lit: (P1) the tip generates on-style and stays relational for bi-weekly/feels-off — a bi-weekly baited with a "quality slipped" note still read "mapping friction, not building a case"; schema-enforced, validated, and auto-saved in every run's prep log (part of the brief) so we can learn from them. (P2) renders as a soft-blue callout at the top of the /prepare Arc brief ("For this kind of meeting") + in Copy-all. Typecheck clean, 164/164. Committed local, ships next push.
@@ -83,4 +84,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-21 — brief-style-tip DONE (both phases green-lit; AI "tip for this style of meeting" in the prep brief, committed local, ships next push).
+Last updated: 2026-07-21 — ia-consistency Phase 1 green-lit (3 nav/IA rules written into DESIGN.md); Phase 2 (member 1:1 recap) next. (Earlier today: brief-style-tip DONE.)

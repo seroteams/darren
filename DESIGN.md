@@ -178,6 +178,10 @@ Text must hit **4.5:1**; large text and UI shapes **3:1**. The pairs that pass:
 ### Named Rules
 **The Name-Wins Rule.** A person's name outweighs their job title (title is ~16px dim, never a
 second display line).
+**The Screen-Names-The-Object Rule.** A detail or recap screen's heading names the thing you
+opened — the person, the 1:1 — never the parent list, and never re-shows the parent screen's
+header stacked above it. A read-only 1:1 recap uses the shared `admin/src/ui/recap-header.ts`
+(breadcrumb + a heading that names the 1:1); a generic title like "Past 1:1" fails this rule.
 
 ## 4. Elevation
 
@@ -211,8 +215,14 @@ Flowbite 2.5.2 shapes + Sero tokens. Canonical recipes (visual versions on the s
   quiet detail list (plain label/value rows, no pill-in-box), content cards, sticky footer
   holding the actions **once** (ghost + one primary).
 - **Badges** — role pills (tinted bg + dark text, full radius); count badges ≥14px text.
+- **Breadcrumbs** — *The Breadcrumb Rule:* any drill-down deeper than one level shows a single
+  breadcrumb trail (`admin/src/ui/breadcrumb.ts`), not a per-screen back button. Crumbs read
+  `Parent › … › current`; the current page is plain text, the rest are links. One trail per
+  screen — never two stacked back controls.
 - **Existing signatures to reuse, not rebuild:** the axis score bars (`admin/src/ui/axes.js`),
-  star rating, thinking orb, confirm dialog, page-header pattern, `.l-*` layout primitives.
+  star rating, thinking orb, confirm dialog, page-header pattern, the breadcrumb trail
+  (`admin/src/ui/breadcrumb.ts`) and read-only recap header (`admin/src/ui/recap-header.ts`),
+  `.l-*` layout primitives.
 
 ### Icons — Lucide only
 **[Lucide](https://lucide.dev) is Sero's single icon system.** No emoji in the UI, no bespoke
@@ -240,7 +250,7 @@ el.innerHTML = `<span class="app-nav__icon">${icon(House)}</span>`;
 
 ## 6. Do's and Don'ts
 
-The "before you build" checklist — every new or touched screen passes all eleven:
+The "before you build" checklist — every new or touched screen passes all twelve:
 
 1. **Do** take colours only from the tokens; **don't** type hex in a screen file.
 2. **Do** keep every text ≥ **14px** and every colour-as-text at **4.5:1+** (on light: coral 800,
@@ -256,6 +266,9 @@ The "before you build" checklist — every new or touched screen passes all elev
     gradient text, or dark-glass AI styling. **Don't** show a bare metric without its reasoning.
 11. **Do** use **Lucide icons only**, via `admin/src/ui/icon.js`; **don't** hand-write an `<svg>`
     or reach for an emoji in the UI (see §5 "Icons").
+12. **Do** call a 1:1 a **"1:1"** (or its named cadence, e.g. "Bi-weekly check-in") — **don't**
+    write "meeting" or "session" for it; join role and seniority with a middot ("UX Designer ·
+    Staff"), never a comma.
 
 **Exemptions** (these sit outside the eleven rules — don't "fix" them):
 - **Dev/debug chrome** (`ui/dev-badge.js`, `ui/build-stamp.js`) — deliberate terminal-style kit,

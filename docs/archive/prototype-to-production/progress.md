@@ -716,3 +716,9 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   "ship now" gates) were already built in Phase 1; only the trims, reframes and one badge remained.
   Verified: `npm run typecheck` clean, `npm test` 164/164; badge confirmed on live
   `/api/v1/meeting-types`. Not pushed — ships next "go live".
+- **2026-07-21** — **App-wide IA consistency Phase 1 — the nav rules are written.** Added three
+  rules to DESIGN.md: **Screen-Names-The-Object** (§3), **The Breadcrumb Rule** (§5), and checklist
+  **#12** ("1:1" not "meeting"; middot joiner). Doc-only; codifies the pattern already shipped in the
+  admin user drilldown + guest runs (`ui/breadcrumb.ts` + `ui/recap-header.ts`). Lesson: audited both
+  apps first — the member app has no breadcrumb concept at all and one generic "Past 1:1" heading
+  (`run-detail.ts`), so the rollout is a small phased reuse of the shared components, not a rewrite.
