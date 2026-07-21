@@ -114,16 +114,16 @@ export function showAccountSheet(user: User): void {
     nameErr.hidden = true; nameOk.hidden = true;
     const next = nameEl.value.trim();
     if (!next) { nameErr.textContent = "Your name can't be empty."; nameErr.hidden = false; return; }
-    if (next === (store.user?.name || "").trim()) {
+    if (next === ((store.user as { name?: string } | null)?.name || "").trim()) {
       nameOk.textContent = "That's already your name."; nameOk.hidden = false; return;
     }
     nameSaveBtn.disabled = true; nameSaveBtn.textContent = "Saving…";
     try {
-      const res = await updateProfile({ name: next });
-      const savedName = ((res?.user?.name as string) || next).trim();
+      const res = (await updateProfile({ name: next })) as { user?: { name?: string } };
+      const savedName = (res?.user?.name || next).trim();
       // Reflect it wherever the app already shows the name (the avatar initial, the next
       // time the sheet opens) — setState re-renders the nav + badge from the store.
-      setState({ user: { ...store.user, name: savedName } });
+      setState({ user: { ...(store.user as Record<string, unknown> | null), name: savedName } });
       nameEl.value = savedName;
       identityEl.textContent = [savedName, email].filter(Boolean).join(" · ");
       nameOk.textContent = "Name updated."; nameOk.hidden = false;
@@ -173,8 +173,8 @@ export function showAccountSheet(user: User): void {
 
     let loaded = "";
     getCompany()
-      .then((res) => {
-        loaded = ((res?.company as string) || "").trim();
+      .then((res: { company?: string }) => {
+        loaded = (res?.company || "").trim();
         companyEl.value = loaded;
         companyEl.placeholder = "Your company name";
         companyEl.disabled = false;
@@ -192,10 +192,10 @@ export function showAccountSheet(user: User): void {
       if (next === loaded) { companyOk.textContent = "That's already your company name."; companyOk.hidden = false; return; }
       companySaveBtn.disabled = true; companySaveBtn.textContent = "Saving…";
       try {
-        const res = await updateCompany({ company: next });
-        loaded = ((res?.company as string) || next).trim();
+        const res = (await updateCompany({ company: next })) as { company?: string };
+        loaded = (res?.company || next).trim();
         companyEl.value = loaded;
-        setState({ user: { ...store.user, company: loaded } });
+        setState({ user: { ...(store.user as Record<string, unknown> | null), company: loaded } });
         companyOk.textContent = "Company updated for your whole team."; companyOk.hidden = false;
       } catch (e2) {
         companyErr.textContent = e2 instanceof Error ? e2.message : "Couldn't update your company. Please try again.";

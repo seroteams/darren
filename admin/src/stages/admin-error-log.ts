@@ -225,7 +225,7 @@ export const mount: Mount = async (root, { setState }) => {
           if (res.status === "fulfilled") {
             const r = allRows.find((x) => x.id === ids[i]);
             if (r) r.resolvedAt = new Date().toISOString();
-            selected.delete(ids[i]);
+            selected.delete(ids[i]!);
           } else {
             failed += 1;
           }
