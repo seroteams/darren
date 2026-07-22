@@ -46,6 +46,7 @@ function indexColumns(session: Session) {
     mode: session.mode ?? null,
     personaId: session.fingerprint?.personaId ?? null,
     runLabel: session.runLabel ?? null,
+    isDemo: Boolean(session.isDemo),
   };
 }
 

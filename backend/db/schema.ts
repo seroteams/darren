@@ -78,6 +78,9 @@ export const people = pgTable(
     userId: uuid("user_id").references(() => users.id),
     // Non-null = this row was folded into another person (Tidy-up merge).
     mergedIntoId: uuid("merged_into_id").references((): AnyPgColumn => people.id),
+    // The pre-seeded example person a fresh signup gets. Demo rows render for their
+    // manager like any person but are excluded from admin metrics and counts.
+    isDemo: boolean("is_demo").notNull().default(false),
     archivedAt: timestamp("archived_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
@@ -126,6 +129,8 @@ export const sessions = pgTable(
     mode: text("mode"),
     personaId: text("persona_id"),
     runLabel: text("run_label"),
+    // The cloned example run seeded at signup (see people.is_demo).
+    isDemo: boolean("is_demo").notNull().default(false),
     // — sidecars-as-columns —
     archivedAt: timestamp("archived_at", { withTimezone: true }),
     review: jsonb("review"),

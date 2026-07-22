@@ -1,0 +1,118 @@
+<title>Demo member on signup · mockup</title>
+<style>
+  :root{
+    --ink:#1f2a37; --dim:#636363; --page:#f5fafd; --surface:#ffffff; --border:#e8e8e8;
+    --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb;
+    --gold:#ffc247; --gold-tint:#fff3d6; --gold-text:#523600;
+    --mint-tint:#e2faf3; --mint-text:#0c4b3c;
+    --coral-text:#ac1608;
+    --frame-bg:#eef4f8; --note:#636363;
+  }
+  :root[data-theme="dark"], :root[data-theme="dark"] body{ }
+  @media (prefers-color-scheme: dark){
+    :root{ --frame-bg:#232a31; --note:#9aa4ad; }
+  }
+  :root[data-theme="dark"]{ --frame-bg:#232a31; --note:#9aa4ad; }
+  :root[data-theme="light"]{ --frame-bg:#eef4f8; --note:#636363; }
+  body{ font-family:Inter,ui-sans-serif,system-ui,sans-serif; background:var(--frame-bg); margin:0; padding:28px 16px 48px; }
+  .wrap{ max-width:960px; margin:0 auto; display:flex; flex-direction:column; gap:28px; }
+  .preview-tag{ text-align:center; font-size:14px; font-weight:500; letter-spacing:.04em; color:var(--note); text-transform:uppercase; }
+  .intro{ text-align:center; color:var(--note); font-size:15px; max-width:56ch; margin:0 auto; }
+  .screen-label{ font-size:14px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--note); margin:0 0 10px 4px; }
+  .screen-note{ font-size:14px; color:var(--note); margin:10px 4px 0; max-width:64ch; }
+  .screen{ background:var(--page); border:1px solid var(--border); border-radius:12px; padding:28px; box-shadow:0 6px 24px rgba(31,42,55,.08); }
+  .display{ font-family:'Bricolage Grotesque',Inter,ui-sans-serif,system-ui,sans-serif; font-weight:600; color:var(--ink); font-size:34px; line-height:1.1; letter-spacing:-.02em; margin:0; }
+  .sub{ color:var(--dim); font-size:16px; margin:8px 0 0; }
+  .btn-primary{ display:inline-block; background:var(--accent); color:#fff; border-radius:4px; padding:9px 18px; font-size:15px; font-weight:500; }
+  .btn-ghost{ display:inline-block; background:var(--surface); color:var(--ink); border:1px solid var(--border); border-radius:4px; padding:8px 16px; font-size:15px; font-weight:500; }
+  .btn-danger{ display:inline-block; background:var(--surface); color:var(--coral-text); border:1px solid var(--coral-text); border-radius:4px; padding:8px 16px; font-size:15px; font-weight:500; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; }
+  .rowline{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .avatar{ width:42px; height:42px; border-radius:9999px; background:var(--accent-soft); color:var(--accent-dark); display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; flex:none; }
+  .name{ font-weight:600; color:var(--ink); font-size:17px; }
+  .quiet{ color:var(--dim); font-size:14px; }
+  .pill{ display:inline-block; background:var(--gold-tint); color:var(--gold-text); border-radius:9999px; padding:3px 12px; font-size:14px; font-weight:500; }
+  .pill-done{ display:inline-block; background:var(--mint-tint); color:var(--mint-text); border-radius:9999px; padding:3px 12px; font-size:14px; font-weight:500; }
+  .push{ margin-left:auto; display:flex; align-items:center; gap:12px; }
+  .chev{ color:var(--dim); font-size:18px; }
+  .section-h{ font-size:14px; font-weight:600; color:var(--dim); letter-spacing:.04em; text-transform:uppercase; margin:26px 0 10px; }
+  .l-stack{ display:flex; flex-direction:column; gap:12px; }
+  .bar{ height:1px; background:var(--border); margin:22px 0; }
+  .brief{ color:var(--ink); font-size:15px; line-height:1.55; margin:0; }
+  .brief li{ margin-bottom:6px; }
+  .topbar{ display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap; }
+  .topbar .push{ align-self:center; }
+  @media (max-width:560px){ .screen{ padding:18px; } .display{ font-size:27px; } }
+</style>
+
+<div class="wrap">
+  <div class="preview-tag">Preview · not the live app</div>
+  <p class="intro">What a brand-new manager sees the moment they register: one example team member with a finished 1:1 already there, clearly labelled, gone in one click.</p>
+
+  <div>
+    <p class="screen-label">1 · Home, first login</p>
+    <div class="screen">
+      <div class="topbar">
+        <div>
+          <h1 class="display">Prep a 1:1</h1>
+          <p class="sub">Ten minutes of prep. A calmer, sharper 1:1.</p>
+        </div>
+        <span class="push"><span class="btn-primary">Start a prep</span></span>
+      </div>
+      <p class="section-h">Recent 1:1s</p>
+      <div class="card">
+        <div class="rowline">
+          <span class="avatar">SR</span>
+          <span>
+            <span class="name">Sofia Reyes</span> <span class="pill">Example</span><br>
+            <span class="quiet">Bi-weekly check-in · Fri 17 Jul 2026</span>
+          </span>
+          <span class="push"><span class="pill-done">Finished</span><span class="chev">›</span></span>
+        </div>
+      </div>
+      <p class="screen-note">The example 1:1 replaces the empty screen. Open it to read a finished briefing before you have prepped anything of your own.</p>
+    </div>
+  </div>
+
+  <div>
+    <p class="screen-label">2 · Inside the example person</p>
+    <div class="screen">
+      <p class="quiet" style="margin:0 0 6px">Team › Sofia Reyes</p>
+      <div class="rowline">
+        <h1 class="display" style="font-size:30px">Sofia Reyes</h1>
+        <span class="pill">Example</span>
+        <span class="push"><span class="btn-danger">Remove example</span></span>
+      </div>
+      <p class="sub">Product Designer · Mid</p>
+      <div class="bar"></div>
+      <p class="section-h">From her last 1:1</p>
+      <div class="card">
+        <ul class="brief" style="padding-left:18px">
+          <li>Sofia agreed to lead the onboarding redesign review on her own.</li>
+          <li>Watch for: she takes on extra work quietly instead of flagging capacity.</li>
+          <li>Promise made: you said you would introduce her to the platform team.</li>
+        </ul>
+      </div>
+      <p class="screen-note">This is real briefing content from a curated example, so the value is visible before the first real prep. Remove example clears everything demo after a confirm.</p>
+    </div>
+  </div>
+
+  <div>
+    <p class="screen-label">3 · Team</p>
+    <div class="screen">
+      <h1 class="display" style="font-size:30px">Team</h1>
+      <div class="section-h">1 person</div>
+      <div class="card">
+        <div class="rowline">
+          <span class="avatar">SR</span>
+          <span>
+            <span class="name">Sofia Reyes</span> <span class="pill">Example</span><br>
+            <span class="quiet">Product Designer · Mid · 1 finished 1:1</span>
+          </span>
+          <span class="push"><span class="btn-ghost">Add your team</span><span class="chev">⋯</span></span>
+        </div>
+      </div>
+      <p class="screen-note">The example sits on the roster like a real person would, next to the normal add-your-team path.</p>
+    </div>
+  </div>
+</div>

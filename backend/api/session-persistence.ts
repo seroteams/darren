@@ -60,6 +60,7 @@ function serialize(s: Session): PersistedSession {
     priorCheckin: s.priorCheckin ?? null, // card zero's taps on THIS session (Promises loop phase 2)
     mode: s.mode || "manual",
     runLabel: s.runLabel ?? null,
+    isDemo: s.isDemo ?? false,
     fingerprint: s.fingerprint ?? null,
     scriptAnswers: s.scriptAnswers ?? null,
     scriptedFallback: s.scriptedFallback ?? null,

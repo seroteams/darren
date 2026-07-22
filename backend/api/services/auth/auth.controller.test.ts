@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { IncomingMessage } from "node:http";
-import { me } from "./auth.controller.ts";
+import { me, register } from "./auth.controller.ts";
 import type { IdentityLookup } from "../../middleware/request-context.ts";
 import type { RequestContext } from "../../router.ts";
 
@@ -61,6 +61,34 @@ test("/auth/me reports appEnv=live when the app runs as live", async () => {
     await me(c, session);
     assert.equal(sent().body.appEnv, "live");
   });
+});
+
+test("register: a throwing demo seeder never blocks the signup — still 201 with the user", async () => {
+  let status = 0;
+  let body: Record<string, unknown> = {};
+  const c = {
+    req: { headers: {}, method: "POST" } as IncomingMessage,
+    url: new URL("http://localhost/api/v1/auth/register"),
+    query: {},
+    params: {},
+    readBody: async () => ({ email: "new@example.com", name: "New Manager", password: "longenough", company: "Acme" }),
+    json: (s: number, b: Record<string, unknown>) => {
+      status = s;
+      body = b;
+    },
+  } as unknown as RequestContext;
+  const fakeSvc = {
+    register: async () => ({ id: "u9", email: "new@example.com", name: "New Manager", orgId: "o9", role: "manager" }),
+  };
+  await register(
+    c,
+    () => {
+      throw new Error("seed boom");
+    },
+    fakeSvc,
+  );
+  assert.equal(status, 201);
+  assert.equal((body.user as Record<string, unknown>).id, "u9");
 });
 
 test("/auth/me still turns a logged-out visitor away (401)", async () => {

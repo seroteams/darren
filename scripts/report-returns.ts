@@ -12,6 +12,7 @@
 import { loadEnv } from "../backend/engine/env.ts";
 loadEnv();
 
+import { eq } from "drizzle-orm";
 import { getDb, hasDatabaseUrl, closeDb } from "../backend/db/client.ts";
 import { sessions, authSessions, users } from "../backend/db/schema.ts";
 import { buildReturnsReport, formatReturnsTable } from "../backend/api/services/returns/returns-report.ts";
@@ -25,7 +26,8 @@ async function main(): Promise<void> {
   }
   const db = getDb();
   const [runRows, loginRows, userRows] = await Promise.all([
-    db.select({ userId: sessions.userId, createdAt: sessions.createdAt, completedAt: sessions.completedAt, finished: sessions.finished }).from(sessions),
+    // Signup demo runs never count as a return (demo-member phase 1).
+    db.select({ userId: sessions.userId, createdAt: sessions.createdAt, completedAt: sessions.completedAt, finished: sessions.finished }).from(sessions).where(eq(sessions.isDemo, false)),
     db.select({ userId: authSessions.userId, createdAt: authSessions.createdAt }).from(authSessions),
     db.select({ id: users.id, name: users.name, email: users.email }).from(users),
   ]);
