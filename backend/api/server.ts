@@ -10,6 +10,7 @@ import { createStaticHandler } from "./static.ts";
 import { startSweep } from "./sessions.ts";
 import { getBuildInfo } from "./build-info.ts";
 import { runMigrations } from "../db/migrate.ts";
+import { bootRetry } from "../db/boot-retry.ts";
 import { runEnvironmentGuard, EnvGuardError, resolveAppEnv } from "../db/env-guard.ts";
 import { flushArtifactWrites } from "../db/run-artifacts-store.ts";
 import { hydrateQuestionCache, flushQuestionWrites } from "../db/questions-store.ts";
@@ -160,7 +161,12 @@ async function main(): Promise<void> {
   // or writes it. A refused mismatch is fatal on purpose: better a server that
   // won't start than a local app writing into the live database.
   try {
-    await runMigrations();
+    // The migration is the FIRST query against a possibly-cold Neon compute
+    // (free tiers: Render sleeps after 15 idle min, Neon suspends after 5).
+    // A cold cross-region connect can miss the 10s connect timeout, and dying
+    // on that first miss caused the 2026-07-21 crash-loop alerts — so give the
+    // database ~60s to wake before treating the failure as real.
+    await bootRetry(runMigrations);
     await runEnvironmentGuard();
   } catch (e) {
     if (e instanceof EnvGuardError) {
