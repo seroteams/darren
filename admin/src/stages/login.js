@@ -127,8 +127,10 @@ export async function mount(root, { setState }) {
 
   // Dev convenience — prefill a local test account so you're never locked out while
   // testing, cycling through the three-login setup: MANAGER (the real end user under
-  // test) → ADMIN (Carl / internal) → MEMBER (a managed team member). Every visit
-  // defaults to Manager. Credentials come from your local .env only
+  // test) → ADMIN (Carl / internal) → MEMBER (a managed team member). The default pick
+  // matches the app you're on: the customer app defaults to Manager, the internal admin
+  // app defaults to Admin — a manager signing in HERE only reaches the "wrong app"
+  // signpost, so prefilling them was a dead end. Credentials come from your local .env only
   // (VITE_DEV_LOGIN_MANAGER_* / _ADMIN_* / _MEMBER_* — see .env.example); no
   // credentials live in source. Accounts with unset vars just drop out of the cycle;
   // with none set the prefill doesn't appear. The whole block is stripped from
@@ -160,7 +162,8 @@ export async function mount(root, { setState }) {
       );
     }
 
-    fill(0); // default to the manager every visit
+    const defaultLabel = import.meta.env.BASE_URL.startsWith("/admin") ? "Admin" : "Manager";
+    fill(Math.max(0, DEV_ACCOUNTS.findIndex((a) => a.label === defaultLabel)));
     if (!isTouchScreen()) requestAnimationFrame(() => submitBtn.focus({ preventScroll: true }));
   } else if (!isTouchScreen()) {
     // Desktop only — on a phone this pops the keyboard over the page (phone walk 2026-07-11).
