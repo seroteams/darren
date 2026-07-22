@@ -8,6 +8,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
+| 82796893 | Design-system audit (read-only sweep, report in audits/) | audits/design-audit-2026-07/ | 2026-07-22 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
