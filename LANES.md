@@ -8,6 +8,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
+| 82796893 | Design consolidation setup (plan folder, acceptance list, baseline) | docs/plans/doing/design-consolidation/, docs/screen-gallery/, STATUS.md | 2026-07-22 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
