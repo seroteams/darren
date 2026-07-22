@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { runOwnedByOrg, runOwnedByUser, memberRunVisible, cloneRunState, personaTagOf, costFromState, overviewFields, promiseHistoryOf } from "./run-history.ts";
+import { runOwnedByOrg, runOwnedByUser, runVisibleToCaller, memberRunVisible, cloneRunState, personaTagOf, costFromState, overviewFields, promiseHistoryOf } from "./run-history.ts";
 
 // costFromState (universe-monitoring P3): a run's model spend off its saved briefing.
 // Null when absent or malformed — an old run must never claim "$0.00".
@@ -60,6 +60,28 @@ test("a run with no userId is invisible to any member", () => {
 test("a non-object state is never owned by a member", () => {
   assert.equal(runOwnedByUser(null, "u1"), false);
   assert.equal(runOwnedByUser("nope", "u1"), false);
+});
+
+// runVisibleToCaller is the admin-console fence (manager-privacy wall): the org wall
+// always applies; the user wall applies only when a caller userId is given. An internal
+// admin passes null userId (org-wide view); a manager passes their own id and sees only
+// runs they created — a colleague manager's run answers "unknown", same as a stranger.
+test("with no caller userId the fence is the org wall alone (internal admin view)", () => {
+  assert.equal(runVisibleToCaller({ orgId: "org-A", userId: "u1" }, "org-A", null), true);
+  assert.equal(runVisibleToCaller({ orgId: "org-A", userId: "u2" }, "org-A", undefined), true);
+  assert.equal(runVisibleToCaller({ orgId: "org-B", userId: "u1" }, "org-A", null), false, "org wall still applies");
+});
+
+test("with a caller userId only that user's runs are visible (manager fence)", () => {
+  assert.equal(runVisibleToCaller({ orgId: "org-A", userId: "u1" }, "org-A", "u1"), true);
+  assert.equal(runVisibleToCaller({ orgId: "org-A", userId: "u2" }, "org-A", "u1"), false, "a colleague manager's run is invisible");
+  assert.equal(runVisibleToCaller({ orgId: "org-A", userId: null }, "org-A", "u1"), false, "an ownerless run is invisible to a fenced manager");
+  assert.equal(runVisibleToCaller({ orgId: "org-B", userId: "u1" }, "org-A", "u1"), false, "both walls stack");
+});
+
+test("fully unfenced caller (CLI/gate) sees everything", () => {
+  assert.equal(runVisibleToCaller({ orgId: "org-A", userId: "u1" }, null, null), true);
+  assert.equal(runVisibleToCaller({}, null, null), true);
 });
 
 // memberRunVisible decides which of a member's own runs their list shows: finished runs

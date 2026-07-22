@@ -30,6 +30,15 @@ function runOwnedByUser(state: unknown, userId?: string | null): boolean {
   return isObjectRecord(state) && state.userId === userId;
 }
 
+// The admin-console fence (manager-privacy wall): the org wall always applies; the
+// user wall only when a caller userId is given. An internal admin passes null userId
+// (org-wide view); a manager passes their own id and sees ONLY runs they created —
+// a colleague manager's run answers "unknown", the same as a stranger's.
+function runVisibleToCaller(state: unknown, orgId?: string | null, userId?: string | null): boolean {
+  if (!runOwnedByOrg(state, orgId)) return false;
+  return userId ? runOwnedByUser(state, userId) : true;
+}
+
 function readState(stateFile: string): unknown {
   try {
     return JSON.parse(fs.readFileSync(stateFile, "utf8"));
@@ -137,8 +146,8 @@ function costFromState(state: unknown): { usd: number; calls: number | null } | 
   return { usd: cost.usd_total, calls: typeof cost.call_count === "number" ? cost.call_count : null };
 }
 
-function setArchived(id: string, archived: unknown, orgId?: string | null): { ok: boolean; id: string; reason?: string; archived?: boolean } {
-  const dir = findRunDir(id, orgId);
+function setArchived(id: string, archived: unknown, orgId?: string | null, userId?: string | null): { ok: boolean; id: string; reason?: string; archived?: boolean } {
+  const dir = findRunDir(id, orgId, userId);
   if (!dir) return { ok: false, id, reason: "not_found" };
   const flag = Boolean(archived);
   const data = { version: 1, runId: id, archived: flag, updatedAt: new Date().toISOString() };
@@ -157,7 +166,7 @@ interface WalkedRun {
 
 // When orgId is given, only that company's runs are walked (the data wall);
 // omit it and every run is returned (CLI/gate/restore).
-function walkRuns(orgId?: string | null): WalkedRun[] {
+function walkRuns(orgId?: string | null, userId?: string | null): WalkedRun[] {
   if (!fs.existsSync(LOGS_ROOT)) return [];
   const out: WalkedRun[] = [];
   for (const monthEntry of fs.readdirSync(LOGS_ROOT, { withFileTypes: true })) {
@@ -177,7 +186,7 @@ function walkRuns(orgId?: string | null): WalkedRun[] {
       if (!fs.existsSync(stateFile)) continue;
       const state = readState(stateFile);
       if (!isObjectRecord(state) || !state.id) continue;
-      if (!runOwnedByOrg(state, orgId)) continue; // fence: skip other companies' runs
+      if (!runVisibleToCaller(state, orgId, userId)) continue; // fence: skip other companies' (and, for a fenced manager, other managers') runs
       const id = state.id;
       if (typeof id !== "string") continue;
       out.push({ id, dir, state });
@@ -188,7 +197,7 @@ function walkRuns(orgId?: string | null): WalkedRun[] {
 
 // When orgId is given, a run that exists but belongs to another company resolves
 // to null (not-found) — the same answer a stranger gets, so ids can't be probed.
-function findRunDir(id: unknown, orgId?: string | null): string | null {
+function findRunDir(id: unknown, orgId?: string | null, userId?: string | null): string | null {
   // Defense-in-depth: a real run id never contains a path separator or "..", so
   // reject anything that could escape LOGS_ROOT before it reaches path.join.
   if (typeof id !== "string" || /[\\/]|\.\./.test(id)) return null;
@@ -197,10 +206,10 @@ function findRunDir(id: unknown, orgId?: string | null): string | null {
     const guess = path.join(LOGS_ROOT, monthName, id);
     const stateFile = path.join(guess, STATE_FILE);
     if (fs.existsSync(stateFile)) {
-      return runOwnedByOrg(readState(stateFile), orgId) ? guess : null;
+      return runVisibleToCaller(readState(stateFile), orgId, userId) ? guess : null;
     }
   }
-  const hit = walkRuns(orgId).find((r) => r.id === id);
+  const hit = walkRuns(orgId, userId).find((r) => r.id === id);
   return hit ? hit.dir : null;
 }
 
@@ -210,8 +219,8 @@ function readPipelineLock(id: string) {
   return readPipelineLockFromDir(dir);
 }
 
-function listRecentRuns(limit = 3, orgId?: string | null) {
-  const runs = walkRuns(orgId);
+function listRecentRuns(limit = 3, orgId?: string | null, userId?: string | null) {
+  const runs = walkRuns(orgId, userId);
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
   return runs.slice(0, limit).map(({ id, dir, state }) => {
     const lock = readPipelineLockFromDir(dir);
@@ -240,8 +249,8 @@ function listRecentRuns(limit = 3, orgId?: string | null) {
 // Library (QA tooling): every FINISHED run (has a briefing), newest first, no
 // limit. Each row carries review badge inputs so the Library can show verdict +
 // failed count without opening the run.
-function listFinishedRuns(orgId?: string | null) {
-  const runs = walkRuns(orgId).filter(({ state }) => state && state.briefing);
+function listFinishedRuns(orgId?: string | null, userId?: string | null) {
+  const runs = walkRuns(orgId, userId).filter(({ state }) => state && state.briefing);
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
   return runs.map(({ id, dir, state }) => {
     const ctx = asRecord(state.ctx);
@@ -574,8 +583,8 @@ function overviewFields(stateRaw: unknown) {
   };
 }
 
-function summarizeRun(id: string, orgId?: string | null) {
-  const dir = findRunDir(id, orgId);
+function summarizeRun(id: string, orgId?: string | null, userId?: string | null) {
+  const dir = findRunDir(id, orgId, userId);
   if (!dir) return null;
   const state = readState(path.join(dir, STATE_FILE));
   if (!isObjectRecord(state)) return null;
@@ -604,8 +613,8 @@ function readJsonAt(dir: string, ...parts: string[]): unknown {
 
 // Rich read for the Compare view: questions asked, briefing, notes, structured
 // verdict, fingerprint, and script coverage for a single run.
-function compareRun(id: string, orgId?: string | null) {
-  const dir = findRunDir(id, orgId);
+function compareRun(id: string, orgId?: string | null, userId?: string | null) {
+  const dir = findRunDir(id, orgId, userId);
   if (!dir) return null;
   const state = readState(path.join(dir, STATE_FILE));
   if (!isObjectRecord(state)) return null;
@@ -645,8 +654,8 @@ function compareRun(id: string, orgId?: string | null) {
   };
 }
 
-function deleteRun(id: string, orgId?: string | null): { deleted: boolean; id: string; reason?: string; dir?: string } {
-  const dir = findRunDir(id, orgId);
+function deleteRun(id: string, orgId?: string | null, userId?: string | null): { deleted: boolean; id: string; reason?: string; dir?: string } {
+  const dir = findRunDir(id, orgId, userId);
   if (!dir) return { deleted: false, id, reason: "not_found" };
   fs.rmSync(dir, { recursive: true, force: true });
   return { deleted: true, id, dir };
@@ -729,8 +738,8 @@ function readTurns(dir: string) {
 // Ordered stage-by-stage I/O for a run, for the right-rail Sent/Reply tabs.
 // Skips stages that haven't run yet so an in-progress run returns what exists.
 // null = unknown run (no folder); [] = a real run with no stages logged yet.
-function readRunStages(id: string, orgId?: string | null) {
-  const dir = findRunDir(id, orgId);
+function readRunStages(id: string, orgId?: string | null, userId?: string | null) {
+  const dir = findRunDir(id, orgId, userId);
   if (!dir) return null;
   const out: Array<Record<string, unknown>> = [];
   const push = (key: string, label: string): void => {
@@ -798,6 +807,7 @@ function cloneRun(sourceId: unknown, orgId: string | null, userId: string | null
 export {
   runOwnedByOrg,
   runOwnedByUser,
+  runVisibleToCaller,
   memberRunVisible,
   cloneRunState,
   cloneRun,

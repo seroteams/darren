@@ -182,6 +182,52 @@ test("the caller's orgId is forwarded to every fenced repo read (the data wall)"
   assert.deepEqual(seen, ["org-A", "org-A", "org-A", "org-A", "org-A", "org-A", "org-A"]);
 });
 
+test("the caller's userId fence is forwarded to every admin repo read (manager privacy wall)", async () => {
+  const seen: Array<string | null | undefined> = [];
+  const record = (userId?: string | null) => {
+    seen.push(userId);
+    return undefined;
+  };
+  const { repo } = fakeRepo({
+    listRecent: async (_n, _orgId, userId) => { record(userId); return []; },
+    listFinished: async (_orgId, userId) => { record(userId); return []; },
+    summarize: async (_id, _orgId, userId) => { record(userId); return { ok: true }; },
+    compare: async (_id, _orgId, userId) => { record(userId); return { ok: true }; },
+    readStages: async (_id, _orgId, userId) => { record(userId); return { ok: true }; },
+    deleteRun: async (id, _orgId, userId) => { record(userId); return { deleted: true, id }; },
+    setArchived: async (id, _a, _orgId, userId) => { record(userId); return { ok: true, id, archived: true }; },
+    runExists: async (_id, _orgId, userId) => { record(userId); return true; },
+  });
+  const svc = createRunsService(repo);
+  await svc.recent(undefined, "org-A", "mgr-1");
+  await svc.finished("org-A", "mgr-1");
+  await svc.overview("r1", "org-A", "mgr-1");
+  await svc.full("r1", "org-A", "mgr-1");
+  await svc.stages("r1", "org-A", "mgr-1");
+  await svc.remove("r1", "org-A", "mgr-1");
+  await svc.archive("r1", { archived: true }, "org-A", "mgr-1");
+  await svc.review("r1", { marks: {} }, "org-A", "mgr-1");
+  assert.deepEqual(seen, ["mgr-1", "mgr-1", "mgr-1", "mgr-1", "mgr-1", "mgr-1", "mgr-1", "mgr-1"]);
+});
+
+test("a fencing repo blocks a colleague manager's run: fenced list shows own only, by-id answers 404", async () => {
+  const ALL = [
+    { id: "mine", userId: "mgr-1", headline: "M", lastSeenAt: 2, stage: "done", pipelineDigest: null, reviewStatus: "none" },
+    { id: "theirs", userId: "mgr-2", headline: "T", lastSeenAt: 1, stage: "done", pipelineDigest: null, reviewStatus: "none" },
+  ];
+  const fence = (userId?: string | null) => (r: { userId: string }) => !userId || r.userId === userId;
+  const { repo } = fakeRepo({
+    listRecent: async (_n, _orgId, userId) => ALL.filter(fence(userId)),
+    compare: async (id, _orgId, userId) => ALL.find((r) => r.id === id && fence(userId)(r)) ?? null,
+  });
+  const svc = createRunsService(repo);
+  assert.deepEqual((await svc.recent(undefined, "org-A", "mgr-1")).runs.map((r) => asRecord(r).id), ["mine"]);
+  assert.equal((await thrown(() => svc.full("theirs", "org-A", "mgr-1"))).status, 404, "a colleague's run answers unknown");
+  assert.equal(asRecord(await svc.full("mine", "org-A", "mgr-1")).id, "mine");
+  // The internal-admin view (null userId) still sees the whole org.
+  assert.deepEqual((await svc.recent(undefined, "org-A", null)).runs.map((r) => asRecord(r).id), ["mine", "theirs"]);
+});
+
 test("a fencing repo blocks cross-company reads: A sees only A's runs and can't open B's", async () => {
   const ALL = [
     { id: "a1", orgId: "org-A", headline: "A", lastSeenAt: 2, stage: "done", pipelineDigest: null, reviewStatus: "none" },

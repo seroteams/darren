@@ -10,6 +10,7 @@ import {
   fenceOrgRows,
   fenceMemberRows,
   fenceUserRows,
+  fenceCallerRows,
   fenceAboutPersonRows,
   toMemberRow,
   toMemberView,
@@ -85,6 +86,20 @@ test("user fence (superadmin drilldown): finished + owned by exactly that user; 
   assert.deepEqual(fenceUserRows(rows, "user-1").map((r) => r.id), ["u1-done"]);
   assert.equal(fenceUserRows(rows, null).length, 0);
   assert.equal(fenceUserRows(rows, undefined).length, 0);
+});
+
+test("caller fence (manager privacy wall): null userId = org-wide (internal admin); a userId narrows to own runs only", () => {
+  const rows = [
+    run({ state: { id: "mine", orgId: "org-a", userId: "user-1" } }),
+    run({ state: { id: "colleague", orgId: "org-a", userId: "user-2" } }),
+    run({ state: { id: "ownerless", orgId: "org-a", userId: null } }),
+    run({ state: { id: "other-org", orgId: "org-b", userId: "user-1" } }),
+  ];
+  assert.deepEqual(fenceCallerRows(rows, "org-a", null).map((r) => r.id), ["mine", "colleague", "ownerless"], "internal admin: org wall only");
+  assert.deepEqual(fenceCallerRows(rows, "org-a", "user-1").map((r) => r.id), ["mine"], "manager: own runs only — a colleague's run is invisible");
+  assert.equal(fenceCallerRows(rows, "org-b", "user-2").length, 0, "both walls stack — right org, wrong owner matches nothing");
+  assert.deepEqual(fenceCallerRows(rows, "org-b", "user-1").map((r) => r.id), ["other-org"], "a manager's runs follow them only inside their own org");
+  assert.equal(fenceCallerRows(rows, null, null).length, 4, "fully unfenced (CLI/gate)");
 });
 
 test("about-person fence: org required, finished only, personId must be in the linked set", () => {

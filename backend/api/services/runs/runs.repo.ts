@@ -59,20 +59,23 @@ export interface ArchiveResult {
 // Every read takes an optional orgId — the caller's company. When given, only that
 // company's runs are visible and a by-id read of another company's run resolves to
 // "unknown" (the data wall, Phase 007/2). Omitted = unfenced (CLI/gate).
+// The admin methods also take an optional userId — the manager-privacy wall: a plain
+// manager passes their own id and sees ONLY runs they created; an internal admin
+// passes null for the org-wide view. A colleague manager's run answers "unknown".
 export interface RunsRepo {
-  listRecent(limit: number, orgId?: string | null): Promise<unknown[]>;
-  listFinished(orgId?: string | null): Promise<unknown[]>;
-  summarize(id: string, orgId?: string | null): Promise<unknown>; // falsy when the run is unknown
-  compare(id: string, orgId?: string | null): Promise<unknown>;
-  readStages(id: string, orgId?: string | null): Promise<unknown>;
-  deleteRun(id: string, orgId?: string | null): Promise<DeleteResult>;
+  listRecent(limit: number, orgId?: string | null, userId?: string | null): Promise<unknown[]>;
+  listFinished(orgId?: string | null, userId?: string | null): Promise<unknown[]>;
+  summarize(id: string, orgId?: string | null, userId?: string | null): Promise<unknown>; // falsy when the run is unknown
+  compare(id: string, orgId?: string | null, userId?: string | null): Promise<unknown>;
+  readStages(id: string, orgId?: string | null, userId?: string | null): Promise<unknown>;
+  deleteRun(id: string, orgId?: string | null, userId?: string | null): Promise<DeleteResult>;
   dropSession(id: string): void; // evict any in-memory session for a deleted run
-  setArchived(id: string, archived: boolean, orgId?: string | null): Promise<ArchiveResult>;
+  setArchived(id: string, archived: boolean, orgId?: string | null, userId?: string | null): Promise<ArchiveResult>;
   // Does this run exist for this caller? (replaces the dir-based findRunDir probe —
   // same fence: another company's run answers false, like an unknown id.)
-  runExists(id: string, orgId?: string | null): Promise<boolean>;
-  readReview(id: string, orgId?: string | null): Promise<unknown>; // existing review, or null
-  writeReview(id: string, orgId: string | null | undefined, data: unknown): Promise<void>;
+  runExists(id: string, orgId?: string | null, userId?: string | null): Promise<boolean>;
+  readReview(id: string, orgId?: string | null, userId?: string | null): Promise<unknown>; // existing review, or null
+  writeReview(id: string, orgId: string | null | undefined, data: unknown, userId?: string | null): Promise<void>;
   // Manager 1:1 rating (pre-go-live PG3).
   readRating(id: string, orgId?: string | null): Promise<unknown>;
   writeRating(id: string, orgId: string | null | undefined, data: unknown): Promise<void>;
@@ -110,30 +113,30 @@ function writeSidecar(dir: string, name: string, data: unknown): void {
   fs.renameSync(tmp, target);
 }
 
-function requireDir(id: string, orgId?: string | null): string {
-  const dir = findRunDir(id, orgId);
+function requireDir(id: string, orgId?: string | null, userId?: string | null): string {
+  const dir = findRunDir(id, orgId, userId);
   if (!dir) throw new Error("unknown run");
   return dir;
 }
 
 export const fileRunsRepo: RunsRepo = {
-  listRecent: async (limit, orgId) => listRecentRuns(limit, orgId),
-  listFinished: async (orgId) => listFinishedRuns(orgId),
-  summarize: async (id, orgId) => summarizeRun(id, orgId),
-  compare: async (id, orgId) => compareRun(id, orgId),
-  readStages: async (id, orgId) => readRunStages(id, orgId),
-  deleteRun: async (id, orgId) => deleteRun(id, orgId),
+  listRecent: async (limit, orgId, userId) => listRecentRuns(limit, orgId, userId),
+  listFinished: async (orgId, userId) => listFinishedRuns(orgId, userId),
+  summarize: async (id, orgId, userId) => summarizeRun(id, orgId, userId),
+  compare: async (id, orgId, userId) => compareRun(id, orgId, userId),
+  readStages: async (id, orgId, userId) => readRunStages(id, orgId, userId),
+  deleteRun: async (id, orgId, userId) => deleteRun(id, orgId, userId),
   dropSession: (id) => {
     dropSession(id);
   },
-  setArchived: async (id, archived, orgId) => setArchived(id, archived, orgId),
-  runExists: async (id, orgId) => findRunDir(id, orgId) !== null,
-  readReview: async (id, orgId) => {
-    const dir = findRunDir(id, orgId);
+  setArchived: async (id, archived, orgId, userId) => setArchived(id, archived, orgId, userId),
+  runExists: async (id, orgId, userId) => findRunDir(id, orgId, userId) !== null,
+  readReview: async (id, orgId, userId) => {
+    const dir = findRunDir(id, orgId, userId);
     return dir ? readSidecar(dir, "review.json") : null;
   },
-  writeReview: async (id, orgId, data) => {
-    writeSidecar(requireDir(id, orgId), "review.json", data);
+  writeReview: async (id, orgId, data, userId) => {
+    writeSidecar(requireDir(id, orgId, userId), "review.json", data);
   },
   readRating: async (id, orgId) => {
     const dir = findRunDir(id, orgId);
@@ -149,19 +152,19 @@ export const fileRunsRepo: RunsRepo = {
 };
 
 export const pgRunsRepo: RunsRepo = {
-  listRecent: (limit, orgId) => pgListRecentRuns(limit, orgId),
-  listFinished: (orgId) => pgListFinishedRuns(orgId),
-  summarize: (id, orgId) => pgSummarizeRun(id, orgId),
-  compare: (id, orgId) => pgCompareRun(id, orgId),
-  readStages: (id, orgId) => pgReadRunStages(id, orgId),
-  deleteRun: (id, orgId) => pgDeleteRun(id, orgId),
+  listRecent: (limit, orgId, userId) => pgListRecentRuns(limit, orgId, userId),
+  listFinished: (orgId, userId) => pgListFinishedRuns(orgId, userId),
+  summarize: (id, orgId, userId) => pgSummarizeRun(id, orgId, userId),
+  compare: (id, orgId, userId) => pgCompareRun(id, orgId, userId),
+  readStages: (id, orgId, userId) => pgReadRunStages(id, orgId, userId),
+  deleteRun: (id, orgId, userId) => pgDeleteRun(id, orgId, userId),
   dropSession: (id) => {
     dropSession(id);
   },
-  setArchived: (id, archived, orgId) => pgSetArchived(id, archived, orgId),
-  runExists: (id, orgId) => pgRunExists(id, orgId),
-  readReview: (id, orgId) => pgReadReview(id, orgId),
-  writeReview: (id, orgId, data) => pgWriteReview(id, orgId, data),
+  setArchived: (id, archived, orgId, userId) => pgSetArchived(id, archived, orgId, userId),
+  runExists: (id, orgId, userId) => pgRunExists(id, orgId, userId),
+  readReview: (id, orgId, userId) => pgReadReview(id, orgId, userId),
+  writeReview: (id, orgId, data, userId) => pgWriteReview(id, orgId, data, userId),
   readRating: (id, orgId) => pgReadRating(id, orgId),
   writeRating: (id, orgId, data) => pgWriteRating(id, orgId, data),
   listFinishedForMember: (orgId, userId, includeOpen) => pgListFinishedRunsForMember(orgId, userId, includeOpen),

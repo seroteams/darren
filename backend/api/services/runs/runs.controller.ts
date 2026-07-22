@@ -8,20 +8,24 @@ import { runsRepo } from "./runs.repo.ts";
 import { aboutMeService } from "./about-me.service.ts";
 import { listCompletedGuidedSlim } from "../guided-sessions/guided-slim.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
-import { requireAdmin, requireAuth, requirePrefillAccess } from "../../middleware/require-auth.ts";
+import { requireAdmin, requireAuth, requirePrefillAccess, isInternalIdentity } from "../../middleware/require-auth.ts";
 
 // Finished Monthly Check-ins merge into the manager's run history (Phase 6, add-a-source).
 const service = createRunsService(runsRepo, { listCompletedGuidedSlim });
 
-// The caller's company from the session cookie, ADMIN required (admin-access-guard
-// Phase 2). Run history + Run Review are internal QA tooling, so a logged-in non-admin
-// member is refused (403); anonymous is 401. The dev side-door still yields an owner
-// identity, so dev one-click is unaffected. All runs handlers resolve through here, so
-// this one guard protects every runs endpoint.
-async function callerOrgId(c: RequestContext): Promise<string | null> {
+// The caller's fence from the session cookie, ADMIN required (admin-access-guard
+// Phase 2; a logged-in non-admin member is 403, anonymous 401). Two walls ride it:
+// orgId is the company wall (Phase 007/2), and userId is the manager-privacy wall —
+// a plain `manager` (what every customer signup gets) is fenced to their OWN runs, so
+// a colleague manager's runs (notes, "private, just for you" briefings) answer
+// "unknown". Internal admins (role admin / superadmin-by-email) pass a null userId
+// and keep the org-wide QA view. The dev side-door identity has role admin, so dev
+// one-click is unaffected. All runs handlers resolve through here, so this one guard
+// protects every runs endpoint.
+async function callerFence(c: RequestContext): Promise<{ orgId: string | null; userId: string | null }> {
   const identity = await buildIdentity(c.req);
   requireAdmin(identity);
-  return identity.orgId;
+  return { orgId: identity.orgId, userId: isInternalIdentity(identity) ? null : identity.userId };
 }
 
 // The caller's full identity for the "prefill a run" tool. Returns userId too, because
@@ -37,37 +41,45 @@ async function callerPrefill(c: RequestContext): Promise<{ userId: string | null
 }
 
 export async function recent(c: RequestContext): Promise<void> {
-  c.json(200, await service.recent(c.query.limit, await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.recent(c.query.limit, fence.orgId, fence.userId));
 }
 
 export async function finished(c: RequestContext): Promise<void> {
-  c.json(200, await service.finished(await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.finished(fence.orgId, fence.userId));
 }
 
 export async function overview(c: RequestContext): Promise<void> {
-  c.json(200, await service.overview(c.params.id, await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.overview(c.params.id, fence.orgId, fence.userId));
 }
 
 export async function full(c: RequestContext): Promise<void> {
-  c.json(200, await service.full(c.params.id, await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.full(c.params.id, fence.orgId, fence.userId));
 }
 
 export async function stages(c: RequestContext): Promise<void> {
-  c.json(200, await service.stages(c.params.id, await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.stages(c.params.id, fence.orgId, fence.userId));
 }
 
 export async function del(c: RequestContext): Promise<void> {
-  c.json(200, await service.remove(c.params.id, await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.remove(c.params.id, fence.orgId, fence.userId));
 }
 
 export async function archive(c: RequestContext): Promise<void> {
   const body = await c.readBody();
-  c.json(200, await service.archive(c.params.id, body, await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.archive(c.params.id, body, fence.orgId, fence.userId));
 }
 
 export async function review(c: RequestContext): Promise<void> {
   const body = await c.readBody();
-  c.json(200, await service.review(c.params.id, body, await callerOrgId(c)));
+  const fence = await callerFence(c);
+  c.json(200, await service.review(c.params.id, body, fence.orgId, fence.userId));
 }
 
 // The caller's own identity — login required, ANY role (member-nav Phase 2). The member

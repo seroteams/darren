@@ -29,6 +29,7 @@ import { DEFAULT_ORG_ID, ensureDefaultOrg } from "./sessions-store.ts";
 import {
   runOwnedByOrg,
   runOwnedByUser,
+  runVisibleToCaller,
   memberRunVisible,
   buildHeadline,
   reviewStatusOf,
@@ -130,6 +131,13 @@ function toDbRun(row: RawRow): DbRun | null {
 
 export function fenceOrgRows(rows: DbRun[], orgId?: string | null): DbRun[] {
   return rows.filter((r) => runOwnedByOrg(r.state, orgId));
+}
+
+// The admin-console fence (manager-privacy wall): org wall always, user wall only when
+// a caller userId is given — null userId is the internal-admin org-wide view. Delegates
+// to the engine's runVisibleToCaller so both stores answer identically.
+export function fenceCallerRows(rows: DbRun[], orgId?: string | null, userId?: string | null): DbRun[] {
+  return rows.filter((r) => runVisibleToCaller(r.state, orgId, userId));
 }
 
 export function fenceMemberRows(
@@ -286,10 +294,10 @@ async function rowByKey(id: unknown): Promise<DbRun | null> {
 
 // When orgId is given, a run that exists but belongs to another company resolves
 // to null — the same "unknown" answer a stranger gets (mirrors findRunDir).
-async function ownedRow(id: unknown, orgId?: string | null): Promise<DbRun | null> {
+async function ownedRow(id: unknown, orgId?: string | null, userId?: string | null): Promise<DbRun | null> {
   const row = await rowByKey(id);
   if (!row) return null;
-  return runOwnedByOrg(row.state, orgId) ? row : null;
+  return runVisibleToCaller(row.state, orgId, userId) ? row : null;
 }
 
 // --- artifacts -------------------------------------------------------------
@@ -375,8 +383,18 @@ function pick(arts: ArtifactRow[], stage: string, name: string): ArtifactRow | u
 // The reads (1:1 with run-history.ts)
 // ---------------------------------------------------------------------------
 
-export async function pgListRecentRuns(limit = 3, orgId?: string | null): Promise<unknown[]> {
-  const rows = fenceOrgRows(await rowsWhere([sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined], limit ? limit * 3 : undefined), orgId).slice(0, limit);
+export async function pgListRecentRuns(limit = 3, orgId?: string | null, userId?: string | null): Promise<unknown[]> {
+  const rows = fenceCallerRows(
+    await rowsWhere(
+      [
+        sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
+        sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
+      ],
+      limit ? limit * 3 : undefined,
+    ),
+    orgId,
+    userId,
+  ).slice(0, limit);
   const locks = await pipelineLocksFor(rows.map((r) => r.id));
   const out: unknown[] = [];
   for (const r of rows) {
@@ -399,10 +417,15 @@ export async function pgListRecentRuns(limit = 3, orgId?: string | null): Promis
   return out;
 }
 
-export async function pgListFinishedRuns(orgId?: string | null): Promise<unknown[]> {
-  const rows = fenceOrgRows(
-    await rowsWhere([eq(sessionsTable.finished, true), sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined]),
+export async function pgListFinishedRuns(orgId?: string | null, userId?: string | null): Promise<unknown[]> {
+  const rows = fenceCallerRows(
+    await rowsWhere([
+      eq(sessionsTable.finished, true),
+      sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
+      sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
+    ]),
     orgId,
+    userId,
   ).filter((r) => Boolean(r.state.briefing));
   return rows.map(toFinishedRow);
 }
@@ -638,8 +661,8 @@ export async function pgSuperadminRunView(id: string): Promise<
   };
 }
 
-export async function pgSummarizeRun(id: string, orgId?: string | null): Promise<unknown> {
-  const row = await ownedRow(id, orgId);
+export async function pgSummarizeRun(id: string, orgId?: string | null, userId?: string | null): Promise<unknown> {
+  const row = await ownedRow(id, orgId, userId);
   if (!row) return null;
   const ctx = asRecord(row.state.ctx);
   const headline = buildHeadline(ctx);
@@ -656,8 +679,8 @@ export async function pgSummarizeRun(id: string, orgId?: string | null): Promise
   };
 }
 
-export async function pgCompareRun(id: string, orgId?: string | null): Promise<unknown> {
-  const row = await ownedRow(id, orgId);
+export async function pgCompareRun(id: string, orgId?: string | null, userId?: string | null): Promise<unknown> {
+  const row = await ownedRow(id, orgId, userId);
   if (!row) return null;
   const arts = await artifactsFor(row.id);
   const transcript: unknown[] = Array.isArray(row.state.transcript) ? row.state.transcript : [];
@@ -721,8 +744,8 @@ function turnsFromArtifacts(arts: ArtifactRow[]): Array<Record<string, unknown>>
     });
 }
 
-export async function pgReadRunStages(id: string, orgId?: string | null): Promise<unknown> {
-  const row = await ownedRow(id, orgId);
+export async function pgReadRunStages(id: string, orgId?: string | null, userId?: string | null): Promise<unknown> {
+  const row = await ownedRow(id, orgId, userId);
   if (!row) return null;
   const arts = await artifactsFor(row.id);
   const out: Array<Record<string, unknown>> = [];
@@ -805,8 +828,9 @@ export async function pgFindLatestRunWithLock(): Promise<unknown> {
 export async function pgDeleteRun(
   id: string,
   orgId?: string | null,
+  userId?: string | null,
 ): Promise<{ deleted: boolean; id: string; reason?: string; dir?: string }> {
-  const row = await ownedRow(id, orgId);
+  const row = await ownedRow(id, orgId, userId);
   if (!row) return { deleted: false, id, reason: "not_found" };
   await getDb().delete(runArtifacts).where(eq(runArtifacts.sessionKey, row.id));
   await getDb().delete(sessionsTable).where(eq(sessionsTable.sessionKey, row.id));
@@ -837,8 +861,9 @@ export async function pgSetArchived(
   id: string,
   archived: unknown,
   orgId?: string | null,
+  userId?: string | null,
 ): Promise<{ ok: boolean; id: string; reason?: string; archived?: boolean }> {
-  const row = await ownedRow(id, orgId);
+  const row = await ownedRow(id, orgId, userId);
   if (!row) return { ok: false, id, reason: "not_found" };
   const flag = Boolean(archived);
   await getDb()
@@ -849,17 +874,17 @@ export async function pgSetArchived(
   return { ok: true, id, archived: flag };
 }
 
-export async function pgRunExists(id: string, orgId?: string | null): Promise<boolean> {
-  return (await ownedRow(id, orgId)) !== null;
+export async function pgRunExists(id: string, orgId?: string | null, userId?: string | null): Promise<boolean> {
+  return (await ownedRow(id, orgId, userId)) !== null;
 }
 
-export async function pgReadReview(id: string, orgId?: string | null): Promise<unknown> {
-  const row = await ownedRow(id, orgId);
+export async function pgReadReview(id: string, orgId?: string | null, userId?: string | null): Promise<unknown> {
+  const row = await ownedRow(id, orgId, userId);
   return row ? (row.review ?? null) : null;
 }
 
-export async function pgWriteReview(id: string, orgId: string | null | undefined, data: unknown): Promise<void> {
-  const row = await ownedRow(id, orgId);
+export async function pgWriteReview(id: string, orgId: string | null | undefined, data: unknown, userId?: string | null): Promise<void> {
+  const row = await ownedRow(id, orgId, userId);
   if (!row) throw new Error("unknown run");
   await getDb().update(sessionsTable).set({ review: data, updatedAt: new Date() }).where(eq(sessionsTable.sessionKey, row.id));
   echoSidecar(row.dir, "review.json", data);
