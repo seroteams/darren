@@ -34,19 +34,8 @@
    each act use .eyebrow--slot (quiet) so the act reads as the header. */
 .recap-act__label { color: var(--color-accent-dark); }
 
-/* The payoff act — the destination. A soft framed ground the two working
-   columns (agreed actions + reminders) float inside, so "what to do next"
-   carries the most visual weight on the page. */
-.recap-payoff-frame {
-  background: var(--color-page);
-  border: 1px solid var(--color-border-tinted);
-  border-radius: var(--radius-frame);
-  box-shadow: var(--shadow-lift);
-  padding: 1.5rem 1.75rem;
-}
-@media (min-width: 768px) {
-  .recap-payoff-frame { padding: 1.75rem 2rem; }
-}
+/* The payoff act's ground is a plain .card-flat (cards.css) — Phase 4 (F7)
+   converged the bespoke lifted frame onto briefing-view's calmer recipe. */
 .briefing-block { width: 100%; }
 .briefing-prose {
   font-size: var(--type-body);
@@ -234,7 +223,6 @@
   border: 1px solid var(--color-mint-line);
   background: var(--sero-mint-100);
   border-radius: var(--radius-card);
-  opacity: 0;
 }
 .brutal--private {
   border-color: var(--color-gold-line);
@@ -242,20 +230,6 @@
 }
 .brutal + .brutal {
   margin-top: 1.25rem;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .brutal { transform: scale(0.96); }
-}
-.brutal.is-in {
-  opacity: 1;
-  transition: opacity var(--dur-medium) var(--ease-spring);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .brutal.is-in {
-    transform: scale(1);
-    transition: opacity var(--dur-medium) var(--ease-spring),
-                transform var(--dur-medium) var(--ease-spring);
-  }
 }
 .brutal__eyebrow {
   font-size: var(--type-small);
@@ -308,20 +282,32 @@
 }
 
 /* -----------------------------------------------------------------------------
+   The one wizard footer (Phase 4, F7): sticky at the viewport bottom within the
+   page column, so Finish stays reachable while reading a long recap. Opaque
+   page background so content scrolls under it, not through it. New rule, noted:
+   goal 3 of the phase asks for exactly this.
+----------------------------------------------------------------------------- */
+.recap-page > .wizard-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--color-bg);
+  padding-bottom: 0.75rem;
+  z-index: 5;
+}
+
+/* -----------------------------------------------------------------------------
    Save as PDF — the recap prints via the browser's print-to-PDF dialog.
-   Reveal animations park content at opacity 0; force it visible on paper,
-   and drop everything interactive (buttons, feedback cards, nav, footer).
+   The page itself carries the single soft fade (F7); force it visible on
+   paper, and drop everything interactive (buttons, feedback cards, nav, footer).
 ----------------------------------------------------------------------------- */
 @media print {
-  .recap-page .reveal,
-  .recap-page .reveal-soft,
-  .recap-page .brutal,
-  .recap-page .paragraph-section {
+  .recap-page {
     opacity: 1 !important;
     transform: none !important;
   }
   .recap-page .briefing-finish,
   .recap-page .verdict-block,
+  .recap-page .wizard-footer,
   .recap-page button,
   .app-nav,
   .app-nav-mobilebar,

@@ -1,6 +1,6 @@
 import { STAGES, isInternalAdmin } from "../state.js";
 import { createAxesPanel } from "../ui/axes.js";
-import { revealSequence, revealOne, sleep } from "../ui/reveal.js";
+import { revealOne } from "../ui/reveal.js";
 import { postVerdict, getMyRun, submitRunVerdict, savePromises } from "../../../shared/api.js";
 import { draftsFromNextActions, renderPromiseAgree } from "../ui/promise-agree.ts";
 import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
@@ -88,39 +88,39 @@ export async function mount(root, deps) {
   }
 
   root.innerHTML = `
-    <div class="stage-wide max-w-wide mx-auto briefing-page recap-page relative z-10 py-8">
+    <div class="stage-wide max-w-wide mx-auto briefing-page recap-page reveal-soft relative z-10 py-8">
       <header class="briefing-block recap-hero space-y-3">
         <div class="briefing-section-head">
-          <div class="eyebrow reveal">Recap · For ${escape(store.ctx.name)}</div>
+          <div class="eyebrow">Recap · For ${escape(store.ctx.name)}</div>
           <button type="button" class="btn btn--ghost btn--sm js-copy-all-briefing">Copy all</button>
         </div>
-        <div class="recap-hero__signal reveal"></div>
-        <h1 class="briefing-headline reveal"></h1>
+        <div class="recap-hero__signal"></div>
+        <h1 class="briefing-headline"></h1>
       </header>
 
       <section class="recap-act recap-act--read">
         <div class="eyebrow recap-act__label">What came out</div>
         <div class="briefing-grid briefing-grid--pair">
           <section class="briefing-block bullets-section space-y-3">
-            <div class="eyebrow eyebrow--slot reveal">What stood out</div>
-            <div class="card bullets-host"></div>
+            <div class="eyebrow eyebrow--slot">What stood out</div>
+            <div class="card-flat bullets-host"></div>
           </section>
 
           <section class="briefing-block axes-section space-y-4">
-            <div class="eyebrow eyebrow--slot reveal" title="Scores reflect meaning in answers, not word count or typing style">Final read</div>
-            <div class="card axes-mount"></div>
+            <div class="eyebrow eyebrow--slot" title="Scores reflect meaning in answers, not word count or typing style">Final read</div>
+            <div class="card-flat axes-mount"></div>
             <div class="axis-meanings space-y-2"></div>
           </section>
         </div>
 
-        <section class="briefing-block paragraph-section space-y-3 reveal-soft">
+        <section class="briefing-block paragraph-section space-y-3">
           <div class="eyebrow eyebrow--slot">What we understood</div>
           <p class="briefing-prose paragraph-body"></p>
         </section>
 
-        <section class="briefing-block engagement-section space-y-3 reveal-soft hidden">
+        <section class="briefing-block engagement-section space-y-3 hidden">
           <div class="eyebrow eyebrow--slot">How engaged they seem</div>
-          <div class="card engagement-host"></div>
+          <div class="card-flat engagement-host"></div>
         </section>
       </section>
 
@@ -131,16 +131,16 @@ export async function mount(root, deps) {
 
       <section class="recap-act recap-act--payoff">
         <div class="eyebrow recap-act__label">What to do next</div>
-        <div class="recap-payoff-frame">
+        <div class="card-flat">
           <div class="briefing-grid briefing-grid--pair">
             <section class="briefing-block actions-section space-y-3">
-              <div class="eyebrow eyebrow--slot reveal">What you agreed</div>
+              <div class="eyebrow eyebrow--slot">What you agreed</div>
               <div class="actions-host"></div>
             </section>
 
             <section class="briefing-block watch-section space-y-3">
               <div class="briefing-section-head">
-                <div class="eyebrow eyebrow--slot reveal">Reminders</div>
+                <div class="eyebrow eyebrow--slot">Reminders</div>
                 <button type="button" class="btn btn--ghost btn--sm js-copy-all-reminders hidden">Copy all</button>
               </div>
               <div class="watch-host"></div>
@@ -206,26 +206,24 @@ export async function mount(root, deps) {
           <button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>
           <button type="button" class="btn btn--ghost js-guest-restart">Start a new 1:1</button>
         </div>` : `
-        <div class="text-ink-mute">All saved. This 1:1 is in your Past 1:1s.</div>
-        ${wizardFooter({
-          primary: { label: "Finish & review this 1:1" },
-          secondaryHtml:
-            `<button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>` +
-            `<button type="button" class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>` +
-            `<span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>`,
-        })}`}
+        <div class="text-ink-mute">All saved. This 1:1 is in your Past 1:1s.</div>`}
       </footer>
+      ${store.user ? wizardFooter({
+        primary: { label: "Finish & review this 1:1" },
+        secondaryHtml:
+          `<button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>` +
+          `<button type="button" class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>` +
+          `<span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>`,
+      }) : ""}
     </div>
   `;
 
-  const PACE = 0.45; // tighten the staggered reveal so the full briefing lands in ~2s
-  const pause = (ms) => (fastPath ? Promise.resolve() : sleep(ms * PACE));
-
-  // The whole briefing is hidden behind reveal animations (opacity:0 until
-  // `.is-in`). If any beat below throws, fail open: reveal everything and drop
-  // the wash so the user is never stranded on a blank screen — and crucially so
-  // the handler wiring further down still runs and the footer stays usable.
-  try {
+  // One pass, one fade (audit F7): the whole recap is in the DOM before first
+  // paint; the page arrives as a single soft fade (same idiom as focus-points).
+  // A rehydrated tab skips even that and just shows the page.
+  const page = root.querySelector(".recap-page");
+  if (fastPath) page.classList.add("is-in");
+  else revealOne(page);
 
   // --- 1) Hero: an at-a-glance signal chip, then the engine's own headline.
   // The chip only appears when NO axis got a real read — a genuinely thin
@@ -240,39 +238,21 @@ export async function mount(root, deps) {
     heroSignal.remove();
   }
 
-  const initialReveals = Array.from(root.querySelectorAll("header .reveal"));
-  if (fastPath) initialReveals.forEach((el) => el.classList.add("is-in"));
-  else revealSequence(initialReveals, { stagger: 80, initialDelay: 80 });
-
   const headline = root.querySelector(".briefing-headline");
   headline.textContent = b.headline || "Recap";
 
-  await pause(400);
-
-  // --- 2) Bullets (t ≈ 400ms+)
-  const bulletsEyebrow = root.querySelector(".bullets-section .eyebrow");
-  if (fastPath) bulletsEyebrow.classList.add("is-in");
-  else revealOne(bulletsEyebrow, 0);
+  // --- 2) Bullets
   const bulletsHost = root.querySelector(".bullets-host");
-  const bullets = (b.summary_bullets || []).map((text) => {
+  for (const text of b.summary_bullets || []) {
     const row = document.createElement("div");
-    row.className = "bullet reveal";
+    row.className = "bullet";
     row.innerHTML = `<div class="bullet__mark">●</div><div>${escape(text)}</div>`;
     bulletsHost.appendChild(row);
-    return row;
-  });
-  if (fastPath) bullets.forEach((el) => el.classList.add("is-in"));
-  else revealSequence(bullets, { stagger: 70, initialDelay: 100 });
+  }
 
-  await pause(fastPath ? 0 : bullets.length * 70 + 300);
   const para = root.querySelector(".paragraph-body");
   para.textContent = b.understanding_paragraph || "";
-  root.querySelector(".paragraph-section").classList.add("is-in");
 
-  await pause(fastPath ? 0 : 500);
-  const axesEyebrow = root.querySelector(".axes-section .eyebrow");
-  if (fastPath) axesEyebrow.classList.add("is-in");
-  else revealOne(axesEyebrow, 0);
   const axes = createAxesPanel({ celebrate: true });
   root.querySelector(".axes-mount").appendChild(axes.el);
   // A score of 0 means "not enough signal to read this axis" (final-evaluation
@@ -282,7 +262,6 @@ export async function mount(root, deps) {
     { id: "wellbeing", score: -1 }, { id: "engagement", score: -1 },
     { id: "clarity", score: 0, noRead: true }, { id: "growth", score: 0, noRead: true },
   ]);
-  await pause(fastPath ? 0 : 120);
 
   // The backend declares read-status per axis; trust it. Fall back to the old
   // score-0 heuristic only for briefings produced before read_status existed.
@@ -312,7 +291,7 @@ export async function mount(root, deps) {
     const mwrap = root.querySelector(".axis-meanings");
     const meaningRows = readAxes
       .map((a) => `
-        <div class="text-ink-dim reveal-soft">
+        <div class="text-ink-dim">
           <span class="eyebrow mr-2" style="color: var(--color-accent-dark);">${escape(cap(a.id))}</span>${escape(a.meaning)}
         </div>
       `);
@@ -322,20 +301,12 @@ export async function mount(root, deps) {
         ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`
         : names[0];
       meaningRows.push(`
-        <div class="text-ink-mute reveal-soft">${escape(list)}. Not enough signal to read this session.</div>
+        <div class="text-ink-mute">${escape(list)}. Not enough signal to read this session.</div>
       `);
     }
     mwrap.innerHTML = meaningRows.join("");
-    if (fastPath) {
-      mwrap.querySelectorAll(".reveal-soft").forEach((el) => el.classList.add("is-in"));
-    } else {
-      setTimeout(() => {
-        mwrap.querySelectorAll(".reveal-soft").forEach((el) => el.classList.add("is-in"));
-      }, 900 * PACE);
-    }
   }
 
-  await pause(fastPath ? 0 : 1400);
   const brutalHost = root.querySelector(".brutal-host");
   const truths = [
     { eyebrow: `Honest read:${escape(store.ctx.name || "them")}`, text: b.brutal_truth_employee || "", shareable: true },
@@ -354,11 +325,6 @@ export async function mount(root, deps) {
       ${t.shareable ? "" : `<div class="brutal__note">Your reflection. Don't paste this into shared notes.</div>`}
     `;
     brutalHost.appendChild(card);
-    if (fastPath) card.classList.add("is-in");
-    else {
-      revealOne(card, 50);
-      await pause(420);
-    }
   }
   // No honest reads this run → drop the whole act so its label isn't orphaned.
   if (!brutalHost.children.length) root.querySelector(".recap-act--honest")?.remove();
@@ -369,7 +335,6 @@ export async function mount(root, deps) {
   // lead line, never invent new content for them.
   const er = b.engagement_read;
   if (er && (er.read_status || er.level)) {
-    await pause(fastPath ? 0 : 300);
     const section = root.querySelector(".engagement-section");
     section.classList.remove("hidden");
     const host = root.querySelector(".engagement-host");
@@ -398,8 +363,6 @@ export async function mount(root, deps) {
       rows.push(`<div class="engagement-read__line text-ink-dim"><span class="eyebrow mr-2">Watch next</span>${escape(er.watch_next)}</div>`);
     }
     host.innerHTML = rows.join("");
-    if (fastPath) section.classList.add("is-in");
-    else revealOne(section, 80);
   }
 
   // --- 6) What you agreed — the locked-in promises, grouped by owner (manager's
@@ -410,12 +373,7 @@ export async function mount(root, deps) {
     ? store.promises.filter((p) => p && String(p.action || "").trim())
     : null;
   if (agreed && agreed.length) {
-    await pause(fastPath ? 0 : 400);
-    const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
-    if (fastPath) actionsEyebrow.classList.add("is-in");
-    else revealOne(actionsEyebrow, 0);
     const host = root.querySelector(".actions-host");
-    let i = 0;
     for (const g of [
       { owner: "manager", label: "You promised", cls: " agreed-owner-label--you" },
       { owner: "report", label: `${store.ctx?.name || "They"} promised`, cls: "" },
@@ -423,11 +381,9 @@ export async function mount(root, deps) {
       const list = agreed.filter((p) => p.owner === g.owner);
       if (!list.length) continue;
       const label = document.createElement("span");
-      label.className = `agreed-owner-label${g.cls} reveal`;
+      label.className = `agreed-owner-label${g.cls}`;
       label.textContent = g.label;
       host.appendChild(label);
-      if (fastPath) label.classList.add("is-in");
-      else revealOne(label, 100 + i++ * 70);
       for (const p of list) {
         const row = createCopyableRow({
           className: "action-group",
@@ -439,8 +395,6 @@ export async function mount(root, deps) {
           copyText: formatPromiseCopy(p, store.ctx?.name),
         });
         host.appendChild(row);
-        if (fastPath) row.classList.add("is-in");
-        else revealOne(row, 100 + i++ * 70);
       }
     }
     if (store.promisesSaveFailed) {
@@ -454,16 +408,12 @@ export async function mount(root, deps) {
     // manager's call; don't resurface the engine's suggestions over it.
     root.querySelector(".actions-section").remove();
   } else if (actions.length) {
-    await pause(fastPath ? 0 : 400);
-    const actionsEyebrow = root.querySelector(".actions-section .eyebrow");
     // Nothing was locked in — these are the engine's suggestions, and the label
     // must say so (never present unconfirmed output as an agreement).
-    actionsEyebrow.textContent = "Sero's suggestions";
-    if (fastPath) actionsEyebrow.classList.add("is-in");
-    else revealOne(actionsEyebrow, 0);
+    root.querySelector(".actions-section .eyebrow").textContent = "Sero's suggestions";
     const host = root.querySelector(".actions-host");
     const sortedActions = [...actions].sort((a, b) => whenRank(a.when) - whenRank(b.when));
-    sortedActions.forEach((a, i) => {
+    sortedActions.forEach((a) => {
       const row = createCopyableRow({
         className: "action-group",
         mark: "",
@@ -474,8 +424,6 @@ export async function mount(root, deps) {
         copyText: formatActionCopy(a),
       });
       host.appendChild(row);
-      if (fastPath) row.classList.add("is-in");
-      else revealOne(row, 100 + i * 70);
     });
   } else {
     root.querySelector(".actions-section").remove();
@@ -484,17 +432,13 @@ export async function mount(root, deps) {
   // --- 7) Watch-for items
   const watch = b.watch_for || [];
   if (watch.length) {
-    await pause(fastPath ? 0 : actions.length * 70 + 300);
-    const watchEyebrow = root.querySelector(".watch-section .eyebrow");
-    if (fastPath) watchEyebrow.classList.add("is-in");
-    else revealOne(watchEyebrow, 0);
     const host = root.querySelector(".watch-host");
     const copyAllBtn = root.querySelector(".js-copy-all-reminders");
     copyAllBtn.classList.remove("hidden");
     copyAllBtn.addEventListener("click", () => {
       copySnippet(watch.join("\n"), copyAllBtn, "Copied all");
     });
-    watch.forEach((text, i) => {
+    watch.forEach((text) => {
       const row = createCopyableRow({
         className: "watch-item",
         mark: "●",
@@ -502,24 +446,14 @@ export async function mount(root, deps) {
         copyText: text,
       });
       host.appendChild(row);
-      if (fastPath) row.classList.add("is-in");
-      else revealOne(row, 100 + i * 70);
     });
   } else {
     root.querySelector(".watch-section").remove();
   }
 
-  // Neither agreed-actions nor reminders → drop the empty payoff frame + label.
+  // Neither agreed-actions nor reminders → drop the empty payoff ground + label.
   if (!root.querySelector(".actions-section") && !root.querySelector(".watch-section")) {
     root.querySelector(".recap-act--payoff")?.remove();
-  }
-
-  } catch (e) {
-    console.error("[briefing] reveal failed; showing full briefing:", e);
-    // Reveal whatever rendered and clear the wash so content + footer are usable.
-    root.querySelectorAll(".reveal, .reveal-soft, .brutal").forEach((el) => el.classList.add("is-in"));
-    root.querySelector(".paragraph-section")?.classList.add("is-in");
-    document.querySelectorAll(".celebration-wash").forEach((el) => el.remove());
   }
 
   root.querySelector(".js-copy-all-briefing").addEventListener("click", () => {
@@ -809,7 +743,7 @@ async function copyFullBriefing(briefing, ctx, btn, promises) {
 
 function createCopyableRow({ className, mark, bodyHtml, copyText }) {
   const row = document.createElement("div");
-  row.className = `${className} copyable-row reveal`;
+  row.className = `${className} copyable-row`;
   row.innerHTML = `
     ${mark ? `<div class="copyable-row__mark">${mark}</div>` : ""}
     <div class="copyable-row__content">${bodyHtml}</div>
