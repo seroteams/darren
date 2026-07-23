@@ -6,13 +6,14 @@
 import { STAGES, store } from "../state.js";
 import { submitPasswordReset } from "../../../shared/api.js";
 import { isTouchScreen } from "../ui/field.js";
-import { LOGIN_PHOTOS } from "./login.js";
+import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles } from "./login.js";
 
 const MIN_PASSWORD = 8; // same floor the server enforces
 
 export async function mount(root, { setState }) {
   root.classList.add("stage--auth");
-  const photo = LOGIN_PHOTOS[Math.floor(Math.random() * LOGIN_PHOTOS.length)];
+  // Fixed first photo — same deterministic pick as the other auth screens (audit A4).
+  const photo = LOGIN_PHOTOS[0];
   const token = store.resetToken;
   root.innerHTML = `
     <div class="auth-split">
@@ -48,12 +49,16 @@ export async function mount(root, { setState }) {
   host.innerHTML = `
     <form class="l-stack l-stack--4 js-form" novalidate>
       <label class="l-stack l-stack--2">
-        <span class="eyebrow">New password <span class="text-ink-mute">(at least ${MIN_PASSWORD} characters)</span></span>
-        <input class="input js-password" type="password" autocomplete="new-password" required />
+        <span class="eyebrow eyebrow--slot">New password <span class="text-ink-mute">(at least ${MIN_PASSWORD} characters)</span></span>
+        <span class="l-row l-row--2 js-pw-wrap">
+          <input class="input js-password" type="password" autocomplete="new-password" required />
+          ${passwordToggleHtml()}
+        </span>
       </label>
       <p class="js-err text-negative text-sm" hidden></p>
       <button type="submit" class="btn js-submit">Set new password</button>
     </form>`;
+  wirePasswordToggles(host);
 
   const form = host.querySelector(".js-form");
   const passwordEl = host.querySelector(".js-password");

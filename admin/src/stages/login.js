@@ -2,15 +2,40 @@
 // server sets the session cookie; we store the user in state and land on START.
 // A link switches to the register screen.
 
+import { Eye, EyeOff } from "lucide";
 import { STAGES, store, isInternalAdmin } from "../state.js";
 import { login, me } from "../../../shared/api.js";
 import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 import { landingStage } from "../ui/landing.ts";
+import { icon } from "../ui/icon.js";
+
+// Show/hide toggle for a password field (audit A3), defined once here and shared
+// by register.js and reset-password.js (like LOGIN_PHOTOS): a small ghost
+// icon-button beside the input flips its type. aria-pressed carries the state;
+// the label stays "Show password" so screen readers hear a consistent name.
+// Markup contract: the input and this button sit together in a .js-pw-wrap row.
+export function passwordToggleHtml() {
+  return `<button type="button" class="btn btn--ghost btn--sm js-toggle-pw" aria-pressed="false" aria-label="Show password">${icon(Eye, { size: 16 })}</button>`;
+}
+
+export function wirePasswordToggles(scope) {
+  scope.querySelectorAll(".js-toggle-pw").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const input = btn.closest(".js-pw-wrap")?.querySelector("input");
+      if (!input) return;
+      const show = input.type === "password";
+      input.type = show ? "text" : "password";
+      btn.setAttribute("aria-pressed", String(show));
+      btn.innerHTML = icon(show ? EyeOff : Eye, { size: 16 });
+    });
+  });
+}
 
 // Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
-// admin/public/login/ — one is picked at random per visit. Exported so the
-// start screen (welcome.ts) draws from the same pool. Stored base-relative (no
+// admin/public/login/ — every auth screen shows the FIRST entry, deterministically,
+// so the way in always looks the same (design-consolidation Phase 2, audit A4).
+// Exported so the other auth screens draw from the same pool. Stored base-relative (no
 // leading slash); each use site prefixes import.meta.env.BASE_URL ("/admin/") at
 // render time so they load under the /admin/ mount instead of 404-ing at the site
 // root. (Kept as bare strings — the prefix is applied in the template, not here,
@@ -27,7 +52,9 @@ export async function mount(root, { setState }) {
   // Login is a full-bleed split screen: form on the left, photo on the right.
   // Break the stage out of its centered/padded default for this screen only.
   root.classList.add("stage--auth");
-  const photo = LOGIN_PHOTOS[Math.floor(Math.random() * LOGIN_PHOTOS.length)];
+  // One fixed photo, not a random pick — the auth screens should look the same
+  // on every visit (design-consolidation Phase 2, audit A4).
+  const photo = LOGIN_PHOTOS[0];
   root.innerHTML = `
     <div class="auth-split">
       <div class="auth-split__form">
@@ -39,26 +66,28 @@ export async function mount(root, { setState }) {
           </div>
           <form class="l-stack l-stack--4 js-form" novalidate>
             <label class="l-stack l-stack--2">
-              <span class="eyebrow">Email</span>
+              <span class="eyebrow eyebrow--slot">Email</span>
               <input class="input js-email" type="email" autocomplete="username" required />
             </label>
             <label class="l-stack l-stack--2">
-              <span class="eyebrow">Password</span>
-              <input class="input js-password" type="password" autocomplete="current-password" required />
+              <span class="l-row l-row--between l-row--baseline">
+                <span class="eyebrow eyebrow--slot">Password</span>
+                <button type="button" class="link text-ink-dim text-sm js-to-forgot">Forgot password?</button>
+              </span>
+              <span class="l-row l-row--2 js-pw-wrap">
+                <input class="input js-password" type="password" autocomplete="current-password" required />
+                ${passwordToggleHtml()}
+              </span>
             </label>
             <p class="js-err text-negative text-sm" hidden></p>
             <button type="submit" class="btn js-submit">Log in</button>
           </form>
           <p class="text-ink-dim text-sm">
-            <button type="button" class="link js-to-forgot">Forgot password?</button>
-          </p>
-          <p class="text-ink-dim text-sm">
-            No account yet?
+            No account?
             <button type="button" class="link js-to-register">Create one</button>
           </p>
-          <p class="text-ink-dim text-sm">
-            Just curious?
-            <button type="button" class="link js-try-guest">Try it. No account needed</button>
+          <p class="intake-or text-ink-dim text-sm">
+            <button type="button" class="link js-try-guest">Try it free. No account needed</button>
           </p>
         </div>
       </div>
@@ -124,6 +153,7 @@ export async function mount(root, { setState }) {
   // The guest lane (guest-run Phase 2): straight into intake, no account. The
   // entry logic lives in guest.ts, shared with the start screen (welcome.ts).
   root.querySelector(".js-try-guest").addEventListener("click", () => startGuestRun(setState));
+  wirePasswordToggles(root);
 
   // Dev convenience — prefill a local test account so you're never locked out while
   // testing, cycling through the three-login setup: MANAGER (the real end user under

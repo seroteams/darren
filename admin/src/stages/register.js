@@ -8,42 +8,60 @@ import { register, login } from "../../../shared/api.js";
 import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 import { landingStage } from "../ui/landing.ts";
+import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles } from "./login.js";
 
 export async function mount(root, { setState }) {
+  // Same full-bleed .auth-split brand shell as login.js (design-consolidation
+  // Phase 2, audit A1) — the old markup wore a card class that no CSS defined,
+  // so signup dropped the costume mid-flow.
+  root.classList.add("stage--auth");
+  const photo = LOGIN_PHOTOS[0];
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8 auth-card">
-      <header class="page-header">
-        <h1 class="h1">Create your account</h1>
-        <div class="text-ink-dim">Your account comes with a private space for your company. You're the admin.</div>
-      </header>
-      <form class="card-flat space-y-3 js-form" novalidate>
-        <label class="l-stack l-stack--2">
-          <span class="eyebrow">Your name</span>
-          <input class="input js-name" type="text" autocomplete="name" required />
-        </label>
-        <label class="l-stack l-stack--2">
-          <span class="eyebrow">Company <span class="text-ink-mute">(optional)</span></span>
-          <input class="input js-company" type="text" autocomplete="organization" placeholder="Leave blank and we'll name it after you" />
-        </label>
-        <label class="l-stack l-stack--2">
-          <span class="eyebrow">Email</span>
-          <input class="input js-email" type="email" autocomplete="username" required />
-        </label>
-        <label class="l-stack l-stack--2">
-          <span class="eyebrow">Password <span class="text-ink-mute">(at least 8 characters)</span></span>
-          <input class="input js-password" type="password" autocomplete="new-password" required />
-        </label>
-        <p class="js-err text-negative text-sm" hidden></p>
-        <button type="submit" class="btn js-submit">Create account</button>
-      </form>
-      <p class="text-ink-dim text-sm">
-        By creating an account you agree to how Sero handles your data.
-        <button type="button" class="link js-privacy">Read the privacy note</button>.
-      </p>
-      <p class="text-ink-dim text-sm">
-        Already have an account?
-        <button type="button" class="link js-to-login">Log in</button>
-      </p>
+    <div class="auth-split">
+      <div class="auth-split__form">
+        <div class="auth-panel l-stack l-stack--6">
+          <div class="auth-brand">
+            <img class="auth-brand__logo" src="${import.meta.env.BASE_URL}logo.png" alt="" aria-hidden="true" />
+            <h1 class="auth-brand__title">Create your account</h1>
+            <p class="auth-brand__sub">Your account comes with a private space for your company. You're the admin.</p>
+          </div>
+          <p class="text-ink-dim text-sm">Joining an existing team? Use the invite link your manager sent you.</p>
+          <form class="l-stack l-stack--4 js-form" novalidate>
+            <label class="l-stack l-stack--2">
+              <span class="eyebrow eyebrow--slot">Your name</span>
+              <input class="input js-name" type="text" autocomplete="name" required />
+            </label>
+            <label class="l-stack l-stack--2">
+              <span class="eyebrow eyebrow--slot">Company <span class="text-ink-mute">(optional)</span></span>
+              <input class="input js-company" type="text" autocomplete="organization" placeholder="Leave blank and we'll name it after you" />
+            </label>
+            <label class="l-stack l-stack--2">
+              <span class="eyebrow eyebrow--slot">Email</span>
+              <input class="input js-email" type="email" autocomplete="username" required />
+            </label>
+            <label class="l-stack l-stack--2">
+              <span class="eyebrow eyebrow--slot">Password <span class="text-ink-mute">(at least 8 characters)</span></span>
+              <span class="l-row l-row--2 js-pw-wrap">
+                <input class="input js-password" type="password" autocomplete="new-password" required />
+                ${passwordToggleHtml()}
+              </span>
+            </label>
+            <p class="js-err text-negative text-sm" hidden></p>
+            <button type="submit" class="btn js-submit">Create account</button>
+            <p class="text-ink-dim text-sm">
+              By creating an account you agree to how Sero handles your data.
+              <button type="button" class="link js-privacy">Read the privacy note</button>.
+            </p>
+          </form>
+          <p class="text-ink-dim text-sm">
+            Already have an account?
+            <button type="button" class="link js-to-login">Log in</button>
+          </p>
+        </div>
+      </div>
+      <div class="auth-split__media" aria-hidden="true">
+        <img class="auth-split__img" src="${import.meta.env.BASE_URL}${photo}" alt="" onerror="this.remove()" />
+      </div>
     </div>
   `;
 
@@ -102,9 +120,12 @@ export async function mount(root, { setState }) {
   form.addEventListener("submit", onSubmit);
   root.querySelector(".js-to-login").addEventListener("click", () => setState({ stage: STAGES.LOGIN }));
   root.querySelector(".js-privacy").addEventListener("click", () => setState({ stage: STAGES.PRIVACY }));
+  wirePasswordToggles(root);
 
   // Desktop only — on a phone this pops the keyboard over the page (phone walk 2026-07-11).
   if (!isTouchScreen()) requestAnimationFrame(() => nameEl.focus({ preventScroll: true }));
 }
 
-export function unmount() {}
+export function unmount(root) {
+  root?.classList.remove("stage--auth");
+}
