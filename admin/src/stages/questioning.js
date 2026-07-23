@@ -10,6 +10,7 @@ import { confirmAction } from "../ui/confirm.js";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { isTouchScreen } from "../ui/field.js";
 import { escapeCopy as escape } from "../ui/html.js";
+import { actionRowHtml, scriptedControlsHtml, isSubmitShortcut, EXIT_LABEL, KBD_HINT } from "./questioning-actions.ts";
 import { icon } from "../ui/icon.js";
 import { Copy } from "lucide";
 
@@ -38,10 +39,12 @@ const USE_COACH_SPLIT = true;
 export async function mount(root, { store, setState }) {
   // Admin: the POC's TRUE full-screen 50/50 (runner-v2, Carl-approved) — fixed overlay,
   // three datum lines (72px header row + hairline, shared content line, footer line),
-  // 560px columns, paper left / lavender right. Customer app: today's single column.
-  // The overlay is appended to <body>: the stage host lives inside animated/contained
-  // shell ancestors, which trap position:fixed and shrink the split (Carl's 2026-07-19
-  // "this is not the design" catch). The nav rail stays; topbar + dev rail sit under it.
+  // 560px columns, paper both sides with lavender accents on the coach half (Phase 4,
+  // audit F6). Customer app: today's single column. The overlay is appended to <body>:
+  // the stage host lives inside animated/contained shell ancestors, which trap
+  // position:fixed and shrink the split (Carl's 2026-07-19 "this is not the design"
+  // catch). The nav rail stays; the split now sits BELOW the 50px session topbar so
+  // the stepper shows "During the meeting" for the whole interview (Phase 4).
   const adminScreenHtml = `<div class="cp-screen">
         <div class="cp-half cp-half--q">
           <header class="cp-head">
@@ -50,7 +53,7 @@ export async function mount(root, { store, setState }) {
               <span class="question-session-ctx ctx-segments" aria-label="Session context"></span>
             </div>
             <div class="cp-head__actions">
-              <button class="btn btn--ghost js-save-exit" type="button">Skip to recap</button>
+              <button class="btn btn--ghost js-save-exit" type="button">${EXIT_LABEL}</button>
             </div>
           </header>
           <div class="cp-col">
@@ -88,7 +91,7 @@ export async function mount(root, { store, setState }) {
             <div class="question-session-ctx ctx-segments" aria-label="Session context"></div>
             <p class="question-session-notes" aria-label="What you told Sero" hidden></p>
           </div>
-          <button class="btn btn--ghost js-save-exit shrink-0" type="button">Skip to recap</button>
+          <button class="btn btn--ghost js-save-exit shrink-0" type="button">${EXIT_LABEL}</button>
         </div>
       </header>
       <div class="question-host"></div>
@@ -148,19 +151,16 @@ export async function mount(root, { store, setState }) {
   }
 
   let activeSse = null;
-  let activeEscListener = null;
 
   function teardown() {
     if (activeSse) { activeSse.close(); activeSse = null; }
-    if (activeEscListener) {
-      document.removeEventListener("keydown", activeEscListener);
-      activeEscListener = null;
-    }
   }
 
-  // Wrap-up exit (wrap-up-exit Phase 1): from Q4 the escape becomes a warm door —
+  // Wrap-up exit (wrap-up-exit Phase 1): from Q4 the exit becomes a warm door —
   // one closing question, then the briefing — instead of the straight-to-briefing
-  // trapdoor. showNextQuestion() sets wrapMode + relabels per question.
+  // trapdoor. showNextQuestion() sets wrapMode per question; the button label
+  // stays EXIT_LABEL throughout (audit F6: no mid-screen mutation) and the
+  // confirm dialog carries the difference.
   const saveExitBtn = ui.querySelector(".js-save-exit");
   let wrapMode = false;
   let answered = 0;
@@ -245,7 +245,6 @@ export async function mount(root, { store, setState }) {
     // the closer) — Balanced policy. Scripted lane keeps the plain skip.
     answered = res.turn - 1;
     wrapMode = !scripted && !isFinal && res.turn >= 4;
-    saveExitBtn.textContent = wrapMode ? "Wrap up. Get my recap" : "Skip to recap";
 
     const card = document.createElement("div");
     card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
@@ -262,6 +261,7 @@ export async function mount(root, { store, setState }) {
       ${scripted ? `<div class="script-meta text-xs">
         <span class="script-alias">${escape(q.alias)}</span>
         <span class="script-state ${hasScript ? "script-state--matched" : "script-state--missing"}">${hasScript ? "replay answer ready" : "no replay answer. Fallback available"}</span>
+        ${scriptedControlsHtml()}
       </div>` : ""}
       <div class="question-card-head">
         <div class="question-card-head__text space-y-2">
@@ -276,16 +276,9 @@ export async function mount(root, { store, setState }) {
         <span class="field-live-label__text">${escape(whoSaid)}</span>
         <textarea class="textarea textarea--question" rows="5" placeholder="Jot their words, your shorthand, not a transcript" aria-label="${escape(whoSaid)}"></textarea>
       </label>
-      <div class="field__actions">
-        <button class="btn js-submit">${isFinal ? "Agree next actions" : "Submit answer"}</button>
-        ${isFinal
-          ? `<button class="btn btn--ghost js-finish" type="button" title="Wrap up without agreeing next actions">Finish without next steps</button>`
-          : `<button class="btn btn--ghost js-skip">Skip</button>`}
-        ${res.turn > 1 && !scripted ? `<button class="btn btn--ghost js-back" type="button" title="Go back and fix your last answer">Back</button>` : ""}
-        ${scripted ? `<button class="btn btn--ghost js-play" type="button">Insert scripted answer</button><button class="btn btn--ghost js-play-submit" type="button">Insert & submit</button>` : ""}
-        ${!scripted && import.meta.env.DEV ? `<button class="btn btn--ghost js-suggest" type="button">Suggest notes (dev)</button>` : ""}
-      </div>
-      <p class="hint hint--kbd text-xs text-ink-mute">Enter to submit · Esc to skip</p>
+      ${actionRowHtml({ isFinal, scripted: Boolean(scripted), canGoBack: res.turn > 1 })}
+      <p class="hint hint--kbd text-xs text-ink-mute">${KBD_HINT}</p>
+      ${!scripted && import.meta.env.DEV ? `<p class="text-xs"><button type="button" class="link text-ink-dim text-sm js-suggest">Suggest notes (dev)</button></p>` : ""}
       ${import.meta.env.DEV ? `<div class="answer-suggestions" hidden></div>` : ""}
     `;
     qHost.appendChild(card);
@@ -324,22 +317,16 @@ export async function mount(root, { store, setState }) {
       draftTimer = setTimeout(() => setState({ draftAnswer: ta.value }), 250);
     });
 
+    // Enter is a newline (audit F6 — a notes box behaves like a notes box);
+    // Ctrl/Cmd+Enter is the power submit. Esc-to-skip is gone entirely.
     ta.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
+      if (isSubmitShortcut(e)) {
         e.preventDefault();
         onSubmit(ta.value);
       }
     });
 
-    if (activeEscListener) document.removeEventListener("keydown", activeEscListener);
-    activeEscListener = (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onSubmit("");
-      }
-    };
-    document.addEventListener("keydown", activeEscListener);
-    card.querySelector(".js-submit").addEventListener("click", () => onSubmit(ta.value));
+    card.querySelector(".js-wf-continue").addEventListener("click", () => onSubmit(ta.value));
     card.querySelector(".js-skip")?.addEventListener("click", () => onSubmit(""));
     // Final-turn ghost: same submit (typed notes kept), but the briefing opens
     // without the promises confirm card.
@@ -348,8 +335,9 @@ export async function mount(root, { store, setState }) {
       onSubmit(ta.value);
     });
 
-    const backBtn = card.querySelector(".js-back");
+    const backBtn = card.querySelector(".js-wf-back");
     if (backBtn) {
+      backBtn.title = "Go back and fix your last answer";
       backBtn.addEventListener("click", async () => {
         backBtn.disabled = true;
         let prev;
@@ -363,10 +351,6 @@ export async function mount(root, { store, setState }) {
           warn.textContent = "Couldn't go back. The previous answer may already be locked in.";
           footerHost.appendChild(warn);
           return;
-        }
-        if (activeEscListener) {
-          document.removeEventListener("keydown", activeEscListener);
-          activeEscListener = null;
         }
         if (prev.axes) {
           axes.renderInitial(prev.axes);
@@ -502,10 +486,6 @@ export async function mount(root, { store, setState }) {
   }
 
   async function exitQuestion(card) {
-    if (activeEscListener) {
-      document.removeEventListener("keydown", activeEscListener);
-      activeEscListener = null;
-    }
     card.classList.add("field-exit");
     requestAnimationFrame(() => card.classList.add("is-out"));
     await sleep(240);
