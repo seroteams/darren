@@ -164,8 +164,11 @@ export const mount: Mount = async (root, { store, setState }) => {
     resultHost.querySelector(".js-copy-all-prep")?.addEventListener("click", (e) => {
       copyBrief(slots, e.currentTarget as HTMLButtonElement);
     });
-    resultHost.querySelector(".js-continue")?.addEventListener("click", () => {
+    resultHost.querySelector(".js-wf-continue")?.addEventListener("click", () => {
       setState({ stage: STAGES.BANK });
+    });
+    resultHost.querySelector(".js-wf-back")?.addEventListener("click", () => {
+      setState({ stage: STAGES.FOCUS_POINTS });
     });
     wireArcTabs();
   }
@@ -215,7 +218,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === "Enter") {
-      const cont = resultHost?.querySelector<HTMLButtonElement>(".js-continue");
+      const cont = resultHost?.querySelector<HTMLButtonElement>(".js-wf-continue");
       if (cont && !cont.disabled) cont.click();
     }
   }

@@ -7,6 +7,7 @@ import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
 import { markRunForClaim } from "../guest.ts";
 import { finishDestination } from "./finish-destination.ts";
 import { escapeCopy as escape } from "../ui/html.js";
+import { wizardFooter } from "../ui/wizard-footer.ts";
 import { icon } from "../ui/icon.js";
 import { Check, Copy } from "lucide";
 
@@ -206,12 +207,13 @@ export async function mount(root, deps) {
           <button type="button" class="btn btn--ghost js-guest-restart">Start a new 1:1</button>
         </div>` : `
         <div class="text-ink-mute">All saved. This 1:1 is in your Past 1:1s.</div>
-        <div class="l-cluster l-cluster--2 items-center">
-          <button class="btn js-restart">Finish &amp; review this 1:1</button>
-          <button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>
-          <button class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>
-          <span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>
-        </div>`}
+        ${wizardFooter({
+          primary: { label: "Finish & review this 1:1" },
+          secondaryHtml:
+            `<button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>` +
+            `<button type="button" class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>` +
+            `<span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>`,
+        })}`}
       </footer>
     </div>
   `;
@@ -606,7 +608,7 @@ export async function mount(root, deps) {
   // The run debrief (API time / cost / CLI replay / QA prompt) is internal QA tooling —
   // only the internal admin role sees it. A manager just finishes the run and goes home.
   // Absent for guests (the save card replaces the whole finish cluster).
-  const finishBtn = root.querySelector(".js-restart");
+  const finishBtn = root.querySelector(".js-wf-continue");
   const seesDebrief = isInternalAdmin(store.user);
   if (finishBtn) {
     if (!seesDebrief) finishBtn.textContent = "Finish";
