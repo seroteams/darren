@@ -748,3 +748,14 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   Lesson: the biggest single win was `run-detail` (one shared file → both apps' recap fixed at
   once); scoping the rollout by *where the pattern actually applies* kept a "make everything
   consistent" ask from ballooning — Phase 6 correctly closed as a no-op rather than a rewrite.
+
+## 2026-07-22 — design-consolidation Phase 0 (foundations)
+The full design audit (45 screens, 12/19/14 standard/hybrid/custom) became the plan's acceptance
+criteria: one box per finding, phase-mapped. Lesson that shaped the plan: the app fights SaaS
+patterns by accretion, not philosophy — so the fix is consolidation onto primitives that already
+exist (um-table, breadcrumb, page-header, session-topbar), not new design. Committee backed
+slices over big-bang; baseline screenshots frozen before any change (42 captured, $0, fixtures).
+Kit built dormant (list-toolbar / page-header / table-sort, TDD) so screen migrations are
+mechanical. Rename to SeroEngine parked: it was the repo's retired original name — needs Carl's
+knowing confirm, not a default. Note: phase-close step 4 (tasks.js badges) skipped — that file
+no longer exists in the repo; the skill doc is stale on this point.

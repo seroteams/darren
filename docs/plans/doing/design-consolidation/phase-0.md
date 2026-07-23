@@ -1,6 +1,8 @@
 # Phase 0: Foundations
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨
+## ✅ GREEN-LIT 2026-07-22 — Carl: "mockup approved". Rename parked pending his word (commit 3f482ad + this close).
+
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
 ## Goal
 
