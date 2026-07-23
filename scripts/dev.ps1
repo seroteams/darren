@@ -22,6 +22,7 @@ while ($true) {
   Write-Host "`nClearing stale ports..." -ForegroundColor DarkGray
   Clear-Port 3000
   Clear-Port 3001
+  Clear-Port 3002
   Start-Sleep -Milliseconds 300
 
   Write-Host "Starting dev server..." -ForegroundColor Green

@@ -35,6 +35,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
       ${pageHeader({
+        eyebrow: "Work",
         title: "Prep a 1:1",
         lede: "Pick up where you left off, or start a new one.",
         actionsHtml: bench ? "" : `<button type="button" class="btn js-startnew">Start a new 1:1</button>`,
