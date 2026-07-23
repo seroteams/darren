@@ -6,6 +6,7 @@
 
 import { escapeCopy } from "../../../admin/src/ui/html.js";
 import { icon } from "../../../admin/src/ui/icon.js";
+import { wizardFooter } from "../../../admin/src/ui/wizard-footer.ts";
 import { ArrowRight, Ban, Ear, Gauge, Lightbulb, MessageCircle, Target } from "lucide";
 
 export type ConfidenceLevel = "low" | "medium" | "high" | "unknown";
@@ -481,11 +482,15 @@ export function renderBrief(variant: VariantId, slots: BriefSlots): string {
    Page chrome shared across variants
 --------------------------------------------------------------------------- */
 
+// The shared wizard footer (design-consolidation Phase 3): ghost Back left
+// (returns to Focus areas — wired in preparation.ts), primary right, Copy all
+// as a trusted ghost beside it.
 export function ctaRowHtml(): string {
-  return `<div class="l-cluster l-cluster--2 pt-2">
-    <button class="btn js-continue">Get my questions</button>
-    <button type="button" class="btn btn--ghost js-copy-all-prep">Copy all</button>
-  </div>`;
+  return wizardFooter({
+    primary: { label: "Get my questions" },
+    back: {},
+    secondaryHtml: `<button type="button" class="btn btn--ghost js-copy-all-prep">Copy all</button>`,
+  });
 }
 
 // Tiny schematic per layout — echoes each layout's signature so a tile looks

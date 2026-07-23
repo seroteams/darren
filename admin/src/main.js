@@ -342,14 +342,24 @@ async function boot() {
     // "/admin/" → boot…), the splash flashing on every pass. Park on an honest
     // signpost instead; prod keeps the real navigation out to the customer app.
     if (import.meta.env.DEV) {
+      // If the customer dev server is up, don't strand them on a signpost — just go.
+      // (no-cors: we only care whether anything answers on :3002.)
+      try {
+        await fetch("http://localhost:3002/", { mode: "no-cors", signal: AbortSignal.timeout(1200) });
+        window.location.href = "http://localhost:3002/";
+        return;
+      } catch { /* customer app not running — fall through to the signpost */ }
       root.innerHTML = `
         <div class="min-h-dvh flex items-center justify-center p-6">
           <div class="max-w-md text-center">
             <h1 class="text-xl mb-2">This account belongs in the customer app</h1>
             <p class="text-ink-dim mb-5">You're signed in as a manager or member. This is the internal admin app.
-              In dev, the customer app runs separately: <code>npm run dev:customer</code>, then open
-              <a class="link" href="http://localhost:3002/">localhost:3002</a>. Your session carries over.</p>
-            <button type="button" class="js-logout btn">Log out</button>
+              Your app lives at <a class="link" href="http://localhost:3002/">localhost:3002</a>; your session carries over.
+              (If it isn't running: <code>npm run dev:customer</code>.)</p>
+            <div class="flex items-center justify-center gap-3">
+              <a class="btn" href="http://localhost:3002/">Open your app</a>
+              <button type="button" class="js-logout btn btn--ghost">Log out</button>
+            </div>
           </div>
         </div>`;
       root.querySelector(".js-logout").addEventListener("click", async () => {

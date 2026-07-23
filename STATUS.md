@@ -2,6 +2,24 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-23 — "SHIP IT": the first half of the redesign went LIVE.** Carl green-lit P2+P3 with
+"ship it"; PR #29 merged to main → Render deploy. Live now: the design-audit acceptance work P0-P3 —
+shared kit, manager lists (Home/Team/Members/Past 1:1s/Person detail), one branded auth shell
+(Register + Join fixed), recomposed member Home, flow spine (stepper from Setup, one footer, one
+interstitial, inline retries), plus launcher fixes (starts both apps, self-updates) and the
+manager-login redirect. 181/181 tests, typecheck + linters green at merge. Post-deploy check =
+open the live site (cloud env can't reach Render). Next: P4 interview + instant recap.
+
+📍 **2026-07-22 — the full design audit landed, and it's now the acceptance criteria.** Every screen in
+all three personas audited against known SaaS patterns (45 screens: 12 standard / 19 hybrid / 14 custom;
+[report](audits/design-audit-2026-07/README.md), [visual](https://claude.ai/code/artifact/66b443eb-f5e6-4d73-a0b2-42583a0d25b4)).
+Committee convened (logs/committee/2026-07-22-design-consolidation.html); Carl approved the consolidation
+plan: [design-consolidation](docs/plans/doing/design-consolidation/plan.md), 8 phases, audit findings as a
+tick-list ([acceptance.md](docs/plans/doing/design-consolidation/acceptance.md)), go-live per green-lit
+phase. Phase 0 in progress: before-baseline of 42 screens exported to docs/screen-gallery/ (0 failed),
+mockup awaiting Carl. Open with Carl: confirm the SeroEngine rename (it was the retired original name).
+Absorbs the parked design-cleanups plan.
+
 📍 **2026-07-22 — new signups now start with an example 1:1.** demo-member Phase 1 green-lit:
 every fresh manager registration is seeded with an example person ("Sofia · Product Designer") and one
 finished bi-weekly recap already on their homepage — cloned from a committed fixture, so it costs
@@ -75,6 +93,8 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
+| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P3 ✅ SHIPPED LIVE 2026-07-23 on Carl's "ship it" (PR #29 → main → Render). Next: P4 interview + instant recap + one Prepare layout. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
@@ -104,4 +124,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-22 — demo-member Phase 1 green-lit (example workspace seeded at signup); Phase 2 (Example badge + remove) next.
+Last updated: 2026-07-23 — design consolidation P0-P3 shipped live on Carl's "ship it"; demo-member P1 also aboard the same deploy.

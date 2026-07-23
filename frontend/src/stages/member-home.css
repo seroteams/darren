@@ -1,71 +1,115 @@
-/* Member Home — requests & goals form.
-   Replaces the former inline style="" attributes with token-based classes (design-system
-   sweep P3). Geometry matches the approved prototype; the only deliberate changes are
-   control radius 8px → 4px (var(--radius-input/button), DESIGN §5) and the error colour,
-   which was a non-token #a3372c and is now var(--color-negative-text). */
+/* Member Home — page-specific LAYOUT only (design-consolidation Phase 2, audit A5).
+   The old parallel mh-* widget kit (its own inputs, selects and buttons) is deleted:
+   widgets now come from the system recipes — .apm-field__input (add-person-modal.css),
+   .btn / .btn--ghost (buttons-inputs.css), .chip (base.css), .card-flat (cards.css).
+   What stays here is only what is genuinely member-home-shaped: the empty-state block,
+   the divider rows inside the Requests and Goals cards (cards never nest), and the
+   goal progress bar in the axis visual language (track + fill, tokens — axes.css). */
 
-.mh-sub {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-.mh-eyebrow {
-  margin-bottom: 1rem;
-}
-.mh-item {
-  padding: 0.7rem 1rem;
-  margin-bottom: 0.5rem;
-}
-.mh-form {
-  margin-top: 0.5rem;
+/* The designed empty-state block: quiet Lucide icon, one-line headline, reassurance copy. */
+.member-empty {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.mh-input {
-  padding: 0.5rem 0.7rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-input);
-  font-size: var(--type-body-md);
-}
-.mh-input--grow {
-  flex: 1 1 12rem;
-}
-.mh-input--pct {
-  width: 5rem;
-  padding: 0.4rem;
-}
-.mh-input--note {
-  flex: 1 1 10rem;
-  padding: 0.4rem 0.7rem;
-}
-.mh-select {
-  padding: 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-input);
-  font-size: var(--type-body-md);
-}
-.mh-btn {
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-button);
-  border: 0;
-  background: var(--sero-primary-700);
-  color: var(--sero-offwhite-50);
-  font-weight: 600;
-  cursor: pointer;
-}
-.mh-btn--outline {
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--sero-primary-500);
-  background: var(--color-surface);
-  color: var(--sero-primary-800);
-}
-.mh-goal-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-direction: column;
   align-items: center;
-  margin-top: 0.4rem;
+  text-align: center;
+  gap: 0.35rem;
+  padding: 1.25rem 1rem;
 }
-.mh-error {
-  color: var(--color-negative-text);
+.member-empty__icon {
+  color: var(--color-ink-mute);
+  margin-bottom: 0.25rem;
+}
+.member-empty__head {
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+}
+.member-empty__copy {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  max-width: var(--measure-tight);
+}
+
+/* Requests — divider rows inside the card (never nested cards). */
+.member-req__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.member-req__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--color-border);
+}
+.member-req__row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.member-req__text {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink);
+}
+.member-req__cat {
+  flex: 1 1 12rem;
+  width: auto;
+}
+
+/* Goals — divider rows; the progress bar wears the axis track/fill language. */
+.member-goal {
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--color-border);
+}
+.member-goal:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+.member-goal__text {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink);
+  font-weight: var(--type-weight-medium);
+}
+.member-goal__meter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.member-goal__bar {
+  position: relative;
+  flex: 1;
+  height: 10px;
+  background: var(--sero-soft-500);
+  border-radius: var(--sero-radius-full);
+  overflow: hidden;
+}
+.member-goal__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-positive);
+}
+.member-goal__pct {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+  min-width: 2.75rem;
+  text-align: right;
+}
+.member-goal__edit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.member-goal__pct-input {
+  width: 5.5rem;
+}
+.member-goal__note {
+  flex: 1 1 10rem;
+  width: auto;
 }

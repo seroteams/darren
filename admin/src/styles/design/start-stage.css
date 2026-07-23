@@ -1,55 +1,118 @@
 /* -----------------------------------------------------------------------------
-   Start stage — recent runs list
+   Run rows (design-consolidation Phase 1, audit M1/M6) — one card of divider
+   rows shared by Home "Recent 1:1s" and the manager's Past 1:1s: avatar
+   initial, bold name, quiet second line, whole row clickable, optional badge
+   or ⋯ menu on the right. Replaces the old expand-in-place accordion.
 ----------------------------------------------------------------------------- */
-.run-row {
-  border: 1px solid var(--color-border-tinted);
-  border-radius: 8px;
+.run-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* The card chrome is a modifier so the zero-run welcome and the loading
+   skeleton (which bring their own surfaces) never nest inside a card. */
+.run-list--card {
   background: var(--color-surface);
-  box-shadow: var(--sero-shadow-xs);
-  overflow: hidden;
+  border: 1px solid var(--color-border-tinted);
+  border-radius: var(--radius-card);
+  overflow: hidden; /* hover tint stays inside the radius */
 }
-.run-row__head {
-  width: 100%;
-  text-align: left;
+.run-list__item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  color: var(--color-ink);
-  font: inherit;
+  border-bottom: 1px solid var(--color-border);
 }
-.run-row__chevron {
-  color: var(--color-ink-mute);
-  font-size: var(--type-label);
-  width: 1rem;
-  flex-shrink: 0;
-}
-.run-row__meta {
-  margin-left: auto;
-  flex-shrink: 0;
-}
-.run-row__head:hover {
-  background: color-mix(in srgb, var(--color-accent-soft) 55%, transparent);
-}
-.run-row__headline {
+.run-list__item:last-child { border-bottom: 0; }
+.run-list__item:hover { background: var(--sero-active-state-bg); }
+.run-list__row {
   flex: 1;
-  font-weight: 500;
-}
-.run-row__body {
-  padding: 0.75rem 1rem 1rem 2.5rem;
-  border-top: 1px solid var(--color-border);
-  background: var(--sero-primary-50);
-}
-.run-row__overview {
-  margin-bottom: 0.75rem;
-}
-.run-row__actions {
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--sero-space-3);
+  padding: var(--sero-space-3) var(--sero-space-4);
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.run-list__avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: var(--type-body-sm);
+}
+.run-list__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.run-list__name {
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  min-width: 0;
+}
+.run-list__sub {
+  color: var(--color-ink-dim);
+  font-size: var(--type-body-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.run-list__side {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  flex: none;
+}
+/* The ⋯ menu sits beside the row button (never inside it — nested buttons are
+   invalid), so it needs its own breathing room against the card edge. */
+.run-list__item > .row-menu-btn { margin-right: var(--sero-space-3); }
+/* Recency group heads (Past 1:1s) — quiet uppercase labels inside the card. */
+.run-list__grouphead {
+  padding: var(--sero-space-3) var(--sero-space-4) var(--sero-space-1);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+}
+/* "No matches" line when the toolbar search filters everything out. */
+.run-list__empty {
+  padding: var(--sero-space-3) var(--sero-space-4);
+  color: var(--color-ink-dim);
+  font-size: var(--type-body-sm);
+}
+/* The stale-resume recovery card heals IN a list row — strip its own card chrome
+   so it doesn't nest a card inside the list card. */
+.run-list--card .run-row__recovery {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  flex: 1;
+}
+
+/* Quiet "See all past 1:1s" link under the recents card. */
+.start-seeall {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--sero-link);
+}
+.start-seeall:hover {
+  color: var(--sero-link-hover);
+  text-decoration: underline;
 }
 
 /* Loading placeholder: the project-standard skeleton (ui/skeleton.js) wrapped
@@ -110,11 +173,14 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   overflow-x: auto;
   scrollbar-width: none;
   font-size: var(--type-body-sm);
 }
+/* Centre when it fits, left-align the scroll when it overflows — plain
+   justify-content: center clips the first step under the left edge. */
+.session-topbar__stages > :first-child { margin-left: auto; }
+.session-topbar__stages > :last-child { margin-right: auto; }
 .session-topbar__stages::-webkit-scrollbar {
   display: none;
 }

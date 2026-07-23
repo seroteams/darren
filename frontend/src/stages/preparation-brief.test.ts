@@ -206,9 +206,20 @@ for (const { id, label } of VARIANTS) {
    CTA + switcher persistence
 --------------------------------------------------------------------------- */
 
-test("CTA: renamed to 1:1 questions", () => {
+test("CTA: shared wizard footer. Primary right, Back left, Copy all a ghost", () => {
   const html = ctaRowHtml();
-  assert.ok(html.includes("Get my questions"));
+  assert.ok(html.includes('class="wizard-footer"'), "uses the shared wizard footer");
+  assert.match(html, /js-wf-continue[^>]*>Get my questions</, "primary is Get my questions");
+  assert.match(html, /wizard-footer__left[\s\S]*js-wf-back/, "Back sits in the left slot");
+  assert.match(
+    html,
+    /class="btn btn--ghost js-copy-all-prep"[^>]*>Copy all</,
+    "Copy all is a ghost in the footer",
+  );
+  assert.ok(
+    html.indexOf("js-copy-all-prep") < html.indexOf("js-wf-continue"),
+    "primary sits last on the right",
+  );
   assert.ok(!/interview/i.test(html));
   assert.ok(!/new 1:1/i.test(html), "the New 1:1 restart button is gone");
 });

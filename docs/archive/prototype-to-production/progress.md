@@ -760,3 +760,35 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   (`invitations_token_hash_idx` existed in the DB but not the snapshots) and the whole migration
   aborted on it — rewrote it `IF NOT EXISTS` so boot-time migrations can't crash a deploy on the
   same drift. 169/169 tests, verified with a real registration walk (Carl green-lit same day).
+
+
+## 2026-07-22 — design-consolidation Phase 0 (foundations)
+The full design audit (45 screens, 12/19/14 standard/hybrid/custom) became the plan's acceptance
+criteria: one box per finding, phase-mapped. Lesson that shaped the plan: the app fights SaaS
+patterns by accretion, not philosophy — so the fix is consolidation onto primitives that already
+exist (um-table, breadcrumb, page-header, session-topbar), not new design. Committee backed
+slices over big-bang; baseline screenshots frozen before any change (42 captured, $0, fixtures).
+Kit built dormant (list-toolbar / page-header / table-sort, TDD) so screen migrations are
+mechanical. Rename to SeroEngine parked: it was the repo's retired original name — needs Carl's
+knowing confirm, not a default. Note: phase-close step 4 (tasks.js badges) skipped — that file
+no longer exists in the repo; the skill doc is stale on this point.
+
+## 2026-07-23 — design-consolidation Phase 1 green-lit (manager lists)
+Carl walked the manager app on :3002 and signed it off in one line. Lessons: (1) the shared kit
+made five screen migrations mostly mechanical — build the components dormant first, migrate
+second; (2) two real-world blockers were environment, not design — Start Sero.bat never started
+the customer app (fixed: dev script now serves :3000 and :3002), and the dev wrong-door page led
+with Log out instead of a way forward (fixed: "Open your app" primary); (3) the gallery exporter
+had been silently blanking admin captures for weeks (a CSS/HTML comment containing "<script>"
+defeated its strip regex) — found only because phase QA demanded real screenshots. Verify on
+real renders, always.
+
+## 2026-07-23 — design-consolidation P2+P3 green-lit and SHIPPED ("ship it")
+Carl shipped the first half of the redesign live: audit + acceptance list, shared kit, manager
+lists, one auth shell (Register/Join finally branded), recomposed member Home, and the flow
+spine (stepper from Setup, one wizard footer, one interstitial, inline error+retry). Lessons:
+(1) the environment kept masquerading as design bugs — the launcher never started the customer
+app and manager logins dead-ended on a signpost; both fixed in the launcher/login, and the bat
+now self-updates (ff-only pull) so git stays invisible to Carl; (2) live-host verification is
+impossible from the cloud env (proxy + Render 403), so post-deploy checks belong to Carl's
+browser or a local session; noted in the plan.

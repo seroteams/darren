@@ -18,10 +18,21 @@ function Clear-Port($port) {
 
 Write-Host "Sero dev - self-healing launcher (Ctrl+C to stop)" -ForegroundColor Cyan
 
+# Pick up the latest work quietly (fast-forward only, so it never overwrites
+# anything local). If there's nothing new or no connection, just carry on.
+try {
+  Write-Host "Checking for updates..." -ForegroundColor DarkGray
+  git pull --ff-only 2>&1 | Out-Null
+  git rev-parse --short HEAD | ForEach-Object { Write-Host "  running build $_" -ForegroundColor DarkGray }
+} catch {
+  Write-Host "  couldn't check for updates - starting with what's here" -ForegroundColor Yellow
+}
+
 while ($true) {
   Write-Host "`nClearing stale ports..." -ForegroundColor DarkGray
   Clear-Port 3000
   Clear-Port 3001
+  Clear-Port 3002
   Start-Sleep -Milliseconds 300
 
   Write-Host "Starting dev server..." -ForegroundColor Green

@@ -246,6 +246,10 @@ async function inlineFonts(html, origin) {
 
 function stripScripts(html) {
   return html
+    // Comments first: index.html's boot-splash note contains the literal text
+    // "<script>", and the script regex below would otherwise match from inside
+    // that comment to the first real closer, swallowing #root and the whole page.
+    .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
     .replace(/<script\b[^>]*\/>/gi, "")
     .replace(/<link\b[^>]*rel=["']?modulepreload["']?[^>]*>/gi, "");

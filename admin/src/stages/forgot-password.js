@@ -11,7 +11,8 @@ import { LOGIN_PHOTOS } from "./login.js";
 
 export async function mount(root, { setState }) {
   root.classList.add("stage--auth");
-  const photo = LOGIN_PHOTOS[Math.floor(Math.random() * LOGIN_PHOTOS.length)];
+  // Fixed first photo — same deterministic pick as the other auth screens (audit A4).
+  const photo = LOGIN_PHOTOS[0];
   root.innerHTML = `
     <div class="auth-split">
       <div class="auth-split__form">
@@ -24,7 +25,7 @@ export async function mount(root, { setState }) {
           <div class="js-host">
             <form class="l-stack l-stack--4 js-form" novalidate>
               <label class="l-stack l-stack--2">
-                <span class="eyebrow">Email</span>
+                <span class="eyebrow eyebrow--slot">Email</span>
                 <input class="input js-email" type="email" autocomplete="username" required />
               </label>
               <p class="js-err text-negative text-sm" hidden></p>
@@ -61,12 +62,31 @@ export async function mount(root, { setState }) {
     try {
       await requestPasswordReset({ email });
       // Always the same confirmation — the server answers 200 whether or not the email
-      // has an account, so nothing here reveals which addresses are registered.
+      // has an account, so nothing here reveals which addresses are registered. A quiet
+      // Resend button re-submits the same email (audit A4) instead of "wait a minute" prose.
       host.innerHTML = `
         <div class="card-flat space-y-3">
           <p>If <strong>${escapeHtml(email)}</strong> has a Sero account, we've sent a reset link. Check your inbox. It works for 1 hour.</p>
-          <p class="text-ink-dim text-sm">Didn't get it? Check spam, or try again in a minute.</p>
+          <p class="text-ink-dim text-sm">Didn't get it? Check your spam folder.</p>
+          <button type="button" class="btn btn--ghost js-resend">Resend email</button>
+          <p class="js-resend-err text-negative text-sm" hidden></p>
         </div>`;
+      const resendBtn = host.querySelector(".js-resend");
+      const resendErr = host.querySelector(".js-resend-err");
+      resendBtn.addEventListener("click", async () => {
+        resendErr.hidden = true;
+        resendBtn.disabled = true;
+        resendBtn.textContent = "Sending…";
+        try {
+          await requestPasswordReset({ email });
+          resendBtn.textContent = "Sent again";
+        } catch (e3) {
+          resendErr.textContent = e3.message || "Something went wrong. Try again.";
+          resendErr.hidden = false;
+          resendBtn.textContent = "Resend email";
+        }
+        resendBtn.disabled = false;
+      });
     } catch (e2) {
       err.textContent = e2.message || "Something went wrong. Try again.";
       err.hidden = false;

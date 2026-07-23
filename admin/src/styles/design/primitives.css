@@ -50,6 +50,11 @@
   font-weight: var(--type-weight-medium);
   letter-spacing: var(--type-tracking-wide);
 }
+.page-header__actions {
+  display: flex;
+  gap: var(--sero-space-2);
+  flex-shrink: 0;
+}
 .page-header__lede {
   font-size: var(--type-body-sm);
   color: var(--color-ink-dim);

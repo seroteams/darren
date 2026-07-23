@@ -319,3 +319,79 @@
   cursor: pointer;
 }
 
+
+/* -----------------------------------------------------------------------------
+   List toolbar + column sort (design-consolidation Phase 0) — the one toolbar
+   recipe for every list screen: search left, filter chips, count right.
+   Rendered by ui/list-toolbar.ts and ui/table-sort.ts; hosts wire the js- hooks.
+----------------------------------------------------------------------------- */
+.list-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sero-space-3);
+}
+/* Compact boxed input (DESIGN §5 form variant — NOT the big session .input). */
+.list-toolbar__search {
+  flex: 0 1 17.5rem;
+  padding: 10px 14px;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  transition:
+    border-color var(--dur-instant) ease-out,
+    box-shadow var(--dur-instant) ease-out;
+}
+.list-toolbar__search::placeholder { color: var(--color-ink-mute); }
+.list-toolbar__search:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-focus);
+}
+.list-toolbar__filters { display: flex; flex-wrap: wrap; gap: var(--sero-space-2); }
+.list-toolbar__filter {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink-dim);
+  border-radius: var(--sero-radius-full);
+  padding: var(--sero-space-1) var(--sero-space-3);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  cursor: pointer;
+}
+.list-toolbar__filter[aria-pressed="true"] {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-accent-dark);
+}
+.list-toolbar__count {
+  margin-left: auto;
+  color: var(--color-ink-dim);
+  font-size: var(--type-body-sm);
+}
+
+/* Sortable column header — the button inherits the th's quiet style; the active
+   direction shows as a small border-built caret (a shape, not a glyph). */
+.lt-sort {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-1);
+}
+.lt-sort--asc::after,
+.lt-sort--desc::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+.lt-sort--asc::after  { border-bottom: 5px solid var(--color-ink-dim); }
+.lt-sort--desc::after { border-top: 5px solid var(--color-ink-dim); }

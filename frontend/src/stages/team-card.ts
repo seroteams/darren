@@ -1,10 +1,12 @@
-// Team card — the pure render for one person on the Team screen (team-page-redesign Phase 3).
-// DOM-free and CSS-free so it unit-tests as a plain string. The mount, data loading and click
-// wiring live in ./team.ts; the card styles live in ../styles/team-card.css (imported there).
+// Team card — the pure render for one person on the Team screen (team-page-redesign Phase 3,
+// reshaped by design-consolidation Phase 1). DOM-free and CSS-free so it unit-tests as a plain
+// string. The mount, data loading and click wiring live in ./team.ts; the styles live in
+// ../styles/team-card.css (imported there).
 //
-// The redesign (Carl's mock): one calm row per person — initials avatar, name · role, a quiet
-// meta line, then the access shown as ONE clear status pill (Not on Sero / Invited / Opened /
-// On Sero) with its action right beside it (Invite / Remind), and Prep 1:1 + the ⋯ menu.
+// The list is ONE card (teamList) holding divider rows — one calm row per person: initials
+// avatar, name · role, a quiet meta line, the access shown as ONE clear status pill (Not on
+// Sero / Invited / Opened / On Sero) with its action right beside it (Invite / Remind), and the
+// ⋯ menu (which now also carries Start 1:1 — wired in team.ts).
 
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { icon } from "../../../admin/src/ui/icon.js";
@@ -39,6 +41,19 @@ function initials(name: string): string {
   const letters = (parts.length ? [parts[0]!, parts[parts.length - 1]!] : [name])
     .map((w) => (w.match(/[a-z0-9]/i)?.[0] ?? "")).join("");
   return (letters || name.slice(0, 2)).slice(0, 2).toUpperCase();
+}
+
+/** The one initials-avatar recipe — Team rows and the Members table share it so both lists
+ *  match (design-consolidation Phase 1). `mod` picks the state tint (joined/invited/opened/none). */
+export function initialsAvatar(name: string, mod: string): string {
+  return `<div class="team-card__avatar team-card__avatar--${escapeHtml(mod)}" aria-hidden="true">${escapeHtml(initials(name))}</div>`;
+}
+
+/** Client-side search over the already-fetched roster: name or role, case-insensitive. */
+export function filterPeople(people: Person[], query: string): Person[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return people;
+  return people.filter((p) => p.name.toLowerCase().includes(q) || p.role.toLowerCase().includes(q));
 }
 
 // The meta line under a name. A never-touched roster person reads "not met yet"; one with only
@@ -83,30 +98,30 @@ function accessBlock(p: Person, orgUsers: OrgUser[]): string {
   return `<div class="team-card__access">${body}</div>`;
 }
 
-// One card for one person. Two columns: identity (avatar + name + meta) on the left, and on the
-// right the access pill over the actions (Prep + ⋯).
+// One divider row for one person (the card surface belongs to teamList). Identity (avatar +
+// name + meta) on the left; the access pill and the ⋯ menu on the right. Start 1:1 lives in
+// the ⋯ menu now (audit M3) — wired in team.ts.
 export function personCard(p: Person, orgUsers: OrgUser[]): string {
   const role = p.role ? ` <span class="team-card__role">· ${escapeHtml(p.role)}</span>` : "";
-  // One name for one action (VOICE.md): the button that begins a prep says "Start 1:1"
-  // everywhere — the person page's big CTA says the same (Carl, 2026-07-17).
-  const prepLabel = p.met ? "Start 1:1" : "Start first 1:1";
-  // The whole card opens the person (audit M8) — `js-card-open` on the root handles a mouse
+  // The whole row opens the person (audit M8) — `js-card-open` on the root handles a mouse
   // click anywhere; the name is a real focusable button so keyboard users can open it too. The
-  // action buttons (Invite / Remind / Prep / ⋯) stop propagation in team.ts, so they still do
+  // action buttons (Invite / Remind / ⋯) stop propagation in team.ts, so they still do
   // their own job. `data-key` carries the roster personId to open.
   return `
-    <div class="card-flat team-card js-card-open" data-key="${escapeHtml(p.key)}">
-      <div class="team-card__avatar team-card__avatar--${p.access.state}" aria-hidden="true">${escapeHtml(initials(p.name))}</div>
+    <div class="team-card js-card-open" data-key="${escapeHtml(p.key)}">
+      ${initialsAvatar(p.name, p.access.state)}
       <div class="team-card__who">
         <div class="team-card__name"><button type="button" class="team-card__name-btn js-open-person" data-key="${escapeHtml(p.key)}">${escapeHtml(p.name)}</button>${role}</div>
         <div class="team-card__meta">${metaLine(p)}</div>
       </div>
       <div class="team-card__right">
         ${accessBlock(p, orgUsers)}
-        <div class="team-card__do">
-          <button type="button" class="btn btn--ghost btn--sm js-prep-new" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" data-role="${escapeHtml(p.role)}">${prepLabel}</button>
-          <button type="button" class="row-menu-btn js-row-menu" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" aria-haspopup="menu" aria-label="More actions for ${escapeHtml(p.name)}">${icon(MoreHorizontal, { size: 18 })}</button>
-        </div>
+        <button type="button" class="row-menu-btn js-row-menu" data-key="${escapeHtml(p.key)}" data-name="${escapeHtml(p.name)}" aria-haspopup="menu" aria-label="More actions for ${escapeHtml(p.name)}">${icon(MoreHorizontal, { size: 18 })}</button>
       </div>
     </div>`;
+}
+
+/** The whole list: ONE card with divider rows (audit M3), replacing the per-person card stack. */
+export function teamList(people: Person[], orgUsers: OrgUser[] = []): string {
+  return `<section class="card-flat team-list">${people.map((p) => personCard(p, orgUsers)).join("")}</section>`;
 }

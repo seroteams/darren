@@ -4,6 +4,9 @@
 // (Active / Invited / Deactivated). Reuses the admin-tables `um-*` classes for visual parity.
 
 import { escapeHtml } from "../../../admin/src/ui/html.js";
+import { icon } from "../../../admin/src/ui/icon.js";
+import { MoreHorizontal } from "lucide";
+import { initialsAvatar } from "./team-card.ts";
 
 export type MemberStatus = "active" | "invited" | "deactivated";
 
@@ -29,19 +32,40 @@ export function statusTag(status: MemberStatus): string {
   return `<span class="um-badge um-badge--active">Active</span>`;
 }
 
+/** Map a member's status onto the shared avatar tints: active reads as on-Sero (mint),
+ *  invited as pending (gold), deactivated as the neutral grey. */
+function avatarState(status: MemberStatus): string {
+  if (status === "invited") return "invited";
+  if (status === "deactivated") return "none";
+  return "joined";
+}
+
+/** Client-side search over the already-fetched members: name or email, case-insensitive. */
+export function filterMembers(rows: MemberRow[], query: string): MemberRow[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return rows;
+  return rows.filter((m) => m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q));
+}
+
 function memberRow(m: MemberRow): string {
   const off = m.status === "deactivated";
   // A pending invite has no name yet — its email carries the row.
   const primary = m.name || m.email;
   const sub = m.name ? `<div class="um-user__email">${escapeHtml(m.email)}</div>` : "";
-  // Every row gets a ⋯ menu — account rows: role / deactivate / reactivate; invite rows:
-  // resend / revoke. The menu contents are chosen from data-kind in members.ts.
-  const actions = `<button type="button" class="um-menu-btn js-member-menu" data-kind="${escapeHtml(m.kind)}" data-id="${escapeHtml(m.id)}" data-role="${escapeHtml(m.role)}" data-status="${escapeHtml(m.status)}" data-name="${escapeHtml(primary)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(primary)}">⋯</button>`;
+  // Every row gets a ⋯ menu (the shared Lucide glyph via ui/icon.js, matching the Team rows) —
+  // account rows: role / deactivate / reactivate; invite rows: resend / revoke. The menu
+  // contents are chosen from data-kind in members.ts.
+  const actions = `<button type="button" class="um-menu-btn js-member-menu" data-kind="${escapeHtml(m.kind)}" data-id="${escapeHtml(m.id)}" data-role="${escapeHtml(m.role)}" data-status="${escapeHtml(m.status)}" data-name="${escapeHtml(primary)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(primary)}">${icon(MoreHorizontal, { size: 18 })}</button>`;
   return `
     <tr class="um-row${off ? " um-row--off" : ""}">
       <td>
-        <div class="um-user__open">${escapeHtml(primary)}</div>
-        ${sub}
+        <div class="mem-user">
+          ${initialsAvatar(primary, avatarState(m.status))}
+          <div class="mem-user__text">
+            <div class="um-user__open">${escapeHtml(primary)}</div>
+            ${sub}
+          </div>
+        </div>
       </td>
       <td>${roleBadge(m.role)}</td>
       <td>${statusTag(m.status)}</td>
@@ -49,10 +73,11 @@ function memberRow(m: MemberRow): string {
     </tr>`;
 }
 
-/** The whole table (header + rows). Rows arrive already ordered by the service. */
+/** The whole table (header + rows). Rows arrive already ordered by the service.
+ *  `.mem-table` scopes the avatar-row alignment tweaks (members.css) to this page only. */
 export function membersTable(rows: MemberRow[]): string {
   return `
-    <div class="um-table-wrap">
+    <div class="um-table-wrap mem-table">
       <table class="um-table">
         <thead>
           <tr>

@@ -1,6 +1,16 @@
-/* Team card (team-page-redesign Phase 3) — its OWN file so parallel CSS edits can't clobber it.
-   The calmer roster row from Carl's mock: initials avatar · name/meta · access status pill + action
-   · Prep + ⋯. Tokens only (DESIGN §5), 14px floor, one 12px-radius card, 4px controls. */
+/* Team card (team-page-redesign Phase 3, design-consolidation Phase 1) — its OWN file so
+   parallel CSS edits can't clobber it. ONE card (.team-list) of divider rows: initials avatar ·
+   name/meta · access status pill + action · ⋯ (Start 1:1 lives in the ⋯ menu now). The avatar
+   recipe is shared with the Members table. Tokens only (DESIGN §5), 14px floor, one 12px-radius
+   card, 4px controls. */
+
+/* The one card holding every row — rows carry their own padding so dividers run edge to edge;
+   overflow keeps the row hover square-cornered inside the card's radius. */
+.team-list {
+  padding: 0;
+  overflow: hidden;
+}
+.team-list .team-card + .team-card { border-top: 1px solid var(--color-border-tinted); }
 
 .team-card {
   display: grid;
@@ -60,8 +70,8 @@
 }
 .team-card__meta svg { color: var(--sero-gold-900); vertical-align: -2px; }
 
-.team-card__right { display: flex; flex-direction: column; align-items: flex-end; gap: 9px; flex-shrink: 0; }
-.team-card__do { display: flex; align-items: center; gap: 6px; }
+/* Access pill + ⋯ side by side — the row lost its Prep button (it lives in the ⋯ menu). */
+.team-card__right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
 /* Access status: pill + inline action */
 .team-card__access { display: inline-flex; align-items: center; gap: 8px; }
@@ -97,5 +107,5 @@
 
 @media (max-width: 560px) {
   .team-card { grid-template-columns: 40px 1fr; }
-  .team-card__right { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 2px; }
+  .team-card__right { grid-column: 1 / -1; justify-content: space-between; margin-top: 2px; }
 }

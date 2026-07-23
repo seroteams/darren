@@ -58,10 +58,12 @@ export const isFlowStage = (stage) => FLOW.has(stage);
 // The plain-member destinations (member-view: about-me only): a member sees ONLY the
 // list of 1:1s their manager prepped ABOUT them (MEMBER_HOME → getRunsAboutMe, list-only,
 // no notes/briefing/ratings — the no-inference ruling). The manager RUNS stage (authored
-// runs + private ratings) is deliberately NOT reachable by a member. RUN_DETAIL stays for
-// their own runs only — owner-fenced server-side, so it 404s anything not theirs.
+// runs + private ratings) is deliberately NOT reachable by a member. RUN_DETAIL is NOT
+// whitelisted either (design audit A6, 2026-07-23): the runs API is owner-fenced and the
+// member timeline is list-only, so a member could never load a run — it was a phantom
+// destination that only ever showed an error. Members bounce to their home instead.
 // Used by boot + back/forward to honor these deep links, bounce the rest.
-const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME, STAGES.RUN_DETAIL]);
+const MEMBER_ONLY = new Set([STAGES.MEMBER_HOME]);
 export const isMemberStage = (stage) => MEMBER_ONLY.has(stage);
 
 // Any-audience content pages: the privacy note, the About one-pager, Feedback.
