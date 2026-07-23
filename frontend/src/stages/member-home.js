@@ -1,19 +1,23 @@
-// Member Home — the landing page for a plain member. People-roster Phase 5: the page now
-// shows "Your 1:1s" — the 1:1s your manager prepped ABOUT you (list-only: meeting type +
-// date + which manager; never the manager's notes or briefing — the no-inference ruling).
-// The old "Start a new session" button is gone: members can't start runs (the server
-// 403s), so it was a dead end. The admin Home (start.js) is separate and never shown here.
+// Member Home — the landing page for a plain member, recomposed as a portal
+// (design-consolidation Phase 2, audit A5): the shared pageHeader at stage-medium
+// width, a top card for the most recent 1:1 about them, the timeline of earlier
+// ones with the privacy caption underneath, then Requests and Goals as two
+// side-by-side cards (stacking on phones via .l-grid). List-only: meeting type +
+// date + which manager; never the manager's notes or briefing — the no-inference
+// ruling. Members can't start runs (the server 403s), so there is no Start button.
+//
+// Pure renders live in ./member-home-view.ts (DOM-free, unit-tested); this file
+// owns the mount, CSS imports, data loading and wiring (the team.ts split).
 
 import { getRunsAboutMe, listMyTrackerItems, createMyRequest, updateMyGoal } from "../../../shared/api.js";
-import { escapeHtml as esc } from "../../../admin/src/ui/html.js";
-import { formatDate } from "../../../admin/src/ui/time.ts";
+import { pageHeader } from "../../../admin/src/ui/page-header.ts";
+import { renderRunsSection, renderRequestsCard, renderGoalsCard } from "./member-home-view.ts";
 import "../../../admin/src/styles/design/member-runs.css";
+import "../../../admin/src/styles/add-person-modal.css"; // the compact boxed input recipe (.apm-field__input) on the member route
 import "./member-home.css";
 
-const REQ_STATUS = { new: "New", in_progress: "In progress", resolved: "Resolved" };
-
-// The member's own requests + goals (monthly-checkin Phase 7). Raise a request; update a goal's
-// progress + note. Server-fenced to the member's own person — the UI never sees promises.
+// The member's own requests + goals (monthly-checkin Phase 7). Raise a request; update a
+// goal's progress + note. Server-fenced to the member's own person — the UI never sees promises.
 async function loadTrackers(host) {
   if (!host) return;
   let data;
@@ -25,47 +29,7 @@ async function loadTrackers(host) {
   }
   const requests = (data && data.requests) || [];
   const goals = (data && data.goals) || [];
-  host.innerHTML = `
-    <div class="l-stack l-stack--4">
-      <div>
-        <h3 class="text-sm mh-sub">Your requests</h3>
-        ${
-          requests.length
-            ? requests
-                .map(
-                  (r) =>
-                    `<div class="card-flat mh-item"><div class="text-sm">${esc(r.text)}</div><div class="text-sm text-ink-mute">${esc(REQ_STATUS[r.status] || r.status)}</div></div>`,
-                )
-                .join("")
-            : `<p class="text-sm text-ink-mute">No requests yet.</p>`
-        }
-        <form class="js-add-req mh-form">
-          <input class="js-req-text mh-input mh-input--grow" type="text" placeholder="What would help? Add a request…" />
-          <select class="js-req-cat mh-select"><option value="growth_development">Growth &amp; development</option><option value="ideas_suggestions">Ideas &amp; suggestions</option><option value="concerns_feedback">Concerns &amp; feedback</option></select>
-          <button type="submit" class="mh-btn">Add</button>
-        </form>
-      </div>
-      <div>
-        <h3 class="text-sm mh-sub">Your goals</h3>
-        ${
-          goals.length
-            ? goals
-                .map(
-                  (g) =>
-                    `<div class="card-flat js-goal mh-item" data-id="${esc(g.id)}">
-                      <div class="text-sm">${esc(g.text)}</div>
-                      <div class="mh-goal-row">
-                        <input class="js-goal-pct mh-input mh-input--pct" type="number" min="0" max="100" value="${Number(g.progress) || 0}" /><span class="text-sm text-ink-mute">%</span>
-                        <input class="js-goal-note mh-input mh-input--note" type="text" placeholder="Add an update…" />
-                        <button type="button" class="js-goal-save mh-btn mh-btn--outline">Save</button>
-                      </div>
-                    </div>`,
-                )
-                .join("")
-            : `<p class="text-sm text-ink-mute">No goals yet. Your manager sets these with you in your 1:1.</p>`
-        }
-      </div>
-    </div>`;
+  host.innerHTML = `<div class="l-grid l-grid--pair l-grid--gap-4">${renderRequestsCard(requests)}${renderGoalsCard(goals)}</div>`;
 
   host.querySelector(".js-add-req")?.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -76,7 +40,7 @@ async function loadTrackers(host) {
       await createMyRequest({ text, category });
       await loadTrackers(host);
     } catch {
-      host.querySelector(".js-add-req")?.insertAdjacentHTML("afterend", `<p class="text-sm mh-error">Couldn't save that. Try again in a moment.</p>`);
+      host.querySelector(".js-add-req")?.insertAdjacentHTML("afterend", `<p class="field__error">Couldn't save that. Try again in a moment.</p>`);
     }
   });
   host.querySelectorAll(".js-goal").forEach((el) => {
@@ -88,30 +52,26 @@ async function loadTrackers(host) {
         await updateMyGoal(id, { progress, note });
         await loadTrackers(host);
       } catch {
-        el.insertAdjacentHTML("beforeend", `<p class="text-sm mh-error">Couldn't save that. Try again in a moment.</p>`);
+        el.insertAdjacentHTML("beforeend", `<p class="field__error">Couldn't save that. Try again in a moment.</p>`);
       }
     });
   });
 }
 
-let keyHandler = null;
-
 export async function mount(root) {
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
-      <header class="page-header">
-        <h1 class="h1">Your 1:1s</h1>
-        <div class="text-ink-dim">Your manager uses Sero to prepare your 1:1s. Here's your history.</div>
-      </header>
-
-      <section class="member-runs">
-        <div class="js-about-me"><p class="text-sm text-ink-mute">Loading…</p></div>
+    <div class="stage-medium l-stack l-stack--8">
+      ${pageHeader({
+        eyebrow: "Your space",
+        title: "Home",
+        lede: "The 1:1s your manager has prepped about you, plus the requests and goals you share with them.",
+      })}
+      <section class="js-about-me l-stack l-stack--4">
+        <p class="text-sm text-ink-mute">Loading…</p>
       </section>
-
-      <section class="member-runs">
-        <div class="eyebrow mh-eyebrow">Requests &amp; goals</div>
-        <div class="js-my-trackers"><p class="text-sm text-ink-mute">Loading…</p></div>
-      </section>
+      <div class="js-my-trackers">
+        <p class="text-sm text-ink-mute">Loading…</p>
+      </div>
     </div>
   `;
 
@@ -121,22 +81,7 @@ export async function mount(root) {
   try {
     const res = await getRunsAboutMe();
     const runs = (res && res.runs) || [];
-    host.innerHTML = runs.length
-      ? `<ol class="member-runs__timeline">${runs
-          .map((r) => {
-            const when = r.completedAt || r.lastSeenAt;
-            const type = esc(r.meetingType || "1:1");
-            const meta = r.managerName ? `<span class="member-runs__meta">with ${esc(r.managerName)}</span>` : "";
-            return `<li class="member-runs__entry">
-              <div class="member-runs__head">
-                <span class="member-runs__type">${type}</span>
-                <time class="member-runs__when">${when ? esc(formatDate(when)) : ""}</time>
-              </div>
-              ${meta}
-            </li>`;
-          })
-          .join("")}</ol>`
-      : `<p class="text-ink-dim">Nothing here yet. When your manager preps a 1:1 with you, it shows up here, with the date and 1:1 type, so you always know where things stand.</p>`;
+    host.innerHTML = renderRunsSection(runs);
   } catch {
     host.innerHTML = `<p class="text-ink-dim">Couldn't load your 1:1s. Please try again in a moment.</p>`;
   }
@@ -144,10 +89,4 @@ export async function mount(root) {
   await loadTrackers(root.querySelector(".js-my-trackers"));
 }
 
-export function unmount() {
-  if (keyHandler) {
-    window.removeEventListener("keydown", keyHandler);
-    keyHandler = null;
-  }
-  document.querySelector(".modal-backdrop")?.remove();
-}
+export function unmount() {}

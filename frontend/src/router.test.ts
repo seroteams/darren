@@ -41,9 +41,12 @@ test("the guided runner (Monthly Check-in) routes for managers and stays walled 
   assert.equal(isGuestStage(STAGES.GUIDED), false);
 });
 
-test("member-view: about-me only. A member's destinations are the 1:1s about them + shared pages", () => {
+test("member-view: about-me only. A member's destination is their home + shared pages", () => {
   assert.equal(isMemberStage(STAGES.MEMBER_HOME), true);
-  assert.equal(isMemberStage(STAGES.RUN_DETAIL), true);
+  // RUN_DETAIL was a phantom member destination (design audit A6): the runs API is
+  // owner-fenced and the member timeline is list-only by the no-inference ruling, so a
+  // member could never actually load a run. Removed from the whitelist, 2026-07-23.
+  assert.equal(isMemberStage(STAGES.RUN_DETAIL), false);
   // The manager RUNS stage (authored runs + private ratings) is NOT a member destination.
   for (const s of [STAGES.RUNS, STAGES.TEAM, STAGES.PERSON_DETAIL, STAGES.START, STAGES.INTAKE]) {
     assert.equal(isMemberStage(s), false, `${s} is not a member destination`);

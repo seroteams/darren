@@ -216,7 +216,12 @@ export const mount: Mount = async (root, { setState }) => {
   try {
     run = (await getMyRun(id)) as RunDetail;
   } catch {
-    root.innerHTML = frame(crumbHeader, notice("Couldn't open this 1:1", "It may not be one of yours, or something went wrong. Try again from your 1:1s list."));
+    // A member's timeline is list-only (no-inference ruling), so "try again from your
+    // list" is a circular dead end for them — name the boundary and stop (audit A6).
+    const msg = listLabel === "Your 1:1s"
+      ? "This 1:1 isn't available to view."
+      : "It may not be one of yours, or something went wrong. Try again from your 1:1s list.";
+    root.innerHTML = frame(crumbHeader, notice("Couldn't open this 1:1", msg));
     wireCrumbs();
     return;
   }
