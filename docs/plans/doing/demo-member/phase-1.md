@@ -1,6 +1,8 @@
 # Phase 1 — Seed on signup
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit
+
+## ✅ GREEN-LIT 2026-07-22 — Carl approved after the fresh-signup walk (commit 543a8cba)
 
 ## Built (2026-07-22)
 

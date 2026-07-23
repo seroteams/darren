@@ -23,13 +23,13 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Seed on signup | New registrations get the flagged demo person + finished example run; admin metrics exclude demo rows | 🔨 |
+| 1 | Seed on signup | New registrations get the flagged demo person + finished example run; admin metrics exclude demo rows | ✅ |
 | 2 | Label + remove | "Example" badge on Home card, Team card and person detail; one-click "Remove example" with confirm | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 BUILT 2026-07-22, awaiting Carl's test walk (scenarios in [phase-1.md](phase-1.md)). Baseline before build: npm test 168/168 + typecheck clean (free checks only; no paid gate needed — no engine-pipeline surface touched). After build: 169/169 + typecheck + both lints clean, live signup verified on local (demo person + example 1:1 seeded, admin metrics exclude it, account delete clears it). Committee log: `logs/committee/2026-07-22-demo-member-on-signup.html`. Phase 2 (Example badge + remove button) not started.
+Phase 1 ✅ GREEN-LIT by Carl 2026-07-22 (commit 543a8cba) after the fresh-signup walk: register → Home shows the Sofia example 1:1, recap + Team render, admin metrics/returns exclude it, account delete clears it. Proof: npm test 169/169 (baseline 168/168), typecheck + both lints clean, live local verification in chat. Next: Phase 2 (Example badge + one-click remove) — not started, waits for a fresh session/day. Committee log: `logs/committee/2026-07-22-demo-member-on-signup.html`.
 
 ## Parked
 - Auto-hide the example once the manager adds their first real member (committee raised; decide after watching real usage).

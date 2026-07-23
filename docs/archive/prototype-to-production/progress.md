@@ -748,3 +748,15 @@ Status flow: `not-started` → `planned` → `in-progress` → `awaiting-qa` →
   Lesson: the biggest single win was `run-detail` (one shared file → both apps' recap fixed at
   once); scoping the rollout by *where the pattern actually applies* kept a "make everything
   consistent" ask from ballooning — Phase 6 correctly closed as a no-op rather than a rewrite.
+- **2026-07-22** — **demo-member Phase 1 — every new signup starts with an example 1:1.** Register
+  now fire-and-forgets a demo seed beside the signup email (`demo-seed.service.ts`): one `people`
+  row + one finished run cloned from the committed fixture `content/demo/demo-run.json` (Sofia ·
+  Bi-weekly, exported from the local DB's seed clone by `scripts/export-demo-fixture.ts`) — the
+  gallery fixtures turned out to be UI mocks, and `logs/**` (the seed-runs sources) never ships,
+  so a DB-exported fixture was the only path that works on Render. All demo rows carry `is_demo`
+  and are fenced out of superadmin/Pulse/returns metrics (SQL + pure-JS double-check, matching the
+  privacy-fence pattern); `deleteUser` removes the demo workspace so the roster guardrail can't
+  block account deletion. Lesson: `drizzle-kit generate` picked up a drifted index
+  (`invitations_token_hash_idx` existed in the DB but not the snapshots) and the whole migration
+  aborted on it — rewrote it `IF NOT EXISTS` so boot-time migrations can't crash a deploy on the
+  same drift. 169/169 tests, verified with a real registration walk (Carl green-lit same day).
