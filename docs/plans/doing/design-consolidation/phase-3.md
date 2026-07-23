@@ -1,6 +1,10 @@
 # Phase 3: Flow spine A
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+## Built (2026-07-23)
+
+Awaiting Carl's QA walk. Landed: stepper visible from Setup (session-topbar INTAKE carve-out removed + safe-centring fix so the first pill never clips); intake loses its private progress bar, gains the shared wizard footer with a real Back trail that restores typed values, one commit model (cards select, Continue confirms, Enter = newline); Focus checkbox-cards + live "N selected" + one fade + quiet Regenerate + inline error/Retry; Bank and Eval share the one flowInterstitial with inline error/Retry (no more ERROR-stage bounce); Prepare/Briefing/Debrief adopt the footer (Debrief's Continue finally outranks Copy QA). Orphaned CSS deleted (intake-progress, focus-actions, auth-alt). Offline proof: 181/181 tests, typecheck clean, lint:tokens + lint:copy PASS; real-render screenshots of intake, focus, bank, briefing eyeballed.
+
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting QA
 
 ## Goal
 

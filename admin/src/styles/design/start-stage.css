@@ -173,11 +173,14 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   overflow-x: auto;
   scrollbar-width: none;
   font-size: var(--type-body-sm);
 }
+/* Centre when it fits, left-align the scroll when it overflows — plain
+   justify-content: center clips the first step under the left edge. */
+.session-topbar__stages > :first-child { margin-left: auto; }
+.session-topbar__stages > :last-child { margin-right: auto; }
 .session-topbar__stages::-webkit-scrollbar {
   display: none;
 }

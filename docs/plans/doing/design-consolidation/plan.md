@@ -31,7 +31,7 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 | 0 | Foundations | Rename decision, before-baseline export, acceptance.md, mockup approved, shared kit (list toolbar, header contract, breadcrumb rollout) | ✅ |
 | 1 | Manager lists | Team, Members, Home, Past 1:1s on the shared table + toolbar, avatars, accent actions, medium width | ✅ |
 | 2 | Auth + member | Shared auth shell on Register/Join, Join identity hero, member home recomposition, Welcome fixes | 🔨 |
-| 3 | Flow spine A | Stepper visible Setup→Recap, one wizard footer, one interstitial | ⬜ |
+| 3 | Flow spine A | Stepper visible Setup→Recap, one wizard footer, one interstitial | 🔨 |
 | 4 | Flow spine B | Interview calm-down, instant briefing, one Prepare layout (11 fenced to admin lab) | ⬜ |
 | 5 | Shell | Pinned labelled sidebar, fixed account entry, help entry, nav links, breadcrumb sweep, Guided rebased on app shell | ⬜ |
 | 6 | Admin sweep | um-table rollout to internal + superadmin lists, Pulse time-range, error grouping, kill parallel button systems | ⬜ |
@@ -39,7 +39,7 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 
 ## Current state
 
-P1 ✅ green-lit 2026-07-23. P2 BUILT 2026-07-23, awaiting Carl's walk (auth shell everywhere, Join hero, member Home recomposition, phantom member route removed; 176/176, screenshots verified). Carl chose build-locally-first: nothing ships until his "go live" (= merge PR #29). SeroEngine rename still PARKED.
+P1 ✅ green-lit. P2 and P3 BUILT 2026-07-23, both awaiting Carl's walks (P2: auth shell + member; P3: flow spine with stepper from Setup, one footer, one interstitial; 181/181, screenshots verified). Build-locally-first per Carl: nothing ships until his "go live" (= merge PR #29). SeroEngine rename still PARKED.
 
 ## Parked
 

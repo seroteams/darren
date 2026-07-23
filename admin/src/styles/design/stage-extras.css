@@ -329,12 +329,6 @@
   color: var(--color-ink-dim);
 }
 
-/* Action row — inline on desktop; on mobile the buttons stack full-width so the
-   primary Continue is a big tap target and nothing crowds. */
-@media (max-width: 767.98px) {
-  .focus-actions { flex-direction: column; align-items: stretch; }
-  .focus-actions .btn { width: 100%; justify-content: center; }
-}
 
 /* custom checkbox */
 .cl-cb { flex: none; display: inline-flex; cursor: pointer; padding-top: 0.1rem; }
