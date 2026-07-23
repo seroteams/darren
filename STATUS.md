@@ -2,6 +2,14 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-23 — "SHIP IT": the first half of the redesign went LIVE.** Carl green-lit P2+P3 with
+"ship it"; PR #29 merged to main → Render deploy. Live now: the design-audit acceptance work P0-P3 —
+shared kit, manager lists (Home/Team/Members/Past 1:1s/Person detail), one branded auth shell
+(Register + Join fixed), recomposed member Home, flow spine (stepper from Setup, one footer, one
+interstitial, inline retries), plus launcher fixes (starts both apps, self-updates) and the
+manager-login redirect. 181/181 tests, typecheck + linters green at merge. Post-deploy check =
+open the live site (cloud env can't reach Render). Next: P4 interview + instant recap.
+
 📍 **2026-07-22 — the full design audit landed, and it's now the acceptance criteria.** Every screen in
 all three personas audited against known SaaS patterns (45 screens: 12 standard / 19 hybrid / 14 custom;
 [report](audits/design-audit-2026-07/README.md), [visual](https://claude.ai/code/artifact/66b443eb-f5e6-4d73-a0b2-42583a0d25b4)).

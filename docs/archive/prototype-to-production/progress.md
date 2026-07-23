@@ -769,3 +769,13 @@ with Log out instead of a way forward (fixed: "Open your app" primary); (3) the 
 had been silently blanking admin captures for weeks (a CSS/HTML comment containing "<script>"
 defeated its strip regex) — found only because phase QA demanded real screenshots. Verify on
 real renders, always.
+
+## 2026-07-23 — design-consolidation P2+P3 green-lit and SHIPPED ("ship it")
+Carl shipped the first half of the redesign live: audit + acceptance list, shared kit, manager
+lists, one auth shell (Register/Join finally branded), recomposed member Home, and the flow
+spine (stepper from Setup, one wizard footer, one interstitial, inline error+retry). Lessons:
+(1) the environment kept masquerading as design bugs — the launcher never started the customer
+app and manager logins dead-ended on a signpost; both fixed in the launcher/login, and the bat
+now self-updates (ff-only pull) so git stays invisible to Carl; (2) live-host verification is
+impossible from the cloud env (proxy + Render 403), so post-deploy checks belong to Carl's
+browser or a local session; noted in the plan.

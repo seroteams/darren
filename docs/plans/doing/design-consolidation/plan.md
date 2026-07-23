@@ -30,8 +30,8 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 |---|-------|---------------|--------|
 | 0 | Foundations | Rename decision, before-baseline export, acceptance.md, mockup approved, shared kit (list toolbar, header contract, breadcrumb rollout) | ✅ |
 | 1 | Manager lists | Team, Members, Home, Past 1:1s on the shared table + toolbar, avatars, accent actions, medium width | ✅ |
-| 2 | Auth + member | Shared auth shell on Register/Join, Join identity hero, member home recomposition, Welcome fixes | 🔨 |
-| 3 | Flow spine A | Stepper visible Setup→Recap, one wizard footer, one interstitial | 🔨 |
+| 2 | Auth + member | Shared auth shell on Register/Join, Join identity hero, member home recomposition, Welcome fixes | ✅ |
+| 3 | Flow spine A | Stepper visible Setup→Recap, one wizard footer, one interstitial | ✅ |
 | 4 | Flow spine B | Interview calm-down, instant briefing, one Prepare layout (11 fenced to admin lab) | ⬜ |
 | 5 | Shell | Pinned labelled sidebar, fixed account entry, help entry, nav links, breadcrumb sweep, Guided rebased on app shell | ⬜ |
 | 6 | Admin sweep | um-table rollout to internal + superadmin lists, Pulse time-range, error grouping, kill parallel button systems | ⬜ |
@@ -39,7 +39,7 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 
 ## Current state
 
-P1 ✅ green-lit. P2 and P3 BUILT 2026-07-23, both awaiting Carl's walks (P2: auth shell + member; P3: flow spine with stepper from Setup, one footer, one interstitial; 181/181, screenshots verified). Build-locally-first per Carl: nothing ships until his "go live" (= merge PR #29). SeroEngine rename still PARKED.
+P0-P3 ✅. Carl said "ship it" 2026-07-23: PR #29 merged to main = live deploy of the audit, kit, manager lists, auth shell + member home, and the flow spine. Live verification is Carl's browser (this cloud env cannot reach the Render host). Next: Phase 4 (interview + instant recap + one Prepare layout) on a fresh branch/PR. SeroEngine rename still PARKED.
 
 ## Parked
 

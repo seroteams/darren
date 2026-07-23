@@ -4,7 +4,9 @@
 
 All screens on the shared auth shell and system pieces, awaiting Carl's QA walk. Landed: Register + Join wear the auth-split shell (phantom auth-card gone); Join identity hero + what-you-see rows + expired-invite state; Welcome top log-in link + fixed brand photo; quiet slot labels, password show/hide toggles, Forgot-on-password-row, Resend button; member Home recomposed (latest-1:1 card, timeline + privacy caption, Requests/Goals side-by-side on system chips/inputs/bars, real empty states, mh-* kit deleted); phantom member RUN_DETAIL route removed + error copy de-looped; Privacy breadcrumb + who-can-see-it list. Offline proof: 176/176 tests, typecheck clean, lint:tokens + lint:copy PASS; real-render screenshots of Welcome, Login, Register, Join, member Home taken and eyeballed.
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting QA
+## ✅ GREEN-LIT 2026-07-23 — Carl: "ship it" (shipped live with P3; live use stands in for the screen walk).
+
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
 ## Goal
 
