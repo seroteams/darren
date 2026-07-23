@@ -8,8 +8,8 @@ import { confirmResetSession } from "../ui/session-reset.js";
 import { escapeHtml } from "../ui/html.js";
 import { buildRosterView } from "../ui/group-people.js";
 import { formatDate } from "../ui/time.ts";
-
-const SUBSTAGES = ["NAME", "ROLE", "SENIORITY", "MEETING_TYPE", "NOTES"];
+import { wizardFooter } from "../ui/wizard-footer.ts";
+import { INTAKE_SUBSTAGES as SUBSTAGES, backTrail } from "./intake-wizard.ts";
 
 const COPY = {
   NAME: {
@@ -45,35 +45,34 @@ export async function mount(root, { store, setState }) {
     setState({ stage: store.memberHome ?? STAGES.RUNS });
     return;
   }
+  // No bespoke progress header (audit F1): the topbar stepper is the one
+  // progress indicator for the whole flow. "Discard" is a quiet interim link:
+  // the INTAKE screen has no topbar "This 1:1" menu yet (that's the topbar
+  // builder's lane); once the menu covers Setup, this link goes too.
   root.innerHTML = `
     <div class="stage-inner intake-shell l-stack l-stack--10">
       <header class="space-y-3">
         <div class="intake-header__row">
           <div class="space-y-1 min-w-0">
             <div class="eyebrow">Setup</div>
-            <div class="stage-step text-sm text-ink-mute"></div>
           </div>
-          <button class="btn btn--ghost js-start-fresh flex-shrink-0" type="button">Discard prep</button>
+          <button class="link text-ink-dim text-sm js-start-fresh flex-shrink-0" type="button">Discard</button>
         </div>
         <p class="text-ink-dim text-sm max-w-measure js-intake-lede">Two minutes of prep. One sharper conversation.</p>
-        <div class="intake-progress" role="progressbar" aria-valuemin="1" aria-valuemax="${SUBSTAGES.length}" aria-valuenow="1">
-          <div class="intake-progress__fill"></div>
-        </div>
       </header>
       <div class="intake-body">
         <div class="field-host"></div>
         <div class="intake-firstrun-host" hidden></div>
       </div>
+      <div class="wizard-footer-host"></div>
     </div>
   `;
   const host = root.querySelector(".field-host");
-  const stepLabel = root.querySelector(".stage-step");
   const intakeLede = root.querySelector(".js-intake-lede");
   const intakeShell = root.querySelector(".intake-shell");
   const intakeBody = root.querySelector(".intake-body");
   const firstRunHost = root.querySelector(".intake-firstrun-host");
-  const progressBar = root.querySelector(".intake-progress");
-  const progressFill = root.querySelector(".intake-progress__fill");
+  const footerHost = root.querySelector(".wizard-footer-host");
 
   root.querySelector(".js-start-fresh").addEventListener("click", async () => {
     const ok = await confirmResetSession(confirmAction, { to: STAGES.START });
@@ -85,21 +84,17 @@ export async function mount(root, { store, setState }) {
   let types = null;
   let roster = null; // the caller's people (people-roster Phase 4b); null/[] → free-text only
   let isFirstRun = false; // zero-run account → show the first-run guidance (validation-kit Phase 4)
-  let currentSub = store.substage || "NAME";
+  let currentSub = SUBSTAGES.includes(store.substage) ? store.substage : "NAME";
 
-  // ONE progress system for setup (audit M5): the label, the bar and the aria values all read
-  // the same list — the steps THIS prep actually has. Prepping a known roster person opens at
-  // the meeting type (name/role/seniority already known), so the old fixed "Step 4 of 5" was a
-  // lie; it's "Step 1 of 2". If the flow ever lands outside that slice (e.g. stepping back to
-  // the name), fall back to the full list so the count can never read zero.
-  const startSub = SUBSTAGES.includes(currentSub) ? currentSub : "NAME";
-  const activeSteps = SUBSTAGES.slice(SUBSTAGES.indexOf(startSub));
-  const stepsFor = (sub) => (activeSteps.includes(sub) ? activeSteps : SUBSTAGES);
+  // Back walks real history (audit F2). Entering mid-flow (e.g. Back from Focus
+  // lands on NOTES) seeds the trail so Back still works from the entry step.
+  const history = backTrail(currentSub, !!store.ctx.personId);
+  // The current substage's commit (footer Continue) and its best-effort state
+  // stash (run before leaving via Back, so typed values survive the round trip).
+  let submitCurrent = null;
+  let stashCurrent = null;
 
   function refreshStep() {
-    const steps = stepsFor(currentSub);
-    const idx = steps.indexOf(currentSub) + 1;
-    stepLabel.textContent = `Step ${idx} of ${steps.length}`;
     if (intakeLede) intakeLede.hidden = currentSub !== "NAME";
     // The orientation card belongs on the entry step only, and only for a
     // brand-new account — a veteran starting another prep never sees it.
@@ -109,12 +104,23 @@ export async function mount(root, { store, setState }) {
     const split = isFirstRun && currentSub === "NAME";
     intakeShell?.classList.toggle("intake-shell--split", split);
     intakeBody?.classList.toggle("intake-body--split", split);
-    progressBar.setAttribute("aria-valuenow", String(idx));
-    progressBar.setAttribute("aria-valuemax", String(steps.length));
-    progressFill.style.transform = `scaleX(${idx / steps.length})`;
+  }
+
+  // The one wizard footer (audit F2): ghost Back bottom-left, primary Continue
+  // bottom-right. The entry step has no Back.
+  function renderFooter() {
+    footerHost.innerHTML = wizardFooter({
+      back: history.length ? {} : undefined,
+      primary: { label: "Continue" },
+    });
+    footerHost.querySelector(".js-wf-back")?.addEventListener("click", goBack);
+    footerHost.querySelector(".js-wf-continue").addEventListener("click", () => {
+      if (submitCurrent) submitCurrent();
+    });
   }
 
   refreshStep();
+  renderFooter();
 
   function renderField(name) {
     if (name === "NAME") return renderName();
@@ -139,25 +145,39 @@ export async function mount(root, { store, setState }) {
       <div class="grid gap-3 js-cards"></div>
     `;
     const cards = wrap.querySelector(".js-cards");
+    // One commit model (audit F2): clicking a card only SELECTS it; the footer
+    // Continue confirms. Selection starts from a previously committed pick so
+    // Back shows it again.
+    let pendingId = roster.some((p) => p.id === store.ctx.personId) ? store.ctx.personId : null;
+    const cardBtns = [];
+    function syncCards() {
+      cardBtns.forEach((b) => {
+        const on = b.dataset.personId === pendingId;
+        b.classList.toggle("is-selected", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+    }
     function makeCard(p) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "meeting-card";
-      if (store.ctx.personId === p.id) btn.classList.add("is-selected");
+      btn.dataset.personId = p.id;
+      btn.setAttribute("aria-pressed", String(pendingId === p.id));
+      if (pendingId === p.id) btn.classList.add("is-selected");
       const role = p.role ? `<div class="meeting-card__meta">${escapeHtml(p.role)}</div>` : "";
       // Show when they were last met, so the freshest 1:1s read at a glance (people are
       // already sorted most-recent-first). Never-met roster people simply carry no date.
       const last = p.lastMet ? `<div class="meeting-card__meta">Last 1:1 · ${escapeHtml(formatDate(p.lastMet))}</div>` : "";
       btn.innerHTML = `<div><span class="meeting-card__label">${escapeHtml(p.name)}</span></div>${role}${last}`;
       btn.addEventListener("click", () => {
-        store.ctx.personId = p.id;
-        store.ctx.name = p.name;
-        store.ctx.role = p.role || store.ctx.role || "";
-        store.ctx.seniority = p.seniority || store.ctx.seniority || "";
-        // Existing roster person — their role/seniority are already known, so skip
-        // straight to the meeting type instead of re-asking those details.
-        goTo("MEETING_TYPE");
+        // Picking a card is the answer, so the free-text box clears — the two
+        // are alternatives, never combined.
+        pendingId = p.id;
+        freshInput.value = "";
+        hideFreshError();
+        syncCards();
       });
+      cardBtns.push(btn);
       return btn;
     }
     // Show the freshest few by default; a long roster reveals the rest on demand so the
@@ -186,31 +206,50 @@ export async function mount(root, { store, setState }) {
       <input class="input" type="text" autocomplete="off" spellcheck="false"
              placeholder="${COPY.NAME.placeholder}" aria-label="Add someone new" />
       <div class="field__error" hidden></div>
-      <div class="field__actions">
-        <button class="btn js-add" type="button">Add &amp; continue</button>
-      </div>
     `;
     const freshInput = fresh.querySelector("input");
-    if (!store.ctx.personId) freshInput.value = store.ctx.name || "";
-    function submitFresh() {
+    const freshErr = fresh.querySelector(".field__error");
+    if (!pendingId) freshInput.value = store.ctx.name || "";
+    function hideFreshError() {
+      freshErr.hidden = true;
+      freshInput.removeAttribute("aria-invalid");
+    }
+    // Continue commits whichever answer is live: the selected card wins; else
+    // the typed name (personId null → the server links-or-creates); else nudge.
+    function submitName() {
+      if (pendingId) {
+        const p = roster.find((x) => x.id === pendingId);
+        store.ctx.personId = p.id;
+        store.ctx.name = p.name;
+        store.ctx.role = p.role || store.ctx.role || "";
+        store.ctx.seniority = p.seniority || store.ctx.seniority || "";
+        // Existing roster person — their role/seniority are already known, so skip
+        // straight to the meeting type instead of re-asking those details.
+        goTo("MEETING_TYPE");
+        return;
+      }
       const val = freshInput.value.trim();
-      const err = fresh.querySelector(".field__error");
       if (!val) {
-        err.textContent = "Add a name to continue.";
-        err.hidden = false;
+        freshErr.textContent = "Pick someone, or add a name to continue.";
+        freshErr.hidden = false;
         freshInput.setAttribute("aria-invalid", "true");
         return;
       }
-      err.hidden = true;
-      freshInput.removeAttribute("aria-invalid");
+      hideFreshError();
       store.ctx.personId = null;
       store.ctx.name = val;
       advance();
     }
-    freshInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") { e.preventDefault(); submitFresh(); }
+    freshInput.addEventListener("input", () => {
+      // Typing a new name un-picks any card — the typed name is the answer now.
+      if (pendingId) { pendingId = null; syncCards(); }
+      hideFreshError();
     });
-    fresh.querySelector(".js-add").addEventListener("click", submitFresh);
+    freshInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); submitName(); }
+    });
+    submitCurrent = submitName;
+    stashCurrent = null;
     // Input first, then a divider, then the existing people.
     const cardsGrid = wrap.querySelector(".js-cards");
     cardsGrid.before(fresh);
@@ -261,9 +300,6 @@ export async function mount(root, { store, setState }) {
       </label>
       <div class="hint" id="hint-${cfg.key}">${cfg.hint}</div>
       <div class="field__error" id="err-${cfg.key}" hidden></div>
-      <div class="field__actions">
-        <button class="btn js-next">Continue</button>
-      </div>
     `;
     const input = wrap.querySelector("input");
     input.value = store.ctx[cfg.key] || "";
@@ -273,8 +309,6 @@ export async function mount(root, { store, setState }) {
         submitInput();
       }
     });
-
-    wrap.querySelector(".js-next").addEventListener("click", submitInput);
 
     function submitInput() {
       const val = input.value.trim();
@@ -290,6 +324,9 @@ export async function mount(root, { store, setState }) {
       store.ctx[cfg.key] = val;
       advance();
     }
+    submitCurrent = submitInput;
+    // Back keeps whatever was typed (validation still guards Continue).
+    stashCurrent = () => { store.ctx[cfg.key] = input.value.trim(); };
     return wrap;
   }
 
@@ -308,10 +345,6 @@ export async function mount(root, { store, setState }) {
       <label class="block space-y-2">
         <textarea class="textarea js-notes" rows="4" placeholder="${cfg.placeholder}"></textarea>
       </label>
-      <div class="field__actions">
-        <button class="btn js-submit">Continue</button>
-        <button class="btn btn--ghost js-skip">Skip</button>
-      </div>
     `;
     const selected = new Set(store.ctx.issuePills || []);
     const pillRow = wrap.querySelector(".js-pills");
@@ -357,25 +390,21 @@ export async function mount(root, { store, setState }) {
     const preSelected = ISSUE_PILLS.find((iss) => selected.has(iss.id));
     if (preSelected) ta.placeholder = preSelected.example;
 
-    function go() {
+    // Enter is a newline in the notes box (audit F2) — the only submit is the
+    // footer Continue. Notes are optional: Continue with nothing filled in is
+    // the old Skip.
+    function commitNotes() {
       const pills = ISSUE_PILLS.filter((i) => selected.has(i.id));
       const free = ta.value.trim();
       store.ctx.issuePills = pills.map((p) => p.id);
       store.ctx.freeNotes = free;
       store.ctx.notes = composeNotes({ pills, free });
-      submit();
     }
-    ta.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); go(); }
-    });
-    wrap.querySelector(".js-submit").addEventListener("click", go);
-    wrap.querySelector(".js-skip").addEventListener("click", () => {
-      selected.clear();
-      store.ctx.issuePills = [];
-      store.ctx.freeNotes = "";
-      store.ctx.notes = "";
+    submitCurrent = () => {
+      commitNotes();
       submit();
-    });
+    };
+    stashCurrent = commitNotes;
     return wrap;
   }
 
@@ -396,9 +425,11 @@ export async function mount(root, { store, setState }) {
       cards.innerHTML = "";
       types.forEach((t, i) => {
         const btn = document.createElement("button");
+        btn.type = "button";
         btn.className = "meeting-card";
         if (i === selected) btn.classList.add("is-selected");
         btn.setAttribute("data-i", String(i));
+        btn.setAttribute("aria-pressed", String(i === selected));
         btn.innerHTML = `
           <div>
             <span class="meeting-card__label">${t.label}</span>
@@ -406,10 +437,11 @@ export async function mount(root, { store, setState }) {
           </div>
           <div class="meeting-card__meta">${t.duration} · ${t.description}</div>
         `;
+        // One commit model (audit F2): clicking only selects; the footer
+        // Continue confirms.
         btn.addEventListener("click", () => {
           selected = i;
           paint();
-          confirm();
         });
         cards.appendChild(btn);
       });
@@ -437,7 +469,6 @@ export async function mount(root, { store, setState }) {
         if (n < types.length) {
           selected = n;
           paint();
-          confirm();
         }
       } else if (e.key === "Enter") {
         e.preventDefault();
@@ -445,17 +476,33 @@ export async function mount(root, { store, setState }) {
       }
     });
 
+    submitCurrent = confirm;
+    // Back keeps the highlighted card so the round trip restores it.
+    stashCurrent = () => {
+      store.ctx.meetingTypeIndex = selected;
+      if (types[selected]) store.ctx.meetingType = types[selected].label;
+    };
     return wrap;
   }
 
-  async function goTo(sub) {
+  async function goTo(sub, { push = true } = {}) {
+    if (push && sub !== currentSub) history.push(currentSub);
     currentSub = sub;
     refreshStep();
+    renderFooter();
     const node = await swapField(host, () => renderField(sub));
     // Each step restarts at the top — Continue leaves the page scrolled down,
     // hiding the next step's question (phone walk 2026-07-11).
     window.scrollTo(0, 0);
     focusField(node);
+  }
+
+  // Footer Back: one step back, previously entered values still shown (the
+  // store holds the committed ones; stashCurrent keeps the in-progress ones).
+  async function goBack() {
+    if (!history.length) return;
+    if (stashCurrent) { try { stashCurrent(); } catch { /* best-effort */ } }
+    await goTo(history.pop(), { push: false });
   }
 
   async function advance() {
@@ -466,6 +513,10 @@ export async function mount(root, { store, setState }) {
   }
 
   async function submit() {
+    // Starting the session is a network call — freeze the footer so a double
+    // click can't open two sessions.
+    const cont = footerHost.querySelector(".js-wf-continue");
+    if (cont) cont.disabled = true;
     try {
       // Guided types (Monthly Check-in) don't run the AI-interview pipeline — branch BEFORE
       // startSession, which getArc()-throws on a guided label. Guided sessions are person-fenced,
