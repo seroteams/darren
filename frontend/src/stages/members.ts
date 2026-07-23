@@ -27,6 +27,7 @@ export const mount: Mount = async (root) => {
   // The shared page-header contract (design-consolidation Phase 1): "Invite people" is the
   // screen's single solid accent action.
   const header = pageHeader({
+    eyebrow: "Account",
     title: "Members",
     lede: "Everyone who can log in to your workspace, and their access.",
     actionsHtml: `<button type="button" class="btn js-invite">Invite people</button>`,

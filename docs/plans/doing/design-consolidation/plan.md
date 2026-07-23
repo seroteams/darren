@@ -39,7 +39,7 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 
 ## Current state
 
-Phase 0 ✅ green-lit 2026-07-22 (Carl: "mockup approved"). Landed: acceptance.md, 42-screen baseline verified, committee log, shared kit (list-toolbar, page-header, table-sort; 15 tests, free checks green). The SeroEngine rename is PARKED pending Carl's word (seroengine was the retired original name). Phase 1 (manager lists) building now.
+Phase 0 ✅ green-lit 2026-07-22. Phase 1 BUILT 2026-07-22, awaiting Carl's QA walk: Home, Team, Members, Past 1:1s, Person detail on the shared table + toolbar + header (174/174 tests, typecheck clean, screenshots verified on real renders). Also fixed a pre-existing gallery-export bug that blanked admin captures. The SeroEngine rename stays PARKED pending Carl's word.
 
 ## Parked
 
