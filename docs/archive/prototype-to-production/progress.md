@@ -792,3 +792,15 @@ app and manager logins dead-ended on a signpost; both fixed in the launcher/logi
 now self-updates (ff-only pull) so git stays invisible to Carl; (2) live-host verification is
 impossible from the cloud env (proxy + Render 403), so post-deploy checks belong to Carl's
 browser or a local session; noted in the plan.
+
+## 2026-07-24 — design consolidation P4 live (flow spine B)
+
+Carl green-lit P4 with "go live and merge": interview calm-down (stepper visible above the
+split, 3-button action row, Esc-skip gone, Enter = newline), instant briefing render (the
+staged choreography deleted, one soft fade, celebration wash kept), and ONE customer Prepare
+layout (Sheet) with the 12-variant lab fenced behind isInternalAdmin — closing a
+manager-reachable leak. PR #30 → main (3344e865) → Render. Lessons: (1) a single
+DEFAULT_VARIANT constant made the Sheet-vs-Arc call cheap to reverse, so the fork never
+blocked the ship; (2) the honest move on the CSS diet was to defer it — deleting variant CSS
+while the admin lab still uses all 12 would have orphaned nothing and broken the lab, so it
+rides with the P7 close-out as Carl's fork.

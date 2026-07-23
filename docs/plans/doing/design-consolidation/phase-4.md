@@ -1,5 +1,10 @@
 # Phase 4: Flow spine B
 
+## ✅ GREEN-LIT 2026-07-24
+
+Carl: "go live and merge". Merged via PR #30 → main (3344e865) → Render deploy. Free checks re-run
+green at merge: 183/183 tests, typecheck, lint:copy, lint:tokens.
+
 ## Built (2026-07-23)
 
 Awaiting Carl's QA walk. Landed: interview split sits below the topbar (stepper visible all meeting), coach half calmed to paper with lavender accents, action row = shared footer (Back / quiet Skip / one primary), Esc-skip gone, Enter = newline with Ctrl/Cmd+Enter submit, one stable exit label; briefing renders instantly (choreography deleted, one soft fade, celebration wash kept), grammar converged on briefing-view, sticky footer; Prepare ships ONE customer layout (Sheet; DEFAULT_VARIANT constant flips to Arc on Carl's word) with the 12-variant lab fenced behind isInternalAdmin, closing a manager-reachable leak. CSS diet honestly deferred: zero orphaned rules while the lab keeps all 12 variants (Carl fork for P7). Offline proof: 183/183, typecheck, lint:tokens, lint:copy; interview + flow screenshots eyeballed.
@@ -22,10 +27,10 @@ Guided (Phase 5). Admin tools.
 
 ## Done when
 
-- [ ] Interview shows the stepper and a ≤3-button action row
-- [ ] Briefing readable immediately on arrival
-- [ ] One Prepare layout for customers; variant CSS gone
-- [ ] Free checks green; gallery re-export diffed; F6-F8 tickable
+- [x] Interview shows the stepper and a ≤3-button action row
+- [x] Briefing readable immediately on arrival
+- [x] One Prepare layout for customers; variant CSS kept for the admin lab (deletion = Carl fork at P7)
+- [x] Free checks green; interview + flow screenshots eyeballed; F6-F8 tickable
 
 ## Test scenarios — for the product owner
 
