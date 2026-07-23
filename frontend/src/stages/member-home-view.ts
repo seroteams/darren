@@ -66,11 +66,12 @@ export function renderRunsSection(runs: MemberRun[]): string {
     )}</section>`;
   }
   const earlier = runs.slice(1);
-  const managerBit = latest.managerName ? ` · with ${esc(latest.managerName)}` : "";
+  const latestMeta = [when(latest), latest.managerName ? `with ${esc(latest.managerName)}` : ""]
+    .filter(Boolean).join(" · ");
   const latestCard = `<section class="card-flat l-stack l-stack--1">
       <div class="eyebrow eyebrow--slot">Your latest 1:1</div>
       <div class="h3">${esc(latest.meetingType || "1:1")}</div>
-      <div class="text-sm text-ink-dim">${when(latest)}${managerBit}</div>
+      <div class="text-sm text-ink-dim">${latestMeta}</div>
     </section>`;
   const timeline = earlier.length
     ? `<section class="member-runs l-stack l-stack--3">

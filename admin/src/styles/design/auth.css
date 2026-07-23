@@ -77,17 +77,6 @@
 .auth-split--even .auth-panel {
   text-align: center;
 }
-.auth-alt-label {
-  margin: 0;
-}
-/* Log in / Create account sit side by side as quiet ghost buttons under the one
-   blue action. .auth-panel .btn already centres their labels. */
-.auth-alt-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--sero-space-2);
-}
-
 /* --- Join (frontend/src/stages/join.js) — the invite landing ---------------- */
 /* The invite's identity hero: an org tile (the org's initial, echoing the rounded-
    square brandmark) above a headline where the NAMES are the bold part — the line

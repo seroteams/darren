@@ -327,8 +327,9 @@ async function boot() {
   // (privacy/about/feedback); anything else — the prep flow, Team, the manager RUNS view —
   // lands on their home. The rest of boot below is the manager path.
   if (!isAdmin(store.user)) {
+    // RUN_DETAIL left the member whitelist (design-consolidation P2, audit A6): the API is
+    // owner-fenced so a member deep link could never load. Land on Home instead.
     if (route && route.stage === STAGES.RUN_DETAIL) {
-      if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
       history.replaceState(null, "", "/home"); setState({ stage: STAGES.MEMBER_HOME }); return;
     }
     if (route && isMemberStage(route.stage)) { setState({ stage: route.stage }); return; }

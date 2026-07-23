@@ -30,7 +30,7 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 |---|-------|---------------|--------|
 | 0 | Foundations | Rename decision, before-baseline export, acceptance.md, mockup approved, shared kit (list toolbar, header contract, breadcrumb rollout) | ✅ |
 | 1 | Manager lists | Team, Members, Home, Past 1:1s on the shared table + toolbar, avatars, accent actions, medium width | ✅ |
-| 2 | Auth + member | Shared auth shell on Register/Join, Join identity hero, member home recomposition, Welcome fixes | ⬜ |
+| 2 | Auth + member | Shared auth shell on Register/Join, Join identity hero, member home recomposition, Welcome fixes | 🔨 |
 | 3 | Flow spine A | Stepper visible Setup→Recap, one wizard footer, one interstitial | ⬜ |
 | 4 | Flow spine B | Interview calm-down, instant briefing, one Prepare layout (11 fenced to admin lab) | ⬜ |
 | 5 | Shell | Pinned labelled sidebar, fixed account entry, help entry, nav links, breadcrumb sweep, Guided rebased on app shell | ⬜ |
@@ -39,7 +39,7 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 
 ## Current state
 
-Phase 1 ✅ GREEN-LIT 2026-07-23: Carl walked the manager app locally ("looks so much better"). Landed on the way: launcher now starts both apps, dev wrong-door page got an "Open your app" action, gallery-export comment-swallow bug fixed. NOT yet live: everything sits on the working branch; goes to the real site on Carl's "go live" (= merge PR #29). Next: Phase 2 (auth + member). SeroEngine rename still PARKED pending Carl's word.
+P1 ✅ green-lit 2026-07-23. P2 BUILT 2026-07-23, awaiting Carl's walk (auth shell everywhere, Join hero, member Home recomposition, phantom member route removed; 176/176, screenshots verified). Carl chose build-locally-first: nothing ships until his "go live" (= merge PR #29). SeroEngine rename still PARKED.
 
 ## Parked
 
