@@ -1,12 +1,14 @@
-// Team — the manager's roster (people-roster Phase 4). Now roster-driven: the page lists the
-// real `people` rows, so someone added by name shows up before any 1:1 has happened, and run
-// history (how often, how recently, how useful) joins in by personId for the people you've met.
-// "Add someone" creates a bare roster person; each met person's card opens their page (PG5);
-// a not-yet-met person offers "Prep first 1:1". Each card also shows account access — whether this
-// person can log in and see their own 1:1s (list-only: dates + meeting types, never the notes) —
-// with one control to give or change it. Distinct from the admin Library (admin-only).
+// Team — the manager's roster (people-roster Phase 4, design-consolidation Phase 1). Roster-
+// driven: the page lists the real `people` rows, so someone added by name shows up before any
+// 1:1 has happened, and run history (how often, how recently, how useful) joins in by personId
+// for the people you've met. One card of divider rows with a shared toolbar above (search by
+// name/role + count); "Add person" in the header is the screen's one accent action; Start 1:1
+// lives in each row's ⋯ menu; a row click opens the person (PG5). Each row also shows account
+// access — whether this person can log in and see their own 1:1s (list-only: dates + meeting
+// types, never the notes) — with one control to give or change it. Distinct from the admin
+// Library (admin-only).
 //
-// The pure card render lives in ./team-card.ts (DOM-free, unit-tested); this file owns the mount,
+// The pure renders live in ./team-card.ts (DOM-free, unit-tested); this file owns the mount,
 // data loading and the click wiring.
 
 import { STAGES, store } from "../../../admin/src/state.js";
@@ -17,7 +19,9 @@ import { showDeletePersonModal } from "../../../admin/src/ui/delete-person-modal
 import { openRowMenu } from "../../../admin/src/ui/row-menu.ts";
 import { showGiveAccessModal } from "../../../admin/src/ui/give-access-modal.ts";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
-import { personCard, type Person, type OrgUser } from "./team-card.ts";
+import { pageHeader } from "../../../admin/src/ui/page-header.ts";
+import { listToolbar } from "../../../admin/src/ui/list-toolbar.ts";
+import { teamList, filterPeople, type Person, type OrgUser } from "./team-card.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 import { prepStartSubstage } from "../../../admin/src/ui/intake-start.ts";
 import { showShareLinkModal } from "../../../admin/src/ui/share-link-modal.ts";
@@ -30,17 +34,19 @@ export const mount: Mount = async (root, { setState }) => {
   // so the Edit modal can pre-fill every field.
   let rosterById = new Map<string, { name: string; role: string; seniority: string }>();
 
-  const header = () => `
-    <header class="page-header">
-      <div class="page-header__row">
-        <h1 class="h1">Team</h1>
-        <div class="l-cluster l-cluster--2">
-          <button type="button" class="btn btn--ghost btn--sm js-add">Add someone</button>
-        </div>
-      </div>
-      <div class="text-ink-dim">Everyone on your team. Add a name now; their 1:1 history fills in as you meet.</div>
-    </header>`;
-  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header()}${inner}</div>`;
+  // What the search box currently holds — client-side filter over the fetched roster.
+  let query = "";
+
+  // The shared page-header contract (design-consolidation Phase 1): eyebrow = nav group,
+  // "Add person" as the screen's single solid accent action.
+  const header = () =>
+    pageHeader({
+      eyebrow: "Work",
+      title: "Team",
+      lede: "Everyone on your team. Add a name now; their 1:1 history fills in as you meet.",
+      actionsHtml: `<button type="button" class="btn js-add">Add person</button>`,
+    });
+  const shell = (inner: string) => `<div class="stage-medium l-stack l-stack--8">${header()}${inner}</div>`;
 
   const startOneOnOne = (seed: { personId?: string; name?: string; role?: string } = {}) => {
     store.scripted = null;
@@ -59,12 +65,13 @@ export const mount: Mount = async (root, { setState }) => {
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: prepStartSubstage({ personId: store.ctx.personId, name: store.ctx.name }) });
   };
 
+  // Ghost buttons here — the header's solid "Add person" is the screen's one accent action.
   const emptyCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Your team starts here</div>
       <p class="text-ink-dim">Add the people you manage, even before your first 1:1. Their history fills in as you prep and meet.</p>
       <div class="l-cluster l-cluster--2">
-        <button type="button" class="btn js-add">Add someone</button>
+        <button type="button" class="btn btn--ghost js-add">Add person</button>
         <button type="button" class="btn btn--ghost js-start">Start 1:1</button>
       </div>
     </section>`;
@@ -75,29 +82,54 @@ export const mount: Mount = async (root, { setState }) => {
       <button type="button" class="btn btn--ghost js-retry">Try again</button>
     </section>`;
 
-  const renderPeople = () => {
-    const body = people.map((p) => personCard(p, orgUsers)).join("");
-    root.innerHTML = shell(`<section class="l-stack l-stack--2">${body}</section>`);
-    wire();
+  // The one card of divider rows for whoever matches the search, or a quiet no-match line.
+  const listRegion = () => {
+    const rows = filterPeople(people, query);
+    return rows.length
+      ? teamList(rows, orgUsers)
+      : `<section class="card-flat"><p class="text-ink-dim">No one matches your search.</p></section>`;
   };
 
+  const renderPeople = () => {
+    const toolbar = listToolbar({
+      search: { placeholder: "Search by name or role" },
+      count: { n: filterPeople(people, query).length, noun: "person", nounPlural: "people" },
+    });
+    root.innerHTML = shell(`${toolbar}<div class="js-list-region">${listRegion()}</div>`);
+    wire();
+    wireList();
+    wireSearch();
+  };
+
+  // Typing filters client-side over the already-fetched roster: only the list region re-renders
+  // (the input keeps focus), and the count follows the match.
+  const wireSearch = () => {
+    root.querySelector<HTMLInputElement>(".js-lt-search")?.addEventListener("input", (e) => {
+      query = (e.target as HTMLInputElement).value;
+      const region = root.querySelector<HTMLElement>(".js-list-region");
+      if (region) { region.innerHTML = listRegion(); wireList(); }
+      const count = root.querySelector(".list-toolbar__count");
+      const n = filterPeople(people, query).length;
+      if (count) count.textContent = `${n} ${n === 1 ? "person" : "people"}`;
+    });
+  };
+
+  // Static chrome: header action, empty-state buttons, retry.
   const wire = () => {
     root.querySelector(".js-start")?.addEventListener("click", () => startOneOnOne());
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
-    // The empty state shows two "Add someone" buttons (header + card), so wire them all —
+    // The empty state shows two "Add person" buttons (header + card), so wire them all —
     // querySelector alone left the card's button dead.
     root.querySelectorAll<HTMLButtonElement>(".js-add").forEach((el) =>
       el.addEventListener("click", () => { void doAdd(); }),
     );
-    root.querySelectorAll<HTMLButtonElement>(".js-prep-new").forEach((el) => {
-      el.addEventListener("click", (e) => {
-        e.stopPropagation(); // don't let the card-open handler also fire
-        startOneOnOne({ personId: el.dataset.key, name: el.dataset.name, role: el.dataset.role });
-      });
-    });
-    // The whole card opens the person (audit M8). The name button gives keyboard users the same
-    // action and stops propagation so it doesn't double-fire the card handler. Action buttons
-    // (Prep / access / remind / ⋯) already stop propagation, so they still do their own job.
+  };
+
+  // Row-level wiring, re-run whenever the list region re-renders (search-as-you-type).
+  const wireList = () => {
+    // The whole row opens the person (audit M8). The name button gives keyboard users the same
+    // action and stops propagation so it doesn't double-fire the row handler. Action buttons
+    // (access / remind / ⋯) already stop propagation, so they still do their own job.
     const openPerson = (key: string | undefined) => { if (key) setState({ personKey: key, stage: STAGES.PERSON_DETAIL }); };
     root.querySelectorAll<HTMLButtonElement>(".js-open-person").forEach((el) => {
       el.addEventListener("click", (e) => { e.stopPropagation(); openPerson(el.dataset.key); });
@@ -105,20 +137,23 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelectorAll<HTMLElement>(".js-card-open").forEach((el) => {
       el.addEventListener("click", () => openPerson(el.dataset.key));
     });
-    // The card's ⋯ opens View / Edit / Delete (Delete flagged destructive).
+    // The row's ⋯ opens Start 1:1 / View / Edit / Delete (Delete flagged destructive). Start
+    // moved here from a per-row button (audit M3); the roster row supplies role + seniority.
     root.querySelectorAll<HTMLButtonElement>(".js-row-menu").forEach((el) => {
       el.addEventListener("click", (e) => {
         e.stopPropagation();
         const key = el.dataset.key || "";
         const name = el.dataset.name || "";
+        const met = people.find((p) => p.key === key)?.met ?? false;
         openRowMenu(el, [
+          { label: met ? "Start 1:1" : "Start first 1:1", onSelect: () => startOneOnOne({ personId: key, name }) },
           { label: "View", onSelect: () => { if (key) setState({ personKey: key, stage: STAGES.PERSON_DETAIL }); } },
           { label: "Edit", onSelect: () => { void doEdit(key); } },
           { label: "Delete", danger: true, onSelect: () => { void doDelete(key, name); } },
         ]);
       });
     });
-    // The card's access button opens one sheet: link an existing account, invite by email, or
+    // The row's access button opens one sheet: link an existing account, invite by email, or
     // (when already linked) remove access.
     root.querySelectorAll<HTMLButtonElement>(".js-access").forEach((el) => {
       el.addEventListener("click", (e) => {

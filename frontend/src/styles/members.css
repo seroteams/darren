@@ -1,6 +1,13 @@
-/* Members page (members-page Phase 1) — its OWN file so concurrent CSS edits can't clobber it.
-   Rides the shared admin-tables `um-*` styles (imported by members.ts); adds only the two status
-   pills that table didn't already have. Tokens only (DESIGN §5), 14px floor via um-badge. */
+/* Members page (members-page Phase 1, design-consolidation Phase 1) — its OWN file so
+   concurrent CSS edits can't clobber it. Rides the shared admin-tables `um-*` styles (imported
+   by members.ts) plus the shared initials avatar from team-card.css; adds the two status pills
+   that table didn't have and the avatar-in-cell layout. Tokens only (DESIGN §5), 14px floor. */
+
+/* Member cell: shared initials avatar beside the name/email stack. Scoped to .mem-table so the
+   alignment tweak never leaks into the superadmin user-management table. */
+.mem-user { display: flex; align-items: center; gap: var(--sero-space-3); }
+.mem-user__text { min-width: 0; }
+.mem-table td { vertical-align: middle; }
 
 /* Active — the calm positive state (same mint family as the "came back" pill). */
 .um-badge--active {
