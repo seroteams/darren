@@ -44,8 +44,24 @@ function injectStyles(): void {
     .acct-back:hover, .acct-back:focus-visible { color: var(--color-ink); outline: none; }
     .acct-head { display: flex; flex-direction: column; gap: 4px; }
     .acct-quiet-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .acct-dots { letter-spacing: 3px; color: var(--color-ink-dim); font-size: var(--type-body, 16px); }
-    .acct-card-gap { display: flex; flex-direction: column; gap: 12px; }
+    .acct-dots { letter-spacing: 3px; color: var(--color-ink-dim); font-size: var(--type-body-sm, 14px); }
+    .acct-card-gap { display: flex; flex-direction: column; gap: 10px; }
+    .acct-page .card { padding: 18px; }
+    /* The compact boxed field (DESIGN §5 form variant), NOT the big borderless session
+       .input — this is a settings form, not the prep flow. Same recipe as .apm-field__input. */
+    .acct-input {
+      width: 100%; padding: 10px 14px;
+      font-size: var(--type-body-sm, 14px); font-family: inherit; color: var(--color-ink);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-input, 4px);
+    }
+    .acct-input::placeholder { color: var(--color-ink-mute); }
+    .acct-input:focus { outline: none; border-color: var(--color-accent); box-shadow: var(--shadow-focus); }
+    .acct-input:disabled { color: var(--color-ink-mute); }
+    .acct-hint { font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim); }
+    .acct-actions { display: flex; justify-content: flex-end; gap: 8px; }
+    .acct-page .btn { padding: 8px 14px; font-size: var(--type-body-sm, 14px); }
+    .acct-label { font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim); }
     /* .l-stack / .acct-quiet-row set display:flex, which outweighs the bare [hidden]
        attribute — restore the hide so the password form + its summary toggle cleanly
        (same trap noted in profile-badge.js). */
@@ -72,14 +88,12 @@ export function showAccountSheet(user: User): void {
   const companySection = canEditCompany
     ? `
     <form class="card acct-card-gap js-company-form" novalidate>
-      <div class="eyebrow">Company</div>
-      <label class="l-stack l-stack--1">
-        <span class="text-sm text-ink-dim">Company name <span class="text-ink-mute">(everyone on your team sees this)</span></span>
-        <input class="input js-company" type="text" autocomplete="organization" placeholder="Loading…" disabled required />
-      </label>
+      <label class="eyebrow" for="acct-company">Company</label>
+      <p class="acct-hint">Everyone on your team sees this.</p>
+      <input id="acct-company" class="acct-input js-company" type="text" autocomplete="organization" placeholder="Loading…" disabled required />
       <p class="js-company-err text-negative text-sm" hidden></p>
       <p class="js-company-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
-      <div class="modal__actions">
+      <div class="acct-actions">
         <button type="submit" class="btn btn--ghost js-company-save" disabled>Save company</button>
       </div>
     </form>`
@@ -88,48 +102,39 @@ export function showAccountSheet(user: User): void {
   page.innerHTML = `
     <button type="button" class="acct-back js-close" aria-label="Back">&larr; Back</button>
     <div class="acct-head">
-      <h1 class="h1" id="account-title">Your account</h1>
+      <h1 class="h2" id="account-title">Your account</h1>
       <p class="text-sm text-ink-dim js-identity">${escapeHtml([name, email].filter(Boolean).join(" · "))}</p>
     </div>
 
     <form class="card acct-card-gap js-name-form" novalidate>
-      <div class="eyebrow">Your name</div>
-      <label class="l-stack l-stack--1">
-        <span class="text-sm text-ink-dim">Display name</span>
-        <input class="input js-name" type="text" autocomplete="name" value="${escapeHtml(name)}" required />
-      </label>
+      <label class="eyebrow" for="acct-name">Your name</label>
+      <input id="acct-name" class="acct-input js-name" type="text" autocomplete="name" value="${escapeHtml(name)}" required />
       <p class="js-name-err text-negative text-sm" hidden></p>
       <p class="js-name-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
-      <div class="modal__actions">
+      <div class="acct-actions">
         <button type="submit" class="btn btn--ghost js-name-save">Save name</button>
       </div>
     </form>
 
     ${companySection}
 
-    <div class="card acct-card-gap js-pw-card">
-      <div class="eyebrow">Password</div>
-      <div class="acct-quiet-row js-pw-summary">
-        <span class="acct-dots">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
-        <button type="button" class="btn btn--ghost js-pw-reveal">Change</button>
-      </div>
-      <form class="l-stack l-stack--3 js-pw-form" novalidate hidden>
-        <label class="l-stack l-stack--1">
-          <span class="text-sm text-ink-dim">Current password</span>
-          <input class="input js-current" type="password" autocomplete="current-password" required />
-        </label>
-        <label class="l-stack l-stack--1">
-          <span class="text-sm text-ink-dim">New password <span class="text-ink-mute">(at least 8 characters)</span></span>
-          <input class="input js-new" type="password" autocomplete="new-password" required />
-        </label>
-        <p class="js-err text-negative text-sm" hidden></p>
-        <p class="js-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
-        <div class="modal__actions">
-          <button type="button" class="btn btn--ghost js-pw-cancel">Cancel</button>
-          <button type="submit" class="btn js-save">Change password</button>
-        </div>
-      </form>
+    <div class="acct-quiet-row js-pw-summary">
+      <span class="acct-label">Password <span class="acct-dots">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span></span>
+      <button type="button" class="btn btn--ghost js-pw-reveal">Change</button>
     </div>
+    <form class="card acct-card-gap js-pw-form" novalidate hidden>
+      <div class="eyebrow">Change password</div>
+      <label class="acct-label" for="acct-current">Current password</label>
+      <input id="acct-current" class="acct-input js-current" type="password" autocomplete="current-password" required />
+      <label class="acct-label" for="acct-new">New password (at least 8 characters)</label>
+      <input id="acct-new" class="acct-input js-new" type="password" autocomplete="new-password" required />
+      <p class="js-err text-negative text-sm" hidden></p>
+      <p class="js-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
+      <div class="acct-actions">
+        <button type="button" class="btn btn--ghost js-pw-cancel">Cancel</button>
+        <button type="submit" class="btn js-save">Change password</button>
+      </div>
+    </form>
   `;
 
   overlay.appendChild(page);
