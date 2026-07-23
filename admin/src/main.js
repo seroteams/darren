@@ -342,6 +342,13 @@ async function boot() {
     // "/admin/" → boot…), the splash flashing on every pass. Park on an honest
     // signpost instead; prod keeps the real navigation out to the customer app.
     if (import.meta.env.DEV) {
+      // If the customer dev server is up, don't strand them on a signpost — just go.
+      // (no-cors: we only care whether anything answers on :3002.)
+      try {
+        await fetch("http://localhost:3002/", { mode: "no-cors", signal: AbortSignal.timeout(1200) });
+        window.location.href = "http://localhost:3002/";
+        return;
+      } catch { /* customer app not running — fall through to the signpost */ }
       root.innerHTML = `
         <div class="min-h-dvh flex items-center justify-center p-6">
           <div class="max-w-md text-center">

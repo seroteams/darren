@@ -132,7 +132,9 @@ export async function mount(root, { setState }) {
       // the signpost right at the source so there's no bounce, and gives dev the same result.)
       // Guarded by the build's base URL so the shared customer bundle ("/") is untouched.
       if (import.meta.env.BASE_URL.startsWith("/admin") && !isInternalAdmin(identity)) {
-        window.location.href = "/";
+        // In dev the customer app is its own server; "/" would bounce straight back to
+        // /admin and strand them on the wrong-door page. Go to the real destination.
+        window.location.href = import.meta.env.DEV ? "http://localhost:3002/" : "/";
         return;
       }
       // Land in the SAME place a fresh reload would (audit B1 split-brain): one resolver,
