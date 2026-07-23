@@ -10,7 +10,7 @@ test("primary sits right with its hook; Back is a ghost on the left", () => {
   const html = wizardFooter({ back: {}, primary: { label: "Continue" } });
   assert.ok(html.includes('class="wizard-footer"'), "footer wrapper");
   assert.match(html, /wizard-footer__left[\s\S]*js-wf-back/, "back in the left slot");
-  assert.match(html, /js-wf-back[^>]*class="[^"]*btn--ghost/, "back is a ghost");
+  assert.match(html, /class="btn btn--ghost js-wf-back"/, "back is a ghost");
   assert.match(html, /wizard-footer__right[\s\S]*js-wf-continue/, "primary in the right slot");
   assert.ok(html.indexOf("js-wf-back") < html.indexOf("js-wf-continue"), "back before primary");
   assert.ok(html.includes(">Continue<"), "primary label");
