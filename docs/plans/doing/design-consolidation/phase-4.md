@@ -1,6 +1,10 @@
 # Phase 4: Flow spine B
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+## Built (2026-07-23)
+
+Awaiting Carl's QA walk. Landed: interview split sits below the topbar (stepper visible all meeting), coach half calmed to paper with lavender accents, action row = shared footer (Back / quiet Skip / one primary), Esc-skip gone, Enter = newline with Ctrl/Cmd+Enter submit, one stable exit label; briefing renders instantly (choreography deleted, one soft fade, celebration wash kept), grammar converged on briefing-view, sticky footer; Prepare ships ONE customer layout (Sheet; DEFAULT_VARIANT constant flips to Arc on Carl's word) with the 12-variant lab fenced behind isInternalAdmin, closing a manager-reachable leak. CSS diet honestly deferred: zero orphaned rules while the lab keeps all 12 variants (Carl fork for P7). Offline proof: 183/183, typecheck, lint:tokens, lint:copy; interview + flow screenshots eyeballed.
+
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting QA
 
 ## Goal
 

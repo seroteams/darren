@@ -1,7 +1,8 @@
 // Pure render layer for the customer /prepare screen (prepare-variants).
-// One brief, seven content slots, five switchable layouts — no DOM, no state,
-// no fetch: every function here takes data in and returns an HTML string, so
-// the whole file is testable under node:test (see preparation-brief.test.ts).
+// One brief, seven content slots, twelve layouts: ONE customer default plus an
+// admin-only layout lab (design-consolidation F8). No DOM, no state, no fetch:
+// every function here takes data in and returns an HTML string, so the whole
+// file is testable under node:test (see preparation-brief.test.ts).
 // The payload contract is PreparationResult["brief"] (backend/shared/session.types.ts).
 
 import { escapeCopy } from "../../../admin/src/ui/html.js";
@@ -11,6 +12,11 @@ import { ArrowRight, Ban, Ear, Gauge, Lightbulb, MessageCircle, Target } from "l
 
 export type ConfidenceLevel = "low" | "medium" | "high" | "unknown";
 export type VariantId = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L";
+
+// THE one customer-facing layout (design-consolidation F8, 2026-07-23):
+// "H" is Sheet, the white memo. Carl can flip the whole product back to Arc
+// with one word: change this to "L". Nothing else needs touching.
+export const DEFAULT_VARIANT: VariantId = "H";
 
 // Defensive mirror of the backend brief shape — the store value is untyped.
 export interface PrepBrief {
@@ -546,11 +552,13 @@ export interface StorageLike {
   setItem(key: string, value: string): void;
 }
 
-// "L" is the Arc (Before · During · After) layout — the default every manager
-// lands on when they have no saved choice (Carl's pick, 2026-07-16).
-const DEFAULT_VARIANT: VariantId = "L";
-
-export function readVariant(storage: StorageLike | null | undefined): VariantId {
+// The layout lab is admin-only: only when adminLab is true does the stored
+// choice count. Everyone else gets DEFAULT_VARIANT — a stored non-default
+// layout for a non-admin (saved before the fence, or by an admin on a shared
+// browser) silently falls back rather than leaking a lab layout. The flag
+// defaults to false so a forgotten call site fails safe, to the customer view.
+export function readVariant(storage: StorageLike | null | undefined, adminLab = false): VariantId {
+  if (!adminLab) return DEFAULT_VARIANT;
   try {
     const v = storage ? storage.getItem(VARIANT_STORAGE_KEY) : null;
     return isVariantId(v) ? v : DEFAULT_VARIANT;

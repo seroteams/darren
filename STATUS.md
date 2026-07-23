@@ -86,14 +86,15 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
+1. **Walk Phase 4** — run one quick 1:1 locally: step bar stays visible in the interview, recap appears in one go, Prepare = white Sheet memo. Say "Phase 4 approved" (+ "ship it" to deploy) or "keep Arc" to flip the brief back.
+2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
 2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
 3. Or just start something new — nothing here is waiting on a build.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P3 ✅ SHIPPED LIVE 2026-07-23 on Carl's "ship it" (PR #29 → main → Render). Next: P4 interview + instant recap + one Prepare layout. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P3 ✅ LIVE (Carl confirmed). P4 🔨 BUILT 2026-07-23, awaiting Carl's walk (interview calm-down, instant recap, one Prepare layout = Sheet; "keep Arc" flips it). On PR #30. Then P5 sidebar → P6 admin sweep → P7 re-audit. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
 
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
