@@ -8,7 +8,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 82796893 | Design consolidation P1 (manager lists) | docs/plans/doing/design-consolidation/, STATUS.md, admin/src/ui/, admin/src/stages/start-core.js, admin/src/stages/runs.ts, frontend/src/stages/, admin/src/styles/design/ | 2026-07-22 |
+| 82796893 | Design consolidation P2 (auth + member) | docs/plans/doing/design-consolidation/, STATUS.md, admin/src/ui/, admin/src/stages/, frontend/src/, admin/src/styles/design/ | 2026-07-23 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
