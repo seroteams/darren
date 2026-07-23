@@ -37,6 +37,16 @@ const RUN_STAGES = new Set([
   STAGES.RUN_DEBRIEF,                   // post-run review
 ]);
 
+// Does this stage carry the stepper? The flow's constant spine, visible from the
+// very first Setup question (design audit F1) — INTAKE is no longer carved out.
+// The Phrase library (LEXICON_REVIEW) is dual-use: part of the run when there's
+// a live session, a standalone tool when opened from the nav — only the in-run
+// visit gets the breadcrumb. Exported for tests.
+export function stepperVisible(stage, sessionId) {
+  const current = String(stage || "");
+  return RUN_STAGES.has(current) || (current === STAGES.LEXICON_REVIEW && !!sessionId);
+}
+
 // First letter of the name (or email) for the initials circle — same rule as
 // the top-right profile badge (ui/profile-badge.js).
 function initialOf(user) {
@@ -183,16 +193,11 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
 
   function render({ stage, sessionId, user } = {}) {
     const current = String(stage || "");
-    // The Phrase library is dual-use: part of the run when there's a live
-    // session, a standalone tool when opened from the nav. Only the in-run case
-    // gets the breadcrumb.
-    // The setup step (INTAKE) is pre-run: no stage breadcrumb until the 1:1
-    // actually starts (FOCUS_POINTS onward). Setup carries its own "Cancel setup".
-    const inRun =
-      current !== STAGES.INTAKE &&
-      (RUN_STAGES.has(current) || (current === STAGES.LEXICON_REVIEW && !!sessionId));
-
-    if (!inRun) {
+    // On INTAKE (pre-run, usually no session id yet) the bar shows with Setup
+    // current and everything ahead upcoming; the "This 1:1" menu only unlocks
+    // once the run exists (its actions save/delete a live session) — until then
+    // the button sits disabled and Setup keeps its own exit.
+    if (!stepperVisible(current, sessionId)) {
       el.classList.add("is-hidden");
       document.body.classList.remove("has-session-topbar");
       if (popover) closePopover();
