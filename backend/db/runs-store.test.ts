@@ -12,6 +12,7 @@ import {
   fenceUserRows,
   fenceCallerRows,
   fenceAboutPersonRows,
+  fenceNonDemoRows,
   toMemberRow,
   toMemberView,
   toFinishedRow,
@@ -112,6 +113,17 @@ test("about-person fence: org required, finished only, personId must be in the l
   assert.deepEqual(fenceAboutPersonRows(rows, "org-a", ["p1"]).map((r) => r.id), ["about-me"]);
   assert.equal(fenceAboutPersonRows(rows, null, ["p1"]).length, 0, "no org → nothing");
   assert.equal(fenceAboutPersonRows(rows, "org-a", []).length, 0, "no linked people → nothing");
+});
+
+test("demo fence: seeded example runs stay out of admin/metrics reads but still reach their own manager", () => {
+  const rows = [
+    run({ state: { id: "real", orgId: "org-a", userId: "user-1" } }),
+    run({ state: { id: "demo", orgId: "org-a", userId: "user-1", isDemo: true } }),
+  ];
+  // Metrics/admin reads: the demo run is invisible — it must never count as traction.
+  assert.deepEqual(fenceNonDemoRows(rows).map((r) => r.id), ["real"]);
+  // The owning manager's own reads keep it — that is the feature.
+  assert.deepEqual(fenceCallerRows(rows, "org-a", "user-1").map((r) => r.id), ["real", "demo"]);
 });
 
 test("rating column validation matches the sidecar rules: only a valid 1-5 shape surfaces", () => {

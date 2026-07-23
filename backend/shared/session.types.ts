@@ -200,6 +200,9 @@ export interface Session {
   sessionBank?: Question[] | null;
   mode?: "manual" | "scripted";
   runLabel?: string | null;
+  // The example run cloned into a fresh signup's workspace (demo-member phase 1).
+  // Demo runs render for their manager but stay out of admin metrics and counts.
+  isDemo?: boolean;
   fingerprint?: RunFingerprint | null;
   scriptAnswers?: Record<string, string> | null;
   scriptedFallback?: string | null;

@@ -153,6 +153,14 @@ export function fenceUserRows(rows: DbRun[], userId: string | null | undefined):
   return rows.filter((r) => Boolean(asRecord(r.state).briefing) && runOwnedByUser(r.state, userId));
 }
 
+/** Metrics fence (demo-member phase 1): the example run seeded at signup must never
+ *  count as traction or surface in admin/superadmin reads. Like the other fences this
+ *  re-checks the authoritative state, so a drifted is_demo COLUMN can only hide a
+ *  demo run, never leak one into the numbers. */
+export function fenceNonDemoRows(rows: DbRun[]): DbRun[] {
+  return rows.filter((r) => asRecord(r.state).isDemo !== true);
+}
+
 export function fenceAboutPersonRows(
   rows: DbRun[],
   orgId: string | null | undefined,
@@ -566,7 +574,7 @@ export async function pgWritePromiseOutcomes(
 }
 
 export async function pgListRunsForSuperadmin(): Promise<{ userId: string | null; createdAt: number; lastSeenAt: number; stars: number | null }[]> {
-  const rows = (await rowsWhere([eq(sessionsTable.finished, true)])).filter((r) => Boolean(r.state.briefing));
+  const rows = fenceNonDemoRows(await rowsWhere([eq(sessionsTable.finished, true), eq(sessionsTable.isDemo, false)])).filter((r) => Boolean(r.state.briefing));
   return rows.map((r) => ({
     userId: typeof r.state.userId === "string" ? r.state.userId : null,
     // When the run started — the return signal's clock (validation-kit Phase 2).
@@ -594,7 +602,7 @@ export async function pgListAdminRuns(): Promise<
     rating: { stars: number; note: string; updatedAt: string | null } | null;
   }[]
 > {
-  const rows = await rowsWhere([]);
+  const rows = fenceNonDemoRows(await rowsWhere([eq(sessionsTable.isDemo, false)]));
   return rows.map((r) => ({
     id: r.id,
     userId: asString(r.state.userId) || null,
@@ -622,7 +630,12 @@ export async function pgListFinishedRunsForUser(userId: string | null | undefine
   ReturnType<typeof toUserRunRow>[]
 > {
   if (!userId) return [];
-  const rows = fenceUserRows(await rowsWhere([sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined, eq(sessionsTable.finished, true)]), userId);
+  const rows = fenceUserRows(
+    fenceNonDemoRows(
+      await rowsWhere([sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined, eq(sessionsTable.finished, true), eq(sessionsTable.isDemo, false)]),
+    ),
+    userId,
+  );
   return rows.map(toUserRunRow);
 }
 

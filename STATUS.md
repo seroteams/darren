@@ -20,6 +20,14 @@ phase. Phase 0 in progress: before-baseline of 42 screens exported to docs/scree
 mockup awaiting Carl. Open with Carl: confirm the SeroEngine rename (it was the retired original name).
 Absorbs the parked design-cleanups plan.
 
+📍 **2026-07-22 — new signups now start with an example 1:1.** demo-member Phase 1 green-lit:
+every fresh manager registration is seeded with an example person ("Sofia · Product Designer") and one
+finished bi-weekly recap already on their homepage — cloned from a committed fixture, so it costs
+nothing per signup. Demo rows are flagged and invisible to every admin metric, Pulse view and the
+returns report (your corridor numbers stay clean), and deleting the account removes them. Verified
+with a real registration walk on local; 169/169 tests. Phase 2 next: the "Example" badge + one-click
+remove. Committed local, ships next "go live".
+
 📍 **2026-07-21 — the 15 Jul UX audit is closed out.** Carl re-handed the audit PDF; turned out it was
 already fully built a week ago (`docs/plans/done/ux-audit-fixes/`, all 5 phases, P1–P2 green-lit, P3–P5
 self-signed). Re-verified all 22 findings against current code (20/22 fixed in source with `(audit M#)`
@@ -86,6 +94,8 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | Build | State |
 |---|---|
 | [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P3 ✅ SHIPPED LIVE 2026-07-23 on Carl's "ship it" (PR #29 → main → Render). Next: P4 interview + instant recap + one Prepare layout. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+
+| [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail) — awaiting your QA walk. P2–P4 not started. |
@@ -114,4 +124,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-21 — ia-consistency Phase 1 green-lit (3 nav/IA rules written into DESIGN.md); Phase 2 (member 1:1 recap) next. (Earlier today: brief-style-tip DONE.)
+Last updated: 2026-07-23 — design consolidation P0-P3 shipped live on Carl's "ship it"; demo-member P1 also aboard the same deploy.

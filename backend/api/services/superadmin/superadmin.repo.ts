@@ -8,7 +8,7 @@
 // The service depends on this interface, so its logic (grouping, ordering, the view
 // shape) is proven against an in-memory fake without a database — same seam as auth.
 
-import { eq, sql } from "drizzle-orm";
+import { and, eq, inArray, sql } from "drizzle-orm";
 import { getDb, hasDatabaseUrl } from "../../../db/client.ts";
 import {
   organizations,
@@ -21,6 +21,7 @@ import {
   errorLogs,
   auditLog,
   sessions,
+  runArtifacts,
 } from "../../../db/schema.ts";
 import { listRunsForSuperadmin, listFinishedRunsForUser, listOwnerlessFinishedRuns, superadminRunView } from "../../../engine/run-history.ts";
 import { pgListRunsForSuperadmin, pgListFinishedRunsForUser, pgListGuestRuns, pgSuperadminRunView, pgListAdminRuns } from "../../../db/runs-store.ts";
@@ -217,7 +218,9 @@ export const pgSuperadminRepo: SuperadminRepo = {
         stage: sessions.stage,
         finished: sessions.finished,
       })
-      .from(sessions);
+      .from(sessions)
+      // Signup demo runs never count in Pulse (demo-member phase 1).
+      .where(eq(sessions.isDemo, false));
     return rows.map((r) => ({
       userId: r.userId ?? null,
       orgId: r.orgId ?? null,
@@ -274,10 +277,11 @@ export const pgSuperadminRepo: SuperadminRepo = {
     const db = getDb();
     // People this user manages that are still live (not merged away). A merged row is a
     // resolved pointer, not an active roster member, so it doesn't block the delete.
+    // The seeded demo person doesn't either — deleteUser removes it itself.
     const [row] = await db
       .select({ n: sql<number>`count(*)::int` })
       .from(people)
-      .where(sql`${people.managerId} = ${userId} and ${people.mergedIntoId} is null`);
+      .where(sql`${people.managerId} = ${userId} and ${people.mergedIntoId} is null and ${people.isDemo} = false`);
     return row?.n ?? 0;
   },
   async deleteUser(userId: string) {
@@ -285,6 +289,28 @@ export const pgSuperadminRepo: SuperadminRepo = {
     // One transaction: orphan the runs, clear every reference, then remove the user.
     // If any step fails the whole thing rolls back — a half-deleted user is never left.
     await db.transaction(async (tx) => {
+      // The seeded example workspace (demo-member phase 1) goes WITH the account — demo
+      // people carry a NOT NULL manager_id to this user, so they must be removed, not
+      // orphaned (and a demo run without its manager means nothing anyway).
+      const demoPeople = await tx
+        .select({ id: people.id })
+        .from(people)
+        .where(and(eq(people.managerId, userId), eq(people.isDemo, true)));
+      const demoIds = demoPeople.map((r) => r.id);
+      if (demoIds.length) {
+        const demoRuns = await tx
+          .select({ key: sessions.sessionKey })
+          .from(sessions)
+          .where(and(eq(sessions.isDemo, true), inArray(sessions.personId, demoIds)));
+        const keys = demoRuns.map((r) => r.key);
+        if (keys.length) {
+          await tx.delete(runArtifacts).where(inArray(runArtifacts.sessionKey, keys));
+          await tx.delete(sessions).where(inArray(sessions.sessionKey, keys));
+        }
+        await tx.delete(invitations).where(inArray(invitations.personId, demoIds));
+        await tx.update(people).set({ mergedIntoId: null }).where(inArray(people.mergedIntoId, demoIds));
+        await tx.delete(people).where(inArray(people.id, demoIds));
+      }
       // Runs stay under the company but lose their owner — in BOTH the indexed column and
       // the authoritative `state` jsonb the privacy fence reads (so no ghost owner id lingers).
       await tx

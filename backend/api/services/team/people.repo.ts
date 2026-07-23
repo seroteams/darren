@@ -19,6 +19,9 @@ export interface PersonRow {
   userId: string | null;
   mergedIntoId: string | null;
   archivedAt: Date | null;
+  // The pre-seeded example person a fresh signup gets (demo-member phase 1).
+  // Optional so older fakes/rows read as "not demo".
+  isDemo?: boolean;
 }
 
 export interface PeopleRepo {
@@ -32,6 +35,7 @@ export interface PeopleRepo {
     name: string;
     role?: string | null;
     seniority?: string | null;
+    isDemo?: boolean;
   }): Promise<PersonRow>;
   update(
     id: string,
@@ -72,6 +76,7 @@ const COLUMNS = {
   userId: people.userId,
   mergedIntoId: people.mergedIntoId,
   archivedAt: people.archivedAt,
+  isDemo: people.isDemo,
 };
 
 export const pgPeopleRepo: PeopleRepo = {
@@ -103,6 +108,7 @@ export const pgPeopleRepo: PeopleRepo = {
         name: fields.name,
         role: fields.role ?? null,
         seniority: fields.seniority ?? null,
+        isDemo: fields.isDemo ?? false,
       })
       .returning(COLUMNS);
     return rows[0]!;

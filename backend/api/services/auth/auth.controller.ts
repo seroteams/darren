@@ -7,7 +7,8 @@ import type { IncomingMessage } from "node:http";
 import bcrypt from "bcryptjs";
 import type { RequestContext } from "../../router.ts";
 import { createAuthService, createPasswordResetService } from "./auth.service.ts";
-import type { PasswordHasher } from "./auth.service.ts";
+import type { AuthService, PasswordHasher, PublicUser } from "./auth.service.ts";
+import { seedDemoWorkspace } from "./demo-seed.service.ts";
 import { pgAuthRepo, pgAuthSessionRepo, pgPasswordResetRepo } from "./auth.repo.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import type { IdentityLookup } from "../../middleware/request-context.ts";
@@ -42,9 +43,14 @@ function requestBaseUrl(req: IncomingMessage): string {
 }
 
 // POST /api/v1/auth/register — { email, name, password } → 201 { user }
-export async function register(c: RequestContext): Promise<void> {
+// seed/svc are injectable for tests only; production always uses the real ones.
+export async function register(
+  c: RequestContext,
+  seed: (user: PublicUser) => unknown = seedDemoWorkspace,
+  svc: Pick<AuthService, "register"> = service,
+): Promise<void> {
   const body = asRecord(await c.readBody());
-  const user = await service.register({
+  const user = await svc.register({
     email: asString(body.email),
     name: asString(body.name),
     password: asString(body.password),
@@ -53,6 +59,14 @@ export async function register(c: RequestContext): Promise<void> {
   // Fire-and-forget: tell the admin someone signed up. Never awaited — the response
   // and the signup itself must never wait on, or fail because of, an email.
   notifyAdminOfNewRegistration(user);
+  // Fire-and-forget too: the example workspace (demo person + finished example 1:1,
+  // demo-member phase 1). The service never throws; this catch covers test fakes and
+  // future sync mistakes so the signup can never fail on it.
+  try {
+    void seed(user);
+  } catch (e) {
+    console.error("[demo-seed] failed to start:", e instanceof Error ? e.message : e);
+  }
   c.json(201, { user });
 }
 
