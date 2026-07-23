@@ -16,7 +16,7 @@ export function listToolbar(opts: ToolbarOpts): string {
   const parts: string[] = [];
   if (opts.search) {
     parts.push(
-      `<input type="search" class="input list-toolbar__search js-lt-search" placeholder="${escapeHtml(opts.search.placeholder)}">`,
+      `<input type="search" class="list-toolbar__search js-lt-search" placeholder="${escapeHtml(opts.search.placeholder)}">`,
     );
   }
   if (opts.filters?.length) {
