@@ -1,12 +1,18 @@
 // The start screen WITHOUT the internal persona bench (frontend-admin-split
-// Phase 3 / F-005). This is the whole dashboard — start buttons + recent
+// Phase 3 / F-005). This is the whole dashboard — start button + recent
 // sessions; the admin app's start.js composes the bench on top via the `bench`
 // argument. The customer app imports THIS file directly, so no bench markup or
 // persona code ever reaches the customer bundle.
+//
+// Design-consolidation Phase 1 (audit M1 + M2): the recents accordion is gone.
+// Recent 1:1s are rich rows in one card — avatar initial, bold name, quiet
+// "type · time" line — and a row click opens the run directly (finished →
+// review, unfinished → resume, the same primary the accordion offered). A quiet
+// "See all past 1:1s" link routes to the RUNS stage. One clean stack at the
+// medium container width.
 import { STAGES, store, isInternalAdmin } from "../state.js";
-import { listRecentRuns, getRunOverview, deleteRun } from "../../../shared/api.js";
+import { listRecentRuns, deleteRun } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
-import { stageLabel } from "../ui/stage-labels.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
@@ -14,6 +20,7 @@ import { createSkeleton } from "../ui/skeleton.js";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
 import { firstRunIntroHtml } from "./intake-firstrun.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
+import { pageHeader } from "../ui/page-header.ts";
 import "../styles/ux-audit-fixes.css";
 import { Check, MoreHorizontal } from "lucide";
 
@@ -21,37 +28,37 @@ let keyHandler = null;
 
 // bench (optional): { html, wire } — injected by the admin app's start.js only.
 // The header keys on bench presence, NOT the user's role: with a bench, its
-// "Continue to setup" covers starting fresh; without one, the plain start
-// button shows (so an internal admin in the customer app still gets a way in).
+// "Continue to setup" covers starting fresh (and the bench's own start button is
+// the screen's accent); without one, the plain start button is the header's one
+// accent action (so an internal admin in the customer app still gets a way in).
 export async function mount(root, { setState, rehydrateById }, bench = null) {
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
-      <header class="page-header">
-        <h1 class="h1">Prep a 1:1</h1>
-        <div class="text-ink-dim">Pick up where you left off, or start a new one.</div>
-        <div class="field__actions">
-          ${bench ? "" : `<button type="button" class="btn js-startnew">Start a new 1:1</button>`}
-        </div>
-      </header>
+    <div class="stage-medium l-stack l-stack--8">
+      ${pageHeader({
+        title: "Prep a 1:1",
+        lede: "Pick up where you left off, or start a new one.",
+        actionsHtml: bench ? "" : `<button type="button" class="btn js-startnew">Start a new 1:1</button>`,
+      })}
 
       ${bench ? bench.html : ""}
 
-      <section class="space-y-2">
+      <section class="l-stack l-stack--2">
         <div class="eyebrow js-recent-label">Recent 1:1s</div>
-        <ul class="js-runs space-y-2"></ul>
+        <ul class="run-list js-runs"></ul>
+        <button type="button" class="start-seeall js-see-all" hidden>See all past 1:1s</button>
       </section>
     </div>
   `;
 
   const list = root.querySelector(".js-runs");
   const recentLabel = root.querySelector(".js-recent-label");
+  const seeAll = root.querySelector(".js-see-all");
 
   let runs = [];
-  let expandedId = null;
 
   function reviewChip(run) {
-    if (run.reviewStatus === "complete") return ` <span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ${icon(Check, { size: 16 })}</span>`;
-    if (run.reviewStatus === "partial") return ` <span class="run-row__review run-row__review--partial" title="Review in progress">Review half-done</span>`;
+    if (run.reviewStatus === "complete") return `<span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ${icon(Check, { size: 16 })}</span>`;
+    if (run.reviewStatus === "partial") return `<span class="run-row__review run-row__review--partial" title="Review in progress">Review half-done</span>`;
     return "";
   }
 
@@ -66,15 +73,19 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.replaceChildren(li);
   }
 
-  // Accent budget (audit M6): while a row is open, its Resume/Review is the screen's ONE blue
-  // action — the header's "Start a new 1:1" steps back to ghost so the two don't compete.
-  function syncAccentBudget() {
-    root.querySelector(".js-startnew")?.classList.toggle("btn--ghost", Boolean(expandedId));
+  // Accent budget (audit M6): while a recovery card's "Start fresh" is on screen it is
+  // the one blue action — the header's "Start a new 1:1" steps back to ghost meanwhile.
+  function syncAccentBudget(recoveryShown) {
+    root.querySelector(".js-startnew")?.classList.toggle("btn--ghost", Boolean(recoveryShown));
   }
 
   function render() {
     list.setAttribute("aria-busy", "false");
-    syncAccentBudget();
+    syncAccentBudget(false);
+    // The card chrome only wraps real rows — the zero-run welcome and the
+    // skeleton bring their own surfaces (never nest cards).
+    list.classList.toggle("run-list--card", runs.length > 0);
+    if (seeAll) seeAll.hidden = runs.length === 0;
     if (runs.length === 0) {
       // Zero-run account: greet them with the first-run orientation card (its own
       // "First time?" eyebrow), not a bare empty line. Hide the "Recent 1:1s" label
@@ -85,15 +96,18 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     }
     if (recentLabel) recentLabel.hidden = false;
     list.innerHTML = runs.map((r) => {
-      const isOpen = expandedId === r.id;
+      const name = (r.ctx && r.ctx.name) || r.headline || r.id;
+      const sub = [r.ctx?.meetingType, formatRelativeTime(r.lastSeenAt)].filter(Boolean).join(" · ");
       return `
-      <li class="run-row" data-id="${escape(r.id)}">
-        <button class="run-row__head js-row" data-id="${escape(r.id)}" aria-expanded="${isOpen}">
-          <span class="run-row__chevron" aria-hidden="true">${isOpen ? "▼" : "▶"}</span>
-          <span class="run-row__headline">${escape(r.headline || r.id)}${reviewChip(r)}</span>
-          <span class="run-row__meta text-ink-mute text-sm">${escape(formatRelativeTime(r.lastSeenAt))} · ${escape(stageLabel(r.stage))}</span>
+      <li class="run-list__item" data-id="${escape(r.id)}">
+        <button type="button" class="run-list__row js-open" data-id="${escape(r.id)}">
+          <span class="ds-avatar run-list__avatar" aria-hidden="true">${escape(initialOf(name))}</span>
+          <span class="run-list__main">
+            <span class="run-list__name">${escape(name)}${reviewChip(r)}</span>
+            <span class="run-list__sub">${escape(sub)}</span>
+          </span>
         </button>
-        <div class="run-row__body js-body" data-id="${escape(r.id)}" hidden></div>
+        <button type="button" class="row-menu-btn js-row-more" data-id="${escape(r.id)}" aria-haspopup="menu" aria-label="More actions for this 1:1">${icon(MoreHorizontal, { size: 18 })}</button>
       </li>
     `;
     }).join("");
@@ -110,84 +124,32 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     render();
   }
 
-  async function toggle(id) {
-    if (expandedId === id) {
-      collapse(id);
-      expandedId = null;
-      render();
-      return;
-    }
-    if (expandedId) collapse(expandedId);
-    expandedId = id;
-    render();
-    const body = list.querySelector(`.js-body[data-id="${cssEscape(id)}"]`);
-    if (!body) return;
-    body.hidden = false;
-    body.innerHTML = `<div class="text-ink-mute text-sm">Loading…</div>`;
-    try {
-      const o = await getRunOverview(id);
-      const run = runs.find((x) => x.id === id);
-      if (run) run.person = o.person || null; // remembered so a failed Resume can heal by name
-      const finished = run?.stage === "BRIEFING";
-      // A plain meeting overview for the manager — who it's with, the type, where
-      // it's up to, and their own note. No engine/version wording (that's admin-only
-      // plumbing a manager has no use for). Falls back to the headline for the rare
-      // nameless run so the line never reads "1:1 with".
-      const hasPerson = Boolean(o.person);
-      const titleLine = hasPerson
-        ? `1:1 with <strong>${escape(o.person)}</strong>${o.roleLine ? ` · ${escape(o.roleLine)}` : ""}`
-        : `<strong>${escape(run?.headline || o.headline || id)}</strong>`;
-      const typeLine = hasPerson && o.meetingType
-        ? `<div class="run-row__type text-ink-dim text-sm">${escape(o.meetingType)}</div>`
-        : "";
-      const noteBlock = o.intakeNote
-        ? `<div class="run-row__note text-sm"><span class="text-ink-mute">Your note:</span> “${escape(o.intakeNote)}”</div>`
-        : "";
-      body.innerHTML = `
-        <div class="run-row__overview">
-          <div class="run-row__who text-ink">${titleLine}</div>
-          ${typeLine}
-          <div class="run-row__where text-ink-dim text-sm">${escape(whereUpTo(o, finished))}</div>
-          ${noteBlock}
-        </div>
-        <div class="run-row__actions">
-          ${finished
-            ? `<button class="btn js-review" data-id="${escape(id)}">Review</button>`
-            : `<button class="btn js-resume" data-id="${escape(id)}">Resume</button>`}
-          <button class="row-menu-btn js-row-more" data-id="${escape(id)}" aria-haspopup="menu" aria-label="More actions for this 1:1">${icon(MoreHorizontal, { size: 18 })}</button>
-        </div>
-      `;
-    } catch {
-      body.innerHTML = `<div class="text-ink-mute text-sm">Couldn't open this one. Try again in a moment.</div>`;
-    }
-  }
-
-  function collapse(id) {
-    const body = list.querySelector(`.js-body[data-id="${cssEscape(id)}"]`);
-    if (body) {
-      body.hidden = true;
-      body.innerHTML = "";
-    }
+  // A row click opens the run directly with the primary the old accordion
+  // offered: a finished run opens its review, anything else resumes.
+  function openRun(id) {
+    const run = runs.find((x) => x.id === id);
+    if (run && run.stage === "BRIEFING") review(id);
+    else resume(id);
   }
 
   async function resume(id) {
     const ok = await rehydrateById(id);
     if (ok) return;
     // The session is gone (expired/deleted server-side). Heal the row in place — no native
-    // alert, no dead Resume button left behind — and offer the one useful move: start fresh
+    // alert, no dead row left behind — and offer the one useful move: start fresh
     // with the same person. (audit M3/X7)
     const run = runs.find((x) => x.id === id);
-    const body = list.querySelector(`.js-body[data-id="${cssEscape(id)}"]`);
-    if (!body) return;
-    body.hidden = false;
-    body.innerHTML = staleRunRecoveryHtml(run?.person || "");
-    body.querySelector(".js-start-fresh")?.addEventListener("click", () => startFreshWith(run));
+    const item = list.querySelector(`.run-list__item[data-id="${cssEscape(id)}"]`);
+    if (!item) return;
+    item.innerHTML = staleRunRecoveryHtml(run?.ctx?.name || "");
+    item.querySelector(".js-start-fresh")?.addEventListener("click", () => startFreshWith(run));
+    syncAccentBudget(true);
   }
 
   function startFreshWith(run) {
     store.scripted = null;
     Object.assign(store.ctx, emptyCtx());
-    if (run?.person) store.ctx.name = run.person; // continuity: pre-seed the same person's name
+    if (run?.ctx?.name) store.ctx.name = run.ctx.name; // continuity: pre-seed the same person's name
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   }
 
@@ -213,7 +175,6 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
       await alertAction({ message: "Couldn't delete this 1:1. Please try again." });
       return;
     }
-    if (expandedId === id) expandedId = null;
     await load();
   }
 
@@ -237,15 +198,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
   }
 
   root.querySelector(".js-startnew")?.addEventListener("click", startNew);
+  seeAll?.addEventListener("click", () => setState({ stage: STAGES.RUNS }));
 
   list.addEventListener("click", (e) => {
-    const headBtn = e.target.closest(".js-row");
-    if (headBtn) { toggle(headBtn.dataset.id); return; }
-    const resumeBtn = e.target.closest(".js-resume");
-    if (resumeBtn) { resume(resumeBtn.dataset.id); return; }
-    const reviewBtn = e.target.closest(".js-review");
-    if (reviewBtn) { review(reviewBtn.dataset.id); return; }
-    // Delete moved out of the row and into the ⋯ menu (audit M6) — it still asks first.
+    // Delete lives in the ⋯ menu (audit M6) — it still asks first.
     const moreBtn = e.target.closest(".js-row-more");
     if (moreBtn) {
       e.stopPropagation();
@@ -253,29 +209,19 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
       openRowMenu(moreBtn, [{ label: "Delete 1:1", danger: true, onSelect: () => { void del(id); } }]);
       return;
     }
-    const delBtn = e.target.closest(".js-delete");
-    if (delBtn) { del(delBtn.dataset.id); return; }
+    const openBtn = e.target.closest(".js-open");
+    if (openBtn) openRun(openBtn.dataset.id);
   });
 
+  // Invisible shortcuts: Enter starts a new 1:1; 1-9 open a recent row directly
+  // (the same primary action as clicking it). The accordion-only keys are gone.
   keyHandler = (e) => {
     if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
     if (e.key === "Enter") { e.preventDefault(); startNew(); return; }
-    if (e.key === "Escape") {
-      if (expandedId) { collapse(expandedId); expandedId = null; render(); }
-      return;
-    }
     if (/^[1-9]$/.test(e.key)) {
       const idx = Number(e.key) - 1;
-      if (runs[idx]) toggle(runs[idx].id);
-      return;
+      if (runs[idx]) openRun(runs[idx].id);
     }
-    if (!expandedId) return;
-    if (e.key.toLowerCase() === "r") {
-      const run = runs.find((x) => x.id === expandedId);
-      if (run?.stage === "BRIEFING") review(expandedId);
-      else resume(expandedId);
-    }
-    else if (e.key.toLowerCase() === "d") { del(expandedId); }
   };
   window.addEventListener("keydown", keyHandler);
 
@@ -295,6 +241,13 @@ export function unmount() {
   }
 }
 
+// First letter of the name (falls back to "?") — the glyph in the avatar circle,
+// mirroring ui/recap-header.ts.
+function initialOf(name) {
+  const s = String(name || "").trim();
+  return s ? s[0].toUpperCase() : "?";
+}
+
 function formatRelativeTime(ts) {
   if (!ts) return "";
   const diff = Date.now() - Number(ts);
@@ -312,15 +265,4 @@ function formatRelativeTime(ts) {
 function cssEscape(s) {
   if (window.CSS && CSS.escape) return CSS.escape(s);
   return String(s).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
-}
-
-// Plain "where this session is up to" line for the expanded card. Manager words —
-// the existing human stage label plus question progress when it's reached Q&A.
-function whereUpTo(o, finished) {
-  if (finished) return "Recap ready to review";
-  let line = `Paused at ${stageLabel(o.stage)}`;
-  if (o.progress && o.progress.total) {
-    line += `. ${o.progress.answered} of ${o.progress.total} questions answered`;
-  }
-  return line;
 }

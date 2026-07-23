@@ -1,7 +1,13 @@
-// Runs — the member's own finished 1:1s (pre-go-live PG1). Wired to /api/v1/runs/mine,
-// which is fenced server-side by company AND user, so a member only ever sees their own —
-// never a colleague's or the admin's whole-company Library. Rows are read-only for now:
-// re-opening a run is PG2, rating stars are PG3, and the "Past 1:1s" relabel is PG4.
+// Runs — Past 1:1s. A manager sees their own authored prep sessions; a member sees
+// the list-only "about me" view. Wired to /api/v1/runs/mine, which is fenced
+// server-side by company AND user, so a member only ever sees their own — never a
+// colleague's or the admin's whole-company Library.
+//
+// Design-consolidation Phase 1 (audit M6): manager rows use the canonical anatomy
+// (avatar initial, bold person name, quiet "type · date" line, star badge right)
+// in one card of divider rows, grouped by recency, with the shared list toolbar
+// (client-side name search + "N 1:1s" count) and Start 1:1 as the page header's
+// one accent action. The member view (privacy ruling) is unchanged.
 
 import { STAGES, store, isAdmin } from "../state.js";
 import { listMyRuns, getRunsAboutMe } from "../../../shared/api.js";
@@ -9,6 +15,8 @@ import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
 import { relTime, formatDate } from "../ui/time.ts";
+import { pageHeader } from "../ui/page-header.ts";
+import { listToolbar } from "../ui/list-toolbar.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 import "../styles/design/member-runs.css";
 import "../styles/ux-audit-fixes.css";
@@ -50,18 +58,49 @@ function aboutEntry(r: AboutRun): string {
     </li>`;
 }
 
-// Local one-use time-ago (mirrors compare.js) — four lines, so no shared util for one caller.
-// One run → "who · role · seniority · meeting-type · when", falling back to the endpoint's
-// headline when the ctx fields are blank. Every value is escaped.
-function rowLine(r: MyRun): string {
+// First letter of the name (falls back to "?") — the glyph in the avatar circle,
+// mirroring ui/recap-header.ts.
+function initialOf(name: string): string {
+  const s = (name || "").trim();
+  return s ? s[0]!.toUpperCase() : "?";
+}
+
+// Relative within the week, then the one date format everywhere (DESIGN.md rule 9).
+function whenLabel(ms: number): string {
+  if (!ms) return "";
+  const days = (Date.now() - ms) / 86400000;
+  return days < 7 ? relTime(ms) : formatDate(ms);
+}
+
+// Recency buckets for the group heads. Runs arrive newest-first, so the groups
+// land in order without a second sort.
+function groupLabel(ms: number): string {
+  const days = (Date.now() - (ms || 0)) / 86400000;
+  if (days < 7) return "This week";
+  if (days < 31) return "This month";
+  return "Earlier";
+}
+
+// One manager row on the canonical anatomy. data-name carries the person's name
+// (lowercased) for the toolbar's client-side search. Every value escaped.
+function managerRow(r: MyRun): string {
   const c = r.ctx || ({} as MyRun["ctx"]);
-  const bits: string[] = [];
-  if (c.name) bits.push(c.name);
-  if (c.role) bits.push(c.seniority ? `${c.role} · ${c.seniority}` : c.role);
-  if (c.meetingType) bits.push(c.meetingType);
-  const when = relTime(r.lastSeenAt);
-  if (when) bits.push(when);
-  return escapeHtml(bits.length ? bits.join(" · ") : r.headline || "Untitled 1:1");
+  const name = c.name || r.headline || "Untitled 1:1";
+  const sub = [c.meetingType, whenLabel(r.lastSeenAt)].filter(Boolean).join(" · ");
+  const badge = r.rating
+    ? `<span class="runs-list__stars text-sm" aria-label="prep rating ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
+    : "";
+  const kind = escapeHtml(String((r as { kind?: string }).kind ?? ""));
+  return `<li class="run-list__item js-run-item" data-name="${escapeHtml(name.toLowerCase())}">
+      <button type="button" class="run-list__row js-open" data-id="${escapeHtml(r.id)}" data-kind="${kind}">
+        <span class="ds-avatar run-list__avatar" aria-hidden="true">${escapeHtml(initialOf(name))}</span>
+        <span class="run-list__main">
+          <span class="run-list__name">${escapeHtml(name)}</span>
+          <span class="run-list__sub">${escapeHtml(sub)}</span>
+        </span>
+        <span class="run-list__side">${badge}</span>
+      </button>
+    </li>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
@@ -69,23 +108,21 @@ export const mount: Mount = async (root, { setState }) => {
   // their own authored prep sessions with ratings. The two paths diverge in load().
   const memberView = !isAdmin(store.user);
   // Member list has one name everywhere — "Your 1:1s" (audit B4); the manager keeps "Past
-  // 1:1s". The manager's echo subtitle ("Your past 1:1s.") is dropped as redundant under its
-  // own heading (audit C5); the member gets a plain, member-voiced line (audit B5/C4).
-  const header = `
-    <header class="page-header">
-      <h1 class="h1">${memberView ? "Your 1:1s" : "Past 1:1s"}</h1>
-      ${memberView ? `<div class="text-ink-dim">Your 1:1 history. Dates and 1:1 types, nothing else.</div>` : ""}
-    </header>`;
-  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
+  // 1:1s" with Start 1:1 as the header's one accent action. The member gets a plain,
+  // member-voiced lede (audit B5/C4).
+  const header = memberView
+    ? pageHeader({ title: "Your 1:1s", lede: "Your 1:1 history. Dates and 1:1 types, nothing else." })
+    : pageHeader({ title: "Past 1:1s", actionsHtml: `<button type="button" class="btn js-start">Start 1:1</button>` });
+  const shell = (inner: string) => `<div class="stage-medium l-stack l-stack--8">${header}${inner}</div>`;
 
-  // The friendly empty state. A manager can start a 1:1 from here; a plain member can't
-  // (member-view: only-runs), so they just get a note that nothing's here yet.
+  // The friendly empty state. A manager starts their first 1:1 from the header's Start
+  // button (the screen's one accent); a plain member can't start one (member-view:
+  // only-runs), so they just get a note that nothing's here yet.
   const emptyCard = isAdmin(store.user)
     ? `
     <section class="card-flat space-y-3">
       <div class="eyebrow">No 1:1s yet</div>
       <p class="text-ink-dim">You haven't done any 1:1s yet. Start your first one and it'll show up here.</p>
-      <button type="button" class="btn js-start">Start 1:1</button>
     </section>`
     : `
     <section class="card-flat space-y-3">
@@ -120,8 +157,38 @@ export const mount: Mount = async (root, { setState }) => {
     });
   };
 
+  // The toolbar's search filters rows by person name, client-side: hide the misses,
+  // hide any group head left with no visible rows, keep the count honest.
+  const wireSearch = () => {
+    const search = root.querySelector<HTMLInputElement>(".js-lt-search");
+    if (!search) return;
+    const count = root.querySelector<HTMLElement>(".list-toolbar__count");
+    const noMatch = root.querySelector<HTMLElement>(".js-no-match");
+    search.addEventListener("input", () => {
+      const q = search.value.trim().toLowerCase();
+      let visible = 0;
+      root.querySelectorAll<HTMLElement>(".js-run-item").forEach((li) => {
+        const hit = !q || (li.dataset.name || "").includes(q);
+        li.hidden = !hit;
+        if (hit) visible++;
+      });
+      root.querySelectorAll<HTMLElement>(".js-run-group").forEach((head) => {
+        let el = head.nextElementSibling;
+        let any = false;
+        while (el && !el.classList.contains("js-run-group")) {
+          if (el.classList.contains("js-run-item") && !(el as HTMLElement).hidden) { any = true; break; }
+          el = el.nextElementSibling;
+        }
+        head.hidden = !any;
+      });
+      if (count) count.textContent = `${visible} ${visible === 1 ? "1:1" : "1:1s"}`;
+      if (noMatch) noMatch.hidden = visible > 0;
+    });
+  };
+
   const load = async () => {
     root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading your 1:1s…</p></section>`);
+    wire();
 
     // Member path: the list-only "about me" runs — never listMyRuns (which is authored-by-me
     // and carries ratings). Rows are plain, unclickable: a member has no run detail to open.
@@ -166,25 +233,32 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
 
-    // Newest first, then one clickable row per run — a real button, so it's
-    // keyboard-operable for free (PG2 opens its read-only detail).
-    const rows = runs
-      .slice()
-      .sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0))
-      .map((r) => {
-        const badge = r.rating
-          ? `<span class="runs-list__stars text-sm" aria-label="prep rating ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
-          : "";
-        const kind = escapeHtml(String((r as { kind?: string }).kind ?? ""));
-        return `<button type="button" class="card-flat runs-list__row js-open" data-id="${escapeHtml(r.id)}" data-kind="${kind}"><span class="text-sm">${rowLine(r)}</span>${badge}</button>`;
-      })
-      .join("");
-    // A persistent way to start the next 1:1, above the list — not buried inside the empty
-    // state that vanishes the moment there's history. (audit M2) This path is manager-only
-    // (members return early above), so the action always belongs here.
-    const startBar = `<div class="runs-list__actions"><button type="button" class="btn js-start">Start 1:1</button></div>`;
-    root.innerHTML = shell(`<section class="l-stack l-stack--2">${startBar}${rows}</section>`);
+    // Newest first, one card of divider rows with recency group heads between.
+    const sorted = runs.slice().sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0));
+    const rows: string[] = [];
+    let lastGroup = "";
+    for (const r of sorted) {
+      const g = groupLabel(r.lastSeenAt);
+      if (g !== lastGroup) {
+        rows.push(`<li class="run-list__grouphead js-run-group">${g}</li>`);
+        lastGroup = g;
+      }
+      rows.push(managerRow(r));
+    }
+    const toolbar = listToolbar({
+      search: { placeholder: "Search by name" },
+      count: { n: sorted.length, noun: "1:1" },
+    });
+    root.innerHTML = shell(`
+    <section class="l-stack l-stack--3">
+      ${toolbar}
+      <ul class="run-list run-list--card">
+        ${rows.join("")}
+        <li class="run-list__empty js-no-match" hidden>No 1:1s match that name.</li>
+      </ul>
+    </section>`);
     wire();
+    wireSearch();
   };
 
   await load();
