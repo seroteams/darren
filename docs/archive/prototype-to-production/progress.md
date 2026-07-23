@@ -759,3 +759,13 @@ Kit built dormant (list-toolbar / page-header / table-sort, TDD) so screen migra
 mechanical. Rename to SeroEngine parked: it was the repo's retired original name — needs Carl's
 knowing confirm, not a default. Note: phase-close step 4 (tasks.js badges) skipped — that file
 no longer exists in the repo; the skill doc is stale on this point.
+
+## 2026-07-23 — design-consolidation Phase 1 green-lit (manager lists)
+Carl walked the manager app on :3002 and signed it off in one line. Lessons: (1) the shared kit
+made five screen migrations mostly mechanical — build the components dormant first, migrate
+second; (2) two real-world blockers were environment, not design — Start Sero.bat never started
+the customer app (fixed: dev script now serves :3000 and :3002), and the dev wrong-door page led
+with Log out instead of a way forward (fixed: "Open your app" primary); (3) the gallery exporter
+had been silently blanking admin captures for weeks (a CSS/HTML comment containing "<script>"
+defeated its strip regex) — found only because phase QA demanded real screenshots. Verify on
+real renders, always.

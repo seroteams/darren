@@ -77,7 +77,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | Phase 0 ✅ green-lit 2026-07-22 (mockup approved; shared kit built, 15 tests). Phase 1 🔨 manager lists (Home, Team, Members, Past 1:1s, Person detail onto the shared table). Rename to SeroEngine PARKED pending Carl's confirm. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0 ✅ · P1 ✅ GREEN-LIT 2026-07-23 (Carl walked the manager app: "looks so much better"). Not yet live — ships on Carl's "go live". Next: P2 auth + member. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail) — awaiting your QA walk. P2–P4 not started. |

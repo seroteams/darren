@@ -1,10 +1,12 @@
 # Phase 1: Manager lists
 
+## ✅ GREEN-LIT 2026-07-23 — Carl walked the manager app on :3002: "wow this works, looks so much better" (commits 0dd9909..9c9adc2).
+
 ## Built (2026-07-22)
 
 All five screens on the shared kit, awaiting Carl's QA walk. Files: admin/src/stages/start-core.js, runs.ts (+ new source-guard tests), frontend/src/stages/team.ts, team-card.ts, members.ts, members-table.ts, person-detail.ts, person-axes.ts (+ tests), frontend/src/styles/team-card.css, members.css, admin/src/styles/design/start-stage.css, admin-tables.css (toolbar skin + compact search input). Offline proof: 174/174 tests, typecheck clean, lint:tokens + lint:copy PASS; real-render screenshots of all five screens taken via the fixture harness and eyeballed (Team, Home, Past 1:1s, Person detail, Members). Bonus fix: scripts/gallery-export.mjs stripped HTML comments first; a comment containing the literal "<script>" was swallowing whole pages from every admin export (pre-existing harness bug, found during verification).
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting QA
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
 ## Goal
 
