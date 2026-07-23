@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  DEFAULT_VARIANT,
   VARIANTS,
   VARIANT_STORAGE_KEY,
   confidenceCopy,
@@ -234,9 +235,20 @@ function fakeStorage(init?: Record<string, string>): StorageLike {
   };
 }
 
-test("switcher: defaults to L (Arc) with no storage or no saved value", () => {
-  assert.equal(readVariant(null), "L");
-  assert.equal(readVariant(fakeStorage()), "L");
+test("default: the one customer layout is Sheet (H)", () => {
+  assert.equal(DEFAULT_VARIANT, "H");
+});
+
+test("switcher: defaults to H (Sheet) with no storage or no saved value", () => {
+  assert.equal(readVariant(null, true), "H");
+  assert.equal(readVariant(fakeStorage(), true), "H");
+});
+
+test("fence: a stored non-default layout for a non-admin silently falls back to the default", () => {
+  const stored = fakeStorage({ [VARIANT_STORAGE_KEY]: "L" });
+  assert.equal(readVariant(stored, false), "H", "non-admin never sees a lab layout");
+  assert.equal(readVariant(stored), "H", "an omitted flag fails safe to the customer default");
+  assert.equal(readVariant(stored, true), "L", "the admin lab still honours the stored choice");
 });
 
 test("switcher: dropdown lists layouts alphabetically", () => {
@@ -265,15 +277,15 @@ test("switcher: popover holds one tile per variant, current one marked", () => {
   assert.match(html, /data-id="J"[^>]*aria-checked="true"/, "current variant marked checked");
 });
 
-test("switcher: persists the chosen variant and reads it back", () => {
+test("switcher: persists the chosen variant and reads it back in the admin lab", () => {
   const storage = fakeStorage();
   writeVariant(storage, "E");
   assert.equal(storage.getItem(VARIANT_STORAGE_KEY), "E");
-  assert.equal(readVariant(storage), "E");
+  assert.equal(readVariant(storage, true), "E");
 });
 
-test("switcher: invalid saved value falls back to L", () => {
-  assert.equal(readVariant(fakeStorage({ [VARIANT_STORAGE_KEY]: "Z" })), "L");
+test("switcher: invalid saved value falls back to H", () => {
+  assert.equal(readVariant(fakeStorage({ [VARIANT_STORAGE_KEY]: "Z" }), true), "H");
 });
 
 test("switcher: a throwing storage never throws out", () => {
@@ -285,6 +297,6 @@ test("switcher: a throwing storage never throws out", () => {
       throw new Error("blocked");
     },
   };
-  assert.equal(readVariant(broken), "L");
+  assert.equal(readVariant(broken, true), "H");
   assert.doesNotThrow(() => writeVariant(broken, "B"));
 });

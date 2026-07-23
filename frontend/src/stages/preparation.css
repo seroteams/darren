@@ -2,7 +2,10 @@
    Rules: existing design tokens ONLY (tokens.css) — no new colours, fonts,
    spacing, or sizes; every font-size >= 14px. Both are asserted by
    preparation-css.test.ts. Variant C ("Native") reuses the existing .prep-*
-   classes exactly and has no rules here. */
+   classes exactly and has no rules here.
+   F8 (2026-07-23): customers get ONE layout — H "Sheet" (DEFAULT_VARIANT in
+   preparation-brief.ts). Every variant block below stays because the
+   internal-admin layout lab still renders all twelve; nothing here is orphaned. */
 
 /* Header tools — the Layout switcher + the demoted Reset link */
 .pv-header-tools {

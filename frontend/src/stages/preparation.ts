@@ -1,10 +1,11 @@
 // /prepare — the customer-owned prep-brief stage (prepare-variants). One
-// brief, no At-a-glance/Full-brief duplication, five switchable layout
-// variants behind an internal-admin-only switcher. Render-only: same SSE
-// stream, same payload, same stage transitions as the shared screen it
-// replaces (admin/src/stages/preparation.js, which the admin console keeps).
+// brief, no At-a-glance/Full-brief duplication, ONE customer layout (the
+// DEFAULT_VARIANT in preparation-brief.ts); the 12-layout lab stays behind
+// the internal-admin-only switcher (design-consolidation F8). Render-only:
+// same SSE stream, same payload, same stage transitions as the shared screen
+// it replaces (admin/src/stages/preparation.js, which the admin console keeps).
 
-import { STAGES, resetSession, isAdmin } from "../../../admin/src/state.js";
+import { STAGES, resetSession, isInternalAdmin } from "../../../admin/src/state.js";
 import { exitStage } from "../../../admin/src/ui/landing.ts";
 import type { Mount } from "../../../admin/src/stages/stage.types.ts";
 import { createOrb } from "../../../admin/src/ui/orb.js";
@@ -41,6 +42,10 @@ function storage(): StorageLike | null {
 
 export const mount: Mount = async (root, { store, setState }) => {
   const sessionId = store.sessionId || "";
+  // The layout lab (switcher + 11 non-default variants) is internal-admin
+  // only. isAdmin would let manager customers in — isInternalAdmin is the lab
+  // flag, matching the header comment this file has always carried.
+  const lab = isInternalAdmin(store.user);
 
   root.innerHTML = `
     <div class="stage-reading l-stack l-stack--8">
@@ -49,7 +54,7 @@ export const mount: Mount = async (root, { store, setState }) => {
         <div class="page-header__row">
           <h1 class="h1">What to walk in with</h1>
           <div class="pv-header-tools">
-            ${isAdmin(store.user) ? variantSwitchHtml(readVariant(storage())) : ""}
+            ${lab ? variantSwitchHtml(readVariant(storage(), true)) : ""}
             <button class="link js-start-fresh" type="button">Discard prep</button>
           </div>
         </div>
@@ -72,7 +77,7 @@ export const mount: Mount = async (root, { store, setState }) => {
 
   let lastBrief: PrepBrief | null = null;
 
-  // Layout switcher (manager/admin only) — a trigger chip that opens a popover
+  // Layout switcher (internal-admin lab only) — a trigger chip that opens a popover
   // of preview tiles. The header outlives every re-render, so this wires once
   // and re-renders from the loaded payload; never refetches.
   const trigger = root.querySelector<HTMLButtonElement>(".js-variant-trigger");
@@ -143,7 +148,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   function renderResult(animate: boolean) {
     if (!lastBrief || !resultHost) return;
     const slots = extractSlots(lastBrief, store.ctx?.name || "");
-    const briefHtml = renderBrief(readVariant(storage()), slots);
+    const briefHtml = renderBrief(readVariant(storage(), lab), slots);
     const cta = ctaRowHtml();
     resultHost.innerHTML = animate
       ? `<div class="space-y-6"><div class="reveal">${briefHtml}</div><div class="reveal">${cta}</div></div>`
