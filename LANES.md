@@ -8,7 +8,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 82796893 | Design consolidation P4 (flow spine B) | docs/plans/doing/design-consolidation/, STATUS.md, admin/src/ui/, admin/src/stages/, frontend/src/, admin/src/styles/design/, admin/src/styles/coach-panel.css | 2026-07-23 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
