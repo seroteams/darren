@@ -1,0 +1,39 @@
+/* =============================================================================
+   Flow kit (design-consolidation Phase 3) — the wizard footer and the shared
+   generation interstitial. Rendered by ui/wizard-footer.ts / ui/flow-interstitial.ts.
+   ============================================================================= */
+
+/* Ghost Back bottom-left, primary bottom-right — the convention every step shares. */
+.wizard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sero-space-4);
+  padding-top: var(--sero-space-4);
+  border-top: 1px solid var(--color-border);
+}
+.wizard-footer__left { display: flex; }
+.wizard-footer__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-3);
+}
+.wizard-footer__note {
+  color: var(--color-ink-dim);
+  font-size: var(--type-body-sm);
+}
+
+/* One waiting screen: centred orb, quiet step name, skeleton preview below. */
+.flow-interstitial {
+  min-height: 40dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sero-space-4);
+  text-align: center;
+}
+.flow-interstitial__skeleton {
+  width: 100%;
+  max-width: var(--measure);
+}
