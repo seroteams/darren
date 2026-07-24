@@ -18,6 +18,7 @@ import { MoreHorizontal } from "lucide";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { sortableHeader } from "../ui/table-sort.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
+import { createSkeleton } from "../ui/skeleton.js";
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -144,11 +145,12 @@ export async function mount(root) {
         count: { n: 0, noun: "run" },
       })}
 
-      <div class="js-table"><p class="text-ink-mute text-sm">Loading…</p></div>
+      <div class="js-table"></div>
     </div>
   `;
 
   const tableEl = root.querySelector(".js-table");
+  tableEl.replaceChildren(createSkeleton(5)); // the standard ghost cards while runs load
   const searchEl = root.querySelector(".js-lt-search");
   const countEl = root.querySelector(".list-toolbar__count");
   const viewBtn = root.querySelector(".js-view");

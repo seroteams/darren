@@ -11,6 +11,7 @@ import {
   submitLexiconPromote,
 } from "../../../shared/api.js";
 import { escapeCopy as escape, escapeHtml } from "../ui/html.js";
+import { createSkeleton } from "../ui/skeleton.js";
 import "../styles/lexicon-review.css";
 
 export async function mount(root, { store, setState }) {
@@ -26,12 +27,13 @@ export async function mount(root, { store, setState }) {
         </div>
       </header>
       <div class="js-tabs"></div>
-      <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading candidates…</div>
+      <div class="thinking-host min-h-[60px]"></div>
       <div class="result-host"></div>
     </div>
   `;
 
   const thinkingHost = root.querySelector(".thinking-host");
+  thinkingHost.replaceChildren(createSkeleton(3)); // standard ghost cards while candidates load
   const resultHost = root.querySelector(".result-host");
   const tabsHost = root.querySelector(".js-tabs");
   const titleEl = root.querySelector(".js-stage-title");

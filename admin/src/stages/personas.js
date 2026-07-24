@@ -19,6 +19,7 @@ import { libraryBadge } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
+import { createSkeleton } from "../ui/skeleton.js";
 import { Play, X, Check, Sparkles } from "lucide";
 import "../styles/design/persona-bench.css";
 
@@ -61,7 +62,7 @@ export async function mount(root, opts = {}) {
         </div>
       </header>
       <div class="safety-strip-host"></div>
-      <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading personas…</div>
+      <div class="thinking-host min-h-[60px]"></div>
       <div class="result-host"></div>
     </div>
   `;
@@ -69,6 +70,7 @@ export async function mount(root, opts = {}) {
   mountSafetyStrip(root.querySelector(".safety-strip-host"), opts);
 
   const thinkingHost = root.querySelector(".thinking-host");
+  thinkingHost.replaceChildren(createSkeleton(3)); // standard ghost cards while the bench loads
   const resultHost = root.querySelector(".result-host");
 
   let personas = [];

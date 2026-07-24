@@ -22,6 +22,7 @@ import { breadcrumb } from "../ui/breadcrumb.ts";
 import { recapHeader, roleLine } from "../ui/recap-header.ts";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+import { createSkeleton } from "../ui/skeleton.js";
 
 type Run = {
   id: string;
@@ -205,7 +206,8 @@ export const mount: Mount = async (root, { setState }) => {
     </header>`;
 
   const load = async () => {
-    root.innerHTML = shell(`${plainHeader}<section class="card-flat"><p class="text-sm text-ink-dim">Loading…</p></section>`);
+    root.innerHTML = shell(`${plainHeader}<section class="js-skel"></section>`);
+    root.querySelector(".js-skel")?.replaceChildren(createSkeleton(3));
     wireCrumbs();
 
     const id = store.adminUserId;

@@ -8,6 +8,7 @@ import { getRunFull, saveReview } from "../../../shared/api.js";
 import { DIMENSIONS, OVERALL_VALUES, reviewStatusFromMarks, serializeReview, engineTag } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
+import { createSkeleton } from "../ui/skeleton.js";
 
 const OVERALL_LABEL = { keep: "Keep", fix: "Fix", block: "Block" };
 
@@ -136,7 +137,7 @@ export async function mount(root, { setState }) {
         <div class="text-ink-dim js-subtitle"></div>
         <div class="text-ink-mute text-sm js-meta"></div>
       </header>
-      <div class="js-host"><p class="caption text-ink-mute">Loading run…</p></div>
+      <div class="js-host"></div>
     </div>
   `;
 
@@ -159,6 +160,7 @@ export async function mount(root, { setState }) {
 
   let keyHandler = null;
   const host = root.querySelector(".js-host");
+  host.replaceChildren(createSkeleton(4)); // the standard ghost cards while the run loads
 
   if (!id) {
     host.innerHTML = `<p class="stage-review__empty caption">No run selected.</p>`;
