@@ -2,6 +2,15 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-24 (later) — P5 went LIVE: the app got its proper shell.** Carl walked P5 locally and
+green-lit it same day. Live now: the sidebar stays open with names + section headers (chevron
+collapses it, remembered per browser; rows are real links and stay lit through a run), every
+drill-down carries the shared top trail with zero per-screen Back buttons (7 Pulse/Operate pages,
+run review, tests; Library/Guide/Compare Backs deleted), Guide restored to the internal rail, and
+the Monthly Check-in wears the app shell (breadcrumb + top stepper + shared Saved pip; old mcr
+skin deleted, its CSS 836 → 385 lines). Verified at build: 184/184, typecheck, both linters,
+real-screen screenshots. Next: P6 admin sweep, then P7 re-audit closes the redesign.
+
 📍 **2026-07-24 — P4 went LIVE: the meeting itself got the redesign.** Carl green-lit P4 with
 "go live and merge"; PR #30 merged to main (3344e865) → Render deploy. Live now: the interview keeps
 the step bar visible with a calm 3-button action row (Enter = newline, no Esc-skip), the recap renders
@@ -93,14 +102,14 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Walk Phase 5** — local: the sidebar now stays open with names + section headers (chevron top-right collapses it), every drill-down has a top trail instead of Back buttons, and the Monthly Check-in finally looks like the rest of the app. Say "ship it" or tell me what's off.
-2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
-3. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
+1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
+2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
+3. **Say go on P6** — the admin sweep (internal tables, Pulse time-range, error grouping) is the next design-consolidation phase; P7 re-audit then closes the redesign.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P4 ✅ LIVE. P5 🔨 BUILT 2026-07-24 (pinned labelled sidebar, breadcrumb sweep, Guided on the app shell) — awaiting your walk. Then P6 admin sweep → P7 re-audit. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P5 ✅ LIVE (P5 green-lit 2026-07-24 after Carl's local walk). Next: P6 admin sweep → P7 re-audit + close. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
 
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
@@ -131,4 +140,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-24 — P4 live and walked; P5 shell (sidebar + breadcrumbs + Guided) built, awaiting Carl's walk.
+Last updated: 2026-07-24 — P4 AND P5 live, both green-lit by Carl the same day; P6 admin sweep next.

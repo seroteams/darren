@@ -1,5 +1,9 @@
 # Phase 5: Shell
 
+## ✅ GREEN-LIT 2026-07-24
+
+Carl walked it locally and green-lit ("a" = good, ship it). Shipped to main the same day.
+
 ## Built (2026-07-24)
 
 Awaiting Carl's QA walk. Landed: the rail is PINNED OPEN with labels + group headers at desktop

@@ -804,3 +804,18 @@ DEFAULT_VARIANT constant made the Sheet-vs-Arc call cheap to reverse, so the for
 blocked the ship; (2) the honest move on the CSS diet was to defer it — deleting variant CSS
 while the admin lab still uses all 12 would have orphaned nothing and broken the lab, so it
 rides with the P7 close-out as Carl's fork.
+
+## 2026-07-24 — design consolidation P5 live (shell)
+
+Built and green-lit the same day: the sidebar is pinned open with labels and group headers
+(collapse is a remembered user choice; rows are real links; the active row stays lit through
+the run), a breadcrumb sweep replaced every per-screen Back (7 Pulse/Operate pages, run review,
+tests; Library/Guide/Compare simply lost theirs — top-level pages need none), Guide returned to
+the internal rail, and the Guided check-in was rebased onto the app shell (top stepper reusing
+the flow's stage-step primitives, shared save-pip component, mcr-* namespace deleted, guided.css
+836 → 385 lines). Lessons: (1) renaming a namespace end-to-end surfaced a latent bug for free —
+the side panel's Save button was never wired because two elements shared a [data-save] hook;
+(2) the generic .stage-step primitives in base.css paid off — the check-in's stepper needed ~30
+lines of CSS, not a second stepper system; (3) splitting the phase between the main session
+(shell + breadcrumbs) and a subagent (Guided re-skin) with a strict file fence made a big phase
+land in one sitting without a merge conflict.
