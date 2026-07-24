@@ -8,6 +8,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
+| 0e03aa19 | Design consolidation P7 (re-audit + close) | docs/plans/doing/design-consolidation/, STATUS.md, audits/design-audit-2026-07/, docs/screen-gallery/ | 2026-07-24 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

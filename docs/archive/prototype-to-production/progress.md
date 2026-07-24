@@ -834,3 +834,14 @@ files, and the one cross-fence test failure (customer-bundle leak) was caught by
 and fixed by the owning agent; (2) a tile that must NOT follow the range switch (Gate 1, the
 validation metric) is a labelling problem, not a code problem — "all time" on the tile beats a
 silently wrong window.
+
+## 2026-07-25 — design consolidation CLOSED (P7 re-audit + ship)
+
+The whole redesign is done: 8 phases green-lit in 4 days, every acceptance box ticked or
+Carl-parked, and the closing re-audit moved the app from 12 Standard / 19 Hybrid / 14 Custom to
+35 / 9 / 1 (the 1 = Screen gallery, exempt by declared DESIGN.md exemption). CSS 9,874 -> 9,680
+lines with zero inline style blocks and nine parallel namespaces gone; fresh 42-screen gallery
+baseline; design-cleanups (future/) marked absorbed. Carl parked two calls at close: the flow's
+two-tier widths and the Prepare variant-lab CSS. Lesson: making the audit BE the acceptance list
+(one tick-list, one re-audit at the end) is what kept an 8-phase visual overhaul honest — every
+"done" traced to a numbered finding, and the final scoreboard was a measurement, not a feeling.

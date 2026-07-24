@@ -1,7 +1,7 @@
 // The guided runner (/guided/:id) — the "Monthly Check-in". A generic stage driver: it loads
 // the session, reads its arc from GUIDED_ARCS, and walks arc.stages — it never hardcodes the
 // 7 stages (architecture.md §2b). Renders inside the standard app shell (design-consolidation
-// P5 F10): stage-inner column, a top stepper in the session-topbar's .stage-step language,
+// P5 F10): l-container column, a top stepper in the session-topbar's .stage-step language,
 // page-header + h1, shared .btn primitives, and the shared save pip. Only the right-hand side
 // panel still lives in a body portal. Everything the manager types/selects auto-saves
 // (debounced PATCH) into the session's state jsonb, so a hard reload lands them back where
@@ -62,7 +62,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     return;
   }
 
-  root.innerHTML = `<div class="stage-inner"><p class="text-ink-dim">Loading your check-in…</p></div>`;
+  root.innerHTML = `<div class="l-container"><p class="text-ink-dim">Loading your check-in…</p></div>`;
 
   let dto: GuidedSessionDto;
   try {
@@ -407,7 +407,7 @@ export const mount: Mount = async (root, { store, setState }) => {
       ? `<div class="gd-done-banner">${ICONS.check}<span>This check-in is complete. View only.</span></div>`
       : "";
     root.innerHTML = `
-      <div class="stage-inner l-stack l-stack--6 gd">
+      <div class="l-container l-stack l-stack--6 gd">
         ${crumbsHtml}
         <nav class="gd-stepper" aria-label="Check-in stages">${stepperHtml()}</nav>
         ${banner}

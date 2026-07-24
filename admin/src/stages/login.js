@@ -66,12 +66,12 @@ export async function mount(root, { setState }) {
           </div>
           <form class="l-stack l-stack--4 js-form" novalidate>
             <label class="l-stack l-stack--2">
-              <span class="eyebrow eyebrow--slot">Email</span>
+              <span class="field__label">Email</span>
               <input class="input js-email" type="email" autocomplete="username" required />
             </label>
             <label class="l-stack l-stack--2">
               <span class="l-row l-row--between l-row--baseline">
-                <span class="eyebrow eyebrow--slot">Password</span>
+                <span class="field__label">Password</span>
                 <button type="button" class="link text-ink-dim text-sm js-to-forgot">Forgot password?</button>
               </span>
               <span class="l-row l-row--2 js-pw-wrap">

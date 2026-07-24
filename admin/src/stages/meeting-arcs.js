@@ -4,77 +4,14 @@
 // overlay (never the source); "Reset to default" wipes them. Renaming or removing
 // a phase that has tagged questions warns before it orphans them.
 
+import "../styles/meeting-arcs.css";
 import { getArcs, saveArc, resetArc } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { confirmAction } from "../ui/confirm.js";
 import { X, ChevronRight, ArrowUp, ArrowDown } from "lucide";
 
-const STYLE = `
-<style>
-  .arc-card { padding: 0; overflow: hidden; }
-  .arc-card__head { display:flex; align-items:center; gap:10px; width:100%; padding:14px 16px;
-    background:none; border:none; cursor:pointer; text-align:left; color:var(--color-ink); }
-  .arc-card__head:focus-visible { outline:3px solid var(--color-ink); outline-offset:-3px; border-radius:6px; }
-  .arc-card__head[disabled] { cursor:default; }
-  .arc-card__chev { transition: transform .15s ease; color:var(--color-ink-dim); flex:none; }
-  .arc-card[data-open="true"] .arc-card__chev { transform: rotate(90deg); }
-  .arc-card__meta { margin-left:auto; font-size:var(--type-body-sm); color:var(--color-ink-dim); }
-  .arc-edited { font-size:var(--type-body-sm); font-weight:600; padding:3px 9px; border-radius:6px;
-    background:var(--sero-gold-200); color:var(--sero-gold-800); }
-  .arc-chips { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:0 16px 16px 40px; }
-  .arc-chip { font-size:var(--type-body); font-weight:500; line-height:1.4;
-    padding:4px 11px; border-radius:7px; background:var(--sero-soft-200); color:var(--color-ink);
-    border:1px solid var(--color-border-strong); }
-  .arc-chip__sep { color:var(--color-ink-dim); font-size:1.1rem; }
-  .arc-body { padding:4px 16px 16px; border-top:1px solid var(--color-border); }
-  .arc-sec { font-size:var(--type-body-sm); font-weight:600; letter-spacing:.04em; text-transform:uppercase;
-    color:var(--color-ink-dim); margin:16px 0 8px; }
-  .arc-phase { display:flex; align-items:flex-start; gap:12px; padding:10px 0;
-    border-bottom:1px solid var(--color-border); }
-  .arc-phase:last-child { border-bottom:none; }
-  .arc-phase__id { font-size:var(--type-body-sm); font-weight:600;
-    padding:3px 9px; border-radius:7px; background:var(--sero-soft-200); color:var(--color-ink);
-    border:1px solid var(--color-border-strong); flex:none; margin-top:1px; }
-  .arc-phase__main { flex:1; min-width:0; }
-  .arc-phase__label { font-weight:600; font-size:var(--type-body); color:var(--color-ink); }
-  .arc-phase__intent { font-size:var(--type-body); color:var(--color-ink-dim); margin-top:3px; line-height:1.5; }
-  .arc-phase__q { flex:none; font-size:var(--type-body-sm); color:var(--color-ink-dim); white-space:nowrap; margin-top:3px; }
-  .arc-anti { margin:0; padding-left:20px; color:var(--color-ink-dim); font-size:var(--type-body); line-height:1.5; }
-  .arc-anti li { margin:5px 0; }
-
-  /* --- actions + edit mode --- */
-  .arc-actions { display:flex; gap:8px; padding:0 16px 16px 40px; }
-
-  .arc-edit { padding:8px 16px 18px; border-top:1px solid var(--color-border); }
-  .arc-edit__row { display:flex; gap:10px; align-items:flex-start; padding:12px 0;
-    border-bottom:1px solid var(--color-border); }
-  .arc-edit__move { display:flex; flex-direction:column; gap:4px; flex:none; }
-  .arc-edit__fields { flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; }
-  .arc-edit__line { display:flex; gap:10px; flex-wrap:wrap; }
-  .arc-field { display:flex; flex-direction:column; gap:3px; }
-  .arc-field--id { width:170px; }
-  .arc-field--label { flex:1; min-width:160px; }
-  .arc-field--q { width:90px; }
-  .arc-field--grow { flex:1; min-width:100%; }
-  .arc-field > span { font-size:var(--type-label); font-weight:600; letter-spacing:.03em; text-transform:uppercase;
-    color:var(--color-ink-dim); }
-  /* Shared primitives, sized down for the dense editor rows (same move as
-     .js-runlabel-wrap .input in buttons-inputs.css). */
-  .arc-edit .input { font-size:var(--type-body); padding:0.4rem 0; }
-  .arc-edit .textarea { min-height:3rem; line-height:1.5; }
-  .arc-edit__foot { display:flex; align-items:center; gap:10px; margin-top:16px; flex-wrap:wrap; }
-  .arc-edit__msg { font-size:var(--type-body); }
-  .arc-edit__msg--err { color:var(--color-negative-text); }
-  .arc-edit__spacer { margin-left:auto; }
-
-  /* --- page-level "check for changes" action --- */
-  .arc-update { display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap; }
-  .arc-update__msg { font-size:var(--type-body); color:var(--color-ink-dim); }
-  .arc-update__msg--ok { color:var(--color-positive-text); }
-  .arc-update__msg--err, .arc-update__msg--warn { color:var(--color-negative-text); }
-  .arc-update__time { font-size:var(--type-body-sm); color:var(--color-ink-mute, var(--color-ink-dim)); }
-</style>`;
+// Scoped styling lives in styles/meeting-arcs.css (imported above).
 
 const CHEV = icon(ChevronRight, { size: 16, className: "arc-card__chev" });
 
@@ -94,7 +31,6 @@ export async function mount(root) {
   draft = null;
 
   root.innerHTML = `
-    ${STYLE}
     <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
         <div class="eyebrow">Configure</div>

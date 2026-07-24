@@ -37,7 +37,7 @@ export async function mount(root, { setState }) {
   const backLabel = CRUMB_LABELS[backStage] || "Back";
 
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="l-container l-stack l-stack--8">
       <header class="page-header l-stack l-stack--2">
         ${breadcrumb([{ label: backLabel, nav: "back" }, { label: "Your data & privacy" }])}
         <h1 class="h1">Your data &amp; privacy</h1>

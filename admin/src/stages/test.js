@@ -3,6 +3,7 @@
 // any time. No backend anywhere in here — every test is hardcoded mock data, nothing saved.
 // New tests: add a module under ./tests/ exporting mount(root), then one entry to TESTS.
 
+import "../styles/test-gallery.css";
 import { mount as promisesLoop } from "./tests/promises-loop.js";
 import { mount as promisesBeforeRecap } from "./tests/promises-before-recap.js";
 import { mount as runnerV2 } from "./tests/runner-v2.js";
@@ -113,46 +114,12 @@ const TESTS = [
   },
 ];
 
-const STYLE = `
-  .tg-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(17rem, 1fr));
-    gap:var(--sero-space-4); }
-  .tg-card { text-align:left; font:inherit; cursor:pointer; display:flex;
-    flex-direction:column; gap:var(--sero-space-2); padding:var(--sero-space-5);
-    background:var(--color-surface); border:1px solid var(--color-border);
-    border-radius:var(--radius-card); box-shadow:var(--shadow-card);
-    transition:transform .15s ease, border-color .15s ease; }
-  .tg-card:hover { transform:translateY(-2px); border-color:var(--color-accent); }
-  .tg-card:focus-visible { outline:none; box-shadow:var(--shadow-focus); }
-  .tg-thumb { width:100%; height:auto; display:block; border:1px solid var(--color-border);
-    border-radius:var(--radius-button); overflow:hidden; }
-  .tg-thumb .bg { fill:var(--sero-primary-100); }
-  .tg-thumb .card { fill:var(--color-surface); stroke:var(--color-border); stroke-width:1; }
-  .tg-thumb .ink { fill:var(--color-ink); }
-  .tg-thumb .accent { fill:var(--color-accent); }
-  .tg-thumb .line { stroke:var(--color-border); }
-  .tg-thumb .dot-done { fill:var(--color-accent); }
-  .tg-thumb .dot-todo { fill:var(--color-surface); stroke:var(--color-border); stroke-width:1.5; }
-  .tg-thumb .check { fill:none; stroke:var(--color-surface); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-  a.tg-card { text-decoration:none; }
-  .tg-card__ext { color:var(--color-accent); font-weight:400; }
-  .tg-card__link { margin-left:auto; color:var(--color-accent-dark); font-weight:600; }
-  .tg-card__title { font-family:var(--type-family-display); font-size:18px; font-weight:600;
-    color:var(--color-ink); }
-  .tg-card__blurb { font-size:14px; line-height:1.5; color:var(--color-ink-dim); }
-  .tg-card__meta { display:flex; gap:var(--sero-space-2); align-items:center;
-    font-size:14px; color:var(--color-ink-mute); margin-top:auto; }
-  .tg-tag { display:inline-block; font-size:14px; border-radius:9999px; padding:0 10px;
-    background:var(--sero-primary-200); color:var(--color-accent-dark); }
-  .tg-note { display:inline-block; font-size:14px; color:var(--color-ink-mute);
-    background:var(--sero-primary-100); border:1px dashed var(--color-border);
-    border-radius:var(--radius-button); padding:4px 10px; }
-`;
+// Scoped styling (.tg-*) lives in styles/test-gallery.css (imported above).
 
 export async function mount(root) {
   const openGallery = () => {
     root.innerHTML = `
-      <style>${STYLE}</style>
-      <div class="stage-inner l-stack l-stack--8">
+      <div class="l-container l-stack l-stack--8">
         <span class="tg-note">Test area · prototypes only. Mock data, nothing is saved</span>
         <header class="page-header">
           <h1 class="h1">Tests</h1>
@@ -186,7 +153,7 @@ export async function mount(root) {
     const test = TESTS.find((t) => t.id === id);
     if (!test) return openGallery();
     // wide tests (dashboards) break out of the reading column into the full stage width
-    const shell = test.wide ? "l-container l-container--full l-stack l-stack--4" : "stage-inner l-stack l-stack--4";
+    const shell = test.wide ? "l-container l-container--full l-stack l-stack--4" : "l-container l-stack l-stack--4";
     // bare tests (full-runner mockups) drop the "Test · … nothing is saved" note and keep
     // only the trail, so the mockup's own chrome is all you see.
     const trail = breadcrumb([{ label: "Tests", nav: "tests" }, { label: test.title }]);
@@ -197,7 +164,6 @@ export async function mount(root) {
           <span class="tg-note">Test · ${test.title}. Mock, nothing is saved</span>
         </div>`;
     root.innerHTML = `
-      <style>${STYLE}</style>
       <div class="${shell}">
         ${topRow}
         <div class="js-test-host"></div>

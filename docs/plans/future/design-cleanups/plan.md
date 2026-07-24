@@ -1,5 +1,9 @@
 # Design cleanups — make the existing app obey the design system
 
+> **✅ ABSORBED 2026-07-25.** Everything here was folded into
+> [design-consolidation](../../done/design-consolidation/plan.md) (its acceptance.md carried the
+> scoped duplications) and shipped across its 8 phases. Nothing left to build in this plan.
+
 **Goal:** the [design-system](../../done/design-system/plan.md) track made the *rules*; this track
 makes the *existing app* follow them — one shared build per pattern instead of two, tokens
 instead of stray colours.

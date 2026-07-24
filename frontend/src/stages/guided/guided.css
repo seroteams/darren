@@ -1,6 +1,6 @@
 /* The guided runner (Monthly Check-in) — design-consolidation P5 (F10): the runner now sits
    inside the standard app shell. Class prefix .gd-* ("guided"). The page column, header,
-   cards and buttons come from the shared primitives (stage-inner, page-header, .card-flat,
+   cards and buttons come from the shared primitives (l-container, page-header, .card-flat,
    .btn); this file only styles what's genuinely guided-specific. Only the right-hand side
    panel still lives in a body portal (.gd-portal) so it overlays any transformed ancestor.
    The save pip is the shared component (admin/src/ui/save-pip.ts + design/save-pip.css).

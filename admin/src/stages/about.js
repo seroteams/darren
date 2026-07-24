@@ -9,7 +9,7 @@ import { STAGES, store, isAdmin } from "../state.js";
 // how-to-use-it version. One shared stage, two voices — decided by role at mount.
 function memberHtml() {
   return `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="l-container l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">What is Sero?</h1>
         <div class="text-ink-dim">How your 1:1s are recorded, and what stays private.</div>
@@ -40,7 +40,7 @@ function memberHtml() {
 
 function managerHtml() {
   return `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="l-container l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">What is Sero?</h1>
         <div class="text-ink-dim">A quick helper for your 1:1s.</div>

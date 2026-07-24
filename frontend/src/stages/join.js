@@ -77,15 +77,15 @@ export function inviteHtml(invite) {
     </div>
     <form class="card-flat l-stack l-stack--3 js-form" novalidate>
       <label class="l-stack l-stack--2">
-        <span class="eyebrow eyebrow--slot">Email</span>
+        <span class="field__label">Email</span>
         <input class="input" type="email" value="${esc(invite.email)}" disabled />
       </label>
       <label class="l-stack l-stack--2">
-        <span class="eyebrow eyebrow--slot">Your name</span>
+        <span class="field__label">Your name</span>
         <input class="input js-name" type="text" autocomplete="name" value="${esc(invite.personName || "")}" required />
       </label>
       <label class="l-stack l-stack--2">
-        <span class="eyebrow eyebrow--slot">Choose a password <span class="text-ink-mute">(at least 8 characters)</span></span>
+        <span class="field__label">Choose a password <span class="text-ink-mute">(at least 8 characters)</span></span>
         <span class="l-row l-row--2 js-pw-wrap">
           <input class="input js-password" type="password" autocomplete="new-password" required />
           ${passwordToggleHtml()}

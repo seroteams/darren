@@ -7,7 +7,7 @@ import { isTouchScreen } from "../ui/field.js";
 
 export async function mount(root) {
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="l-container l-stack l-stack--8">
       <header class="page-header">
         <h1 class="h1">Send feedback</h1>
         <div class="text-ink-dim">Tell us what's working or what's not. It goes straight to the team.</div>
@@ -43,7 +43,7 @@ export async function mount(root) {
     submitBtn.textContent = "Sending…";
     try {
       await submitFeedback(message);
-      root.querySelector(".stage-inner").innerHTML = `
+      root.querySelector(".l-container").innerHTML = `
         <header class="page-header">
           <h1 class="h1">Thanks!</h1>
           <div class="text-ink-dim">Your note reached the team. We read every one.</div>

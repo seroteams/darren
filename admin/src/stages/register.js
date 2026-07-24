@@ -28,19 +28,19 @@ export async function mount(root, { setState }) {
           <p class="text-ink-dim text-sm">Joining an existing team? Use the invite link your manager sent you.</p>
           <form class="l-stack l-stack--4 js-form" novalidate>
             <label class="l-stack l-stack--2">
-              <span class="eyebrow eyebrow--slot">Your name</span>
+              <span class="field__label">Your name</span>
               <input class="input js-name" type="text" autocomplete="name" required />
             </label>
             <label class="l-stack l-stack--2">
-              <span class="eyebrow eyebrow--slot">Company <span class="text-ink-mute">(optional)</span></span>
+              <span class="field__label">Company <span class="text-ink-mute">(optional)</span></span>
               <input class="input js-company" type="text" autocomplete="organization" placeholder="Leave blank and we'll name it after you" />
             </label>
             <label class="l-stack l-stack--2">
-              <span class="eyebrow eyebrow--slot">Email</span>
+              <span class="field__label">Email</span>
               <input class="input js-email" type="email" autocomplete="username" required />
             </label>
             <label class="l-stack l-stack--2">
-              <span class="eyebrow eyebrow--slot">Password <span class="text-ink-mute">(at least 8 characters)</span></span>
+              <span class="field__label">Password <span class="text-ink-mute">(at least 8 characters)</span></span>
               <span class="l-row l-row--2 js-pw-wrap">
                 <input class="input js-password" type="password" autocomplete="new-password" required />
                 ${passwordToggleHtml()}
