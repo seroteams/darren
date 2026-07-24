@@ -25,7 +25,7 @@ export async function mount(root, { setState }) {
           <div class="js-host">
             <form class="l-stack l-stack--4 js-form" novalidate>
               <label class="l-stack l-stack--2">
-                <span class="eyebrow eyebrow--slot">Email</span>
+                <span class="field__label">Email</span>
                 <input class="input js-email" type="email" autocomplete="username" required />
               </label>
               <p class="js-err text-negative text-sm" hidden></p>

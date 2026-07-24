@@ -8,7 +8,7 @@
 // DOM-only glue — no node unit test, same as the mount code it serves; it's exercised on the
 // Team and Members screens.
 export function showActionError(root: HTMLElement, message: string): void {
-  const host = root.querySelector<HTMLElement>(".stage-inner") ?? root;
+  const host = root.querySelector<HTMLElement>(".l-container") ?? root;
   let el = host.querySelector<HTMLElement>(".js-action-error");
   if (!el) {
     el = document.createElement("div");

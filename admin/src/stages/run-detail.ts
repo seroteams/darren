@@ -112,13 +112,15 @@ function renderAnswers(run: RunDetail): string {
 }
 
 // The whole detail body: the three tabs + their panes. Pure (string in, string out)
-// so it can be unit-tested without a DOM or the network.
+// so it can be unit-tested without a DOM or the network. The Answers tab carries a
+// quiet count of answered questions (audit M7) — same idiom as the feedback inbox tabs.
 export function renderRunDetail(run: RunDetail): string {
+  const answered = (run.turns || []).filter((t) => !t.skipped).length;
   return `
     <div class="ds-tabs" role="tablist">
       <button type="button" class="ds-tab is-active" role="tab" aria-selected="true" data-tab="overview">Overview</button>
       <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="briefing">Recap</button>
-      <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="answers">Answers</button>
+      <button type="button" class="ds-tab" role="tab" aria-selected="false" data-tab="answers">Answers <span class="rd-tab__n">${answered}</span></button>
     </div>
     <div class="js-pane" data-pane="overview">${renderOverview(run)}</div>
     <div class="js-pane" data-pane="briefing" hidden><div class="l-stack l-stack--4">${renderReadonlyBriefing(run.briefing, run.ctx?.name, run.promises)}</div></div>
@@ -185,7 +187,7 @@ export const mount: Mount = async (root, { setState }) => {
   const toList = () => setState({ myRunId: null, stage: isAdmin(store.user) ? STAGES.RUNS : STAGES.MEMBER_HOME });
 
   const frame = (headerHtml: string, inner: string) =>
-    `<div class="stage-inner l-stack l-stack--8">${headerHtml}<div class="l-stack l-stack--4">${inner}</div></div>`;
+    `<div class="l-container l-stack l-stack--8">${headerHtml}<div class="l-stack l-stack--4">${inner}</div></div>`;
   // The back-crumb names its own destination: a manager lands on "Past 1:1s", a member on
   // "Your 1:1s" (mirrors runs.ts + toList's role split — audit: crumb matched the wrong list).
   const listLabel = isAdmin(store.user) ? "Past 1:1s" : "Your 1:1s";

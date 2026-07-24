@@ -130,7 +130,7 @@ let pendingRunId: string | null = null;
 
 export const mount: Mount = async (root, { setState }) => {
   const name = store.adminUserName || "This user";
-  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
+  const shell = (inner: string) => `<div class="l-container l-stack l-stack--8">${inner}</div>`;
 
   const errorCard = `
     <section class="card-flat space-y-3">
@@ -155,7 +155,8 @@ export const mount: Mount = async (root, { setState }) => {
 
   // ONE run's briefing, read-only (PG8 Step 3) — cross-user, via the superadmin route.
   const renderRecap = async (runId: string) => {
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+    root.innerHTML = shell(`<section class="js-skel"></section>`);
+    root.querySelector(".js-skel")?.replaceChildren(createSkeleton(3));
     let run: { ctx: Run["ctx"]; briefing: Briefing | null };
     try {
       run = (await getAdminRun(runId)) as { ctx: Run["ctx"]; briefing: Briefing | null };

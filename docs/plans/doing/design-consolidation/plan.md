@@ -35,11 +35,11 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 | 4 | Flow spine B | Interview calm-down, instant briefing, one Prepare layout (11 fenced to admin lab) | ✅ |
 | 5 | Shell | Pinned labelled sidebar, fixed account entry, help entry, nav links, breadcrumb sweep, Guided rebased on app shell | ✅ |
 | 6 | Admin sweep | um-table rollout to internal + superadmin lists, Pulse time-range, error grouping, kill parallel button systems | ✅ |
-| 7 | Re-audit + close | acceptance.md all green, CSS trend report, new baseline, move to done/ | ⬜ |
+| 7 | Re-audit + close | acceptance.md all green, CSS trend report, new baseline, move to done/ | 🔨 |
 
 ## Current state
 
-P0-P6 ✅ live. P6 green-lit by Carl 2026-07-24 ("yeah its good"); his skeleton-loading note answered before shipping (all admin loading states now use the shared ghost cards). All 12 D-items landed: um-tables everywhere internal, Pulse one-clock range control (7/30/90), grouped error log, feedback inbox tabs, parallel button systems deleted, shared confirm app-wide, Lexicon admin costume, Gallery exemption declared in DESIGN.md. Last phase: P7 re-audit + close (acceptance all green, CSS trend report, fresh gallery baseline, Carl's Prepare-CSS fork). SeroEngine rename still PARKED.
+P0-P6 ✅ live. P7 🔨 BUILT 2026-07-24, awaiting Carl's final walk: re-audit says 35 Standard / 9 Hybrid / 1 Custom (was 12/19/14; the 1 = Screen gallery, a declared exemption), all 43 acceptance boxes ticked, six same-day straggler fixes (Guest runs table, stage-inner retired, style blocks to CSS, legend/badge/labels), CSS 9,874 -> 9,680 with zero inline blocks, fresh 42-screen gallery baseline. Two calls open for Carl at the walk: flow widths (unify or keep) and the ~600-line Prepare variant-lab CSS (delete or keep). SeroEngine rename still PARKED.
 
 ## Parked
 

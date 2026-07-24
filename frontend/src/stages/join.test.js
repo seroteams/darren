@@ -51,8 +51,8 @@ test("join form: locked email, name prefill, password, one blue Join CTA", () =>
   assert.equal(primary.length, 1, "exactly one blue action");
   assert.ok(html.includes("Join Acme"), "CTA names the org");
   assert.ok(html.includes("card-flat"), "form is card-framed");
-  assert.ok(html.includes("eyebrow eyebrow--slot"), "quiet slot-tier labels, same as register");
-  assert.ok(!html.includes('class="eyebrow"'), "no accent-blue section-tier labels in the form");
+  assert.ok(html.includes('class="field__label"'), "standard sentence-case field labels, same as register (audit A4)");
+  assert.ok(!html.includes("eyebrow"), "no small-caps eyebrow labels in the form");
   assert.ok(html.includes("js-toggle-pw"), "show/hide password toggle, same as the other auth forms");
 });
 

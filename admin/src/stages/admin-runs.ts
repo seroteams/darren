@@ -89,7 +89,7 @@ export async function openRunBriefing(
   trail: { label: string; nav?: string }[],
   wire: () => void,
 ): Promise<void> {
-  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
+  const shell = (inner: string) => `<div class="l-container l-stack l-stack--8">${inner}</div>`;
   root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
   let run: { ctx: RecapCtx; briefing: Briefing | null };
   try {

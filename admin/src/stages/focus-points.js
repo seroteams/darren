@@ -14,7 +14,7 @@ export async function mount(root, { store, setState }) {
   // No per-screen "Discard prep" (audit F3): the exit lives in the topbar's
   // "This 1:1" menu, which is live from this stage onward.
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="l-container l-stack l-stack--8">
       <header class="page-header">
         <div class="eyebrow">Focus areas</div>
         <h1 class="h1">What we'll cover</h1>

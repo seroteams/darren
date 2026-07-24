@@ -29,9 +29,14 @@ test("renders the three tabs, Overview active first", () => {
   const html = renderRunDetail(run);
   assert.ok(html.includes(">Overview</button>"), "Overview tab");
   assert.ok(html.includes(">Recap</button>"), "Recap tab");
-  assert.ok(html.includes(">Answers</button>"), "Answers tab");
+  assert.ok(/data-tab="answers">Answers /.test(html), "Answers tab");
   assert.ok(html.includes('class="ds-tab is-active" role="tab" aria-selected="true" data-tab="overview"'), "Overview starts active");
   assert.ok(html.includes('data-pane="briefing" hidden') && html.includes('data-pane="answers" hidden'), "non-active panes start hidden");
+});
+
+test("the Answers tab carries a count badge of answered questions (audit M7)", () => {
+  assert.ok(renderRunDetail(run).includes('Answers <span class="rd-tab__n">1</span>'), "count excludes the skipped turn");
+  assert.ok(renderRunDetail({ ...run, turns: [] }).includes('Answers <span class="rd-tab__n">0</span>'), "empty run says 0");
 });
 
 // The identity block (name · role · meeting badge) now lives in the shared recap header

@@ -2,7 +2,7 @@
 // progress and THIS record once completed_at is set. One page, stacked (plan decision 17):
 // Summary → six-block scores + trend vs previous → trackers as they ended → feedback → the
 // PRIVATE review last, badged. Read-only display; no autosave, no nav. Rides the standard
-// shell: stage-inner column, page-header + h1, card-flat cards (P5 F10).
+// shell: l-container column, page-header + h1, card-flat cards (P5 F10).
 
 import type { BlockScore, GroupedTrackers, GuidedSessionDto, TrackerItem } from "./guided.types.ts";
 import type { CopyCtx } from "./coaching-copy.ts";
@@ -91,7 +91,7 @@ export function renderRecord(ctx: RecordCtx, topNav = ""): string {
     : "";
 
   return `
-    <div class="stage-inner l-stack l-stack--6 gd gd-rec">
+    <div class="l-container l-stack l-stack--6 gd gd-rec">
       ${topNav}
       <div class="gd-done-banner">${ICONS.check}<span>Completed${when ? ` · ${esc(when)}` : ""}</span></div>
       <header class="page-header">

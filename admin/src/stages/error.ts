@@ -16,7 +16,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   // was the one thing they couldn't see.
   const shown = store.error || "Something went wrong on this step.";
   root.innerHTML = `
-    <div class="stage-inner l-stack l-stack--6">
+    <div class="l-container l-stack l-stack--6">
       <h1 class="h1">We hit a snag.</h1>
       <div class="error-card">
         <div class="text-ink">${escape(shown)}</div>

@@ -9,6 +9,7 @@
 // (pulse-drilldowns). The managers list rides the global um-table skin. Superadmin-gated
 // (a normal owner gets 403 → the fetch throws).
 
+import "../styles/admin-pulse.css";
 import { STAGES } from "../state.js";
 import type { StageName } from "../state.js";
 import { escapeHtml } from "../ui/html.js";
@@ -60,63 +61,8 @@ async function fetchPulse(days: RangeDays): Promise<Pulse> {
   return (await res.json()) as Pulse;
 }
 
-// Scoped styling — mirrors the mock's `.lp-` prototype so the live screen reads the same.
-const STYLE = `
-  .lp-head { display:flex; align-items:flex-start; justify-content:space-between; gap:var(--sero-space-3); flex-wrap:wrap; }
-  .lp-head__text { min-width: 0; }
-  .lp-range { display:inline-flex; flex:none; background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-input); overflow:hidden; }
-  .lp-range__btn { font:inherit; font-size:14px; font-weight:500; padding:6px 14px; background:none; border:none; cursor:pointer; color:var(--color-ink-dim); white-space:nowrap; }
-  .lp-range__btn + .lp-range__btn { border-left:1px solid var(--color-border); }
-  .lp-range__btn[aria-pressed="true"] { background:var(--color-accent-soft); color:var(--color-accent-dark); font-weight:600; }
-  .lp-range__btn:focus-visible { outline:2px solid var(--color-accent); outline-offset:-2px; }
-  .lp-tiles { display:grid; grid-template-columns:repeat(auto-fit, minmax(10.5rem, 1fr)); gap:var(--sero-space-3); }
-  .lp-tile { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-card); padding:var(--sero-space-4); }
-  /* Each tile is a button opening its drill-down list (pulse-drilldowns). Affordance is a
-     border darken + surface tint per DESIGN.md — shadows stay reserved for detached elements. */
-  button.lp-tile { display:block; width:100%; font:inherit; color:inherit; text-align:left; cursor:pointer; }
-  button.lp-tile:hover { border-color:var(--color-ink-dim); background:var(--color-surface-2); }
-  button.lp-tile:focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
-  .lp-tile--hero { border-color:var(--sero-mint-700); background:linear-gradient(0deg, var(--sero-mint-100), var(--color-surface) 70%); }
-  button.lp-tile--hero:hover { border-color:var(--sero-mint-700); background:linear-gradient(0deg, var(--sero-mint-100), var(--color-surface) 70%); filter:brightness(0.98); }
-  /* The one tile anatomy (design-consolidation P6, D7): label / value / delta chip / caption. */
-  .lp-tile__label { font-size:14px; font-weight:500; color:var(--color-ink-dim); }
-  .lp-tile__value { font-family:var(--type-family-display); font-size:30px; font-weight:600; line-height:1.15; font-variant-numeric:tabular-nums; }
-  .lp-tile__value .lp-den { font-size:18px; font-weight:500; color:var(--color-ink-dim); }
-  .lp-tile__delta { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 6px; margin:4px 0 2px; font-size:14px; color:var(--color-ink-dim); }
-  .lp-delta { display:inline-block; border-radius:9999px; padding:1px 10px; font-size:14px; font-weight:600; white-space:nowrap; background:var(--color-page); color:var(--color-ink-dim); border:1px solid var(--color-border); }
-  .lp-delta--pos { background:var(--sero-mint-100); color:var(--color-positive-text); border-color:transparent; }
-  .lp-delta--neg { background:var(--sero-coral-100); color:var(--color-negative-text); border-color:transparent; }
-  .lp-tile__note { font-size:14px; color:var(--color-ink-dim); }
-  .lp-down { color:var(--color-negative-text); font-weight:600; }
-  .lp-wide { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:var(--sero-space-3); align-items:start; }
-  .lp-colstack { display:flex; flex-direction:column; gap:var(--sero-space-3); min-width:0; }
-  @media (max-width: 1100px) { .lp-wide { grid-template-columns:1fr; } }
-  .lp-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-card); padding:var(--sero-space-4); }
-  .lp-card__head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
-  .lp-card h3 { font-size:16px; font-weight:600; margin:0; }
-  .lp-card .lp-hnote { font-size:14px; color:var(--color-ink-dim); margin:2px 0 12px; }
-  .lp-viewall { font:inherit; font-size:14px; font-weight:500; background:none; border:none; cursor:pointer; color:var(--sero-link); white-space:nowrap; padding:0; }
-  .lp-viewall:hover { text-decoration:underline; }
-  .lp-spark { width:100%; height:88px; display:block; }
-  .lp-bar { display:grid; grid-template-columns:6.5rem 1fr 1.5rem; align-items:center; gap:10px; font-size:14px; margin-top:8px; }
-  .lp-bar__name { color:var(--color-ink-dim); font-weight:500; }
-  .lp-bar__track { background:var(--color-page); border-radius:4px; height:13px; overflow:hidden; }
-  .lp-bar__fill { height:100%; border-radius:4px; background:var(--color-accent); opacity:.85; }
-  .lp-bar__fill--warn { background:var(--sero-gold-700); }
-  .lp-bar__n { text-align:right; font-variant-numeric:tabular-nums; font-weight:600; }
-  .lp-pill { display:inline-block; border-radius:9999px; padding:1px 10px; font-size:14px; font-weight:600; white-space:nowrap; }
-  .lp-pill--back { background:var(--sero-mint-100); color:var(--color-positive-text); }
-  .lp-pill--once { background:var(--sero-gold-100); color:var(--sero-gold-900); }
-  .lp-pill--none { background:var(--color-page); color:var(--color-ink-dim); border:1px solid var(--color-border); font-weight:500; }
-  .lp-pill--gone { background:var(--sero-coral-100); color:var(--color-negative-text); }
-  .lp-who { display:flex; align-items:center; gap:10px; white-space:nowrap; }
-  .lp-avatar { display:inline-flex; align-items:center; justify-content:center; flex:none; width:30px; height:30px; border-radius:9999px; background:var(--sero-primary-200); color:var(--color-accent-dark); font-size:14px; font-weight:600; }
-  .lp-who .lp-co { display:block; font-size:14px; color:var(--color-ink-dim); }
-  .lp-feed { display:flex; flex-direction:column; gap:12px; }
-  .lp-feed__item { display:flex; gap:12px; align-items:flex-start; }
-  .lp-feed__meta { font-size:14px; color:var(--color-ink-dim); margin-top:1px; }
-  .lp-empty { font-size:14px; color:var(--color-ink-dim); }
-`;
+// Scoped styling lives in styles/admin-pulse.css (imported above) — mirrors the
+// mock's `.lp-` prototype so the live screen reads the same.
 
 const initials = (name: string) => name.split(/\s+/).map((w) => w[0] ?? "").join("").slice(0, 2).toUpperCase();
 const statusPill = (m: PulseManager) => {
@@ -241,7 +187,6 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void, set
     </div>`;
 
   root.innerHTML = `
-    <style>${STYLE}</style>
     <div class="l-container l-container--wide l-stack l-stack--4">
       <header class="page-header lp-head">
         <div class="lp-head__text">

@@ -1,6 +1,22 @@
 # Phase 7: Re-audit + close
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+## Built (2026-07-24)
+
+Awaiting Carl's final walk. The re-audit ran page by page with the original method
+([reaudit.md](../../../../audits/design-audit-2026-07/reaudit.md)): the app moved from
+12 Standard / 19 Hybrid / 14 Custom to **35 Standard / 9 Hybrid / 1 Custom**, and the one
+Custom left (Screen gallery) is a declared DESIGN.md exemption. The re-audit's eight stragglers
+were triaged the same day; the six that were audit items got fixed (Guest runs on um-table +
+toolbar, `.stage-inner` fully retired, the four page-scoped style blocks moved to real CSS,
+review-run shortcut legend + Answers count badge confirmed/added, auth labels sentence-cased).
+All 43 acceptance boxes ticked. CSS: 9,874 baseline lines -> 9,680, now with ZERO inline style
+blocks (several hundred lines used to hide in JS) and the whole shared kit added; nine parallel
+namespaces deleted. Fresh gallery baseline: 42/45, 0 failed (3 = the exporter's known
+customer-app skips). Checks: 184/184, typecheck, lint:tokens, lint:copy.
+Open for Carl at the walk: (a) unify the run flow's two widths or keep them; (b) delete or keep
+the ~600-line Prepare variant-lab CSS (the standing P4 fork).
+
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting QA
 
 ## Goal
 

@@ -1,9 +1,11 @@
 // Guest runs — a superadmin's read-only view of the UNCLAIMED guest pile (guest-run
-// Phase 4): every ownerless finished run, newest first. Guest runs are alpha feedback
-// gold, not invisible files on disk. Wired to GET /api/v1/admin/guest-runs, gated by
-// requireSuperadminRoute (a normal manager/admin → 403). Opening a run reuses the PG8
-// read-only briefing (GET /api/v1/admin/runs/:id — superadminRunView already serves
-// ownerless runs). A run claimed by a new account leaves this list.
+// Phase 4; design-consolidation P7): every ownerless finished run, newest first, as the
+// house um-table with the shared list toolbar (search + count — the pile has no obvious
+// filter axis, so no chips). Guest runs are alpha feedback gold, not invisible files on
+// disk. Wired to GET /api/v1/admin/guest-runs, gated by requireSuperadminRoute (a normal
+// manager/admin → 403). Opening a run reuses the PG8 read-only briefing
+// (GET /api/v1/admin/runs/:id — superadminRunView already serves ownerless runs).
+// A run claimed by a new account leaves this list.
 
 import "../styles/pulse-drilldowns.css";
 import { STAGES, store } from "../state.js";
@@ -14,6 +16,8 @@ import { relTime } from "../ui/time.ts";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 import { recapHeader, roleLine } from "../ui/recap-header.ts";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
+import { listToolbar } from "../ui/list-toolbar.ts";
+import { wireListFilter } from "./admin-runs.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 import { createSkeleton } from "../ui/skeleton.js";
 
@@ -24,24 +28,28 @@ type Run = {
   lastSeenAt: number;
 };
 
-function runSubtitle(c: Run["ctx"]): string {
-  const bits: string[] = [];
-  if (c.name) bits.push(c.name);
-  if (c.role) bits.push(roleLine(c));
-  if (c.meetingType) bits.push(c.meetingType);
-  return bits.join(" · ");
+/** The searchable text behind a row (toolbar search): name + role + type. */
+function runSearchKey(r: Run): string {
+  const c = r.ctx || ({} as Run["ctx"]);
+  return [c.name || r.headline || "", roleLine(c), c.meetingType || ""].join(" ").toLowerCase();
 }
 
 function runRow(r: Run): string {
   const c = r.ctx || ({} as Run["ctx"]);
-  const bits: string[] = [];
-  const sub = runSubtitle(c);
-  if (sub) bits.push(sub);
-  const when = relTime(r.lastSeenAt);
-  if (when) bits.push(when);
-  const line = escapeHtml(bits.length ? bits.join(" · ") : r.headline || "Untitled 1:1");
-  // A button so it's keyboard-operable — opens the read-only briefing.
-  return `<button type="button" class="card-flat runs-list__row js-run-row" data-run-id="${escapeHtml(r.id)}"><span class="text-sm">${line}</span></button>`;
+  const name = c.name || r.headline || "Untitled 1:1";
+  const role = roleLine(c);
+  // The name is a real button (keyboard target) inside its clickable row — the
+  // um-table idiom (admin-runs.ts). Every guest run here is finished, so every
+  // row opens its read-only briefing.
+  return `
+    <tr class="js-row um-row js-open-run" data-id="${escapeHtml(r.id)}" data-search="${escapeHtml(runSearchKey(r))}">
+      <td>
+        <button type="button" class="um-user__open js-open-run" data-id="${escapeHtml(r.id)}">${escapeHtml(name)}</button>
+        ${role ? `<span class="pd-sub">${escapeHtml(role)}</span>` : ""}
+      </td>
+      <td>${c.meetingType ? escapeHtml(c.meetingType) : "–"}</td>
+      <td class="text-ink-dim">${escapeHtml(relTime(r.lastSeenAt) || "–")}</td>
+    </tr>`;
 }
 
 export const mount: Mount = async (root, { setState }) => {
@@ -51,11 +59,11 @@ export const mount: Mount = async (root, { setState }) => {
       <h1 class="h1">Guest runs</h1>
       <div class="text-ink-dim">1:1s run by visitors with no account. Unclaimed, read-only. A guest who saves their run moves it out of this list.</div>
     </header>`;
-  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}<div class="pd-back-bottom">${pulseCrumbs('Guest runs')}</div></div>`;
-  // The recap gets its own bare container — NOT `shell` — so the "Guest runs" header and its
-  // circled Back no longer ride along above it (that was the doubled title + stacked back).
-  const recapShell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
-  // Delegated so it survives every innerHTML repaint (pulse-drilldowns back button).
+  const shell = (inner: string) => `<div class="l-container l-container--wide l-stack l-stack--6">${header}${inner}</div>`;
+  // The recap gets its own bare container — NOT `shell` — so the "Guest runs" header
+  // no longer rides along above it (that was the doubled title + stacked back).
+  const recapShell = (inner: string) => `<div class="l-container l-stack l-stack--8">${inner}</div>`;
+  // Delegated so it survives every innerHTML repaint (the breadcrumb's Pulse crumb).
   root.addEventListener("click", (e) => {
     if (e.target instanceof Element && e.target.closest('.js-crumb[data-nav="pulse"]')) setState({ stage: STAGES.ADMIN_PULSE });
   });
@@ -75,7 +83,8 @@ export const mount: Mount = async (root, { setState }) => {
   // the 1:1), so the pile's header no longer stacks above it.
   const openRun = async (runId: string) => {
     if (!runId) return;
-    root.innerHTML = recapShell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+    root.innerHTML = recapShell(`<section class="js-skel"></section>`);
+    root.querySelector(".js-skel")?.replaceChildren(createSkeleton(3));
     let run: { ctx: Run["ctx"]; briefing: Briefing | null };
     try {
       run = (await getAdminRun(runId)) as { ctx: Run["ctx"]; briefing: Briefing | null };
@@ -96,20 +105,32 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const renderList = () => {
-    const runsSection = `
-      <section class="l-stack l-stack--3">
-        <div class="eyebrow">Unclaimed (${runs.length})</div>
-        <div class="l-stack l-stack--2">${runs.map(runRow).join("")}</div>
-      </section>`;
-    root.innerHTML = shell(runsSection);
-    root.querySelectorAll<HTMLButtonElement>(".js-run-row").forEach((btn) => {
-      btn.addEventListener("click", () => { void openRun(btn.dataset.runId || ""); });
+    const toolbar = listToolbar({
+      search: { placeholder: "Search by name or role" },
+      count: { n: runs.length, noun: "run" },
     });
+    root.innerHTML = shell(`
+      <section class="l-stack l-stack--3">
+        ${toolbar}
+        <div class="um-table-wrap">
+          <table class="um-table">
+            <thead><tr><th>Who</th><th>Type</th><th>Last seen</th></tr></thead>
+            <tbody>${runs.map(runRow).join("")}</tbody>
+          </table>
+        </div>
+        <p class="text-ink-dim js-no-match" hidden>No runs match. Clear the search.</p>
+      </section>`);
+    wireListFilter(root, { one: "run", many: "runs" });
+    root.querySelectorAll<HTMLElement>(".js-open-run").forEach((el) =>
+      el.addEventListener("click", (e) => {
+        e.stopPropagation(); // the name button sits inside its clickable row
+        const id = el.dataset.id;
+        if (id) void openRun(id);
+      }));
   };
 
   const load = async () => {
-    root.innerHTML = shell(`<section class="js-skel"></section>`);
-    root.querySelector(".js-skel")?.replaceChildren(createSkeleton(4));
+    root.replaceChildren(createSkeleton(4));
     try {
       const res = (await getGuestRuns()) as { runs?: unknown };
       runs = Array.isArray(res?.runs) ? (res.runs as Run[]) : [];

@@ -21,7 +21,7 @@ export async function mount(root, deps) {
 
   if (!b) {
     root.innerHTML = `
-      <div class="stage-inner l-stack l-stack--6">
+      <div class="l-container l-stack l-stack--6">
         <h1 class="h1">Recap not available</h1>
         <div class="error-card">
           <div class="text-ink-dim">This 1:1 has no saved recap yet. You can try again or start a new 1:1.</div>

@@ -50,7 +50,7 @@ export async function mount(root, { store, setState }) {
   // the INTAKE screen has no topbar "This 1:1" menu yet (that's the topbar
   // builder's lane); once the menu covers Setup, this link goes too.
   root.innerHTML = `
-    <div class="stage-inner intake-shell l-stack l-stack--10">
+    <div class="l-container intake-shell l-stack l-stack--10">
       <header class="space-y-3">
         <div class="intake-header__row">
           <div class="space-y-1 min-w-0">

@@ -162,7 +162,7 @@ export const mount: Mount = async (root, { setState }) => {
   const toTeam = () => setState({ personKey: null, stage: STAGES.TEAM });
 
   const shell = (inner: string) => `
-    <div class="stage-inner l-stack l-stack--8">
+    <div class="l-container l-stack l-stack--8">
       <header class="page-header l-stack l-stack--3">
         <div class="js-crumbs">${breadcrumb([{ label: "Team", nav: "team" }, { label: "Person" }])}</div>
         ${identityHtml("")}

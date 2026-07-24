@@ -8,7 +8,7 @@ import { dirname, join } from "node:path";
 // import.meta.env), so this guard reads the source instead of importing —
 // same approach as runs.test.ts / briefing-structure.test.ts. It locks the
 // design-consolidation Phase 2 shape (audit items A1, A3, A4): one .auth-split
-// brand shell on every auth screen, quiet slot-tier field labels, the forgot
+// brand shell on every auth screen, standard sentence-case field labels, the forgot
 // link on the password row, show/hide password toggles, a Resend button on the
 // forgot confirmation, and one fixed photo instead of a random pick per visit.
 
@@ -56,10 +56,10 @@ test("register: privacy-agreement line sits directly beneath the submit button",
 
 // --- A3: quiet labels, forgot on the password row, one footer line -----------
 
-test("all four: field labels use the quiet slot tier, not blue caps", () => {
+test("all four: field labels use the standard sentence-case label, not caps eyebrows (audit A4)", () => {
   for (const [name, src] of Object.entries(ALL)) {
-    assert.ok(!src.includes('class="eyebrow"'), `${name}: no bare .eyebrow label`);
-    assert.ok(src.includes("eyebrow eyebrow--slot"), `${name}: slot tier in use`);
+    assert.ok(!src.includes("eyebrow"), `${name}: no small-caps eyebrow labels`);
+    assert.ok(src.includes('class="field__label"'), `${name}: standard field label in use`);
   }
 });
 

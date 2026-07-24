@@ -308,11 +308,6 @@ body.has-session-topbar #root,
 body.has-session-topbar .stage {
   min-height: calc(100dvh - var(--app-nav-h) - var(--session-topbar-h, 44px));
 }
-.stage-inner {
-  /* @deprecated → use .l-container */
-  width: 100%;
-  max-width: var(--measure);
-}
 .stage-wide {
   /* @deprecated → use .l-container--wide */
   width: 100%;
