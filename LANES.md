@@ -8,7 +8,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 0e03aa19 | Design consolidation P6 (admin sweep) | docs/plans/doing/design-consolidation/, STATUS.md, admin/src/stages/, admin/src/styles/, admin/src/ui/, backend/api/ (pulse only) | 2026-07-24 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
