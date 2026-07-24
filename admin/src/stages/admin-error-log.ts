@@ -1,19 +1,26 @@
 // Error log — the superadmin's cross-company view of every error users hit (error-log
 // Phase 2–4). Wired to GET /api/v1/admin/errors, gated by requireSuperadminRoute: only the
 // allowlisted superadmin (Carl) gets a 200; the nav item is hidden for everyone else, but
-// that hiding is cosmetic — the 403 is the real wall. Read-only list, newest first. Each row
-// is tagged Local (Carl's dev machine) or Live (the published Sero). Toggles filter by
-// environment (Local/Live) and source (API/Browser); a row opens an inline detail (stack +
-// context) with a Mark-resolved / Reopen action. Resolved rows hide unless "Show resolved".
+// that hiding is cosmetic — the 403 is the real wall.
+//
+// Design-consolidation Phase 6 (audit D11): occurrences group client-side into ISSUES by
+// (message + path + environment), so a repeating bug is one row with a count and a last-seen
+// time, not a flood. Tabs split Unresolved / Resolved / All (an issue is resolved when every
+// occurrence is); the toolbar searches message/path; resolve/reopen acts on the whole group.
+// The old per-row checkbox bulk-select went with the flood it existed to mop up.
 
 import "../styles/error-log.css";
 import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.js";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
+import { listToolbar } from "../ui/list-toolbar.ts";
+import { alertAction as alertJs } from "../ui/confirm.js";
 import { getErrorLog, resolveError } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+
+const alertAction = alertJs as unknown as (opts: { message: string; confirmLabel?: string }) => Promise<void>;
 
 type ErrorRow = {
   id: string;
@@ -32,6 +39,50 @@ type ErrorRow = {
   createdAt: string;
 };
 
+// One ISSUE = every occurrence of the same (message + path + environment). The rows arrive
+// newest-first, so rows[0] is the freshest occurrence and carries the detail we show.
+type Issue = {
+  key: string;
+  rows: ErrorRow[];
+  newest: ErrorRow;
+  count: number;
+  lastSeenMs: number;
+  firstSeenMs: number;
+  resolved: boolean;
+};
+
+function ms(iso: string): number {
+  const v = Date.parse(iso);
+  return Number.isFinite(v) ? v : 0;
+}
+function exactWhen(iso: string): string {
+  const v = Date.parse(iso);
+  return Number.isFinite(v) ? new Date(v).toLocaleString() : iso;
+}
+
+export function groupIssues(rows: ErrorRow[]): Issue[] {
+  const byKey = new Map<string, ErrorRow[]>();
+  for (const r of rows) {
+    const key = `${r.message}\n${r.path}\n${r.environment}`;
+    const list = byKey.get(key);
+    if (list) list.push(r); else byKey.set(key, [r]);
+  }
+  const issues: Issue[] = [];
+  for (const [key, list] of byKey) {
+    const times = list.map((r) => ms(r.createdAt));
+    issues.push({
+      key,
+      rows: list,
+      newest: list[0]!,
+      count: list.length,
+      lastSeenMs: Math.max(...times),
+      firstSeenMs: Math.min(...times),
+      resolved: list.every((r) => !!r.resolvedAt),
+    });
+  }
+  return issues.sort((a, b) => b.lastSeenMs - a.lastSeenMs);
+}
+
 function envPill(env: string): string {
   const live = env === "production";
   return `<span class="el-pill el-pill--${live ? "live" : "local"}">${live ? "Live" : "Local"}</span>`;
@@ -45,94 +96,70 @@ function statusPill(row: ErrorRow): string {
   if (row.status) return `<span class="el-pill el-pill--warn">${row.status}</span>`;
   return `<span class="el-pill el-pill--err">crash</span>`;
 }
-function whenText(iso: string): string {
-  const ms = Date.parse(iso);
-  return Number.isFinite(ms) ? relTime(ms) : "";
-}
-function exactWhen(iso: string): string {
-  const ms = Date.parse(iso);
-  return Number.isFinite(ms) ? new Date(ms).toLocaleString() : iso;
-}
-function who(row: ErrorRow): string {
-  const name = row.userName || row.email;
-  if (!name) return `<span class="el-anon">Signed out</span>`;
-  const sub = row.company ? `<div class="el-sub">${escapeHtml(row.company)}</div>` : "";
-  return `${escapeHtml(name)}${sub}`;
-}
-function where(row: ErrorRow): string {
-  const route = row.method ? `${row.method} ${row.path}` : row.path;
-  return `<div class="el-route">${escapeHtml(route)}</div><div class="el-src">${sourcePill(row.source)}</div>`;
-}
 
-// The inline detail shown when a row is opened: full context + the stack, plus the resolve
-// action. Rendered as a full-width row directly under its parent.
-function detailRow(row: ErrorRow): string {
+// The inline detail shown when an issue is opened: full context + the freshest stack, plus
+// the group-wide resolve/reopen action. Rendered as a full-width row under its parent.
+function detailRow(issue: Issue): string {
+  const row = issue.newest;
   const stack = row.details?.stack;
   const ua = row.details?.userAgent;
-  const resolved = !!row.resolvedAt;
   const meta = [
     `<span><b>Route:</b> <code>${escapeHtml(row.method ? `${row.method} ${row.path}` : row.path)}</code></span>`,
     row.status ? `<span><b>Status:</b> ${row.status}</span>` : "",
     row.errorCode ? `<span><b>Code:</b> ${escapeHtml(row.errorCode)}</span>` : "",
-    `<span><b>Who:</b> ${row.email ? escapeHtml(row.email) : "signed out"}${row.company ? ` · ${escapeHtml(row.company)}` : ""}</span>`,
-    `<span><b>When:</b> ${escapeHtml(exactWhen(row.createdAt))}</span>`,
-    resolved ? `<span><b>Resolved:</b> ${escapeHtml(exactWhen(row.resolvedAt as string))}</span>` : "",
+    `<span><b>Seen:</b> ${issue.count} ${issue.count === 1 ? "time" : "times"}</span>`,
+    `<span><b>First:</b> ${escapeHtml(exactWhen(new Date(issue.firstSeenMs).toISOString()))}</span>`,
+    `<span><b>Last:</b> ${escapeHtml(exactWhen(new Date(issue.lastSeenMs).toISOString()))}</span>`,
+    `<span><b>Latest hit:</b> ${row.userName || row.email ? escapeHtml(row.userName || row.email || "") : "signed out"}${row.company ? ` · ${escapeHtml(row.company)}` : ""}</span>`,
   ].filter(Boolean).join("");
-  return `<tr class="el-detail-row"><td colspan="7">
+  return `<tr class="el-detail-row"><td colspan="6">
     <div class="el-detail">
       <div class="el-detail__meta">${meta}</div>
       ${stack ? `<pre class="el-stack">${escapeHtml(stack)}</pre>` : `<div class="el-detail__msg">${escapeHtml(row.message)}</div>`}
       ${ua ? `<div class="el-ua"><b>Browser:</b> ${escapeHtml(ua)}</div>` : ""}
       <div class="el-detail__actions">
-        <button type="button" class="btn btn--ghost js-resolve" data-id="${escapeHtml(row.id)}" data-resolved="${resolved ? "1" : ""}">${resolved ? "Reopen" : "Mark resolved"}</button>
+        <button type="button" class="btn btn--ghost js-resolve" data-key="${escapeHtml(issue.key)}" data-resolved="${issue.resolved ? "1" : ""}">${issue.resolved ? "Reopen" : `Mark resolved${issue.count > 1 ? ` (${issue.count})` : ""}`}</button>
       </div>
     </div>
   </td></tr>`;
 }
 
-function errorRow(row: ErrorRow, open: boolean, selected: Set<string>): string {
-  const resolvedTag = row.resolvedAt ? ` <span class="el-pill el-pill--done">resolved</span>` : "";
-  const checked = selected.has(row.id) ? " checked" : "";
+function issueRow(issue: Issue, open: boolean): string {
+  const row = issue.newest;
+  const resolvedTag = issue.resolved ? ` <span class="el-pill el-pill--done">resolved</span>` : "";
   const main = `
-    <tr class="el-row js-row${row.resolvedAt ? " el-row--resolved" : ""}${open ? " is-open" : ""}" data-id="${escapeHtml(row.id)}">
-      <td class="el-check"><input type="checkbox" class="js-check"${checked} data-id="${escapeHtml(row.id)}" aria-label="Select this error"></td>
-      <td>${envPill(row.environment)}${resolvedTag}</td>
-      <td class="el-when">${escapeHtml(whenText(row.createdAt))}</td>
-      <td>${who(row)}</td>
-      <td>${where(row)}</td>
-      <td class="el-msg">${escapeHtml(row.message)}</td>
-      <td class="el-status">${statusPill(row)}</td>
+    <tr class="el-row js-row${issue.resolved ? " el-row--resolved" : ""}${open ? " is-open" : ""}"
+        data-key="${escapeHtml(issue.key)}"
+        data-search="${escapeHtml(`${row.message} ${row.path}`.toLowerCase())}">
+      <td class="el-msg"><div class="el-msg__text">${escapeHtml(row.message)}</div></td>
+      <td>${envPill(row.environment)}<div class="el-route">${escapeHtml(row.method ? `${row.method} ${row.path}` : row.path)}</div></td>
+      <td>${sourcePill(row.source)}</td>
+      <td><span class="chip chip--plain" title="${issue.count} ${issue.count === 1 ? "occurrence" : "occurrences"}">${issue.count}</span></td>
+      <td class="el-when">${escapeHtml(relTime(issue.lastSeenMs))}</td>
+      <td class="el-status">${statusPill(row)}${resolvedTag}</td>
     </tr>`;
-  return open ? main + detailRow(row) : main;
+  return open ? main + detailRow(issue) : main;
 }
 
-function table(rows: ErrorRow[], open: Set<string>, selected: Set<string>, allChecked: boolean): string {
+function table(issues: Issue[], open: Set<string>): string {
   return `
     <div class="um-table-wrap el-panel">
       <table class="um-table el-table">
         <thead>
           <tr>
-            <th class="el-check"><input type="checkbox" class="js-check-all"${allChecked ? " checked" : ""} aria-label="Select all shown"></th>
-            <th>Where</th><th>When</th><th>Who</th><th>Route / screen</th><th>What went wrong</th><th>Status</th>
+            <th>What went wrong</th><th>Where</th><th>Source</th><th>Times</th><th>Last seen</th><th>Status</th>
           </tr>
         </thead>
-        <tbody>${rows.map((r) => errorRow(r, open.has(r.id), selected)).join("")}</tbody>
+        <tbody>${issues.map((i) => issueRow(i, open.has(i.key))).join("")}</tbody>
       </table>
     </div>`;
 }
 
-// The bulk-action bar shown above the table once one or more rows are ticked: how many are
-// selected, a one-click Resolve, and a Clear. Resolve fires the per-row endpoint for each id.
-function bulkBar(count: number): string {
-  if (count < 1) return "";
-  return `<div class="el-bulkbar">
-      <span class="el-bulkbar__count">${count} selected</span>
-      <span class="el-bulkbar__spacer"></span>
-      <button type="button" class="btn btn--ghost btn--sm js-bulk-clear">Clear</button>
-      <button type="button" class="btn btn--cta btn--sm js-bulk-resolve">Mark ${count} resolved</button>
-    </div>`;
-}
-
+const TABS = [
+  { key: "unresolved", label: "Unresolved" },
+  { key: "resolved", label: "Resolved" },
+  { key: "all", label: "All" },
+] as const;
 const ENV_FILTERS = [
   { key: "all", label: "All" },
   { key: "local", label: "Local" },
@@ -159,7 +186,7 @@ export const mount: Mount = async (root, { setState }) => {
       <header class="page-header l-stack l-stack--2">
         ${pulseCrumbs('Error log')}
         <h1 class="h1">Error log</h1>
-        <div class="text-ink-dim">Everything that broke. Your local dev and the live Sero, newest first. Click a row for the full detail.</div>
+        <div class="text-ink-dim">Everything that broke, grouped into issues. Your local dev and the live Sero, freshest first. Click a row for the full detail.</div>
       </header>
       ${inner}
     </div>`;
@@ -176,111 +203,120 @@ export const mount: Mount = async (root, { setState }) => {
     </section>`;
 
   let allRows: ErrorRow[] = [];
+  let tab: string = "unresolved";
   let env = "all";
   let source = "all";
-  let showResolved = false;
+  let q = "";
   const open = new Set<string>();
-  const selected = new Set<string>(); // ids ticked for bulk resolve
-  let shownIds: string[] = []; // ids currently visible under the active filters (for select-all)
+
+  // Hidden-toggle search over the painted rows (typing never repaints the input away).
+  // Hiding an issue row also hides its open detail row, and the count stays honest.
+  const applySearch = () => {
+    let visible = 0;
+    root.querySelectorAll<HTMLTableRowElement>(".js-row").forEach((row) => {
+      const hit = !q || (row.dataset.search || "").includes(q);
+      row.hidden = !hit;
+      const next = row.nextElementSibling;
+      if (next instanceof HTMLTableRowElement && next.classList.contains("el-detail-row")) next.hidden = !hit;
+      if (hit) visible++;
+    });
+    const count = root.querySelector<HTMLElement>(".list-toolbar__count");
+    if (count) count.textContent = `${visible} ${visible === 1 ? "issue" : "issues"}`;
+    const noMatch = root.querySelector<HTMLElement>(".js-no-match");
+    if (noMatch) noMatch.hidden = visible > 0;
+  };
 
   const wire = () => {
     root.querySelectorAll<HTMLButtonElement>(".js-seg").forEach((b) =>
       b.addEventListener("click", () => {
         const val = b.dataset.val ?? "all";
-        if (b.dataset.group === "env") env = val; else source = val;
+        if (b.dataset.group === "tab") tab = val;
+        else if (b.dataset.group === "env") env = val;
+        else source = val;
         paint();
       }),
     );
-    root.querySelector(".js-resolved")?.addEventListener("click", () => { showResolved = !showResolved; paint(); });
     root.querySelectorAll<HTMLElement>(".js-row").forEach((r) =>
-      r.addEventListener("click", (e) => {
-        if (e.target instanceof Element && e.target.closest(".el-check")) return; // let the checkbox act alone
-        const id = r.dataset.id;
-        if (!id) return;
-        if (open.has(id)) open.delete(id); else open.add(id);
+      r.addEventListener("click", () => {
+        const key = r.dataset.key;
+        if (!key) return;
+        if (open.has(key)) open.delete(key); else open.add(key);
         paint();
       }),
     );
-    root.querySelectorAll<HTMLInputElement>(".js-check").forEach((cb) =>
-      cb.addEventListener("change", () => {
-        const id = cb.dataset.id ?? "";
-        if (cb.checked) selected.add(id); else selected.delete(id);
-        paint();
-      }),
-    );
-    root.querySelector<HTMLInputElement>(".js-check-all")?.addEventListener("change", (e) => {
-      const on = (e.target as HTMLInputElement).checked;
-      shownIds.forEach((id) => { if (on) selected.add(id); else selected.delete(id); });
-      paint();
-    });
-    root.querySelector(".js-bulk-clear")?.addEventListener("click", () => { selected.clear(); paint(); });
-    root.querySelector(".js-bulk-resolve")?.addEventListener("click", () => {
-      const ids = [...selected];
-      if (!ids.length) return;
-      void (async () => {
-        const results = await Promise.allSettled(ids.map((id) => resolveError(id, true)));
-        let failed = 0;
-        results.forEach((res, i) => {
-          if (res.status === "fulfilled") {
-            const r = allRows.find((x) => x.id === ids[i]);
-            if (r) r.resolvedAt = new Date().toISOString();
-            selected.delete(ids[i]!);
-          } else {
-            failed += 1;
-          }
-        });
-        if (failed) window.alert(`Couldn't resolve ${failed} of ${ids.length}. Those stay selected.`);
-        paint();
-      })();
-    });
+    // Resolve / reopen the WHOLE issue: the action fires the per-row endpoint for each of
+    // the group's occurrences (resolve touches only the still-open ones).
     root.querySelectorAll<HTMLButtonElement>(".js-resolve").forEach((b) =>
       b.addEventListener("click", (e) => {
         e.stopPropagation();
-        const id = b.dataset.id ?? "";
-        const currently = b.dataset.resolved === "1";
+        const key = b.dataset.key ?? "";
+        const reopening = b.dataset.resolved === "1";
+        const issue = groupIssues(allRows).find((i) => i.key === key);
+        if (!issue) return;
+        const targets = reopening ? issue.rows.filter((r) => r.resolvedAt) : issue.rows.filter((r) => !r.resolvedAt);
         void (async () => {
-          try {
-            await resolveError(id, !currently);
-            const r = allRows.find((x) => x.id === id);
-            if (r) r.resolvedAt = currently ? null : new Date().toISOString();
-            paint();
-          } catch (err) {
-            window.alert((err as { message?: string })?.message || "Couldn't update that error.");
-          }
+          const results = await Promise.allSettled(targets.map((r) => resolveError(r.id, !reopening)));
+          let failed = 0;
+          results.forEach((res, i) => {
+            if (res.status === "fulfilled") {
+              const target = targets[i];
+              if (target) target.resolvedAt = reopening ? null : new Date().toISOString();
+            } else {
+              failed += 1;
+            }
+          });
+          paint();
+          if (failed) await alertAction({ message: `Couldn't update ${failed} of ${targets.length} occurrences. The rest went through.` });
         })();
       }),
     );
+    root.querySelector<HTMLInputElement>(".js-lt-search")?.addEventListener("input", (e) => {
+      q = (e.target as HTMLInputElement).value.trim().toLowerCase();
+      applySearch();
+    });
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
   };
 
   const paint = () => {
-    const envCounts = {
-      all: allRows.length,
-      local: allRows.filter((r) => r.environment === "local").length,
-      production: allRows.filter((r) => r.environment === "production").length,
-    };
-    const shown = allRows.filter(
-      (r) =>
-        (env === "all" || r.environment === env) &&
-        (source === "all" || r.source === source) &&
-        (showResolved || !r.resolvedAt),
+    const issues = groupIssues(allRows);
+    const afterEnvSrc = issues.filter(
+      (i) =>
+        (env === "all" || i.newest.environment === env) &&
+        (source === "all" || i.rows.some((r) => r.source === source)),
     );
-    shownIds = shown.map((r) => r.id);
-    const allChecked = shownIds.length > 0 && shownIds.every((id) => selected.has(id));
+    const tabCounts = {
+      unresolved: afterEnvSrc.filter((i) => !i.resolved).length,
+      resolved: afterEnvSrc.filter((i) => i.resolved).length,
+      all: afterEnvSrc.length,
+    };
+    const envCounts = {
+      all: issues.length,
+      local: issues.filter((i) => i.newest.environment === "local").length,
+      production: issues.filter((i) => i.newest.environment === "production").length,
+    };
+    const shown = afterEnvSrc.filter(
+      (i) => tab === "all" || (tab === "resolved" ? i.resolved : !i.resolved),
+    );
+    const toolbar = listToolbar({
+      search: { placeholder: "Search message or path" },
+      count: { n: shown.length, noun: "issue" },
+    });
     const controls = `
       <div class="el-controls">
+        ${segbar("tab", tab, TABS, tabCounts)}
         <div class="el-control"><span class="el-control__label">Where</span>${segbar("env", env, ENV_FILTERS, envCounts)}</div>
         <div class="el-control"><span class="el-control__label">Source</span>${segbar("src", source, SRC_FILTERS, null)}</div>
-        <button type="button" class="el-filter el-resolved-toggle js-resolved${showResolved ? " is-active" : ""}" aria-pressed="${showResolved ? "true" : "false"}">Show resolved</button>
       </div>`;
     const body = shown.length
-      ? table(shown, open, selected, allChecked)
-      : `<section class="card-flat"><p class="text-ink-dim">No errors match this view.</p></section>`;
-    root.innerHTML = shell(`${controls}${bulkBar(selected.size)}${body}`);
+      ? table(shown, open)
+      : `<section class="card-flat"><p class="text-ink-dim">No issues match this view.</p></section>`;
+    const noMatch = shown.length
+      ? `<p class="text-ink-dim js-no-match" hidden>No issues match that search.</p>`
+      : "";
+    root.innerHTML = shell(`${toolbar}${controls}${body}${noMatch}`);
     wire();
-    // Partial selection → the header checkbox shows the dash (indeterminate) rather than a tick.
-    const checkAll = root.querySelector<HTMLInputElement>(".js-check-all");
-    if (checkAll) checkAll.indeterminate = !allChecked && shownIds.some((id) => selected.has(id));
+    const search = root.querySelector<HTMLInputElement>(".js-lt-search");
+    if (search && q) { search.value = q; applySearch(); }
   };
 
   const load = async () => {
@@ -299,9 +335,10 @@ export const mount: Mount = async (root, { setState }) => {
       );
       return;
     }
+    tab = "unresolved";
     env = "all";
     source = "all";
-    showResolved = false;
+    q = "";
     open.clear();
     paint();
   };

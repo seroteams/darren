@@ -103,13 +103,30 @@ function overallRow(overall) {
 
 let cleanup = null;
 
+// Where the reviewer came from. reviewRunId gets set from four places (verified
+// 2026-07-24): library.js (Library), personas.js (Test engine, twice: See result +
+// Review it), start-core.js's internal-Home review shortcut, and the /run/:id deep
+// link in router.js/main.js. The senders that aren't Library tag `reviewFrom` with
+// their own { label, nav, stage }; Home and deep links don't, and fall back to
+// Library — the one list every finished run is guaranteed to live in. The label
+// travels IN the flag (not a lookup table here) because this stage also ships in
+// the customer bundle, whose fence bans internal-tool labels as literals
+// (scripts/test-customer-serving.js).
+const DEFAULT_ORIGIN = { label: "Library", nav: "library", stage: STAGES.LIBRARY };
+
 export async function mount(root, { setState }) {
   const id = store.reviewRunId;
+  const from = store.reviewFrom;
+  const origin = from && from.label && from.nav && from.stage ? from : DEFAULT_ORIGIN;
+  // Consume the flag. reviewFrom is not in state.js's `initial` (resetSession never
+  // clears it), so it must not outlive the visit that set it — direct write, no
+  // setState, or the notify would re-enter the render loop mid-mount.
+  store.reviewFrom = null;
 
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
       <header class="page-header l-stack l-stack--2">
-        ${breadcrumb([{ label: "Library", nav: "library" }, { label: "Run review" }])}
+        ${breadcrumb([{ label: origin.label, nav: origin.nav }, { label: "Run review" }])}
         <div class="page-header__row">
           <h1 class="h1 js-title">Run review</h1>
           <div class="page-header__actions">
@@ -123,8 +140,8 @@ export async function mount(root, { setState }) {
     </div>
   `;
 
-  const back = () => setState({ stage: STAGES.LIBRARY });
-  const backBtn = root.querySelector('.js-crumb[data-nav="library"]');
+  const back = () => setState({ stage: origin.stage });
+  const backBtn = root.querySelector(`.js-crumb[data-nav="${origin.nav}"]`);
   backBtn.addEventListener("click", back);
 
   // Lifecycle: `alive` is flipped false on unmount so any in-flight save/timer
@@ -195,6 +212,7 @@ export async function mount(root, { setState }) {
             ${overallRow(overall)}
           </div>
           <textarea class="rv-note input" placeholder="Notes on this run (optional)…">${esc(note)}</textarea>
+          <div class="rv-keys">Keys: ↑ ↓ pick a row · P pass · F fail · N note · C copy · Esc back</div>
         </div>
       </aside>
     </div>

@@ -7,7 +7,8 @@
 import { getArcs, saveArc, resetArc } from "../../../shared/api.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
-import { X, ChevronRight } from "lucide";
+import { confirmAction } from "../ui/confirm.js";
+import { X, ChevronRight, ArrowUp, ArrowDown } from "lucide";
 
 const STYLE = `
 <style>
@@ -44,14 +45,6 @@ const STYLE = `
 
   /* --- actions + edit mode --- */
   .arc-actions { display:flex; gap:8px; padding:0 16px 16px 40px; }
-  .arc-btn { font-size:var(--type-body); font-weight:600; padding:6px 14px; border-radius:8px; cursor:pointer;
-    border:1px solid var(--color-border-strong); background:var(--color-surface); color:var(--color-ink); }
-  .arc-btn:hover { background:var(--sero-soft-200); }
-  .arc-btn--primary { background:var(--color-ink); color:var(--color-surface); border-color:var(--color-ink); }
-  .arc-btn--primary:hover { opacity:.9; background:var(--color-ink); }
-  .arc-btn--danger { color:var(--color-negative-text); }
-  .arc-btn--mini { font-size:var(--type-body-sm); padding:4px 9px; }
-  .arc-btn[disabled] { opacity:.4; cursor:not-allowed; }
 
   .arc-edit { padding:8px 16px 18px; border-top:1px solid var(--color-border); }
   .arc-edit__row { display:flex; gap:10px; align-items:flex-start; padding:12px 0;
@@ -66,10 +59,10 @@ const STYLE = `
   .arc-field--grow { flex:1; min-width:100%; }
   .arc-field > span { font-size:var(--type-label); font-weight:600; letter-spacing:.03em; text-transform:uppercase;
     color:var(--color-ink-dim); }
-  .arc-input, .arc-textarea { font:inherit; color:var(--color-ink); background:var(--color-surface);
-    border:1px solid var(--color-border-strong); border-radius:7px; padding:7px 9px; width:100%; }
-  .arc-input:focus, .arc-textarea:focus { outline:2px solid var(--color-ink); outline-offset:-1px; }
-  .arc-textarea { resize:vertical; min-height:46px; line-height:1.5; }
+  /* Shared primitives, sized down for the dense editor rows (same move as
+     .js-runlabel-wrap .input in buttons-inputs.css). */
+  .arc-edit .input { font-size:var(--type-body); padding:0.4rem 0; }
+  .arc-edit .textarea { min-height:3rem; line-height:1.5; }
   .arc-edit__foot { display:flex; align-items:center; gap:10px; margin-top:16px; flex-wrap:wrap; }
   .arc-edit__msg { font-size:var(--type-body); }
   .arc-edit__msg--err { color:var(--color-negative-text); }
@@ -110,7 +103,7 @@ export async function mount(root) {
           The phases each 1:1 moves through, with the tone they're asked in and the patterns to avoid. Open any meeting to see its shape, or hit Edit to change it. Edits are saved separately from the code. "Reset to default" undoes them.
         </div>
         <div class="arc-update">
-          <button type="button" class="arc-btn arc-btn--primary" id="arc-update-btn">Update</button>
+          <button type="button" class="btn btn--ghost" id="arc-update-btn">Update</button>
           <span class="arc-update__msg" id="arc-update-msg" role="status" aria-live="polite"></span>
           <span class="arc-update__time" id="arc-update-time"></span>
         </div>
@@ -291,7 +284,12 @@ async function handleAction(act, slug, card, btn) {
       syncDraft(card);
       return doSave(card, false);
     case "reset": {
-      if (!window.confirm(`Reset "${getArcBySlug(slug).label}" to its default arc? Your edits will be discarded.`)) return;
+      const ok = await confirmAction({
+        message: `Reset "${getArcBySlug(slug).label}" to its default arc? Your edits will be discarded.`,
+        confirmLabel: "Reset",
+        destructive: true,
+      });
+      if (!ok) return;
       try {
         await resetArc(slug);
       } catch (err) {
@@ -321,7 +319,9 @@ async function doSave(card, confirm) {
   }
 
   if (res.needsConfirm) {
-    if (window.confirm(res.warning)) return doSave(card, true);
+    if (await confirmAction({ message: res.warning, confirmLabel: "Save anyway" })) {
+      return doSave(card, true);
+    }
     return setMsg(card, "", false); // cancelled — leave edits in place
   }
 
@@ -399,11 +399,11 @@ function cardHtml(a) {
 
 function actionsHtml(a) {
   const reset = a.edited
-    ? `<button type="button" class="arc-btn arc-btn--danger" data-act="reset">Reset to default</button>`
+    ? `<button type="button" class="btn btn--danger" data-act="reset">Reset to default</button>`
     : "";
   return `
     <div class="arc-actions">
-      <button type="button" class="arc-btn arc-btn--primary" data-act="edit">Edit</button>
+      <button type="button" class="btn btn--ghost" data-act="edit">Edit</button>
       ${reset}
     </div>`;
 }
@@ -448,22 +448,22 @@ function editHtml() {
       (p, i) => `
       <div class="arc-edit__row">
         <div class="arc-edit__move">
-          <button type="button" class="arc-btn arc-btn--mini" data-act="up" data-i="${i}" ${i === 0 ? "disabled" : ""} aria-label="Move up">↑</button>
-          <button type="button" class="arc-btn arc-btn--mini" data-act="down" data-i="${i}" ${i === last ? "disabled" : ""} aria-label="Move down">↓</button>
+          <button type="button" class="btn btn--ghost btn--sm" data-act="up" data-i="${i}" ${i === 0 ? "disabled" : ""} aria-label="Move up">${icon(ArrowUp, { size: 16 })}</button>
+          <button type="button" class="btn btn--ghost btn--sm" data-act="down" data-i="${i}" ${i === last ? "disabled" : ""} aria-label="Move down">${icon(ArrowDown, { size: 16 })}</button>
         </div>
         <div class="arc-edit__fields">
           <div class="arc-edit__line">
             <label class="arc-field arc-field--id"><span>Phase id</span>
-              <input class="arc-input" data-f="id" value="${esc(p.id)}" placeholder="lower_snake"></label>
+              <input class="input" data-f="id" value="${esc(p.id)}" placeholder="lower_snake"></label>
             <label class="arc-field arc-field--label"><span>Label</span>
-              <input class="arc-input" data-f="label" value="${esc(p.label || "")}" placeholder="Pulse"></label>
+              <input class="input" data-f="label" value="${esc(p.label || "")}" placeholder="Pulse"></label>
             <label class="arc-field arc-field--q"><span>Questions</span>
-              <input class="arc-input" data-f="q" type="number" min="0" step="1" value="${Number(p.target_questions) || 0}"></label>
+              <input class="input" data-f="q" type="number" min="0" step="1" value="${Number(p.target_questions) || 0}"></label>
           </div>
           <label class="arc-field arc-field--grow"><span>Intent</span>
-            <textarea class="arc-textarea" data-f="intent" rows="2" placeholder="What this phase is for…">${esc(p.intent || "")}</textarea></label>
+            <textarea class="textarea" data-f="intent" rows="2" placeholder="What this phase is for…">${esc(p.intent || "")}</textarea></label>
         </div>
-        <button type="button" class="arc-btn arc-btn--mini arc-btn--danger" data-act="del-phase" data-i="${i}" aria-label="Remove phase">${icon(X, { size: 16 })}</button>
+        <button type="button" class="btn btn--ghost btn--sm" data-act="del-phase" data-i="${i}" aria-label="Remove phase">${icon(X, { size: 16 })}</button>
       </div>`
     )
     .join("");
@@ -473,21 +473,21 @@ function editHtml() {
       <div class="arc-sec">Phases</div>
       ${rows}
       <div style="margin-top:12px;">
-        <button type="button" class="arc-btn" data-act="add-phase">+ Add phase</button>
+        <button type="button" class="btn btn--ghost" data-act="add-phase">+ Add phase</button>
       </div>
 
       <div class="arc-sec">Tone</div>
-      <textarea class="arc-textarea" data-f="tone" rows="2" placeholder="The register this 1:1 is asked in…">${esc(draft.tone_register || "")}</textarea>
+      <textarea class="textarea" data-f="tone" rows="2" placeholder="The register this 1:1 is asked in…">${esc(draft.tone_register || "")}</textarea>
 
       <div class="arc-sec">Anti-patterns <span style="text-transform:none; font-weight:400;">. One per line</span></div>
-      <textarea class="arc-textarea" data-f="anti" rows="4" placeholder="One thing to avoid per line…">${esc((draft.anti_patterns || []).join("\n"))}</textarea>
+      <textarea class="textarea" data-f="anti" rows="4" placeholder="One thing to avoid per line…">${esc((draft.anti_patterns || []).join("\n"))}</textarea>
 
       <div class="arc-edit__foot">
-        <button type="button" class="arc-btn arc-btn--primary" data-act="save">Save</button>
-        <button type="button" class="arc-btn" data-act="cancel">Cancel</button>
+        <button type="button" class="btn" data-act="save">Save</button>
+        <button type="button" class="btn btn--ghost" data-act="cancel">Cancel</button>
         <span class="arc-edit__msg" role="status" aria-live="polite"></span>
         <span class="arc-edit__spacer"></span>
-        <button type="button" class="arc-btn arc-btn--danger" data-act="reset">Reset to default</button>
+        <button type="button" class="btn btn--danger" data-act="reset">Reset to default</button>
       </div>
     </div>`;
 }

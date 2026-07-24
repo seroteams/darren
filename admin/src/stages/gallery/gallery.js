@@ -10,7 +10,7 @@
 // The list is read from ../../stage-loaders.js (the same registry main.js boots from), so a
 // newly-added screen appears here automatically. Labels/grouping come from ./screens.js.
 
-import { ChevronDown } from "lucide";
+import { ChevronDown, Zap } from "lucide";
 import { loaders } from "../../stage-loaders.js";
 import { withBase, replaceUrl } from "../../router.js";
 import { icon } from "../../ui/icon.js";
@@ -84,14 +84,13 @@ const STYLE = `
     box-shadow:var(--shadow-lift); z-index:var(--sero-z-toast, 80); }
   .gal-editbar__inner { display:flex; align-items:center; gap:var(--sero-space-3);
     height:100%; padding:0 var(--sero-space-5); }
-  .gal__spark { font-size:16px; line-height:1; cursor:default; }
+  .gal__spark { display:inline-flex; align-items:center; color:var(--sero-gold-900); cursor:default; }
 
   .gal__dropdown { position:relative; }
-  .gal__screens-btn { display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:15px;
-    font-weight:600; color:var(--sero-gold-900); background:var(--sero-gold-200);
-    border:1px solid var(--sero-gold-400); border-radius:var(--radius-button); padding:8px 14px; cursor:pointer; }
+  /* Shared .btn shape; only the edit-bar's gold tint is local (DESIGN.md exemption). */
+  .gal__screens-btn { font-weight:600; color:var(--sero-gold-900); background:var(--sero-gold-200);
+    border-color:var(--sero-gold-400); }
   .gal__screens-btn:hover { background:var(--sero-gold-300); }
-  .gal__screens-btn:focus-visible { outline:none; box-shadow:var(--shadow-focus); }
   .gal__caret { transition:transform .18s ease; display:inline-flex; align-items:center; }
   .gal__dropdown.is-open .gal__caret { transform:rotate(180deg); }
   .gal__menu { position:absolute; top:calc(100% + 8px); left:0; width:360px; max-height:78vh;
@@ -156,9 +155,9 @@ export async function mount(node, deps) {
   editBar.innerHTML = `
     <style>${STYLE}</style>
     <div class="gal-editbar__inner">
-      <span class="gal__spark" title="Preview of real screens. Buttons are live against your local test data. This page is hidden and never shows on the live site.">⚡</span>
+      <span class="gal__spark" title="Preview of real screens. Buttons are live against your local test data. This page is hidden and never shows on the live site.">${icon(Zap, { size: 16 })}</span>
       <div class="gal__dropdown js-dropdown">
-        <button type="button" class="gal__screens-btn js-screens" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn gal__screens-btn js-screens" aria-haspopup="true" aria-expanded="false">
           Screens <span class="gal__caret" aria-hidden="true">${icon(ChevronDown, { size: 16 })}</span>
         </button>
         <div class="gal__menu" role="menu">

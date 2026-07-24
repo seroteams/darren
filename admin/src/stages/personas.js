@@ -2,6 +2,10 @@
 // RUN one: it drives the full engine end-to-end with that persona's scripted
 // answers, then routes to the review screen so you can mark it. The same persona
 // set powers the homepage demo dropdown and the Regression safety suite.
+//
+// Design-consolidation P6 (D2): the bench is a um-table of runnable rows; picking
+// a row opens the right-hand panel with the scripted conversation, last result
+// and the live run progress — no more inline dumps on the cards.
 
 import { STAGES, setState } from "../state.js";
 import {
@@ -16,6 +20,7 @@ import { escapeHtml as esc } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { Play, X, Check, Sparkles } from "lucide";
+import "../styles/design/persona-bench.css";
 
 const COST_LINE =
   "Runs the full engine with this persona's scripted answers. Costs about $0.35 in AI and takes 1–2 minutes.";
@@ -49,7 +54,7 @@ export async function mount(root, opts = {}) {
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
       <header class="page-header">
-        <div class="eyebrow">Team</div>
+        <div class="eyebrow">Build</div>
         <h1 class="h1">Test engine</h1>
         <div class="text-ink-dim max-w-measure">
           The demo people Sero practises on. Press <strong>Run</strong> on anyone to put the whole engine through its paces with their scripted answers, then review the result.
@@ -57,7 +62,7 @@ export async function mount(root, opts = {}) {
       </header>
       <div class="safety-strip-host"></div>
       <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading personas…</div>
-      <div class="result-host l-stack l-stack--3"></div>
+      <div class="result-host"></div>
     </div>
   `;
 
@@ -83,28 +88,159 @@ export async function mount(root, opts = {}) {
     suiteIds = new Set((reg.cases || []).map((c) => c.id));
   } catch { /* badge is best-effort */ }
 
-  // Finished runs per persona (newest first), for the history line + verdict badge
+  // Finished runs per persona (newest first), for the last-run cell + verdict badge
   // + "compare with previous". Optional.
   let runsByPersona = new Map();
   try {
     runsByPersona = await loadRunsByPersona();
-  } catch { /* history line is best-effort */ }
+  } catch { /* last-run cell is best-effort */ }
 
   thinkingHost.remove();
   if (!personas.length) {
     resultHost.innerHTML = `<p class="text-ink-mute">No personas defined.</p>`;
     return;
   }
-  resultHost.innerHTML = personas
-    .map((p) => cardHtml(p, suiteIds.has(p.id), runsByPersona.get(p.id) || []))
-    .join("");
 
-  wireCards(resultHost);
+  let selectedId = null;
+  let lastJob = null; // newest job state seen by the poller, repainted on re-select
+
+  resultHost.innerHTML = `
+    <div class="bench">
+      <div class="um-table-wrap">
+        <table class="um-table">
+          <thead>
+            <tr><th>Persona</th><th>Scenario</th><th>Last run</th><th class="um-actions-th"><span class="sr-only">Run</span></th></tr>
+          </thead>
+          <tbody>
+            ${personas.map((p) => rowHtml(p, suiteIds.has(p.id), runsByPersona.get(p.id) || [])).join("")}
+          </tbody>
+        </table>
+      </div>
+      <aside class="bench__panel js-panel"></aside>
+    </div>`;
+
+  const panel = resultHost.querySelector(".js-panel");
+
+  function personaById(id) {
+    return personas.find((p) => p.id === id) || null;
+  }
+
+  function renderPanel() {
+    const p = personaById(selectedId);
+    if (!p) {
+      panel.innerHTML = `
+        <div class="card-flat l-stack l-stack--2">
+          <div class="eyebrow">Persona</div>
+          <p class="text-ink-dim text-sm">Pick a persona to see their scripted conversation and last result.</p>
+        </div>`;
+      return;
+    }
+    panel.innerHTML = panelHtml(p, runsByPersona.get(p.id) || []);
+    wirePanel();
+    // A live (or just-finished) run for this persona repaints its progress bar.
+    if (lastJob && lastJob.personaId === p.id) paintProgress(lastJob);
+  }
+
+  function select(id) {
+    selectedId = id;
+    resultHost.querySelectorAll(".js-row").forEach((tr) =>
+      tr.classList.toggle("is-selected", tr.dataset.persona === id));
+    renderPanel();
+  }
+
+  // The review screen's breadcrumb points back here instead of Library when the
+  // origin flag rides along (review-run.js consumes and clears it).
+  const REVIEW_ORIGIN = { label: "Test engine", nav: "personas", stage: STAGES.PERSONAS };
+
+  function wirePanel() {
+    panel.querySelector(".js-see-result")?.addEventListener("click", (e) =>
+      setState({ stage: STAGES.REVIEW_RUN, reviewRunId: e.currentTarget.dataset.run, reviewFrom: REVIEW_ORIGIN }));
+    panel.querySelector(".js-compare")?.addEventListener("click", (e) =>
+      setState({ stage: STAGES.COMPARE, compareA: e.currentTarget.dataset.a, compareB: e.currentTarget.dataset.b }));
+  }
+
+  resultHost.querySelector("tbody").addEventListener("click", (e) => {
+    const runBtn = e.target.closest(".js-run");
+    if (runBtn) {
+      e.stopPropagation();
+      select(runBtn.dataset.persona);
+      onRun(runBtn.dataset.persona);
+      return;
+    }
+    const row = e.target.closest(".js-row");
+    if (row) select(row.dataset.persona);
+  });
+
+  renderPanel();
+
+  async function onRun(personaId) {
+    setRunningLock(true);
+    paintProgress({ status: "running", stageLabel: "Starting session", personaId });
+    try {
+      await startPersonaRun(personaId);
+    } catch (e) {
+      const progress = panel.querySelector(".js-progress");
+      if (progress) {
+        progress.hidden = false;
+        progress.innerHTML = `<span class="bench-status--bad text-sm">Couldn't start: ${esc(e.message)}</span>`;
+      }
+      setRunningLock(false);
+      return;
+    }
+    startPolling();
+  }
+
+  // Every 2s: read the single active job and paint it onto the panel.
+  function startPolling() {
+    const tick = async () => {
+      let job;
+      try {
+        job = await getPersonaRunCurrent();
+      } catch {
+        pollTimer = setTimeout(tick, 2000);
+        return;
+      }
+      paintJob(job);
+      if (job.status === "running") {
+        pollTimer = setTimeout(tick, 2000);
+      } else {
+        pollTimer = null;
+        setRunningLock(false);
+      }
+    };
+    tick();
+  }
+
+  function paintJob(job) {
+    lastJob = job;
+    // Reopened mid-run with nothing picked yet: surface the running persona.
+    if (!selectedId && job.personaId) { select(job.personaId); return; }
+    if (job.personaId === selectedId) paintProgress(job);
+  }
+
+  function paintProgress(job) {
+    const progress = panel.querySelector(".js-progress");
+    if (!progress) return;
+    progress.hidden = false;
+    progress.innerHTML = runBarHtml(job);
+    // The "Review it" button (done state) needs a live listener after innerHTML.
+    progress.querySelector(".js-review-it")?.addEventListener("click", () =>
+      setState({ stage: STAGES.REVIEW_RUN, reviewRunId: job.sessionId, reviewFrom: REVIEW_ORIGIN }));
+  }
+
+  // One run at a time: while a job is live, every Run button is disabled so a second
+  // start can't be fired (the server also refuses it, this is just the honest UI).
+  function setRunningLock(locked) {
+    resultHost.querySelectorAll(".js-run").forEach((btn) => { btn.disabled = locked; });
+  }
 
   // If a run is already going (e.g. the page was reopened mid-run), pick it up.
   try {
     const job = await getPersonaRunCurrent();
-    if (job && job.status === "running") startPolling(resultHost);
+    if (job && job.status === "running") {
+      setRunningLock(true);
+      startPolling();
+    }
   } catch { /* nothing running / not reachable */ }
 }
 
@@ -125,67 +261,90 @@ async function loadRunsByPersona() {
   return byPersona;
 }
 
-function cardHtml(p, inSuite, runs) {
+function rowHtml(p, inSuite, runs) {
   const title = esc(p.displayName || p.name || p.id);
   const sub = [p.role, p.seniority].filter(Boolean).map(esc).join(" · ");
   const meta = [p.meeting_type, p.issue].filter(Boolean).map(esc).join(" · ");
-  const badge = inSuite
-    ? `<span style="font-size:var(--type-small);color:var(--color-positive);background:var(--sero-success-light);border-radius:999px;padding:1px 9px;margin-left:8px;white-space:nowrap;">in regression suite</span>`
-    : "";
-  const script = Array.isArray(p.script) ? p.script : [];
-  const scriptHtml = script.length
-    ? `<details style="margin-top:8px;">
-         <summary style="cursor:pointer;font-size:var(--type-small);color:var(--color-ink-mute);">View the scripted conversation (${script.length} turns)</summary>
-         <div class="l-stack l-stack--2" style="margin-top:8px;">
-           ${script
-             .map(
-               (s) =>
-                 `<div style="font-size:var(--type-small);"><div style="color:var(--color-ink-mute);">${esc(s.name || s.alias || "")}</div><div>${esc(s.answer || "")}</div></div>`
-             )
-             .join("")}
-         </div>
-       </details>`
-    : "";
-
-  const canRun = script.length > 0;
-  const runControls = canRun
-    ? `<button class="btn js-run" data-persona="${esc(p.id)}" style="white-space:nowrap;">${icon(Play, { size: 16 })} Run</button>`
-    : `<span class="text-ink-mute" style="font-size:var(--type-small);">No script. Can't run</span>`;
-
+  const suite = inSuite ? ` <span class="chip chip--mint bench-suite">in suite</span>` : "";
+  const canRun = Array.isArray(p.script) && p.script.length > 0;
+  const runCell = canRun
+    ? `<button type="button" class="btn btn--sm js-run" data-persona="${esc(p.id)}">${icon(Play, { size: 16 })} Run</button>`
+    : `<span class="text-ink-mute text-sm">No script</span>`;
   return `
-    <div class="card js-card" data-persona="${esc(p.id)}" style="padding:0.85rem 1.1rem;">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-        <div style="font-weight:500;">${title}${badge}</div>
-        <div style="font-size:var(--type-small);color:var(--color-ink-mute);">${sub}</div>
-      </div>
-      <div style="font-size:var(--type-small);color:var(--color-ink-dim);margin-top:2px;">${meta}</div>
-      ${historyHtml(runs)}
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;">
-        ${runControls}
-        <span class="js-cost text-ink-mute" style="font-size:var(--type-small);">${canRun ? COST_LINE : ""}</span>
-      </div>
-      <div class="js-progress" style="font-size:var(--type-small);color:var(--color-ink-dim);margin-top:8px;display:none;"></div>
-      ${scriptHtml}
-    </div>`;
+    <tr class="um-row bench-row js-row" data-persona="${esc(p.id)}">
+      <td>
+        <button type="button" class="um-user__open">${title}</button>${suite}
+        ${sub ? `<div class="text-ink-dim text-sm">${sub}</div>` : ""}
+      </td>
+      <td class="text-ink-dim">${meta || "–"}</td>
+      <td>${lastRunCell(runs)}</td>
+      <td class="um-actions">${runCell}</td>
+    </tr>`;
 }
 
-// The last-run line: date + verdict badge + a link into the review screen, and —
-// when the persona has 2+ runs — a link into Compare, pre-loaded with the two
-// newest side by side.
-function historyHtml(runs) {
-  if (!runs || !runs.length) return "";
-  const lastRun = runs[0];
-  const badge = libraryBadge(lastRun.reviewStatus, lastRun.overall);
-  const compareBtn =
-    runs.length >= 2
-      ? `<button class="btn btn--ghost btn--sm js-compare" data-a="${esc(runs[0].id)}" data-b="${esc(runs[1].id)}">Compare with previous run</button>`
+function lastRunCell(runs) {
+  if (!runs || !runs.length) return `<span class="text-ink-mute">–</span>`;
+  const last = runs[0];
+  const badge = libraryBadge(last.reviewStatus, last.overall);
+  return `<span class="bench-last"><span class="text-ink-dim text-sm">${esc(fmtDate(last.lastSeenAt))}</span> <span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}</span></span>`;
+}
+
+function panelHtml(p, runs) {
+  const sub = [p.role, p.seniority].filter(Boolean).map(esc).join(" · ");
+  const meta = [p.meeting_type, p.issue].filter(Boolean).map(esc).join(" · ");
+  const script = Array.isArray(p.script) ? p.script : [];
+  const canRun = script.length > 0;
+
+  const costLine = canRun
+    ? `<p class="text-ink-mute text-sm">${COST_LINE}</p>`
+    : `<p class="text-ink-mute text-sm">No script. Can't run</p>`;
+
+  let history = "";
+  if (runs.length) {
+    const last = runs[0];
+    const badge = libraryBadge(last.reviewStatus, last.overall);
+    const compareBtn = runs.length >= 2
+      ? `<button type="button" class="btn btn--ghost btn--sm js-compare" data-a="${esc(runs[0].id)}" data-b="${esc(runs[1].id)}">Compare with previous run</button>`
       : "";
+    history = `
+      <div class="l-stack l-stack--2">
+        <div class="eyebrow">Last run</div>
+        <div class="bench-hist">
+          <span class="text-ink-mute text-sm">${esc(fmtDate(last.lastSeenAt))}</span>
+          <span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}</span>
+        </div>
+        <div class="bench-hist__actions">
+          <button type="button" class="btn btn--ghost btn--sm js-see-result" data-run="${esc(last.id)}">See result</button>
+          ${compareBtn}
+        </div>
+      </div>`;
+  }
+
+  const transcript = script.length
+    ? `<div class="l-stack l-stack--2">
+        <div class="eyebrow">Scripted conversation · ${script.length} turns</div>
+        <div class="bench-script">
+          ${script.map((s) => `
+            <div class="bench-turn">
+              <div class="bench-turn__who">${esc(s.name || s.alias || "")}</div>
+              <div class="bench-turn__text">${esc(s.answer || "")}</div>
+            </div>`).join("")}
+        </div>
+      </div>`
+    : "";
+
   return `
-    <div class="js-history" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--type-small);margin-top:6px;">
-      <span class="text-ink-mute">Last run ${esc(fmtDate(lastRun.lastSeenAt))}</span>
-      <span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}</span>
-      <button class="btn btn--ghost btn--sm js-see-result" data-run="${esc(lastRun.id)}">See result</button>
-      ${compareBtn}
+    <div class="card-flat l-stack l-stack--4">
+      <div class="l-stack l-stack--1">
+        <div class="eyebrow">Persona</div>
+        <h2 class="h2">${esc(p.displayName || p.name || p.id)}</h2>
+        ${sub ? `<div class="text-ink-dim">${sub}</div>` : ""}
+        ${meta ? `<div class="text-ink-dim text-sm">${meta}</div>` : ""}
+      </div>
+      ${costLine}
+      <div class="js-progress bench-progress" hidden></div>
+      ${history}
+      ${transcript}
     </div>`;
 }
 
@@ -194,35 +353,21 @@ function fmtDate(ms) {
   return formatDate(ms);
 }
 
-function wireCards(resultHost) {
-  resultHost.querySelectorAll(".js-run").forEach((btn) => {
-    btn.addEventListener("click", () => onRun(resultHost, btn.dataset.persona));
-  });
-  resultHost.querySelectorAll(".js-see-result").forEach((btn) => {
-    btn.addEventListener("click", () => setState({ stage: STAGES.REVIEW_RUN, reviewRunId: btn.dataset.run }));
-  });
-  resultHost.querySelectorAll(".js-compare").forEach((btn) => {
-    btn.addEventListener("click", () =>
-      setState({ stage: STAGES.COMPARE, compareA: btn.dataset.a, compareB: btn.dataset.b })
-    );
-  });
-}
-
 // The free safety check (no AI), lifted from the old Regression page as a compact
 // strip: a one-line summary + Re-check + only the failing rows (a clean run stays
 // quiet). Keeps the nav alert dot in sync via the injected callback.
 async function mountSafetyStrip(host, opts) {
   if (!host) return;
   host.innerHTML = `
-    <div class="card" style="padding:0.6rem 0.9rem;">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-        <div style="font-size:var(--type-small);">
+    <div class="card bench-safety">
+      <div class="bench-safety__row">
+        <div class="text-sm">
           <strong>Free safety check</strong> <span class="text-ink-mute">(no AI)</span>
          . <span class="js-safety-summary text-ink-mute">checking…</span>
         </div>
         <button class="btn btn--ghost btn--sm js-safety-recheck" type="button" disabled>Re-check</button>
       </div>
-      <div class="js-safety-fails l-stack l-stack--2" style="margin-top:6px;"></div>
+      <div class="js-safety-fails l-stack l-stack--2 bench-safety__fails"></div>
     </div>`;
 
   const summaryEl = host.querySelector(".js-safety-summary");
@@ -246,7 +391,7 @@ async function mountSafetyStrip(host, opts) {
     const errs = s.error || 0;
     summaryEl.innerHTML =
       `${s.ok || 0} still good` +
-      (needs ? ` · <strong style="color:var(--color-negative);">${needs} need${needs === 1 ? "s" : ""} a look</strong>` : "") +
+      (needs ? ` · <strong class="bench-safety__alert">${needs} need${needs === 1 ? "s" : ""} a look</strong>` : "") +
       (errs ? ` · ${errs} error` : "") +
       ` · last checked ${esc(new Date().toLocaleTimeString())}`;
     // Only the problem rows — a clean run stays quiet.
@@ -254,7 +399,7 @@ async function mountSafetyStrip(host, opts) {
     failsEl.innerHTML = bad
       .map(
         (c) =>
-          `<div style="font-size:var(--type-small);color:var(--color-negative);">${icon(X, { size: 16 })} ${esc(c.name || c.id)}${
+          `<div class="bench-safety__fail text-sm">${icon(X, { size: 16 })} ${esc(c.name || c.id)}${
             (c.reasons || []).length ? ": " + esc(c.reasons[0]) : ""
           }</div>`
       )
@@ -265,60 +410,6 @@ async function mountSafetyStrip(host, opts) {
 
   recheckBtn.addEventListener("click", check);
   await check();
-}
-
-async function onRun(resultHost, personaId) {
-  setRunningLock(resultHost, true);
-  const card = resultHost.querySelector(`.js-card[data-persona="${cssEscape(personaId)}"]`);
-  const progress = card?.querySelector(".js-progress");
-  if (progress) {
-    progress.style.display = "block";
-    progress.innerHTML = runBarHtml({ status: "running", stageLabel: "Starting session" });
-  }
-  try {
-    await startPersonaRun(personaId);
-  } catch (e) {
-    if (progress) progress.innerHTML = `<span style="color:var(--color-negative);font-size:var(--type-small);">Couldn't start: ${esc(e.message)}</span>`;
-    setRunningLock(resultHost, false);
-    return;
-  }
-  startPolling(resultHost);
-}
-
-// Every 2s: read the single active job and paint it onto the matching card.
-function startPolling(resultHost) {
-  const tick = async () => {
-    let job;
-    try {
-      job = await getPersonaRunCurrent();
-    } catch {
-      pollTimer = setTimeout(tick, 2000);
-      return;
-    }
-    paintJob(resultHost, job);
-    if (job.status === "running") {
-      pollTimer = setTimeout(tick, 2000);
-    } else {
-      pollTimer = null;
-      setRunningLock(resultHost, false);
-    }
-  };
-  tick();
-}
-
-function paintJob(resultHost, job) {
-  const card = resultHost.querySelector(`.js-card[data-persona="${cssEscape(job.personaId || "")}"]`);
-  const progress = card?.querySelector(".js-progress");
-  if (!progress) return;
-  progress.style.display = "block";
-  progress.innerHTML = runBarHtml(job);
-  // The "Review it" button (done state) needs a live listener after innerHTML.
-  const reviewBtn = progress.querySelector(".js-review-it");
-  if (reviewBtn) {
-    reviewBtn.addEventListener("click", () =>
-      setState({ stage: STAGES.REVIEW_RUN, reviewRunId: job.sessionId })
-    );
-  }
 }
 
 // The staged progress bar: a row of steps that light up as the engine advances,
@@ -359,10 +450,10 @@ function runBarHtml(job) {
   if (done) {
     const cost = typeof job.costUsd === "number" ? ` · about $${job.costUsd.toFixed(2)} in AI` : "";
     status =
-      `<span style="color:var(--color-positive);font-weight:500;">${icon(Sparkles, { size: 16 })} Finished${esc(cost)}</span>` +
-      (job.sessionId ? `<button class="btn btn--sm js-review-it" style="margin-left:8px;">Review it</button>` : "");
+      `<span class="bench-status--good">${icon(Sparkles, { size: 16 })} Finished${esc(cost)}</span>` +
+      (job.sessionId ? `<button type="button" class="btn btn--sm js-review-it">Review it</button>` : "");
   } else if (failed) {
-    status = `<span style="color:var(--color-negative);">Run failed: ${esc(job.error || "unknown error")}</span>`;
+    status = `<span class="bench-status--bad">Run failed: ${esc(job.error || "unknown error")}</span>`;
   } else {
     const turn = inInterview ? `. Question ${job.turn} of ${job.total}` : "";
     status = `<span class="text-ink-dim">${esc(job.stageLabel || "Working…")}${esc(turn)}</span>`;
@@ -372,21 +463,6 @@ function runBarHtml(job) {
     <div class="run-bar" data-state="${done ? "done" : failed ? "failed" : "running"}">
       <div class="run-steps">${steps}</div>
       <div class="run-bar__track"><div class="run-bar__fill ${fillCls}" style="width:${pct.toFixed(1)}%;"></div></div>
-      <div class="run-bar__status" style="margin-top:6px;">${status}</div>
+      <div class="run-bar__status">${status}</div>
     </div>`;
-}
-
-// One run at a time: while a job is live, every Run button is disabled so a second
-// start can't be fired (the server also refuses it, this is just the honest UI).
-function setRunningLock(resultHost, locked) {
-  resultHost.querySelectorAll(".js-run").forEach((btn) => {
-    btn.disabled = locked;
-    btn.style.opacity = locked ? "0.5" : "";
-    btn.style.cursor = locked ? "not-allowed" : "";
-  });
-}
-
-// Persona ids are simple slugs, but guard the selector anyway.
-function cssEscape(v) {
-  return typeof CSS !== "undefined" && CSS.escape ? CSS.escape(v) : String(v).replace(/"/g, '\\"');
 }

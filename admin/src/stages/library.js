@@ -3,6 +3,10 @@
 // a run's Review page or copy its full review block to the clipboard. You can
 // also archive a run (hidden from the default list, viewable via the Archived
 // toggle). No Resume/Delete here — finished runs are for judging, not editing.
+//
+// Design-consolidation P6 (D1): the bespoke row list is now the one um-table
+// idiom — shared list toolbar (search + filter chips + count), sortable column
+// headers, whole row opens the run, secondary actions in the shared ⋯ row menu.
 
 import { STAGES, setState } from "../state.js";
 import { getFinishedRuns, getRunFull, setArchived } from "../../../shared/api.js";
@@ -10,7 +14,10 @@ import { libraryBadge, serializeReview } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
 import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
-import { ChevronUp, ChevronDown } from "lucide";
+import { MoreHorizontal } from "lucide";
+import { listToolbar } from "../ui/list-toolbar.ts";
+import { sortableHeader } from "../ui/table-sort.ts";
+import { openRowMenu } from "../ui/row-menu.ts";
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -20,15 +27,8 @@ const FILTERS = [
   { key: "block", label: "Block" },
 ];
 
-const SORTS = [
-  { key: "date", label: "Date" },
-  { key: "name", label: "Name" },
-  { key: "title", label: "Title" },
-  { key: "completeness", label: "Done" },
-];
-
 // Direction a sort uses the first time you pick it. Date newest-first and
-// completeness most-done-first; name and title read A→Z.
+// completeness most-judged-first; person and role read A→Z.
 const SORT_DEFAULT_DIR = { date: "desc", name: "asc", title: "asc", completeness: "desc" };
 
 const STATUS_RANK = { complete: 2, partial: 1, none: 0 };
@@ -62,32 +62,6 @@ let keyHandler = null;
 function fmtDate(ts) {
   // One date format everywhere (DESIGN.md rule 9) — shared, locale-proof.
   return formatDate(Number(ts));
-}
-
-// Job title → group heading, lightly pluralised ("Content Designer" →
-// "Content Designers"). Good enough for the common roles; not a grammar engine.
-function pluralize(role) {
-  const r = String(role || "").trim();
-  if (!r) return "No title";
-  if (/s$/i.test(r)) return r;
-  if (/[^aeiou]y$/i.test(r)) return r.replace(/y$/i, "ies");
-  return r + "s";
-}
-
-// The category heading a run falls under for the active sort. Runs sit grouped
-// because the list is already sorted by the same key.
-function groupLabel(r, key) {
-  if (key === "name") {
-    const c = String(r.ctx?.name || r.headline || r.id || "").trim().charAt(0).toUpperCase();
-    return /[A-Z]/.test(c) ? c : "#";
-  }
-  if (key === "title") return pluralize(r.ctx?.role);
-  if (key === "completeness") {
-    if (r.reviewStatus === "complete") return "Reviewed";
-    if (r.reviewStatus === "partial") return "In progress";
-    return "Not started";
-  }
-  return fmtDate(r.lastSeenAt) || "No date";
 }
 
 function matchesFilter(run, filter) {
@@ -129,9 +103,30 @@ function renderProgress(el, runs) {
   `;
 }
 
+function runRow(r) {
+  const badge = libraryBadge(r.reviewStatus, r.overall);
+  const fails = r.failedCount > 0 ? `<span class="text-ink-dim text-sm"> · ${r.failedCount} failed</span>` : "";
+  const name = r.ctx?.name || r.headline || r.id;
+  const meeting = String(r.ctx?.meetingType || "").trim();
+  return `
+    <tr class="um-row js-open" data-id="${esc(r.id)}">
+      <td>
+        <button type="button" class="um-user__open js-open" data-id="${esc(r.id)}">${esc(name)}</button>
+        ${meeting ? `<div class="text-ink-dim text-sm">${esc(meeting)}</div>` : ""}
+      </td>
+      <td class="text-ink-dim">${esc(String(r.ctx?.role || "").trim() || "–")}</td>
+      <td><span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}</span>${fails}</td>
+      <td class="text-ink-dim">${esc(r.decided)}/8</td>
+      <td class="text-ink-dim">${esc(fmtDate(r.lastSeenAt))}</td>
+      <td class="um-actions">
+        <button type="button" class="row-menu-btn js-more" data-id="${esc(r.id)}" aria-haspopup="menu" aria-label="More actions for this run">${icon(MoreHorizontal, { size: 18 })}</button>
+      </td>
+    </tr>`;
+}
+
 export async function mount(root) {
   root.innerHTML = `
-    <div class="stage-medium l-stack l-stack--8">
+    <div class="stage-medium l-stack l-stack--6">
       <header class="page-header">
         <div class="page-header__row">
           <h1 class="h1">Library</h1>
@@ -143,26 +138,21 @@ export async function mount(root) {
         <div class="lib-progress js-progress"></div>
       </header>
 
-      <div class="lib-controls">
-        <div class="lib-filters" role="tablist">
-          ${FILTERS.map((f, i) => `<button type="button" class="lib-filter${i === 0 ? " is-active" : ""}" data-filter="${f.key}">${f.label}</button>`).join("")}
-        </div>
-        <div class="lib-sort">
-          ${SORTS.map((s) => `<button type="button" class="lib-filter" data-sort="${s.key}">${s.label}</button>`).join("")}
-        </div>
-        <input class="input lib-search" type="search" placeholder="Search name, role, meeting…" autocomplete="off" />
-      </div>
+      ${listToolbar({
+        search: { placeholder: "Search name, role, meeting…" },
+        filters: FILTERS.map((f, i) => ({ key: f.key, label: f.label, active: i === 0 })),
+        count: { n: 0, noun: "run" },
+      })}
 
-      <ul class="lib-list js-list"><li class="text-ink-mute text-sm">Loading…</li></ul>
+      <div class="js-table"><p class="text-ink-mute text-sm">Loading…</p></div>
     </div>
   `;
 
-  const listEl = root.querySelector(".js-list");
-  const searchEl = root.querySelector(".lib-search");
+  const tableEl = root.querySelector(".js-table");
+  const searchEl = root.querySelector(".js-lt-search");
+  const countEl = root.querySelector(".list-toolbar__count");
   const viewBtn = root.querySelector(".js-view");
   const progressEl = root.querySelector(".js-progress");
-
-  const sortEl = root.querySelector(".lib-sort");
 
   let runs = [];
   let filter = "all";
@@ -170,15 +160,6 @@ export async function mount(root) {
   let sortKey = "date";
   let sortDir = "desc";
   let view = "active"; // "active" | "archived"
-
-  function renderSortButtons() {
-    sortEl.querySelectorAll(".lib-filter").forEach((b) => {
-      const active = b.dataset.sort === sortKey;
-      b.classList.toggle("is-active", active);
-      const base = SORTS.find((s) => s.key === b.dataset.sort)?.label || "";
-      b.innerHTML = active ? `${base} ${sortDir === "desc" ? icon(ChevronDown, { size: 16 }) : icon(ChevronUp, { size: 16 })}` : base;
-    });
-  }
 
   function render() {
     const archivedCount = runs.filter((r) => r.archived).length;
@@ -189,106 +170,94 @@ export async function mount(root) {
 
     const shown = inView.filter((r) => matchesFilter(r, filter) && matchesSearch(r, query));
     shown.sort((a, b) => (sortDir === "desc" ? -1 : 1) * compareRuns(a, b, sortKey));
-    renderSortButtons();
+    countEl.textContent = `${shown.length} ${shown.length === 1 ? "run" : "runs"}`;
+
     if (!runs.length) {
-      listEl.innerHTML = `<li class="text-ink-mute">No finished runs yet.</li>`;
+      tableEl.innerHTML = `<p class="text-ink-mute">No finished runs yet.</p>`;
       return;
     }
     if (!inView.length) {
-      listEl.innerHTML = `<li class="text-ink-mute">No archived runs.</li>`;
+      tableEl.innerHTML = `<p class="text-ink-mute">No archived runs.</p>`;
       return;
     }
     if (!shown.length) {
-      listEl.innerHTML = `<li class="text-ink-mute">No runs match this filter.</li>`;
+      tableEl.innerHTML = `<p class="text-ink-mute">No runs match this filter.</p>`;
       return;
     }
-    // Rows are already sorted by the active key, so same-category runs sit
-    // together — slot a heading above each new group.
-    let lastGroup = null;
-    listEl.innerHTML = shown
-      .map((r) => {
-        const badge = libraryBadge(r.reviewStatus, r.overall);
-        const sub = [r.ctx?.role, r.ctx?.meetingType].map((s) => String(s || "").trim()).filter(Boolean).join(" · ");
-        const fails = r.failedCount > 0 ? ` · ${r.failedCount} failed` : "";
-        const g = groupLabel(r, sortKey);
-        let head = "";
-        if (g !== lastGroup) { lastGroup = g; head = `<li class="lib-group">${esc(g)}</li>`; }
-        return head + `
-          <li class="lib-row" data-id="${esc(r.id)}">
-            <button class="lib-row__main js-open" data-id="${esc(r.id)}">
-              <span class="lib-row__title">${esc(r.ctx?.name || r.headline || r.id)}</span>
-              <span class="lib-row__sub text-ink-dim text-sm">${esc(sub)}</span>
-            </button>
-            <span class="lib-row__right">
-              <span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}${fails}</span>
-              <span class="lib-row__date text-ink-mute text-xs">${esc(r.decided)}/8</span>
-              <span class="lib-row__date text-ink-mute text-xs">${esc(fmtDate(r.lastSeenAt))}</span>
-              <button class="btn btn--ghost btn--sm js-open" data-id="${esc(r.id)}">Review</button>
-              <button class="btn btn--ghost btn--sm js-copy" data-id="${esc(r.id)}">Copy</button>
-              <button class="btn btn--ghost btn--sm js-archive" data-id="${esc(r.id)}">${view === "archived" ? "Restore" : "Archive"}</button>
-            </span>
-          </li>`;
-      })
-      .join("");
+    const dirOf = (key) => (key === sortKey ? sortDir : undefined);
+    tableEl.innerHTML = `
+      <div class="um-table-wrap">
+        <table class="um-table">
+          <thead>
+            <tr>
+              ${sortableHeader("Person", "name", dirOf("name"))}
+              ${sortableHeader("Role", "title", dirOf("title"))}
+              <th>Verdict</th>
+              ${sortableHeader("Judged", "completeness", dirOf("completeness"))}
+              ${sortableHeader("Date", "date", dirOf("date"))}
+              <th class="um-actions-th"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>${shown.map(runRow).join("")}</tbody>
+        </table>
+      </div>`;
+  }
+
+  // Menu-item feedback lands on the row's ⋯ button (the menu itself has closed).
+  function flashButton(btn, text) {
+    const original = btn.innerHTML;
+    btn.textContent = text;
+    setTimeout(() => { btn.innerHTML = original; }, 1200);
   }
 
   async function copyRun(id, btn) {
-    const original = btn.textContent;
-    btn.textContent = "…";
     try {
       const run = await getRunFull(id);
       await navigator.clipboard.writeText(serializeReview(run, run.review || {}));
-      btn.textContent = "Copied";
+      flashButton(btn, "Copied");
     } catch {
-      btn.textContent = "Failed";
+      flashButton(btn, "Failed");
     }
-    setTimeout(() => { btn.textContent = original; }, 1200);
   }
 
   function open(id) {
+    // No reviewFrom tag: Library is the review screen's default origin.
     setState({ reviewRunId: id, stage: STAGES.REVIEW_RUN });
   }
 
   async function toggleArchive(id, btn) {
     const next = view !== "archived"; // active view → archive; archived view → restore
-    btn.disabled = true;
     try {
       await setArchived(id, next);
       const run = runs.find((r) => r.id === id);
       if (run) run.archived = next;
       render();
     } catch {
-      btn.disabled = false;
-      btn.textContent = "Failed";
+      flashButton(btn, "Failed");
     }
   }
 
-  listEl.addEventListener("click", (e) => {
-    const archiveBtn = e.target.closest(".js-archive");
-    if (archiveBtn) { toggleArchive(archiveBtn.dataset.id, archiveBtn); return; }
-    const copyBtn = e.target.closest(".js-copy");
-    if (copyBtn) { copyRun(copyBtn.dataset.id, copyBtn); return; }
-    const openBtn = e.target.closest(".js-open");
-    if (openBtn) { open(openBtn.dataset.id); return; }
+  tableEl.addEventListener("click", (e) => {
+    const moreBtn = e.target.closest(".js-more");
+    if (moreBtn) {
+      e.stopPropagation();
+      const id = moreBtn.dataset.id;
+      openRowMenu(moreBtn, [
+        { label: "Copy review", onSelect: () => { void copyRun(id, moreBtn); } },
+        // Archive is reversible (Restore lives on the Archived view), so it skips
+        // the confirm dialog — that stays reserved for destructive actions.
+        { label: view === "archived" ? "Restore" : "Archive", onSelect: () => { void toggleArchive(id, moreBtn); } },
+      ]);
+      return;
+    }
+    const row = e.target.closest(".js-open");
+    if (row) open(row.dataset.id);
   });
 
-  viewBtn.addEventListener("click", () => {
-    view = view === "archived" ? "active" : "archived";
-    render();
-  });
-
-  root.querySelector(".lib-filters").addEventListener("click", (e) => {
-    const btn = e.target.closest(".lib-filter");
-    if (!btn) return;
-    filter = btn.dataset.filter;
-    root.querySelectorAll(".lib-filters .lib-filter").forEach((b) => b.classList.toggle("is-active", b === btn));
-    render();
-  });
-
-  sortEl.addEventListener("click", (e) => {
-    const btn = e.target.closest(".lib-filter");
-    if (!btn) return;
-    const key = btn.dataset.sort;
+  tableEl.addEventListener("click", (e) => {
+    const sortBtn = e.target.closest(".js-lt-sort");
+    if (!sortBtn) return;
+    const key = sortBtn.dataset.sort;
     if (key === sortKey) {
       sortDir = sortDir === "desc" ? "asc" : "desc";
     } else {
@@ -298,13 +267,30 @@ export async function mount(root) {
     render();
   });
 
+  viewBtn.addEventListener("click", () => {
+    view = view === "archived" ? "active" : "archived";
+    render();
+  });
+
+  root.querySelectorAll(".js-lt-filter").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filter = btn.dataset.key;
+      root.querySelectorAll(".js-lt-filter").forEach((b) => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+      render();
+    });
+  });
+
   searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); });
 
   // Library is a top-level rail page — no per-screen Back (Breadcrumb Rule, P5);
-  // Escape still hops home as a convenience.
+  // Escape still hops home as a convenience. When a ⋯ menu is open, Escape belongs
+  // to the menu: row-menu.ts closes it on the capture phase and preventDefaults,
+  // so a consumed Escape must not ALSO leave the page.
   const back = () => setState({ stage: STAGES.START });
   keyHandler = (e) => {
-    if (e.key === "Escape" && !/^(input|textarea|select)$/i.test(e.target.tagName)) back();
+    if (e.key !== "Escape" || e.defaultPrevented) return;
+    if (/^(input|textarea|select)$/i.test(e.target.tagName)) return;
+    back();
   };
   window.addEventListener("keydown", keyHandler);
 

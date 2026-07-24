@@ -34,12 +34,12 @@ Supersedes the parked `docs/plans/future/design-cleanups/` plan (its scoped dupl
 | 3 | Flow spine A | Stepper visible Setup→Recap, one wizard footer, one interstitial | ✅ |
 | 4 | Flow spine B | Interview calm-down, instant briefing, one Prepare layout (11 fenced to admin lab) | ✅ |
 | 5 | Shell | Pinned labelled sidebar, fixed account entry, help entry, nav links, breadcrumb sweep, Guided rebased on app shell | ✅ |
-| 6 | Admin sweep | um-table rollout to internal + superadmin lists, Pulse time-range, error grouping, kill parallel button systems | ⬜ |
+| 6 | Admin sweep | um-table rollout to internal + superadmin lists, Pulse time-range, error grouping, kill parallel button systems | 🔨 |
 | 7 | Re-audit + close | acceptance.md all green, CSS trend report, new baseline, move to done/ | ⬜ |
 
 ## Current state
 
-P0-P5 ✅ live. P5 green-lit by Carl 2026-07-24 after his local walk: pinned labelled sidebar (collapse = user choice, remembered), real nav links, active state through the flow, Guide restored for internal, breadcrumb sweep (7 Pulse/Operate pages + review-run + tests; Library/Guide/Compare Backs deleted), Guided check-in on the app shell (top stepper, shared save pip, mcr-* retired, CSS 836→385). Verified at build: 184/184, typecheck, both linters, real-screen screenshots. Next: P6 admin sweep, then P7 re-audit + close. SeroEngine rename still PARKED.
+P0-P5 ✅ live. P6 🔨 BUILT 2026-07-24 (all 12 D-items: um-tables everywhere internal, Pulse one-clock range control, grouped error log, feedback inbox tabs, parallel button systems deleted, shared confirm app-wide, Lexicon admin costume, Gallery exemption declared) — awaiting Carl's walk. Then P7 re-audit + close. SeroEngine rename still PARKED.
 
 ## Parked
 

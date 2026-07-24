@@ -1,19 +1,22 @@
-// User drilldown — a superadmin's read-only view of ONE registered user's 1:1s (pre-go-live
-// PG8). Reached from the Registered screen (PG7). Wired to GET /api/v1/admin/users/:id/runs,
-// gated by requireSuperadminRoute (a normal owner → 403). Reuses PG4 grouping to show the
-// people this user has met, and PG1 rows + PG3 ratings for their runs. Read-only; opening a
-// briefing is PG8 Step 03.
+// User drilldown — a superadmin's read-only view of ONE registered user (pre-go-live PG8,
+// reworked in design-consolidation Phase 6, audit D10). Reached from the Registered screen.
+// Wired to GET /api/v1/admin/users/:id/runs, gated by requireSuperadminRoute (a normal
+// owner → 403). The identity header (avatar initial, name, email · company · joined, role
+// pill, stat chips) is assembled client-side from the registered list the API already
+// returns; their 1:1s render as the house um-table.
 //
-// IA (2026-07-21): every level shares ONE breadcrumb trail (ui/breadcrumb.ts) instead of
-// three different back buttons, and the recap renders its OWN header — so the big title names
-// the 1:1 you're reading, not the manager, and no second back button stacks under it.
+// Opening a run goes through the normal route/state path: the row click stashes the run id
+// and bumps stageTick, so main.js re-mounts this stage via the router loop and the mount
+// renders the read-only recap — never an in-place innerHTML swap inside a click handler.
+// No CSS imports here on purpose: the co-located unit test imports this module under
+// node:test, which can't parse CSS.
 
 import { STAGES, store } from "../state.js";
-import { getUserRuns, getAdminRun } from "../../../shared/api.js";
+import { getUserRuns, getRegistered, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
-import { relTime } from "../ui/time.ts";
+import { relTime, formatDate } from "../ui/time.ts";
 import { groupRunsByPerson } from "../ui/group-people.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 import { recapHeader, roleLine } from "../ui/recap-header.ts";
@@ -28,60 +31,105 @@ type Run = {
   rating: { stars: number } | null;
 };
 
-type Person = { key: string; name: string; role: string; count: number; lastMet: number; ratedCount: number; avgStars: number | null };
+// The identity fields the registered list already carries for this user (client-side
+// lookup — no new API). null when the lookup failed; the header degrades to name-only.
+export type UserProfile = {
+  email: string;
+  role: string;
+  company: string;
+  createdAt: string | number;
+};
 
-export function personCard(p: Person): string {
-  const bits = [
-    p.role,
-    `${p.count} ${p.count === 1 ? "1:1" : "1:1s"}`,
-    `last ${relTime(p.lastMet) || "–"}`,
-  ].filter(Boolean);
-  const rated =
-    p.avgStars == null
-      ? "not yet rated"
-      : `${icon(Star, { size: 16, fill: "currentColor" })} ${escapeHtml(String(Math.round(p.avgStars * 10) / 10))} avg`;
-  return `
-    <div class="card-flat l-stack l-stack--2">
-      <div class="text-sm"><strong>${escapeHtml(p.name)}</strong></div>
-      <div class="text-ink-dim text-sm">${escapeHtml(bits.join(" · "))} · ${rated}</div>
-    </div>`;
+export type UserStats = { runCount: number; peopleCount: number; avgStars: number | null };
+
+type RegUser = { id: string; name: string; email: string; role: string; createdAt: string | number };
+type RegCompany = { name: string; users: RegUser[] };
+
+// First letter of the name (falls back to "?") — the glyph in the avatar circle.
+function initialOf(name: string): string {
+  const s = (name || "").trim();
+  return s ? s[0]!.toUpperCase() : "?";
 }
 
-export function runSubtitle(c: Run["ctx"]): string {
+function joinedLabel(createdAt: string | number): string {
+  const ms = typeof createdAt === "number" ? createdAt : Date.parse(createdAt);
+  return Number.isFinite(ms) ? formatDate(ms) : "";
+}
+
+// The identity header (audit D10): avatar initial + name lead (the Name-Wins Rule), the
+// quiet email · company · joined line under it, the role pill beside, and small stat chips
+// (1:1 count, people met, average stars) below. Pure string render so it unit-tests.
+export function identityHeader(name: string, profile: UserProfile | null, stats: UserStats): string {
   const bits: string[] = [];
-  if (c.name) bits.push(c.name);
-  if (c.role) bits.push(roleLine(c));
-  if (c.meetingType) bits.push(c.meetingType);
-  return bits.join(" · ");
+  if (profile?.email) bits.push(profile.email);
+  if (profile?.company) bits.push(profile.company);
+  const joined = profile ? joinedLabel(profile.createdAt) : "";
+  if (joined) bits.push(`joined ${joined}`);
+  const sub = bits.length ? `<div class="text-ink-dim text-sm">${escapeHtml(bits.join(" · "))}</div>` : "";
+  const rolePill = profile?.role
+    ? `<span class="um-badge um-badge--${["admin", "manager", "member"].includes(profile.role) ? profile.role : "member"}">${escapeHtml(profile.role)}</span>`
+    : "";
+  const chips = [
+    `<span class="chip chip--plain">${stats.runCount} ${stats.runCount === 1 ? "1:1" : "1:1s"}</span>`,
+    `<span class="chip chip--plain">${stats.peopleCount} ${stats.peopleCount === 1 ? "person" : "people"}</span>`,
+    stats.avgStars == null
+      ? ""
+      : `<span class="chip chip--plain">${icon(Star, { size: 14, fill: "currentColor" })} ${escapeHtml(String(Math.round(stats.avgStars * 10) / 10))} avg</span>`,
+  ].filter(Boolean).join("");
+  return `
+    <header class="page-header l-stack l-stack--3">
+      ${breadcrumb([{ label: "User management", nav: "users" }, { label: name }])}
+      <div class="rd-profile">
+        <div class="ds-avatar rd-avatar" aria-hidden="true">${escapeHtml(initialOf(name))}</div>
+        <div class="rd-profile__id">
+          <h1 class="rd-name">${escapeHtml(name)}</h1>
+          ${sub}
+        </div>
+        ${rolePill}
+      </div>
+      <div class="person-summary">${chips}</div>
+    </header>`;
+}
+
+function starsCell(r: Run): string {
+  if (!r.rating) return `<span class="text-ink-dim">–</span>`;
+  return `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`;
 }
 
 function runRow(r: Run): string {
   const c = r.ctx || ({} as Run["ctx"]);
-  const bits: string[] = [];
-  const sub = runSubtitle(c);
-  if (sub) bits.push(sub);
-  const when = relTime(r.lastSeenAt);
-  if (when) bits.push(when);
-  const line = escapeHtml(bits.length ? bits.join(" · ") : r.headline || "Untitled 1:1");
-  const badge = r.rating
-    ? `<span class="runs-list__stars text-sm" aria-label="rated ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
-    : "";
-  // A button so it's keyboard-operable — opens the read-only briefing (Step 3).
-  return `<button type="button" class="card-flat runs-list__row js-run-row" data-run-id="${escapeHtml(r.id)}"><span class="text-sm">${line}</span>${badge}</button>`;
+  const role = roleLine(c);
+  return `
+    <tr class="um-row js-run-row" data-run-id="${escapeHtml(r.id)}">
+      <td>
+        <strong>${escapeHtml(c.name || r.headline || "Untitled 1:1")}</strong>
+        ${role ? `<div class="um-user__email">${escapeHtml(role)}</div>` : ""}
+      </td>
+      <td>${escapeHtml(c.meetingType || "1:1")}</td>
+      <td class="text-ink-dim">${escapeHtml(relTime(r.lastSeenAt) || "–")}</td>
+      <td>${starsCell(r)}</td>
+    </tr>`;
 }
+
+// Their 1:1s as the one house table (um-table), newest first as the API returns them.
+export function runsTable(runs: Run[]): string {
+  return `
+    <div class="um-table-wrap">
+      <table class="um-table">
+        <thead><tr><th>Who</th><th>Type</th><th>When</th><th>Rating</th></tr></thead>
+        <tbody>${runs.map(runRow).join("")}</tbody>
+      </table>
+    </div>`;
+}
+
+// The run the next mount should open read-only. Set by the row click just before its
+// stageTick bump; consumed (and cleared) by mount. Module-level on purpose — the store's
+// typed shape doesn't carry it, and it must survive the unmount/mount hop in between.
+let pendingRunId: string | null = null;
 
 export const mount: Mount = async (root, { setState }) => {
   const name = store.adminUserName || "This user";
-  const header = `
-    <header class="page-header l-stack l-stack--2">
-      ${breadcrumb([{ label: "User management", nav: "users" }, { label: name }])}
-      <h1 class="h1">${escapeHtml(name)}</h1>
-      <div class="text-ink-dim">Their people and 1:1s, read-only.</div>
-    </header>`;
-  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}</div>`;
-  // The recap gets its own bare container — NOT `shell` — so the user's page-header no longer
-  // rides along above it (that was the doubled title + stacked back button).
-  const recapShell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
+  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
 
   const errorCard = `
     <section class="card-flat space-y-3">
@@ -92,41 +140,31 @@ export const mount: Mount = async (root, { setState }) => {
 
   const back = () => setState({ adminUserId: null, adminUserName: null, stage: STAGES.ADMIN_REGISTERED });
 
-  // The breadcrumb's navigable crumbs, by data-nav key: "users" → back to the registered list,
-  // "list" → back to this user's own People/1:1s. Re-run after every innerHTML repaint.
+  // The breadcrumb's navigable crumbs, by data-nav key: "users" → back to the registered
+  // list, "list" → re-mount this stage on its list view (pendingRunId is empty by then).
   const wireCrumbs = () => {
     root.querySelectorAll<HTMLButtonElement>(".js-crumb").forEach((c) => {
       c.addEventListener("click", () => {
         const nav = c.dataset.nav;
         if (nav === "users") back();
-        else if (nav === "list") renderList();
+        else if (nav === "list") setState({ stageTick: store.stageTick + 1 });
       });
     });
   };
 
-  const wire = () => {
-    wireCrumbs();
-    root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
-  };
-
-  let runs: Run[] = [];
-  let people: Person[] = [];
-
-  // Open ONE run's briefing read-only (PG8 Step 3) — cross-user, via the superadmin
-  // route (getAdminRun). The breadcrumb steps back to this user's list without a re-fetch.
-  const openRun = async (runId: string) => {
-    if (!runId) return;
-    root.innerHTML = recapShell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+  // ONE run's briefing, read-only (PG8 Step 3) — cross-user, via the superadmin route.
+  const renderRecap = async (runId: string) => {
+    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
     let run: { ctx: Run["ctx"]; briefing: Briefing | null };
     try {
       run = (await getAdminRun(runId)) as { ctx: Run["ctx"]; briefing: Briefing | null };
     } catch {
       const trail = breadcrumb([
         { label: "User management", nav: "users" },
-        { label: store.adminUserName || "User", nav: "list" },
+        { label: name, nav: "list" },
         { label: "1:1" },
       ]);
-      root.innerHTML = recapShell(`
+      root.innerHTML = shell(`
         <header class="page-header l-stack l-stack--3">${trail}</header>
         <section class="card-flat space-y-3">
           <div class="eyebrow">Couldn't open</div>
@@ -135,58 +173,90 @@ export const mount: Mount = async (root, { setState }) => {
       wireCrumbs();
       return;
     }
-    root.innerHTML = recapShell(
+    root.innerHTML = shell(
       recapHeader(run.ctx || ({} as Run["ctx"]), [
         { label: "User management", nav: "users" },
-        { label: store.adminUserName || "User", nav: "list" },
+        { label: name, nav: "list" },
       ]) + renderReadonlyBriefing(run.briefing),
     );
     wireCrumbs();
   };
 
-  const renderList = () => {
-    const peopleSection = `
-      <section class="l-stack l-stack--3">
-        <div class="eyebrow">People (${people.length})</div>
-        <div class="l-stack l-stack--2">${people.map(personCard).join("")}</div>
-      </section>`;
-    const runsSection = `
-      <section class="l-stack l-stack--3">
-        <div class="eyebrow">1:1s (${runs.length})</div>
-        <div class="l-stack l-stack--2">${runs.map(runRow).join("")}</div>
-      </section>`;
-    root.innerHTML = shell(`${peopleSection}${runsSection}`);
-    wire();
-    root.querySelectorAll<HTMLButtonElement>(".js-run-row").forEach((btn) => {
-      btn.addEventListener("click", () => { void openRun(btn.dataset.runId || ""); });
-    });
+  // Find this user's identity in the registered payload (client-side over data the API
+  // already returns). Tolerates failure — the header just loses its detail line.
+  const fetchProfile = async (id: string): Promise<UserProfile | null> => {
+    try {
+      const res = await getRegistered();
+      const companies = Array.isArray(res?.companies) ? (res.companies as RegCompany[]) : [];
+      for (const c of companies) {
+        const u = (c.users || []).find((x) => x.id === id);
+        if (u) return { email: u.email, role: u.role, company: c.name, createdAt: u.createdAt };
+      }
+    } catch { /* header degrades to name-only */ }
+    return null;
   };
 
+  // The loading and error states keep a way back: the same breadcrumb + name, without
+  // the identity detail that hasn't loaded yet (DESIGN §6.5 — states designed with the screen).
+  const plainHeader = `
+    <header class="page-header l-stack l-stack--2">
+      ${breadcrumb([{ label: "User management", nav: "users" }, { label: name }])}
+      <h1 class="h1">${escapeHtml(name)}</h1>
+    </header>`;
+
   const load = async () => {
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading…</p></section>`);
+    root.innerHTML = shell(`${plainHeader}<section class="card-flat"><p class="text-sm text-ink-dim">Loading…</p></section>`);
+    wireCrumbs();
 
     const id = store.adminUserId;
     if (!id) { back(); return; }
 
+    let runs: Run[] = [];
+    let profile: UserProfile | null = null;
     try {
-      const res = await getUserRuns(id);
-      runs = Array.isArray(res?.runs) ? (res.runs as Run[]) : [];
+      const [runsRes, prof] = await Promise.all([getUserRuns(id), fetchProfile(id)]);
+      runs = Array.isArray(runsRes?.runs) ? (runsRes.runs as Run[]) : [];
+      profile = prof;
     } catch {
-      root.innerHTML = shell(errorCard);
-      wire();
+      root.innerHTML = shell(plainHeader + errorCard);
+      wireCrumbs();
+      root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
       return;
     }
 
-    if (runs.length === 0) {
-      root.innerHTML = shell(`<section class="card-flat"><p class="text-ink-dim">This user hasn't run any 1:1s yet.</p></section>`);
-      wire();
-      return;
-    }
+    const people = groupRunsByPerson(runs) as Array<{ key: string }>;
+    const rated = runs.filter((r) => r.rating);
+    const avgStars = rated.length
+      ? rated.reduce((sum, r) => sum + (r.rating?.stars ?? 0), 0) / rated.length
+      : null;
+    const header = identityHeader(name, profile, {
+      runCount: runs.length,
+      peopleCount: people.length,
+      avgStars,
+    });
 
-    people = groupRunsByPerson(runs) as Person[];
-    renderList();
+    const body = runs.length
+      ? `<section class="l-stack l-stack--3"><div class="eyebrow">1:1s</div>${runsTable(runs)}</section>`
+      : `<section class="card-flat"><p class="text-ink-dim">This user hasn't run any 1:1s yet.</p></section>`;
+    root.innerHTML = shell(header + body);
+    wireCrumbs();
+    // A row click routes to the recap via the normal state path: stash the run id, bump
+    // stageTick, and let main.js unmount + re-mount this stage through the router loop.
+    root.querySelectorAll<HTMLElement>(".js-run-row").forEach((row) => {
+      row.addEventListener("click", () => {
+        const runId = row.dataset.runId || "";
+        if (!runId) return;
+        pendingRunId = runId;
+        setState({ stageTick: store.stageTick + 1 });
+      });
+    });
   };
 
+  // A pending run id means this mount IS the recap navigation — consume it and render
+  // the read-only briefing; otherwise show the list.
+  const openRunId = pendingRunId;
+  pendingRunId = null;
+  if (openRunId) { await renderRecap(openRunId); return; }
   await load();
 };
 
