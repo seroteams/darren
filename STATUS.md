@@ -2,6 +2,15 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-25 — THE REDESIGN IS DONE. All 8 design-consolidation phases green-lit and live.**
+Carl's closing walk signed P7 ("a... push live"): the re-audit scoreboard reads **35 Standard /
+9 Hybrid / 1 Custom** (the Screen gallery, exempt on purpose), from 12/19/14 when the audit
+became the acceptance list on 2026-07-22. Every one of the 43 boxes is ticked or Carl-parked
+(flow widths stay two-tier; Prepare variant-lab CSS stays, fenced). CSS 9,874 -> 9,680 lines
+with ZERO inline style blocks and nine namespaces deleted; fresh 42-screen gallery baseline.
+Plan folder -> done/; design-cleanups (future/) marked absorbed. Full record:
+[reaudit.md](audits/design-audit-2026-07/reaudit.md).
+
 📍 **2026-07-24 (evening) — P6 went LIVE: the back office grew up.** Carl walked it ("yeah its
 good") and his skeleton note was answered before shipping: every admin loading state now shows the
 standard ghost cards instead of plain "Loading…" text. Live now: every internal and superadmin list
@@ -115,19 +124,21 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Walk P7 and close the redesign** — 15 minutes on local: Home, Team, one full 1:1, member home, two admin tables. Scoreboard: 35 Standard / 9 Hybrid / 1 exempt Custom (was 12/19/14). Two calls ride with it: flow widths and the Prepare lab CSS.
-2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
-3. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
+1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — the app is fully live and now looks the part everywhere.
+2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
+3. Or start something new — the redesign is closed; nothing here is waiting on a build.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P6 ✅ LIVE. P7 🔨 BUILT 2026-07-24: re-audit 35/9/1 (was 12/19/14), all 43 boxes ticked, stragglers fixed, fresh baseline — awaiting your final walk + two calls (flow widths, Prepare lab CSS). Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
 
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail) — awaiting your QA walk. P2–P4 not started. |
+
+## ✅ Closed 2026-07-25
+[design-consolidation](docs/plans/done/design-consolidation/plan.md) — the whole redesign, all 8 phases green-lit across 4 days (P0 foundations → P7 re-audit). Final scoreboard 35 Standard / 9 Hybrid / 1 exempt Custom (was 12/19/14); all 43 acceptance boxes ticked or Carl-parked (flow widths, Prepare lab CSS); CSS 9,874 → 9,680 with zero inline style blocks, nine namespaces deleted; fresh 42-screen baseline; design-cleanups absorbed. Shipped live across PRs #29-#33. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0) · [reaudit](audits/design-audit-2026-07/reaudit.md).
 
 ## ✅ Closed 2026-07-21
 [ia-consistency](docs/plans/done/ia-consistency/plan.md) — the app-wide nav/IA standard. All 6 phases: the 3 rules written into DESIGN.md (breadcrumb trail · a screen names what you opened · "1:1" not "meeting"), then applied across both apps — the member 1:1 recap (`run-detail`) names the person + breadcrumb (was "Past 1:1"), the person page and Monthly Check-in got the same trail (the check-in was a nav dead-end), and every user-visible "meeting"→"1:1" + the last comma joiner→middot. P6 = Carl chose KEEP the superadmin circled "Back". Verified `npm test` 167/167 + typecheck; P3–P5 built under "continue until done" and **not individually screen-walked** (SPA won't render in the automated pane) — nothing pushed, so any real-screen nit is a trivial follow-up. Commits `3068fddc`→`e39ed876`. [board](https://claude.ai/code/artifact/f6bced93-814a-460c-b5f5-590491d960cc).
@@ -153,4 +164,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-24 — P4/P5/P6 live; P7 re-audit BUILT (scoreboard 35/9/1), awaiting Carl's closing walk.
+Last updated: 2026-07-25 — design consolidation CLOSED (all 8 phases, scoreboard 35/9/1); board clear for the corridor test.

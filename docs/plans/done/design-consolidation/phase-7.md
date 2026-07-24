@@ -1,5 +1,11 @@
 # Phase 7: Re-audit + close
 
+## ✅ GREEN-LIT 2026-07-25
+
+Carl: "a" (ship as-is) "and then double check and tidy up and push live and tidy up git also".
+Both open calls parked under his name (flow widths kept; Prepare variant-lab CSS kept, fenced).
+Free suite re-run green at close; shipped to main same day; plan folder moved to done/.
+
 ## Built (2026-07-24)
 
 Awaiting Carl's final walk. The re-audit ran page by page with the original method

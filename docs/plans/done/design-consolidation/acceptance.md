@@ -62,4 +62,5 @@ Source: [audits/design-audit-2026-07/README.md](../../../../audits/design-audit-
 
 ## Parked by Carl
 
-(none. Two open calls sit with Carl at the P7 walk: unify the run flow's two widths or keep them, and delete or keep the ~600-line Prepare variant-lab CSS.)
+- Flow widths stay two-tier (reading width for Setup/Focus/Recap, medium for the question screens). Carl, 2026-07-25: shipped as-is at the P7 close.
+- Prepare variant-lab CSS stays (~600 lines, fenced behind the internal-admin lab). Carl, 2026-07-25: shipped as-is at the P7 close; delete-the-lab remains a one-sentence un-park.
