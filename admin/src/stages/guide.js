@@ -510,7 +510,7 @@ export function mount(root) {
           ${TOC.map(([id, label]) => `<a href="#g-${id}">${esc(label)}</a>`).join("")}
         </nav>
         <div class="guide-toc__actions">
-          <button class="guide-btn js-sys-update" type="button">${REFRESH_ICON}<span class="js-btn-label">Check for changes</span></button>
+          <button class="btn btn--ghost btn--sm js-sys-update" type="button">${REFRESH_ICON}<span class="js-btn-label">Check for changes</span></button>
           <span class="guide-toc__status js-sys-status"></span>
         </div>
       </div>

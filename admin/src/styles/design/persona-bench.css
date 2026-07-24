@@ -1,0 +1,72 @@
+/* -----------------------------------------------------------------------------
+   Test engine / persona bench (design-consolidation P6, D2) — the um-table of
+   runnable personas plus the right-hand detail panel (scripted conversation,
+   last result, live run progress). Imported by stages/personas.js only; the
+   staged run-bar itself lives in design/test-engine.css.
+----------------------------------------------------------------------------- */
+
+.bench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24rem;
+  gap: var(--sero-space-6);
+  align-items: start;
+}
+.bench__panel { position: sticky; top: 1rem; }
+@media (max-width: 960px) {
+  .bench { grid-template-columns: 1fr; }
+  .bench__panel { position: static; }
+}
+
+/* Selected row = the accent tint (same signal as the review screen's rows). */
+.bench-row.is-selected td { background: var(--color-accent-soft); }
+.bench-row .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.bench-suite { margin-left: var(--sero-space-2); }
+.bench-last { display: inline-flex; align-items: center; gap: var(--sero-space-2); white-space: nowrap; }
+
+/* Panel: last-run line + its actions. */
+.bench-hist { display: flex; align-items: center; gap: var(--sero-space-2); flex-wrap: wrap; }
+.bench-hist__actions { display: flex; align-items: center; gap: var(--sero-space-2); flex-wrap: wrap; }
+
+/* Panel: the scripted conversation, scrolling inside the panel, not the page. */
+.bench-script {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+  max-height: 24rem;
+  overflow-y: auto;
+  padding-right: var(--sero-space-1);
+}
+.bench-turn__who { font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.bench-turn__text { font-size: var(--type-body-sm); line-height: 1.5; color: var(--color-ink); }
+
+/* Run status line under the progress track. */
+.run-bar__status { margin-top: var(--sero-space-2); }
+.bench-status--good {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-1);
+  color: var(--color-positive-text);
+  font-weight: var(--type-weight-medium);
+}
+.bench-status--bad { color: var(--color-negative-text); }
+.bench-status--good + .js-review-it { margin-left: var(--sero-space-2); }
+
+/* The free safety check strip above the bench. */
+.bench-safety { padding: var(--sero-space-3) var(--sero-space-4); }
+.bench-safety__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sero-space-3);
+  flex-wrap: wrap;
+}
+.bench-safety__fails { margin-top: var(--sero-space-2); }
+.bench-safety__fails:empty { margin-top: 0; }
+.bench-safety__alert { color: var(--color-negative-text); }
+.bench-safety__fail {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-1);
+  color: var(--color-negative-text);
+}

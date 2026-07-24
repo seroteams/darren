@@ -19,7 +19,9 @@ function fakeRepo(
   deletions: string[] = [],
   rosterCounts: Record<string, number> = {},
   pulseRuns: PulseRunRow[] = [],
-  errorCounts: { total: number; unresolved: number } = { total: 0, unresolved: 0 },
+  // A fixed count, or a per-cutoff function (pulse calls it twice — range + double range —
+  // to derive the previous-range delta).
+  errorCounts: { total: number; unresolved: number } | ((sinceMs: number) => { total: number; unresolved: number }) = { total: 0, unresolved: 0 },
   feedback: PulseFeedbackRow[] = [],
   adminRuns: AdminRunRow[] = [],
 ): SuperadminRepo {
@@ -32,7 +34,8 @@ function fakeRepo(
     readRun: async (id: string) => runsById[id] ?? null,
     listPulseRuns: async () => pulseRuns,
     listAdminRuns: async () => adminRuns,
-    countRecentErrors: async () => errorCounts,
+    countRecentErrors: async (sinceMs: number) =>
+      typeof errorCounts === "function" ? errorCounts(sinceMs) : errorCounts,
     latestFeedback: async (limit: number) => feedback.slice(0, limit),
     updateUserRole: async (id, role) => { writes.push({ id, role }); },
     setDeactivated: async (id, at) => {
@@ -87,7 +90,7 @@ test("listRegistered groups users under their company, oldest-first, no secrets 
   }
 });
 
-test("pulse folds the Gate-1 number, week counts and the time-series from one dataset", async () => {
+test("pulse folds the Gate-1 number, range counts and the time-series from one dataset", async () => {
   const NOW = new Date("2026-07-12T12:00:00.000Z");
   const nowMs = NOW.getTime();
   const DAY = 24 * 60 * 60 * 1000;
@@ -123,22 +126,79 @@ test("pulse folds the Gate-1 number, week counts and the time-series from one da
   const svc = createSuperadminService(
     fakeRepo(orgs, people, runs, {}, {}, [], [], [], guests, [], {}, pulseRuns, { total: 1, unresolved: 0 }, feedback),
   );
-  const p = await svc.pulse(NOW);
+  const p = await svc.pulse(NOW); // default range = 7 days
 
-  assert.deepEqual(p.gate1, { cameBack: 1, total: 2 });   // Ann + Bo tried; only Ann came back
+  assert.equal(p.rangeDays, 7);
+  // Gate 1 stays cumulative (the validation metric); only Bo's FIRST prep fell inside 7d.
+  assert.deepEqual(p.gate1, { cameBack: 1, total: 2, triedInRange: 1 }); // Ann + Bo tried; only Ann came back
   assert.equal(p.managersOnLive, 2);                       // Ann + Bo (Cara is a member; Carl internal)
-  assert.equal(p.runsThisWeek, 2);                         // Ann day-2 + Bo day-5
-  assert.equal(p.runsLastWeek, 1);                         // Ann day-10
+  assert.equal(p.managersNewInRange, 0);                   // both registered in June
+  assert.equal(p.runsInRange, 2);                          // Ann day-2 + Bo day-5
+  assert.equal(p.runsPrevRange, 1);                        // Ann day-10 (days 7..14)
+  // Ratings re-windowed to the range: Ann day-2 (4★) + Carl day-1 (4★) in range;
+  // Ann day-10 (5★) is the previous range's average, feeding the delta chip.
+  assert.equal(p.ratings.avgStars, 4);
+  assert.equal(p.ratings.ratedCount, 2);
+  assert.equal(p.ratings.lowCount, 0);
+  assert.equal(p.ratings.prevAvgStars, 5);
   assert.equal(p.guestCount, 2);
-  assert.deepEqual(p.errors, { total: 1, unresolved: 0 });
+  assert.equal(p.guestsInRange, 2);                        // g1 day-3 + g2 day-4
+  assert.equal(p.guestsPrevRange, 0);
+  assert.deepEqual(p.errors, { total: 1, unresolved: 0, prevTotal: 0 });
   assert.equal(p.latestFeedback.length, 1);
   assert.equal(p.latestFeedback[0]!.verdict, "yes");
 
-  // The time-series drops internal (Carl) + guest (ownerless) runs.
-  assert.equal(p.runsPerDay.length, 14);
-  assert.equal(p.runsPerDay.reduce((a, b) => a + b, 0), 3);           // ann×2 + bo×1
-  assert.deepEqual(p.runTypeMix, [{ type: "biweekly", count: 2 }]);   // last 7d only (ann day-10 drops out)
+  // The time-series drops internal (Carl) + guest (ownerless) runs, over the SAME window.
+  assert.equal(p.runsPerDay.length, 7);
+  assert.equal(p.runsPerDay.reduce((a, b) => a + b, 0), 2);           // ann day-2 + bo day-5
+  assert.deepEqual(p.runTypeMix, [{ type: "biweekly", count: 2 }]);   // ann day-10 falls outside 7d
   assert.deepEqual(p.dropOffs, [{ stage: "questions", count: 1 }]);   // bo's unfinished run
+});
+
+test("pulse: a wider range widens every windowed number together (design-consolidation P6, D7)", async () => {
+  const NOW = new Date("2026-07-12T12:00:00.000Z");
+  const nowMs = NOW.getTime();
+  const DAY = 24 * 60 * 60 * 1000;
+
+  const orgs: OrgRow[] = [{ id: "acme", name: "Acme", createdAt: new Date("2026-06-01") }];
+  const people: UserRow[] = [
+    { id: "ann", orgId: "acme", name: "Ann", email: "ann@acme.com", role: "manager", createdAt: new Date("2026-06-02") },
+    { id: "bo",  orgId: "acme", name: "Bo",  email: "bo@acme.com",  role: "manager", createdAt: new Date("2026-06-03") },
+  ];
+  const runs: RunRow[] = [
+    { userId: "ann", createdAt: nowMs - 10 * DAY, lastSeenAt: nowMs - 10 * DAY, stars: 5 },
+    { userId: "ann", createdAt: nowMs - 2 * DAY,  lastSeenAt: nowMs - 2 * DAY,  stars: 4 },
+    { userId: "bo",  createdAt: nowMs - 5 * DAY,  lastSeenAt: nowMs - 5 * DAY,  stars: null },
+  ];
+  const pulseRuns: PulseRunRow[] = [
+    { userId: "ann", orgId: "acme", createdAtMs: nowMs - 2 * DAY,  meetingType: "biweekly", stage: "briefing",  finished: true },
+    { userId: "ann", orgId: "acme", createdAtMs: nowMs - 10 * DAY, meetingType: "first",    stage: "briefing",  finished: true },
+    { userId: "bo",  orgId: "acme", createdAtMs: nowMs - 5 * DAY,  meetingType: "biweekly", stage: "questions", finished: false },
+  ];
+  const svc = createSuperadminService(fakeRepo(orgs, people, runs, {}, {}, [], [], [], [], [], {}, pulseRuns));
+  const p = await svc.pulse(NOW, 30);
+
+  assert.equal(p.rangeDays, 30);
+  assert.equal(p.runsPerDay.length, 30);
+  assert.equal(p.runsInRange, 3);                        // ann×2 + bo×1 all inside 30d
+  assert.equal(p.runsPrevRange, 0);
+  assert.deepEqual(p.gate1, { cameBack: 1, total: 2, triedInRange: 2 }); // both first preps inside 30d
+  assert.deepEqual(p.runTypeMix, [{ type: "biweekly", count: 2 }, { type: "first", count: 1 }]);
+  assert.equal(p.ratings.avgStars, 4.5);                 // (5+4)/2 over the range
+  assert.equal(p.ratings.ratedCount, 2);
+  assert.equal(p.ratings.prevAvgStars, null);            // nothing rated in days 30..60
+});
+
+test("pulse: the errors tile's previous-range delta comes from the double-window read", async () => {
+  const NOW = new Date("2026-07-12T12:00:00.000Z");
+  const nowMs = NOW.getTime();
+  const DAY = 24 * 60 * 60 * 1000;
+  // 2 errors in the last 7 days; 5 across the last 14 → 3 in the previous range.
+  const byCutoff = (sinceMs: number) =>
+    sinceMs >= nowMs - 7 * DAY ? { total: 2, unresolved: 1 } : { total: 5, unresolved: 3 };
+  const svc = createSuperadminService(fakeRepo([], [], [], {}, {}, [], [], [], [], [], {}, [], byCutoff));
+  const p = await svc.pulse(NOW);
+  assert.deepEqual(p.errors, { total: 2, unresolved: 1, prevTotal: 3 });
 });
 
 test("pulse lists managers newest sign-up first, so a fresh registration leads the card", async () => {

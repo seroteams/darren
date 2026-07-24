@@ -401,6 +401,33 @@
       "port": 3173
     },
     {
+      "name": "sero-api-p6",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3151",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3151
+    },
+    {
+      "name": "sero-web-p6",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3151",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3153",
+        "--strictPort"
+      ],
+      "port": 3153
+    },
+    {
       "name": "sero-prod-iso",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

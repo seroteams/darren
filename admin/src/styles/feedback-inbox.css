@@ -9,7 +9,9 @@
 
 .fb-list { width: 100%; }
 
-/* One note = one calm card surface on the tinted page (no nested cards, no side-stripe). */
+/* One note = one calm card surface on the tinted page (no nested cards, no side-stripe).
+   Collapsed by default (design-consolidation P6, D12): two lines — the head row and a
+   one-line preview. Clicking expands to the full note, email row and pills. */
 .fb-item {
   display: flex;
   gap: 12px;
@@ -18,8 +20,25 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card, 12px);
   transition: background-color 0.12s ease;
+  cursor: pointer;
 }
 .fb-item:hover { background: var(--sero-active-state-bg); }
+
+/* Line two of the collapsed card: the note squeezed onto one quiet line. */
+.fb-preview {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--type-body-sm, 14px);
+  color: var(--color-ink-dim);
+}
+/* The expanded body, hidden until the card opens. */
+.fb-full { display: none; }
+.fb-item.is-open .fb-preview { display: none; }
+.fb-item.is-open .fb-full { display: flex; flex-direction: column; gap: 8px; }
+
+/* Tab counts (New / Done / Archived / All) — quiet numbers beside the labels. */
+.fb-tab__n { color: var(--color-ink-mute); font-size: var(--type-caption, 14px); margin-left: 3px; }
 
 /* Initials avatar — the sender's identity mark (same recipe as the session topbar). */
 .fb-avatar {
@@ -136,22 +155,5 @@
   color: var(--sero-primary-800);
 }
 
-/* Delete: a quiet trash icon, calm until hover — red only on hover so the page reads calm. */
-.fb-del {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  color: var(--color-ink-mute);
-  padding: 4px;
-  border-radius: var(--radius-input, 4px);
-  cursor: pointer;
-  transition: background-color 0.12s ease, color 0.12s ease;
-}
-.fb-del:hover {
-  background: var(--sero-coral-200);
-  color: var(--sero-coral-800);
-}
-.fb-del:disabled,
-.fb-del.is-busy { opacity: 0.5; cursor: default; }
+/* Delete moved behind the shared ⋯ row menu (ui/row-menu.ts + styles/row-menu.css) with
+   the shared confirm dialog — the old inline .fb-del trash button is gone (P6, D12). */

@@ -13,9 +13,14 @@ export async function registered(c: RequestContext): Promise<void> {
   c.json(200, await superadminService.listRegistered());
 }
 
-/** GET /api/v1/admin/pulse — the founder Pulse dashboard payload (admin-live-deploy Phase 3). */
+/** GET /api/v1/admin/pulse — the founder Pulse dashboard payload (admin-live-deploy Phase 3).
+ *  `?days=7|30|90` is the dashboard's one time window (design-consolidation P6); anything
+ *  else — absent, malformed, or an odd number — falls back to 7, so a hand-typed URL can
+ *  never produce an unexpected window. */
 export async function pulse(c: RequestContext): Promise<void> {
-  c.json(200, await superadminService.pulse());
+  const days = Number(c.query.days);
+  const rangeDays = days === 30 || days === 90 ? days : 7;
+  c.json(200, await superadminService.pulse(undefined, rangeDays));
 }
 
 /** GET /api/v1/admin/runs — every run on the site, attributed, newest-first (pulse-drilldowns). */

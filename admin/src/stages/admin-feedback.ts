@@ -2,20 +2,38 @@
 // the Send-feedback form (feedback-inbox). Wired to GET /api/v1/admin/feedback, gated by
 // requireSuperadminRoute: only the allowlisted superadmin (Carl) gets a 200; the nav item
 // is hidden for everyone else, but that hiding is cosmetic — the 403 is the real wall.
-// Read-only list, newest first, with one action: permanently delete a note (junk cleanup).
+//
+// Design-consolidation Phase 6 (audit D12): the inbox works like an inbox now. Filter tabs
+// (New / Done / Archived / All) with done + archive actions; each note is a collapsed
+// two-line card that expands on click; a note tied to a 1:1 links through to that run's
+// read-only briefing (the same recap components the user drilldown uses, reached the same
+// way: stash the run id + bump stageTick so the router re-mounts this stage); delete lives
+// behind the shared ⋯ row menu and confirms via the shared dialog — no window.confirm.
+// The backend only stores and deletes notes, so done/archived live client-side
+// (localStorage) — they're Carl's personal triage marks, not shared data.
 
 import "../styles/feedback-inbox.css";
 import "../styles/pulse-drilldowns.css";
-import { STAGES } from "../state.js";
+import { STAGES, store } from "../state.js";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
-import { getFeedbackInbox, deleteFeedbackNote } from "../../../shared/api.js";
+import { openRowMenu, closeRowMenu, type RowMenuItem } from "../ui/row-menu.ts";
+import { confirmAction as confirmJs, alertAction as alertJs } from "../ui/confirm.js";
+import { getFeedbackInbox, deleteFeedbackNote, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
-import { Trash2, Mail, MessageSquare, ClipboardCheck } from "lucide";
+import { Mail, MessageSquare, ClipboardCheck, MoreHorizontal } from "lucide";
 import { noteKind, FEEDBACK_KINDS } from "../ui/feedback-kinds.ts";
 import type { FeedbackKind } from "../ui/feedback-kinds.ts";
+import { recapHeader } from "../ui/recap-header.ts";
+import { breadcrumb } from "../ui/breadcrumb.ts";
+import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+
+const confirmAction = confirmJs as unknown as (opts: {
+  message: string; confirmLabel?: string; cancelLabel?: string; destructive?: boolean;
+}) => Promise<boolean>;
+const alertAction = alertJs as unknown as (opts: { message: string; confirmLabel?: string }) => Promise<void>;
 
 // Resolve the kind map's icon names to the lucide components this stage bundles.
 const KIND_ICONS: Record<FeedbackKind, object> = { note: MessageSquare, verdict: ClipboardCheck };
@@ -31,6 +49,22 @@ type FeedbackNote = {
   verdict?: string | null;
   createdAt: string;
 };
+
+type NoteStatus = "done" | "archived";
+
+// Carl's triage marks, client-side only (the API has no status field): note id → status.
+// Absent = new. Kept in localStorage so they survive reloads on his machine.
+const STATUS_KEY = "seroFeedbackStatus";
+function loadStatuses(): Record<string, NoteStatus> {
+  try {
+    const raw = localStorage.getItem(STATUS_KEY);
+    const parsed = raw ? (JSON.parse(raw) as Record<string, NoteStatus>) : {};
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch { return {}; }
+}
+function saveStatuses(statuses: Record<string, NoteStatus>): void {
+  try { localStorage.setItem(STATUS_KEY, JSON.stringify(statuses)); } catch { /* private mode etc. */ }
+}
 
 function whenText(iso: string): string {
   const ms = Date.parse(iso);
@@ -70,10 +104,17 @@ function typeChip(note: FeedbackNote): string {
   return `<span class="fb-type fb-type--${kind}">${icon(KIND_ICONS[kind], { size: 14 })} ${escapeHtml(FEEDBACK_KINDS[kind].label)}</span>`;
 }
 
-// One feedback note as a message card: avatar · name·company · time + delete on top,
-// the email (with a Copy button) on its own line, the note full-width, source/verdict
-// pills below when present. The email row is skipped when the name already IS the email.
-function noteCard(note: FeedbackNote): string {
+function statusChip(status: NoteStatus | undefined): string {
+  if (status === "done") return `<span class="chip chip--mint">done</span>`;
+  if (status === "archived") return `<span class="chip chip--plain">archived</span>`;
+  return "";
+}
+
+// One feedback note as a collapsed two-line card: line one is who · kind · status · time
+// (+ the ⋯ menu), line two a one-line preview of the note. Clicking the card expands it to
+// the full message, the email row (with Copy), the source/verdict pills, and the link to
+// the 1:1 when the note carries one.
+function noteCard(note: FeedbackNote, status: NoteStatus | undefined, open: boolean): string {
   const name = displayName(note);
   const company = note.company
     ? `<span class="fb-company"> · ${escapeHtml(note.company)}</span>`
@@ -86,6 +127,7 @@ function noteCard(note: FeedbackNote): string {
            <button type="button" class="fb-copy js-copy" data-email="${escapeHtml(note.email)}" title="Copy email">Copy</button>
          </div>`
       : "";
+  const previewText = note.message || (note.verdict ? "(tap only. No comment)" : "");
   const body = note.message
     ? `<div class="fb-note">${escapeHtml(note.message)}</div>`
     : note.verdict
@@ -93,28 +135,41 @@ function noteCard(note: FeedbackNote): string {
       : "";
   const src = sourcePill(note);
   const ver = verdictPill(note);
-  const pills = src || ver ? `<div class="fb-pills">${src}${ver}</div>` : "";
+  const openRun = note.runId
+    ? `<button type="button" class="btn btn--ghost btn--sm js-open-run" data-run-id="${escapeHtml(note.runId)}">Open the 1:1</button>`
+    : "";
+  const pills = src || ver || openRun ? `<div class="fb-pills">${src}${ver}${openRun}</div>` : "";
   return `
-    <article class="fb-item" data-id="${escapeHtml(note.id)}">
+    <article class="fb-item js-item${open ? " is-open" : ""}" data-id="${escapeHtml(note.id)}">
       <div class="fb-avatar" aria-hidden="true">${escapeHtml(initialOf(note))}</div>
       <div class="fb-body">
         <div class="fb-head">
-          <div class="fb-head__who"><span class="fb-name">${escapeHtml(name)}</span>${company}${typeChip(note)}</div>
+          <div class="fb-head__who"><span class="fb-name">${escapeHtml(name)}</span>${company}${typeChip(note)}${statusChip(status)}</div>
           <div class="fb-head__meta">
             <span class="fb-time" title="${escapeHtml(exactWhen(note.createdAt))}">${escapeHtml(whenText(note.createdAt))}</span>
-            <button type="button" class="fb-del js-del" data-id="${escapeHtml(note.id)}" aria-label="Delete note" title="Delete note">${icon(Trash2, { size: 16 })}</button>
+            <button type="button" class="row-menu-btn js-menu" data-id="${escapeHtml(note.id)}" aria-haspopup="menu" aria-label="Actions for this note">${icon(MoreHorizontal, { size: 18 })}</button>
           </div>
         </div>
-        ${emailRow}
-        ${body}
-        ${pills}
+        <div class="fb-preview">${escapeHtml(previewText)}</div>
+        <div class="fb-full">
+          ${emailRow}
+          ${body}
+          ${pills}
+        </div>
       </div>
     </article>`;
 }
 
-function feedList(notes: FeedbackNote[]): string {
-  return `<div class="fb-list l-stack l-stack--3">${notes.map(noteCard).join("")}</div>`;
-}
+const TABS: Array<{ key: string; label: string }> = [
+  { key: "new", label: "New" },
+  { key: "done", label: "Done" },
+  { key: "archived", label: "Archived" },
+  { key: "all", label: "All" },
+];
+
+// The run the next mount should open read-only — same route/state pattern as the user
+// drilldown: the click stashes the id, bumps stageTick, and the router re-mounts us.
+let pendingRunId: string | null = null;
 
 export const mount: Mount = async (root, ctx) => {
   root.classList.add("fb-stage"); // top-align so the page doesn't jump when a row is deleted
@@ -133,12 +188,136 @@ export const mount: Mount = async (root, ctx) => {
   });
 
   let notes: FeedbackNote[] = [];
+  let statuses = loadStatuses();
+  let tab = "new";
+  const openIds = new Set<string>();
+
+  const setStatus = (id: string, status: NoteStatus | null) => {
+    if (status) statuses[id] = status; else delete statuses[id];
+    saveStatuses(statuses);
+    paint();
+  };
+
+  // The ⋯ menu: triage (done / archive) plus delete behind the shared confirm dialog.
+  const openNoteMenu = (btn: HTMLButtonElement) => {
+    const id = btn.dataset.id ?? "";
+    if (!id) return;
+    const status = statuses[id];
+    const items: RowMenuItem[] = [];
+    items.push(
+      status === "done"
+        ? { label: "Move back to new", onSelect: () => setStatus(id, null) }
+        : { label: "Mark done", onSelect: () => setStatus(id, "done") },
+    );
+    items.push(
+      status === "archived"
+        ? { label: "Unarchive", onSelect: () => setStatus(id, null) }
+        : { label: "Archive", onSelect: () => setStatus(id, "archived") },
+    );
+    items.push({
+      label: "Delete…",
+      danger: true,
+      onSelect: () => {
+        void (async () => {
+          const ok = await confirmAction({
+            message: "Delete this feedback note? This can't be undone.",
+            confirmLabel: "Delete",
+            destructive: true,
+          });
+          if (!ok) return;
+          try {
+            await deleteFeedbackNote(id);
+            notes = notes.filter((n) => n.id !== id);
+            setStatus(id, null); // also drops the stored mark and repaints
+          } catch (err) {
+            await alertAction({ message: (err as { message?: string })?.message || "Couldn't delete that note." });
+          }
+        })();
+      },
+    });
+    openRowMenu(btn, items);
+  };
+
+  // ONE run's briefing, read-only — the same recap components as the user drilldown.
+  // Its own bare container, NOT `shell`: the recap header names the 1:1 (the
+  // Screen-Names-The-Object rule), so the inbox page header must not stack above it.
+  const recapShell = (inner: string) => `<div class="l-container l-container--wide l-stack l-stack--6">${inner}</div>`;
+  const renderRecap = async (runId: string) => {
+    root.innerHTML = recapShell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+    type RunCtx = { name: string; role: string; seniority: string; meetingType: string };
+    let run: { ctx: RunCtx; briefing: Briefing | null };
+    const wireBack = () => {
+      root.querySelectorAll<HTMLButtonElement>('.js-crumb[data-nav="inbox"]').forEach((c) =>
+        c.addEventListener("click", () => ctx.setState({ stageTick: store.stageTick + 1 })),
+      );
+    };
+    try {
+      run = (await getAdminRun(runId)) as { ctx: RunCtx; briefing: Briefing | null };
+    } catch {
+      root.innerHTML = recapShell(`
+        <header class="page-header l-stack l-stack--3">${breadcrumb([{ label: "Feedback inbox", nav: "inbox" }, { label: "1:1" }])}</header>
+        <section class="card-flat space-y-3">
+          <div class="eyebrow">Couldn't open</div>
+          <p class="text-ink-dim">This 1:1 couldn't be opened. Go back and try another.</p>
+        </section>`);
+      wireBack();
+      return;
+    }
+    root.innerHTML = recapShell(
+      recapHeader(run.ctx || ({} as RunCtx), [{ label: "Feedback inbox", nav: "inbox" }]) +
+        renderReadonlyBriefing(run.briefing),
+    );
+    wireBack();
+  };
 
   const paint = () => {
-    root.innerHTML = shell(
-      notes.length
-        ? feedList(notes)
-        : `<section class="card-flat"><p class="text-sm text-ink-dim">No feedback yet. When a tester sends a note, it lands here.</p></section>`,
+    const statusOf = (n: FeedbackNote): NoteStatus | undefined => statuses[n.id];
+    const counts: Record<string, number> = {
+      new: notes.filter((n) => !statusOf(n)).length,
+      done: notes.filter((n) => statusOf(n) === "done").length,
+      archived: notes.filter((n) => statusOf(n) === "archived").length,
+      all: notes.length,
+    };
+    const shown = notes.filter((n) => {
+      if (tab === "all") return true;
+      const s = statusOf(n);
+      return tab === "new" ? !s : s === tab;
+    });
+    const tabs = `<div class="seg" role="tablist">${TABS.map((t) =>
+      `<button type="button" role="tab" class="seg__btn js-tab${tab === t.key ? " is-active" : ""}" data-key="${t.key}" aria-selected="${tab === t.key ? "true" : "false"}">${t.label} <span class="fb-tab__n">${counts[t.key] ?? 0}</span></button>`,
+    ).join("")}</div>`;
+    const list = shown.length
+      ? `<div class="fb-list l-stack l-stack--3">${shown.map((n) => noteCard(n, statusOf(n), openIds.has(n.id))).join("")}</div>`
+      : `<section class="card-flat"><p class="text-sm text-ink-dim">${
+          notes.length === 0
+            ? "No feedback yet. When a tester sends a note, it lands here."
+            : "Nothing in this view."
+        }</p></section>`;
+    root.innerHTML = shell(`<div class="l-stack l-stack--4">${tabs}${list}</div>`);
+
+    root.querySelectorAll<HTMLButtonElement>(".js-tab").forEach((b) =>
+      b.addEventListener("click", () => { tab = b.dataset.key ?? "new"; paint(); }),
+    );
+    // The card expands/collapses on click; clicks on its controls don't toggle it.
+    root.querySelectorAll<HTMLElement>(".js-item").forEach((item) =>
+      item.addEventListener("click", (e) => {
+        if (e.target instanceof Element && e.target.closest("button, a")) return;
+        const id = item.dataset.id ?? "";
+        if (!id) return;
+        if (openIds.has(id)) openIds.delete(id); else openIds.add(id);
+        item.classList.toggle("is-open");
+      }),
+    );
+    root.querySelectorAll<HTMLButtonElement>(".js-menu").forEach((b) =>
+      b.addEventListener("click", (e) => { e.stopPropagation(); openNoteMenu(b); }),
+    );
+    root.querySelectorAll<HTMLButtonElement>(".js-open-run").forEach((b) =>
+      b.addEventListener("click", () => {
+        const runId = b.dataset.runId ?? "";
+        if (!runId) return;
+        pendingRunId = runId;
+        ctx.setState({ stageTick: store.stageTick + 1 });
+      }),
     );
     root.querySelectorAll<HTMLButtonElement>(".js-copy").forEach((b) =>
       b.addEventListener("click", () => {
@@ -154,31 +333,16 @@ export const mount: Mount = async (root, ctx) => {
               b.classList.remove("is-copied");
             }, 1200);
           },
-          () => window.alert("Couldn't copy. Please copy the address manually."),
+          () => { void alertAction({ message: "Couldn't copy. Please copy the address manually." }); },
         );
       }),
     );
-    root.querySelectorAll<HTMLButtonElement>(".js-del").forEach((b) =>
-      b.addEventListener("click", () => {
-        const id = b.dataset.id ?? "";
-        if (!id) return;
-        if (!window.confirm("Delete this feedback note? This can't be undone.")) return;
-        b.disabled = true;
-        b.classList.add("is-busy");
-        void (async () => {
-          try {
-            await deleteFeedbackNote(id);
-            notes = notes.filter((n) => n.id !== id);
-            paint();
-          } catch (err) {
-            window.alert((err as { message?: string })?.message || "Couldn't delete that note.");
-            b.disabled = false;
-            b.classList.remove("is-busy");
-          }
-        })();
-      }),
-    );
   };
+
+  // A pending run id means this mount IS the recap navigation.
+  const openRunId = pendingRunId;
+  pendingRunId = null;
+  if (openRunId) { await renderRecap(openRunId); return; }
 
   root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading the feedback inbox…</p></section>`);
 
@@ -196,7 +360,15 @@ export const mount: Mount = async (root, ctx) => {
     return;
   }
 
+  // Housekeeping: drop stored marks for notes that no longer exist.
+  const ids = new Set(notes.map((n) => n.id));
+  const pruned = Object.fromEntries(Object.entries(statuses).filter(([id]) => ids.has(id))) as Record<string, NoteStatus>;
+  if (Object.keys(pruned).length !== Object.keys(statuses).length) {
+    statuses = pruned;
+    saveStatuses(statuses);
+  }
+
   paint();
 };
 
-export const unmount: Unmount = () => {};
+export const unmount: Unmount = () => { closeRowMenu(); };

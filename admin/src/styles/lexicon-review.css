@@ -1,0 +1,31 @@
+/* Lexicon review — admin costume (P6 D4): tabs + checkbox bulk-select chrome.
+   The base .lex-row primitives stay in design/start-stage.css. */
+.lex-row--pick {
+  grid-template-columns: auto 1.75rem 1fr auto;
+}
+.lex-row__pick {
+  display: flex;
+  align-items: center;
+  padding-top: 0.2rem;
+}
+.lex-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-3);
+  flex-wrap: wrap;
+  padding-bottom: var(--sero-space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+.lex-selectall {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  cursor: pointer;
+}
+.lex-toolbar__bulk {
+  margin-left: auto;
+  display: flex;
+  gap: var(--sero-space-2);
+}

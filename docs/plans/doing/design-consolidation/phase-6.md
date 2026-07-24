@@ -1,6 +1,31 @@
 # Phase 6: Admin + superadmin sweep
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+## ✅ GREEN-LIT 2026-07-24
+
+Carl walked it: "yeah its good", plus a note that the skeleton loading reads nicely — so the last
+plain "Loading…" texts (Library, Personas, Lexicon, Compare, Guest runs, User detail, Run review)
+were swapped to the shared createSkeleton ghost cards before shipping. Shipped to main same day.
+
+## Built (2026-07-24)
+
+Awaiting Carl's QA walk. All 12 acceptance items (D1-D12) landed, built by four parallel fenced
+workstreams: Library + Personas + review-run on the um-table idiom (sortable headers, ⋯ row menus,
+side-panel transcript, origin-aware breadcrumb + shortcut legend); Pulse gets ONE 7/30/90-day range
+control driving every tile + chart (backend range param, test-covered; Gate 1 stays all-time by
+definition, labelled), uniform KPI tiles, um-table skin, filler card gone; drill-downs get toolbars,
+clickable rows to the read-only briefing, star histogram on Ratings, merged Gate 1 table; Registered
+flattens to one searchable/filterable table; User detail gets an identity header + um-table (route
+re-mount, no innerHTML swap); Error log groups repeats into issues with count/last-seen + tabs +
+search; Feedback inbox gets tabs, two-line cards, briefing links, delete behind ⋯ + confirm. The
+four parallel button systems (.arc-btn/.guide-btn/.gal__screens-btn/mh-*) are gone, every
+confirm/alert routes through the shared dialog, Lexicon review wears the admin costume (tabs,
+partial save, bulk actions), Gallery keeps its toolbar via a declared DESIGN.md exemption (a
+sidebar would narrow the previews it exists to show). Known honest limits: feedback done/archived
+state is per-browser (localStorage; API field = follow-up), lexicon with-data view code-verified
+only. Verified: 184/184 + 46/46 backend service tests, typecheck, both linters; screenshots of
+Pulse, Error log, Library, Personas, Registered, Feedback on the real p6 dev pair.
+
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting QA
 
 ## Goal
 

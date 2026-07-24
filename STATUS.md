@@ -2,6 +2,19 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-24 (evening) — P6 went LIVE: the back office grew up.** Carl walked it ("yeah its
+good") and his skeleton note was answered before shipping: every admin loading state now shows the
+standard ghost cards instead of plain "Loading…" text. Live now: every internal and superadmin list
+is a real searchable/sortable table (Library, Personas with a side-panel transcript, User
+management, User detail, Guest runs, Feedback inbox with tabs, the Pulse drill-downs with clickable
+rows into read-only briefings and a star histogram on Ratings), Pulse follows ONE 7/30/90-day
+switch on every tile + chart (backend range param, test-covered), repeating errors group into
+issues with counts, the four parallel button systems are deleted, every confirm goes through the
+shared dialog, Lexicon review wears the admin costume, and Gallery's toolbar is a declared
+DESIGN.md exemption. Known limit: feedback done/archive marks are per-browser for now. Verified:
+184/184 + 46/46 backend, typecheck, both linters, real-screen screenshots. Next: P7 re-audit
+closes the redesign.
+
 📍 **2026-07-24 (later) — P5 went LIVE: the app got its proper shell.** Carl walked P5 locally and
 green-lit it same day. Live now: the sidebar stays open with names + section headers (chevron
 collapses it, remembered per browser; rows are real links and stay lit through a run), every
@@ -103,13 +116,13 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 
 ## ▶ Your move
 1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
-2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
-3. **Say go on P6** — the admin sweep (internal tables, Pulse time-range, error grouping) is the next design-consolidation phase; P7 re-audit then closes the redesign.
+2. **Say go on P7** — the final re-audit: every acceptance box checked green, the CSS trend report, a fresh screenshot baseline, and your Sheet-vs-lab CSS call. It closes the whole redesign.
+3. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P5 ✅ LIVE (P5 green-lit 2026-07-24 after Carl's local walk). Next: P6 admin sweep → P7 re-audit + close. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P6 ✅ LIVE (P6 green-lit 2026-07-24, skeleton-loading polish included). Last phase: P7 re-audit + close. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
 
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
@@ -140,4 +153,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-24 — P4 AND P5 live, both green-lit by Carl the same day; P6 admin sweep next.
+Last updated: 2026-07-24 — P4, P5 AND P6 all green-lit + live in one day; only P7 (re-audit + close) remains.

@@ -282,3 +282,6 @@ The "before you build" checklist — every new or touched screen passes all thir
 - **The in-app design sheet** (`stages/design.js`) — the live twin of the component sheet at
   `admin/public/sero-flowbite/`; it demonstrates the system (including small illustrative glyphs
   in its mock cards), so it documents the rules rather than being bound by them.
+- **The Screen Gallery edit bar** (`stages/gallery/`) — internal design-mode chrome that stays a
+  top toolbar (not a sidebar) so previewed screens keep their real width, and wears a deliberate
+  gold "edit mode" tint over the shared `.btn` shape.

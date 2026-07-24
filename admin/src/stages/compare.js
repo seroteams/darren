@@ -4,6 +4,7 @@ import { escapeHtml as escape } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { ChevronUp, ChevronDown, TriangleAlert } from "lucide";
+import { createSkeleton } from "../ui/skeleton.js";
 
 const FIX_STAGES = ["focus_points", "preparation", "bank", "questioning", "evaluation"];
 
@@ -65,7 +66,7 @@ export async function mount(root, { setState }) {
 
   loadBtn.addEventListener("click", async () => {
     err.hidden = true;
-    grid.innerHTML = `<div class="hint">Loading…</div>`;
+    grid.replaceChildren(createSkeleton(2)); // standard ghost cards while both runs load
     try {
       const metaA = runs.find((r) => r.id === selA.value) || {};
       const metaB = runs.find((r) => r.id === selB.value) || {};

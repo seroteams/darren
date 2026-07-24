@@ -61,11 +61,6 @@
   .run-bar[data-state="done"] .run-bar__status { animation: none; }
 }
 
-@media (max-width: 640px) {
-  .lib-row { flex-wrap: wrap; }
-  .lib-row__right { flex-wrap: wrap; }
-}
-
 /* Job lexicons — master–detail (roles list + selected role's words) -------- */
 .joblex-layout {
   display: grid;
@@ -239,31 +234,9 @@
 }
 .guide-toc a:hover { color: var(--color-accent-dark); border-color: var(--color-accent); }
 
-/* Small pill action — sits inside the sticky TOC (and the arcs section) without
-   shouting like the primary .btn. Matches the ghost-pill links, a touch stronger. */
-.guide-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: var(--type-body-sm);
-  font-weight: 500;
-  color: var(--color-ink);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--sero-radius-full);
-  padding: 0.28rem 0.8rem;
-  cursor: pointer;
-  box-shadow: none;
-  transition: background-color var(--dur-instant) ease-out,
-              border-color var(--dur-instant) ease-out,
-              color var(--dur-instant) ease-out;
-}
-.guide-btn:hover { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-accent-dark); }
-.guide-btn:active { transform: translateY(1px); }
-.guide-btn[disabled] { opacity: 0.6; cursor: not-allowed; }
-.guide-btn:focus-visible { outline: none; box-shadow: var(--sero-shadow-focus); }
-.guide-btn svg { width: 14px; height: 14px; flex: none; }
-.guide-btn.is-busy svg { animation: guide-spin 0.7s linear infinite; }
+/* The TOC's check action is a shared .btn (ghost, small); only the busy-spin on
+   its refresh glyph is local. */
+.guide-toc__actions .btn.is-busy svg { animation: guide-spin 0.7s linear infinite; }
 @keyframes guide-spin { to { transform: rotate(360deg); } }
 
 .guide-ref {

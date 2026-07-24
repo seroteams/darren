@@ -1,35 +1,36 @@
-// User management — the superadmin's read-only view of everyone across the alpha (user-management
+// User management — the superadmin's view of everyone across the alpha (user-management
 // Phase 1; the screen was "Registered", PG7). Wired to GET /api/v1/admin/registered, gated by
 // requireSuperadminRoute: only the allowlisted superadmin (Carl) gets a 200; a normal manager is
 // refused (403). The nav item is hidden for everyone else, but that hiding is cosmetic — the 403
-// is the real wall. Presentation only. A cross-company operator's unit is the *company*, so the
-// table is grouped: each company is a header (name · people · last active) over its people, with
-// the freshest-active company first and the dormant/empty ones sinking to the bottom. Within a
-// company, whoever's slipping sinks too. A row (or the person's name, a real button) opens their
-// drilldown. Row actions (role, deactivate, delete, reset) + the ⋯ menu that will hold them arrive
-// in Phases 2–5; there's no menu while there's nothing to put in it.
+// is the real wall. Presentation only.
+//
+// Design-consolidation Phase 6 (audit D9): the company-grouped card stack became ONE flat
+// um-table with a Company column, fronted by the shared list toolbar (search on name/email,
+// role + status filter chips, honest count). The activity cell is one line. Row actions live
+// behind the shared ⋯ row menu; the destructive ones (deactivate, delete) go through the
+// shared confirm dialog — no window.confirm anywhere.
 
 import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.js";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
+import { listToolbar } from "../ui/list-toolbar.ts";
+import { openRowMenu, closeRowMenu, type RowMenuItem } from "../ui/row-menu.ts";
+import { confirmAction as confirmJs, alertAction as alertJs } from "../ui/confirm.js";
 import { getRegistered, setUserRole, deactivateUser, reactivateUser, deleteUser } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
-import { Star, TrendingUp, TrendingDown } from "lucide";
-import { relTime, formatDate } from "../ui/time.ts";
+import { Star, TrendingUp, TrendingDown, MoreHorizontal } from "lucide";
+import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+
+// The shared confirm/alert dialogs (ui/confirm.js is plain JS — typed here at the boundary).
+const confirmAction = confirmJs as unknown as (opts: {
+  message: string; confirmLabel?: string; cancelLabel?: string; destructive?: boolean;
+}) => Promise<boolean>;
+const alertAction = alertJs as unknown as (opts: { message: string; confirmLabel?: string }) => Promise<void>;
 
 // The roles a superadmin can set, offered in the row's ⋯ menu (user-management Phase 2).
 const ROLE_OPTIONS = ["member", "manager", "admin"] as const;
-
-// A single role-change menu, attached to <body> so the table's horizontal scroll can never
-// clip it. Rebuilt on each open; torn down on close / navigate-away.
-let roleMenuEl: HTMLElement | null = null;
-let roleMenuOutside: ((e: Event) => void) | null = null;
-function closeRoleMenu(): void {
-  if (roleMenuOutside) { document.removeEventListener("click", roleMenuOutside, true); roleMenuOutside = null; }
-  if (roleMenuEl) { roleMenuEl.remove(); roleMenuEl = null; }
-}
 
 type RegUser = {
   id: string;
@@ -49,7 +50,7 @@ type RegUser = {
 };
 type RegCompany = { id: string; name: string; createdAt: string | number; users: RegUser[] };
 type Summary = { avgStars: number | null; ratedCount: number; lowCount: number };
-type Group = { name: string; users: RegUser[]; lastActive: number };
+type FlatUser = RegUser & { company: string };
 
 // Epoch ms for sorting; missing/unparseable sinks to the bottom (0).
 function activeMs(value: string | number | null): number {
@@ -83,74 +84,51 @@ function trendMark(u: RegUser): string {
   return `<span class="um-trend um-trend--${variant}" role="img" aria-label="${label}" title="${label}">${glyph}</span>`;
 }
 
-// The validation answer in one line: first run, then either "came back after N days"
-// (the badge carries the win) or the honest gap — a late return or none yet.
-function returnLine(u: RegUser): string {
-  const firstMs = activeMs(u.firstRunAt ?? null);
-  if (!firstMs) return "";
-  const first = `first run ${formatDate(firstMs)}`;
-  const gap =
-    u.gapDays == null
-      ? "no second prep yet"
-      : u.cameBack
-        ? `came back after ${u.gapDays === 0 ? "less than a day" : `${u.gapDays} ${u.gapDays === 1 ? "day" : "days"}`}`
-        : `returned after ${u.gapDays} days. Outside the 2-week window`;
-  return `<div class="um-activity__sub">${escapeHtml(first)} · ${escapeHtml(gap)}</div>`;
-}
-
-function userRow(u: RegUser): string {
+// One person = one row of the flat table. data-search / data-role / data-status feed the
+// toolbar's client-side filtering (hidden-toggle, so typing never loses focus).
+function userRow(u: FlatUser): string {
   const off = !!u.deactivated;
   const deactivatedTag = off ? `<span class="um-badge um-badge--off">Deactivated</span>` : "";
   const internalTag = u.internal ? `<span class="um-badge um-badge--internal">internal</span>` : "";
   const backBadge = u.cameBack ? `<span class="um-badge um-badge--back">came back</span>` : "";
+  const runsWord = u.runCount === 1 ? "run" : "runs";
   return `
-    <tr class="um-row js-user-row${off ? " um-row--off" : ""}${u.internal ? " um-row--internal" : ""}" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">
+    <tr class="um-row js-user-row${off ? " um-row--off" : ""}${u.internal ? " um-row--internal" : ""}"
+        data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}"
+        data-search="${escapeHtml(`${u.name} ${u.email}`.toLowerCase())}"
+        data-role="${escapeHtml(u.role)}" data-status="${off ? "deactivated" : "active"}">
       <td>
         <button type="button" class="um-user__open js-user-open" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}">${escapeHtml(u.name)}</button>
         <div class="um-user__email">${escapeHtml(u.email)}</div>
       </td>
+      <td class="text-ink-dim">${escapeHtml(u.company)}</td>
       <td>${roleBadge(u.role)}${internalTag}${deactivatedTag}</td>
       <td>
-        <div class="um-activity">${trendMark(u)}${backBadge}<span>last active ${escapeHtml(lastActive(u.lastActiveAt))}</span></div>
-        <div class="um-activity__sub">${u.runsThisWeek} this week / ${u.runsLastWeek} last · ${u.runCount} ${u.runCount === 1 ? "run" : "runs"} total</div>
-        ${returnLine(u)}
+        <div class="um-activity">${trendMark(u)}${backBadge}<span>last active ${escapeHtml(lastActive(u.lastActiveAt))} · ${u.runCount} ${runsWord}</span></div>
       </td>
       <td class="um-actions">
-        <button type="button" class="um-menu-btn js-menu-btn" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" data-role="${escapeHtml(u.role)}" data-deactivated="${off ? "1" : ""}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(u.name)}">⋯</button>
+        <button type="button" class="row-menu-btn js-menu-btn" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" data-role="${escapeHtml(u.role)}" data-deactivated="${off ? "1" : ""}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(u.name)}">${icon(MoreHorizontal, { size: 18 })}</button>
       </td>
     </tr>`;
 }
 
-// One company = one <tbody> group: a header row (name · people · freshest activity) over its
-// people. An empty company still shows, greyed, so nothing silently vanishes.
-function companyGroup(g: Group): string {
-  const count = g.users.length;
-  const meta = count === 0
-    ? "No users yet"
-    : `${count} ${count === 1 ? "person" : "people"}${g.lastActive > 0 ? ` · last active ${relTime(g.lastActive)}` : ""}`;
-  const head = `
-    <tr class="um-group__head">
-      <td colspan="4">
-        <span class="um-group__name">${escapeHtml(g.name)}</span>
-        <span class="um-group__meta">${escapeHtml(meta)}</span>
-      </td>
-    </tr>`;
-  return `<tbody class="um-group${count === 0 ? " um-group--empty" : ""}">${head}${g.users.map(userRow).join("")}</tbody>`;
-}
-
-function table(groups: Group[]): string {
+function table(users: FlatUser[]): string {
   return `
     <div class="um-table-wrap">
       <table class="um-table">
         <thead>
           <tr>
             <th>User</th>
+            <th>Company</th>
             <th>Role</th>
-            <th>Coming back?</th>
+            <th>Activity</th>
             <th class="um-actions-th" aria-label="Actions"></th>
           </tr>
         </thead>
-        ${groups.map(companyGroup).join('<tbody class="um-group-gap"><tr><td colspan="4"></td></tr></tbody>')}
+        <tbody>
+          ${users.map(userRow).join("")}
+          <tr class="js-no-match" hidden><td colspan="5" class="text-ink-dim">No one matches that.</td></tr>
+        </tbody>
       </table>
     </div>`;
 }
@@ -169,6 +147,16 @@ function summaryBlock(s: Summary): string {
       <span class="text-sm">${avg}${escapeHtml(stat)}</span>
     </div>`;
 }
+
+// The toolbar's filter chips: one optional pick per group (role, status). Clicking the
+// active chip clears that group.
+const FILTER_CHIPS = [
+  { key: "role:admin", label: "Admin" },
+  { key: "role:manager", label: "Manager" },
+  { key: "role:member", label: "Member" },
+  { key: "status:active", label: "Active" },
+  { key: "status:deactivated", label: "Deactivated" },
+];
 
 export const mount: Mount = async (root, { setState }) => {
   const shell = (inner: string) =>
@@ -196,98 +184,83 @@ export const mount: Mount = async (root, { setState }) => {
     if (id) setState({ adminUserId: id, adminUserName: name, stage: STAGES.ADMIN_USER });
   };
 
-  // Open the role-change menu next to a row's ⋯ button. Body-attached + fixed so the table's
-  // scroll never clips it; picking a role calls the API and reloads (so the badge updates).
-  const openRoleMenu = (btn: HTMLButtonElement) => {
+  // Toolbar filter state — client-side over what the API already returned.
+  let q = "";
+  let roleFilter: string | null = null;
+  let statusFilter: string | null = null;
+
+  // Hidden-toggle filtering (the runs.ts idiom): the rows stay in the DOM, so typing in the
+  // search box never repaints the input out from under the cursor. The count stays honest.
+  const applyFilters = () => {
+    let visible = 0;
+    root.querySelectorAll<HTMLElement>(".js-user-row").forEach((row) => {
+      const hit =
+        (!q || (row.dataset.search || "").includes(q)) &&
+        (!roleFilter || row.dataset.role === roleFilter) &&
+        (!statusFilter || row.dataset.status === statusFilter);
+      row.hidden = !hit;
+      if (hit) visible++;
+    });
+    const count = root.querySelector<HTMLElement>(".list-toolbar__count");
+    if (count) count.textContent = `${visible} ${visible === 1 ? "person" : "people"}`;
+    const noMatch = root.querySelector<HTMLElement>(".js-no-match");
+    if (noMatch) noMatch.hidden = visible > 0;
+  };
+
+  // Open the shared ⋯ row menu: role changes, deactivate/reactivate, delete. The disruptive
+  // ones (deactivate kicks them out now; delete is forever) confirm via the shared dialog.
+  const openUserMenu = (btn: HTMLButtonElement) => {
     const id = btn.dataset.id ?? "";
     const current = btn.dataset.role ?? "";
     const name = btn.dataset.name ?? "this user";
     const isOff = btn.dataset.deactivated === "1";
-    closeRoleMenu();
-    const menu = document.createElement("div");
-    menu.className = "um-menu";
-    menu.setAttribute("role", "menu");
-    menu.innerHTML =
-      `<div class="um-menu__label">Change role</div>` +
-      ROLE_OPTIONS.map(
-        (r) =>
-          `<button type="button" role="menuitemradio" class="um-menu__item${r === current ? " is-current" : ""}" data-role="${r}"${r === current ? ' aria-checked="true" disabled' : ""}>${r}</button>`,
-      ).join("") +
-      `<div class="um-menu__sep" role="separator"></div>` +
-      (isOff
-        ? `<button type="button" role="menuitem" class="um-menu__item js-reactivate">Reactivate</button>`
-        : `<button type="button" role="menuitem" class="um-menu__item um-menu__item--danger js-deactivate">Deactivate</button>`) +
-      `<button type="button" role="menuitem" class="um-menu__item um-menu__item--danger js-delete">Delete…</button>`;
-    document.body.appendChild(menu);
-    const rect = btn.getBoundingClientRect();
-    menu.style.top = `${Math.round(rect.bottom + 4)}px`;
-    menu.style.left = `${Math.round(Math.max(8, rect.right - menu.offsetWidth))}px`;
-    roleMenuEl = menu;
-
-    menu.querySelectorAll<HTMLButtonElement>(".um-menu__item[data-role]:not([disabled])").forEach((item) => {
-      item.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const role = item.dataset.role ?? "";
-        closeRoleMenu();
-        void (async () => {
-          try {
-            await setUserRole(id, role);
-            await load();
-          } catch (err) {
-            window.alert((err as { message?: string })?.message || `Couldn't change ${name}'s role.`);
-          }
-        })();
-      });
-    });
-
-    // Deactivate — disruptive (kicks them out now), so confirm first. Reactivate is safe, no confirm.
-    menu.querySelector(".js-deactivate")?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      closeRoleMenu();
-      if (!window.confirm(`Deactivate ${name}? They'll be signed out now and can't log back in until you reactivate them.`)) return;
+    const run = (fn: () => Promise<unknown>, fallback: string) => {
       void (async () => {
         try {
-          await deactivateUser(id);
+          await fn();
           await load();
         } catch (err) {
-          window.alert((err as { message?: string })?.message || `Couldn't deactivate ${name}.`);
+          await alertAction({ message: (err as { message?: string })?.message || fallback });
         }
       })();
-    });
-    menu.querySelector(".js-reactivate")?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      closeRoleMenu();
-      void (async () => {
-        try {
-          await reactivateUser(id);
-          await load();
-        } catch (err) {
-          window.alert((err as { message?: string })?.message || `Couldn't reactivate ${name}.`);
-        }
-      })();
-    });
-
-    // Delete — permanent, so confirm and spell out what survives. The server keeps their
-    // past 1:1s under the company (just unowned) and refuses (409) if a guardrail blocks it.
-    menu.querySelector(".js-delete")?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      closeRoleMenu();
-      if (!window.confirm(`Permanently delete ${name}? Their account is removed for good. Their past 1:1s stay under the company but no longer show an owner. This can't be undone.`)) return;
-      void (async () => {
-        try {
-          await deleteUser(id);
-          await load();
-        } catch (err) {
-          window.alert((err as { message?: string })?.message || `Couldn't delete ${name}.`);
-        }
-      })();
-    });
-
-    // Any click outside the menu closes it. Deferred so the click that opened it doesn't.
-    roleMenuOutside = (e) => {
-      if (!(e.target instanceof Node) || !menu.contains(e.target)) closeRoleMenu();
     };
-    setTimeout(() => { if (roleMenuOutside) document.addEventListener("click", roleMenuOutside, true); }, 0);
+    const items: RowMenuItem[] = ROLE_OPTIONS.filter((r) => r !== current).map((r) => ({
+      label: `Change role to ${r}`,
+      onSelect: () => run(() => setUserRole(id, r), `Couldn't change ${name}'s role.`),
+    }));
+    if (isOff) {
+      items.push({ label: "Reactivate", onSelect: () => run(() => reactivateUser(id), `Couldn't reactivate ${name}.`) });
+    } else {
+      items.push({
+        label: "Deactivate…",
+        danger: true,
+        onSelect: () => {
+          void (async () => {
+            const ok = await confirmAction({
+              message: `Deactivate ${name}? They'll be signed out now and can't log back in until you reactivate them.`,
+              confirmLabel: "Deactivate",
+              destructive: true,
+            });
+            if (ok) run(() => deactivateUser(id), `Couldn't deactivate ${name}.`);
+          })();
+        },
+      });
+    }
+    items.push({
+      label: "Delete…",
+      danger: true,
+      onSelect: () => {
+        void (async () => {
+          const ok = await confirmAction({
+            message: `Permanently delete ${name}? Their account is removed for good. Their past 1:1s stay under the company but no longer show an owner. This can't be undone.`,
+            confirmLabel: "Delete",
+            destructive: true,
+          });
+          if (ok) run(() => deleteUser(id), `Couldn't delete ${name}.`);
+        })();
+      },
+    });
+    openRowMenu(btn, items);
   };
 
   const wire = () => {
@@ -297,9 +270,27 @@ export const mount: Mount = async (root, { setState }) => {
     root.querySelectorAll<HTMLElement>(".js-user-row").forEach((row) => {
       row.addEventListener("click", () => openUser(row.dataset.id ?? null, row.dataset.name ?? null));
     });
-    // The ⋯ button opens the role menu; stop the click so it doesn't also open the drilldown.
+    // The ⋯ button opens the row menu; stop the click so it doesn't also open the drilldown.
     root.querySelectorAll<HTMLButtonElement>(".js-menu-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => { e.stopPropagation(); openRoleMenu(btn); });
+      btn.addEventListener("click", (e) => { e.stopPropagation(); openUserMenu(btn); });
+    });
+    // Toolbar: search on name/email; chips pick at most one role and one status.
+    root.querySelector<HTMLInputElement>(".js-lt-search")?.addEventListener("input", (e) => {
+      q = (e.target as HTMLInputElement).value.trim().toLowerCase();
+      applyFilters();
+    });
+    root.querySelectorAll<HTMLButtonElement>(".js-lt-filter").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const [group, val] = (chip.dataset.key || "").split(":");
+        if (group === "role") roleFilter = roleFilter === val ? null : (val ?? null);
+        if (group === "status") statusFilter = statusFilter === val ? null : (val ?? null);
+        root.querySelectorAll<HTMLButtonElement>(".js-lt-filter").forEach((c) => {
+          const [g, v] = (c.dataset.key || "").split(":");
+          const on = (g === "role" && v === roleFilter) || (g === "status" && v === statusFilter);
+          c.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        applyFilters();
+      });
     });
   };
 
@@ -318,28 +309,30 @@ export const mount: Mount = async (root, { setState }) => {
       return;
     }
 
-    // Group by company. Within a company, most-recently-active people first; companies ordered by
-    // their own freshest activity, so the busy accounts lead and the quiet/empty ones sink.
-    const groups: Group[] = companies
-      .map((c) => {
-        const users = [...c.users].sort((a, b) => activeMs(b.lastActiveAt) - activeMs(a.lastActiveAt));
-        const lastActive = users.reduce((max, u) => Math.max(max, activeMs(u.lastActiveAt)), 0);
-        return { name: c.name, users, lastActive };
-      })
-      .sort((a, b) => b.lastActive - a.lastActive || b.users.length - a.users.length);
+    // Flatten the company grouping into one table; the company rides along as a column.
+    // Most-recently-active people first, so whoever's live leads and the dormant sink.
+    const users: FlatUser[] = companies
+      .flatMap((c) => c.users.map((u) => ({ ...u, company: c.name })))
+      .sort((a, b) => activeMs(b.lastActiveAt) - activeMs(a.lastActiveAt));
 
-    if (groups.every((g) => g.users.length === 0)) {
+    if (users.length === 0) {
       root.innerHTML = shell(
         `${summaryBlock(summary)}<section class="card-flat"><p class="text-ink-dim">No one has signed up yet.</p></section>`,
       );
       return;
     }
 
-    root.innerHTML = shell(`${summaryBlock(summary)}${table(groups)}`);
+    const toolbar = listToolbar({
+      search: { placeholder: "Search name or email" },
+      filters: FILTER_CHIPS,
+      count: { n: users.length, noun: "person", nounPlural: "people" },
+    });
+    root.innerHTML = shell(`${summaryBlock(summary)}<section class="l-stack l-stack--3">${toolbar}${table(users)}</section>`);
     wire();
+    applyFilters();
   };
 
   await load();
 };
 
-export const unmount: Unmount = () => { closeRoleMenu(); };
+export const unmount: Unmount = () => { closeRowMenu(); };

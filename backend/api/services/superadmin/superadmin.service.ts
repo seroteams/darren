@@ -94,26 +94,43 @@ export interface PulseManager {
   status: "back" | "once" | "none" | "internal";
 }
 
-/** The founder Pulse payload (admin-live-deploy Phase 3): one screen's worth of the live site
- *  — the Gate-1 return number, managers, run volume + type mix, drop-offs, guests, errors, and
- *  the latest feedback. Assembled from listRegistered plus the new time-series reads. All
- *  time-series count EXTERNAL managers only (internal Sero runs are excluded); `now` is
- *  injected so the day/week buckets are deterministic in tests. */
+/** The Pulse dashboard's selectable time windows (design-consolidation P6, D7). */
+export const PULSE_RANGES = [7, 30, 90] as const;
+
+/** The founder Pulse payload (admin-live-deploy Phase 3; range-aware since
+ *  design-consolidation P6): one screen's worth of the live site — the Gate-1 return
+ *  number, managers, run volume + type mix, drop-offs, guests, errors, and the latest
+ *  feedback. Assembled from listRegistered plus the time-series reads. All time-series
+ *  count EXTERNAL managers only (internal Sero runs are excluded).
+ *
+ *  Every windowed number follows ONE range (`rangeDays`, the dashboard's segmented
+ *  control): the "…InRange" values cover the last rangeDays, the "…PrevRange" values
+ *  the equal period before them (the tiles' delta chips). The two deliberately
+ *  cumulative numbers are labelled as such: gate1 {cameBack, total} is the all-time
+ *  validation metric (its 14-day return window is the metric's definition, not a
+ *  display window) and guestCount / managersOnLive are all-time headcounts. `now` is
+ *  injected so the buckets are deterministic in tests. */
 export interface PulseData {
-  gate1: { cameBack: number; total: number };
+  rangeDays: number;
+  /** All-time Gate-1 number; `triedInRange` = managers whose FIRST prep fell in range. */
+  gate1: { cameBack: number; total: number; triedInRange: number };
   managersOnLive: number;
-  managersNewThisWeek: number;
-  runsThisWeek: number;
-  runsLastWeek: number;
-  ratings: AlphaSummary;
+  managersNewInRange: number;
+  runsInRange: number;
+  runsPrevRange: number;
+  /** Rating fold over the runs seen in range; prevAvgStars feeds the delta chip. */
+  ratings: AlphaSummary & { prevAvgStars: number | null };
+  /** All-time guest pile size, plus the in-range/previous-range counts for the tile. */
   guestCount: number;
-  /** Runs per day over the last 14 days, oldest first (index 0 = 13 days ago). */
+  guestsInRange: number;
+  guestsPrevRange: number;
+  /** Runs per day over the range, oldest first (index 0 = rangeDays-1 days ago). */
   runsPerDay: number[];
-  /** Meeting-type mix over the last 7 days, most common first. */
+  /** Meeting-type mix over the range, most common first. */
   runTypeMix: { type: string; count: number }[];
-  /** Where unfinished runs broke off over the last 14 days, by stage. */
+  /** Where unfinished runs broke off within the range, by stage. */
   dropOffs: { stage: string; count: number }[];
-  errors: { total: number; unresolved: number };
+  errors: { total: number; unresolved: number; prevTotal: number };
   latestFeedback: { message: string; verdict: string | null; runId: string | null }[];
   managers: PulseManager[];
 }
@@ -155,9 +172,10 @@ export interface SuperadminService {
   /** One finished run's read-only briefing detail (PG8 Step 3). null if unknown/unfinished. */
   runDetail(runId: string): Promise<SuperadminRunDetail | null>;
   /** The founder Pulse dashboard payload (admin-live-deploy Phase 3) — one screen's worth of
-   *  the live site, folding listRegistered with the new time-series reads. `now` is injected
-   *  for deterministic buckets in tests; it defaults to the current time. */
-  pulse(now?: Date): Promise<PulseData>;
+   *  the live site, folding listRegistered with the time-series reads. `rangeDays` is the
+   *  dashboard's ONE time window (design-consolidation P6; 7 by default — the controller
+   *  clamps it to 7/30/90). `now` is injected for deterministic buckets in tests. */
+  pulse(now?: Date, rangeDays?: number): Promise<PulseData>;
   /** Every run on the site, attributed and newest-first, for the Pulse drill-down list
    *  pages (pulse-drilldowns). `externalThisWeek` is computed with the SAME rule as the
    *  Pulse "Runs this week" tile, so the page header can never disagree with the card.
@@ -218,31 +236,30 @@ function summarizeRatings(runs: RunRow[]): AlphaSummary {
   };
 }
 
-const PULSE_DAYS = 14;
-
-/** Bucket the external-manager sessions into the Pulse time-series (admin-live-deploy Phase 3):
- *  runs per day (last 14d, oldest first), meeting-type mix (last 7d) and where unfinished runs
- *  broke off (last 14d, by stage). Only runs owned by an external manager count — internal
- *  (Sero) and guest/machine runs are excluded. `nowMs` fixes the day boundaries for tests. */
-function bucketPulseRuns(runs: PulseRunRow[], externalUserIds: Set<string>, nowMs: number) {
-  const runsPerDay = new Array(PULSE_DAYS).fill(0) as number[];
+/** Bucket the external-manager sessions into the Pulse time-series (admin-live-deploy
+ *  Phase 3; one shared window since design-consolidation P6): runs per day (oldest
+ *  first), meeting-type mix and where unfinished runs broke off — ALL over the SAME
+ *  `rangeDays` window, plus the in-range / previous-equal-range run counts the tiles'
+ *  delta chips need. Only runs owned by an external manager count — internal (Sero)
+ *  and guest/machine runs are excluded. `nowMs` fixes the day boundaries for tests. */
+function bucketPulseRuns(runs: PulseRunRow[], externalUserIds: Set<string>, nowMs: number, rangeDays: number) {
+  const runsPerDay = new Array(rangeDays).fill(0) as number[];
   const typeMix = new Map<string, number>();
   const dropOffs = new Map<string, number>();
+  let prevRange = 0;
   for (const r of runs) {
     if (!r.userId || !externalUserIds.has(r.userId)) continue; // external managers only
     if (r.createdAtMs == null) continue;
     const age = nowMs - r.createdAtMs;
     if (age < 0) continue;
     const dayIdx = Math.floor(age / DAY_MS);
-    if (dayIdx < PULSE_DAYS) {
-      const i = PULSE_DAYS - 1 - dayIdx; // oldest first
-      runsPerDay[i] = (runsPerDay[i] ?? 0) + 1;
-    }
-    if (age < WEEK_MS) {
-      const type = (r.meetingType && r.meetingType.trim()) || "Other";
-      typeMix.set(type, (typeMix.get(type) ?? 0) + 1);
-    }
-    if (dayIdx < PULSE_DAYS && !r.finished) {
+    if (dayIdx >= rangeDays && dayIdx < 2 * rangeDays) prevRange += 1;
+    if (dayIdx >= rangeDays) continue;
+    const i = rangeDays - 1 - dayIdx; // oldest first
+    runsPerDay[i] = (runsPerDay[i] ?? 0) + 1;
+    const type = (r.meetingType && r.meetingType.trim()) || "Other";
+    typeMix.set(type, (typeMix.get(type) ?? 0) + 1);
+    if (!r.finished) {
       const stage = (r.stage && r.stage.trim()) || "—";
       dropOffs.set(stage, (dropOffs.get(stage) ?? 0) + 1);
     }
@@ -250,6 +267,8 @@ function bucketPulseRuns(runs: PulseRunRow[], externalUserIds: Set<string>, nowM
   const desc = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1]);
   return {
     runsPerDay,
+    inRange: runsPerDay.reduce((a, b) => a + b, 0),
+    prevRange,
     runTypeMix: desc(typeMix).map(([type, count]) => ({ type, count })),
     dropOffs: desc(dropOffs).map(([stage, count]) => ({ stage, count })),
   };
@@ -314,35 +333,36 @@ export function createSuperadminService(
     async runDetail(runId) {
       return repo.readRun(runId);
     },
-    async pulse(now = new Date()) {
+    async pulse(now = new Date(), rangeDays = 7) {
       const nowMs = now.getTime();
-      const weekAgoMs = nowMs - WEEK_MS;
-      const [{ companies, summary }, pulseRuns, guests, errors, feedback] = await Promise.all([
-        service.listRegistered(now), // reuse — managers, came-back signal, ratings summary
+      const rangeMs = rangeDays * DAY_MS;
+      const cutoffMs = nowMs - rangeMs;
+      const prevCutoffMs = nowMs - 2 * rangeMs;
+      const [{ companies }, allRuns, pulseRuns, guests, errorsInRange, errorsTwoRanges, feedback] = await Promise.all([
+        service.listRegistered(now), // reuse — managers + the came-back signal
+        repo.listRuns(),             // the rating fold's dataset, re-windowed per range below
         repo.listPulseRuns(),
         repo.listGuestRuns(),
-        repo.countRecentErrors(weekAgoMs),
+        repo.countRecentErrors(cutoffMs),
+        repo.countRecentErrors(prevCutoffMs), // superset — previous range = the difference
         repo.latestFeedback(3),
       ]);
       // Walk the external (non-internal) users once: collect the manager rows, the set of
-      // external user ids (so the time-series can drop internal + guest runs), the week run
-      // totals (summed from the SAME per-user tallies the User-management screen shows, so the
-      // numbers can't disagree), and how many managers registered this week.
+      // external user ids (so the time-series can drop internal + guest runs), and how many
+      // managers registered within the selected range (the Managers tile's delta chip).
       // Collect each manager row with its sign-up time as the sort key. `companies` arrives
       // oldest-first (User management re-sorts client-side); the Pulse card renders this order
       // as-is, so without re-sorting here the newest sign-ups sink below the fold. Order doesn't
       // affect the counts below — managersOnLive/gate1 read the whole set.
       const managerRows: { createdAtMs: number; row: PulseManager }[] = [];
       const externalUserIds = new Set<string>();
-      let runsThisWeek = 0, runsLastWeek = 0, managersNewThisWeek = 0;
+      let managersNewInRange = 0;
       for (const co of companies) {
         for (const u of co.users) {
           if (u.internal) continue;
           externalUserIds.add(u.id);
-          runsThisWeek += u.runsThisWeek;
-          runsLastWeek += u.runsLastWeek;
           if (!isLead(u.role)) continue;
-          if (u.createdAt.getTime() >= weekAgoMs) managersNewThisWeek += 1;
+          if (u.createdAt.getTime() >= cutoffMs) managersNewInRange += 1;
           managerRows.push({
             createdAtMs: u.createdAt.getTime(),
             row: {
@@ -359,20 +379,37 @@ export function createSuperadminService(
         .sort((a, b) => b.createdAtMs - a.createdAtMs)
         .map((m) => m.row);
       // Gate 1: of the external managers who actually ran at least once, how many came back.
+      // Deliberately CUMULATIVE (the validation metric) — the range only feeds its delta
+      // chip: how many managers ran their FIRST prep within the selected window.
       const tried = managers.filter((m) => m.runCount > 0);
-      const buckets = bucketPulseRuns(pulseRuns, externalUserIds, nowMs);
+      const triedInRange = tried.filter((m) => m.firstRunAt && m.firstRunAt.getTime() >= cutoffMs).length;
+      const buckets = bucketPulseRuns(pulseRuns, externalUserIds, nowMs, rangeDays);
+      // The rating fold, re-windowed to the range (same fold as before, narrower dataset);
+      // the previous equal window feeds the tile's delta chip.
+      const inWindow = (t: number, from: number, to: number) => t > from && t <= to;
+      const ratingsNow = summarizeRatings(allRuns.filter((r) => inWindow(r.lastSeenAt, cutoffMs, nowMs)));
+      const ratingsPrev = summarizeRatings(allRuns.filter((r) => inWindow(r.lastSeenAt, prevCutoffMs, cutoffMs)));
+      const guestsInRange = guests.filter((g) => inWindow(g.lastSeenAt, cutoffMs, nowMs)).length;
+      const guestsPrevRange = guests.filter((g) => inWindow(g.lastSeenAt, prevCutoffMs, cutoffMs)).length;
       return {
-        gate1: { cameBack: tried.filter((m) => m.cameBack).length, total: tried.length },
+        rangeDays,
+        gate1: { cameBack: tried.filter((m) => m.cameBack).length, total: tried.length, triedInRange },
         managersOnLive: managers.length,
-        managersNewThisWeek,
-        runsThisWeek,
-        runsLastWeek,
-        ratings: summary,
+        managersNewInRange,
+        runsInRange: buckets.inRange,
+        runsPrevRange: buckets.prevRange,
+        ratings: { ...ratingsNow, prevAvgStars: ratingsPrev.avgStars },
         guestCount: guests.length,
+        guestsInRange,
+        guestsPrevRange,
         runsPerDay: buckets.runsPerDay,
         runTypeMix: buckets.runTypeMix,
         dropOffs: buckets.dropOffs,
-        errors,
+        errors: {
+          total: errorsInRange.total,
+          unresolved: errorsInRange.unresolved,
+          prevTotal: Math.max(0, errorsTwoRanges.total - errorsInRange.total),
+        },
         latestFeedback: feedback.map((f) => ({ message: f.message, verdict: f.verdict, runId: f.runId })),
         managers,
       };
