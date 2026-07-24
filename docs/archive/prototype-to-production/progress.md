@@ -819,3 +819,18 @@ the side panel's Save button was never wired because two elements shared a [data
 lines of CSS, not a second stepper system; (3) splitting the phase between the main session
 (shell + breadcrumbs) and a subagent (Guided re-skin) with a strict file fence made a big phase
 land in one sitting without a merge conflict.
+
+## 2026-07-24 — design consolidation P6 live (admin sweep)
+
+All 12 audit items in one phase, built by four parallel fenced subagents and green-lit the same
+day: um-tables + toolbars across every internal and superadmin list, Pulse on one 7/30/90-day
+clock (minimal backend range param, test-covered; Gate 1 stays all-time by definition), grouped
+error log, feedback inbox tabs, the four parallel button systems deleted, shared confirm dialog
+everywhere, Lexicon review in the admin costume, Gallery toolbar kept as a declared DESIGN.md
+exemption. Carl's walk note ("the skeleton loading is nice") became the closing polish: the seven
+remaining plain "Loading…" texts swapped to the shared createSkeleton ghost cards. Lessons:
+(1) fencing four agents by file list worked again at 4x scale — zero merge conflicts across 29
+files, and the one cross-fence test failure (customer-bundle leak) was caught by the fence test
+and fixed by the owning agent; (2) a tile that must NOT follow the range switch (Gate 1, the
+validation metric) is a labelling problem, not a code problem — "all time" on the tile beats a
+silently wrong window.

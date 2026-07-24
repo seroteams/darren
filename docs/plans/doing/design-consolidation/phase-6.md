@@ -1,5 +1,11 @@
 # Phase 6: Admin + superadmin sweep
 
+## ✅ GREEN-LIT 2026-07-24
+
+Carl walked it: "yeah its good", plus a note that the skeleton loading reads nicely — so the last
+plain "Loading…" texts (Library, Personas, Lexicon, Compare, Guest runs, User detail, Run review)
+were swapped to the shared createSkeleton ghost cards before shipping. Shipped to main same day.
+
 ## Built (2026-07-24)
 
 Awaiting Carl's QA walk. All 12 acceptance items (D1-D12) landed, built by four parallel fenced
