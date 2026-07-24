@@ -2,6 +2,22 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-24 (later) — P5 went LIVE: the app got its proper shell.** Carl walked P5 locally and
+green-lit it same day. Live now: the sidebar stays open with names + section headers (chevron
+collapses it, remembered per browser; rows are real links and stay lit through a run), every
+drill-down carries the shared top trail with zero per-screen Back buttons (7 Pulse/Operate pages,
+run review, tests; Library/Guide/Compare Backs deleted), Guide restored to the internal rail, and
+the Monthly Check-in wears the app shell (breadcrumb + top stepper + shared Saved pip; old mcr
+skin deleted, its CSS 836 → 385 lines). Verified at build: 184/184, typecheck, both linters,
+real-screen screenshots. Next: P6 admin sweep, then P7 re-audit closes the redesign.
+
+📍 **2026-07-24 — P4 went LIVE: the meeting itself got the redesign.** Carl green-lit P4 with
+"go live and merge"; PR #30 merged to main (3344e865) → Render deploy. Live now: the interview keeps
+the step bar visible with a calm 3-button action row (Enter = newline, no Esc-skip), the recap renders
+instantly (one soft fade, celebration kept), and Prepare ships ONE customer layout (Sheet) with the
+12-variant lab fenced to internal admins. Re-verified at merge: 183/183 tests, typecheck, lint:copy,
+lint:tokens. Next: P5 labelled sidebar. "keep Arc" still flips the Prepare layout back on Carl's word.
+
 📍 **2026-07-23 — "SHIP IT": the first half of the redesign went LIVE.** Carl green-lit P2+P3 with
 "ship it"; PR #29 merged to main → Render deploy. Live now: the design-audit acceptance work P0-P3 —
 shared kit, manager lists (Home/Team/Members/Past 1:1s/Person detail), one branded auth shell
@@ -86,15 +102,14 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Walk Phase 4** — run one quick 1:1 locally: step bar stays visible in the interview, recap appears in one go, Prepare = white Sheet memo. Say "Phase 4 approved" (+ "ship it" to deploy) or "keep Arc" to flip the brief back.
-2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
+1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
 2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
-3. Or just start something new — nothing here is waiting on a build.
+3. **Say go on P6** — the admin sweep (internal tables, Pulse time-range, error grouping) is the next design-consolidation phase; P7 re-audit then closes the redesign.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P3 ✅ LIVE (Carl confirmed). P4 🔨 BUILT 2026-07-23, awaiting Carl's walk (interview calm-down, instant recap, one Prepare layout = Sheet; "keep Arc" flips it). On PR #30. Then P5 sidebar → P6 admin sweep → P7 re-audit. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P5 ✅ LIVE (P5 green-lit 2026-07-24 after Carl's local walk). Next: P6 admin sweep → P7 re-audit + close. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
 
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
@@ -125,4 +140,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-23 — design consolidation P0-P3 shipped live on Carl's "ship it"; demo-member P1 also aboard the same deploy.
+Last updated: 2026-07-24 — P4 AND P5 live, both green-lit by Carl the same day; P6 admin sweep next.

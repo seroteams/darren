@@ -501,7 +501,6 @@ export function mount(root) {
       <header class="page-header">
         <div class="page-header__row">
           <h1 class="h1">Sero. Operator guide</h1>
-          <button class="btn btn--ghost js-back" type="button">Back</button>
         </div>
         <div class="page-header__lede">Your map of the whole project. How to run it, what each part does, and where things live. Internal, just for you.</div>
       </header>
@@ -579,8 +578,9 @@ export function mount(root) {
   void loadLive(root); // fill Screens + Commands from the codebase on open
   void loadArcs(root); // fill the live meeting arcs on open
 
+  // Guide is a top-level rail page — no per-screen Back (Breadcrumb Rule, P5);
+  // Escape still hops home as a convenience.
   const back = () => setState({ stage: STAGES.START });
-  root.querySelector(".js-back").addEventListener("click", back);
   keyHandler = (e) => {
     if (e.key === "Escape" && !/^(input|textarea|select)$/i.test(e.target.tagName)) back();
   };

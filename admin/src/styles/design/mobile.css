@@ -81,7 +81,10 @@
      rules (higher specificity) can't fight it. */
   .app-nav,
   .app-nav:hover,
-  .app-nav:focus-within {
+  .app-nav:focus-within,
+  body.app-nav-collapsed .app-nav,
+  body.app-nav-collapsed .app-nav:hover,
+  body.app-nav-collapsed .app-nav:focus-within {
     width: min(80vw, 300px);
     z-index: calc(var(--sero-z-fixed, 30) + 5);   /* above header, below modals */
   }
@@ -105,7 +108,10 @@
   }
   .app-nav .app-nav__label,
   .app-nav .app-nav__word,
-  .app-nav .app-nav__group-label span {
+  .app-nav .app-nav__group-label span,
+  body.app-nav-collapsed .app-nav .app-nav__label,
+  body.app-nav-collapsed .app-nav .app-nav__word,
+  body.app-nav-collapsed .app-nav .app-nav__group-label span {
     opacity: 1;
   }
   @media (prefers-reduced-motion: reduce) {

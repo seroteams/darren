@@ -7,14 +7,14 @@
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
 import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
-import { isGuestStage } from "../router.js";
+import { isGuestStage, isFlowStage, urlForState, withBase } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "./icon.js";
 import {
   Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, UserRoundCog,
   Palette, LogOut, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
-  FlaskConical, Gauge, LayoutGrid,
+  FlaskConical, Gauge, LayoutGrid, PanelLeftClose, PanelLeftOpen,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -51,7 +51,25 @@ const ICON = {
   tests: icon(FlaskConical),
   pulse: icon(Gauge),
   gallery: icon(LayoutGrid),
+  collapse: icon(PanelLeftClose),
+  expand: icon(PanelLeftOpen),
 };
+
+// Real <a href> for a nav row when its stage has a route — middle/ctrl-click
+// opens a tab like any SaaS sidebar; plain clicks still go through setState.
+// Rows without a route (Log out) stay <button>s.
+function hrefFor(stage) {
+  if (stage == null) return null;
+  const path = urlForState({ stage });
+  return path ? withBase(path) : null;
+}
+
+// The rail row markup, <a> or <button> by whether the destination has a URL.
+function rowHtml({ key, icon: glyph, label, href = null, data = "" }) {
+  const inner = `<span class="app-nav__icon">${glyph}</span><span class="app-nav__label">${label}</span>`;
+  if (href) return `<a class="app-nav__link js-nav-${key}" href="${href}" data-key="${key}" ${data}>${inner}</a>`;
+  return `<button type="button" class="app-nav__link js-nav-${key}" data-key="${key}" ${data}>${inner}</button>`;
+}
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
 // Each row is tagged by audience: `admin: true` = the owner/admin tooling; `member: true`
@@ -151,7 +169,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   // Any tap inside the drawer that lands on a link (or the brand) navigates —
   // close so the destination is visible. No-op when already closed (desktop).
   el.addEventListener("click", (e) => {
-    if (e.target.closest("button")) setDrawer(false);
+    if (e.target.closest("button, a")) setDrawer(false);
   });
 
   const items = [...LINKS];
@@ -164,6 +182,7 @@ export function createAppNav({ setState, resetSession } = {}) {
         <span class="app-nav__icon">${LOGO}</span>
         <span class="app-nav__word">Sero<span class="app-nav__tagline"> Engine</span></span>
       </button>
+      <button type="button" class="app-nav__collapse js-collapse" aria-label="Collapse menu" title="Collapse menu">${ICON.collapse}</button>
       <nav class="app-nav__links" aria-label="Primary">
         ${(() => {
           let lastGroup = null;
@@ -176,23 +195,21 @@ export function createAppNav({ setState, resetSession } = {}) {
                 head = `<div class="app-nav__group-label" data-admin="1"><span>${it.group}</span></div>`;
                 lastGroup = it.group;
               }
-              return `${head}<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-mgr="${it.mgr ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}">
-          <span class="app-nav__icon">${it.icon}</span>
-          <span class="app-nav__label">${it.label}</span>
-        </button>`;
+              return head + rowHtml({
+                key: it.key,
+                icon: it.icon,
+                label: it.label,
+                href: hrefFor(it.stage),
+                data: `data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-mgr="${it.mgr ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}"`,
+              });
             })
             .join("");
         })()}
       </nav>
       <nav class="app-nav__links app-nav__links--util" aria-label="More">
-        <button type="button" class="app-nav__link js-nav-about" data-key="about">
-          <span class="app-nav__icon">${ICON.about}</span>
-          <span class="app-nav__label">What is Sero?</span>
-        </button>
-        <button type="button" class="app-nav__link js-nav-feedback" data-key="feedback">
-          <span class="app-nav__icon">${ICON.feedback}</span>
-          <span class="app-nav__label">Send feedback</span>
-        </button>
+        ${rowHtml({ key: "guide", icon: ICON.guide, label: "Guide", href: hrefFor(STAGES.GUIDE), data: 'data-admin="1"' })}
+        ${rowHtml({ key: "about", icon: ICON.about, label: "What is Sero?", href: hrefFor(STAGES.ABOUT), data: 'data-mgr="1" data-member="1"' })}
+        ${rowHtml({ key: "feedback", icon: ICON.feedback, label: "Send feedback", href: hrefFor(STAGES.FEEDBACK), data: 'data-mgr="1" data-member="1"' })}
       </nav>
       <nav class="app-nav__links app-nav__links--logout" aria-label="Session">
         <button type="button" class="app-nav__link js-logout" data-key="logout">
@@ -202,6 +219,27 @@ export function createAppNav({ setState, resetSession } = {}) {
       </nav>
     </div>
   `;
+
+  // Pinned open is the default; collapsing to the icon strip is the user's
+  // choice, remembered per browser (design audit S2).
+  const COLLAPSE_KEY = "seroNavCollapsed";
+  let collapsed = false;
+  try { collapsed = localStorage.getItem(COLLAPSE_KEY) === "1"; } catch {}
+  const collapseBtn = el.querySelector(".js-collapse");
+  function applyCollapsed() {
+    document.body.classList.toggle("app-nav-collapsed", collapsed);
+    collapseBtn.innerHTML = collapsed ? ICON.expand : ICON.collapse;
+    const label = collapsed ? "Expand menu" : "Collapse menu";
+    collapseBtn.setAttribute("aria-label", label);
+    collapseBtn.title = label;
+  }
+  collapseBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // not a nav row — don't trip the drawer-close listener
+    collapsed = !collapsed;
+    try { localStorage.setItem(COLLAPSE_KEY, collapsed ? "1" : "0"); } catch {}
+    applyCollapsed();
+  });
+  applyCollapsed();
 
   const onNav = {
     home: () => setState && setState({ stage: STAGES.START }),
@@ -237,10 +275,17 @@ export function createAppNav({ setState, resetSession } = {}) {
     feedback: () => setState && setState({ stage: STAGES.FEEDBACK }),
   };
 
+  // Plain clicks stay in the SPA (setState); modified clicks (ctrl/cmd/shift —
+  // "open in new tab") fall through to the real href.
+  const navClick = (fn) => (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    fn();
+  };
   el.querySelector(".js-home").addEventListener("click", onNav.home);
   bar.querySelector(".js-bar-home").addEventListener("click", onNav.home);
-  items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
-  ["about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
+  items.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", navClick(onNav[it.key])));
+  ["guide", "about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", navClick(onNav[k])));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
@@ -310,12 +355,10 @@ export function createAppNav({ setState, resetSession } = {}) {
     // keep both: util under the primary rail, Log out pinned to the bottom. Their Privacy +
     // Account now live in the avatar menu too (Carl's nav re-org, 2026-07-21). Inline display
     // toggle keeps the role gating in JS.
-    const utilNav = el.querySelector(".app-nav__links--util");
     const logoutNav = el.querySelector(".app-nav__links--logout");
-    if (utilNav) utilNav.style.display = internal ? "none" : "";
     if (logoutNav) logoutNav.style.display = internal ? "none" : "";
     const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
-    const alwaysShown = new Set(["logout", "about", "feedback"]); // utility rows
+    const alwaysShown = new Set(["logout"]); // the util strip rows gate by audience now (Guide = internal help, P5)
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
       let show = b.dataset[wanted] === "1";
@@ -329,7 +372,12 @@ export function createAppNav({ setState, resetSession } = {}) {
     });
     // Section headers belong to the internal rail only.
     el.querySelectorAll(".app-nav__group-label").forEach((h) => { h.hidden = !internal; });
-    const activeKeys = [].concat(ACTIVE_BY_STAGE[stage] || []);
+    // During the run flow no stage maps a row of its own — keep "Start 1:1" lit
+    // so the rail still says where you are (design audit S2: active state also
+    // mid-flow).
+    const activeKeys = [].concat(
+      ACTIVE_BY_STAGE[stage] || (isFlowStage(stage) ? ["new", "mgnew"] : []),
+    );
     el.querySelectorAll(".app-nav__link").forEach((b) => {
       const on = activeKeys.includes(b.dataset.key);
       b.classList.toggle("is-active", on);

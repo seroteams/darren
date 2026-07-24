@@ -137,7 +137,6 @@ export async function mount(root) {
           <h1 class="h1">Library</h1>
           <div class="flex items-center gap-2">
             <button class="btn btn--ghost js-view" type="button">Archived</button>
-            <button class="btn btn--ghost js-back" type="button">Back</button>
           </div>
         </div>
         <div class="text-ink-dim">Review past prep runs.</div>
@@ -160,7 +159,6 @@ export async function mount(root) {
 
   const listEl = root.querySelector(".js-list");
   const searchEl = root.querySelector(".lib-search");
-  const backBtn = root.querySelector(".js-back");
   const viewBtn = root.querySelector(".js-view");
   const progressEl = root.querySelector(".js-progress");
 
@@ -302,8 +300,9 @@ export async function mount(root) {
 
   searchEl.addEventListener("input", () => { query = searchEl.value.trim().toLowerCase(); render(); });
 
+  // Library is a top-level rail page — no per-screen Back (Breadcrumb Rule, P5);
+  // Escape still hops home as a convenience.
   const back = () => setState({ stage: STAGES.START });
-  backBtn.addEventListener("click", back);
   keyHandler = (e) => {
     if (e.key === "Escape" && !/^(input|textarea|select)$/i.test(e.target.tagName)) back();
   };

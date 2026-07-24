@@ -6,6 +6,7 @@
 import { mount as promisesLoop } from "./tests/promises-loop.js";
 import { mount as promisesBeforeRecap } from "./tests/promises-before-recap.js";
 import { mount as runnerV2 } from "./tests/runner-v2.js";
+import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
 // recognisable at a glance. Pure SVG (no captured PNGs to go stale); colours
@@ -187,14 +188,13 @@ export async function mount(root) {
     // wide tests (dashboards) break out of the reading column into the full stage width
     const shell = test.wide ? "l-container l-container--full l-stack l-stack--4" : "stage-inner l-stack l-stack--4";
     // bare tests (full-runner mockups) drop the "Test · … nothing is saved" note and keep
-    // only the back button, so the mockup's own chrome is all you see.
+    // only the trail, so the mockup's own chrome is all you see.
+    const trail = breadcrumb([{ label: "Tests", nav: "tests" }, { label: test.title }]);
     const topRow = test.bare
-      ? `<div class="page-header__row" style="justify-content:flex-end">
-          <button type="button" class="btn btn--ghost js-all-tests">← All tests</button>
-        </div>`
+      ? `<div class="page-header__row">${trail}</div>`
       : `<div class="page-header__row">
+          ${trail}
           <span class="tg-note">Test · ${test.title}. Mock, nothing is saved</span>
-          <button type="button" class="btn btn--ghost js-all-tests">← All tests</button>
         </div>`;
     root.innerHTML = `
       <style>${STYLE}</style>
@@ -202,7 +202,7 @@ export async function mount(root) {
         ${topRow}
         <div class="js-test-host"></div>
       </div>`;
-    root.querySelector(".js-all-tests").addEventListener("click", openGallery);
+    root.querySelector('.js-crumb[data-nav="tests"]').addEventListener("click", openGallery);
     test.mount(root.querySelector(".js-test-host"));
   };
 

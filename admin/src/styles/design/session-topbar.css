@@ -5,7 +5,7 @@
   --session-topbar-h: 50px;
   position: fixed;
   top: 0;
-  left: var(--app-nav-w);
+  left: var(--app-nav-w-now, var(--app-nav-w));
   right: 0;
   height: var(--session-topbar-h);
   background: var(--color-surface);
