@@ -4,6 +4,7 @@
 // differently.
 
 import { relTime, formatDate } from "./time.ts";
+import { breadcrumb } from "./breadcrumb.ts";
 
 const TYPE_LABELS: Record<string, string> = {
   first: "First 1:1", biweekly: "Bi-weekly", "bi-weekly": "Bi-weekly", weekly: "Weekly",
@@ -32,9 +33,8 @@ export const dateLabel = (v: string | number | null): string => {
   return Number.isFinite(ms) ? formatDate(ms) : "–";
 };
 
-/** The drill-down pages' back control (pulse-drilldowns): a circled ‹ plus "Back",
- *  shown at the top and repeated at the bottom left of each list (Carl's call
- *  2026-07-15). Styling in styles/pulse-drilldowns.css; every page routes
- *  `.js-back-pulse` clicks to the Pulse dashboard. */
-export const backToPulse = (): string =>
-  `<button type="button" class="pd-back js-back-pulse" aria-label="Back to Live pulse"><span class="pd-back__circle" aria-hidden="true">‹</span>Back</button>`;
+/** The drill-down pages' way up (design-consolidation P5, Breadcrumb Rule): the
+ *  shared trail replaces the old circled Back. Every page routes `.js-crumb`
+ *  clicks with data-nav="pulse" to the Pulse dashboard. */
+export const pulseCrumbs = (current: string): string =>
+  breadcrumb([{ label: "Pulse", nav: "pulse" }, { label: current }]);

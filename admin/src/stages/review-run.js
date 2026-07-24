@@ -7,6 +7,7 @@ import { STAGES, store } from "../state.js";
 import { getRunFull, saveReview } from "../../../shared/api.js";
 import { DIMENSIONS, OVERALL_VALUES, reviewStatusFromMarks, serializeReview, engineTag } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";
+import { breadcrumb } from "../ui/breadcrumb.ts";
 
 const OVERALL_LABEL = { keep: "Keep", fix: "Fix", block: "Block" };
 
@@ -107,12 +108,12 @@ export async function mount(root, { setState }) {
 
   root.innerHTML = `
     <div class="stage-medium l-stack l-stack--8">
-      <header class="page-header">
+      <header class="page-header l-stack l-stack--2">
+        ${breadcrumb([{ label: "Library", nav: "library" }, { label: "Run review" }])}
         <div class="page-header__row">
           <h1 class="h1 js-title">Run review</h1>
           <div class="page-header__actions">
             <button class="btn btn--ghost js-copy-all" type="button">Copy all</button>
-            <button class="btn btn--ghost js-back" type="button">Back</button>
           </div>
         </div>
         <div class="text-ink-dim js-subtitle"></div>
@@ -123,7 +124,7 @@ export async function mount(root, { setState }) {
   `;
 
   const back = () => setState({ stage: STAGES.LIBRARY });
-  const backBtn = root.querySelector(".js-back");
+  const backBtn = root.querySelector('.js-crumb[data-nav="library"]');
   backBtn.addEventListener("click", back);
 
   // Lifecycle: `alive` is flipped false on unmount so any in-flight save/timer

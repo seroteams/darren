@@ -33,7 +33,6 @@ export async function mount(root, { setState }) {
         <span class="text-ink-mute">vs</span>
         <select class="bench-select js-run-b"></select>
         <button type="button" class="btn js-load" disabled>Load</button>
-        <button type="button" class="btn btn--ghost js-back">Back</button>
       </div>
       <p class="js-compare-err text-negative text-sm" hidden></p>
       <div class="cmp-results js-compare-grid"></div>
@@ -45,8 +44,6 @@ export async function mount(root, { setState }) {
   const loadBtn = root.querySelector(".js-load");
   const grid = root.querySelector(".js-compare-grid");
   const err = root.querySelector(".js-compare-err");
-
-  root.querySelector(".js-back").addEventListener("click", () => setState({ stage: STAGES.START }));
 
   let runs = [];
   try {

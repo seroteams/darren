@@ -8,7 +8,7 @@ import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.js";
 import { getAdminRuns } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
-import { prettyType, dateLabel, backToPulse } from "../ui/pulse-labels.ts";
+import { prettyType, dateLabel, pulseCrumbs } from "../ui/pulse-labels.ts";
 import { createSkeleton } from "../ui/skeleton.js";
 import { whoCell, starsCell, type AdminRun } from "./admin-runs.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
@@ -29,14 +29,13 @@ export const mount: Mount = async (root, { setState }) => {
   const shell = (inner: string) => `
     <div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header l-stack l-stack--2">
-        ${backToPulse()}
+        ${pulseCrumbs('Recap ratings')}
         <h1 class="h1">Recap ratings</h1>
         <div class="text-ink-dim">Every rated recap, newest first. The stars and notes behind the Pulse average. Internal and guest runs are tagged.</div>
       </header>
       ${inner}
-      <div class="pd-back-bottom">${backToPulse()}</div>
     </div>`;
-  const wireBack = () => root.querySelectorAll(".js-back-pulse").forEach((b) =>
+  const wireBack = () => root.querySelectorAll('.js-crumb[data-nav="pulse"]').forEach((b) =>
     b.addEventListener("click", () => setState({ stage: STAGES.ADMIN_PULSE })));
 
   const load = async () => {

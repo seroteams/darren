@@ -1,13 +1,16 @@
 // The guided runner (/guided/:id) — the "Monthly Check-in". A generic stage driver: it loads
 // the session, reads its arc from GUIDED_ARCS, and walks arc.stages — it never hardcodes the
-// 7 stages (architecture.md §2b). The floating pill nav + the right-hand side panel live in a
-// body portal. Everything the manager types/selects auto-saves (debounced PATCH) into the
-// session's state jsonb, so a hard reload lands them back where they were. Ported from the
-// approved monthly-checkin prototype (since retired).
+// 7 stages (architecture.md §2b). Renders inside the standard app shell (design-consolidation
+// P5 F10): stage-inner column, a top stepper in the session-topbar's .stage-step language,
+// page-header + h1, shared .btn primitives, and the shared save pip. Only the right-hand side
+// panel still lives in a body portal. Everything the manager types/selects auto-saves
+// (debounced PATCH) into the session's state jsonb, so a hard reload lands them back where
+// they were.
 
 import type { Mount } from "../../../../admin/src/stages/stage.types.ts";
 import { STAGES } from "../../../../admin/src/state.js";
 import { breadcrumb } from "../../../../admin/src/ui/breadcrumb.ts";
+import { createSavePip } from "../../../../admin/src/ui/save-pip.ts";
 import {
   getGuidedSession,
   patchGuidedSession,
@@ -59,7 +62,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     return;
   }
 
-  root.innerHTML = `<div class="mcr"><div class="mcr-col"><p class="mcr-sub" style="margin-top:60px">Loading your check-in…</p></div></div>`;
+  root.innerHTML = `<div class="stage-inner"><p class="text-ink-dim">Loading your check-in…</p></div>`;
 
   let dto: GuidedSessionDto;
   try {
@@ -137,24 +140,27 @@ export const mount: Mount = async (root, { store, setState }) => {
   // A finished session (completed_at set) renders the read-only one-page record (Phase 6), not
   // the runner — same URL, no nav, no autosave.
   if (dto.completedAt) {
-    document.querySelectorAll(".mcr-portal").forEach((n) => n.remove());
+    document.querySelectorAll(".gd-portal").forEach((n) => n.remove());
     root.innerHTML = renderRecord({ dto, trackers, blockScores: rawBlockScores, copy }, crumbsHtml);
     wireCrumbs();
     return;
   }
 
   let panel: Panel | null = null;
-  let saveState: "idle" | "saving" = "idle";
   let dirty = false;
   let saving = false;
   let completed = dto.completedAt != null;
   let saveTimer: ReturnType<typeof setTimeout> | undefined;
 
-  // Body portal for the always-fixed nav + side panel (independent of any transformed ancestor).
-  document.querySelectorAll(".mcr-portal").forEach((n) => n.remove());
+  // Body portal for the side panel only (independent of any transformed ancestor).
+  document.querySelectorAll(".gd-portal").forEach((n) => n.remove());
   const portal = document.createElement("div");
-  portal.className = "mcr-portal";
+  portal.className = "gd-portal";
   document.body.appendChild(portal);
+
+  // The shared "Saved / Saving…" pip — created once, re-slotted into the header each render
+  // (it keeps its own state across re-renders).
+  const pip = createSavePip();
 
   const onKey = (e: KeyboardEvent): void => {
     if (e.key === "Escape" && panel) {
@@ -185,12 +191,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   const currentStageId = (): string => stages[state.step] ?? stages[0]!;
 
   function setSavePip(s: "idle" | "saving"): void {
-    saveState = s;
-    const pip = portal.querySelector<HTMLElement>("[data-save]");
-    if (!pip) return;
-    pip.dataset.state = s;
-    const label = pip.querySelector<HTMLElement>("[data-save-label]");
-    if (label) label.textContent = s === "saving" ? "Saving…" : "Saved";
+    pip.set(s);
   }
 
   async function flush(): Promise<void> {
@@ -334,10 +335,10 @@ export const mount: Mount = async (root, { store, setState }) => {
     } catch (e) {
       // Keep the panel open (nothing typed is lost) and surface the failure inline — no silent save.
       console.warn("[guided] tracker save failed:", e instanceof Error ? e.message : String(e));
-      const foot = portal.querySelector<HTMLElement>(".mcr-panel__foot");
-      if (foot && !foot.querySelector(".mcr-panel__err")) {
+      const foot = portal.querySelector<HTMLElement>(".gd-panel__foot");
+      if (foot && !foot.querySelector(".gd-panel__err")) {
         const err = document.createElement("span");
-        err.className = "mcr-panel__err";
+        err.className = "gd-panel__err";
         err.textContent = "Couldn't save. Try again.";
         err.style.cssText =
           "color:var(--color-negative-text);font-size:var(--type-body-sm);margin-right:auto;align-self:center;";
@@ -358,29 +359,33 @@ export const mount: Mount = async (root, { store, setState }) => {
   }
 
   // ---- render -------------------------------------------------------------------------------
-  function tabsHtml(): string {
+  // The top stepper — the session topbar's .stage-step/.stage-rail language (ui/session-topbar.js):
+  // visited stages are done (check, clickable), the one you're on is current, unvisited stages
+  // ahead are upcoming and inert. Clickable steps are real buttons, so keyboard works for free.
+  function stepperHtml(): string {
     return stages
       .map((sid, i) => {
-        const st = i === state.step ? "current" : state.visited.includes(i) ? "done" : "todo";
-        const meta = STAGE_UI[sid];
-        const ic = st === "done" ? ICONS.check : ICONS[meta.icon];
-        return `<button type="button" class="mcr-tab" data-step="${i}" data-state="${st}" role="tab"${
-          i === state.step ? ' aria-selected="true"' : ""
-        }>${ic}<span>${esc(meta.label)}</span></button>`;
+        const st = i === state.step ? "current" : state.visited.includes(i) ? "done" : "upcoming";
+        const reached = st !== "upcoming";
+        const rail =
+          i > 0
+            ? `<span class="stage-rail ${reached ? "is-filled" : "is-empty"}" aria-hidden="true"></span>`
+            : "";
+        const node =
+          st === "done"
+            ? `<span class="stage-step__check">${ICONS.check}</span>`
+            : `<span class="stage-step__dot" aria-hidden="true"></span>`;
+        const inner = `${node}<span class="stage-step__label">${esc(STAGE_UI[sid].label)}</span>`;
+        if (st === "done") {
+          return `${rail}<button type="button" class="stage-step is-done stage-step--clickable" data-step="${i}">${inner}</button>`;
+        }
+        return `${rail}<span class="stage-step is-${st}"${st === "current" ? ' aria-current="step"' : ""}>${inner}</span>`;
       })
       .join("");
   }
 
   function renderPortal(): void {
-    portal.innerHTML = `
-      <nav class="mcr-tabs-wrap" aria-label="Stages"><div class="mcr-tabs">${tabsHtml()}</div></nav>
-      <div class="mcr-savewrap"><span class="mcr-save" data-save data-state="${saveState}"><span class="mcr-save__dot"></span><span data-save-label>${
-        saveState === "saving" ? "Saving…" : "Saved"
-      }</span></span></div>
-      ${panel ? panelHtml(panel, trackers, copy) : ""}`;
-    portal
-      .querySelectorAll<HTMLElement>(".mcr-tab")
-      .forEach((b) => b.addEventListener("click", () => go(Number(b.dataset.step))));
+    portal.innerHTML = panel ? panelHtml(panel, trackers, copy) : "";
     portal.querySelectorAll<HTMLElement>("[data-close]").forEach((b) =>
       b.addEventListener("click", () => {
         panel = null;
@@ -399,24 +404,34 @@ export const mount: Mount = async (root, { store, setState }) => {
       lastEngagement,
     });
     const banner = completed
-      ? `<div class="mcr-done-banner">${ICONS.check}<span>This check-in is complete. View only.</span></div>`
+      ? `<div class="gd-done-banner">${ICONS.check}<span>This check-in is complete. View only.</span></div>`
       : "";
     root.innerHTML = `
-      <div class="mcr">
-        <div class="mcr-col">
-          ${crumbsHtml}
-          ${banner}
-          <h1 class="mcr-h1">${esc(title)}</h1>
-          <p class="mcr-sub">${esc(sub)}</p>
-          ${body}
-        </div>
+      <div class="stage-inner l-stack l-stack--6 gd">
+        ${crumbsHtml}
+        <nav class="gd-stepper" aria-label="Check-in stages">${stepperHtml()}</nav>
+        ${banner}
+        <header class="page-header l-stack l-stack--2">
+          <div class="page-header__row">
+            <h1 class="h1">${esc(title)}</h1>
+            <div class="page-header__actions" data-pip-slot></div>
+          </div>
+          <p class="page-header__lede">${esc(sub)}</p>
+        </header>
+        <div class="gd-stage">${body}</div>
       </div>`;
+    root.querySelector("[data-pip-slot]")?.appendChild(pip.el);
+    // The strip scrolls without a visible bar — keep the current step in view.
+    root.querySelector(".gd-stepper .is-current")?.scrollIntoView({ block: "nearest", inline: "center" });
     wireContent();
     wireCrumbs();
     renderPortal();
   }
 
   function wireContent(): void {
+    root.querySelectorAll<HTMLElement>(".gd-stepper [data-step]").forEach((b) =>
+      b.addEventListener("click", () => go(Number(b.dataset.step))),
+    );
     root.querySelector<HTMLElement>("[data-next]")?.addEventListener("click", () => go(state.step + 1));
     root.querySelector<HTMLElement>("[data-regen]")?.addEventListener("click", () => void maybeDraftWrapup(true));
     root.querySelector<HTMLElement>("[data-fbnext]")?.addEventListener("click", () => {
@@ -428,7 +443,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     root.querySelector<HTMLElement>("[data-finish]")?.addEventListener("click", () => void complete());
 
     // Catch-up: promise outcome chips (keyed by the real promise id; applied at complete())
-    root.querySelectorAll<HTMLElement>(".mcr-chip[data-outcome]").forEach((chip) =>
+    root.querySelectorAll<HTMLElement>(".gd-chip[data-outcome]").forEach((chip) =>
       chip.addEventListener("click", () => {
         const pid = chip.dataset.outcome ?? "";
         const v = chip.dataset.value ?? "";
@@ -439,7 +454,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     );
 
     // Rating: sliders (update the score readout in place; don't re-render mid-drag)
-    root.querySelectorAll<HTMLInputElement>('.mcr-slider input[type="range"]').forEach((r) =>
+    root.querySelectorAll<HTMLInputElement>('.gd-slider input[type="range"]').forEach((r) =>
       r.addEventListener("input", () => {
         const bid = r.dataset.block ?? "";
         const val = Number(r.value);

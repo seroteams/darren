@@ -93,14 +93,14 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
-2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
-3. Or just start something new — P5 (labelled sidebar) is next in design consolidation whenever you say go.
+1. **Walk Phase 5** — local: the sidebar now stays open with names + section headers (chevron top-right collapses it), every drill-down has a top trail instead of Back buttons, and the Monthly Check-in finally looks like the rest of the app. Say "ship it" or tell me what's off.
+2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — and the app is now fully live for it.
+3. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P4 ✅ LIVE (P4 green-lit 2026-07-24 "go live and merge", PR #30 → main → Render). Next: P5 shell (labelled sidebar). Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
+| [design-consolidation](docs/plans/doing/design-consolidation/plan.md) | P0-P4 ✅ LIVE. P5 🔨 BUILT 2026-07-24 (pinned labelled sidebar, breadcrumb sweep, Guided on the app shell) — awaiting your walk. Then P6 admin sweep → P7 re-audit. Rename to SeroEngine PARKED. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0). |
 
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
 | [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
@@ -131,4 +131,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-24 — design consolidation P4 live on Carl's "go live and merge" (PR #30); P5 shell next.
+Last updated: 2026-07-24 — P4 live and walked; P5 shell (sidebar + breadcrumbs + Guided) built, awaiting Carl's walk.

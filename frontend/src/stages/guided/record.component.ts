@@ -1,7 +1,8 @@
 // The finished-1:1 record (monthly-checkin Phase 6). /guided/:id renders the runner while in
 // progress and THIS record once completed_at is set. One page, stacked (plan decision 17):
 // Summary → six-block scores + trend vs previous → trackers as they ended → feedback → the
-// PRIVATE review last, badged. Read-only display; no autosave, no nav.
+// PRIVATE review last, badged. Read-only display; no autosave, no nav. Rides the standard
+// shell: stage-inner column, page-header + h1, card-flat cards (P5 F10).
 
 import type { BlockScore, GroupedTrackers, GuidedSessionDto, TrackerItem } from "./guided.types.ts";
 import type { CopyCtx } from "./coaching-copy.ts";
@@ -17,7 +18,7 @@ export interface RecordCtx {
 }
 
 const statusPill = (s: string): string =>
-  `<span class="mcr-status mcr-status--${statusClass(s)}">${esc(STATUS_LABELS[s] ?? s)}</span>`;
+  `<span class="gd-status gd-status--${statusClass(s)}">${esc(STATUS_LABELS[s] ?? s)}</span>`;
 
 function scoresSection(ctx: RecordCtx): string {
   const mine = new Map(ctx.blockScores.filter((b) => b.guidedSessionId === ctx.dto.id).map((b) => [b.block, b.score]));
@@ -31,17 +32,17 @@ function scoresSection(ctx: RecordCtx): string {
         was == null
           ? ""
           : now === was
-            ? ` <span class="mcr-rec__delta">· no change</span>`
-            : ` <span class="mcr-rec__delta mcr-rec__delta--${now > was ? "up" : "down"}">· ${now > was ? "▲" : "▼"} was ${was.toFixed(1)}</span>`;
-      return `<div class="mcr-rec__scorerow"><span>${ICONS[blk.icon]} ${esc(blk.label)}</span><span><strong>${now.toFixed(1)}</strong>${delta}</span></div>`;
+            ? ` <span class="gd-rec__delta">· no change</span>`
+            : ` <span class="gd-rec__delta gd-rec__delta--${now > was ? "up" : "down"}">· ${now > was ? "▲" : "▼"} was ${was.toFixed(1)}</span>`;
+      return `<div class="gd-rec__scorerow"><span>${ICONS[blk.icon]} ${esc(blk.label)}</span><span><strong>${now.toFixed(1)}</strong>${delta}</span></div>`;
     })
     .join("");
-  return rows ? `<div class="mcr-rec__block"><h3>Building blocks</h3>${rows}</div>` : "";
+  return rows ? `<section class="card-flat gd-rec__block"><h3>Building blocks</h3>${rows}</section>` : "";
 }
 
 function trackerList(title: string, items: TrackerItem[], render: (t: TrackerItem) => string): string {
   if (!items.length) return "";
-  return `<div class="mcr-rec__block"><h3>${esc(title)}</h3>${items.map((t) => `<div class="mcr-rec__item">${render(t)}</div>`).join("")}</div>`;
+  return `<section class="card-flat gd-rec__block"><h3>${esc(title)}</h3>${items.map((t) => `<div class="gd-rec__item">${render(t)}</div>`).join("")}</section>`;
 }
 
 // `topNav` — the breadcrumb trail (Team › {name} › Monthly Check-in), passed in by the host
@@ -70,7 +71,7 @@ export function renderRecord(ctx: RecordCtx, topNav = ""): string {
     ] as [string, string | undefined][]
   )
     .filter(([, v]) => v && v.trim())
-    .map(([tag, v]) => `<div class="mcr-rec__item"><span class="mcr-sugg__tag">${esc(tag)}</span> ${esc(v!)}</div>`)
+    .map(([tag, v]) => `<div class="gd-rec__item"><span class="gd-sugg__tag">${esc(tag)}</span> ${esc(v!)}</div>`)
     .join("");
 
   // Private review (last, badged)
@@ -85,31 +86,31 @@ export function renderRecord(ctx: RecordCtx, topNav = ""): string {
           ["Company", sug.company],
         ] as [string, string[]][]
       )
-        .flatMap(([tag, items]) => (items ?? []).map((it) => `<div class="mcr-rec__item"><span class="mcr-sugg__tag">${esc(tag)}</span> ${esc(it)}</div>`))
+        .flatMap(([tag, items]) => (items ?? []).map((it) => `<div class="gd-rec__item"><span class="gd-sugg__tag">${esc(tag)}</span> ${esc(it)}</div>`))
         .join("")
     : "";
 
   return `
-    <div class="mcr">
-      <div class="mcr-col mcr-rec">
-        ${topNav}
-        <div class="mcr-done-banner">${ICONS.check}<span>Completed${when ? ` · ${esc(when)}` : ""}</span></div>
-        <h1 class="mcr-h1 mcr-h1--rec">Monthly Check-in with ${esc(copy.full || copy.name)}</h1>
+    <div class="stage-inner l-stack l-stack--6 gd gd-rec">
+      ${topNav}
+      <div class="gd-done-banner">${ICONS.check}<span>Completed${when ? ` · ${esc(when)}` : ""}</span></div>
+      <header class="page-header">
+        <h1 class="h1">Monthly Check-in with ${esc(copy.full || copy.name)}</h1>
+      </header>
 
-        <div class="mcr-rec__block"><h3>Summary</h3>${summaryBody}</div>
-        ${scoresSection(ctx)}
-        ${trackerList("Promises", trackers.promises, (p) => `<span>${esc(p.text)}</span> ${statusPill(p.status)}`)}
-        ${trackerList("Requests", trackers.requests, (r) => `<span>${esc(r.text)}</span> ${statusPill(r.status)}`)}
-        ${trackerList("Goals", trackers.goals, (g) => `<span>${esc(g.text)}</span> <span class="mcr-row__pct">${g.progress}%</span> ${statusPill(g.status)}`)}
-        ${fbItems ? `<div class="mcr-rec__block"><h3>Feedback</h3>${fbItems}</div>` : ""}
+      <section class="card-flat gd-rec__block"><h3>Summary</h3>${summaryBody}</section>
+      ${scoresSection(ctx)}
+      ${trackerList("Promises", trackers.promises, (p) => `<span>${esc(p.text)}</span> ${statusPill(p.status)}`)}
+      ${trackerList("Requests", trackers.requests, (r) => `<span>${esc(r.text)}</span> ${statusPill(r.status)}`)}
+      ${trackerList("Goals", trackers.goals, (g) => `<span>${esc(g.text)}</span> <span class="gd-row__pct">${g.progress}%</span> ${statusPill(g.status)}`)}
+      ${fbItems ? `<section class="card-flat gd-rec__block"><h3>Feedback</h3>${fbItems}</section>` : ""}
 
-        <div class="mcr-rec__block mcr-rec__private">
-          <div class="mcr-private" style="margin:0 0 12px">${ICONS.lock}<span>Private. Never shared with ${esc(copy.name)}.</span></div>
-          <h3>Your private review</h3>
-          ${eng != null ? `<div class="mcr-rec__item">Engagement: <strong>${eng}/5</strong></div>` : ""}
-          ${priv ? `<div class="mcr-rec__item">${esc(priv).replace(/\n/g, "<br>")}</div>` : ""}
-          ${sugRows || (eng == null && !priv ? `<div class="mcr-rec__item text-ink-dim">Nothing recorded.</div>` : "")}
-        </div>
-      </div>
+      <section class="card-flat gd-rec__block gd-rec__private">
+        <div class="gd-private" style="margin:0 0 12px">${ICONS.lock}<span>Private. Never shared with ${esc(copy.name)}.</span></div>
+        <h3>Your private review</h3>
+        ${eng != null ? `<div class="gd-rec__item">Engagement: <strong>${eng}/5</strong></div>` : ""}
+        ${priv ? `<div class="gd-rec__item">${esc(priv).replace(/\n/g, "<br>")}</div>` : ""}
+        ${sugRows || (eng == null && !priv ? `<div class="gd-rec__item text-ink-dim">Nothing recorded.</div>` : "")}
+      </section>
     </div>`;
 }

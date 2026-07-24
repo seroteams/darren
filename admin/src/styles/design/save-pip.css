@@ -1,0 +1,23 @@
+/* -----------------------------------------------------------------------------
+   Save pip — the shared "Saved / Saving…" autosave indicator (ui/save-pip.ts).
+   One quiet status chip any autosaving screen can mount; state flips via
+   data-state="idle|saving".
+----------------------------------------------------------------------------- */
+.save-pip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+  white-space: nowrap;
+}
+.save-pip__dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--sero-radius-full);
+  background: var(--sero-mint-800);
+}
+.save-pip[data-state="saving"] .save-pip__dot {
+  background: var(--sero-gold-700);
+}

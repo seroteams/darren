@@ -9,7 +9,7 @@
 import "../styles/error-log.css";
 import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.js";
-import { backToPulse } from "../ui/pulse-labels.ts";
+import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { getErrorLog, resolveError } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -157,16 +157,15 @@ export const mount: Mount = async (root, { setState }) => {
   const shell = (inner: string) =>
     `<div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header l-stack l-stack--2">
-        ${backToPulse()}
+        ${pulseCrumbs('Error log')}
         <h1 class="h1">Error log</h1>
         <div class="text-ink-dim">Everything that broke. Your local dev and the live Sero, newest first. Click a row for the full detail.</div>
       </header>
       ${inner}
-      <div class="pd-back-bottom">${backToPulse()}</div>
     </div>`;
   // Delegated so it survives every innerHTML repaint (pulse-drilldowns back button).
   root.addEventListener("click", (e) => {
-    if (e.target instanceof Element && e.target.closest(".js-back-pulse")) setState({ stage: STAGES.ADMIN_PULSE });
+    if (e.target instanceof Element && e.target.closest('.js-crumb[data-nav="pulse"]')) setState({ stage: STAGES.ADMIN_PULSE });
   });
 
   const errorCard = `

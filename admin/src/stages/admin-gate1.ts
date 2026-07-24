@@ -2,13 +2,13 @@
 // manager behind the Pulse hero tile's number, one row each. Fed by the same
 // GET /api/v1/admin/pulse payload the dashboard uses (managers[] carries the whole
 // came-back signal), so the list can never disagree with the tile. Superadmin-only,
-// read-only; "‹ Live pulse" returns to the dashboard.
+// read-only; the Pulse breadcrumb returns to the dashboard.
 
 import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.js";
 import { getPulse } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
-import { activeLabel, dateLabel, backToPulse } from "../ui/pulse-labels.ts";
+import { activeLabel, dateLabel, pulseCrumbs } from "../ui/pulse-labels.ts";
 import { createSkeleton } from "../ui/skeleton.js";
 import type { Mount, Unmount } from "./stage.types.ts";
 
@@ -57,14 +57,13 @@ export const mount: Mount = async (root, { setState }) => {
   const shell = (inner: string) => `
     <div class="l-container l-container--wide l-stack l-stack--6">
       <header class="page-header l-stack l-stack--2">
-        ${backToPulse()}
+        ${pulseCrumbs('Came back unprompted')}
         <h1 class="h1">Came back unprompted</h1>
         <div class="text-ink-dim">Gate 1. External managers who ran a second prep within 14 days, with no nudge from us.</div>
       </header>
       ${inner}
-      <div class="pd-back-bottom">${backToPulse()}</div>
     </div>`;
-  const wireBack = () => root.querySelectorAll(".js-back-pulse").forEach((b) =>
+  const wireBack = () => root.querySelectorAll('.js-crumb[data-nav="pulse"]').forEach((b) =>
     b.addEventListener("click", () => setState({ stage: STAGES.ADMIN_PULSE })));
 
   const load = async () => {

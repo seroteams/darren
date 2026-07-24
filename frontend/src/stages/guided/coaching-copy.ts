@@ -1,5 +1,5 @@
 // Static coaching copy + per-stage UI metadata for the guided runner. Durable content
-// (survives past Phase 1's mock trackers): the pill-nav labels/icons, each stage's big title
+// (survives past Phase 1's mock trackers): the stepper labels, each stage's big title
 // + subtitle, the sequential feedback questions, and the six rating blocks. Ported from the
 // approved prototype; person-neutral pronouns (the real person's gender is unknown).
 
@@ -13,7 +13,7 @@ export interface CopyCtx {
   goalCount: number;
 }
 
-/** Pill-nav label + icon key (see guided-icons.ts) per stage. */
+/** Stepper label per stage (+ icon key, see guided-icons.ts — kept for reuse). */
 export const STAGE_UI: Record<GuidedStageId, { label: string; icon: string }> = {
   catchup: { label: "Catch-up", icon: "chat" },
   requests: { label: "Requests", icon: "inbox" },
@@ -135,7 +135,7 @@ export const CATEGORY_OPTIONS: [string, string][] = [
   ["ideas_suggestions", "Ideas & suggestions"],
   ["concerns_feedback", "Concerns & feedback"],
 ];
-/** A status → the .mcr-status--* CSS suffix (new | prog | done). */
+/** A status → the .gd-status--* CSS suffix (new | prog | done). */
 export function statusClass(status: string): string {
   if (status === "done" || status === "resolved") return "done";
   if (status === "in_progress") return "prog";

@@ -7,7 +7,7 @@
 
 import "../styles/pulse-drilldowns.css";
 import { STAGES, store } from "../state.js";
-import { backToPulse } from "../ui/pulse-labels.ts";
+import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { getGuestRuns, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
@@ -46,17 +46,17 @@ function runRow(r: Run): string {
 export const mount: Mount = async (root, { setState }) => {
   const header = `
     <header class="page-header l-stack l-stack--2">
-      ${backToPulse()}
+      ${pulseCrumbs('Guest runs')}
       <h1 class="h1">Guest runs</h1>
       <div class="text-ink-dim">1:1s run by visitors with no account. Unclaimed, read-only. A guest who saves their run moves it out of this list.</div>
     </header>`;
-  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}<div class="pd-back-bottom">${backToPulse()}</div></div>`;
+  const shell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${header}${inner}<div class="pd-back-bottom">${pulseCrumbs('Guest runs')}</div></div>`;
   // The recap gets its own bare container — NOT `shell` — so the "Guest runs" header and its
   // circled Back no longer ride along above it (that was the doubled title + stacked back).
   const recapShell = (inner: string) => `<div class="stage-inner l-stack l-stack--8">${inner}</div>`;
   // Delegated so it survives every innerHTML repaint (pulse-drilldowns back button).
   root.addEventListener("click", (e) => {
-    if (e.target instanceof Element && e.target.closest(".js-back-pulse")) setState({ stage: STAGES.ADMIN_PULSE });
+    if (e.target instanceof Element && e.target.closest('.js-crumb[data-nav="pulse"]')) setState({ stage: STAGES.ADMIN_PULSE });
   });
 
   let runs: Run[] = [];

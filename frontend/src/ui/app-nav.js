@@ -5,10 +5,10 @@
 // classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
 import { STAGES, isAdmin } from "../../../admin/src/state.js";
-import { isGuestStage } from "../router.js";
+import { isGuestStage, isFlowStage, urlForState } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
-import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Info, MessageSquare, Menu } from "lucide";
+import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Info, MessageSquare, Menu, PanelLeftClose, PanelLeftOpen } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
   <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
@@ -29,7 +29,23 @@ const ICON = {
   logout: icon(LogOut),
   about: icon(Info),
   feedback: icon(MessageSquare),
+  collapse: icon(PanelLeftClose),
+  expand: icon(PanelLeftOpen),
 };
+
+// Real <a href> for a nav row when its stage has a route (the customer app is
+// served at the site root — no base prefix). Rows without one stay <button>s.
+function hrefFor(stage) {
+  if (stage == null) return null;
+  return urlForState({ stage }) || null;
+}
+
+// The rail row markup, <a> or <button> by whether the destination has a URL.
+function rowHtml({ key, icon: glyph, label, href = null, data = "" }) {
+  const inner = `<span class="app-nav__icon">${glyph}</span><span class="app-nav__label">${label}</span>`;
+  if (href) return `<a class="app-nav__link js-nav-${key}" href="${href}" data-key="${key}" ${data}>${inner}</a>`;
+  return `<button type="button" class="app-nav__link js-nav-${key}" data-key="${key}" ${data}>${inner}</button>`;
+}
 
 // One row per destination, tagged by audience: `mgr` = manager rail, `member` =
 // plain-member rail. render() shows exactly one audience's rows.
@@ -89,7 +105,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     if (e.key === "Escape" && drawerOpen) setDrawer(false);
   });
   el.addEventListener("click", (e) => {
-    if (e.target.closest("button")) setDrawer(false);
+    if (e.target.closest("button, a")) setDrawer(false);
   });
 
   el.innerHTML = `
@@ -98,25 +114,20 @@ export function createAppNav({ setState, resetSession } = {}) {
         <span class="app-nav__icon">${LOGO}</span>
         <span class="app-nav__word">Sero</span>
       </button>
+      <button type="button" class="app-nav__collapse js-collapse" aria-label="Collapse menu" title="Collapse menu">${ICON.collapse}</button>
       <nav class="app-nav__links" aria-label="Primary">
-        ${LINKS.map((it) => `<button type="button" class="app-nav__link js-nav-${it.key}" data-key="${it.key}" data-member="${it.member ? "1" : ""}" data-mgr="${it.mgr ? "1" : ""}">
-          <span class="app-nav__icon">${it.icon}</span>
-          <span class="app-nav__label">${it.label}</span>
-        </button>`).join("")}
+        ${LINKS.map((it) => rowHtml({
+          key: it.key,
+          icon: it.icon,
+          label: it.label,
+          href: hrefFor(it.stage),
+          data: `data-member="${it.member ? "1" : ""}" data-mgr="${it.mgr ? "1" : ""}"`,
+        })).join("")}
       </nav>
       <nav class="app-nav__links app-nav__links--foot" aria-label="Workspace">
-        <button type="button" class="app-nav__link js-nav-mgmembers" data-key="mgmembers" data-mgr="1">
-          <span class="app-nav__icon">${ICON.members}</span>
-          <span class="app-nav__label">Members</span>
-        </button>
-        <button type="button" class="app-nav__link js-nav-about" data-key="about">
-          <span class="app-nav__icon">${ICON.about}</span>
-          <span class="app-nav__label">What is Sero?</span>
-        </button>
-        <button type="button" class="app-nav__link js-nav-feedback" data-key="feedback">
-          <span class="app-nav__icon">${ICON.feedback}</span>
-          <span class="app-nav__label">Send feedback</span>
-        </button>
+        ${rowHtml({ key: "mgmembers", icon: ICON.members, label: "Members", href: hrefFor(STAGES.MEMBERS), data: 'data-mgr="1"' })}
+        ${rowHtml({ key: "about", icon: ICON.about, label: "What is Sero?", href: hrefFor(STAGES.ABOUT) })}
+        ${rowHtml({ key: "feedback", icon: ICON.feedback, label: "Send feedback", href: hrefFor(STAGES.FEEDBACK) })}
       </nav>
       <nav class="app-nav__links app-nav__links--logout" aria-label="Session">
         <button type="button" class="app-nav__link js-logout" data-key="logout">
@@ -126,6 +137,28 @@ export function createAppNav({ setState, resetSession } = {}) {
       </nav>
     </div>
   `;
+
+  // Pinned open is the default; collapsing to the icon strip is the user's
+  // choice, remembered per browser (design audit S2). Same key as the admin app
+  // so the preference carries across both.
+  const COLLAPSE_KEY = "seroNavCollapsed";
+  let collapsed = false;
+  try { collapsed = localStorage.getItem(COLLAPSE_KEY) === "1"; } catch {}
+  const collapseBtn = el.querySelector(".js-collapse");
+  function applyCollapsed() {
+    document.body.classList.toggle("app-nav-collapsed", collapsed);
+    collapseBtn.innerHTML = collapsed ? ICON.expand : ICON.collapse;
+    const label = collapsed ? "Expand menu" : "Collapse menu";
+    collapseBtn.setAttribute("aria-label", label);
+    collapseBtn.title = label;
+  }
+  collapseBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // not a nav row — don't trip the drawer-close listener
+    collapsed = !collapsed;
+    try { localStorage.setItem(COLLAPSE_KEY, collapsed ? "1" : "0"); } catch {}
+    applyCollapsed();
+  });
+  applyCollapsed();
 
   const onNav = {
     runs: () => setState && setState({ stage: STAGES.MEMBER_HOME }),
@@ -145,10 +178,17 @@ export function createAppNav({ setState, resetSession } = {}) {
   // A member's "home" is their Past 1:1s list (member-view: only-runs).
   let homeKey = "mghome";
   const goHome = () => onNav[homeKey]();
+  // Plain clicks stay in the SPA (setState); modified clicks (ctrl/cmd/shift —
+  // "open in new tab") fall through to the real href.
+  const navClick = (fn) => (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    fn();
+  };
   el.querySelector(".js-home").addEventListener("click", goHome);
   bar.querySelector(".js-bar-home").addEventListener("click", goHome);
-  LINKS.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", onNav[it.key]));
-  ["mgmembers", "about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", onNav[k]));
+  LINKS.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", navClick(onNav[it.key])));
+  ["mgmembers", "about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", navClick(onNav[k])));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
@@ -162,6 +202,8 @@ export function createAppNav({ setState, resetSession } = {}) {
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: "mghome",
     [STAGES.TEAM]: "mgteam",
+    [STAGES.PERSON_DETAIL]: "mgteam",
+    [STAGES.GUIDED]: "mgteam",
     [STAGES.MEMBERS]: "mgmembers",
     [STAGES.MEMBER_HOME]: "runs",
     [STAGES.RUNS]: "mgruns",
@@ -194,7 +236,11 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (alwaysShown.has(b.dataset.key)) return;
       b.hidden = b.dataset[wanted] !== "1";
     });
-    const activeKeys = [].concat(ACTIVE_BY_STAGE[stage] || []);
+    // During the run flow no stage maps a row of its own — keep "Start 1:1" lit
+    // so the rail still says where you are (design audit S2).
+    const activeKeys = [].concat(
+      ACTIVE_BY_STAGE[stage] || (isFlowStage(stage) ? ["mgnew"] : []),
+    );
     el.querySelectorAll(".app-nav__link").forEach((b) => {
       const on = activeKeys.includes(b.dataset.key);
       b.classList.toggle("is-active", on);

@@ -1,10 +1,19 @@
 /* -----------------------------------------------------------------------------
-   App nav — inked vertical rail down the left edge. Collapsed to an icon strip;
-   opens on hover (or keyboard focus) to reveal labels. It overlays content when
-   open rather than pushing it: the rail's width animates while body padding
-   stays at the collapsed width. Persistent across every screen; the session
-   topbar sits to its right in-session.
+   App nav — inked vertical rail down the left edge. Pinned OPEN with labels at
+   desktop widths (design audit S2); collapsing to the icon strip is a user
+   choice (the chevron toggle, persisted). While collapsed, hover/keyboard focus
+   re-expands as an overlay: the rail's width animates while body padding stays
+   at the collapsed width. Persistent across every screen; the session topbar
+   sits to its right in-session.
+   `--app-nav-w-now` is the rail's current settled width — body padding and the
+   session topbar's left edge read it so they track the pin state.
 ----------------------------------------------------------------------------- */
+body {
+  --app-nav-w-now: var(--app-nav-w-open);
+}
+body.app-nav-collapsed {
+  --app-nav-w-now: var(--app-nav-w);
+}
 .app-nav {
   --app-nav-bg: var(--sero-primary-800);
   --app-nav-fg: var(--sero-offwhite-50);
@@ -14,7 +23,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: var(--app-nav-w);
+  width: var(--app-nav-w-open);
   background: var(--app-nav-bg);
   border-right: 1px solid rgba(255, 255, 255, 0.07);
   z-index: var(--sero-z-sticky, 20);
@@ -24,16 +33,20 @@
 }
 /* Manager (member) rail — shares the admin rail's dark theme (base .app-nav
    styles); no colour override so the two look identical. */
-/* Hover-expand is pointer-only: on touch devices a tap would "stick" the hover
-   and leave the open rail overlaying content (iOS emulates hover on tap). */
+body.app-nav-collapsed .app-nav {
+  width: var(--app-nav-w);
+}
+/* Collapsed rail: hover-expand as an overlay. Pointer-only — on touch devices a
+   tap would "stick" the hover and leave the open rail overlaying content (iOS
+   emulates hover on tap). */
 @media (hover: hover) {
-  .app-nav:hover {
+  body.app-nav-collapsed .app-nav:hover {
     width: var(--app-nav-w-open);
     z-index: var(--sero-z-fixed, 30);
     will-change: width;
   }
 }
-.app-nav:focus-within {
+body.app-nav-collapsed .app-nav:focus-within {
   width: var(--app-nav-w-open);
   z-index: var(--sero-z-fixed, 30);
   will-change: width;
@@ -78,6 +91,7 @@
   white-space: nowrap;
   text-align: left;
   color: var(--app-nav-fg-dim);
+  text-decoration: none;   /* rows are real <a> links now — no underline on the dark rail */
 }
 /* The base rule sets display:flex, which outweighs the [hidden] attribute — so a
    hidden link would still paint. This restores the hide (used to gate the rail by
@@ -122,20 +136,25 @@
   font-size: var(--type-body-sm);
   font-weight: var(--type-weight-medium);
 }
-/* Labels + brand word are clipped when collapsed; fade in once the rail opens. */
+/* Labels + brand word show by default (pinned rail); clipped when the user
+   collapses; fade back in while the collapsed rail is hover/focus-expanded. */
 .app-nav__label,
 .app-nav__word {
-  opacity: 0;
+  opacity: 1;
   transition: opacity var(--dur-fast) var(--ease-out-expo);
 }
+body.app-nav-collapsed .app-nav .app-nav__label,
+body.app-nav-collapsed .app-nav .app-nav__word {
+  opacity: 0;
+}
 @media (hover: hover) {
-  .app-nav:hover .app-nav__label,
-  .app-nav:hover .app-nav__word {
+  body.app-nav-collapsed .app-nav:hover .app-nav__label,
+  body.app-nav-collapsed .app-nav:hover .app-nav__word {
     opacity: 1;
   }
 }
-.app-nav:focus-within .app-nav__label,
-.app-nav:focus-within .app-nav__word {
+body.app-nav-collapsed .app-nav:focus-within .app-nav__label,
+body.app-nav-collapsed .app-nav:focus-within .app-nav__word {
   opacity: 1;
 }
 .app-nav__brand:hover,
@@ -173,15 +192,18 @@
   letter-spacing: var(--type-tracking-wide);
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.55);
-  opacity: 0;
+  opacity: 1;
   transition: opacity var(--dur-fast) var(--ease-out-expo);
 }
+body.app-nav-collapsed .app-nav .app-nav__group-label span {
+  opacity: 0;
+}
 @media (hover: hover) {
-  .app-nav:hover .app-nav__group-label span {
+  body.app-nav-collapsed .app-nav:hover .app-nav__group-label span {
     opacity: 1;
   }
 }
-.app-nav:focus-within .app-nav__group-label span {
+body.app-nav-collapsed .app-nav:focus-within .app-nav__group-label span {
   opacity: 1;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -193,7 +215,50 @@
   }
 }
 body.has-app-nav {
-  padding-left: var(--app-nav-w);
+  padding-left: var(--app-nav-w-now);
+}
+/* Collapse/expand toggle — top-right corner of the rail. Fades out with the
+   labels when collapsed; reappears while the collapsed rail is hover-expanded
+   so the way back is always discoverable. Hidden on the mobile drawer. */
+.app-nav__collapse {
+  position: absolute;
+  top: 14px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--app-nav-fg-dim);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+.app-nav__collapse:hover {
+  background: var(--app-nav-hover-bg);
+  color: var(--app-nav-fg);
+}
+body.app-nav-collapsed .app-nav .app-nav__collapse {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  body.app-nav-collapsed .app-nav:hover .app-nav__collapse {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+body.app-nav-collapsed .app-nav:focus-within .app-nav__collapse {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (max-width: 767px) {
+  .app-nav__collapse {
+    display: none;
+  }
 }
 /* When a session is active, the app nav stacks above the stage breadcrumb. */
 body.has-app-nav.has-session-topbar {
