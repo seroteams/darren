@@ -11,6 +11,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | 0e03aa19 | Design consolidation P7 (re-audit + close) | docs/plans/doing/design-consolidation/, STATUS.md, audits/design-audit-2026-07/, docs/screen-gallery/ | 2026-07-24 |
 | 35146fdf | Carl Method portable pack | docs/carl-method/ | 2026-07-25 |
 | 794bbf0e | Onboarding first-run P2 (brief-first welcome + video) | docs/plans/doing/onboarding-firstrun/, admin/src/stages/start-core.js, admin/src/stages/start-core.test.ts, admin/src/stages/start-welcome.ts, admin/src/stages/start-welcome.test.ts, admin/src/stages/intake-firstrun.ts, admin/src/stages/intake-firstrun.test.ts, admin/src/styles/design/start-stage.css, backend/api/middleware/security-headers.ts, backend/tests/runs/test-security-headers.js | 2026-07-25 |
+| e41db15d | Layout + typography rules into DESIGN.md | DESIGN.md | 2026-07-26 |
 | 4b899314 | Audit fix-up P2 (shell + layout) | docs/plans/doing/audit-fixes-jul-25/, audits/full-app-audit-2026-07-25/p2-proof/, admin/src/styles/design/primitives.css, admin/src/styles/design/session-topbar.css, admin/src/styles/design/app-nav.css, admin/src/ui/session-topbar.js, frontend/src/ui/app-nav.js, frontend/src/router.js, frontend/src/ui/app-nav-flow.test.ts | 2026-07-25 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**

@@ -172,8 +172,46 @@ Text must hit **4.5:1**; large text and UI shapes **3:1**. The pairs that pass:
 - **Display** (Bricolage 600, ~40px, lh 1.1): one per screen.
 - **Headline** (Bricolage 600, ~30px): section-level page titles.
 - **Title** (Inter 600, 20px): card and section headings.
-- **Body** (Inter 400, 16px, lh 1.55): all reading. Cap lines at ~75 characters.
+- **Body** (Inter 400, 16px, lh 1.55): all reading. Line width capped by T5 below.
 - **Label** (Inter 500, 14px): metadata, table headers, eyebrows. **14px is the floor — nothing smaller, ever.**
+
+### The nine type rules
+
+**T1. Four levels per screen, no more.** A screen carries at most four text treatments (e.g.
+display, title, body, label). A fifth idea reuses one of the four rather than inventing a fifth.
+
+**T2. Make levels obviously different.** Two levels on one screen differ by at least one rung of
+the ladder below, and ideally by weight or ink as well. A 1–2px difference is not a level, it's a
+bug: **15px and 17px are noise, not hierarchy.** The 14→16 rung is the one narrow pair (14%), so
+those two must also differ in weight or ink colour.
+
+**T3. The ladder: 14 · 16 · 18 · 20 · 24 · 30 · 40.** Seven rungs; most screens use three or four.
+Nothing sits between rungs. Fluid `clamp()` sizes start and end on a rung.
+
+> Known drift (2026-07-26, reported not fixed): `--type-h1` (32–44px) currently renders *larger*
+> than `--type-display` (30–42px), so the top of the ladder is inverted; and `--type-body-md`
+> (15px) and `--type-body-lg` (17px) fail T2. Fixing these is a separate pass with screenshots.
+
+**T4. Line-height falls as size rises.** 14→1.4 · 16→1.5 · 20→1.3 · 24→1.25 · 30→1.2 · 40→1.1.
+Big type already has presence; extra leading just fragments it. One global line-height is wrong.
+
+**T5. Reading content caps at 66 characters per line** (75 absolute max). This governs prose: the
+briefing, recaps, anything generated. Tables and working surfaces are **not** capped by measure —
+their width comes from their columns.
+
+**T6. Bricolage only at 20px and above.** The display face is cut for size. Inter carries all body,
+labels, controls, table cells and captions. Bricolage below 20px is a defect.
+
+**T7. Tabular numerals for anything that lines up or changes.** Add
+`font-variant-numeric: tabular-nums` to tables, right-aligned numeric columns, timers, scores, and
+any figure that updates in place while the reader watches. Prose keeps proportional figures.
+
+**T8. One bold phrase per paragraph, maximum.** In generated prose, never bold a whole sentence and
+never bold the lead-in of every bullet. Blanket bolding is the loudest AI tell and it destroys the
+scanning value bold is meant to buy.
+
+**T9. Let CSS absorb unknown lengths.** Model output can't be hand-tuned, so headings carry
+`text-wrap: balance` (no one-word last lines) and prose carries `text-wrap: pretty`.
 
 ### Named Rules
 **The Name-Wins Rule.** A person's name outweighs their job title (title is ~16px dim, never a
@@ -182,6 +220,33 @@ second display line).
 opened — the person, the 1:1 — never the parent list, and never re-shows the parent screen's
 header stacked above it. A read-only 1:1 recap uses the shared `admin/src/ui/recap-header.ts`
 (breadcrumb + a heading that names the 1:1); a generic title like "Past 1:1" fails this rule.
+
+## 3a. Layout and spacing
+
+Sero already has the tokens: an 8px rhythm on a 4px grid (`--sero-space-*`, where `n = px / 4`) and
+the `.l-*` primitives. What follows are the rules about **relationships** — how far apart things
+sit, and what that distance tells the reader.
+
+**L1. Groups sit twice as far apart as the things inside them.** Items within a group use 8/12px;
+groups are separated by 24/32px. Anything under 1.5× is a defect, because at that ratio the reader
+can no longer tell where one group ends. This is the single biggest readability lever on a screen.
+
+**L2. A heading belongs to what follows it.** The space *above* a heading is at least twice the
+space *below* it (e.g. 32px above, 12px below). Equal gaps orphan the heading between two blocks
+and the reader can't tell what it titles.
+
+**L3. Three vertical lines, maximum.** A screen has at most three left/right alignment axes: the
+nav edge, the content-column left, and a right-aligned numeric/action edge. Every text block lands
+on one of them. In a form, label, field and helper text share one axis; helper and error text sit
+*below* the field, never to its right.
+
+Two existing rules restated in these terms, so they're findable here:
+
+- **Nesting stops at two.** DESIGN's "never nested cards" (§5, §6.10) generalises: page → card →
+  optional inset region, and no third delimited box inside that. Sub-sections inside a card are
+  separated by space and a heading, not by another box.
+- **Numbers right-align, text left-aligns.** Variable numeric columns and their headers right-align
+  (with T7's tabular figures, so digits stack). Discrete identifiers stay left.
 
 ## 4. Elevation
 
@@ -250,7 +315,7 @@ el.innerHTML = `<span class="app-nav__icon">${icon(House)}</span>`;
 
 ## 6. Do's and Don'ts
 
-The "before you build" checklist — every new or touched screen passes all thirteen:
+The "before you build" checklist — every new or touched screen passes all fifteen:
 
 1. **Do** take colours only from the tokens; **don't** type hex in a screen file.
 2. **Do** keep every text ≥ **14px** and every colour-as-text at **4.5:1+** (on light: coral 800,
@@ -272,8 +337,13 @@ The "before you build" checklist — every new or touched screen passes all thir
 13. **Never use an em dash (—) in user-facing copy** (Carl's hard rule). Use a full stop, a
     colon, or reword; an en dash used as a spaced separator ( – ) is the same sin. A bare en dash
     ("–") is fine only as an empty-value glyph in a cell. Guard: `npm run lint:copy` (free).
+14. **Do** keep type on the ladder (**14 · 16 · 18 · 20 · 24 · 30 · 40**), at most **four levels**
+    per screen, each visibly different; **don't** invent 15px or 17px. Bricolage ≥20px only; prose
+    capped at 66 characters a line (see §3, T1–T6).
+15. **Do** space **groups twice as far apart as their contents**, and sit a heading closer to what
+    it titles than to the block above; keep to **three alignment axes** (see §3a, L1–L3).
 
-**Exemptions** (these sit outside the eleven rules — don't "fix" them):
+**Exemptions** (these sit outside the fifteen rules — don't "fix" them):
 - **Dev/debug chrome** (`ui/dev-badge.js`, `ui/build-stamp.js`) — deliberate terminal-style kit,
   dark, mono, its own palette.
 - **The Universe screen** (`stages/universe.ts`, `stages/universe.model.ts`) — an admin-only,
