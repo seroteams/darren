@@ -35,9 +35,12 @@ services:
       # domain (seroapp.com — verified in Resend; matches the "SeroApp-New" key).
       - key: EMAIL_FROM
         value: Sero <notifications@seroapp.com>
-      # Public origin for clickable /join links in invite emails.
+      # Public origin: clickable /join links in invite emails AND the Google OAuth
+      # redirect URI. Must be the domain people actually sign in on — the OAuth
+      # state cookie lives on this host (google-signin Phase 3: flipped from
+      # sero-obwq.onrender.com to the sero.team custom domain, same service).
       - key: APP_BASE_URL
-        value: https://sero-obwq.onrender.com
+        value: https://sero.team
       # Secrets — Render prompts for each once, in the dashboard. Never in git.
       # ⚠️ DATABASE_URL must be the "Sero Live" Neon URL (the LIVE_DATABASE_URL
       #    value from your .env), NOT your local one. See docs/reference/RENDER_SETUP.md.

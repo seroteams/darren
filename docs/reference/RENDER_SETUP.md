@@ -32,6 +32,9 @@ must never live in git). Open your **`.env`** file and copy each one across:
 | **OPENAI_API_KEY** | `OPENAI_API_KEY` |
 | **GEMINI_API_KEY** | `GEMINI_API_KEY` |
 | **SUPERADMIN_EMAILS** | `SUPERADMIN_EMAILS` |
+| **EMAIL_API_KEY** | `EMAIL_API_KEY` (Resend; unset = emails skipped) |
+| **GOOGLE_CLIENT_ID** | `GOOGLE_CLIENT_ID` (google-signin; unset = the Google button says "not set up yet") |
+| **GOOGLE_CLIENT_SECRET** | `GOOGLE_CLIENT_SECRET` (same note) |
 
 > ### 🚨 The one trap — read this
 > For **DATABASE_URL**, paste the value of **`LIVE_DATABASE_URL`** from your `.env`
