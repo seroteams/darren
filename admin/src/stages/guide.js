@@ -38,15 +38,22 @@ const TOC = [
 // added or removed shows up on the next UPDATE. Only these notes are hand-written;
 // a script with no note renders as "New — not described yet."
 const COMMAND_NOTES = {
-  dev: "Web app for testing. API on :3001, Vite UI on :3000 (two processes).",
+  dev: "Everything for testing, three processes: API on :3001, admin console on :3000/admin/, customer app on :3002.",
+  "dev:customer": "The customer app's Vite server on its own (:3002), without the API or the console.",
   up: "One-command dev launcher (scripts/dev.ps1).",
-  build: "Production build (Vite). Then npm start serves it from one Node process.",
-  start: "Serve the production build from one Node process.",
+  build: "Production build of the admin console (Vite) → admin/dist/.",
+  "build:customer": "Production build of the customer app → frontend/dist/.",
+  "build:all": "Both builds, console then customer. What the live deploy runs.",
+  start: "Serve the production builds from one Node process.",
   cli: "Run the engine from the terminal.",
-  test: "Unit + engine tests (scripts/run-tests.js).",
+  test: "Unit + engine tests (scripts/run-tests.js). Free.",
   typecheck: "TypeScript, no emit.",
-  "typecheck:admin": "TypeScript for the UI, no emit.",
+  "typecheck:admin": "TypeScript for the admin console, no emit.",
+  "typecheck:customer": "TypeScript for the customer app, no emit.",
   lint: "ESLint over the repo.",
+  "lint:tokens": "Design-token guard. Fails on hardcoded colours, spacing and radii.",
+  "lint:copy": "Copy guard. Fails on em dashes and other banned punctuation in user-facing text.",
+  prose: "Golden-prose snapshot. Catches briefing wording drifting from the approved sample.",
   smoke: "Scenario smoke tests.",
   eval: "Offline engine checks. Prompt rules + replay.",
   gate: "Full quality gate (needs API key).",
@@ -55,7 +62,9 @@ const COMMAND_NOTES = {
   "db:generate": "Author Drizzle migrations.",
   "db:migrate": "Apply Drizzle migrations.",
   "rebuild-question-index": "Regenerate content/questions/_index.json (--prune).",
+  "build-map": "Regenerate the repo map at docs/reference/repo-map.md.",
   "logs:purge": "Purge old run logs.",
+  "errors:purge": "Purge old rows from the error log table.",
   "autostart:install": "Install the Windows start-with-PC task.",
   "autostart:uninstall": "Remove the Windows start-with-PC task.",
 };
@@ -66,16 +75,25 @@ const ENV = [
   ["OPENAI_MODEL", "Default model for all stages."],
   ["OPENAI_MODEL_<STAGE>", "Per-stage override: FOCUS_POINTS, PREPARATION, BANK, PLANNER, EVALUATION, JUDGE, FIXER, ROLE_PROFILE."],
   ["DATABASE_URL", "Postgres connection. Accounts, auth sessions, runs. Falls back to on-disk JSON if unset."],
+  ["APP_BASE_URL", "The site's own address. Used to build email links and the Google sign-in redirect, so it must be the domain people sign in on (sero.team)."],
+  ["GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET", "Continue with Google. Server-side OAuth, no Google JavaScript on the page."],
+  ["EMAIL_API_KEY / EMAIL_FROM", "Resend. Invites, password resets, signup alerts."],
   ["SUPERADMIN_EMAILS", "Allowlist for the cross-company superadmin views."],
+  ["APP_ENV / SERO_ENV", "Which environment the app thinks it is. Live hides the engine workshop and blocks paid test runs."],
+  ["GUEST_RUNS_PER_DAY", "Shared daily budget for visitors with no account."],
+  ["SERO_RUN_USD_CAP", "Hard spend ceiling for a single run."],
+  ["AI_MAX_CONCURRENCY", "How many model calls may be in flight at once."],
+  ["ERROR_LOG_RETENTION_DAYS", "How long error-log rows are kept before errors:purge drops them."],
   ["DEV_AUTOLOGIN", "Dev-only convenience login."],
   ["API_PORT", "API port. 3001 in dev."],
   ["PORT", "Fallback API port if API_PORT is unset (3000 in prod)."],
-  ["NODE_ENV", "production makes npm start serve the built admin on one port."],
+  ["NODE_ENV", "production makes npm start serve both built apps from one Node process."],
   ["SESSION_TTL_MS", "In-memory run-session expiry (default 2 hours)."],
   ["NO_COLOR", "Turns off colour in CLI output."],
 ];
 
 const PIPELINE = [
+  ["0", "Role profile", "Derives (and caches) what this job title and seniority actually involves, so later stages don't re-work it out every run.", "backend/engine/role-profile.ts · content/prompts/generate-role-profile.md"],
   ["1", "Focus points", "Picks 2–5 topics worth raising.", "backend/engine/generate.ts · content/prompts/generate-focus-points.md"],
   ["2", "Preparation", "Pre-meeting brief: core issue, opening question, what to listen for, what to avoid, a good outcome, a suggested action.", "backend/engine/preparation.ts · content/prompts/preparation.md"],
   ["3", "Question bank", "8–12 tailored questions laid out along the meeting arc.", "backend/engine/question-generator.ts · content/prompts/generate-questions.md"],
@@ -84,62 +102,85 @@ const PIPELINE = [
   ["6", "Lexicon review (optional)", "Suggests wording to fold into the lexicon for future questions.", "backend/engine/lexicon-reviewer.ts · content/prompts/review-session-for-lexicon.md"],
 ];
 
+// The guided Monthly Check-in is a separate, manager-walked meeting: no interview
+// pipeline, one AI call at the end. Listed apart so it isn't read as a 7th stage.
+const GUIDED = [
+  ["Monthly Check-in", "The manager walks six blocks with the person in front of them. Promises, requests and goals are tracked per person, and each block gets a rating that carries forward as the last-time marker."],
+  ["Wrap-up draft", "The one model call in that meeting. Drafts the shared summary plus private suggestions for the manager. Cached unless you ask for a regenerate. content/prompts/guided-wrapup.md."],
+];
+
 // The screen LIST + each description are read live from the heartbeat — the list
 // is the real files in admin/src/stages/, the description is each file's own
 // header comment. Only the grouping is curated here; a file the map doesn't know
 // lands in "New screens — not yet grouped" so additions are impossible to miss.
 const SCREEN_GROUPS = {
-  "intake.js": "flow", "focus-points.js": "flow",
-  "bank.js": "flow", "questioning.js": "flow",
+  "intake.js": "flow", "intake-wizard.ts": "flow", "intake-firstrun.ts": "flow",
+  "focus-points.js": "flow", "focus-points-card.ts": "flow",
+  "bank.js": "flow", "questioning.js": "flow", "questioning-actions.ts": "flow",
   "eval.js": "flow", "briefing.js": "flow", "run-debrief.js": "flow",
-  "lexicon-review.js": "flow",
-  "login.js": "member", "register.js": "member", "member-home.js": "member",
-  "team.ts": "member", "runs.ts": "member", "run-detail.ts": "member",
-  "person-detail.ts": "member",
-  "start.js": "admin", "library.js": "admin", "compare.js": "admin",
-  "review-run.js": "admin", "personas.js": "admin",
-  "meeting-arcs.js": "admin", "job-lexicons.js": "admin",
+  "finish-destination.ts": "flow", "lexicon-review.js": "flow",
+  "start.js": "home", "start-core.js": "home", "start-rows.ts": "home",
+  "start-welcome.ts": "home", "runs.ts": "home", "run-detail.ts": "home",
+  "login.js": "auth", "register.js": "auth",
+  "forgot-password.js": "auth", "reset-password.js": "auth",
+  "library.js": "admin", "compare.js": "admin", "review-run.js": "admin",
+  "personas.js": "admin", "meeting-arcs.js": "admin", "job-lexicons.js": "admin",
+  "test.js": "admin", "design.js": "admin", "guide.js": "admin",
+  "admin-pulse.ts": "admin", "admin-gate1.ts": "admin", "admin-runs.ts": "admin",
+  "admin-ratings.ts": "admin", "admin-guest-runs.ts": "admin",
+  "admin-feedback.ts": "admin", "admin-error-log.ts": "admin",
   "admin-registered.ts": "admin", "admin-user-detail.ts": "admin",
-  "guide.js": "admin",
   "about.js": "shared", "feedback.js": "shared", "privacy.js": "shared", "error.ts": "shared",
 };
 
 const SCREEN_GROUP_ORDER = [
   ["new", "New screens. Not yet grouped"],
   ["flow", "The run flow"],
-  ["member", "The member app"],
+  ["home", "Home & past 1:1s"],
+  ["auth", "Signing in"],
   ["admin", "Admin tooling"],
   ["shared", "Shared & utility"],
 ];
 
 const NAV = [
-  ["Left rail", "Brand mark + icon strip down the left edge; opens on hover. Admin sees the full toolset; a member sees just Home · Team · Past 1:1s."],
-  ["Admin links", "Home · New session · Library · Compare runs · Regression · Personas · Coaching phrases · Role words · Meeting arcs · User management (Guide in dev only)."],
-  ["Member links", "Home · Team · Past 1:1s."],
-  ["Account footer", "What is Sero? · Send feedback · Privacy · Log out."],
+  ["Left rail", "Brand mark + icon strip down the left edge. Pinned open by default; collapse it and the browser remembers. Below 768px it becomes a drawer behind a header strip."],
+  ["Internal rail", "Grouped by job. Work: Pulse · Start 1:1 · New session · Library. Engine: Coaching phrases · Role words · Meeting arcs. Build: Test engine · Tests · Screens · Design system. Operate: User management · Guest runs · Feedback inbox · Error log. Guide sits below in the util strip."],
+  ["Manager rail", "Home · Start 1:1 · Team · Past 1:1s, then What is Sero? · Send feedback · Log out."],
+  ["Member rail", "Your 1:1s only. A member can read their own past 1:1s and nothing else."],
+  ["Live vs local", "The Engine and Build groups are local-only. On the live site the rail is the console alone, and the same list bounces the deep links."],
+  ["Avatar menu", "Top right. Managers and members get Privacy + Account (their Log out stays in the rail); internal gets Account + Log out."],
   ["Session topbar", "Breadcrumb to review past stages mid-run."],
   ["Notes panel", "Your own notes, kept per stage, on the right."],
 ];
 
 const API = [
-  ["Auth", "POST /api/v1/auth/register · /login · /logout · GET /api/v1/auth/me. Cookie session (sero_session), passwords bcrypt-hashed."],
-  ["Session & flow", "POST /api/v1/sessions · GET /api/v1/sessions/:id · /:id/question · /:id/suggest-answers · /:id/role-profile · /:id/preview · POST /:id/answer · /:id/back · /:id/notes · /:id/agenda/cover · /:id/verdict."],
+  ["Auth", "POST /api/v1/auth/register · /login · /logout · /forgot-password · /reset-password · /change-password · /update-profile · /update-company · GET /auth/me · /auth/company. Cookie session (sero_session), passwords bcrypt-hashed."],
+  ["Google sign-in", "GET /api/v1/auth/google/start · /google/callback. Server-side OAuth with PKCE, no Google script on the page."],
+  ["Session & flow", "POST /api/v1/sessions · /:id/claim · GET /api/v1/sessions/:id · /:id/question · /:id/suggest-answers · /:id/role-profile · /:id/preview · /:id/rules · POST /:id/answer · /:id/back · /:id/notes · /:id/agenda/cover · /:id/wrap-up · /:id/verdict."],
+  ["Promises", "POST /api/v1/sessions/:id/promises · GET /:id/prior-promises · POST /:id/promise-outcomes. The agreed next actions written at wrap-up and picked back up next time."],
   ["Streaming (SSE)", "GET /api/v1/sessions/:id/{focus-points,preparation,bank,plan,evaluation}/stream · POST /:id/focus-points/select."],
   ["Runs & review", "GET /api/v1/runs/{recent,finished,clonable} · /:id/{full,stages,overview} · POST /:id/review · /:id/archive · /runs/clone · DELETE /:id."],
-  ["Members & team", "GET /api/v1/runs/mine · /runs/mine/:id · POST /runs/mine/:id/rating."],
+  ["A member's own runs", "GET /api/v1/runs/mine · /runs/mine/:id · /runs/about-me · POST /runs/mine/:id/rating."],
+  ["Team & people", "GET/POST /api/v1/team/people · PATCH/DELETE /team/people/:id · POST /:id/link · /:id/unlink · /:id/invite · GET /team/linkable-users."],
+  ["Org members & invites", "GET /api/v1/members · POST /members/invite · PATCH /members/:id/role · POST /members/:id/{deactivate,reactivate} · invitation revoke/resend · GET /api/v1/invites/:token · POST /invites/:token/accept (public: the invitee has no account yet)."],
+  ["Monthly Check-in", "POST/GET /api/v1/guided-sessions · GET/PATCH /:id · POST /:id/complete · /:id/wrapup-draft (the one AI call) · GET /people/:id/block-scores."],
+  ["Trackers", "GET/POST /api/v1/people/:id/tracker-items · PATCH /tracker-items/:id · the member's own lane: GET /me/tracker-items · POST /me/requests · PATCH /me/goals/:id."],
   ["Lexicon", "GET /api/v1/sessions/:id/lexicon/{candidates,scope} · POST /:id/lexicon/decisions · GET /api/v1/lexicon/promotions/pending · POST /api/v1/lexicon/promotions."],
-  ["Admin tooling", "GET /api/v1/arcs · /role-lexicons · /regression/run · POST /suggest-fix."],
-  ["Superadmin", "GET /api/v1/admin/registered · /admin/users/:id/runs · /admin/runs/:id (SUPERADMIN_EMAILS-gated, read-only)."],
-  ["Meta", "GET /api/version · /api/v1/meeting-types · /api/v1/personas · POST /api/v1/feedback."],
+  ["Internal tooling", "GET /api/v1/arcs · /role-lexicons · /regression/run · /heartbeat · /library · POST /suggest-fix · /persona-runs (blocked on live: it spends money)."],
+  ["Superadmin", "GET /api/v1/admin/{registered,pulse,runs,guest-runs,errors,feedback} · /admin/users/:id/runs · role, deactivate, reactivate and delete mutations. SUPERADMIN_EMAILS-gated and audited."],
+  ["Meta & health", "GET /api/version · /api/v1/health · /health/deep · /meeting-types · /personas · POST /api/v1/feedback · /feedback/verdict · /errors."],
 ];
 
 const QA = [
-  ["Demo / scripted runs", "Home → pick a persona → Start demo session. Manual, or scripted replay of fixed answers."],
+  ["Free checks first", "npm test · typecheck · lint · lint:copy · lint:tokens · replay · prose · eval. None of them cost anything. gate, smoke, sweep and persona runs all spend OpenAI money."],
+  ["Test engine", "The persona hub. Browse the demo people Sero practises on and run one end to end on scripted answers, then land on the review screen. Off on the live site: it spends money and would write test runs into the live database."],
+  ["Demo / scripted runs", "Home → pick a persona → Start demo session. Manual, or a scripted replay of fixed answers."],
   ["Verdicts", "Keep / Fix / Block on a finished briefing (scripted runs), with an issue type + note. Saved as ground truth."],
   ["Per-run review", "The review page scores 8 dimensions + an overall verdict, saved to review.json."],
-  ["Regression", "The /regression screen runs golden checks against saved runs; npm run gate / eval / replay do the same offline."],
+  ["Regression", "Runs quietly in the background on load and puts an alert dot on the rail when a golden check fails. npm run gate / eval / replay do the same offline."],
   ["Library", "Filter all / unreviewed / keep / fix / block, search, open a review or copy the block."],
   ["Compare runs", "Same persona, different prompt versions, side by side."],
+  ["Tests + Screens", "Two local-only benches: Tests is throwaway UI prototypes on mock data (nothing saved), Screens is the gallery of every real screen for design review."],
   ["suggest-fix", "Ask the model for a fix on a stage, given the run + your verdict."],
   ["QA prompt / Auto-QA", "Copy a ready-made review prompt, or drive the API per turn (not the browser) to replay a scripted persona plus your notes."],
 ];
@@ -148,32 +189,40 @@ const CONCEPTS = [
   ["Meeting types", "Bi-weekly check-in, Performance & feedback, Growth & career plan, Something feels off. Each with its own arc (stage sequence) and tone. Plus the guided Monthly Check-in runner. Onboarding check-in left the picker 2026-07-19 (old runs still resolve)."],
   ["The four axes", "Wellbeing, Engagement, Clarity, Growth. Range −10 to +10. Read by magnitude: ±0–1 weak, ±2–4 watch, ±5–7 real pattern (act), ±8–10 defining."],
   ["Question budget", "About 9 per run. ~4 opening (intro queue) + ~5 dynamic follow-ups. Caps stop over-drilling: drill cap, max 2 wellbeing clarifiers in a row, 1 tangent, and shallow-answer gating that zeroes positive deltas on ≤2-word answers."],
-  ["Accounts & roles", "admin / manager / member. Manager = the end user who runs 1:1s; member = the managed; admin = internal (Carl). Accounts live in Postgres, gated per company."],
+  ["Accounts & roles", "admin / manager / member. Manager = the end user who runs 1:1s; member = the managed; admin = internal (Carl). Accounts live in Postgres, gated per company. Sign in with email + password or Continue with Google."],
+  ["Two apps, one server", "The customer app (frontend/) is what people sign into at the root; the internal console (admin/) ships under /admin and only an internal admin can load it. Many screens are shared, so check the real URL before assuming which app you're looking at."],
+  ["Guests", "A visitor with no account can take a full 1:1 and see the briefing. A shared daily budget caps them; signing up afterwards claims the run."],
+  ["Team roster & join links", "A manager keeps a roster of their people. A one-time join link turns a roster person into a real login, so their own 1:1s and goals show up in their app."],
+  ["Promises", "The next actions agreed at wrap-up are written onto the run, then handed back at the start of the next 1:1 to check what actually happened."],
   ["Focus points & notes", "Focus points steer the question bank; the notes panel captures your own thoughts per stage."],
   ["Role profiles", "Cached per title + seniority context (backend/engine/role-profile.ts) so the pipeline doesn't re-derive the role each run."],
 ];
 
 const FILES = [
-  ["backend/engine/", "The pipeline + scoring: generate, preparation, question-generator, queue-manager, reviewer, lexicon, plus the shared ai-client and models."],
-  ["backend/api/", "The HTTP server (server.ts) + one service folder per domain (services/<domain>/) and middleware/ (auth, v1 routing)."],
-  ["backend/db/", "Postgres via Drizzle. Schema.ts (organizations, users, runs, invitations, authSessions) + migrations/."],
-  ["admin/src/", "The web app. Stages/ (screens), ui/, state.ts, router.js. Built to admin/dist/ for prod."],
+  ["backend/engine/", "The pipeline + scoring: generate, preparation, question-generator, queue-manager, reviewer, role-profile, lexicon, plus the shared ai-client and models."],
+  ["backend/api/", "The HTTP server (server.ts) + one service folder per domain (services/<domain>/) and middleware/ (auth, guards, v1 routing)."],
+  ["backend/db/", "Postgres via Drizzle. schema.ts (organizations, users, people, sessions, runArtifacts, invitations, authSessions, guidedSessions, trackerItems, feedbackNotes, errorLogs and the rest) + migrations/."],
+  ["admin/src/", "The internal console. stages/ (screens), ui/, styles/, state.ts, router.js. Built to admin/dist/ and served under /admin."],
+  ["frontend/src/", "The customer app: its own router + boot, the member and team screens, and cross-imports of the shared stages. Built to frontend/dist/ and served at the root."],
+  ["shared/", "Code both apps use, api.js above all: every fetch the client makes goes through it."],
   ["content/", "All the tunable data: prompts/, questions/, lexicons/, config/models.json, axes.json, focus-points.json, scenarios/, data/."],
   ["logs/<month>/<run-id>/", "One folder per run. Stage folders 00b-role-profile/, 01-focus-points/, 01b-preparation/, 04-dynamic-answers/, 05-evaluation/. Each with inputs.json, prompt.md, response.json."],
   ["…run root", "session-state.json, axis-state.json, transcript.json, pipeline-lock.json, and feedback.json once you leave a verdict."],
   ["content/config/models.json", "Which model each stage uses (persona-bench config sits alongside)."],
   ["content/data/openai-models.json", "Model pricing table for cost tracking."],
-  ["scripts/", "One-off tooling: eval, gate, sweep, run-tests, rebuild-question-index, dev.ps1."],
-  ["docs/", "Plans (docs/plans/doing/), trackers (STATUS.md, SERO_BOARD.md), reports. evals/ holds the golden dataset + replay fixtures."],
+  ["scripts/", "One-off tooling: eval, gate, sweep, run-tests, lint-copy, lint-design-tokens, rebuild-question-index, dev.ps1."],
+  ["docs/", "Plans (docs/plans/doing/), reference notes, reports. Trackers sit at the root: STATUS.md is tactical, SERO_BOARD.md strategic, DESIGN.md is the design law."],
+  ["evals/ · audits/ · testing/", "The golden dataset, replay fixtures and prose snapshots; the written repo audits; the tester pack and QA results."],
 ];
 
 const GAPS = [
-  "Quality gate is young. A golden dataset + scoreRun() gate exist (npm run gate, evals/golden, the /regression screen), but coverage is thin; most prompt changes are still checked by hand.",
+  "Quality gate is young. A golden dataset + scoreRun() gate exist (npm run gate, evals/golden, the background regression check), but coverage is thin; most prompt changes are still checked by hand.",
   "Model drifts on hard rules. E.g. the drill cap is stated many times but still gets ignored; caught only by eye.",
   "Shallow-answer counting is a heuristic. A refused answer can flip a run into \"partial read\" mode.",
-  "Web hardening. The new-session rate limit still trusts X-Forwarded-For (bypassable); there's no request-body size cap yet.",
-  "Cost numbers under-report silently for any model missing from content/data/openai-models.json.",
-  "Auth & DB are new. Postgres accounts + cookie sessions landed recently and are still pre-go-live: the invitations table is scaffolded and the superadmin views are read-only.",
+  "Briefings can read the same across different people. Sameness, scoring skew and bank bloat are open findings from the July sweep of past runs.",
+  "Cost numbers count any model missing from content/data/openai-models.json as unpriced. The call shows up in unknown_price_calls rather than in the money total, so a total can read low.",
+  "The customer app and the console share screens. A change made for one can land in the other; check the real rendered URL, never the routing code, before calling something done.",
+  "Live is one branch. Pushing main deploys, and parallel work can overwrite a deploy, so a release is only confirmed by the live build badge (/api/version), not by the host saying \"live\".",
 ];
 
 function ref(code, desc) {
@@ -497,18 +546,20 @@ export function mount(root) {
         <div class="js-commands-host"><div class="card-flat"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div></div>
         <div class="eyebrow">Environment</div>
         <div class="card-flat">${ENV.map(([c, d]) => ref(c, d)).join("")}</div>
-        <p class="text-ink-mute">Loaded from <code>.env</code> at the repo root. Under the preview tools, keep the API on 3001 and run Vite-only on 3000.</p>
+        <p class="text-ink-mute">Loaded from <code>.env</code> at the repo root. In dev the console is at <code>localhost:3000/admin/</code>, the customer app at <code>localhost:3002</code>, the API on 3001. Under the preview tools, keep the API on 3001 and run Vite-only on 3000.</p>
       </section>
 
       <section class="guide-section" id="g-pipeline">
         <h2 class="h2">The pipeline</h2>
-        <p class="text-ink-dim">A run flows top to bottom. Each stage's model comes from <code>content/config/models.json</code> (keys: focus_points, preparation, bank, planner, evaluation), overridable per stage by env var. A cached role profile is derived first.</p>
+        <p class="text-ink-dim">A run flows top to bottom. Each stage's model comes from <code>content/config/models.json</code> (keys: focus_points, preparation, bank, planner, evaluation, judge, fixer, role_profile, guided_wrapup), overridable per stage by env var.</p>
         <div class="card-flat">${PIPELINE.map(([n, t, b, f]) => step(n, t, b, f)).join("")}</div>
+        <div class="eyebrow">The guided meeting (not the pipeline)</div>
+        <div class="card-flat">${GUIDED.map(([t, d]) => labelRow(t, d)).join("")}</div>
       </section>
 
       <section class="guide-section" id="g-screens">
         <h2 class="h2">The screens</h2>
-        <p class="text-ink-dim">Read live from <code>admin/src/stages/</code>. The list is the real files on disk and each description is the file's own header comment, so this section can't drift. A file added to the code lands under "New screens" until it's grouped.</p>
+        <p class="text-ink-dim">Read live from <code>admin/src/stages/</code>. The list is the real files on disk and each description is the file's own header comment, so this section can't drift. A file added to the code lands under "New screens" until it's grouped. The customer app's own screens live in <code>frontend/src/stages/</code> and aren't in this list.</p>
         <div class="js-screens-host l-stack l-stack--4"><p class="text-ink-mute text-sm">Loading from the codebase…</p></div>
         <div class="eyebrow">Getting around</div>
         <div class="card-flat">${NAV.map(([t, d]) => labelRow(t, d)).join("")}</div>
@@ -516,7 +567,7 @@ export function mount(root) {
 
       <section class="guide-section" id="g-api">
         <h2 class="h2">API</h2>
-        <p class="text-ink-dim">What the client calls. Routes in <code>backend/api/server.ts</code>, handlers under <code>backend/api/services/&lt;domain&gt;/</code>. Every <code>/api/v1/</code> route has a legacy <code>/api/…</code> alias (id in the query string) kept so the admin is unaffected.</p>
+        <p class="text-ink-dim">What the client calls. Routes in <code>backend/api/server.ts</code>, handlers under <code>backend/api/services/&lt;domain&gt;/</code>. Everything is on <code>/api/v1/</code> now (the old <code>/api/…</code> aliases are gone); <code>/api/version</code> is the one exception. Mutating routes carry an origin guard, and anything that can be brute-forced is rate-limited per IP.</p>
         <div class="card-flat">${API.map(([t, d]) => labelRow(t, d)).join("")}</div>
       </section>
 
