@@ -1,6 +1,8 @@
 # Phase 4 — customer bundle: variant lab out + frontend dead code
 
-**Built 2026-07-25 (session 17d7a976). Awaiting Carl's green light.**
+## ✅ GREEN-LIT 2026-07-25
+
+Carl approved on the render-proof screenshot + build numbers (183/183, all checks). Committed as 747bd050. Built by session 17d7a976. Standing note: the admin-only lab switcher gets a 30-second poke next time Carl is in /prepare as admin.
 
 Goal: stop shipping the internal /prepare layout lab (11 unused layouts + switcher) and dead code in the customer download. Nothing a customer sees changes.
 
