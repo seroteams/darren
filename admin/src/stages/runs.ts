@@ -14,7 +14,7 @@ import { listMyRuns, getRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
-import { relTime, formatDate } from "../ui/time.ts";
+import { formatDate, whenLabel } from "../ui/time.ts";
 import { pageHeader } from "../ui/page-header.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
@@ -64,13 +64,6 @@ function aboutEntry(r: AboutRun): string {
 function initialOf(name: string): string {
   const s = (name || "").trim();
   return s ? s[0]!.toUpperCase() : "?";
-}
-
-// Relative within the week, then the one date format everywhere (DESIGN.md rule 9).
-function whenLabel(ms: number): string {
-  if (!ms) return "";
-  const days = (Date.now() - ms) / 86400000;
-  return days < 7 ? relTime(ms) : formatDate(ms);
 }
 
 // Recency buckets for the group heads. Runs arrive newest-first, so the groups

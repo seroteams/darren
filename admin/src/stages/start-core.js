@@ -14,11 +14,12 @@ import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { listRecentRuns, deleteRun } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";
-import { formatDate } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
+import { errorCardHtml, wireRetry } from "../ui/screen-scaffold.ts";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
 import { firstRunIntroHtml } from "./intake-firstrun.ts";
+import { rowModel, orderForHome } from "./start-rows.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
 import { pageHeader } from "../ui/page-header.ts";
 import "../styles/ux-audit-fixes.css";
@@ -45,6 +46,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
       <section class="l-stack l-stack--2">
         <div class="eyebrow js-recent-label">Recent 1:1s</div>
+        <div class="js-load-error" hidden></div>
         <ul class="run-list js-runs"></ul>
         <button type="button" class="start-seeall js-see-all" hidden>See all past 1:1s</button>
       </section>
@@ -54,13 +56,25 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
   const list = root.querySelector(".js-runs");
   const recentLabel = root.querySelector(".js-recent-label");
   const seeAll = root.querySelector(".js-see-all");
+  const errorHost = root.querySelector(".js-load-error");
 
   let runs = [];
 
+  // Internal QA verdict vocabulary ("Reviewed" / "Review half-done" from review.json).
+  // It means nothing to a manager and would sit next to the prep-status chip saying
+  // something different, so the customer view never gets it.
   function reviewChip(run) {
+    if (!isInternalAdmin(store.user)) return "";
     if (run.reviewStatus === "complete") return `<span class="run-row__review run-row__review--done" title="Reviewed">Reviewed ${icon(Check, { size: 16 })}</span>`;
     if (run.reviewStatus === "partial") return `<span class="run-row__review run-row__review--partial" title="Review in progress">Review half-done</span>`;
     return "";
+  }
+
+  // A prep left mid-flow is the one row a returning manager is looking for, and it
+  // otherwise looks identical to a finished one. A finished row gets no chip:
+  // absence already reads as normal and keeps the list quiet.
+  function statusChip(model) {
+    return model.status === "open" ? `<span class="run-list__status">Half done</span>` : "";
   }
 
   // Project-standard skeleton (ui/skeleton.js) — the same ghost cards the
@@ -80,8 +94,30 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     root.querySelector(".js-startnew")?.classList.toggle("btn--ghost", Boolean(recoveryShown));
   }
 
+  // A failed fetch used to fall through to runs=[] and render the "First time?"
+  // card, telling a returning manager they had never run a 1:1. Say what happened
+  // instead, and offer the retry.
+  function renderError() {
+    list.setAttribute("aria-busy", "false");
+    list.classList.remove("run-list--card");
+    list.innerHTML = "";
+    if (recentLabel) recentLabel.hidden = true;
+    if (seeAll) seeAll.hidden = true;
+    errorHost.hidden = false;
+    errorHost.innerHTML = errorCardHtml({
+      title: "Couldn't load your 1:1s",
+      copyHtml: "Your 1:1s are safe. This looks like a connection problem.",
+    });
+    wireRetry(errorHost, () => {
+      errorHost.hidden = true;
+      renderSkeleton();
+      void load();
+    });
+  }
+
   function render() {
     list.setAttribute("aria-busy", "false");
+    errorHost.hidden = true;
     syncAccentBudget(false);
     // The card chrome only wraps real rows — the zero-run welcome and the
     // skeleton bring their own surfaces (never nest cards).
@@ -97,16 +133,19 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     }
     if (recentLabel) recentLabel.hidden = false;
     list.innerHTML = runs.map((r) => {
-      const name = (r.ctx && r.ctx.name) || r.headline || r.id;
-      const sub = [r.ctx?.meetingType, formatRelativeTime(r.lastSeenAt)].filter(Boolean).join(" · ");
+      // rowModel owns the copy contract: the name comes from ctx and NEVER falls back
+      // to the raw headline, which is a "Name · Role · Seniority · MeetingType" blob
+      // whose seniority slot has been seen holding an email address.
+      const m = rowModel(r);
       return `
       <li class="run-list__item" data-id="${escape(r.id)}">
         <button type="button" class="run-list__row js-open" data-id="${escape(r.id)}">
-          <span class="ds-avatar run-list__avatar" aria-hidden="true">${escape(initialOf(name))}</span>
+          <span class="ds-avatar run-list__avatar" aria-hidden="true">${escape(initialOf(m.name))}</span>
           <span class="run-list__main">
-            <span class="run-list__name">${escape(name)}${reviewChip(r)}</span>
-            <span class="run-list__sub">${escape(sub)}</span>
+            <span class="run-list__name">${escape(m.name)}${reviewChip(r)}</span>
+            <span class="run-list__sub">${escape(m.sub)}</span>
           </span>
+          <span class="run-list__side">${statusChip(m)}</span>
         </button>
         <button type="button" class="row-menu-btn js-row-more" data-id="${escape(r.id)}" aria-haspopup="menu" aria-label="More actions for this 1:1">${icon(MoreHorizontal, { size: 18 })}</button>
       </li>
@@ -114,13 +153,18 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     }).join("");
   }
 
+  // Fetch 5, show 3. The hoist below lifts an unfinished prep to the top, and a
+  // 3-row fetch can't reach one that has already slipped past the third slot —
+  // which is the exact case the hoist exists for.
   async function load() {
     try {
-      const res = await listRecentRuns(3);
-      runs = res.runs || [];
+      const res = await listRecentRuns(5);
+      runs = orderForHome(res.runs || [], 3);
     } catch (e) {
       runs = [];
       console.warn("[start] listRecentRuns failed:", e);
+      renderError();
+      return;
     }
     render();
   }
@@ -136,6 +180,11 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
   async function resume(id) {
     const ok = await rehydrateById(id);
     if (ok) return;
+    // Only ever ONE recovery card on screen. Clicking a second dead row used to heal that
+    // one too, so a manager whose preps had all aged past the 7-day session TTL ended up
+    // with three identical cards and three blue buttons, no rows left, and no way back
+    // short of a reload. Re-render first: the previously healed row returns to being a row.
+    render();
     // The session is gone (expired/deleted server-side). Heal the row in place — no native
     // alert, no dead row left behind — and offer the one useful move: start fresh
     // with the same person. (audit M3/X7)
@@ -247,20 +296,6 @@ export function unmount() {
 function initialOf(name) {
   const s = String(name || "").trim();
   return s ? s[0].toUpperCase() : "?";
-}
-
-function formatRelativeTime(ts) {
-  if (!ts) return "";
-  const diff = Date.now() - Number(ts);
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `${days}d ago`;
-  // Older than a week: the one date format everywhere (DESIGN.md rule 9).
-  return formatDate(Number(ts));
 }
 
 function cssEscape(s) {

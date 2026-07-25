@@ -851,3 +851,24 @@ baseline; design-cleanups (future/) marked absorbed. Carl parked two calls at cl
 two-tier widths and the Prepare variant-lab CSS. Lesson: making the audit BE the acceptance list
 (one tick-list, one re-audit at the end) is what kept an 8-phase visual overhaul honest — every
 "done" traced to a numbered finding, and the final scoreboard was a measurement, not a feeling.
+
+## 2026-07-25 — Home screen truth, Phase 1 (rows stop lying)
+
+Carl's Home showed three identical rows reading "Carl Heaton · UX Lead · <his email> · Bi-weekly
+check-in". Not a styling problem: the `/runs/recent` mapper re-cut the payload to six fields and
+dropped `ctx`, so the screen fell back to the raw `headline` blob, whose seniority slot was
+holding an email address. Fix was a narrow widening (`ctx: { name, meetingType }` and nothing
+else) plus a new tested `start-rows.ts` whose `rowModel` has NO headline fallback at all. Also
+landed: an unfinished prep is chipped "Half done" and hoisted to the top (fetch 5, show 3, so the
+hoist can reach one that already slipped off the list), the internal "Reviewed" QA chip is gated
+out of the customer view, and a failed fetch renders "Couldn't load your 1:1s" instead of telling
+a returning manager they have never run a 1:1.
+
+Two lessons. First: a display bug that a screen "falls back" to is usually a payload bug, and the
+right fix is to narrow what the screen receives, not to patch the fallback. What the client is
+never sent, it can never print. Second: Carl's walk found what the tests could not. He clicked
+three old preps, each failed to resume, and each healed in place, leaving three recovery cards
+and three blue buttons. The failures themselves were honest (the run list is Postgres-durable
+forever, but the live session behind it is swept on a 7-day TTL), yet nothing capped the cards.
+Parked for a decision: an unfinished prep older than 7 days still says "Half done" while being
+impossible to open.

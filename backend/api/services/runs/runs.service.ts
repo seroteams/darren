@@ -121,6 +121,11 @@ export function createRunsService(repo: RunsRepo, deps: RunsDeps = {}): RunsServ
       const n = Math.max(1, Math.min(20, Number(limit) || 3));
       const runs = (await repo.listRecent(n, orgId, userId)).map((r) => {
         const o = asRecord(r);
+        // Narrow on purpose: Home needs the person's name and the meeting type, and
+        // nothing else from ctx. `dir` is a server path, `role` is unused here, and
+        // `seniority` has been seen holding an email address. Widening this map is
+        // how an email ends up printed on a manager's own screen.
+        const ctx = asRecord(o.ctx);
         return {
           id: o.id,
           headline: o.headline,
@@ -128,6 +133,7 @@ export function createRunsService(repo: RunsRepo, deps: RunsDeps = {}): RunsServ
           stage: o.stage,
           pipelineDigest: o.pipelineDigest,
           reviewStatus: o.reviewStatus,
+          ctx: { name: ctx.name, meetingType: ctx.meetingType },
         };
       });
       return { runs };

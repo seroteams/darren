@@ -12,6 +12,14 @@ export function formatDate(ms: number): string {
   return `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 }
 
+// The list vocabulary: relative inside the week, then the one date format. One copy
+// for Home and Past 1:1s, which each hand-rolled their own (home-screen-truth P1).
+export function whenLabel(ms: number): string {
+  if (!ms) return "";
+  const days = (Date.now() - ms) / 86_400_000;
+  return days < 7 ? relTime(ms) : formatDate(ms);
+}
+
 export function relTime(ms: number): string {
   if (!ms) return "";
   const min = Math.round((Date.now() - ms) / 60000);

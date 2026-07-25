@@ -2,7 +2,7 @@
 // four stages that used to hand-roll it (compare, runs, team, person-detail).
 import test from "node:test";
 import assert from "node:assert/strict";
-import { relTime, formatDate } from "./time.ts";
+import { relTime, formatDate, whenLabel } from "./time.ts";
 
 const MIN = 60_000;
 
@@ -39,4 +39,23 @@ test("formatDate: renders 'Mon 18 Nov 2024' style, locale-proof", () => {
 test("formatDate: falsy or invalid input renders as nothing", () => {
   assert.equal(formatDate(0), "");
   assert.equal(formatDate(NaN), "");
+});
+
+// whenLabel (home-screen-truth Phase 1): the list vocabulary — relative inside the
+// week, then the one date format. Was hand-rolled twice (start-core, runs).
+const DAY = 24 * 60 * MIN;
+
+test("whenLabel: inside the week reads relative", () => {
+  assert.equal(whenLabel(Date.now() - 6 * DAY), "6d ago");
+  assert.equal(whenLabel(Date.now() - 3 * 60 * MIN), "3h ago");
+});
+
+test("whenLabel: past the week falls back to the one date format", () => {
+  const eightDaysAgo = Date.now() - 8 * DAY;
+  assert.equal(whenLabel(eightDaysAgo), formatDate(eightDaysAgo));
+  assert.match(whenLabel(eightDaysAgo), /^[A-Z][a-z]{2} \d{1,2} [A-Z][a-z]{2} \d{4}$/);
+});
+
+test("whenLabel: falsy input renders as nothing", () => {
+  assert.equal(whenLabel(0), "");
 });

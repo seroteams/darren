@@ -29,9 +29,36 @@ test("recents render as rich rows: avatar initial, bold name, quiet type-and-tim
   assert.ok(SRC.includes("ds-avatar"), "shared avatar circle");
   assert.ok(SRC.includes("run-list__name"), "bold headline slot");
   assert.ok(SRC.includes("run-list__sub"), "quiet second line slot");
-  assert.ok(/meetingType[\s\S]{0,80}formatRelativeTime/.test(SRC), "second line = meeting type + relative time");
   assert.ok(/\.run-list__name\s*\{[^}]*semibold/.test(CSS), "name reads bold");
   assert.ok(/\.run-list__sub\s*\{[^}]*ink-dim/.test(CSS), "second line reads quiet");
+});
+
+// home-screen-truth Phase 1. The row copy moved into start-rows.ts so it could be
+// tested for real; what this guard holds is that start-core can't quietly reintroduce
+// the headline blob (whose seniority slot has been seen carrying an email address).
+test("the row name comes from the tested row model, never the headline blob", () => {
+  assert.ok(/import \{ rowModel, orderForHome \}/.test(SRC), "rows are built by start-rows.ts");
+  assert.ok(!/r\.headline/.test(SRC), "no headline fallback anywhere in the screen");
+  assert.ok(!SRC.includes("formatRelativeTime"), "the duplicated time helper is gone (ui/time.ts owns it)");
+});
+
+test("an unfinished prep is marked and hoisted, and 5 are fetched to find it", () => {
+  assert.ok(/listRecentRuns\(5\)[\s\S]{0,120}orderForHome\([^)]*3\)/.test(SRC), "fetch 5, render the top 3");
+  assert.ok(SRC.includes("Half done"), "the unfinished state is named on the row");
+  assert.ok(/statusChip[\s\S]{0,200}status === "open"/.test(SRC), "only unfinished rows get the chip");
+  assert.ok(/\.run-list__status\s*\{[^}]*--type-body-sm/.test(CSS), "the chip respects the 14px floor");
+});
+
+test("the internal review chip stays out of the customer view", () => {
+  const chip = SRC.slice(SRC.indexOf("function reviewChip"));
+  assert.ok(/isInternalAdmin\(store\.user\)/.test(chip.slice(0, 200)), "reviewChip is gated on internal admin");
+});
+
+test("a failed load says so instead of rendering the first-run card", () => {
+  assert.ok(SRC.includes("errorCardHtml") && SRC.includes("wireRetry"), "the shared error card is used");
+  assert.ok(SRC.includes("Couldn't load your 1:1s"), "it names what failed");
+  const load = SRC.slice(SRC.indexOf("async function load"));
+  assert.ok(/catch[\s\S]{0,200}renderError\(\)[\s\S]{0,40}return/.test(load), "a catch renders the error and stops");
 });
 
 test("a row click opens the run directly, keeping the resume-vs-review decision", () => {
@@ -69,6 +96,14 @@ test("Enter still starts a new 1:1; accordion-only shortcuts are gone", () => {
   assert.ok(/"Enter"[\s\S]{0,80}startNew\(\)/.test(SRC), "Enter = start a new 1:1");
   assert.ok(!SRC.includes('"Escape"'), "Escape collapse removed with the accordion");
   assert.ok(!/key\.toLowerCase\(\) === "r"/.test(SRC), "r-to-resume removed with the accordion");
+});
+
+// A manager whose preps have all aged past the 7-day session TTL can click several
+// dead rows in a row. Each used to heal in place, leaving three identical recovery
+// cards, three blue buttons (DESIGN rule 3), and no rows left to click.
+test("only one stale-resume recovery card can be on screen at a time", () => {
+  const resume = SRC.slice(SRC.indexOf("async function resume"), SRC.indexOf("function startFreshWith"));
+  assert.ok(/rehydrateById[\s\S]*render\(\)[\s\S]*staleRunRecoveryHtml/.test(resume), "a failed resume re-renders the rows before healing one");
 });
 
 test("empty, loading and failed-resume states survive the new layout", () => {

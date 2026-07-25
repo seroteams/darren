@@ -75,15 +75,58 @@ test("recent clamps the limit (50->20, 0/undefined->3, -5->1, 7->7)", async () =
   assert.deepEqual(seen, [20, 3, 3, 1, 7]);
 });
 
-test("recent maps only the six summary fields, dropping extras", async () => {
+// Home reads ctx.name for the row and ctx.meetingType for the quiet second line, so
+// the mapper carries those two and nothing else from ctx. It stays a narrow re-cut
+// on purpose (home-screen-truth Phase 1): `dir` is a server path, `role` is unused
+// here, and `seniority` has been seen holding an email address. What the screen is
+// never sent, it can never print.
+test("recent maps the summary fields plus name/meetingType, dropping everything else", async () => {
   const { repo } = fakeRepo({
     listRecent: async () => [
-      { id: "r1", headline: "H", lastSeenAt: 5, stage: "done", pipelineDigest: "d", reviewStatus: "none", secret: "x" },
+      {
+        id: "r1",
+        headline: "H",
+        lastSeenAt: 5,
+        stage: "done",
+        pipelineDigest: "d",
+        reviewStatus: "none",
+        secret: "x",
+        dir: "/srv/sessions/r1",
+        ctx: { name: "Priya", role: "UX Lead", seniority: "carl@example.com", meetingType: "Bi-weekly check-in" },
+      },
     ],
   });
   assert.deepEqual(await createRunsService(repo).recent(undefined), {
-    runs: [{ id: "r1", headline: "H", lastSeenAt: 5, stage: "done", pipelineDigest: "d", reviewStatus: "none" }],
+    runs: [{
+      id: "r1",
+      headline: "H",
+      lastSeenAt: 5,
+      stage: "done",
+      pipelineDigest: "d",
+      reviewStatus: "none",
+      ctx: { name: "Priya", meetingType: "Bi-weekly check-in" },
+    }],
   });
+});
+
+test("recent never leaks dir, role or seniority, whatever the repo hands over", async () => {
+  const { repo } = fakeRepo({
+    listRecent: async () => [
+      { id: "r1", dir: "/srv/x", ctx: { name: "P", role: "UX Lead", seniority: "carl@example.com" } },
+    ],
+  });
+  const { runs } = await createRunsService(repo).recent(undefined);
+  const row = runs[0] as Record<string, unknown>;
+  assert.ok(!("dir" in row), "the server path stays server-side");
+  const ctx = row.ctx as Record<string, unknown>;
+  assert.deepEqual(Object.keys(ctx).sort(), ["meetingType", "name"]);
+  assert.ok(!JSON.stringify(runs).includes("@"), "no email can reach the client");
+});
+
+test("recent tolerates a run with no ctx at all", async () => {
+  const { repo } = fakeRepo({ listRecent: async () => [{ id: "r1", headline: "H" }] });
+  const { runs } = await createRunsService(repo).recent(undefined);
+  assert.deepEqual((runs[0] as Record<string, unknown>).ctx, { name: undefined, meetingType: undefined });
 });
 
 test("finished passes the repo list straight through", async () => {

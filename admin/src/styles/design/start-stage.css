@@ -98,6 +98,19 @@
   flex: 1;
 }
 
+/* "Half done" on a prep that was left mid-flow (home-screen-truth Phase 1). A
+   factual state label, not a nudge: it tells a manager which row picks up where
+   they stopped. Finished rows carry no chip, so the list stays quiet. */
+.run-list__status {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--sero-radius-full);
+  white-space: nowrap;
+}
+
 /* Quiet "See all past 1:1s" link under the recents card. */
 .start-seeall {
   align-self: flex-start;
