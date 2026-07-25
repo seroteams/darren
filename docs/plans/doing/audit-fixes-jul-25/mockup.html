@@ -1,0 +1,332 @@
+<title>Audit fix-up: what the screens become</title>
+<style>
+/* Real Sero tokens (admin/src/styles/design/tokens.css) so the mock matches the app.
+   Bricolage Grotesque cannot be loaded here (no external fonts), so headings use a
+   system stack. Treat the type as approximate and the layout as the thing under review. */
+:root{
+  --paper:#f5fafd; --surface:#fdfefe; --border:#e8e8e8; --border-strong:#cccccc;
+  --ink:#1f2a37; --ink-dim:#636363; --ink-mute:#757575;
+  --nav:#1b5d91; --accent:#5aa9e6; --accent-soft:#e9f3fb; --accent-dark:#1b5d91;
+  --mint:#d1f0e0; --mint-ink:#1a6b47; --r-sm:4px; --r-lg:12px;
+  --page:#eceee9; --page-ink:#17181A; --page-mute:#75736C; --page-hair:#CDCEC7; --flag:#C8102E;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+  --serif:ui-serif,"Iowan Old Style",Palatino,Georgia,serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --page:#141513; --page-ink:#EFEFEA; --page-mute:#918F87; --page-hair:#35362F; --flag:#F0637A; }
+}
+:root[data-theme="dark"]{ --page:#141513; --page-ink:#EFEFEA; --page-mute:#918F87; --page-hair:#35362F; --flag:#F0637A; }
+:root[data-theme="light"]{ --page:#eceee9; --page-ink:#17181A; --page-mute:#75736C; --page-hair:#CDCEC7; --flag:#C8102E; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--page-ink);font:16px/1.6 var(--sans);
+  -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+.wrap{max-width:38rem;margin:0 auto;padding:0 18px}
+h1,h2{font-family:var(--serif);font-weight:600;letter-spacing:-.012em;line-height:1.15;margin:0;text-wrap:balance}
+header{padding:40px 0 26px}
+h1{font-size:clamp(30px,8vw,40px)}
+.eyebrow{display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.15em;
+  font-size:14px;font-weight:600;color:var(--page-mute);margin:0 0 12px}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--flag);flex:none}
+.dek{font-size:17px;color:var(--page-mute);margin:16px 0 0}
+.warn{border:1px solid var(--flag);color:var(--flag);font-size:14px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;padding:7px 11px;display:inline-block;margin:20px 0 0;border-radius:2px}
+
+section{padding:30px 0;border-top:1px solid var(--page-hair)}
+h2{font-size:25px;margin-bottom:6px}
+.tag{font-size:14px;color:var(--page-mute);margin:0 0 14px}
+.changed{margin:16px 0 0;padding-left:20px;font-size:15px}
+.changed li{margin-bottom:7px}
+.changed b{font-weight:600}
+.hint{font-size:14px;color:var(--page-mute);margin:0 0 8px;display:flex;gap:6px;align-items:center}
+
+/* ── the mock frame ───────────────────────────────────────── */
+/* The mocks are 1040px wide because that is the shape being reviewed. Break them out of the
+   text column so a desktop sees the whole thing; on a phone the frame scrolls sideways. */
+.frame{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--page-hair);
+  border-radius:var(--r-sm);background:var(--paper);
+  width:calc(100vw - 24px);max-width:1064px;margin-left:calc(50% - min(50vw - 12px, 532px))}
+.app{width:1040px;display:flex;font-size:13px;color:var(--ink);font-family:var(--sans);min-height:430px}
+.app *{font-size:inherit}
+.rail{width:176px;background:var(--nav);color:#fff;padding:14px 10px;display:flex;flex-direction:column;gap:3px;flex:none}
+.rail .brand{font-weight:700;font-size:15px;padding:4px 8px 14px;display:flex;gap:7px;align-items:center}
+.rail .brand i{width:16px;height:16px;background:#fff;border-radius:3px;display:inline-block;flex:none}
+.rail a{color:rgba(255,255,255,.88);padding:7px 9px;border-radius:22px;text-decoration:none}
+.rail a.on{background:#fff;color:var(--ink);font-weight:600}
+.rail .grow{flex:1}
+.rail .foot{color:rgba(255,255,255,.7);padding:7px 9px}
+.rail .gone{opacity:.38;text-decoration:line-through}
+
+.main{flex:1;padding:16px 22px 26px;background:var(--paper);position:relative}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:4px}
+.chip{background:var(--surface);border:1px solid var(--border);border-radius:22px;
+  padding:5px 11px 5px 6px;display:flex;gap:7px;align-items:center;color:var(--ink-dim)}
+.chip i{width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);
+  display:grid;place-items:center;font-weight:700;font-size:11px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:6px 0 14px}
+.head .eb{color:var(--ink-mute);font-size:12px;letter-spacing:.04em}
+.head h3{font-family:var(--serif);font-size:26px;margin:2px 0 3px;font-weight:600;letter-spacing:-.01em}
+.head p{margin:0;color:var(--ink-dim)}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:var(--r-sm);padding:9px 14px;
+  font-weight:600;flex:none;font-family:inherit}
+.btn--ghost{background:var(--surface);color:var(--ink);border:1px solid var(--border-strong)}
+.tools{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px}
+.search{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:8px 11px;color:var(--ink-mute);width:250px}
+.count{color:var(--ink-mute)}
+
+table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--ink-mute);font-weight:600;font-size:12px;letter-spacing:.05em;
+  text-transform:uppercase;padding:0 10px 8px;border-bottom:1px solid var(--border)}
+td{padding:11px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.who{display:flex;gap:10px;align-items:center}
+.av{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);
+  display:grid;place-items:center;font-weight:700;font-size:11px;flex:none}
+.nm{font-weight:600}
+.sub{color:var(--ink-mute);font-size:12px}
+.pill{border-radius:20px;padding:3px 9px;font-size:12px;display:inline-block;white-space:nowrap}
+.pill--joined{background:var(--mint);color:var(--mint-ink)}
+.pill--invited{background:#fff6e5;color:#523600}
+.pill--none{background:#f1f1f1;color:var(--ink-mute)}
+.pill--role{background:var(--accent-soft);color:var(--accent-dark)}
+.pill--admin{background:#efe7fa;color:#4b2a80}
+.dots{color:var(--ink-mute);letter-spacing:2px;text-align:right;padding-right:4px}
+.link{color:var(--accent-dark);font-weight:600}
+.stamp{position:absolute;right:10px;bottom:8px;background:rgba(15,23,42,.82);color:#cbd5e1;
+  border-radius:7px;padding:4px 8px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.stamp em{color:#94a3b8;font-style:normal}
+
+.callout{border:1px dashed var(--flag);border-radius:var(--r-sm);padding:6px 9px;
+  font-size:12px;color:var(--flag);font-weight:600;display:inline-block;margin-top:12px}
+
+/* member home mock */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:15px 17px}
+.card h4{margin:0 0 6px;font-family:var(--serif);font-size:17px;font-weight:600}
+.card p{margin:0;color:var(--ink-dim)}
+.big{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:15px 17px}
+.big .lbl{color:var(--accent-dark);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
+.big h4{font-family:var(--serif);font-size:19px;margin:5px 0 4px;font-weight:600}
+.big p{margin:0;color:var(--ink-dim)}
+.why{background:var(--accent-soft);border-radius:var(--r-sm);padding:11px 13px;margin-top:12px;color:var(--ink)}
+.field{display:flex;gap:8px;margin-top:11px}
+.field .in{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 11px;color:var(--ink-mute)}
+
+/* wizard mock */
+.steps{display:flex;gap:0;align-items:center;background:var(--surface);border-bottom:1px solid var(--border);
+  padding:11px 18px;gap:9px;font-size:12px;color:var(--ink-mute)}
+.steps b{background:var(--accent-soft);color:var(--accent-dark);border-radius:20px;padding:4px 10px;font-weight:600}
+.steps span::before{content:"·";margin-right:9px;color:var(--border-strong)}
+.centred{max-width:520px;margin:0 auto;padding:30px 0 10px;text-align:left}
+.centred .eb{color:var(--accent-dark);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
+.centred h3{font-family:var(--serif);font-size:27px;margin:8px 0 6px;font-weight:600}
+.centred p{margin:0 0 16px;color:var(--ink-dim)}
+.centred .in{background:transparent;border:0;border-bottom:1px solid var(--border-strong);
+  padding:8px 0;color:var(--ink-mute);font-size:19px}
+.rowend{display:flex;justify-content:flex-end;margin-top:20px}
+
+.note{background:var(--page-hair);border-left:3px solid var(--flag);padding:14px 16px;font-size:15px;margin:22px 0 0;
+  border-radius:2px}
+.note b{display:block;margin-bottom:3px}
+@media (prefers-color-scheme: dark){ .note{background:#232420} }
+:root[data-theme="dark"] .note{background:#232420}
+footer{padding:28px 0 66px;color:var(--page-mute);font-size:14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Audit fix-up &middot; design gate</p>
+  <h1>What the screens become<span style="color:var(--flag)">.</span></h1>
+  <p class="dek">Four of the nine phases change something you can see. This is the picture of where they land, so you sign off the design before anything gets built. Everything else in the plan is behaviour, permissions or copy.</p>
+  <p class="warn">Preview &middot; not the live app</p>
+</header>
+
+<section>
+  <h2>1. One people screen</h2>
+  <p class="tag">Phase 8 &middot; the biggest change, and the one you chose over a rename</p>
+  <p class="hint">&#8592; swipe the mock sideways &#8594;</p>
+  <div class="frame"><div class="app">
+    <nav class="rail">
+      <span class="brand"><i></i>Sero</span>
+      <a href="#">Home</a>
+      <a href="#">Start 1:1</a>
+      <a href="#" class="on">People</a>
+      <a href="#">Past 1:1s</a>
+      <a href="#" class="gone">Members</a>
+      <a href="#">What is Sero?</a>
+      <a href="#">Send feedback</a>
+      <span class="grow"></span>
+      <span class="foot">Log out</span>
+    </nav>
+    <div class="main">
+      <div class="topbar"><span class="chip"><i>A</i>carl@seroteams.com</span></div>
+      <div class="head">
+        <div>
+          <div class="eb">Work</div>
+          <h3>People</h3>
+          <p>Everyone on your team, and who can log in.</p>
+        </div>
+        <button class="btn">Add person</button>
+      </div>
+      <div class="tools"><span class="search">Search by name, role or email</span><span class="count">7 people</span></div>
+      <table>
+        <thead><tr><th>Person</th><th>Role at work</th><th>1:1s</th><th>Can log in</th><th></th></tr></thead>
+        <tbody>
+          <tr><td><span class="who"><span class="av">NP</span><span><span class="nm">Nina Petrova</span><br><span class="sub">Content Designer</span></span></span></td>
+              <td>Content Designer</td><td>1 &middot; 11 days ago</td>
+              <td><span class="pill pill--joined">&check; Yes</span></td><td class="dots">&hellip;</td></tr>
+          <tr><td><span class="who"><span class="av">GO</span><span><span class="nm">Grace Okafor</span><br><span class="sub">Product Design Lead</span></span></span></td>
+              <td>Product Design Lead</td><td>1 &middot; 2 days ago</td>
+              <td><span class="pill pill--invited">Invited</span></td><td class="dots">&hellip;</td></tr>
+          <tr><td><span class="who"><span class="av">MB</span><span><span class="nm">Marcus Bell</span><br><span class="sub">Customer Success Manager</span></span></span></td>
+              <td>Customer Success Manager</td><td>1 &middot; 8 days ago</td>
+              <td><span class="pill pill--none">Not yet</span> <span class="link">Invite</span></td><td class="dots">&hellip;</td></tr>
+          <tr><td><span class="who"><span class="av">DR</span><span><span class="nm">Daniel Reyes</span><br><span class="sub">Lead Product Designer</span></span></span></td>
+              <td>Lead Product Designer</td><td>1 &middot; 5 days ago</td>
+              <td><span class="pill pill--none">Not yet</span> <span class="link">Invite</span></td><td class="dots">&hellip;</td></tr>
+          <tr><td><span class="who"><span class="av">CC</span><span><span class="nm">Carl</span><br><span class="sub">Access only &middot; nobody you run 1:1s with</span></span></span></td>
+              <td><span class="sub">not on your team</span></td><td><span class="sub">&mdash;</span></td>
+              <td><span class="pill pill--joined">&check; Yes</span> <span class="pill pill--admin">admin</span></td><td class="dots"></td></tr>
+        </tbody>
+      </table>
+      <span class="callout">Carl's row carries no menu: a manager cannot change an admin</span>
+      <span class="stamp"><em>build</em> 4e746ca9</span>
+    </div>
+  </div></div>
+  <ul class="changed">
+    <li><b>One list, one meaning of "person."</b> Your team roster is the list; whether they can log in is just a column on it.</li>
+    <li><b>Invite happens on the row</b>, so there is no second screen to go to.</li>
+    <li><b>Accounts with no team still appear</b>, marked "Access only", so nobody vanishes in the merge.</li>
+    <li><b>Admin rows have no menu for a manager</b> (that is the Phase 4 permission wall, shown here holding).</li>
+    <li><b>The old /members link still works</b>, it just lands here.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>2. A 1:1 gets the screen</h2>
+  <p class="tag">Phase 2 &middot; the guest lane already does this; signed in does not</p>
+  <p class="hint">&#8592; swipe the mock sideways &#8594;</p>
+  <div class="frame"><div class="app" style="flex-direction:column;min-height:390px">
+    <div class="steps"><b>Setup</b><span>Focus</span><span>Prep</span><span>Questions</span><span>Meeting</span><span>Wrap-up</span><span>Recap</span>
+      <span style="margin-left:auto;border:0"><span class="chip"><i>A</i>carl@seroteams.com</span></span></div>
+    <div class="main" style="padding-top:0">
+      <div class="centred">
+        <div class="eb">Setup</div>
+        <h3>Who are you prepping for?</h3>
+        <p>Pick someone from your team, or add someone new.</p>
+        <div class="in">e.g. Priya</div>
+        <div class="rowend"><button class="btn">Continue</button></div>
+      </div>
+      <span class="stamp"><em>build</em> 4e746ca9</span>
+    </div>
+  </div></div>
+  <ul class="changed">
+    <li><b>The sidebar goes</b> while you are prepping, so one navigation is in charge instead of two.</li>
+    <li><b>The column centres.</b> Today it sits 556px from the left with a 308px dead gutter on the right.</li>
+    <li><b>Your account chip moves into the step bar</b>, so nothing overlaps.</li>
+    <li><b>Discard still gets you out.</b> Losing the nav must not trap you.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. The header stops hiding its own button</h2>
+  <p class="tag">Phase 2 &middot; and the navy rail runs the full length of long pages</p>
+  <p class="hint">&#8592; swipe the mock sideways &#8594;</p>
+  <div class="frame"><div class="app" style="min-height:330px">
+    <nav class="rail">
+      <span class="brand"><i></i>Sero</span>
+      <a href="#">Home</a>
+      <a href="#">Start 1:1</a>
+      <a href="#">People</a>
+      <a href="#" class="on">Past 1:1s</a>
+      <a href="#">What is Sero?</a>
+      <a href="#">Send feedback</a>
+      <span class="grow"></span>
+      <span class="foot">Log out</span>
+    </nav>
+    <div class="main">
+      <div class="topbar"><span class="chip"><i>A</i>carl@seroteams.com</span></div>
+      <div class="head">
+        <div><div class="eb">Work</div><h3>Past 1:1s</h3><p>Every 1:1 you have prepped.</p></div>
+        <button class="btn">Start 1:1</button>
+      </div>
+      <div class="tools"><span class="search">Search by name</span><span class="count">5 1:1s</span></div>
+      <table><tbody>
+        <tr><td><span class="who"><span class="av">GO</span><span><span class="nm">Grace Okafor</span><br><span class="sub">Performance &amp; feedback &middot; Thu 23 Jul 2026</span></span></span></td><td class="dots">&hellip;</td></tr>
+        <tr><td><span class="who"><span class="av">DR</span><span><span class="nm">Daniel Reyes</span><br><span class="sub">Performance &amp; feedback &middot; Mon 20 Jul 2026</span></span></span></td><td class="dots">&hellip;</td></tr>
+        <tr><td><span class="who"><span class="av">MB</span><span><span class="nm">Marcus Bell</span><br><span class="sub">Bi-weekly check-in &middot; Fri 17 Jul 2026</span></span></span></td><td class="dots">&hellip;</td></tr>
+      </tbody></table>
+      <span class="callout">"Start 1:1" sits clear of the chip, and every row uses one date format</span>
+      <span class="stamp"><em>build</em> 4e746ca9</span>
+    </div>
+  </div></div>
+  <ul class="changed">
+    <li><b>The eyebrow line ("Work") always reserves its space</b>, so the button never rides up under your email chip.</li>
+    <li><b>One date format per column.</b> No more "5d ago" sitting above "Fri 17 Jul 2026".</li>
+    <li><b>The navy rail runs to the bottom of the document</b>, not to the bottom of the window. On Library that is 2,641px, not 900px.</li>
+    <li><b>The build badge stops swallowing clicks</b> on whatever sits under it.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>4. The member's screen says what it is</h2>
+  <p class="tag">Phase 7 &middot; copy only, no new capability, the ruling is unchanged</p>
+  <p class="hint">&#8592; swipe the mock sideways &#8594;</p>
+  <div class="frame"><div class="app" style="min-height:400px">
+    <nav class="rail">
+      <span class="brand"><i></i>Sero</span>
+      <a href="#" class="on">Your 1:1s</a>
+      <a href="#">What is Sero?</a>
+      <a href="#">Send feedback</a>
+      <span class="grow"></span>
+      <span class="foot">Log out</span>
+    </nav>
+    <div class="main">
+      <div class="topbar"><span class="chip"><i>N</i>nina@seroteams.com</span></div>
+      <div class="head">
+        <div><div class="eb">Your space</div><h3>Your 1:1s</h3>
+          <p>The 1:1s your manager has prepped about you, and what you have asked for.</p></div>
+      </div>
+      <div class="big">
+        <div class="lbl">Your latest 1:1</div>
+        <h4>Performance &amp; feedback</h4>
+        <p>Tue 14 Jul 2026 &middot; with Carl</p>
+      </div>
+      <div class="why">Sero records the date and the type of your 1:1, and nothing else. What your manager writes in their prep stays private to them, so nothing here is a read on you.</div>
+      <div class="cards">
+        <div class="card"><h4>Requests</h4><p>Ask for something before your next 1:1.</p>
+          <div class="field"><span class="in">What would help?</span><button class="btn">Add</button></div></div>
+        <div class="card"><h4>Goals</h4><p>Nothing yet. Your manager sets these with you in a 1:1.</p></div>
+      </div>
+      <span class="callout">Nav label and heading now agree; the orphan grey line becomes a real explanation</span>
+      <span class="stamp"><em>build</em> 4e746ca9</span>
+    </div>
+  </div></div>
+  <ul class="changed">
+    <li><b>The nav item and the heading say the same thing.</b> Today one says "Your 1:1s" and the page says "Home".</li>
+    <li><b>The orphan line becomes an explanation.</b> "Only the date and 1:1 type are recorded here" turns into a sentence that says why, and reassures them.</li>
+    <li><b>Add request answers back</b> when the box is empty (Phase 4).</li>
+    <li><b>No new capability.</b> The no-inference ruling is untouched; it is being explained, not relaxed.</li>
+  </ul>
+</section>
+
+<section style="border-bottom:1px solid var(--page-hair)">
+  <h2>Not shown here</h2>
+  <p class="tag">Because there is nothing to look at</p>
+  <ul class="changed">
+    <li><b>Phase 3, the refresh dead end.</b> Same screen, it just survives a refresh.</li>
+    <li><b>Phase 5, the em dashes.</b> The words change, the layout does not.</li>
+    <li><b>Phase 6, the error log.</b> An internal screen; it gets shorter and readable rather than redesigned.</li>
+    <li><b>Phase 9, the tester notes.</b> Reading and triage, no build.</li>
+    <li><b>The eleven small things.</b> Individually invisible, collectively what makes the app feel unfinished.</li>
+  </ul>
+  <div class="note"><b>One thing worth saying out loud</b>
+  You chose the merge over the rename for Team and Members. It is the only item on the list that is a build rather than a fix, and it moves the invite flow, which is why it sits last in the plan. Everything else lands and gets tested before the structure changes underneath it. If the mock above does not look like a win over just renaming the two screens, that is the moment to say so.</div>
+</section>
+
+<footer>Preview only. Type is approximated: Bricolage Grotesque cannot be embedded here, so headings use a system serif. Colours, spacing and radii are the real Sero tokens. Plan: <code>docs/plans/doing/audit-fixes-jul-25/</code></footer>
+
+</div>
