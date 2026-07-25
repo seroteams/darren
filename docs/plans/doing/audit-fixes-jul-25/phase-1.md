@@ -1,6 +1,9 @@
 # Phase 1 — Quick wins
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, waiting on Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-25 — Carl walked all five on the local build (commit 72a7c64b)
+Brand marks back on the Design system page, a table row under the build badge clickable, the badge still copying its SHA, "never active" replacing the nonsense phrase, and one date format down Past 1:1s.
 
 ## Built (2026-07-25)
 

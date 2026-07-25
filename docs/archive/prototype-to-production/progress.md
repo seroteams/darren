@@ -969,3 +969,36 @@ gained a new row type is a gate that needs re-reading. (3) The research answer t
 a negative one: hiding the nav rail, which the approved mockup literally shows, would have removed
 the customer app's only Log out button. The mock stays; the implementation becomes a "quiet rail"
 that keeps the shell. Phases 2-4 are approved and parked until the corridor metric is in.
+
+## 2026-07-25 — the audit that measured, and the guard that only looked where the words were not
+
+A full Playwright walk of both apps as all four audiences (logged out, member, manager, internal
+admin) produced 256 page loads, 963 clicked controls and 18 findings. Carl green-lit 16, ruling out
+one: the primary-button contrast. `#5aa9e6` with white text is 2.54:1 against a 4.5:1 bar, and
+`--sero-primary-800` would have given 6.97:1 for a one-token change. His call, recorded, not relitigated.
+
+The finding worth keeping is the em-dash one, because it says something about where guards belong.
+`npm run lint:copy` passes, and it is not wrong: it reads the 248 files under `admin/src` and
+`frontend/src`, and they are clean. But 35 of 41 finished briefings in the dev org contain em dashes,
+the Meeting arcs screen renders 7, and `backend/engine/answer-suggester.ts:56` actively instructs the
+model: *use "—" for a trailing detail when it fits*. The rule was being enforced precisely where the
+words are not written. A guard scoped to the files someone remembered is a guard that will drift.
+
+Two process lessons, both cheap and both learned the hard way this session:
+
+(1) **The seed data lied twice before the app did.** The Team page appeared to render duplicate
+people, and a briefing about "Maya" appeared on Nina Petrova's card. Both were artefacts of cloning
+dev runs into new person rows without setting `state.personId`. Both were checked against the database
+and the API before being written up, and both were dropped. An audit that reports its own fixtures as
+bugs is worse than no audit.
+
+(2) **"Computed style says X" is not proof a person sees X.** Phase 1 set the display face on the auth
+headings, and the computed `font-family` duly read Bricolage. It also looked identical to before. The
+actual proof was width: "Welcome back" measures 313.66px in Bricolage against 318.08px forced to Inter,
+so the face is real and the two are simply close at heavy weight. The measurement went into the phase
+file specifically so Carl would not fail his own walk hunting for a difference that was never going to
+be dramatic.
+
+Phase 1 (five quick wins) green-lit same day, commit 72a7c64b. STATUS.md was deliberately left
+untouched: another live chat holds its lane, and sweeping a parallel session's work to tick a box is
+the trade this project already decided against.

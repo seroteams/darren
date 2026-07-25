@@ -31,8 +31,8 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Quick wins | Brand marks show, the build stamp stops blocking clicks, search boxes get a name, auth screens use the brand face, one date format per column | 🔨 |
-| 2 | Shell and layout | Nav reaches the bottom of long pages, header buttons clear the account chip, the 1:1 wizard centres and drops the sidebar | ⬜ |
+| 1 | Quick wins | Brand marks show, the build stamp stops blocking clicks, search boxes get a name, auth screens use the brand face, one date format per column | ✅ |
+| 2 | Shell and layout | Nav reaches the bottom of long pages, header buttons clear the account chip, the 1:1 wizard centres and drops the sidebar | 🔨 |
 | 3 | The refresh dead end | `/runs/:id` opens on refresh, on Back, and from a pasted URL | ⬜ |
 | 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | ⬜ |
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
@@ -44,14 +44,16 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 is built and waiting on Carl's walk.** All five quick wins landed and were each measured in the browser, not assumed. Proof table + screenshots: [phase-1.md](phase-1.md) and `audits/full-app-audit-2026-07-25/p1-proof/`.
+**Phase 1 ✅ green-lit 2026-07-25** (commit 72a7c64b). Carl walked all five quick wins on the local build: brand marks back, a row under the build badge clickable, the badge still copying its SHA, "never active" replacing "last active no runs yet", and one date format down Past 1:1s. Proof table: [phase-1.md](phase-1.md); screenshots in `audits/full-app-audit-2026-07-25/p1-proof/`.
+
+**Phase 2 (shell and layout) is next and starting now.**
 
 Mockup approved 2026-07-25 (Carl picked A; he renamed the merged screen to "My Team" first): https://claude.ai/code/artifact/1ce6ba66-56f8-4459-992b-96916db80ea3
 Board: https://claude.ai/code/artifact/b01de778-a0b8-4cf7-b65d-48fdbd1f71f1 (`board.html`, regenerate with `node scripts/plan-board.js audit-fixes-jul-25`).
 
 **Baseline, taken 2026-07-25 before any edit:** `npm test` 186/186, `npm run typecheck` clean, `lint:copy` PASS, `lint:tokens` PASS. Nothing was already red, so anything that breaks from here is ours. Same four checks all still green after the phase.
 
-Next after Carl's green light: Phase 2 (shell and layout).
+**Tracker note:** STATUS.md was NOT updated at this phase close. It is claimed by another live chat (lane `0e03aa19`, design-consolidation P7), so editing it would sweep their work. Carl decides when that lane clears; the tick belongs to Phase 1 whenever it happens.
 
 ## Parked
 - **Primary-button contrast (F2).** Ruled out by Carl 2026-07-25. `--sero-primary-800` would give 6.97:1 if he ever changes his mind.
