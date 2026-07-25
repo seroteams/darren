@@ -98,8 +98,8 @@ export async function mount(root, { store, setState }) {
           <div class="ctx-segments focus-ctx text-ink-dim"></div>
         </div>
         ${store.ctx?.notes
-          ? `<blockquote class="notes-quote mb-5">${escape(store.ctx.notes)}</blockquote>`
-          : `<p class="notes-quote notes-quote--empty mb-5">(no notes added)</p>`}
+          ? `<blockquote class="notes-quote">${escape(store.ctx.notes)}</blockquote>`
+          : `<p class="notes-quote notes-quote--empty">(no notes added)</p>`}
         <div class="l-cluster l-cluster--2 mb-3">
           ${store.scripted ? `<div class="focus-select-hint">Choose what the prep brief should emphasise. Replay questions stay fixed.</div>` : `<div class="focus-select-hint">Select at least one topic for this 1:1.</div>`}
           <button type="button" class="link text-ink-dim text-sm js-regen">Regenerate focus areas</button>

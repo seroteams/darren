@@ -327,7 +327,9 @@
    labelled card read as a system field, so the label goes and the words carry
    themselves. Same left-rule device as .question-source-answer (briefing.css). */
 .notes-quote {
-  margin: 0;
+  /* Spacing lives here, not on a utility class: this rule loads after the
+     utilities, so a `mb-*` on the element would be silently overridden. */
+  margin: 0 0 1.75rem;
   padding: 0.25rem 0 0.25rem var(--sero-space-4);
   border-left: 3px solid var(--color-primary-line);
   font-size: var(--type-lead);
