@@ -1,6 +1,10 @@
 # Refactor programme 2026-07 — full code review → tidy
 
-**Status: Phase 1 built, awaiting Carl's green light.**
+Board: https://claude.ai/code/artifact/9483ebd6-873b-4c87-848f-528467532c68 (regenerate with `node scripts/plan-board.js refactor-2026-07`, republish to this URL)
+
+**Status: Phase 1 ✅ green-lit (2026-07-25). Phase 2 in build.**
+
+**Current state:** P1 dead-code sweep landed (commit 457ca20d): ~1,900 lines of confirmed-dead code out, 183/183 tests + typecheck green, three documented manual tools kept back from the delete list, pre-existing replay styleTip baseline drift logged below. Next: P2 typecheck safety net.
 
 Carl asked for a full code review to refactor (2026-07-25) and chose the **full programme** over quick-tidy. Three survey agents swept backend/, admin/+frontend/, and scripts/config. Everything here is behaviour-preserving: the app does the same thing, the code gets smaller and safer to change.
 
@@ -17,8 +21,8 @@ Committee note: not convened — the committee's own rules exclude refactors and
 
 | # | Phase | Type | Status |
 |---|-------|------|--------|
-| 1 | Dead-code sweep (backend + scripts) | internal | ✅ built — [phase-1.md](phase-1.md) — awaiting green light |
-| 2 | Typecheck safety net (test files + shared/) | internal | ⬜ |
+| 1 | Dead-code sweep (backend + scripts) | internal | ✅ green-lit 2026-07-25 — [phase-1.md](phase-1.md) |
+| 2 | Typecheck safety net (test files + shared/) | internal | 🔨 in build |
 | 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ⬜ |
 | 4 | Customer bundle: variant lab out + frontend dead code | user-visible | ⬜ |
 | 5 | Screen scaffold helper + state.ts | user-visible | ⬜ |

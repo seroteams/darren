@@ -1,6 +1,8 @@
 # Phase 1 — dead-code sweep (backend + scripts)
 
-**Built 2026-07-25 (session 17d7a976). Awaiting Carl's green light.**
+## ✅ GREEN-LIT 2026-07-25
+
+Carl approved on the in-chat proof (183/183 tests, typecheck clean). Committed as 457ca20d. Built by session 17d7a976.
 
 Goal: delete everything the survey confirmed dead, with grep evidence per deletion. Pure weight loss — no new abstractions, no behaviour change.
 
