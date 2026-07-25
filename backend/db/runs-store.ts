@@ -10,10 +10,10 @@
 //      applies. A drifted denormalized column can therefore never LEAK a run;
 //      it can only hide one.
 //
-// Row shapes come from the same exported run-history helpers the file store uses
-// (buildHeadline, reviewSummaryFromValue, ratingFromValue, personaTagOf,
-// inferStage, notesSummary), so file and DB rows can't drift apart — and the
-// pg-parity test deep-equals both stores anyway.
+// Row shapes are the SHARED projections both stores render (engine/
+// run-projections.ts, refactor-2026-07 P6) — one function per row, fed here
+// from columns instead of sidecar files — so file and DB rows can't drift
+// apart, and the pg-parity test deep-equals both stores anyway.
 //
 // Sidecars live in columns (sessions.review / rating / archived_at); when the
 // file echo is on, sidecar WRITES also land on disk so flipping back to the file
@@ -31,19 +31,26 @@ import {
   runOwnedByUser,
   runVisibleToCaller,
   memberRunVisible,
-  buildHeadline,
-  reviewStatusOf,
-  reviewSummaryFromValue,
-  ratingFromValue,
-  costFromState,
-  personaTagOf,
   inferStage,
   notesSummary,
   overviewFields,
   cloneRunState,
-  promiseHistoryOf,
 } from "../engine/run-history.ts";
-import { classifyAnswer } from "../engine/read-quality.ts";
+// The shared row shapes (refactor-2026-07 P6) — the same projections the file
+// store renders, fed from columns instead of sidecar files.
+import {
+  aboutPersonRow,
+  buildHeadline,
+  finishedRow,
+  memberRow,
+  memberView,
+  projectCtx,
+  ratingFromValue,
+  reviewStatusOf,
+  reviewSummaryFromValue,
+  userRunRow,
+  type RunFacts,
+} from "../engine/run-projections.ts";
 import { historyRunMatches, historySessionFromState } from "../engine/focus-history.ts";
 import type { FocusHistorySession } from "../engine/focus-history.ts";
 import { priorPromiseRunFromState, applyPromiseOutcomes } from "../engine/promise-history.ts";
@@ -176,100 +183,37 @@ export function fenceAboutPersonRows(
   );
 }
 
-function ctxOf(state: Record<string, unknown>): { name: string; role: string; seniority: string; meetingType: string } {
-  const ctx = asRecord(state.ctx);
+// A DbRun's sidecar values, normalised into the shared projection input — the
+// one place the column-vs-sidecar difference lives.
+function factsOf(r: DbRun): RunFacts {
   return {
-    name: asString(ctx.name),
-    role: asString(ctx.role),
-    seniority: asString(ctx.seniority),
-    meetingType: asString(ctx.meetingType),
+    id: r.id,
+    state: r.state,
+    rating: ratingFromValue(r.rating),
+    archived: r.archived,
+    reviewSummary: reviewSummaryFromValue(r.review),
   };
 }
 
 export function toFinishedRow(r: DbRun): Record<string, unknown> {
-  return {
-    id: r.id,
-    headline: buildHeadline(asRecord(r.state.ctx)),
-    ctx: ctxOf(r.state),
-    lastSeenAt: asNumber(r.state.lastSeenAt),
-    archived: r.archived,
-    // Bare stars number only — the manager's private note never rides this admin feed.
-    rating: ratingFromValue(r.rating)?.stars ?? null,
-    cost: costFromState(r.state),
-    ...personaTagOf(r.state),
-    ...reviewSummaryFromValue(r.review),
-  };
+  return finishedRow(factsOf(r));
 }
 
 export function toMemberRow(r: DbRun): Record<string, unknown> {
-  return {
-    id: r.id,
-    personId: asString(r.state.personId) || null,
-    headline: buildHeadline(asRecord(r.state.ctx)),
-    ctx: ctxOf(r.state),
-    lastSeenAt: asNumber(r.state.lastSeenAt),
-    finished: Boolean(r.state.briefing),
-    rating: ratingFromValue(r.rating),
-  };
+  return memberRow(factsOf(r));
 }
 
 function toAboutPersonRow(r: DbRun): Record<string, unknown> {
-  return {
-    id: r.id,
-    meetingType: asString(asRecord(r.state.ctx).meetingType),
-    lastSeenAt: asNumber(r.state.lastSeenAt),
-    completedAt: asNumber(r.state.completedAt) || null,
-    userId: asString(r.state.userId) || null,
-  };
+  return aboutPersonRow(r.id, r.state);
 }
 
-function toUserRunRow(r: DbRun): {
-  id: string;
-  headline: string;
-  ctx: { name: string; role: string; seniority: string; meetingType: string };
-  lastSeenAt: number;
-  rating: { stars: number; note: string; updatedAt: string | null } | null;
-} {
-  return {
-    id: r.id,
-    headline: buildHeadline(asRecord(r.state.ctx)),
-    ctx: ctxOf(r.state),
-    lastSeenAt: asNumber(r.state.lastSeenAt),
-    rating: ratingFromValue(r.rating),
-  };
+function toUserRunRow(r: DbRun): ReturnType<typeof userRunRow> {
+  return userRunRow(factsOf(r));
 }
 
 export function toMemberView(r: DbRun): Record<string, unknown> {
   const transcript: unknown[] = Array.isArray(r.state.transcript) ? r.state.transcript : [];
-  return {
-    id: r.id,
-    headline: buildHeadline(asRecord(r.state.ctx)),
-    ctx: ctxOf(r.state),
-    briefing: r.state.briefing ?? null,
-    // The raw Q&A behind the briefing (member Answers tab). Mirrors pgCompareRun's
-    // projection but WITHOUT the internal `note` — planner notes carry [SHALLOW]/[SKIP]
-    // markers that must never reach a manager.
-    turns: transcript.map((t) => {
-      const entry = asRecord(t);
-      const question = asRecord(entry.question);
-      return {
-        alias: question.alias ?? null,
-        name: question.name ?? null,
-        answer: entry.answer ?? null,
-        skipped: Boolean(entry.skipped),
-        // The per-turn read-quality tag (read-quality.ts). A clean 4-way label
-        // (skip/decline/thin/note), not raw note text, so it's safe to surface.
-        // Runs from before the tag existed derive it on the fly (note is read to
-        // detect [SHALLOW] but never itself exposed). Parity with memberRunView.
-        read: entry.read ?? classifyAnswer(entry.answer, entry.note),
-      };
-    }),
-    lastSeenAt: asNumber(r.state.lastSeenAt),
-    completedAt: r.state.completedAt ?? null,
-    rating: ratingFromValue(r.rating),
-    // Promises loop phase 3 — kept in parity with the file store's memberRunView.
-    promises: promiseHistoryOf(r.state),
-  };
+  return memberView(factsOf(r), transcript);
 }
 
 // ---------------------------------------------------------------------------
@@ -412,7 +356,7 @@ export async function pgListRecentRuns(limit = 3, orgId?: string | null, userId?
     out.push({
       id: r.id,
       dir: r.dir,
-      ctx: ctxOf(r.state),
+      ctx: projectCtx(r.state),
       lastSeenAt: asNumber(r.state.lastSeenAt),
       stage: inferStage(r.state),
       headline: buildHeadline(ctx),
@@ -609,7 +553,7 @@ export async function pgListAdminRuns(): Promise<
     orgId: asString(r.state.orgId) || null,
     createdAtMs: asNumber(r.state.createdAt) || null,
     lastSeenAtMs: asNumber(r.state.lastSeenAt) || r.lastSeenAt,
-    meetingType: ctxOf(r.state).meetingType || null,
+    meetingType: projectCtx(r.state).meetingType || null,
     stage: inferStage(r.state),
     finished: Boolean(r.state.briefing),
     rating: ratingFromValue(r.rating),
@@ -666,7 +610,7 @@ export async function pgSuperadminRunView(id: string): Promise<
   return {
     id: row.id,
     headline: buildHeadline(asRecord(row.state.ctx)),
-    ctx: ctxOf(row.state),
+    ctx: projectCtx(row.state),
     briefing: row.state.briefing ?? null,
     lastSeenAt: asNumber(row.state.lastSeenAt),
     completedAt: typeof row.state.completedAt === "number" ? row.state.completedAt : null,

@@ -4,6 +4,25 @@ import { LOGS_ROOT, monthFolderFor, createSession } from "./session.ts";
 import { readPipelineLockFromDir } from "./pipeline-lock.ts";
 import { classifyAnswer } from "./read-quality.ts";
 import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
+// The value-based row shapes + sidecar normalisers shared with the Postgres
+// store (run-projections.ts, refactor-2026-07 P6). This file keeps only the
+// dir-reading halves (ratingOf/reviewSummaryOf/isArchivedAt) and re-exports
+// the shared names so its API is unchanged.
+import {
+  REVIEW_DIM_KEYS,
+  aboutPersonRow,
+  buildHeadline,
+  costFromState,
+  finishedRow,
+  memberRow,
+  memberView,
+  personaTagOf,
+  promiseHistoryOf,
+  ratingFromValue,
+  reviewStatusOf,
+  reviewSummaryFromValue,
+  userRunRow,
+} from "./run-projections.ts";
 
 const STATE_FILE = "session-state.json";
 const SKIP_DIRS = new Set(["probes"]);
@@ -58,57 +77,11 @@ function inferStage(s: Record<string, unknown>): string {
   return "FOCUS_POINTS";
 }
 
-// In-app run review (QA tooling) writes review.json into the run folder.
-// reviewStatus is always derived from marks — never stored as a separate truth.
-// REVIEW_DIM_KEYS is the single source of truth for the 8 verdict dimensions on
-// the server; the review handler imports it. (The client UI keeps its own
-// DIMENSIONS list with labels/hints — keep the keys in sync.)
-const REVIEW_DIM_KEYS = ["role_aware", "meeting_aware", "grounded", "evidence", "no_overreach", "trust", "next_actions", "briefing_usable"];
-function reviewStatusOf(review: unknown): string {
-  const marks: Record<string, unknown> = isObjectRecord(review) && isObjectRecord(review.marks) ? review.marks : {};
-  const decided = REVIEW_DIM_KEYS.filter((k) => marks[k] === "pass" || marks[k] === "fail").length;
-  if (decided === 0) return "none";
-  if (decided >= REVIEW_DIM_KEYS.length) return "complete";
-  return "partial";
-}
-
-// Library badge inputs derived from a run's review: completeness, the manual
-// overall verdict (keep/fix/block), and how many dimensions failed. The value-
-// based half is separate so the Postgres store (review lives in a column, not
-// a file) computes the identical shape (postgres-runtime-data Phase 3).
-function reviewSummaryFromValue(review: unknown): {
-  reviewStatus: string;
-  overall: string | null;
-  failedCount: number;
-  decided: number;
-} {
-  const marks: Record<string, unknown> = isObjectRecord(review) && isObjectRecord(review.marks) ? review.marks : {};
-  const overall =
-    isObjectRecord(review) && typeof review.overall === "string" && ["keep", "fix", "block"].includes(review.overall)
-      ? review.overall
-      : null;
-  return {
-    reviewStatus: reviewStatusOf(review),
-    overall,
-    failedCount: REVIEW_DIM_KEYS.filter((k) => marks[k] === "fail").length,
-    decided: REVIEW_DIM_KEYS.filter((k) => marks[k] === "pass" || marks[k] === "fail").length,
-  };
-}
-
+// The dir-reading halves of the sidecar reads: review.json / rating.json /
+// archive.json live beside the run's state file; the value normalisation is
+// shared with the PG store via run-projections.ts.
 function reviewSummaryOf(dir: string): ReturnType<typeof reviewSummaryFromValue> {
   return reviewSummaryFromValue(readJsonAt(dir, "review.json"));
-}
-
-// Which persona (if any) a run was driven by, and whether it was scripted.
-// Read off saved state: the scripted lane stamps fingerprint.personaId at start
-// and mode is persisted on every save. Manual runs come back {null, "manual"}.
-function personaTagOf(state: unknown): { personaId: string | null; mode: string } {
-  const s = asRecord(state);
-  const fp = asRecord(s.fingerprint);
-  return {
-    personaId: asString(fp.personaId) || null,
-    mode: asString(s.mode) || "manual",
-  };
 }
 
 // Archive flag lives in its own tiny file alongside review.json — keeps the
@@ -121,29 +94,8 @@ function isArchivedAt(dir: string): boolean {
   return Boolean(isObjectRecord(a) && a.archived);
 }
 
-// The manager's own 1:1 rating for a run (pre-go-live PG3), or null. Value-based
-// half shared with the Postgres store (rating column); the file half reads the
-// rating.json sidecar the runs service writes. Only a valid 1-5 star shape surfaces.
-function ratingFromValue(r: unknown): { stars: number; note: string; updatedAt: string | null } | null {
-  if (!isObjectRecord(r)) return null;
-  const stars = asNumber(r.stars);
-  if (stars < 1 || stars > 5) return null;
-  return { stars, note: asString(r.note), updatedAt: typeof r.updatedAt === "string" ? r.updatedAt : null };
-}
-
-function ratingOf(dir: string): { stars: number; note: string; updatedAt: string | null } | null {
+function ratingOf(dir: string): ReturnType<typeof ratingFromValue> {
   return ratingFromValue(readJsonAt(dir, "rating.json"));
-}
-
-// The run's model spend off its saved briefing (universe-monitoring P3), or null when
-// absent/malformed — a run that predates cost tracking must never claim "$0.00".
-// Value-based so the Postgres store shares it (cost lives inside state.briefing.cost
-// in both stores).
-function costFromState(state: unknown): { usd: number; calls: number | null } | null {
-  const s = asRecord(state);
-  const cost = asRecord(asRecord(s.briefing).cost);
-  if (typeof cost.usd_total !== "number") return null;
-  return { usd: cost.usd_total, calls: typeof cost.call_count === "number" ? cost.call_count : null };
 }
 
 function setArchived(id: string, archived: unknown, orgId?: string | null, userId?: string | null): { ok: boolean; id: string; reason?: string; archived?: boolean } {
@@ -252,26 +204,9 @@ function listRecentRuns(limit = 3, orgId?: string | null, userId?: string | null
 function listFinishedRuns(orgId?: string | null, userId?: string | null) {
   const runs = walkRuns(orgId, userId).filter(({ state }) => state && state.briefing);
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
-  return runs.map(({ id, dir, state }) => {
-    const ctx = asRecord(state.ctx);
-    return {
-      id,
-      headline: buildHeadline(ctx),
-      ctx: {
-        name: asString(ctx.name),
-        role: asString(ctx.role),
-        seniority: asString(ctx.seniority),
-        meetingType: asString(ctx.meetingType),
-      },
-      lastSeenAt: asNumber(state.lastSeenAt),
-      archived: isArchivedAt(dir),
-      // Bare stars number only — the manager's private note never rides this admin feed.
-      rating: ratingOf(dir)?.stars ?? null,
-      cost: costFromState(state),
-      ...personaTagOf(state),
-      ...reviewSummaryOf(dir),
-    };
-  });
+  return runs.map(({ id, dir, state }) =>
+    finishedRow({ id, state, rating: ratingOf(dir), archived: isArchivedAt(dir), reviewSummary: reviewSummaryOf(dir) }),
+  );
 }
 
 // Which of a member's own runs their list shows: finished runs always; a started-but-
@@ -293,23 +228,7 @@ function memberRunVisible(state: unknown, userId: string | null | undefined, inc
 function listFinishedRunsForMember(orgId: string | null | undefined, userId: string | null | undefined, includeOpen = false) {
   const runs = walkRuns(orgId).filter(({ state }) => state && memberRunVisible(state, userId, includeOpen));
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
-  return runs.map(({ id, dir, state }) => {
-    const ctx = asRecord(state.ctx);
-    return {
-      id,
-      personId: asString(state.personId) || null, // people-roster Phase 4: join runs to the roster
-      headline: buildHeadline(ctx),
-      ctx: {
-        name: asString(ctx.name),
-        role: asString(ctx.role),
-        seniority: asString(ctx.seniority),
-        meetingType: asString(ctx.meetingType),
-      },
-      lastSeenAt: asNumber(state.lastSeenAt),
-      finished: Boolean(state.briefing),
-      rating: ratingOf(dir),
-    };
-  });
+  return runs.map(({ id, dir, state }) => memberRow({ id, state, rating: ratingOf(dir) }));
 }
 
 // "1:1s about me" (people-roster Phase 5): the finished runs whose personId is one of the
@@ -323,13 +242,7 @@ function listFinishedRunsAboutPerson(orgId: string | null | undefined, personIds
   return walkRuns(orgId)
     .filter(({ state }) => state && state.briefing && wanted.has(asString(state.personId)))
     .sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt))
-    .map(({ id, state }) => ({
-      id,
-      meetingType: asString(asRecord(state.ctx).meetingType),
-      lastSeenAt: asNumber(state.lastSeenAt),
-      completedAt: asNumber(state.completedAt) || null,
-      userId: asString(state.userId) || null,
-    }));
+    .map(({ id, state }) => aboutPersonRow(id, state));
 }
 
 // Every finished run across ALL companies, attributed to its owner (pre-go-live PG7).
@@ -359,21 +272,7 @@ function listOwnerlessFinishedRuns() {
     ({ state }) => state && state.briefing && state.userId == null && state.orgId == null,
   );
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
-  return runs.map(({ id, dir, state }) => {
-    const ctx = asRecord(state.ctx);
-    return {
-      id,
-      headline: buildHeadline(ctx),
-      ctx: {
-        name: asString(ctx.name),
-        role: asString(ctx.role),
-        seniority: asString(ctx.seniority),
-        meetingType: asString(ctx.meetingType),
-      },
-      lastSeenAt: asNumber(state.lastSeenAt),
-      rating: ratingOf(dir),
-    };
-  });
+  return runs.map(({ id, dir, state }) => userRunRow({ id, state, rating: ratingOf(dir) }));
 }
 
 // One user's finished runs, newest-first, attributed by userId across ALL companies
@@ -384,95 +283,23 @@ function listOwnerlessFinishedRuns() {
 function listFinishedRunsForUser(userId: string | null | undefined) {
   const runs = walkRuns().filter(({ state }) => state && state.briefing && runOwnedByUser(state, userId));
   runs.sort((a, b) => asNumber(b.state.lastSeenAt) - asNumber(a.state.lastSeenAt));
-  return runs.map(({ id, dir, state }) => {
-    const ctx = asRecord(state.ctx);
-    return {
-      id,
-      headline: buildHeadline(ctx),
-      ctx: {
-        name: asString(ctx.name),
-        role: asString(ctx.role),
-        seniority: asString(ctx.seniority),
-        meetingType: asString(ctx.meetingType),
-      },
-      lastSeenAt: asNumber(state.lastSeenAt),
-      rating: ratingOf(dir),
-    };
-  });
+  return runs.map(({ id, dir, state }) => userRunRow({ id, state, rating: ratingOf(dir) }));
 }
 
 // A read-only view of ONE of the member's own runs (member-nav Phase 2): the briefing
 // plus its context. Fenced by company AND user — a run the caller doesn't own resolves
 // to null (the same "unknown" answer a stranger gets, so ids can't be probed).
-// Promises loop phase 3: the manager-confirmed agreements a finished run carries,
-// projected for the read-only member surfaces (person page + run detail) with the
-// check-in outcome phase 2 wrote back. The internal `at` timestamp is dropped, and a
-// run that armed no loop returns null — so callers render nothing, not empty scaffolding.
-function promiseHistoryOf(
-  state: unknown,
-): Array<{ id: string; owner: string; action: string; when: string; outcome: string | null }> | null {
-  const s = asRecord(state);
-  const raw = Array.isArray(s.promises) ? s.promises : [];
-  const rows = raw
-    .map((p) => asRecord(p))
-    .filter((p) => asString(p.id))
-    .map((p) => ({
-      id: asString(p.id),
-      owner: asString(p.owner),
-      action: asString(p.action),
-      when: asString(p.when),
-      outcome:
-        p.outcome === "yes" || p.outcome === "partly" || p.outcome === "no" || p.outcome === "changed"
-          ? p.outcome
-          : null,
-    }));
-  return rows.length ? rows : null;
-}
-
+// The row shape (briefing + member-safe turns + promises) is the shared memberView
+// projection, identical to the PG store's.
 function memberRunView(id: string, orgId: string | null | undefined, userId: string | null | undefined) {
   const dir = findRunDir(id, orgId);
   if (!dir) return null;
   const state = readState(path.join(dir, STATE_FILE));
   if (!runOwnedByUser(state, userId)) return null;
   const s = asRecord(state);
-  const ctx = asRecord(s.ctx);
   const transcriptRaw = readJsonAt(dir, "transcript.json");
   const transcript: unknown[] = Array.isArray(transcriptRaw) ? transcriptRaw : [];
-  return {
-    id,
-    headline: buildHeadline(ctx),
-    ctx: {
-      name: asString(ctx.name),
-      role: asString(ctx.role),
-      seniority: asString(ctx.seniority),
-      meetingType: asString(ctx.meetingType),
-    },
-    briefing: s.briefing ?? null,
-    // The raw Q&A behind the briefing (member Answers tab). Mirrors compareRun's
-    // projection but WITHOUT the internal `note` — planner notes carry [SHALLOW]/[SKIP]
-    // markers that must never reach a manager. Kept in parity with toMemberView (PG).
-    turns: transcript.map((t) => {
-      const entry = asRecord(t);
-      const question = asRecord(entry.question);
-      return {
-        alias: question.alias ?? null,
-        name: question.name ?? null,
-        answer: entry.answer ?? null,
-        skipped: Boolean(entry.skipped),
-        // The per-turn read-quality tag (read-quality.ts). A clean 4-way label
-        // (skip/decline/thin/note), not raw note text, so it's safe to surface.
-        // Runs from before the tag existed derive it on the fly (note is read to
-        // detect [SHALLOW] but never itself exposed).
-        read: entry.read ?? classifyAnswer(entry.answer, entry.note),
-      };
-    }),
-    lastSeenAt: asNumber(s.lastSeenAt),
-    completedAt: s.completedAt ?? null,
-    rating: ratingOf(dir),
-    // The manager-confirmed promises + their check-in outcomes (Promises loop phase 3).
-    // null when this run armed no loop, so the read views show nothing rather than a shell.
-    promises: promiseHistoryOf(state),
-  };
+  return memberView({ id, state: s, rating: ratingOf(dir) }, transcript);
 }
 
 // A read-only view of ANY ONE finished run, UNFENCED (pre-go-live PG8 superadmin drilldown).
@@ -532,11 +359,6 @@ function findLatestRun() {
   };
 }
 
-function buildHeadline(ctx: Record<string, unknown>): string {
-  return [ctx.name, ctx.role, ctx.seniority, ctx.meetingType]
-    .filter((s) => s && String(s).trim())
-    .join(" · ");
-}
 
 function truncate(s: unknown, n = 80): string {
   const flat = String(s).replace(/\s+/g, " ").trim();
