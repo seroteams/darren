@@ -186,6 +186,26 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Tight bar (set by ui/session-topbar.js when the rail still won't fit after
+   dropping to short labels): the email folds away and the chip slims to the
+   initials circle, the same shape the phone uses. */
+.session-topbar.is-tight .session-topbar__email {
+  display: none;
+}
+.session-topbar.is-tight .session-topbar__profile {
+  padding: 4px;
+}
+/* Last rung of the ladder: every step but the one you're on shrinks to its node,
+   the same treatment the tablet media query below applies. */
+.session-topbar.is-collapsed .stage-step:not(.is-current) .stage-step__label {
+  display: none;
+}
+.session-topbar.is-collapsed .stage-step:not(.is-current) {
+  padding: 0.4rem 0.45rem;
+}
+.session-topbar.is-collapsed .stage-rail {
+  width: 12px;
+}
 body.has-session-topbar {
   padding-top: 50px;
 }

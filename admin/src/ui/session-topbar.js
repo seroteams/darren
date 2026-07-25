@@ -231,34 +231,56 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     profile.title = email ? `Signed in as ${email}${role ? ` (${role.toLowerCase()})` : ""}` : "";
     profile.hidden = !user;
 
-    stages.innerHTML = TOPBAR_STAGES
-      .map(
-        ([key, fullLabel, shortLabel], i) => {
-          // Full labels only where they genuinely fit (audit M5). The human stage names
-          // ("During the meeting", "Pulling it together") are longer than the old engine ones,
-          // so the full strip needs a wide screen; between phone and wide we use the short
-          // form rather than let the rail clip letters or slide under the profile chip. The
-          // full name still rides on the title attribute at every width.
-          const label = window.matchMedia("(min-width: 1180px)").matches ? fullLabel : shortLabel;
-          // Stages before the current one are "done" (reviewable); the current
-          // stage is "current"; anything after is "upcoming". When the run has
-          // moved past the board (curIdx === -1, e.g. session review), every
-          // stage is done.
-          const status = curIdx === -1 || i < curIdx ? "done" : i === curIdx ? "current" : "upcoming";
-          // The rail leading into this step is "filled" once the step is reached
-          // (done or current), grey while it's still ahead — a progress track.
-          const railFilled = curIdx === -1 || i <= curIdx;
-          const rail = i > 0
-            ? `<span class="stage-rail ${railFilled ? "is-filled" : "is-empty"}" aria-hidden="true"></span>`
-            : "";
-          const inner = `${status === "done" ? CHECK_MARK : '<span class="stage-step__dot" aria-hidden="true"></span>'}<span class="stage-step__label">${label}</span>`;
-          if (status === "done") {
-            return `${rail}<button type="button" class="stage-step is-done stage-step--clickable" data-stage="${key}" title="${fullLabel}">${inner}</button>`;
+    // Reveal BEFORE painting: the fit check below measures the rail, and a
+    // display:none bar measures zero.
+    el.classList.remove("is-hidden");
+    document.body.classList.add("has-session-topbar");
+
+    // Full labels only where they genuinely fit (audit M5). The human stage names
+    // ("During the meeting", "Pulling it together") are longer than the old engine
+    // ones, so the full strip needs a wide screen; otherwise we use the short form
+    // rather than let the rail scroll or slide under the profile chip. The full name
+    // still rides on the title attribute at every width. Measured, not guessed by
+    // breakpoint: how much room is left depends on the nav rail and the width of the
+    // signed-in email, so we paint the full strip, ask whether it overflowed, and
+    // fall back to the short one if it did.
+    const paint = (useFull) => {
+      stages.innerHTML = TOPBAR_STAGES
+        .map(
+          ([key, fullLabel, shortLabel], i) => {
+            const label = useFull ? fullLabel : shortLabel;
+            // Stages before the current one are "done" (reviewable); the current
+            // stage is "current"; anything after is "upcoming". When the run has
+            // moved past the board (curIdx === -1, e.g. session review), every
+            // stage is done.
+            const status = curIdx === -1 || i < curIdx ? "done" : i === curIdx ? "current" : "upcoming";
+            // The rail leading into this step is "filled" once the step is reached
+            // (done or current), grey while it's still ahead — a progress track.
+            const railFilled = curIdx === -1 || i <= curIdx;
+            const rail = i > 0
+              ? `<span class="stage-rail ${railFilled ? "is-filled" : "is-empty"}" aria-hidden="true"></span>`
+              : "";
+            const inner = `${status === "done" ? CHECK_MARK : '<span class="stage-step__dot" aria-hidden="true"></span>'}<span class="stage-step__label">${label}</span>`;
+            if (status === "done") {
+              return `${rail}<button type="button" class="stage-step is-done stage-step--clickable" data-stage="${key}" title="${fullLabel}">${inner}</button>`;
+            }
+            return `${rail}<span class="stage-step is-${status}" title="${fullLabel}">${inner}</span>`;
           }
-          return `${rail}<span class="stage-step is-${status}" title="${fullLabel}">${inner}</span>`;
-        }
-      )
-      .join("");
+        )
+        .join("");
+    };
+    // Measured degrade ladder, 1px of slack for sub-pixel rounding: full labels →
+    // short labels → the signed-in email folds to its initials circle → every step
+    // but the one you're on shrinks to its node. Measured rather than guessed by
+    // breakpoint, because the room left over depends on the nav rail and on how
+    // long the signed-in email is. The rail is the load-bearing thing on this bar;
+    // the email is a courtesy that also lives in the nav.
+    el.classList.remove("is-tight", "is-collapsed");
+    paint(true);
+    const overflows = () => stages.scrollWidth > stages.clientWidth + 1;
+    if (overflows()) paint(false);
+    if (overflows()) el.classList.add("is-tight");
+    if (overflows()) el.classList.add("is-collapsed");
 
     // Phone-only progress cue: at 375px the rail collapses to just the current
     // pill, so a "5 of 7" counter carries the sense of place the rail can't.
@@ -272,13 +294,23 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     stages.querySelectorAll(".stage-step--clickable").forEach((btn) => {
       btn.addEventListener("click", () => stageReview.open(btn.dataset.stage));
     });
-    el.classList.remove("is-hidden");
-    document.body.classList.add("has-session-topbar");
 
     const noSession = !sessionId;
     sessionBtn.disabled = noSession;
     if (popover && noSession) closePopover();
   }
 
-  return { el, render };
+  // Re-run the fit check when the window changes size — the label choice is
+  // measured, so a resized (or rotated) window has to re-measure. Debounced;
+  // repaints only what render() already draws.
+  let lastArgs = null;
+  let resizeTimer = null;
+  const renderAndRemember = (args) => { lastArgs = args; render(args); };
+  window.addEventListener("resize", () => {
+    if (!lastArgs || el.classList.contains("is-hidden")) return;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => render(lastArgs), 120);
+  });
+
+  return { el, render: renderAndRemember };
 }
