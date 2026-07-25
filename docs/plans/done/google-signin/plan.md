@@ -26,12 +26,12 @@
 |---|---|---|---|
 | 1 | Backend flow (dark) | Google OAuth routes + migration, reachable by URL only; Carl's Google Cloud setup | ✅ |
 | 2 | Buttons on the screens | "Continue with Google" on login + register, both apps, friendly error copy | ✅ |
-| 3 | Live rollout | Render env vars, APP_BASE_URL → sero.team, live walk | ⬜ |
+| 3 | Live rollout | Render env vars, APP_BASE_URL → sero.team, live walk | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1 + 2 ✅ GREEN-LIT 2026-07-25. Phase 3 DEPLOYED same day on Carl's "go live" (push 62daeb6e; live build e7a05c1 contains it — verified via /api/version + live screenshot of the button on sero.team/login; APP_BASE_URL now https://sero.team). REMAINING: Carl enters GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET in the Render dashboard (live start route currently answers error=google-unavailable, the designed degrade), then his live walk (phase-3.md scenarios). Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · NOTE: STATUS.md not yet updated — lane held by another live chat (design-consolidation); fold in when it frees.
+PLAN CLOSED — all 3 phases ✅ GREEN-LIT 2026-07-25, one day plan-to-live, $0 paid. Google sign-in LIVE on sero.team (login + signup, both apps); Render carries the two Google keys; APP_BASE_URL = https://sero.team. Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · NOTE: STATUS.md not updated through the close — lane held by another live chat (design-consolidation) all day; whoever holds it next should fold in: google-signin shipped + closed.
 
 ## Parked
 - Google button on the invite-join page and the public welcome page (Carl chose login + signup first, 2026-07-25).

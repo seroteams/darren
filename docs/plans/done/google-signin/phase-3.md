@@ -1,6 +1,14 @@
 # Phase 3 — Live rollout
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-25 — Carl walked Google sign-in on the live site (push 62daeb6e, live build e7a05c1)
+Fresh-Gmail signup, own-account link and cancel, all on sero.team with his keys in the Render dashboard. My side verified independently: live build contains the work (/api/version), the start route 302s to accounts.google.com within seconds of the keys landing, and the button screenshot came from the real sero.team login page.
+
+## Built (2026-07-25)
+- `render.yaml`: `APP_BASE_URL` → `https://sero.team` (OAuth state cookie must live on the sign-in domain; invite links now use the real domain too). `docs/reference/RENDER_SETUP.md` env table gains EMAIL_API_KEY + the two GOOGLE keys.
+- Deploy verified by the live build id, not Render's status (multi-session churn: another session's push rode on top; confirmed mine was inside it).
+- Carl entered GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET in the Render dashboard; consent screen was already in production from his setup day.
 
 ## Goal
 Google sign-in works on the live app, proven by a real walk.
