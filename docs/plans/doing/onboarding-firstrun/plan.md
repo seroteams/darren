@@ -27,7 +27,7 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 | 1 | One first-run rule | Shared has-real-runs helper; wizard beginner help works again (bug fix, buildable now) | ✅ |
 | 2 | Brief-first welcome | The approved Direction A first screen: line + sample brief + video + one button | ✅ |
 | 3 | Quiet rail | Manager rows appear after the first real brief; shell/Log out always present | ✅ |
-| 4 | Sweep and truth | Dependency sweep both apps, demo-member alignment, changelog + guide, live proof | ⬜ |
+| 4 | Sweep and truth | Dependency sweep both apps, demo-member alignment, changelog + guide, live proof | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -47,7 +47,8 @@ Phase 2 ✅ GREEN-LIT 2026-07-26. Carl un-parked it on 25 July ("keep going") af
 Checks at Phase 2: `npm test` 187/187, typecheck, lint:copy, lint:tokens all clean. No paid runs at any point: this plan never touches the engine.
 Nothing is on sero.team yet; both phases ship with the next go-live.
 Phase 3 ✅ GREEN-LIT 2026-07-26: the rail carries no work rows until a first real brief exists, while keeping the shell (brand, mobile bar, What is Sero?, Send feedback, Log out). Carl accepted the settling beat rather than buy an extra boot request for every manager. Suite 189/189, typecheck clean. Carl handed the rail file over from the audit-fixes lane on 26 July to unblock it.
-Phase 4 (sweep and truth) built the same night on his "get it done" and is awaiting his walk.
+Phase 4 🔨 BUILT 2026-07-26 on his "get it done" at the end of the night, awaiting his walk. The sweep caught one real thing: a runless internal account would have been shown the customer welcome in the admin console, now fenced. demo-member P2 has a written contract to call the same shared rule. Changelog + how-it-works both carry the new first run, the live bug named honestly. 189/189, typecheck, both linters.
+Still not on sero.team: the whole plan ships on the next "go live", which is also the only way to do the plan's final live walk.
 
 ## Parked
 - Full rail hide (research option 3B) — quiet rail chosen instead; revisit only if the quiet rail still feels heavy.

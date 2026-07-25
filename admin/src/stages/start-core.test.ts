@@ -126,7 +126,7 @@ test("the first-visit block is a sibling of the list, never a cell inside it", (
 // assume the visitor already knows what Sero is; on a first visit they step aside for one
 // screen that shows a finished brief before asking for any typing.
 test("a first visit replaces the page header and the recents list, and restores them for a returning manager", () => {
-  assert.ok(/const firstRun = !hasRealRuns\(runs\)/.test(SRC), "the shared real-runs rule decides it");
+  assert.ok(/const firstRun = !hasRealRuns\(runs\) && !bench/.test(SRC), "the shared real-runs rule decides it, and the admin console never gets the customer welcome");
   assert.ok(/header\.hidden = firstRun/.test(SRC), "the standard header steps aside");
   assert.ok(/recentSection\.hidden = firstRun/.test(SRC), "so does the recents section");
   const err = SRC.slice(SRC.indexOf("function renderError"));

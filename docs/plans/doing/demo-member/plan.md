@@ -31,6 +31,10 @@
 ## Current state
 Phase 1 ✅ GREEN-LIT by Carl 2026-07-22 (commit 543a8cba) after the fresh-signup walk: register → Home shows the Sofia example 1:1, recap + Team render, admin metrics/returns exclude it, account delete clears it. Proof: npm test 169/169 (baseline 168/168), typecheck + both lints clean, live local verification in chat. Next: Phase 2 (Example badge + one-click remove) — not started, waits for a fresh session/day. Committee log: `logs/committee/2026-07-22-demo-member-on-signup.html`.
 
+## Must agree with (added by the onboarding-firstrun lane, 2026-07-26)
+- **One rule for "has this manager run a real 1:1?"**: `hasRealRuns()` in `admin/src/stages/start-rows.ts`. Home, the prep wizard and the left rail all call it. **P2's "Remove example" must not compute its own version** — two copies of this rule is exactly what caused the live bug that onboarding P1 fixed (the wizard's beginner help had been invisible to every new signup since 22 July).
+- Removing the example leaves the account with zero runs, so the brief-first welcome stays on Home and the rail stays quiet. That is correct. The welcome's sample-brief card already drops its "See the whole example 1:1" link when there is no example run to open (`firstVisitHtml({ exampleRunId })`), so nothing dead-ends. Worth a walk-through when P2 is built.
+
 ## Parked
 - Auto-hide the example once the manager adds their first real member (committee raised; decide after watching real usage).
 - Backfill a demo member for EXISTING empty accounts (this plan covers new registrations only).

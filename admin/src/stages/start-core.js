@@ -185,7 +185,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     // first visit they step aside for one screen that shows the artefact, names the
     // moment, and offers one way in. The seeded example is not dropped: it IS the sample
     // brief, labelled, with a link into the finished run.
-    const firstRun = !hasRealRuns(runs);
+    // ...and never in the admin console: a bench means internal QA, who are not the
+    // first-run audience (the same reason they get no invitation button below). Their
+    // Home keeps its header and recents even on a runless internal account.
+    const firstRun = !hasRealRuns(runs) && !bench;
     // Home is the only screen that fetches this, so it is also where the left rail
     // learns whether to stay quiet (onboarding-firstrun Phase 3). Told on every render,
     // so finishing a first brief brings the rail back without a reload.
