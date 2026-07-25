@@ -26,7 +26,7 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 |---|---|---|---|
 | 1 | One first-run rule | Shared has-real-runs helper; wizard beginner help works again (bug fix, buildable now) | ✅ |
 | 2 | Brief-first welcome | The approved Direction A first screen: line + sample brief + video + one button | ✅ |
-| 3 | Quiet rail | Manager rows appear after the first real brief; shell/Log out always present | ⬜ |
+| 3 | Quiet rail | Manager rows appear after the first real brief; shell/Log out always present | 🔨 |
 | 4 | Sweep and truth | Dependency sweep both apps, demo-member alignment, changelog + guide, live proof | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -46,7 +46,9 @@ Phase 1 ✅ GREEN-LIT 2026-07-25 (Carl walked a fresh signup; Home's first-run c
 Phase 2 ✅ GREEN-LIT 2026-07-26. Carl un-parked it on 25 July ("keep going") after asking for the explainer video in the empty space to the right, then approved the built screen. Proof screenshots in [proof/](proof/); the honest gaps he accepted are listed in [phase-2.md](phase-2.md), the main one being that the sidebar is still there until Phase 3.
 Checks at Phase 2: `npm test` 187/187, typecheck, lint:copy, lint:tokens all clean. No paid runs at any point: this plan never touches the engine.
 Nothing is on sero.team yet; both phases ship with the next go-live.
-Next: Phase 3 (quiet rail), the phase that hides the manager rows until a first real brief exists. Not started, and no longer parked by anything except Carl's word to begin.
+Phase 3 🔨 BUILT 2026-07-26, awaiting Carl's walk: the rail now carries no work rows until a first real brief exists, while keeping the shell (brand, mobile bar, What is Sero?, Send feedback, Log out). Proof and honest gaps in [phase-3.md](phase-3.md). Suite 189/189, typecheck clean.
+Carl handed the rail file over from the audit-fixes lane on 26 July to unblock this.
+Next after his walk: Phase 4 (sweep and truth).
 
 ## Parked
 - Full rail hide (research option 3B) — quiet rail chosen instead; revisit only if the quiet rail still feels heavy.

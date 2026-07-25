@@ -20,6 +20,7 @@ import { errorCardHtml, wireRetry } from "../ui/screen-scaffold.ts";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
 import { firstVisitHtml, videoIframeHtml } from "./start-welcome.ts";
 import { rowModel, orderForHome, hasRealRuns } from "./start-rows.ts";
+import { setHasRealRuns } from "../ui/first-visit.ts";
 import { whenLabelsFor } from "../ui/time.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
 import { pageHeader } from "../ui/page-header.ts";
@@ -185,6 +186,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     // moment, and offers one way in. The seeded example is not dropped: it IS the sample
     // brief, labelled, with a link into the finished run.
     const firstRun = !hasRealRuns(runs);
+    // Home is the only screen that fetches this, so it is also where the left rail
+    // learns whether to stay quiet (onboarding-firstrun Phase 3). Told on every render,
+    // so finishing a first brief brings the rail back without a reload.
+    setHasRealRuns(!firstRun);
     welcomeHost.hidden = !firstRun;
     if (header) header.hidden = firstRun;
     if (recentSection) recentSection.hidden = firstRun;

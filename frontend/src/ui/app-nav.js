@@ -5,6 +5,7 @@
 // classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
 import { STAGES, isAdmin } from "../../../admin/src/state.ts";
+import { isFirstVisit, onFirstVisitChange } from "../../../admin/src/ui/first-visit.ts";
 import { isRailFreeStage, urlForState } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
@@ -221,7 +222,14 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.FEEDBACK]: "feedback",
   };
 
+  // The answer to "have they run a 1:1 yet?" arrives from Home's own fetch, after the
+  // shell has already rendered. Replaying the last render is how the rail responds to it
+  // without the shell having to know the question exists.
+  let lastRender = {};
+  onFirstVisitChange(() => render(lastRender));
+
   function render({ stage, user } = {}) {
+    lastRender = { stage, user };
     // The start/login/register screens stand alone — no nav rail. So does the privacy note
     // when a logged-out visitor opens it from the signup screen. And nobody gets a rail
     // while a 1:1 is being set up or run (audit F13): the run's own topbar is the only
@@ -241,10 +249,17 @@ export function createAppNav({ setState, resetSession } = {}) {
     // Show exactly one audience's rows: managers get their rail, members theirs.
     const wanted = isAdmin(user) ? "mgr" : "member";
     homeKey = wanted === "mgr" ? "mghome" : "runs";
+    // The quiet rail (onboarding-firstrun Phase 3): until a manager has run a single
+    // 1:1, the work rows stay away and the brief-first welcome is the only way in.
+    // The SHELL never goes with them — Log out lives here and nowhere else in the
+    // customer app, and What is Sero? / Send feedback have no other entrance. A member's
+    // rail is one row already, so this is managers only, and an unknown answer (a deep
+    // link, a claimed guest run) leaves the full rail alone.
+    const quiet = wanted === "mgr" && isFirstVisit();
     const alwaysShown = new Set(["logout", "about", "feedback"]);
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
-      b.hidden = b.dataset[wanted] !== "1";
+      b.hidden = b.dataset[wanted] !== "1" || quiet;
     });
     const activeKeys = [].concat(ACTIVE_BY_STAGE[stage] || []);
     el.querySelectorAll(".app-nav__link").forEach((b) => {
