@@ -30,6 +30,14 @@
   .cp-screen { position: absolute; left: 0; grid-template-columns: 1fr; overflow-y: auto; }
   .cp-half { overflow: visible; padding: 0 24px 24px; grid-template-rows: auto auto auto; }
 }
+/* Admin only: the QA notes rail (design/notes-panel.css) is a fixed 400px right rail at
+   z-index 9. body.has-notes-panel pads the BODY, which a position:fixed overlay ignores,
+   so the split ran underneath it and the coach header's privacy line hid behind the rail.
+   Inset the overlay by the same token instead (:root drops it to 320px under 1280px). */
+body.has-notes-panel .cp-screen { right: var(--notes-panel-w, 400px); }
+/* Below 1024px the rail goes off-canvas (toggle-driven); same when it's collapsed. */
+@media (max-width: 1024px) { body.has-notes-panel .cp-screen { right: 0; } }
+body.notes-rail-collapsed .cp-screen { right: 0; }
 
 /* Datum 1 — the 72px header row, closed by a hairline on both halves */
 .cp-head { display: flex; align-items: center; justify-content: space-between;
@@ -59,13 +67,17 @@
   color: var(--sero-lavender-900); box-shadow: var(--shadow-card); }
 .cp-seg:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
 
-/* Datum 2 — both columns start on the half's centre line */
+/* Datum 2 — both columns start on the half's centre line. margin-inline:auto CENTRES
+   the 560px measure in its half (Carl, 2026-07-26): without it the column collapsed to
+   560px pinned to the start edge while .cp-head stretched, which read as broken
+   alignment on wide screens. Don't remove it. */
 .cp-col { padding: 40px 0; width: 100%; max-width: 560px; min-width: 0;
+  margin-inline: auto;
   display: flex; flex-direction: column; align-items: flex-start; }
 @media (max-width: 900px) { .cp-col { padding: 24px 0; } }
 
-/* Datum 3 — the footer line */
-.cp-foot { align-self: end; width: 100%; max-width: 560px;
+/* Datum 3 — the footer line, centred on the same measure as .cp-col */
+.cp-foot { align-self: end; width: 100%; max-width: 560px; margin-inline: auto;
   padding: var(--sero-space-5) 0 var(--sero-space-6); }
 
 /* Left column — the POC's bare Typeform look (no card chrome) */

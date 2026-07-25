@@ -2,6 +2,58 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "audit-report",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/serve-static.js",
+        "audits/full-app-audit-2026-07-25",
+        "4193"
+      ],
+      "port": 4193
+    },
+    {
+      "name": "audit-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3261",
+        "SUPERADMIN_EMAILS=audit.admin@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3261
+    },
+    {
+      "name": "audit-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3261",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3263",
+        "--strictPort"
+      ],
+      "port": 3263
+    },
+    {
+      "name": "audit-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3261",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3265",
+        "--strictPort"
+      ],
+      "port": 3265
+    },
+    {
       "name": "p7-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -535,6 +587,90 @@
         "backend/api/server.ts"
       ],
       "port": 3211
+    },
+    {
+      "name": "sero-api-guide",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3271",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3271
+    },
+    {
+      "name": "sero-web-guide",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3271",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3273",
+        "--strictPort"
+      ],
+      "port": 3273
+    },
+    {
+      "name": "sero-api-cpcentre",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3291",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3291
+    },
+    {
+      "name": "sero-web-cpcentre",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3291",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3293",
+        "--strictPort"
+      ],
+      "port": 3293
+    },
+    {
+      "name": "sero-web-cpcentre-borrow",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3271",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3297",
+        "--strictPort"
+      ],
+      "port": 3297
+    },
+    {
+      "name": "sero-customer-cpcentre",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3291",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3295",
+        "--strictPort"
+      ],
+      "port": 3295
     },
     {
       "name": "sero-web-pill",
