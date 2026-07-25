@@ -2,9 +2,9 @@
 
 Board: https://claude.ai/code/artifact/9483ebd6-873b-4c87-848f-528467532c68 (regenerate with `node scripts/plan-board.js refactor-2026-07`, republish to this URL)
 
-**Status: Phase 1 ✅ green-lit. Phase 2 ✅ built (2026-07-25), awaiting Carl's green light.**
+**Status: Phases 1–2 ✅ green-lit. Phase 3 ✅ built (2026-07-25), awaiting Carl's green light.**
 
-**Current state:** P1 dead-code sweep landed (457ca20d): ~1,900 dead lines out. P2 typecheck safety net built: ~50 test files + shared/ now typechecked, both app typechecks (found red on main — they're not in CI) fixed type-level, all 5 tsc programs green, 183/183 tests. Next on green light: P3 server.ts guard wrappers.
+**Current state:** P1 dead-code sweep (457ca20d) + P2 typecheck safety net (12f9c627) landed. P3 built: server.ts 803 → 609 lines — 4 rate limiters → one factory, 64 inline origin guards → guarded* wrappers, caps and check order unchanged; 183/183 tests, typecheck clean, replay identical to baseline. Next on green light: P4 customer bundle.
 
 Carl asked for a full code review to refactor (2026-07-25) and chose the **full programme** over quick-tidy. Three survey agents swept backend/, admin/+frontend/, and scripts/config. Everything here is behaviour-preserving: the app does the same thing, the code gets smaller and safer to change.
 
@@ -22,8 +22,8 @@ Committee note: not convened — the committee's own rules exclude refactors and
 | # | Phase | Type | Status |
 |---|-------|------|--------|
 | 1 | Dead-code sweep (backend + scripts) | internal | ✅ green-lit 2026-07-25 — [phase-1.md](phase-1.md) |
-| 2 | Typecheck safety net (test files + shared/) | internal | ✅ built — [phase-2.md](phase-2.md) — awaiting green light |
-| 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ⬜ |
+| 2 | Typecheck safety net (test files + shared/) | internal | ✅ green-lit 2026-07-25 — [phase-2.md](phase-2.md) |
+| 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ✅ built — [phase-3.md](phase-3.md) — awaiting green light |
 | 4 | Customer bundle: variant lab out + frontend dead code | user-visible | ⬜ |
 | 5 | Screen scaffold helper + state.ts | user-visible | ⬜ |
 | 6 | Shared run-row projections (file vs PG store) | internal | ⬜ |

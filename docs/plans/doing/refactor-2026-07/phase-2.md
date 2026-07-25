@@ -1,6 +1,8 @@
 # Phase 2 — typecheck safety net
 
-**Built 2026-07-25 (session 17d7a976). Awaiting Carl's green light.**
+## ✅ GREEN-LIT 2026-07-25
+
+Carl approved on the in-chat proof (5 tsc programs green, 183/183 tests) including the tests-skip-the-indexing-rule call. Committed as 12f9c627. Built by session 17d7a976.
 
 Goal: ~50 co-located test files (admin + frontend) and all of `shared/` were executed by `npm test` but never typechecked; `typecheck:admin`/`typecheck:customer` also weren't run by CI, so they had quietly gone red. Close the blind spot so every later phase (and all feature work) is guarded for free.
 

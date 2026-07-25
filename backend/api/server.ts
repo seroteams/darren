@@ -62,12 +62,10 @@ const PORT = Number(process.env.API_PORT || process.env.PORT || (IS_PROD ? 3000 
 const CLIENT_DIST = path.join(ROOT, "frontend", "dist");
 const ADMIN_DIST = path.join(ROOT, "admin", "dist");
 
-// Simple per-IP rate limiter for session creation (POST /api/start).
-// Allows up to MAX_PER_IP new sessions within WINDOW_MS before returning 429.
+// Per-IP rate limiting. Every protected door shares the same 60s window but gets its
+// OWN counter (its own perIpLimit instance), so a burst on one door never eats
+// another's budget.
 const RATE_WINDOW_MS = 60_000;
-const MAX_PER_IP = 5;
-const ipCounts = new Map<string, number>();
-setInterval(() => ipCounts.clear(), RATE_WINDOW_MS).unref?.();
 
 // The caller's IP, used to key every per-IP rate limiter. Take the LAST
 // x-forwarded-for hop — the value our own proxy (Render) appended — not the first.
@@ -80,53 +78,29 @@ function clientIp(req: IncomingMessage): string {
   return fromXff || req.socket?.remoteAddress || "unknown";
 }
 
-function rateLimitIp(req: IncomingMessage): boolean {
-  const ip = clientIp(req);
-  const count = (ipCounts.get(ip) || 0) + 1;
-  ipCounts.set(ip, count);
-  return count > MAX_PER_IP;
+function perIpLimit(max: number): (req: IncomingMessage) => boolean {
+  const counts = new Map<string, number>();
+  setInterval(() => counts.clear(), RATE_WINDOW_MS).unref?.();
+  return (req) => {
+    const ip = clientIp(req);
+    const count = (counts.get(ip) || 0) + 1;
+    counts.set(ip, count);
+    return count > max;
+  };
 }
 
-// Per-IP cap on client error reports (error-log Phase 3) — a backstop behind the app's own
-// throttle so a crash loop can't flood error_logs. Generous: legitimate bursts are a few.
-const MAX_ERROR_REPORTS_PER_IP = 30;
-const errorReportCounts = new Map<string, number>();
-setInterval(() => errorReportCounts.clear(), RATE_WINDOW_MS).unref?.();
-
-function rateLimitErrors(req: IncomingMessage): boolean {
-  const ip = clientIp(req);
-  const count = (errorReportCounts.get(ip) || 0) + 1;
-  errorReportCounts.set(ip, count);
-  return count > MAX_ERROR_REPORTS_PER_IP;
-}
-
-// Per-IP cap on password-reset requests (forgot-password) — stops someone spamming reset
-// emails at a victim's inbox. Its own counter so it never collides with session creation.
-const MAX_RESET_PER_IP = 5;
-const resetCounts = new Map<string, number>();
-setInterval(() => resetCounts.clear(), RATE_WINDOW_MS).unref?.();
-
-function rateLimitReset(req: IncomingMessage): boolean {
-  const ip = clientIp(req);
-  const count = (resetCounts.get(ip) || 0) + 1;
-  resetCounts.set(ip, count);
-  return count > MAX_RESET_PER_IP;
-}
-
-// Per-IP cap on login + register attempts (audit F3) — the one sensitive door that
-// had no limiter, so online password guessing (and signup/notification spam) was
-// unbounded. Own counter, generous enough that a real person fat-fingering a
-// password a few times is never caught: 10 tries a minute per IP.
-const MAX_AUTH_PER_IP = 10;
-const authAttemptCounts = new Map<string, number>();
-setInterval(() => authAttemptCounts.clear(), RATE_WINDOW_MS).unref?.();
-
-function rateLimitAuth(req: IncomingMessage): boolean {
-  const ip = clientIp(req);
-  const count = (authAttemptCounts.get(ip) || 0) + 1;
-  authAttemptCounts.set(ip, count);
-  return count > MAX_AUTH_PER_IP;
-}
+// Session creation (POST /api/v1/sessions) — each start can spend OpenAI money.
+const rateLimitIp = perIpLimit(5);
+// Client error reports (error-log Phase 3) — a backstop behind the app's own throttle
+// so a crash loop can't flood error_logs. Generous: legitimate bursts are a few.
+const rateLimitErrors = perIpLimit(30);
+// Password-reset requests (forgot-password) — stops someone spamming reset emails
+// at a victim's inbox.
+const rateLimitReset = perIpLimit(5);
+// Login + register attempts (audit F3) — caps online password guessing (and signup/
+// notification spam); generous enough that a real person fat-fingering a password
+// a few times is never caught.
+const rateLimitAuth = perIpLimit(10);
 
 function warnIfNoKey(): void {
   if (!process.env.OPENAI_API_KEY) {
@@ -152,6 +126,20 @@ const internalRaw = (h: RouteHandler): RouteHandler => requireInternalToolRoute(
 // user-management Phase 2 added the first mutation (PATCH role); mutations are origin-guarded
 // too. The per-company fence for every other path is untouched.
 const superadminV1 = (h: RouteHandler): RouteHandler => v1Route(requireSuperadminRoute(h));
+
+// The origin gate (CSRF fence): every MUTATING route runs same-origin only. One wrapper
+// instead of the inline `if (!originOk...) throw` that used to sit in 64 route closures
+// (refactor-2026-07 P3) — a mutating route below should read guardedV1 / guardedInternalV1 /
+// guardedSuperadminV1; a bare v1Route on a write is now a visible smell, not an invisible
+// hole. The guard sits INSIDE the auth wrappers, preserving the old check order
+// (auth first, then origin, then handler).
+const guarded = (h: RouteHandler): RouteHandler => (c) => {
+  if (!originOk(c.req)) throw forbidden("Bad origin");
+  return h(c);
+};
+const guardedV1 = (h: RouteHandler): RouteHandler => v1Route(guarded(h));
+const guardedInternalV1 = (h: RouteHandler): RouteHandler => internalV1(guarded(h));
+const guardedSuperadminV1 = (h: RouteHandler): RouteHandler => superadminV1(guarded(h));
 
 async function main(): Promise<void> {
   warnIfNoKey();
@@ -240,78 +228,53 @@ async function main(): Promise<void> {
   // register + login are origin-guarded like every other mutating route (audit F10 —
   // stops login-CSRF logging a victim into an attacker's account) and per-IP
   // rate-limited (audit F3 — caps online password guessing + signup/email spam).
-  router.add("POST", "/api/v1/auth/register", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
+  router.add("POST", "/api/v1/auth/register", guardedV1((c) => {
     if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts — try again in a minute.");
     return auth.register(c);
   }));
-  router.add("POST", "/api/v1/auth/login", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
+  router.add("POST", "/api/v1/auth/login", guardedV1((c) => {
     if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts — try again in a minute.");
     return auth.login(c);
   }));
-  router.add("POST", "/api/v1/auth/logout", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return auth.logout(c);
-  }));
+  router.add("POST", "/api/v1/auth/logout", guardedV1(auth.logout));
   router.add("GET", "/api/v1/auth/me", v1Route(auth.me));
 
   // forgot password (forgot-password): request a reset link, then set a new password with
   // the token. Both PUBLIC (a logged-out user forgot their password) and origin-guarded
   // like the other mutating routes. The request is rate-limited so it can't be used to
   // flood a victim's inbox; it always answers a generic 200 (no account-existence leak).
-  router.add("POST", "/api/v1/auth/forgot-password", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
+  router.add("POST", "/api/v1/auth/forgot-password", guardedV1((c) => {
     if (rateLimitReset(c.req)) throw rateLimited("Too many reset requests — try again in a minute.");
     return auth.forgotPassword(c);
   }));
-  router.add("POST", "/api/v1/auth/reset-password", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return auth.resetPassword(c);
-  }));
+  router.add("POST", "/api/v1/auth/reset-password", guardedV1(auth.resetPassword));
   // change password (audit M12): the SIGNED-IN manager changes their own. Protected
   // (requireAuth inside the handler) + origin-guarded like the other mutating routes; the
   // user id is taken from the session, so a caller can only ever change their own password.
-  router.add("POST", "/api/v1/auth/change-password", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return auth.changePassword(c);
-  }));
+  router.add("POST", "/api/v1/auth/change-password", guardedV1(auth.changePassword));
   // update profile (audit M12): the SIGNED-IN user edits their own display name. Protected
   // (requireAuth inside the handler) + origin-guarded like the other mutating routes; the
   // user id is taken from the session, so a caller can only ever rename themselves.
-  router.add("POST", "/api/v1/auth/update-profile", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return auth.updateProfile(c);
-  }));
+  router.add("POST", "/api/v1/auth/update-profile", guardedV1(auth.updateProfile));
   // company (audit M12): the SIGNED-IN manager reads/renames their own organisation. Read is
   // GET (no origin guard, like /me); the rename is POST + origin-guarded. Both manager/admin
   // only (requireAdmin inside the handler); the org id comes from the session, never the body.
   router.add("GET", "/api/v1/auth/company", v1Route(auth.getCompany));
-  router.add("POST", "/api/v1/auth/update-company", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return auth.updateCompany(c);
-  }));
+  router.add("POST", "/api/v1/auth/update-company", guardedV1(auth.updateCompany));
 
   // feedback — a tester's in-app note (Phase 5; feedback-inbox moved the store to the
   // feedback_notes table). Login required (any role, not admin); no external service.
   // Origin-guarded like the other mutating v1 routes.
-  router.add("POST", "/api/v1/feedback", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return feedback.submit(c);
-  }));
+  router.add("POST", "/api/v1/feedback", guardedV1(feedback.submit));
   // briefing verdict tap (validation-kit Phase 3) — one yes/no per run at the moment
   // of value. No login wall (a guest's tap counts); origin-guarded like the error
   // reports, and the service upserts so re-taps can't pile up rows.
-  router.add("POST", "/api/v1/feedback/verdict", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return feedback.submitVerdict(c);
-  }));
+  router.add("POST", "/api/v1/feedback/verdict", guardedV1(feedback.submitVerdict));
 
   // client error reports (error-log Phase 3) — the app POSTs a browser crash / failed load
   // here so it lands in the same error_logs table (source "browser"). Not superadmin-gated
   // (any visitor's own error), origin-guarded + rate-limited; recording is best-effort.
-  router.add("POST", "/api/v1/errors", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
+  router.add("POST", "/api/v1/errors", guardedV1((c) => {
     if (rateLimitErrors(c.req)) throw rateLimited("Too many error reports");
     return errorLog.report(c);
   }));
@@ -327,36 +290,18 @@ async function main(): Promise<void> {
   // so the two can't collide.
   router.add("GET", "/api/v1/admin/runs", superadminV1(superadmin.adminRuns));
   router.add("GET", /^\/api\/v1\/admin\/runs\/(?<id>[^/]+)$/, superadminV1(superadmin.runDetail));
-  router.add("PATCH", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/role$/, superadminV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return superadmin.setRole(c);
-  }));
-  router.add("POST", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/deactivate$/, superadminV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return superadmin.deactivate(c);
-  }));
-  router.add("POST", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/reactivate$/, superadminV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return superadmin.reactivate(c);
-  }));
-  router.add("DELETE", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)$/, superadminV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return superadmin.deleteUser(c);
-  }));
+  router.add("PATCH", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/role$/, guardedSuperadminV1(superadmin.setRole));
+  router.add("POST", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/deactivate$/, guardedSuperadminV1(superadmin.deactivate));
+  router.add("POST", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)\/reactivate$/, guardedSuperadminV1(superadmin.reactivate));
+  router.add("DELETE", /^\/api\/v1\/admin\/users\/(?<id>[^/]+)$/, guardedSuperadminV1(superadmin.deleteUser));
   // error log — the superadmin's cross-company view of every error users hit (error-log
   // Phase 2). Superadmin-gated like the rest of /admin/*; read-only, newest first.
   router.add("GET", "/api/v1/admin/errors", superadminV1(errorLog.list));
-  router.add("PATCH", /^\/api\/v1\/admin\/errors\/(?<id>[^/]+)\/resolve$/, superadminV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return errorLog.resolve(c);
-  }));
+  router.add("PATCH", /^\/api\/v1\/admin\/errors\/(?<id>[^/]+)\/resolve$/, guardedSuperadminV1(errorLog.resolve));
   // feedback inbox — the superadmin's cross-company view of every tester note, newest
   // first. Same gate as the error log; read-only.
   router.add("GET", "/api/v1/admin/feedback", superadminV1(feedback.list));
-  router.add("DELETE", /^\/api\/v1\/admin\/feedback\/(?<id>[^/]+)$/, superadminV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return feedback.remove(c);
-  }));
+  router.add("DELETE", /^\/api\/v1\/admin\/feedback\/(?<id>[^/]+)$/, guardedSuperadminV1(feedback.remove));
 
   // catalog — first domain on the v1 layer (controller → service → repo).
   // v1 routes use the one error shape (v1Route).
@@ -366,14 +311,8 @@ async function main(): Promise<void> {
   // forbidden on bad origin.
   // v1 mirrors today's verb/path (POST save); the contract's PATCH is deferred polish.
   router.add("GET", "/api/v1/arcs", internalV1(arcs.list));
-  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return arcs.reset(c);
-  }));
-  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)$/, internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return arcs.save(c);
-  }));
+  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)\/reset$/, guardedInternalV1(arcs.reset));
+  router.add("POST", /^\/api\/v1\/arcs\/(?<slug>[a-z0-9_]+)$/, guardedInternalV1(arcs.save));
   // start — create a session (controller → service → repo + S0 seam; the AI
   // pre-warm is injected). The origin guard + per-IP rate limit are HTTP concerns,
   // so they stay here in front of the route. v1 creates on the collection
@@ -381,18 +320,14 @@ async function main(): Promise<void> {
   // moved INTO the controller (guest-run Phase 1): anonymous guests may start (a
   // shared daily budget caps them), admins/managers start uncapped, and a plain
   // member is still a real 403 (member-view: only-runs), not just hidden UI.
-  router.add("POST", "/api/v1/sessions", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
+  router.add("POST", "/api/v1/sessions", guardedV1((c) => {
     if (rateLimitIp(c.req)) throw rateLimited("Rate limit exceeded");
     return sessions.start(c);
   }));
   // claim — a logged-in caller takes ownership of an ownerless guest run (guest-run
   // Phase 1). Auth enforced in the controller (any role); origin-guarded like every
   // other mutating v1 route.
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/claim$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.claim(c);
-  }));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/claim$/, guardedV1(sessions.claim));
   // sessions — the live 1:1 runner (controller → service → repo, the S0 seam). v1
   // takes the id IN THE PATH (/api/v1/sessions/:id…, decision D4) with the one error
   // shape. S1a: the two pure session-state reads (snapshot + lexicon scope).
@@ -402,22 +337,10 @@ async function main(): Promise<void> {
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/role-profile$/, v1Route(sessions.roleProfile));
   // role-lexicons (controller → service → repo). v1 uses the one error shape.
   router.add("GET", "/api/v1/role-lexicons", internalV1(roleLexicons.list));
-  router.add("POST", "/api/v1/role-lexicons/term", internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return roleLexicons.addTerm(c);
-  }));
-  router.add("POST", "/api/v1/role-lexicons/term/remove", internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return roleLexicons.removeTerm(c);
-  }));
-  router.add("POST", "/api/v1/role-lexicons/term/hide", internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return roleLexicons.hideTerm(c);
-  }));
-  router.add("POST", "/api/v1/role-lexicons/term/unhide", internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return roleLexicons.unhideTerm(c);
-  }));
+  router.add("POST", "/api/v1/role-lexicons/term", guardedInternalV1(roleLexicons.addTerm));
+  router.add("POST", "/api/v1/role-lexicons/term/remove", guardedInternalV1(roleLexicons.removeTerm));
+  router.add("POST", "/api/v1/role-lexicons/term/hide", guardedInternalV1(roleLexicons.hideTerm));
+  router.add("POST", "/api/v1/role-lexicons/term/unhide", guardedInternalV1(roleLexicons.unhideTerm));
   router.add("GET", "/api/v1/regression/run", internalV1(regression.run));
   // persona-runs — start a scripted full-engine run (paid; the click is the
   // go-ahead) + poll its progress. One at a time, enforced in the service.
@@ -425,10 +348,7 @@ async function main(): Promise<void> {
   // and writes test runs into the live database.
   router.add("POST", "/api/v1/persona-runs", internalV1(blockOnLive(
     "Test engine is off on the live site — run persona tests locally.",
-    (c) => {
-      if (!originOk(c.req)) throw forbidden("Bad origin");
-      return personaRuns.start(c);
-    },
+    guarded(personaRuns.start),
   )));
   router.add("GET", "/api/v1/persona-runs/current", internalV1(personaRuns.current));
   // question is a session read (S1b) — now on the sessions controller. v1 nests it
@@ -440,51 +360,24 @@ async function main(): Promise<void> {
   // sessions non-AI writes (S2b) — now on the sessions controller. v1 nests each
   // under the session resource (/sessions/:id/…) with the one error shape + origin
   // guard.
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/answer$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.answer(c);
-  }));
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/back$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.back(c);
-  }));
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/notes$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.notes(c);
-  }));
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/agenda\/cover$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.agendaCover(c);
-  }));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/answer$/, guardedV1(sessions.answer));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/back$/, guardedV1(sessions.back));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/notes$/, guardedV1(sessions.notes));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/agenda\/cover$/, guardedV1(sessions.agendaCover));
   // Wrap-up exit — the warm early door routes through the reserved closer.
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/wrap-up$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.wrapUp(c);
-  }));
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/verdict$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.verdict(c);
-  }));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/wrap-up$/, guardedV1(sessions.wrapUp));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/verdict$/, guardedV1(sessions.verdict));
   // Promises loop phase 1 — the wrap-up confirm writes the agreed next actions.
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/promises$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.promises(c);
-  }));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/promises$/, guardedV1(sessions.promises));
   // Promises loop phase 2 — card zero: read the prior run's open promises,
   // write the manager's taps back onto that run (or record a skip).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/prior-promises$/, v1Route(sessions.priorPromises));
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/promise-outcomes$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.promiseOutcomes(c);
-  }));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/promise-outcomes$/, guardedV1(sessions.promiseOutcomes));
   // suggest-fix — the prompt-fix suggester (controller → service → repo + an
   // injected AI boundary; the one runs route that calls the model). v1 mirrors
   // today's path (runId stays in the body; the contract's id-in-path
   // /runs/:id/suggest-fix is deferred polish).
-  router.add("POST", "/api/v1/suggest-fix", internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return suggestFix.suggest(c);
-  }));
+  router.add("POST", "/api/v1/suggest-fix", guardedInternalV1(suggestFix.suggest));
   // heartbeat — the "what does the app look like right now" snapshot the Guide
   // renders and diffs (page-heartbeat Phase 1). Reads the repo fresh per request.
   // v1-only: new endpoint, no legacy clients.
@@ -504,102 +397,48 @@ async function main(): Promise<void> {
   router.add("GET", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)$/, v1Route(runs.mineDetail));
   // Rate one of your own runs (pre-go-live PG3) — member-safe (org+user fenced in the
   // service), origin-guarded. Registered with the other /mine routes.
-  router.add("POST", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)\/rating$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return runs.rateMine(c);
-  }));
+  router.add("POST", /^\/api\/v1\/runs\/mine\/(?<id>[^/]+)\/rating$/, guardedV1(runs.rateMine));
   // People roster (people-roster Phase 1) — a manager's formal list of their reports.
   // Manager/admin only (requireAdmin in the controller; members 403), fenced to the
   // caller's orgId + managerId in the service. Mutations origin-guarded like team/merge.
   router.add("GET", "/api/v1/team/people", v1Route(team.listPeople));
-  router.add("POST", "/api/v1/team/people", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.createPerson(c);
-  }));
-  router.add("PATCH", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.updatePerson(c);
-  }));
+  router.add("POST", "/api/v1/team/people", guardedV1(team.createPerson));
+  router.add("PATCH", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, guardedV1(team.updatePerson));
   // Hard delete — permanently wipes the person and every 1:1 about them (irreversible).
-  router.add("DELETE", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.removePerson(c);
-  }));
+  router.add("DELETE", /^\/api\/v1\/team\/people\/(?<id>[^/]+)$/, guardedV1(team.removePerson));
   // Person ↔ member-account link (people-roster Phase 5) — manager/admin only; the
   // target must be an account in the caller's own org (400 otherwise, in the service).
   router.add("GET", "/api/v1/team/linkable-users", v1Route(team.linkableUsers));
-  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/link$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.linkPerson(c);
-  }));
-  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/unlink$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return team.unlinkPerson(c);
-  }));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/link$/, guardedV1(team.linkPerson));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/unlink$/, guardedV1(team.unlinkPerson));
   // Org Members page (members-page Phase 1) — a normal admin's view of who can log in to
   // their OWN workspace (login accounts + pending invites). Manager/admin only (requireAdmin
   // in the controller; members 403), org-fenced. Distinct from the superadmin console, which
   // is cross-company. Read-only for now; invite + row actions arrive in later phases.
   router.add("GET", "/api/v1/members", v1Route(members.listMembers));
-  router.add("POST", "/api/v1/members/invite", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return members.inviteMember(c);
-  }));
-  router.add("PATCH", /^\/api\/v1\/members\/(?<id>[^/]+)\/role$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return members.setMemberRole(c);
-  }));
-  router.add("POST", /^\/api\/v1\/members\/(?<id>[^/]+)\/deactivate$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return members.deactivateMember(c);
-  }));
-  router.add("POST", /^\/api\/v1\/members\/(?<id>[^/]+)\/reactivate$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return members.reactivateMember(c);
-  }));
-  router.add("DELETE", /^\/api\/v1\/members\/invitations\/(?<id>[^/]+)$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return members.revokeMemberInvite(c);
-  }));
-  router.add("POST", /^\/api\/v1\/members\/invitations\/(?<id>[^/]+)\/resend$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return members.resendMemberInvite(c);
-  }));
+  router.add("POST", "/api/v1/members/invite", guardedV1(members.inviteMember));
+  router.add("PATCH", /^\/api\/v1\/members\/(?<id>[^/]+)\/role$/, guardedV1(members.setMemberRole));
+  router.add("POST", /^\/api\/v1\/members\/(?<id>[^/]+)\/deactivate$/, guardedV1(members.deactivateMember));
+  router.add("POST", /^\/api\/v1\/members\/(?<id>[^/]+)\/reactivate$/, guardedV1(members.reactivateMember));
+  router.add("DELETE", /^\/api\/v1\/members\/invitations\/(?<id>[^/]+)$/, guardedV1(members.revokeMemberInvite));
+  router.add("POST", /^\/api\/v1\/members\/invitations\/(?<id>[^/]+)\/resend$/, guardedV1(members.resendMemberInvite));
   // Guided sessions (monthly-checkin Phase 1) — the manager-walked "Monthly Check-in" 1:1.
   // Admins + managers (requireAdmin in the controller; members 403 — widened 2026-07-19),
   // fenced to the caller's org + manager + roster person. Own table — the interview pipeline
   // is untouched. Mutations origin-guarded like team/people.
-  router.add("POST", "/api/v1/guided-sessions", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return guided.createGuidedSession(c);
-  }));
+  router.add("POST", "/api/v1/guided-sessions", guardedV1(guided.createGuidedSession));
   router.add("GET", "/api/v1/guided-sessions", v1Route(guided.listGuidedSessions));
   router.add("GET", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route(guided.getGuidedSession));
-  router.add("PATCH", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return guided.patchGuidedSession(c);
-  }));
-  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/complete$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return guided.completeGuidedSession(c);
-  }));
+  router.add("PATCH", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)$/, guardedV1(guided.patchGuidedSession));
+  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/complete$/, guardedV1(guided.completeGuidedSession));
   // The ONE AI call (Phase 5) — drafts the Summary + private suggestions. Origin-guarded (it can
   // spend); cached in state unless ?regenerate=1.
-  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/wrapup-draft$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return guided.postWrapupDraft(c);
-  }));
+  router.add("POST", /^\/api\/v1\/guided-sessions\/(?<id>[^/]+)\/wrapup-draft$/, guardedV1(guided.postWrapupDraft));
   // Trackers (monthly-checkin Phase 2) — promises/requests/goals per person, internal admin
   // only this phase (member lane is Phase 7). Person-fenced in the service; mutations origin-guarded.
   router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route(trackers.listTrackerItems));
-  router.add("POST", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return trackers.createTrackerItem(c);
-  }));
-  router.add("PATCH", /^\/api\/v1\/tracker-items\/(?<id>[^/]+)$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return trackers.updateTrackerItem(c);
-  }));
+  router.add("POST", /^\/api\/v1\/people\/(?<personId>[^/]+)\/tracker-items$/, guardedV1(trackers.createTrackerItem));
+  router.add("PATCH", /^\/api\/v1\/tracker-items\/(?<id>[^/]+)$/, guardedV1(trackers.updateTrackerItem));
   // Block scores (monthly-checkin Phase 3) — a person's six-block rating history for the
   // last-time marker. Written only via guided complete(); this is read-only + person-fenced.
   router.add("GET", /^\/api\/v1\/people\/(?<personId>[^/]+)\/block-scores$/, v1Route(guided.getBlockScores));
@@ -607,52 +446,28 @@ async function main(): Promise<void> {
   // (any role) in the controller; the service fences on people.user_id = caller AND kind ∈
   // {request, goal} — never promises, never another person, never guided_sessions. Origin-guarded.
   router.add("GET", "/api/v1/me/tracker-items", v1Route(trackers.listMyTrackerItems));
-  router.add("POST", "/api/v1/me/requests", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return trackers.createMyRequest(c);
-  }));
-  router.add("PATCH", /^\/api\/v1\/me\/goals\/(?<id>[^/]+)$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return trackers.updateMyGoal(c);
-  }));
+  router.add("POST", "/api/v1/me/requests", guardedV1(trackers.createMyRequest));
+  router.add("PATCH", /^\/api\/v1\/me\/goals\/(?<id>[^/]+)$/, guardedV1(trackers.updateMyGoal));
   // The join flow (member-onboarding-invites): a manager mints a one-time join link for a
   // roster person; preview + accept are PUBLIC (the invitee has no account yet) — the
   // token is the credential, single-use + expiring + stored hashed. Accept is origin-
   // guarded like every other mutation.
-  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/invite$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return invites.createInvite(c);
-  }));
+  router.add("POST", /^\/api\/v1\/team\/people\/(?<id>[^/]+)\/invite$/, guardedV1(invites.createInvite));
   router.add("GET", /^\/api\/v1\/invites\/(?<token>[^/]+)$/, v1Route(invites.previewInvite));
-  router.add("POST", /^\/api\/v1\/invites\/(?<token>[^/]+)\/accept$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return invites.acceptInvite(c);
-  }));
+  router.add("POST", /^\/api\/v1\/invites\/(?<token>[^/]+)\/accept$/, guardedV1(invites.acceptInvite));
   router.add("GET", "/api/v1/runs/recent", v1Route(runs.recent));
   router.add("GET", "/api/v1/runs/finished", v1Route(runs.finished));
   // internal "prefill a run" (superadmin-guarded in the controller): list clonable finished
   // runs, and clone one into a fresh run owned by the caller. Literal paths registered
   // before the /:id regex routes so they aren't shadowed.
   router.add("GET", "/api/v1/runs/clonable", v1Route(runs.clonable));
-  router.add("POST", "/api/v1/runs/clone", v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return runs.clone(c);
-  }));
+  router.add("POST", "/api/v1/runs/clone", guardedV1(runs.clone));
   router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/full$/, v1Route(runs.full));
   router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/stages$/, v1Route(runs.stages));
   router.add("GET", /^\/api\/v1\/runs\/(?<id>[^/]+)\/overview$/, v1Route(runs.overview));
-  router.add("DELETE", /^\/api\/v1\/runs\/(?<id>[^/]+)$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return runs.del(c);
-  }));
-  router.add("POST", /^\/api\/v1\/runs\/(?<id>[^/]+)\/review$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return runs.review(c);
-  }));
-  router.add("POST", /^\/api\/v1\/runs\/(?<id>[^/]+)\/archive$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return runs.archive(c);
-  }));
+  router.add("DELETE", /^\/api\/v1\/runs\/(?<id>[^/]+)$/, guardedV1(runs.del));
+  router.add("POST", /^\/api\/v1\/runs\/(?<id>[^/]+)\/review$/, guardedV1(runs.review));
+  router.add("POST", /^\/api\/v1\/runs\/(?<id>[^/]+)\/archive$/, guardedV1(runs.archive));
   // library serves files (not JSON), so it manages its own responses — no v1Route.
   router.add("GET", /^\/api\/v1\/library(?<rest>\/.*)?$/, internalRaw(library));
   // lexicon/candidates is an AI JSON read (S3) — now on the sessions controller
@@ -664,28 +479,19 @@ async function main(): Promise<void> {
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/scope$/, v1Route(sessions.lexiconScope));
   // lexicon/decisions is a sessions non-AI write (S2b) — now on the sessions
   // controller. (candidates stays in handlers/lexicon.ts for S3, the AI route.)
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/decisions$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.lexiconDecisions(c);
-  }));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/lexicon\/decisions$/, guardedV1(sessions.lexiconDecisions));
   // lexicon promotion (controller → service → repo). v1 nounifies the collection
   // (/promotions — a free, shape-neutral rename). Per-session lexicon stays in
   // handlers/lexicon.ts.
   router.add("GET", "/api/v1/lexicon/promotions/pending", internalV1(lexiconPromote.pending));
-  router.add("POST", "/api/v1/lexicon/promotions", internalV1((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return lexiconPromote.apply(c);
-  }));
+  router.add("POST", "/api/v1/lexicon/promotions", guardedInternalV1(lexiconPromote.apply));
   // focus-points/stream is an SSE stream (S4) — now on the sessions controller.
   // It manages its own response, so NO v1Route (like library); v1 just nests the
   // path under the session resource. The shared stream-helper.ts stays in handlers/.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/stream$/, sessions.focusPointsStream);
   // focus-points/select is a sessions non-AI write (S2b) — now on the sessions
   // controller.
-  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/select$/, v1Route((c) => {
-    if (!originOk(c.req)) throw forbidden("Bad origin");
-    return sessions.selectedFocus(c);
-  }));
+  router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/focus-points\/select$/, guardedV1(sessions.selectedFocus));
   // preparation/stream is an SSE stream (S4) — now on the sessions controller. Like
   // focus-points it manages its own response, so NO v1Route; v1 just nests the path.
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/preparation\/stream$/, sessions.preparationStream);
