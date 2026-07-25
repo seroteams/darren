@@ -917,3 +917,29 @@ finished, "you have never run a 1:1" after a network blip, a seeded example posi
 Fixing them was mostly deletion and narrowing, not addition. Two follow-ups parked for Carl: the
 email sitting in `ctx.seniority` in the database, and the fact that an unfinished prep older than
 the 7-day session TTL still says "Half done" while being impossible to open.
+
+## Entry redesign Phase 1 — the way in, prototyped before it was built (2026-07-25)
+
+Carl said the way into Sero (log in, create account, start free) needed a better design overall.
+Rather than restyling by taste, the prototype was justified against DESIGN.md first, and the audit
+found eight concrete breaches, three of which were invisible until someone read the CSS: the auth
+fields were using `.input`, the borderless 20-28px SESSION field that DESIGN.md §5 reserves for the
+prep flow (register wore four of them); `.link` has no CSS anywhere in the repo, so "Create one" and
+"Try it free" had been rendering as plain grey text, not links; and `.auth-brand__title` sets size
+and weight but never `--type-family-display`, so "Welcome back" was in Inter, not Bricolage. The
+visible complaint (four competing ways in, two stacked divider rules, no card) was the smaller half
+of the problem.
+
+Two versions went into the /test area rather than one: A kept the three screens and dressed them to
+match, B collapsed them into one front door with Log in / Create account tabs. Carl walked both and
+picked A in one word. The lesson worth keeping is that the fork was cheap because both versions were
+mock-only in one file, reusing the real `.btn`, `.intake-or`, `.field__label` and `.l-stack`
+recipes; nothing about the live screens moved, so there was no cost to being wrong.
+
+Two environment notes for the next session: the Browser pane would not composite in this session, so
+the on-screen proof came from headless Chrome driven over CDP with Node's built-in WebSocket (nine
+screenshots, every state). And Phase 2 could not start on green light, because the google-signin
+chat still holds `login.js` / `register.js` / `auth-screens.test.ts` in LANES.md. That contract test
+asserts on literal source strings (`auth-split`, `field__label`, `intake-or` before `js-try-guest`,
+the `js-submit` → `intake-or` → Google order), so Phase 2 rewrites the test contract before it
+touches a screen.

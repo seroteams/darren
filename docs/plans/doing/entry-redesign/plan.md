@@ -1,7 +1,23 @@
 # Entry redesign — the way in (log in / create account / start free)
 
-**Status:** Phase 1 built, awaiting Carl's green light.
+**Status:** Phase 1 ✅ GREEN-LIT 2026-07-25. **Carl picked Version A (matching set).** Phase 2 is
+blocked: the `google-signin` lane still holds `login.js` / `register.js` / `auth-screens.test.ts`.
 **Owner lane:** `c62009ae` (see LANES.md).
+**Board:** https://claude.ai/code/artifact/616f323d-8678-4122-ac21-78af9b370f55
+
+## Current state
+
+Phase 1 landed as a Test-area prototype (`/admin/test` → "The way in. Two versions"), both versions
+walkable, live screens untouched. Carl walked it and chose **A**: keep the three screens and the
+three routes, dressed to match. Version B (one front door with tabs) is recorded here but not
+being built.
+
+Verified before sign-off: typecheck, 186/186 tests, `lint:copy`, `lint:tokens`, and 9 headless
+screenshots of every state (both versions, three screens, phone width, empty-field errors, wrong
+password alert). No console errors.
+
+**Next:** Phase 2 builds Version A into the real screens, tests first, in both apps. It cannot
+start until the google-signin chat releases the login files (see preconditions below).
 
 ## Goal
 
@@ -29,12 +45,12 @@ on the real screens in both apps with the contract tests updated.
 
 | # | Phase | Status |
 |---|---|---|
-| 1 | Prototype both versions in the Test area (`/test`), nothing live touched | **Built, awaiting green light** |
-| 2 | Build the winner for real in `login.js` / `register.js` / `welcome.ts`, tests first | Not started |
+| 1 | Prototype both versions in the Test area (`/test`), nothing live touched | ✅ GREEN-LIT 2026-07-25 (Carl picked A) |
+| 2 | Build **Version A** for real in `login.js` / `register.js` / `welcome.ts`, tests first | ⛔ Blocked on the google-signin lane |
 
 ## Phase 2 preconditions (do not start without these)
 
-- Carl has picked A or B.
+- ✅ Carl has picked a version: **A**.
 - The `google-signin` lane (`0d52559f`) has released `admin/src/stages/login.js`,
   `register.js` and `auth-screens.test.ts`.
 - `admin/src/stages/auth-screens.test.ts` asserts on literal source strings (`auth-split`,

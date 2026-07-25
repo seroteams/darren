@@ -1,6 +1,10 @@
 # Phase 1 — prototype both versions in the Test area
 
-**Status:** built and verified on screen, awaiting Carl's green light.
+## ✅ GREEN-LIT 2026-07-25
+
+Carl walked both versions in the Test area and picked **Version A (matching set)**: keep the three
+screens and the three routes, dressed to match. Version B is not being built; it stays documented
+here in case the bouncing between three screens becomes a problem later.
 
 ## What was built
 
