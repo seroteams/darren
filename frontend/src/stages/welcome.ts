@@ -11,16 +11,12 @@ import type { Mount } from "../../../admin/src/stages/stage.types.ts";
 // Exported for the copy contract test — the markup is fixed by the spec
 // (UK English, no exclamation marks; the guest CTA is the one blue action,
 // Create account is the single ghost beside it, and Log in is a quiet text
-// link on the page's top row — design-consolidation Phase 2, audit A4).
+// link in the footer row below the buttons — Carl, 2026-07-25).
 export function welcomeHtml(photo: string): string {
   return `
     <div class="auth-split auth-split--even">
       <div class="auth-split__form">
         <div class="auth-panel l-stack l-stack--6">
-          <p class="l-row l-row--2 l-row--end text-ink-dim text-sm">
-            Already using Sero?
-            <button type="button" class="link js-to-login">Log in</button>
-          </p>
           <div class="auth-brand">
             <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
             <h1 class="auth-brand__title">Walk into your next 1:1 well prepared.</h1>
@@ -30,10 +26,16 @@ export function welcomeHtml(photo: string): string {
             <button type="button" class="btn js-try-guest">Prep my 1:1 free, no account</button>
             <button type="button" class="btn btn--ghost js-to-register">Create account</button>
           </div>
-          <p class="text-ink-dim text-sm">
-            What you type stays private to you.
-            <button type="button" class="link js-to-privacy">Privacy</button>
-          </p>
+          <div class="l-stack l-stack--2">
+            <p class="text-ink-dim text-sm">
+              Already using Sero?
+              <button type="button" class="link js-to-login">Log in</button>
+            </p>
+            <p class="text-ink-dim text-sm">
+              What you type stays private to you.
+              <button type="button" class="link js-to-privacy">Privacy</button>
+            </p>
+          </div>
         </div>
       </div>
       <div class="auth-split__media" aria-hidden="true">

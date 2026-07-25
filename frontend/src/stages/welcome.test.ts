@@ -8,7 +8,7 @@ import { welcomeHtml } from "./welcome.ts";
 // The guest-first start screen (start-screen): the copy is fixed by the spec —
 // UK English, no exclamation marks. The guest CTA is the one blue action;
 // Create account is the single ghost beside it, and Log in is a quiet text
-// link on the page's top row (design-consolidation Phase 2, audit A4).
+// link in the footer row below the buttons (Carl, 2026-07-25).
 
 const html = welcomeHtml("/login/photo.jpg");
 
@@ -37,16 +37,15 @@ test("welcome: the guest CTA is the one blue action; Create account is the singl
   assert.ok(html.includes(">Privacy<"), "Privacy link present");
 });
 
-test("welcome: Log in is a quiet text link on the top row, not a mid-page ghost", () => {
+test("welcome: Log in is a quiet text link below the buttons, not a mid-page ghost", () => {
   assert.ok(/class="link js-to-login"/.test(html), "log in rendered as a quiet .link");
   assert.ok(!/btn[^"]*js-to-login/.test(html), "no ghost-button log in");
   const loginAt = html.indexOf("js-to-login");
-  const h1At = html.indexOf("Walk into your next 1:1");
-  assert.ok(loginAt > -1 && h1At > -1 && loginAt < h1At, "log in row sits above the headline");
-  assert.ok(
-    /l-row--end[\s\S]{0,200}js-to-login/.test(html),
-    "log in row is right-aligned",
-  );
+  const createAt = html.indexOf(">Create account<");
+  const privacyAt = html.indexOf("js-to-privacy");
+  assert.ok(loginAt > -1 && createAt > -1, "both present");
+  assert.ok(createAt < loginAt, "log in line sits below the Create account ghost");
+  assert.ok(loginAt < privacyAt, "log in line sits above the privacy line");
 });
 
 test("welcome: the guest CTA comes before the Create account ghost", () => {
