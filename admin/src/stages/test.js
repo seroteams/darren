@@ -7,6 +7,7 @@ import "../styles/test-gallery.css";
 import { mount as promisesLoop } from "./tests/promises-loop.js";
 import { mount as promisesBeforeRecap } from "./tests/promises-before-recap.js";
 import { mount as runnerV2 } from "./tests/runner-v2.js";
+import { mount as entryRedesign } from "./tests/entry-redesign.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
@@ -68,7 +69,35 @@ const THUMB_SPLIT = `
     <rect x="166" y="98" width="104" height="6" rx="3" fill="var(--sero-lavender-900)" opacity="0.55"/>
   </svg>`;
 
+// The entry redesign: the split screen with the form now sitting on a white card
+// (boxed fields, one blue action) beside the brand photo half.
+const THUMB_ENTRY = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect x="180" y="0" width="120" height="120" fill="var(--sero-primary-300)"/>
+    <rect x="196" y="26" width="52" height="8" rx="4" fill="var(--sero-primary-800)" opacity="0.55"/>
+    <rect x="196" y="42" width="88" height="6" rx="3" fill="var(--sero-primary-900)" opacity="0.4"/>
+    <rect class="card" x="20" y="12" width="140" height="96" rx="8"/>
+    <rect class="ink" x="82" y="22" width="16" height="16" rx="4" opacity="0.75"/>
+    <rect class="ink" x="56" y="44" width="68" height="8" rx="4" opacity="0.55"/>
+    <rect class="card" x="32" y="60" width="116" height="14" rx="3" stroke="var(--color-border-strong)"/>
+    <rect class="card" x="32" y="78" width="116" height="14" rx="3" stroke="var(--color-border-strong)"/>
+    <rect class="accent" x="32" y="96" width="116" height="6" rx="3"/>
+  </svg>`;
+
 const TESTS = [
+  {
+    id: "entry-redesign",
+    title: "The way in. Two versions",
+    blurb:
+      "Log in, Create account and the free no-account door, redesigned as one set. Version A keeps today's three screens and dresses them to match. Version B collapses them into one front door with two tabs and the free path always visible. Switch version, screen and width at the top.",
+    date: "25 Jul 2026",
+    tag: "entry",
+    thumb: THUMB_ENTRY,
+    mount: entryRedesign,
+    bare: true,
+    wide: true,
+  },
   {
     id: "runner-v2",
     title: "Runner v2. Split coach panel",

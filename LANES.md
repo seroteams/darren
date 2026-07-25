@@ -11,6 +11,9 @@ stops the edit and surfaces a warning instead of ploughing in.
 | 0e03aa19 | Design consolidation P7 (re-audit + close) | docs/plans/doing/design-consolidation/, STATUS.md, audits/design-audit-2026-07/, docs/screen-gallery/ | 2026-07-24 |
 | 0d52559f | Google sign-in (plan setup) | docs/plans/doing/google-signin/, backend/api/services/auth/google-auth.service.ts, backend/api/services/auth/google-auth.controller.ts, backend/api/services/auth/google-auth.repo.ts, backend/api/services/auth/google-auth.service.test.ts, backend/api/services/auth/google-auth.controller.test.ts, backend/db/schema.ts, backend/api/middleware/cookies.ts, admin/src/stages/login.js, admin/src/stages/register.js, admin/src/stages/auth-screens.test.ts, admin/public/google-g.svg, frontend/public/google-g.svg, .env.example, render.yaml | 2026-07-25 |
 | 35146fdf | Carl Method portable pack | docs/carl-method/ | 2026-07-25 |
+| 794bbf0e | New-manager onboarding deep dive (research + mockups, no app code yet) | docs/plans/doing/onboarding-firstrun/ | 2026-07-25 |
+| c62009ae | Entry redesign prototype (P1, test area only) | docs/plans/doing/entry-redesign/, admin/src/stages/tests/entry-redesign.js, admin/src/stages/test.js | 2026-07-25 |
+| 23b1137e | Full-app UX/UI audit (read-only walk + HTML report) | .claude/launch.json, audits/full-app-audit-2026-07-25/ | 2026-07-25 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
