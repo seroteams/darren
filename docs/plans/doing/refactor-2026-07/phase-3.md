@@ -1,6 +1,8 @@
 # Phase 3 — server.ts guard wrappers
 
-**Built 2026-07-25 (session 17d7a976). Awaiting Carl's green light.**
+## ✅ GREEN-LIT 2026-07-25
+
+Carl approved on the in-chat proof (183/183 incl. both serving boots, typecheck, replay identical to baseline). Committed as 2c708ce6. Built by session 17d7a976.
 
 Goal: backend/api/server.ts repeated `if (!originOk(c.req)) throw forbidden("Bad origin")` inline in 64 route closures and cloned the same per-IP rate limiter 4 times. Collapse both into the wrapper idiom the file already used (internalV1/superadminV1).
 

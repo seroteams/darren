@@ -2,9 +2,9 @@
 
 Board: https://claude.ai/code/artifact/9483ebd6-873b-4c87-848f-528467532c68 (regenerate with `node scripts/plan-board.js refactor-2026-07`, republish to this URL)
 
-**Status: Phases 1–2 ✅ green-lit. Phase 3 ✅ built (2026-07-25), awaiting Carl's green light.**
+**Status: Phases 1–3 ✅ green-lit (2026-07-25). Phase 4 in build.**
 
-**Current state:** P1 dead-code sweep (457ca20d) + P2 typecheck safety net (12f9c627) landed. P3 built: server.ts 803 → 609 lines — 4 rate limiters → one factory, 64 inline origin guards → guarded* wrappers, caps and check order unchanged; 183/183 tests, typecheck clean, replay identical to baseline. Next on green light: P4 customer bundle.
+**Current state:** P1 dead-code sweep (457ca20d), P2 typecheck safety net (12f9c627), P3 server.ts wrappers (2c708ce6, 803 → 609 lines) all landed. Now building: P4 customer bundle — variant lab out + frontend dead code. First user-visible phase; closes on screenshots + bundle sizes.
 
 Carl asked for a full code review to refactor (2026-07-25) and chose the **full programme** over quick-tidy. Three survey agents swept backend/, admin/+frontend/, and scripts/config. Everything here is behaviour-preserving: the app does the same thing, the code gets smaller and safer to change.
 
@@ -23,8 +23,8 @@ Committee note: not convened — the committee's own rules exclude refactors and
 |---|-------|------|--------|
 | 1 | Dead-code sweep (backend + scripts) | internal | ✅ green-lit 2026-07-25 — [phase-1.md](phase-1.md) |
 | 2 | Typecheck safety net (test files + shared/) | internal | ✅ green-lit 2026-07-25 — [phase-2.md](phase-2.md) |
-| 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ✅ built — [phase-3.md](phase-3.md) — awaiting green light |
-| 4 | Customer bundle: variant lab out + frontend dead code | user-visible | ⬜ |
+| 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ✅ green-lit 2026-07-25 — [phase-3.md](phase-3.md) |
+| 4 | Customer bundle: variant lab out + frontend dead code | user-visible | 🔨 in build |
 | 5 | Screen scaffold helper + state.ts | user-visible | ⬜ |
 | 6 | Shared run-row projections (file vs PG store) | internal | ⬜ |
 | 7 | One shared boot module for both app shells | user-visible | ⬜ |
