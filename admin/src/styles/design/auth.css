@@ -67,6 +67,13 @@
   object-position: top;
   display: block;
 }
+/* "Continue with Google" (google-signin Phase 2): the ghost button is an <a> — a
+   full-page navigation to the OAuth start route — so strip the link underline. The
+   G mark rides the base .btn inline-flex gap. */
+.auth-panel .js-google {
+  text-decoration: none;
+}
+
 /* --- Start screen (welcome.ts) --------------------------------------------- */
 /* An even 50/50 split (the marketing front door, not the login form). The panel
    caps its own width and centres, so the form never looks stranded in an empty

@@ -119,3 +119,40 @@ test("all four: the photo is the first pool entry, never a random pick", () => {
     assert.ok(!src.includes("Math.random"), `${name}: no per-visit randomness`);
   }
 });
+
+// --- google-signin Phase 2: Continue with Google ------------------------------
+
+test("google button: defined once in login.js as a ghost anchor with the G mark", () => {
+  assert.ok(LOGIN.includes("export function googleButtonHtml"), "snippet exported from login.js");
+  assert.ok(LOGIN.includes("export function googleStartUrl"), "start URL helper exported");
+  assert.ok(/btn btn--ghost js-google/.test(LOGIN), "ghost treatment: blue stays on the primary action");
+  assert.ok(LOGIN.includes("google-g.svg"), "the coloured G rides as a static asset");
+  assert.ok(LOGIN.includes(">Continue with Google</a>"), "an anchor: a full-page navigation, not a fetch");
+  assert.ok(LOGIN.includes('aria-hidden="true"'), "decorative mark hidden from screen readers");
+  assert.ok(LOGIN.includes("/api/v1/auth/google/start?app="), "points at the server's start route");
+});
+
+test("login: the google button sits behind an or divider, after the submit button", () => {
+  assert.ok(
+    /js-submit">Log in<\/button>[\s\S]{0,220}intake-or[\s\S]{0,120}\$\{googleButtonHtml\(\)\}/.test(LOGIN),
+    "Log in, then the hairline or, then Continue with Google",
+  );
+});
+
+test("register: the google button rides the same shared snippet, after privacy, before the footer", () => {
+  assert.ok(REGISTER.includes("googleButtonHtml"), "shared snippet imported, not duplicated");
+  const privacyAt = REGISTER.indexOf("By creating an account");
+  const googleAt = REGISTER.indexOf("${googleButtonHtml()}");
+  const loginLinkAt = REGISTER.indexOf("Already have an account?");
+  assert.ok(privacyAt > -1 && googleAt > -1 && loginLinkAt > -1, "all three present");
+  assert.ok(googleAt > privacyAt, "google after the privacy line");
+  assert.ok(googleAt < loginLinkAt, "google before the footer link");
+});
+
+test("login: a failed Google round-trip shows friendly copy and tidies the URL", () => {
+  assert.ok(LOGIN.includes("URLSearchParams"), "reads the ?error= code");
+  assert.ok(LOGIN.includes("history.replaceState"), "cleans the URL after showing the message");
+  assert.ok(LOGIN.includes("Google sign-in was cancelled."), "cancel copy");
+  assert.ok(LOGIN.includes("Google sign-in didn't finish. Please try again."), "fallback copy");
+  assert.ok(LOGIN.includes("Google sign-in isn't set up yet."), "unconfigured copy");
+});

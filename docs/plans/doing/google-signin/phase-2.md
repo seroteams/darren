@@ -1,6 +1,12 @@
 # Phase 2 — Buttons on the screens
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's QA
+
+## Built (2026-07-25)
+- `login.js` exports the shared `googleButtonHtml()`/`googleStartUrl()` snippet (ghost anchor + G asset, full-page navigation, `?app=admin|customer` by bundle); login shows friendly copy for every `?error=` code then tidies the URL. `register.js` imports the same snippet below the privacy line. `google-g.svg` in both public dirs; one `text-decoration:none` rule in auth.css.
+- Contract tests extended FIRST in `auth-screens.test.ts` (5 new tests: snippet shape, both placements, error handling; all existing assertions untouched).
+- Offline proof: npm test 186/186, typecheck admin+customer clean, lint:tokens + lint:copy clean.
+- On-screen proof (Playwright, real dev servers): customer login + register, admin login (href carries `app=admin`), phone width 375px, and `/login?error=google-denied` renders "Google sign-in was cancelled." with the URL cleaned. Screenshots shared in chat 2026-07-25.
 
 ## Goal
 "Continue with Google" appears on the login and create-account screens in both apps, matching the approved mockup, with friendly wording when something goes wrong.

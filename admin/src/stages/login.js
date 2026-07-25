@@ -32,6 +32,33 @@ export function wirePasswordToggles(scope) {
   });
 }
 
+// "Continue with Google" (google-signin Phase 2), defined once here and shared by
+// register.js (like passwordToggleHtml). An <a>, not a fetch: the whole flow is a
+// full-page navigation to the server's OAuth start route, which 302s to Google and
+// back. In dev the API is its own port (:3001) — localhost cookies ignore ports, so
+// the session cookie set there reaches both Vite apps. The four-colour G ships as a
+// static asset in both public dirs (the Lucide icon system is monochrome-only).
+export function googleStartUrl() {
+  const app = import.meta.env.BASE_URL.startsWith("/admin") ? "admin" : "customer";
+  const base = import.meta.env.DEV ? "http://localhost:3001" : "";
+  return `${base}/api/v1/auth/google/start?app=${app}`;
+}
+
+export function googleButtonHtml() {
+  return `<a class="btn btn--ghost js-google" href="${googleStartUrl()}"><img src="${import.meta.env.BASE_URL}google-g.svg" alt="" aria-hidden="true" width="18" height="18" />Continue with Google</a>`;
+}
+
+// What the login screen says for each ?error= code a failed Google round-trip
+// lands back with (the server only ever sends these stable codes).
+const GOOGLE_ERROR_COPY = {
+  "google-unavailable": "Google sign-in isn't set up yet. Use your email and password.",
+  "google-denied": "Google sign-in was cancelled.",
+  "google-unverified": "That Google account's email isn't verified with Google yet.",
+  "account-off": "This account has been switched off. Ask your admin to switch it back on.",
+  "rate-limited": "Too many attempts. Try again in a minute.",
+};
+const GOOGLE_ERROR_FALLBACK = "Google sign-in didn't finish. Please try again.";
+
 // Optimised copies (1200px tall, ~90KB) of the /images Pexels originals live in
 // admin/public/login/ — every auth screen shows the FIRST entry, deterministically,
 // so the way in always looks the same (design-consolidation Phase 2, audit A4).
@@ -81,6 +108,8 @@ export async function mount(root, { setState }) {
             </label>
             <p class="js-err text-negative text-sm" hidden></p>
             <button type="submit" class="btn js-submit">Log in</button>
+            <p class="intake-or">or</p>
+            ${googleButtonHtml()}
           </form>
           <p class="text-ink-dim text-sm">
             No account?
@@ -106,6 +135,15 @@ export async function mount(root, { setState }) {
   function showError(message) {
     err.textContent = message;
     err.hidden = false;
+  }
+
+  // A failed Google round-trip lands back here with ?error=<code> (google-signin
+  // Phase 2). Show the friendly line in the normal error spot, then tidy the URL
+  // so a refresh doesn't re-scold.
+  const googleError = new URLSearchParams(window.location.search).get("error");
+  if (googleError) {
+    showError(GOOGLE_ERROR_COPY[googleError] || GOOGLE_ERROR_FALLBACK);
+    history.replaceState(null, "", window.location.pathname);
   }
 
   async function onSubmit(e) {

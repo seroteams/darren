@@ -31,7 +31,7 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ GREEN-LIT 2026-07-25 (Carl walked fresh-signup + existing-link with real Google accounts; both verified in DB). Phase 2 (buttons on login/register) 🔨 started same day on Carl's "shall we go". Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · Suite 185/185, typecheck + lint:copy clean. NOTE: STATUS.md not yet updated — lane held by another live chat (design-consolidation); fold in when it frees.
+Phase 1 ✅ GREEN-LIT 2026-07-25. Phase 2 BUILT same day (suite 186/186, both typechecks, both linters; real-screen proof on both apps + phone width + error copy) — awaiting Carl's QA walk. Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · NOTE: STATUS.md not yet updated — lane held by another live chat (design-consolidation); fold in when it frees.
 
 ## Parked
 - Google button on the invite-join page and the public welcome page (Carl chose login + signup first, 2026-07-25).
