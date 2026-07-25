@@ -1,0 +1,12 @@
+# The raw screenshots from the 25 Jul 2026 full-app audit: 462 PNGs, ~174MB. Far too heavy
+# for the repo, and regenerable — the scripts that produced them are described in report.html's
+# Method section. Kept locally so any finding can be re-checked against the actual pixels.
+shots/
+cta-shots/
+p1-proof/
+p2-check/
+repro/
+
+# The base64 payload that artifact.html was built from. artifact.html itself IS committed and
+# is self-contained (956KB, images inlined), so this intermediate adds nothing.
+embedded.json

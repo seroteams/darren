@@ -10,8 +10,10 @@ stops the edit and surfaces a warning instead of ploughing in.
 |---------|------|-------|---------|
 | 0e03aa19 | Design consolidation P7 (re-audit + close) | docs/plans/doing/design-consolidation/, STATUS.md, audits/design-audit-2026-07/, docs/screen-gallery/ | 2026-07-24 |
 | 35146fdf | Carl Method portable pack | docs/carl-method/ | 2026-07-25 |
-| 794bbf0e | New-manager onboarding deep dive (research + mockups, no app code yet) | docs/plans/doing/onboarding-firstrun/ | 2026-07-25 |
-| 327fe027 | Start screen: move Log in below Create account | frontend/src/stages/welcome.ts, frontend/src/stages/welcome.test.ts | 2026-07-25 |
+| 794bbf0e | Onboarding first-run P2 (brief-first welcome + video) | docs/plans/doing/onboarding-firstrun/, admin/src/stages/start-core.js, admin/src/stages/start-core.test.ts, admin/src/stages/start-welcome.ts, admin/src/stages/start-welcome.test.ts, admin/src/styles/design/start-stage.css, backend/api/middleware/security-headers.ts, backend/tests/runs/test-security-headers.js | 2026-07-25 |
+| 23b1137e | Audit fix-up P2 (shell + layout) | docs/plans/doing/audit-fixes-jul-25/, admin/src/boot-shell.js, admin/src/styles/design/app-nav.css, admin/src/styles/design/layout.css, admin/src/styles/design/flow-kit.css, admin/src/ui/page-header.ts, admin/src/ui/page-header.test.ts, admin/src/ui/session-topbar.ts | 2026-07-25 |
+| 49a426fe | Admin split: live = console only + router dead code | admin/src/router.js, admin/src/router.test.ts, admin/src/ui/app-nav.js, admin/src/stages/start.js, admin/src/stages/test.js, admin/src/stages/guide.js, frontend/vite.config.js | 2026-07-25 |
+| 327fe027 | Front-door polish: password field line + login footer alignment | admin/src/stages/login.js, admin/src/stages/register.js, admin/src/stages/reset-password.js, admin/src/stages/auth-screens.test.ts, admin/src/styles/design/auth.css, admin/src/styles/design/buttons-inputs.css | 2026-07-25 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

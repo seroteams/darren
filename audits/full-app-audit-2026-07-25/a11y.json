@@ -1,0 +1,5272 @@
+[
+  {
+    "role": "guest",
+    "route": "/",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Prep my 1:1 free, no account",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-try-guest"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      }
+    ],
+    "contrastCount": 3,
+    "small": [
+      {
+        "t": "Log in",
+        "w": 46,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Privacy",
+        "w": 56,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 3,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "guest",
+    "route": "/login",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Log in",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-submit"
+      },
+      {
+        "text": "or",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "intake-or"
+      },
+      {
+        "text": "Try it free. No account needed",
+        "px": 16,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "button",
+        "cls": "link js-try-guest"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      }
+    ],
+    "contrastCount": 5,
+    "small": [
+      {
+        "t": "Forgot password?",
+        "w": 119,
+        "h": 21,
+        "tag": "button"
+      },
+      {
+        "t": "Show password",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Admin",
+        "w": 48,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Member",
+        "w": 63,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Create one",
+        "w": 84,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Try it free. No account needed",
+        "w": 232,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 7,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "guest",
+    "route": "/register",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "(optional)",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "text-ink-mute"
+      },
+      {
+        "text": "(at least 8 characters)",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "text-ink-mute"
+      },
+      {
+        "text": "Create account",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-submit"
+      },
+      {
+        "text": "or",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "intake-or"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      }
+    ],
+    "contrastCount": 6,
+    "small": [
+      {
+        "t": "Show password",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Read the privacy note",
+        "w": 167,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Log in",
+        "w": 46,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 4,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "guest",
+    "route": "/forgot-password",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Send reset link",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-submit"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      }
+    ],
+    "contrastCount": 3,
+    "small": [
+      {
+        "t": "Back to log in",
+        "w": 103,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 3,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "guest",
+    "route": "/privacy",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      }
+    ],
+    "contrastCount": 3,
+    "small": [
+      {
+        "t": "Create account",
+        "w": 104,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "carl@seroteams.com",
+        "w": 161,
+        "h": 20,
+        "tag": "a"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 3,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "page-header__step"
+      },
+      {
+        "text": "Start a new 1:1",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-startnew"
+      },
+      {
+        "text": "See all past 1:1s",
+        "px": 14,
+        "ratio": 2.42,
+        "need": 4.5,
+        "color": "rgb(90, 169, 230)",
+        "tag": "button",
+        "cls": "start-seeall js-see-all"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 6,
+    "small": [
+      {
+        "t": "More actions for this 1:1",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for this 1:1",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for this 1:1",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "See all past 1:1s",
+        "w": 107,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 6,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/team",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "page-header__step"
+      },
+      {
+        "text": "Add person",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-add"
+      },
+      {
+        "text": "GO",
+        "px": 15,
+        "ratio": 4.49,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "team-card__avatar team-card__avatar--non"
+      },
+      {
+        "text": "Not on Sero",
+        "px": 14,
+        "ratio": 4.49,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "DR",
+        "px": 15,
+        "ratio": 4.49,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "team-card__avatar team-card__avatar--non"
+      },
+      {
+        "text": "MB",
+        "px": 15,
+        "ratio": 4.49,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "team-card__avatar team-card__avatar--non"
+      },
+      {
+        "text": "SM",
+        "px": 15,
+        "ratio": 4.49,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "team-card__avatar team-card__avatar--non"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 13,
+    "small": [
+      {
+        "t": "Grace Okafor",
+        "w": 106,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Invite",
+        "w": 45,
+        "h": 28,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for Grace Okafor",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Daniel Reyes",
+        "w": 103,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Invite",
+        "w": 45,
+        "h": 28,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for Daniel Reyes",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Marcus Bell",
+        "w": 94,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Invite",
+        "w": 45,
+        "h": 28,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for Marcus Bell",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Nina Petrova",
+        "w": 103,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Change",
+        "w": 61,
+        "h": 28,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for Nina Petrova",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Sofia Marin",
+        "w": 92,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Invite",
+        "w": 45,
+        "h": 28,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for Sofia Marin",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 17,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/members",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Account",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "page-header__step"
+      },
+      {
+        "text": "Invite people",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-invite"
+      },
+      {
+        "text": "Member",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Role",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Status",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "member",
+        "px": 14,
+        "ratio": 4.12,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "um-badge um-badge--member"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 10,
+    "small": [
+      {
+        "t": "Manage Audit Admin",
+        "w": 34,
+        "h": 23,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Audit Manager",
+        "w": 34,
+        "h": 23,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Audit Member",
+        "w": 34,
+        "h": 23,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Carl",
+        "w": 34,
+        "h": 23,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Dev Manager",
+        "w": 34,
+        "h": 23,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Dev Member",
+        "w": 34,
+        "h": 23,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 8,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/runs",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Start 1:1",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-start"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 4,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/new",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Pick someone from your team, or add someone ",
+        "px": 16,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "hint mb-3"
+      },
+      {
+        "text": "or pick from your team",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "intake-or"
+      },
+      {
+        "text": "Continue",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-wf-continue"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "session-topbar__avatar"
+      }
+    ],
+    "contrastCount": 6,
+    "small": [
+      {
+        "t": "Discard",
+        "w": 51,
+        "h": 21,
+        "tag": "button"
+      },
+      {
+        "t": "Show 1 more",
+        "w": 103,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 4,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/home",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Your space",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "page-header__step"
+      },
+      {
+        "text": "Add request",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 5,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/about",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Start 1:1",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-start"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 4,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/feedback",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Send",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-submit"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 4,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "manager",
+    "route": "/privacy",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 4,
+    "small": [
+      {
+        "t": "Home",
+        "w": 39,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "carl@seroteams.com",
+        "w": 161,
+        "h": 20,
+        "tag": "a"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 4,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "member",
+    "route": "/home",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Your space",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "page-header__step"
+      },
+      {
+        "text": "Only the date and 1:1 type are recorded here",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Add request",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 6,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "member",
+    "route": "/about",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 3,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "member",
+    "route": "/feedback",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "Send",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-submit"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 4,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "member",
+    "route": "/privacy",
+    "app": "customer",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 4,
+    "small": [
+      {
+        "t": "Your 1:1s",
+        "w": 59,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "carl@seroteams.com",
+        "w": 161,
+        "h": 20,
+        "tag": "a"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 4,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/pulse",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "View all →",
+        "px": 14,
+        "ratio": 2.52,
+        "need": 4.5,
+        "color": "rgb(90, 169, 230)",
+        "tag": "button",
+        "cls": "lp-viewall js-all-managers"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 10,
+    "small": [
+      {
+        "t": "View all →",
+        "w": 70,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "View all →",
+        "w": 70,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 4,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 1,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/library",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Person",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "button",
+        "cls": "lt-sort js-lt-sort"
+      },
+      {
+        "text": "Role",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "button",
+        "cls": "lt-sort js-lt-sort"
+      },
+      {
+        "text": "Verdict",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Judged",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "button",
+        "cls": "lt-sort js-lt-sort"
+      },
+      {
+        "text": "Date",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "button",
+        "cls": "lt-sort js-lt-sort lt-sort--desc"
+      },
+      {
+        "text": "Actions",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "sr-only"
+      },
+      {
+        "text": "Unreviewed",
+        "px": 14,
+        "ratio": 3.93,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "lib-badge lib-badge--muted"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 46,
+    "small": [
+      {
+        "t": "All",
+        "w": 43,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Unreviewed",
+        "w": 106,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Keep",
+        "w": 60,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Fix",
+        "w": 45,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Block",
+        "w": 63,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Person",
+        "w": 47,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Role",
+        "w": 29,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Judged",
+        "w": 51,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Date",
+        "w": 45,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for this run",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Grace Okafor",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for this run",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Daniel Reyes",
+        "w": 87,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for this run",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for this run",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "More actions for this run",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Marcus Bell",
+        "w": 79,
+        "h": 22,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 75,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/runs",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Start 1:1",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-start"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 9,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/team",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "div",
+        "cls": "page-header__step"
+      },
+      {
+        "text": "Add person",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-add"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 10,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/compare",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "vs",
+        "px": 16,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "text-ink-mute"
+      },
+      {
+        "text": "Load",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-load"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 10,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/design",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Colour versions. All from our tokens, marks ",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "label"
+      },
+      {
+        "text": "▶ Open 1:1",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "Disabled",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "One filled-blue button per screen. Everythin",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Checked = action blue, always. Checkbox for ",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Native pickers, Sero-styled. Displayed dates",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Mon 18 Nov 2024",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "strong",
+        "cls": ""
+      },
+      {
+        "text": "The connection dropped. Your text is still h",
+        "px": 14,
+        "ratio": 4.33,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Success = toast, slides in bottom-right, gon",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "member",
+        "px": 14,
+        "ratio": 4.12,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "um-badge um-badge--member"
+      },
+      {
+        "text": "Whole row clickable · header muted · avatar ",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "✓",
+        "px": 16,
+        "ratio": 2.52,
+        "need": 4.5,
+        "color": "rgb(90, 169, 230)",
+        "tag": "span",
+        "cls": "ds-requestcard__icon"
+      },
+      {
+        "text": "Done stages get a green tick and stay clicka",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Invite someone",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "Prep James's 1:1",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "Header: eyebrow, Bricolage title, one quiet ",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "★",
+        "px": 24,
+        "ratio": 1.59,
+        "need": 3,
+        "color": "rgb(255, 194, 71)",
+        "tag": "button",
+        "cls": "ds-star"
+      },
+      {
+        "text": "★",
+        "px": 24,
+        "ratio": 1.59,
+        "need": 3,
+        "color": "rgb(204, 204, 204)",
+        "tag": "button",
+        "cls": "ds-star is-off"
+      },
+      {
+        "text": "Every score sits next to the sentence that e",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "To do · 2",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "label"
+      },
+      {
+        "text": "Doing · 1",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "label"
+      },
+      {
+        "text": "Done · 1",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "label"
+      },
+      {
+        "text": "One line, one accent, soft fill, sentence un",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Add a note",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-modal-open"
+      },
+      {
+        "text": "S",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "ds-brandbadge"
+      },
+      {
+        "text": "Open 1:1",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "Actions live once (in the footer), no traili",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "caption"
+      },
+      {
+        "text": "Log in",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      }
+    ],
+    "contrastCount": 40,
+    "small": [
+      {
+        "t": "on",
+        "w": 18,
+        "h": 18,
+        "tag": "input"
+      },
+      {
+        "t": "on",
+        "w": 18,
+        "h": 18,
+        "tag": "input"
+      },
+      {
+        "t": "on",
+        "w": 18,
+        "h": 18,
+        "tag": "input"
+      },
+      {
+        "t": "on",
+        "w": 18,
+        "h": 18,
+        "tag": "input"
+      },
+      {
+        "t": "on",
+        "w": 18,
+        "h": 18,
+        "tag": "input"
+      },
+      {
+        "t": "on",
+        "w": 18,
+        "h": 18,
+        "tag": "input"
+      },
+      {
+        "t": "Row actions",
+        "w": 30,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Row actions",
+        "w": 30,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Row actions",
+        "w": 30,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "See all",
+        "w": 45,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "★",
+        "w": 25,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "★",
+        "w": 25,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "★",
+        "w": 25,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "★",
+        "w": 25,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "★",
+        "w": 25,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "Help",
+        "w": 31,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Close",
+        "w": 29,
+        "h": 24,
+        "tag": "button"
+      },
+      {
+        "t": "View profile",
+        "w": 79,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Edit",
+        "w": 26,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Join Google Meet",
+        "w": 117,
+        "h": 22,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 23,
+    "noAlt": [],
+    "unnamed": [
+      "input.input[text]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": [
+      "ds-type"
+    ]
+  },
+  {
+    "role": "admin",
+    "route": "/test",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Test area · prototypes only. Mock data, noth",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "tg-note"
+      },
+      {
+        "text": "↗",
+        "px": 18,
+        "ratio": 2.52,
+        "need": 4.5,
+        "color": "rgb(90, 169, 230)",
+        "tag": "span",
+        "cls": "tg-card__ext"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 10,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/gallery",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 8,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 0,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/job-lexicons",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Pick a role to see its words.",
+        "px": 16,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "p",
+        "cls": "text-ink-mute"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 9,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/meeting-arcs",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 8,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/personas",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Persona",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Scenario",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Last run",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Run",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "sr-only"
+      },
+      {
+        "text": "Unreviewed",
+        "px": 14,
+        "ratio": 3.93,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "lib-badge lib-badge--muted"
+      },
+      {
+        "text": "Run",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn btn--sm js-run"
+      },
+      {
+        "text": "–",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "text-ink-mute"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 32,
+    "small": [
+      {
+        "t": "Re-check",
+        "w": 82,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Maya Chen",
+        "w": 77,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Rachel Singh",
+        "w": 89,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Jordan Kim",
+        "w": 77,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Liam Brooks",
+        "w": 84,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Grace Miller",
+        "w": 82,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Nina Patel",
+        "w": 70,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Samira Khan",
+        "w": 87,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Marcus Lee",
+        "w": 79,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Aisha Bello",
+        "w": 76,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Run",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 26,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/lexicon",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "Continue",
+        "px": 16,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "button",
+        "cls": "btn js-done"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 9,
+    "small": [
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 2,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/admin/gate1",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "Manager",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "First run",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Gap",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Last active",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Came back?",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 14,
+    "small": [
+      {
+        "t": "Pulse",
+        "w": 36,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "All",
+        "w": 43,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Came back",
+        "w": 103,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Ran once",
+        "w": 89,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "No runs yet",
+        "w": 103,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Web Courses Bangkok",
+        "w": 153,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "P5 Walker",
+        "w": 69,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Loop Test Mgr",
+        "w": 97,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "P2 Tester",
+        "w": 64,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "PW Test",
+        "w": 56,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "PW Test",
+        "w": 56,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "QA Overnight Owner",
+        "w": 140,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Test Manager 0715",
+        "w": 131,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Keep",
+        "w": 34,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Daniel",
+        "w": 43,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "User A",
+        "w": 45,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 18,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/admin/runs",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "Who",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Type",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Started",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Status",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Rating",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 14,
+    "small": [
+      {
+        "t": "Pulse",
+        "w": 36,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "All",
+        "w": 43,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "External",
+        "w": 82,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Internal",
+        "w": 77,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Guest",
+        "w": 66,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Audit Manager",
+        "w": 101,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Audit Manager",
+        "w": 101,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Audit Manager",
+        "w": 101,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Manager",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Manager",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Manager",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Audit Manager",
+        "w": 101,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Guest",
+        "w": 40,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Audit Manager",
+        "w": 101,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Victim",
+        "w": 43,
+        "h": 22,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 69,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/admin/ratings",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "Who",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Type",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Date",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Stars",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Note",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 14,
+    "small": [
+      {
+        "t": "Pulse",
+        "w": 36,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "All",
+        "w": 43,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "5 stars",
+        "w": 73,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "4 stars",
+        "w": 73,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "3 stars",
+        "w": 73,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Low (≤2)",
+        "w": 86,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Manager",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Manager",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Manager",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Member",
+        "w": 86,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Member",
+        "w": 86,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 14,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/admin/registered",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "User",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Company",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Role",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Activity",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "internal",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "um-badge um-badge--internal"
+      },
+      {
+        "text": "member",
+        "px": 14,
+        "ratio": 4.12,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "um-badge um-badge--member"
+      },
+      {
+        "text": "•",
+        "px": 11.9,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "um-trend um-trend--quiet"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 45,
+    "small": [
+      {
+        "t": "Pulse",
+        "w": 36,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "Admin",
+        "w": 69,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Manager",
+        "w": 87,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Member",
+        "w": 82,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Active",
+        "w": 68,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Deactivated",
+        "w": 108,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Carl",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Audit Manager",
+        "w": 101,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Audit Manager",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Carl",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Manager",
+        "w": 91,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Dev Manager",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Dev Member",
+        "w": 86,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Dev Member",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "P2 Tester",
+        "w": 64,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Manage P2 Tester",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Audit Admin",
+        "w": 83,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Manage Audit Admin",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 52,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/admin/feedback",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "11",
+        "px": 14,
+        "ratio": 4.1,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "fb-tab__n"
+      },
+      {
+        "text": "C",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "div",
+        "cls": "fb-avatar"
+      },
+      {
+        "text": "D",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "div",
+        "cls": "fb-avatar"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 21,
+    "small": [
+      {
+        "t": "Pulse",
+        "w": 36,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "New 11",
+        "w": 78,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Done 0",
+        "w": 79,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Archived 0",
+        "w": 103,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "All 11",
+        "w": 65,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "Actions for this note",
+        "w": 34,
+        "h": 26,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 18,
+    "noAlt": [],
+    "unnamed": [],
+    "unnamedCount": 0,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/admin/guests",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "Who",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Type",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "Last seen",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "th",
+        "cls": ""
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 12,
+    "small": [
+      {
+        "t": "Pulse",
+        "w": 36,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "Carl DB",
+        "w": 51,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Brash",
+        "w": 40,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Tongo",
+        "w": 42,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Carl",
+        "w": 28,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Maya",
+        "w": 38,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Priya",
+        "w": 35,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Priya",
+        "w": 35,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Aisha",
+        "w": 39,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Ben",
+        "w": 26,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Marcus",
+        "w": 51,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Jordan",
+        "w": 48,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Maya",
+        "w": 38,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Jordan",
+        "w": 48,
+        "h": 22,
+        "tag": "button"
+      },
+      {
+        "t": "Alex",
+        "w": 30,
+        "h": 22,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 22,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  },
+  {
+    "role": "admin",
+    "route": "/admin/errors",
+    "app": "admin",
+    "contrast": [
+      {
+        "text": "›",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "crumb__sep"
+      },
+      {
+        "text": "103",
+        "px": 14,
+        "ratio": 4.1,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "el-filter__n"
+      },
+      {
+        "text": "Where",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "el-control__label"
+      },
+      {
+        "text": "118",
+        "px": 14,
+        "ratio": 4.1,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "el-filter__n"
+      },
+      {
+        "text": "Source",
+        "px": 14,
+        "ratio": 4.38,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "el-control__label"
+      },
+      {
+        "text": "Local",
+        "px": 14,
+        "ratio": 4.12,
+        "need": 4.5,
+        "color": "rgb(117, 117, 117)",
+        "tag": "span",
+        "cls": "el-pill el-pill--local"
+      },
+      {
+        "text": "build",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "· Jul 25 16:37",
+        "px": 14,
+        "ratio": 4.06,
+        "need": 4.5,
+        "color": "rgb(148, 163, 184)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 18,
+        "ratio": 4.31,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.7)",
+        "tag": "span",
+        "cls": "app-nav__tagline"
+      },
+      {
+        "text": "Work",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Engine",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Build",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "Operate",
+        "px": 14,
+        "ratio": 3.29,
+        "need": 4.5,
+        "color": "rgba(255, 255, 255, 0.55)",
+        "tag": "span",
+        "cls": ""
+      },
+      {
+        "text": "A",
+        "px": 14,
+        "ratio": 2.54,
+        "need": 4.5,
+        "color": "rgb(255, 255, 255)",
+        "tag": "span",
+        "cls": "profile-badge__avatar"
+      }
+    ],
+    "contrastCount": 116,
+    "small": [
+      {
+        "t": "Pulse",
+        "w": 36,
+        "h": 17,
+        "tag": "button"
+      },
+      {
+        "t": "Unresolved 103",
+        "w": 135,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Resolved 15",
+        "w": 111,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "All 118",
+        "w": 74,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "All 118",
+        "w": 74,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Local 118",
+        "w": 93,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Live 0",
+        "w": 71,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "All",
+        "w": 45,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "API",
+        "w": 51,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "Browser",
+        "w": 83,
+        "h": 32,
+        "tag": "button"
+      },
+      {
+        "t": "build 4e746ca9 · Jul 25 16:37",
+        "w": 243,
+        "h": 27,
+        "tag": "button"
+      },
+      {
+        "t": "Collapse menu",
+        "w": 28,
+        "h": 28,
+        "tag": "button"
+      }
+    ],
+    "smallCount": 12,
+    "noAlt": [],
+    "unnamed": [
+      "input.list-toolbar__search[search]"
+    ],
+    "unnamedCount": 1,
+    "hSkips": 0,
+    "h1count": 1,
+    "dupIds": []
+  }
+]

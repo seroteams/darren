@@ -53,6 +53,28 @@ Board: https://claude.ai/code/artifact/b01de778-a0b8-4cf7-b65d-48fdbd1f71f1 (`bo
 
 **Baseline, taken 2026-07-25 before any edit:** `npm test` 186/186, `npm run typecheck` clean, `lint:copy` PASS, `lint:tokens` PASS. Nothing was already red, so anything that breaks from here is ours. Same four checks all still green after the phase.
 
+## 📍 HANDOVER — written 2026-07-25 for the next session
+
+Read this first. Carl approved **option A** and then asked for a fresh chat, so the next session builds Phase 2. Nothing is half-finished: every commit is clean and no app code is uncommitted.
+
+**Do this, in order**
+
+1. Claim a lane in [LANES.md](../../../LANES.md) for `admin/src/ui/page-header.ts`, `admin/src/ui/page-header.test.ts` and the flow-stage CSS. ⚠️ Do NOT touch `admin/src/ui/app-nav.js`, `router.js`, `stages/start.js`, `stages/test.js` or `stages/guide.js` — lane `49a426fe` holds those and had them modified while this plan was running.
+2. Read [phase-2.md](phase-2.md) in full. It has been re-scoped: **two changes, not three**, and it explains why.
+3. Build only those two:
+   - **F4** — a `min-height` on `.page-header` so the actions row centres clear of the profile badge's y 12→52 band even when a screen has no lede. Proven cause: no lede → 48px header → actions centre at y 48 → under the fixed badge. `document.elementFromPoint` at the button's top-left currently returns `DIV.profile-badge profile-badge--menu` on Past 1:1s.
+   - **F13 (design call, not a bug)** — the flow stages drop the left rail so a 1:1 gets the whole width, the way the guest lane already does. Guest column: 432→1008 of 1440. Manager today: 556→1132, which is correctly centred beside the rail, so the win is the rail going away, not re-centring.
+4. Verify by paint, not by geometry, and not from a full-page screenshot (see the warning below). Then hand Carl the scenarios at the bottom of phase-2.md and wait.
+
+**The lesson that cost this plan a finding.** F3 ("the sidebar stops halfway down long pages") was retracted before building. `.app-nav` is `position: fixed`, so in a `fullPage: true` screenshot it paints once at the top and *looks* like it stops after one screen. A follow-up check then measured the shell wrapper instead of the rail and read its 900px height as proof. **For anything layout-related: capture the viewport after scrolling, and confirm with `document.elementFromPoint`.** F13's arithmetic was wrong for a related reason: 248px rail + (1192 − 576)/2 = 556, so the column was centred all along.
+
+**The environment this was verified in** (all free, no OpenAI calls):
+- `.claude/launch.json` has `audit-api` (:3261), `audit-web` (admin, :3263), `audit-customer` (:3265) and `audit-report` (static server for the audit folder, :4193).
+- Three accounts in the Sero (dev) org, password `SeroAudit2026!`: `audit.admin@seroteams.com` (admin + on the superadmin allowlist via the launch config), `audit.manager@seroteams.com` (5 cloned 1:1s, 5-person team), `audit.member@seroteams.com` (linked to the roster person Nina Petrova).
+- ⚠️ The audit accounts and their seeded people/runs are still in the dev database. They show up in Members and User management. Harmless, and useful for re-checking findings, but they are not real data.
+
+**The audit itself:** `audits/full-app-audit-2026-07-25/`. The JSON, `report.html` and `artifact.html` are committed; the 462 screenshots are git-ignored (174MB) and exist locally only. Phone version of the report: https://claude.ai/code/artifact/28b1ae68-48c1-402e-ac60-bd123d072b53
+
 **Tracker note:** STATUS.md was NOT updated at this phase close. It is claimed by another live chat (lane `0e03aa19`, design-consolidation P7), so editing it would sweep their work. Carl decides when that lane clears; the tick belongs to Phase 1 whenever it happens.
 
 ## Parked
