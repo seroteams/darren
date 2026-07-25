@@ -56,7 +56,7 @@ export function contentWords(text: unknown): string[] {
     .filter((w) => !STOP_WORDS.has(w));
 }
 
-export function ngramSet(words: string[], n: number): Set<string> {
+function ngramSet(words: string[], n: number): Set<string> {
   const out = new Set<string>();
   for (let i = 0; i <= words.length - n; i += 1) {
     out.add(words.slice(i, i + n).join(" "));

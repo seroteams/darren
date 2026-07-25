@@ -9,6 +9,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | 0e03aa19 | Design consolidation P7 (re-audit + close) | docs/plans/doing/design-consolidation/, STATUS.md, audits/design-audit-2026-07/, docs/screen-gallery/ | 2026-07-24 |
+| 17d7a976 | Refactor programme (P1 committed, P2 next) | docs/plans/doing/refactor-2026-07/ | 2026-07-25 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

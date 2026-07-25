@@ -94,9 +94,6 @@ export interface PulseManager {
   status: "back" | "once" | "none" | "internal";
 }
 
-/** The Pulse dashboard's selectable time windows (design-consolidation P6, D7). */
-export const PULSE_RANGES = [7, 30, 90] as const;
-
 /** The founder Pulse payload (admin-live-deploy Phase 3; range-aware since
  *  design-consolidation P6): one screen's worth of the live site — the Gate-1 return
  *  number, managers, run volume + type mix, drop-offs, guests, errors, and the latest

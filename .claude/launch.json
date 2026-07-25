@@ -48,16 +48,6 @@
       "port": 4183
     },
     {
-      "name": "verdict-review",
-      "runtimeExecutable": "node",
-      "runtimeArgs": [
-        "scripts/serve-static.js",
-        "logs/benchmark/messy-12",
-        "4178"
-      ],
-      "port": 4178
-    },
-    {
       "name": "sero-web",
       "runtimeExecutable": "node",
       "runtimeArgs": [
@@ -305,34 +295,6 @@
       "port": 3133
     },
     {
-      "name": "sero-api-coach",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "cross-env",
-        "API_PORT=3141",
-        "DEV_AUTOLOGIN=1",
-        "SUPERADMIN_EMAILS=dev@seroteams.com",
-        "SERO_CASSETTE_REPLAY=C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Documents-Sero-darren\\5d716aaf-0d07-4498-a9d8-26026dc72482\\scratchpad\\coach-cassette",
-        "node",
-        "backend/api/server.ts"
-      ],
-      "port": 3141
-    },
-    {
-      "name": "sero-web-coach",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "cross-env",
-        "API_PORT=3141",
-        "node",
-        "node_modules/vite/bin/vite.js",
-        "--port",
-        "3143",
-        "--strictPort"
-      ],
-      "port": 3143
-    },
-    {
       "name": "sero-api-mtypes",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -457,6 +419,33 @@
       "port": 3193
     },
     {
+      "name": "sero-api-role",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3221",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3221
+    },
+    {
+      "name": "sero-customer-role",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3221",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3223",
+        "--strictPort"
+      ],
+      "port": 3223
+    },
+    {
       "name": "sero-api-pill",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -482,18 +471,6 @@
         "--strictPort"
       ],
       "port": 3213
-    },
-    {
-      "name": "sero-prod-iso",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "cross-env",
-        "NODE_ENV=production",
-        "node",
-        "backend/api/server.js"
-      ],
-      "port": 3098,
-      "autoPort": true
     }
   ]
 }

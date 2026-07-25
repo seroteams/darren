@@ -50,7 +50,7 @@ const DECLINE_PHRASES = [
 
 // Normalize a note before phrase-matching: lowercase, drop punctuation, collapse
 // whitespace. Keeps matching safe and exact-ish rather than broad.
-export function normalizeAnswer(s: unknown): string {
+function normalizeAnswer(s: unknown): string {
   return String(s || "")
     .toLowerCase()
     .replace(/[^\w\s]/g, " ")

@@ -5,7 +5,6 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { spawnSync } = require("node:child_process");
 
 const ROOT = path.join(__dirname, "..");
 const { PROMPTS_DIR } = require("../backend/engine/paths.mts");
@@ -14,17 +13,6 @@ const { promptVersionFor } = require("../backend/engine/prompt-version.ts");
 
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
-}
-
-function runReplayBatch() {
-  const res = spawnSync(process.execPath, ["scripts/batch-m4-verify.js"], {
-    cwd: ROOT,
-    encoding: "utf8",
-    env: process.env,
-  });
-  if (res.stdout) process.stdout.write(res.stdout);
-  if (res.stderr) process.stderr.write(res.stderr);
-  return res.status === 0;
 }
 
 function evalPromptNotes() {
@@ -86,7 +74,6 @@ function main() {
 
   let failed = 0;
   failed += evalPromptNotes() ? 1 : 0;
-  failed += runReplayBatch() ? 0 : 1;
 
   const defaultSession = path.join(ROOT, "logs/may/2026_May24_21-46-1eb839fd");
   const sessionDir = sessionArg

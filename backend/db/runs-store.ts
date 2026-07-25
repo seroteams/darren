@@ -213,7 +213,7 @@ export function toMemberRow(r: DbRun): Record<string, unknown> {
   };
 }
 
-export function toAboutPersonRow(r: DbRun): Record<string, unknown> {
+function toAboutPersonRow(r: DbRun): Record<string, unknown> {
   return {
     id: r.id,
     meetingType: asString(asRecord(r.state.ctx).meetingType),
@@ -223,7 +223,7 @@ export function toAboutPersonRow(r: DbRun): Record<string, unknown> {
   };
 }
 
-export function toUserRunRow(r: DbRun): {
+function toUserRunRow(r: DbRun): {
   id: string;
   headline: string;
   ctx: { name: string; role: string; seniority: string; meetingType: string };
@@ -805,7 +805,7 @@ export async function pgReadStageText(
   return artifactText(numbered[numbered.length - 1]);
 }
 
-export async function pgReadPipelineLock(id: string): Promise<unknown> {
+async function pgReadPipelineLock(id: string): Promise<unknown> {
   const row = await rowByKey(id);
   if (!row) return null;
   const lock = artifactValue(pick(await artifactsFor(row.id), "", "pipeline-lock.json"));

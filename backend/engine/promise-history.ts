@@ -156,7 +156,7 @@ const STATE_FILE = "session-state.json";
 
 // File-store write-back: fence, apply, rewrite the prior run's state file.
 // False when the run is missing, foreign, or nothing landed.
-export function fileWritePromiseOutcomes(
+function fileWritePromiseOutcomes(
   runId: string,
   { userId, personId }: { userId?: string | null; personId?: string | null },
   taps: OutcomeTap[],

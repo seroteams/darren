@@ -21,7 +21,9 @@ function scanYamlQuestions(dir, subdir = "") {
     if (e.name.startsWith("_") && e.name.endsWith(".json")) continue;
     const full = path.join(dir, e.name);
     if (e.isDirectory()) {
-      if (e.name === "_archive") continue;
+      // Same skip set as the engine's scanYamlEntries (questions.ts): _runtime holds
+      // per-session run artifacts — never index material, never --prune candidates.
+      if (e.name === "_archive" || e.name === "_runtime") continue;
       out.push(...scanYamlQuestions(full, subdir ? `${subdir}/${e.name}` : e.name));
     } else if (e.name.endsWith(".yaml")) {
       out.push({ alias: e.name.replace(/\.yaml$/, ""), subdir, path: full });
