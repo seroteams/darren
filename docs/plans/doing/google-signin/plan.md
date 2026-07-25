@@ -31,7 +31,7 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1 + 2 ✅ GREEN-LIT 2026-07-25. Next: Phase 3 (live rollout) — waits on Carl's "go live": he enters GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET in the Render dashboard; the push carries the APP_BASE_URL → https://sero.team flip (state cookie must match the domain people sign in on). Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · NOTE: STATUS.md not yet updated — lane held by another live chat (design-consolidation); fold in when it frees.
+Phases 1 + 2 ✅ GREEN-LIT 2026-07-25. Phase 3 DEPLOYED same day on Carl's "go live" (push 62daeb6e; live build e7a05c1 contains it — verified via /api/version + live screenshot of the button on sero.team/login; APP_BASE_URL now https://sero.team). REMAINING: Carl enters GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET in the Render dashboard (live start route currently answers error=google-unavailable, the designed degrade), then his live walk (phase-3.md scenarios). Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · NOTE: STATUS.md not yet updated — lane held by another live chat (design-consolidation); fold in when it frees.
 
 ## Parked
 - Google button on the invite-join page and the public welcome page (Carl chose login + signup first, 2026-07-25).
