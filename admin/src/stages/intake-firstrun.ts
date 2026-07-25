@@ -17,8 +17,21 @@ const STEPS: Array<{ title: string; body: string }> = [
   { title: "Your prep brief", body: "A focused plan: how to open, what to explore, what to listen for." },
 ];
 
-// The orientation card shown above the first intake step for a zero-run account.
-export function firstRunIntroHtml(): string {
+// An honest expectation. It is deliberately about the TYPING, not the whole flow:
+// welcome.ts claims "about two minutes" end to end and nobody has timed that
+// recently, so we don't repeat an unmeasured promise on a second screen.
+const TIME_LINE = "About two minutes of typing.";
+
+export interface FirstRunIntroOpts {
+  /** Home only: render an empty host for the screen's ONE blue button, so the
+   *  invitation and the way in are the same object. The intake screen leaves this
+   *  off and gets exactly the card it always had. */
+  actionSlot?: boolean;
+}
+
+// The orientation card shown above the first intake step for a zero-run account,
+// and (with actionSlot) as Home's zero-run invitation.
+export function firstRunIntroHtml(opts: FirstRunIntroOpts = {}): string {
   const steps = STEPS.map(
     (s, i) => `
       <li class="intake-firstrun__step">
@@ -29,11 +42,18 @@ export function firstRunIntroHtml(): string {
         </span>
       </li>`,
   ).join("");
+  const action = opts.actionSlot
+    ? `
+      <div class="intake-firstrun__action">
+        <span class="js-start-slot"></span>
+        <span class="text-ink-dim text-sm">${TIME_LINE}</span>
+      </div>`
+    : "";
   return `
     <div class="intake-firstrun card-flat">
       <div class="eyebrow">First time?</div>
       <div class="intake-firstrun__title">Your first prep, in three moves</div>
-      <ol class="intake-firstrun__steps">${steps}</ol>
+      <ol class="intake-firstrun__steps">${steps}</ol>${action}
     </div>
   `;
 }

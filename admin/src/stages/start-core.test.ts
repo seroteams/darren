@@ -112,6 +112,35 @@ test("empty, loading and failed-resume states survive the new layout", () => {
   assert.ok(SRC.includes("staleRunRecoveryHtml"), "failed resume heals in place");
 });
 
+// home-screen-truth Phase 2. The invitation card used to be injected as an <li> inside
+// the recents <ul>; once a row shows alongside it (Phase 3's example) the list card
+// would have wrapped a .card-flat, which is a nested card (DESIGN rule 10).
+test("the first-run card is a sibling of the list, never a cell inside it", () => {
+  assert.ok(SRC.includes("js-firstrun"), "the card has its own section");
+  assert.ok(!SRC.includes("start-firstrun-cell"), "the <li> host is gone");
+  assert.ok(!CSS.includes(".start-firstrun-cell"), "its style is gone too");
+  assert.ok(/firstRunHost\.innerHTML = firstRunIntroHtml/.test(SRC), "the card renders into that section");
+});
+
+test("the zero-run branch keys on realRuns, so Phase 3 is a one-line change", () => {
+  assert.ok(/const realRuns = runs/.test(SRC), "realRuns is the seam the demo filter lands on");
+  assert.ok(/const firstRun = realRuns\.length === 0/.test(SRC), "the invitation keys on real 1:1s, not every row");
+});
+
+test("the ONE blue button moves into the card; no second button is ever created", () => {
+  const accents = SRC.match(/class="btn js-/g) || [];
+  assert.equal(accents.length, 1, "still exactly one accent button in this screen's markup");
+  assert.ok(/slot\.appendChild\(startBtn\)/.test(SRC), "the existing node is moved, not re-rendered");
+  assert.ok(SRC.includes("Start your first 1:1"), "it says what it does for a newcomer");
+  assert.ok(/headerActions\.appendChild\(startBtn\)/.test(SRC), "and moves back to the header once there are 1:1s");
+});
+
+test("the lede stops promising a pick-up to someone with nothing to pick up", () => {
+  assert.ok(SRC.includes("Pick up where you left off, or start a new one."), "returning copy kept");
+  assert.ok(/LEDE_FIRST_RUN[\s\S]{0,120}rough notes/.test(SRC), "a newcomer gets first-run copy instead");
+  assert.ok(/lede\.textContent = firstRun \?/.test(SRC), "the header lede follows the state");
+});
+
 test("the accordion CSS is deleted; the new list card recipe exists", () => {
   for (const cls of [".run-row__head", ".run-row__body", ".run-row__overview", ".run-row__actions"]) {
     assert.ok(!CSS.includes(cls), `${cls} deleted`);

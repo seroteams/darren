@@ -37,7 +37,7 @@ In scope: prepare → questions → summary. Out and staying out: scheduling, at
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Rows that tell the truth | Bold person name, quiet "type · date" line, "Half done" chip hoisted to the top, a real error state | ✅ |
-| 2 | One obvious way in | The first-run card gets the single blue button inside it, moved out of the list, state-aware lede | ⬜ |
+| 2 | One obvious way in | The first-run card gets the single blue button inside it, moved out of the list, state-aware lede | ✅ |
 | 3 | The example, labelled | `isDemo` on the payload and an "Example" chip on the seeded row | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -46,7 +46,9 @@ In scope: prepare → questions → summary. Out and staying out: scheduling, at
 
 **Phase 1 ✅ green-lit 2026-07-25.** Home rows now lead with the person's name (no email, no middot blob), an unfinished prep is chipped "Half done" and hoisted to the top, a failed fetch says so instead of claiming you have never run a 1:1, and the stale-resume recovery card can no longer multiply. Baseline before the work was `npm test` 184/185 (the single failure was another chat's in-flight duplicate `rehydrateById` in `frontend/src/main.js`, since fixed by them). After: 186/186, typecheck clean, both lint guards PASS, no paid runs. Live proof recorded in [phase-1.md](phase-1.md).
 
-**Next: Phase 2 (One obvious way in).** Not started; waits for Carl to say go.
+**Phase 2 ✅ green-lit 2026-07-25.** A manager with no 1:1s now gets the "First time?" card with the screen's one blue button inside it (the same DOM node, moved, so no second accent can exist), the card sits outside the recents list so nothing can nest, and the header lede stops promising a pick-up to someone with nothing to pick up.
+
+**Next: Phase 3 (The example, labelled).** Needs `run-history.ts` + `runs-store.ts`; check [LANES.md](../../../../LANES.md) before starting.
 
 ## Parked
 

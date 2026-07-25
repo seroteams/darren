@@ -1,6 +1,26 @@
 # Phase 2 — One obvious way in
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done
+
+## ✅ GREEN-LIT 2026-07-25 — Carl walked the zero-run Home and signed it off
+
+## Built (2026-07-25)
+
+**Files**
+- `admin/src/stages/intake-firstrun.ts` — `firstRunIntroHtml(opts)` gains `actionSlot`, which renders an empty `.js-start-slot` plus the honest time line "About two minutes of typing." Default off, so `intake.js` gets byte-identical output to before.
+- `admin/src/stages/start-core.js` — new `<section class="js-firstrun" hidden>` between the header and the recents list; the card renders there instead of as an `<li>` inside the `<ul>`. `placeStartButton()` MOVES the single existing button node between the header and the card slot (relabelling it), so no second button is ever created. `realRuns` seam added for Phase 3. State-aware lede. The false "press Enter / Start" comment is gone. The error branch also resets the card and the button.
+- `admin/src/styles/design/start-stage.css` — `.start-firstrun-cell` deleted, `.intake-firstrun__action` added, tokens only.
+- Tests: 4 new in `intake-firstrun.test.ts` (including one proving the intake screen is unchanged), 4 new in `start-core.test.ts`.
+
+**Offline proof** — `npm test` 186/186 · `npm run typecheck` clean · `lint:tokens` PASS · `lint:copy` PASS. No paid runs.
+
+**Live proof** on the running customer app (`localhost:3173`), forcing `/runs/recent` to return zero runs:
+- Zero-run: `{cardShown: true, cardInsideList: false, buttonLabel: "Start your first 1:1", buttonInsideCard: true, buttonsInHeader: 0, solidBlueOnScreen: 1}`, lede reads "Type a few rough notes...", "Recent 1:1s" label and "See all past 1:1s" both hidden.
+- Back to populated: `{cardShown: false, buttonLabel: "Start a new 1:1", buttonInHeader: true, rows: 3, solidBlue: 1}`, lede back to "Pick up where you left off...".
+- The moved button keeps its wiring: clicking it from inside the card lands on `/new`, "Who are you prepping for?".
+- 375px: no sideways page scroll, card and button fit, 48px tap target, every text 14px or above.
+
+**Not verified** — no pixel screenshot; the Browser pane is not displayed in this session, so the evidence above is read from the live rendered DOM and computed styles.
 
 ## Goal
 

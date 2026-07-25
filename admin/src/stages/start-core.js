@@ -44,6 +44,8 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
       ${bench ? bench.html : ""}
 
+      <section class="js-firstrun" hidden></section>
+
       <section class="l-stack l-stack--2">
         <div class="eyebrow js-recent-label">Recent 1:1s</div>
         <div class="js-load-error" hidden></div>
@@ -57,8 +59,35 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
   const recentLabel = root.querySelector(".js-recent-label");
   const seeAll = root.querySelector(".js-see-all");
   const errorHost = root.querySelector(".js-load-error");
+  const firstRunHost = root.querySelector(".js-firstrun");
+  const lede = root.querySelector(".page-header__lede");
+  const headerActions = root.querySelector(".page-header__actions");
+  const startBtn = root.querySelector(".js-startnew");
 
   let runs = [];
+
+  // "Pick up where you left off" is false for someone with nothing to pick up.
+  const LEDE_RETURNING = "Pick up where you left off, or start a new one.";
+  const LEDE_FIRST_RUN = "Type a few rough notes. Sero turns them into a brief for the conversation.";
+
+  // The screen has exactly ONE blue button and it is the same DOM node in every state
+  // (DESIGN rule 3, guarded by start-core.test.ts's source count). With nothing to show
+  // it MOVES into the invitation card, so the card and the way in are one object; once
+  // there are 1:1s it moves back to the header. Moving keeps its click wiring bound.
+  //
+  // On the admin app the bench owns the accent, so there is no button to move and the
+  // card gets none. Correct: internal QA is not the first-run audience.
+  function placeStartButton(intoCard) {
+    if (!startBtn) return;
+    const slot = intoCard ? firstRunHost.querySelector(".js-start-slot") : null;
+    if (slot) {
+      slot.appendChild(startBtn);
+      startBtn.textContent = "Start your first 1:1";
+    } else if (headerActions && startBtn.parentElement !== headerActions) {
+      headerActions.appendChild(startBtn);
+      startBtn.textContent = "Start a new 1:1";
+    }
+  }
 
   // Internal QA verdict vocabulary ("Reviewed" / "Review half-done" from review.json).
   // It means nothing to a manager and would sit next to the prep-status chip saying
@@ -103,6 +132,12 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.innerHTML = "";
     if (recentLabel) recentLabel.hidden = true;
     if (seeAll) seeAll.hidden = true;
+    // We don't know what they have, so don't greet them as a newcomer. The button
+    // goes back to the header where it always is for a returning manager.
+    firstRunHost.hidden = true;
+    firstRunHost.innerHTML = "";
+    placeStartButton(false);
+    if (lede) lede.textContent = LEDE_RETURNING;
     errorHost.hidden = false;
     errorHost.innerHTML = errorCardHtml({
       title: "Couldn't load your 1:1s",
@@ -119,16 +154,27 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.setAttribute("aria-busy", "false");
     errorHost.hidden = true;
     syncAccentBudget(false);
-    // The card chrome only wraps real rows — the zero-run welcome and the
-    // skeleton bring their own surfaces (never nest cards).
+    // realRuns is what the manager actually did. It gains a `!isDemo` filter in Phase 3,
+    // so the seeded example row shows WITH the invitation rather than replacing it.
+    const realRuns = runs;
+    // The card chrome only wraps real rows — the skeleton and the recovery card bring
+    // their own surfaces (never nest cards). The invitation now sits OUTSIDE the list
+    // entirely, so a card can't end up inside the list card.
     list.classList.toggle("run-list--card", runs.length > 0);
     if (seeAll) seeAll.hidden = runs.length === 0;
+
+    // Zero real 1:1s: the "First time?" card IS the invitation, and it hosts the one
+    // blue button. Anything else and the button goes back to the header.
+    const firstRun = realRuns.length === 0;
+    firstRunHost.hidden = !firstRun;
+    if (firstRun) firstRunHost.innerHTML = firstRunIntroHtml({ actionSlot: true });
+    else firstRunHost.innerHTML = "";
+    placeStartButton(firstRun);
+    if (lede) lede.textContent = firstRun ? LEDE_FIRST_RUN : LEDE_RETURNING;
+
     if (runs.length === 0) {
-      // Zero-run account: greet them with the first-run orientation card (its own
-      // "First time?" eyebrow), not a bare empty line. Hide the "Recent 1:1s" label
-      // since there are none yet. The card carries its own hint to press Enter / Start.
       if (recentLabel) recentLabel.hidden = true;
-      list.innerHTML = `<li class="start-firstrun-cell">${firstRunIntroHtml()}</li>`;
+      list.innerHTML = "";
       return;
     }
     if (recentLabel) recentLabel.hidden = false;

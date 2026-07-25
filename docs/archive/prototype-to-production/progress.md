@@ -872,3 +872,23 @@ and three blue buttons. The failures themselves were honest (the run list is Pos
 forever, but the live session behind it is swept on a 7-day TTL), yet nothing capped the cards.
 Parked for a decision: an unfinished prep older than 7 days still says "Half done" while being
 impossible to open.
+
+## 2026-07-25 — Home screen truth, Phase 2 (the invitation gets a door)
+
+A manager with no 1:1s saw a three-step "Your first prep, in three moves" card with no button
+in it; the only way in was a button stranded in the far corner or an undiscoverable Enter
+shortcut. Now the card hosts the screen's one blue action, relabelled "Start your first 1:1".
+
+The interesting constraint was the accent-budget guard: start-core.test.ts counts
+`class="btn js-` in the SOURCE and requires exactly 1, so any second button literal fails the
+build. Rather than widen the guard, the fix MOVES the existing DOM node between the header and
+a slot in the card. Source count stays 1, exactly one accent exists at runtime in every state,
+and the click wiring survives because it is bound to the element, not a selector. A test guard
+that forces you to move a thing instead of duplicating it turned out to be better design advice
+than the rule it was written to protect.
+
+Also shipped here because it had to be: the card moved OUT of the recents <ul>. It had been an
+<li> inside the list, and once Phase 3 shows the example row alongside it, the list card would
+have wrapped a .card-flat, i.e. a nested card. Fixed before it could happen rather than after.
+And the header lede is now state-aware: "Pick up where you left off" is simply false for someone
+with nothing to pick up, which is the same defect class as the row blob Phase 1 removed.

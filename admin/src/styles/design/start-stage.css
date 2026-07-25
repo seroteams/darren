@@ -134,14 +134,19 @@
   list-style: none;
 }
 
-/* Zero-run welcome: the first-run orientation card hosted in the recent-runs
-   <ul> for a brand-new account. Bulletless <li> so the list stays valid; the
-   card supplies its own .card-flat surface and framing. */
-.start-firstrun-cell {
-  list-style: none;
-}
-.start-firstrun-cell .intake-firstrun {
+/* Zero-run welcome (home-screen-truth Phase 2): the first-run card is a SIBLING of
+   the recents list, never an <li> inside it, so the list card can never wrap it. */
+.js-firstrun .intake-firstrun {
   max-width: 30rem;
+}
+/* The card hosts the screen's one blue button, so the invitation and the way in are
+   the same object. The time line sits beside it, quiet. */
+.intake-firstrun__action {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sero-space-3);
+  margin-top: var(--sero-space-1);
 }
 
 
