@@ -60,7 +60,7 @@ function exactWhen(iso: string): string {
   return Number.isFinite(v) ? new Date(v).toLocaleString() : iso;
 }
 
-export function groupIssues(rows: ErrorRow[]): Issue[] {
+function groupIssues(rows: ErrorRow[]): Issue[] {
   const byKey = new Map<string, ErrorRow[]>();
   for (const r of rows) {
     const key = `${r.message}\n${r.path}\n${r.environment}`;

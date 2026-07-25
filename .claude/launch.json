@@ -29,6 +29,16 @@
       "port": 3093
     },
     {
+      "name": "refactor-proof",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/serve-static.js",
+        "docs/plans/doing/refactor-2026-07/proof",
+        "4191"
+      ],
+      "port": 4191
+    },
+    {
       "name": "sero-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": [

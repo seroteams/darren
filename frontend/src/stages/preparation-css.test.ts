@@ -3,10 +3,15 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 // The 14px accessibility floor, checked at the source: every font-size in the
-// variant stylesheet must be an existing type token that resolves to >= 14px,
+// variant stylesheets must be an existing type token that resolves to >= 14px,
 // or a literal >= 14px. New tokens can't sneak in — an unknown var() fails.
+// Both halves are covered: the customer sheet (preparation.css) and the
+// admin-only lab chunk (preparation-lab.css, refactor-2026-07 P4).
 
-const css = readFileSync(new URL("./preparation.css", import.meta.url), "utf8");
+const css =
+  readFileSync(new URL("./preparation.css", import.meta.url), "utf8") +
+  "\n" +
+  readFileSync(new URL("./preparation-lab.css", import.meta.url), "utf8");
 
 // Existing type-scale tokens (admin/src/styles/design/tokens.css) → px.
 const TOKEN_PX: Record<string, number> = {

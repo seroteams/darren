@@ -1,8 +1,7 @@
 // Boot splash: the Sero mark plays a game of pong while the app loads, then
-// fades out the instant the first screen mounts. Identical twin of
-// frontend/src/boot-splash.js — the two apps keep mirrored shells
-// (frontend-admin-split), and each Vite root needs its own /src entry for the
-// index.html script tag.
+// fades out the instant the first screen mounts. The ONE copy for both apps:
+// the customer entry (frontend/src/boot-splash.js) just re-imports this file
+// (refactor-2026-07 P4 — it used to be a byte-identical twin).
 //
 // A separate tiny entry — not part of main.js — because the CSP blocks inline
 // <script> (backend/api/middleware/security-headers.ts), and because the splash

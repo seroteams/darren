@@ -91,10 +91,6 @@ export const EXTRA_LOADERS = {
   MEMBERS: () => import("../../../../frontend/src/stages/members.ts"),
 };
 
-// Phase 2: a real completed local run seeds every flow screen. null for now — Phase 1
-// leaves flow screens on their empty state.
-export const DEMO_SESSION_ID = null;
-
 // The one-click "Copy design prompt" text. Carl pastes it into a fresh chat to start a
 // design session on this exact screen — file path + live URL already filled in.
 export function designPrompt({ label, file, url }) {

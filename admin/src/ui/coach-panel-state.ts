@@ -17,7 +17,7 @@ export type RowState =
   | { kind: "unrated" }
   | { kind: "rated"; delta: number; why: string };
 
-export const METER_MAX = 3; // planner delta signatures cap at ±3
+const METER_MAX = 3; // planner delta signatures cap at ±3
 
 /** Centre-out meter maths on a −3..+3 scale; off-scale deltas clamp to the rail. */
 export function meterFor(delta: number): { pct: number; fillLeft: number; fillWidth: number } {

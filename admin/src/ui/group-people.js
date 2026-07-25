@@ -9,9 +9,8 @@
 // Passing no aliases keeps the exact PG4 behaviour.
 
 // The one place the person key is defined — trim + lower-case, so "Priya" / " priya "
-// fold together. Exported so the person page (PG5) filters runs on the exact same key
-// the grouping uses (no drift between the Team card and its page).
-export function personKeyOf(name) {
+// fold together (no drift between the Team card and its page).
+function personKeyOf(name) {
   return String(name ?? "").trim().toLowerCase();
 }
 
@@ -36,8 +35,7 @@ export function canonicalKeyOf(name, aliases) {
 // people-roster Phase 4: the canonical key for one run — its personId (resolved through
 // the roster's id-merges, so a run stamped with a since-merged person folds onto the
 // canonical card) when the run carries one, the alias-resolved name-key otherwise.
-// Exported so the person page filters runs on the exact same key the grouping uses.
-export function runKeyOf(run, aliases, roster) {
+function runKeyOf(run, aliases, roster) {
   const personId = String(run?.personId ?? "").trim();
   if (personId) return resolveKey(roster && roster.merges, personId);
   return canonicalKeyOf(run?.ctx?.name ?? "", aliases);

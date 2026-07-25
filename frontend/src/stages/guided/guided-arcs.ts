@@ -16,7 +16,7 @@ const MONTHLY_CHECK_IN: GuidedArc = {
 
 export const GUIDED_ARCS: GuidedArc[] = [MONTHLY_CHECK_IN];
 
-export const DEFAULT_GUIDED_ARC = MONTHLY_CHECK_IN;
+const DEFAULT_GUIDED_ARC = MONTHLY_CHECK_IN;
 
 /** Resolve the arc a session follows; falls back to the default (v1 has one arc). */
 export function arcBySlug(slug: string | undefined): GuidedArc {

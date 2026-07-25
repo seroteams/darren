@@ -89,7 +89,7 @@ const REQ_CHIP: Record<string, { label: string; cls: string }> = {
   resolved: { label: "Resolved", cls: "chip--mint" },
 };
 
-export function requestChip(status: string): string {
+function requestChip(status: string): string {
   const c = REQ_CHIP[status];
   if (!c) return `<span class="chip chip--plain">${esc(status)}</span>`;
   return `<span class="chip ${c.cls} chip--dot">${c.label}</span>`;

@@ -2,6 +2,7 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/bricolage-grotesque"; // display headings (DESIGN.md §3)
 import "./styles/tailwind.css";
 import "./styles/design.css";
+import "./styles/design/stage-exit.css"; // admin-only: the customer shell never fades stages out
 
 import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.js";
 import { loaders } from "./stage-loaders.js";

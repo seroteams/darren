@@ -18,7 +18,7 @@ const BASE = ((import.meta.env && import.meta.env.BASE_URL) || "/").replace(/\/+
 export function withBase(path) {
   return BASE ? BASE + path : path;
 }
-export function stripBase(pathname) {
+function stripBase(pathname) {
   if (!BASE) return pathname;
   if (pathname === BASE) return "/";
   if (pathname.startsWith(BASE + "/")) return pathname.slice(BASE.length);

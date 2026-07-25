@@ -2,20 +2,25 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   DEFAULT_VARIANT,
-  VARIANTS,
-  VARIANT_STORAGE_KEY,
   confidenceCopy,
   ctaRowHtml,
   extractSlots,
   formatBriefForCopy,
   parseConfidenceLevel,
+  renderDefaultBrief,
+  type PrepBrief,
+} from "./preparation-brief.ts";
+// The lab module (admin-only chunk in the app; plain import here — node:test
+// has no bundle to protect). renderBrief covers all 12 variants incl. H.
+import {
+  VARIANTS,
+  VARIANT_STORAGE_KEY,
   readVariant,
   renderBrief,
   variantSwitchHtml,
   writeVariant,
-  type PrepBrief,
   type StorageLike,
-} from "./preparation-brief.ts";
+} from "./preparation-lab.ts";
 import { escapeCopy } from "../../../admin/src/ui/html.js";
 
 // One canonical payload — every field a distinct sentence so the duplicate
@@ -237,6 +242,10 @@ function fakeStorage(init?: Record<string, string>): StorageLike {
 
 test("default: the one customer layout is Sheet (H)", () => {
   assert.equal(DEFAULT_VARIANT, "H");
+});
+
+test("customer render: renderDefaultBrief IS the default variant's markup", () => {
+  assert.equal(renderDefaultBrief(SLOTS), renderBrief(DEFAULT_VARIANT, SLOTS));
 });
 
 test("switcher: defaults to H (Sheet) with no storage or no saved value", () => {

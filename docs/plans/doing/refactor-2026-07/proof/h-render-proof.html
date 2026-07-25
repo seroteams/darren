@@ -1,0 +1,859 @@
+<!doctype html><meta charset="utf-8"><title>P4 render proof — variant H</title>
+<style>/* =============================================================================
+   Sero — design tokens + bespoke components
+   Aligned with notes/style.md: light theme, soft contrast, 8px grid,
+   sentence case everywhere. Tailwind handles layout/spacing utilities; this
+   file holds tokens, the orb, axis bars, and motion keyframes.
+   ============================================================================= */
+
+:root {
+  /* =========================================================================
+     Sero design tokens — full system (source of truth)
+     ========================================================================= */
+
+  /* Primary — calm blue */
+  --sero-primary-50: #fdfeff;
+  --sero-primary-100: #f5fafd;
+  --sero-primary-200: #e9f3fb;
+  --sero-primary-300: #d7eaf8;
+  --sero-primary-400: #c1def4;
+  --sero-primary-500: #a5cfef;
+  --sero-primary-600: #85bde9;
+  --sero-primary-700: #5aa9e6;
+  --sero-primary-800: #1b5d91;
+  --sero-primary-900: #0d2c44;
+  --sero-primary-950: #081c2b;
+
+  /* Mint */
+  --sero-mint-50: #fdfffe;
+  --sero-mint-100: #f8fefc;
+  --sero-mint-200: #eefcf9;
+  --sero-mint-300: #e1faf4;
+  --sero-mint-400: #d0f8ef;
+  --sero-mint-500: #bcf5e7;
+  --sero-mint-600: #a4f1df;
+  --sero-mint-700: #88ecd5;
+  --sero-mint-800: #1aa887;
+  --sero-mint-900: #0c4b3c;
+  --sero-mint-950: #072c23;
+
+  /* Sky */
+  --sero-sky-50: #fcfefe;
+  --sero-sky-100: #f4fbfd;
+  --sero-sky-200: #e7f6fa;
+  --sero-sky-300: #d4eff7;
+  --sero-sky-400: #bce5f2;
+  --sero-sky-500: #9fdaec;
+  --sero-sky-600: #7dcde5;
+  --sero-sky-700: #55bddd;
+  --sero-sky-800: #1b7089;
+  --sero-sky-900: #0d3642;
+  --sero-sky-950: #08232b;
+
+  /* Lavender */
+  --sero-lavender-50: #fefdfe;
+  --sero-lavender-100: #faf9fd;
+  --sero-lavender-200: #f4f1fa;
+  --sero-lavender-300: #ece7f6;
+  --sero-lavender-400: #e2d9f1;
+  --sero-lavender-500: #d5c9eb;
+  --sero-lavender-600: #c5b5e4;
+  --sero-lavender-700: #b49edb;
+  --sero-lavender-800: #55358f;
+  --sero-lavender-900: #261840;
+  --sero-lavender-950: #160e25;
+
+  /* Coral */
+  --sero-coral-50: #fffdfc;
+  --sero-coral-100: #fff6f5;
+  --sero-coral-200: #feeae8;
+  --sero-coral-300: #fddad7;
+  --sero-coral-400: #fcc5c0;
+  --sero-coral-500: #fbaca5;
+  --sero-coral-600: #f98e84;
+  --sero-coral-700: #f76b5e;
+  --sero-coral-800: #ac1608;
+  --sero-coral-900: #500a04;
+  --sero-coral-950: #310602;
+
+  /* Gold */
+  --sero-gold-50: #fffefc;
+  --sero-gold-100: #fffbf4;
+  --sero-gold-200: #fff6e5;
+  --sero-gold-300: #fff0d1;
+  --sero-gold-400: #ffe7b7;
+  --sero-gold-500: #ffdd98;
+  --sero-gold-600: #ffd072;
+  --sero-gold-700: #ffc247;
+  --sero-gold-800: #ad7400;
+  --sero-gold-900: #523600;
+  --sero-gold-950: #332200;
+
+  /* Teal */
+  --sero-teal-50: #fdfefe;
+  --sero-teal-100: #f6fbfa;
+  --sero-teal-200: #eaf6f4;
+  --sero-teal-300: #daefeb;
+  --sero-teal-400: #c6e6e0;
+  --sero-teal-500: #addcd2;
+  --sero-teal-600: #8fcfc2;
+  --sero-teal-700: #6dc0b0;
+  --sero-teal-800: #317164;
+  --sero-teal-900: #183731;
+  --sero-teal-950: #0f2420;
+
+  /* Navy */
+  --sero-navy-50: #fbfdfe;
+  --sero-navy-100: #edf5fb;
+  --sero-navy-200: #d7e9f6;
+  --sero-navy-300: #b8d8ee;
+  --sero-navy-400: #90c1e5;
+  --sero-navy-500: #5fa6d9;
+  --sero-navy-600: #2e85c3;
+  --sero-navy-700: #1e5780;
+  --sero-navy-800: #133650;
+  --sero-navy-900: #0c2333;
+  --sero-navy-950: #0a1c29;
+
+  /* Soft neutrals */
+  --sero-soft-50: #fdfefe;
+  --sero-soft-100: #fefefe;
+  --sero-soft-200: #fcfcfc;
+  --sero-soft-300: #f9f9f9;
+  --sero-soft-400: #f6f6f6;
+  --sero-soft-500: #f2f2f2;
+  --sero-soft-600: #ededed;
+  --sero-soft-700: #e8e8e8;
+  --sero-soft-800: #757575;
+  --sero-soft-900: #303030;
+  --sero-soft-950: #1a1a1a;
+
+  /* Charcoal */
+  --sero-charcoal-50: #fcfcfc;
+  --sero-charcoal-100: #f2f2f2;
+  --sero-charcoal-200: #e2e2e2;
+  --sero-charcoal-300: #cccccc;
+  --sero-charcoal-400: #afafaf;
+  --sero-charcoal-500: #8c8c8c;
+  --sero-charcoal-600: #636363;
+  --sero-charcoal-700: #333333;
+  --sero-charcoal-750: #1f2a37;
+  --sero-charcoal-800: #252525;
+  --sero-charcoal-900: #1c1c1c;
+  --sero-charcoal-950: #1a1a1a;
+
+  /* Off-white — full Figma scale (completed 2026-07-05 from Carl's palette export) */
+  --sero-offwhite-50: #ffffff;
+  --sero-offwhite-100: #fdfdfd;
+  --sero-offwhite-200: #fbfbfb;
+  --sero-offwhite-300: #f7f7f7;
+  --sero-offwhite-400: #f3f3f3;
+  --sero-offwhite-500: #eeeeee;
+  --sero-offwhite-600: #e8e8e8;
+  --sero-offwhite-700: #e0e0e0;
+  --sero-offwhite-800: #727272;
+  --sero-offwhite-900: #303030;
+  --sero-offwhite-950: #1a1a1a;
+
+  /* Semantic status */
+  --sero-success: var(--sero-mint-700);
+  --sero-success-light: var(--sero-mint-100);
+  --sero-warning: var(--sero-gold-700);
+  --sero-warning-light: var(--sero-gold-100);
+  --sero-error: var(--sero-coral-700);
+  --sero-error-light: var(--sero-coral-100);
+  --sero-info: var(--sero-primary-700);
+  --sero-info-light: var(--sero-primary-100);
+
+  /* Block / category accents */
+  --sero-block-tasks: var(--sero-gold-700);
+  --sero-block-processes: var(--sero-gold-800);
+  --sero-block-team: var(--sero-coral-800);
+  --sero-block-development: var(--sero-mint-700);
+  --sero-block-fun: var(--sero-sky-500);
+  --sero-block-fulfilment: var(--sero-lavender-700);
+
+  /* Interaction / action */
+  --sero-link: var(--sero-primary-700);
+  --sero-link-hover: var(--sero-primary-800);
+  --sero-active-state: var(--sero-primary-700);
+  --sero-active-state-bg: var(--sero-primary-100);
+  --sero-completed: var(--sero-mint-800);
+  --sero-ai: var(--sero-lavender-600);
+  --sero-purple: var(--sero-lavender-700);
+
+  /* Spacing (8px grid) */
+  --sero-space-0: 0px;
+  --sero-space-px: 1px;
+  --sero-space-0-5: 2px;
+  --sero-space-1: 4px;
+  --sero-space-2: 8px;
+  --sero-space-3: 12px;
+  --sero-space-4: 16px;
+  --sero-space-5: 20px;
+  --sero-space-6: 24px;
+  --sero-space-7: 28px;
+  --sero-space-8: 32px;
+  --sero-space-9: 36px;
+  --sero-space-10: 40px;
+  --sero-space-12: 48px;
+  --sero-space-14: 56px;
+  --sero-space-16: 64px;
+  --sero-space-20: 80px;
+  --sero-space-24: 96px;
+
+  /* Radius */
+  --sero-radius-none: 0px;
+  --sero-radius-sm: 4px;
+  --sero-radius-md: 8px;
+  --sero-radius-lg: 12px;
+  --sero-radius-xl: 16px;
+  --sero-radius-2xl: 24px;
+  --sero-radius-full: 9999px;
+  --sero-radius-button: var(--sero-radius-sm); /* 4px — matches Figma + DESIGN.md (manager-ready P2) */
+  --sero-radius-input: var(--sero-radius-sm);
+  --sero-radius-card: var(--sero-radius-lg);
+  --sero-radius-modal: var(--sero-radius-lg);
+  --sero-radius-badge: var(--sero-radius-full);
+  --sero-radius-avatar: var(--sero-radius-full);
+  --sero-radius-tooltip: var(--sero-radius-sm);
+
+  /* Shadows */
+  --sero-shadow-none: none;
+  --sero-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / .05);
+  --sero-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+  --sero-shadow-md: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
+  --sero-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+  --sero-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);
+  --sero-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / .25);
+  --sero-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / .05);
+  --sero-elevation-flat: var(--sero-shadow-none);
+  --sero-elevation-raised: var(--sero-shadow-sm);
+  --sero-elevation-floating: var(--sero-shadow-lg);
+  --sero-elevation-overlay: var(--sero-shadow-2xl);
+  /* Focus ring (a11y pass 2026-07-05): the old 3px primary-300 ring was 1.2:1 against a
+     white surface — near-invisible to keyboard users. Double ring: white gap + primary-800
+     (7:1) reads on any Sero background. */
+  --sero-shadow-focus: 0 0 0 2px var(--sero-offwhite-50), 0 0 0 4px var(--sero-primary-800);
+
+  /* Interaction state overlays */
+  --sero-state-hover-opacity: .08;
+  --sero-state-focus-opacity: .12;
+  --sero-state-active-opacity: .16;
+  --sero-state-disabled-opacity: .38;
+  --sero-state-hover: rgba(0, 0, 0, .04);
+  --sero-state-focus: rgba(0, 0, 0, .08);
+  --sero-state-active: rgba(0, 0, 0, .12);
+  --sero-state-disabled-bg: var(--sero-charcoal-100);
+  --sero-state-disabled-text: var(--sero-charcoal-400);
+
+  /* Z-index */
+  --sero-z-base: 0;
+  --sero-z-dropdown: 10;
+  --sero-z-sticky: 20;
+  --sero-z-fixed: 30;
+  --sero-z-modal-backdrop: 40;
+  --sero-z-modal: 50;
+  --sero-z-popover: 60;
+  --sero-z-tooltip: 70;
+  --sero-z-toast: 80;
+  --sero-z-max: 9999;
+
+  /* Breakpoints */
+  --sero-breakpoint-sm: 640px;
+  --sero-breakpoint-md: 768px;
+  --sero-breakpoint-lg: 1024px;
+  --sero-breakpoint-xl: 1280px;
+  --sero-breakpoint-2xl: 1536px;
+
+  /* =========================================================================
+     Legacy aliases — remapped onto Sero tokens. Existing components keep
+     working; new code should reference --sero-* tokens directly.
+     ========================================================================= */
+
+  /* Surfaces */
+  --color-bg: var(--sero-primary-100);             /* #f5fafd */
+  --color-page: var(--sero-primary-100);           /* #f5fafd — was referenced (Pulse tracks/pills) but never defined, so those backgrounds rendered transparent; alias to the paper tint (UI polish P1) */
+  --color-surface: var(--sero-soft-50);            /* #fdfefe — never-pure-white surface (comment was mislabelled #ffffff) */
+  --color-surface-hover: var(--sero-soft-100);     /* #fefefe — subtle hover wash; referenced by team-card.css but never defined, so it rendered via fallback. Defined to match that fallback exactly (design-system sweep P1). */
+  --color-border: var(--sero-soft-700);            /* #e8e8e8 */
+  --color-border-strong: var(--sero-charcoal-300); /* #cccccc */
+  --color-border-tinted: color-mix(in srgb, var(--sero-primary-300) 30%, var(--color-border));
+
+  /* Ink (text) — charcoal-750 is an exact match for the prior ink value */
+  --color-ink: var(--sero-charcoal-750);           /* #1f2a37 */
+  --color-ink-dim: var(--sero-charcoal-600);       /* #636363 */
+  --color-ink-mute: var(--sero-soft-800);          /* #757575 */
+
+  /* Accent — Sero primary (softer than the prior vivid blue) */
+  --color-accent: var(--sero-primary-700);         /* #5aa9e6 */
+  --color-accent-dark: var(--sero-primary-800);    /* #1b5d91 */
+  --color-accent-soft: var(--sero-primary-200);    /* #e9f3fb */
+  --color-accent-glow: rgba(90, 169, 230, 0.32);
+
+  /* Purple — Sero lavender */
+  --color-purple: var(--sero-lavender-700);        /* #b49edb */
+  --color-purple-soft: var(--sero-lavender-200);   /* #f4f1fa */
+  --color-purple-glow: rgba(180, 158, 219, 0.35);
+
+  --color-deep: var(--sero-navy-900);              /* #0c2333 */
+
+  --color-positive: var(--sero-mint-800);          /* #1aa887 — fills/graphics only (2.9:1) */
+  --color-negative: var(--sero-coral-700);         /* #f76b5e — fills/graphics only (2.9:1) */
+  /* Text-safe variants (a11y pass 2026-07-05): colour used AS TEXT must pass 4.5:1.
+     mint-900 = 9.9:1, coral-800 = 7.3:1 on white. Never put -700/-800 mint/coral text on light. */
+  --color-positive-text: var(--sero-mint-900);     /* #0c4b3c */
+  --color-negative-text: var(--sero-coral-800);    /* #ac1608 */
+  --color-neutral: var(--sero-charcoal-400);       /* #afafaf */
+  --color-danger: var(--sero-coral-800);           /* destructive text/border/fill (DESIGN §5) */
+
+  /* Consolidated from inline var() fallbacks that referenced these (previously
+     undefined) tokens. Values match the fallbacks already in use, so rendering
+     is unchanged — except .notes-panel__toggle:hover, which had no fallback and
+     now gets the same subtle wash as its sibling hover states. */
+  --color-surface-2: rgba(0, 0, 0, 0.05);          /* hover / selected wash */
+  --color-backdrop: rgba(31, 42, 55, 0.45);        /* one modal / overlay scrim (Sero ink @ 45%) */
+  --color-warn: #b45309;                           /* warning text / border */
+  --color-amber: #b4690e;                          /* fix / partial accent */
+  --font-mono: ui-monospace, monospace;            /* code / meta text */
+
+  /* =========================================================================
+     Type scale — modular (~1.2), anchored at 16px body. Role-named sizes
+     plus leading / weight / tracking tokens. Safe variant: existing rendered
+     sizes (display/h2/h3/body/small) are preserved.
+     ========================================================================= */
+  --type-family-display: "Bricolage Grotesque Variable", "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
+  --type-display: clamp(1.875rem, 5vw, 2.625rem); /* hero — calmed from 44-56px to DESIGN.md's ~40px spec (30-42px) (UI polish P1) */
+  --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* large page title */
+  --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);
+  --type-h3: 1.25rem;                             /* kept (safe) */
+  --type-h4: 1.125rem;                            /* 18px */
+  --type-lead: 1.125rem;                          /* 18px intro paragraphs */
+  --type-body: 16px;
+  --type-body-lg: 1.0625rem;                      /* 17px — slightly-larger body (planner titles) */
+  --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
+  --type-body-md: 15px;                           /* mid step — fills the 14→16 gap so 15px call sites get a token home (design-system sweep P1) */
+  /* Accessibility rule: NO text token may render below 14px. caption/label
+     were 13px/12px; raised to the 14px floor. Do not lower these. */
+  --type-caption: 14px;                           /* was 13px → floored to 14px */
+  --type-label: 14px;                             /* was 12px → floored to 14px */
+  --type-small: var(--type-body-sm);              /* @deprecated → --type-body-sm */
+
+  /* Line-height (leading) */
+  --type-leading-none: 1;
+  --type-leading-tight: 1.1;
+  --type-leading-snug: 1.25;
+  --type-leading-normal: 1.5;
+  --type-leading-relaxed: 1.6;
+  --type-leading-loose: 1.75;
+
+  /* Weight */
+  --type-weight-regular: 400;
+  --type-weight-medium: 500;
+  --type-weight-semibold: 600;
+  --type-weight-bold: 700;
+
+  /* Tracking (letter-spacing) */
+  --type-tracking-tighter: -0.02em;
+  --type-tracking-tight: -0.01em;
+  --type-tracking-normal: 0;
+  --type-tracking-wide: 0.02em;
+  --type-tracking-wider: 0.04em;
+  --type-tracking-caps: 0.06em;                   /* slot/label uppercase (UI polish P1) */
+  --type-tracking-caps-lg: 0.08em;                /* section eyebrow uppercase (UI polish P1) */
+
+  /* Layout */
+  --measure: 38rem;
+  --container-medium: 64rem;   /* 1024px — 12-grid content width */
+  --container-wide: 72rem;
+  /* Left-rail nav: it lives on the left now, so it occupies no top band
+     (--app-nav-h is the top offset other chrome clears — 0). Its footprint is
+     horizontal: a collapsed icon strip that opens on hover. */
+  --app-nav-h: 0px;
+  --app-nav-w: 60px;        /* collapsed icon strip */
+  --app-nav-w-open: 248px;  /* expanded on hover / keyboard focus */
+
+  /* Radii — now via Sero (note: buttons/inputs tighten from 10/8px to 4px) */
+  --radius-card: var(--sero-radius-card);          /* 12px */
+  --radius-button: var(--sero-radius-button);      /* 4px */
+  --radius-input: var(--sero-radius-input);        /* 4px */
+
+  /* Shadows — now via Sero */
+  --shadow-card: var(--sero-shadow-md);
+  --shadow-card-hover: var(--sero-shadow-md);
+  --shadow-focus: var(--sero-shadow-focus);
+
+  /* Motion — not defined by Sero; keeping app-specific values */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-spring-back: cubic-bezier(0.34, 1.4, 0.64, 1); /* gentle overshoot — "settle" */
+  --dur-instant: 120ms;
+  --dur-fast: 240ms;
+  --dur-medium: 420ms;
+  --dur-slow: 720ms;
+  --dur-hero: 1200ms;
+  --stagger: 60ms;
+
+  /* =========================================================================
+     UI polish (P1) — pure additions adopted by later phases + two backfills.
+     Grouped here so the whole initiative is easy to review/revert.
+     ========================================================================= */
+  /* Promote the session top-bar height to :root so the ~30 call sites that used
+     the 44px fallback (they were 6px short of the real 50px bar) now clear it. */
+  --session-topbar-h: 50px;
+
+  /* Role spacing — named landing spots (map onto the 8px grid) */
+  --space-section: var(--sero-space-10);           /* 40px — between major sections */
+  --space-card-pad: var(--sero-space-6);           /* 24px — card interior */
+  --space-page-tail: var(--sero-space-24);         /* 96px — breathing room at page end */
+
+  /* The one sanctioned lift shadow — ink-tinted (not black), two-layer; frames only */
+  --shadow-lift: 0 1px 2px rgba(31, 42, 55, .04), 0 8px 24px rgba(31, 42, 55, .06);
+
+  /* Frame radius — the artifact's framed-screen corner */
+  --radius-frame: 18px;
+
+  /* Reading measures — calmer than the dashboard grid */
+  --measure-tight: 32rem;
+  --measure-lede: 44rem;
+  --container-reading: 56rem;                      /* book-like briefing column */
+
+  /* Tint-triad hairlines — a same-hue line border for soft-tint panels */
+  --color-mint-line: var(--sero-mint-400);         /* #d0f8ef */
+  --color-coral-line: var(--sero-coral-400);       /* #fcc5c0 */
+  --color-gold-line: var(--sero-gold-400);         /* #ffe7b7 */
+  --color-primary-line: var(--sero-primary-400);   /* #c1def4 */
+
+  /* Phantom-token backfill — these were referenced only via var(x, #hex)
+     fallbacks (tasks.js, guide.js), so #hex always rendered. Defined to the
+     EXACT fallback so appearance is unchanged; a later phase remaps them onto
+     the Sero mint/coral families. */
+  --sero-emerald-500: #10b981;
+  --sero-rose-700: #b4232a;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Base
+----------------------------------------------------------------------------- */
+html, body {
+  background:
+    radial-gradient(circle at 72% 0%, rgba(90, 169, 230, 0.10) /* lint-tokens-ignore: decorative hero accent glow, no alpha token */, transparent 36%),
+    var(--color-bg);
+  /* Pin the wash to the viewport so it never tiles or restretches on long,
+     scrolling pages — one fixed blob, identical on every page. */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+/* Always reserve the vertical scrollbar so centred content doesn't slide
+   sideways when moving between a page that scrolls and one that fits. */
+html {
+  overflow-y: scroll;
+}
+body {
+  font-family: "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  font-variant-ligatures: common-ligatures;
+  color: var(--color-ink);
+  font-size: var(--type-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: var(--type-body);
+  color: inherit;
+}
+textarea { resize: vertical; }
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-input);
+}
+
+.num-tabular { font-variant-numeric: tabular-nums; }
+
+/* Lucide icons (admin/src/ui/icon.js) — the one glyph system (DESIGN.md §5).
+   Sit an inline icon on the text baseline and stop it shrinking in flex rows. */
+.sero-icon { display: inline-block; vertical-align: -0.125em; flex: none; }
+
+.pulse-caret { animation: caret-pulse 1800ms ease-in-out infinite; }
+
+/* Section-style heading helpers — sentence case, per style.md.
+   Token-driven; rendered sizes unchanged from prior hardcoded values. */
+.text-display {
+  font-family: var(--type-family-display);
+  font-size: var(--type-display);
+  font-weight: var(--type-weight-semibold); /* 700→600 — calmer display, matches DESIGN.md §3 (UI polish P1) */
+  letter-spacing: var(--type-tracking-tighter);
+  line-height: var(--type-leading-tight);
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+.h1 {
+  /* kept mapped to display size for back-compat */
+  font-family: var(--type-family-display);
+  font-size: var(--type-display);
+  font-weight: var(--type-weight-semibold); /* 700→600 (UI polish P1) */
+  letter-spacing: var(--type-tracking-tighter);
+  line-height: var(--type-leading-tight);
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+.h2 {
+  font-family: var(--type-family-display);
+  font-size: var(--type-h2);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tight);
+  line-height: 1.2;
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+.h3 {
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-semibold);
+  line-height: 1.35;
+  color: var(--color-ink);
+}
+.h4 {
+  font-size: var(--type-h4);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+.lead {
+  font-size: var(--type-lead);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink-dim);
+}
+.body {
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
+/* Two-tier label system (artifact voice, UI polish P2):
+   .eyebrow = SECTION tier (accent-dark, wider tracking) — sits above a title.
+   .eyebrow--slot = SLOT tier (quiet dim) — sits above a field/value.
+   Note: .eyebrow is used ~146x app-wide, many as slot labels today; those get
+   reclassified to --slot in a later, eyes-on pass. Dark-ground eyebrows
+   (.pv-j__eyebrow, .app-nav__group-label) keep their own colour via the cascade. */
+.eyebrow {
+  font-size: var(--type-small);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-accent-dark);
+  letter-spacing: var(--type-tracking-caps-lg);
+  text-transform: uppercase;
+}
+.eyebrow--slot {
+  color: var(--color-ink-dim);
+  letter-spacing: var(--type-tracking-caps);
+}
+/* One chip primitive (artifact detail language, UI polish P3): a pill with the
+   tint-triad variants (soft bg + same-hue line border + dark text of that hue).
+   The .chip__dot is the leading status motif / confidence meter.
+
+   The families below are REFITTED onto this one recipe (P3, 2026-07-17): each
+   used to re-declare its own size/padding/radius, drifting to 1px/2px/5px
+   paddings and four of them squared at 4px against the artifact's single pill.
+   Geometry now lives here once; each family keeps only its own COLOURS in its
+   own file. Markup is untouched — this is a CSS-only re-base, so the class names
+   in the stages still work. Deliberately NOT in this list: `.pill` (an
+   interactive tap target — shrinking it would hurt mobile) and the mono code
+   chips (.fp-chip/.script-alias), which only take the radius. */
+.chip,
+.um-badge,
+.pd-pill,
+.el-pill,
+.fb-pill,
+.fb-verdict,
+.fb-type,
+.cl-badge,
+.lib-badge,
+.cmp-verdict-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  padding: 5px 11px;
+  border-radius: var(--sero-radius-full);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.chip--accent { background: var(--color-accent-soft); color: var(--color-accent-dark); }
+.chip--mint { background: var(--sero-mint-100); color: var(--color-positive-text); border-color: var(--color-mint-line); }
+.chip--coral { background: var(--sero-coral-100); color: var(--color-negative-text); border-color: var(--color-coral-line); }
+.chip--gold { background: var(--sero-gold-100); color: var(--sero-gold-900); border-color: var(--color-gold-line); }
+.chip--plain { background: var(--color-surface); color: var(--color-ink-dim); border-color: var(--color-border); }
+.chip__dot { width: 7px; height: 7px; border-radius: var(--sero-radius-full); background: currentColor; flex: none; }
+
+/* The leading-dot status motif — "meaning by motif", and it costs nothing:
+   currentColor means the dot always matches its chip's own hue. Applied to the
+   STATUS-flavoured pills only (a state you can read at a glance), never to the
+   label-ish ones (role, source, type) — a dot on everything says nothing. Done
+   with ::before so no markup changes. */
+.chip--dot::before,
+.um-badge--back::before,
+.um-badge--active::before,
+.um-badge--pending::before,
+.um-badge--off::before,
+.pd-pill--back::before,
+.pd-pill--once::before,
+.fb-verdict--yes::before,
+.fb-verdict--no::before,
+.cl-badge--done::before,
+.cl-badge--doing::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: var(--sero-radius-full);
+  background: currentColor;
+  flex: none;
+}
+
+/* One segmented control (UI polish P3) — the artifact recipe: a bordered pill
+   container with a 3px inset, quiet segments, and an active segment on the
+   accent tint triad (never a solid blue fill — that slot belongs to the page's
+   one real action). Replaces three unrelated builds (.el-filter's iOS-style
+   white-and-shadow, .rv-seg's squared box, .ctx-seg). Existing class names are
+   grouped in, so no markup changes. */
+.seg,
+.el-filters,
+.rv-seg {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-full);
+  flex-shrink: 0;
+}
+.seg__btn,
+.el-filter,
+.rv-seg__btn {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-dim);
+  padding: 6px 14px;
+  border-radius: var(--sero-radius-full);
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur-instant) ease-out, color var(--dur-instant) ease-out;
+}
+.seg__btn:hover,
+.el-filter:hover,
+.rv-seg__btn:hover { color: var(--color-ink); }
+.seg__btn.is-active,
+.seg__btn[aria-pressed="true"],
+.seg__btn[aria-selected="true"],
+.el-filter.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+}
+
+/* Confidence dot-meter (artifact signature motif, UI polish P3): three dots,
+   N lit for low/medium/high — an at-a-glance "how sure is this" read. It pairs
+   with the plain-language sentence, never replaces it (engine honesty — the
+   words that explain the reading always stay). Lit + unlit both derive from the
+   pill's own colour, so it stays on-token in any tint context. */
+.conf {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  padding: 4px 11px 4px 9px;
+  border-radius: var(--sero-radius-full);
+  white-space: nowrap;
+}
+.conf__dots { display: inline-flex; gap: 3px; }
+.conf__dots > i {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--sero-radius-full);
+  background: color-mix(in srgb, currentColor 22%, transparent);
+}
+.conf__dots > i.is-on { background: currentColor; }
+
+/* Identity — a person's name as the hero of their card/header, in the display
+   face. Scaffolding for the eyes-on adoption pass (compact list rows need a
+   layout call first, so this isn't applied yet). */
+.ident-name {
+  font-family: var(--type-family-display);
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tight);
+  line-height: var(--type-leading-snug);
+  color: var(--color-ink);
+}
+.label {
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-medium);
+  letter-spacing: var(--type-tracking-wider);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink-mute);
+}
+.caption {
+  font-size: var(--type-small);
+  color: var(--color-ink-mute);
+}
+.kbd {
+  display: inline-block;
+  padding: 0.05em 0.35em;
+  font-size: var(--type-body-sm); /* was 0.8em (~12.8px) → 14px floor */
+  font-family: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  line-height: 1.5;
+}
+
+/* -----------------------------------------------------------------------------
+   Stage container — top-anchored, horizontally centred
+----------------------------------------------------------------------------- */
+.stage {
+  min-height: 100dvh;
+  display: grid;
+  /* minmax(0, …) caps the single column at the container width — without it a
+     nowrap child (e.g. a long run subtitle) inflates the grid's max-content track
+     and the page scrolls sideways on narrow screens (F-010). */
+  grid-template-columns: minmax(0, 1fr);
+  /* Top-anchor content (align: start), keep it horizontally centred (justify: center).
+     Was `center` — that vertically floated every short page (runs, member home, run
+     detail) into the middle of the viewport while tall pages sat at the top, so sibling
+     screens read with two different rhythms (audit #1). Top-anchoring makes them consistent. */
+  place-items: start center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+/* In-run screens sit below the fixed session topbar (body gets a matching
+   padding-top). The full-height shell (#root) and the centred stage both assume
+   the whole viewport, so they overflow the fold by that offset and push the
+   centred content low. Shrink both by the same amount so content lands in the
+   visible middle and the page stops scrolling. */
+body.has-session-topbar #root,
+body.has-session-topbar .stage {
+  min-height: calc(100dvh - var(--app-nav-h) - var(--session-topbar-h, 44px));
+}
+.stage-wide {
+  /* @deprecated → use .l-container--wide */
+  width: 100%;
+  max-width: var(--container-wide);
+  margin: 0 auto;
+}
+.stage-medium {
+  width: 100%;
+  max-width: var(--container-medium);
+  margin: 0 auto;
+}
+/* Reading column — calmer than the dashboard grid, for text-first pages like the
+   prep briefing (UI polish). */
+.stage-reading {
+  width: 100%;
+  max-width: var(--container-reading);
+  margin: 0 auto;
+}
+/* Questioning carries a wide action row (up to 5 buttons), so it gets a roomier
+   container than the reading-width default and the buttons wrap if space runs out. */
+.stage-questioning {
+  width: 100%;
+  max-width: 52rem;
+}
+.questioning-card .field__actions {
+  flex-wrap: wrap;
+}
+.stage-step {
+  /* @deprecated → use .page-header__step */
+  color: var(--color-ink-mute);
+  letter-spacing: 0.01em;
+  font-weight: 500;
+}
+.field-actions {
+  /* @deprecated → use .field__actions / .l-cluster */
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+
+/* /prepare brief — customer stage. The page furniture (header tools) and the
+   ONE customer layout, H "Sheet". The 11 lab layouts + the switcher styles
+   live in preparation-lab.css, loaded only with the admin-only lab chunk
+   (preparation-lab.ts, refactor-2026-07 P4). Tokens only, 14px floor —
+   guarded by preparation-css.test.ts across BOTH files. */
+
+/* Header tools — the Layout switcher + the demoted Reset link */
+.pv-header-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-4);
+}
+/* H — Sheet: one paper memo on the tinted page. Generous margins, a single
+   reading column, hairline rules between sections. */
+.pv-h {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-12) var(--sero-space-14);
+  max-width: var(--container-medium);
+  display: flex;
+  flex-direction: column;
+}
+.pv-h__confidence {
+  margin: 0 0 var(--sero-space-6);
+  max-width: var(--measure);
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink-dim);
+}
+.pv-h__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  padding: var(--sero-space-5) 0;
+  border-top: 1px solid var(--color-border-tinted);
+  max-width: var(--measure);
+}
+.pv-h__section p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  color: var(--color-ink);
+}
+.pv-h__opener {
+  font-size: var(--type-h4);
+  font-weight: var(--type-weight-medium);
+  line-height: var(--type-leading-normal);
+}
+@media (max-width: 768px) {
+  .pv-h {
+    padding: var(--sero-space-6) var(--sero-space-5);
+  }
+}
+
+</style>
+<body style="background:var(--color-page);padding:32px;max-width:760px;margin:0 auto">
+<p style="font:12px monospace;color:#888">RENDER PROOF (refactor-2026-07 P4): real renderDefaultBrief output + the split customer stylesheet. Not the live app screen.</p>
+<div class="pv pv-h">
+    <span class="conf conf--medium" aria-label="Confidence: medium">
+    <span class="conf__dots" aria-hidden="true"><i class="is-on"></i><i class="is-on"></i><i></i></span>
+    <span class="conf__word">Medium</span>
+  </span>
+    <p class="pv-h__confidence">This brief uses your notes plus role defaults. The more specific parts come from what you wrote.</p>
+    <div class="pv-h__section"><div class="eyebrow">Likely theme</div><p>Priya may be weighing an internal move.</p></div>
+    <div class="pv-h__section"><div class="eyebrow">Open with</div><p class="pv-h__opener">What part of the new project has your attention right now?</p></div>
+    <div class="pv-h__section"><div class="eyebrow">Listen for</div><ul class="prep-list"><li>Mentions of the platform team</li><li>Energy when she talks about mentoring</li><li>Hesitation around the roadmap</li></ul></div>
+    <div class="pv-h__section"><div class="eyebrow">Don't assume</div><ul class="prep-list"><li>That the internal move is about money</li><li>Promising a title change</li><li>Comparing her to Sam</li></ul></div>
+    <div class="pv-h__section"><div class="eyebrow">During the 1:1</div><p>Let her finish before offering solutions.</p></div>
+    <div class="pv-h__section"><div class="eyebrow">Aim to leave with</div><p>You leave knowing what would make her stay for the next year.</p></div>
+  </div>
+</body>

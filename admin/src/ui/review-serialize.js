@@ -40,7 +40,7 @@ export function reviewStatusFromMarks(marks) {
   return "partial";
 }
 
-export function failedCountFromMarks(marks) {
+function failedCountFromMarks(marks) {
   const m = marks && typeof marks === "object" ? marks : {};
   return DIMENSIONS.filter((d) => m[d.key] === "fail").length;
 }

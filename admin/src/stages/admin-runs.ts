@@ -49,7 +49,7 @@ export function whoCell(r: AdminRun): string {
   return `${who}${tag}${company}`;
 }
 
-export function statusCell(r: AdminRun): string {
+function statusCell(r: AdminRun): string {
   if (r.finished) return `<span class="pd-pill pd-pill--back">finished</span>`;
   const at = r.stage ? ` at ${escapeHtml(prettyStage(r.stage))}` : "";
   return `<span class="pd-pill pd-pill--once">broke off${at}</span><span class="pd-sub">no briefing to open</span>`;

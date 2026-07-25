@@ -1,0 +1,18 @@
+/* Quick fade-OUT of the outgoing stage — the missing half of the transition.
+   Kept short (~150ms) so navigation still feels instant; the ADMIN shell's
+   fadeOutStage (admin/src/main.js) waits on this before swapping in the next
+   stage, giving a clean cross-dissolve. Admin-only: the customer shell never
+   applies .stage-exit, so this sits outside the shared design.css barrel and
+   is imported by admin/src/main.js directly (refactor-2026-07 P4). */
+.stage-exit { opacity: 1; will-change: transform, opacity; }
+.stage-exit.is-out {
+  opacity: 0;
+  transition: opacity 150ms var(--ease-in-out-cubic);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage-exit.is-out {
+    transform: translateY(-8px) scale(0.995);
+    transition: opacity 150ms var(--ease-in-out-cubic),
+                transform 150ms var(--ease-in-out-cubic);
+  }
+}

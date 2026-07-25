@@ -1,9 +1,11 @@
 // /prepare — the customer-owned prep-brief stage (prepare-variants). One
-// brief, no At-a-glance/Full-brief duplication, ONE customer layout (the
-// DEFAULT_VARIANT in preparation-brief.ts); the 12-layout lab stays behind
-// the internal-admin-only switcher (design-consolidation F8). Render-only:
-// same SSE stream, same payload, same stage transitions as the shared screen
-// it replaces (admin/src/stages/preparation.js, which the admin console keeps).
+// brief, no At-a-glance/Full-brief duplication, ONE customer layout
+// (renderDefaultBrief in preparation-brief.ts). The 12-layout lab is internal-
+// admin only AND out of the customer download (refactor-2026-07 P4): the lab
+// module + its CSS load via dynamic import only when the viewer is an internal
+// admin, as their own async chunk. Render-only: same SSE stream, same payload,
+// same stage transitions as the shared screen it replaces
+// (admin/src/stages/preparation.js, which the admin console keeps).
 
 import { STAGES, resetSession, isInternalAdmin } from "../../../admin/src/state.js";
 import { exitStage } from "../../../admin/src/ui/landing.ts";
@@ -21,18 +23,15 @@ import {
   extractSlots,
   formatBriefForCopy,
   isVariantId,
-  readVariant,
-  renderBrief,
-  VARIANTS,
-  variantSwitchHtml,
-  writeVariant,
+  renderDefaultBrief,
   type BriefSlots,
   type PrepBrief,
-  type StorageLike,
 } from "./preparation-brief.ts";
 import "./preparation.css";
 
-function storage(): StorageLike | null {
+type LabModule = typeof import("./preparation-lab.ts");
+
+function storage(): Storage | null {
   try {
     return window.localStorage;
   } catch {
@@ -54,7 +53,6 @@ export const mount: Mount = async (root, { store, setState }) => {
         <div class="page-header__row">
           <h1 class="h1">What to walk in with</h1>
           <div class="pv-header-tools">
-            ${lab ? variantSwitchHtml(readVariant(storage(), true)) : ""}
             <button class="link js-start-fresh" type="button">Discard prep</button>
           </div>
         </div>
@@ -76,44 +74,71 @@ export const mount: Mount = async (root, { store, setState }) => {
   });
 
   let lastBrief: PrepBrief | null = null;
+  let labMod: LabModule | null = null;
+  let labCleanup: (() => void) | null = null;
+  let labSwitchOpen: () => boolean = () => false;
+  let labSwitchClose: () => void = () => {};
 
-  // Layout switcher (internal-admin lab only) — a trigger chip that opens a popover
-  // of preview tiles. The header outlives every re-render, so this wires once
-  // and re-renders from the loaded payload; never refetches.
-  const trigger = root.querySelector<HTMLButtonElement>(".js-variant-trigger");
-  const pop = root.querySelector<HTMLElement>(".js-variant-pop");
-  const valueEl = root.querySelector<HTMLElement>(".js-variant-value");
-  const tiles = Array.from(root.querySelectorAll<HTMLButtonElement>(".js-variant-tile"));
-  const switchIsOpen = () => pop?.classList.contains("is-open") ?? false;
-  const setSwitchOpen = (open: boolean) => {
-    pop?.classList.toggle("is-open", open);
-    trigger?.classList.toggle("is-open", open);
-    trigger?.setAttribute("aria-expanded", String(open));
-  };
-  trigger?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setSwitchOpen(!switchIsOpen());
-  });
-  tiles.forEach((tile) =>
-    tile.addEventListener("click", () => {
-      const v = tile.dataset.id;
-      if (!isVariantId(v)) return;
-      writeVariant(storage(), v);
-      if (valueEl) valueEl.textContent = VARIANTS.find((o) => o.id === v)?.label ?? "";
-      tiles.forEach((t) => {
-        const on = t.dataset.id === v;
-        t.classList.toggle("is-active", on);
-        t.setAttribute("aria-checked", String(on));
-      });
-      setSwitchOpen(false);
-      if (lastBrief) renderResult(false);
-    }),
-  );
-  const onDocClick = (e: MouseEvent) => {
-    const t = e.target as Node;
-    if (switchIsOpen() && trigger && pop && !pop.contains(t) && !trigger.contains(t)) setSwitchOpen(false);
-  };
-  document.addEventListener("click", onDocClick);
+  // The lab arrives as its own chunk, admins only; a failed chunk load leaves
+  // the customer default rendering — the lab is tooling, never load-bearing.
+  // The CSS rides as its own dynamic import (not inside preparation-lab.ts)
+  // so node:test can import that module without a CSS loader.
+  if (lab) {
+    void Promise.all([import("./preparation-lab.ts"), import("./preparation-lab.css")])
+      .then(([mod]) => {
+        labMod = mod;
+        wireLabSwitcher(mod);
+        if (lastBrief) renderResult(false);
+      })
+      .catch((e) => console.warn("[preparation] layout lab failed to load:", (e as Error).message));
+  }
+
+  // Layout switcher (internal-admin lab only) — a trigger chip that opens a
+  // popover of preview tiles, injected once the lab chunk lands. The header
+  // outlives every re-render, so this wires once and re-renders from the
+  // loaded payload; never refetches.
+  function wireLabSwitcher(mod: LabModule) {
+    const tools = root.querySelector<HTMLElement>(".pv-header-tools");
+    if (!tools) return;
+    tools.insertAdjacentHTML("afterbegin", mod.variantSwitchHtml(mod.readVariant(storage(), true)));
+    const trigger = tools.querySelector<HTMLButtonElement>(".js-variant-trigger");
+    const pop = tools.querySelector<HTMLElement>(".js-variant-pop");
+    const valueEl = tools.querySelector<HTMLElement>(".js-variant-value");
+    const tiles = Array.from(tools.querySelectorAll<HTMLButtonElement>(".js-variant-tile"));
+    const switchIsOpen = () => pop?.classList.contains("is-open") ?? false;
+    const setSwitchOpen = (open: boolean) => {
+      pop?.classList.toggle("is-open", open);
+      trigger?.classList.toggle("is-open", open);
+      trigger?.setAttribute("aria-expanded", String(open));
+    };
+    labSwitchOpen = switchIsOpen;
+    labSwitchClose = () => setSwitchOpen(false);
+    trigger?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      setSwitchOpen(!switchIsOpen());
+    });
+    tiles.forEach((tile) =>
+      tile.addEventListener("click", () => {
+        const v = tile.dataset.id;
+        if (!isVariantId(v)) return;
+        mod.writeVariant(storage(), v);
+        if (valueEl) valueEl.textContent = mod.VARIANTS.find((o) => o.id === v)?.label ?? "";
+        tiles.forEach((t) => {
+          const on = t.dataset.id === v;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-checked", String(on));
+        });
+        setSwitchOpen(false);
+        if (lastBrief) renderResult(false);
+      }),
+    );
+    const onDocClick = (e: MouseEvent) => {
+      const t = e.target as Node;
+      if (switchIsOpen() && trigger && pop && !pop.contains(t) && !trigger.contains(t)) setSwitchOpen(false);
+    };
+    document.addEventListener("click", onDocClick);
+    labCleanup = () => document.removeEventListener("click", onDocClick);
+  }
 
   const orb = createOrb("Preparing your prep brief…");
   thinkingHost.appendChild(orb.el);
@@ -148,7 +173,11 @@ export const mount: Mount = async (root, { store, setState }) => {
   function renderResult(animate: boolean) {
     if (!lastBrief || !resultHost) return;
     const slots = extractSlots(lastBrief, store.ctx?.name || "");
-    const briefHtml = renderBrief(readVariant(storage(), lab), slots);
+    // Customers always get the one default layout; the lab (if its chunk has
+    // landed) honours the admin's stored choice.
+    const briefHtml = labMod
+      ? labMod.renderBrief(labMod.readVariant(storage(), true), slots)
+      : renderDefaultBrief(slots);
     const cta = ctaRowHtml();
     resultHost.innerHTML = animate
       ? `<div class="space-y-6"><div class="reveal">${briefHtml}</div><div class="reveal">${cta}</div></div>`
@@ -178,9 +207,10 @@ export const mount: Mount = async (root, { store, setState }) => {
     wireArcTabs();
   }
 
-  // Arc's Before/During/After segmented control (phones only). The tablist and
-  // its phase panes share data-pane; clicking a tab shows its phase, hides the
-  // rest. Re-wired per render since innerHTML rebuilds the brief each time.
+  // Arc's Before/During/After segmented control (phones only; lab layout L).
+  // The tablist and its phase panes share data-pane; clicking a tab shows its
+  // phase, hides the rest. Re-wired per render since innerHTML rebuilds the
+  // brief each time.
   function wireArcTabs() {
     if (!resultHost) return;
     const tabs = Array.from(resultHost.querySelectorAll<HTMLButtonElement>(".pv-l__tab"));
@@ -217,8 +247,8 @@ export const mount: Mount = async (root, { store, setState }) => {
   // Enter advances to the next step (matches the focus-points page). Wired
   // once per mount — not per render, so variant switches can't stack copies.
   function handleKey(e: KeyboardEvent) {
-    if (e.key === "Escape" && switchIsOpen()) {
-      setSwitchOpen(false);
+    if (e.key === "Escape" && labSwitchOpen()) {
+      labSwitchClose();
       return;
     }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -232,7 +262,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   unmountFn = () => {
     sse.close();
     document.removeEventListener("keydown", handleKey);
-    document.removeEventListener("click", onDocClick);
+    if (labCleanup) labCleanup();
   };
 };
 
