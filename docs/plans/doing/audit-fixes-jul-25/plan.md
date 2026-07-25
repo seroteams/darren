@@ -13,11 +13,11 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 - Open a past 1:1, hit refresh, and it is still there. Back works. The URL can be pasted into a new tab.
 - Scroll to the bottom of Library and the navy nav is still there.
 - The Design system page shows its brand marks.
-- Signed in as a manager, an admin row on the people screen offers no way to change their role.
+- Signed in as a manager, an admin row on the My Team screen offers no way to change their role.
 - `npm run lint:copy` reads the engine and content too, and a freshly generated briefing carries no em dashes.
 - The Meeting arcs screen has no em dashes.
 - Tapping Add request with an empty box says something.
-- Team and Members are one screen.
+- Team and Members are one screen, called "My Team".
 - The 11 tester notes in the Feedback inbox are read and triaged.
 
 ## Resolved before we start
@@ -38,7 +38,7 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
 | 6 | Error log readability | Message head in the table, full statement in the row detail, paged at 50 | ⬜ |
 | 7 | Member view, motion, small sweep | Member home says what it is, three motion wins, the 11 smaller things | ⬜ |
-| 8 | Team and Members become one screen | One people screen with an access column; the second nav item goes | ⬜ |
+| 8 | Team and Members become one screen | One "My Team" screen with an access column; the second nav item goes | ⬜ |
 | 9 | Triage the tester notes | The 11 Feedback-inbox notes read, the real ones turned into work, the rest closed | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
