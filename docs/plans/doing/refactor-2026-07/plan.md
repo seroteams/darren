@@ -2,9 +2,9 @@
 
 Board: https://claude.ai/code/artifact/9483ebd6-873b-4c87-848f-528467532c68 (regenerate with `node scripts/plan-board.js refactor-2026-07`, republish to this URL)
 
-**Status: Phases 1–5 ✅ green-lit. Phase 6 ✅ built (2026-07-25), awaiting Carl's green light.**
+**Status: Phases 1–6 ✅ green-lit. Phase 7 ✅ built (2026-07-25) — the last phase, awaiting Carl's green light.**
 
-**Current state:** P1–P5 landed. P6 built: new engine/run-projections.ts holds every run-row shape both stores render; run-history.ts 846 → 668 and runs-store.ts 977 → 921 lines, all "kept in parity with…" comments deleted (parity is structural now). Parity test passes after every move; 185/185; replay unchanged. Next: P7, the last phase.
+**Current state:** P1–P6 landed. P7 built: new admin/src/boot-shell.js owns the chrome + render loop for both apps; the two main.js files shed 308 lines and the real differences (loaders, syncUrl, fade, mount deps) are now injected parameters. Both apps booted and click-tested in a real browser with zero console errors; 186/186. On green light the whole programme closes.
 
 Carl asked for a full code review to refactor (2026-07-25) and chose the **full programme** over quick-tidy. Three survey agents swept backend/, admin/+frontend/, and scripts/config. Everything here is behaviour-preserving: the app does the same thing, the code gets smaller and safer to change.
 
@@ -26,8 +26,8 @@ Committee note: not convened — the committee's own rules exclude refactors and
 | 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ✅ green-lit 2026-07-25 — [phase-3.md](phase-3.md) |
 | 4 | Customer bundle: variant lab out + frontend dead code | user-visible | ✅ green-lit 2026-07-25 — [phase-4.md](phase-4.md) |
 | 5 | Screen scaffold helper + state.ts | user-visible | ✅ green-lit 2026-07-25 — [phase-5.md](phase-5.md) |
-| 6 | Shared run-row projections (file vs PG store) | internal | ✅ built — [phase-6.md](phase-6.md) — awaiting green light |
-| 7 | One shared boot module for both app shells | user-visible | ⬜ |
+| 6 | Shared run-row projections (file vs PG store) | internal | ✅ green-lit 2026-07-25 — [phase-6.md](phase-6.md) |
+| 7 | One shared boot module for both app shells | user-visible | ✅ built — [phase-7.md](phase-7.md) — awaiting green light |
 
 Details per phase: [phase-2.md](phase-2.md) … [phase-7.md](phase-7.md). Minimum worthwhile programme = 1–3; every stopping point leaves the repo strictly better.
 

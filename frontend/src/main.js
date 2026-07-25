@@ -9,16 +9,14 @@ import "@fontsource-variable/bricolage-grotesque"; // display headings (DESIGN.m
 import "../../admin/src/styles/tailwind.css";
 import "../../admin/src/styles/design.css";
 
-import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "../../admin/src/state.ts";
-import { getSession, me } from "../../shared/api.js";
+import { STAGES, store, setState, resetSession, isAdmin } from "../../admin/src/state.ts";
+import { me } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, isFlowStage, isMemberStage, isSharedStage, isGuestStage } from "./router.js";
-import { createDevBadge } from "../../admin/src/ui/dev-badge.js";
-import { createBuildStamp } from "../../admin/src/ui/build-stamp.js";
-import { createSessionTopbar } from "../../admin/src/ui/session-topbar.js";
 import { createAppNav } from "./ui/app-nav.js";
 import { createProfileBadge } from "../../admin/src/ui/profile-badge.js";
-import { createNotesPanel } from "../../admin/src/ui/notes-panel.js";
-import { installGlobalErrorReporter, reportError } from "../../admin/src/ui/error-reporter.js";
+// The shared shell: chrome, render loop, stale-chunk recovery, rehydrate
+// (refactor-2026-07 P7). This app's own gates live in boot()/popstate below.
+import { startShell, rehydrateById } from "../../admin/src/boot-shell.js";
 
 // This app's member home (audit B1): a plain member lands on MEMBER_HOME. Injected once so
 // the shared login/register resolver lands them where a reload does — no split-brain.
@@ -62,106 +60,15 @@ const loaders = {
   ERROR:           () => import("../../admin/src/stages/error.ts"),
 };
 
-const root = document.getElementById("root");
-// Catch browser crashes / unhandled rejections and forward them to the Error log.
-installGlobalErrorReporter();
-let current = { stage: null, mod: null, node: null };
-let renderChain = Promise.resolve();
-
-const devBadge = import.meta.env.DEV ? createDevBadge() : null;
-
-// Always-on build stamp (which API build is live).
-document.body.appendChild(createBuildStamp().el);
-
-const topbar = createSessionTopbar({ store, setState, resetSession });
-document.body.appendChild(topbar.el);
-
 const appNav = createAppNav({ setState, resetSession });
-document.body.appendChild(appNav.el);
-
 // Top-right "who's signed in" chip — a click-to-open menu (Privacy + Account) for
 // the customer app. `customer:true` forces the customer menu even for an admin
 // visitor (the frontend has no internal surface); setState drives the Privacy nav.
 const profileBadge = createProfileBadge({ setState, resetSession, customer: true });
-document.body.appendChild(profileBadge.el);
 
-const notesPanel = createNotesPanel({ store, setState });
-document.body.appendChild(notesPanel.el);
-if (devBadge) notesPanel.mountDevBadge(devBadge.el);
-
-async function renderStage(nextStage) {
-  if (!loaders[nextStage]) {
-    console.error("[main] unknown stage:", nextStage);
-    return;
-  }
-  // Unmount previous
-  if (current.mod && typeof current.mod.unmount === "function") {
-    try { await current.mod.unmount(current.node); } catch (e) { console.error(e); }
-  }
-  if (current.node && current.node.parentNode) current.node.remove();
-
-  // Mount next
-  const mod = await loaders[nextStage]();
-  const node = document.createElement("section");
-  node.className = "stage stage-enter";
-  root.appendChild(node);
-  // Every screen starts at the top — the previous screen's scroll position was
-  // carrying over, so the new screen opened mid-page (phone walk 2026-07-11).
-  window.scrollTo(0, 0);
-  requestAnimationFrame(() => node.classList.add("is-in"));
-  current = { stage: nextStage, mod, node };
-  if (devBadge) devBadge.render(nextStage);
-  await mod.mount(node, { store, setState, resetSession, rehydrateById });
-  // Rendered cleanly, so this tab is on the current build — clear the reload
-  // guard so a future stale-chunk failure can trigger a fresh recovery.
-  try { sessionStorage.removeItem(CHUNK_RELOAD_FLAG); } catch {}
-}
-
-// A failed lazy import almost always means a stale tab: a new deploy replaced
-// the hashed route chunks this bundle references and deleted the old ones, so
-// the import 404s and the server's SPA fallback returns index.html — which the
-// browser rejects as a module ("MIME type text/html" / "Failed to fetch
-// dynamically imported module"). One full reload fetches the fresh index.html +
-// new chunk hashes and the screen renders. The one-shot flag (cleared on the
-// next clean render) stops a reload loop if a deploy is genuinely broken.
-const CHUNK_RELOAD_FLAG = "seroChunkReload";
-function isStaleChunkError(e) {
-  const msg = (e && e.message) || "";
-  return /dynamically imported module|Importing a module script failed|module script/i.test(msg);
-}
-
-function enqueueRender(nextStage) {
-  renderChain = renderChain
-    .then(() => renderStage(nextStage))
-    .catch((e) => {
-      if (isStaleChunkError(e) && !sessionStorage.getItem(CHUNK_RELOAD_FLAG)) {
-        try { sessionStorage.setItem(CHUNK_RELOAD_FLAG, "1"); } catch {}
-        location.reload();
-        return;
-      }
-      console.error("[main] render failed:", e);
-      reportError((e && e.message) || "Stage render failed");
-    });
-}
-
-let routedStage = null;
-let routedTick = null;
-subscribe((s) => {
-  topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId, user: s.user });
-  appNav.render({ stage: s.stage, user: s.user });
-  profileBadge.render({ stage: s.stage, user: s.user });
-  notesPanel.render(s);
-  if (s.stage !== routedStage || s.stageTick !== routedTick) {
-    // Remember where we came from so the Privacy note's Back link returns there.
-    if (s.stage === STAGES.PRIVACY && routedStage && routedStage !== STAGES.PRIVACY) {
-      store.privacyBack = routedStage;
-    }
-    routedStage = s.stage;
-    routedTick = s.stageTick;
-    syncUrl(s);
-    enqueueRender(s.stage);
-  }
-});
+// The shared shell mounts the chrome and owns the render loop. No stage fade
+// here (that CSS is admin-only) and no regression refresher (internal tooling).
+startShell({ loaders, syncUrl, appNav, profileBadge });
 
 startPopstate((parsed) => {
   // The password-reset screens are reachable in any auth state — handle them first so the
@@ -222,44 +129,7 @@ startPopstate((parsed) => {
   setState({ stage: parsed.stage });               // START / content pages
 });
 
-export async function rehydrateById(id) {
-  try {
-    const snap = await getSession(id);
-    if (!snap || !snap.sessionId) {
-      try { localStorage.removeItem("seroSessionId"); } catch {}
-      return false;
-    }
-    try { localStorage.setItem("seroSessionId", id); } catch {}
-    setState({
-      sessionId: snap.sessionId,
-      stage: snap.stage,
-      substage: defaultSubstage(snap.stage),
-      turn: snap.turn || 0,
-      totalBudget: snap.totalBudget || 8,
-      ctx: snap.ctx || store.ctx,
-      focusPoints: snap.focusPoints?.focus_points || null,
-      preparation: snap.preparation?.brief || null,
-      preparationRunId: snap.preparation?.runId || null,
-      axes: snap.axes || [],
-      briefing: snap.briefing || null,
-      notes: snap.notes || [],
-      sessionDir: snap.sessionDir || null,
-      createdAt: snap.createdAt ?? null,
-      completedAt: snap.completedAt ?? snap.briefing?.completedAt ?? null,
-      skipBriefingAnimation: snap.stage === STAGES.BRIEFING && !!snap.briefing,
-      scripted: snap.scripted || null,
-      // Promises-before-recap (mirrors admin/src/main.js): promises in the
-      // snapshot mean the step already happened — never re-show it. An empty
-      // array is a valid "confirmed none"; only null/absent means not yet.
-      promises: snap.promises ?? null,
-      promisesConfirmed: snap.promises != null,
-    });
-    return true;
-  } catch (e) {
-    console.warn("[rehydrateById] failed:", e);
-    return false;
-  }
-}
+export { rehydrateById };
 
 async function boot() {
   // Auth gate — no entry without a valid session. 401 (or API unreachable) → login.
@@ -394,12 +264,6 @@ async function boot() {
   // No active session — a manager lands on their Home (the START dashboard), whose
   // first-run empty state greets a newcomer. They start a prep when they choose to.
   setState({ stage: STAGES.START });
-}
-
-function defaultSubstage(stage) {
-  if (stage === STAGES.INTAKE) return "NAME";
-  if (stage === STAGES.QUESTIONING) return "Q_SHOW";
-  return null;
 }
 
 boot();

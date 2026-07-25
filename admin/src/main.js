@@ -4,17 +4,15 @@ import "./styles/tailwind.css";
 import "./styles/design.css";
 import "./styles/design/stage-exit.css"; // admin-only: the customer shell never fades stages out
 
-import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.ts";
+import { STAGES, store, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.ts";
 import { loaders } from "./stage-loaders.js";
-import { getSession, runRegression, me, logout } from "../../shared/api.js";
+import { runRegression, me, logout } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, replaceUrl, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage, isSuperadminStage, isLiveHiddenStage } from "./router.js";
-import { createDevBadge } from "./ui/dev-badge.js";
-import { createBuildStamp } from "./ui/build-stamp.js";
-import { createSessionTopbar } from "./ui/session-topbar.js";
 import { createAppNav } from "./ui/app-nav.js";
 import { createProfileBadge } from "./ui/profile-badge.js";
-import { createNotesPanel } from "./ui/notes-panel.js";
-import { installGlobalErrorReporter, reportError } from "./ui/error-reporter.js";
+// The shared shell: chrome, render loop, stale-chunk recovery, rehydrate
+// (refactor-2026-07 P7). This app's own gates live in boot()/popstate below.
+import { startShell, rehydrateById } from "./boot-shell.js";
 
 // This app's member home (audit B1): a plain member lands on their Past 1:1s (RUNS).
 // Injected once so the shared login/register resolver lands them where a reload does.
@@ -27,28 +25,11 @@ store.guestHome = STAGES.LOGIN;
 // Lazy stage modules live in ./stage-loaders.js — the single registry the Screen
 // Gallery also reads, so a new screen appears there automatically.
 
-const root = document.getElementById("root");
-// Catch browser crashes / unhandled rejections and forward them to the Error log (error-log Phase 3).
-installGlobalErrorReporter();
-let current = { stage: null, mod: null, node: null };
-let renderChain = Promise.resolve();
-
-const devBadge = import.meta.env.DEV ? createDevBadge() : null;
-
-// Always-on build stamp (which API build is live) — see ui/build-stamp.js.
-document.body.appendChild(createBuildStamp().el);
-
-const topbar = createSessionTopbar({ store, setState, resetSession });
-document.body.appendChild(topbar.el);
-
 const appNav = createAppNav({ setState, resetSession });
-document.body.appendChild(appNav.el);
-
 // Top-right "who's signed in" chip — shown for every signed-in role. For the internal
 // operator it doubles as the Account + Log out menu (those left the rail 2026-07-18), so
 // it needs setState + resetSession to drive logout (see ui/profile-badge.js).
 const profileBadge = createProfileBadge({ setState, resetSession });
-document.body.appendChild(profileBadge.el);
 
 // Quietly run the (free, offline, no-AI) regression check and flag the nav with
 // a red dot if a saved run has regressed or errored. Re-used live by the
@@ -64,101 +45,15 @@ async function refreshRegressionAlert(data) {
   } catch { /* API unreachable — leave the dot off */ }
 }
 
-const notesPanel = createNotesPanel({ store, setState });
-document.body.appendChild(notesPanel.el);
-if (devBadge) notesPanel.mountDevBadge(devBadge.el);
-
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-// Quick fade-out of the outgoing stage node. Resolves when the fade ends (or
-// immediately under reduced-motion / on first paint). Renders are serialized by
-// renderChain, so the outgoing and incoming stages never coexist — this reads as
-// a clean cross-dissolve, not two stacked screens.
-function fadeOutStage(node) {
-  if (!node || !node.parentNode || reducedMotion.matches) return Promise.resolve();
-  return new Promise((resolve) => {
-    node.classList.add("stage-exit");
-    requestAnimationFrame(() => node.classList.add("is-out"));
-    let done = false;
-    const finish = () => { if (done) return; done = true; resolve(); };
-    node.addEventListener("transitionend", finish, { once: true });
-    setTimeout(finish, 200); // safety net if transitionend never fires
-  });
-}
-
-async function renderStage(nextStage) {
-  if (!loaders[nextStage]) {
-    console.error("[main] unknown stage:", nextStage);
-    return;
-  }
-  // Fade the outgoing stage out first, then unmount + remove it.
-  await fadeOutStage(current.node);
-  if (current.mod && typeof current.mod.unmount === "function") {
-    try { await current.mod.unmount(current.node); } catch (e) { console.error(e); }
-  }
-  if (current.node && current.node.parentNode) current.node.remove();
-
-  // Mount next
-  const mod = await loaders[nextStage]();
-  const node = document.createElement("section");
-  node.className = "stage stage-enter";
-  root.appendChild(node);
-  // Every screen starts at the top — the previous screen's scroll position was
-  // carrying over, so the new screen opened mid-page (phone walk 2026-07-11).
-  window.scrollTo(0, 0);
-  requestAnimationFrame(() => node.classList.add("is-in"));
-  current = { stage: nextStage, mod, node };
-  if (devBadge) devBadge.render(nextStage);
-  await mod.mount(node, { store, setState, resetSession, rehydrateById, refreshRegressionAlert });
-  // Rendered cleanly, so this tab is on the current build — clear the reload
-  // guard so a future stale-chunk failure can trigger a fresh recovery.
-  try { sessionStorage.removeItem(CHUNK_RELOAD_FLAG); } catch {}
-}
-
-// A failed lazy import almost always means a stale tab: a new deploy replaced
-// the hashed route chunks this bundle references and deleted the old ones, so
-// the import 404s and the server's SPA fallback returns index.html — which the
-// browser rejects as a module ("MIME type text/html" / "Failed to fetch
-// dynamically imported module"). One full reload fetches the fresh index.html +
-// new chunk hashes and the screen renders. The one-shot flag (cleared on the
-// next clean render) stops a reload loop if a deploy is genuinely broken.
-const CHUNK_RELOAD_FLAG = "seroChunkReload";
-function isStaleChunkError(e) {
-  const msg = (e && e.message) || "";
-  return /dynamically imported module|Importing a module script failed|module script/i.test(msg);
-}
-
-function enqueueRender(nextStage) {
-  renderChain = renderChain
-    .then(() => renderStage(nextStage))
-    .catch((e) => {
-      if (isStaleChunkError(e) && !sessionStorage.getItem(CHUNK_RELOAD_FLAG)) {
-        try { sessionStorage.setItem(CHUNK_RELOAD_FLAG, "1"); } catch {}
-        location.reload();
-        return;
-      }
-      console.error("[main] render failed:", e);
-      reportError((e && e.message) || "Stage render failed");
-    });
-}
-
-let routedStage = null;
-let routedTick = null;
-subscribe((s) => {
-  topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId, user: s.user });
-  appNav.render({ stage: s.stage, user: s.user });
-  profileBadge.render({ stage: s.stage, user: s.user });
-  notesPanel.render(s);
-  if (s.stage !== routedStage || s.stageTick !== routedTick) {
-    // Remember where we came from so the Privacy note's Back link returns there.
-    if (s.stage === STAGES.PRIVACY && routedStage && routedStage !== STAGES.PRIVACY) {
-      store.privacyBack = routedStage;
-    }
-    routedStage = s.stage;
-    routedTick = s.stageTick;
-    syncUrl(s);
-    enqueueRender(s.stage);
-  }
+// The shared shell mounts the chrome and owns the render loop. This app fades
+// between screens and hands every stage the regression-alert refresher.
+const { root } = startShell({
+  loaders,
+  syncUrl,
+  appNav,
+  profileBadge,
+  fadeStages: true,
+  mountDeps: { refreshRegressionAlert },
 });
 
 startPopstate((parsed) => {
@@ -240,44 +135,7 @@ startPopstate((parsed) => {
   setState({ stage: parsed.stage });               // START / COMPARE / LEXICON_REVIEW
 });
 
-export async function rehydrateById(id) {
-  try {
-    const snap = await getSession(id);
-    if (!snap || !snap.sessionId) {
-      try { localStorage.removeItem("seroSessionId"); } catch {}
-      return false;
-    }
-    try { localStorage.setItem("seroSessionId", id); } catch {}
-    setState({
-      sessionId: snap.sessionId,
-      stage: snap.stage,
-      substage: defaultSubstage(snap.stage),
-      turn: snap.turn || 0,
-      totalBudget: snap.totalBudget || 8,
-      ctx: snap.ctx || store.ctx,
-      focusPoints: snap.focusPoints?.focus_points || null,
-      preparation: snap.preparation?.brief || null,
-      preparationRunId: snap.preparation?.runId || null,
-      axes: snap.axes || [],
-      briefing: snap.briefing || null,
-      notes: snap.notes || [],
-      sessionDir: snap.sessionDir || null,
-      createdAt: snap.createdAt ?? null,
-      completedAt: snap.completedAt ?? snap.briefing?.completedAt ?? null,
-      skipBriefingAnimation: snap.stage === STAGES.BRIEFING && !!snap.briefing,
-      scripted: snap.scripted || null,
-      // Promises-before-recap: a snapshot that carries promises means they were
-      // locked in — never re-show the step. An empty array is a valid "confirmed
-      // none"; only null/absent means the step hasn't happened yet.
-      promises: snap.promises ?? null,
-      promisesConfirmed: snap.promises != null,
-    });
-    return true;
-  } catch (e) {
-    console.warn("[rehydrateById] failed:", e);
-    return false;
-  }
-}
+export { rehydrateById };
 
 async function boot() {
   // Auth gate — no entry without a valid session. 401 (or API unreachable) → login.
@@ -499,12 +357,6 @@ async function boot() {
   // No active session — a manager lands on their Home (the START dashboard), whose
   // first-run empty state greets a newcomer. They start a prep when they choose to.
   setState({ stage: STAGES.START });
-}
-
-function defaultSubstage(stage) {
-  if (stage === STAGES.INTAKE) return "NAME";
-  if (stage === STAGES.QUESTIONING) return "Q_SHOW";
-  return null;
 }
 
 boot();

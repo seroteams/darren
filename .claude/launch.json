@@ -2,6 +2,49 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "p7-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3231",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3231
+    },
+    {
+      "name": "p7-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3231",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3233",
+        "--strictPort"
+      ],
+      "port": 3233
+    },
+    {
+      "name": "p7-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3231",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3235",
+        "--strictPort"
+      ],
+      "port": 3235
+    },
+    {
       "name": "sero-api-pulse",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

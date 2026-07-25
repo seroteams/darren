@@ -1,6 +1,8 @@
 # Phase 6 — shared run-row projections
 
-**Built 2026-07-25 (session 17d7a976). Awaiting Carl's green light.**
+## ✅ GREEN-LIT 2026-07-25
+
+Carl approved on the parity-test proof (185/185, replay unchanged). Committed as 34f9f746. Built by session 17d7a976.
 
 Goal: the file store (engine/run-history.ts) and the Postgres store (db/runs-store.ts) carried copy-pasted twins of every run-row shape, kept in sync only by "kept in parity with…" comments. One shared home, so a new run field can't silently diverge between them.
 
