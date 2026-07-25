@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { finishDestination } from "./finish-destination.ts";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 
 // After a manager presses Finish, where do they land? The audit (X5) says: the person's own
 // page when the run is tied to a roster person — that's where the saved briefing and the new

@@ -10,8 +10,8 @@
 // (a normal owner gets 403 → the fetch throws).
 
 import "../styles/admin-pulse.css";
-import { STAGES } from "../state.js";
-import type { StageName } from "../state.js";
+import { STAGES } from "../state.ts";
+import type { StageName } from "../state.ts";
 import { escapeHtml } from "../ui/html.js";
 import { prettyType, prettyStage, activeLabel, dateLabel } from "../ui/pulse-labels.ts";
 import { createSkeleton } from "../ui/skeleton.js";

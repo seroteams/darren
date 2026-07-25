@@ -6,7 +6,7 @@
 // Mounted once in main.js, kept in sync by the store subscribe callback.
 
 import { Check } from "lucide";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { exitStage } from "./landing.ts";
 import { deleteRun } from "../../../shared/api.js";
 import { confirmAction } from "./confirm.js";

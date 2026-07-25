@@ -9,7 +9,7 @@ import "@fontsource-variable/bricolage-grotesque"; // display headings (DESIGN.m
 import "../../admin/src/styles/tailwind.css";
 import "../../admin/src/styles/design.css";
 
-import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "../../admin/src/state.js";
+import { STAGES, store, subscribe, setState, resetSession, isAdmin } from "../../admin/src/state.ts";
 import { getSession, me } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, isFlowStage, isMemberStage, isSharedStage, isGuestStage } from "./router.js";
 import { createDevBadge } from "../../admin/src/ui/dev-badge.js";

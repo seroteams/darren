@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession, getPriorPromises, savePromiseOutcomes } from "../../../shared/api.js";
 import { renderPromiseCheckin } from "../ui/promise-checkin.ts";
 import { createOrb } from "../ui/orb.js";

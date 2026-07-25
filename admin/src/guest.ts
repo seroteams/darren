@@ -3,8 +3,8 @@
 // can't pull a visitor into an old run. Shared by the start screen (welcome.ts)
 // and the login screen's "Try it" link, so the entry logic lives once.
 
-import { STAGES } from "./state.js";
-import type { Store } from "./state.js";
+import { STAGES } from "./state.ts";
+import type { Store } from "./state.ts";
 import { claimSession } from "../../shared/api.js";
 
 export function startGuestRun(setState: (patch: Partial<Store>) => void): void {

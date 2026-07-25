@@ -14,7 +14,7 @@
 // The menu's styles are injected here (once) rather than added to design/app-nav.css,
 // because that file is another chat's lane; migrate them there when it clears.
 
-import { STAGES, store, isInternalAdmin } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { isFlowStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { showAccountSheet } from "./account-sheet.ts";

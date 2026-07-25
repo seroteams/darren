@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { escapeHtml as escape } from "../ui/html.js";
 import { reportError } from "../ui/error-reporter.js";
 import type { Mount, Unmount } from "./stage.types.ts";

@@ -3,7 +3,7 @@
 // promise, and a single button into a guest run. The login form lives at
 // /login; the small links row below the CTA gets you there.
 
-import { STAGES } from "../../../admin/src/state.js";
+import { STAGES } from "../../../admin/src/state.ts";
 import { startGuestRun } from "../../../admin/src/guest.ts";
 import { LOGIN_PHOTOS } from "../../../admin/src/stages/login.js";
 import type { Mount } from "../../../admin/src/stages/stage.types.ts";

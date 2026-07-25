@@ -4,7 +4,7 @@
 // start-core.js directly, so none of this file (markup, persona API calls) reaches
 // the customer bundle. Only the internal `admin` role gets the bench; a manager on
 // the admin app still gets the clean core dashboard.
-import { STAGES, store, isInternalAdmin } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { getPersonaBench, startSession } from "../../../shared/api.js";
 import { alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";

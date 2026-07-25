@@ -3,7 +3,7 @@
 // immediately log in with the same credentials to land the user in. A link
 // switches back to the login screen.
 
-import { STAGES, store, isInternalAdmin } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { register, login } from "../../../shared/api.js";
 import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";

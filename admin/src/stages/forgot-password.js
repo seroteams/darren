@@ -3,7 +3,7 @@
 // confirmation is the SAME whether or not the email has an account — the server answers
 // 200 either way, so nothing here leaks which addresses are registered.
 
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { requestPasswordReset } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { isTouchScreen } from "../ui/field.js";

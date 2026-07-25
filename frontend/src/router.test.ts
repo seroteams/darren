@@ -4,7 +4,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { isMemberStage, isGuestStage, isSharedStage, urlForState } from "./router.js";
-import { STAGES } from "../../admin/src/state.js";
+import { STAGES } from "../../admin/src/state.ts";
 
 test("the guest-first start screen (WELCOME) lives at the customer root path", () => {
   // start-screen: the logged-out front door renders at "/" — boot decides whether

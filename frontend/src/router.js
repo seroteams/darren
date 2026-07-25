@@ -4,7 +4,7 @@
 // resolves to null and boot lands on the right home. Same guard pattern as the
 // admin router — a suppress flag and a compare-before-write in syncUrl.
 
-import { STAGES } from "../../admin/src/state.js";
+import { STAGES } from "../../admin/src/state.ts";
 
 // stage -> path
 const PATH_FOR = {

@@ -10,7 +10,7 @@
 // review, unfinished → resume, the same primary the accordion offered). A quiet
 // "See all past 1:1s" link routes to the RUNS stage. One clean stack at the
 // medium container width.
-import { STAGES, store, isInternalAdmin } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { listRecentRuns, deleteRun } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";

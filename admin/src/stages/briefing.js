@@ -1,4 +1,4 @@
-import { STAGES, isInternalAdmin } from "../state.js";
+import { STAGES, isInternalAdmin } from "../state.ts";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealOne } from "../ui/reveal.js";
 import { postVerdict, getMyRun, submitRunVerdict, savePromises } from "../../../shared/api.js";

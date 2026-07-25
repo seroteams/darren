@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 
 // After a manager finishes a run, land on that person's page when the run is tied to a roster
 // person — the saved briefing and the new top-placed "prep next 1:1" button both live there,

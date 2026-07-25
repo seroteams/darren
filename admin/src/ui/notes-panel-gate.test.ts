@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { notesPanelVisible } from "./notes-panel-gate.ts";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 
 // The notes panel (QA notes + Sending/Received/Rules tabs) is internal QA
 // tooling — ONLY the internal admin role sees it, and only during a live run.

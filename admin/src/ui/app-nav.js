@@ -6,7 +6,7 @@
 // (brand + menu button) that this module also owns — same DOM, same role
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
-import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.js";
+import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.ts";
 import { isGuestStage, isFlowStage, urlForState, withBase } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "./icon.js";

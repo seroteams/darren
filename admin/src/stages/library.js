@@ -8,7 +8,7 @@
 // idiom — shared list toolbar (search + filter chips + count), sortable column
 // headers, whole row opens the run, secondary actions in the shared ⋯ row menu.
 
-import { STAGES, setState } from "../state.js";
+import { STAGES, setState } from "../state.ts";
 import { getFinishedRuns, getRunFull, setArchived } from "../../../shared/api.js";
 import { libraryBadge, serializeReview } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";

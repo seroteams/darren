@@ -7,7 +7,7 @@
 // a row opens the right-hand panel with the scripted conversation, last result
 // and the live run progress — no more inline dumps on the cards.
 
-import { STAGES, setState } from "../state.js";
+import { STAGES, setState } from "../state.ts";
 import {
   getPersonaBench,
   runRegression,

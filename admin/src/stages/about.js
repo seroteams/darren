@@ -2,7 +2,7 @@
 // and that it's an early alpha. Static content, no API. Reachable by members and admins
 // from the nav footer.
 
-import { STAGES, store, isAdmin } from "../state.js";
+import { STAGES, store, isAdmin } from "../state.ts";
 
 // The member's "What is Sero?" is written in the MEMBER's voice (audit B3): what Sero holds
 // about them, what their manager can and can't see, no manager CTA. A manager keeps the

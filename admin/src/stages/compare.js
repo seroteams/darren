@@ -1,4 +1,4 @@
-import { STAGES, store } from "../state.js";
+import { STAGES, store } from "../state.ts";
 import { listRecentRuns, getRunFull, suggestFix, postVerdict } from "../../../shared/api.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";

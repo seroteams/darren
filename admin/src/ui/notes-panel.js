@@ -7,7 +7,7 @@
 // by stage-data-tab.js from the run's logged stage I/O.
 
 import { postNote } from "../../../shared/api.js";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { notesPanelVisible } from "./notes-panel-gate.ts";
 import {
   attachAutoGrow,

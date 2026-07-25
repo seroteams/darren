@@ -3,7 +3,7 @@
 // live), per-row Keep/Drop, checkbox bulk actions, and partial save (only what's
 // marked is submitted; undecided rows simply stay for next time). Same API calls
 // and flow as before; rows render at once (no reveal stagger).
-import { STAGES, resetSession } from "../state.js";
+import { STAGES, resetSession } from "../state.ts";
 import {
   getLexiconCandidates,
   submitLexiconDecisions,

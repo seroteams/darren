@@ -4,7 +4,7 @@
 // and managers never see it (Carl, 2026-07-06). Kept as a pure, DOM-free
 // predicate so it can be unit-tested; notes-panel.js applies it on every render.
 
-import { isInternalAdmin } from "../state.js";
+import { isInternalAdmin } from "../state.ts";
 import { isFlowStage } from "../router.js";
 
 export interface NotesPanelState {

@@ -5,7 +5,7 @@
 // "what shipped" appears only where a post-processed copy was actually logged.
 
 import { getRunStages, getStagePreview, getSessionRules } from "../../../shared/api.js";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { escapeHtml } from "./html.js";
 
 // Live stage -> the folder it logs to.

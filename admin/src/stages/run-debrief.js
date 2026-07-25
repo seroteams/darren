@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { getLexiconScope } from "../../../shared/api.js";
 import { buildPayloadFromStore, buildQaReviewPromptFromStore, mountRunDebrief } from "../ui/run-debrief.js";
 import { wizardFooter } from "../ui/wizard-footer.ts";

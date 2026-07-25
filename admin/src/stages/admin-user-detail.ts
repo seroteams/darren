@@ -11,7 +11,7 @@
 // No CSS imports here on purpose: the co-located unit test imports this module under
 // node:test, which can't parse CSS.
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store } from "../state.ts";
 import { getUserRuns, getRegistered, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";

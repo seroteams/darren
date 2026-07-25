@@ -9,7 +9,7 @@
 // (client-side name search + "N 1:1s" count) and Start 1:1 as the page header's
 // one accent action. The member view (privacy ruling) is unchanged.
 
-import { STAGES, store, isAdmin } from "../state.js";
+import { STAGES, store, isAdmin } from "../state.ts";
 import { listMyRuns, getRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";

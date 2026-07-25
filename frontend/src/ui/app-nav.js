@@ -4,7 +4,7 @@
 // toolset, no superadmin rows — those live in the admin app only. Same CSS
 // classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
-import { STAGES, isAdmin } from "../../../admin/src/state.js";
+import { STAGES, isAdmin } from "../../../admin/src/state.ts";
 import { isGuestStage, isFlowStage, urlForState } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";

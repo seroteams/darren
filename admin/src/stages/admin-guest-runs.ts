@@ -8,7 +8,7 @@
 // A run claimed by a new account leaves this list.
 
 import "../styles/pulse-drilldowns.css";
-import { STAGES, store } from "../state.js";
+import { STAGES, store } from "../state.ts";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { getGuestRuns, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";

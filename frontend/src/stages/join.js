@@ -7,7 +7,7 @@
 // headline that might have to be taken back); a dead/used/expired link gets its own
 // plain-words screen with a quiet path to login.
 
-import { STAGES, store } from "../../../admin/src/state.js";
+import { STAGES, store } from "../../../admin/src/state.ts";
 import { getInvite, acceptInvite } from "../../../shared/api.js";
 import { escapeHtml as esc, escapeCopy } from "../../../admin/src/ui/html.js";
 import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles } from "../../../admin/src/stages/login.js";

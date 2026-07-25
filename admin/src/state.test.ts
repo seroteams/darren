@@ -1,9 +1,9 @@
-// Tests for the role helpers in state.js — who counts as console-admitted (isAdmin)
+// Tests for the role helpers in state.ts — who counts as console-admitted (isAdmin)
 // vs who sees the internal toolset rail (isInternalAdmin, manager-ready Phase 1) —
 // plus the resetSession leak guard for the promises flags.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isAdmin, isInternalAdmin, store, setState, resetSession } from "./state.js";
+import { isAdmin, isInternalAdmin, store, setState, resetSession } from "./state.ts";
 
 test("isAdmin: manager and admin are console-admitted; member and logged-out are not", () => {
   assert.equal(isAdmin({ roles: ["admin"] }), true);

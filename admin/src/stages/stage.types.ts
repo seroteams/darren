@@ -3,7 +3,7 @@
 // setState. Shared typed layer for the admin TypeScript pilot (repo-tidy Phase 4) —
 // convert a stage by typing its exports `Mount` / `Unmount` against this.
 
-import type { Store } from "../state.js";
+import type { Store } from "../state.ts";
 
 export interface StageContext {
   store: Store;

@@ -11,7 +11,7 @@
 
 import "../styles/error-log.css";
 import "../styles/pulse-drilldowns.css";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { alertAction as alertJs } from "../ui/confirm.js";

@@ -8,7 +8,7 @@
 // they were.
 
 import type { Mount } from "../../../../admin/src/stages/stage.types.ts";
-import { STAGES } from "../../../../admin/src/state.js";
+import { STAGES } from "../../../../admin/src/state.ts";
 import { breadcrumb } from "../../../../admin/src/ui/breadcrumb.ts";
 import { createSavePip } from "../../../../admin/src/ui/save-pip.ts";
 import {

@@ -1,4 +1,4 @@
-import { STAGES, resetSession, isAdmin } from "../state.js";
+import { STAGES, resetSession, isAdmin } from "../state.ts";
 import { exitStage } from "../ui/landing.ts";
 import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns, createPerson, createGuidedSession } from "../../../shared/api.js";
 import { firstRunIntroHtml, firstRunNotesExampleHtml } from "./intake-firstrun.ts";

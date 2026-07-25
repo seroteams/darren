@@ -7,7 +7,7 @@
 // user drill-in), where each of their runs opens read-only. Superadmin-only.
 
 import "../styles/pulse-drilldowns.css";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { getPulse } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { activeLabel, dateLabel, pulseCrumbs } from "../ui/pulse-labels.ts";

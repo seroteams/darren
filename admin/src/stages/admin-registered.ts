@@ -11,7 +11,7 @@
 // shared confirm dialog — no window.confirm anywhere.
 
 import "../styles/pulse-drilldowns.css";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { openRowMenu, closeRowMenu, type RowMenuItem } from "../ui/row-menu.ts";

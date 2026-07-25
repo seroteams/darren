@@ -3,7 +3,7 @@
 // A link switches to the register screen.
 
 import { Eye, EyeOff } from "lucide";
-import { STAGES, store, isInternalAdmin } from "../state.js";
+import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { login, me } from "../../../shared/api.js";
 import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";

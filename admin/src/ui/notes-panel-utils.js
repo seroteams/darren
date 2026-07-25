@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { escapeHtml } from "./html.js";
 
 export const STAGE_LABEL = {

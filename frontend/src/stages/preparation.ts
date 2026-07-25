@@ -7,7 +7,7 @@
 // same stage transitions as the shared screen it replaces
 // (admin/src/stages/preparation.js, which the admin console keeps).
 
-import { STAGES, resetSession, isInternalAdmin } from "../../../admin/src/state.js";
+import { STAGES, resetSession, isInternalAdmin } from "../../../admin/src/state.ts";
 import { exitStage } from "../../../admin/src/ui/landing.ts";
 import type { Mount } from "../../../admin/src/stages/stage.types.ts";
 import { createOrb } from "../../../admin/src/ui/orb.js";

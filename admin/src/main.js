@@ -4,7 +4,7 @@ import "./styles/tailwind.css";
 import "./styles/design.css";
 import "./styles/design/stage-exit.css"; // admin-only: the customer shell never fades stages out
 
-import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.js";
+import { STAGES, store, subscribe, setState, resetSession, isAdmin, isInternalAdmin, isSuperadmin, isLiveEnv } from "./state.ts";
 import { loaders } from "./stage-loaders.js";
 import { getSession, runRegression, me, logout } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, replaceUrl, isFlowStage, isInternalStage, isMemberStage, isSharedStage, isGuestStage, isSuperadminStage, isLiveHiddenStage } from "./router.js";

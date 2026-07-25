@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { createOrb } from "../ui/orb.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { flowInterstitial } from "../ui/flow-interstitial.ts";

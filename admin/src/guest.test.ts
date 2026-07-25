@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { startGuestRun, markRunForClaim, completeClaimAfterAuth } from "./guest.ts";
-import { STAGES } from "./state.js";
+import { STAGES } from "./state.ts";
 
 // The guest lane entry (guest-run Phase 2, shared by the start screen and the
 // login screen): drop any remembered session id — so boot can't pull a fresh

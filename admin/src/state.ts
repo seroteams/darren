@@ -1,6 +1,10 @@
 // Minimal state store + machine transitions. No dependencies.
+//
+// Was state.js + a hand-written state.d.ts bridge; converted to real TypeScript
+// (refactor-2026-07 P5) after the bridge drifted twice — the types now live with
+// the code and can't disagree with it.
 
-export const STAGES = Object.freeze({
+const STAGES_OBJ = {
   WELCOME: "WELCOME",
   LOGIN: "LOGIN",
   REGISTER: "REGISTER",
@@ -47,7 +51,86 @@ export const STAGES = Object.freeze({
   TEST: "TEST",
   GALLERY: "GALLERY",
   ERROR: "ERROR",
-});
+} as const;
+
+// Key = value by construction, so the union derives from the one object and a
+// new stage can never be missing from the type (the old d.ts bridge's failure).
+export type StageName = keyof typeof STAGES_OBJ;
+
+export const STAGES: Readonly<Record<StageName, StageName>> = Object.freeze(STAGES_OBJ);
+
+// The logged-in identity as stored: /auth/me gives { roles: [...] }, login/register give
+// a PublicUser { role: "..." } — isAdmin/isInternalAdmin handle both shapes. Superadmin
+// and company ride on some responses only, so everything is optional.
+export interface StoreUser {
+  name?: string;
+  email?: string;
+  role?: string;
+  roles?: string[];
+  company?: string;
+  isSuperadmin?: boolean;
+}
+
+export interface SessionCtx {
+  personId: string | null; // people-roster Phase 4: the roster person this 1:1 is about (null = free-typed)
+  name: string;
+  role: string;
+  seniority: string;
+  meetingType: string;
+  meetingTypeIndex: number | null;
+  notes: string;
+}
+
+export interface Store {
+  user: StoreUser | null;
+  appEnv: "live" | "local" | null;
+  sessionId: string | null;
+  stage: StageName;
+  substage: string;
+  turn: number;
+  totalBudget: number;
+  ctx: SessionCtx;
+  focusPoints: unknown;
+  preparation: unknown;
+  preparationRunId: string | null;
+  reviewRunId: string | null;
+  myRunId: string | null;
+  guidedId: string | null; // monthly-checkin: the guided session id the runner (/guided/:id) loads
+  personKey: string | null;
+  joinToken: string | null;
+  resetToken: string | null;
+  adminUserId: string | null;
+  adminUserName: string | null;
+  galleryScreen: string | null; // Screen Gallery: which screen the /gallery host is showing (stage key or null)
+  currentQuestion: unknown;
+  axes: unknown[];
+  briefing: unknown;
+  notes: unknown[];
+  sessionDir: string | null;
+  createdAt: number | null;
+  completedAt: number | null;
+  error: string | null;
+  retryStage: StageName | null;
+  stageTick: number;
+  regenerateFocusPoints: boolean;
+  scripted: unknown;
+  // Promises-before-recap (in `initial`, so resetSession clears them).
+  promises: unknown;
+  promisesConfirmed: boolean;
+  promisesConfirmSkip: boolean;
+  promisesSaveFailed: boolean;
+  // Per-app homes — not in `initial`; injected ONCE by each app's main.js at import time
+  // (admin: RUNS/LOGIN, customer: MEMBER_HOME/WELCOME), read by the shared exit/landing
+  // helpers. Typed required because boot always runs before any stage mounts.
+  memberHome: StageName;
+  guestHome: StageName;
+  // Not in `initial` — patched in via setState (main.js rehydrate), read by
+  // briefing.js — so optional here.
+  skipBriefingAnimation?: boolean;
+  // Stage the user was on when they opened the Privacy note, so its Back link
+  // returns there (set in main.js's render loop, read by privacy.js).
+  privacyBack?: StageName;
+}
 
 const initial = {
   user: null,
@@ -89,17 +172,21 @@ const initial = {
   promisesConfirmed: false,
   promisesConfirmSkip: false,
   promisesSaveFailed: false,
-};
+} satisfies Omit<Store, "memberHome" | "guestHome">;
 
-export const store = { ...initial };
-const listeners = new Set();
+// The per-app homes are injected by each app's main.js the moment this module
+// loads, before any stage can mount — so the cast is a boot-order fact, not a
+// lie. (They deliberately stay OUT of `initial`: resetSession spreads `initial`,
+// and re-defaulting memberHome there would clobber the customer app's home.)
+export const store = { ...initial } as unknown as Store;
+const listeners = new Set<(s: Store) => void>();
 
-export function subscribe(fn) {
+export function subscribe(fn: (s: Store) => void): () => void {
   listeners.add(fn);
   return () => listeners.delete(fn);
 }
 
-export function setState(patch) {
+export function setState(patch: Partial<Store>): void {
   Object.assign(store, patch);
   for (const fn of listeners) {
     try { fn(store); } catch (e) { console.error("[state] listener error", e); }
@@ -110,9 +197,10 @@ export function setState(patch) {
 // plain member only gets the prep flow (admin-access-guard Phase 2). Handles both shapes
 // we store: me() gives { roles: [...] }, login() gives a PublicUser { role: "..." }.
 // Mirrors the backend ADMIN_ROLES gate in require-auth.ts.
-export function isAdmin(user) {
-  if (!user) return false;
-  const roles = Array.isArray(user.roles) ? user.roles : user.role ? [user.role] : [];
+export function isAdmin(user: unknown): boolean {
+  if (!user || typeof user !== "object") return false;
+  const u = user as { roles?: unknown; role?: unknown };
+  const roles = Array.isArray(u.roles) ? u.roles : u.role ? [u.role] : [];
   return roles.includes("manager") || roles.includes("admin");
 }
 
@@ -122,31 +210,32 @@ export function isAdmin(user) {
 // A superadmin-by-email is internal too — otherwise a superadmin whose stored role is
 // `manager` would be walled out of their own internal tools (mirrors the server-side
 // isInternalIdentity in require-auth.ts; monthly-checkin architecture.md §3.1).
-export function isInternalAdmin(user) {
-  if (!user) return false;
-  const roles = Array.isArray(user.roles) ? user.roles : user.role ? [user.role] : [];
+export function isInternalAdmin(user: unknown): boolean {
+  if (!user || typeof user !== "object") return false;
+  const u = user as { roles?: unknown; role?: unknown };
+  const roles = Array.isArray(u.roles) ? u.roles : u.role ? [u.role] : [];
   return roles.includes("admin") || isSuperadmin(user);
 }
 
 // The cross-company superadmin (pre-go-live PG6+). Server-resolved from the email
 // allowlist and returned on the identity — never a role. Gates the /admin/* screens
 // (F-009): the backend 403s their data, this keeps a non-superadmin off the shells too.
-export function isSuperadmin(user) {
-  return !!(user && user.isSuperadmin);
+export function isSuperadmin(user: unknown): boolean {
+  return !!(user && typeof user === "object" && (user as { isSuperadmin?: unknown }).isSuperadmin);
 }
 
 // True when the app is running as the LIVE site (appEnv from /auth/me, server truth —
 // admin-live-deploy Phase 2). Drives the live nav trim (Test engine hidden) and
 // the deep-link bounce. Cosmetic on top of the Phase-1 backend fence.
-export function isLiveEnv() {
+export function isLiveEnv(): boolean {
   return store.appEnv === "live";
 }
 
-export function resetSession() {
+export function resetSession(): void {
   // Preserve the logged-in user across a session reset — "new session" clears the
   // run, not the login.
   const user = store.user;
   const appEnv = store.appEnv; // environment truth survives a session reset
   Object.assign(store, { ...initial, user, appEnv, ctx: { personId: null, name: "", role: "", seniority: "", meetingType: "", meetingTypeIndex: null, notes: "" } });
-  try { localStorage.removeItem("seroSessionId"); } catch {}
+  try { localStorage.removeItem("seroSessionId"); } catch { /* storage blocked — nothing to clear */ }
 }

@@ -1,4 +1,4 @@
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 
 export async function confirmResetSession(confirmAction, { to = STAGES.START } = {}) {
   const toStart = to === STAGES.START;

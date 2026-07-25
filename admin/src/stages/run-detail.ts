@@ -5,7 +5,7 @@
 //   Briefing — the field set the manager saw at the end of the meeting
 //   Answers  — the raw questions and how they were answered (the material behind the briefing)
 
-import { STAGES, store, isAdmin } from "../state.js";
+import { STAGES, store, isAdmin } from "../state.ts";
 import { getMyRun, rateMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";

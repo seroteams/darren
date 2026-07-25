@@ -11,7 +11,7 @@
 // The pure renders live in ./team-card.ts (DOM-free, unit-tested); this file owns the mount,
 // data loading and the click wiring.
 
-import { STAGES, store } from "../../../admin/src/state.js";
+import { STAGES, store } from "../../../admin/src/state.ts";
 import "../styles/team-card.css";
 import { listMyRuns, listPeople, createPerson, updatePerson, deletePerson, getLinkableUsers, linkPerson, unlinkPerson, invitePerson, resendInvite } from "../../../shared/api.js";
 import { showAddPersonModal } from "../../../admin/src/ui/add-person-modal.ts";

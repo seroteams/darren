@@ -14,7 +14,7 @@
 
 import "../styles/feedback-inbox.css";
 import "../styles/pulse-drilldowns.css";
-import { STAGES, store } from "../state.js";
+import { STAGES, store } from "../state.ts";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { openRowMenu, closeRowMenu, type RowMenuItem } from "../ui/row-menu.ts";
 import { confirmAction as confirmJs, alertAction as alertJs } from "../ui/confirm.js";

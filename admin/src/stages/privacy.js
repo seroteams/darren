@@ -9,7 +9,7 @@
 // bottom "← Back" link (Breadcrumb Rule), still honouring where the reader came from;
 // "Who can see it" reads as a label/value list instead of one dense paragraph.
 
-import { STAGES, store, isAdmin } from "../state.js";
+import { STAGES, store, isAdmin } from "../state.ts";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Human names for the places a reader can arrive from (store.privacyBack) — the first

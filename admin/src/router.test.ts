@@ -3,7 +3,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { isInternalStage, isAdminStage, isMemberStage, isGuestStage, isSuperadminStage, urlForState } from "./router.js";
-import { STAGES } from "./state.js";
+import { STAGES } from "./state.ts";
 
 test("the guest front door (WELCOME) left the admin app (frontend-admin-split Phase 3)", () => {
   // The guest-first start screen lives in the CUSTOMER app now — the admin

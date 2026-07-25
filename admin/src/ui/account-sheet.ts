@@ -15,7 +15,7 @@
 // it doesn't touch the shared .modal-backdrop / .modal base in notes-panel.css (another lane).
 
 import { changePassword, updateProfile, getCompany, updateCompany } from "../../../shared/api.js";
-import { store, setState, isAdmin } from "../state.js";
+import { store, setState, isAdmin } from "../state.ts";
 import { escapeHtml } from "./html.js";
 
 type User = { name?: string; email?: string } | null | undefined;

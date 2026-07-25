@@ -3,7 +3,7 @@
 // auto-login (Carl's call) — logging in proves the new password works. A dead/used/expired
 // link gets a plain-words message and a path to login. Shared by both apps (like login).
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store } from "../state.ts";
 import { submitPasswordReset } from "../../../shared/api.js";
 import { isTouchScreen } from "../ui/field.js";
 import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles } from "./login.js";

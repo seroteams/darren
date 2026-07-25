@@ -3,7 +3,7 @@
 // verdict, an overall Keep/Fix/Block, and one note. Saves only review.json to
 // the run folder via POST /api/runs/:id/review. Not part of the live manager flow.
 
-import { STAGES, store } from "../state.js";
+import { STAGES, store } from "../state.ts";
 import { getRunFull, saveReview } from "../../../shared/api.js";
 import { DIMENSIONS, OVERALL_VALUES, reviewStatusFromMarks, serializeReview, engineTag } from "../ui/review-serialize.js";
 import { escapeHtml as esc } from "../ui/html.js";

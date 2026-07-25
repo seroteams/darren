@@ -7,7 +7,7 @@
 // Modeled on library.js: build innerHTML, Back + Esc -> Home, clean up on unmount.
 
 import "../styles/guide.css";
-import { STAGES, setState } from "../state.js";
+import { STAGES, setState } from "../state.ts";
 import { getArcs, getVersion, getMeetingTypes, getHeartbeat } from "../../../shared/api.js";
 import { icon } from "../ui/icon.js";
 import { RefreshCw } from "lucide";
@@ -156,7 +156,7 @@ const FILES = [
   ["backend/engine/", "The pipeline + scoring: generate, preparation, question-generator, queue-manager, reviewer, lexicon, plus the shared ai-client and models."],
   ["backend/api/", "The HTTP server (server.ts) + one service folder per domain (services/<domain>/) and middleware/ (auth, v1 routing)."],
   ["backend/db/", "Postgres via Drizzle. Schema.ts (organizations, users, runs, invitations, authSessions) + migrations/."],
-  ["admin/src/", "The web app. Stages/ (screens), ui/, state.js, router.js. Built to admin/dist/ for prod."],
+  ["admin/src/", "The web app. Stages/ (screens), ui/, state.ts, router.js. Built to admin/dist/ for prod."],
   ["content/", "All the tunable data: prompts/, questions/, lexicons/, config/models.json, axes.json, focus-points.json, scenarios/, data/."],
   ["logs/<month>/<run-id>/", "One folder per run. Stage folders 00b-role-profile/, 01-focus-points/, 01b-preparation/, 04-dynamic-answers/, 05-evaluation/. Each with inputs.json, prompt.md, response.json."],
   ["…run root", "session-state.json, axis-state.json, transcript.json, pipeline-lock.json, and feedback.json once you leave a verdict."],

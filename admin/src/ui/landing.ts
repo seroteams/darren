@@ -8,8 +8,8 @@
 // once in main.js as store.memberHome) — a shared stage must never assume one, because the
 // same login.js file runs in both bundles.
 
-import { STAGES, isAdmin } from "../state.js";
-import type { StageName } from "../state.js";
+import { STAGES, isAdmin } from "../state.ts";
+import type { StageName } from "../state.ts";
 
 type UserLike = { roles?: string[]; role?: string } | null | undefined;
 

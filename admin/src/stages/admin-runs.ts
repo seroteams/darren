@@ -8,7 +8,7 @@
 // Superadmin-only, read-only.
 
 import "../styles/pulse-drilldowns.css";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { getAdminRuns, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";

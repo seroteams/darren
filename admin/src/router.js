@@ -3,7 +3,7 @@
 // store: main.js injects behavior via the exported helpers. Two guards prevent a
 // setState<->popstate loop — a suppress flag and a compare-before-write in syncUrl.
 
-import { STAGES } from "./state.js";
+import { STAGES } from "./state.ts";
 
 // The app is served under a base path on live (/admin, admin-live-deploy Phase 2) so it can
 // sit alongside the customer app at /. Vite injects the base as import.meta.env.BASE_URL

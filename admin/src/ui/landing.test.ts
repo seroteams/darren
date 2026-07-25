@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { landingStage } from "./landing.ts";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 
 // One home resolver, so login and a reload never disagree (audit B1 split-brain).
 // A manager/admin lands on START; a member lands on the per-app member home passed in.

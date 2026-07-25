@@ -9,7 +9,7 @@
 // PG2 read-only detail, and "Start 1:1" seeds a fresh intake with this person (free —
 // only running the full pipeline from there spends, same as starting any 1:1).
 
-import { STAGES, store } from "../../../admin/src/state.js";
+import { STAGES, store } from "../../../admin/src/state.ts";
 import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { breadcrumb } from "../../../admin/src/ui/breadcrumb.ts";

@@ -7,7 +7,7 @@
 // GET /api/v1/admin/runs payload as the Runs page, filtered to rated. Superadmin-only.
 
 import "../styles/pulse-drilldowns.css";
-import { STAGES } from "../state.js";
+import { STAGES } from "../state.ts";
 import { getAdminRuns } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
