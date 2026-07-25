@@ -1,6 +1,8 @@
 # Phase 5 — screen scaffold helper + state typing
 
-**Built 2026-07-25 (session 17d7a976). Awaiting Carl's green light.**
+## ✅ GREEN-LIT 2026-07-25
+
+Carl approved on the scaffold render-proof screenshot (183/183, all checks). Commits f38f9c19 + d7a53bbd. Built by session 17d7a976.
 
 Goal: one standard loading state and one standard "couldn't load" card instead of per-screen hand-rolls; kill the drifted hand-written state.d.ts by making state.js real TypeScript.
 

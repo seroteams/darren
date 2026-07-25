@@ -10,7 +10,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 |---------|------|-------|---------|
 | 0e03aa19 | Design consolidation P7 (re-audit + close) | docs/plans/doing/design-consolidation/, STATUS.md, audits/design-audit-2026-07/, docs/screen-gallery/ | 2026-07-24 |
 | 0d52559f | Google sign-in (plan setup) | docs/plans/doing/google-signin/, backend/api/services/auth/google-auth.service.ts, backend/api/services/auth/google-auth.controller.ts, backend/api/services/auth/google-auth.repo.ts, backend/api/services/auth/google-auth.service.test.ts, backend/api/services/auth/google-auth.controller.test.ts, backend/db/schema.ts, backend/api/middleware/cookies.ts, admin/src/stages/login.js, admin/src/stages/register.js, admin/src/stages/auth-screens.test.ts, admin/public/google-g.svg, frontend/public/google-g.svg, .env.example, render.yaml | 2026-07-25 |
-| 17d7a976 | Refactor programme (P5: scaffold + state.ts, committing) | docs/plans/doing/refactor-2026-07/, admin/src/ui/skeleton.js, admin/src/ui/screen-scaffold.ts, admin/src/stages/admin-error-log.ts, admin/src/stages/admin-feedback.ts, admin/src/stages/admin-registered.ts, admin/src/stages/admin-runs.ts, admin/src/stages/run-detail.ts, admin/src/stages/runs.ts, admin/src/stages/runs.test.ts, frontend/src/stages/team.ts, frontend/src/stages/members.ts, frontend/src/stages/person-detail.ts, frontend/src/stages/member-home.js, frontend/src/stages/guided/guided.page.ts | 2026-07-25 |
+| 17d7a976 | Refactor programme (P6: run projections) | docs/plans/doing/refactor-2026-07/, backend/engine/run-history.ts, backend/db/runs-store.ts, backend/engine/run-projections.ts | 2026-07-25 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

@@ -2,9 +2,9 @@
 
 Board: https://claude.ai/code/artifact/9483ebd6-873b-4c87-848f-528467532c68 (regenerate with `node scripts/plan-board.js refactor-2026-07`, republish to this URL)
 
-**Status: Phases 1–4 ✅ green-lit. Phase 5 ✅ built (2026-07-25), awaiting Carl's green light.**
+**Status: Phases 1–5 ✅ green-lit (2026-07-25). Phase 6 in build.**
 
-**Current state:** P1–P4 landed. P5 built in two commits: state.js + drifted state.d.ts → one typed state.ts (f38f9c19, 67 imports repointed); screen-scaffold helper adopted — every customer loading state is now the standard ghost cards, five admin "Loading…" sentences gone, six error cards standardised with their exact copy. 183/183, all typechecks, render proof in proof/. Remainder recorded: six admin error-card markups (mechanical).
+**Current state:** P1–P5 landed (latest: f38f9c19 + d7a53bbd — typed state.ts, standard loading/error scaffold both apps). Remainder recorded from P5: six admin error-card markups (mechanical). Now building: P6 shared run-row projections — internal, closes on the parity test.
 
 Carl asked for a full code review to refactor (2026-07-25) and chose the **full programme** over quick-tidy. Three survey agents swept backend/, admin/+frontend/, and scripts/config. Everything here is behaviour-preserving: the app does the same thing, the code gets smaller and safer to change.
 
@@ -25,8 +25,8 @@ Committee note: not convened — the committee's own rules exclude refactors and
 | 2 | Typecheck safety net (test files + shared/) | internal | ✅ green-lit 2026-07-25 — [phase-2.md](phase-2.md) |
 | 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ✅ green-lit 2026-07-25 — [phase-3.md](phase-3.md) |
 | 4 | Customer bundle: variant lab out + frontend dead code | user-visible | ✅ green-lit 2026-07-25 — [phase-4.md](phase-4.md) |
-| 5 | Screen scaffold helper + state.ts | user-visible | ✅ built — [phase-5.md](phase-5.md) — awaiting green light |
-| 6 | Shared run-row projections (file vs PG store) | internal | ⬜ |
+| 5 | Screen scaffold helper + state.ts | user-visible | ✅ green-lit 2026-07-25 — [phase-5.md](phase-5.md) |
+| 6 | Shared run-row projections (file vs PG store) | internal | 🔨 in build |
 | 7 | One shared boot module for both app shells | user-visible | ⬜ |
 
 Details per phase: [phase-2.md](phase-2.md) … [phase-7.md](phase-7.md). Minimum worthwhile programme = 1–3; every stopping point leaves the repo strictly better.
