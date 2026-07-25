@@ -10,6 +10,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import type { AuthRepo, AuthUser, PasswordResetRepo } from "./auth.repo.ts";
 import { badRequest, conflict, unauthenticated, forbidden, notFound } from "../../middleware/http-error.ts";
+import { isKnownSector } from "../../../../shared/sectors.ts";
 
 /** Shortest password we accept. Plain minimum-length gate — strength rules are not
  *  in this phase. */
@@ -47,6 +48,15 @@ export interface UpdateProfileInput {
 export interface UpdateCompanyInput {
   orgId: string;
   name: string;
+  /** A catalogue id from shared/sectors.ts. Empty, null, or omitted all mean "not set" —
+   *  the field is optional and clearing it is allowed. Anything else is refused. */
+  sector?: string | null;
+}
+
+/** What the account page shows for the caller's organisation. */
+export interface CompanyProfile {
+  name: string;
+  sector: string | null;
 }
 
 /** The safe user shape that leaves the server — no password hash, ever. */
@@ -63,8 +73,8 @@ export interface AuthService {
   login(input: LoginInput): Promise<PublicUser>;
   changePassword(input: ChangePasswordInput): Promise<void>;
   updateProfile(input: UpdateProfileInput): Promise<PublicUser>;
-  getCompany(orgId: string): Promise<string | null>;
-  updateCompany(input: UpdateCompanyInput): Promise<{ id: string; name: string }>;
+  getCompany(orgId: string): Promise<CompanyProfile | null>;
+  updateCompany(input: UpdateCompanyInput): Promise<CompanyProfile>;
 }
 
 // Exported for the Google sign-in service (google-signin Phase 1), so both doors
@@ -148,20 +158,27 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
     },
 
     async getCompany(orgId) {
-      // The org's display name for the account sheet (audit M12). orgId comes from the
-      // session; the controller gates this to managers/admins.
-      return repo.orgName(orgId);
+      // The org's name and sector for the account page (audit M12; sector 2026-07-26).
+      // orgId comes from the session; the controller gates this to managers/admins.
+      return repo.orgProfile(orgId);
     },
 
     async updateCompany(input) {
-      // Rename the caller's OWN organisation (audit M12). Manager-gated in the controller;
-      // the orgId comes from the session, never the body — so a caller can only rename their
-      // own company. It's shared across the org: everyone on the team sees the new name.
+      // Rename the caller's OWN organisation and set its sector (audit M12). Manager-gated
+      // in the controller; the orgId comes from the session, never the body — so a caller
+      // can only change their own company. It's shared across the org: everyone on the team
+      // sees the new name.
       const name = (input.name ?? "").trim();
       if (!name) throw badRequest("Your company name can't be empty.");
-      const org = await repo.updateOrgName(input.orgId, name);
+      // Sector is optional: blank clears it. A value we don't recognise is refused rather
+      // than stored, so the column only ever holds catalogue ids the engine could key on.
+      const sectorRaw = (input.sector ?? "").trim();
+      if (sectorRaw && !isKnownSector(sectorRaw)) {
+        throw badRequest("Pick a sector from the list, or leave it blank.");
+      }
+      const org = await repo.updateOrg(input.orgId, { name, sector: sectorRaw || null });
       if (!org) throw notFound("We couldn't find your company.");
-      return org;
+      return { name: org.name, sector: org.sector };
     },
   };
 }

@@ -12,11 +12,11 @@ import type { AuthRepo, AuthUser, NewOrgOwner, PasswordResetRepo, ResetUser } fr
 function fakeRepo(seed: AuthUser[] = []): AuthRepo & {
   rows: AuthUser[];
   companies: string[];
-  orgs: { id: string; name: string }[];
+  orgs: { id: string; name: string; sector: string | null }[];
 } {
   const rows: AuthUser[] = [...seed];
   const companies: string[] = [];
-  const orgs: { id: string; name: string }[] = [];
+  const orgs: { id: string; name: string; sector: string | null }[] = [];
   let n = 0;
   return {
     rows,
@@ -38,14 +38,16 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & {
       u.name = name;
       return u;
     },
-    async orgName(orgId) {
-      return orgs.find((o) => o.id === orgId)?.name ?? null;
+    async orgProfile(orgId) {
+      const o = orgs.find((x) => x.id === orgId);
+      return o ? { name: o.name, sector: o.sector } : null;
     },
-    async updateOrgName(orgId, name) {
+    async updateOrg(orgId, patch) {
       const o = orgs.find((x) => x.id === orgId);
       if (!o) return null;
-      o.name = name;
-      return { id: o.id, name: o.name };
+      o.name = patch.name;
+      o.sector = patch.sector;
+      return { id: o.id, name: o.name, sector: o.sector };
     },
     async createOrgWithOwner(input: NewOrgOwner) {
       companies.push(input.company);
@@ -57,7 +59,7 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & {
         role: "manager",
         passwordHash: input.passwordHash,
       };
-      orgs.push({ id: u.orgId, name: input.company });
+      orgs.push({ id: u.orgId, name: input.company, sector: null });
       rows.push(u);
       return u;
     },
@@ -274,7 +276,7 @@ test("updateCompany: a new company name is trimmed, stored, and read back by get
   const org = await service.updateCompany({ orgId: user.orgId, name: "  Acme Corp  " });
 
   assert.equal(org.name, "Acme Corp");
-  assert.equal(await service.getCompany(user.orgId), "Acme Corp");
+  assert.equal((await service.getCompany(user.orgId))?.name, "Acme Corp");
 });
 
 test("updateCompany: an empty (or whitespace-only) name is refused and stores nothing", async () => {
@@ -283,12 +285,63 @@ test("updateCompany: an empty (or whitespace-only) name is refused and stores no
   const user = await service.register({ email: "bo@acme.com", name: "Bo", password: "longenough1", company: "Bo Ltd" });
 
   await assert.rejects(() => service.updateCompany({ orgId: user.orgId, name: "  " }), /company/i);
-  assert.equal(await service.getCompany(user.orgId), "Bo Ltd"); // unchanged
+  assert.equal((await service.getCompany(user.orgId))?.name, "Bo Ltd"); // unchanged
 });
 
 test("updateCompany: an unknown org id is refused", async () => {
   const service = createAuthService(fakeRepo(), fakeHasher);
   await assert.rejects(() => service.updateCompany({ orgId: "ghost", name: "Ghosts Inc" }), /find|company/i);
+});
+
+// --- Company sector (capture only, 2026-07-26) -----------------------------------------
+// The org's industry, saved beside the company name on the same form. It is OPTIONAL and
+// stored as a catalogue id (a stable key), never free text — so it can later key a cached
+// per-sector context block. Nothing in the engine reads it yet: this is capture only.
+
+test("updateCompany: a known sector is stored beside the name and read back by getCompany", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "amy@acme.com", name: "Amy", password: "longenough1", company: "Acme" });
+
+  const org = await service.updateCompany({ orgId: user.orgId, name: "Acme", sector: "healthcare" });
+
+  assert.equal(org.sector, "healthcare");
+  assert.equal((await service.getCompany(user.orgId))?.sector, "healthcare");
+});
+
+test("updateCompany: a sector outside the catalogue is refused and stores nothing", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "bo@acme.com", name: "Bo", password: "longenough1", company: "Bo Ltd" });
+  await service.updateCompany({ orgId: user.orgId, name: "Bo Ltd", sector: "healthcare" });
+
+  await assert.rejects(
+    () => service.updateCompany({ orgId: user.orgId, name: "Bo Renamed", sector: "underwater-basket-weaving" }),
+    /sector/i,
+  );
+  // Neither the sector NOR the name moved — a bad sector rejects the whole save.
+  const after = await service.getCompany(user.orgId);
+  assert.equal(after?.sector, "healthcare");
+  assert.equal(after?.name, "Bo Ltd");
+});
+
+test("updateCompany: an omitted or empty sector clears it back to not-set", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "cj@acme.com", name: "CJ", password: "longenough1", company: "CJ Ltd" });
+  await service.updateCompany({ orgId: user.orgId, name: "CJ Ltd", sector: "retail" });
+
+  const cleared = await service.updateCompany({ orgId: user.orgId, name: "CJ Ltd", sector: "" });
+
+  assert.equal(cleared.sector, null);
+  assert.equal((await service.getCompany(user.orgId))?.sector, null);
+});
+
+test("a brand-new company starts with no sector set", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({ email: "dee@acme.com", name: "Dee", password: "longenough1" });
+  assert.equal((await service.getCompany(user.orgId))?.sector, null);
 });
 
 // --- Password reset (forgot-password) ------------------------------------------------

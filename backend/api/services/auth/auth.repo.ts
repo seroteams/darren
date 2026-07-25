@@ -40,6 +40,14 @@ export interface NewOrgOwner {
   passwordHash: string;
 }
 
+/** An organisation as the account page reads it. `sector` is a catalogue id from
+ *  shared/sectors.ts, or null when it has never been set. */
+export interface OrgRow {
+  id: string;
+  name: string;
+  sector: string | null;
+}
+
 export interface AuthRepo {
   /** The user with this (already-normalized) email, or null. */
   findByEmail(email: string): Promise<AuthUser | null>;
@@ -51,11 +59,13 @@ export interface AuthRepo {
   /** Overwrite one user's display name (audit M12); returns the updated user, or null when
    *  no row matched. Only ever the caller's own id (the controller reads it from the session). */
   updateName(id: string, name: string): Promise<AuthUser | null>;
-  /** The name of an org (audit M12 — the account sheet shows the caller's company). */
-  orgName(orgId: string): Promise<string | null>;
-  /** Rename an org (audit M12 — the caller's own company, manager-gated in the controller);
-   *  returns the updated org, or null when no row matched. orgId comes from the session. */
-  updateOrgName(orgId: string, name: string): Promise<{ id: string; name: string } | null>;
+  /** An org's name and sector (audit M12 — the account page shows the caller's company;
+   *  sector added 2026-07-26). Null when no row matched. */
+  orgProfile(orgId: string): Promise<{ name: string; sector: string | null } | null>;
+  /** Rename an org and set its sector (audit M12 — the caller's own company, manager-gated
+   *  in the controller); returns the updated org, or null when no row matched. orgId comes
+   *  from the session. A null sector means "not set". */
+  updateOrg(orgId: string, patch: { name: string; sector: string | null }): Promise<OrgRow | null>;
   /** Create the company AND its owner together, in one transaction (both succeed or
    *  neither does); returns the stored owner. This is what makes signup create the
    *  company (Phase 4). */
@@ -88,16 +98,25 @@ export const pgAuthRepo: AuthRepo = {
     if (!u) return null;
     return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash, deactivatedAt: u.deactivatedAt };
   },
-  async orgName(orgId) {
+  async orgProfile(orgId) {
     const db = getDb();
-    const rows = await db.select({ name: organizations.name }).from(organizations).where(eq(organizations.id, orgId)).limit(1);
-    return rows[0]?.name ?? null;
-  },
-  async updateOrgName(orgId, name) {
-    const db = getDb();
-    const rows = await db.update(organizations).set({ name }).where(eq(organizations.id, orgId)).returning();
+    const rows = await db
+      .select({ name: organizations.name, sector: organizations.sector })
+      .from(organizations)
+      .where(eq(organizations.id, orgId))
+      .limit(1);
     const o = rows[0];
-    return o ? { id: o.id, name: o.name } : null;
+    return o ? { name: o.name, sector: o.sector } : null;
+  },
+  async updateOrg(orgId, patch) {
+    const db = getDb();
+    const rows = await db
+      .update(organizations)
+      .set({ name: patch.name, sector: patch.sector })
+      .where(eq(organizations.id, orgId))
+      .returning();
+    const o = rows[0];
+    return o ? { id: o.id, name: o.name, sector: o.sector } : null;
   },
   async createOrgWithOwner(input) {
     const db = getDb();

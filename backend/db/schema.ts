@@ -26,6 +26,11 @@ export const inviteStatus = pgEnum("invite_status", ["pending", "accepted", "rev
 export const organizations = pgTable("organizations", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
+  // The company's industry, set by a manager in the account page (2026-07-26). Nullable:
+  // it is optional, every existing org starts null, and clearing it is allowed. Stores a
+  // catalogue id from shared/sectors.ts (validated in the service), never free text.
+  // CAPTURE ONLY — no engine stage reads this yet.
+  sector: text("sector"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });

@@ -70,15 +70,16 @@ export async function updateProfile({ name }) {
   return postJson("/api/v1/auth/update-profile", { name });
 }
 
-// Company (audit M12): the signed-in manager reads/renames their own organisation's name.
-// The server takes the org id from the session (never the body), and only a manager/admin
-// may read or write it — a member is refused. getCompany → { company }; updateCompany
-// renames it for the whole org and returns the new { company }.
+// Company (audit M12): the signed-in manager reads/edits their own organisation's name and
+// sector. The server takes the org id from the session (never the body), and only a
+// manager/admin may read or write it — a member is refused. getCompany → { company, sector };
+// updateCompany saves both for the whole org and returns the new { company, sector }. Sector
+// is optional: pass "" to clear it.
 export async function getCompany() {
   return json(await fetch("/api/v1/auth/company"));
 }
-export async function updateCompany({ company }) {
-  return postJson("/api/v1/auth/update-company", { company });
+export async function updateCompany({ company, sector }) {
+  return postJson("/api/v1/auth/update-company", { company, sector: sector ?? "" });
 }
 
 // Hand an ownerless (guest) finished run to the logged-in caller (guest-run Phase 1

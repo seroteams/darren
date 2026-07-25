@@ -15,6 +15,7 @@
 // it doesn't touch the shared .modal-backdrop / .modal base in notes-panel.css (another lane).
 
 import { changePassword, updateProfile, getCompany, updateCompany } from "../../../shared/api.js";
+import { SECTORS } from "../../../shared/sectors.ts";
 import { store, setState, isAdmin } from "../state.ts";
 import { escapeHtml } from "./html.js";
 
@@ -85,12 +86,20 @@ export function showAccountSheet(user: User): void {
   const page = document.createElement("div");
   page.className = "acct-page";
 
+  const sectorOptions = [
+    `<option value="">Not set</option>`,
+    ...SECTORS.map((s) => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.label)}</option>`),
+  ].join("");
+
   const companySection = canEditCompany
     ? `
     <form class="card acct-card-gap js-company-form" novalidate>
       <label class="eyebrow" for="acct-company">Company</label>
       <p class="acct-hint">Everyone on your team sees this.</p>
       <input id="acct-company" class="acct-input js-company" type="text" autocomplete="organization" placeholder="Loading…" disabled required />
+      <label class="acct-label" for="acct-sector">Sector</label>
+      <select id="acct-sector" class="acct-input js-sector" disabled>${sectorOptions}</select>
+      <p class="acct-hint">Optional. We'll use this to tailor questions to your industry.</p>
       <p class="js-company-err text-negative text-sm" hidden></p>
       <p class="js-company-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="acct-actions">
@@ -235,17 +244,25 @@ export function showAccountSheet(user: User): void {
   if (canEditCompany) {
     const companyForm = page.querySelector<HTMLFormElement>(".js-company-form")!;
     const companyEl = page.querySelector<HTMLInputElement>(".js-company")!;
+    const sectorEl = page.querySelector<HTMLSelectElement>(".js-sector")!;
     const companyErr = page.querySelector<HTMLElement>(".js-company-err")!;
     const companyOk = page.querySelector<HTMLElement>(".js-company-ok")!;
     const companySaveBtn = page.querySelector<HTMLButtonElement>(".js-company-save")!;
 
     let loaded = "";
+    let loadedSector = "";
     getCompany()
-      .then((res: { company?: string }) => {
+      .then((res: { company?: string; sector?: string | null }) => {
         loaded = ((res?.company as string) || "").trim();
+        // An unknown id (a sector retired from the catalogue) leaves the select on "Not
+        // set" rather than silently inventing an option.
+        loadedSector = (res?.sector || "").trim();
         companyEl.value = loaded;
+        sectorEl.value = loadedSector;
+        loadedSector = sectorEl.value;
         companyEl.placeholder = "Your company name";
         companyEl.disabled = false;
+        sectorEl.disabled = false;
         companySaveBtn.disabled = false;
       })
       .catch(() => {
@@ -256,13 +273,18 @@ export function showAccountSheet(user: User): void {
       e.preventDefault();
       companyErr.hidden = true; companyOk.hidden = true;
       const next = companyEl.value.trim();
+      const nextSector = sectorEl.value;
       if (!next) { companyErr.textContent = "Your company name can't be empty."; companyErr.hidden = false; return; }
-      if (next === loaded) { companyOk.textContent = "That's already your company name."; companyOk.hidden = false; return; }
+      if (next === loaded && nextSector === loadedSector) {
+        companyOk.textContent = "That's already what's saved."; companyOk.hidden = false; return;
+      }
       companySaveBtn.disabled = true; companySaveBtn.textContent = "Saving…";
       try {
-        const res = (await updateCompany({ company: next })) as { company?: string };
+        const res = (await updateCompany({ company: next, sector: nextSector })) as { company?: string; sector?: string | null };
         loaded = ((res?.company as string) || next).trim();
+        loadedSector = (res?.sector || "").trim();
         companyEl.value = loaded;
+        sectorEl.value = loadedSector;
         setState({ user: { ...store.user, company: loaded } });
         companyOk.textContent = "Company updated for your whole team."; companyOk.hidden = false;
       } catch (e2) {
