@@ -2,7 +2,9 @@
 
 Board: https://claude.ai/code/artifact/9483ebd6-873b-4c87-848f-528467532c68 (regenerate with `node scripts/plan-board.js refactor-2026-07`, republish to this URL)
 
-**Status: ✅ CLOSED 2026-07-25 — all 7 phases built and green-lit in one day.**
+**Status: ✅ CLOSED + LIVE 2026-07-25 — all 7 phases built and green-lit in one day.**
+
+**Shipped:** live on Carl's "go live". The push was actually made by the parallel google-signin session (its P2/P3 commits sat on top of this work), so all 12 refactor commits rode out with it. Verified on the real deploy, not Render's status: `/api/version` reports build `62daeb6` — the origin/main HEAD that contains every refactor commit — and `/api/v1/health/deep` returns `{ok:true, db:"up"}`.
 
 **What it did:** ~4,000 lines removed or de-duplicated across the backend, both frontends and the tooling; the automated safety net widened to ~50 test files that were running unchecked; two classes of "keep these in sync by hand" duplication (run-row projections, app shells) made structurally impossible. No behaviour changed anywhere — every phase closed on tests, the parity test, or real-browser screenshots.
 
