@@ -1,6 +1,9 @@
 # Phase 2 — Buttons on the screens
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's QA
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-25 — Carl walked the button on the real screens (commit 9f0b8000)
+Approved on the rendered-screen proof set (customer login + register, admin login, phone width, cancel copy) plus his own click-through. Matches the approved mockup; blue stays on the one primary action.
 
 ## Built (2026-07-25)
 - `login.js` exports the shared `googleButtonHtml()`/`googleStartUrl()` snippet (ghost anchor + G asset, full-page navigation, `?app=admin|customer` by bundle); login shows friendly copy for every `?error=` code then tidies the URL. `register.js` imports the same snippet below the privacy line. `google-g.svg` in both public dirs; one `text-decoration:none` rule in auth.css.
