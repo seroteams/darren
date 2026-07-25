@@ -13,6 +13,8 @@ The whole Google sign-in flow works end to end locally, reachable only by pastin
 
 ## Carl's setup first (about 10 minutes, one-off)
 
+**Visual version of these steps (drawn screens, click targets ringed):** https://claude.ai/code/artifact/8965b566-3f0f-4ba3-995f-12d76590c460
+
 You create the Google side yourself (it is your Google account and a secret key; I never touch it):
 
 1. Go to **console.cloud.google.com** and sign in with your Google account. Top bar → project picker → **New project** → name it **Sero** → Create.
