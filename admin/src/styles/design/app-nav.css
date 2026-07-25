@@ -38,9 +38,13 @@ body.app-nav-collapsed .app-nav {
 }
 /* Collapsed rail: hover-expand as an overlay. Pointer-only — on touch devices a
    tap would "stick" the hover and leave the open rail overlaying content (iOS
-   emulates hover on tap). */
+   emulates hover on tap).
+   `.is-peek-off` suspends the peek right after the user clicks Collapse: the
+   pointer is still over the rail (and the button still focus-within), so without
+   it the rail would stay full-width and the click would read as "nothing
+   happened". app-nav.js drops the class on the next pointerleave. */
 @media (hover: hover) {
-  body.app-nav-collapsed .app-nav:hover {
+  body.app-nav-collapsed .app-nav:not(.is-peek-off):hover {
     width: var(--app-nav-w-open);
     z-index: var(--sero-z-fixed, 30);
     will-change: width;
@@ -148,8 +152,8 @@ body.app-nav-collapsed .app-nav .app-nav__word {
   opacity: 0;
 }
 @media (hover: hover) {
-  body.app-nav-collapsed .app-nav:hover .app-nav__label,
-  body.app-nav-collapsed .app-nav:hover .app-nav__word {
+  body.app-nav-collapsed .app-nav:not(.is-peek-off):hover .app-nav__label,
+  body.app-nav-collapsed .app-nav:not(.is-peek-off):hover .app-nav__word {
     opacity: 1;
   }
 }
@@ -199,7 +203,7 @@ body.app-nav-collapsed .app-nav .app-nav__group-label span {
   opacity: 0;
 }
 @media (hover: hover) {
-  body.app-nav-collapsed .app-nav:hover .app-nav__group-label span {
+  body.app-nav-collapsed .app-nav:not(.is-peek-off):hover .app-nav__group-label span {
     opacity: 1;
   }
 }
@@ -246,7 +250,7 @@ body.app-nav-collapsed .app-nav .app-nav__collapse {
   pointer-events: none;
 }
 @media (hover: hover) {
-  body.app-nav-collapsed .app-nav:hover .app-nav__collapse {
+  body.app-nav-collapsed .app-nav:not(.is-peek-off):hover .app-nav__collapse {
     opacity: 1;
     pointer-events: auto;
   }

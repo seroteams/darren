@@ -238,7 +238,16 @@ export function createAppNav({ setState, resetSession } = {}) {
     collapsed = !collapsed;
     try { localStorage.setItem(COLLAPSE_KEY, collapsed ? "1" : "0"); } catch {}
     applyCollapsed();
+    // Mouse click: the pointer is still on the rail and the button still holds
+    // focus, so the hover/focus peek would hold it full-width and the collapse
+    // would look like it did nothing. Drop focus and suspend the peek until the
+    // pointer leaves. Keyboard activation (detail 0) keeps focus and the peek.
+    if (collapsed && e.detail > 0) {
+      collapseBtn.blur();
+      el.classList.add("is-peek-off");
+    }
   });
+  el.addEventListener("pointerleave", () => el.classList.remove("is-peek-off"));
   applyCollapsed();
 
   const onNav = {
