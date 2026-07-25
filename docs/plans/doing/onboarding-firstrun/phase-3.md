@@ -1,6 +1,8 @@
 # Phase 3 — Quiet rail
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built 2026-07-26, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-26 — Carl walked the fresh-signup rail and its phone drawer, and accepted the settling beat rather than buy a boot fetch for everyone
 
 ## Built (2026-07-26)
 - `admin/src/ui/first-visit.ts` (new) — one small module holding "has this manager run a 1:1 yet?" with three states. `null` (nobody asked) is deliberately NOT "no": the rail only quiets on a positive no, so a deep link or a claimed guest run can never strip someone's app by accident.

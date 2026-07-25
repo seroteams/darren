@@ -1030,3 +1030,27 @@ manager's Home was unchanged needed a real finished run, and the seed script's s
 are not in this checkout. Rather than pay for an engine run, a local CDP harness rewrote
 the recent-runs response so the seeded example read as real, and the screenshot came from
 the actual render path. Free, honest, and it is in the phase file as a harness, not a fix.
+
+## 2026-07-26 — the rail went quiet without anyone losing their way out
+
+Phase 3 closed the onboarding plan's third question: seven doors on day one. The rail now
+carries no work rows until a manager has run a real 1:1, so the brief-first welcome is the
+only way in, and the rows come back the moment the first brief lands.
+
+The design decision worth keeping is what did NOT happen. The approved mock shows no
+sidebar at all, and building exactly that would have shipped a trap: in the customer app
+the only Log out lives in the rail (the profile chip deliberately hides its own), and What
+is Sero? and Send feedback have no other entrance anywhere in the product. The research
+pass found this before a line was written, which is the whole argument for researching a
+mock's implications rather than implementing its pixels. What shipped is the same
+subtraction with the shell intact.
+
+Second keeper: the flag has three states, not two. `null` means nobody has asked, and only
+a positive "no real runs" quiets the rail. A two-state boolean would have defaulted an
+unknown answer to "new here" and stripped the app for anyone who deep-linked or claimed a
+guest run before Home ever loaded. Unknown is not no.
+
+Carl accepted one honest cost rather than pay a bigger one: the rail settles a beat after
+first paint, because the answer arrives with Home's own fetch. Making it right on the
+first frame would mean an extra request at every manager's boot, forever, to serve a
+first-visit-only case. The beat was the cheaper wrong.
