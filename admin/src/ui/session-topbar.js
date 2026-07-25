@@ -67,7 +67,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const stageReview = createStageReview({ store });
   const el = document.createElement("div");
   // Mount HIDDEN: whether a run is live is only known once boot's async auth
-  // check resolves. Starting visible painted a stray "This 1:1" bar over the
+  // check resolves. Starting visible painted a stray "New 1:1" bar over the
   // blank page for the whole auth round-trip on first load — same fix as the
   // nav rail (ui/app-nav.js). render() reveals it when a run stage is on.
   el.className = "session-topbar is-hidden";
@@ -75,6 +75,13 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const row = document.createElement("div");
   row.className = "session-topbar__row session-topbar__row--main";
   el.appendChild(row);
+
+  // Left and right flanks take an equal share of the leftover width so the stage
+  // rail sits in the TRUE centre of the bar. Without them the wide profile chip
+  // on the right pushed the pills off-centre to the left.
+  const left = document.createElement("div");
+  left.className = "session-topbar__side session-topbar__side--left";
+  row.appendChild(left);
 
   // Guest-only brand mark, first thing on the row (far top-left). Hidden by
   // default; render() shows it only when there's no signed-in user. Clicking it
@@ -86,15 +93,15 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   brand.hidden = true;
   brand.innerHTML = `<span class="session-topbar__brand-icon">${LOGO}</span><span class="session-topbar__brand-word">Sero</span>`;
   brand.addEventListener("click", () => setState && setState({ stage: STAGES.LOGIN }));
-  row.appendChild(brand);
+  left.appendChild(brand);
 
   const sessionBtn = document.createElement("button");
   sessionBtn.className = "session-topbar__start";
   sessionBtn.type = "button";
-  sessionBtn.textContent = "This 1:1";
+  sessionBtn.textContent = "New 1:1";
   sessionBtn.setAttribute("aria-haspopup", "menu");
   sessionBtn.setAttribute("aria-expanded", "false");
-  row.appendChild(sessionBtn);
+  left.appendChild(sessionBtn);
 
   const stages = document.createElement("div");
   stages.className = "session-topbar__stages";
@@ -111,7 +118,10 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   `;
   const profileAvatar = profile.querySelector(".session-topbar__avatar");
   const profileEmail = profile.querySelector(".session-topbar__email");
-  row.appendChild(profile);
+  const right = document.createElement("div");
+  right.className = "session-topbar__side session-topbar__side--right";
+  right.appendChild(profile);
+  row.appendChild(right);
 
   // No eager has-session-topbar here: render() adds/removes it alongside
   // is-hidden, so the body class and the bar can never disagree during boot.
@@ -194,7 +204,7 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   function render({ stage, sessionId, user } = {}) {
     const current = String(stage || "");
     // On INTAKE (pre-run, usually no session id yet) the bar shows with Setup
-    // current and everything ahead upcoming; the "This 1:1" menu only unlocks
+    // current and everything ahead upcoming; the "New 1:1" menu only unlocks
     // once the run exists (its actions save/delete a live session) — until then
     // the button sits disabled and Setup keeps its own exit.
     if (!stepperVisible(current, sessionId)) {

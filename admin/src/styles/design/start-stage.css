@@ -141,6 +141,7 @@
    Session topbar — Start button + exit popover
 ----------------------------------------------------------------------------- */
 .session-topbar__start {
+  flex-shrink: 0;
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-ink);
@@ -168,19 +169,31 @@
   min-width: 0;
   gap: 0.75rem;
 }
+/* The two flanks share the leftover width equally, so the stage rail sits in the
+   true middle of the bar rather than being shoved off-centre by the wider
+   profile chip on the right. No min-width:0 here on purpose: the flanks must
+   keep their content floor, or they collapse to zero and the button/profile
+   spill over the rail. */
+.session-topbar__side {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+}
+.session-topbar__side--right {
+  justify-content: flex-end;
+}
 .session-topbar__stages {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
   display: flex;
   align-items: center;
+  /* Centre when it fits; "safe" falls back to start-alignment when it doesn't,
+     so an overflowing rail never hides its first step under the left edge. */
+  justify-content: safe center;
   overflow-x: auto;
   scrollbar-width: none;
   font-size: var(--type-body-sm);
 }
-/* Centre when it fits, left-align the scroll when it overflows — plain
-   justify-content: center clips the first step under the left edge. */
-.session-topbar__stages > :first-child { margin-left: auto; }
-.session-topbar__stages > :last-child { margin-right: auto; }
 .session-topbar__stages::-webkit-scrollbar {
   display: none;
 }

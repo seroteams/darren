@@ -428,6 +428,62 @@
       "port": 3153
     },
     {
+      "name": "sero-api-nav",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3191",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3191
+    },
+    {
+      "name": "sero-customer-nav",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3191",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3193",
+        "--strictPort"
+      ],
+      "port": 3193
+    },
+    {
+      "name": "sero-api-pill",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3211",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3211
+    },
+    {
+      "name": "sero-web-pill",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3211",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3213",
+        "--strictPort"
+      ],
+      "port": 3213
+    },
+    {
       "name": "sero-prod-iso",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
