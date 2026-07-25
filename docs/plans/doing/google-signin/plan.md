@@ -24,14 +24,14 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Backend flow (dark) | Google OAuth routes + migration, reachable by URL only; Carl's Google Cloud setup | 🔨 |
-| 2 | Buttons on the screens | "Continue with Google" on login + register, both apps, friendly error copy | ⬜ |
+| 1 | Backend flow (dark) | Google OAuth routes + migration, reachable by URL only; Carl's Google Cloud setup | ✅ |
+| 2 | Buttons on the screens | "Continue with Google" on login + register, both apps, friendly error copy | 🔨 |
 | 3 | Live rollout | Render env vars, consent screen to Production, live walk | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 BUILT 2026-07-25, awaiting Carl's QA walk (needs his 10-minute Google Cloud setup first — phase-1.md). Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · Baseline was 183/183 + typecheck clean; after build 185/185 (29 new tests), typecheck + lint:copy clean (paid gate deliberately skipped — engine untouched, cost rule).
+Phase 1 ✅ GREEN-LIT 2026-07-25 (Carl walked fresh-signup + existing-link with real Google accounts; both verified in DB). Phase 2 (buttons on login/register) 🔨 started same day on Carl's "shall we go". Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · Suite 185/185, typecheck + lint:copy clean. NOTE: STATUS.md not yet updated — lane held by another live chat (design-consolidation); fold in when it frees.
 
 ## Parked
 - Google button on the invite-join page and the public welcome page (Carl chose login + signup first, 2026-07-25).

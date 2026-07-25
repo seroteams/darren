@@ -1,6 +1,9 @@
 # Phase 1 — Backend flow (dark)
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's QA
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-25 — Carl walked both sign-in lanes with real Google accounts (commit 8aad32aa)
+Fresh signup: info@webcoursesbangkok.com → new manager + "Web Courses Bangkok's Company" workspace. Existing account: carl@seroteams.com → linked, same org, no new company. Both verified in the database (google_sub set on exactly those two users). Cancel + unconfigured lanes covered by the automated tests; Carl's Google Cloud setup done (consent screen already published to production, sero.team URI registered early — noted in phase-3).
 
 ## Built (2026-07-25)
 - Migration `0021_thankful_lockheed.sql`: `users.google_sub` + unique index (null-safe for every existing row).
