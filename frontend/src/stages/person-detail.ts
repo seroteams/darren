@@ -13,6 +13,7 @@ import { STAGES, store } from "../../../admin/src/state.ts";
 import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { breadcrumb } from "../../../admin/src/ui/breadcrumb.ts";
+import { loadingHtml } from "../../../admin/src/ui/screen-scaffold.ts";
 import { renderPromiseList, type PromiseRow } from "../../../admin/src/ui/briefing-view.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { Star, ChevronRight } from "lucide";
@@ -196,7 +197,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const key = store.personKey;
-  root.innerHTML = shell(`<p class="text-sm text-ink-dim">Loading…</p>`);
+  root.innerHTML = shell(loadingHtml(3));
   wireCrumbs();
 
   if (!key) {

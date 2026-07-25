@@ -17,6 +17,7 @@ import { Star } from "lucide";
 import { relTime, formatDate } from "../ui/time.ts";
 import { pageHeader } from "../ui/page-header.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
+import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 import "../styles/design/member-runs.css";
 import "../styles/ux-audit-fixes.css";
@@ -130,12 +131,10 @@ export const mount: Mount = async (root, { setState }) => {
       <p class="text-ink-dim">Your past 1:1s will show up here once you've had one.</p>
     </section>`;
 
-  const errorCard = `
-    <section class="card-flat space-y-3">
-      <div class="eyebrow">Couldn't load your 1:1s</div>
-      <p class="text-ink-dim">Something went wrong on our end, not yours. Try again in a moment. If it keeps happening, email <a href="mailto:carl@seroteams.com">carl@seroteams.com</a> and we'll help sort it out.</p>
-      <button type="button" class="btn btn--ghost js-retry">Try again</button>
-    </section>`;
+  const errorCard = errorCardHtml({
+    title: "Couldn't load your 1:1s",
+    copyHtml: `Something went wrong on our end, not yours. Try again in a moment. If it keeps happening, email <a href="mailto:carl@seroteams.com">carl@seroteams.com</a> and we'll help sort it out.`,
+  });
 
   const startOneOnOne = () => {
     store.scripted = null;
@@ -187,7 +186,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading your 1:1s…</p></section>`);
+    root.innerHTML = shell(loadingHtml(4));
     wire();
 
     // Member path: the list-only "about me" runs — never listMyRuns (which is authored-by-me

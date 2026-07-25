@@ -17,6 +17,7 @@ import { showActionError } from "../../../admin/src/ui/action-error.ts";
 import { membersTable, filterMembers, type MemberRow } from "./members-table.ts";
 import { pageHeader } from "../../../admin/src/ui/page-header.ts";
 import { listToolbar } from "../../../admin/src/ui/list-toolbar.ts";
+import { errorCardHtml, loadingHtml } from "../../../admin/src/ui/screen-scaffold.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 
 export const mount: Mount = async (root) => {
@@ -39,12 +40,7 @@ export const mount: Mount = async (root) => {
       <div class="eyebrow">No one has access yet</div>
       <p class="text-ink-dim">This is where people who can log in to your workspace will appear.</p>
     </section>`;
-  const errorCard = `
-    <section class="card-flat space-y-3">
-      <div class="eyebrow">Couldn't load members</div>
-      <p class="text-ink-dim">Something went wrong. Please try again.</p>
-      <button type="button" class="btn btn--ghost js-retry">Try again</button>
-    </section>`;
+  const errorCard = errorCardHtml({ title: "Couldn't load members" });
 
   // The one place inviting starts: email + role → the invite engine mints a one-time join link
   // and emails it. The link is also surfaced so the manager can copy it if the email lags.
@@ -159,7 +155,7 @@ export const mount: Mount = async (root) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading members…</p></section>`);
+    root.innerHTML = shell(loadingHtml(4));
     wire();
     try {
       const res = (await getMembers()) as { members?: MemberRow[] };

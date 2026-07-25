@@ -14,6 +14,7 @@ import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.ts";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
+import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
 import { alertAction as alertJs } from "../ui/confirm.js";
 import { getErrorLog, resolveError } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
@@ -195,12 +196,7 @@ export const mount: Mount = async (root, { setState }) => {
     if (e.target instanceof Element && e.target.closest('.js-crumb[data-nav="pulse"]')) setState({ stage: STAGES.ADMIN_PULSE });
   });
 
-  const errorCard = `
-    <section class="card-flat l-stack l-stack--2">
-      <div class="eyebrow">Couldn't load</div>
-      <p class="text-ink-dim">Something went wrong loading the error log. Please try again.</p>
-      <button type="button" class="btn btn--ghost js-retry">Try again</button>
-    </section>`;
+  const errorCard = errorCardHtml({ copyHtml: "Something went wrong loading the error log. Please try again." });
 
   let allRows: ErrorRow[] = [];
   let tab: string = "unresolved";
@@ -320,7 +316,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading the error log…</p></section>`);
+    root.innerHTML = shell(loadingHtml(4));
     try {
       const res = await getErrorLog();
       allRows = Array.isArray(res?.errors) ? (res.errors as ErrorRow[]) : [];

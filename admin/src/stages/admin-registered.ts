@@ -14,6 +14,7 @@ import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.ts";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
+import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
 import { openRowMenu, closeRowMenu, type RowMenuItem } from "../ui/row-menu.ts";
 import { confirmAction as confirmJs, alertAction as alertJs } from "../ui/confirm.js";
 import { getRegistered, setUserRole, deactivateUser, reactivateUser, deleteUser } from "../../../shared/api.js";
@@ -173,12 +174,7 @@ export const mount: Mount = async (root, { setState }) => {
     if (e.target instanceof Element && e.target.closest('.js-crumb[data-nav="pulse"]')) setState({ stage: STAGES.ADMIN_PULSE });
   });
 
-  const errorCard = `
-    <section class="card-flat l-stack l-stack--2">
-      <div class="eyebrow">Couldn't load</div>
-      <p class="text-ink-dim">Something went wrong loading the user list. Please try again.</p>
-      <button type="button" class="btn btn--ghost js-retry">Try again</button>
-    </section>`;
+  const errorCard = errorCardHtml({ copyHtml: "Something went wrong loading the user list. Please try again." });
 
   const openUser = (id: string | null, name: string | null) => {
     if (id) setState({ adminUserId: id, adminUserName: name, stage: STAGES.ADMIN_USER });
@@ -295,7 +291,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading the alpha…</p></section>`);
+    root.innerHTML = shell(loadingHtml(4));
 
     let companies: RegCompany[];
     let summary: Summary;

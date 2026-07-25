@@ -11,6 +11,7 @@
 
 import { getRunsAboutMe, listMyTrackerItems, createMyRequest, updateMyGoal } from "../../../shared/api.js";
 import { pageHeader } from "../../../admin/src/ui/page-header.ts";
+import { loadingHtml } from "../../../admin/src/ui/screen-scaffold.ts";
 import { renderRunsSection, renderRequestsCard, renderGoalsCard } from "./member-home-view.ts";
 import "../../../admin/src/styles/design/member-runs.css";
 import "../../../admin/src/styles/add-person-modal.css"; // the compact boxed input recipe (.apm-field__input) on the member route
@@ -67,10 +68,10 @@ export async function mount(root) {
         lede: "The 1:1s your manager has prepped about you, plus the requests and goals you share with them.",
       })}
       <section class="js-about-me l-stack l-stack--4">
-        <p class="text-sm text-ink-mute">Loading…</p>
+        ${loadingHtml(2)}
       </section>
       <div class="js-my-trackers">
-        <p class="text-sm text-ink-mute">Loading…</p>
+        ${loadingHtml(2)}
       </div>
     </div>
   `;

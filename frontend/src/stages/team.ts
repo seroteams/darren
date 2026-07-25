@@ -21,6 +21,7 @@ import { showGiveAccessModal } from "../../../admin/src/ui/give-access-modal.ts"
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { pageHeader } from "../../../admin/src/ui/page-header.ts";
 import { listToolbar } from "../../../admin/src/ui/list-toolbar.ts";
+import { errorCardHtml, loadingHtml } from "../../../admin/src/ui/screen-scaffold.ts";
 import { teamList, filterPeople, type Person, type OrgUser } from "./team-card.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 import { prepStartSubstage } from "../../../admin/src/ui/intake-start.ts";
@@ -75,12 +76,7 @@ export const mount: Mount = async (root, { setState }) => {
         <button type="button" class="btn btn--ghost js-start">Start 1:1</button>
       </div>
     </section>`;
-  const errorCard = `
-    <section class="card-flat space-y-3">
-      <div class="eyebrow">Couldn't load your team</div>
-      <p class="text-ink-dim">Something went wrong. Please try again.</p>
-      <button type="button" class="btn btn--ghost js-retry">Try again</button>
-    </section>`;
+  const errorCard = errorCardHtml({ title: "Couldn't load your team" });
 
   // The one card of divider rows for whoever matches the search, or a quiet no-match line.
   const listRegion = () => {
@@ -275,7 +271,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading your team…</p></section>`);
+    root.innerHTML = shell(loadingHtml(4));
     let roster: { id: string; name: string; role: string | null; seniority?: string | null }[];
     let runs: unknown[];
     try {

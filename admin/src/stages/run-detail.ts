@@ -10,6 +10,7 @@ import { getMyRun, rateMyRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { createStarRating } from "../ui/star-rating.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
+import { loadingHtml } from "../ui/screen-scaffold.ts";
 import { recapHeader } from "../ui/recap-header.ts";
 import { renderReadonlyBriefing, type Briefing, type PromiseRow } from "../ui/briefing-view.ts";
 import { formatDate, relTime } from "../ui/time.ts";
@@ -205,7 +206,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const id = store.myRunId;
-  root.innerHTML = frame(crumbHeader, `<p class="text-sm text-ink-dim">Loading your 1:1…</p>`);
+  root.innerHTML = frame(crumbHeader, loadingHtml(3));
   wireCrumbs();
 
   if (!id) {

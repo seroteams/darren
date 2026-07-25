@@ -2,9 +2,9 @@
 
 Board: https://claude.ai/code/artifact/9483ebd6-873b-4c87-848f-528467532c68 (regenerate with `node scripts/plan-board.js refactor-2026-07`, republish to this URL)
 
-**Status: Phases 1–4 ✅ green-lit (2026-07-25). Phase 5 in build.**
+**Status: Phases 1–4 ✅ green-lit. Phase 5 ✅ built (2026-07-25), awaiting Carl's green light.**
 
-**Current state:** P1–P4 landed (457ca20d, 12f9c627, 2c708ce6, 747bd050). P4 highlights: /prepare lab is an admin-only async chunk (stage 20.8 → 8.9 kB JS, CSS 1,007 → 55 lines); runs.ts member branch honestly kept (still live in the admin app). Now building: P5 screen scaffold helper + state.ts. User-visible (customer screens gain real skeletons); closes on screenshots.
+**Current state:** P1–P4 landed. P5 built in two commits: state.js + drifted state.d.ts → one typed state.ts (f38f9c19, 67 imports repointed); screen-scaffold helper adopted — every customer loading state is now the standard ghost cards, five admin "Loading…" sentences gone, six error cards standardised with their exact copy. 183/183, all typechecks, render proof in proof/. Remainder recorded: six admin error-card markups (mechanical).
 
 Carl asked for a full code review to refactor (2026-07-25) and chose the **full programme** over quick-tidy. Three survey agents swept backend/, admin/+frontend/, and scripts/config. Everything here is behaviour-preserving: the app does the same thing, the code gets smaller and safer to change.
 
@@ -25,7 +25,7 @@ Committee note: not convened — the committee's own rules exclude refactors and
 | 2 | Typecheck safety net (test files + shared/) | internal | ✅ green-lit 2026-07-25 — [phase-2.md](phase-2.md) |
 | 3 | server.ts guard wrappers (64 origin guards, 4 rate limiters) | internal | ✅ green-lit 2026-07-25 — [phase-3.md](phase-3.md) |
 | 4 | Customer bundle: variant lab out + frontend dead code | user-visible | ✅ green-lit 2026-07-25 — [phase-4.md](phase-4.md) |
-| 5 | Screen scaffold helper + state.ts | user-visible | 🔨 in build |
+| 5 | Screen scaffold helper + state.ts | user-visible | ✅ built — [phase-5.md](phase-5.md) — awaiting green light |
 | 6 | Shared run-row projections (file vs PG store) | internal | ⬜ |
 | 7 | One shared boot module for both app shells | user-visible | ⬜ |
 

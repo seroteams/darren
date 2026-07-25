@@ -15,6 +15,7 @@ import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
 import { prettyType, prettyStage, dateLabel, pulseCrumbs } from "../ui/pulse-labels.ts";
 import { createSkeleton } from "../ui/skeleton.js";
+import { loadingHtml } from "../ui/screen-scaffold.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 import { recapHeader, type RecapCtx } from "../ui/recap-header.ts";
@@ -90,7 +91,7 @@ export async function openRunBriefing(
   wire: () => void,
 ): Promise<void> {
   const shell = (inner: string) => `<div class="l-container l-stack l-stack--8">${inner}</div>`;
-  root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+  root.innerHTML = shell(loadingHtml(3));
   let run: { ctx: RecapCtx; briefing: Briefing | null };
   try {
     run = (await getAdminRun(runId)) as { ctx: RecapCtx; briefing: Briefing | null };

@@ -67,7 +67,7 @@ test("the member view is intact: list-only, unclickable, its own title and lede"
 
 test("empty, loading and error states survive the new layout", () => {
   assert.ok(SRC.includes("No 1:1s yet"), "empty state kept");
-  assert.ok(SRC.includes("Loading your 1:1s"), "loading state kept");
+  assert.ok(SRC.includes("loadingHtml("), "loading state is the standard ghost cards (screen-scaffold, refactor-2026-07 P5)");
   assert.ok(SRC.includes("js-retry"), "error state keeps its retry");
 });
 

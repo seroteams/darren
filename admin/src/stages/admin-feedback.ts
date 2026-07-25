@@ -28,6 +28,7 @@ import type { FeedbackKind } from "../ui/feedback-kinds.ts";
 import { recapHeader } from "../ui/recap-header.ts";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
+import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 
 const confirmAction = confirmJs as unknown as (opts: {
@@ -243,7 +244,7 @@ export const mount: Mount = async (root, ctx) => {
   // Screen-Names-The-Object rule), so the inbox page header must not stack above it.
   const recapShell = (inner: string) => `<div class="l-container l-container--wide l-stack l-stack--6">${inner}</div>`;
   const renderRecap = async (runId: string) => {
-    root.innerHTML = recapShell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading 1:1…</p></section>`);
+    root.innerHTML = recapShell(loadingHtml(3));
     type RunCtx = { name: string; role: string; seniority: string; meetingType: string };
     let run: { ctx: RunCtx; briefing: Briefing | null };
     const wireBack = () => {
@@ -344,18 +345,13 @@ export const mount: Mount = async (root, ctx) => {
   pendingRunId = null;
   if (openRunId) { await renderRecap(openRunId); return; }
 
-  root.innerHTML = shell(`<section class="card-flat"><p class="text-sm text-ink-dim">Loading the feedback inbox…</p></section>`);
+  root.innerHTML = shell(loadingHtml(4));
 
   try {
     const res = await getFeedbackInbox();
     notes = Array.isArray(res?.notes) ? (res.notes as FeedbackNote[]) : [];
   } catch {
-    root.innerHTML = shell(`
-      <section class="card-flat l-stack l-stack--2">
-        <div class="eyebrow">Couldn't load</div>
-        <p class="text-sm text-ink-dim">Something went wrong loading the feedback inbox. Please try again.</p>
-        <button type="button" class="btn btn--ghost js-retry">Try again</button>
-      </section>`);
+    root.innerHTML = shell(errorCardHtml({ copyHtml: "Something went wrong loading the feedback inbox. Please try again." }));
     root.querySelector(".js-retry")?.addEventListener("click", () => { void mount(root, ctx); });
     return;
   }

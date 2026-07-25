@@ -11,6 +11,7 @@ import type { Mount } from "../../../../admin/src/stages/stage.types.ts";
 import { STAGES } from "../../../../admin/src/state.ts";
 import { breadcrumb } from "../../../../admin/src/ui/breadcrumb.ts";
 import { createSavePip } from "../../../../admin/src/ui/save-pip.ts";
+import { loadingHtml } from "../../../../admin/src/ui/screen-scaffold.ts";
 import {
   getGuidedSession,
   patchGuidedSession,
@@ -62,7 +63,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     return;
   }
 
-  root.innerHTML = `<div class="l-container"><p class="text-ink-dim">Loading your check-in…</p></div>`;
+  root.innerHTML = `<div class="l-container">${loadingHtml(3)}</div>`;
 
   let dto: GuidedSessionDto;
   try {
