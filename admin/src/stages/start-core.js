@@ -106,6 +106,14 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     return model.status === "open" ? `<span class="run-list__status">Half done</span>` : "";
   }
 
+  // Every new signup is seeded with one example 1:1 (demo-member Phase 1). Unlabelled it
+  // reads as a product that invents history, so this chip is NOT gated on internal admin:
+  // the customer is exactly who needs to see it. Removing the example lives on Team,
+  // where it can take the person and the 1:1 together.
+  function exampleChip(model) {
+    return model.isExample ? `<span class="run-list__example">Example</span>` : "";
+  }
+
   // Project-standard skeleton (ui/skeleton.js) — the same ghost cards the
   // "What we'll cover" focus screen shows while it loads. 3 cards ≈ the 3
   // recent sessions we fetch. Wrapped in an <li> so the <ul> stays valid.
@@ -154,9 +162,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.setAttribute("aria-busy", "false");
     errorHost.hidden = true;
     syncAccentBudget(false);
-    // realRuns is what the manager actually did. It gains a `!isDemo` filter in Phase 3,
-    // so the seeded example row shows WITH the invitation rather than replacing it.
-    const realRuns = runs;
+    // realRuns is what the manager actually did. The seeded example doesn't count, so a
+    // brand-new account keeps the invitation card WITH the example row below it, rather
+    // than the example standing in for a 1:1 they never ran.
+    const realRuns = runs.filter((r) => !rowModel(r).isExample);
     // The card chrome only wraps real rows — the skeleton and the recovery card bring
     // their own surfaces (never nest cards). The invitation now sits OUTSIDE the list
     // entirely, so a card can't end up inside the list card.
@@ -191,7 +200,7 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
             <span class="run-list__name">${escape(m.name)}${reviewChip(r)}</span>
             <span class="run-list__sub">${escape(m.sub)}</span>
           </span>
-          <span class="run-list__side">${statusChip(m)}</span>
+          <span class="run-list__side">${exampleChip(m)}${statusChip(m)}</span>
         </button>
         <button type="button" class="row-menu-btn js-row-more" data-id="${escape(r.id)}" aria-haspopup="menu" aria-label="More actions for this 1:1">${icon(MoreHorizontal, { size: 18 })}</button>
       </li>

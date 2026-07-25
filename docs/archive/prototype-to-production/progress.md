@@ -893,3 +893,25 @@ Also shipped here because it had to be: the card moved OUT of the recents <ul>. 
 have wrapped a .card-flat, i.e. a nested card. Fixed before it could happen rather than after.
 And the header lede is now state-aware: "Pick up where you left off" is simply false for someone
 with nothing to pick up, which is the same defect class as the row blob Phase 1 removed.
+
+## 2026-07-25 — Home screen truth, Phase 3 + plan CLOSED
+
+Every new signup is seeded with an example person and one finished 1:1 (demo-member Phase 1), and
+that row was unlabelled. A brand-new manager's first impression was therefore a past 1:1 they
+never had. Now it carries an "Example" chip, and `realRuns` filters it out so the first-run
+invitation card still shows above it: the example is context, not a substitute for having used
+the product.
+
+Two deliberate calls. The chip is NOT gated on internal admin, because the customer is precisely
+who needs to see it, and it is styled neutral rather than accent, because it labels the row
+rather than selling it. Cost was one line in each of the two run-store implementations (`isDemo`
+was already sitting in session state, written at seed time), and the existing pg-vs-file parity
+test is what makes a one-sided change impossible.
+
+Plan closed: 3 phases, all green-lit the day they were built, zero OpenAI spend, 186/186 tests
+throughout. The through-line across all three phases was the same: every defect was the screen
+saying something that was not true (an email where a name should be, a half-done prep looking
+finished, "you have never run a 1:1" after a network blip, a seeded example posing as history).
+Fixing them was mostly deletion and narrowing, not addition. Two follow-ups parked for Carl: the
+email sitting in `ctx.seniority` in the database, and the fact that an unfinished prep older than
+the 7-day session TTL still says "Half done" while being impossible to open.

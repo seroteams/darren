@@ -192,6 +192,9 @@ function listRecentRuns(limit = 3, orgId?: string | null, userId?: string | null
       lastSeenAt: asNumber(state.lastSeenAt),
       stage: inferStage(state),
       headline: buildHeadline(ctx),
+      // The seeded signup example (demo-member Phase 1) so Home can label it. Must
+      // stay in step with pgListRecentRuns or the parity test fails, which is the point.
+      isDemo: state.isDemo === true,
       pipelineDigest,
       reviewStatus: reviewStatusOf(readJsonAt(dir, "review.json")),
     };

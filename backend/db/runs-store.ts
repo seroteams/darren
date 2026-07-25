@@ -360,6 +360,9 @@ export async function pgListRecentRuns(limit = 3, orgId?: string | null, userId?
       lastSeenAt: asNumber(r.state.lastSeenAt),
       stage: inferStage(r.state),
       headline: buildHeadline(ctx),
+      // The seeded signup example (demo-member Phase 1) so Home can label it. Must
+      // stay in step with the engine's listRecentRuns or the parity test fails.
+      isDemo: r.state.isDemo === true,
       pipelineDigest: aggregates
         ? { content: aggregates.content, engine: aggregates.engine, all: aggregates.all }
         : null,

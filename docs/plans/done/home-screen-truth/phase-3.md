@@ -1,14 +1,34 @@
 # Phase 3 — The example, labelled
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done
+
+## ✅ GREEN-LIT 2026-07-25 — Carl walked the labelled example and signed it off
+
+## Built (2026-07-25)
+
+The lane block cleared before this phase started: the refactor programme released `run-history.ts` and `runs-store.ts` on 2026-07-25.
+
+**Files**
+- `backend/engine/run-history.ts` and `backend/db/runs-store.ts` — one line each: `isDemo: state.isDemo === true` on the recent-run row. `isDemo` is already written into session state by `demo-seed.service.ts:134`, so no query and no migration. Both moved together; `backend/tests/runs/test-pg-runs-parity.js` is what would have caught a one-sided change.
+- `backend/api/services/runs/runs.service.ts` — `isDemo` added to the mapper, coerced to a real boolean so a stringy value can't pass as an example.
+- `admin/src/stages/start-rows.ts` — `rowModel` returns `isExample`. Absent means real: never guessed the other way.
+- `admin/src/stages/start-core.js` — `exampleChip()` renders in the row's side slot, **not** gated on internal admin. `realRuns` now filters the example out, so a brand-new account keeps the invitation card WITH the example row below it.
+- `admin/src/styles/design/start-stage.css` — `.run-list__example`, deliberately neutral rather than accent: it labels the row, it doesn't sell it.
+- Tests: 1 new in `start-rows.test.ts`, 1 new in `runs.service.test.ts`, 1 new + 1 tightened in `start-core.test.ts`.
+
+**Offline proof** — `npm test` 186/186 (parity test included) · `npm run typecheck` clean · `lint:tokens` PASS · `lint:copy` PASS. No paid runs.
+
+**Live proof** on `localhost:3173` against real Postgres rows:
+- `/api/v1/runs/recent` returns `isDemo: true` for the seeded Sofia run and `false` for two real ones.
+- Populated Home renders `Marcus [Half done]`, `Priya [Half done]`, `Sofia [Example]`. Exactly one Example chip, 14px, `rgb(99,99,99)` on `--color-surface-2`.
+- Example-only account (State B): `{invitationShown: true, buttonInsideCard: true, buttonLabel: "Start your first 1:1", solidBlue: 1, cardInsideList: false, rows: ["Sofia ... Example"]}`. The invitation and the labelled example sit together, exactly as the approved mockup.
+
+**Not verified** — no pixel screenshot; the Browser pane is not displayed in this session, so the evidence above is read from the live rendered DOM and computed styles.
 
 ## Goal
 
 The example 1:1 that every new signup is seeded with says it is an example, so a manager's first impression is not a fake past 1:1 presented as real.
 
-## Blocked until a lane clears
-
-This phase needs `backend/engine/run-history.ts` and `backend/db/runs-store.ts`, both currently claimed in [LANES.md](../../../../LANES.md) by another chat's refactor programme. Check the board before starting. Nothing in Phases 1 or 2 touches them.
 
 ## Changes
 

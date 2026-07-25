@@ -38,7 +38,7 @@ In scope: prepare → questions → summary. Out and staying out: scheduling, at
 |---|---|---|---|
 | 1 | Rows that tell the truth | Bold person name, quiet "type · date" line, "Half done" chip hoisted to the top, a real error state | ✅ |
 | 2 | One obvious way in | The first-run card gets the single blue button inside it, moved out of the list, state-aware lede | ✅ |
-| 3 | The example, labelled | `isDemo` on the payload and an "Example" chip on the seeded row | ⬜ |
+| 3 | The example, labelled | `isDemo` on the payload and an "Example" chip on the seeded row | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -48,7 +48,9 @@ In scope: prepare → questions → summary. Out and staying out: scheduling, at
 
 **Phase 2 ✅ green-lit 2026-07-25.** A manager with no 1:1s now gets the "First time?" card with the screen's one blue button inside it (the same DOM node, moved, so no second accent can exist), the card sits outside the recents list so nothing can nest, and the header lede stops promising a pick-up to someone with nothing to pick up.
 
-**Next: Phase 3 (The example, labelled).** Needs `run-history.ts` + `runs-store.ts`; check [LANES.md](../../../../LANES.md) before starting.
+**Phase 3 ✅ green-lit 2026-07-25.** The seeded signup example carries an "Example" chip, shown to everyone including the customer, and it no longer counts as a real 1:1: a brand-new account keeps the invitation card with the labelled example row below it.
+
+**PLAN COMPLETE.** All three phases green-lit the day they were built, every "Done means" line met. Free checks only throughout: `npm test` 186/186, typecheck clean, `lint:tokens` and `lint:copy` PASS. Zero OpenAI spend. Commits `512c7673`, `24967a07`, and the Phase 3 commit below. Nothing pushed. Two follow-ups live in Parked, both needing Carl's decision rather than a build.
 
 ## Parked
 

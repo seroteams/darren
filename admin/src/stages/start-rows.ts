@@ -14,6 +14,7 @@ export interface RecentRun {
   id: string;
   lastSeenAt?: number;
   stage?: string;
+  isDemo?: boolean;
   ctx?: { name?: string; meetingType?: string } | null;
 }
 
@@ -21,6 +22,7 @@ export interface RowModel {
   name: string;
   sub: string;
   status: RunStatus;
+  isExample: boolean;
 }
 
 // One bit, deliberately. inferStage() reports EVAL for "answered everything, no
@@ -32,6 +34,9 @@ export function rowModel(run: RecentRun): RowModel {
     name: ctx.name || "Untitled 1:1",
     sub: [ctx.meetingType, whenLabel(Number(run?.lastSeenAt) || 0)].filter(Boolean).join(" · "),
     status: run?.stage === "BRIEFING" ? "done" : "open",
+    // Every new signup is seeded with an example 1:1. Unlabelled, it reads as a
+    // product that invents history. Absent means real: never guess the other way.
+    isExample: run?.isDemo === true,
   };
 }
 

@@ -134,6 +134,7 @@ export function createRunsService(repo: RunsRepo, deps: RunsDeps = {}): RunsServ
           pipelineDigest: o.pipelineDigest,
           reviewStatus: o.reviewStatus,
           ctx: { name: ctx.name, meetingType: ctx.meetingType },
+          isDemo: o.isDemo === true,
         };
       });
       return { runs };

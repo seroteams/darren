@@ -6,7 +6,9 @@
 Everything demo is unmistakably labelled "Example" and can be cleared with one click.
 
 ## Changes
-- "Example" pill (tinted badge per DESIGN.md §5, ≥14px) on: the Home run card (`admin/src/stages/start-core.js`), the Team roster card (`frontend/src/stages/team-card.ts`), the person-detail header and the run recap header, driven by the `is_demo` flag surfaced through the runs/people APIs.
+- ✅ **Home already done elsewhere (2026-07-25):** the "Example" chip on the Home run card landed in [home-screen-truth Phase 3](../../done/home-screen-truth/phase-3.md), which also put `isDemo` on the `/runs/recent` payload (`run-history.ts`, `runs-store.ts`, `runs.service.ts`). Take it as a dependency delivered, not work to repeat.
+- "Example" pill (tinted badge per DESIGN.md §5, ≥14px) still to do on: the Team roster card (`frontend/src/stages/team-card.ts`), the person-detail header and the run recap header, driven by the `is_demo` flag surfaced through the runs/people APIs.
+- **Add to scope:** "See all past 1:1s" (`admin/src/stages/runs.ts`) shows the example unlabelled and currently *cannot* label it. `pgListFinishedRunsForMember` (`backend/db/runs-store.ts`) does not filter demo rows and `toMemberRow` does not carry `isDemo`. Found during home-screen-truth; it belongs here.
 - "Remove example" action on person detail (and Team card `⋯` menu): routes through the shared confirm dialog, deletes the demo person + demo sessions + artifacts for that org, returns the screens to their normal empty states.
 - Copy in plain words, no em dashes; `npm run lint:copy` + `lint:tokens` clean.
 

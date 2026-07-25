@@ -70,6 +70,15 @@ test("orderForHome caps the list and leaves an all-finished list alone", () => {
   assert.deepEqual(orderForHome(rows, 3).map((r) => r.id), ["r0", "r1", "r2"]);
 });
 
+// home-screen-truth Phase 3. Every new signup is seeded with an example 1:1, and an
+// unlabelled example reads as a product that invents history.
+test("a seeded run is marked as an example; a real one never is", () => {
+  assert.equal(rowModel(run({ isDemo: true })).isExample, true);
+  assert.equal(rowModel(run({ isDemo: false })).isExample, false);
+  assert.equal(rowModel(run({})).isExample, false, "absent means real, never assumed");
+  assert.equal(rowModel({ id: "x" }).isExample, false, "a bare run does not throw or guess");
+});
+
 test("orderForHome survives an empty list and a missing cap", () => {
   assert.deepEqual(orderForHome([], 3), []);
   assert.equal(orderForHome([run(), run({ id: "b" })]).length, 2);

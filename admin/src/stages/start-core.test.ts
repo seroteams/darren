@@ -122,9 +122,19 @@ test("the first-run card is a sibling of the list, never a cell inside it", () =
   assert.ok(/firstRunHost\.innerHTML = firstRunIntroHtml/.test(SRC), "the card renders into that section");
 });
 
-test("the zero-run branch keys on realRuns, so Phase 3 is a one-line change", () => {
-  assert.ok(/const realRuns = runs/.test(SRC), "realRuns is the seam the demo filter lands on");
+test("the zero-run branch keys on realRuns, so the seeded example doesn't stand in for a real 1:1", () => {
+  assert.ok(/const realRuns = runs\.filter\(\(r\) => !rowModel\(r\)\.isExample\)/.test(SRC), "the example is not a real 1:1");
   assert.ok(/const firstRun = realRuns\.length === 0/.test(SRC), "the invitation keys on real 1:1s, not every row");
+});
+
+// home-screen-truth Phase 3.
+test("the seeded example row says it is an example, to everyone", () => {
+  assert.ok(SRC.includes(">Example<"), "the chip is rendered");
+  assert.ok(/run-list__side">\$\{exampleChip\(m\)\}/.test(SRC), "it sits in the row's side slot");
+  const chip = SRC.slice(SRC.indexOf("function exampleChip"), SRC.indexOf("function render"));
+  assert.ok(!chip.includes("isInternalAdmin"), "NOT gated on internal admin: the customer is who needs to see it");
+  assert.ok(/\.run-list__example\s*\{[^}]*--type-body-sm/.test(CSS), "the chip respects the 14px floor");
+  assert.ok(!/\.run-list__example\s*\{[^}]*--color-accent/.test(CSS), "neutral, not accent: it labels the row, it doesn't sell it");
 });
 
 test("the ONE blue button moves into the card; no second button is ever created", () => {

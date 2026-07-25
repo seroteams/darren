@@ -105,8 +105,22 @@ test("recent maps the summary fields plus name/meetingType, dropping everything 
       pipelineDigest: "d",
       reviewStatus: "none",
       ctx: { name: "Priya", meetingType: "Bi-weekly check-in" },
+      isDemo: false,
     }],
   });
+});
+
+// The seeded signup example must reach Home so it can be labelled (home-screen-truth P3).
+test("recent carries isDemo, and only a true flag counts as an example", async () => {
+  const { repo } = fakeRepo({
+    listRecent: async () => [
+      { id: "seeded", isDemo: true },
+      { id: "real" },
+      { id: "stringy", isDemo: "true" },
+    ],
+  });
+  const { runs } = await createRunsService(repo).recent(undefined);
+  assert.deepEqual(runs.map((r) => (r as Record<string, unknown>).isDemo), [true, false, false]);
 });
 
 test("recent never leaks dir, role or seniority, whatever the repo hands over", async () => {
