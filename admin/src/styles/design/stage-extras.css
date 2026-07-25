@@ -323,6 +323,23 @@
 }
 .focus-point.is-selected .focus-point__check::after { opacity: 1; }
 
+/* The manager's own note, read back as a quote (2026-07-26 design call): the
+   labelled card read as a system field, so the label goes and the words carry
+   themselves. Same left-rule device as .question-source-answer (briefing.css). */
+.notes-quote {
+  margin: 0;
+  padding: 0.25rem 0 0.25rem var(--sero-space-4);
+  border-left: 3px solid var(--color-primary-line);
+  font-size: var(--type-lead);
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+/* No note written: not a quote, so it stays quiet body text. */
+.notes-quote--empty {
+  font-size: var(--type-body);
+  color: var(--color-ink-mute);
+}
+
 /* Helper line above the list. */
 .focus-select-hint {
   font-size: var(--type-body-sm);
