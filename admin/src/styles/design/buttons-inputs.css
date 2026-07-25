@@ -71,6 +71,22 @@
 }
 .input::placeholder { color: var(--color-ink-mute); }
 
+/* Password field with a show/hide toggle. The toggle floats over the field's right
+   end so the input's underline runs the full column width — sitting beside the input
+   in a flex row, it cut that line ~42px short of every other field (Carl, 2026-07-25). */
+.field-pw {
+  position: relative;
+  display: block;
+}
+.field-pw .input {
+  padding-right: 2.75rem;
+}
+.field-pw .js-toggle-pw {
+  position: absolute;
+  right: 0;
+  bottom: 0.35rem;
+}
+
 .bench-select-wrap {
   width: 100%;
   min-width: 0;

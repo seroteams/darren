@@ -101,7 +101,7 @@ export async function mount(root, { setState }) {
                 <span class="field__label">Password</span>
                 <button type="button" class="link text-ink-dim text-sm js-to-forgot">Forgot password?</button>
               </span>
-              <span class="l-row l-row--2 js-pw-wrap">
+              <span class="field-pw js-pw-wrap">
                 <input class="input js-password" type="password" autocomplete="current-password" required />
                 ${passwordToggleHtml()}
               </span>
@@ -111,13 +111,15 @@ export async function mount(root, { setState }) {
             <p class="intake-or">or</p>
             ${googleButtonHtml()}
           </form>
-          <p class="text-ink-dim text-sm">
-            No account?
-            <button type="button" class="link js-to-register">Create one</button>
-          </p>
-          <p class="intake-or text-ink-dim text-sm">
-            <button type="button" class="link js-try-guest">Try it free. No account needed</button>
-          </p>
+          <div class="auth-panel__foot l-stack l-stack--2">
+            <p class="text-ink-dim text-sm">
+              No account?
+              <button type="button" class="link js-to-register">Create one</button>
+            </p>
+            <p class="text-ink-dim text-sm">
+              <button type="button" class="link js-try-guest">Try it free. No account needed</button>
+            </p>
+          </div>
         </div>
       </div>
       <div class="auth-split__media" aria-hidden="true">

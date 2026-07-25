@@ -72,14 +72,18 @@ test("login: Forgot password sits on the password label row, right-aligned", () 
   assert.equal(matches.length, 2, "one markup slot + one listener, no second footer link");
 });
 
-test("login: footer collapses to one account line plus the guest divider", () => {
+test("login: footer collapses to one account line plus the guest line, centred as a group", () => {
   assert.ok(LOGIN.includes("No account?"), "single account line");
   assert.ok(LOGIN.includes(">Create one</button>"), "create link kept");
   assert.ok(!LOGIN.includes("No account yet?"), "old ladder copy gone");
   assert.ok(!LOGIN.includes("Just curious?"), "old guest paragraph gone");
   assert.ok(
-    /intake-or[\s\S]{0,200}js-try-guest/.test(LOGIN),
-    "guest offer wears the hairline divider treatment",
+    /auth-panel__foot[\s\S]{0,400}js-try-guest/.test(LOGIN),
+    "both quiet lines sit in the one centred footer group",
+  );
+  assert.ok(
+    !/intake-or[\s\S]{0,200}js-try-guest/.test(LOGIN),
+    "the guest line no longer wears the hairline divider (mixed alignment)",
   );
 });
 
@@ -98,6 +102,9 @@ test("login, register, reset: every password field carries the shared toggle", (
     assert.ok(src.includes("passwordToggleHtml"), `${name}: toggle markup in the field`);
     assert.ok(src.includes("wirePasswordToggles"), `${name}: toggle wired`);
     assert.ok(src.includes("js-pw-wrap"), `${name}: input + toggle share a row`);
+    // The toggle floats over the field's right end (.field-pw), so the input's
+    // underline stays the same width as every other field.
+    assert.ok(src.includes("field-pw js-pw-wrap"), `${name}: toggle overlays, never shortens the line`);
   }
 });
 

@@ -71,6 +71,12 @@
   object-position: top;
   display: block;
 }
+/* The quiet lines under the form (log in / create one / try it free). Centred as a
+   group so they read as one footer: left-aligned beside a centred divider line, they
+   looked like two unrelated afterthoughts (Carl, 2026-07-25). */
+.auth-panel__foot {
+  text-align: center;
+}
 /* "Continue with Google" (google-signin Phase 2): the ghost button is an <a> — a
    full-page navigation to the OAuth start route — so strip the link underline. The
    G mark rides the base .btn inline-flex gap. */

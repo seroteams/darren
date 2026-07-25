@@ -41,7 +41,7 @@ export async function mount(root, { setState }) {
             </label>
             <label class="l-stack l-stack--2">
               <span class="field__label">Password <span class="text-ink-mute">(at least 8 characters)</span></span>
-              <span class="l-row l-row--2 js-pw-wrap">
+              <span class="field-pw js-pw-wrap">
                 <input class="input js-password" type="password" autocomplete="new-password" required />
                 ${passwordToggleHtml()}
               </span>

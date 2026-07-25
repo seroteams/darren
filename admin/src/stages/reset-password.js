@@ -50,7 +50,7 @@ export async function mount(root, { setState }) {
     <form class="l-stack l-stack--4 js-form" novalidate>
       <label class="l-stack l-stack--2">
         <span class="field__label">New password <span class="text-ink-mute">(at least ${MIN_PASSWORD} characters)</span></span>
-        <span class="l-row l-row--2 js-pw-wrap">
+        <span class="field-pw js-pw-wrap">
           <input class="input js-password" type="password" autocomplete="new-password" required />
           ${passwordToggleHtml()}
         </span>
