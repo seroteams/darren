@@ -1,4 +1,5 @@
-// Operator guide (internal, for the founder/tester — dev-gated entry point).
+// Operator guide (internal-only — the Guide row in the rail's util strip; reachable
+// both locally and on live, unlike the rest of the workshop).
 // A single read-only reference for the whole project: how to run it, what each
 // pipeline stage and screen does, the QA tooling, the core concepts, where things
 // live on disk, and the known gaps. The Screens and Commands sections render LIVE

@@ -7,11 +7,11 @@
 // filtering; CSS decides which shell shows (see "Mobile shell" in design.css).
 
 import { STAGES, isAdmin, isInternalAdmin, isLiveEnv } from "../state.ts";
-import { isGuestStage, isFlowStage, urlForState, withBase } from "../router.js";
+import { isGuestStage, isFlowStage, isLiveHiddenStage, urlForState, withBase } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "./icon.js";
 import {
-  Users, House, CirclePlus, Library, ArrowLeftRight, MessageSquareText, Languages,
+  Users, House, CirclePlus, Library, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, UserRoundCog,
   Palette, LogOut, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
   FlaskConical, Gauge, LayoutGrid, PanelLeftClose, PanelLeftOpen,
@@ -32,7 +32,6 @@ const ICON = {
   home: icon(House),
   new: icon(CirclePlus),
   library: icon(Library),
-  compare: icon(ArrowLeftRight),
   lexicon: icon(MessageSquareText),
   joblex: icon(Languages),
   arcs: icon(Waypoints),
@@ -109,7 +108,8 @@ const LINKS = [
   { key: "arcs", label: "Meeting arcs", stage: STAGES.MEETING_ARCS, icon: ICON.arcs, admin: true, group: "Engine" },
   // BUILD — internal dev tooling. Test engine (was under Sessions) is a testing tool, not a
   // session, so it sits here. Compare + Regression fold into the Test engine hub (its page/route
-  // stays; only its nav rows are gone). Screens + Tests are hidden on live (live-hide in render()).
+  // stays; only its nav rows are gone). The whole Build group, and Engine below it, are
+  // local-only: every row here is in the router's LIVE_HIDDEN (live-hide in render()).
   { key: "personas", label: "Test engine", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Build" },
   { key: "tests", label: "Tests", stage: STAGES.TEST, icon: ICON.tests, admin: true, group: "Build" },
   { key: "gallery", label: "Screens", stage: STAGES.GALLERY, icon: ICON.gallery, admin: true, group: "Build" },
@@ -122,6 +122,10 @@ const LINKS = [
   { key: "inbox", label: "Feedback inbox", stage: STAGES.ADMIN_FEEDBACK, icon: ICON.inbox, admin: true, superadmin: true, group: "Operate" },
   { key: "errors", label: "Error log", stage: STAGES.ADMIN_ERROR_LOG, icon: ICON.errors, admin: true, superadmin: true, group: "Operate" },
 ];
+
+// The rail keys whose destination is hidden on the live site, derived from the router's
+// LIVE_HIDDEN rather than re-listed here.
+const LIVE_HIDDEN_KEYS = new Set(LINKS.filter((it) => isLiveHiddenStage(it.stage)).map((it) => it.key));
 
 const MENU_ICON = icon(Menu);
 
@@ -173,8 +177,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   });
 
   const items = [...LINKS];
-  // Guide (DEV-only help) no longer has a rail row — the old footer/meta strip it belonged
-  // with was dropped from the internal rail in the 2026-07-18 re-org. Still reachable at /guide.
+  // Guide sits in the util strip below (internal-only), not in the grouped list above.
 
   el.innerHTML = `
     <div class="app-nav__inner">
@@ -192,7 +195,7 @@ export function createAppNav({ setState, resetSession } = {}) {
               // group, so they render header-less (and render() hides these in member view).
               let head = "";
               if (it.group && it.group !== lastGroup) {
-                head = `<div class="app-nav__group-label" data-admin="1"><span>${it.group}</span></div>`;
+                head = `<div class="app-nav__group-label" data-admin="1" data-group="${it.group}"><span>${it.group}</span></div>`;
                 lastGroup = it.group;
               }
               return head + rowHtml({
@@ -200,7 +203,7 @@ export function createAppNav({ setState, resetSession } = {}) {
                 icon: it.icon,
                 label: it.label,
                 href: hrefFor(it.stage),
-                data: `data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-mgr="${it.mgr ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}"`,
+                data: `data-admin="${it.admin ? "1" : ""}" data-member="${it.member ? "1" : ""}" data-mgr="${it.mgr ? "1" : ""}" data-superadmin="${it.superadmin ? "1" : ""}" data-group="${it.group || ""}"`,
               });
             })
             .join("");
@@ -266,7 +269,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     mgteam: () => setState && setState({ stage: STAGES.TEAM }),
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
-    compare: () => setState && setState({ stage: STAGES.COMPARE }),
     personas: () => setState && setState({ stage: STAGES.PERSONAS }),
     lexicon: () => setState && setState({ stage: STAGES.LEXICON_REVIEW }),
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
@@ -368,19 +370,27 @@ export function createAppNav({ setState, resetSession } = {}) {
     if (logoutNav) logoutNav.style.display = internal ? "none" : "";
     const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
     const alwaysShown = new Set(["logout"]); // the util strip rows gate by audience now (Guide = internal help, P5)
+    const shownGroups = new Set();
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
       let show = b.dataset[wanted] === "1";
       // A superadmin-only row (Registered, PG7) shows only for Carl — the flag comes from
       // /auth/me. This is cosmetic; the endpoint still enforces the 403.
       if (show && b.dataset.superadmin === "1" && !(user && user.isSuperadmin)) show = false;
-      // Live site: the Test engine (paid persona runs) is off (admin-live-deploy Phase 2).
-      // Trimmed from the rail; the deep-link bounce + backend fence back it.
-      if (show && isLiveEnv() && (b.dataset.key === "personas" || b.dataset.key === "gallery")) show = false;
+      // Live site: the engine workshop and the design bench are local-only work, so the
+      // live rail is the console alone (Carl 2026-07-25). One list, in router.js —
+      // LIVE_HIDDEN — drives both this trim and the deep-link bounce, so the rail can
+      // never disagree with what a URL will actually open.
+      if (show && isLiveEnv() && LIVE_HIDDEN_KEYS.has(b.dataset.key)) show = false;
       b.hidden = !show;
+      if (show && b.dataset.group) shownGroups.add(b.dataset.group);
     });
-    // Section headers belong to the internal rail only.
-    el.querySelectorAll(".app-nav__group-label").forEach((h) => { h.hidden = !internal; });
+    // Section headers belong to the internal rail only, and only while the group still has
+    // a row under it — on live, Engine and Build empty out entirely, and a heading with
+    // nothing beneath it reads as a broken rail.
+    el.querySelectorAll(".app-nav__group-label").forEach((h) => {
+      h.hidden = !internal || !shownGroups.has(h.dataset.group);
+    });
     // During the run flow no stage maps a row of its own — keep "Start 1:1" lit
     // so the rail still says where you are (design audit S2: active state also
     // mid-flow).

@@ -1,4 +1,5 @@
-// Test area — /test (internal only, gated like /guide and /design; not in any nav).
+// Test area — /test (internal only, and local-only: it's in the router's LIVE_HIDDEN,
+// so the "Tests" rail row and the route are both off on the live site).
 // A gallery of throwaway UI prototypes: a card per test, click one to walk it, come back
 // any time. No backend anywhere in here — every test is hardcoded mock data, nothing saved.
 // New tests: add a module under ./tests/ exporting mount(root), then one entry to TESTS.

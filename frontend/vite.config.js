@@ -34,7 +34,9 @@ export default defineConfig({
     outDir: resolve(__dirname, "dist"),
     emptyOutDir: true,
     // No public sourcemaps: dist is served as-is on the live site, and the maps
-    // were ~800KB of a 1.9MB deploy. The admin app (never deployed) keeps its maps.
+    // were ~800KB of a 1.9MB deploy. The admin app ships too (admin-live-deploy
+    // reversed "never deployed"), but it sits behind the superadmin shell guard,
+    // so it keeps its maps.
     sourcemap: false,
   },
 });

@@ -109,18 +109,8 @@ const FLOW = new Set([STAGES.FOCUS_POINTS, STAGES.PREPARATION, STAGES.BANK,
   STAGES.QUESTIONING, STAGES.EVAL, STAGES.BRIEFING, STAGES.RUN_DEBRIEF]);
 export const isFlowStage = (stage) => FLOW.has(stage);
 
-// Screens reserved for owners/admins — the internal tooling + the run-history dashboard
-// (admin-access-guard Phase 2). A member deep-linking here is bounced to the prep flow.
-const ADMIN_ONLY = new Set([STAGES.START, STAGES.LIBRARY, STAGES.COMPARE,
-  STAGES.PERSONAS, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
-  STAGES.GUIDE, STAGES.DESIGN, STAGES.REVIEW_RUN, STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
-  STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS,
-  STAGES.ADMIN_GATE1, STAGES.ADMIN_RUNS, STAGES.ADMIN_RATINGS]);
-export const isAdminStage = (stage) => ADMIN_ONLY.has(stage);
-
-// The cross-company superadmin screens (pre-go-live PG6+). A subset of ADMIN_ONLY that
-// even a normal manager/admin must NOT reach — only the email-allowlisted superadmin.
+// The cross-company superadmin screens (pre-go-live PG6+). Even a normal manager/admin
+// must NOT reach these — only the email-allowlisted superadmin.
 // The backend 403s their data; this bounces a non-superadmin off the shell too (F-009).
 const SUPERADMIN_ONLY = new Set([STAGES.ADMIN_PULSE, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER,
   STAGES.ADMIN_ERROR_LOG, STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS,
@@ -140,11 +130,19 @@ const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GALLERY, STAGES.REVIEW_RUN]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
-// Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2): the Test engine
-// (paid persona runs — the Phase-1 backend fence already 403s the start). Hidden from the
-// nav and bounced on deep link when appEnv is "live". Cosmetic on top of the backend
-// fence; local dev shows them as before.
-const LIVE_HIDDEN = new Set([STAGES.PERSONAS, STAGES.GALLERY]);
+// Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2, widened by the
+// local-vs-live split — Carl 2026-07-25). The live console is for watching real users:
+// Pulse, the run/rating/user lists, guests, feedback, errors. The engine workshop and the
+// design bench are LOCAL work — tuning arcs or reading the component sheet against the
+// production DB tells you nothing, and the paid Test engine is fenced there anyway.
+// Hidden from the nav and bounced on deep link when appEnv is "live". Cosmetic on top of
+// the backend fence; local dev shows every screen exactly as before.
+// GUIDE stays live-visible: it's the operator handbook, useful wherever you are.
+const LIVE_HIDDEN = new Set([
+  STAGES.PERSONAS, STAGES.GALLERY,
+  STAGES.LIBRARY, STAGES.COMPARE, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS,
+  STAGES.MEETING_ARCS, STAGES.DESIGN, STAGES.TEST,
+]);
 export const isLiveHiddenStage = (stage) => LIVE_HIDDEN.has(stage);
 
 // The plain-member destinations (member-view: only-runs): a member can view their own

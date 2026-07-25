@@ -2,7 +2,7 @@
 // (hidden from managers, manager-ready Phase 1) vs admin-only vs member destinations.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isInternalStage, isAdminStage, isMemberStage, isGuestStage, isSuperadminStage, urlForState } from "./router.js";
+import { isInternalStage, isLiveHiddenStage, isMemberStage, isGuestStage, isSuperadminStage, urlForState } from "./router.js";
 import { STAGES } from "./state.ts";
 
 test("the guest front door (WELCOME) left the admin app (frontend-admin-split Phase 3)", () => {
@@ -49,7 +49,6 @@ test("isGuestStage: a guest may take a run. Intake + the run flow, nothing else"
 test("pulse drill-downs: the three list pages are superadmin-only with their own URLs", () => {
   // Clicking a Pulse tile opens a list page (pulse-drilldowns) — same walls as Pulse itself.
   for (const s of [STAGES.ADMIN_GATE1, STAGES.ADMIN_RUNS, STAGES.ADMIN_RATINGS]) {
-    assert.equal(isAdminStage(s), true, `${s} is behind the admin wall`);
     assert.equal(isSuperadminStage(s), true, `${s} is superadmin-only`);
   }
   assert.equal(urlForState({ stage: STAGES.ADMIN_GATE1 }), "/admin/gate1");
@@ -57,11 +56,26 @@ test("pulse drill-downs: the three list pages are superadmin-only with their own
   assert.equal(urlForState({ stage: STAGES.ADMIN_RATINGS }), "/admin/ratings");
 });
 
-test("existing walls unchanged: admin stages + member stages still classify", () => {
-  assert.equal(isAdminStage(STAGES.LIBRARY), true);
-  assert.equal(isAdminStage(STAGES.TEAM), false);
+test("existing walls unchanged: member stages still classify", () => {
   // member-view: only-runs — a member's only destinations are their past 1:1s + opening one.
   assert.equal(isMemberStage(STAGES.RUNS), true);
   assert.equal(isMemberStage(STAGES.RUN_DETAIL), true);
   assert.equal(isMemberStage(STAGES.TEAM), false);
+});
+
+test("isLiveHiddenStage: live is the console; the workshop and the bench are local-only", () => {
+  // The local/live split (Carl 2026-07-25). Every engine + design tool is off the live
+  // site — hidden from the rail and bounced on deep link, even for a superadmin.
+  for (const s of [STAGES.PERSONAS, STAGES.GALLERY, STAGES.LIBRARY, STAGES.COMPARE,
+    STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.DESIGN,
+    STAGES.TEST]) {
+    assert.equal(isLiveHiddenStage(s), true, `${s} is local-only`);
+  }
+  // The console — what live is FOR — plus the run flow and the operator handbook, stay.
+  for (const s of [STAGES.ADMIN_PULSE, STAGES.ADMIN_GATE1, STAGES.ADMIN_RUNS,
+    STAGES.ADMIN_RATINGS, STAGES.ADMIN_REGISTERED, STAGES.ADMIN_USER, STAGES.ADMIN_ERROR_LOG,
+    STAGES.ADMIN_FEEDBACK, STAGES.ADMIN_GUEST_RUNS, STAGES.GUIDE, STAGES.REVIEW_RUN,
+    STAGES.START, STAGES.INTAKE, STAGES.RUNS]) {
+    assert.equal(isLiveHiddenStage(s), false, `${s} stays on live`);
+  }
 });

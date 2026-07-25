@@ -4,7 +4,7 @@
 // start-core.js directly, so none of this file (markup, persona API calls) reaches
 // the customer bundle. Only the internal `admin` role gets the bench; a manager on
 // the admin app still gets the clean core dashboard.
-import { STAGES, store, isInternalAdmin } from "../state.ts";
+import { STAGES, store, isInternalAdmin, isLiveEnv } from "../state.ts";
 import { getPersonaBench, startSession } from "../../../shared/api.js";
 import { alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";
@@ -209,9 +209,11 @@ async function wireBench(root, { setState, beginCleanSetup }) {
 }
 
 export async function mount(root, ctx) {
-  // Managers never load the persona bench — only the internal `admin` role.
-  const internal = isInternalAdmin(store.user);
-  await mountCore(root, ctx, internal ? { html: BENCH_HTML, wire: wireBench } : null);
+  // Managers never load the persona bench — only the internal `admin` role. And not on the
+  // live site either (Carl 2026-07-25): demo runs are local lab work, the backend already
+  // 403s the start there, so on live the bench could only ever show a dead button.
+  const bench = isInternalAdmin(store.user) && !isLiveEnv();
+  await mountCore(root, ctx, bench ? { html: BENCH_HTML, wire: wireBench } : null);
 }
 
 export function unmount() {
