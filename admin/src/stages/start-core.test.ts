@@ -107,19 +107,40 @@ test("only one stale-resume recovery card can be on screen at a time", () => {
 });
 
 test("empty, loading and failed-resume states survive the new layout", () => {
-  assert.ok(SRC.includes("firstRunIntroHtml"), "zero-run welcome card kept");
+  assert.ok(SRC.includes("firstVisitHtml"), "the first-visit welcome is the zero-run state");
   assert.ok(SRC.includes("createSkeleton"), "loading skeleton kept");
   assert.ok(SRC.includes("staleRunRecoveryHtml"), "failed resume heals in place");
 });
 
-// home-screen-truth Phase 2. The invitation card used to be injected as an <li> inside
-// the recents <ul>; once a row shows alongside it (Phase 3's example) the list card
-// would have wrapped a .card-flat, which is a nested card (DESIGN rule 10).
-test("the first-run card is a sibling of the list, never a cell inside it", () => {
-  assert.ok(SRC.includes("js-firstrun"), "the card has its own section");
+// home-screen-truth Phase 2. The first-visit block has its own section outside the
+// recents <ul>; injected as an <li> it would have put a card inside the list card
+// (DESIGN rule 10), which is what the original invitation card did.
+test("the first-visit block is a sibling of the list, never a cell inside it", () => {
+  assert.ok(SRC.includes("js-welcome"), "the block has its own section");
   assert.ok(!SRC.includes("start-firstrun-cell"), "the <li> host is gone");
   assert.ok(!CSS.includes(".start-firstrun-cell"), "its style is gone too");
-  assert.ok(/firstRunHost\.innerHTML = firstRunIntroHtml/.test(SRC), "the card renders into that section");
+  assert.ok(/welcomeHost\.innerHTML = firstVisitHtml/.test(SRC), "it renders into that section");
+});
+
+// onboarding-firstrun Phase 2 (Direction A). "Work / Prep a 1:1" and a recents list both
+// assume the visitor already knows what Sero is; on a first visit they step aside for one
+// screen that shows a finished brief before asking for any typing.
+test("a first visit replaces the page header and the recents list, and restores them for a returning manager", () => {
+  assert.ok(/const firstRun = !hasRealRuns\(runs\)/.test(SRC), "the shared real-runs rule decides it");
+  assert.ok(/header\.hidden = firstRun/.test(SRC), "the standard header steps aside");
+  assert.ok(/recentSection\.hidden = firstRun/.test(SRC), "so does the recents section");
+  const err = SRC.slice(SRC.indexOf("function renderError"));
+  assert.ok(/header\.hidden = false[\s\S]{0,120}recentSection\.hidden = false/.test(err), "a failed load never greets a returning manager as a newcomer");
+});
+
+test("the seeded example is carried into the welcome, not dropped", () => {
+  assert.ok(/firstVisitHtml\(\{ exampleRunId: runs\.find\(\(r\) => rowModel\(r\)\.isExample\)\?\.id \}\)/.test(SRC), "the example run's id reaches the sample card");
+  assert.ok(/js-open-example[\s\S]{0,80}openRun/.test(SRC), "and its link opens the real run");
+});
+
+test("the walkthrough only loads when it is asked for", () => {
+  assert.ok(!SRC.includes("youtube"), "no third-party URL in this screen's source");
+  assert.ok(/js-play-video[\s\S]{0,120}videoIframeHtml\(\)/.test(SRC), "the player is built on the play click");
 });
 
 // onboarding-firstrun Phase 1: the rule moved into start-rows.ts (hasRealRuns) so Home
@@ -139,18 +160,17 @@ test("the seeded example row says it is an example, to everyone", () => {
   assert.ok(!/\.run-list__example\s*\{[^}]*--color-accent/.test(CSS), "neutral, not accent: it labels the row, it doesn't sell it");
 });
 
-test("the ONE blue button moves into the card; no second button is ever created", () => {
+test("the ONE blue button moves into the welcome; no second button is ever created", () => {
   const accents = SRC.match(/class="btn js-/g) || [];
   assert.equal(accents.length, 1, "still exactly one accent button in this screen's markup");
   assert.ok(/slot\.appendChild\(startBtn\)/.test(SRC), "the existing node is moved, not re-rendered");
-  assert.ok(SRC.includes("Start your first 1:1"), "it says what it does for a newcomer");
+  assert.ok(SRC.includes("Prep your first 1:1"), "it says what it does for a newcomer");
   assert.ok(/headerActions\.appendChild\(startBtn\)/.test(SRC), "and moves back to the header once there are 1:1s");
 });
 
-test("the lede stops promising a pick-up to someone with nothing to pick up", () => {
-  assert.ok(SRC.includes("Pick up where you left off, or start a new one."), "returning copy kept");
-  assert.ok(/LEDE_FIRST_RUN[\s\S]{0,120}rough notes/.test(SRC), "a newcomer gets first-run copy instead");
-  assert.ok(/lede\.textContent = firstRun \?/.test(SRC), "the header lede follows the state");
+test("the returning manager's header copy is unchanged", () => {
+  assert.ok(SRC.includes("Pick up where you left off, or start a new one."), "returning lede kept");
+  assert.ok(!SRC.includes("LEDE_FIRST_RUN"), "no runtime lede swap: a newcomer never sees this header at all");
 });
 
 test("the accordion CSS is deleted; the new list card recipe exists", () => {

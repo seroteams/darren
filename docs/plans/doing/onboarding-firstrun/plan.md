@@ -25,7 +25,7 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | One first-run rule | Shared has-real-runs helper; wizard beginner help works again (bug fix, buildable now) | ✅ |
-| 2 | Brief-first welcome | The approved Direction A first screen: line + sample brief + video + one button (parked until Gate 1) | ⬜ |
+| 2 | Brief-first welcome | The approved Direction A first screen: line + sample brief + video + one button | 🔨 |
 | 3 | Quiet rail | Manager rows appear after the first real brief; shell/Log out always present (parked until Gate 1) | ⬜ |
 | 4 | Sweep and truth | Dependency sweep both apps, demo-member alignment, changelog + guide, live proof (parked until Gate 1) | ⬜ |
 
@@ -42,10 +42,11 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 
 ## Current state
 Board: https://claude.ai/code/artifact/a9f68c94-748e-4b76-90a3-971f7328b9f4
-Phase 1 ✅ GREEN-LIT 2026-07-25 (Carl walked a fresh signup on the local customer app; Home's first-run card confirmed on screen). Not yet on sero.team: it ships with the next go-live.
-Baseline before the work: typecheck clean, `npm test` 185/186 — the 1 fail (`admin/src/stages/runs.test.ts`, row anatomy) predates this plan and is untouched by it. Same 185/186 after.
-Next: Phase 2 (brief-first welcome, incl. the explainer video to the right of the intro). Carl asked for the video on 25 July while looking at today's Home; it lives in Phase 2, which stays PARKED until the corridor metric is in (validation-stage rule). Unparking it is Carl's call, not a drift.
-No paid runs — this plan never touches the engine.
+Phase 1 ✅ GREEN-LIT 2026-07-25 (Carl walked a fresh signup; Home's first-run card confirmed on screen).
+Phase 2 🔨 BUILT 2026-07-25, awaiting Carl's walk. He un-parked it the same day ("keep going") after asking for the explainer video in the empty space to the right. Proof screenshots in [proof/](proof/); details and honest gaps in [phase-2.md](phase-2.md).
+Checks at Phase 2: `npm test` 187/187, typecheck, lint:copy, lint:tokens all clean. No paid runs at any point: this plan never touches the engine.
+Nothing is on sero.team yet; both phases ship with the next go-live.
+Next after Carl's walk: Phase 3 (quiet rail), which is what removes the sidebar the approved mock shows without one.
 
 ## Parked
 - Full rail hide (research option 3B) — quiet rail chosen instead; revisit only if the quiet rail still feels heavy.

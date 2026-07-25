@@ -1,9 +1,10 @@
-// First-run guidance for a brand-new manager account (validation-kit Phase 4).
-// A zero-run manager now lands on Home (START), so firstRunIntroHtml() is hosted
-// in the zero-run empty state of start-core.js; it is also shown above the first
-// intake step. The copy is fixed by the house rules — UK English, plain words,
-// no exclamation marks, 14px floor — and kept as pure functions so the copy
-// contract is unit-tested (mirrors welcome.ts).
+// First-run guidance inside the prep wizard, for a brand-new manager account
+// (validation-kit Phase 4). Shown above the first intake step and, as the notes
+// example, on the notes step. Home used to host this card too; from
+// onboarding-firstrun Phase 2 its first visit is the brief-first welcome
+// (start-welcome.ts) instead, so the action-slot option went with it.
+// The copy is fixed by the house rules: UK English, plain words, no exclamation
+// marks, 14px floor. Kept as pure functions so the copy contract is unit-tested.
 
 // One honest example of what useful notes look like — a real manager's voice, not
 // a "write some notes" prompt. It carries a behaviour change and a rough timeframe,
@@ -17,21 +18,8 @@ const STEPS: Array<{ title: string; body: string }> = [
   { title: "Your prep brief", body: "A focused plan: how to open, what to explore, what to listen for." },
 ];
 
-// An honest expectation. It is deliberately about the TYPING, not the whole flow:
-// welcome.ts claims "about two minutes" end to end and nobody has timed that
-// recently, so we don't repeat an unmeasured promise on a second screen.
-const TIME_LINE = "About two minutes of typing.";
-
-export interface FirstRunIntroOpts {
-  /** Home only: render an empty host for the screen's ONE blue button, so the
-   *  invitation and the way in are the same object. The intake screen leaves this
-   *  off and gets exactly the card it always had. */
-  actionSlot?: boolean;
-}
-
-// The orientation card shown above the first intake step for a zero-run account,
-// and (with actionSlot) as Home's zero-run invitation.
-export function firstRunIntroHtml(opts: FirstRunIntroOpts = {}): string {
+// The orientation card shown above the first intake step for a zero-run account.
+export function firstRunIntroHtml(): string {
   const steps = STEPS.map(
     (s, i) => `
       <li class="intake-firstrun__step">
@@ -42,18 +30,11 @@ export function firstRunIntroHtml(opts: FirstRunIntroOpts = {}): string {
         </span>
       </li>`,
   ).join("");
-  const action = opts.actionSlot
-    ? `
-      <div class="intake-firstrun__action">
-        <span class="js-start-slot"></span>
-        <span class="text-ink-dim text-sm">${TIME_LINE}</span>
-      </div>`
-    : "";
   return `
     <div class="intake-firstrun card-flat">
       <div class="eyebrow">First time?</div>
       <div class="intake-firstrun__title">Your first prep, in three moves</div>
-      <ol class="intake-firstrun__steps">${steps}</ol>${action}
+      <ol class="intake-firstrun__steps">${steps}</ol>
     </div>
   `;
 }

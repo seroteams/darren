@@ -150,8 +150,138 @@
 
 /* Zero-run welcome (home-screen-truth Phase 2): the first-run card is a SIBLING of
    the recents list, never an <li> inside it, so the list card can never wrap it. */
-.js-firstrun .intake-firstrun {
-  max-width: 30rem;
+/* On a first visit the standard header and the recents section step aside for the
+   welcome. Both carry a base display:flex (.page-header, .l-stack) which outweighs the
+   [hidden] attribute, so a hidden section would still paint. Same restore as the nav
+   rail's role gating (app-nav.css). */
+.stage-medium > .page-header[hidden],
+.stage-medium > .js-recent[hidden] {
+  display: none;
+}
+
+/* The brief-first welcome (onboarding-firstrun Phase 2). Two columns inside the
+   existing medium container: the intro and sample brief read as one column, the
+   walkthrough fills the space beside them (which was empty before). One container
+   width, no new tier. Stacks under itself on narrow screens. */
+.start-welcome {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: var(--sero-space-6);
+  align-items: start;
+}
+.start-welcome__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+.start-welcome__lede {
+  margin: 0;
+  color: var(--color-ink-dim);
+}
+.start-welcome__action {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sero-space-3);
+}
+.start-welcome__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+
+/* The sample brief: a quiet card, three labelled lines, and its own way into the
+   finished example. It is real engine output, so it gets room to breathe. */
+.start-sample {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
+}
+.start-sample__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sero-space-3);
+}
+.start-sample__who {
+  color: var(--color-ink);
+  font-weight: var(--type-weight-medium);
+}
+.start-sample__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.start-sample__label {
+  color: var(--color-ink);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+}
+.start-sample__link {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--color-accent);
+  font-size: var(--type-body-sm);
+  cursor: pointer;
+}
+.start-sample__link:hover {
+  text-decoration: underline;
+}
+
+/* The walkthrough. The poster is local markup: no thumbnail is fetched and nothing
+   reaches YouTube until the play button is pressed, which is also why the CSP only
+   opens frame-src. */
+.start-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--sero-radius-md, 8px);
+  overflow: hidden;
+  background: var(--sero-primary-900);
+}
+.start-video__poster {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--sero-primary-900), var(--sero-primary-800));
+}
+.start-video__play {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-surface);
+  position: relative;
+}
+.start-video__play::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  border-left: 0.875rem solid var(--sero-primary-900);
+  border-top: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid transparent;
+}
+.start-video__frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.start-video__cap {
+  color: var(--color-ink);
+  font-size: var(--type-body-sm);
+}
+
+@media (max-width: 48rem) {
+  .start-welcome {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 /* The card hosts the screen's one blue button, so the invitation and the way in are
    the same object. The time line sits beside it, quiet. */

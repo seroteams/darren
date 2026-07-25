@@ -36,6 +36,20 @@ check("CSP blocks framing and cross-origin scripts", () => {
   assert.ok(csp.includes("object-src 'none'"), "object-src none");
 });
 
+// onboarding-firstrun Phase 2: the welcome video is the app's ONE third-party frame.
+// Pin it narrow — the host allow-list must not grow into scripts, data or wildcards.
+check("frame-src opens the YouTube privacy host and nothing else", () => {
+  const res = fakeRes();
+  setSecurityHeaders(res, true);
+  const csp = res.headers["content-security-policy"];
+  const frameSrc = csp.split(";").map((p) => p.trim()).find((p) => p.startsWith("frame-src"));
+  assert.equal(frameSrc, "frame-src https://www.youtube-nocookie.com", "exactly one host, no wildcard");
+  assert.ok(!csp.includes("*"), "no wildcard anywhere in the CSP");
+  assert.ok(csp.includes("script-src 'self'"), "script-src stays self-only");
+  assert.ok(csp.includes("connect-src 'self'"), "connect-src stays self-only");
+  assert.ok(csp.includes("img-src 'self' data:"), "img-src stays local: the poster is our own markup");
+});
+
 check("HSTS only in production", () => {
   const dev = fakeRes();
   setSecurityHeaders(dev, false);

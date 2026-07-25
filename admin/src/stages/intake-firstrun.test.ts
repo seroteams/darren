@@ -40,26 +40,17 @@ test("notes hint: shows one concrete, honest example. Not generic fluff", () => 
   assert.ok(!/write (some )?notes/i.test(notes), "not a 'write some notes' prompt");
 });
 
-// home-screen-truth Phase 2 — on Home the card IS the invitation, so it hosts the
-// screen's one blue action. The intake screen must be provably unchanged: it calls
-// firstRunIntroHtml() with no options and still gets no slot and no action line.
-const introWithSlot = firstRunIntroHtml({ actionSlot: true });
-
-test("intro: the default call is unchanged, so the intake screen keeps exactly what it had", () => {
-  assert.ok(!intro.includes("js-start-slot"), "no action slot by default");
+// This card is wizard-only. Home's first visit is the brief-first welcome
+// (start-welcome.ts, onboarding-firstrun Phase 2), which owns the button-hosting slot
+// and the time line; the option that used to put them here went with it.
+test("intro: the card is guidance only, with no button and no host for one", () => {
+  assert.ok(!intro.includes("js-start-slot"), "no action slot: Home no longer hosts this card");
   assert.ok(!/<button/.test(intro), "the card brings no button of its own");
-  assert.ok(!intro.includes("intake-firstrun__action"), "no action row by default");
+  assert.ok(!intro.includes("intake-firstrun__action"), "no action row");
 });
 
-test("intro: actionSlot opens a host for the screen's existing button, and adds no second one", () => {
-  assert.ok(introWithSlot.includes("js-start-slot"), "the slot is there for Home to fill");
-  assert.ok(!/<button/.test(introWithSlot), "the slot is empty: Home moves its one button in");
-});
-
-test("intro: the time line is honest about the typing, not the whole flow", () => {
-  assert.ok(/two minutes/i.test(introWithSlot), "sets an expectation");
-  assert.ok(/typing/i.test(introWithSlot), "the claim is about what they type, which is what we can stand behind");
-  assert.ok(!intro.includes("two minutes"), "the intake screen does not repeat it mid-flow");
+test("intro: no time claim mid-flow", () => {
+  assert.ok(!intro.includes("two minutes"), "the intake screen does not repeat the typing claim mid-flow");
 });
 
 // onboarding-firstrun Phase 1. The wizard decides "first-timer" with the shared rule
@@ -76,7 +67,7 @@ test("the wizard's first-run gate uses the shared real-runs rule, not a raw coun
 });
 
 test("copy: UK English, no exclamation marks, no sub-14px inline font-size", () => {
-  for (const [label, html] of [["intro", intro], ["notes", notes], ["intro+slot", introWithSlot]] as const) {
+  for (const [label, html] of [["intro", intro], ["notes", notes]] as const) {
     assert.ok(!html.includes("!"), `${label}: no exclamation marks`);
     // No inline font-size below the 14px floor (design rule). Sizing comes from
     // CSS tokens (>=14px); guard against any stray inline px under 14.

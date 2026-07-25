@@ -21,6 +21,11 @@ const CSP = [
   "img-src 'self' data:",
   "font-src 'self'",
   "connect-src 'self'",
+  // The only third-party frame in the app: Carl's product walkthrough on the new-manager
+  // welcome (onboarding-firstrun Phase 2), in YouTube's privacy-mode host. The player is
+  // click-to-load, so a manager who never presses play never contacts it. Narrow on
+  // purpose: one host, frames only, no script/connect/img widening.
+  "frame-src https://www.youtube-nocookie.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "object-src 'none'",

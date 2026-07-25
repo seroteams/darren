@@ -18,7 +18,7 @@ import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { errorCardHtml, wireRetry } from "../ui/screen-scaffold.ts";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
-import { firstRunIntroHtml } from "./intake-firstrun.ts";
+import { firstVisitHtml, videoIframeHtml } from "./start-welcome.ts";
 import { rowModel, orderForHome, hasRealRuns } from "./start-rows.ts";
 import { whenLabelsFor } from "../ui/time.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
@@ -45,9 +45,9 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
       ${bench ? bench.html : ""}
 
-      <section class="js-firstrun" hidden></section>
+      <section class="js-welcome" hidden></section>
 
-      <section class="l-stack l-stack--2">
+      <section class="js-recent l-stack l-stack--2">
         <div class="eyebrow js-recent-label">Recent 1:1s</div>
         <div class="js-load-error" hidden></div>
         <ul class="run-list js-runs"></ul>
@@ -58,36 +58,43 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   const list = root.querySelector(".js-runs");
   const recentLabel = root.querySelector(".js-recent-label");
+  const recentSection = root.querySelector(".js-recent");
   const seeAll = root.querySelector(".js-see-all");
   const errorHost = root.querySelector(".js-load-error");
-  const firstRunHost = root.querySelector(".js-firstrun");
-  const lede = root.querySelector(".page-header__lede");
+  const welcomeHost = root.querySelector(".js-welcome");
+  const header = root.querySelector(".page-header");
   const headerActions = root.querySelector(".page-header__actions");
   const startBtn = root.querySelector(".js-startnew");
 
   let runs = [];
 
-  // "Pick up where you left off" is false for someone with nothing to pick up.
-  const LEDE_RETURNING = "Pick up where you left off, or start a new one.";
-  const LEDE_FIRST_RUN = "Type a few rough notes. Sero turns them into a brief for the conversation.";
-
   // The screen has exactly ONE blue button and it is the same DOM node in every state
-  // (DESIGN rule 3, guarded by start-core.test.ts's source count). With nothing to show
-  // it MOVES into the invitation card, so the card and the way in are one object; once
-  // there are 1:1s it moves back to the header. Moving keeps its click wiring bound.
+  // (DESIGN rule 3, guarded by start-core.test.ts's source count). On a first visit it
+  // MOVES into the welcome, under the sample brief, so the thing they just read and the
+  // way in are one object; once there are 1:1s it moves back to the header. Moving keeps
+  // its click wiring bound.
   //
   // On the admin app the bench owns the accent, so there is no button to move and the
-  // card gets none. Correct: internal QA is not the first-run audience.
-  function placeStartButton(intoCard) {
+  // welcome gets none. Correct: internal QA is not the first-run audience.
+  function placeStartButton(intoWelcome) {
     if (!startBtn) return;
-    const slot = intoCard ? firstRunHost.querySelector(".js-start-slot") : null;
+    const slot = intoWelcome ? welcomeHost.querySelector(".js-start-slot") : null;
     if (slot) {
       slot.appendChild(startBtn);
-      startBtn.textContent = "Start your first 1:1";
+      startBtn.textContent = "Prep your first 1:1";
     } else if (headerActions && startBtn.parentElement !== headerActions) {
       headerActions.appendChild(startBtn);
       startBtn.textContent = "Start a new 1:1";
     }
+  }
+
+  // Click to play, never before: the poster is local markup, so a manager who does not
+  // ask for the video never touches Google. The player replaces the poster in place.
+  function wireVideo() {
+    const frame = welcomeHost.querySelector(".js-video");
+    frame?.querySelector(".js-play-video")?.addEventListener("click", () => {
+      frame.innerHTML = videoIframeHtml();
+    });
   }
 
   // Internal QA verdict vocabulary ("Reviewed" / "Review half-done" from review.json).
@@ -141,12 +148,14 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.innerHTML = "";
     if (recentLabel) recentLabel.hidden = true;
     if (seeAll) seeAll.hidden = true;
-    // We don't know what they have, so don't greet them as a newcomer. The button
-    // goes back to the header where it always is for a returning manager.
-    firstRunHost.hidden = true;
-    firstRunHost.innerHTML = "";
+    // We don't know what they have, so don't greet them as a newcomer. The header and
+    // the recents section come back, and the button returns to the header where it
+    // always is for a returning manager.
+    welcomeHost.hidden = true;
+    welcomeHost.innerHTML = "";
+    if (header) header.hidden = false;
+    if (recentSection) recentSection.hidden = false;
     placeStartButton(false);
-    if (lede) lede.textContent = LEDE_RETURNING;
     errorHost.hidden = false;
     errorHost.innerHTML = errorCardHtml({
       title: "Couldn't load your 1:1s",
@@ -169,16 +178,27 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.classList.toggle("run-list--card", runs.length > 0);
     if (seeAll) seeAll.hidden = runs.length === 0;
 
-    // Zero real 1:1s: the "First time?" card IS the invitation, and it hosts the one
-    // blue button. The seeded example doesn't count (hasRealRuns, the shared rule in
-    // start-rows.ts), so a brand-new account keeps the invitation card WITH the
-    // example row below it, rather than the example standing in for a 1:1 they never ran.
+    // Zero real 1:1s (hasRealRuns, the shared rule in start-rows.ts — the seeded example
+    // doesn't count): the whole screen becomes the brief-first welcome. "Work / Prep a
+    // 1:1" and a list of recents both assume you already know what Sero is, so on a
+    // first visit they step aside for one screen that shows the artefact, names the
+    // moment, and offers one way in. The seeded example is not dropped: it IS the sample
+    // brief, labelled, with a link into the finished run.
     const firstRun = !hasRealRuns(runs);
-    firstRunHost.hidden = !firstRun;
-    if (firstRun) firstRunHost.innerHTML = firstRunIntroHtml({ actionSlot: true });
-    else firstRunHost.innerHTML = "";
+    welcomeHost.hidden = !firstRun;
+    if (header) header.hidden = firstRun;
+    if (recentSection) recentSection.hidden = firstRun;
+    if (firstRun) {
+      welcomeHost.innerHTML = firstVisitHtml({ exampleRunId: runs.find((r) => rowModel(r).isExample)?.id });
+      wireVideo();
+    } else {
+      welcomeHost.innerHTML = "";
+    }
     placeStartButton(firstRun);
-    if (lede) lede.textContent = firstRun ? LEDE_FIRST_RUN : LEDE_RETURNING;
+    if (firstRun) {
+      list.innerHTML = "";
+      return;
+    }
 
     if (runs.length === 0) {
       if (recentLabel) recentLabel.hidden = true;
@@ -305,6 +325,13 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   root.querySelector(".js-startnew")?.addEventListener("click", startNew);
   seeAll?.addEventListener("click", () => setState({ stage: STAGES.RUNS }));
+
+  // The welcome's sample-brief footer opens the seeded example itself, so the example
+  // stays reachable even though the first visit shows no recents list.
+  welcomeHost?.addEventListener("click", (e) => {
+    const link = e.target.closest(".js-open-example");
+    if (link) openRun(link.dataset.id);
+  });
 
   list.addEventListener("click", (e) => {
     // Delete lives in the ⋯ menu (audit M6) — it still asks first.
