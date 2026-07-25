@@ -4,7 +4,7 @@
   "preparation": "gpt-5.4",
   "bank": "gpt-5.4-mini",
   "planner": "gpt-5.4",
-  "evaluation": "gpt-5.4-mini",
+  "evaluation": "gpt-5.4",
   "judge": "gpt-5.4",
   "fixer": "gpt-5.4",
   "role_profile": "gpt-5.4",
