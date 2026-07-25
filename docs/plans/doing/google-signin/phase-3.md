@@ -6,7 +6,8 @@
 Google sign-in works on the live app, proven by a real walk.
 
 ## Changes
-- No new code. Carl publishes the Google consent screen to Production (one button in console.cloud.google.com → OAuth consent screen → Publish app) and enters `GOOGLE_CLIENT_SECRET` in the Render dashboard when prompted (the `sync: false` key ships in Phase 1's render.yaml change).
+- No new code. Carl publishes the Google consent screen to Production (DONE early — Carl set it to "In production" during his 2026-07-25 setup) and enters both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in the Render dashboard when prompted (the `sync: false` keys ship in Phase 1's render.yaml change).
+- ⚠️ Domain: Carl says the live production domain is **sero.team** (registered as a third Google redirect URI). Render's `APP_BASE_URL` still points at sero-obwq.onrender.com — Google sign-in STARTED FROM sero.team will fail until `APP_BASE_URL` is flipped to `https://sero.team` (the state cookie lives on sero.team but the callback would land on onrender). Flipping it also makes invite-email links use the real domain. Do this in render.yaml as part of this phase; the live walk then runs on sero.team.
 - Push to `main` on Carl's go-live; Render deploys.
 - `docs/reference/RENDER_SETUP.md` gains the two variable names.
 
