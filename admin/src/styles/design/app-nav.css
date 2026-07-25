@@ -14,6 +14,12 @@ body {
 body.app-nav-collapsed {
   --app-nav-w-now: var(--app-nav-w);
 }
+/* No rail on this screen (a guest run, the auth screens, the customer app's 1:1
+   lane — audit F13): the gutter is zero, so anything that lines up with the rail
+   (the session topbar) sits at the true left edge instead of hanging off centre. */
+body:not(.has-app-nav) {
+  --app-nav-w-now: 0px;
+}
 .app-nav {
   --app-nav-bg: var(--sero-primary-800);
   --app-nav-fg: var(--sero-offwhite-50);

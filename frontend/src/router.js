@@ -78,6 +78,15 @@ const GUEST_OK = new Set([STAGES.INTAKE, ...FLOW]);
 GUEST_OK.delete(STAGES.RUN_DEBRIEF);
 export const isGuestStage = (stage) => GUEST_OK.has(stage);
 
+// The rail-free lane (audit F13): setup plus the run stages — every screen that
+// carries the run's own topbar. A guest already got the whole width here because
+// they have no rail; a signed-in manager kept theirs, so two navigations competed
+// during the one task that deserves undivided attention. Now nobody gets the rail
+// in the lane, and the exits live where they always did (the topbar's Save and
+// exit / Delete, and Setup's own Discard link).
+const RAIL_FREE = new Set([STAGES.INTAKE, ...FLOW]);
+export const isRailFreeStage = (stage) => RAIL_FREE.has(stage);
+
 export function parseLocation() {
   const p = window.location.pathname.replace(/\/+$/, "") || "/";
   if (STAGE_FOR[p]) return { stage: STAGE_FOR[p] };

@@ -46,7 +46,7 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ## Current state
 **Phase 1 ✅ green-lit 2026-07-25** (commit 72a7c64b). Carl walked all five quick wins on the local build: brand marks back, a row under the build badge clickable, the badge still copying its SHA, "never active" replacing "last active no runs yet", and one date format down Past 1:1s. Proof table: [phase-1.md](phase-1.md); screenshots in `audits/full-app-audit-2026-07-25/p1-proof/`.
 
-**Phase 2 (shell and layout) is next and starting now.**
+**Phase 2 🔨 built 2026-07-25, waiting on Carl's walk.** Two changes, as re-scoped: the header actions now clear the signed-in chip (one CSS rule on `.page-header`, because the cause was the missing eyebrow, not the missing lede — the re-scope had that wrong too), and the customer app's 1:1 lane drops the left rail for everyone, not just guests. Before/after by `elementFromPoint`, the four free checks green, one new regression test. No screenshots: the Browser pane doesn't composite frames in this session and another chat holds the Playwright profile. Detail: [phase-2.md](phase-2.md).
 
 Mockup approved 2026-07-25 (Carl picked A; he renamed the merged screen to "My Team" first): https://claude.ai/code/artifact/1ce6ba66-56f8-4459-992b-96916db80ea3
 Board: https://claude.ai/code/artifact/b01de778-a0b8-4cf7-b65d-48fdbd1f71f1 (`board.html`, regenerate with `node scripts/plan-board.js audit-fixes-jul-25`).

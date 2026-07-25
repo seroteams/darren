@@ -5,7 +5,7 @@
 // classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
 import { STAGES, isAdmin } from "../../../admin/src/state.ts";
-import { isGuestStage, isFlowStage, urlForState } from "../router.js";
+import { isRailFreeStage, urlForState } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Info, MessageSquare, Menu, PanelLeftClose, PanelLeftOpen } from "lucide";
@@ -207,7 +207,8 @@ export function createAppNav({ setState, resetSession } = {}) {
   el.querySelector(".js-logout").addEventListener("click", onLogout);
 
   // A stage may light a different row per audience — values are one key or a
-  // list; render() matches any of them (only one is visible anyway).
+  // list; render() matches any of them (only one is visible anyway). The setup and
+  // run stages aren't here: the rail is gone on those (audit F13).
   const ACTIVE_BY_STAGE = {
     [STAGES.START]: "mghome",
     [STAGES.TEAM]: "mgteam",
@@ -216,18 +217,18 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.MEMBERS]: "mgmembers",
     [STAGES.MEMBER_HOME]: "runs",
     [STAGES.RUNS]: "mgruns",
-    [STAGES.INTAKE]: "mgnew",
     [STAGES.ABOUT]: "about",
     [STAGES.FEEDBACK]: "feedback",
   };
 
   function render({ stage, user } = {}) {
     // The start/login/register screens stand alone — no nav rail. So does the privacy note
-    // when a logged-out visitor opens it from the signup screen. And a guest running a
-    // 1:1 (no account) gets no rail either — there's nothing to navigate to, and
-    // "Past 1:1s" / "Log out" make no sense for them (F-004).
+    // when a logged-out visitor opens it from the signup screen. And nobody gets a rail
+    // while a 1:1 is being set up or run (audit F13): the run's own topbar is the only
+    // navigation that screen needs, and the prep gets the whole width. That was already
+    // true for a guest (no account, nowhere to navigate — F-004); now it's true signed in.
     if (stage === STAGES.WELCOME || stage === STAGES.LOGIN || stage === STAGES.REGISTER
-        || (stage === STAGES.PRIVACY && !user) || (!user && isGuestStage(stage))) {
+        || (stage === STAGES.PRIVACY && !user) || isRailFreeStage(stage)) {
       el.classList.add("is-hidden");
       bar.classList.add("is-hidden");
       setDrawer(false);
@@ -245,11 +246,7 @@ export function createAppNav({ setState, resetSession } = {}) {
       if (alwaysShown.has(b.dataset.key)) return;
       b.hidden = b.dataset[wanted] !== "1";
     });
-    // During the run flow no stage maps a row of its own — keep "Start 1:1" lit
-    // so the rail still says where you are (design audit S2).
-    const activeKeys = [].concat(
-      ACTIVE_BY_STAGE[stage] || (isFlowStage(stage) ? ["mgnew"] : []),
-    );
+    const activeKeys = [].concat(ACTIVE_BY_STAGE[stage] || []);
     el.querySelectorAll(".app-nav__link").forEach((b) => {
       const on = activeKeys.includes(b.dataset.key);
       b.classList.toggle("is-active", on);

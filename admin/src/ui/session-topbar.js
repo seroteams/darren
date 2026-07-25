@@ -218,11 +218,11 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     const order = TOPBAR_STAGES.map(([key]) => key);
     const curIdx = order.indexOf(current);
 
-    // Guest (no account) run: show the Sero mark far-left, and drop the topbar's
-    // left rail-gutter so it sits at the true edge (there's no nav rail for a guest).
+    // Guest (no account) run: show the Sero mark far-left, since no nav rail is
+    // carrying the brand. The bar's left edge follows the rail on its own now
+    // (design/app-nav.css zeroes the gutter when there's no rail).
     const isGuest = !user;
     brand.hidden = !isGuest;
-    el.classList.toggle("session-topbar--guest", isGuest);
 
     const email = user?.email || "";
     const role = roleLabelOf(user);

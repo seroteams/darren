@@ -5,6 +5,9 @@
   --session-topbar-h: 50px;
   position: fixed;
   top: 0;
+  /* Clears the rail gutter when a rail is there, sits at the true left edge when
+     there isn't — the width variable itself goes to 0 with no rail (design/app-nav.css),
+     which covers a guest run and the customer app's 1:1 lane (audit F13). */
   left: var(--app-nav-w-now, var(--app-nav-w));
   right: 0;
   height: var(--session-topbar-h);
@@ -17,11 +20,6 @@
 }
 .session-topbar.is-hidden {
   display: none;
-}
-/* Guest ("try it") run — no left nav rail exists, so the topbar reclaims the
-   rail gutter and sits at the true left edge, with the Sero mark leading it. */
-.session-topbar--guest {
-  left: 0;
 }
 .session-topbar__brand {
   flex-shrink: 0;
