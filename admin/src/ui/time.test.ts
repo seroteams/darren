@@ -2,7 +2,7 @@
 // four stages that used to hand-roll it (compare, runs, team, person-detail).
 import test from "node:test";
 import assert from "node:assert/strict";
-import { relTime, formatDate, whenLabel } from "./time.ts";
+import { relTime, formatDate, whenLabel, whenLabelsFor } from "./time.ts";
 
 const MIN = 60_000;
 
@@ -58,4 +58,31 @@ test("whenLabel: past the week falls back to the one date format", () => {
 
 test("whenLabel: falsy input renders as nothing", () => {
   assert.equal(whenLabel(0), "");
+});
+
+// whenLabelsFor (audit F11): one vocabulary per COLUMN. Row-by-row, a list ended up with
+// "5d ago" directly above "Fri 17 Jul 2026", so two rows could not be compared by eye.
+test("whenLabelsFor: everything relative while the whole list is inside the week", () => {
+  const list = [Date.now() - 2 * DAY, Date.now() - 5 * DAY, Date.now() - 6 * DAY];
+  const when = whenLabelsFor(list);
+  assert.deepEqual(list.map(when), ["2d ago", "5d ago", "6d ago"]);
+});
+
+test("whenLabelsFor: one entry past the week turns the WHOLE list absolute", () => {
+  const recent = Date.now() - 2 * DAY;
+  const old = Date.now() - 20 * DAY;
+  const when = whenLabelsFor([recent, old]);
+  assert.equal(when(recent), formatDate(recent), "the recent row goes absolute too");
+  assert.equal(when(old), formatDate(old));
+  assert.notEqual(when(recent), "2d ago", "no mixed vocabulary in one column");
+});
+
+test("whenLabelsFor: an empty or all-falsy list still returns a usable formatter", () => {
+  assert.equal(whenLabelsFor([])(0), "");
+  const stamp = Date.now() - 3 * DAY;
+  assert.equal(whenLabelsFor([0, 0])(stamp), formatDate(stamp), "no stamps to judge by, so absolute");
+});
+
+test("whenLabelsFor: falsy input renders as nothing", () => {
+  assert.equal(whenLabelsFor([Date.now()])(0), "");
 });

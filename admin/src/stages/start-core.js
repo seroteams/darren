@@ -19,7 +19,8 @@ import { createSkeleton } from "../ui/skeleton.js";
 import { errorCardHtml, wireRetry } from "../ui/screen-scaffold.ts";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
 import { firstRunIntroHtml } from "./intake-firstrun.ts";
-import { rowModel, orderForHome } from "./start-rows.ts";
+import { rowModel, orderForHome, hasRealRuns } from "./start-rows.ts";
+import { whenLabelsFor } from "../ui/time.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
 import { pageHeader } from "../ui/page-header.ts";
 import "../styles/ux-audit-fixes.css";
@@ -162,10 +163,6 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     list.setAttribute("aria-busy", "false");
     errorHost.hidden = true;
     syncAccentBudget(false);
-    // realRuns is what the manager actually did. The seeded example doesn't count, so a
-    // brand-new account keeps the invitation card WITH the example row below it, rather
-    // than the example standing in for a 1:1 they never ran.
-    const realRuns = runs.filter((r) => !rowModel(r).isExample);
     // The card chrome only wraps real rows — the skeleton and the recovery card bring
     // their own surfaces (never nest cards). The invitation now sits OUTSIDE the list
     // entirely, so a card can't end up inside the list card.
@@ -173,8 +170,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     if (seeAll) seeAll.hidden = runs.length === 0;
 
     // Zero real 1:1s: the "First time?" card IS the invitation, and it hosts the one
-    // blue button. Anything else and the button goes back to the header.
-    const firstRun = realRuns.length === 0;
+    // blue button. The seeded example doesn't count (hasRealRuns, the shared rule in
+    // start-rows.ts), so a brand-new account keeps the invitation card WITH the
+    // example row below it, rather than the example standing in for a 1:1 they never ran.
+    const firstRun = !hasRealRuns(runs);
     firstRunHost.hidden = !firstRun;
     if (firstRun) firstRunHost.innerHTML = firstRunIntroHtml({ actionSlot: true });
     else firstRunHost.innerHTML = "";
@@ -187,11 +186,13 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
       return;
     }
     if (recentLabel) recentLabel.hidden = false;
+    // One date vocabulary for the whole list, decided together (audit F11).
+    const when = whenLabelsFor(runs.map((r) => Number(r?.lastSeenAt) || 0));
     list.innerHTML = runs.map((r) => {
       // rowModel owns the copy contract: the name comes from ctx and NEVER falls back
       // to the raw headline, which is a "Name · Role · Seniority · MeetingType" blob
       // whose seniority slot has been seen holding an email address.
-      const m = rowModel(r);
+      const m = rowModel(r, when);
       return `
       <li class="run-list__item" data-id="${escape(r.id)}">
         <button type="button" class="run-list__row js-open" data-id="${escape(r.id)}">

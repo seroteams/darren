@@ -145,7 +145,9 @@ function rulesHtml() {
 }
 
 function brandmarkHtml() {
-  const brand = (f) => `/sero-flowbite/brand/sero-brandmark-${f}.svg`;
+  // The admin app is served under a base path (/admin/ on live AND in dev), so a root-absolute
+  // path misses these files and every mark 404s (audit F6). Same fix google-g.svg already uses.
+  const brand = (f) => `${import.meta.env.BASE_URL}sero-flowbite/brand/sero-brandmark-${f}.svg`;
   const colours = BRAND_COLOURS.map(
     (c) => `<div class="ds-brandtile"><img src="${brand(c.file)}" alt="Sero logo, ${c.name}" width="80" height="80">
       <p class="ds-swatch__name">${c.name}</p><p class="ds-swatch__meta">${c.note}</p></div>`

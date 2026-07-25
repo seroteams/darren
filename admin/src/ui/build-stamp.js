@@ -16,6 +16,10 @@ function fmtDate(iso) {
   return `${MONTHS[d.getMonth()]} ${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+// The one part of the chip that still takes the pointer: the SHA (or "offline"). Clicks on
+// it bubble to the button's own listener, so click-to-copy is unchanged.
+const CLICKABLE = "pointer-events:auto;cursor:pointer;";
+
 export function createBuildStamp() {
   const el = document.createElement("button");
   el.type = "button";
@@ -37,6 +41,10 @@ export function createBuildStamp() {
     "cursor:pointer",
     "opacity:0.55",
     "transition:opacity 120ms",
+    // The chip is fixed over the bottom-right of every screen, so its box was swallowing
+    // clicks meant for whatever sits under it (audit F17). Only the SHA itself takes the
+    // pointer now — the rest of the chip, and its padding, is click-through.
+    "pointer-events:none",
   ].join(";");
   el.addEventListener("mouseenter", () => { el.style.opacity = "1"; });
   el.addEventListener("mouseleave", () => { el.style.opacity = "0.55"; });
@@ -57,7 +65,7 @@ export function createBuildStamp() {
       const info = await getVersion();
       sha = info.build || "unknown";
       const date = fmtDate(info.committedAt);
-      el.innerHTML = `<span style="color:#94a3b8">build</span> <span style="color:#fbbf24">${sha}</span>${date ? ` <span style="color:#94a3b8">· ${date}</span>` : ""}`;
+      el.innerHTML = `<span style="color:#94a3b8">build</span> <span style="${CLICKABLE}color:#fbbf24">${sha}</span>${date ? ` <span style="color:#94a3b8">· ${date}</span>` : ""}`;
       el.title = [
         `build ${sha}`,
         info.committedAt ? `committed ${info.committedAt}` : null,
@@ -66,7 +74,7 @@ export function createBuildStamp() {
       ].filter(Boolean).join("\n");
     } catch {
       sha = "";
-      el.innerHTML = `<span style="color:#94a3b8">build</span> <span style="color:#f87171">offline</span>`;
+      el.innerHTML = `<span style="color:#94a3b8">build</span> <span style="${CLICKABLE}color:#f87171">offline</span>`;
       el.title = "API unreachable — build unknown";
     }
   }

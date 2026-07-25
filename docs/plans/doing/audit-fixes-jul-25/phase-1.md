@@ -1,6 +1,26 @@
 # Phase 1 — Quick wins
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, waiting on Carl's walk
+
+## Built (2026-07-25)
+
+Baseline before any edit: `npm test` 186/186, `npm run typecheck` clean, `lint:copy` PASS, `lint:tokens` PASS. Nothing was already red.
+
+| Fix | Files | Proof (measured, not assumed) |
+|---|---|---|
+| F6 brand marks | `admin/src/stages/design.js` | 8 brandmark images on the Design system page, **8 loaded**, `naturalWidth > 0` on every one, **zero 404s** on the page. Was 6 × 404. |
+| F17 build stamp | `admin/src/ui/build-stamp.js` | Chip `pointer-events: none`; `document.elementFromPoint` at its centre now returns the `TD` underneath instead of the chip. The SHA span keeps `pointer-events: auto`, so click-to-copy still works. |
+| F15 search name | `admin/src/ui/list-toolbar.ts`, `admin/src/stages/library.js` | The input now renders `aria-label="Search name or email"`. One change covers all ten screens via a placeholder fallback; Library gets an explicit label because its placeholder trails an ellipsis. |
+| F14 auth typeface | `admin/src/styles/design/auth.css` | Computed `font-family` on the auth h1 is now `"Bricolage Grotesque Variable"` on `/login`, `/register` and `/forgot-password`, and `document.fonts.check` says the face is really loaded. Width proof: "Welcome back" measures **313.66px** in Bricolage vs **318.08px** forced to Inter, so it is the real face and not a silent fallback. |
+| F11 dates | `admin/src/ui/time.ts` (new `whenLabelsFor`), `admin/src/stages/runs.ts`, `start-rows.ts`, `start-core.js`, `admin/src/stages/admin-registered.ts` | Manager Home: 3 rows, **3 absolute, 0 relative, no mixing**. Past 1:1s: 5 rows, **5 absolute, 0 relative, no mixing**. Was "2d ago" / "5d ago" / "Fri 17 Jul 2026" in one list. User management: **16 rows now read "never active"**, and **0** read "last active no runs yet". |
+
+Tests added: `whenLabelsFor` (4 cases) in `admin/src/ui/time.test.ts`, the accessible-name contract in `admin/src/ui/list-toolbar.test.ts`, the one-vocabulary-per-list guard in `admin/src/stages/runs.test.ts`.
+
+After: `npm test` 186/186, `typecheck` clean, `lint:copy` PASS, `lint:tokens` PASS.
+
+Screenshots: `audits/full-app-audit-2026-07-25/p1-proof/`.
+
+**Set your expectation on F14:** Bricolage Grotesque and Inter are close at heavy weight, so the login headline will not look dramatically different. The 4.4px width difference above is the proof it changed; do not fail the walk because it looks familiar.
 
 ## Goal
 Clear the five findings that are each a line or two of code, so the obvious breakage is gone before we touch anything structural.

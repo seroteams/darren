@@ -16,7 +16,15 @@ test("manager rows use the canonical anatomy: avatar, bold name, quiet type-and-
   assert.ok(SRC.includes("ds-avatar"), "shared avatar circle");
   assert.ok(SRC.includes("run-list__name"), "bold person name slot");
   assert.ok(SRC.includes("run-list__sub"), "quiet second line slot");
-  assert.ok(/meetingType[\s\S]{0,80}whenLabel/.test(SRC), "second line = meeting type + relative date");
+  assert.ok(/meetingType[\s\S]{0,80}when\(/.test(SRC), "second line = meeting type + a date");
+});
+
+// audit F11: rows each decided their own date style, so "5d ago" sat above "Fri 17 Jul 2026"
+// in the same group and you could not compare two rows without doing arithmetic.
+test("one date vocabulary for the whole list, not one per row", () => {
+  assert.ok(SRC.includes("whenLabelsFor("), "the list decides its vocabulary together");
+  assert.ok(!/whenLabel\(/.test(SRC), "no per-row whenLabel call left behind");
+  assert.ok(/managerRow\(r, when\)/.test(SRC), "and the row is handed the shared formatter");
 });
 
 test("the star rating badge renders on the right only when a rating exists", () => {

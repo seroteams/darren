@@ -140,7 +140,8 @@ export async function mount(root) {
       </header>
 
       ${listToolbar({
-        search: { placeholder: "Search name, role, meeting…" },
+        // Explicit label: the placeholder trails an ellipsis, which reads badly as a name.
+        search: { placeholder: "Search name, role, meeting…", label: "Search past prep runs" },
         filters: FILTERS.map((f, i) => ({ key: f.key, label: f.label, active: i === 0 })),
         count: { n: 0, noun: "run" },
       })}

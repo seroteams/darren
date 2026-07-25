@@ -14,7 +14,7 @@ import { listMyRuns, getRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
-import { formatDate, whenLabel } from "../ui/time.ts";
+import { formatDate, whenLabelsFor } from "../ui/time.ts";
 import { pageHeader } from "../ui/page-header.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
@@ -77,10 +77,10 @@ function groupLabel(ms: number): string {
 
 // One manager row on the canonical anatomy. data-name carries the person's name
 // (lowercased) for the toolbar's client-side search. Every value escaped.
-function managerRow(r: MyRun): string {
+function managerRow(r: MyRun, when: (ms: number) => string): string {
   const c = r.ctx || ({} as MyRun["ctx"]);
   const name = c.name || r.headline || "Untitled 1:1";
-  const sub = [c.meetingType, whenLabel(r.lastSeenAt)].filter(Boolean).join(" · ");
+  const sub = [c.meetingType, when(r.lastSeenAt)].filter(Boolean).join(" · ");
   const badge = r.rating
     ? `<span class="runs-list__stars text-sm" aria-label="prep rating ${r.rating.stars} out of 5">${icon(Star, { size: 16, fill: "currentColor" })} ${r.rating.stars}</span>`
     : "";
@@ -227,6 +227,8 @@ export const mount: Mount = async (root, { setState }) => {
 
     // Newest first, one card of divider rows with recency group heads between.
     const sorted = runs.slice().sort((a, b) => (b.lastSeenAt || 0) - (a.lastSeenAt || 0));
+    // One date vocabulary for the whole list, decided together (audit F11).
+    const when = whenLabelsFor(sorted.map((r) => r.lastSeenAt));
     const rows: string[] = [];
     let lastGroup = "";
     for (const r of sorted) {
@@ -235,7 +237,7 @@ export const mount: Mount = async (root, { setState }) => {
         rows.push(`<li class="run-list__grouphead js-run-group">${g}</li>`);
         lastGroup = g;
       }
-      rows.push(managerRow(r));
+      rows.push(managerRow(r, when));
     }
     const toolbar = listToolbar({
       search: { placeholder: "Search by name" },

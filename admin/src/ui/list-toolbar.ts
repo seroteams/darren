@@ -7,7 +7,10 @@ import { escapeHtml } from "./html.js";
 
 export type ToolbarFilter = { key: string; label: string; active?: boolean };
 export type ToolbarOpts = {
-  search?: { placeholder: string };
+  // `label` names the box for a screen reader. A placeholder is not a name: it is
+  // announced inconsistently and it disappears the moment you type (audit F15). Falls
+  // back to the placeholder text so no caller can end up with an unnamed box.
+  search?: { placeholder: string; label?: string };
   count?: { n: number; noun: string; nounPlural?: string };
   filters?: ToolbarFilter[];
 };
@@ -16,7 +19,7 @@ export function listToolbar(opts: ToolbarOpts): string {
   const parts: string[] = [];
   if (opts.search) {
     parts.push(
-      `<input type="search" class="list-toolbar__search js-lt-search" placeholder="${escapeHtml(opts.search.placeholder)}">`,
+      `<input type="search" class="list-toolbar__search js-lt-search" aria-label="${escapeHtml(opts.search.label ?? opts.search.placeholder)}" placeholder="${escapeHtml(opts.search.placeholder)}">`,
     );
   }
   if (opts.filters?.length) {

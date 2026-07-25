@@ -41,6 +41,10 @@
   display: block;
 }
 .auth-brand__title {
+  /* The display face, same as every in-app heading. Without it the front door, Log in and
+     Create account were the only screens set in the body font (audit F14) — the three a new
+     manager meets first were the three that did not look like Sero. */
+  font-family: var(--type-family-display);
   font-size: var(--type-h1);
   font-weight: var(--type-weight-bold);
   line-height: var(--type-leading-tight);

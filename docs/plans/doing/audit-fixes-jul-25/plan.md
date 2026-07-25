@@ -31,7 +31,7 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Quick wins | Brand marks show, the build stamp stops blocking clicks, search boxes get a name, auth screens use the brand face, one date format per column | ⬜ |
+| 1 | Quick wins | Brand marks show, the build stamp stops blocking clicks, search boxes get a name, auth screens use the brand face, one date format per column | 🔨 |
 | 2 | Shell and layout | Nav reaches the bottom of long pages, header buttons clear the account chip, the 1:1 wizard centres and drops the sidebar | ⬜ |
 | 3 | The refresh dead end | `/runs/:id` opens on refresh, on Back, and from a pasted URL | ⬜ |
 | 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | ⬜ |
@@ -44,13 +44,14 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-25, nine phases, nothing built. The mockup for the four visible phases (1, 2, 7, 8) is with Carl: https://claude.ai/code/artifact/1ce6ba66-56f8-4459-992b-96916db80ea3
+**Phase 1 is built and waiting on Carl's walk.** All five quick wins landed and were each measured in the browser, not assumed. Proof table + screenshots: [phase-1.md](phase-1.md) and `audits/full-app-audit-2026-07-25/p1-proof/`.
 
+Mockup approved 2026-07-25 (Carl picked A; he renamed the merged screen to "My Team" first): https://claude.ai/code/artifact/1ce6ba66-56f8-4459-992b-96916db80ea3
 Board: https://claude.ai/code/artifact/b01de778-a0b8-4cf7-b65d-48fdbd1f71f1 (`board.html`, regenerate with `node scripts/plan-board.js audit-fixes-jul-25`).
 
-Waiting on: Carl reading the phases or the board and confirming, plus a nod on the mockup. Then Phase 1.
+**Baseline, taken 2026-07-25 before any edit:** `npm test` 186/186, `npm run typecheck` clean, `lint:copy` PASS, `lint:tokens` PASS. Nothing was already red, so anything that breaks from here is ours. Same four checks all still green after the phase.
 
-Baseline not yet taken. Phase 1 starts with `npm test` + `npm run typecheck` (free) so anything already red is on the record before we touch it.
+Next after Carl's green light: Phase 2 (shell and layout).
 
 ## Parked
 - **Primary-button contrast (F2).** Ruled out by Carl 2026-07-25. `--sero-primary-800` would give 6.97:1 if he ever changes his mind.

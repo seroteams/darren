@@ -67,6 +67,15 @@ function lastActive(value: string | number | null): string {
   return Number.isFinite(ms) ? relTime(ms) : "no runs yet";
 }
 
+// The whole activity phrase, built in one place so it reads as a sentence. Composing it in
+// the row produced "last active no runs yet · 0 runs" (audit F11): three facts in one cell,
+// and not English. Someone who has never run anything gets one honest phrase instead.
+function activityPhrase(value: string | number | null, runCount: number, runsWord: string): string {
+  const when = lastActive(value);
+  if (when === "no runs yet") return "never active";
+  return `last active ${when} · ${runCount} ${runsWord}`;
+}
+
 // Coloured pill for the account role. Unknown roles fall back to the neutral style.
 function roleBadge(role: string): string {
   const known = new Set(["admin", "manager", "member"]);
@@ -105,7 +114,7 @@ function userRow(u: FlatUser): string {
       <td class="text-ink-dim">${escapeHtml(u.company)}</td>
       <td>${roleBadge(u.role)}${internalTag}${deactivatedTag}</td>
       <td>
-        <div class="um-activity">${trendMark(u)}${backBadge}<span>last active ${escapeHtml(lastActive(u.lastActiveAt))} · ${u.runCount} ${runsWord}</span></div>
+        <div class="um-activity">${trendMark(u)}${backBadge}<span>${escapeHtml(activityPhrase(u.lastActiveAt, u.runCount, runsWord))}</span></div>
       </td>
       <td class="um-actions">
         <button type="button" class="row-menu-btn js-menu-btn" data-id="${escapeHtml(u.id)}" data-name="${escapeHtml(u.name)}" data-role="${escapeHtml(u.role)}" data-deactivated="${off ? "1" : ""}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(u.name)}">${icon(MoreHorizontal, { size: 18 })}</button>

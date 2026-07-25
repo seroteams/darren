@@ -20,6 +20,17 @@ export function whenLabel(ms: number): string {
   return days < 7 ? relTime(ms) : formatDate(ms);
 }
 
+// One vocabulary per COLUMN, not per row (audit F11). Row-by-row, a list ends up with
+// "5d ago" sitting directly above "Fri 17 Jul 2026", and you cannot compare two rows
+// without doing arithmetic. So the whole list decides together: everything relative only
+// while every entry is inside the week, otherwise everything absolute.
+export function whenLabelsFor(list: readonly number[]): (ms: number) => string {
+  const stamps = list.filter((ms) => Boolean(ms) && !Number.isNaN(ms));
+  const now = Date.now();
+  const allThisWeek = stamps.length > 0 && stamps.every((ms) => (now - ms) / 86_400_000 < 7);
+  return (ms: number) => (!ms ? "" : allThisWeek ? relTime(ms) : formatDate(ms));
+}
+
 export function relTime(ms: number): string {
   if (!ms) return "";
   const min = Math.round((Date.now() - ms) / 60000);

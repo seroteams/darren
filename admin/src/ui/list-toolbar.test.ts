@@ -13,6 +13,17 @@ test("renders a search input with the given placeholder and hook class", () => {
   assert.match(html, /type="search"/, "a real search input");
 });
 
+// audit F15: the box had a placeholder and no name, so a screen reader announced "edit text"
+// on ten screens. A name is not optional; the placeholder is the floor, not the answer.
+test("the search box always carries an accessible name", () => {
+  const fallback = listToolbar({ search: { placeholder: "Search by name or role" } });
+  assert.ok(fallback.includes('aria-label="Search by name or role"'), "falls back to the placeholder");
+
+  const named = listToolbar({ search: { placeholder: "Search by name", label: "Search your past 1:1s" } });
+  assert.ok(named.includes('aria-label="Search your past 1:1s"'), "an explicit label wins");
+  assert.ok(named.includes('placeholder="Search by name"'), "and the placeholder is untouched");
+});
+
 test("renders the count with singular and plural nouns", () => {
   const one = listToolbar({ count: { n: 1, noun: "person", nounPlural: "people" } });
   assert.ok(one.includes(">1 person<"), "singular at 1");
