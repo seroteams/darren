@@ -513,6 +513,17 @@
       "port": 3225
     },
     {
+      "name": "sero-web-ph",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3245",
+        "--strictPort"
+      ],
+      "port": 3245
+    },
+    {
       "name": "sero-api-pill",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

@@ -33,7 +33,7 @@ export async function mount(root, { setState }) {
             </label>
             <label class="l-stack l-stack--2">
               <span class="field__label">Company <span class="text-ink-mute">(optional)</span></span>
-              <input class="input js-company" type="text" autocomplete="organization" placeholder="Leave blank and we'll name it after you" />
+              <input class="input js-company" type="text" autocomplete="organization" placeholder="Thriving Company Co Ltd" />
             </label>
             <label class="l-stack l-stack--2">
               <span class="field__label">Email</span>
