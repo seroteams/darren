@@ -1,6 +1,16 @@
 # Phase 1 — One first-run rule
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-25 — Carl walked a fresh signup on Home and confirmed the first-run card renders (commit below)
+
+## Built (2026-07-25)
+- `admin/src/stages/start-rows.ts` — new shared `hasRealRuns()` next to `rowModel` (the one rule: demo rows are not real 1:1s).
+- `admin/src/stages/start-core.js` — Home's first-run check now calls the helper; local `realRuns` copy deleted. Behaviour unchanged.
+- `admin/src/stages/intake.js` — the wizard's gate calls the helper and fetches 2 recent runs so the seeded example cannot mask a real one. This is the fix.
+- Tests first: `start-rows.test.ts` (+2 behaviour tests), `intake-firstrun.test.ts` (+1 source guard on the gate), `start-core.test.ts` (guards updated to the shared-rule shape). All failed before the code change, all pass after.
+- Proof, offline: targeted files 41/41 · full suite 185/186 (the 1 fail is `runs.test.ts`, failing identically BEFORE this work — pre-existing, not this phase) · typecheck clean.
+- Proof, real app (local `sero-customer-demo` on :3173, fresh signup carl+p1test@seroteams.com): Home shows First time? card + Sofia Example row (unchanged); the wizard now shows "Your first prep, in three moves" on step 1 AND "What good notes look like" on the notes step — both were invisible to every new signup before this fix. Verified by reading the rendered screens; pixel screenshots blocked (Browser pane hidden), Carl's walk is the visual check.
 
 ## Goal
 The intake wizard's beginner help shows for genuinely new managers again, and "has real 1:1s" is decided in exactly one place.

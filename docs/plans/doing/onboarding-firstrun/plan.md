@@ -24,7 +24,7 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | One first-run rule | Shared has-real-runs helper; wizard beginner help works again (bug fix, buildable now) | ⬜ |
+| 1 | One first-run rule | Shared has-real-runs helper; wizard beginner help works again (bug fix, buildable now) | ✅ |
 | 2 | Brief-first welcome | The approved Direction A first screen: line + sample brief + video + one button (parked until Gate 1) | ⬜ |
 | 3 | Quiet rail | Manager rows appear after the first real brief; shell/Log out always present (parked until Gate 1) | ⬜ |
 | 4 | Sweep and truth | Dependency sweep both apps, demo-member alignment, changelog + guide, live proof (parked until Gate 1) | ⬜ |
@@ -42,9 +42,10 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 
 ## Current state
 Board: https://claude.ai/code/artifact/a9f68c94-748e-4b76-90a3-971f7328b9f4
-Folder set up 2026-07-25. Waiting on Carl's read-and-confirm before Phase 1 starts.
-Phase 1 is a small live-bug fix and free to build on confirm. Phases 2-4 are parked until the corridor metric is in (validation-stage rule); the plan holds the design so nothing is lost.
-Baseline for Phase 1 will be the free checks (`npm test` + `npm run typecheck`); no paid gate run — this plan never touches the engine.
+Phase 1 ✅ GREEN-LIT 2026-07-25 (Carl walked a fresh signup on the local customer app; Home's first-run card confirmed on screen). Not yet on sero.team: it ships with the next go-live.
+Baseline before the work: typecheck clean, `npm test` 185/186 — the 1 fail (`admin/src/stages/runs.test.ts`, row anatomy) predates this plan and is untouched by it. Same 185/186 after.
+Next: Phase 2 (brief-first welcome, incl. the explainer video to the right of the intro). Carl asked for the video on 25 July while looking at today's Home; it lives in Phase 2, which stays PARKED until the corridor metric is in (validation-stage rule). Unparking it is Carl's call, not a drift.
+No paid runs — this plan never touches the engine.
 
 ## Parked
 - Full rail hide (research option 3B) — quiet rail chosen instead; revisit only if the quiet rail still feels heavy.

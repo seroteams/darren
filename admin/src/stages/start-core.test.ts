@@ -37,7 +37,7 @@ test("recents render as rich rows: avatar initial, bold name, quiet type-and-tim
 // tested for real; what this guard holds is that start-core can't quietly reintroduce
 // the headline blob (whose seniority slot has been seen carrying an email address).
 test("the row name comes from the tested row model, never the headline blob", () => {
-  assert.ok(/import \{ rowModel, orderForHome \}/.test(SRC), "rows are built by start-rows.ts");
+  assert.ok(/import \{ rowModel, orderForHome, hasRealRuns \}/.test(SRC), "rows are built by start-rows.ts");
   assert.ok(!/r\.headline/.test(SRC), "no headline fallback anywhere in the screen");
   assert.ok(!SRC.includes("formatRelativeTime"), "the duplicated time helper is gone (ui/time.ts owns it)");
 });
@@ -122,9 +122,11 @@ test("the first-run card is a sibling of the list, never a cell inside it", () =
   assert.ok(/firstRunHost\.innerHTML = firstRunIntroHtml/.test(SRC), "the card renders into that section");
 });
 
-test("the zero-run branch keys on realRuns, so the seeded example doesn't stand in for a real 1:1", () => {
-  assert.ok(/const realRuns = runs\.filter\(\(r\) => !rowModel\(r\)\.isExample\)/.test(SRC), "the example is not a real 1:1");
-  assert.ok(/const firstRun = realRuns\.length === 0/.test(SRC), "the invitation keys on real 1:1s, not every row");
+// onboarding-firstrun Phase 1: the rule moved into start-rows.ts (hasRealRuns) so Home
+// and the intake wizard can never disagree again about what counts as a real 1:1.
+test("the zero-run branch keys on the shared real-runs rule, so the seeded example doesn't stand in for a real 1:1", () => {
+  assert.ok(/const firstRun = !hasRealRuns\(runs\)/.test(SRC), "the invitation keys on real 1:1s, not every row");
+  assert.ok(!SRC.includes("realRuns"), "no local copy of the rule survives in this screen");
 });
 
 // home-screen-truth Phase 3.

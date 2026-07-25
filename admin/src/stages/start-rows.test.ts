@@ -5,7 +5,7 @@
 // carrying an email address.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { rowModel, orderForHome } from "./start-rows.ts";
+import { rowModel, orderForHome, hasRealRuns } from "./start-rows.ts";
 
 const DAY = 86_400_000;
 const run = (over = {}) => ({
@@ -82,4 +82,21 @@ test("a seeded run is marked as an example; a real one never is", () => {
 test("orderForHome survives an empty list and a missing cap", () => {
   assert.deepEqual(orderForHome([], 3), []);
   assert.equal(orderForHome([run(), run({ id: "b" })]).length, 2);
+});
+
+// onboarding-firstrun Phase 1. One rule for "has this manager actually run a 1:1?".
+// Home and the intake wizard each held their own copy and they disagreed: the wizard
+// counted the seeded example, so no new signup ever saw its beginner help.
+test("hasRealRuns: the seeded example alone is not a real 1:1", () => {
+  assert.equal(hasRealRuns([]), false, "no runs at all is first-run");
+  assert.equal(hasRealRuns([run({ isDemo: true })]), false, "a fresh demo-seeded account is still first-run");
+  assert.equal(hasRealRuns([run({ isDemo: true }), run({ id: "r2" })]), true, "one real run ends first-run");
+  assert.equal(hasRealRuns([run({})]), true, "a normal run counts");
+});
+
+test("hasRealRuns never throws and never guesses on junk", () => {
+  assert.equal(hasRealRuns(undefined), false);
+  assert.equal(hasRealRuns(null), false);
+  assert.equal(hasRealRuns("nope"), false);
+  assert.equal(hasRealRuns([{ id: "x" }]), true, "a bare run is real: absent means real, same as rowModel");
 });

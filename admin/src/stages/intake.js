@@ -2,6 +2,7 @@ import { STAGES, resetSession, isAdmin } from "../state.ts";
 import { exitStage } from "../ui/landing.ts";
 import { getMeetingTypes, startSession, listPeople, listMyRuns, listRecentRuns, createPerson, createGuidedSession } from "../../../shared/api.js";
 import { firstRunIntroHtml, firstRunNotesExampleHtml } from "./intake-firstrun.ts";
+import { hasRealRuns } from "./start-rows.ts";
 import { swapField, focusField } from "../ui/field.js";
 import { confirmAction } from "../ui/confirm.js";
 import { confirmResetSession } from "../ui/session-reset.js";
@@ -567,15 +568,18 @@ export async function mount(root, { store, setState }) {
     getMeetingTypes(),
     listPeople(),
     listMyRuns({ open: true }),
-    listRecentRuns(1),
+    listRecentRuns(2),
   ]);
   types = typesRes.status === "fulfilled" ? typesRes.value.types : [];
-  // Zero runs ever (recent covers finished + in-progress) → this is a first prep.
+  // First prep = no REAL runs yet (recent covers finished + in-progress). The seeded
+  // example doesn't count — hasRealRuns is the shared rule in start-rows.ts; this
+  // gate's own raw zero-count once hid the guidance from every new signup, because the
+  // example made the list non-empty. Fetch 2 so the example cannot mask a real run.
   // Any failure (guest 401, network) leaves it false — guidance never blocks intake.
   isFirstRun =
     recentRes.status === "fulfilled" &&
     Array.isArray(recentRes.value?.runs) &&
-    recentRes.value.runs.length === 0;
+    !hasRealRuns(recentRes.value.runs);
   if (isFirstRun && firstRunHost) {
     firstRunHost.innerHTML = firstRunIntroHtml();
     refreshStep();

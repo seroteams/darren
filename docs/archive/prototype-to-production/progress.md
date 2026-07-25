@@ -943,3 +943,29 @@ chat still holds `login.js` / `register.js` / `auth-screens.test.ts` in LANES.md
 asserts on literal source strings (`auth-split`, `field__label`, `intake-or` before `js-try-guest`,
 the `js-submit` → `intake-or` → Google order), so Phase 2 rewrites the test contract before it
 touches a screen.
+
+## 2026-07-25 — the beginner help that nobody had ever seen
+
+Carl asked for a deep dive on new-manager onboarding ("we cannot assume that new people know that
+Sero is a tool during 1:1s"). The committee ran with Rory Sutherland guesting on the behavioural
+seat, and his line settled the direction: don't read the recipe at the door, show the cake. Carl
+picked Direction A (a finished sample brief on the first screen) plus the explainer video beside it.
+
+The research pass then found a live bug worth more than the redesign. The intake wizard decided
+"is this their first prep?" by fetching one recent run and checking the list was empty. Home decided
+the same question by counting only non-example rows. When demo-seeding landed on 22 July, every new
+account got a Sofia example run, so the wizard's list was never empty: from that day forward NO new
+signup ever saw the "Your first prep, in three moves" panel or the "What good notes look like"
+example. Two screens, two copies of one rule, and they disagreed silently for three days.
+
+The fix is one exported function (`hasRealRuns` in start-rows.ts) that both screens now call, chosen
+over the smaller in-place patch precisely because two copies is what caused this. The quiet rail
+(Phase 3) and demo-member's "Remove example" will be the third and fourth callers, and they would
+each have been a fresh chance to disagree.
+
+Lessons kept: (1) a dependency sweep has to run when the DATA changes, not only when the feature
+changes — nothing about the wizard was edited on 22 July, and it still broke. (2) A gate whose input
+gained a new row type is a gate that needs re-reading. (3) The research answer that mattered most was
+a negative one: hiding the nav rail, which the approved mockup literally shows, would have removed
+the customer app's only Log out button. The mock stays; the implementation becomes a "quiet rail"
+that keeps the shell. Phases 2-4 are approved and parked until the corridor metric is in.

@@ -1,5 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { firstRunIntroHtml, firstRunNotesExampleHtml, GOOD_NOTES_EXAMPLE } from "./intake-firstrun.ts";
 
 // Phase 4 (validation-kit) — first-run guidance for a brand-new manager. The copy
@@ -57,6 +60,19 @@ test("intro: the time line is honest about the typing, not the whole flow", () =
   assert.ok(/two minutes/i.test(introWithSlot), "sets an expectation");
   assert.ok(/typing/i.test(introWithSlot), "the claim is about what they type, which is what we can stand behind");
   assert.ok(!intro.includes("two minutes"), "the intake screen does not repeat it mid-flow");
+});
+
+// onboarding-firstrun Phase 1. The wizard decides "first-timer" with the shared rule
+// from start-rows.ts. Its own raw zero-count included the seeded example, so from the
+// day seeding began no normal signup ever saw this guidance. intake.js mounts through
+// the DOM, so this guard reads the source (same approach as start-core.test.ts).
+const intakeSrc = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "intake.js"), "utf8");
+
+test("the wizard's first-run gate uses the shared real-runs rule, not a raw count", () => {
+  assert.ok(/import \{ hasRealRuns \} from "\.\/start-rows\.ts"/.test(intakeSrc), "one rule, imported from start-rows.ts");
+  assert.ok(/!hasRealRuns\(recentRes\.value\.runs\)/.test(intakeSrc), "first-run = no REAL runs");
+  assert.ok(!/runs\.length === 0/.test(intakeSrc), "the raw zero-count gate is gone");
+  assert.ok(intakeSrc.includes("listRecentRuns(2)"), "fetches 2 so the seeded example cannot mask a real run");
 });
 
 test("copy: UK English, no exclamation marks, no sub-14px inline font-size", () => {
