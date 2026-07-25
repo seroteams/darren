@@ -20,7 +20,7 @@
     "allowImportingTsExtensions": true,
     "allowJs": false
   },
-  "//": "admin/ and frontend/ have their own tsconfigs (browser/DOM); this root config is Node/back-end only.",
-  "include": ["backend/**/*.ts", "backend/**/*.mts", "scripts/**/*.ts", "scripts/**/*.mts", "evals/**/*.ts", "evals/**/*.mts"],
+  "//": "admin/ and frontend/ have their own tsconfigs (browser/DOM); this root config is Node/back-end only. shared/ TS (its node:test suite) rides here; shared/*.js stays unchecked until it converts.",
+  "include": ["backend/**/*.ts", "backend/**/*.mts", "scripts/**/*.ts", "scripts/**/*.mts", "evals/**/*.ts", "evals/**/*.mts", "shared/**/*.ts"],
   "exclude": ["node_modules", "**/dist"]
 }

@@ -24,7 +24,7 @@ const renderChild = ([tag, attrs]) =>
 // label: when set, the icon is exposed to screen readers with that name; otherwise
 //        it is aria-hidden (the default — most icons sit beside a text label).
 // fill:  paint the shape (e.g. a filled star); defaults to "none" (outline only).
-export function icon(node, { size = 22, className = "", label, fill = "none" } = {}) {
+export function icon(node, { size = 22, className = "", label = "", fill = "none" } = {}) {
   const children = (node || []).map(renderChild).join("");
   const cls = ["sero-icon", className].filter(Boolean).join(" ");
   const a11y = label ? `role="img" aria-label="${escapeAttr(label)}"` : `aria-hidden="true"`;

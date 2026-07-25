@@ -1,0 +1,10 @@
+{
+  "//": "Co-located src/**/*.test.ts run under node:test (npm test) but were never typechecked — this config closes that blind spot (refactor-2026-07 P2). Extends the app config; adds Node globals for the test runner; drops ONLY the undefined-on-index rule (tests index into fixtures they just built — that rule is app-code armour, pure noise here). App code stays fully strict in tsconfig.json. Run via `npm run typecheck:admin`.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "noUncheckedIndexedAccess": false
+  },
+  "include": ["src/**/*.test.ts"],
+  "exclude": ["node_modules", "dist"]
+}

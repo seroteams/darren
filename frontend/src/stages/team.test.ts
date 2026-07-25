@@ -16,8 +16,8 @@ const base = {
 };
 const joined: Person = { key: "p1", name: "Priya", userId: "u1", access: access({ state: "joined" }), ...base };
 const none: Person = { key: "p2", name: "Carl", userId: null, access: access({ state: "none" }), role: "UX Designer", count: 0, openCount: 1, lastMet: 0, ratedCount: 0, avgStars: null, met: false };
-const invited: Person = { key: "p3", name: "Sam Lee", userId: null, access: access({ state: "invited", inviteId: "i3", invitedAt: 1752000000000 }), ...base, name: "Sam Lee" };
-const opened: Person = { key: "p4", name: "Jo Kim", userId: null, access: access({ state: "opened", inviteId: "i4", invitedAt: 1751000000000, openedAt: 1752000000000 }), ...base, name: "Jo Kim" };
+const invited: Person = { key: "p3", name: "Sam Lee", userId: null, access: access({ state: "invited", inviteId: "i3", invitedAt: 1752000000000 }), ...base };
+const opened: Person = { key: "p4", name: "Jo Kim", userId: null, access: access({ state: "opened", inviteId: "i4", invitedAt: 1751000000000, openedAt: 1752000000000 }), ...base };
 const users: OrgUser[] = [{ id: "u1", name: "Dev Member", email: "member@seroteams.com" }];
 
 test("a joined person shows the On Sero pill + a Change control", () => {

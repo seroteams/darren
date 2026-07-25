@@ -188,7 +188,7 @@ export function showAccountSheet(user: User): void {
     }
     nameSaveBtn.disabled = true; nameSaveBtn.textContent = "Saving…";
     try {
-      const res = await updateProfile({ name: next });
+      const res = (await updateProfile({ name: next })) as { user?: { name?: string } };
       const savedName = ((res?.user?.name as string) || next).trim();
       // Reflect it wherever the app already shows the name (the avatar initial, the next
       // time the page opens) — setState re-renders the nav + badge from the store.
@@ -241,7 +241,7 @@ export function showAccountSheet(user: User): void {
 
     let loaded = "";
     getCompany()
-      .then((res) => {
+      .then((res: { company?: string }) => {
         loaded = ((res?.company as string) || "").trim();
         companyEl.value = loaded;
         companyEl.placeholder = "Your company name";
@@ -260,7 +260,7 @@ export function showAccountSheet(user: User): void {
       if (next === loaded) { companyOk.textContent = "That's already your company name."; companyOk.hidden = false; return; }
       companySaveBtn.disabled = true; companySaveBtn.textContent = "Saving…";
       try {
-        const res = await updateCompany({ company: next });
+        const res = (await updateCompany({ company: next })) as { company?: string };
         loaded = ((res?.company as string) || next).trim();
         companyEl.value = loaded;
         setState({ user: { ...store.user, company: loaded } });

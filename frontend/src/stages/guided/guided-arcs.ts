@@ -6,17 +6,17 @@
 
 import type { GuidedArc } from "./guided.types.ts";
 
-export const GUIDED_ARCS: GuidedArc[] = [
-  {
-    slug: "monthly_check_in",
-    label: "Monthly Check-in",
-    badge: "New",
-    stages: ["catchup", "requests", "rating", "feedback", "goals", "summary", "wrapup"],
-    aiWrapup: true,
-  },
-];
+const MONTHLY_CHECK_IN: GuidedArc = {
+  slug: "monthly_check_in",
+  label: "Monthly Check-in",
+  badge: "New",
+  stages: ["catchup", "requests", "rating", "feedback", "goals", "summary", "wrapup"],
+  aiWrapup: true,
+};
 
-export const DEFAULT_GUIDED_ARC = GUIDED_ARCS[0];
+export const GUIDED_ARCS: GuidedArc[] = [MONTHLY_CHECK_IN];
+
+export const DEFAULT_GUIDED_ARC = MONTHLY_CHECK_IN;
 
 /** Resolve the arc a session follows; falls back to the default (v1 has one arc). */
 export function arcBySlug(slug: string | undefined): GuidedArc {

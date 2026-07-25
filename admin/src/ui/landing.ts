@@ -9,10 +9,11 @@
 // same login.js file runs in both bundles.
 
 import { STAGES, isAdmin } from "../state.js";
+import type { StageName } from "../state.js";
 
 type UserLike = { roles?: string[]; role?: string } | null | undefined;
 
-export function landingStage(user: UserLike, memberHome: string): string {
+export function landingStage(user: UserLike, memberHome: StageName): StageName {
   return isAdmin(user) ? STAGES.START : memberHome;
 }
 
@@ -20,6 +21,6 @@ export function landingStage(user: UserLike, memberHome: string): string {
 // reload); a signed-out guest goes to the app's front door (guestHome). Without this the
 // discard handlers hardcoded START, dropping a guest onto the signed-in home while
 // store.user was null — the "logged in but not logged in" half-state (guest-discard fix).
-export function exitStage(user: UserLike, memberHome: string, guestHome: string): string {
+export function exitStage(user: UserLike, memberHome: StageName, guestHome: StageName): StageName {
   return user ? landingStage(user, memberHome) : guestHome;
 }
