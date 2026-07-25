@@ -53,3 +53,10 @@ services:
       # Unset = emails are skipped, the app still runs.
       - key: EMAIL_API_KEY
         sync: false
+      # "Continue with Google" (google-signin) — the OAuth client from
+      # console.cloud.google.com. Unset = the Google button degrades to a friendly
+      # "not set up yet" message; password login is untouched.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false

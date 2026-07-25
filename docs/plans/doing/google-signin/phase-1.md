@@ -1,6 +1,12 @@
 # Phase 1 — Backend flow (dark)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's QA
+
+## Built (2026-07-25)
+- Migration `0021_thankful_lockheed.sql`: `users.google_sub` + unique index (null-safe for every existing row).
+- New module `backend/api/services/auth/google-auth.{service,controller,repo}.ts` + 2 test files (written first): PKCE + state/nonce handshake, claim validation (iss/aud/exp/nonce, `email_verified` required), the 4-branch account ladder, every failure a friendly `/login?error=...` redirect.
+- Routes `GET /api/v1/auth/google/start` + `/callback` in server.ts (origin-guarded, shared auth rate limit); state cookie helpers in `middleware/cookies.ts`; `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` documented in `.env.example` + prompted by `render.yaml`.
+- Offline proof: npm test 185/185 (29 new google-auth tests), typecheck clean, lint:copy clean. Baseline before work: 183/183 + typecheck clean.
 
 ## Goal
 The whole Google sign-in flow works end to end locally, reachable only by pasting a URL — no buttons yet, nothing a user can see.

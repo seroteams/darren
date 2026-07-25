@@ -27,13 +27,15 @@ const bcryptHasher: PasswordHasher = {
 const service = createAuthService(pgAuthRepo, bcryptHasher);
 const resetService = createPasswordResetService(pgPasswordResetRepo, bcryptHasher);
 
-// How long a login lasts before it expires (7 days).
-const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+// How long a login lasts before it expires (7 days). Exported for the Google
+// sign-in controller (google-signin Phase 1), so both doors mint the same session.
+export const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 // The public origin, so the emailed reset link is a full clickable URL. Prefer an
 // explicit APP_BASE_URL; otherwise derive it from the request (works local + live with
 // no config). Mirrors invites.controller.ts — kept local here to stay surgical.
-function requestBaseUrl(req: IncomingMessage): string {
+// Exported for the Google sign-in controller, which derives its redirect URI from it.
+export function requestBaseUrl(req: IncomingMessage): string {
   const envBase = process.env.APP_BASE_URL?.trim().replace(/\/$/, "");
   if (envBase) return envBase;
   const fwdProto = String(req.headers["x-forwarded-proto"] ?? "").split(",")[0]!.trim();

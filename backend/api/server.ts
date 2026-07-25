@@ -25,6 +25,7 @@ import { hasDatabaseUrl } from "../db/client.ts";
 
 import * as arcs from "./services/arcs/arcs.controller.ts";
 import * as auth from "./services/auth/auth.controller.ts";
+import * as googleAuth from "./services/auth/google-auth.controller.ts";
 import { pgAuthSessionRepo, pgPasswordResetRepo } from "./services/auth/auth.repo.ts";
 import * as catalog from "./services/catalog/catalog.controller.ts";
 import { v1Route } from "./middleware/v1-route.ts";
@@ -261,6 +262,15 @@ async function main(): Promise<void> {
   // only (requireAdmin inside the handler); the org id comes from the session, never the body.
   router.add("GET", "/api/v1/auth/company", v1Route(auth.getCompany));
   router.add("POST", "/api/v1/auth/update-company", guardedV1(auth.updateCompany));
+
+  // Google sign-in (google-signin Phase 1) — the OAuth redirect pair. GETs, but they
+  // mutate (callback mints a session), so they wear the origin guard like every other
+  // auth door; a top-level navigation carries no Origin header, so real browsers pass.
+  // They share login's per-IP budget (same "guessing at the door" risk). Rate-limit
+  // handling is INSIDE the handlers — every failure answers with a 302 to the login
+  // screen, never JSON into a browser navigation.
+  router.add("GET", "/api/v1/auth/google/start", guardedV1((c) => googleAuth.start(c, rateLimitAuth(c.req))));
+  router.add("GET", "/api/v1/auth/google/callback", guardedV1((c) => googleAuth.callback(c, rateLimitAuth(c.req))));
 
   // feedback — a tester's in-app note (Phase 5; feedback-inbox moved the store to the
   // feedback_notes table). Login required (any role, not admin); no external service.

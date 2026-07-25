@@ -67,7 +67,9 @@ export interface AuthService {
   updateCompany(input: UpdateCompanyInput): Promise<{ id: string; name: string }>;
 }
 
-function normalizeEmail(email: string): string {
+// Exported for the Google sign-in service (google-signin Phase 1), so both doors
+// agree on what "the same email" means.
+export function normalizeEmail(email: string): string {
   return (email ?? "").trim().toLowerCase();
 }
 

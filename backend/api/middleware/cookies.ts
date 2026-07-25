@@ -37,3 +37,28 @@ export function sessionCookie(token: string, maxAgeSeconds: number): string {
 export function clearedSessionCookie(): string {
   return `${SESSION_COOKIE}=; ${attributes(0)}`;
 }
+
+// --- Google sign-in state cookie (google-signin Phase 1) -----------------------
+// Carries the CSRF nonce + PKCE verifier + return target between /google/start and
+// /google/callback. Short-lived (10 minutes) and path-scoped to the two OAuth routes,
+// so it never travels on any other request. SameSite=Lax on purpose: Google's redirect
+// back to the callback is a top-level GET, which Lax cookies DO accompany.
+
+export const OAUTH_STATE_COOKIE = "sero_google_state";
+const OAUTH_STATE_TTL_SECONDS = 600;
+const OAUTH_STATE_PATH = "/api/v1/auth/google";
+
+function oauthStateAttributes(maxAgeSeconds: number): string {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  return `Path=${OAUTH_STATE_PATH}; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSeconds}${secure}`;
+}
+
+/** Set-Cookie value that stores the OAuth handshake state. */
+export function oauthStateCookie(value: string): string {
+  return `${OAUTH_STATE_COOKIE}=${encodeURIComponent(value)}; ${oauthStateAttributes(OAUTH_STATE_TTL_SECONDS)}`;
+}
+
+/** Set-Cookie value that clears the OAuth state cookie (Max-Age=0). */
+export function clearedOauthStateCookie(): string {
+  return `${OAUTH_STATE_COOKIE}=; ${oauthStateAttributes(0)}`;
+}

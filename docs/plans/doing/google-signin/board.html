@@ -67,14 +67,14 @@
 <div class="board">
   <div class="eyebrow"><span class="dot">●</span> SERO · CONTINUE WITH GOOGLE</div>
   <h1>Where we are<span class="dot">.</span></h1>
-  <p class="lead">The plan is 3 phases and 12 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
+  <p class="lead">The plan is 3 phases and 11 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
 
   <div class="panel">
     <div class="prog-head">
       <h2>Phase 1 of 3 — backend flow (dark)</h2>
-      <div class="prog-sub">0 of 3 signed off · 0 built</div>
+      <div class="prog-sub">0 of 3 signed off · 1 built</div>
     </div>
-    <div class="segs"><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
+    <div class="segs"><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
   </div>
 
   <div class="panel setup">
@@ -90,16 +90,16 @@
 
   <div class="rows">
   <div class="row row-here">
-    <div class="node todo">1</div>
+    <div class="node built">1</div>
     <div class="card">
       <div class="card-head">
         <h3>Backend flow (dark)</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
+        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         <span class="here">● YOU ARE HERE</span>
       </div>
       <p class="desc">The whole Google sign-in flow works end to end locally, reachable only by pasting a URL — no buttons yet, nothing a user can see.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>One database migration: google_sub column + unique index on users</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>New backend module backend/api/services/auth/google-auth.{service,controller,repo}.ts + two t…</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Two routes in server.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>State cookie helpers in middleware/cookies.ts; small exports from auth.controller.ts / auth.s…</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>.env.example + render.yaml learn the two new variable names</span></li></ul>
-      
+      <ul class="items"><li class=""><span class="tick tick-built">✓</span><span>Migration 0021_thankful_lockheed.sql: users.google_sub + unique index</span></li><li class=""><span class="tick tick-built">✓</span><span>New module backend/api/services/auth/google-auth.{service,controller,repo}.ts + 2 test files</span></li><li class=""><span class="tick tick-built">✓</span><span>Routes GET /api/v1/auth/google/start + /callback in server.ts</span></li><li class=""><span class="tick tick-built">✓</span><span>Offline proof: npm test 185/185</span></li></ul>
+      <div class="testit"><span class="testit-tag">TEST IT</span> go to <code>localhost:3001</code> · sign in as <span class="role">Manager</span></div>
     </div>
   </div>
   <div class="row ">

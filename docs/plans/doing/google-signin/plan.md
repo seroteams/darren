@@ -3,7 +3,7 @@
 **Goal:** Anyone can log in or sign up to Sero with one click on their Google account, alongside the existing email + password door.
 **Driver:** Carl
 **Created:** 2026-07-25
-**Mockup:** https://claude.ai/code/artifact/10f61fde-92e1-4724-a079-894ce38a20e2 — awaiting Carl's approval
+**Mockup:** https://claude.ai/code/artifact/10f61fde-92e1-4724-a079-894ce38a20e2 — approved 2026-07-25
 
 ## Done means
 - A "Continue with Google" button sits on the login and create-account screens in both apps.
@@ -24,14 +24,14 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Backend flow (dark) | Google OAuth routes + migration, reachable by URL only; Carl's Google Cloud setup | ⬜ |
+| 1 | Backend flow (dark) | Google OAuth routes + migration, reachable by URL only; Carl's Google Cloud setup | 🔨 |
 | 2 | Buttons on the screens | "Continue with Google" on login + register, both apps, friendly error copy | ⬜ |
 | 3 | Live rollout | Render env vars, consent screen to Production, live walk | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-25. Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · Waiting on Carl: (1) mockup approval, (2) the 10-minute Google Cloud setup in phase-1.md. No code written yet. Baseline to be run at Phase 1 start.
+Phase 1 BUILT 2026-07-25, awaiting Carl's QA walk (needs his 10-minute Google Cloud setup first — phase-1.md). Board: https://claude.ai/code/artifact/eedb318d-491e-4ea4-a1f5-1d9785652343 · Baseline was 183/183 + typecheck clean; after build 185/185 (29 new tests), typecheck + lint:copy clean (paid gate deliberately skipped — engine untouched, cost rule).
 
 ## Parked
 - Google button on the invite-join page and the public welcome page (Carl chose login + signup first, 2026-07-25).

@@ -43,6 +43,11 @@ export const users = pgTable(
     name: text("name").notNull(),
     role: userRole("role").notNull().default("member"),
     passwordHash: text("password_hash"),
+    // Google sign-in (google-signin Phase 1): Google's stable account id (the id_token
+    // `sub`). Null = no Google linked. This — not the email — is the durable key, so a
+    // Google-side email change never detaches the account. A user can hold both a
+    // password and a Google link; either door logs them in.
+    googleSub: text("google_sub"),
     // Deactivate/reactivate (user-management Phase 3): null = active. A set timestamp
     // blocks login and is the signal for the "Deactivated" row state. Reversible —
     // reactivate clears it back to null. Deletes nothing.
@@ -50,7 +55,13 @@ export const users = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => [index("users_org_id_idx").on(t.orgId), uniqueIndex("users_email_unique").on(t.email)],
+  (t) => [
+    index("users_org_id_idx").on(t.orgId),
+    uniqueIndex("users_email_unique").on(t.email),
+    // Unique but NULL-friendly (Postgres treats NULLs as distinct) — one Sero account
+    // per Google account, while password-only users all stay null.
+    uniqueIndex("users_google_sub_unique").on(t.googleSub),
+  ],
 );
 
 /** A manager's roster (people-roster Phase 1) — the people a manager runs 1:1s about.
