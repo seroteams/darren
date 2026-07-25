@@ -1,6 +1,6 @@
-# Phase 4 — Sweep and truth (parked until Gate 1)
+# Phase 4 — Sweep and truth
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ (parked: builds only after the corridor metric is in)
+**Part of:** [plan.md](plan.md) · **Status:** ⬜ (after Phase 3)
 
 ## Goal
 Every dependent surface agrees with the new first run, and the record tells the truth.

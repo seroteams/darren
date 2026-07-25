@@ -25,9 +25,9 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | One first-run rule | Shared has-real-runs helper; wizard beginner help works again (bug fix, buildable now) | ✅ |
-| 2 | Brief-first welcome | The approved Direction A first screen: line + sample brief + video + one button | 🔨 |
-| 3 | Quiet rail | Manager rows appear after the first real brief; shell/Log out always present (parked until Gate 1) | ⬜ |
-| 4 | Sweep and truth | Dependency sweep both apps, demo-member alignment, changelog + guide, live proof (parked until Gate 1) | ⬜ |
+| 2 | Brief-first welcome | The approved Direction A first screen: line + sample brief + video + one button | ✅ |
+| 3 | Quiet rail | Manager rows appear after the first real brief; shell/Log out always present | ⬜ |
+| 4 | Sweep and truth | Dependency sweep both apps, demo-member alignment, changelog + guide, live proof | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -43,10 +43,10 @@ Origin: committee session 2026-07-25 (log: logs/committee/2026-07-25-new-manager
 ## Current state
 Board: https://claude.ai/code/artifact/a9f68c94-748e-4b76-90a3-971f7328b9f4
 Phase 1 ✅ GREEN-LIT 2026-07-25 (Carl walked a fresh signup; Home's first-run card confirmed on screen).
-Phase 2 🔨 BUILT 2026-07-25, awaiting Carl's walk. He un-parked it the same day ("keep going") after asking for the explainer video in the empty space to the right. Proof screenshots in [proof/](proof/); details and honest gaps in [phase-2.md](phase-2.md).
+Phase 2 ✅ GREEN-LIT 2026-07-26. Carl un-parked it on 25 July ("keep going") after asking for the explainer video in the empty space to the right, then approved the built screen. Proof screenshots in [proof/](proof/); the honest gaps he accepted are listed in [phase-2.md](phase-2.md), the main one being that the sidebar is still there until Phase 3.
 Checks at Phase 2: `npm test` 187/187, typecheck, lint:copy, lint:tokens all clean. No paid runs at any point: this plan never touches the engine.
 Nothing is on sero.team yet; both phases ship with the next go-live.
-Next after Carl's walk: Phase 3 (quiet rail), which is what removes the sidebar the approved mock shows without one.
+Next: Phase 3 (quiet rail), the phase that hides the manager rows until a first real brief exists. Not started, and no longer parked by anything except Carl's word to begin.
 
 ## Parked
 - Full rail hide (research option 3B) — quiet rail chosen instead; revisit only if the quiet rail still feels heavy.

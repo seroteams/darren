@@ -1002,3 +1002,31 @@ be dramatic.
 Phase 1 (five quick wins) green-lit same day, commit 72a7c64b. STATUS.md was deliberately left
 untouched: another live chat holds its lane, and sweeping a parallel session's work to tick a box is
 the trade this project already decided against.
+
+## 2026-07-26 — showing the cake, and what it cost to show it honestly
+
+Phase 2 of the onboarding plan landed the brief-first welcome: a brand-new manager's Home
+now opens with a finished prep brief, Carl's walkthrough video beside it, and one button.
+Rory Sutherland's line from the committee ("don't read the recipe at the door, show the
+cake") turned out to be the cheap part. Three decisions underneath it were not.
+
+The sample brief is the seeded example's REAL prep brief, quoted verbatim from
+content/demo/demo-run.json, with a unit test that fails if the two ever drift apart. The
+tempting alternative was to write three tidy lines that read like engine output. That is
+exactly the kind of quiet dishonesty the engine rules ban, and it would have aged badly
+the first time someone opened the example and found different words.
+
+The video is click-to-load in YouTube's privacy host. Nothing reaches Google until a
+manager asks for it, which is why the CSP only needed frame-src for one host: no img-src
+widening for a remote thumbnail, no script or connect changes. The poster is our own
+markup. The header test now pins that allow-list to one host with no wildcards, so the
+next person to want an embed has to make the case again.
+
+Two smaller lessons. First, `hidden` loses to `display:flex`: both the page header and the
+recents section carry base flex rules, so the attribute alone left them painting on the
+welcome screen. The nav rail had already solved this once (app-nav.css); the fix is a
+scoped `[hidden] { display: none }`, not a global bang. Second, proving the returning
+manager's Home was unchanged needed a real finished run, and the seed script's source runs
+are not in this checkout. Rather than pay for an engine run, a local CDP harness rewrote
+the recent-runs response so the seeded example read as real, and the screenshot came from
+the actual render path. Free, honest, and it is in the phase file as a harness, not a fix.

@@ -1,7 +1,9 @@
 # Phase 2 — Brief-first welcome
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built 2026-07-25, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 (un-parked by Carl on 25 July: he asked for the video on this screen and said keep going)
+
+## ✅ GREEN-LIT 2026-07-26 — Carl walked the fresh-signup welcome and approved it, sidebar caveat and all
 
 ## Built (2026-07-25)
 - `admin/src/stages/start-welcome.ts` (new) — the whole first-visit view as pure string renderers: eyebrow "Welcome to Sero", h1 "A brief for your next 1:1", the positioning line, the sample brief card, the click-to-play walkthrough, and the slot Home moves its one blue button into.

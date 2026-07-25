@@ -1,6 +1,6 @@
-# Phase 3 — Quiet rail (parked until Gate 1)
+# Phase 3 — Quiet rail
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ (parked: builds only after the corridor metric is in)
+**Part of:** [plan.md](plan.md) · **Status:** ⬜ (next; the validation-stage park was lifted by Carl on 25 July)
 
 ## Goal
 Before the first real brief, a manager's sidebar is quiet: brand, What is Sero?, Send feedback, and Log out only. The five manager rows appear once a real brief exists.
