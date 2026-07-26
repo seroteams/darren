@@ -9,7 +9,7 @@
   padding: 0.5rem 0;
 }
 .axis__label {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   font-weight: 500;
 }
@@ -75,7 +75,7 @@
   margin-left: 0.4rem;
   padding: 0.05rem 0.45rem;
   border-radius: var(--sero-radius-full);
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
   background: var(--color-accent-soft);
@@ -90,12 +90,12 @@
   transform: translateY(-50%);
   color: var(--color-negative-text); /* text-safe coral (a11y: coral-700 is 2.9:1) */
   font-weight: 700;
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
 }
 .axis__caret--right { right: -1.25rem; }
 .axis__caret--left { left: -1.25rem; transform: translateY(-50%) scaleX(-1); }
 .axis__offscale {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   margin-left: 0.3rem;
 }

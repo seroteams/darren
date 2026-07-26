@@ -48,7 +48,7 @@ const AXES_END = [
 // Everything else on screen comes from the app's real stylesheets. ---------------------------
 const STYLE = `
   .pl-later { display:flex; align-items:center; gap:var(--sero-space-3);
-    color:var(--color-ink-mute); font-size:14px; margin:var(--sero-space-2) 0; }
+    color:var(--color-ink-mute); font-size:var(--type-body-sm); margin:var(--sero-space-2) 0; }
   .pl-later::before, .pl-later::after { content:""; flex:1; height:1px;
     background:var(--color-border); }
 
@@ -58,17 +58,17 @@ const STYLE = `
   .pl-promise__dot { width:8px; height:8px; border-radius:9999px; margin-top:8px; flex:none;
     background:var(--color-accent); }
   .pl-promise__body { flex:1; min-width:0; }
-  .pl-promise__action { font-size:16px; color:var(--color-ink); }
+  .pl-promise__action { font-size:var(--type-body); color:var(--color-ink); }
   .pl-promise__meta { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
-  .pl-owner { display:inline-block; font-size:14px; font-weight:600; border-radius:9999px;
+  .pl-owner { display:inline-block; font-size:var(--type-body-sm); font-weight:600; border-radius:9999px;
     padding:1px 10px; }
   .pl-owner--you { background:var(--sero-primary-200); color:var(--color-accent-dark); }
   .pl-owner--them { background:var(--sero-soft-500); color:var(--color-ink-dim); }
-  .pl-promise__when { display:inline-block; font-size:14px; color:var(--color-ink-dim);
+  .pl-promise__when { display:inline-block; font-size:var(--type-body-sm); color:var(--color-ink-dim);
     border:1px solid var(--color-border); border-radius:9999px; padding:0 10px; }
 
   .pl-chips { display:flex; flex-wrap:wrap; gap:var(--sero-space-2); margin-top:var(--sero-space-2); }
-  .pl-chip { font:inherit; font-size:14px; cursor:pointer; padding:6px 14px;
+  .pl-chip { font:inherit; font-size:var(--type-body-sm); cursor:pointer; padding:6px 14px;
     background:var(--color-surface); color:var(--color-ink-dim);
     border:1px solid var(--color-border); border-radius:var(--radius-button);
     transition:background .12s ease, color .12s ease, border-color .12s ease; }
@@ -81,12 +81,12 @@ const STYLE = `
   .pl-chip[data-value="changed"][data-selected] { background:var(--sero-lavender-200); color:var(--sero-lavender-800);   border-color:var(--sero-lavender-700); }
 
   .pl-loopnote { display:flex; align-items:center; gap:var(--sero-space-2);
-    font-size:14px; color:var(--sero-lavender-800); background:var(--sero-lavender-200);
+    font-size:var(--type-body-sm); color:var(--sero-lavender-800); background:var(--sero-lavender-200);
     border-radius:var(--radius-button); padding:10px 14px; }
-  .pl-mocknote { font-size:14px; color:var(--color-ink-mute); font-style:italic;
+  .pl-mocknote { font-size:var(--type-body-sm); color:var(--color-ink-mute); font-style:italic;
     margin-top:var(--sero-space-2); }
   .pl-footnav { display:flex; justify-content:space-between; align-items:center;
-    margin-top:var(--sero-space-2); font-size:14px; color:var(--color-ink-mute); }
+    margin-top:var(--sero-space-2); font-size:var(--type-body-sm); color:var(--color-ink-mute); }
 `;
 
 // ---- small builders (real app classes) -----------------------------------------------------

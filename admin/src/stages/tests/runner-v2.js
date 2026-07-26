@@ -118,16 +118,16 @@ const STYLE = `
   .rv2-half--coach .rv2-head { border-bottom-color:var(--sero-lavender-600); }
   .rv2-head__facts { display:flex; align-items:baseline; gap:var(--sero-space-3);
     min-width:0; flex:1; white-space:nowrap; }
-  .rv2-head__turn { font-size:14px; font-weight:600; color:var(--color-ink); flex:none; }
+  .rv2-head__turn { font-size:var(--type-body-sm); font-weight:600; color:var(--color-ink); flex:none; }
   .rv2-head .ctx-segments { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; }
   .rv2-head__actions { display:flex; gap:var(--sero-space-2); flex:none; }
   .rv2-head__actions .btn { white-space:nowrap; }
-  .rv2-head__note { font-size:14px; color:var(--sero-lavender-800); }
+  .rv2-head__note { font-size:var(--type-body-sm); color:var(--sero-lavender-800); }
 
   /* The right-panel toggle — two segments, replaces the old eyebrow */
   .rv2-toggle { display:inline-flex; padding:3px; gap:2px; border-radius:9999px;
     background:var(--sero-lavender-200); border:1px solid var(--sero-lavender-600); }
-  .rv2-seg { font:inherit; font-size:14px; font-weight:600; cursor:pointer;
+  .rv2-seg { font:inherit; font-size:var(--type-body-sm); font-weight:600; cursor:pointer;
     border:0; border-radius:9999px; padding:5px 16px; background:none;
     color:var(--sero-lavender-800); display:inline-flex; align-items:center;
     gap:var(--sero-space-2); transition:background .12s ease, color .12s ease; }
@@ -140,10 +140,10 @@ const STYLE = `
     display:flex; flex-direction:column; align-items:flex-start; }
   @media (max-width: 900px) { .rv2-col { padding:24px 0; } }
 
-  .rv2-drill { font-size:14px; color:var(--color-ink-dim); margin:0 0 var(--sero-space-3); }
+  .rv2-drill { font-size:var(--type-body-sm); color:var(--color-ink-dim); margin:0 0 var(--sero-space-3); }
   .rv2-stem { font-family:var(--type-family-display); font-weight:600;
     color:var(--color-ink); font-size:32px; line-height:1.2; margin:0; }
-  .rv2-desc { font-size:16px; color:var(--color-ink-dim); margin:var(--sero-space-2) 0 0; }
+  .rv2-desc { font-size:var(--type-body); color:var(--color-ink-dim); margin:var(--sero-space-2) 0 0; }
   .rv2-col .block { width:100%; margin-top:var(--sero-space-5); }
   .rv2-col .field__actions { margin-top:var(--sero-space-4); }
 
@@ -152,7 +152,7 @@ const STYLE = `
     border-top:1px solid var(--sero-lavender-600); }
   .rv2-hint:first-child { border-top:0; padding-top:0; }
   .rv2-pill { display:inline-flex; align-items:center; gap:var(--sero-space-2);
-    font-size:14px; font-weight:600; border-radius:9999px; padding:3px 12px;
+    font-size:var(--type-body-sm); font-weight:600; border-radius:9999px; padding:3px 12px;
     background:var(--sero-lavender-100); color:var(--sero-lavender-800); }
   .rv2-hint__text { font-size:17px; line-height:1.55; color:var(--sero-lavender-900);
     margin:var(--sero-space-2) 0 0; max-width:62ch; }
@@ -164,7 +164,7 @@ const STYLE = `
      the same anatomy: axis label, a coloured delta, a slider, and the reasoning line. */
   .rv2-pager { display:flex; align-items:center; gap:var(--sero-space-3); width:100%;
     margin-bottom:var(--sero-space-4); }
-  .rv2-pager__label { font-size:14px; font-weight:600; color:var(--sero-lavender-800); }
+  .rv2-pager__label { font-size:var(--type-body-sm); font-weight:600; color:var(--sero-lavender-800); }
   .rv2-pager__spacer { flex:1; }
   .rv2-arrow { display:grid; place-items:center; width:34px; height:34px; border-radius:9999px;
     border:1px solid var(--sero-lavender-600); background:var(--color-surface);
@@ -195,7 +195,7 @@ const STYLE = `
   .rv2-sl__thumb { position:absolute; top:50%; width:16px; height:16px; border-radius:9999px;
     transform:translate(-50%,-50%); background:var(--color-surface);
     border:3px solid var(--sero-lavender-700); box-shadow:var(--shadow-card); }
-  .rv2-sl__ends { display:flex; justify-content:space-between; font-size:14px;
+  .rv2-sl__ends { display:flex; justify-content:space-between; font-size:var(--type-body-sm);
     color:var(--sero-lavender-800); margin-top:4px; }
 
   /* V1 — the app's real axis bar (mint up / coral down, fill from centre) */
@@ -220,7 +220,7 @@ const STYLE = `
   .rv2-crow { display:grid; grid-template-columns:104px 1fr auto;
     align-items:center; gap:var(--sero-space-3); }
   .rv2-crow .rv2-sl { margin:0; }
-  .rv2-why--compact { grid-column:1 / -1; margin-top:6px; font-size:14px; }
+  .rv2-why--compact { grid-column:1 / -1; margin-top:6px; font-size:var(--type-body-sm); }
 
   /* V5 — gradient meter with a numbered thumb */
   .rv2-meter { position:relative; height:14px; border-radius:9999px;
@@ -233,14 +233,14 @@ const STYLE = `
     min-width:36px; height:26px; padding:0 8px; border-radius:9999px;
     background:var(--color-surface); border:1px solid var(--sero-lavender-600);
     box-shadow:var(--shadow-card); display:grid; place-items:center;
-    font-size:14px; font-weight:700; color:var(--sero-lavender-900); }
+    font-size:var(--type-body-sm); font-weight:700; color:var(--sero-lavender-900); }
 
   /* Datum 3 — the footer line: mock note left, live scores right */
   .rv2-foot { display:flex; flex-direction:column; justify-content:flex-end;
     align-items:flex-start; gap:var(--sero-space-3); padding:var(--sero-space-5) 0
     var(--sero-space-6); width:100%; max-width:560px; align-self:end; }
-  .rv2-mocknote { font-size:14px; color:var(--color-ink-mute); font-style:italic; margin:0; }
-  .rv2-quiet { font:inherit; font-size:14px; font-style:normal; color:var(--color-ink-dim);
+  .rv2-mocknote { font-size:var(--type-body-sm); color:var(--color-ink-mute); font-style:italic; margin:0; }
+  .rv2-quiet { font:inherit; font-size:var(--type-body-sm); font-style:normal; color:var(--color-ink-dim);
     background:none; border:0; padding:0; margin-left:var(--sero-space-3); cursor:pointer;
     text-decoration:underline; text-underline-offset:3px; }
   .rv2-quiet:hover { color:var(--color-ink); }

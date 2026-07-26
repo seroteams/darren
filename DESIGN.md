@@ -189,6 +189,12 @@ those two must also differ in weight or ink colour.
 **T3. The ladder: 14 · 16 · 18 · 20 · 24 · 30 · 40.** Seven rungs; most screens use three or four.
 Nothing sits between rungs. Fluid `clamp()` sizes start and end on a rung.
 
+**One rung, one token name.** A rung has exactly one `--type-*` token. Caption, Label and Lead used
+to have their own size tokens that resolved to a rung another token already owned (14px three times
+over, 18px twice), which is four ways to write the same thing and no way to tell them apart on
+screen. They are **treatments, not sizes**: a label is `--type-body-sm` + weight 500 +
+`--type-tracking-wider`, set where it is used.
+
 > Known drift (2026-07-26, reported not fixed): `--type-h1` (32–44px) currently renders *larger*
 > than `--type-display` (30–42px), so the top of the ladder is inverted; and `--type-body-md`
 > (15px) and `--type-body-lg` (17px) fail T2. Fixing these is a separate pass with screenshots.

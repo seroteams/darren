@@ -43,7 +43,7 @@
   gap: 6px;
 }
 .apm-field__label {
-  font-size: var(--type-label); /* 14px floor */
+  font-size: var(--type-body-sm); /* 14px floor */
   font-weight: var(--type-weight-medium);
   color: var(--color-ink);
 }
@@ -93,7 +93,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: var(--type-label); /* 14px floor */
+  font-size: var(--type-body-sm); /* 14px floor */
   color: var(--color-ink);
   cursor: pointer;
 }

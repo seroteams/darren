@@ -121,7 +121,7 @@ const STYLE = `
   .wr-hero { display:flex; flex-direction:column; gap:var(--sero-space-3);
     max-width:var(--measure-lede); }
   .wr-hero--wide { max-width:none; }
-  .wr-hero__eyebrow { font-size:var(--type-label); font-weight:var(--type-weight-semibold);
+  .wr-hero__eyebrow { font-size:var(--type-body-sm); font-weight:var(--type-weight-semibold);
     letter-spacing:var(--type-tracking-caps); text-transform:uppercase;
     color:var(--color-accent-dark); }
   .wr-hero__title { margin:0; font-family:var(--type-family-display);

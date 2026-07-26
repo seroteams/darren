@@ -34,7 +34,7 @@
 }
 .run-log__id {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -93,7 +93,7 @@
   }
 }
 .run-log__block-label {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   font-weight: 600;
   color: var(--color-ink);
   margin-bottom: 0.5rem;
@@ -106,7 +106,7 @@
 }
 .run-log__commands {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   line-height: 1.5;
   background: var(--color-deep);
   color: var(--sero-charcoal-100);
@@ -124,7 +124,7 @@
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
 }
 
 .run-log__path {
@@ -132,7 +132,7 @@
   width: 100%;
   text-align: left;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   color: var(--color-accent-dark);
   background: transparent;
   border: none;
@@ -146,7 +146,7 @@
 }
 .run-log__tree {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   line-height: 1.55;
   user-select: all;
@@ -193,7 +193,7 @@
   color: var(--color-ink-mute);
 }
 .run-log__note-stage {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.1rem 0.45rem;

@@ -23,13 +23,13 @@
 a.tg-card { text-decoration:none; }
 .tg-card__ext { color:var(--color-accent); font-weight:400; }
 .tg-card__link { margin-left:auto; color:var(--color-accent-dark); font-weight:600; }
-.tg-card__title { font-family:var(--type-family-display); font-size:18px; font-weight:600;
+.tg-card__title { font-family:var(--type-family-display); font-size:var(--type-h4); font-weight:600;
   color:var(--color-ink); }
-.tg-card__blurb { font-size:14px; line-height:1.5; color:var(--color-ink-dim); }
+.tg-card__blurb { font-size:var(--type-body-sm); line-height:1.5; color:var(--color-ink-dim); }
 .tg-card__meta { display:flex; gap:var(--sero-space-2); align-items:center;
-  font-size:14px; color:var(--color-ink-mute); margin-top:auto; }
-.tg-tag { display:inline-block; font-size:14px; border-radius:9999px; padding:0 10px;
+  font-size:var(--type-body-sm); color:var(--color-ink-mute); margin-top:auto; }
+.tg-tag { display:inline-block; font-size:var(--type-body-sm); border-radius:9999px; padding:0 10px;
   background:var(--sero-primary-200); color:var(--color-accent-dark); }
-.tg-note { display:inline-block; font-size:14px; color:var(--color-ink-mute);
+.tg-note { display:inline-block; font-size:var(--type-body-sm); color:var(--color-ink-mute);
   background:var(--sero-primary-100); border:1px dashed var(--color-border);
   border-radius:var(--radius-button); padding:4px 10px; }

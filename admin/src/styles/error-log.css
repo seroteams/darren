@@ -17,7 +17,7 @@
 .el-table { width: 100%; border-collapse: collapse; background: var(--color-surface); }
 .el-table th {
   text-align: left; padding: 10px 14px; white-space: nowrap;
-  font-size: var(--type-caption, 14px); font-weight: var(--type-weight-semibold, 600);
+  font-size: var(--type-body-sm, 14px); font-weight: var(--type-weight-semibold, 600);
   color: var(--color-ink-mute); border-bottom: 1px solid var(--color-border);
 }
 .el-table td {
@@ -33,8 +33,8 @@
 .el-row--resolved > td { opacity: 0.6; }
 
 .el-when { color: var(--color-ink-dim); white-space: nowrap; }
-.el-sub, .el-src { font-size: var(--type-caption, 14px); color: var(--color-ink-dim); margin-top: 2px; }
-.el-route { font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption, 14px); color: var(--color-ink-dim); }
+.el-sub, .el-src { font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim); margin-top: 2px; }
+.el-route { font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim); }
 .el-msg { color: var(--color-ink); max-width: 32rem; }
 /* A monster message (raw SQL, dumped JSON) stays a two-line teaser in the row — the
    opened detail shows the whole thing. */
@@ -60,10 +60,10 @@
 /* Filters: the Unresolved/Resolved/All tabs + two segmented controls (P6, D11). */
 .el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
 .el-control { display: inline-flex; align-items: center; gap: 8px; }
-.el-control__label { font-size: var(--type-caption, 14px); color: var(--color-ink-mute); font-weight: var(--type-weight-medium, 500); }
+.el-control__label { font-size: var(--type-body-sm, 14px); color: var(--color-ink-mute); font-weight: var(--type-weight-medium, 500); }
 /* The segmented control itself now comes from the shared .seg recipe
    (design/base.css) — this file only carries what's local to the error log. */
-.el-filter__n { color: var(--color-ink-mute); font-size: var(--type-caption, 14px); margin-left: 3px; }
+.el-filter__n { color: var(--color-ink-mute); font-size: var(--type-body-sm, 14px); margin-left: 3px; }
 
 /* Row detail (click a row to open it). */
 .el-detail-row > td { padding: 0; background: var(--sero-primary-100); border-bottom: 1px solid var(--color-border); }
@@ -75,10 +75,10 @@
 .el-stack {
   margin: 0; max-height: 260px; overflow: auto; padding: 12px;
   background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card, 12px);
-  font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-caption, 14px); line-height: 1.5;
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: var(--type-body-sm, 14px); line-height: 1.5;
   color: var(--color-ink); white-space: pre-wrap; word-break: break-word;
 }
-.el-ua { font-size: var(--type-caption, 14px); color: var(--color-ink-dim); }
+.el-ua { font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim); }
 .el-detail__actions { display: flex; gap: 8px; }
 
 /* Bulk select went with the grouped-issues rework (P6, D11): a repeating error is one

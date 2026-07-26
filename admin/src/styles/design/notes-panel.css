@@ -59,7 +59,7 @@
   margin-bottom: 1.15rem;
 }
 .notes-panel__group-head {
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-ink-mute);
@@ -95,7 +95,7 @@
 .notes-panel__ts {
   font-variant-numeric: tabular-nums;
   color: var(--color-ink-mute);
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   flex-shrink: 0;
 }
 .notes-panel__text {
@@ -131,7 +131,7 @@
   border: none;
   color: var(--color-ink-mute);
   font: inherit;
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   cursor: pointer;
   padding: 0.25rem 0.4rem;
   text-decoration: underline;
@@ -153,7 +153,7 @@
 }
 .notes-panel__error {
   margin-top: 0.5rem;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   color: var(--color-danger);
 }
 .notes-panel__error.is-hidden {
@@ -215,7 +215,7 @@
 .stage-io__field { margin-bottom: 0.75rem; }
 .stage-io__label,
 .stage-io__block-title {
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-ink-mute);
@@ -234,7 +234,7 @@
   border: 1px solid var(--color-border);
   border-radius: 6px;
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-word;
@@ -258,7 +258,7 @@
   border-radius: 6px;
   padding: 0.15rem 0.45rem;
   font: inherit;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   cursor: pointer;
 }
@@ -326,7 +326,7 @@ body.has-notes-panel {
   z-index: 11;
   align-items: center;
   padding: 0.4rem 0.75rem;
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   font-weight: 500;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -382,7 +382,7 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   box-shadow: var(--shadow-overlay);
 }
 .modal__message {
-  font-size: var(--type-lead);
+  font-size: var(--type-h4);
   font-weight: var(--type-weight-semibold);
   line-height: 1.4;
   color: var(--color-ink);

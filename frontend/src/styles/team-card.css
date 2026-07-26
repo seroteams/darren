@@ -61,7 +61,7 @@
 .team-card.js-card-open:hover { background: var(--color-surface-hover); }
 .team-card__meta {
   margin-top: 2px;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   display: flex;
   align-items: center;
@@ -79,7 +79,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   font-weight: var(--type-weight-medium);
   padding: 3px 10px 3px 8px;
   border-radius: var(--sero-radius-full);
@@ -96,7 +96,7 @@
   border: none;
   padding: 3px 4px;
   font: inherit;
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   font-weight: var(--type-weight-semibold);
   color: var(--color-accent-dark);
   cursor: pointer;

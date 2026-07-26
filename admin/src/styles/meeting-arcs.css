@@ -46,7 +46,7 @@
 .arc-field--label { flex:1; min-width:160px; }
 .arc-field--q { width:90px; }
 .arc-field--grow { flex:1; min-width:100%; }
-.arc-field > span { font-size:var(--type-label); font-weight:600; letter-spacing:.03em; text-transform:uppercase;
+.arc-field > span { font-size:var(--type-body-sm); font-weight:600; letter-spacing:.03em; text-transform:uppercase;
   color:var(--color-ink-dim); }
 /* Shared primitives, sized down for the dense editor rows (same move as
    .js-runlabel-wrap .input in buttons-inputs.css). */

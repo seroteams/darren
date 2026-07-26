@@ -105,7 +105,7 @@
               background-color var(--dur-instant) ease-out;
 }
 .copy-snippet-btn__label {
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
 }
 .copy-snippet-btn:hover {
   color: var(--color-accent-dark);
@@ -232,7 +232,7 @@
   margin-top: 1.25rem;
 }
 .brutal__eyebrow {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   font-weight: 500;
   margin-bottom: 0.35rem;
@@ -266,7 +266,7 @@
 }
 .action-group:last-child { border-bottom: none; }
 .action-when {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.15rem 0.5rem;

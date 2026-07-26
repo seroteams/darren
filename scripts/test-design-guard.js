@@ -24,7 +24,9 @@ const path = require("node:path");
 const SCRIPTS = __dirname;
 
 /*
- * CEILINGS — measured 2026-07-26 (design-cleanup-invisible P1), 189 files scanned.
+ * CEILINGS — nonTokenFont lowered 68 -> 13 by P4 (the 55 on-ladder literals became
+ * tokens). The 13 left are all OFF-ladder (15px, 17px, 30px, 32px) and belong to the
+ * visible type pass. radius and spacing measured 2026-07-26 at P1.
  *
  * LOWER these when a phase removes drift; never raise them. If a raise looks
  * unavoidable, that is a design decision for Carl, not a number to nudge.
@@ -34,7 +36,7 @@ const SCRIPTS = __dirname;
  *   offGridSpacing  padding/margin/gap off the 4px grid (DESIGN §3a)
  */
 const CEILINGS = {
-  nonTokenFont: 68,
+  nonTokenFont: 13,
   literalRadius: 53,
   offGridSpacing: 135,
 };

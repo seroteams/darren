@@ -152,7 +152,7 @@
   background: none;
   border: 0;
   cursor: pointer;
-  font-size: 18px;
+  font-size: var(--type-h4);
   line-height: 1;
   letter-spacing: 1px;
   padding: 2px 8px;
@@ -171,7 +171,7 @@
   box-shadow: var(--shadow-card);
 }
 .um-menu__label {
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   text-transform: uppercase;
   letter-spacing: 0.04em;

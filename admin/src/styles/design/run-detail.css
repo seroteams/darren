@@ -37,7 +37,7 @@
 
 /* The Answers tab's answered-question count — a quiet number beside the label,
    same idiom as .fb-tab__n / .el-filter__n. 14px floor via --type-caption. */
-.rd-tab__n { color: var(--color-ink-mute); font-size: var(--type-caption, 14px); margin-left: 3px; }
+.rd-tab__n { color: var(--color-ink-mute); font-size: var(--type-body-sm, 14px); margin-left: 3px; }
 
 /* The "what happened when" row: date · how long ago · questions answered */
 .rd-when {

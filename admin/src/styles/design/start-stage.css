@@ -396,7 +396,7 @@
 }
 
 .btn--sm {
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   padding: 0.25rem 0.5rem;
 }
 

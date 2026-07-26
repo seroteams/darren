@@ -273,26 +273,32 @@
   --font-mono: ui-monospace, monospace;            /* code / meta text */
 
   /* =========================================================================
-     Type scale — modular (~1.2), anchored at 16px body. Role-named sizes
-     plus leading / weight / tracking tokens. Safe variant: existing rendered
-     sizes (display/h2/h3/body/small) are preserved.
+     Type scale — one name per size. DESIGN.md's ladder is 14 · 16 · 18 · 20 ·
+     24 · 30 · 40, and a size that renders the same as another size is not a
+     second level (T2), so caption / label / small / lead were folded away:
+     they were four extra names for 14px and a second name for 18px.
+
+     Caption and Label are still real TREATMENTS. They are just not sizes:
+     a label is 14px + weight 500 + --type-tracking-wider, set where it's used.
+
+     Accessibility rule: NO text token may render below 14px. Do not lower these.
      ========================================================================= */
   --type-family-display: "Bricolage Grotesque Variable", "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
   --type-display: clamp(1.875rem, 5vw, 2.625rem); /* hero — calmed from 44-56px to DESIGN.md's ~40px spec (30-42px) (UI polish P1) */
   --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* large page title */
   --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);
-  --type-h3: 1.25rem;                             /* kept (safe) */
-  --type-h4: 1.125rem;                            /* 18px */
-  --type-lead: 1.125rem;                          /* 18px intro paragraphs */
+  --type-h3: 1.25rem;                             /* 20px */
+  --type-h4: 1.125rem;                            /* 18px — also the lead-paragraph size */
   --type-body: 16px;
-  --type-body-lg: 1.0625rem;                      /* 17px — slightly-larger body (planner titles) */
   --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
-  --type-body-md: 15px;                           /* mid step — fills the 14→16 gap so 15px call sites get a token home (design-system sweep P1) */
-  /* Accessibility rule: NO text token may render below 14px. caption/label
-     were 13px/12px; raised to the 14px floor. Do not lower these. */
-  --type-caption: 14px;                           /* was 13px → floored to 14px */
-  --type-label: 14px;                             /* was 12px → floored to 14px */
-  --type-small: var(--type-body-sm);              /* @deprecated → --type-body-sm */
+  /* OFF-LADDER, both banned by DESIGN.md T2/T3. 13 call sites between them plus
+     the 32px and 30px literals. The visible type pass retires all of it. */
+  --type-body-lg: 1.0625rem;                      /* 17px */
+  --type-body-md: 15px;                           /* 15px */
+  /* TEMPORARY bridge: design/session-topbar.css calls --type-small once and is
+     held by another session's lane (4b899314). Delete this line and repoint that
+     call site the moment the lane clears. */
+  --type-small: var(--type-body-sm);
 
   /* Line-height (leading) */
   --type-leading-tight: 1.1;

@@ -89,7 +89,7 @@ textarea { resize: vertical; }
   color: var(--color-ink);
 }
 .lead {
-  font-size: var(--type-lead);
+  font-size: var(--type-h4);
   font-weight: var(--type-weight-regular);
   line-height: var(--type-leading-relaxed);
   color: var(--color-ink-dim);
@@ -106,7 +106,7 @@ textarea { resize: vertical; }
    reclassified to --slot in a later, eyes-on pass. Dark-ground eyebrows
    (.pv-j__eyebrow, .app-nav__group-label) keep their own colour via the cascade. */
 .eyebrow {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   font-weight: var(--type-weight-semibold);
   color: var(--color-accent-dark);
   letter-spacing: var(--type-tracking-caps-lg);
@@ -261,14 +261,14 @@ textarea { resize: vertical; }
   color: var(--color-ink);
 }
 .label {
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   font-weight: var(--type-weight-medium);
   letter-spacing: var(--type-tracking-wider);
   line-height: var(--type-leading-normal);
   color: var(--color-ink-mute);
 }
 .caption {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
 .kbd {

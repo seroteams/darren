@@ -7,13 +7,13 @@
 .run-step__dot {
   flex: none; width: 20px; height: 20px; border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 700; line-height: 1;
+  font-size: var(--type-body-sm); font-weight: 700; line-height: 1;
   background: var(--color-surface-2); color: var(--color-ink-mute);
   border: 1px solid var(--color-border);
   transition: background-color .3s ease, color .3s ease, transform .3s ease;
 }
 .run-step__label {
-  font-size: var(--type-small, 14px); color: var(--color-ink-mute);
+  font-size: var(--type-body-sm, 14px); color: var(--color-ink-mute);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .run-step--done .run-step__dot { background: var(--color-positive); color: var(--color-surface); border-color: transparent; }
@@ -84,7 +84,7 @@
   overflow-y: auto;
 }
 .joblex-group {
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -122,7 +122,7 @@
 .joblex-add .joblex-add__term { flex: 0 1 13rem; }
 .joblex-add .joblex-add__meaning { flex: 1 1 15rem; }
 .joblex-yours {
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   font-weight: 600;
   color: var(--color-ink-mute);
   background: var(--color-surface-2);
@@ -143,7 +143,7 @@
   vertical-align: middle;
 }
 .joblex-remove:hover { color: var(--color-negative); }
-.joblex-error { color: var(--color-negative); font-size: var(--type-small); }
+.joblex-error { color: var(--color-negative); font-size: var(--type-body-sm); }
 
 /* Delete an AI word — revealed on row hover / keyboard focus, hidden otherwise
    so the list stays calm until you reach for it. */
@@ -167,7 +167,7 @@
 .joblex-hidden { margin-top: 0.35rem; }
 .joblex-hidden__head {
   cursor: pointer;
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   font-weight: 600;
   color: var(--color-ink-dim);
   padding: 0.35rem 0;
@@ -179,7 +179,7 @@
   background: var(--color-surface-2);
   cursor: pointer;
   color: var(--color-ink);
-  font-size: var(--type-label);
+  font-size: var(--type-body-sm);
   font-weight: 600;
   border-radius: var(--radius-input);
   padding: 0.05rem 0.5rem;
@@ -287,7 +287,7 @@
 .guide-step__body p { margin: 0; font-size: var(--type-body-sm); color: var(--color-ink-dim); }
 .guide-step__files {
   font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: var(--type-caption);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
 

@@ -345,7 +345,7 @@
 }
 .pv-a__confidence {
   margin: 0;
-  font-size: var(--type-lead);
+  font-size: var(--type-h4);
   line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
@@ -460,7 +460,7 @@
 }
 .pv-e__lead {
   margin: 0;
-  font-size: var(--type-lead);
+  font-size: var(--type-h4);
   line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
