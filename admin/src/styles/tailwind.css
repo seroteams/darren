@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* -----------------------------------------------------------------------------
+   .link — the inline text link
+   -----------------------------------------------------------------------------
+   A <button> that has to read as a link inside a sentence ("Already using Sero?
+   Log in"). It was used at 19 call sites across both apps with NO CSS anywhere
+   in the repo, so every one of them fell through to the base.css rule
+   `input, textarea, button, select { font-size: var(--type-body) }` and rendered
+   as plain 16px ink: no accent, no underline, and a full 2px larger than the
+   14px sentence it sits in (Carl spotted it on the front door, 2026-07-26).
+
+   It lives in Tailwind's components layer rather than design/buttons-inputs.css
+   on purpose: components are emitted BEFORE utilities, so a size or colour
+   utility at the call site (`link text-ink-dim text-sm` on "Forgot password?")
+   still wins. In design.css it would load after Tailwind and silently override
+   those four deliberately-quiet links.
+   ----------------------------------------------------------------------------- */
+@layer components {
+  .link {
+    background: none;
+    border: 0;
+    padding: 0;
+    /* Take the family, SIZE, weight and leading from the sentence around it. */
+    font: inherit;
+    font-weight: var(--type-weight-semibold);
+    color: var(--color-accent-dark);
+    text-decoration: none;
+    vertical-align: baseline;
+    cursor: pointer;
+  }
+  .link:hover {
+    color: var(--sero-primary-900);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .link:focus-visible {
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-input);
+    outline: none;
+  }
+}

@@ -48,10 +48,15 @@
   font-size: var(--type-h1);
   font-weight: var(--type-weight-bold);
   line-height: var(--type-leading-tight);
+  /* Even the lines instead of letting the last one strand a single word
+     ("prepared." / "minutes." on their own). Same rule .h1/.h2 already carry;
+     this heading was written by hand and missed it. */
+  text-wrap: balance;
   margin: 0;
 }
 .auth-brand__sub {
   color: var(--color-ink-dim);
+  text-wrap: balance;
   margin: 0;
 }
 /* Right column — full-height photo over a brand gradient (the gradient shows

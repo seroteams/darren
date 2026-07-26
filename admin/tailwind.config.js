@@ -23,7 +23,10 @@ const charcoalScale  = seroScale("charcoal",  [50, 100, 200, 300, 400, 500, 600,
 export default {
   content: [
     path.join(__dirname, "index.html"),
-    path.join(__dirname, "src/**/*.{js,html}"),
+    // .ts included: stages ported to TypeScript (welcome.ts, preparation.ts …)
+    // use the same utilities, and without this their classes are only generated
+    // by luck — because some .js file happens to use them too.
+    path.join(__dirname, "src/**/*.{js,ts,html}"),
   ],
   theme: {
     extend: {

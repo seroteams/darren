@@ -11,7 +11,7 @@ export default {
   ...adminConfig,
   content: [
     path.join(__dirname, "index.html"),
-    path.join(__dirname, "src/**/*.{js,html}"),
-    path.join(__dirname, "../admin/src/**/*.{js,html}"),
+    path.join(__dirname, "src/**/*.{js,ts,html}"),
+    path.join(__dirname, "../admin/src/**/*.{js,ts,html}"),
   ],
 };
