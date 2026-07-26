@@ -1054,3 +1054,31 @@ Carl accepted one honest cost rather than pay a bigger one: the rail settles a b
 first paint, because the answer arrives with Home's own fetch. Making it right on the
 first frame would mean an extra request at every manager's boot, forever, to serve a
 first-visit-only case. The beat was the cheaper wrong.
+
+## 2026-07-26 — the onboarding track closed, and what the sweep was actually for
+
+Phase 4 was meant to be paperwork: dependency sweep, changelog, guide. It found one real
+thing, which is the argument for doing it at all. The brief-first welcome renders from
+start-core.js, and start-core.js is shared: the customer app imports it directly and the
+admin console wraps it with the persona bench. So a runless INTERNAL account would have
+been shown the customer welcome screen, sample brief and walkthrough video included,
+inside the field console. One clause fenced it, matching the rule the file already stated
+for the invitation button: internal QA is not the first-run audience.
+
+The rest of the sweep came back clean, and the clean answers are worth recording because
+each was a plausible way to break: deleting a 1:1 from Home re-fetches, so the rail
+follows; discarding a run mid-flow re-fetches on return; the guest claim lands on a run
+detail without ever loading Home, so the first-visit answer stays unknown and the full
+rail shows, which is correct because a claimed run IS a real 1:1; the member landing never
+consults the flag at all.
+
+The other half of Phase 4 was making other people's plans agree. demo-member's Phase 2
+will add "Remove example", which changes the same answer this plan reads, so its plan file
+now carries a written contract to call the shared hasRealRuns() rather than compute a
+second copy. A second copy of that rule is precisely the bug this track opened with.
+
+Closing note on the whole track: four phases in two days, no paid runs, and the largest
+single win was not a feature. It was discovering that a gate written in one phase (the
+wizard's first-run check) had been silently broken by a data change in a different plan
+(demo seeding) three days later. Dependency sweeps run when the DATA changes, not only
+when the code does.
