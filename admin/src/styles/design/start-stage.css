@@ -211,20 +211,49 @@
   max-width: var(--measure);
 }
 
-/* The four steps. Benefit first, mechanism under it, so the row scans as four promises
-   rather than four stage names. Four across, stacked on a phone. */
-.start-steps {
+/* Problem and fix. Two columns of four rows: the thing a manager says on the left, the
+   step that answers it on the right, paired across. The DOM order is quote, answer,
+   quote, answer, so the phone layout is just this grid at one column and the pairing
+   survives. Row gap is the group gap (L1); the column gap is wider so the two sides read
+   as two columns rather than one wrapped block. */
+.start-vs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--sero-space-4);
-  list-style: none;
+  /* The complaint is one line, the answer is four, so an even split left the whole left
+     column looking like a hole. */
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: var(--sero-space-4) var(--sero-space-8);
+}
+.start-vs__head {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+}
+/* The complaint. Quiet, unboxed and italic, so the eye lands on the answer beside it and
+   the screen never looks like it is shouting at the reader about their own management. */
+.start-pain {
   margin: 0;
-  padding: 0;
+  /* 1.25rem is .card-flat's padding: the quote lands on the same line as the answer's
+     first line, so the pairing reads across the gap. Centring it in the row put it
+     halfway down the card opposite, next to nothing in particular. */
+  padding-top: 1.25rem;
+  color: var(--color-ink-dim);
+  font-style: italic;
+  line-height: var(--type-leading-snug);
+  text-wrap: pretty;
 }
 .start-step {
   display: flex;
+  align-items: flex-start;
+  gap: var(--sero-space-4);
+}
+.start-step__body-wrap {
+  display: flex;
   flex-direction: column;
-  gap: var(--sero-space-2);
+  gap: var(--sero-space-1);
+  min-width: 0;
 }
 .start-step__n {
   display: inline-flex;
@@ -340,18 +369,29 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
-  border-radius: var(--sero-radius-md, 8px);
+  border-radius: var(--radius-offspec-8, 8px);
   display: block;
 }
 
-@media (max-width: 60rem) {
-  .start-steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 40rem) {
-  .start-steps {
+/* One column on a phone. The two column headers go with it: the DOM order already reads
+   complaint then answer, so labelling each one would be repeating what the reader can
+   see, four times over. The section subtitle keeps the framing. */
+@media (max-width: 48rem) {
+  .start-vs {
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--sero-space-2);
+  }
+  .start-vs__head {
+    display: none;
+  }
+  .start-pain {
+    padding: var(--sero-space-2) 0 0;
+  }
+  .start-step {
+    margin-bottom: var(--sero-space-4);
+  }
+  .start-step:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -534,7 +574,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  box-shadow: var(--sero-shadow-lg);
+  box-shadow: var(--shadow-pop);
   z-index: var(--sero-z-popover);
   min-width: 220px;
   padding: 6px;

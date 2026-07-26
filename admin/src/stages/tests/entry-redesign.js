@@ -153,7 +153,7 @@ const STYLE = `
     border-radius:var(--sero-radius-sm); padding:var(--sero-space-2) var(--sero-space-3);
     cursor:pointer; }
   .er-tab[aria-selected="true"] { background:var(--color-surface); color:var(--color-ink);
-    font-weight:var(--type-weight-semibold); box-shadow:var(--sero-shadow-xs); }
+    font-weight:var(--type-weight-semibold); box-shadow:var(--shadow-subtle); }
   .er-tab:focus-visible { box-shadow:var(--sero-shadow-focus); outline:none; }
   .er-guest { width:100%; max-width:400px; display:flex; flex-direction:column;
     gap:var(--sero-space-2); }

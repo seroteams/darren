@@ -185,24 +185,29 @@
   --sero-space-14: 56px;
   --sero-space-16: 64px;
 
-  /* Radius — DESIGN §5 sanctions exactly three: 4px controls, 12px cards, full pills.
-     sm/md/lg/xl are the raw scale behind them; md (8px) and xl (16px) have call sites
-     that the radius pass will retire. */
-  --sero-radius-sm: 4px;
-  --sero-radius-md: 8px;
-  --sero-radius-lg: 12px;
-  --sero-radius-xl: 16px;
-  --sero-radius-full: 9999px;
-  --sero-radius-button: var(--sero-radius-sm); /* 4px — matches Figma + DESIGN.md (manager-ready P2) */
-  --sero-radius-input: var(--sero-radius-sm);
-  --sero-radius-card: var(--sero-radius-lg);
+  /* Radius — DESIGN §5 sanctions exactly three values: 4px controls, 12px cards, full
+     pills. One name per value; `offspec` names are debt the radius pass retires. */
+  --sero-radius-sm: 4px;                           /* controls (34 sites, see note below) */
+  --sero-radius-full: 9999px;                      /* pills, avatars, badges */
+  --radius-card: 12px;                             /* cards, modals, panels */
+  --radius-button: var(--sero-radius-sm);
+  --radius-input: var(--sero-radius-sm);
+  --radius-offspec-8: 8px;                         /* 5 sites — DESIGN sanctions no 8px */
+  --radius-offspec-16: 16px;                       /* 2 sites — DESIGN sanctions no 16px */
+  /* TEMPORARY bridge: admin/src/stages/tests/welcome-redesign.js still calls these 9
+     times and is held by another session's lane (97834757). Delete these three lines
+     and repoint that file the moment the lane clears. */
+  --sero-radius-card: var(--radius-card);
+  --sero-radius-button: var(--radius-button);
+  --sero-radius-input: var(--radius-input);
 
-  /* Shadows */
-  --sero-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / .05);
+  /* Shadows — one name per elevation, named for the job (DESIGN §4). Flat by default;
+     these are only for things that detach from the page. */
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / .05);   /* hairline lift */
   --sero-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
-  --sero-shadow-md: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
-  --sero-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
-  --sero-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
+  --shadow-pop: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);      /* dropdowns, toasts */
+  --shadow-overlay: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1); /* modals, side panels */
   /* Focus ring (a11y pass 2026-07-05): the old 3px primary-300 ring was 1.2:1 against a
      white surface — near-invisible to keyboard users. Double ring: white gap + primary-800
      (7:1) reads on any Sero background. */
@@ -320,14 +325,9 @@
   --app-nav-w: 60px;        /* collapsed icon strip */
   --app-nav-w-open: 248px;  /* expanded on hover / keyboard focus */
 
-  /* Radii — now via Sero (note: buttons/inputs tighten from 10/8px to 4px) */
-  --radius-card: var(--sero-radius-card);          /* 12px */
-  --radius-button: var(--sero-radius-button);      /* 4px */
-  --radius-input: var(--sero-radius-input);        /* 4px */
-
-  /* Shadows — now via Sero */
-  --shadow-card: var(--sero-shadow-md);
-  --shadow-card-hover: var(--sero-shadow-md);
+  /* Radii and shadows are defined once, above, under their own headings.
+     `--shadow-focus` stays an alias only because two lane-blocked files still
+     reference `--sero-shadow-focus` (see the phase note). */
   --shadow-focus: var(--sero-shadow-focus);
 
   /* Motion — not defined by Sero; keeping app-specific values */

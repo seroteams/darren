@@ -49,7 +49,7 @@ function injectMenuStyles() {
       position: absolute; top: calc(100% + 6px); right: 0; min-width: 168px;
       display: flex; flex-direction: column; gap: 2px; padding: 6px;
       background: var(--color-surface); border: 1px solid var(--color-border);
-      border-radius: var(--sero-radius-md); box-shadow: var(--sero-shadow-md);
+      border-radius: var(--radius-offspec-8); box-shadow: var(--shadow-card);
       z-index: var(--sero-z-fixed, 30);
     }
     .profile-badge__menu[hidden] { display: none; }

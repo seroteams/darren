@@ -159,7 +159,7 @@ function brandmarkHtml() {
       mark. Files live in <code>admin/public/sero-flowbite/brand/</code>. Use them as-is: don't recolour the marks,
       squash the square, or add effects.</p>
      <div class="ds-card ds-brandmaster">
-       <img src="${brand("charcoal")}" alt="Sero logo" width="96" height="96" style="border-radius: var(--sero-radius-xl)">
+       <img src="${brand("charcoal")}" alt="Sero logo" width="96" height="96" style="border-radius: var(--radius-offspec-16)">
        <div><p class="h4">The master</p><p class="body" style="color: var(--color-ink-dim)"><code>sero-brandmark-charcoal.svg</code>. Charcoal tile, white marks. The default; reach for it unless there's a reason to use another colour.</p></div>
      </div>
      <p class="label">Colour versions. All from our tokens, marks stay white</p>

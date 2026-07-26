@@ -64,7 +64,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  box-shadow: var(--sero-shadow-lg);
+  box-shadow: var(--shadow-pop);
   padding: var(--sero-space-3);
   opacity: 0;
   transform: translateY(-6px) scale(0.98);

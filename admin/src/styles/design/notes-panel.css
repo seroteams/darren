@@ -292,7 +292,7 @@ body.has-notes-panel {
   .notes-panel {
     transform: translateX(100%);
     transition: transform var(--dur-fast) var(--ease-out-expo);
-    box-shadow: var(--shadow-card-hover);
+    box-shadow: var(--shadow-card);
   }
   .notes-panel.notes-panel--open {
     transform: translateX(0);
@@ -350,7 +350,7 @@ body.notes-rail-collapsed.has-notes-panel {
 body.notes-rail-collapsed .notes-panel {
   transform: translateX(100%);
   transition: transform var(--dur-fast) var(--ease-out-expo);
-  box-shadow: var(--shadow-card-hover);
+  box-shadow: var(--shadow-card);
 }
 body.notes-rail-collapsed .notes-panel.notes-panel--open {
   transform: translateX(0);
@@ -379,7 +379,7 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   padding: 20px;
   background: var(--color-surface);
   border-radius: var(--radius-card);
-  box-shadow: var(--sero-shadow-xl);
+  box-shadow: var(--shadow-overlay);
 }
 .modal__message {
   font-size: var(--type-lead);

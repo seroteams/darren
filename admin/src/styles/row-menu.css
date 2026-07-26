@@ -27,7 +27,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card, var(--sero-shadow-xl));
+  box-shadow: var(--shadow-card, var(--shadow-overlay));
 }
 .row-menu__item {
   display: block;

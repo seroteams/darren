@@ -92,7 +92,7 @@
     border-right: 0;
     overflow-y: auto;
     padding-bottom: env(safe-area-inset-bottom);
-    box-shadow: var(--sero-shadow-xl);
+    box-shadow: var(--shadow-overlay);
     transform: translateX(-100%);
     /* visibility keeps the closed drawer out of the tab order / screen readers;
        its transition is delayed so the slide-out finishes before it hides. */

@@ -174,7 +174,7 @@
   border-radius: var(--radius-card);
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
-.gd-row:hover { border-color: var(--sero-primary-500); box-shadow: var(--sero-shadow-md); }
+.gd-row:hover { border-color: var(--sero-primary-500); box-shadow: var(--shadow-card); }
 .gd-row__text { flex: 1; min-width: 0; font-size: var(--type-body-md); font-weight: 500; }
 .gd-row__cat { flex: none; font-size: var(--type-body-sm); font-weight: 600; color: var(--sero-lavender-800); }
 .gd-row__pct { flex: none; font-weight: 700; color: var(--sero-primary-700); font-size: var(--type-body-md); }
@@ -293,7 +293,7 @@
   z-index: var(--sero-z-modal);
   width: min(440px, 92vw);
   background: var(--color-surface);
-  box-shadow: var(--sero-shadow-xl);
+  box-shadow: var(--shadow-overlay);
   display: flex;
   flex-direction: column;
   animation: gd-slide 0.18s ease-out;
