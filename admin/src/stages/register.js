@@ -5,7 +5,7 @@
 
 import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { register, login } from "../../../shared/api.js";
-import { SECTORS } from "../../../shared/sectors.ts";
+import { SECTORS, findSector } from "../../../shared/sectors.ts";
 import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 import { landingStage } from "../ui/landing.ts";
@@ -38,10 +38,10 @@ export async function mount(root, { setState }) {
             </label>
             <label class="l-stack l-stack--2">
               <span class="field__label">Sector <span class="text-ink-mute">(optional)</span></span>
-              <select class="input js-sector">
-                <option value="">Not set</option>
-                ${SECTORS.map((s) => `<option value="${s.id}">${s.label}</option>`).join("")}
-              </select>
+              <input class="input js-sector" type="text" list="register-sector-list" autocomplete="off" placeholder="Start typing, for example Healthcare" />
+              <datalist id="register-sector-list">
+                ${SECTORS.map((s) => `<option value="${s.label}"></option>`).join("")}
+              </datalist>
             </label>
             <label class="l-stack l-stack--2">
               <span class="field__label">Email</span>
@@ -94,10 +94,14 @@ export async function mount(root, { setState }) {
     err.hidden = true;
     const name = nameEl.value.trim();
     const company = companyEl.value.trim();
-    const sector = sectorEl.value;
+    const typedSector = sectorEl.value.trim();
+    const sector = findSector(typedSector)?.id ?? "";
     const email = emailEl.value.trim();
     const password = passwordEl.value;
     if (!name || !email || !password) { showError("Fill in your name, email, and password."); return; }
+    // The server would just drop an unrecognised sector rather than block the signup, but
+    // saying so here beats letting someone type "Baking" and never learn it didn't stick.
+    if (typedSector && !sector) { showError("Pick a sector from the list, or leave it blank."); return; }
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Creating…";
