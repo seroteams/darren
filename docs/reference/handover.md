@@ -223,9 +223,8 @@ dev`). Prod: one Node server serves the built SPA + API on :3000.
   map), Registered (superadmin adoption view), User management (roles, deactivate), Error log
   (superadmin).
 
-**Design system (root `DESIGN.md` is law, auto-loaded every session):** Flowbite 2.5.2 shapes
-wearing Sero tokens (`admin/src/styles/design.css`; visual sheet at
-`admin/public/sero-flowbite/index.html`, in-app under Admin → Design system).
+**Design system (root `DESIGN.md` is law, auto-loaded every session):** Sero's own shapes wearing
+Sero tokens (`admin/src/styles/design/tokens.css`; visual sheet in-app under Admin → Design system).
 Ink #1f2a37 on page #f5fafd, white cards with 1px borders, **one sky-blue accent (#5aa9e6) per
 screen**, coral/mint/gold/lavender semantics, Bricolage Grotesque display over Inter body,
 radii 4px (controls) / 12px (cards), **14px text floor — nothing smaller, ever**, tokens-only (no

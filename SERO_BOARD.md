@@ -138,10 +138,9 @@ manager · date), privacy re-cut in the service per the no-inference ruling. All
 in 2 days, $0 spend. Plan → [done/](docs/plans/done/people-roster/plan.md). Parked there:
 member detail view (`member-run-visibility`), invitations/email claim, alias retirement.
 
-**✅ Closed (2026-07-05): Design system — Sero × Flowbite.** The Sero look (Flowbite 2.5.2 + Carl's
-colours, straight from his Figma method) is now codified: a visual **component sheet**
-(`admin/public/sero-flowbite/index.html`, in-app under Admin → Design system) + a root **`DESIGN.md`**
-that auto-loads for every agent, every session — with a 10-rule "before you build" checklist. New and
+**✅ Closed (2026-07-05): Design system.** The Sero look (Carl's Figma colours and shapes) is now
+codified: a visual **component sheet** (in-app under Admin → Design system) + a root **`DESIGN.md`**
+that auto-loads for every agent, every session — with a "before you build" checklist. New and
 touched screens follow it; **no bulk re-skin** (Carl's call). Plan → [done/](docs/plans/done/design-system/plan.md).
 
 **▶ Active line: pre-go-live — a manager tool worth coming back to.** New track (2026-07-01), 9 phases,

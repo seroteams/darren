@@ -9,7 +9,12 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | 35146fdf | Carl Method portable pack | docs/carl-method/ | 2026-07-25 |
+| f1f7e175 | Welcome screen: 5 options in the Test area | admin/src/stages/tests/welcome-options.js, admin/src/stages/test.js, admin/src/styles/test-gallery.css, admin/src/stages/start-welcome.ts | 2026-07-26 |
+| 97834757 | Welcome-page redesign, 5 mockups | admin/src/stages/tests/welcome-redesign.js, admin/src/stages/test.js | 2026-07-26 |
 | 4b899314 | Audit fix-up P2 (shell + layout) | docs/plans/doing/audit-fixes-jul-25/, audits/full-app-audit-2026-07-25/p2-proof/, admin/src/styles/design/primitives.css, admin/src/styles/design/session-topbar.css, admin/src/styles/design/app-nav.css, admin/src/ui/session-topbar.js, frontend/src/router.js, frontend/src/ui/app-nav-flow.test.ts | 2026-07-25 |
+| b7b0c523 | Admin user-detail page: layout + clarity rework | admin/src/stages/admin-user-detail.ts, admin/src/stages/admin-user-detail.test.ts, admin/src/styles/design/admin-tables.css | 2026-07-26 |
+| d03316aa | Component consolidation (one source per UI part) | docs/plans/doing/component-consolidation/, admin/src/ui/modal-shell.ts, admin/src/ui/modal-shell.test.ts | 2026-07-26 |
+| 3a8bfd02 | Design system clean-up (invisible pass) | docs/plans/doing/design-cleanup-invisible/, admin/src/styles/design/tokens.css, admin/src/styles/design.css, admin/src/styles/DESIGN-SYSTEM.md, admin/tailwind.config.js, scripts/lint-design-tokens.js, scripts/lint-copy.js, scripts/test-design-guard.js, DESIGN.md | 2026-07-26 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

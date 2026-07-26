@@ -1,6 +1,6 @@
 ---
 name: Sero
-description: Calm, plain-spoken 1:1 prep — Flowbite 2.5.2 components wearing Sero's colours.
+description: Calm, plain-spoken 1:1 prep. Ink on paper, one sky accent, Sero's own component recipes.
 colors:
   ink: "#1f2a37"
   ink-dim: "#636363"
@@ -80,21 +80,22 @@ components:
 
 # Design System: Sero
 
-> **The living reference.** The visual twin of this doc is the component sheet at
-> `admin/public/sero-flowbite/index.html` (in-app: Admin → Design system). Copy from the sheet;
-> obey this doc. Colour tokens live in code at `admin/src/styles/design.css` — never restate hex
-> values in screen files.
+> **The living reference.** The visual twin of this doc is the in-app component sheet
+> (Admin → Design system), built by `admin/src/stages/design.js`. Copy from the sheet; obey this
+> doc. Every design token lives in code at `admin/src/styles/design/tokens.css` (`design.css` is
+> just the `@import` barrel) — never restate hex values in screen files.
 
 ## 1. Overview
 
 **Creative North Star: "The Quiet Debrief."**
 
-Sero looks like a calm conversation written down, not a product dashboard. The base is **Flowbite
-2.5.2 components recoloured with Sero's palette** — that's literally how the product was designed
-(the Figma is the Flowbite UI kit in Sero colours), so new UI starts from a Flowbite shape, then
-wears the tokens below. The canvas is a tinted off-white that reads as paper in soft daylight;
-white cards sit on it with 1px borders, not heavy shadow. One sky-blue accent marks the single
-action that matters on each screen.
+Sero looks like a calm conversation written down, not a product dashboard. The canvas is a tinted
+off-white that reads as paper in soft daylight; white cards sit on it with 1px borders, not heavy
+shadow. One sky-blue accent marks the single action that matters on each screen.
+
+New UI starts from an **existing Sero recipe** (§5) wearing the tokens below, not from a blank
+page. Sero owns its components outright: no UI framework, no component library, no CDN kit. The
+recipes in §5 and the in-app sheet are the only source.
 
 **Key characteristics:**
 - Light, warm, low-contrast background, high-contrast text.
@@ -256,7 +257,7 @@ modals and side panels a larger one. Never ambient decoration. Honour `prefers-r
 
 ## 5. Components
 
-Flowbite 2.5.2 shapes + Sero tokens. Canonical recipes (visual versions on the sheet):
+Sero's own shapes + Sero tokens. Canonical recipes (visual versions on the in-app sheet):
 
 - **Buttons** — controls round at **4px**. Primary: accent fill, white label (accepted brand
   deviation — see §2; hover darkens to accent-dark), one per screen. Ghost: surface + border +
@@ -343,15 +344,21 @@ The "before you build" checklist — every new or touched screen passes all fift
 15. **Do** space **groups twice as far apart as their contents**, and sit a heading closer to what
     it titles than to the block above; keep to **three alignment axes** (see §3a, L1–L3).
 
-**Exemptions** (these sit outside the fifteen rules — don't "fix" them):
+**Exemptions** (these sit outside the fifteen rules — don't "fix" them). This list is the twin of
+the `ALLOWLIST` in `scripts/lint-design-tokens.js`; if you change one, change the other.
 - **Dev/debug chrome** (`ui/dev-badge.js`, `ui/build-stamp.js`) — deliberate terminal-style kit,
   dark, mono, its own palette.
-- **The Universe screen** (`stages/universe.ts`, `stages/universe.model.ts`) — an admin-only,
-  just-for-fun 3D map on a full-bleed dark canvas; the WebGL/canvas renderer needs numeric rgb
-  strings, so its colour literals are intentional.
-- **The in-app design sheet** (`stages/design.js`) — the live twin of the component sheet at
-  `admin/public/sero-flowbite/`; it demonstrates the system (including small illustrative glyphs
-  in its mock cards), so it documents the rules rather than being bound by them.
+- **The in-app design sheet** (`stages/design.js`) — it demonstrates the system (including small
+  illustrative glyphs in its mock cards), so it documents the rules rather than being bound by them.
+- **Decorative signatures** (`design/orb.css`, `design/motion.css`) — the thinking orb's gradient
+  and the aura/shimmer have no token home and are meant to be one-offs.
+- **On-dark translucency** (`design/app-nav.css`) — alpha-white over the dark rail; no token for it.
+- **The brandmark SVG** (`ui/app-nav.js`, `ui/session-topbar.js`, both apps) — it's the logo, not
+  an icon, and its fills are the mark's own.
+- **The PDF renderer** (`ui/recap-pdf.ts`) — pdfmake can't read CSS variables, so each hex there
+  names the token it mirrors.
+- **`design/tokens.css`** — the source of truth; it is where hex values are supposed to live.
 - **The Screen Gallery edit bar** (`stages/gallery/`) — internal design-mode chrome that stays a
   top toolbar (not a sidebar) so previewed screens keep their real width, and wears a deliberate
   gold "edit mode" tint over the shared `.btn` shape.
+- **Tests** (`*.test.*`).
