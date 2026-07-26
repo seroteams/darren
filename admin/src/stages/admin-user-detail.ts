@@ -15,7 +15,7 @@ import { STAGES, store } from "../state.ts";
 import { getUserRuns, getRegistered, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
-import { Star } from "lucide";
+import { Star, ChevronRight } from "lucide";
 import { relTime, formatDate } from "../ui/time.ts";
 import { groupRunsByPerson } from "../ui/group-people.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
@@ -57,10 +57,12 @@ function joinedLabel(createdAt: string | number): string {
   return Number.isFinite(ms) ? formatDate(ms) : "";
 }
 
-// The identity header (audit D10): avatar initial + name lead (the Name-Wins Rule), the
-// quiet email · company · joined line under it, the role pill beside, and small stat chips
-// (1:1 count, people met, average stars) below. Pure string render so it unit-tests.
-export function identityHeader(name: string, profile: UserProfile | null, stats: UserStats): string {
+// The identity header (audit D10): avatar initial + name lead (the Name-Wins Rule), the role
+// pill on the SAME line as the name, and the quiet email · company · joined line under both.
+// The pill used to sit as a third flex child of .rd-profile, which parked it against the far
+// right edge and gave the screen a fourth alignment axis (DESIGN §3a L3 caps it at three).
+// Pure string render so it unit-tests.
+export function identityHeader(name: string, profile: UserProfile | null): string {
   const bits: string[] = [];
   if (profile?.email) bits.push(profile.email);
   if (profile?.company) bits.push(profile.company);
@@ -70,26 +72,31 @@ export function identityHeader(name: string, profile: UserProfile | null, stats:
   const rolePill = profile?.role
     ? `<span class="um-badge um-badge--${["admin", "manager", "member"].includes(profile.role) ? profile.role : "member"}">${escapeHtml(profile.role)}</span>`
     : "";
-  const chips = [
-    `<span class="chip chip--plain">${stats.runCount} ${stats.runCount === 1 ? "1:1" : "1:1s"}</span>`,
-    `<span class="chip chip--plain">${stats.peopleCount} ${stats.peopleCount === 1 ? "person" : "people"}</span>`,
-    stats.avgStars == null
-      ? ""
-      : `<span class="chip chip--plain">${icon(Star, { size: 14, fill: "currentColor" })} ${escapeHtml(String(Math.round(stats.avgStars * 10) / 10))} avg</span>`,
-  ].filter(Boolean).join("");
   return `
     <header class="page-header l-stack l-stack--3">
       ${breadcrumb([{ label: "User management", nav: "users" }, { label: name }])}
       <div class="rd-profile">
         <div class="ds-avatar rd-avatar" aria-hidden="true">${escapeHtml(initialOf(name))}</div>
         <div class="rd-profile__id">
-          <h1 class="rd-name">${escapeHtml(name)}</h1>
+          <div class="ud-nameline"><h1 class="rd-name">${escapeHtml(name)}</h1>${rolePill}</div>
           ${sub}
         </div>
-        ${rolePill}
       </div>
-      <div class="person-summary">${chips}</div>
     </header>`;
+}
+
+// The at-a-glance totals as ONE quiet line beside the section title. They were three
+// `chip`s, which at a real user's numbers read as "1 1:1" / "1 person" / "5 avg": three
+// loud badges carrying almost nothing, and a fourth type level on the screen (T1).
+// Empty string when there's nothing to count — the empty state says it instead.
+export function runsSummary(stats: UserStats): string {
+  if (!stats.runCount) return "";
+  const bits = [
+    `${stats.runCount} ${stats.runCount === 1 ? "1:1" : "1:1s"}`,
+    `${stats.peopleCount} ${stats.peopleCount === 1 ? "person" : "people"}`,
+  ];
+  if (stats.avgStars != null) bits.push(`${Math.round(stats.avgStars * 10) / 10} avg rating`);
+  return escapeHtml(bits.join(" · "));
 }
 
 function starsCell(r: Run): string {
@@ -108,16 +115,27 @@ function runRow(r: Run): string {
       </td>
       <td>${escapeHtml(c.meetingType || "1:1")}</td>
       <td class="text-ink-dim">${escapeHtml(relTime(r.lastSeenAt) || "–")}</td>
-      <td>${starsCell(r)}</td>
+      <td class="ud-rate num-tabular">${starsCell(r)}</td>
+      <td class="ud-chev" aria-hidden="true">${icon(ChevronRight, { size: 16 })}</td>
     </tr>`;
 }
 
-// Their 1:1s as the one house table (um-table), newest first as the API returns them.
+// Their 1:1s as the one house table (um-table), newest first as the API returns them, sitting
+// on its own white card like every other list in the admin. The <colgroup> stops one word in
+// the Who column stretching across a third of the screen; the rating right-aligns with lining
+// digits (T7) and the chevron says the row opens.
 export function runsTable(runs: Run[]): string {
   return `
-    <div class="um-table-wrap">
-      <table class="um-table">
-        <thead><tr><th>Who</th><th>Type</th><th>When</th><th>Rating</th></tr></thead>
+    <div class="ud-panel um-table-wrap">
+      <table class="um-table um-table--flush">
+        <colgroup>
+          <col class="ud-c-who"><col class="ud-c-type"><col class="ud-c-when"><col class="ud-c-rate"><col class="ud-c-chev">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Who</th><th>Type</th><th>When</th><th class="ud-rate num-tabular">Rating</th><th></th>
+          </tr>
+        </thead>
         <tbody>${runs.map(runRow).join("")}</tbody>
       </table>
     </div>`;
@@ -130,7 +148,10 @@ let pendingRunId: string | null = null;
 
 export const mount: Mount = async (root, { setState }) => {
   const name = store.adminUserName || "This user";
-  const shell = (inner: string) => `<div class="l-container l-stack l-stack--8">${inner}</div>`;
+  // Wide, like the Registered list this drills down from. The 38rem reading measure is for
+  // prose; a table's width comes from its columns (DESIGN §3 T5), and at 38rem this one was
+  // squeezed into a narrow strip floating in dead space.
+  const shell = (inner: string) => `<div class="l-container l-container--wide l-stack l-stack--8">${inner}</div>`;
 
   const errorCard = `
     <section class="card-flat space-y-3">
@@ -232,14 +253,19 @@ export const mount: Mount = async (root, { setState }) => {
     const avgStars = rated.length
       ? rated.reduce((sum, r) => sum + (r.rating?.stars ?? 0), 0) / rated.length
       : null;
-    const header = identityHeader(name, profile, {
-      runCount: runs.length,
-      peopleCount: people.length,
-      avgStars,
-    });
+    const header = identityHeader(name, profile);
+    // The section title is a plain .h3, not an .eyebrow: the eyebrow style uppercases its
+    // text, so "1:1s" was rendering on screen as "1:1S".
+    const summary = runsSummary({ runCount: runs.length, peopleCount: people.length, avgStars });
 
     const body = runs.length
-      ? `<section class="l-stack l-stack--3"><div class="eyebrow">1:1s</div>${runsTable(runs)}</section>`
+      ? `<section class="l-stack l-stack--3">
+           <div class="ud-section-head">
+             <h2 class="h3">1:1s</h2>
+             ${summary ? `<div class="text-ink-dim text-sm">${summary}</div>` : ""}
+           </div>
+           ${runsTable(runs)}
+         </section>`
       : `<section class="card-flat"><p class="text-ink-dim">This user hasn't run any 1:1s yet.</p></section>`;
     root.innerHTML = shell(header + body);
     wireCrumbs();
