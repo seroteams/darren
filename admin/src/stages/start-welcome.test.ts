@@ -10,7 +10,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { firstVisitHtml, videoIframeHtml, SAMPLE_BRIEF, POSITIONING_LINE, VIDEO } from "./start-welcome.ts";
+import { firstVisitHtml, videoIframeHtml, SAMPLE_BRIEF, POSITIONING_LINE, VIDEO, STEPS } from "./start-welcome.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const fixture = JSON.parse(readFileSync(join(here, "../../../content/demo/demo-run.json"), "utf8"));
@@ -51,9 +51,42 @@ test("the screen hosts Home's ONE blue button and brings none of its own", () =>
   assert.ok(!/class="btn\b/.test(html), "no second accent button is created here");
 });
 
+test("a stranger is told how it works, in four steps, benefit first", () => {
+  assert.equal(STEPS.length, 4, "four steps, matching the copy on the screen");
+  assert.ok(html.includes("How it works"), "the section is named");
+  for (const [i, s] of STEPS.entries()) {
+    assert.ok(html.includes(s.benefit), `step ${i + 1}: the benefit is rendered`);
+    assert.ok(html.includes(s.title), `step ${i + 1}: the mechanism is rendered`);
+    assert.ok(
+      html.indexOf(s.benefit) < html.indexOf(s.title),
+      `step ${i + 1}: benefit comes before the mechanism (Dunford seat, committee 2026-07-26)`,
+    );
+  }
+});
+
+test("the action sits above the teaching, not below it", () => {
+  // Seibel seat, committee 2026-07-26: four steps of education is four chances to
+  // bounce, so the way in must never be pushed under them.
+  assert.ok(
+    html.indexOf("js-start-slot") < html.indexOf("How it works"),
+    "the button slot is rendered before the four steps",
+  );
+  assert.ok(
+    html.indexOf("How it works") < html.indexOf("Sample brief"),
+    "the steps explain before the sample proves",
+  );
+});
+
+test("the walkthrough is a line of text, not a black rectangle", () => {
+  // The old poster was the biggest, darkest object on the screen and on live it was
+  // showing YouTube Error 153. It is a link now.
+  assert.ok(!html.includes("start-video__poster"), "no 16:9 poster block");
+  assert.ok(html.includes("start-video__link"), "a text link does the asking instead");
+});
+
 test("nothing reaches YouTube until the manager clicks play", () => {
   assert.ok(!/youtube|iframe/i.test(html), "the first paint carries no player and no third-party URL");
-  assert.ok(html.includes("js-play-video"), "a local poster button does the asking");
+  assert.ok(html.includes("js-play-video"), "a local button does the asking");
   const frame = videoIframeHtml();
   assert.ok(frame.includes("youtube-nocookie.com"), "privacy-mode host");
   assert.ok(frame.includes(`start=${VIDEO.startSeconds}`), "starts where the walkthrough starts");

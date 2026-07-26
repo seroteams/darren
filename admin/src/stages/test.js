@@ -9,6 +9,8 @@ import { mount as promisesLoop } from "./tests/promises-loop.js";
 import { mount as promisesBeforeRecap } from "./tests/promises-before-recap.js";
 import { mount as runnerV2 } from "./tests/runner-v2.js";
 import { mount as entryRedesign } from "./tests/entry-redesign.js";
+import { mount as welcomeRedesign } from "./tests/welcome-redesign.js";
+import { mount as welcomeOptions } from "./tests/welcome-options.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
@@ -86,7 +88,89 @@ const THUMB_ENTRY = `
     <rect class="accent" x="32" y="96" width="116" height="6" rx="3"/>
   </svg>`;
 
+// The welcome redesign: a hero with one action above four step cards, and the sample
+// brief underneath as proof instead of beside as decoration.
+const THUMB_WELCOME = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect class="ink" x="16" y="12" width="34" height="5" rx="2" opacity="0.4"/>
+    <rect class="ink" x="16" y="22" width="150" height="10" rx="5" opacity="0.7"/>
+    <rect class="ink" x="16" y="38" width="112" height="5" rx="2" opacity="0.3"/>
+    <rect class="accent" x="16" y="49" width="46" height="12" rx="3"/>
+    <rect class="card" x="16" y="68" width="62" height="38" rx="6"/>
+    <rect class="accent" x="24" y="74" width="10" height="10" rx="5"/>
+    <rect class="ink" x="24" y="90" width="44" height="4" rx="2" opacity="0.45"/>
+    <rect class="ink" x="24" y="98" width="34" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="86" y="68" width="62" height="38" rx="6"/>
+    <rect class="accent" x="94" y="74" width="10" height="10" rx="5"/>
+    <rect class="ink" x="94" y="90" width="44" height="4" rx="2" opacity="0.45"/>
+    <rect class="ink" x="94" y="98" width="34" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="156" y="68" width="62" height="38" rx="6"/>
+    <rect class="accent" x="164" y="74" width="10" height="10" rx="5"/>
+    <rect class="ink" x="164" y="90" width="44" height="4" rx="2" opacity="0.45"/>
+    <rect class="ink" x="164" y="98" width="34" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="226" y="68" width="58" height="38" rx="6"/>
+    <rect class="accent" x="234" y="74" width="10" height="10" rx="5"/>
+    <rect class="ink" x="234" y="90" width="40" height="4" rx="2" opacity="0.45"/>
+    <rect class="ink" x="234" y="98" width="30" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="182" y="12" width="102" height="46" rx="6"/>
+    <rect class="ink" x="192" y="20" width="44" height="6" rx="3" opacity="0.6"/>
+    <rect class="ink" x="192" y="32" width="82" height="4" rx="2" opacity="0.3"/>
+    <rect class="ink" x="192" y="40" width="72" height="4" rx="2" opacity="0.3"/>
+    <rect class="ink" x="192" y="48" width="60" height="4" rx="2" opacity="0.3"/>
+  </svg>`;
+
+// The five layout bets: same content, five different shapes for it.
+const THUMB_WELCOME_OPTIONS = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect class="card" x="12" y="14" width="60" height="92" rx="6"/>
+    <rect class="ink" x="20" y="22" width="36" height="6" rx="3" opacity="0.6"/>
+    <rect class="accent" x="20" y="34" width="24" height="8" rx="3"/>
+    <rect class="ink" x="20" y="50" width="44" height="4" rx="2" opacity="0.3"/>
+    <rect class="ink" x="20" y="58" width="38" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="80" y="14" width="60" height="92" rx="6"/>
+    <rect class="ink" x="88" y="22" width="30" height="6" rx="3" opacity="0.6"/>
+    <rect class="ink" x="88" y="36" width="44" height="4" rx="2" opacity="0.3"/>
+    <rect class="ink" x="88" y="44" width="40" height="4" rx="2" opacity="0.3"/>
+    <rect class="ink" x="88" y="52" width="44" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="148" y="14" width="60" height="92" rx="6"/>
+    <rect class="ink" x="156" y="22" width="20" height="26" rx="3" opacity="0.25"/>
+    <rect class="accent" x="180" y="30" width="20" height="8" rx="3"/>
+    <rect class="ink" x="156" y="56" width="44" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="216" y="14" width="34" height="92" rx="6"/>
+    <rect class="ink" x="222" y="22" width="22" height="6" rx="3" opacity="0.6"/>
+    <rect class="ink" x="222" y="34" width="18" height="4" rx="2" opacity="0.3"/>
+    <rect class="card" x="258" y="14" width="30" height="92" rx="6"/>
+    <rect class="ink" x="264" y="22" width="18" height="6" rx="3" opacity="0.6"/>
+    <rect class="accent" x="264" y="34" width="14" height="8" rx="3"/>
+  </svg>`;
+
 const TESTS = [
+  {
+    id: "welcome-redesign",
+    title: "The welcome screen. Five versions",
+    blurb:
+      "The first thing a brand-new manager sees, rebuilt five ways: stage ladder, problem and fix, zig-zag, brief first, and a click-through walkthrough. Each one names the manager's problem and teaches the four steps with a benefit on each. Carl picked A on 26 Jul, and A is now the live welcome. Switch version and width at the top.",
+    date: "26 Jul 2026",
+    tag: "onboarding",
+    thumb: THUMB_WELCOME,
+    mount: welcomeRedesign,
+    bare: true,
+    wide: true,
+  },
+  {
+    id: "welcome-options",
+    title: "The first screen. Five options",
+    blurb:
+      "The same screen approached as five layout bets rather than five paint jobs: one column, brief as hero, notes to brief, rebalanced split, quiet start. Built in parallel with the five above, from the same rejected screenshot. Kept for the layout thinking.",
+    date: "26 Jul 2026",
+    tag: "onboarding",
+    thumb: THUMB_WELCOME_OPTIONS,
+    mount: welcomeOptions,
+    bare: true,
+    wide: true,
+  },
   {
     id: "entry-redesign",
     title: "The way in. Two versions",

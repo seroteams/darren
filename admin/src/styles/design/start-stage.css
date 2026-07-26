@@ -159,15 +159,15 @@
   display: none;
 }
 
-/* The brief-first welcome (onboarding-firstrun Phase 2). Two columns inside the
-   existing medium container: the intro and sample brief read as one column, the
-   walkthrough fills the space beside them (which was empty before). One container
-   width, no new tier. Stacks under itself on narrow screens. */
+/* The welcome, rebuilt 2026-07-26 as the stage ladder (Carl picked version A of five).
+   One column, not two: the old right-hand column held nothing but a video poster, so
+   the page read as a paragraph beside a hole. Groups sit twice as far apart as their
+   contents (DESIGN §3a L1), and a section heading sits closer to its own block than to
+   the one above it (L2). */
 .start-welcome {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  gap: var(--sero-space-6);
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-10);
 }
 .start-welcome__intro {
   display: flex;
@@ -177,17 +177,85 @@
 .start-welcome__lede {
   margin: 0;
   color: var(--color-ink-dim);
+  max-width: var(--measure);
 }
+/* The action lives inside the intro, not as a sibling: the button belongs to the
+   headline that asks for it, and it must stay above the four steps (Seibel seat). */
 .start-welcome__action {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--sero-space-3);
+  gap: var(--sero-space-4);
+  margin-top: var(--sero-space-3);
 }
-.start-welcome__aside {
+.start-welcome__sec {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-4);
+}
+.start-welcome__sec-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+}
+.start-welcome__sec-title {
+  margin: 0;
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+}
+.start-welcome__sec-sub {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  max-width: var(--measure);
+}
+
+/* The four steps. Benefit first, mechanism under it, so the row scans as four promises
+   rather than four stage names. Four across, stacked on a phone. */
+.start-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sero-space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.start-step {
   display: flex;
   flex-direction: column;
   gap: var(--sero-space-2);
+}
+.start-step__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+.start-step__benefit {
+  color: var(--color-ink);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-snug);
+  text-wrap: balance;
+}
+.start-step__title {
+  color: var(--color-accent-dark);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+}
+.start-step__body {
+  margin: 0;
+  color: var(--color-ink-dim);
+  font-size: var(--type-body-sm);
+  line-height: var(--type-leading-normal);
+  text-wrap: pretty;
 }
 
 /* The sample brief: a quiet card, three labelled lines, and its own way into the
@@ -202,6 +270,21 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--sero-space-3);
+  padding-bottom: var(--sero-space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+/* The three parts side by side. Stacked, each line ran to about half the card and left
+   the other half empty, which was half the balance problem on the old screen. */
+.start-sample__body {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sero-space-6);
+}
+@media (max-width: 60rem) {
+  .start-sample__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sero-space-4);
+  }
 }
 .start-sample__who {
   color: var(--color-ink);
@@ -230,56 +313,44 @@
   text-decoration: underline;
 }
 
-/* The walkthrough. The poster is local markup: no thumbnail is fetched and nothing
-   reaches YouTube until the play button is pressed, which is also why the CSP only
-   opens frame-src. */
-.start-video {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--sero-radius-md, 8px);
-  overflow: hidden;
-  background: var(--sero-primary-900);
-}
-.start-video__poster {
-  width: 100%;
-  height: 100%;
+/* The walkthrough, now a line of text rather than a 16:9 black box. Nothing reaches
+   YouTube until the link is pressed, which is also why the CSP only opens frame-src.
+   When the player does arrive it replaces the link in place and takes the whole row. */
+.start-video__link {
+  background: none;
   border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--sero-primary-900), var(--sero-primary-800));
 }
-.start-video__play {
-  width: 3rem;
-  height: 3rem;
-  border-radius: var(--sero-radius-full);
-  background: var(--color-surface);
-  position: relative;
+.start-video__link:hover {
+  color: var(--color-accent);
 }
-.start-video__play::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-40%, -50%);
-  border-left: 0.875rem solid var(--sero-primary-900);
-  border-top: 0.5rem solid transparent;
-  border-bottom: 0.5rem solid transparent;
+.start-video:has(.start-video__frame) {
+  flex-basis: 100%;
+  max-width: 40rem;
+  margin-top: var(--sero-space-3);
 }
 .start-video__frame {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   border: 0;
+  border-radius: var(--sero-radius-md, 8px);
   display: block;
 }
-.start-video__cap {
-  color: var(--color-ink);
-  font-size: var(--type-body-sm);
-}
 
-@media (max-width: 48rem) {
-  .start-welcome {
+@media (max-width: 60rem) {
+  .start-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 40rem) {
+  .start-steps {
     grid-template-columns: minmax(0, 1fr);
   }
 }
