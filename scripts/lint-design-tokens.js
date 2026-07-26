@@ -15,15 +15,20 @@
  *   WARN (reported, does NOT fail): non-token font-size literal >=14px.
  *   REPORT ONLY (with --report): off-grid spacing + literal border-radius counts.
  *
- * Exemptions (DESIGN §6 + the sweep's documented decorative signatures):
+ * Exemptions — this list is the twin of DESIGN.md §6 "Exemptions". Change one, change the other.
  *   whole files — tokens.css (the source of truth), dev-badge.js, build-stamp.js,
- *   stages/design.js (the live design sheet), universe.*, orb.css + motion.css
- *   (decorative animation signatures), app-nav.css (dark-rail on-dark translucency),
- *   app-nav.js + session-topbar.js (the brandmark LOGO SVG). Plus any *.test.* file.
+ *   stages/design.js (the live design sheet), stages/gallery/ (design-mode edit chrome),
+ *   orb.css + motion.css (decorative animation signatures), app-nav.css (dark-rail on-dark
+ *   translucency), app-nav.js + session-topbar.js (the brandmark LOGO SVG),
+ *   recap-pdf.ts (pdfmake can't read CSS vars). Plus any *.test.* file.
  *   single line — add `lint-tokens-ignore` in a comment on the line (with a reason).
  *   token definitions — a line that assigns to a `--custom-property` may hold raw values.
  *
- * Usage:  node scripts/lint-design-tokens.js [--report]
+ * Usage:  node scripts/lint-design-tokens.js [--report] [--json]
+ *
+ * --json prints one machine-readable line instead of the human report. That is what
+ * scripts/test-design-guard.js reads to hold the warn/radius/spacing counts to a ceiling,
+ * so drift that isn't a hard error still can't grow. Exit codes are identical either way.
  */
 
 const fs = require("fs");
@@ -38,7 +43,7 @@ const ALLOWLIST = [
   /(^|[\\/])dev-badge\.js$/,
   /(^|[\\/])build-stamp\.js$/,
   /(^|[\\/])stages[\\/]design\.js$/,
-  /universe\./,
+  /(^|[\\/])stages[\\/]gallery[\\/]/, // Screen Gallery edit bar — design-mode chrome (DESIGN §6)
   /(^|[\\/])orb\.css$/, // decorative thinking-orb gradient (signature)
   /(^|[\\/])motion\.css$/, // decorative aura/shimmer (signature)
   /(^|[\\/])app-nav\.css$/, // dark-rail on-dark alpha-white translucency (no token home)
@@ -165,11 +170,31 @@ for (const abs of files) {
 }
 
 const report = process.argv.includes("--report");
+const asJson = process.argv.includes("--json");
 const group = (list) => {
   const by = {};
   for (const e of list) (by[e.rule] ||= []).push(e);
   return by;
 };
+
+// Machine-readable mode — one JSON line, no prose. Consumed by test-design-guard.js.
+if (asJson) {
+  console.log(
+    JSON.stringify({
+      scanned,
+      errors: acc.errors.length,
+      errorsByRule: Object.fromEntries(
+        Object.entries(group(acc.errors)).map(([rule, list]) => [rule, list.length])
+      ),
+      errorDetail: acc.errors.map((e) => `${e.rel}:${e.lineNo}  [${e.rule}]  ${e.snippet}`),
+      nonTokenFont: acc.warns.length,
+      nonTokenFontDetail: acc.warns.map((w) => `${w.rel}:${w.lineNo}  ${w.snippet}`),
+      literalRadius: acc.report.radius,
+      offGridSpacing: acc.report.offGrid,
+    })
+  );
+  process.exit(acc.errors.length ? 1 : 0);
+}
 
 console.log(`\ndesign-token guard — scanned ${scanned} files under ${SCAN_DIRS.join(", ")}\n`);
 

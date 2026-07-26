@@ -1,6 +1,6 @@
 # Design system clean-up — the invisible pass
 
-**Status:** P0 built, awaiting Carl's sign-off
+**Status:** P0 ✅ signed off · P1 built, awaiting Carl's sign-off
 **Owner session:** 3a8bfd02 · **Started:** 2026-07-26 · **Cost:** £0 (free checks only)
 
 ## Why
@@ -36,23 +36,22 @@ dialog that bypasses the house confirm box, the missing toast.
 
 | # | Phase | Changes pixels? | Proof | Status |
 |---|---|---|---|---|
-| P0 | [Make the docs true](phase-0-docs.md) | no | grep returns nothing; both linters still PASS | ✅ built, awaiting sign-off |
-| P1 | [Make the guards bite](phase-1-guards.md) | no | `npm test` runs the design guard | ⬜ |
+| P0 | [Make the docs true](phase-0-docs.md) | no | grep returns nothing; both linters still PASS | ✅ signed off 2026-07-26 |
+| P1 | [Make the guards bite](phase-1-guards.md) | no | `npm test` runs the design guard | ✅ built, awaiting sign-off |
 | P2 | [Delete the provably dead](phase-2-dead-tokens.md) | no | built CSS byte-identical outside `:root` | ⬜ |
 | P3 | [One namespace per concept](phase-3-namespaces.md) | no | identical computed-value map | ⬜ |
 | P4 | [One name per size](phase-4-sizes.md) | no | identical computed-value map | ⬜ |
 | P5 | [Admin CSS out of the customer bundle](phase-5-bundle.md) | no | `ds-layout` gone from `frontend/dist`; 4 screenshots | ⬜ |
 
-## Baseline (2026-07-26, before any edit)
+## Baseline
 
-```
-design-token guard — scanned 191 files under admin/src, frontend/src
-~ 76 warning(s) (non-token font-size >=14px)
-~ report: 55 literal border-radius, 138 off-grid spacing declarations
-PASS — no hard violations.
+Before any edit (2026-07-26): 76 non-token font-sizes · 55 literal border-radii · 138 off-grid
+spacing declarations, both linters PASS.
 
-no-em-dash copy guard — scanned 255 files. PASS.
-```
+After P1 reconciled the allowlist with DESIGN.md §6 (the `stages/gallery/` exemption the guard
+was missing, minus the dead `universe.*` one): **68 · 53 · 135**. These are now the ceilings
+enforced by `scripts/test-design-guard.js` inside `npm test`. Each later phase lowers whichever
+ceiling it earns, in the same commit.
 
 Built CSS baseline is captured fresh at the start of P2 (parallel chats move the tree daily, so
 a stale baseline would be worthless).
