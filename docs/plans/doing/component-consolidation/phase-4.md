@@ -1,6 +1,14 @@
 # Phase 4 — Card and empty state
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ⏸️ PAUSED 2026-07-27 (Carl's call) — lane-blocked, nothing built
+
+## Why it is paused
+
+Lane `70b40d36` holds 33 files covering 17 of this phase's 27 empty states and most of its big card files. The free third would leave two empty-state systems in the app at once. Carl chose to pause rather than half-do it. Resume when that lane clears.
+
+## Decision to take FIRST on resume, before any code
+
+`card` (24px padding) and `card-flat` (20px) are otherwise byte-identical, used 99 and 105 times. Carl's call: collapse to one padding, but he chooses the number **after** seeing both rendered side by side on a real screen. So the first deliverable of this phase is that comparison, not a `card.ts`.
 
 ## Goal
 

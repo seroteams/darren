@@ -29,13 +29,13 @@
 | 1 | Modal shell | One `modal-shell.ts`; 9 dialogs refitted (3 had no keyboard trap at all), 5 `getFocusables` copies deleted, net -216 lines | ✅ |
 | 2 | The initials avatar | `avatar.ts` replaces 9 helpers; the two-letter rule stops disagreeing with itself (Team said "KK", Pulse said "K") | ✅ |
 | 3 | Button | `button.ts`; 150 call sites swapped across 40 files, proved byte-identical; 223 raw strings down to 9, all accounted for | ✅ |
-| 4 | Card + empty state | `card.ts` and `empty-state.ts`; 3 card bases and 14 empty-state families collapse | 🔨 |
+| 4 | Card + empty state | `card.ts` and `empty-state.ts`; 3 card bases and 14 empty-state families collapse | ⏸️ paused, lane-blocked |
 | 5 | Chip + field | `chip.ts` (8 hand-rolled chip functions) and `field.ts` (3 parallel form systems) | ⬜ |
 | 6 | Header + scaffold adoption | `pageHeader()` across 33 raw `<h1>`; the error card + retry wiring (15+ hand-rolled sites, moved here from P2) | ⬜ |
 | 7 | Kill the app forks | `app-nav` and `router` stop being 67% byte-identical copies; the logo constant (moved here from P2) | ⬜ |
 | 8 | The guard | `scripts/lint-components.js` + `npm run lint:components`; stale design docs fixed | ⬜ |
 
-⬜ not started · 🔨 in progress · ✅ done (tested)
+⬜ not started · 🔨 in progress · ⏸️ paused · ✅ done (tested)
 
 ## Lane collisions — check before the marked phases
 
@@ -60,7 +60,22 @@ If a lane is still live when its phase comes up: tell Carl who holds it, do not 
 
 **Lane discipline miss to own:** the P3 commit swept `admin/src/stages/guide.js`, which another session was mid-edit on (its `skeletonHtml` work). Nothing was lost and the screen renders, but their code went in under this plan's commit message. Cause: the pathspec included a file I had touched one line of, without re-checking whether it also carried foreign changes. Fix for later phases: `git diff <path>` every file in the pathspec before committing, not just the ones I remember editing.
 
-**Phase 4 🔨 next** — cards and empty states. The second phase that can move pixels.
+**Phase 4 ⏸️ PAUSED 2026-07-27, Carl's call.** Not started, nothing built.
+
+Lane `70b40d36` (shape-matched loading skeletons) has grown to **33 files** and now holds nearly every list and detail screen. Measured against Phase 4's actual scope:
+
+| Phase 4 work | Blocked by that lane | Free |
+|---|---|---|
+| Empty states | 17 of 27 sites (`admin-pulse` ×5, `review-run` ×8, `focus-points`, `job-lexicons`, `runs.ts`, `stage-data-tab`) | 8 sites |
+| Cards | most of the big files (`guide.js` 13, `run-detail` 5, `admin-pulse` 5, `questioning` 4, `job-lexicons` 4, `runs.ts` 3, the four `admin-*` lists, `skeleton-presets`) | ~60 of 193 |
+
+Building the free third would leave the app running two empty-state systems side by side until that lane finishes, which is worse than one consistent old one, and it means editing render paths another chat is mid-rewrite on. Carl chose to pause rather than half-do it or ask the other chat to yield.
+
+**Resume when lane `70b40d36` clears.** First task on resume is the card-padding comparison below, not code.
+
+### Decision waiting on Carl, first thing when P4 resumes
+
+`card` and `card-flat` are byte-identical in CSS except padding: **24px vs 20px**. Used **99 and 105 times** — a near 50/50 split, which reads as nobody choosing rather than two deliberate options. Carl's call (2026-07-27): **collapse to ONE padding, but he picks the number after seeing both side by side on a real screen.** So P4 opens with a screenshot comparison, not a code change.
 
 Baseline taken before Phase 1: `npm test` 191/191, `npm run typecheck` clean. After Phase 1: 194/194 and clean. Free checks only for this plan: `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`. No paid OpenAI run is needed anywhere in these 8 phases, and none has been used.
 
