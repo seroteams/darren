@@ -1,8 +1,13 @@
 // The welcome: what a brand-new manager sees on Home before they have run a single 1:1.
 //
-// Rebuilt 2026-07-26 as the "stage ladder" (Carl picked version A of five, prototype at
-// stages/tests/welcome-redesign.js). What the previous version got wrong, read off the
-// live screen rather than taste:
+// Rebuilt 2026-07-26 as "problem and fix" (Carl picked version B of five after seeing A
+// live, prototype at stages/tests/welcome-redesign.js). Four things managers say about
+// their own 1:1s, each paired with the step that answers it, then the sample brief.
+// Version A taught the same four steps but never named the problem they solve, so the
+// steps had nothing to be the answer to.
+//
+// What the version before both of them got wrong, read off the live screen rather than
+// taste:
 //   1 · Two columns where the right one held only a video poster, and on live that
 //       poster was showing YouTube "Error 153". The loudest object on the screen was an
 //       error message, and the page ended a third of the way down.
@@ -11,9 +16,9 @@
 //   3 · The sample brief was carrying both jobs, proof AND explanation, and it cannot
 //       carry both.
 //
-// So: one column, the action high, then four steps that each lead with what the manager
-// gets, then the sample brief underneath as proof of step 3. The walkthrough video is
-// now a line of text, not a black rectangle.
+// So: one column, the action high, then the complaint-and-answer grid, then the sample
+// brief underneath as proof of step 3. The walkthrough video is now a line of text, not
+// a black rectangle.
 //
 // Committee 2026-07-26 (log: logs/committee/2026-07-26-welcome-screen-five-versions.html)
 // changed this before it was built: action above the fold (Seibel), benefit before
@@ -90,26 +95,38 @@ const SECTIONS: Array<{ label: string; key: "open" | "explore" | "listenFor" }> 
   { label: "What to listen for", key: "listenFor" },
 ];
 
-/** How Sero works, in the order it happens. Benefit first, mechanism second: a manager
- *  buys "no blank first minute", not "a preparation stage". The order is real, which is
- *  the only reason these carry numbers. */
+/** The screen, as one data structure: a thing managers say about their own 1:1s, and the
+ *  step that answers it.
+ *
+ *  `pain` is reported behaviour, not invented despair (Rogelberg seat, committee
+ *  2026-07-26). "I have not thought about it" and "what we agreed evaporated" are things
+ *  managers say out loud; "my 1:1s are failing" is not, and a manager who reads that
+ *  about themselves leaves.
+ *
+ *  `benefit` comes before `title` everywhere it renders: a manager buys "no blank first
+ *  minute", not "a preparation stage" (Dunford seat, same session). The order of the
+ *  four is real, which is the only reason they carry numbers. */
 export const STEPS = [
   {
+    pain: "It is in ten minutes and I have not thought about it.",
     benefit: "Two minutes of typing, not a form.",
     title: "Say what is on your mind",
     body: "Their first name, their role, and rough notes. Half sentences are fine.",
   },
   {
+    pain: "Same three questions, same ‘yeah, all good’.",
     benefit: "It finds the real issue under the notes.",
     title: "Sero asks you back",
     body: "A short back and forth about what you actually saw, so the plan is about this 1:1 and not 1:1s in general.",
   },
   {
+    pain: "I know something is off. I cannot name it.",
     benefit: "No blank first minute.",
     title: "Walk in with a brief",
     body: "How to open, what to explore, what to listen for, what to avoid, and what a good outcome looks like.",
   },
   {
+    pain: "Whatever we agreed last time has evaporated.",
     benefit: "Follow through without a spreadsheet.",
     title: "The next one picks up here",
     body: "What you both agreed comes back at the top of the next 1:1, so nothing quietly evaporates.",
@@ -141,21 +158,28 @@ export function firstVisitHtml(opts: FirstVisitOpts = {}): string {
     ? `<button type="button" class="start-sample__link js-open-example" data-id="${escapeHtml(opts.exampleRunId)}">See the whole example 1:1</button>`
     : "";
 
-  const steps = STEPS.map(
+  // Each pain sits in the grid immediately before the step that answers it, so the
+  // single-column phone layout falls out of the DOM order: quote, answer, quote, answer.
+  // Two parallel columns would have stacked as four complaints followed by four fixes,
+  // and the pairing is the whole argument of this screen.
+  const pairs = STEPS.map(
     (s, i) => `
-      <li class="start-step card-flat">
+      <p class="start-pain">“${s.pain}”</p>
+      <div class="start-step card-flat">
         <span class="start-step__n" aria-hidden="true">${i + 1}</span>
-        <span class="start-step__benefit">${s.benefit}</span>
-        <span class="start-step__title">${s.title}</span>
-        <p class="start-step__body">${s.body}</p>
-      </li>`,
+        <span class="start-step__body-wrap">
+          <span class="start-step__benefit">${s.benefit}</span>
+          <span class="start-step__title">${s.title}</span>
+          <p class="start-step__body">${s.body}</p>
+        </span>
+      </div>`,
   ).join("");
 
   return `
     <div class="start-welcome">
       <header class="start-welcome__intro">
         <div class="eyebrow">Welcome to Sero</div>
-        <h1 class="h1">Walk in knowing what to say</h1>
+        <h1 class="h1">Your next 1:1 does not have to be a guess</h1>
         <p class="start-welcome__lede">${POSITIONING_LINE}</p>
         <div class="start-welcome__action">
           <span class="js-start-slot"></span>
@@ -168,10 +192,14 @@ export function firstVisitHtml(opts: FirstVisitOpts = {}): string {
 
       <section class="start-welcome__sec">
         <div class="start-welcome__sec-head">
-          <h2 class="start-welcome__sec-title">How it works</h2>
-          <p class="start-welcome__sec-sub">Four steps, start to finish.</p>
+          <h2 class="start-welcome__sec-title">The four things managers tell us about their 1:1s</h2>
+          <p class="start-welcome__sec-sub">And what Sero does about each one.</p>
         </div>
-        <ol class="start-steps">${steps}</ol>
+        <div class="start-vs">
+          <span class="start-vs__head">What usually happens</span>
+          <span class="start-vs__head">What Sero does</span>
+          ${pairs}
+        </div>
       </section>
 
       <section class="start-welcome__sec">

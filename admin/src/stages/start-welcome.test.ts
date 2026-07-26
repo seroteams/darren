@@ -53,7 +53,6 @@ test("the screen hosts Home's ONE blue button and brings none of its own", () =>
 
 test("a stranger is told how it works, in four steps, benefit first", () => {
   assert.equal(STEPS.length, 4, "four steps, matching the copy on the screen");
-  assert.ok(html.includes("How it works"), "the section is named");
   for (const [i, s] of STEPS.entries()) {
     assert.ok(html.includes(s.benefit), `step ${i + 1}: the benefit is rendered`);
     assert.ok(html.includes(s.title), `step ${i + 1}: the mechanism is rendered`);
@@ -64,15 +63,43 @@ test("a stranger is told how it works, in four steps, benefit first", () => {
   }
 });
 
+test("every step answers a named problem, and the pairing survives one column", () => {
+  // Version B's whole argument is the pairing. The complaint must render immediately
+  // before the step that answers it, because the phone layout is this same DOM order at
+  // one column: quote, answer, quote, answer.
+  for (const [i, s] of STEPS.entries()) {
+    assert.ok(html.includes(s.pain), `step ${i + 1}: the complaint is rendered`);
+    assert.ok(
+      html.indexOf(s.pain) < html.indexOf(s.benefit),
+      `step ${i + 1}: the complaint comes before the answer to it`,
+    );
+    if (i > 0) {
+      assert.ok(
+        html.indexOf(STEPS[i - 1].benefit) < html.indexOf(s.pain),
+        `step ${i + 1}: its complaint comes after the previous answer, so the pairs interleave`,
+      );
+    }
+  }
+});
+
+test("the complaints are things managers say, not verdicts on them", () => {
+  // Rogelberg seat, committee 2026-07-26. Reported behaviour survives being read by the
+  // manager it describes; a judgement on their management does not.
+  for (const s of STEPS) {
+    assert.ok(!/\bfail(ing|ure|ed)?\b/i.test(s.pain), `"${s.pain}" reads as a verdict`);
+    assert.ok(!/\bbad\b|\bpoor\b|\bterrible\b/i.test(s.pain), `"${s.pain}" reads as a verdict`);
+  }
+});
+
 test("the action sits above the teaching, not below it", () => {
   // Seibel seat, committee 2026-07-26: four steps of education is four chances to
   // bounce, so the way in must never be pushed under them.
   assert.ok(
-    html.indexOf("js-start-slot") < html.indexOf("How it works"),
-    "the button slot is rendered before the four steps",
+    html.indexOf("js-start-slot") < html.indexOf(STEPS[0].pain),
+    "the button slot is rendered before the complaint-and-answer grid",
   );
   assert.ok(
-    html.indexOf("How it works") < html.indexOf("Sample brief"),
+    html.indexOf(STEPS[3].benefit) < html.indexOf("Sample brief"),
     "the steps explain before the sample proves",
   );
 });
