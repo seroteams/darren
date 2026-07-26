@@ -10,7 +10,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 |---------|------|-------|---------|
 | 35146fdf | Carl Method portable pack | docs/carl-method/ | 2026-07-25 |
 | 4b899314 | Audit fix-up P2 (shell + layout) | docs/plans/doing/audit-fixes-jul-25/, audits/full-app-audit-2026-07-25/p2-proof/, admin/src/styles/design/primitives.css, admin/src/styles/design/session-topbar.css, admin/src/styles/design/app-nav.css, admin/src/ui/session-topbar.js, frontend/src/router.js, frontend/src/ui/app-nav-flow.test.ts | 2026-07-25 |
-| a965735e | Org sector field (capture only — no engine wiring) | backend/db/schema.ts, backend/db/migrations/, backend/api/services/auth/auth.service.ts, backend/api/services/auth/auth.service.test.ts, backend/api/services/auth/auth.repo.ts, backend/api/services/auth/auth.controller.ts, backend/api/server.ts, shared/api.js, shared/sectors.ts, admin/src/ui/account-sheet.ts, admin/src/stages/register.js, backend/tests/auth/, logs/committee/ | 2026-07-26 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

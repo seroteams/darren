@@ -12,9 +12,14 @@ new signup had ever seen its beginner guidance. Home, the wizard and the rail no
 (`hasRealRuns`). 189/189 tests, both linters, real-screen proof per phase. **Not live yet: ships on
 your next "go live".**
 
-📍 **2026-07-26 — account settings can capture your company's sector.** Optional field on the
-account sheet, capture only: nothing in the engine reads it yet. It is there so the corridor test can
-tell us what kind of company each tester runs, without another form.
+📍 **2026-07-26 — we now ask what business you're in, at signup and in your account.** Optional
+sector field in both places, CAPTURE ONLY: nothing in the engine reads it yet. The committee backed
+collecting it now and deciding the engine wiring after Gate 1, so the data accrues while the corridor
+test runs. 81 sectors covering how people actually work (AI, cybersecurity, fintech, digital health,
+edtech, cleantech, care services), in a box you type into rather than a list you scroll. Stored as a
+stable id, so a cached per-sector context block can key off it later. Verified end to end: typed in
+the browser, landed in the database, came back on reopen. **Not live yet: ships on your next
+"go live"** (the column migration runs itself on boot).
 
 📍 **2026-07-25 — Google sign-in went LIVE on sero.team.** "Continue with Google" on login and
 signup, both apps, closed in one day across 3 phases. Server-side OAuth with PKCE and zero new
