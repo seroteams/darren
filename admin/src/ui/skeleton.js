@@ -1,27 +1,32 @@
-// Ghost "content is coming" placeholder shown during AI generation waits.
-// Pairs with the thinking orb: the orb says "working", the skeleton previews
-// the shape of what's about to land so the page never sits empty. Shimmer and
-// reduced-motion are handled in motion.css.
+// The two public doors to the loading-skeleton kit. Both are thin: the shapes and
+// the markup live in skeleton-presets.ts, which is the one place that knows what
+// Sero's screens look like.
+//
+// A skeleton previews the shape of what's about to land, so the page never sits
+// empty and never jumps when the data arrives. Pass a preset for a screen whose
+// real layout is known:
+//
+//   loadingHtml({ preset: "list-rows", rows: 5, toolbar: true })
+//
+// A bare number still means the generic ghost cards, byte-for-byte as before, so
+// screens migrate one at a time. Shimmer, anti-flash and reduced-motion are all
+// handled in motion.css.
+//
+// Filename stays .js on purpose — twenty stages import "./skeleton.js", and
+// renaming buys nothing.
 
-const CARD = `
-    <div class="skeleton__card">
-      <div class="skeleton__bar skeleton__bar--title"></div>
-      <div class="skeleton__bar skeleton__bar--wide"></div>
-      <div class="skeleton__bar skeleton__bar--narrow"></div>
-    </div>
-  `;
+import { skeletonFor } from "./skeleton-presets.ts";
 
-// The same ghost cards as an HTML string, for screens that build innerHTML
-// (screen-scaffold.ts's loading state). createSkeleton below stays the DOM-node
-// door for the node-based call sites — both render identical markup.
-export function skeletonHtml(rows = 3) {
-  return `<div class="skeleton" aria-hidden="true">${Array.from({ length: rows }, () => CARD).join("")}</div>`;
+/** The HTML-string door, for screens built with innerHTML. */
+export function skeletonHtml(spec = 3) {
+  return skeletonFor(spec);
 }
 
-export function createSkeleton(rows = 3) {
+/** The DOM-node door, for screens that appendChild / replaceChildren. */
+export function createSkeleton(spec = 3) {
   const el = document.createElement("div");
-  el.className = "skeleton";
-  el.setAttribute("aria-hidden", "true");
-  el.innerHTML = Array.from({ length: rows }, () => CARD).join("");
-  return el;
+  el.innerHTML = skeletonFor(spec);
+  // skeletonFor already emits the styled root; hand that back rather than
+  // wrapping it in a second div that would break the parent's layout.
+  return el.firstElementChild ?? el;
 }

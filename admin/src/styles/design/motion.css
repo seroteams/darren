@@ -114,13 +114,99 @@
 .skeleton__bar--narrow { width: 68%; }
 @media (prefers-reduced-motion: no-preference) {
   .skeleton__bar { animation: skeleton-shimmer 1400ms ease-in-out infinite; }
-  .skeleton__card:nth-child(2) .skeleton__bar { animation-delay: 140ms; }
-  .skeleton__card:nth-child(3) .skeleton__bar { animation-delay: 280ms; }
-  .skeleton__card:nth-child(4) .skeleton__bar { animation-delay: 420ms; }
+  /* nth-of-type, not nth-child: the root's sr-only announcement span is child 1,
+     and the stagger belongs to the cards. */
+  .skeleton__card:nth-of-type(2) .skeleton__bar { animation-delay: 140ms; }
+  .skeleton__card:nth-of-type(3) .skeleton__bar { animation-delay: 280ms; }
+  .skeleton__card:nth-of-type(4) .skeleton__bar { animation-delay: 420ms; }
 }
 @keyframes skeleton-shimmer {
   from { background-position: 180% 0; }
   to   { background-position: -80% 0; }
+}
+
+/* -----------------------------------------------------------------------------
+   Shape-matched skeletons — ghost leaves that sit INSIDE the real layout classes
+   (a .run-list__row, a .um-table td), so a loading row is the same height as a
+   loaded one. Built by ui/skeleton-parts.ts + ui/skeleton-presets.ts.
+----------------------------------------------------------------------------- */
+
+/* Anti-flash: a fetch that returns inside 150ms should never be seen as a flicker.
+   The hold lives in the keyframes rather than in animation-delay + fill-mode
+   `backwards`, and the 0% stop is deliberately opaque, so this FAILS SAFE. Some
+   embeddings (a backgrounded tab, the preview pane) freeze the animation clock at
+   0; with a backwards fill that would strand the skeleton invisible, which is far
+   worse than the flicker it was avoiding. Here a frozen clock just shows the ghost.
+   No minimum-visible hold either: keeping a ghost on screen to look busy only makes
+   a fast page feel slower. */
+.sk { animation: sk-appear 340ms ease-out; }
+@keyframes sk-appear {
+  0%          { opacity: 1; }  /* frozen-clock fallback, never seen when running */
+  0.01%, 44%  { opacity: 0; }  /* the ~150ms hold */
+  100%        { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the hold (it still stops the flicker); the fade shrinks to nothing. */
+  .sk { animation: sk-appear 170ms linear; }
+}
+
+/* A ghost leaf. It IS the real element, holding one &nbsp; so it builds exactly
+   the line box real text would — that is what makes the heights match. */
+.sk-leaf,
+.sk-fill {
+  color: transparent;
+  user-select: none;
+}
+/* The bar is a pseudo-element, deliberately out of flow: an inline-block bar would
+   sit on the baseline and push the line box several px taller than the real text,
+   which is the whole thing this kit exists to avoid. */
+/* The leaf carries the bar's width itself. Sizing the bar off the leaf instead
+   (max-width: 100%) collapses it wherever the borrowed class is content-sized, and
+   min-width can't be used because the borrowed class often sets its own. */
+.sk-leaf {
+  position: relative;
+  width: var(--sk-w, 60%);
+  max-width: 100%;
+}
+.sk-leaf::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 0.72em;
+  border-radius: var(--sero-radius-full);
+  background-color: var(--color-border);
+  background-image: linear-gradient(100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 80%);
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: 180% 0;
+}
+/* A ghost surface keeps the box of the real classes it was handed (an avatar
+   circle, a search input) and is painted over whole. */
+.sk-fill {
+  border-color: transparent;
+  box-shadow: none;
+  background-color: var(--color-border);
+  background-image: linear-gradient(100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 80%);
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: 180% 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sk-leaf::after,
+  .sk-fill { animation: skeleton-shimmer 1400ms ease-in-out infinite; }
+  /* Rows set --sk-i, so the shimmer travels down a list instead of pulsing as one
+     block. Same idea as the ghost cards' stagger above. */
+  [style*="--sk-i"] .sk-leaf::after,
+  [style*="--sk-i"] .sk-fill { animation-delay: calc(var(--sk-i, 0) * 90ms); }
 }
 
 /* -----------------------------------------------------------------------------

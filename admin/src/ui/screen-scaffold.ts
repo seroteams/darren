@@ -4,13 +4,16 @@
 // keep their own shell (header + stage wrapper) — those genuinely differ —
 // and pass their own copy, so adopting this changes no words.
 //
-// Loading = the standard ghost cards (createSkeleton's markup, DESIGN.md's one
-// skeleton), as a string for innerHTML-built screens.
+// Loading = a skeleton from the shared preset catalogue (skeleton-presets.ts).
+// Pass a preset when the screen's real shape is known — `{ preset: "list-rows",
+// rows: 5, toolbar: true }` ghosts as a card of avatar rows, so nothing jumps when
+// the data lands. A bare number still means the generic ghost cards.
 
 import { skeletonHtml } from "./skeleton.js";
+import type { SkeletonSpec } from "./skeleton-presets.ts";
 
-export function loadingHtml(rows = 3): string {
-  return skeletonHtml(rows);
+export function loadingHtml(spec: SkeletonSpec = 3): string {
+  return skeletonHtml(spec);
 }
 
 export interface ErrorCardOpts {
