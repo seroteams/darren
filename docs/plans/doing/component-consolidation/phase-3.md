@@ -1,6 +1,8 @@
 # Phase 3 — Button
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-27 — Carl walked Team on both apps: the blue, ghost and danger buttons all unchanged, everything still works (commit 13f9f074)
 
 ## Built (2026-07-26)
 

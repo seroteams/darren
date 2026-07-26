@@ -28,8 +28,8 @@
 |---|---|---|---|
 | 1 | Modal shell | One `modal-shell.ts`; 9 dialogs refitted (3 had no keyboard trap at all), 5 `getFocusables` copies deleted, net -216 lines | ✅ |
 | 2 | The initials avatar | `avatar.ts` replaces 9 helpers; the two-letter rule stops disagreeing with itself (Team said "KK", Pulse said "K") | ✅ |
-| 3 | Button | `button.ts`; 150 call sites swapped across 40 files, proved byte-identical; 223 raw strings down to 9, all accounted for | 🔨 |
-| 4 | Card + empty state | `card.ts` and `empty-state.ts`; 3 card bases and 14 empty-state families collapse | ⬜ |
+| 3 | Button | `button.ts`; 150 call sites swapped across 40 files, proved byte-identical; 223 raw strings down to 9, all accounted for | ✅ |
+| 4 | Card + empty state | `card.ts` and `empty-state.ts`; 3 card bases and 14 empty-state families collapse | 🔨 |
 | 5 | Chip + field | `chip.ts` (8 hand-rolled chip functions) and `field.ts` (3 parallel form systems) | ⬜ |
 | 6 | Header + scaffold adoption | `pageHeader()` across 33 raw `<h1>`; the error card + retry wiring (15+ hand-rolled sites, moved here from P2) | ⬜ |
 | 7 | Kill the app forks | `app-nav` and `router` stop being 67% byte-identical copies; the logo constant (moved here from P2) | ⬜ |
@@ -56,7 +56,11 @@ If a lane is still live when its phase comes up: tell Carl who holds it, do not 
 
 **Phase 2 ✅ green-lit 2026-07-26** (commit `9058fa78`). One `avatar.ts` replaces 9 initials helpers across 8 files. Carl walked Pulse and Feedback and accepted both the two-letter/one-letter split and the new Pulse reading (WC → WB, K → KE). Reading the code shrank this phase from four items to one, written up in [phase-2.md](phase-2.md): the logo constant moved to Phase 7 (two of its four copies are lane-blocked, and P7 unforks `app-nav` anyway), the `wireRetry` work moved to Phase 6 (15+ sites, and the real duplication is the error card around it, already P6's job), and the postcss collapse was dropped as not-real-duplication.
 
-**Phase 3 🔨 built 2026-07-26, awaiting Carl's walk** — one `button.ts` renderer, 150 call sites across 40 files in both apps. The no-visual-change claim is proved by byte-equality: the new markup is the same string the hand-typed version emitted (10/10 representative shapes identical). 196/196 tests, typecheck and both linters clean, both apps walked in the browser. 9 sites deliberately left, each named with its reason in [phase-3.md](phase-3.md) (4 lane-blocked, 7 belong to Phase 6's error card, 12 off-system icon families, 2 anchors, plus the exempt showcase and test harness).
+**Phase 3 ✅ green-lit 2026-07-27** (commit `13f9f074`) — one `button.ts` renderer, 150 call sites across 40 files in both apps. The no-visual-change claim is proved by byte-equality: the new markup is the same string the hand-typed version emitted (10/10 representative shapes identical). 196/196 tests, typecheck and both linters clean, both apps walked in the browser. 9 sites deliberately left, each named with its reason in [phase-3.md](phase-3.md) (4 lane-blocked, 7 belong to Phase 6's error card, 12 off-system icon families, 2 anchors, plus the exempt showcase and test harness).
+
+**Lane discipline miss to own:** the P3 commit swept `admin/src/stages/guide.js`, which another session was mid-edit on (its `skeletonHtml` work). Nothing was lost and the screen renders, but their code went in under this plan's commit message. Cause: the pathspec included a file I had touched one line of, without re-checking whether it also carried foreign changes. Fix for later phases: `git diff <path>` every file in the pathspec before committing, not just the ones I remember editing.
+
+**Phase 4 🔨 next** — cards and empty states. The second phase that can move pixels.
 
 Baseline taken before Phase 1: `npm test` 191/191, `npm run typecheck` clean. After Phase 1: 194/194 and clean. Free checks only for this plan: `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`. No paid OpenAI run is needed anywhere in these 8 phases, and none has been used.
 

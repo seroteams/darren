@@ -1178,3 +1178,37 @@ __dirname to their own folder — identical text, different meaning, not duplica
 Writing the reasons into the phase file, rather than quietly reshuffling the plan, is what
 keeps the plan trustworthy. A phase that honestly delivers one item beats a phase that
 reports four.
+
+## 2026-07-27 — component consolidation P3: proving "nothing changed" instead of asserting it
+
+The button sweep was the first phase that could move pixels: 223 hand-typed `class="btn …"`
+strings, no shared button helper at all, and four rival button families grown up alongside
+the real one. 150 call sites across 40 files went through one renderer.
+
+The useful idea was how to make "no visual change" checkable rather than promised. `button()`
+emits its classes in ONE fixed order (btn / variant / size / extraClass / hook), which means
+the new output can be compared byte-for-byte with the old hand-typed string. Ten representative
+shapes were diffed in the live page against the real module: 10 identical, 0 mismatches. That
+is a stronger claim than a screenshot, and it takes a minute rather than an eyeball. When a
+refactor's whole promise is "the output is the same", make the output the test.
+
+The scare was a build break that TWO green checks missed. A script that inserted the new import
+anchored on "the last line starting with `import `", which for a multi-line import block is its
+OPENING line — so it spliced the import inside the braces and left `notes-list.js` syntactically
+invalid. `npm run typecheck` passed, because tsc does not check plain `.js`. The whole unit suite
+passed, because nothing imports that module. It was caught only by `test-admin-serving.js`, which
+runs a real Vite build. On a `.js`-heavy front end the build IS the syntax check, and a green
+typecheck says nothing about the JavaScript.
+
+Third, a lane-discipline miss worth writing down rather than burying: the commit's pathspec
+included `guide.js` because this phase changed one line in it — but that file also carried
+another session's half-finished skeleton work, which went in under this plan's commit message.
+Nothing was lost, but the habit that would have caught it is cheap: `git diff <path>` every file
+in the pathspec before committing, not just the ones you remember editing. Owning a foreign
+file's changes silently is exactly what the my-own-files-only rule exists to prevent.
+
+Also worth keeping: not everything that greps as a button IS one. Twelve "button" hits were
+separate CSS families for icon affordances and text triggers, two were anchors doing full-page
+navigation, and sixteen were the design showcase demonstrating raw markup on purpose. They were
+recorded as deliberate exclusions with reasons rather than forced through the renderer to make
+a count look better.
