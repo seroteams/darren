@@ -29,6 +29,9 @@ export type SkeletonPreset =
   | "recap" // identity profile + tabs + panel cards (the read-only 1:1 surfaces)
   | "sections" // a stack of .card-flat blocks, each an eyebrow over lines
   | "two-col" // a left rail beside a content column
+  | "question" // the interview card: stem, description, answer box
+  | "focus-points" // the numbered checkbox cards on the What we will cover screen
+  | "form" // stacked label-over-input fields
   | "prose"; // bare lines, for a host that already owns its card
 
 /**
@@ -241,6 +244,48 @@ function twoCol({ rows = 5, railRows = 8 }: SkeletonOpts): string {
     </div>`;
 }
 
+// --- question: the interview card --------------------------------------------
+// Mirrors the card questioning.js builds each turn: the stem (an h1), an optional
+// description, then the answer box. Used both between turns and by the Questions
+// interstitial, which routes straight here, so the wait previews where you land.
+function question({ rows = 2 }: SkeletonOpts): string {
+  const stem = skLines("question-stem", ["96%", "62%"]);
+  // Stems typically run to two lines, descriptions to one. Measured against the real
+  // card: a two-line description overshot it by 24px.
+  const desc = rows > 1 ? skLeaf("question-desc", "82%") : "";
+  // The answer box is a .textarea--question at rows=5, not a plain .input: 153px
+  // against 53px. Ghosting it as an input left the card ~40px short.
+  return `<div class="card questioning-card space-y-4">
+      <div class="question-card-head"><div class="question-card-head__text space-y-2">${stem}${desc}</div></div>
+      ${skFill("textarea textarea--question sk-answer")}
+    </div>`;
+}
+
+// --- focus-points: the numbered "what we'll cover" checkbox cards -------------
+// Mirrors focus-points-card.ts. The numbered disc and the tick box are fixed-size,
+// so ghosting them in place keeps the card the same height as a real one.
+function focusPoints({ rows = 4 }: SkeletonOpts): string {
+  const card = (i: number) => `<div style="--sk-i:${i}">
+      <span class="focus-point">
+        ${skFill("focus-point__num")}
+        <span class="focus-point__body">
+          ${skLeaf("focus-point__label", "70%")}
+          ${skLeaf("focus-point__reason", "88%")}
+        </span>
+        <span class="focus-point__check" aria-hidden="true"></span>
+      </span>
+    </div>`;
+  return Array.from({ length: rows }, (_, i) => card(i)).join("");
+}
+
+// --- form: stacked label-over-input fields ------------------------------------
+function form({ rows = 3 }: SkeletonOpts): string {
+  const field = (i: number) => `<label class="block space-y-2" style="--sk-i:${i}">
+      ${skLeaf("", "11ch")}${skFill("input sk-input")}
+    </label>`;
+  return Array.from({ length: rows }, (_, i) => field(i)).join("");
+}
+
 // --- dispatch ----------------------------------------------------------------
 
 // The root's own classes differ per preset, because the root has to sit in the
@@ -253,6 +298,9 @@ const ROOT_CLASS: Record<SkeletonPreset, string> = {
   recap: "l-stack l-stack--4",
   sections: "l-stack l-stack--4",
   "two-col": "l-stack l-stack--3",
+  question: "l-stack l-stack--4",
+  "focus-points": "l-stack l-stack--3",
+  form: "l-stack l-stack--4",
   prose: "l-stack l-stack--2",
 };
 
@@ -264,6 +312,9 @@ const RENDER: Record<SkeletonPreset, (o: SkeletonOpts) => string> = {
   recap,
   sections,
   "two-col": twoCol,
+  question,
+  "focus-points": focusPoints,
+  form,
   prose,
 };
 

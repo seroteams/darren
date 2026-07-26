@@ -1,6 +1,5 @@
 import { STAGES } from "../state.ts";
 import { createOrb } from "../ui/orb.js";
-import { createSkeleton } from "../ui/skeleton.js";
 import { flowInterstitial } from "../ui/flow-interstitial.ts";
 import { escapeHtml } from "../ui/html.js";
 import { openSse } from "../../../shared/sse.js";
@@ -19,12 +18,11 @@ export async function mount(root, { store, setState }) {
 
     root.innerHTML = `
       <div class="stage-medium l-stack l-stack--8">
-        ${flowInterstitial({ step: "Questions" })}
+        ${flowInterstitial({ step: "Questions", skeleton: { preset: "question", label: "Building your questions" } })}
       </div>
     `;
     const orb = createOrb("Building questions…");
     root.querySelector(".js-fi-orb").appendChild(orb.el);
-    root.querySelector(".js-fi-skeleton").appendChild(createSkeleton(3));
 
     const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/bank/stream`);
     sse

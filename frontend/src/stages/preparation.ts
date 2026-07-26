@@ -142,7 +142,8 @@ export const mount: Mount = async (root, { store, setState }) => {
 
   const orb = createOrb("Preparing your prep brief…");
   thinkingHost.appendChild(orb.el);
-  resultHost.appendChild(createSkeleton(3));
+  // The brief lands as a sheet of headed slots, so ghost those, not grey cards.
+  resultHost.appendChild(createSkeleton({ preset: "sections", rows: 4, label: "Preparing your prep brief" }));
 
   const sse = openSse(`/api/v1/sessions/${encodeURIComponent(sessionId)}/preparation/stream`);
   sse

@@ -42,7 +42,7 @@ export async function mount(root, { store, setState }) {
     resultHost.replaceChildren();
     const orb = createOrb("Reading your notes…");
     thinkingHost.appendChild(orb.el);
-    resultHost.appendChild(createSkeleton(4));
+    resultHost.appendChild(createSkeleton({ preset: "focus-points", rows: 4, label: "Reading your notes" }));
 
     const streamQs = regen ? "?regenerate=1" : "";
     sse = openSse(`/api/v1/sessions/${encodeURIComponent(sessionId)}/focus-points/stream${streamQs}`);

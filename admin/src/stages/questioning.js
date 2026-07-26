@@ -2,6 +2,7 @@ import { STAGES } from "../state.ts";
 import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession, getPriorPromises, savePromiseOutcomes } from "../../../shared/api.js";
 import { renderPromiseCheckin } from "../ui/promise-checkin.ts";
 import { createOrb } from "../ui/orb.js";
+import { createSkeleton } from "../ui/skeleton.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { createCoachPanel } from "../ui/coach-panel.ts";
 import { openSse } from "../../../shared/sse.js";
@@ -500,6 +501,9 @@ export async function mount(root, { store, setState }) {
     const skipped = submittedText.trim() === "";
     const orb = createOrb(skipped ? "Next question…" : "Scoring answer…");
     thinkingHost.appendChild(orb.el);
+    // Preview the next question card while it's being written, so the turn-to-turn
+    // wait shows the shape that's coming instead of an empty gap under the orb.
+    qHost.appendChild(createSkeleton({ preset: "question", label: "Writing the next question" }));
     // Pull the page up so the progress orb is visible, not stranded above the fold.
     window.scrollTo(0, 0);
 

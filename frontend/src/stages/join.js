@@ -12,6 +12,7 @@ import { getInvite, acceptInvite } from "../../../shared/api.js";
 import { escapeHtml as esc, escapeCopy } from "../../../admin/src/ui/html.js";
 import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles } from "../../../admin/src/stages/login.js";
 import { button } from "../../../admin/src/ui/button.ts";
+import { skeletonHtml } from "../../../admin/src/ui/skeleton.js";
 
 // --- Pure HTML builders (exported for the copy/structure contract tests) -----------------
 // Same pattern as welcome.ts: the markup is testable as strings; mount only wires events.
@@ -42,10 +43,13 @@ export function shellHtml({ logo, photo }) {
 }
 
 // Neutral while the token validates — deliberately no h1 and no invite copy yet.
+// While the invite is checked, ghost the form that's coming (a headline, then name
+// and password) rather than showing a lone sentence on an otherwise empty panel.
 export function checkingHtml() {
   return `
-    <div class="auth-brand">
-      <p class="auth-brand__sub" role="status">Checking your invite…</p>
+    <div class="auth-brand l-stack l-stack--4">
+      ${skeletonHtml({ preset: "prose", rows: 2, label: "Checking your invite" })}
+      ${skeletonHtml({ preset: "form", rows: 2 })}
     </div>
   `;
 }

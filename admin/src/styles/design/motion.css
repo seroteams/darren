@@ -152,8 +152,8 @@
 
 /* A ghost leaf. It IS the real element, holding one &nbsp; so it builds exactly
    the line box real text would — that is what makes the heights match. */
-.sk-leaf,
-.sk-fill {
+.sk-leaf.sk-leaf,
+.sk-fill.sk-fill {
   color: transparent;
   user-select: none;
 }
@@ -163,12 +163,12 @@
 /* The leaf carries the bar's width itself. Sizing the bar off the leaf instead
    (max-width: 100%) collapses it wherever the borrowed class is content-sized, and
    min-width can't be used because the borrowed class often sets its own. */
-.sk-leaf {
+.sk-leaf.sk-leaf {
   position: relative;
   width: var(--sk-w, 60%);
   max-width: 100%;
 }
-.sk-leaf::after {
+.sk-leaf.sk-leaf::after {
   content: "";
   position: absolute;
   inset-inline: 0;
@@ -187,11 +187,17 @@
 }
 /* Ghost tables honour their colgroup. A real um-table sizes columns from content the
    ghost hasn't got, so without this the slack all lands in one column. */
-.sk-table { table-layout: fixed; }
+.sk-table.sk-table { table-layout: fixed; }
 
 /* One line of a multi-line ghost leaf. Full width so the lines stack even when the
    real element is a wrapping flex row. */
-.sk-line { width: 100%; }
+.sk-line.sk-line { width: 100%; }
+
+/* Ghosted fields. A real .input is one line plus padding and sizes itself, so the
+   ghost only needs to be block. The interview's answer box is a five-row textarea,
+   which a ghost holding one &nbsp; cannot reach on its own. */
+.sk-input.sk-input { display: block; }
+.sk-answer.sk-answer { display: block; min-height: 9.6rem; }
 
 /* The two-column screens (job words, the guide) each roll their own rail width, so
    the ghost carries a neutral one rather than borrowing from any single screen. */
@@ -207,7 +213,7 @@
 
 /* A ghost surface keeps the box of the real classes it was handed (an avatar
    circle, a search input) and is painted over whole. */
-.sk-fill {
+.sk-fill.sk-fill {
   border-color: transparent;
   box-shadow: none;
   background-color: var(--color-border);
@@ -221,12 +227,12 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .sk-leaf::after,
-  .sk-fill { animation: skeleton-shimmer 1400ms ease-in-out infinite; }
+  .sk-leaf.sk-leaf::after,
+  .sk-fill.sk-fill { animation: skeleton-shimmer 1400ms ease-in-out infinite; }
   /* Rows set --sk-i, so the shimmer travels down a list instead of pulsing as one
      block. Same idea as the ghost cards' stagger above. */
-  [style*="--sk-i"] .sk-leaf::after,
-  [style*="--sk-i"] .sk-fill { animation-delay: calc(var(--sk-i, 0) * 90ms); }
+  [style*="--sk-i"] .sk-leaf.sk-leaf::after,
+  [style*="--sk-i"] .sk-fill.sk-fill { animation-delay: calc(var(--sk-i, 0) * 90ms); }
 }
 
 /* -----------------------------------------------------------------------------

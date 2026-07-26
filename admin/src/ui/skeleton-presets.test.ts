@@ -223,6 +223,26 @@ const PARITY: { preset: string; src: string; classes: string[] }[] = [
     src: "admin/src/ui/screen-scaffold.ts",
     classes: ["card-flat", "eyebrow"],
   },
+  {
+    preset: "question",
+    src: "admin/src/stages/questioning.js",
+    classes: ["questioning-card", "question-card-head", "question-card-head__text", "question-stem", "question-desc"],
+  },
+  {
+    preset: "focus-points",
+    src: "admin/src/stages/focus-points-card.ts",
+    classes: ["focus-point", "focus-point__num", "focus-point__body", "focus-point__label", "focus-point__reason", "focus-point__check"],
+  },
+  {
+    preset: "form input",
+    src: "admin/src/stages/intake.js",
+    classes: ["input"],
+  },
+  {
+    preset: "question answer box",
+    src: "admin/src/stages/questioning.js",
+    classes: ["textarea", "textarea--question"],
+  },
 ];
 
 for (const { preset, src, classes } of PARITY) {
@@ -242,7 +262,10 @@ test("every class the presets emit is covered by a parity row", () => {
   const src = read("admin/src/ui/skeleton-presets.ts");
   const guarded = new Set(PARITY.flatMap((p) => p.classes));
   // The kit's own classes and the shared layout utilities aren't borrowed from a screen.
-  const own = /^(sk|sk-leaf|sk-fill|sk-line|sk-table|sk-two-col|skeleton|skeleton__card|skeleton__bar|skeleton__bar--\w+|sr-only|l-stack|l-stack--\d+|space-y-\d+)$/;
+  // The kit's own classes, plus the shared layout and Tailwind utilities that aren't
+  // borrowed from any one screen.
+  const own =
+    /^(sk|sk-leaf|sk-fill|sk-line|sk-input|sk-answer|sk-table|sk-two-col|skeleton|skeleton__card|skeleton__bar|skeleton__bar--\w+|sr-only|card|block|l-stack|l-stack--\d+|space-y-\d+)$/;
   const emitted = new Set<string>();
   for (const m of src.matchAll(/class="([^"$]+)"/g)) {
     for (const cls of m[1]!.split(/\s+/).filter(Boolean)) emitted.add(cls);
