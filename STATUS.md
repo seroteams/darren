@@ -9,8 +9,8 @@ a sample), your walkthrough video click-to-load, one button. The left rail stays
 / Send feedback / Log out only) until a first real 1:1 exists. The research pass caught a live bug on
 the way: since demo-seeding began on 22 July the prep wizard counted the example as a real 1:1, so no
 new signup had ever seen its beginner guidance. Home, the wizard and the rail now share one rule
-(`hasRealRuns`). 189/189 tests, both linters, real-screen proof per phase. **Not live yet: ships on
-your next "go live".**
+(`hasRealRuns`). 191/191 tests, both linters, real-screen proof per phase. **LIVE 2026-07-26**
+(build `1db2d5c` on sero.team, DB up).
 
 📍 **2026-07-26 — we now ask what business you're in, at signup and in your account.** Optional
 sector field in both places, CAPTURE ONLY: nothing in the engine reads it yet. The committee backed
@@ -18,8 +18,8 @@ collecting it now and deciding the engine wiring after Gate 1, so the data accru
 test runs. 81 sectors covering how people actually work (AI, cybersecurity, fintech, digital health,
 edtech, cleantech, care services), in a box you type into rather than a list you scroll. Stored as a
 stable id, so a cached per-sector context block can key off it later. Verified end to end: typed in
-the browser, landed in the database, came back on reopen. **Not live yet: ships on your next
-"go live"** (the column migration runs itself on boot).
+the browser, landed in the database, came back on reopen. **LIVE 2026-07-26** (build `1db2d5c`;
+the column migration ran itself on boot, deep health reports db: up).
 
 📍 **2026-07-25 — Google sign-in went LIVE on sero.team.** "Continue with Google" on login and
 signup, both apps, closed in one day across 3 phases. Server-side OAuth with PKCE and zero new
@@ -169,7 +169,7 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Say "go live"** — a stack of finished work is sitting local and unpushed (11 commits at this checkpoint), including the whole onboarding first-run build and the account sector field. Nothing ships until you say it.
+1. **Walk the live first-run** — you said go live on 2026-07-26 and everything shipped (build `1db2d5c`). The one thing local could never prove: register a brand-new account on sero.team and check the brief-first welcome and the quiet rail behave.
 2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
 3. **Three walks are waiting on you** — screen-gallery P2 (static gallery built), sero-run-memory P1 (read chips built 2026-07-20), audit-fixes P2 when the other chat hands it over.
 
@@ -218,4 +218,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-26 (checkpoint sweep) — onboarding-firstrun CLOSED, google-signin + refactor-2026-07 LIVE, audit fix-up and entry redesign now on the board. 11 commits sitting local, waiting on "go live".
+Last updated: 2026-07-26 (after the go-live) — EVERYTHING IS PUSHED. Live build `1db2d5c` on sero.team, deep health db: up, /admin still bounces logged-out visitors. Nothing finished is sitting local.
