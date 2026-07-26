@@ -1,6 +1,8 @@
 # Phase 4 — Sweep and truth
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built 2026-07-26 (on Carl's "get it done" at the end of the night), awaiting his walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-26 — Carl's green light on the sweep; the plan is closed. The one step that cannot be done yet (the walk on the live build) waits for his next "go live"
 
 ## Built (2026-07-26)
 
