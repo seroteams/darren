@@ -26,8 +26,8 @@
 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Modal shell | One `modal-shell.ts`; 7 modals refitted, 2 untrapped overlays brought in, 5 `getFocusables` copies deleted | ⬜ |
-| 2 | Small primitives | `avatar.ts`, `logo.ts`, `wireRetry` adopted in 5 screens, postcss config collapsed | ⬜ |
+| 1 | Modal shell | One `modal-shell.ts`; 9 dialogs refitted (3 had no keyboard trap at all), 5 `getFocusables` copies deleted, net -216 lines | ✅ |
+| 2 | Small primitives | `avatar.ts`, `logo.ts`, `wireRetry` adopted in 5 screens, postcss config collapsed | 🔨 |
 | 3 | Button | `button.ts`; 226 raw class strings swept; off-system button families folded in | ⬜ |
 | 4 | Card + empty state | `card.ts` and `empty-state.ts`; 3 card bases and 14 empty-state families collapse | ⬜ |
 | 5 | Chip + field | `chip.ts` (8 hand-rolled chip functions) and `field.ts` (3 parallel form systems) | ⬜ |
@@ -52,9 +52,13 @@ If a lane is still live when its phase comes up: tell Carl who holds it, do not 
 
 ## Current state
 
-Folder set up 2026-07-26. Mockup built and published. Nothing built in code. Phase 1 waits on Carl approving the mockup.
+**Phase 1 ✅ green-lit 2026-07-26** (commit `b7e4f74d`). Mockup approved 2026-07-26 (option A, no changes asked for). One `modal-shell.ts` now owns the backdrop, aria-modal, Escape, Tab trap, focus restore and backdrop click for all 9 dialogs. Share link, the account page and the stage-review overlay gained a keyboard trap they never had. Carl walked Add person and the Account page: Tab loops inside, Escape closes, focus returns, nothing looks different.
 
-Baseline not yet taken (Job B step 1 of Phase 1). Free checks only for this plan: `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`. No paid OpenAI run is needed anywhere in these 8 phases.
+**Phase 2 🔨 next** — avatar + initials, the logo constant, `wireRetry` adoption, postcss collapse.
+
+Baseline taken before Phase 1: `npm test` 191/191, `npm run typecheck` clean. After Phase 1: 194/194 and clean. Free checks only for this plan: `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`. No paid OpenAI run is needed anywhere in these 8 phases, and none has been used.
+
+**Lane note for Phase 2:** `admin/src/ui/screen-scaffold.ts` (the `wireRetry` half) is now held by session `70b40d36` (shape-matched skeletons), and `session-topbar.js` (the logo half) by `4b899314`. Both halves may have to wait; the avatar half is clear.
 
 ## Parked
 
@@ -66,6 +70,10 @@ Prior Carl rulings, not to be reopened by this plan:
 - Flowbite 3.x (pinned at 2.5.2 to stay true to the Figma).
 - Promoting the `.ds-*` showcase widgets app-wide (parked as too risky).
 - Pixel-diff automation (manual eyeball-diff against `docs/screen-gallery/` is the rail).
+
+Found while building, not in scope here:
+
+- Closing the account page leaves focus on `<body>`, because the profile-menu item that opened it has already been removed from the DOM. Pre-existing; the shell would need an optional `returnFocusTo`.
 
 Found during setup, not in scope here:
 

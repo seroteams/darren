@@ -1112,3 +1112,36 @@ worth having if every path can reach all three.
 
 Habit worth keeping: run the adversarial pass on your own closed work, not just on someone
 else's. Three defects, all in code that had passed tests, linters and a green light.
+
+## 2026-07-26 — component consolidation P1: the duplication that only shows on the keyboard
+
+Carl asked whether custom code could be pulled into single places so whole areas are
+managed from one spot, like Figma components. The audit answer was split cleanly in two:
+the CSS side is already solved (309 tokens, both Tailwind configs read them, a linter that
+fails on raw hex, only two files repo-wide with literal hex) and the markup side is not
+(226 hand-typed button class strings, 14 empty-state families, 10 copies of the initials
+helper, two apps carrying 67% byte-identical forks of app-nav and router).
+
+Phase 1 took the worst of it: the modal open sequence, hand-rolled in seven modules. The
+lesson is what the duplication had already cost. `getFocusables` — the function deciding
+what Tab can reach inside a dialog — existed five times with TWO different selector lists,
+so links, selects and textareas were reachable in some dialogs and skipped in others. Three
+overlays (share link, the account page, the session review) declared `aria-modal="true"` and
+had no trap at all, so Tab walked straight out into the page behind. None of that was
+visible on screen, which is exactly why it survived tests, linters and multiple design
+audits. Duplication does not announce itself as breakage; it announces itself as two
+things that used to agree and quietly stopped.
+
+Second lesson, and the more useful one: my first cut of the shared helper counted `[hidden]`
+controls as focusable. On the account page that put an unfocusable element last in the list,
+`.focus()` on it silently did nothing, the wrap check never matched, and Tab still escaped —
+a NEW bug, in the very code written to fix the old one, that read perfectly on the page. It
+was caught by driving the real dialogs in a real browser and reading `document.activeElement`
+back, not by re-reading the diff. When a fix is about behaviour rather than appearance, the
+proof has to be the behaviour: dispatch the key, then ask the page what happened.
+
+Third: this repo's test runner is `node:test` with no DOM, so the durable guard could not be
+a DOM test. It became a source-reading guard in the shape of `design/chip-system.test.ts` —
+it fails if anyone defines their own `getFocusables`, builds their own `modal-backdrop`, or
+narrows the selector list. That pattern is why the chip CSS never drifted while the chip
+markup did. Consolidation without a guard is just a tidy-up with a timer on it.

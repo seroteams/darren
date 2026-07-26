@@ -1,12 +1,21 @@
 # Phase 1 — Modal shell
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-26 — Carl walked Add person and the Account page: Tab stays inside and loops, Escape closes, focus returns, nothing looks different (commit b7e4f74d)
 
 ## Built (2026-07-26)
 
+- One shared modal shell owns the backdrop, Escape, Tab trap and focus restore
+- All 9 dialogs refitted onto it, net 216 lines deleted
+- Share link, the account page and the session review gained a keyboard trap they never had
+- The 5 copies of the focusable-elements list collapsed to 1, on the wide list
+- A guard test that fails if anyone hand-rolls the pattern again
+- Verified in a real browser: every dialog Tab-wraps, closes on Escape and returns focus
+
 **New:** [admin/src/ui/modal-shell.ts](../../../../admin/src/ui/modal-shell.ts) — `openModalShell()` (builds backdrop + card) and `attachModalBehaviour()` (for overlays that own their own DOM), plus one exported `getFocusables`.
 
-**Refitted, 9 modules:** `confirm.js`, `add-person-modal.ts`, `delete-person-modal.ts`, `invite-member-modal.ts`, `give-access-modal.ts`, `share-link-modal.ts`, `finish-feedback-modal.js`, `account-sheet.ts`, `stage-review.js`. Net **-216 lines** across them.
+**Refitted, 9 modules:** `confirm.js`, `add-person-modal.ts`, `delete-person-modal.ts`, `invite-member-modal.ts`, `give-access-modal.ts`, `share-link-modal.ts`, `finish-feedback-modal.js`, `account-sheet.ts`, `stage-review.js`.
 
 **Guard:** [admin/src/ui/modal-shell.test.ts](../../../../admin/src/ui/modal-shell.test.ts), 8 source-reading assertions in the same shape as `design/chip-system.test.ts` (this runner is `node:test` with no DOM, so real keyboard behaviour is proved in the browser below and generalised into a linter in Phase 8).
 
@@ -45,9 +54,11 @@ Chrome unchanged (computed styles, Add person): backdrop `fixed` / `grid` / cent
 
 ### Two honest notes
 
-- **A bug I introduced and then caught in the browser:** my first cut counted `[hidden]` controls as focusable. On the account page that put an unfocusable element last in the list, so the wrap never fired and Tab still escaped. `getFocusables` now filters on `getClientRects()`. Code review would not have caught it; driving the real page did.
-- **Not fixed, pre-existing:** closing the account page leaves focus on `<body>`, because the profile-menu item that opened it has already been removed from the DOM. The old code did the same. Worth a later fix, out of scope here.
-- **Unrelated console error seen while testing:** `skeleton-parts.ts does not provide an export named 'skBox'` — that is another session's in-flight work (lane `70b40d36`), not this phase.
+**A bug I introduced and then caught in the browser.** My first cut counted `[hidden]` controls as focusable. On the account page that put an unfocusable element last in the list, so the wrap never fired and Tab still escaped. `getFocusables` now filters on `getClientRects()`. Code review would not have caught it; driving the real page did.
+
+**Not fixed, pre-existing.** Closing the account page leaves focus on `<body>`, because the profile-menu item that opened it has already been removed from the DOM. The old code did the same. Worth a later fix, out of scope here.
+
+**Unrelated console error seen while testing.** `skeleton-parts.ts does not provide an export named 'skBox'` — that is another session's in-flight work (lane `70b40d36`), not this phase.
 
 
 ## Goal

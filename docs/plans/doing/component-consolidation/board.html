@@ -67,14 +67,14 @@
 <div class="board">
   <div class="eyebrow"><span class="dot">●</span> SERO · COMPONENT CONSOLIDATION</div>
   <h1>Where we are<span class="dot">.</span></h1>
-  <p class="lead">The plan is 8 phases and 27 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
+  <p class="lead">The plan is 8 phases and 28 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
 
   <div class="panel">
     <div class="prog-head">
-      <h2>Phase 1 of 8 — modal shell</h2>
-      <div class="prog-sub">0 of 8 signed off · 0 built</div>
+      <h2>Phase 2 of 8 — small primitives sweep</h2>
+      <div class="prog-sub">1 of 8 signed off · 0 built</div>
     </div>
-    <div class="segs"><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
+    <div class="segs"><div class="seg"><div class="seg-bar seg-signed"></div><div class="seg-label">Signed</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
   </div>
 
   <div class="panel setup">
@@ -89,26 +89,26 @@
   </div>
 
   <div class="rows">
-  <div class="row row-here">
-    <div class="node todo">1</div>
+  <div class="row ">
+    <div class="node signed">1</div>
     <div class="card">
       <div class="card-head">
         <h3>Modal shell</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
-        <span class="here">● YOU ARE HERE</span>
+        <span class="pill pill-signed">SIGNED OFF</span>
+        
       </div>
       <p class="desc">Every pop-up box in the app opens, traps the keyboard and closes the same way, from one piece of code.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>New admin/src/ui/modal-shell.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Refit the 7 boxes that hand-roll it: confirm.js, add-person-modal.ts, delete-person-modal.ts,…</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Bring in the 2 overlays with no trap today: account-sheet.ts, stage-review.js</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Delete the 5 getFocusables copies. The wider list</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>New admin/src/ui/modal-shell.test.ts covering trap, Escape, focus restore</span></li></ul>
+      <ul class="items"><li class=""><span class="tick tick-signed">✓</span><span>One shared modal shell owns the backdrop, Escape, Tab trap and focus restore</span></li><li class=""><span class="tick tick-signed">✓</span><span>All 9 dialogs refitted onto it, net 216 lines deleted</span></li><li class=""><span class="tick tick-signed">✓</span><span>Share link, the account page and the session review gained a keyboard trap they never had</span></li><li class=""><span class="tick tick-signed">✓</span><span>The 5 copies of the focusable-elements list collapsed to 1, on the wide list</span></li><li class=""><span class="tick tick-signed">✓</span><span>A guard test that fails if anyone hand-rolls the pattern again</span></li><li class=""><span class="tick tick-signed">✓</span><span>Verified in a real browser: every dialog Tab-wraps, closes on Escape and returns focus</span></li></ul>
       
     </div>
   </div>
-  <div class="row ">
+  <div class="row row-here">
     <div class="node todo">2</div>
     <div class="card">
       <div class="card-head">
         <h3>Small primitives sweep</h3>
         <span class="pill pill-todo">NOT STARTED</span>
-        
+        <span class="here">● YOU ARE HERE</span>
       </div>
       <p class="desc">Four small things that exist in many copies become one copy each.</p>
       <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>New admin/src/ui/avatar.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>New admin/src/ui/logo.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Adopt the existing wireRetry() from screen-scaffold.ts in the 5 screens that re-wire their ow…</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Collapse the two byte-identical postcss.config.js files into one</span></li></ul>
