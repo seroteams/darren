@@ -18,12 +18,7 @@ import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { isFlowStage } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { showAccountSheet } from "./account-sheet.ts";
-
-// First letter of the name, falling back to the email — the glyph in the circle.
-function initialOf(user) {
-  const src = (user?.name || user?.email || "").trim();
-  return src ? src[0].toUpperCase() : "?";
-}
+import { initialOf } from "./avatar.ts";
 
 // Plain-words role for the chip. Handles both user shapes (roles array from /auth/me,
 // single role from login) — same duality state.js's isAdmin() deals with.
@@ -158,7 +153,7 @@ export function createProfileBadge({ setState, resetSession, customer = false } 
     }
     const email = user.email || "";
     const role = roleLabelOf(user);
-    avatarEl.textContent = initialOf(user);
+    avatarEl.textContent = initialOf(user?.name || user?.email);
     emailEl.textContent = role ? `${email} · ${role}` : email;
     el.title = email ? `Signed in as ${email}${role ? ` (${role.toLowerCase()})` : ""}` : "Signed in";
     // The chip is always a click-to-open menu now. Its items depend on the surface:

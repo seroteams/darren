@@ -13,6 +13,7 @@ import "../styles/admin-pulse.css";
 import { STAGES } from "../state.ts";
 import type { StageName } from "../state.ts";
 import { escapeHtml } from "../ui/html.js";
+import { initialsOf } from "../ui/avatar.ts";
 import { prettyType, prettyStage, activeLabel, dateLabel } from "../ui/pulse-labels.ts";
 import { createSkeleton } from "../ui/skeleton.js";
 import type { Mount } from "./stage.types.ts";
@@ -64,7 +65,6 @@ async function fetchPulse(days: RangeDays): Promise<Pulse> {
 // Scoped styling lives in styles/admin-pulse.css (imported above) — mirrors the
 // mock's `.lp-` prototype so the live screen reads the same.
 
-const initials = (name: string) => name.split(/\s+/).map((w) => w[0] ?? "").join("").slice(0, 2).toUpperCase();
 const statusPill = (m: PulseManager) => {
   const label = m.status === "back" ? (m.gapDays != null ? `came back · ${m.gapDays}d` : "came back")
     : m.status === "once" ? "ran once"
@@ -213,7 +213,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void, set
               <tbody>
               ${p.managers.map((m) => `
                 <tr class="um-row" data-manager="${escapeHtml(m.id)}">
-                  <td><span class="lp-who"><span class="lp-avatar">${escapeHtml(initials(m.name))}</span><span>${escapeHtml(m.name)}<span class="lp-co">${escapeHtml(m.company)}</span></span></span></td>
+                  <td><span class="lp-who"><span class="lp-avatar">${escapeHtml(initialsOf(m.name))}</span><span>${escapeHtml(m.name)}<span class="lp-co">${escapeHtml(m.company)}</span></span></span></td>
                   <td class="num">${m.runCount}</td>
                   <td>${escapeHtml(activeLabel(m.lastActiveAt))}</td>
                   <td><span class="lp-empty">${escapeHtml(dateLabel(m.firstRunAt))}</span></td>

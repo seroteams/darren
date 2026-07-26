@@ -14,6 +14,7 @@ import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { listRecentRuns, deleteRun } from "../../../shared/api.js";
 import { confirmAction, alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";
+import { initialOf } from "../ui/avatar.ts";
 import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { errorCardHtml, wireRetry } from "../ui/screen-scaffold.ts";
@@ -385,13 +386,6 @@ export function unmount() {
     window.removeEventListener("keydown", keyHandler);
     keyHandler = null;
   }
-}
-
-// First letter of the name (falls back to "?") — the glyph in the avatar circle,
-// mirroring ui/recap-header.ts.
-function initialOf(name) {
-  const s = String(name || "").trim();
-  return s ? s[0].toUpperCase() : "?";
 }
 
 function cssEscape(s) {

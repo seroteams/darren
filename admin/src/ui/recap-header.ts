@@ -6,15 +6,10 @@
 // member's own recap header — nothing new to style.
 
 import { escapeHtml } from "./html.js";
+import { initialOf } from "./avatar.ts";
 import { breadcrumb, type Crumb } from "./breadcrumb.ts";
 
 export type RecapCtx = { name: string; role: string; seniority: string; meetingType: string };
-
-// First letter of the name (falls back to "?") — the glyph in the avatar circle.
-function initialOf(name: string): string {
-  const s = (name || "").trim();
-  return s ? s[0]!.toUpperCase() : "?";
-}
 
 // "Role · Seniority" — middot-joined, matching run-detail's roleLine and the member recap.
 // The old comma form ("Role, Seniority") in the admin surfaces was the odd one out.

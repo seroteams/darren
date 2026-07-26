@@ -12,6 +12,7 @@
 import { STAGES, store, isAdmin } from "../state.ts";
 import { listMyRuns, getRunsAboutMe } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { initialOf } from "../ui/avatar.ts";
 import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
 import { formatDate, whenLabelsFor } from "../ui/time.ts";
@@ -57,13 +58,6 @@ function aboutEntry(r: AboutRun): string {
       </div>
       ${meta}
     </li>`;
-}
-
-// First letter of the name (falls back to "?") — the glyph in the avatar circle,
-// mirroring ui/recap-header.ts.
-function initialOf(name: string): string {
-  const s = (name || "").trim();
-  return s ? s[0]!.toUpperCase() : "?";
 }
 
 // Recency buckets for the group heads. Runs arrive newest-first, so the groups

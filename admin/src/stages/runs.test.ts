@@ -68,7 +68,10 @@ test("the member view is intact: list-only, unclickable, its own title and lede"
   assert.ok(SRC.includes("Your 1:1s"), "member title kept");
   assert.ok(SRC.includes("Dates and 1:1 types, nothing else."), "member lede kept");
   assert.ok(SRC.includes("getRunsAboutMe"), "member data stays the about-me endpoint");
-  const about = SRC.slice(SRC.indexOf("function aboutEntry"), SRC.indexOf("function initialOf"));
+  // Slice just the member row builder. The end marker is the next top-level function —
+  // it used to be initialOf, which moved out to ui/avatar.ts (component-consolidation P2).
+  const about = SRC.slice(SRC.indexOf("function aboutEntry"), SRC.indexOf("function groupLabel"));
+  assert.ok(about.length > 0, "aboutEntry slice markers still exist in runs.ts");
   assert.ok(!about.includes("js-open"), "member rows stay unclickable");
   assert.ok(SRC.includes("member-runs__timeline"), "member timeline rendering kept");
 });

@@ -27,12 +27,12 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Modal shell | One `modal-shell.ts`; 9 dialogs refitted (3 had no keyboard trap at all), 5 `getFocusables` copies deleted, net -216 lines | ✅ |
-| 2 | Small primitives | `avatar.ts`, `logo.ts`, `wireRetry` adopted in 5 screens, postcss config collapsed | 🔨 |
+| 2 | The initials avatar | `avatar.ts` replaces 9 helpers; the two-letter rule stops disagreeing with itself (Team said "KK", Pulse said "K") | 🔨 |
 | 3 | Button | `button.ts`; 226 raw class strings swept; off-system button families folded in | ⬜ |
 | 4 | Card + empty state | `card.ts` and `empty-state.ts`; 3 card bases and 14 empty-state families collapse | ⬜ |
 | 5 | Chip + field | `chip.ts` (8 hand-rolled chip functions) and `field.ts` (3 parallel form systems) | ⬜ |
-| 6 | Header + scaffold adoption | `pageHeader()` across 33 raw `<h1>`; `loadingHtml`/`errorCardHtml` in 5 stages. No new modules | ⬜ |
-| 7 | Kill the app forks | `app-nav` and `router` stop being 67% byte-identical copies | ⬜ |
+| 6 | Header + scaffold adoption | `pageHeader()` across 33 raw `<h1>`; the error card + retry wiring (15+ hand-rolled sites, moved here from P2) | ⬜ |
+| 7 | Kill the app forks | `app-nav` and `router` stop being 67% byte-identical copies; the logo constant (moved here from P2) | ⬜ |
 | 8 | The guard | `scripts/lint-components.js` + `npm run lint:components`; stale design docs fixed | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -54,7 +54,7 @@ If a lane is still live when its phase comes up: tell Carl who holds it, do not 
 
 **Phase 1 ✅ green-lit 2026-07-26** (commit `b7e4f74d`). Mockup approved 2026-07-26 (option A, no changes asked for). One `modal-shell.ts` now owns the backdrop, aria-modal, Escape, Tab trap, focus restore and backdrop click for all 9 dialogs. Share link, the account page and the stage-review overlay gained a keyboard trap they never had. Carl walked Add person and the Account page: Tab loops inside, Escape closes, focus returns, nothing looks different.
 
-**Phase 2 🔨 next** — avatar + initials, the logo constant, `wireRetry` adoption, postcss collapse.
+**Phase 2 🔨 built 2026-07-26, awaiting Carl's walk** — one `avatar.ts` replaces 9 initials helpers across 8 files. Reading the code shrank this phase from four items to one, and the reasons are written up in [phase-2.md](phase-2.md): the logo constant moved to Phase 7 (two of its four copies are lane-blocked, and P7 unforks `app-nav` anyway), the `wireRetry` work moved to Phase 6 (15+ sites, and the real duplication is the error card around it, already P6's job), and the postcss collapse was dropped as not-real-duplication. One visible change on Pulse needs Carl's eye: three-word names now read first+last initial.
 
 Baseline taken before Phase 1: `npm test` 191/191, `npm run typecheck` clean. After Phase 1: 194/194 and clean. Free checks only for this plan: `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`. No paid OpenAI run is needed anywhere in these 8 phases, and none has been used.
 

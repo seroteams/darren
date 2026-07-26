@@ -20,6 +20,7 @@ import { openRowMenu, closeRowMenu, type RowMenuItem } from "../ui/row-menu.ts";
 import { confirmAction as confirmJs, alertAction as alertJs } from "../ui/confirm.js";
 import { getFeedbackInbox, deleteFeedbackNote, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { initialOf as firstLetterOf } from "../ui/avatar.ts";
 import { relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { Mail, MessageSquare, ClipboardCheck, MoreHorizontal } from "lucide";
@@ -78,11 +79,10 @@ function exactWhen(iso: string): string {
 function displayName(note: FeedbackNote): string {
   return note.userName || note.email || "Unknown";
 }
-// First letter of the name (or email) for the initials avatar. "?" when we have nothing.
-function initialOf(note: FeedbackNote): string {
-  const src = note.userName || note.email || "";
-  const ch = src.trim().charAt(0);
-  return ch ? ch.toUpperCase() : "?";
+// A feedback note may have a name, an email, or neither — pick the best source, then hand
+// it to the one shared helper.
+function avatarLetter(note: FeedbackNote): string {
+  return firstLetterOf(note.userName || note.email);
 }
 
 // A briefing-verdict source is a 1:1 (short run id, full id on hover); a plain note
@@ -142,7 +142,7 @@ function noteCard(note: FeedbackNote, status: NoteStatus | undefined, open: bool
   const pills = src || ver || openRun ? `<div class="fb-pills">${src}${ver}${openRun}</div>` : "";
   return `
     <article class="fb-item js-item${open ? " is-open" : ""}" data-id="${escapeHtml(note.id)}">
-      <div class="fb-avatar" aria-hidden="true">${escapeHtml(initialOf(note))}</div>
+      <div class="fb-avatar" aria-hidden="true">${escapeHtml(avatarLetter(note))}</div>
       <div class="fb-body">
         <div class="fb-head">
           <div class="fb-head__who"><span class="fb-name">${escapeHtml(name)}</span>${company}${typeChip(note)}${statusChip(status)}</div>

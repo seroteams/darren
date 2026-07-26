@@ -14,6 +14,7 @@
 import { STAGES, store } from "../state.ts";
 import { getUserRuns, getRegistered, getAdminRun } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
+import { initialOf } from "../ui/avatar.ts";
 import { icon } from "../ui/icon.js";
 import { Star, ChevronRight } from "lucide";
 import { relTime, formatDate } from "../ui/time.ts";
@@ -45,12 +46,6 @@ export type UserStats = { runCount: number; peopleCount: number; avgStars: numbe
 
 type RegUser = { id: string; name: string; email: string; role: string; createdAt: string | number };
 type RegCompany = { name: string; users: RegUser[] };
-
-// First letter of the name (falls back to "?") — the glyph in the avatar circle.
-function initialOf(name: string): string {
-  const s = (name || "").trim();
-  return s ? s[0]!.toUpperCase() : "?";
-}
 
 function joinedLabel(createdAt: string | number): string {
   const ms = typeof createdAt === "number" ? createdAt : Date.parse(createdAt);

@@ -9,6 +9,7 @@
 // ⋯ menu (which now also carries Start 1:1 — wired in team.ts).
 
 import { escapeHtml } from "../../../admin/src/ui/html.js";
+import { initialsOf } from "../../../admin/src/ui/avatar.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { Star, MoreHorizontal, Lock, Clock, Eye, Check } from "lucide";
 import { relTime } from "../../../admin/src/ui/time.ts";
@@ -35,18 +36,12 @@ export type Person = {
 };
 export type OrgUser = { id: string; name: string; email: string };
 
-/** Up to two initials from a display name (skips punctuation-y bits like "qa-overnight"). */
-function initials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  const letters = (parts.length ? [parts[0]!, parts[parts.length - 1]!] : [name])
-    .map((w) => (w.match(/[a-z0-9]/i)?.[0] ?? "")).join("");
-  return (letters || name.slice(0, 2)).slice(0, 2).toUpperCase();
-}
-
 /** The one initials-avatar recipe — Team rows and the Members table share it so both lists
- *  match (design-consolidation Phase 1). `mod` picks the state tint (joined/invited/opened/none). */
+ *  match (design-consolidation Phase 1). `mod` picks the state tint (joined/invited/opened/none).
+ *  The letters themselves now come from ui/avatar.ts, shared with the Pulse table
+ *  (component-consolidation P2) — a one-word name used to read "KK" here and "K" there. */
 export function initialsAvatar(name: string, mod: string): string {
-  return `<div class="team-card__avatar team-card__avatar--${escapeHtml(mod)}" aria-hidden="true">${escapeHtml(initials(name))}</div>`;
+  return `<div class="team-card__avatar team-card__avatar--${escapeHtml(mod)}" aria-hidden="true">${escapeHtml(initialsOf(name))}</div>`;
 }
 
 /** Client-side search over the already-fetched roster: name or role, case-insensitive. */
