@@ -164,7 +164,7 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Say "go live"** — 6 commits are sitting local, including the whole onboarding first-run build and the account sector field. Nothing ships until you say it.
+1. **Say "go live"** — a stack of finished work is sitting local and unpushed (11 commits at this checkpoint), including the whole onboarding first-run build and the account sector field. Nothing ships until you say it.
 2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
 3. **Three walks are waiting on you** — screen-gallery P2 (static gallery built), sero-run-memory P1 (read chips built 2026-07-20), audit-fixes P2 when the other chat hands it over.
 
@@ -213,4 +213,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-26 (checkpoint sweep) — onboarding-firstrun CLOSED, google-signin + refactor-2026-07 LIVE, audit fix-up and entry redesign now on the board. 6 commits sitting local, waiting on "go live".
+Last updated: 2026-07-26 (checkpoint sweep) — onboarding-firstrun CLOSED, google-signin + refactor-2026-07 LIVE, audit fix-up and entry redesign now on the board. 11 commits sitting local, waiting on "go live".
