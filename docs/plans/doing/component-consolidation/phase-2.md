@@ -1,6 +1,8 @@
 # Phase 2 — The initials avatar
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-26 — Carl walked Pulse and Feedback; the two-letter/one-letter split and the new Pulse reading (WB, KE) both accepted (commit 9058fa78)
 
 ## What changed about this phase, and why
 
@@ -63,7 +65,7 @@ Say the word and Pulse goes back to first-two-words as its own named variant.
 - [x] `grep "function initialOf\|const initials ="` returns nothing outside `avatar.ts` (bar `session-topbar.js`, lane-blocked)
 - [x] `npm test` 195/195, `npm run typecheck` clean, `lint:tokens` and `lint:copy` PASS
 - [x] Checked on the live screens, no console errors
-- [ ] Carl has walked the scenarios below and said go
+- [x] Carl has walked the scenarios below and said go
 
 ## Offline proof
 

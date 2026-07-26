@@ -1145,3 +1145,36 @@ a DOM test. It became a source-reading guard in the shape of `design/chip-system
 it fails if anyone defines their own `getFocusables`, builds their own `modal-backdrop`, or
 narrows the selector list. That pattern is why the chip CSS never drifted while the chip
 markup did. Consolidation without a guard is just a tidy-up with a timer on it.
+
+## 2026-07-26 — component consolidation P2: the audit was right about the count and wrong about the fix
+
+Nine hand-written copies of "turn a name into the letters in a circle". The audit read that
+as one helper duplicated nine times with Pulse as the odd one out, and the plan said "one
+letter wins". Reading the code said something different, and the difference mattered.
+
+There were two families, not one. Five copies of a one-letter helper (a single person's
+avatar) that were genuinely identical, and TWO copies of a two-letter helper (a row in a
+list of people) that used DIFFERENT RULES: Pulse took the first letter of each of the first
+two words, team-card took the first letter of the first and last word. Both families are
+legitimate — a person's own avatar and a row in a roster are different jobs — so "one letter
+wins" would have restyled every table for no reason. The actual defect was inside the
+two-letter family, and it was visible: a one-word name rendered "KK" on Team and "K" on
+Pulse, for the same person, and nobody had noticed because you have to hold two screens
+side by side to see it.
+
+Lesson: an audit counts occurrences, which is exactly what greppable evidence is good for.
+It cannot tell you which occurrences are the same intent. Consolidating on the count would
+have produced a confident, tested, uniform regression. Read the copies before you pick a
+winner, and expect the answer to be "these two families are both correct and one of them is
+internally inconsistent".
+
+Second lesson, on plan honesty: three of Phase 2's four scoped items dissolved on contact.
+The logo constant had two of its four copies inside other sessions' live work, so a partial
+dedup would have been worse than none — moved to the phase that unforks app-nav anyway. The
+wireRetry adoption turned out to be 15+ sites, not 5, and swapping one line for one line is
+a wash; the real duplication is the error-card markup around it, already owned by a later
+phase. The postcss "duplication" was two byte-identical files that each correctly resolve
+__dirname to their own folder — identical text, different meaning, not duplication at all.
+Writing the reasons into the phase file, rather than quietly reshuffling the plan, is what
+keeps the plan trustworthy. A phase that honestly delivers one item beats a phase that
+reports four.
