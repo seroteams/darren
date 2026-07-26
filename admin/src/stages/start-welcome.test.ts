@@ -120,6 +120,30 @@ test("nothing reaches YouTube until the manager clicks play", () => {
   assert.ok(frame.includes("autoplay=1"), "the click was the play, so autoplay is honest");
 });
 
+test("the player still carries the referrerpolicy that keeps YouTube from erroring", () => {
+  // This one exists because it has already broken once. d3dcbc45 (a hardening pass)
+  // changed this attribute to no-referrer and shipped it; the live welcome then showed
+  // YouTube "Error 153, video player configuration error" instead of a player, because
+  // the player identifies the embedding site from the HTTP Referer and there was none.
+  //
+  // The site-wide header is Referrer-Policy: same-origin, which strips the referrer on
+  // every cross-origin request, so this per-element override is the only thing making
+  // the video work at all. Both halves are asserted: if a future pass loosens the header
+  // this test says so, and if a future pass strips the attribute this test fails.
+  const frame = videoIframeHtml();
+  assert.ok(
+    frame.includes('referrerpolicy="strict-origin-when-cross-origin"'),
+    "the iframe overrides the site's referrer policy (YouTube's own oEmbed snippet uses this exact value)",
+  );
+  assert.ok(!/referrerpolicy="no-referrer"/.test(frame), "no-referrer here is the Error 153 bug");
+
+  const middleware = readFileSync(join(here, "../../../backend/api/middleware/security-headers.ts"), "utf8");
+  assert.ok(
+    /Referrer-Policy",\s*"same-origin"/.test(middleware),
+    "the header this attribute exists to override is still same-origin: if it changed, revisit the comment above",
+  );
+});
+
 test("copy: UK English, no em dashes, no exclamation marks, no sub-14px inline font-size", () => {
   for (const [label, markup] of [["welcome", html], ["welcome+link", withLink]] as const) {
     // Escapes, not the characters themselves: the copy linter scans this repo too.
