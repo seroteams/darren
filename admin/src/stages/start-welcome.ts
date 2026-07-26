@@ -44,7 +44,15 @@ export const VIDEO = {
   title: "How Sero works",
 } as const;
 
-/** The player, built only on click. autoplay is honest here: the click WAS the play. */
+/** The player, built only on click. autoplay is honest here: the click WAS the play.
+ *
+ *  referrerpolicy is load-bearing, not decoration. The site sends
+ *  `Referrer-Policy: same-origin`, so a cross-origin frame gets no referrer at all
+ *  unless the element overrides it, and YouTube then cannot check whether this
+ *  domain is allowed to embed: the player answers "Error 153, video player
+ *  configuration error" and shows a black box. A 2026-07-26 hardening pass set this
+ *  to no-referrer and broke the video on live. Origin only (no path, no query) is
+ *  the least we can send and still have a player. */
 export function videoIframeHtml(): string {
   const src = `${VIDEO.host}/embed/${VIDEO.id}?start=${VIDEO.startSeconds}&amp;autoplay=1&amp;rel=0`;
   return `
@@ -53,7 +61,7 @@ export function videoIframeHtml(): string {
       src="${src}"
       title="${VIDEO.title}"
       allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-      referrerpolicy="no-referrer"
+      referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen
     ></iframe>
   `;
