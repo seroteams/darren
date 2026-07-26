@@ -22,8 +22,8 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The module, invisible | `skeleton-parts.ts` + `skeleton-presets.ts` + CSS; the two existing doors become façades; anti-flash + screen-reader announcement; `list-rows` proven | 🔨 |
-| 2 | Lists and tables | `list-rows` / `table` / `timeline` wired to ~14 call sites across /runs /team /members /library and the admin tables | ⬜ |
+| 1 | The module, invisible | `skeleton-parts.ts` + `skeleton-presets.ts` + CSS; the two existing doors become façades; anti-flash + screen-reader announcement; `list-rows` proven | ✅ |
+| 2 | Lists and tables | `list-rows` + `table` wired to 9 screens: /runs, Home recents, /library and the five admin tables | 🔨 |
 | 3 | Detail, tiles, sections, two-column | /pulse /runs/:id /team/:person /admin/users/:id /run/:id /job-lexicons /meeting-arcs /guide /admin/feedback /admin/errors — and the 5 text hold-outs die | ⬜ |
 | 4 | The run lane and forms | `flowInterstitial` takes a spec; /bank /evaluate /focus /prepare /interview /compare /lexicon each preview what they're generating; /new and /join get form ghosts | ⬜ |
 | 5 | The proof and the rule | `--skeletons` flag on the gallery exporter → side-by-side sheet of all 40; DESIGN.md rule; clean-up skill check | ⬜ |
@@ -31,11 +31,13 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 built, awaiting Carl's walk. Zero screens migrated, as intended. Baseline was 192/192; now 194/195, and the single failure is another chat's (`runs.test.ts` slices the source between `function aboutEntry` and `function initialOf`, and chat `d03316aa` moved `initialOf` into `ui/avatar.ts`). Proven not mine by reverting only my line and watching it still fail.
+Phase 1 ✅ (built, measured). Phase 2 built, awaiting Carl's walk: 9 screens now ghost as themselves.
 
-Geometry proof is in [phase-1.md](phase-1.md): ghost against loaded on the real `/admin/runs`, nine elements, every diff 0. Not screenshotted: the preview pane would not composite frames.
+Proof in [phase-2.md](phase-2.md). Lists are pixel-exact (Home recents 0/0/0, Past 1:1s 0 across nine elements). Tables match toolbar, head and column proportions; row height matches the shortest real row but runs one line short of a wrapped one, because a real table row grows with content the skeleton hasn't got yet. Stated rather than tuned.
 
-**Blocking Phase 2:** `admin/src/stages/runs.ts` is claimed by chat `d03316aa`.
+`npm test` 196/196, typecheck clean, both lints pass. No screenshot: the preview pane will not composite frames.
+
+Deferred out of Phase 2 into Phase 3: `frontend/src/stages/member-home.js` (its section shapes live in `member-home-view.ts`, held by chat `d03316aa`), plus /team, /members, /personas for the same reason.
 
 ## Parked
 - Converting `skeleton.js` → `.ts`. Twenty stages import `"./skeleton.js"`; renaming is pure churn. Revisit in Phase 5 if wanted.

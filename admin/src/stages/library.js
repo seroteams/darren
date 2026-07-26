@@ -151,7 +151,10 @@ export async function mount(root) {
   `;
 
   const tableEl = root.querySelector(".js-table");
-  tableEl.replaceChildren(createSkeleton(5)); // the standard ghost cards while runs load
+  // Ghost the real table shape: Person / Role / Verdict / Judged / Date / actions.
+  tableEl.replaceChildren(
+    createSkeleton({ preset: "table", rows: 6, cols: ["stack", "text:13ch", "pill", "text:5ch", "text:10ch", "actions"] }),
+  );
   const searchEl = root.querySelector(".js-lt-search");
   const countEl = root.querySelector(".list-toolbar__count");
   const viewBtn = root.querySelector(".js-view");

@@ -16,7 +16,7 @@ import { confirmAction, alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { initialOf } from "../ui/avatar.ts";
 import { icon } from "../ui/icon.js";
-import { createSkeleton } from "../ui/skeleton.js";
+import { skeletonHtml } from "../ui/skeleton.js";
 import { errorCardHtml, wireRetry } from "../ui/screen-scaffold.ts";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
 import { firstVisitHtml, videoIframeHtml } from "./start-welcome.ts";
@@ -124,15 +124,14 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     return model.isExample ? `<span class="run-list__example">Example</span>` : "";
   }
 
-  // Project-standard skeleton (ui/skeleton.js) — the same ghost cards the
-  // "What we'll cover" focus screen shows while it loads. 3 cards ≈ the 3
-  // recent sessions we fetch. Wrapped in an <li> so the <ul> stays valid.
+  // Ghost the recents list as itself (ui/skeleton-presets.ts): real <li> rows with
+  // an avatar, a name line and a quieter second line, so nothing shifts when the
+  // real sessions land. 3 rows ≈ the 3 we fetch. Bare mode because this <ul> is
+  // ours and already carries the aria-busy.
   function renderSkeleton() {
     list.setAttribute("aria-busy", "true");
-    const li = document.createElement("li");
-    li.className = "run-skeleton";
-    li.appendChild(createSkeleton(3));
-    list.replaceChildren(li);
+    list.classList.add("run-list--card");
+    list.innerHTML = skeletonHtml({ preset: "list-rows", rows: 3, bare: true });
   }
 
   // Accent budget (audit M6): while a recovery card's "Start fresh" is on screen it is

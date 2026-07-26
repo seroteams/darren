@@ -173,7 +173,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(loadingHtml(4));
+    root.innerHTML = shell(loadingHtml({ preset: "list-rows", rows: 5, toolbar: true }));
     wire();
 
     // Member path: the list-only "about me" runs — never listMyRuns (which is authored-by-me

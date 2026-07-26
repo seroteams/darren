@@ -117,7 +117,8 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.replaceChildren(createSkeleton(4));
+    root.replaceChildren(createSkeleton({ preset: "table", rows: 6, toolbar: true,
+      cols: ["stack", "text:11ch", "text:10ch", "text:6ch", "text:22ch"] }));
     try {
       const res = await getAdminRuns();
       const runs = Array.isArray(res?.runs) ? (res.runs as AdminRun[]) : [];

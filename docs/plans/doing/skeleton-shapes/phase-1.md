@@ -1,6 +1,6 @@
 # Phase 1 — The module, invisible
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 awaiting green light
+**Part of:** [plan.md](plan.md) · **Status:** ✅ Carl moved us on to Phase 2 on 2026-07-26 rather than walk an invisible phase, which is a fair call: with zero screens migrated there was nothing to see. The geometry proof below stands on its own.
 
 ## Built (2026-07-26)
 

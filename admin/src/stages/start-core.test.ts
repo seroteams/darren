@@ -108,7 +108,9 @@ test("only one stale-resume recovery card can be on screen at a time", () => {
 
 test("empty, loading and failed-resume states survive the new layout", () => {
   assert.ok(SRC.includes("firstVisitHtml"), "the first-visit welcome is the zero-run state");
-  assert.ok(SRC.includes("createSkeleton"), "loading skeleton kept");
+  // The recents list ghosts as itself now (skeleton-presets list-rows), not as generic
+  // cards, so the rows don't change height when the real sessions land.
+  assert.match(SRC, /skeletonHtml\(\{[^}]*preset: "list-rows"/, "loading skeleton kept, on the list shape");
   assert.ok(SRC.includes("staleRunRecoveryHtml"), "failed resume heals in place");
 });
 

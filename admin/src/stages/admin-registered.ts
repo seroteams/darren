@@ -300,7 +300,8 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(loadingHtml(4));
+    root.innerHTML = shell(loadingHtml({ preset: "table", rows: 6, toolbar: true,
+      cols: ["stack", "text:12ch", "pill", "text:18ch", "actions"] }));
 
     let companies: RegCompany[];
     let summary: Summary;

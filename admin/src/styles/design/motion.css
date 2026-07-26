@@ -185,6 +185,10 @@
   background-repeat: no-repeat;
   background-position: 180% 0;
 }
+/* Ghost tables honour their colgroup. A real um-table sizes columns from content the
+   ghost hasn't got, so without this the slack all lands in one column. */
+.sk-table { table-layout: fixed; }
+
 /* A ghost surface keeps the box of the real classes it was handed (an avatar
    circle, a search input) and is painted over whole. */
 .sk-fill {

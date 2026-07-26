@@ -67,7 +67,8 @@ export const mount: Mount = async (root, { setState }) => {
     b.addEventListener("click", () => setState({ stage: STAGES.ADMIN_PULSE })));
 
   const load = async () => {
-    root.replaceChildren(createSkeleton(4));
+    root.replaceChildren(createSkeleton({ preset: "table", rows: 6, toolbar: true,
+      cols: ["stack", "text:10ch", "text:7ch", "text:11ch", "pill"] }));
     let managers: PulseManager[] = [];
     try {
       const p = (await getPulse()) as { managers?: unknown };
