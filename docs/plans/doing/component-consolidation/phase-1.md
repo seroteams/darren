@@ -1,6 +1,54 @@
 # Phase 1 — Modal shell
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-26)
+
+**New:** [admin/src/ui/modal-shell.ts](../../../../admin/src/ui/modal-shell.ts) — `openModalShell()` (builds backdrop + card) and `attachModalBehaviour()` (for overlays that own their own DOM), plus one exported `getFocusables`.
+
+**Refitted, 9 modules:** `confirm.js`, `add-person-modal.ts`, `delete-person-modal.ts`, `invite-member-modal.ts`, `give-access-modal.ts`, `share-link-modal.ts`, `finish-feedback-modal.js`, `account-sheet.ts`, `stage-review.js`. Net **-216 lines** across them.
+
+**Guard:** [admin/src/ui/modal-shell.test.ts](../../../../admin/src/ui/modal-shell.test.ts), 8 source-reading assertions in the same shape as `design/chip-system.test.ts` (this runner is `node:test` with no DOM, so real keyboard behaviour is proved in the browser below and generalised into a linter in Phase 8).
+
+### Offline proof
+
+| Check | Result |
+|---|---|
+| `npm test` | 194/194 passed (baseline before the work: 191/191) |
+| `npm run typecheck` | clean |
+| `npm run lint:tokens` | PASS, no hard violations |
+| `npm run lint:copy` | PASS, no em dashes |
+| `grep "function getFocusables"` | 2 hits: `modal-shell.ts` and its own test. Was 5 copies. |
+| `grep '"modal-backdrop"'` | only `modal-shell.ts` and its test |
+
+No paid run was needed or used.
+
+### Browser proof (localhost:3343, admin, DEV_AUTOLOGIN)
+
+Every dialog driven for real: opened, Tab dispatched from the last control, Escape dispatched, `document.activeElement` read back.
+
+| Dialog | aria-modal + labelled | Tab wraps | Escape closes | Focus returns |
+|---|---|---|---|---|
+| Add person | ✅ | ✅ | ✅ | ✅ |
+| Delete person (alertdialog) | ✅ | ✅ | ✅ | ✅ |
+| Invite member | ✅ | ✅ (the `<select>` is now in the trap) | ✅ | ✅ |
+| Give access | ✅ | ✅ | ✅ | ✅ |
+| Share link | ✅ | ✅ **new, had no trap** | ✅ | ✅ |
+| Finish feedback | ✅ | ✅ | ✅ | ✅ |
+| Confirm / alert | ✅ | ✅ | ✅ (resolves false) | ✅ |
+| Account page | ✅ | ✅ **new, had no trap** | ✅ | n/a, see below |
+| Stage review | ✅ | ✅ **new, had no trap** | ✅ | ✅ |
+
+Confirm also checked: destructive starts on Cancel, non-destructive starts on Confirm, the button resolves true, alert has no Cancel and uses `alertdialog`.
+
+Chrome unchanged (computed styles, Add person): backdrop `fixed` / `grid` / centred / `rgba(31,42,55,0.45)` / z-index 40; card `rgb(253,254,254)`, radius 12px, width 440px; primary button `rgb(90,169,230)`, radius 4px, 16px text. All the same recipe as before.
+
+### Two honest notes
+
+- **A bug I introduced and then caught in the browser:** my first cut counted `[hidden]` controls as focusable. On the account page that put an unfocusable element last in the list, so the wrap never fired and Tab still escaped. `getFocusables` now filters on `getClientRects()`. Code review would not have caught it; driving the real page did.
+- **Not fixed, pre-existing:** closing the account page leaves focus on `<body>`, because the profile-menu item that opened it has already been removed from the DOM. The old code did the same. Worth a later fix, out of scope here.
+- **Unrelated console error seen while testing:** `skeleton-parts.ts does not provide an export named 'skBox'` — that is another session's in-flight work (lane `70b40d36`), not this phase.
+
 
 ## Goal
 

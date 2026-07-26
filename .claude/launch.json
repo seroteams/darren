@@ -673,6 +673,158 @@
       "port": 3295
     },
     {
+      "name": "sero-api-sector",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3301",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3301
+    },
+    {
+      "name": "sero-web-sector",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3301",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3303",
+        "--strictPort"
+      ],
+      "port": 3303
+    },
+    {
+      "name": "sero-customer-sector",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3301",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3309",
+        "--strictPort"
+      ],
+      "port": 3309
+    },
+    {
+      "name": "sero-customer-sector-borrow",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3171",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3307",
+        "--strictPort"
+      ],
+      "port": 3307
+    },
+    {
+      "name": "sero-web-sector-borrow",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3171",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3305",
+        "--strictPort"
+      ],
+      "port": 3305
+    },
+    {
+      "name": "sero-api-ud",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3311",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3311
+    },
+    {
+      "name": "sero-web-ud",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3311",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3313",
+        "--strictPort"
+      ],
+      "port": 3313
+    },
+    {
+      "name": "sk-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3331",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3331
+    },
+    {
+      "name": "sk-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3331",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3333",
+        "--strictPort"
+      ],
+      "port": 3333
+    },
+    {
+      "name": "modal-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3341",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3341
+    },
+    {
+      "name": "modal-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3341",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3343",
+        "--strictPort"
+      ],
+      "port": 3343
+    },
+    {
       "name": "sero-web-pill",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

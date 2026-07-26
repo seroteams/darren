@@ -5,6 +5,7 @@
 // transcript, which the store does not hold.
 
 import { getRunFull } from "../../../shared/api.js";
+import { attachModalBehaviour } from "./modal-shell.ts";
 import { TOPBAR_STAGES } from "./stage-labels.js";
 import { escapeHtml as esc } from "./html.js";
 import { icon } from "./icon.js";
@@ -12,13 +13,14 @@ import { X } from "lucide";
 
 export function createStageReview({ store } = {}) {
   let overlay = null;
-  let escHandler = null;
+  let detach = null;
   let run = null; // cached getRunFull result
   let runId = null; // session it was fetched for
 
   function close() {
+    // Detach BEFORE removing, so focus lands back on the breadcrumb that opened this.
+    if (detach) { detach(); detach = null; }
     if (overlay) { overlay.remove(); overlay = null; }
-    if (escHandler) { document.removeEventListener("keydown", escHandler); escHandler = null; }
   }
 
   async function open(stageKey) {
@@ -43,8 +45,10 @@ export function createStageReview({ store } = {}) {
 
     overlay.querySelector(".stage-review__backdrop").addEventListener("click", close);
     overlay.querySelector(".stage-review__close").addEventListener("click", close);
-    escHandler = (e) => { if (e.key === "Escape") close(); };
-    document.addEventListener("keydown", escHandler);
+    detach = attachModalBehaviour(overlay, { onClose: close });
+    // Focus has to enter the panel for the trap to hold it: this overlay declares
+    // aria-modal, so Tab used to walk straight out into the live run behind it.
+    overlay.querySelector(".stage-review__close").focus({ preventScroll: true });
 
     renderNav(stageKey);
     const body = overlay.querySelector(".stage-review__body");

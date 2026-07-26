@@ -1,10 +1,7 @@
-function getFocusables(root) {
-  return Array.from(
-    root.querySelectorAll(
-      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-    )
-  );
-}
+// The generic confirm / alert dialog. Content only — the backdrop, Escape, Tab trap
+// and focus restore all come from the shared modal shell (component-consolidation P1).
+
+import { openModalShell } from "./modal-shell.ts";
 
 function openDialog({
   message,
@@ -14,78 +11,46 @@ function openDialog({
   alert = false,
 } = {}) {
   return new Promise((resolve) => {
-    const backdrop = document.createElement("div");
-    backdrop.className = "modal-backdrop";
-
-    const modal = document.createElement("div");
-    modal.className = "card modal";
-    modal.setAttribute("role", alert ? "alertdialog" : "dialog");
-    modal.setAttribute("aria-modal", "true");
-
     const titleId = `modal-title-${Date.now()}`;
-    modal.innerHTML = `
+
+    const shell = openModalShell({
+      className: "card modal",
+      role: alert ? "alertdialog" : "dialog",
+      labelledBy: titleId,
+      html: `
       <div class="modal__message" id="${titleId}"></div>
       <div class="modal__actions">
         ${alert ? "" : `<button class="btn btn--ghost js-cancel" type="button"></button>`}
         <button class="btn ${destructive ? "btn--danger" : ""} js-confirm" type="button"></button>
       </div>
-    `;
-    modal.setAttribute("aria-labelledby", titleId);
+    `,
+      onClose: () => close(alert ? undefined : false),
+    });
+
+    const modal = shell.el;
     modal.querySelector(".modal__message").textContent = message || "Are you sure?";
     const cancelBtn = modal.querySelector(".js-cancel");
     const confirmBtn = modal.querySelector(".js-confirm");
     if (cancelBtn) cancelBtn.textContent = cancelLabel;
-    confirmBtn.textContent = alert ? confirmLabel : confirmLabel;
-
-    backdrop.appendChild(modal);
-    document.body.appendChild(backdrop);
-
-    const previouslyFocused = document.activeElement;
+    confirmBtn.textContent = confirmLabel;
 
     function close(result) {
-      document.removeEventListener("keydown", onKey, true);
-      modal.removeEventListener("keydown", trapTab);
-      backdrop.remove();
-      if (previouslyFocused && typeof previouslyFocused.focus === "function") {
-        previouslyFocused.focus({ preventScroll: true });
-      }
+      document.removeEventListener("keydown", onEnter, true);
+      shell.destroy();
       resolve(result);
     }
 
-    function trapTab(e) {
-      if (e.key !== "Tab") return;
-      const focusables = getFocusables(modal);
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
+    // Enter on the confirm button resolves. Escape is the shell's job.
+    function onEnter(e) {
+      if (e.key !== "Enter" || document.activeElement !== confirmBtn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      close(alert ? undefined : true);
     }
 
-    function onKey(e) {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
-        close(alert ? undefined : false);
-      } else if (e.key === "Enter" && document.activeElement === confirmBtn) {
-        e.preventDefault();
-        e.stopPropagation();
-        close(alert ? undefined : true);
-      }
-    }
-
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) close(alert ? undefined : false);
-    });
     if (cancelBtn) cancelBtn.addEventListener("click", () => close(false));
     confirmBtn.addEventListener("click", () => close(alert ? undefined : true));
-    document.addEventListener("keydown", onKey, true);
-    modal.addEventListener("keydown", trapTab);
+    document.addEventListener("keydown", onEnter, true);
 
     setTimeout(() => {
       if (destructive && cancelBtn) cancelBtn.focus({ preventScroll: true });

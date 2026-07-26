@@ -13,7 +13,11 @@
 //
 // The full-page layout gets its own scoped classes injected once (like profile-badge.js) so
 // it doesn't touch the shared .modal-backdrop / .modal base in notes-panel.css (another lane).
+// It keeps that separate chrome, but takes its Escape / Tab-trap / focus-restore behaviour
+// from the shared modal shell (component-consolidation P1) — it declares aria-modal, so Tab
+// walking out into the page behind it was a straight bug.
 
+import { attachModalBehaviour } from "./modal-shell.ts";
 import { changePassword, updateProfile, getCompany, updateCompany } from "../../../shared/api.js";
 import { SECTORS, findSector, sectorLabel } from "../../../shared/sectors.ts";
 import { store, setState, isAdmin } from "../state.ts";
@@ -148,7 +152,7 @@ export function showAccountSheet(user: User): void {
 
   overlay.appendChild(page);
   document.body.appendChild(overlay);
-  const previouslyFocused = document.activeElement as HTMLElement | null;
+  const detach = attachModalBehaviour(overlay, { onClose: () => close() });
 
   const identityEl = page.querySelector<HTMLElement>(".js-identity")!;
   const nameForm = page.querySelector<HTMLFormElement>(".js-name-form")!;
@@ -168,12 +172,8 @@ export function showAccountSheet(user: User): void {
   const saveBtn = page.querySelector<HTMLButtonElement>(".js-save")!;
 
   function close(): void {
-    document.removeEventListener("keydown", onKey, true);
+    detach();
     overlay.remove();
-    previouslyFocused?.focus?.({ preventScroll: true });
-  }
-  function onKey(e: KeyboardEvent): void {
-    if (e.key === "Escape") { e.preventDefault(); close(); }
   }
 
   // Password: quiet by default, reveals the fields on Change so the page doesn't open with a
@@ -236,7 +236,6 @@ export function showAccountSheet(user: User): void {
   nameForm.addEventListener("submit", onNameSubmit);
   form.addEventListener("submit", onSubmit);
   page.querySelector(".js-close")!.addEventListener("click", close);
-  document.addEventListener("keydown", onKey, true);
   setTimeout(() => nameEl.focus({ preventScroll: true }), 0);
 
   // Company (managers only): the org name isn't in the login identity, so fetch it on open

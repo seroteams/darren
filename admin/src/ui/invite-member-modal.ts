@@ -5,27 +5,16 @@
 // server re-validates and mints the one-time join link; a failed email never blocks the invite.
 
 import "../styles/add-person-modal.css";
+import { openModalShell } from "./modal-shell.ts";
 import { cleanInvite, type InviteDraft } from "./invite-member-form.ts";
-
-function getFocusables(root: HTMLElement): HTMLElement[] {
-  return Array.from(
-    root.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    ),
-  );
-}
 
 export function showInviteMemberModal(): Promise<InviteDraft | null> {
   return new Promise((resolve) => {
-    const backdrop = document.createElement("div");
-    backdrop.className = "modal-backdrop";
-
-    const modal = document.createElement("div");
-    modal.className = "card modal apm";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-labelledby", "invite-member-title");
-    modal.innerHTML = `
+    const shell = openModalShell({
+      className: "card modal apm",
+      labelledBy: "invite-member-title",
+      onClose: () => close(null),
+      html: `
       <div class="apm__head">
         <div class="apm__title" id="invite-member-title">Invite people</div>
         <div class="apm__sub">They'll get a one-time link to set a password and log in.</div>
@@ -48,21 +37,16 @@ export function showInviteMemberModal(): Promise<InviteDraft | null> {
       <div class="apm__foot">
         <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
         <button type="button" class="btn js-send">Send invite</button>
-      </div>`;
-    backdrop.appendChild(modal);
-    document.body.appendChild(backdrop);
+      </div>`,
+    });
+    const modal = shell.el;
 
     const emailInput = modal.querySelector<HTMLInputElement>(".js-email")!;
     const roleSelect = modal.querySelector<HTMLSelectElement>(".js-role")!;
     const err = modal.querySelector<HTMLElement>(".js-err")!;
-    const previouslyFocused = document.activeElement as HTMLElement | null;
 
     function close(result: InviteDraft | null) {
-      document.removeEventListener("keydown", onKey, true);
-      backdrop.remove();
-      if (previouslyFocused && typeof previouslyFocused.focus === "function") {
-        previouslyFocused.focus({ preventScroll: true });
-      }
+      shell.destroy();
       resolve(result);
     }
 
@@ -78,28 +62,6 @@ export function showInviteMemberModal(): Promise<InviteDraft | null> {
       close(draft);
     }
 
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
-        close(null);
-        return;
-      }
-      if (e.key !== "Tab") return;
-      const focusables = getFocusables(modal);
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (!first || !last) return;
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-
     emailInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") { e.preventDefault(); submit(); }
     });
@@ -108,8 +70,6 @@ export function showInviteMemberModal(): Promise<InviteDraft | null> {
     });
     modal.querySelector(".js-send")!.addEventListener("click", submit);
     modal.querySelector(".js-cancel")!.addEventListener("click", () => close(null));
-    backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(null); });
-    document.addEventListener("keydown", onKey, true);
 
     setTimeout(() => emailInput.focus({ preventScroll: true }), 0);
   });

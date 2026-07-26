@@ -7,7 +7,7 @@
 // or null on any way out (Cancel, Escape, backdrop).
 
 import "../styles/add-person-modal.css";
-import { escapeHtml } from "./html.js";
+import { openModalShell } from "./modal-shell.ts";
 
 export type OrgUser = { id: string; name: string; email: string };
 
@@ -22,27 +22,10 @@ export interface GiveAccessOptions {
   currentUserId?: string | null; // set when changing an existing link
 }
 
-function getFocusables(root: HTMLElement): HTMLElement[] {
-  return Array.from(
-    root.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    ),
-  );
-}
-
 export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccessResult | null> {
   const linked = !!opts.currentUserId;
   const title = linked ? `${opts.name}'s access` : `Invite ${opts.name} to Sero`;
   return new Promise((resolve) => {
-    const backdrop = document.createElement("div");
-    backdrop.className = "modal-backdrop";
-
-    const modal = document.createElement("div");
-    modal.className = "card modal apm";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-labelledby", "give-access-title");
-
     // The old "Link an existing account" dropdown is retired (members-page Phase 5) — it leaked
     // account plumbing into the UI. Inviting by email is the one clean path; if that email already
     // has an account, the server links them automatically. This modal is now the per-person
@@ -51,7 +34,11 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
       ? `<button type="button" class="btn btn--ghost js-remove" style="align-self:flex-start;">Remove access</button>`
       : "";
 
-    modal.innerHTML = `
+    const shell = openModalShell({
+      className: "card modal apm",
+      labelledBy: "give-access-title",
+      onClose: () => close(null),
+      html: `
       <div class="apm__head">
         <div class="apm__title" id="give-access-title"></div>
         <div class="apm__sub">They'll get a login to follow their own 1:1s with you. The dates and topics you met on. They never see your private notes, your ratings, or anyone else on your team.</div>
@@ -71,23 +58,18 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
       </div>
       <div class="apm__foot">
         <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
-      </div>`;
-    backdrop.appendChild(modal);
-    document.body.appendChild(backdrop);
+      </div>`,
+    });
+    const modal = shell.el;
 
     // textContent (never innerHTML) so a person's own name can seed the title with no injection risk.
     modal.querySelector<HTMLElement>(".apm__title")!.textContent = title;
 
     const emailInput = modal.querySelector<HTMLInputElement>(".js-email")!;
     const err = modal.querySelector<HTMLElement>(".js-err")!;
-    const previouslyFocused = document.activeElement as HTMLElement | null;
 
     function close(result: GiveAccessResult | null) {
-      document.removeEventListener("keydown", onKey, true);
-      backdrop.remove();
-      if (previouslyFocused && typeof previouslyFocused.focus === "function") {
-        previouslyFocused.focus({ preventScroll: true });
-      }
+      shell.destroy();
       resolve(result);
     }
 
@@ -103,28 +85,6 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
       close({ kind: "invite", email });
     }
 
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
-        close(null);
-        return;
-      }
-      if (e.key !== "Tab") return;
-      const focusables = getFocusables(modal);
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (!first || !last) return;
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-
     emailInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") { e.preventDefault(); doInvite(); }
     });
@@ -134,8 +94,6 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
     modal.querySelector(".js-invite")!.addEventListener("click", doInvite);
     modal.querySelector(".js-remove")?.addEventListener("click", () => close({ kind: "unlink" }));
     modal.querySelector(".js-cancel")!.addEventListener("click", () => close(null));
-    backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(null); });
-    document.addEventListener("keydown", onKey, true);
 
     setTimeout(() => emailInput.focus({ preventScroll: true }), 0);
   });

@@ -6,27 +6,17 @@
 // on a confirmed delete, false on any way out (Cancel, Escape, backdrop).
 
 import "../styles/add-person-modal.css";
+import { openModalShell } from "./modal-shell.ts";
 import { nameMatches } from "./add-person-form.ts";
-
-function getFocusables(root: HTMLElement): HTMLElement[] {
-  return Array.from(
-    root.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    ),
-  );
-}
 
 export function showDeletePersonModal(name: string): Promise<boolean> {
   return new Promise((resolve) => {
-    const backdrop = document.createElement("div");
-    backdrop.className = "modal-backdrop";
-
-    const modal = document.createElement("div");
-    modal.className = "card modal apm apm--danger";
-    modal.setAttribute("role", "alertdialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-labelledby", "del-person-title");
-    modal.innerHTML = `
+    const shell = openModalShell({
+      className: "card modal apm apm--danger",
+      role: "alertdialog",
+      labelledBy: "del-person-title",
+      onClose: () => close(false),
+      html: `
       <div class="apm__head">
         <div class="apm__title" id="del-person-title"></div>
         <div class="apm__sub apm__warn"></div>
@@ -41,9 +31,9 @@ export function showDeletePersonModal(name: string): Promise<boolean> {
       <div class="apm__foot">
         <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
         <button type="button" class="btn btn--danger js-delete" disabled>Delete permanently</button>
-      </div>`;
-    backdrop.appendChild(modal);
-    document.body.appendChild(backdrop);
+      </div>`,
+    });
+    const modal = shell.el;
 
     // textContent (never innerHTML) so the person's own name can't inject markup.
     modal.querySelector<HTMLElement>(".apm__title")!.textContent = `Delete ${name}?`;
@@ -53,14 +43,9 @@ export function showDeletePersonModal(name: string): Promise<boolean> {
 
     const confirmInput = modal.querySelector<HTMLInputElement>(".js-confirm")!;
     const deleteBtn = modal.querySelector<HTMLButtonElement>(".js-delete")!;
-    const previouslyFocused = document.activeElement as HTMLElement | null;
 
     function close(result: boolean) {
-      document.removeEventListener("keydown", onKey, true);
-      backdrop.remove();
-      if (previouslyFocused && typeof previouslyFocused.focus === "function") {
-        previouslyFocused.focus({ preventScroll: true });
-      }
+      shell.destroy();
       resolve(result);
     }
 
@@ -75,36 +60,10 @@ export function showDeletePersonModal(name: string): Promise<boolean> {
       }
     });
 
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
-        close(false);
-        return;
-      }
-      if (e.key !== "Tab") return;
-      const focusables = getFocusables(modal);
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (!first || !last) return;
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) close(false);
-    });
     modal.querySelector(".js-cancel")!.addEventListener("click", () => close(false));
     deleteBtn.addEventListener("click", () => {
       if (matched()) close(true);
     });
-    document.addEventListener("keydown", onKey, true);
 
     setTimeout(() => confirmInput.focus({ preventScroll: true }), 0);
   });

@@ -7,18 +7,11 @@
 // (Cancel, Escape, backdrop). The server trims + caps everything again on insert.
 
 import "../styles/add-person-modal.css";
+import { openModalShell } from "./modal-shell.ts";
 import { cleanPersonForm, inviteEmailError } from "./add-person-form.ts";
 import type { PersonDraft } from "./add-person-form.ts";
 
 export type { PersonDraft } from "./add-person-form.ts";
-
-function getFocusables(root: HTMLElement): HTMLElement[] {
-  return Array.from(
-    root.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    ),
-  );
-}
 
 /** Options let the same modal do double duty as the "Edit" form: a different title,
  *  submit label, sub-line, and pre-filled values. Defaults are the "Add someone" case. */
@@ -38,15 +31,11 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
   const initial = opts.initial ?? {};
   const allowInvite = opts.allowInvite ?? true;
   return new Promise((resolve) => {
-    const backdrop = document.createElement("div");
-    backdrop.className = "modal-backdrop";
-
-    const modal = document.createElement("div");
-    modal.className = "card modal apm";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-labelledby", "add-person-title");
-    modal.innerHTML = `
+    const shell = openModalShell({
+      className: "card modal apm",
+      labelledBy: "add-person-title",
+      onClose: () => close(null),
+      html: `
       <div class="apm__head">
         <div class="apm__title" id="add-person-title"></div>
         <div class="apm__sub"></div>
@@ -72,9 +61,9 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
       <div class="apm__foot">
         <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
         <button type="button" class="btn js-add"></button>
-      </div>`;
-    backdrop.appendChild(modal);
-    document.body.appendChild(backdrop);
+      </div>`,
+    });
+    const modal = shell.el;
 
     // Set text via textContent (never innerHTML) so a person's own name can seed the
     // title/values without any HTML-injection risk.
@@ -93,14 +82,8 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
     roleInput.value = initial.role ?? "";
     seniorityInput.value = initial.seniority ?? "";
 
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-
     function close(result: PersonDraft | null) {
-      document.removeEventListener("keydown", onKey, true);
-      backdrop.remove();
-      if (previouslyFocused && typeof previouslyFocused.focus === "function") {
-        previouslyFocused.focus({ preventScroll: true });
-      }
+      shell.destroy();
       resolve(result);
     }
 
@@ -128,29 +111,6 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
         return;
       }
       close(draft);
-    }
-
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        e.stopPropagation();
-        close(null);
-        return;
-      }
-      if (e.key !== "Tab") return;
-      // Keep Tab inside the dialog (same trap as confirm.js).
-      const focusables = getFocusables(modal);
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (!first || !last) return;
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
     }
 
     // Enter from any field submits.
@@ -184,12 +144,8 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
         emailInput.removeAttribute("aria-invalid");
       }
     });
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) close(null);
-    });
     modal.querySelector(".js-cancel")!.addEventListener("click", () => close(null));
     modal.querySelector(".js-add")!.addEventListener("click", submit);
-    document.addEventListener("keydown", onKey, true);
 
     setTimeout(() => nameInput.focus({ preventScroll: true }), 0);
   });

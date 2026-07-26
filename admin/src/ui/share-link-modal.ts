@@ -4,19 +4,21 @@
 //
 // Resolves when the manager closes it (nothing to return — the link is already sent by email;
 // this is the copy-it-too affordance).
+//
+// Rides the shared modal shell (component-consolidation P1), which is also where it
+// picked up the Tab trap it never had.
+
+import { openModalShell } from "./modal-shell.ts";
 
 export function showShareLinkModal(opts: { title: string; message: string; link: string }): Promise<void> {
   return new Promise((resolve) => {
-    const backdrop = document.createElement("div");
-    backdrop.className = "modal-backdrop";
-
-    const modal = document.createElement("div");
-    modal.className = "card modal l-stack l-stack--4";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-
     const titleId = `share-link-title-${Date.now()}`;
-    modal.innerHTML = `
+
+    const shell = openModalShell({
+      className: "card modal l-stack l-stack--4",
+      labelledBy: titleId,
+      onClose: () => close(),
+      html: `
       <div class="l-stack l-stack--2">
         <h2 class="h3" id="${titleId}"></h2>
         <p class="text-sm text-ink-dim js-msg"></p>
@@ -29,8 +31,10 @@ export function showShareLinkModal(opts: { title: string; message: string; link:
       <div class="modal__actions">
         <button type="button" class="btn js-done">Done</button>
       </div>
-    `;
-    modal.setAttribute("aria-labelledby", titleId);
+    `,
+    });
+    const modal = shell.el;
+
     modal.querySelector<HTMLElement>(`#${titleId}`)!.textContent = opts.title;
     modal.querySelector<HTMLElement>(".js-msg")!.textContent = opts.message;
     const input = modal.querySelector<HTMLInputElement>(".js-link")!;
@@ -38,18 +42,9 @@ export function showShareLinkModal(opts: { title: string; message: string; link:
     const copyBtn = modal.querySelector<HTMLButtonElement>(".js-copy")!;
     const doneBtn = modal.querySelector<HTMLButtonElement>(".js-done")!;
 
-    backdrop.appendChild(modal);
-    document.body.appendChild(backdrop);
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-
     function close() {
-      document.removeEventListener("keydown", onKey, true);
-      backdrop.remove();
-      previouslyFocused?.focus?.({ preventScroll: true });
+      shell.destroy();
       resolve();
-    }
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") { e.preventDefault(); close(); }
     }
 
     async function copy() {
@@ -68,8 +63,6 @@ export function showShareLinkModal(opts: { title: string; message: string; link:
 
     copyBtn.addEventListener("click", () => { void copy(); });
     doneBtn.addEventListener("click", close);
-    backdrop.addEventListener("click", (e) => { if (e.target === backdrop) close(); });
-    document.addEventListener("keydown", onKey, true);
     setTimeout(() => { input.focus({ preventScroll: true }); input.select(); }, 0);
   });
 }
