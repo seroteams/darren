@@ -61,7 +61,7 @@
 .l-col-6    { grid-column: span 6; }
 .l-col-full { grid-column: 1 / -1; }
 
-@media (max-width: 767.98px) {          /* < --sero-breakpoint-md (768px) */
+@media (max-width: 767.98px) {          /* < 768px, the tablet breakpoint */
   .l-grid:not(.l-grid--keep) { grid-template-columns: 1fr; }
   .l-grid:not(.l-grid--keep) > [class*="l-col-"] { grid-column: 1 / -1; }
 }

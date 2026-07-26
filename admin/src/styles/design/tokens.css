@@ -161,29 +161,16 @@
   --sero-warning-light: var(--sero-gold-100);
   --sero-error: var(--sero-coral-700);
   --sero-error-light: var(--sero-coral-100);
-  --sero-info: var(--sero-primary-700);
-  --sero-info-light: var(--sero-primary-100);
-
-  /* Block / category accents */
-  --sero-block-tasks: var(--sero-gold-700);
-  --sero-block-processes: var(--sero-gold-800);
-  --sero-block-team: var(--sero-coral-800);
-  --sero-block-development: var(--sero-mint-700);
-  --sero-block-fun: var(--sero-sky-500);
-  --sero-block-fulfilment: var(--sero-lavender-700);
 
   /* Interaction / action */
   --sero-link: var(--sero-primary-700);
   --sero-link-hover: var(--sero-primary-800);
   --sero-active-state: var(--sero-primary-700);
   --sero-active-state-bg: var(--sero-primary-100);
-  --sero-completed: var(--sero-mint-800);
-  --sero-ai: var(--sero-lavender-600);
-  --sero-purple: var(--sero-lavender-700);
 
-  /* Spacing (8px grid) */
+  /* Spacing (4px grid, n = px / 4). Only the steps in use: five of them carry 86%
+     of all spacing declarations. Add a step back when a screen genuinely needs it. */
   --sero-space-0: 0px;
-  --sero-space-px: 1px;
   --sero-space-0-5: 2px;
   --sero-space-1: 4px;
   --sero-space-2: 8px;
@@ -193,61 +180,35 @@
   --sero-space-6: 24px;
   --sero-space-7: 28px;
   --sero-space-8: 32px;
-  --sero-space-9: 36px;
   --sero-space-10: 40px;
   --sero-space-12: 48px;
   --sero-space-14: 56px;
   --sero-space-16: 64px;
-  --sero-space-20: 80px;
-  --sero-space-24: 96px;
 
-  /* Radius */
-  --sero-radius-none: 0px;
+  /* Radius — DESIGN §5 sanctions exactly three: 4px controls, 12px cards, full pills.
+     sm/md/lg/xl are the raw scale behind them; md (8px) and xl (16px) have call sites
+     that the radius pass will retire. */
   --sero-radius-sm: 4px;
   --sero-radius-md: 8px;
   --sero-radius-lg: 12px;
   --sero-radius-xl: 16px;
-  --sero-radius-2xl: 24px;
   --sero-radius-full: 9999px;
   --sero-radius-button: var(--sero-radius-sm); /* 4px — matches Figma + DESIGN.md (manager-ready P2) */
   --sero-radius-input: var(--sero-radius-sm);
   --sero-radius-card: var(--sero-radius-lg);
-  --sero-radius-modal: var(--sero-radius-lg);
-  --sero-radius-badge: var(--sero-radius-full);
-  --sero-radius-avatar: var(--sero-radius-full);
-  --sero-radius-tooltip: var(--sero-radius-sm);
 
   /* Shadows */
-  --sero-shadow-none: none;
   --sero-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / .05);
   --sero-shadow-sm: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
   --sero-shadow-md: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
   --sero-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
   --sero-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);
-  --sero-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / .25);
-  --sero-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / .05);
-  --sero-elevation-flat: var(--sero-shadow-none);
-  --sero-elevation-raised: var(--sero-shadow-sm);
-  --sero-elevation-floating: var(--sero-shadow-lg);
-  --sero-elevation-overlay: var(--sero-shadow-2xl);
   /* Focus ring (a11y pass 2026-07-05): the old 3px primary-300 ring was 1.2:1 against a
      white surface — near-invisible to keyboard users. Double ring: white gap + primary-800
      (7:1) reads on any Sero background. */
   --sero-shadow-focus: 0 0 0 2px var(--sero-offwhite-50), 0 0 0 4px var(--sero-primary-800);
 
-  /* Interaction state overlays */
-  --sero-state-hover-opacity: .08;
-  --sero-state-focus-opacity: .12;
-  --sero-state-active-opacity: .16;
-  --sero-state-disabled-opacity: .38;
-  --sero-state-hover: rgba(0, 0, 0, .04);
-  --sero-state-focus: rgba(0, 0, 0, .08);
-  --sero-state-active: rgba(0, 0, 0, .12);
-  --sero-state-disabled-bg: var(--sero-charcoal-100);
-  --sero-state-disabled-text: var(--sero-charcoal-400);
-
   /* Z-index */
-  --sero-z-base: 0;
   --sero-z-dropdown: 10;
   --sero-z-sticky: 20;
   --sero-z-fixed: 30;
@@ -256,14 +217,6 @@
   --sero-z-popover: 60;
   --sero-z-tooltip: 70;
   --sero-z-toast: 80;
-  --sero-z-max: 9999;
-
-  /* Breakpoints */
-  --sero-breakpoint-sm: 640px;
-  --sero-breakpoint-md: 768px;
-  --sero-breakpoint-lg: 1024px;
-  --sero-breakpoint-xl: 1280px;
-  --sero-breakpoint-2xl: 1536px;
 
   /* =========================================================================
      Legacy aliases — remapped onto Sero tokens. Existing components keep
@@ -293,7 +246,6 @@
   /* Purple — Sero lavender */
   --color-purple: var(--sero-lavender-700);        /* #b49edb */
   --color-purple-soft: var(--sero-lavender-200);   /* #f4f1fa */
-  --color-purple-glow: rgba(180, 158, 219, 0.35);
 
   --color-deep: var(--sero-navy-900);              /* #0c2333 */
 
@@ -312,7 +264,6 @@
      now gets the same subtle wash as its sibling hover states. */
   --color-surface-2: rgba(0, 0, 0, 0.05);          /* hover / selected wash */
   --color-backdrop: rgba(31, 42, 55, 0.45);        /* one modal / overlay scrim (Sero ink @ 45%) */
-  --color-warn: #b45309;                           /* warning text / border */
   --color-amber: #b4690e;                          /* fix / partial accent */
   --font-mono: ui-monospace, monospace;            /* code / meta text */
 
@@ -339,12 +290,10 @@
   --type-small: var(--type-body-sm);              /* @deprecated → --type-body-sm */
 
   /* Line-height (leading) */
-  --type-leading-none: 1;
   --type-leading-tight: 1.1;
   --type-leading-snug: 1.25;
   --type-leading-normal: 1.5;
   --type-leading-relaxed: 1.6;
-  --type-leading-loose: 1.75;
 
   /* Weight */
   --type-weight-regular: 400;
@@ -355,7 +304,6 @@
   /* Tracking (letter-spacing) */
   --type-tracking-tighter: -0.02em;
   --type-tracking-tight: -0.01em;
-  --type-tracking-normal: 0;
   --type-tracking-wide: 0.02em;
   --type-tracking-wider: 0.04em;
   --type-tracking-caps: 0.06em;                   /* slot/label uppercase (UI polish P1) */
@@ -402,10 +350,8 @@
      the 44px fallback (they were 6px short of the real 50px bar) now clear it. */
   --session-topbar-h: 50px;
 
-  /* Role spacing — named landing spots (map onto the 8px grid) */
-  --space-section: var(--sero-space-10);           /* 40px — between major sections */
+  /* Role spacing — named landing spot for card interiors */
   --space-card-pad: var(--sero-space-6);           /* 24px — card interior */
-  --space-page-tail: var(--sero-space-24);         /* 96px — breathing room at page end */
 
   /* The one sanctioned lift shadow — ink-tinted (not black), two-layer; frames only */
   --shadow-lift: 0 1px 2px rgba(31, 42, 55, .04), 0 8px 24px rgba(31, 42, 55, .06);
@@ -423,12 +369,5 @@
   --color-coral-line: var(--sero-coral-400);       /* #fcc5c0 */
   --color-gold-line: var(--sero-gold-400);         /* #ffe7b7 */
   --color-primary-line: var(--sero-primary-400);   /* #c1def4 */
-
-  /* Phantom-token backfill — these were referenced only via var(x, #hex)
-     fallbacks (tasks.js, guide.js), so #hex always rendered. Defined to the
-     EXACT fallback so appearance is unchanged; a later phase remaps them onto
-     the Sero mint/coral families. */
-  --sero-emerald-500: #10b981;
-  --sero-rose-700: #b4232a;
 }
 

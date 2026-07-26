@@ -1,6 +1,6 @@
 # Design system clean-up — the invisible pass
 
-**Status:** P0 ✅ signed off · P1 built, awaiting Carl's sign-off
+**Status:** P0 ✅ · P1 ✅ · P2 built, awaiting Carl's sign-off
 **Owner session:** 3a8bfd02 · **Started:** 2026-07-26 · **Cost:** £0 (free checks only)
 
 ## Why
@@ -11,8 +11,9 @@ colour discipline genuinely clean, but a thick layer of things that exist and do
 - **54 of 309 tokens referenced nowhere.** Whole dead families: `--sero-teal-*` (11/11),
   `--sero-state-*` (9/9), `--sero-breakpoint-*` (5/5, structurally unusable — custom properties
   don't work in `@media`), `--sero-elevation-*` (4/4), `--sero-block-*` (6/6).
-- **70 dead colour ramp steps of 122**, including three near-identical grey ramps with six exact
-  hex collisions between them.
+- ~~70 dead colour ramp steps of 122~~ — **wrong, corrected in P2.** The Design system screen
+  renders all 121 swatches by building token names at runtime, so a plain text search couldn't see
+  the consumer. The ramps stay whole.
 - **69 tokens (22%) are pure `--x: var(--y)` aliases**; three duplicate namespaces
   (`--space-*`/`--sero-space-*`, `--radius-*`/`--sero-radius-*`, `--shadow-*`/`--sero-shadow-*`).
 - **Four token names for one 14px value** plus 52 hardcoded `14px` literals.
@@ -37,8 +38,8 @@ dialog that bypasses the house confirm box, the missing toast.
 | # | Phase | Changes pixels? | Proof | Status |
 |---|---|---|---|---|
 | P0 | [Make the docs true](phase-0-docs.md) | no | grep returns nothing; both linters still PASS | ✅ signed off 2026-07-26 |
-| P1 | [Make the guards bite](phase-1-guards.md) | no | `npm test` runs the design guard | ✅ built, awaiting sign-off |
-| P2 | [Delete the provably dead](phase-2-dead-tokens.md) | no | built CSS byte-identical outside `:root` | ⬜ |
+| P1 | [Make the guards bite](phase-1-guards.md) | no | `npm test` runs the design guard | ✅ signed off 2026-07-26 |
+| P2 | [Delete the provably dead](phase-2-dead-tokens.md) | no | built CSS byte-identical outside `:root` | ✅ built, awaiting sign-off |
 | P3 | [One namespace per concept](phase-3-namespaces.md) | no | identical computed-value map | ⬜ |
 | P4 | [One name per size](phase-4-sizes.md) | no | identical computed-value map | ⬜ |
 | P5 | [Admin CSS out of the customer bundle](phase-5-bundle.md) | no | `ds-layout` gone from `frontend/dist`; 4 screenshots | ⬜ |
