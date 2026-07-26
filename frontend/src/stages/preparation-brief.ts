@@ -178,13 +178,13 @@ export function renderDefaultBrief(s: BriefSlots): string {
 --------------------------------------------------------------------------- */
 
 // The shared wizard footer (design-consolidation Phase 3): ghost Back left
-// (returns to Focus areas — wired in preparation.ts), primary right, Copy all
+// (returns to Focus areas — wired in preparation.ts), primary right, Copy brief
 // as a trusted ghost beside it.
 export function ctaRowHtml(): string {
   return wizardFooter({
-    primary: { label: "Get my questions" },
+    primary: { label: "Start 1:1 questions" },
     back: {},
-    secondaryHtml: `<button type="button" class="btn btn--ghost js-copy-all-prep">Copy all</button>`,
+    secondaryHtml: `<button type="button" class="btn btn--ghost js-copy-all-prep">Copy brief</button>`,
   });
 }
 

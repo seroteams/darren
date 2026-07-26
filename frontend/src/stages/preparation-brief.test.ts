@@ -212,15 +212,15 @@ for (const { id, label } of VARIANTS) {
    CTA + switcher persistence
 --------------------------------------------------------------------------- */
 
-test("CTA: shared wizard footer. Primary right, Back left, Copy all a ghost", () => {
+test("CTA: shared wizard footer. Primary right, Back left, Copy brief a ghost", () => {
   const html = ctaRowHtml();
   assert.ok(html.includes('class="wizard-footer"'), "uses the shared wizard footer");
-  assert.match(html, /js-wf-continue[^>]*>Get my questions</, "primary is Get my questions");
+  assert.match(html, /js-wf-continue[^>]*>Start 1:1 questions</, "primary is Start 1:1 questions");
   assert.match(html, /wizard-footer__left[\s\S]*js-wf-back/, "Back sits in the left slot");
   assert.match(
     html,
-    /class="btn btn--ghost js-copy-all-prep"[^>]*>Copy all</,
-    "Copy all is a ghost in the footer",
+    /class="btn btn--ghost js-copy-all-prep"[^>]*>Copy brief</,
+    "Copy brief is a ghost in the footer",
   );
   assert.ok(
     html.indexOf("js-copy-all-prep") < html.indexOf("js-wf-continue"),
