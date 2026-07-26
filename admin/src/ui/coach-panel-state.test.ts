@@ -6,6 +6,7 @@ import {
   meterFor,
   parseStoredWhys,
   cleanHints,
+  cleanBriefCues,
   type AxisRead,
   type WhyMap,
 } from "./coach-panel-state.ts";
@@ -96,6 +97,26 @@ test("cleanHints keeps valid ask/listen entries, trims, caps at 3, drops junk", 
       { kind: "ask", text: "Ask slowly." },
       { kind: "listen", text: "Energy words." },
       { kind: "ask", text: "Use their word." },
+    ],
+  );
+});
+
+test("cleanBriefCues turns prep-brief listen-for lines into listen hints, capped at 3", () => {
+  assert.deepEqual(cleanBriefCues(undefined), []);
+  assert.deepEqual(cleanBriefCues("whether they name a priority"), []); // not an array
+  assert.deepEqual(
+    cleanBriefCues([
+      "  whether they name a specific recent handoff  ",
+      "",
+      42,
+      "if they flag edge cases before being asked",
+      "whether release risk comes up unprompted",
+      "one too many",
+    ]),
+    [
+      { kind: "listen", text: "whether they name a specific recent handoff" },
+      { kind: "listen", text: "if they flag edge cases before being asked" },
+      { kind: "listen", text: "whether release risk comes up unprompted" },
     ],
   );
 });

@@ -121,6 +121,9 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
   margin: var(--sero-space-2) 0 0; max-width: 62ch; }
 .coach-empty { font-size: 15px; line-height: 1.5; color: var(--color-ink-dim);
   margin: 0; max-width: 60ch; }
+/* Provenance line above brief-level fallback cues — says where they came from. */
+.coach-source { font-size: 14px; line-height: 1.5; color: var(--color-ink-dim);
+  margin: 0 0 var(--sero-space-5); max-width: 60ch; }
 
 /* The gradient meter (POC V5): centre-out fill, numbered thumb. */
 .coach-meter {

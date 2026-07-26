@@ -94,6 +94,21 @@ export function cleanHints(raw: unknown): Hint[] {
   return out;
 }
 
+/**
+ * Prep-brief `listenFor` lines → ≤3 listen hints. Used ONLY when a question carries
+ * no hints of its own (openers, agenda and seed questions never get generated ones).
+ * The panel labels these as brief-level, never passes them off as per-question.
+ */
+export function cleanBriefCues(raw: unknown): Hint[] {
+  if (!Array.isArray(raw)) return [];
+  const out: Hint[] = [];
+  for (const item of raw) {
+    if (out.length >= 3) break;
+    if (typeof item === "string" && item.trim()) out.push({ kind: "listen", text: item.trim() });
+  }
+  return out;
+}
+
 /** sessionStorage payload → WhyMap; anything malformed collapses to {}. */
 export function parseStoredWhys(raw: string | null): WhyMap {
   if (!raw) return {};

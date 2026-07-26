@@ -3,8 +3,9 @@
 //  • Live scores — the four axes as gradient meters (POC design 5) with the planner's
 //    REAL per-answer rationale as each axis's "why" (assessment.note; never invented).
 //  • Support — up to 3 coaching hints per question ("How to ask" / "Listen for"). A
-//    question's own generated hints win; when it has none we fall back to role-level
-//    listen-for lines, plainly LABELLED as role-level, never faked as per-question.
+//    question's own generated hints win; when it has none (openers, agenda and seed
+//    questions never get them) we fall back to the prep brief's real listen-for cues,
+//    plainly LABELLED as brief-level, never faked as per-question.
 // Idle lines for unrated axes are plainly UI copy about the absence of a read.
 
 import "../styles/coach-panel.css";
@@ -18,6 +19,7 @@ import {
   meterFor,
   parseStoredWhys,
   cleanHints,
+  cleanBriefCues,
   type AxisRead,
   type WhyMap,
   type Hint,
@@ -47,7 +49,15 @@ function storageKey(sessionId: string): string {
   return `sero.coach.whys.${sessionId}`;
 }
 
-export function createCoachPanel({ sessionId }: { sessionId: string; personName?: string }) {
+export function createCoachPanel({
+  sessionId,
+  personName = "",
+  briefCues,
+}: {
+  sessionId: string;
+  personName?: string;
+  briefCues?: unknown; // the prep brief's listenFor lines, if this session has a brief
+}) {
   // Rows only — the split screen (questioning.js) owns the header row (incl. the
   // Support/Live-scores toggle), so the panel sits bare on the lavender half.
   const el = document.createElement("div");
@@ -57,6 +67,7 @@ export function createCoachPanel({ sessionId }: { sessionId: string; personName?
 
   let mode: "support" | "scores" = "support"; // POC default: coaching first
   let questionHints: Hint[] = [];
+  const fallbackCues = cleanBriefCues(briefCues); // brief-level, only when the question has none
 
   const attacher = createNoteAttacher(readStored());
   let lastAxes: AxisRead[] = AXIS_ORDER.map((id: string) => ({
@@ -117,10 +128,16 @@ export function createCoachPanel({ sessionId }: { sessionId: string; personName?
   }
 
   function supportHtml(): string {
-    if (!questionHints.length) {
-      return `<p class="coach-empty">No coaching hints for this question yet. The Live scores tab still updates as you go.</p>`;
+    if (questionHints.length) return questionHints.map(hintHtml).join("");
+    // Openers, agenda and seed questions never carry generated hints. Rather than an
+    // empty shrug, fall back to the prep brief's real listen-for cues for this person,
+    // LABELLED as brief-level so it is never mistaken for per-question coaching.
+    if (fallbackCues.length) {
+      const who = personName ? ` for ${escape(personName)}` : "";
+      return `<p class="coach-source">From your prep brief${who}. Written for the whole meeting, not this question.</p>
+        ${fallbackCues.map(hintHtml).join("")}`;
     }
-    return questionHints.map(hintHtml).join("");
+    return `<p class="coach-empty">No coaching hints for this question yet. The Live scores tab still updates as you go.</p>`;
   }
 
   function render(): void {

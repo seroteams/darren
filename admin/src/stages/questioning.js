@@ -124,7 +124,11 @@ export async function mount(root, { store, setState }) {
 
   // Same duck-type surface either way: renderInitial / update (+ setNote on the coach panel).
   const axes = USE_COACH_SPLIT
-    ? createCoachPanel({ sessionId: store.sessionId, personName: store.ctx?.name || "" })
+    ? createCoachPanel({
+        sessionId: store.sessionId,
+        personName: store.ctx?.name || "",
+        briefCues: store.preparation?.listenFor,
+      })
     : createAxesPanel({ celebrate: false });
   axes.renderInitial(
     store.axes?.length
