@@ -16,7 +16,19 @@ const listeners = new Set<() => void>();
 
 /** Record what the runs list said. Callers pass the result of hasRealRuns(). */
 export function setHasRealRuns(value: boolean): void {
-  const next = Boolean(value);
+  set(Boolean(value));
+}
+
+// Back to "nobody has asked", which is NOT the same as "no" (see above). Two callers,
+// both cases where the previous answer has stopped being about the current situation:
+// a logout (the next person to sign in is a different manager, and this module outlives
+// them both — the customer app's login is pure SPA, no reload), and a failed runs fetch
+// (we genuinely do not know any more, so the rail must go back to showing everything).
+export function forgetFirstVisit(): void {
+  set(null);
+}
+
+function set(next: Answer): void {
   if (next === hasRuns) return;
   hasRuns = next;
   for (const fn of listeners) fn();

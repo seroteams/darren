@@ -20,7 +20,7 @@ import { errorCardHtml, wireRetry } from "../ui/screen-scaffold.ts";
 import { staleRunRecoveryHtml } from "../ui/stale-run-recovery.ts";
 import { firstVisitHtml, videoIframeHtml } from "./start-welcome.ts";
 import { rowModel, orderForHome, hasRealRuns } from "./start-rows.ts";
-import { setHasRealRuns } from "../ui/first-visit.ts";
+import { setHasRealRuns, forgetFirstVisit } from "../ui/first-visit.ts";
 import { whenLabelsFor } from "../ui/time.ts";
 import { openRowMenu } from "../ui/row-menu.ts";
 import { pageHeader } from "../ui/page-header.ts";
@@ -150,8 +150,11 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     if (recentLabel) recentLabel.hidden = true;
     if (seeAll) seeAll.hidden = true;
     // We don't know what they have, so don't greet them as a newcomer. The header and
-    // the recents section come back, and the button returns to the header where it
-    // always is for a returning manager.
+    // the recents section come back, the button returns to the header where it always
+    // is for a returning manager, and the rail's answer goes back to unknown — a stale
+    // "no runs" from earlier in this page life would leave a returning manager reading
+    // "Couldn't load your 1:1s" with no way to reach Team or Past 1:1s.
+    forgetFirstVisit();
     welcomeHost.hidden = true;
     welcomeHost.innerHTML = "";
     if (header) header.hidden = false;
@@ -185,10 +188,12 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     // first visit they step aside for one screen that shows the artefact, names the
     // moment, and offers one way in. The seeded example is not dropped: it IS the sample
     // brief, labelled, with a link into the finished run.
-    // ...and never in the admin console: a bench means internal QA, who are not the
-    // first-run audience (the same reason they get no invitation button below). Their
-    // Home keeps its header and recents even on a runless internal account.
-    const firstRun = !hasRealRuns(runs) && !bench;
+    // ...and never for internal accounts: QA is not the first-run audience (the same
+    // reason they get no invitation button below), so their Home keeps its header and
+    // recents even with no real runs. This keys on the ROLE, not on the persona bench:
+    // the bench is switched off on live (start.js), so a bench test passed locally and
+    // failed in the only place it mattered, which is how this shipped in the first place.
+    const firstRun = !hasRealRuns(runs) && !isInternalAdmin(store.user);
     // Home is the only screen that fetches this, so it is also where the left rail
     // learns whether to stay quiet (onboarding-firstrun Phase 3). Told on every render,
     // so finishing a first brief brings the rail back without a reload.

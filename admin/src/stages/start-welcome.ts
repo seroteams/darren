@@ -53,7 +53,7 @@ export function videoIframeHtml(): string {
       src="${src}"
       title="${VIDEO.title}"
       allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-      referrerpolicy="strict-origin-when-cross-origin"
+      referrerpolicy="no-referrer"
       allowfullscreen
     ></iframe>
   `;

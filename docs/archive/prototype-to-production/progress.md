@@ -1082,3 +1082,33 @@ single win was not a feature. It was discovering that a gate written in one phas
 wizard's first-run check) had been silently broken by a data change in a different plan
 (demo seeding) three days later. Dependency sweeps run when the DATA changes, not only
 when the code does.
+
+## 2026-07-26 — checking your own work, and what the check found
+
+Carl asked "check all done well" after the onboarding track closed. An adversarial read of
+the four commits found three real defects in work that had already been green-lit, which is
+the argument for the question.
+
+The worst one is instructive. Phase 4's sweep had caught that the shared Home renders in
+both apps, so a runless INTERNAL account would be shown the customer welcome. The fix keyed
+on the persona bench: no bench, no welcome. But the bench is deliberately switched off on
+live, so the fence evaluated true in production and the welcome would have appeared in the
+field console for exactly the accounts it was meant to protect. The test passed. It pinned
+the expression, not the behaviour, and the expression's truth depended on the environment.
+A source-text guard cannot see that. It is now keyed on the role, which does not change
+between local and live.
+
+The second was module-level state outliving its owner. The first-visit flag lives in a
+module, and logging out of the customer app is pure SPA with no reload, so manager A's "no
+real 1:1s yet" was still sitting there when manager B signed in: a veteran would have got
+the newcomer's stripped rail, and if B landed anywhere other than Home (a claimed guest
+run) nothing would have corrected it. Any long-lived module state in an SPA needs an
+explicit answer to "who does this belong to, and when does it stop being true?".
+
+The third was the honest third state not being honest enough. The flag had null/true/false
+and the docblock promised that unknown never quiets the rail, but the one code path that
+genuinely means unknown (a failed runs fetch) never wrote it back. Three states are only
+worth having if every path can reach all three.
+
+Habit worth keeping: run the adversarial pass on your own closed work, not just on someone
+else's. Three defects, all in code that had passed tests, linters and a green light.

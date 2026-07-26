@@ -283,16 +283,6 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
-/* The card hosts the screen's one blue button, so the invitation and the way in are
-   the same object. The time line sits beside it, quiet. */
-.intake-firstrun__action {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--sero-space-3);
-  margin-top: var(--sero-space-1);
-}
-
 
 .btn--sm {
   font-size: var(--type-caption);

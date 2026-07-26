@@ -126,11 +126,19 @@ test("the first-visit block is a sibling of the list, never a cell inside it", (
 // assume the visitor already knows what Sero is; on a first visit they step aside for one
 // screen that shows a finished brief before asking for any typing.
 test("a first visit replaces the page header and the recents list, and restores them for a returning manager", () => {
-  assert.ok(/const firstRun = !hasRealRuns\(runs\) && !bench/.test(SRC), "the shared real-runs rule decides it, and the admin console never gets the customer welcome");
+  // The fence keys on the ROLE, not the persona bench: the bench is off on live, so a
+  // bench test passed locally and failed on the deploy, which is how the first version
+  // of this shipped. isInternalAdmin is environment-independent.
+  assert.ok(/const firstRun = !hasRealRuns\(runs\) && !isInternalAdmin\(store\.user\)/.test(SRC), "the shared real-runs rule decides it, and no internal account ever gets the customer welcome");
+  assert.ok(!/&& !bench/.test(SRC), "the environment-dependent bench fence is gone");
   assert.ok(/header\.hidden = firstRun/.test(SRC), "the standard header steps aside");
   assert.ok(/recentSection\.hidden = firstRun/.test(SRC), "so does the recents section");
   const err = SRC.slice(SRC.indexOf("function renderError"));
-  assert.ok(/header\.hidden = false[\s\S]{0,120}recentSection\.hidden = false/.test(err), "a failed load never greets a returning manager as a newcomer");
+  assert.ok(/header\.hidden = false[\s\S]{0,140}recentSection\.hidden = false/.test(err), "a failed load never greets a returning manager as a newcomer");
+  // ...and it must also put the rail's answer back to unknown. Without this, a failed
+  // fetch after an earlier "no runs" left a manager on the error card with a rail that
+  // had no route to Team or Past 1:1s.
+  assert.ok(/forgetFirstVisit\(\)/.test(err), "a failed load stops claiming to know");
 });
 
 test("the seeded example is carried into the welcome, not dropped", () => {

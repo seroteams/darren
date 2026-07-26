@@ -9,7 +9,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { setHasRealRuns, isFirstVisit, onFirstVisitChange, resetFirstVisit } from "../../../admin/src/ui/first-visit.ts";
+import { setHasRealRuns, isFirstVisit, onFirstVisitChange, forgetFirstVisit, resetFirstVisit } from "../../../admin/src/ui/first-visit.ts";
 
 const navJs = readFileSync(new URL("./app-nav.js", import.meta.url), "utf8");
 
@@ -63,4 +63,28 @@ test("the shell survives: brand, collapse, mobile bar and Log out are untouched"
 test("the rail re-renders itself on the answer, without waiting for a state change", () => {
   assert.match(navJs, /onFirstVisitChange\(/, "it subscribes once");
   assert.match(navJs, /lastRender/, "and replays its last render args");
+});
+
+// Review fixes, 2026-07-26. This module outlives any one signed-in manager: logging out
+// of the customer app is pure SPA, with no reload to clear it.
+test("logging out forgets the answer, so the next person in is not handed the last one's rail", () => {
+  resetFirstVisit();
+  setHasRealRuns(false);
+  assert.equal(isFirstVisit(), true, "manager A is new here");
+  forgetFirstVisit();
+  assert.equal(isFirstVisit(), false, "manager B starts unknown, which shows the full rail");
+  const logout = navJs.slice(navJs.indexOf("async function onLogout"));
+  assert.match(logout.slice(0, 500), /forgetFirstVisit\(\)/, "the rail's own Log out clears it");
+});
+
+test("forgetting is not the same as answering no", () => {
+  resetFirstVisit();
+  let calls = 0;
+  onFirstVisitChange(() => { calls++; });
+  forgetFirstVisit();
+  assert.equal(calls, 0, "already unknown: nothing to tell the rail");
+  setHasRealRuns(false);
+  forgetFirstVisit();
+  assert.equal(calls, 2, "no, then unknown again: two real changes");
+  assert.equal(isFirstVisit(), false, "unknown never quiets the rail");
 });

@@ -5,7 +5,7 @@
 // classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
 import { STAGES, isAdmin } from "../../../admin/src/state.ts";
-import { isFirstVisit, onFirstVisitChange } from "../../../admin/src/ui/first-visit.ts";
+import { isFirstVisit, onFirstVisitChange, forgetFirstVisit } from "../../../admin/src/ui/first-visit.ts";
 import { isRailFreeStage, urlForState } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
@@ -203,6 +203,10 @@ export function createAppNav({ setState, resetSession } = {}) {
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
     if (resetSession) resetSession();
+    // Logging out in this app is pure SPA (no reload), so whatever we learned about the
+    // last manager's 1:1s would otherwise be applied to the NEXT person who signs in:
+    // a veteran logging in after a first-timer would get the newcomer's stripped rail.
+    forgetFirstVisit();
     setState && setState({ user: null, stage: STAGES.LOGIN });
   }
   el.querySelector(".js-logout").addEventListener("click", onLogout);
