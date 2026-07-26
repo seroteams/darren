@@ -14,6 +14,16 @@ Standing constraints (from CLAUDE.md):
 
 **✅ CLOSED 2026-07-26: [onboarding-firstrun](docs/plans/done/onboarding-firstrun/plan.md) — a brand-new manager's first minute now shows the work instead of asking for it (all 4 phases green-lit in two days, $0, engine never touched).** From Carl's "the onboarding really needs a deep dive, we cannot assume new people know Sero is a tool for 1:1s". The committee ran with **Rory Sutherland** guesting ("don't read the recipe at the door, show the cake"); Carl picked Direction A of three mocks and added his walkthrough video. What shipped: a first screen carrying the seeded example's **real** prep brief (quoted verbatim from the fixture, drift-tested, labelled a sample), the video click-to-load in YouTube's privacy host (CSP opened for that one host only, pinned by test), one button, and a **quiet rail** that holds only What is Sero? / Send feedback / Log out until the first real 1:1 exists. The research pass also caught a **live bug**: since demo-seeding began on 22 July the prep wizard had counted the example as a real 1:1, so **no new signup had ever seen its beginner guidance** — Home, the wizard and the rail now share one rule (`hasRealRuns`). Hiding the rail outright was rejected on evidence: it would have taken the customer app's only Log out with it. 189/189, both linters, real-screen proof per phase. **Not live yet — ships on Carl's next "go live"**, which is also the only way to run the plan's final live walk. Parked: an extra boot request to remove the rail's settling beat (Carl's call), and the prep brief still isn't shown on a finished run's detail view.
 
+**▶ OPEN NOW (2026-07-26 checkpoint sweep) — six tracks in `docs/plans/doing/`, and 6 commits sitting local waiting on "go live".**
+- **[audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md)** — 9 phases from the 25 Jul full-app Playwright audit (256 page loads, 4 roles, 963 buttons). P1 ✅ green-lit; P2 🔨 in another chat; P3 (the `/runs/:id` refresh dead end) is the biggest user-visible one left.
+- **[entry-redesign](docs/plans/doing/entry-redesign/plan.md)** — P1 ✅ green-lit, Carl picked Version A. P2 ⬜ builds it into the real screens; its blocker (the google-signin lane on `login.js`/`register.js`) is gone now that track closed.
+- **[demo-member](docs/plans/doing/demo-member/plan.md)** P2 ⬜ · **[screen-gallery](docs/plans/doing/screen-gallery/plan.md)** P2 ✅ built awaiting Carl's walk · **[promises-loop](docs/plans/doing/promises-loop/plan.md)** P3 engine feed still to build · **[sero-run-memory](docs/plans/doing/sero-run-memory/plan.md)** P1 built awaiting Carl's walk.
+- **Carl's move stays the corridor test:** name the 3 managers, flip Render to paid.
+
+**✅ CLOSED 2026-07-25, LIVE on sero.team: [google-signin](docs/plans/done/google-signin/plan.md) — "Continue with Google" on login and signup, both apps (3 phases in one day, $0).** Server-side OAuth 2.0 code flow with PKCE and **zero new dependencies**: the strict CSP (`script-src 'self'`) ruled out Google's JS SDK, and the redirect flow needs no CSP change. A 4-branch account ladder (google_sub match, verified-email link, pending-invite auto-accept, fresh signup with org + demo seed + admin alert) means a Google user gets exactly the welcome a password user gets. `APP_BASE_URL` moved to https://sero.team, because the OAuth state cookie must live on the sign-in domain. 186/186 tests, walks verified in the DB rather than on screen. **Microsoft SSO stays parked** in section 2b.
+
+**✅ CLOSED 2026-07-25, LIVE: [refactor-2026-07](docs/plans/done/refactor-2026-07/plan.md) — the full code review, all 7 phases green-lit in one day, $0, zero behaviour change by design.** About **4,000 lines removed or de-duplicated**: a dead-code sweep (~1,900 lines) that also closed a real hazard where `rebuild-question-index --prune` walked `_runtime`; a typecheck safety net that immediately caught BOTH app typechecks already red on main; `server.ts` 803 to 609 lines; the 12-layout Prepare lab out of the customer bundle (20.8 to 8.9 kB); one typed `state.ts`; one shared run-row projection across the file and PG stores; one boot shell for both app entries. Parked with reasons: dual pipeline orchestration, the router member-rule divergence (a product question), 28 misplaced `scripts/test-*.js`, the auth-controller slim-down. Sister change the same day: **the admin split** (build `641f782`) — live is the field console, local is the lab, with the workshop and design bench hidden on live and the rail deriving its trim from that one router set.
+
 **✅ CLOSED 2026-07-25, ALL LIVE: [design-consolidation](docs/plans/done/design-consolidation/plan.md) — the whole app now wears one design language (all 8 phases green-lit by Carl across 4 days).** The 45-screen audit became the acceptance list and every box is ticked or Carl-parked: shared kit + one table/toolbar on every list, one auth shell, recomposed member Home, the flow spine (stepper Setup→Recap, one footer, one interstitial, calm interview, instant recap, ONE Prepare layout), pinned labelled sidebar + breadcrumbs everywhere (zero per-screen Backs), Guided check-in on the app shell, the full admin sweep (Pulse one-clock, grouped errors, um-tables), and a closing re-audit: **35 Standard / 9 Hybrid / 1 exempt Custom, from 12/19/14**. CSS down with zero inline style blocks and nine namespaces deleted; fresh 42-screen baseline. Parked by Carl: flow's two widths, the Prepare variant-lab CSS. SeroEngine rename stays its own parked job. Shipped across PRs #29-#33.
 
 **✅ CLOSED 2026-07-20: [better-reads](docs/plans/done/better-reads/plan.md) — the engine's read got fairer and briefings stopped repeating themselves (all 3 phases green-lit in one day, from Carl's "can we improve our engine?").** A three-lens stage audit measured the sweep's #1 parked finding (scoring skew) at 24 down-bookings/−34 vs 11 up/+11 across 8 runs, then fixed it honestly: every held-back score is now recorded (P1), a short-but-real answer ("Shipped payments-fix") keeps the up-score the model already proposed — never invented, still capped (P2, LIVE), and repeat 1:1s see last time's brief and provably open new ground (self-prior proof: 8% opener overlap, theme named as continuing; ~$0.13 paid) (P3, ships next push). Two systemic findings down (skew + briefing sameness), four still parked (bank bloat, blind lint, key mismatch + the cost quick-wins).
@@ -229,6 +239,23 @@ Phase 7 member surface was not UI-walked (needs a member login). Folder →
 [docs/plans/done/monthly-one-on-one/](docs/plans/done/monthly-one-on-one/plan.md).
 *(Board entry corrected 2026-07-15 — it still said "parked at Gate 1" three days after the track closed.)*
 
+### Committee follow-ups (Local vs live admin, 2026-07-25) — decided, parked
+
+Carl chose **option A on all three** (2026-07-26). Direction locked, nothing scheduled: these are
+research-for-later, held behind the VALIDATION STAGE gate, and each becomes its own darren-method plan
+(one phase at a time) when it un-parks. Full findings with citations →
+[docs/reports/2026-07-25-lab-traceability-research.md](docs/reports/2026-07-25-lab-traceability-research.md).
+
+| Track | Chosen shape (A) | Size | Notes |
+|---|---|---|---|
+| **live-run replay bridge** | A superadmin-only endpoint **on live** exports ONE run as a scrubbed bundle in run-folder layout, behind an allow-list, a fail-closed identifier scan, and an `audit_log` row. Local replays it with the existing tools, unchanged. | M | The env-guard never moves: the export runs inside the live process, only a file travels. Needs a **legal read first** on two limits — the scrub must substitute identifiers consistently rather than reword prose (or the trust gates flip), and free prose can still identify someone with no name in it. Consent-per-run (option B) becomes non-optional the moment a paying customer's run is in scope. |
+| **build traceability** | Server stamps its build SHA on every `error_logs` + `feedback_notes` row (step 1), then the bundle carries its own SHA so server-vs-client disagreement flags a stale tester bundle (step 2), then run id joins both (step 3). | S | Three separately shippable steps; step 1 is a migration plus about six lines and closes most of it. Free win found on the way: the plain Send-feedback form drops the `page` value the column already accepts. |
+| **durable feedback triage** | A `status` column on `feedback_notes` plus a PATCH route, replacing the localStorage map. | XS | Deletes the prune pass it replaces, so it is a net simplification. Reverses a deliberate earlier call ("Carl's personal marks, not shared data") on purpose. |
+
+**Un-park trigger to watch:** the last two are small and both serve the validation programme itself. If the
+corridor push stalls because tester reports carry no build or triage keeps vanishing, that is the argument
+for taking those two early. Not a reason to start now.
+
 ### Code-health tracks (from the 2026-07-09 CTO deep audit)
 
 The full four-corner audit (engine · api+db · web apps · scripts) found the codebase **healthy** —
@@ -266,7 +293,7 @@ Completed work has been cleared from this board. The record lives in git history
 
 ---
 
-## Repo state (refreshed 2026-07-21, repo sweep)
+## Repo state (refreshed 2026-07-26, checkpoint sweep)
 
 Phases 001–006 are all closed and archived under `docs/plans/done/`; Phase 007 (login screen, folded into the admin console) is **done** — both phases committed, plan closed to `docs/plans/done/login-screen/`.
 **There is no auto-commit/push automation** — commits are made explicitly. `main` runs **ahead of
@@ -275,7 +302,7 @@ normal, not a problem. One branch (`main`), stash list clean — keep both that 
 `logs/**` is **fully gitignored, no keep-set** — the old May keep-set was untracked in the
 personal-data-security purge; baseline copies live only on Carl's machine.
 
-**Test status:** `npm test` **167/167** green, `npm run typecheck` clean, offline ($0) — as of 2026-07-21. Live
+**Test status:** `npm test` **190/190** green, `npm run typecheck` clean, offline ($0) — as of 2026-07-26. Live
 gate/smoke/eval are PAID and need a per-run go-ahead. Sign-off is tracked per-phase in each PLAN.md,
 `STATUS.md`, and Section 1 above.
 

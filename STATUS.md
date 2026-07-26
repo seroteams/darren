@@ -2,6 +2,46 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-26 — the first minute now shows the work instead of asking for it.**
+onboarding-firstrun CLOSED, all 4 phases green-lit in two days. A brand-new manager lands on a
+welcome that quotes the seeded example's REAL prep brief (drift-tested against the fixture, labelled
+a sample), your walkthrough video click-to-load, one button. The left rail stays quiet (What is Sero?
+/ Send feedback / Log out only) until a first real 1:1 exists. The research pass caught a live bug on
+the way: since demo-seeding began on 22 July the prep wizard counted the example as a real 1:1, so no
+new signup had ever seen its beginner guidance. Home, the wizard and the rail now share one rule
+(`hasRealRuns`). 189/189 tests, both linters, real-screen proof per phase. **Not live yet: ships on
+your next "go live".**
+
+📍 **2026-07-26 — account settings can capture your company's sector.** Optional field on the
+account sheet, capture only: nothing in the engine reads it yet. It is there so the corridor test can
+tell us what kind of company each tester runs, without another form.
+
+📍 **2026-07-25 — Google sign-in went LIVE on sero.team.** "Continue with Google" on login and
+signup, both apps, closed in one day across 3 phases. Server-side OAuth with PKCE and zero new
+dependencies (the strict CSP rules out Google's JS SDK). A new Google user gets the same welcome as
+any other signup: org, demo seed, admin alert. Microsoft SSO stays parked.
+
+📍 **2026-07-25 — the full code review landed, with zero behaviour change (refactor-2026-07, all 7
+phases in one day, $0).** About 4,000 lines removed or de-duplicated: dead code swept, both app
+typechecks caught already-red on main and fixed, `server.ts` 803 to 609 lines, the 12-layout Prepare
+lab out of the customer bundle, one typed `state.ts`, one run-row projection shared by both stores,
+one boot shell for both apps. LIVE and verified on the deploy.
+
+📍 **2026-07-25 — live is the field console, local is the lab.** Carl asked whether the two had
+drifted. Three read-only sweeps said no, but one app was wearing four hats. The workshop and design
+bench (Library, Compare, Coaching phrases, Role words, Meeting arcs, Design system, Tests) are now
+hidden on live; the rail derives its trim from that one router set, so it can never disagree with the
+deep-link bounce. LIVE, build `641f782`.
+
+📍 **2026-07-25 — the full-app audit became a fix-up plan.** 256 page loads, 4 roles, 963 buttons
+clicked (`audits/full-app-audit-2026-07-25/report.html`). Nine phases of green-lit findings.
+**P1 CLOSED** (brand marks show, the build stamp stops blocking clicks, search boxes named, auth
+screens on the brand face, one date format per column). **P2 building now** in another chat.
+
+📍 **2026-07-25 — you picked the way in.** entry-redesign P1 green-lit: two prototypes walked in the
+Test area, you chose **Version A** (keep the three screens, dress them to match). P2 (build A into
+the real screens) is not started.
+
 📍 **2026-07-25 — THE REDESIGN IS DONE. All 8 design-consolidation phases green-lit and live.**
 Carl's closing walk signed P7 ("a... push live"): the re-audit scoreboard reads **35 Standard /
 9 Hybrid / 1 Custom** (the Screen gallery, exempt on purpose), from 12/19/14 when the audit
@@ -124,18 +164,27 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage — the app is fully live and now looks the part everywhere.
-2. **Screen-gallery Phase 2** — the static HTML gallery is built; walk it and green-light to close the phase.
-3. Or start something new — the redesign is closed; nothing here is waiting on a build.
+1. **Say "go live"** — 6 commits are sitting local, including the whole onboarding first-run build and the account sector field. Nothing ships until you say it.
+2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
+3. **Three walks are waiting on you** — screen-gallery P2 (static gallery built), sero-run-memory P1 (read chips built 2026-07-20), audit-fixes P2 when the other chat hands it over.
 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-
-| [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). |
-| [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built — awaiting your green-light walk to close. |
+| [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 🔨 building in another chat (shell + layout). P3–P9 ⬜. |
+| [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |
+| [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). Must reuse `hasRealRuns` from the onboarding build. |
+| [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ built, awaiting your green-light walk to close. P3 ⬜ optional. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
-| [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail) — awaiting your QA walk. P2–P4 not started. |
+| [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail), awaiting your QA walk. P2–P4 not started. |
+
+## ✅ Closed 2026-07-26
+[onboarding-firstrun](docs/plans/done/onboarding-firstrun/plan.md) — the brief-first welcome, the quiet rail, and one shared first-run rule. All 4 phases green-lit; 189/189 tests; ships on your next "go live".
+
+## ✅ Closed 2026-07-25
+[google-signin](docs/plans/done/google-signin/plan.md) — "Continue with Google" LIVE on sero.team, 3 phases in one day, zero new dependencies. Microsoft SSO stays parked.
+[refactor-2026-07](docs/plans/done/refactor-2026-07/plan.md) — the full code review, 7 phases in one day, about 4,000 lines removed or de-duplicated, zero behaviour change. LIVE and verified on the deploy.
+[home-screen-truth](docs/plans/done/home-screen-truth/plan.md) — the seeded example now says it is an example.
 
 ## ✅ Closed 2026-07-25
 [design-consolidation](docs/plans/done/design-consolidation/plan.md) — the whole redesign, all 8 phases green-lit across 4 days (P0 foundations → P7 re-audit). Final scoreboard 35 Standard / 9 Hybrid / 1 exempt Custom (was 12/19/14); all 43 acceptance boxes ticked or Carl-parked (flow widths, Prepare lab CSS); CSS 9,874 → 9,680 with zero inline style blocks, nine namespaces deleted; fresh 42-screen baseline; design-cleanups absorbed. Shipped live across PRs #29-#33. [Board](https://claude.ai/code/artifact/68a1b2ab-13b3-4279-a35a-b6a8a96e23c0) · [reaudit](audits/design-audit-2026-07/reaudit.md).
@@ -164,4 +213,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-25 — design consolidation CLOSED (all 8 phases, scoreboard 35/9/1); board clear for the corridor test.
+Last updated: 2026-07-26 (checkpoint sweep) — onboarding-firstrun CLOSED, google-signin + refactor-2026-07 LIVE, audit fix-up and entry redesign now on the board. 6 commits sitting local, waiting on "go live".

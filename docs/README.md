@@ -4,14 +4,20 @@ The map of everything under `docs/`. **Where are we right now?** → [`STATUS.md
 (tactical) · [`SERO_BOARD.md`](../SERO_BOARD.md) (strategic) · the **Tasks** screen in the admin
 app (live plan board, auto-built from the plan folders).
 
-Four rooms:
+The rooms (refreshed 2026-07-26):
 
-| Folder | What lives here |
-|---|---|
-| [`reference/`](reference/) | Living canonical specs — the docs that stay true. |
-| [`reports/`](reports/) | Point-in-time outputs, date-prefixed. |
-| [`plans/`](plans/) | Multi-phase build work — [`doing/`](plans/doing/) (active), [`future/`](plans/future/) (parked), [`done/`](plans/done/) (completed). One folder per plan. |
-| [`archive/`](archive/) | Superseded plans, old artifacts. |
+| Folder | What lives here | Committed? |
+|---|---|---|
+| [`reference/`](reference/) | Living canonical specs — the docs that stay true. | yes |
+| [`reports/`](reports/) | Point-in-time outputs, date-prefixed, plus the two hand-maintained customer-facing pages. Spent ones move to [`reports/archive/`](reports/archive/). | yes |
+| [`plans/`](plans/) | Multi-phase build work — [`doing/`](plans/doing/) (active), [`future/`](plans/future/) (parked), [`done/`](plans/done/) (completed). One folder per plan; the folder's bucket IS its status. | yes |
+| [`decisions/`](decisions/) | One file per decision later work has to obey. | yes |
+| [`design/`](design/) | Design source material and mock references. | yes |
+| [`research/`](research/) | External evidence reviews behind product calls. | yes |
+| [`carl-method/`](carl-method/) | The portable pack of how this project is run, for use outside this repo. | yes |
+| [`archive/`](archive/) | Superseded plans, old artifacts. | yes |
+| `screen-gallery/` | Static HTML snapshot of every screen. README + export script tracked; the generated `.html` is not (~26MB). Rebuild with `node scripts/gallery-export.mjs`. | partly |
+| `chat-history/` | Past conversation transcripts, rebuilt by `scripts/chat-log.py`. | **no, local only** |
 
 ---
 
@@ -33,24 +39,33 @@ Four rooms:
 | [gtm-validation-plan.md](reference/gtm-validation-plan.md) | The first corridor-test plan (needs names). |
 | [design.md](reference/design.md) | Sero design-token spec (colours, type, spacing). |
 | [features.md](reference/features.md) | Feature inventory snapshot (active work lives in SERO_BOARD.md). |
+| [engine-map.md](reference/engine-map.md) | How the 5-stage pipeline fits together, for agents. |
+| [agent-decisions.md](reference/agent-decisions.md) | Carl's recurring judgment calls, written as decision tables. |
+| [repo-map.md](reference/repo-map.md) | The measured repo brain (kept after an A/B test: big win on conceptual questions). |
+| [RENDER_SETUP.md](reference/RENDER_SETUP.md) | The live deploy's environment table. |
+| [db-backup-restore.md](reference/db-backup-restore.md) | How to back up and restore the database. |
+| [claude-cheat-sheet.html](reference/claude-cheat-sheet.html) | One-page cheat sheet for driving this repo. |
 
 ## reports/ — point-in-time outputs
 
-| Report | Date |
+| Report | What |
 |---|---|
-| [2026-07-07-night-test-report.md](reports/2026-07-07-night-test-report.md) | Overnight full-QA raw log. |
-| [sero-changelog.html](reports/sero-changelog.html) | Founder/customer-facing changelog (hand-maintained). |
+| [sero-changelog.html](reports/sero-changelog.html) | Customer/internal changelog homepage (hand-maintained, refreshed at each track close). |
 | [sero-how-it-works.html](reports/sero-how-it-works.html) | Founder-facing how-it-works deck (hand-maintained). |
+| [2026-07-18-agency-audit.md](reports/2026-07-18-agency-audit.md) | The outside-agency code audit and its 17 findings. |
+| [2026-07-25-lab-traceability-research.md](reports/2026-07-25-lab-traceability-research.md) | The three committee follow-ups (replay bridge, build traceability, durable triage), with Carl's option-A decisions. |
+| [cleanup/](reports/cleanup/) | One file per repo clean-up sweep. |
+| [archive/](reports/archive/) | Spent reports kept for the record. |
 
 ## plans/ — build work
 
 One folder per plan, filed by state — the folders ARE the source of truth (don't hand-list
 them here; the list drifts). Live view: the **Tasks** screen in the admin app + [`STATUS.md`](../STATUS.md).
 
-- **[doing/](plans/doing/)** — actively in-flight. Currently one track: **thread-follow**.
-- **[future/](plans/future/)** — parked / not started (briefing-readability-p0, design-cleanups,
-  planner-grounding, questions-outcome-moat, run-qa-fixes-jul04).
-- **[done/](plans/done/)** — completed, signed-off tracks (the large majority; git history has the rest).
+- **[doing/](plans/doing/)** — actively in-flight (6 tracks as of 2026-07-26).
+- **[future/](plans/future/)** — parked / not started (12 folders, each carrying a banner that says
+  exactly where it stopped; one sentence un-parks any of them).
+- **[done/](plans/done/)** — completed, signed-off tracks (80 folders; git history has the rest).
 
 ## archive/ — superseded + completed
 

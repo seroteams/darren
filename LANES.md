@@ -8,12 +8,10 @@ stops the edit and surfaces a warning instead of ploughing in.
 
 | session | area | paths | claimed |
 |---------|------|-------|---------|
-| 0e03aa19 | Design consolidation P7 (re-audit + close) | docs/plans/doing/design-consolidation/, STATUS.md, audits/design-audit-2026-07/, docs/screen-gallery/ | 2026-07-24 |
 | 35146fdf | Carl Method portable pack | docs/carl-method/ | 2026-07-25 |
 | 4b899314 | Audit fix-up P2 (shell + layout) | docs/plans/doing/audit-fixes-jul-25/, audits/full-app-audit-2026-07-25/p2-proof/, admin/src/styles/design/primitives.css, admin/src/styles/design/session-topbar.css, admin/src/styles/design/app-nav.css, admin/src/ui/session-topbar.js, frontend/src/router.js, frontend/src/ui/app-nav-flow.test.ts | 2026-07-25 |
-| e2b2e75b | Notes-as-quote spacing on focus areas | admin/src/stages/focus-points.js, admin/src/styles/design/stage-extras.css | 2026-07-26 |
-| 794bbf0e | Onboarding first-run P4 (sweep + changelog/guide) | docs/plans/doing/onboarding-firstrun/, docs/reports/sero-changelog.html, docs/reports/sero-how-it-works.html, admin/src/stages/start-core.js, admin/src/stages/start-core.test.ts | 2026-07-26 |
-| a965735e | Org sector field (capture only — no engine wiring) | backend/db/schema.ts, backend/db/migrations/, backend/api/services/auth/auth.service.ts, backend/api/services/auth/auth.service.test.ts, backend/api/services/auth/auth.repo.ts, backend/api/services/auth/auth.controller.ts, backend/api/server.ts, shared/api.js, admin/src/ui/account-sheet.ts, logs/committee/ | 2026-07-26 |
+| f1f7e175 | Checkpoint sweep (trackers, tidy, guides) | STATUS.md, SERO_BOARD.md, LANES.md, docs/reference/structure.md, docs/reference/trackers.md, docs/reports/sero-changelog.html, docs/README.md | 2026-07-26 |
+| a965735e | Org sector field (capture only — no engine wiring) | backend/db/schema.ts, backend/db/migrations/, backend/api/services/auth/auth.service.ts, backend/api/services/auth/auth.service.test.ts, backend/api/services/auth/auth.repo.ts, backend/api/services/auth/auth.controller.ts, backend/api/server.ts, shared/api.js, shared/sectors.ts, admin/src/ui/account-sheet.ts, admin/src/stages/register.js, backend/tests/auth/, logs/committee/ | 2026-07-26 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
