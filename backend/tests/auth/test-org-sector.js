@@ -19,7 +19,7 @@ if (!process.env.DATABASE_URL) {
 
 const { eq } = require("drizzle-orm");
 const { getDb, closeDb } = require("../../db/client.ts");
-const { organizations } = require("../../db/schema.ts");
+const { organizations, users } = require("../../db/schema.ts");
 const { pgAuthRepo } = require("../../api/services/auth/auth.repo.ts");
 const { createAuthService } = require("../../api/services/auth/auth.service.ts");
 const { getCompany, updateCompany } = require("../../api/services/auth/auth.controller.ts");
@@ -52,6 +52,8 @@ function fakeCtx(body) {
   const db = getDb();
   const service = createAuthService(pgAuthRepo, { async hash(p) { return p; }, async verify() { return true; } });
   let orgId = "";
+  let signupOrgId = "";
+  let signupUserId = "";
 
   try {
     const inserted = await db.insert(organizations).values({ name: ORG_NAME }).returning();
@@ -111,7 +113,26 @@ function fakeCtx(body) {
       assert.equal(readCtx.sent.status, 200);
       assert.deepEqual(readCtx.sent.payload, { company: ORG_NAME, sector: "education" });
     });
+
+    // 6. Signup: a sector picked on the register form lands on the company row the
+    //    transaction creates, in the same write as the org and its owner.
+    const signup = await service.register({
+      email: `${ORG_NAME}@sector.test`,
+      name: "Sector Signup",
+      password: "longenough1",
+      company: `${ORG_NAME}-signup`,
+      sector: "transport",
+    });
+    signupOrgId = signup.orgId;
+    signupUserId = signup.id;
+    const signupRow = await db.select().from(organizations).where(eq(organizations.id, signupOrgId));
+    check("a sector chosen at signup is stored on the new company row", () => {
+      assert.equal(signupRow[0].sector, "transport");
+    });
   } finally {
+    // Order matters: the owner references the org, so the user goes first.
+    if (signupUserId) await getDb().delete(users).where(eq(users.id, signupUserId));
+    if (signupOrgId) await getDb().delete(organizations).where(eq(organizations.id, signupOrgId));
     if (orgId) await getDb().delete(organizations).where(eq(organizations.id, orgId));
     await closeDb();
   }

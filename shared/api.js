@@ -33,8 +33,10 @@ export async function postJson(url, payload) {
 
 // --- Auth (Phase 006 endpoints; cookie is httpOnly + automatic) ---
 
-export async function register({ email, name, password, company }) {
-  return postJson("/api/v1/auth/register", { email, name, password, company });
+// `sector` is optional (a catalogue id from shared/sectors.ts). The server drops a value
+// it doesn't recognise rather than refusing the signup.
+export async function register({ email, name, password, company, sector }) {
+  return postJson("/api/v1/auth/register", { email, name, password, company, sector: sector ?? "" });
 }
 
 export async function login({ email, password }) {

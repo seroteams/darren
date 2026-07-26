@@ -27,6 +27,9 @@ export interface RegisterInput {
   name: string;
   password: string;
   company?: string; // the new company's name; defaults to "<name>'s Company"
+  /** The new company's sector (a catalogue id from shared/sectors.ts). Optional, and
+   *  deliberately forgiving: an unrecognised value is dropped, never a signup blocker. */
+  sector?: string | null;
 }
 
 export interface LoginInput {
@@ -106,8 +109,14 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
       // Because it's HR, signing up creates the company too: the first person becomes
       // its owner (Phase 4). Default the company name from the person's name.
       const company = (input.company ?? "").trim() || `${name}'s Company`;
+      // Sector is optional at signup. Unlike updateCompany (where the manager sees an error
+      // and can fix it), an unrecognised value here is silently dropped: the dropdown can
+      // only produce catalogue ids, so a bad one means a hand-made request, and an optional
+      // field must never stop someone creating an account.
+      const sectorRaw = (input.sector ?? "").trim();
+      const sector = isKnownSector(sectorRaw) ? sectorRaw : null;
       const passwordHash = await hasher.hash(password);
-      const user = await repo.createOrgWithOwner({ company, email, name, passwordHash });
+      const user = await repo.createOrgWithOwner({ company, sector, email, name, passwordHash });
       return toPublic(user);
     },
 

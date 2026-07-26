@@ -59,7 +59,7 @@ function fakeRepo(seed: AuthUser[] = []): AuthRepo & {
         role: "manager",
         passwordHash: input.passwordHash,
       };
-      orgs.push({ id: u.orgId, name: input.company, sector: null });
+      orgs.push({ id: u.orgId, name: input.company, sector: input.sector ?? null });
       rows.push(u);
       return u;
     },
@@ -341,6 +341,28 @@ test("a brand-new company starts with no sector set", async () => {
   const repo = fakeRepo();
   const service = createAuthService(repo, fakeHasher);
   const user = await service.register({ email: "dee@acme.com", name: "Dee", password: "longenough1" });
+  assert.equal((await service.getCompany(user.orgId))?.sector, null);
+});
+
+test("register: a sector picked at signup is stored on the new company", async () => {
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({
+    email: "eli@acme.com", name: "Eli", password: "longenough1", company: "Acme", sector: "education",
+  });
+  assert.equal((await service.getCompany(user.orgId))?.sector, "education");
+});
+
+test("register: an unrecognised sector is dropped, and the signup still succeeds", async () => {
+  // Deliberately softer than updateCompany, which refuses. The dropdown can only produce
+  // catalogue ids, so a bad value here means a hand-made request — and an optional field
+  // must never be the reason someone can't create an account.
+  const repo = fakeRepo();
+  const service = createAuthService(repo, fakeHasher);
+  const user = await service.register({
+    email: "fay@acme.com", name: "Fay", password: "longenough1", sector: "underwater-basket-weaving",
+  });
+  assert.ok(user.id, "the account was still created");
   assert.equal((await service.getCompany(user.orgId))?.sector, null);
 });
 

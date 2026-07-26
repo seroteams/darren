@@ -35,6 +35,8 @@ export interface AuthUser {
  *  The raw password never appears here — only the one-way hash. */
 export interface NewOrgOwner {
   company: string;
+  /** The new company's sector (a catalogue id), or null when it wasn't picked. */
+  sector: string | null;
   email: string;
   name: string;
   passwordHash: string;
@@ -123,7 +125,7 @@ export const pgAuthRepo: AuthRepo = {
     // One transaction: the org and its owner are created together, or not at all —
     // never a company with no owner, or an owner with no company.
     return db.transaction(async (tx) => {
-      const orgRows = await tx.insert(organizations).values({ name: input.company }).returning();
+      const orgRows = await tx.insert(organizations).values({ name: input.company, sector: input.sector }).returning();
       const org = orgRows[0];
       if (!org) throw new Error("createOrgWithOwner: org insert returned no row");
       const userRows = await tx

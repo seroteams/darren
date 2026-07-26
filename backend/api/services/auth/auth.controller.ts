@@ -57,6 +57,7 @@ export async function register(
     name: asString(body.name),
     password: asString(body.password),
     company: asString(body.company),
+    sector: asString(body.sector),
   });
   // Fire-and-forget: tell the admin someone signed up. Never awaited — the response
   // and the signup itself must never wait on, or fail because of, an email.

@@ -5,6 +5,7 @@
 
 import { STAGES, store, isInternalAdmin } from "../state.ts";
 import { register, login } from "../../../shared/api.js";
+import { SECTORS } from "../../../shared/sectors.ts";
 import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 import { landingStage } from "../ui/landing.ts";
@@ -34,6 +35,13 @@ export async function mount(root, { setState }) {
             <label class="l-stack l-stack--2">
               <span class="field__label">Company <span class="text-ink-mute">(optional)</span></span>
               <input class="input js-company" type="text" autocomplete="organization" placeholder="Thriving Company Co Ltd" />
+            </label>
+            <label class="l-stack l-stack--2">
+              <span class="field__label">Sector <span class="text-ink-mute">(optional)</span></span>
+              <select class="input js-sector">
+                <option value="">Not set</option>
+                ${SECTORS.map((s) => `<option value="${s.id}">${s.label}</option>`).join("")}
+              </select>
             </label>
             <label class="l-stack l-stack--2">
               <span class="field__label">Email</span>
@@ -70,6 +78,7 @@ export async function mount(root, { setState }) {
   const form = root.querySelector(".js-form");
   const nameEl = root.querySelector(".js-name");
   const companyEl = root.querySelector(".js-company");
+  const sectorEl = root.querySelector(".js-sector");
   const emailEl = root.querySelector(".js-email");
   const passwordEl = root.querySelector(".js-password");
   const submitBtn = root.querySelector(".js-submit");
@@ -85,6 +94,7 @@ export async function mount(root, { setState }) {
     err.hidden = true;
     const name = nameEl.value.trim();
     const company = companyEl.value.trim();
+    const sector = sectorEl.value;
     const email = emailEl.value.trim();
     const password = passwordEl.value;
     if (!name || !email || !password) { showError("Fill in your name, email, and password."); return; }
@@ -92,7 +102,7 @@ export async function mount(root, { setState }) {
     submitBtn.disabled = true;
     submitBtn.textContent = "Creating…";
     try {
-      await register({ email, name, password, company });
+      await register({ email, name, password, company, sector });
       // Register doesn't set the cookie — log in to get the session and land in. Land by
       // role like login.js does, so a first-time member reaches their Home (not an admin
       // screen the router immediately bounces). A self-signup owner still lands on START.
