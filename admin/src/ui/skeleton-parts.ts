@@ -34,6 +34,19 @@ export function skLeaf(classes: string, width = "60%"): string {
 }
 
 /**
+ * A ghost leaf of SEVERAL lines: the real element wrapping one ghost line per
+ * width. Use where the real copy is ours and fixed, so its line count is known
+ * (a dashboard tile's label and caption). Each line needs its own block box or
+ * they all land on one line, because skLeaf is inline by design.
+ */
+export function skLines(classes: string, widths: string[]): string {
+  // .sk-line is full-width, which is what makes the lines stack even when the real
+  // element is a wrapping flex ROW (a dashboard tile's delta line is one).
+  const lines = widths.map((w) => `<div class="sk-line">${skLeaf("", w)}</div>`).join("");
+  return `<div class="${classes}">${lines}</div>`;
+}
+
+/**
  * A ghost SURFACE that keeps the box of the real classes it is handed and is
  * painted over whole. For anything already sized by its own CSS.
  */

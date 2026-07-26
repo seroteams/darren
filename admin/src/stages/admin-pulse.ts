@@ -274,7 +274,13 @@ export const mount: Mount = async (root, { setState }) => {
   const go = (stage: StageName) => setState({ stage });
 
   const load = async () => {
-    root.replaceChildren(createSkeleton(5));
+    // The hero Gate-1 tile and five KPI tiles, then the managers table beneath.
+    root.replaceChildren(
+      createSkeleton([
+        { preset: "tiles", rows: 6, hero: true },
+        { preset: "table", rows: 5, cols: ["stack", "text:10ch", "text:8ch", "pill"] },
+      ]),
+    );
     try {
       const p = await fetchPulse(currentDays);
       render(root, p, go, (d) => { currentDays = d; void load(); });

@@ -7,6 +7,7 @@
 import { getRunStages, getStagePreview, getSessionRules } from "../../../shared/api.js";
 import { STAGES } from "../state.ts";
 import { escapeHtml } from "./html.js";
+import { skeletonHtml } from "./skeleton.js";
 
 // Live stage -> the folder it logs to.
 const STAGE_KEY = {
@@ -214,8 +215,8 @@ export function createStageDataController() {
     // Only blank to "Loading…" when the stage/turn changed — not on every keystroke
     // of the draft (that would flicker). A draft-only change repaints in place.
     if (baseChanged) {
-      sentEl.innerHTML = placeholder("Loading…");
-      replyEl.innerHTML = placeholder("Loading…");
+      sentEl.innerHTML = skeletonHtml({ preset: "prose", rows: 3 });
+      replyEl.innerHTML = skeletonHtml({ preset: "prose", rows: 3 });
       try {
         const { stages } = await getRunStages(sessionId);
         if (my !== token) return;
@@ -248,7 +249,7 @@ export function createStageDataController() {
     const nextKey = `${sessionId}|${turn || 0}`;
     if (nextKey === rulesLoadedKey) return;
     const my = ++rulesToken;
-    rulesEl.innerHTML = placeholder("Loading…");
+    rulesEl.innerHTML = skeletonHtml({ preset: "prose", rows: 3 });
     try {
       const data = await getSessionRules(sessionId);
       if (my !== rulesToken) return;

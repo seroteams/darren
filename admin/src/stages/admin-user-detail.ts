@@ -172,7 +172,8 @@ export const mount: Mount = async (root, { setState }) => {
   // ONE run's briefing, read-only (PG8 Step 3) — cross-user, via the superadmin route.
   const renderRecap = async (runId: string) => {
     root.innerHTML = shell(`<section class="js-skel"></section>`);
-    root.querySelector(".js-skel")?.replaceChildren(createSkeleton(3));
+    // A recap: the identity block lands with the rest, so the header doesn't grow.
+    root.querySelector(".js-skel")?.replaceChildren(createSkeleton({ preset: "recap", tabs: 0, rows: 3 }));
     let run: { ctx: Run["ctx"]; briefing: Briefing | null };
     try {
       run = (await getAdminRun(runId)) as { ctx: Run["ctx"]; briefing: Briefing | null };
@@ -224,7 +225,10 @@ export const mount: Mount = async (root, { setState }) => {
 
   const load = async () => {
     root.innerHTML = shell(`${plainHeader}<section class="js-skel"></section>`);
-    root.querySelector(".js-skel")?.replaceChildren(createSkeleton(3));
+    // The header is already real here; the body is this user's 1:1s table.
+    root.querySelector(".js-skel")?.replaceChildren(
+      createSkeleton({ preset: "table", rows: 5, cols: ["stack", "text:11ch", "text:10ch", "pill"] }),
+    );
     wireCrumbs();
 
     const id = store.adminUserId;

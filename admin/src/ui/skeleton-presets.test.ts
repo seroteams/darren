@@ -198,6 +198,31 @@ const PARITY: { preset: string; src: string; classes: string[] }[] = [
     src: "admin/src/styles/row-menu.css",
     classes: ["row-menu-btn"],
   },
+  {
+    preset: "tiles",
+    src: "admin/src/stages/admin-pulse.ts",
+    classes: ["lp-tiles", "lp-tile", "lp-tile--hero", "lp-tile__label", "lp-tile__value", "lp-tile__delta", "lp-tile__note"],
+  },
+  {
+    preset: "tiles delta chip",
+    src: "admin/src/styles/admin-pulse.css",
+    classes: ["lp-delta"],
+  },
+  {
+    preset: "recap",
+    src: "admin/src/ui/recap-header.ts",
+    classes: ["rd-profile", "rd-profile__id", "rd-avatar", "rd-name", "ds-avatar", "text-sm"],
+  },
+  {
+    preset: "recap tabs",
+    src: "admin/src/stages/run-detail.ts",
+    classes: ["ds-tabs", "ds-tab"],
+  },
+  {
+    preset: "sections",
+    src: "admin/src/ui/screen-scaffold.ts",
+    classes: ["card-flat", "eyebrow"],
+  },
 ];
 
 for (const { preset, src, classes } of PARITY) {
@@ -217,7 +242,7 @@ test("every class the presets emit is covered by a parity row", () => {
   const src = read("admin/src/ui/skeleton-presets.ts");
   const guarded = new Set(PARITY.flatMap((p) => p.classes));
   // The kit's own classes and the shared layout utilities aren't borrowed from a screen.
-  const own = /^(sk|sk-leaf|sk-fill|sk-table|skeleton|skeleton__card|skeleton__bar|skeleton__bar--\w+|sr-only|l-stack|l-stack--\d+)$/;
+  const own = /^(sk|sk-leaf|sk-fill|sk-line|sk-table|sk-two-col|skeleton|skeleton__card|skeleton__bar|skeleton__bar--\w+|sr-only|l-stack|l-stack--\d+|space-y-\d+)$/;
   const emitted = new Set<string>();
   for (const m of src.matchAll(/class="([^"$]+)"/g)) {
     for (const cls of m[1]!.split(/\s+/).filter(Boolean)) emitted.add(cls);

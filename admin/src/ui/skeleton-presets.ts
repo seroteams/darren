@@ -19,12 +19,17 @@
 //
 // Presets are added as they are proven against a real screen, not up front.
 
-import { skLeaf, skFill, skRoot } from "./skeleton-parts.ts";
+import { skLeaf, skLines, skFill, skRoot } from "./skeleton-parts.ts";
 
 export type SkeletonPreset =
   | "cards" // the legacy generic ghost cards — still the default
   | "list-rows" // .run-list--card of avatar / name / sub / side rows
-  | "table"; // .um-table-wrap of ghost head + body rows
+  | "table" // .um-table-wrap of ghost head + body rows
+  | "tiles" // .lp-tiles grid of KPI tiles (the Pulse dashboard)
+  | "recap" // identity profile + tabs + panel cards (the read-only 1:1 surfaces)
+  | "sections" // a stack of .card-flat blocks, each an eyebrow over lines
+  | "two-col" // a left rail beside a content column
+  | "prose"; // bare lines, for a host that already owns its card
 
 /**
  * How one table column ghosts. Keeps a call site to one short line while still
@@ -54,6 +59,12 @@ export interface SkeletonOpts {
    * and leaves the announcement to the host.
    */
   bare?: boolean;
+  /** tiles: the first tile is the wide hero (Pulse's Gate 1 tile). */
+  hero?: boolean;
+  /** recap: how many tab stubs sit above the panel. */
+  tabs?: number;
+  /** two-col: how many items in the left rail. */
+  railRows?: number;
   /** What a screen reader is told during the wait. */
   label?: string;
 }
@@ -163,6 +174,73 @@ function tablePreset({ rows = 5, toolbar = false, cols = DEFAULT_COLS }: Skeleto
   return `${bar}<div class="um-table-wrap"><table class="um-table sk-table">${colgroup}<thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
+// --- tiles: the Pulse dashboard ----------------------------------------------
+// Mirrors admin-pulse.ts's tile anatomy: label / value / delta chip / caption. The
+// value line is 30px display type, which is most of the tile's height, so ghosting
+// it in place is what keeps the tile from collapsing to a third of its real size.
+// Line counts are matched to the real tiles rather than guessed: at the grid's
+// 10.5rem track a Pulse tile is ~168px wide, so its label wraps to two lines, its
+// delta note to two and its caption to four, making a real tile ~255px tall. A
+// single-line ghost came out at ~120px and the dashboard jumped by half its height.
+// Matching exactly is fair here because this copy is ours and fixed, unlike a table
+// row full of user names.
+function tiles({ rows = 6, hero = false }: SkeletonOpts): string {
+  const tile = (i: number) => `<div class="lp-tile${hero && i === 0 ? " lp-tile--hero" : ""}" style="--sk-i:${i}">
+      ${skLines("lp-tile__label", ["92%", "58%"])}
+      ${skLeaf("lp-tile__value", "3ch")}
+      ${skLines("lp-tile__delta", ["70%", "86%"])}
+      ${skLines("lp-tile__note", ["100%", "94%", "88%", "52%"])}
+    </div>`;
+  return `<div class="lp-tiles">${Array.from({ length: rows }, (_, i) => tile(i)).join("")}</div>`;
+}
+
+// --- recap: the read-only 1:1 surfaces ---------------------------------------
+// The identity block is ghosted too, not just the body. The stage used to paint a
+// crumb-only header and then swap in the full profile, so the page grew by the
+// height of a name and an avatar the moment the data landed.
+function recap({ rows = 3, tabs = 3 }: SkeletonOpts): string {
+  const tabStubs = Array.from({ length: tabs }, (_, i) => skLeaf("ds-tab", i === 0 ? "8ch" : "7ch")).join("");
+  const cards = Array.from(
+    { length: rows },
+    (_, i) => `<section class="card-flat space-y-3" style="--sk-i:${i}">
+      ${skLeaf("eyebrow", "10ch")}${skLeaf("", "100%")}${skLeaf("", "78%")}
+    </section>`,
+  ).join("");
+  return `<div class="rd-profile">
+      ${skFill("ds-avatar rd-avatar")}
+      <div class="rd-profile__id">${skLeaf("rd-name", "12ch")}${skLeaf("text-sm", "16ch")}</div>
+    </div>
+    <div class="ds-tabs">${tabStubs}</div>
+    <div class="l-stack l-stack--4">${cards}</div>`;
+}
+
+// --- sections: a stack of card-flat blocks ------------------------------------
+function sections({ rows = 3 }: SkeletonOpts): string {
+  return Array.from(
+    { length: rows },
+    (_, i) => `<section class="card-flat space-y-3" style="--sk-i:${i}">
+      ${skLeaf("eyebrow", "11ch")}${skLeaf("", "100%")}${skLeaf("", "64%")}
+    </section>`,
+  ).join("");
+}
+
+// --- prose: bare lines, for a host that already owns its card ----------------
+// Nesting a card inside a card is a DESIGN.md no, so the text hold-outs that sat
+// inside a .card-flat get lines, not cards.
+function prose({ rows = 2 }: SkeletonOpts): string {
+  const widths = ["100%", "92%", "74%", "86%"];
+  return Array.from({ length: rows }, (_, i) => skLeaf("", widths[i % widths.length]!)).join("");
+}
+
+// --- two-col: a search rail beside a content column --------------------------
+function twoCol({ rows = 5, railRows = 8 }: SkeletonOpts): string {
+  const rail = Array.from({ length: railRows }, (_, i) => skLeaf("", i % 2 ? "72%" : "86%")).join("");
+  return `<div class="sk-two-col">
+      <div class="card-flat l-stack l-stack--3">${skFill("list-toolbar__search")}${rail}</div>
+      <div class="l-stack l-stack--3">${sections({ rows })}</div>
+    </div>`;
+}
+
 // --- dispatch ----------------------------------------------------------------
 
 // The root's own classes differ per preset, because the root has to sit in the
@@ -171,12 +249,22 @@ const ROOT_CLASS: Record<SkeletonPreset, string> = {
   cards: "skeleton",
   "list-rows": "l-stack l-stack--3",
   table: "l-stack l-stack--3",
+  tiles: "l-stack l-stack--3",
+  recap: "l-stack l-stack--4",
+  sections: "l-stack l-stack--4",
+  "two-col": "l-stack l-stack--3",
+  prose: "l-stack l-stack--2",
 };
 
 const RENDER: Record<SkeletonPreset, (o: SkeletonOpts) => string> = {
   cards,
   "list-rows": listRows,
   table: tablePreset,
+  tiles,
+  recap,
+  sections,
+  "two-col": twoCol,
+  prose,
 };
 
 function one(opts: SkeletonOpts): string {

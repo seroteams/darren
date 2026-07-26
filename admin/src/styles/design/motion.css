@@ -189,6 +189,22 @@
    ghost hasn't got, so without this the slack all lands in one column. */
 .sk-table { table-layout: fixed; }
 
+/* One line of a multi-line ghost leaf. Full width so the lines stack even when the
+   real element is a wrapping flex row. */
+.sk-line { width: 100%; }
+
+/* The two-column screens (job words, the guide) each roll their own rail width, so
+   the ghost carries a neutral one rather than borrowing from any single screen. */
+.sk-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+  gap: var(--sero-space-4);
+  align-items: start;
+}
+@media (max-width: 800px) {
+  .sk-two-col { grid-template-columns: 1fr; }
+}
+
 /* A ghost surface keeps the box of the real classes it was handed (an avatar
    circle, a search input) and is painted over whole. */
 .sk-fill {
