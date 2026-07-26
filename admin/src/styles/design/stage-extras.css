@@ -329,7 +329,7 @@
 .notes-quote {
   /* Spacing lives here, not on a utility class: this rule loads after the
      utilities, so a `mb-*` on the element would be silently overridden. */
-  margin: 0 0 1.75rem;
+  margin: 0 0 var(--sero-space-6);
   padding: 0.25rem 0 0.25rem var(--sero-space-4);
   border-left: 3px solid var(--color-primary-line);
   font-size: var(--type-lead);
@@ -347,6 +347,16 @@
   font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
+
+/* The streaming loader's host. It carries a base `flex` utility, which outweighs
+   the [hidden] attribute (same trap as .page-header in start-stage.css), so once
+   the result arrived the emptied box still held its min-height and left a dead
+   band between the page header and the content. */
+.thinking-host[hidden] { display: none; }
+
+/* Context line ("Egor · Lead · …") reads as the quote's caption, so it sits tight
+   against it rather than floating a full step away. */
+.focus-ctx { margin-bottom: var(--sero-space-2); }
 
 
 /* custom checkbox */

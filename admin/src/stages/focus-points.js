@@ -14,7 +14,7 @@ export async function mount(root, { store, setState }) {
   // No per-screen "Discard prep" (audit F3): the exit lives in the topbar's
   // "This 1:1" menu, which is live from this stage onward.
   root.innerHTML = `
-    <div class="l-container l-stack l-stack--8">
+    <div class="l-container l-stack l-stack--6">
       <header class="page-header">
         <div class="eyebrow">Focus areas</div>
         <h1 class="h1">What we'll cover</h1>
@@ -94,9 +94,7 @@ export async function mount(root, { store, setState }) {
     // blue Continue stays the screen's one primary.
     resultHost.innerHTML = `
       <div class="reveal">
-        <div class="space-y-1 mb-6">
-          <div class="ctx-segments focus-ctx text-ink-dim"></div>
-        </div>
+        <div class="ctx-segments focus-ctx text-ink-dim"></div>
         ${store.ctx?.notes
           ? `<blockquote class="notes-quote">${escape(store.ctx.notes)}</blockquote>`
           : `<p class="notes-quote notes-quote--empty">(no notes added)</p>`}
