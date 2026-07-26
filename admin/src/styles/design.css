@@ -1,7 +1,17 @@
 /* =============================================================================
-   Sero — design system barrel.
-   Split out of one 5021-line file into design/*.css, @imported here in the
-   original cascade order. main.js still imports just this file.
+   Sero — design system barrel. Both apps import just this file.
+
+   Everything in here ships to EVERY user on first load, including customers, so
+   it holds only what the shared shell and customer screens need.
+
+   Three admin-only sheets used to sit in this list and rode into the customer
+   bundle for nothing: design-stage.css (1,000 lines of internal Design system
+   screen), test-engine.css and run-log.css. They now import from the stage or
+   module that owns them, the way personas.js and runs.ts already did, so Vite
+   code-splits them (design-cleanup-invisible P5).
+
+   Before adding a sheet here, ask: does a customer screen use it? If only one
+   admin stage does, import it from that stage instead.
    ============================================================================= */
 @import "./design/tokens.css";
 @import "./design/base.css";
@@ -23,11 +33,9 @@
 @import "./design/auth.css";
 @import "./design/notes-panel.css";
 @import "./design/start-stage.css";
-@import "./design/run-log.css";
 @import "./design/stage-review.css";
-@import "./design/test-engine.css";
 @import "./design/stage-extras.css";
-@import "./design/design-stage.css";
+@import "./design/shared-components.css";
 @import "./design/run-detail.css";
 @import "./design/breadcrumb.css";
 @import "./design/mobile.css";

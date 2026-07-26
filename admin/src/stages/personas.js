@@ -22,6 +22,7 @@ import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { Play, X, Check, Sparkles } from "lucide";
 import "../styles/design/persona-bench.css";
+import "../styles/design/test-engine.css"; // the staged run-bar lives there (P5)
 import { button } from "../ui/button.ts";
 
 const COST_LINE =

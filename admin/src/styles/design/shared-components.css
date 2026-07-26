@@ -1,0 +1,101 @@
+/* =============================================================================
+   Shared components that escaped the design sheet.
+
+   These four recipes were written inside design/design-stage.css, the stylesheet
+   for the internal Design system screen, and then real product code started using
+   them: the inline alert, the initials avatar, the tab strip and the quiet button
+   now appear on customer screens in both apps.
+
+   They are promoted here so design-stage.css can leave the shared bundle without
+   taking working components with it (design-cleanup-invisible P5).
+
+   The `ds-` prefix is historical and now misleading. It is kept because renaming
+   the classes would mean editing files three other sessions hold; rename it in a
+   later pass, together with the markup.
+   ============================================================================= */
+
+/* Inline alert — admin/src/ui/action-error.ts, on customer Team + Members */
+.ds-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sero-space-3);
+  max-width: 28rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  padding: var(--sero-space-4);
+  box-shadow: var(--sero-shadow-sm);
+}
+.ds-alert__icon {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--sero-radius-sm);
+  font-weight: var(--type-weight-bold);
+}
+.ds-alert--error {
+  border-color: var(--sero-coral-700);
+  background: var(--sero-coral-100);
+  box-shadow: none;
+}
+.ds-alert--warn {
+  border-color: var(--sero-gold-700);
+  background: var(--sero-gold-100);
+  box-shadow: none;
+}
+
+/* Initials avatar — runs.ts, recap-header.ts, skeleton-presets.ts, person-detail.ts */
+.ds-avatar {
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-weight: var(--type-weight-semibold);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+/* Tab strip — run-detail.ts, person-detail.ts */
+.ds-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.ds-tab {
+  padding: 0.625rem 1rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-dim);
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.ds-tab:hover {
+  color: var(--color-ink);
+}
+.ds-tab.is-active {
+  color: var(--color-accent-dark);
+  border-bottom-color: var(--color-accent);
+}
+
+/* Quiet button — admin/src/ui/button.ts (the app also has .btn / --ghost / --danger) */
+.ds-btn-quiet {
+  background: none;
+  border: 0;
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radius-button);
+  font: inherit;
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-dim);
+  cursor: pointer;
+}
+.ds-btn-quiet:hover {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}

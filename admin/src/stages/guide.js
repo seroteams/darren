@@ -8,6 +8,7 @@
 // Modeled on library.js: build innerHTML, Back + Esc -> Home, clean up on unmount.
 
 import "../styles/guide.css";
+import "../styles/design/test-engine.css"; // shared with personas.js + job-lexicons.js, admin-only (P5)
 import { STAGES, setState } from "../state.ts";
 import { getArcs, getVersion, getMeetingTypes, getHeartbeat } from "../../../shared/api.js";
 import { icon } from "../ui/icon.js";

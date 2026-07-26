@@ -853,6 +853,49 @@
         "--strictPort"
       ],
       "port": 3213
+    },
+    {
+      "name": "dsclean-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3351",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3351
+    },
+    {
+      "name": "dsclean-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3351",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3353",
+        "--strictPort"
+      ],
+      "port": 3353
+    },
+    {
+      "name": "dsclean-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3351",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3355",
+        "--strictPort"
+      ],
+      "port": 3355
     }
   ]
 }

@@ -6,6 +6,7 @@
 // classes (.btn, .card, .um-table*, .um-badge*, .page-header*, .field*, .textarea, .input,
 // .bench-select) where they exist; showcase-only bits are local .ds-* classes.
 
+import "../styles/design/design-stage.css"; // this stage owns the sheet (P5: kept out of the shared bundle)
 import { createOrb } from "../ui/orb.js";
 
 // Rail order = section order down the page. Each entry needs a matching builder below and

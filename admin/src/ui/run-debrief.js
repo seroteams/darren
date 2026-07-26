@@ -1,3 +1,4 @@
+import "../styles/design/run-log.css"; // this panel owns the sheet (P5)
 import * as runDebrief from "@sero/run-debrief";
 import { escapeHtml } from "./html.js";
 

@@ -9,6 +9,7 @@ import {
   hideRoleLexiconTerm,
   unhideRoleLexiconTerm,
 } from "../../../shared/api.js";
+import "../styles/design/test-engine.css"; // admin-only sheet, imported by its consumers (P5)
 import { escapeHtml as esc } from "../ui/html.js";
 import { groupTerms, isGrouped } from "../ui/vocab-groups.js";
 import { icon } from "../ui/icon.js";

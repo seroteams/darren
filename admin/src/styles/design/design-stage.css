@@ -223,15 +223,6 @@
     grid-template-columns: 1fr 1fr;
   }
 }
-.ds-avatar {
-  border-radius: 50%;
-  background: var(--color-accent-soft);
-  color: var(--color-accent-dark);
-  font-weight: var(--type-weight-semibold);
-  display: grid;
-  place-items: center;
-  flex: none;
-}
 .ds-rowmenu {
   background: none;
   border: 0;
@@ -267,21 +258,6 @@
   border-radius: var(--radius-offspec-16);
 }
 
-/* Buttons — quiet variant (the app has .btn / .btn--ghost / .btn--danger already) */
-.ds-btn-quiet {
-  background: none;
-  border: 0;
-  padding: 0.65rem 1.15rem;
-  border-radius: var(--radius-button);
-  font: inherit;
-  font-weight: var(--type-weight-medium);
-  color: var(--color-ink-dim);
-  cursor: pointer;
-}
-.ds-btn-quiet:hover {
-  background: var(--color-bg);
-  color: var(--color-ink);
-}
 
 /* Badges & tags */
 .ds-tag {
@@ -451,36 +427,6 @@
 }
 
 /* Toasts & alerts */
-.ds-alert {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sero-space-3);
-  max-width: 28rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-  padding: var(--sero-space-4);
-  box-shadow: var(--sero-shadow-sm);
-}
-.ds-alert__icon {
-  flex: none;
-  width: 2rem;
-  height: 2rem;
-  display: grid;
-  place-items: center;
-  border-radius: var(--sero-radius-sm);
-  font-weight: var(--type-weight-bold);
-}
-.ds-alert--error {
-  border-color: var(--sero-coral-700);
-  background: var(--sero-coral-100);
-  box-shadow: none;
-}
-.ds-alert--warn {
-  border-color: var(--sero-gold-700);
-  background: var(--sero-gold-100);
-  box-shadow: none;
-}
 .ds-toast-live {
   position: fixed;
   bottom: 1.5rem;
@@ -523,31 +469,6 @@
 }
 
 /* Tabs & breadcrumb */
-.ds-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  border-bottom: 1px solid var(--color-border);
-}
-.ds-tab {
-  padding: 0.625rem 1rem;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: none;
-  font: inherit;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-  color: var(--color-ink-dim);
-  cursor: pointer;
-  margin-bottom: -1px;
-}
-.ds-tab:hover {
-  color: var(--color-ink);
-}
-.ds-tab.is-active {
-  color: var(--color-accent-dark);
-  border-bottom-color: var(--color-accent);
-}
 .ds-crumb {
   display: flex;
   flex-wrap: wrap;

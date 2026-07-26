@@ -1,6 +1,6 @@
 # Design system clean-up — the invisible pass
 
-**Status:** P0 ✅ · P1 ✅ · P2 ✅ · P3 ✅ · P4 built, awaiting Carl's sign-off
+**Status:** P0 ✅ · P1 ✅ · P2 ✅ · P3 ✅ · P4 ✅ · P5 built, awaiting Carl's sign-off (last phase)
 **Owner session:** 3a8bfd02 · **Started:** 2026-07-26 · **Cost:** £0 (free checks only)
 
 ## Why
@@ -41,8 +41,8 @@ dialog that bypasses the house confirm box, the missing toast.
 | P1 | [Make the guards bite](phase-1-guards.md) | no | `npm test` runs the design guard | ✅ signed off 2026-07-26 |
 | P2 | [Delete the provably dead](phase-2-dead-tokens.md) | no | built CSS byte-identical outside `:root` | ✅ signed off 2026-07-26 |
 | P3 | [One namespace per concept](phase-3-namespaces.md) | no | identical resolved-value map | ✅ signed off 2026-07-26 (partial: 6 files lane-blocked, needs a P3b) |
-| P4 | [One name per size](phase-4-sizes.md) | no | resolved-value map + guard ceiling 68 → 13 | ✅ built, awaiting sign-off |
-| P5 | [Admin CSS out of the customer bundle](phase-5-bundle.md) | no | `ds-layout` gone from `frontend/dist`; 4 screenshots | ⬜ |
+| P4 | [One name per size](phase-4-sizes.md) | no | resolved-value map + guard ceiling 68 → 13 | ✅ signed off 2026-07-27 |
+| P5 | [Admin CSS out of the customer bundle](phase-5-bundle.md) | no | both bundles −18%; `ds-layout` gone from the customer build; live computed styles | ✅ built, awaiting sign-off |
 
 ## Baseline
 
