@@ -17,6 +17,7 @@ import { listMyRuns, listPeople, createPerson, updatePerson, deletePerson, getLi
 import { showAddPersonModal } from "../../../admin/src/ui/add-person-modal.ts";
 import { showDeletePersonModal } from "../../../admin/src/ui/delete-person-modal.ts";
 import { openRowMenu } from "../../../admin/src/ui/row-menu.ts";
+import { button } from "../../../admin/src/ui/button.ts";
 import { showGiveAccessModal } from "../../../admin/src/ui/give-access-modal.ts";
 import { buildRosterView } from "../../../admin/src/ui/group-people.js";
 import { pageHeader } from "../../../admin/src/ui/page-header.ts";
@@ -45,7 +46,7 @@ export const mount: Mount = async (root, { setState }) => {
       eyebrow: "Work",
       title: "Team",
       lede: "Everyone on your team. Add a name now; their 1:1 history fills in as you meet.",
-      actionsHtml: `<button type="button" class="btn js-add">Add person</button>`,
+      actionsHtml: button({ label: "Add person", hook: "js-add" }),
     });
   const shell = (inner: string) => `<div class="stage-medium l-stack l-stack--8">${header()}${inner}</div>`;
 
@@ -72,8 +73,8 @@ export const mount: Mount = async (root, { setState }) => {
       <div class="eyebrow">Your team starts here</div>
       <p class="text-ink-dim">Add the people you manage, even before your first 1:1. Their history fills in as you prep and meet.</p>
       <div class="l-cluster l-cluster--2">
-        <button type="button" class="btn btn--ghost js-add">Add person</button>
-        <button type="button" class="btn btn--ghost js-start">Start 1:1</button>
+        ${button({ label: "Add person", variant: "ghost", hook: "js-add" })}
+        ${button({ label: "Start 1:1", variant: "ghost", hook: "js-start" })}
       </div>
     </section>`;
   const errorCard = errorCardHtml({ title: "Couldn't load your team" });

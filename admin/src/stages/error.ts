@@ -2,6 +2,7 @@ import { STAGES } from "../state.ts";
 import { escapeHtml as escape } from "../ui/html.js";
 import { reportError } from "../ui/error-reporter.js";
 import type { Mount, Unmount } from "./stage.types.ts";
+import { button } from "../ui/button.ts";
 
 export const mount: Mount = async (root, { store, setState }) => {
   const retryTo = store.retryStage || STAGES.INTAKE;
@@ -24,8 +25,8 @@ export const mount: Mount = async (root, { store, setState }) => {
       </div>
       <div class="space-y-2">
         <div class="l-cluster l-cluster--2">
-          <button class="btn js-retry">Retry this step</button>
-          <button class="btn btn--ghost js-restart">Start a new 1:1</button>
+          ${button({ label: "Retry this step", hook: "js-retry" })}
+          ${button({ label: "Start a new 1:1", variant: "ghost", hook: "js-restart" })}
         </div>
       </div>
     </div>

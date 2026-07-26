@@ -2,6 +2,7 @@
 // and focus restore all come from the shared modal shell (component-consolidation P1).
 
 import { openModalShell } from "./modal-shell.ts";
+import { button } from "./button.ts";
 
 function openDialog({
   message,
@@ -20,8 +21,8 @@ function openDialog({
       html: `
       <div class="modal__message" id="${titleId}"></div>
       <div class="modal__actions">
-        ${alert ? "" : `<button class="btn btn--ghost js-cancel" type="button"></button>`}
-        <button class="btn ${destructive ? "btn--danger" : ""} js-confirm" type="button"></button>
+        ${alert ? "" : button({ variant: "ghost", hook: "js-cancel" })}
+        ${button({ variant: destructive ? "danger" : "primary", hook: "js-confirm" })}
       </div>
     `,
       onClose: () => close(alert ? undefined : false),

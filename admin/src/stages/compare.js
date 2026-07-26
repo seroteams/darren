@@ -5,6 +5,7 @@ import { relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { ChevronUp, ChevronDown, TriangleAlert } from "lucide";
 import { createSkeleton } from "../ui/skeleton.js";
+import { button } from "../ui/button.ts";
 
 const FIX_STAGES = ["focus_points", "preparation", "bank", "questioning", "evaluation"];
 
@@ -33,7 +34,7 @@ export async function mount(root, { setState }) {
         <select class="bench-select js-run-a"></select>
         <span class="text-ink-mute">vs</span>
         <select class="bench-select js-run-b"></select>
-        <button type="button" class="btn js-load" disabled>Load</button>
+        ${button({ label: "Load", hook: "js-load", disabled: true })}
       </div>
       <p class="js-compare-err text-negative text-sm" hidden></p>
       <div class="cmp-results js-compare-grid"></div>
@@ -367,9 +368,9 @@ function actionColumn(run, ab) {
       <div class="eyebrow">Verdict</div>
       <div class="js-verdict-block">${verdictBlock(v)}</div>
       <div class="verdict-row cmp-verdict-edit">
-        <button type="button" class="btn btn--ghost js-verdict${v?.verdict === "keep" ? " is-active" : ""}" data-v="keep">Keep</button>
-        <button type="button" class="btn btn--ghost js-verdict${v?.verdict === "fix" ? " is-active" : ""}" data-v="fix">Fix</button>
-        <button type="button" class="btn btn--ghost js-verdict${v?.verdict === "block" ? " is-active" : ""}" data-v="block">Block</button>
+        ${button({ label: "Keep", variant: "ghost", hook: `js-verdict${v?.verdict === "keep" ? " is-active" : ""}`, attrs: { "data-v": "keep" } })}
+        ${button({ label: "Fix", variant: "ghost", hook: `js-verdict${v?.verdict === "fix" ? " is-active" : ""}`, attrs: { "data-v": "fix" } })}
+        ${button({ label: "Block", variant: "ghost", hook: `js-verdict${v?.verdict === "block" ? " is-active" : ""}`, attrs: { "data-v": "block" } })}
       </div>
       <div class="cmp-verdict-meta">
         <select class="bench-select js-issue-type">
@@ -393,10 +394,10 @@ function actionColumn(run, ab) {
       <div class="cmp-fix-controls"${hasVerdict ? "" : " hidden"}>
         <div class="cmp-fix-row">
           <select class="bench-select js-fix-stage">${FIX_STAGES.map((s) => `<option value="${s}"${s === "evaluation" ? " selected" : ""}>${s}</option>`).join("")}</select>
-          <button type="button" class="btn btn--ghost js-fix-btn">Suggest fix</button>
+          ${button({ label: "Suggest fix", variant: "ghost", hook: "js-fix-btn" })}
         </div>
         <div class="cmp-fix-out-wrap" hidden>
-          <button type="button" class="btn btn--ghost btn--sm js-fix-copy">Copy</button>
+          ${button({ label: "Copy", variant: "ghost", size: "sm", hook: "js-fix-copy" })}
           <pre class="cmp-fix-out"></pre>
         </div>
       </div>

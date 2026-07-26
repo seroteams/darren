@@ -9,6 +9,7 @@
 
 import { escapeCopy } from "../../../admin/src/ui/html.js";
 import { wizardFooter } from "../../../admin/src/ui/wizard-footer.ts";
+import { button } from "../../../admin/src/ui/button.ts";
 
 export type ConfidenceLevel = "low" | "medium" | "high" | "unknown";
 export type VariantId = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L";
@@ -184,7 +185,7 @@ export function ctaRowHtml(): string {
   return wizardFooter({
     primary: { label: "Start 1:1 questions" },
     back: {},
-    secondaryHtml: `<button type="button" class="btn btn--ghost js-copy-all-prep">Copy brief</button>`,
+    secondaryHtml: button({ label: "Copy brief", variant: "ghost", hook: "js-copy-all-prep" }),
   });
 }
 

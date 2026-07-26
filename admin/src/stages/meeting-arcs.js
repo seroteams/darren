@@ -10,6 +10,7 @@ import { escapeHtml as esc } from "../ui/html.js";
 import { icon } from "../ui/icon.js";
 import { confirmAction } from "../ui/confirm.js";
 import { X, ChevronRight, ArrowUp, ArrowDown } from "lucide";
+import { button } from "../ui/button.ts";
 
 // Scoped styling lives in styles/meeting-arcs.css (imported above).
 
@@ -39,7 +40,7 @@ export async function mount(root) {
           The phases each 1:1 moves through, with the tone they're asked in and the patterns to avoid. Open any meeting to see its shape, or hit Edit to change it. Edits are saved separately from the code. "Reset to default" undoes them.
         </div>
         <div class="arc-update">
-          <button type="button" class="btn btn--ghost" id="arc-update-btn">Update</button>
+          ${button({ label: "Update", variant: "ghost", attrs: { id: "arc-update-btn" } })}
           <span class="arc-update__msg" id="arc-update-msg" role="status" aria-live="polite"></span>
           <span class="arc-update__time" id="arc-update-time"></span>
         </div>
@@ -335,11 +336,11 @@ function cardHtml(a) {
 
 function actionsHtml(a) {
   const reset = a.edited
-    ? `<button type="button" class="btn btn--danger" data-act="reset">Reset to default</button>`
+    ? button({ label: "Reset to default", variant: "danger", attrs: { "data-act": "reset" } })
     : "";
   return `
     <div class="arc-actions">
-      <button type="button" class="btn btn--ghost" data-act="edit">Edit</button>
+      ${button({ label: "Edit", variant: "ghost", attrs: { "data-act": "edit" } })}
       ${reset}
     </div>`;
 }
@@ -384,8 +385,8 @@ function editHtml() {
       (p, i) => `
       <div class="arc-edit__row">
         <div class="arc-edit__move">
-          <button type="button" class="btn btn--ghost btn--sm" data-act="up" data-i="${i}" ${i === 0 ? "disabled" : ""} aria-label="Move up">${icon(ArrowUp, { size: 16 })}</button>
-          <button type="button" class="btn btn--ghost btn--sm" data-act="down" data-i="${i}" ${i === last ? "disabled" : ""} aria-label="Move down">${icon(ArrowDown, { size: 16 })}</button>
+          ${button({ iconLeft: icon(ArrowUp, { size: 16 }), variant: "ghost", size: "sm", ariaLabel: "Move up", disabled: i === 0, attrs: { "data-act": "up", "data-i": i } })}
+          ${button({ iconLeft: icon(ArrowDown, { size: 16 }), variant: "ghost", size: "sm", ariaLabel: "Move down", disabled: i === last, attrs: { "data-act": "down", "data-i": i } })}
         </div>
         <div class="arc-edit__fields">
           <div class="arc-edit__line">
@@ -399,7 +400,7 @@ function editHtml() {
           <label class="arc-field arc-field--grow"><span>Intent</span>
             <textarea class="textarea" data-f="intent" rows="2" placeholder="What this phase is for…">${esc(p.intent || "")}</textarea></label>
         </div>
-        <button type="button" class="btn btn--ghost btn--sm" data-act="del-phase" data-i="${i}" aria-label="Remove phase">${icon(X, { size: 16 })}</button>
+        ${button({ iconLeft: icon(X, { size: 16 }), variant: "ghost", size: "sm", ariaLabel: "Remove phase", attrs: { "data-act": "del-phase", "data-i": i } })}
       </div>`
     )
     .join("");
@@ -409,7 +410,7 @@ function editHtml() {
       <div class="arc-sec">Phases</div>
       ${rows}
       <div style="margin-top:12px;">
-        <button type="button" class="btn btn--ghost" data-act="add-phase">+ Add phase</button>
+        ${button({ label: "+ Add phase", variant: "ghost", attrs: { "data-act": "add-phase" } })}
       </div>
 
       <div class="arc-sec">Tone</div>
@@ -419,11 +420,11 @@ function editHtml() {
       <textarea class="textarea" data-f="anti" rows="4" placeholder="One thing to avoid per line…">${esc((draft.anti_patterns || []).join("\n"))}</textarea>
 
       <div class="arc-edit__foot">
-        <button type="button" class="btn" data-act="save">Save</button>
-        <button type="button" class="btn btn--ghost" data-act="cancel">Cancel</button>
+        ${button({ label: "Save", attrs: { "data-act": "save" } })}
+        ${button({ label: "Cancel", variant: "ghost", attrs: { "data-act": "cancel" } })}
         <span class="arc-edit__msg" role="status" aria-live="polite"></span>
         <span class="arc-edit__spacer"></span>
-        <button type="button" class="btn btn--danger" data-act="reset">Reset to default</button>
+        ${button({ label: "Reset to default", variant: "danger", attrs: { "data-act": "reset" } })}
       </div>
     </div>`;
 }

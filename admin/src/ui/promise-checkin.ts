@@ -5,6 +5,7 @@
 // Styles live in styles/design/promise-checkin.css.
 
 import { escapeHtml as esc } from "./html.js";
+import { button } from "./button.ts";
 
 export interface CheckinPromise {
   id: string;
@@ -66,8 +67,8 @@ export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts
     <p class="pck-lead text-ink-dim">Last time you two agreed on ${promises.length === 1 ? "one thing" : "these"}. A quick tap each before you start.</p>
     <div class="pck-rows">${promises.map(rowHtml).join("")}</div>
     <div class="field__actions pck-actions">
-      <button type="button" class="btn js-start" disabled>Start the questions</button>
-      <button type="button" class="btn btn--ghost js-skip">Skip for now</button>
+      ${button({ label: "Start the questions", hook: "js-start", disabled: true })}
+      ${button({ label: "Skip for now", variant: "ghost", hook: "js-skip" })}
     </div>
     <span class="pck-status text-sm text-ink-mute" role="status" aria-live="polite"></span>`;
 

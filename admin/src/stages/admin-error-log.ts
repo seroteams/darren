@@ -20,6 +20,7 @@ import { getErrorLog, resolveError } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+import { button } from "../ui/button.ts";
 
 const alertAction = alertJs as unknown as (opts: { message: string; confirmLabel?: string }) => Promise<void>;
 
@@ -119,7 +120,7 @@ function detailRow(issue: Issue): string {
       ${stack ? `<pre class="el-stack">${escapeHtml(stack)}</pre>` : `<div class="el-detail__msg">${escapeHtml(row.message)}</div>`}
       ${ua ? `<div class="el-ua"><b>Browser:</b> ${escapeHtml(ua)}</div>` : ""}
       <div class="el-detail__actions">
-        <button type="button" class="btn btn--ghost js-resolve" data-key="${escapeHtml(issue.key)}" data-resolved="${issue.resolved ? "1" : ""}">${issue.resolved ? "Reopen" : `Mark resolved${issue.count > 1 ? ` (${issue.count})` : ""}`}</button>
+        ${button({ label: issue.resolved ? "Reopen" : `Mark resolved${issue.count > 1 ? ` (${issue.count})` : ""}`, variant: "ghost", hook: "js-resolve", attrs: { "data-key": issue.key, "data-resolved": issue.resolved ? "1" : "" } })}
       </div>
     </div>
   </td></tr>`;
@@ -316,7 +317,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(loadingHtml(4));
+    root.innerHTML = shell(loadingHtml({ preset: "sections", rows: 4 }));
     try {
       const res = await getErrorLog();
       allRows = Array.isArray(res?.errors) ? (res.errors as ErrorRow[]) : [];

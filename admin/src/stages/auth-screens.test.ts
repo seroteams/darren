@@ -46,7 +46,9 @@ test("register: quiet signpost line routes a lost invitee", () => {
 });
 
 test("register: privacy-agreement line sits directly beneath the submit button", () => {
-  const submitAt = REGISTER.indexOf('js-submit">Create account</button>');
+  // The markup comes from ui/button.ts now (component-consolidation P3), so the anchors
+  // are the button() call's options rather than a hand-typed tag.
+  const submitAt = REGISTER.indexOf('label: "Create account"');
   const privacyAt = REGISTER.indexOf("By creating an account");
   const loginLinkAt = REGISTER.indexOf("Already have an account?");
   assert.ok(submitAt > -1 && privacyAt > -1 && loginLinkAt > -1, "all three present");
@@ -92,9 +94,11 @@ test("login: footer collapses to one account line plus the guest line, centred a
 test("the toggle is defined once in login.js: Lucide Eye/EyeOff, ghost icon-button, pressed state", () => {
   assert.ok(/import \{[^}]*Eye[^}]*EyeOff[^}]*\} from "lucide"/.test(LOGIN), "Lucide Eye/EyeOff");
   assert.ok(LOGIN.includes('from "../ui/icon.js"'), "renders through ui/icon.js");
-  assert.ok(LOGIN.includes("btn btn--ghost btn--sm js-toggle-pw"), "small ghost icon-button");
-  assert.ok(LOGIN.includes('aria-pressed="false"'), "pressed-state button");
-  assert.ok(LOGIN.includes('aria-label="Show password"'), "labelled for screen readers");
+  // The markup now comes from ui/button.ts (component-consolidation P3), so the guard is
+  // on the options it is called with rather than on a hand-typed class string.
+  assert.match(LOGIN, /variant: "ghost"[\s\S]{0,60}size: "sm"[\s\S]{0,60}hook: "js-toggle-pw"/, "small ghost icon-button");
+  assert.match(LOGIN, /"aria-pressed": "false"/, "pressed-state button");
+  assert.match(LOGIN, /ariaLabel: "Show password"/, "labelled for screen readers");
 });
 
 test("login, register, reset: every password field carries the shared toggle", () => {
@@ -111,8 +115,8 @@ test("login, register, reset: every password field carries the shared toggle", (
 // --- A4: forgot confirmation gets a Resend button ----------------------------
 
 test("forgot: confirmation offers a Resend email ghost button, keeps non-enumeration copy", () => {
-  assert.ok(FORGOT.includes(">Resend email</button>"), "resend button");
-  assert.ok(/btn btn--ghost js-resend/.test(FORGOT), "quiet ghost treatment");
+  assert.ok(FORGOT.includes('label: "Resend email"'), "resend button");
+  assert.match(FORGOT, /variant: "ghost"[\s\S]{0,40}hook: "js-resend"/, "quiet ghost treatment");
   assert.ok(FORGOT.includes("has a Sero account, we've sent a reset link"), "non-enumeration copy kept");
   assert.ok(!FORGOT.includes("try again in a minute"), "old prose gone");
   assert.ok(/js-resend[\s\S]{0,400}requestPasswordReset\(\{ email \}\)/.test(FORGOT), "re-submits the same email");
@@ -141,7 +145,7 @@ test("google button: defined once in login.js as a ghost anchor with the G mark"
 
 test("login: the google button sits behind an or divider, after the submit button", () => {
   assert.ok(
-    /js-submit">Log in<\/button>[\s\S]{0,220}intake-or[\s\S]{0,120}\$\{googleButtonHtml\(\)\}/.test(LOGIN),
+    /label: "Log in"[\s\S]{0,220}intake-or[\s\S]{0,160}\$\{googleButtonHtml\(\)\}/.test(LOGIN),
     "Log in, then the hairline or, then Continue with Google",
   );
 });

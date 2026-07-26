@@ -10,6 +10,7 @@ import "../styles/add-person-modal.css";
 import { openModalShell } from "./modal-shell.ts";
 import { cleanPersonForm, inviteEmailError } from "./add-person-form.ts";
 import type { PersonDraft } from "./add-person-form.ts";
+import { button } from "./button.ts";
 
 export type { PersonDraft } from "./add-person-form.ts";
 
@@ -59,8 +60,8 @@ export function showAddPersonModal(opts: PersonModalOptions = {}): Promise<Perso
         </div>
       </div>
       <div class="apm__foot">
-        <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
-        <button type="button" class="btn js-add"></button>
+        ${button({ label: "Cancel", variant: "ghost", hook: "js-cancel" })}
+        ${button({ hook: "js-add" })}
       </div>`,
     });
     const modal = shell.el;

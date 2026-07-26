@@ -8,6 +8,7 @@ import { setSelectedFocus } from "../../../shared/api.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { wizardFooter } from "../ui/wizard-footer.ts";
 import { focusPointCardHtml, selectedNote } from "./focus-points-card.ts";
+import { button } from "../ui/button.ts";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
@@ -75,7 +76,7 @@ export async function mount(root, { store, setState }) {
           <div class="text-ink-dim text-sm mt-2">Your notes are safe. You can retry this step.</div>
         </div>
         <div class="l-cluster l-cluster--2">
-          <button class="btn js-retry" type="button">Retry</button>
+          ${button({ label: "Retry", hook: "js-retry" })}
         </div>
       </div>
     `;

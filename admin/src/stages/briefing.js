@@ -10,6 +10,7 @@ import { escapeCopy as escape } from "../ui/html.js";
 import { wizardFooter } from "../ui/wizard-footer.ts";
 import { icon } from "../ui/icon.js";
 import { Check, Copy } from "lucide";
+import { button } from "../ui/button.ts";
 
 const WHEN_ORDER = ["today", "this week", "this month", "next 1:1"];
 
@@ -27,8 +28,8 @@ export async function mount(root, deps) {
           <div class="text-ink-dim">This 1:1 has no saved recap yet. You can try again or start a new 1:1.</div>
         </div>
         <div class="l-cluster l-cluster--2">
-          <button class="btn js-retry-eval" type="button">Try again</button>
-          <button class="btn btn--ghost js-restart" type="button">Start a new 1:1</button>
+          ${button({ label: "Try again", hook: "js-retry-eval" })}
+          ${button({ label: "Start a new 1:1", variant: "ghost", hook: "js-restart" })}
         </div>
       </div>
     `;
@@ -92,7 +93,7 @@ export async function mount(root, deps) {
       <header class="briefing-block recap-hero space-y-3">
         <div class="briefing-section-head">
           <div class="eyebrow">Recap · For ${escape(store.ctx.name)}</div>
-          <button type="button" class="btn btn--ghost btn--sm js-copy-all-briefing">Copy all</button>
+          ${button({ label: "Copy all", variant: "ghost", size: "sm", hook: "js-copy-all-briefing" })}
         </div>
         <div class="recap-hero__signal"></div>
         <h1 class="briefing-headline"></h1>
@@ -141,7 +142,7 @@ export async function mount(root, deps) {
             <section class="briefing-block watch-section space-y-3">
               <div class="briefing-section-head">
                 <div class="eyebrow eyebrow--slot">Reminders</div>
-                <button type="button" class="btn btn--ghost btn--sm js-copy-all-reminders hidden">Copy all</button>
+                ${button({ label: "Copy all", variant: "ghost", size: "sm", hook: "js-copy-all-reminders hidden" })}
               </div>
               <div class="watch-host"></div>
             </section>
@@ -153,9 +154,9 @@ export async function mount(root, deps) {
       <section class="briefing-block verdict-block card space-y-3">
         <div class="eyebrow">Test lane · verdict</div>
         <div class="verdict-row">
-          <button type="button" class="btn btn--ghost js-verdict" data-v="keep" aria-pressed="false">Keep</button>
-          <button type="button" class="btn btn--ghost js-verdict" data-v="fix" aria-pressed="false">Fix</button>
-          <button type="button" class="btn btn--ghost js-verdict" data-v="block" aria-pressed="false">Block</button>
+          ${button({ label: "Keep", variant: "ghost", hook: "js-verdict", attrs: { "data-v": "keep", "aria-pressed": "false" } })}
+          ${button({ label: "Fix", variant: "ghost", hook: "js-verdict", attrs: { "data-v": "fix", "aria-pressed": "false" } })}
+          ${button({ label: "Block", variant: "ghost", hook: "js-verdict", attrs: { "data-v": "block", "aria-pressed": "false" } })}
         </div>
         <label class="block">
           <span class="eyebrow">Issue type</span>
@@ -181,20 +182,20 @@ export async function mount(root, deps) {
         <div class="card-flat space-y-2 js-run-verdict">
           <div class="eyebrow" id="run-verdict-label">Would you run this 1:1 differently now?</div>
           <div class="l-cluster l-cluster--2 items-center" role="group" aria-labelledby="run-verdict-label">
-            <button type="button" class="btn btn--ghost btn--sm js-rv" data-v="yes" aria-pressed="false">Yes</button>
-            <button type="button" class="btn btn--ghost btn--sm js-rv" data-v="no" aria-pressed="false">No</button>
+            ${button({ label: "Yes", variant: "ghost", size: "sm", hook: "js-rv", attrs: { "data-v": "yes", "aria-pressed": "false" } })}
+            ${button({ label: "No", variant: "ghost", size: "sm", hook: "js-rv", attrs: { "data-v": "no", "aria-pressed": "false" } })}
             <span class="js-rv-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
           </div>
           <div class="l-cluster l-cluster--2 items-center js-rv-more hidden">
             <input class="input js-rv-note" type="text" maxlength="200" autocomplete="off" placeholder="One line on why. Optional" aria-label="Optional comment" />
-            <button type="button" class="btn btn--ghost btn--sm js-rv-send">Add</button>
+            ${button({ label: "Add", variant: "ghost", size: "sm", hook: "js-rv-send" })}
           </div>
         </div>` : ""}
         ${!store.user ? `
         <div class="card-flat space-y-3 js-guest-save">
           <div class="eyebrow">Want to keep this 1:1?</div>
           <div class="l-cluster l-cluster--2 items-center">
-            <button type="button" class="btn js-guest-register">Create a free account</button>
+            ${button({ label: "Create a free account", hook: "js-guest-register" })}
             <span class="text-ink-dim">. We'll save it for you</span>
           </div>
           <p class="text-ink-dim text-sm">
@@ -203,16 +204,16 @@ export async function mount(root, deps) {
           </p>
         </div>
         <div class="l-cluster l-cluster--2 items-center">
-          <button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>
-          <button type="button" class="btn btn--ghost js-guest-restart">Start a new 1:1</button>
+          ${button({ label: "Save as PDF", variant: "ghost", hook: "js-save-pdf" })}
+          ${button({ label: "Start a new 1:1", variant: "ghost", hook: "js-guest-restart" })}
         </div>` : `
         <div class="text-ink-mute">All saved. This 1:1 is in your Past 1:1s.</div>`}
       </footer>
       ${store.user ? wizardFooter({
         primary: { label: "Finish & review this 1:1" },
         secondaryHtml:
-          `<button type="button" class="btn btn--ghost js-save-pdf">Save as PDF</button>` +
-          `<button type="button" class="btn btn--ghost js-copy-review hidden">Copy QA prompt</button>` +
+          button({ label: "Save as PDF", variant: "ghost", hook: "js-save-pdf" }) +
+          button({ label: "Copy QA prompt", variant: "ghost", hook: "js-copy-review hidden" }) +
           `<span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>`,
       }) : ""}
     </div>

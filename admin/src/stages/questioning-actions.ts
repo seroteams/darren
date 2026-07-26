@@ -6,6 +6,7 @@
 // the one stable exit label. The host (stages/questioning.js) wires the hooks.
 
 import { wizardFooter } from "../ui/wizard-footer.ts";
+import { button } from "../ui/button.ts";
 
 // One label for the whole interview — it used to flip to "Wrap up. Get my
 // recap" from Q4, which read as a different control mid-screen (audit F6).
@@ -26,8 +27,8 @@ export type ActionRowOpts = {
 // the primary far right. Scripted/dev extras never enter this row.
 export function actionRowHtml({ isFinal = false, scripted = false, canGoBack = false }: ActionRowOpts = {}): string {
   const secondaryHtml = isFinal
-    ? `<button class="btn btn--ghost js-finish" type="button" title="Wrap up without agreeing next actions">Finish without next steps</button>`
-    : `<button class="btn btn--ghost js-skip" type="button">Skip</button>`;
+    ? button({ label: "Finish without next steps", variant: "ghost", hook: "js-finish", title: "Wrap up without agreeing next actions" })
+    : button({ label: "Skip", variant: "ghost", hook: "js-skip" });
   return wizardFooter({
     primary: { label: isFinal ? "Agree next actions" : "Submit answer" },
     back: canGoBack && !scripted ? {} : undefined,
@@ -39,8 +40,8 @@ export function actionRowHtml({ isFinal = false, scripted = false, canGoBack = f
 // scripted-only) — moved out of the action row to keep it at three.
 export function scriptedControlsHtml(): string {
   return (
-    `<button class="btn btn--ghost btn--sm js-play" type="button">Insert scripted answer</button>` +
-    `<button class="btn btn--ghost btn--sm js-play-submit" type="button">Insert &amp; submit</button>`
+    button({ label: "Insert scripted answer", variant: "ghost", size: "sm", hook: "js-play" }) +
+    button({ labelHtml: "Insert &amp; submit", variant: "ghost", size: "sm", hook: "js-play-submit" })
   );
 }
 

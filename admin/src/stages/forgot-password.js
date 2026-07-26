@@ -8,6 +8,7 @@ import { requestPasswordReset } from "../../../shared/api.js";
 import { escapeHtml } from "../ui/html.js";
 import { isTouchScreen } from "../ui/field.js";
 import { LOGIN_PHOTOS } from "./login.js";
+import { button } from "../ui/button.ts";
 
 export async function mount(root, { setState }) {
   root.classList.add("stage--auth");
@@ -29,7 +30,7 @@ export async function mount(root, { setState }) {
                 <input class="input js-email" type="email" autocomplete="username" required />
               </label>
               <p class="js-err text-negative text-sm" hidden></p>
-              <button type="submit" class="btn js-submit">Send reset link</button>
+              ${button({ label: "Send reset link", type: "submit", hook: "js-submit" })}
             </form>
           </div>
           <p class="text-ink-dim text-sm">
@@ -68,7 +69,7 @@ export async function mount(root, { setState }) {
         <div class="card-flat space-y-3">
           <p>If <strong>${escapeHtml(email)}</strong> has a Sero account, we've sent a reset link. Check your inbox. It works for 1 hour.</p>
           <p class="text-ink-dim text-sm">Didn't get it? Check your spam folder.</p>
-          <button type="button" class="btn btn--ghost js-resend">Resend email</button>
+          ${button({ label: "Resend email", variant: "ghost", hook: "js-resend" })}
           <p class="js-resend-err text-negative text-sm" hidden></p>
         </div>`;
       const resendBtn = host.querySelector(".js-resend");

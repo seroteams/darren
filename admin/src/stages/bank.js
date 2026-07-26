@@ -4,6 +4,7 @@ import { createSkeleton } from "../ui/skeleton.js";
 import { flowInterstitial } from "../ui/flow-interstitial.ts";
 import { escapeHtml } from "../ui/html.js";
 import { openSse } from "../../../shared/sse.js";
+import { button } from "../ui/button.ts";
 
 let unmountFn = null;
 const MIN_DISPLAY_MS = 1000;
@@ -54,7 +55,7 @@ export async function mount(root, { store, setState }) {
           <div class="text-ink">${escapeHtml(message)}</div>
         </div>
         <div class="l-cluster l-cluster--2">
-          <button type="button" class="btn js-retry">Retry</button>
+          ${button({ label: "Retry", hook: "js-retry" })}
         </div>
       </div>
     `;

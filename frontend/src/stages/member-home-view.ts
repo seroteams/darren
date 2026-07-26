@@ -13,6 +13,7 @@
 import { escapeHtml as esc } from "../../../admin/src/ui/html.js";
 import { formatDate } from "../../../admin/src/ui/time.ts";
 import { icon } from "../../../admin/src/ui/icon.js";
+import { button } from "../../../admin/src/ui/button.ts";
 import { CalendarClock, Target } from "lucide";
 
 export type MemberRun = {
@@ -108,7 +109,7 @@ export function renderRequestsCard(requests: MemberRequest[]): string {
         <input class="js-req-text apm-field__input" type="text" placeholder="What would help? Add a request…" aria-label="Your request" />
         <div class="l-row l-row--2 l-row--wrap">
           <select class="js-req-cat apm-field__input member-req__cat" aria-label="Category"><option value="growth_development">Growth &amp; development</option><option value="ideas_suggestions">Ideas &amp; suggestions</option><option value="concerns_feedback">Concerns &amp; feedback</option></select>
-          <button type="submit" class="btn">Add request</button>
+          ${button({ label: "Add request", type: "submit" })}
         </div>
       </form>
     </section>`;
@@ -130,7 +131,7 @@ export function renderGoalsCard(goals: MemberGoal[]): string {
               <div class="member-goal__edit">
                 <input class="js-goal-pct apm-field__input member-goal__pct-input" type="number" min="0" max="100" value="${pct}" aria-label="Progress percent" />
                 <input class="js-goal-note apm-field__input member-goal__note" type="text" placeholder="Add an update…" aria-label="Progress update" />
-                <button type="button" class="btn btn--ghost js-goal-save">Save</button>
+                ${button({ label: "Save", variant: "ghost", hook: "js-goal-save" })}
               </div>
             </div>`;
         })

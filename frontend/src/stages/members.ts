@@ -19,6 +19,7 @@ import { pageHeader } from "../../../admin/src/ui/page-header.ts";
 import { listToolbar } from "../../../admin/src/ui/list-toolbar.ts";
 import { errorCardHtml, loadingHtml } from "../../../admin/src/ui/screen-scaffold.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
+import { button } from "../../../admin/src/ui/button.ts";
 
 export const mount: Mount = async (root) => {
   // The fetched rows + what the search box holds — the filter is client-side over `members`.
@@ -31,7 +32,7 @@ export const mount: Mount = async (root) => {
     eyebrow: "Account",
     title: "Members",
     lede: "Everyone who can log in to your workspace, and their access.",
-    actionsHtml: `<button type="button" class="btn js-invite">Invite people</button>`,
+    actionsHtml: button({ label: "Invite people", hook: "js-invite" }),
   });
   const shell = (inner: string) => `<div class="stage-medium l-stack l-stack--8">${header}${inner}</div>`;
 

@@ -6,6 +6,8 @@
 // initial for them — so moving a promise is one tap in place, not a jump between
 // boxes. Same layout desktop and mobile. Styles live in styles/design/promise-agree.css.
 
+import { button } from "./button.ts";
+
 export interface PromiseDraft {
   owner: "manager" | "report";
   action: string;
@@ -107,8 +109,8 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
         ${listHtml()}
         <div class="pa-loopnote">↩&nbsp; They come back at the start of your next 1:1 with ${esc(them)}.</div>
         <div class="field__actions pa-actions">
-          <button type="button" class="btn js-lock">Lock these in</button>
-          <button type="button" class="btn btn--ghost js-skip">Skip. Straight to the recap</button>
+          ${button({ label: "Lock these in", hook: "js-lock" })}
+          ${button({ label: "Skip. Straight to the recap", variant: "ghost", hook: "js-skip" })}
         </div>
         <span class="pa-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
       </div>`;

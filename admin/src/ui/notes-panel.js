@@ -16,6 +16,7 @@ import {
 } from "./notes-panel-utils.js";
 import { createNotesListController, cssEscape, mountEditMode } from "./notes-list.js";
 import { createStageDataController } from "./stage-data-tab.js";
+import { button } from "./button.ts";
 
 const NARROW_MQ = window.matchMedia("(max-width: 1024px)");
 
@@ -28,7 +29,7 @@ export function createNotesPanel({ store, setState }) {
         <div class="notes-panel__head-main">
           <div class="notes-panel__ctx ctx-segments"></div>
         </div>
-        <button type="button" class="notes-panel__close btn btn--ghost btn--sm" aria-label="Close panel">Close</button>
+        ${button({ label: "Close", variant: "ghost", size: "sm", extraClass: "notes-panel__close", ariaLabel: "Close panel" })}
       </div>
       <div class="notes-panel__tabs" role="tablist">
         <button type="button" class="notes-panel__tab is-active" data-tab="notes" role="tab" aria-selected="true">Notes</button>
@@ -48,7 +49,7 @@ export function createNotesPanel({ store, setState }) {
       <div class="notes-panel__compose">
         <textarea rows="4" placeholder="Type a test note about this stage…"></textarea>
         <div class="notes-panel__compose-row">
-          <button type="button" class="btn btn--ghost notes-panel__save">Save note</button>
+          ${button({ label: "Save note", variant: "ghost", extraClass: "notes-panel__save" })}
         </div>
       </div>
     </div>

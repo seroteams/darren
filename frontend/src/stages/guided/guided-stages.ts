@@ -7,6 +7,7 @@
 // Cards ride the shared .card-flat primitive; buttons the shared .btn primitives (P5 F10).
 
 import type { GroupedTrackers, GuidedStageId, GuidedState, TrackerItem } from "./guided.types.ts";
+import { button } from "../../../../admin/src/ui/button.ts";
 import { ICONS } from "./guided-icons.ts";
 import { esc, shortDate } from "./guided-util.ts";
 import {
@@ -66,7 +67,7 @@ const notesCard = (path: string, placeholder: string, value: string): string => 
   </div>`;
 
 const cta = (label: string, action = "next"): string =>
-  `<div class="gd-cta"><button type="button" class="btn" data-${action}>${esc(label)}</button></div>`;
+  `<div class="gd-cta">${button({ label, attrs: { [`data-${action}`]: true } })}</div>`;
 
 const statusPill = (status: string): string =>
   `<span class="gd-status gd-status--${statusClass(status)}">${esc(STATUS_LABELS[status] ?? status)}</span>`;
@@ -102,7 +103,7 @@ const catchup: StageRenderer = (state, copy, ctx) => {
         </div>
         ${rows || `<p class="gd-q__coach" style="margin:6px 0 0">Nothing open from last time. You're all caught up.</p>`}
       </div>
-      <div class="gd-addrow"><button type="button" class="btn btn--ghost" data-open="add-promise">${ICONS.plus}<span>Add a promise</span></button></div>
+      <div class="gd-addrow">${button({ labelHtml: `${ICONS.plus}<span>Add a promise</span>`, variant: "ghost", attrs: { "data-open": "add-promise" } })}</div>
       ${notesCard("catchup.notes", `Notes on ${copy.name}'s answers`, state.catchup?.notes ?? "")}
       ${cta("Continue to Requests")}`,
   };
@@ -131,7 +132,7 @@ const requests: StageRenderer = (state, copy, ctx) => {
     title,
     sub,
     body: `${rows || `<p class="gd-empty">No open requests yet. Add the first one below.</p>`}
-      <div class="gd-addrow"><button type="button" class="btn btn--ghost" data-open="add-request">${ICONS.plus}<span>Add request</span></button></div>
+      <div class="gd-addrow">${button({ labelHtml: `${ICONS.plus}<span>Add request</span>`, variant: "ghost", attrs: { "data-open": "add-request" } })}</div>
       ${cta("Continue to Ratings")}`,
   };
 };
@@ -143,7 +144,7 @@ const goals: StageRenderer = (state, copy, ctx) => {
     title,
     sub,
     body: `${rows || `<p class="gd-empty">No goals yet. Add one below.</p>`}
-      <div class="gd-addrow"><button type="button" class="btn btn--ghost" data-open="add-goal">${ICONS.plus}<span>Add a new goal</span></button></div>
+      <div class="gd-addrow">${button({ labelHtml: `${ICONS.plus}<span>Add a new goal</span>`, variant: "ghost", attrs: { "data-open": "add-goal" } })}</div>
       ${cta("Continue to 1:1 Summary")}`,
   };
 };
@@ -203,7 +204,7 @@ const feedback: StageRenderer = (state, copy) => {
       ${
         last
           ? cta("Continue to Goals")
-          : `<div class="gd-cta"><button type="button" class="btn" data-fbnext>Next question</button></div>`
+          : `<div class="gd-cta">${button({ label: "Next question", attrs: { "data-fbnext": true } })}</div>`
       }`,
   };
 };
@@ -230,8 +231,8 @@ const summary: StageRenderer = (state, copy) => {
       ${card}
       ${notesCard("summary.edited", "Edit the summary. Your text is what's saved…", state.summary?.edited ?? "")}
       <div class="gd-cta">
-        <button type="button" class="btn btn--ghost" data-regen>Regenerate</button>
-        <button type="button" class="btn" data-next>Continue to Review</button>
+        ${button({ label: "Regenerate", variant: "ghost", attrs: { "data-regen": true } })}
+        ${button({ label: "Continue to Review", attrs: { "data-next": true } })}
       </div>`,
   };
 };
@@ -281,7 +282,7 @@ const wrapup: StageRenderer = (state, copy, ctx) => {
         </div>
         ${sugRows || `<p class="gd-q__coach" style="margin-left:0">Private suggestions appear here once you reach the Summary stage (Sero drafts them together).</p>`}
       </div>
-      <div class="gd-cta"><button type="button" class="btn" data-finish>${ICONS.check}<span>Complete 1:1</span></button></div>
+      <div class="gd-cta">${button({ labelHtml: `${ICONS.check}<span>Complete 1:1</span>`, attrs: { "data-finish": true } })}</div>
       <div class="gd-finish-note" data-finish-note hidden>Saved. Next month, everything here comes back. Promises, requests, goals, and the trend lines.</div>`,
   };
 };

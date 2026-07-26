@@ -5,6 +5,7 @@
 
 import { STAGES } from "../../../admin/src/state.ts";
 import { startGuestRun } from "../../../admin/src/guest.ts";
+import { button } from "../../../admin/src/ui/button.ts";
 import { LOGIN_PHOTOS } from "../../../admin/src/stages/login.js";
 import type { Mount } from "../../../admin/src/stages/stage.types.ts";
 
@@ -23,8 +24,8 @@ export function welcomeHtml(photo: string): string {
             <p class="auth-brand__sub">Type a few rough notes. Sero turns them into a clear brief and sharper questions, in about two minutes.</p>
           </div>
           <div class="l-stack l-stack--3">
-            <button type="button" class="btn js-try-guest">Prep my 1:1 free, no account</button>
-            <button type="button" class="btn btn--ghost js-to-register">Create account</button>
+            ${button({ label: "Prep my 1:1 free, no account", hook: "js-try-guest" })}
+            ${button({ label: "Create account", variant: "ghost", hook: "js-to-register" })}
           </div>
           <div class="l-stack l-stack--2">
             <p class="text-ink-dim text-sm">

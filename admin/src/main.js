@@ -13,6 +13,7 @@ import { createProfileBadge } from "./ui/profile-badge.js";
 // The shared shell: chrome, render loop, stale-chunk recovery, rehydrate
 // (refactor-2026-07 P7). This app's own gates live in boot()/popstate below.
 import { startShell, rehydrateById } from "./boot-shell.js";
+import { button } from "./ui/button.ts";
 
 // This app's member home (audit B1): a plain member lands on their Past 1:1s (RUNS).
 // Injected once so the shared login/register resolver lands them where a reload does.
@@ -217,7 +218,7 @@ async function boot() {
               (If it isn't running: <code>npm run dev:customer</code>.)</p>
             <div class="flex items-center justify-center gap-3">
               <a class="btn" href="http://localhost:3002/">Open your app</a>
-              <button type="button" class="js-logout btn btn--ghost">Log out</button>
+              ${button({ label: "Log out", variant: "ghost", hook: "js-logout" })}
             </div>
           </div>
         </div>`;

@@ -4,6 +4,7 @@ import { buildPayloadFromStore, buildQaReviewPromptFromStore, mountRunDebrief } 
 import { wizardFooter } from "../ui/wizard-footer.ts";
 import { icon } from "../ui/icon.js";
 import { Check } from "lucide";
+import { button } from "../ui/button.ts";
 
 export async function mount(root, { store, setState, resetSession }) {
   root.innerHTML = `
@@ -19,7 +20,7 @@ export async function mount(root, { store, setState, resetSession }) {
           primary: { label: "Continue to phrase library" },
           secondaryHtml:
             `<span class="js-copy-confirm text-sm text-ink-mute" style="opacity:0; transition: opacity 0.2s;">Copied ${icon(Check, { size: 16 })}</span>` +
-            `<button type="button" class="btn btn--ghost js-copy-prompt">Copy QA prompt</button>`,
+            button({ label: "Copy QA prompt", variant: "ghost", hook: "js-copy-prompt" }),
         })}
       </footer>
     </div>

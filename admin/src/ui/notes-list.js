@@ -5,6 +5,7 @@ import {
   fmtTime,
   groupNotes,
 } from "./notes-panel-utils.js";
+import { button } from "./button.ts";
 
 export { cssEscape };
 
@@ -57,7 +58,7 @@ export function mountEditMode({ itemEl, note, onSave, onDelete, onCancel }) {
     </div>
     <textarea class="notes-panel__edit" rows="3">${escapeHtml(note.text)}</textarea>
     <div class="notes-panel__edit-actions">
-      <button type="button" class="btn btn--ghost js-save-edit">Save</button>
+      ${button({ label: "Save", variant: "ghost", hook: "js-save-edit" })}
       <button type="button" class="notes-panel__delete js-delete">Delete</button>
     </div>
   `;

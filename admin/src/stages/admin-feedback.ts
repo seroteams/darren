@@ -31,6 +31,7 @@ import { breadcrumb } from "../ui/breadcrumb.ts";
 import { renderReadonlyBriefing, type Briefing } from "../ui/briefing-view.ts";
 import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
+import { button } from "../ui/button.ts";
 
 const confirmAction = confirmJs as unknown as (opts: {
   message: string; confirmLabel?: string; cancelLabel?: string; destructive?: boolean;
@@ -137,7 +138,7 @@ function noteCard(note: FeedbackNote, status: NoteStatus | undefined, open: bool
   const src = sourcePill(note);
   const ver = verdictPill(note);
   const openRun = note.runId
-    ? `<button type="button" class="btn btn--ghost btn--sm js-open-run" data-run-id="${escapeHtml(note.runId)}">Open the 1:1</button>`
+    ? button({ label: "Open the 1:1", variant: "ghost", size: "sm", hook: "js-open-run", attrs: { "data-run-id": note.runId } })
     : "";
   const pills = src || ver || openRun ? `<div class="fb-pills">${src}${ver}${openRun}</div>` : "";
   return `
@@ -244,7 +245,7 @@ export const mount: Mount = async (root, ctx) => {
   // Screen-Names-The-Object rule), so the inbox page header must not stack above it.
   const recapShell = (inner: string) => `<div class="l-container l-container--wide l-stack l-stack--6">${inner}</div>`;
   const renderRecap = async (runId: string) => {
-    root.innerHTML = recapShell(loadingHtml(3));
+    root.innerHTML = recapShell(loadingHtml({ preset: "recap", tabs: 3, rows: 3 }));
     type RunCtx = { name: string; role: string; seniority: string; meetingType: string };
     let run: { ctx: RunCtx; briefing: Briefing | null };
     const wireBack = () => {
@@ -345,7 +346,7 @@ export const mount: Mount = async (root, ctx) => {
   pendingRunId = null;
   if (openRunId) { await renderRecap(openRunId); return; }
 
-  root.innerHTML = shell(loadingHtml(4));
+  root.innerHTML = shell(loadingHtml({ preset: "sections", rows: 4 }));
 
   try {
     const res = await getFeedbackInbox();

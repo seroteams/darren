@@ -22,6 +22,7 @@ import { formatDate, relTime } from "../../../admin/src/ui/time.ts";
 import { renderAxisMemory, type AxisRead } from "./person-axes.ts";
 import type { Mount, Unmount } from "../../../admin/src/stages/stage.types.ts";
 import { prepStartSubstage } from "../../../admin/src/ui/intake-start.ts";
+import { button } from "../../../admin/src/ui/button.ts";
 
 export type MyRun = {
   id: string;
@@ -193,7 +194,7 @@ export const mount: Mount = async (root, { setState }) => {
   // row (M5 — was a full-width mid-page .btn--cta slab). Empty label = no action (error paths).
   const setActions = (label: string | null) => {
     const host = root.querySelector<HTMLElement>(".js-actions");
-    if (host) host.innerHTML = label ? `<button type="button" class="btn js-prep">${escapeHtml(label)}</button>` : "";
+    if (host) host.innerHTML = label ? button({ label, hook: "js-prep" }) : "";
   };
 
   const key = store.personKey;

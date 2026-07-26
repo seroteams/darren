@@ -8,6 +8,7 @@
 import "../styles/add-person-modal.css";
 import { openModalShell } from "./modal-shell.ts";
 import { nameMatches } from "./add-person-form.ts";
+import { button } from "./button.ts";
 
 export function showDeletePersonModal(name: string): Promise<boolean> {
   return new Promise((resolve) => {
@@ -29,8 +30,8 @@ export function showDeletePersonModal(name: string): Promise<boolean> {
         </div>
       </div>
       <div class="apm__foot">
-        <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
-        <button type="button" class="btn btn--danger js-delete" disabled>Delete permanently</button>
+        ${button({ label: "Cancel", variant: "ghost", hook: "js-cancel" })}
+        ${button({ label: "Delete permanently", variant: "danger", hook: "js-delete", disabled: true })}
       </div>`,
     });
     const modal = shell.el;

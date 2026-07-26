@@ -9,6 +9,7 @@ import { getPersonaBench, startSession } from "../../../shared/api.js";
 import { alertAction } from "../ui/confirm.js";
 import { escapeHtml as escape } from "../ui/html.js";
 import { mount as mountCore, unmount as unmountCore } from "./start-core.js";
+import { button } from "../ui/button.ts";
 
 const BENCH_HTML = `
       <section class="js-bench" hidden>
@@ -59,7 +60,7 @@ const BENCH_HTML = `
             <span class="eyebrow">What are you testing? <span class="text-ink-mute">(optional label)</span></span>
             <input class="input js-runlabel" type="text" autocomplete="off" placeholder="e.g. baseline. No Neutral Cause Rule" />
           </label>
-          <button type="button" class="btn js-bench-start" disabled>Start demo session</button>
+          ${button({ label: "Start demo session", hook: "js-bench-start", disabled: true })}
           <p class="js-bench-err text-negative text-sm" hidden></p>
         </div>
       </section>

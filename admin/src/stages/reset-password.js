@@ -7,6 +7,7 @@ import { STAGES, store } from "../state.ts";
 import { submitPasswordReset } from "../../../shared/api.js";
 import { isTouchScreen } from "../ui/field.js";
 import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles } from "./login.js";
+import { button } from "../ui/button.ts";
 
 const MIN_PASSWORD = 8; // same floor the server enforces
 
@@ -40,7 +41,7 @@ export async function mount(root, { setState }) {
     host.innerHTML = `
       <div class="card-flat space-y-3">
         <p>This reset link didn't come through properly. Request a fresh one from the log-in screen.</p>
-        <button type="button" class="btn btn--ghost js-to-login">Log in</button>
+        ${button({ label: "Log in", variant: "ghost", hook: "js-to-login" })}
       </div>`;
     host.querySelector(".js-to-login").addEventListener("click", toLogin);
     return;
@@ -56,7 +57,7 @@ export async function mount(root, { setState }) {
         </span>
       </label>
       <p class="js-err text-negative text-sm" hidden></p>
-      <button type="submit" class="btn js-submit">Set new password</button>
+      ${button({ label: "Set new password", type: "submit", hook: "js-submit" })}
     </form>`;
   wirePasswordToggles(host);
 
@@ -82,7 +83,7 @@ export async function mount(root, { setState }) {
       host.innerHTML = `
         <div class="card-flat space-y-3">
           <p><strong>Password updated.</strong> Log in with your new password to continue.</p>
-          <button type="button" class="btn js-to-login">Log in</button>
+          ${button({ label: "Log in", hook: "js-to-login" })}
         </div>`;
       host.querySelector(".js-to-login").addEventListener("click", toLogin);
     } catch (e2) {

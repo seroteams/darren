@@ -3,6 +3,7 @@
 // from the nav footer.
 
 import { STAGES, store, isAdmin } from "../state.ts";
+import { button } from "../ui/button.ts";
 
 // The member's "What is Sero?" is written in the MEMBER's voice (audit B3): what Sero holds
 // about them, what their manager can and can't see, no manager CTA. A manager keeps the
@@ -59,7 +60,7 @@ function managerHtml() {
       <section class="card-flat space-y-3">
         <div class="eyebrow">What to do first</div>
         <p>Prep a 1:1 from your Home page. It takes a few minutes.</p>
-        <button type="button" class="btn js-start">Start 1:1</button>
+        ${button({ label: "Start 1:1", hook: "js-start" })}
       </section>
 
       <section class="card-flat space-y-3">

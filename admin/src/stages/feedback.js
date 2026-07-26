@@ -4,6 +4,7 @@
 
 import { submitFeedback } from "../../../shared/api.js";
 import { isTouchScreen } from "../ui/field.js";
+import { button } from "../ui/button.ts";
 
 export async function mount(root) {
   root.innerHTML = `
@@ -18,7 +19,7 @@ export async function mount(root) {
           <textarea class="input js-message" rows="5" placeholder="What's on your mind?"></textarea>
         </label>
         <p class="js-err text-negative text-sm" hidden></p>
-        <button type="submit" class="btn js-submit">Send</button>
+        ${button({ label: "Send", type: "submit", hook: "js-submit" })}
       </form>
     </div>
   `;
@@ -48,7 +49,7 @@ export async function mount(root) {
           <h1 class="h1">Thanks!</h1>
           <div class="text-ink-dim">Your note reached the team. We read every one.</div>
         </header>
-        <button type="button" class="btn js-again" style="align-self: flex-start">Send another</button>
+        ${button({ label: "Send another", hook: "js-again", attrs: { style: "align-self: flex-start" } })}
       `;
       root.querySelector(".js-again").addEventListener("click", () => mount(root));
     } catch (e2) {

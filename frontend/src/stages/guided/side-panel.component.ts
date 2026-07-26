@@ -5,6 +5,7 @@
 
 import { ICONS } from "./guided-icons.ts";
 import { esc } from "./guided-util.ts";
+import { button } from "../../../../admin/src/ui/button.ts";
 import type { CopyCtx } from "./coaching-copy.ts";
 import {
   CATEGORY_LABELS,
@@ -107,7 +108,8 @@ export function panelHtml(panel: Panel, trackers: GroupedTrackers, copy: CopyCtx
       ${textareaField("note", "Detail", "Context…")}`;
   }
 
-  const foot = `<button type="button" class="btn btn--ghost" data-close>${panel.type.startsWith("add-") ? "Cancel" : "Close"}</button><button type="button" class="btn" data-save>${esc(saveLabel)}</button>`;
+  const foot = button({ label: panel.type.startsWith("add-") ? "Cancel" : "Close", variant: "ghost", attrs: { "data-close": true } }) +
+    button({ label: saveLabel, attrs: { "data-save": true } });
 
   return `
     <div class="gd-backdrop" data-close></div>

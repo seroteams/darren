@@ -4,6 +4,7 @@
 // of the kit; hosts wire js-wf-back / js-wf-continue. Styles: design/flow-kit.css.
 
 import { escapeHtml } from "./html.js";
+import { button } from "./button.ts";
 
 export type WizardFooterOpts = {
   primary: { label: string; disabled?: boolean };
@@ -14,10 +15,14 @@ export type WizardFooterOpts = {
 
 export function wizardFooter(opts: WizardFooterOpts): string {
   const back = opts.back
-    ? `<button type="button" class="btn btn--ghost js-wf-back">${escapeHtml(opts.back.label ?? "Back")}</button>`
+    ? button({ label: opts.back.label ?? "Back", variant: "ghost", hook: "js-wf-back" })
     : "";
   const note = opts.note ? `<span class="wizard-footer__note">${escapeHtml(opts.note)}</span>` : "";
-  const primary = `<button type="button" class="btn js-wf-continue"${opts.primary.disabled ? " disabled" : ""}>${escapeHtml(opts.primary.label)}</button>`;
+  const primary = button({
+    label: opts.primary.label,
+    hook: "js-wf-continue",
+    disabled: opts.primary.disabled === true,
+  });
   return (
     `<div class="wizard-footer">` +
     `<div class="wizard-footer__left">${back}</div>` +

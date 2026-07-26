@@ -9,6 +9,7 @@ import { startGuestRun, completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 import { landingStage } from "../ui/landing.ts";
 import { icon } from "../ui/icon.js";
+import { button } from "../ui/button.ts";
 
 // Show/hide toggle for a password field (audit A3), defined once here and shared
 // by register.js and reset-password.js (like LOGIN_PHOTOS): a small ghost
@@ -16,7 +17,14 @@ import { icon } from "../ui/icon.js";
 // the label stays "Show password" so screen readers hear a consistent name.
 // Markup contract: the input and this button sit together in a .js-pw-wrap row.
 export function passwordToggleHtml() {
-  return `<button type="button" class="btn btn--ghost btn--sm js-toggle-pw" aria-pressed="false" aria-label="Show password">${icon(Eye, { size: 16 })}</button>`;
+  return button({
+    iconLeft: icon(Eye, { size: 16 }),
+    variant: "ghost",
+    size: "sm",
+    hook: "js-toggle-pw",
+    ariaLabel: "Show password",
+    attrs: { "aria-pressed": "false" },
+  });
 }
 
 export function wirePasswordToggles(scope) {
@@ -107,7 +115,7 @@ export async function mount(root, { setState }) {
               </span>
             </label>
             <p class="js-err text-negative text-sm" hidden></p>
-            <button type="submit" class="btn js-submit">Log in</button>
+            ${button({ label: "Log in", type: "submit", hook: "js-submit" })}
             <p class="intake-or">or</p>
             ${googleButtonHtml()}
           </form>

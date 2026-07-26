@@ -9,6 +9,7 @@
 // picked up the Tab trap it never had.
 
 import { openModalShell } from "./modal-shell.ts";
+import { button } from "./button.ts";
 
 export function showShareLinkModal(opts: { title: string; message: string; link: string }): Promise<void> {
   return new Promise((resolve) => {
@@ -25,11 +26,11 @@ export function showShareLinkModal(opts: { title: string; message: string; link:
       </div>
       <div class="share-link__row l-cluster l-cluster--2">
         <input class="input js-link" type="text" readonly aria-label="Invite link" />
-        <button type="button" class="btn btn--ghost js-copy">Copy</button>
+        ${button({ label: "Copy", variant: "ghost", hook: "js-copy" })}
       </div>
       <p class="text-sm text-ink-mute">Valid 7 days · works once.</p>
       <div class="modal__actions">
-        <button type="button" class="btn js-done">Done</button>
+        ${button({ label: "Done", hook: "js-done" })}
       </div>
     `,
     });

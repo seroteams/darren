@@ -10,6 +10,7 @@ import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 import { landingStage } from "../ui/landing.ts";
 import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles, googleButtonHtml } from "./login.js";
+import { button } from "../ui/button.ts";
 
 export async function mount(root, { setState }) {
   // Same full-bleed .auth-split brand shell as login.js (design-consolidation
@@ -55,7 +56,7 @@ export async function mount(root, { setState }) {
               </span>
             </label>
             <p class="js-err text-negative text-sm" hidden></p>
-            <button type="submit" class="btn js-submit">Create account</button>
+            ${button({ label: "Create account", type: "submit", hook: "js-submit" })}
             <p class="text-ink-dim text-sm">
               By creating an account you agree to how Sero handles your data.
               <button type="button" class="link js-privacy">Read the privacy note</button>.

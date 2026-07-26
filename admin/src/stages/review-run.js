@@ -9,6 +9,7 @@ import { DIMENSIONS, OVERALL_VALUES, reviewStatusFromMarks, serializeReview, eng
 import { escapeHtml as esc } from "../ui/html.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 import { createSkeleton } from "../ui/skeleton.js";
+import { button } from "../ui/button.ts";
 
 const OVERALL_LABEL = { keep: "Keep", fix: "Fix", block: "Block" };
 
@@ -131,7 +132,7 @@ export async function mount(root, { setState }) {
         <div class="page-header__row">
           <h1 class="h1 js-title">Run review</h1>
           <div class="page-header__actions">
-            <button class="btn btn--ghost js-copy-all" type="button">Copy all</button>
+            ${button({ label: "Copy all", variant: "ghost", hook: "js-copy-all" })}
           </div>
         </div>
         <div class="text-ink-dim js-subtitle"></div>
@@ -160,7 +161,8 @@ export async function mount(root, { setState }) {
 
   let keyHandler = null;
   const host = root.querySelector(".js-host");
-  host.replaceChildren(createSkeleton(4)); // the standard ghost cards while the run loads
+  // The read-only run review: identity block, then its prep/questions/briefing cards.
+  host.replaceChildren(createSkeleton({ preset: "recap", tabs: 0, rows: 4 }));
 
   if (!id) {
     host.innerHTML = `<p class="stage-review__empty caption">No run selected.</p>`;
@@ -205,7 +207,7 @@ export async function mount(root, { setState }) {
             <h2 class="h2">Your verdict</h2>
             <div class="run-review__verdict-actions">
               <span class="rv-status" data-state="idle"></span>
-              <button type="button" class="btn btn--sm js-save">Save</button>
+              ${button({ label: "Save", size: "sm", hook: "js-save" })}
             </div>
           </div>
           <div class="rv-rows">${verdictRows(marks)}</div>

@@ -11,6 +11,7 @@ import { STAGES, store } from "../../../admin/src/state.ts";
 import { getInvite, acceptInvite } from "../../../shared/api.js";
 import { escapeHtml as esc, escapeCopy } from "../../../admin/src/ui/html.js";
 import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles } from "../../../admin/src/stages/login.js";
+import { button } from "../../../admin/src/ui/button.ts";
 
 // --- Pure HTML builders (exported for the copy/structure contract tests) -----------------
 // Same pattern as welcome.ts: the markup is testable as strings; mount only wires events.
@@ -92,7 +93,7 @@ export function inviteHtml(invite) {
         </span>
       </label>
       <p class="js-err text-negative text-sm" hidden></p>
-      <button type="submit" class="btn js-submit">Join ${esc(invite.orgName)}</button>
+      ${button({ label: `Join ${invite.orgName}`, type: "submit", hook: "js-submit" })}
     </form>
     <ul class="join-facts">
       <li>

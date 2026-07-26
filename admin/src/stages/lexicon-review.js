@@ -13,6 +13,7 @@ import {
 import { escapeCopy as escape, escapeHtml } from "../ui/html.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import "../styles/lexicon-review.css";
+import { button } from "../ui/button.ts";
 
 export async function mount(root, { store, setState }) {
   const sessionId = store.sessionId;
@@ -111,8 +112,8 @@ export async function mount(root, { store, setState }) {
           ${context ? `<div class="lex-row__context text-ink-dim text-sm">${escape(context)}</div>` : ""}
         </div>
         <div class="lex-row__actions">
-          <button type="button" class="btn btn--sm ${yesAct}" data-id="${escapeHtml(id)}">${escape(yesLabel)}</button>
-          <button type="button" class="btn btn--sm btn--ghost js-row-no" data-id="${escapeHtml(id)}">Drop</button>
+          ${button({ label: yesLabel, size: "sm", hook: yesAct, attrs: { "data-id": id } })}
+          ${button({ label: "Drop", variant: "ghost", size: "sm", hook: "js-row-no", attrs: { "data-id": id } })}
         </div>
       </div>`;
   }
@@ -122,8 +123,8 @@ export async function mount(root, { store, setState }) {
       <div class="lex-toolbar">
         <label class="lex-selectall"><input type="checkbox" class="js-select-all"> Select all</label>
         <div class="lex-toolbar__bulk">
-          <button type="button" class="btn btn--ghost btn--sm js-bulk-yes" disabled>${escape(yesLabel)} selected</button>
-          <button type="button" class="btn btn--ghost btn--sm js-bulk-no" disabled>Drop selected</button>
+          ${button({ label: `${yesLabel} selected`, variant: "ghost", size: "sm", hook: "js-bulk-yes", disabled: true })}
+          ${button({ label: "Drop selected", variant: "ghost", size: "sm", hook: "js-bulk-no", disabled: true })}
         </div>
       </div>`;
   }
@@ -201,7 +202,7 @@ export async function mount(root, { store, setState }) {
           <div class="text-ink-dim">${escape(emptyCopy)}</div>
         </div>
         <div class="l-cluster l-cluster--2 pt-6">
-          <button type="button" class="btn js-done">Continue</button>
+          ${button({ label: "Continue", hook: "js-done" })}
         </div>
       `;
       resultHost.querySelector(".js-done").addEventListener("click", finish);
@@ -223,7 +224,7 @@ export async function mount(root, { store, setState }) {
         </div>
       </div>
       <div class="l-cluster l-cluster--2 pt-6">
-        <button type="button" class="btn js-done">Save &amp; continue</button>
+        ${button({ labelHtml: "Save &amp; continue", hook: "js-done" })}
       </div>
       <span class="text-ink-mute text-sm js-progress"></span>
     `;
@@ -279,7 +280,7 @@ export async function mount(root, { store, setState }) {
           <div class="text-ink-dim">Nothing waiting to promote right now.</div>
         </div>
         <div class="l-cluster l-cluster--2 pt-6">
-          <button type="button" class="btn js-done">Continue</button>
+          ${button({ label: "Continue", hook: "js-done" })}
         </div>
       `;
       resultHost.querySelector(".js-done").addEventListener("click", finish);
@@ -302,8 +303,8 @@ export async function mount(root, { store, setState }) {
         </div>
       </div>
       <div class="l-cluster l-cluster--2 pt-6">
-        <button type="button" class="btn js-apply" disabled>Apply promotions</button>
-        <button type="button" class="btn btn--ghost js-skip">Finish without applying</button>
+        ${button({ label: "Apply promotions", hook: "js-apply", disabled: true })}
+        ${button({ label: "Finish without applying", variant: "ghost", hook: "js-skip" })}
       </div>
       <span class="text-ink-mute text-sm js-progress"></span>
     `;
@@ -347,7 +348,7 @@ export async function mount(root, { store, setState }) {
               <div class="text-ink-dim">No changes were made to the live lexicon. Reload to see what's still waiting.</div>
             </div>
             <div class="l-cluster l-cluster--2 pt-6">
-              <button type="button" class="btn js-done">Done</button>
+              ${button({ label: "Done", hook: "js-done" })}
             </div>
           `;
           resultHost.querySelector(".js-done").addEventListener("click", finish);
@@ -365,7 +366,7 @@ export async function mount(root, { store, setState }) {
             <div class="text-ink-dim">Live lexicon updated. Future 1:1s can pull these phrases.</div>
           </div>
           <div class="l-cluster l-cluster--2 pt-6">
-            <button type="button" class="btn js-done">Continue</button>
+            ${button({ label: "Continue", hook: "js-done" })}
           </div>
         `;
         resultHost.querySelector(".js-done").addEventListener("click", finish);

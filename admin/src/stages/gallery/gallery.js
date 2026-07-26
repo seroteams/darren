@@ -15,6 +15,7 @@ import { loaders } from "../../stage-loaders.js";
 import { withBase, replaceUrl } from "../../router.js";
 import { icon } from "../../ui/icon.js";
 import { GROUPS, SCREENS, HIDDEN, EXTRA_LOADERS, designPrompt } from "./screens.js";
+import { button } from "../../ui/button.ts";
 
 // Every loadable screen = the boot registry + the customer-app-only extras.
 const REGISTRY = { ...loaders, ...EXTRA_LOADERS };
@@ -243,7 +244,7 @@ export async function mount(node, deps) {
 
     actionsEl.innerHTML = `
       ${m.needsData ? `<span class="gal__needs" title="Phase 2 will seed a demo session so this fills in">empty until Phase 2</span>` : ""}
-      <button type="button" class="btn btn--ghost js-copy">Copy design prompt</button>`;
+      ${button({ label: "Copy design prompt", variant: "ghost", hook: "js-copy" })}`;
     actionsEl.querySelector(".js-copy").addEventListener("click", async (e) => {
       const btn = e.currentTarget;
       const text = designPrompt({ label: m.label, file, url: liveUrlFor(key) });

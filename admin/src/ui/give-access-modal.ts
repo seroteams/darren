@@ -8,6 +8,7 @@
 
 import "../styles/add-person-modal.css";
 import { openModalShell } from "./modal-shell.ts";
+import { button } from "./button.ts";
 
 export type OrgUser = { id: string; name: string; email: string };
 
@@ -31,7 +32,7 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
     // has an account, the server links them automatically. This modal is now the per-person
     // "Invite to log in" shortcut.
     const removeRow = linked
-      ? `<button type="button" class="btn btn--ghost js-remove" style="align-self:flex-start;">Remove access</button>`
+      ? button({ label: "Remove access", variant: "ghost", hook: "js-remove", attrs: { style: "align-self:flex-start;" } })
       : "";
 
     const shell = openModalShell({
@@ -49,7 +50,7 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
           <div class="l-cluster l-cluster--2" style="align-items:center;gap:8px;">
             <input class="apm-field__input js-email" id="ga-email" type="email" autocomplete="off"
                    spellcheck="false" placeholder="name@company.com" style="flex:1;min-width:0;" aria-describedby="ga-err" />
-            <button type="button" class="btn btn--ghost js-invite">Invite</button>
+            ${button({ label: "Invite", variant: "ghost", hook: "js-invite" })}
           </div>
           <div class="apm-field__opt">We'll create a one-time join link for you to send.</div>
           <div class="apm__err js-err" id="ga-err" role="alert" hidden></div>
@@ -57,7 +58,7 @@ export function showGiveAccessModal(opts: GiveAccessOptions): Promise<GiveAccess
         ${removeRow}
       </div>
       <div class="apm__foot">
-        <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
+        ${button({ label: "Cancel", variant: "ghost", hook: "js-cancel" })}
       </div>`,
     });
     const modal = shell.el;

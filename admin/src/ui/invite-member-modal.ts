@@ -7,6 +7,7 @@
 import "../styles/add-person-modal.css";
 import { openModalShell } from "./modal-shell.ts";
 import { cleanInvite, type InviteDraft } from "./invite-member-form.ts";
+import { button } from "./button.ts";
 
 export function showInviteMemberModal(): Promise<InviteDraft | null> {
   return new Promise((resolve) => {
@@ -35,8 +36,8 @@ export function showInviteMemberModal(): Promise<InviteDraft | null> {
         </div>
       </div>
       <div class="apm__foot">
-        <button type="button" class="btn btn--ghost js-cancel">Cancel</button>
-        <button type="button" class="btn js-send">Send invite</button>
+        ${button({ label: "Cancel", variant: "ghost", hook: "js-cancel" })}
+        ${button({ label: "Send invite", hook: "js-send" })}
       </div>`,
     });
     const modal = shell.el;

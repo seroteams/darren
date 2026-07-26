@@ -22,6 +22,7 @@ import { icon } from "../ui/icon.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { Play, X, Check, Sparkles } from "lucide";
 import "../styles/design/persona-bench.css";
+import { button } from "../ui/button.ts";
 
 const COST_LINE =
   "Runs the full engine with this persona's scripted answers. Costs about $0.35 in AI and takes 1–2 minutes.";
@@ -270,7 +271,7 @@ function rowHtml(p, inSuite, runs) {
   const suite = inSuite ? ` <span class="chip chip--mint bench-suite">in suite</span>` : "";
   const canRun = Array.isArray(p.script) && p.script.length > 0;
   const runCell = canRun
-    ? `<button type="button" class="btn btn--sm js-run" data-persona="${esc(p.id)}">${icon(Play, { size: 16 })} Run</button>`
+    ? button({ labelHtml: `${icon(Play, { size: 16 })} Run`, size: "sm", hook: "js-run", attrs: { "data-persona": p.id } })
     : `<span class="text-ink-mute text-sm">No script</span>`;
   return `
     <tr class="um-row bench-row js-row" data-persona="${esc(p.id)}">
@@ -306,7 +307,7 @@ function panelHtml(p, runs) {
     const last = runs[0];
     const badge = libraryBadge(last.reviewStatus, last.overall);
     const compareBtn = runs.length >= 2
-      ? `<button type="button" class="btn btn--ghost btn--sm js-compare" data-a="${esc(runs[0].id)}" data-b="${esc(runs[1].id)}">Compare with previous run</button>`
+      ? button({ label: "Compare with previous run", variant: "ghost", size: "sm", hook: "js-compare", attrs: { "data-a": runs[0].id, "data-b": runs[1].id } })
       : "";
     history = `
       <div class="l-stack l-stack--2">
@@ -316,7 +317,7 @@ function panelHtml(p, runs) {
           <span class="lib-badge lib-badge--${badge.tone}">${esc(badge.label)}</span>
         </div>
         <div class="bench-hist__actions">
-          <button type="button" class="btn btn--ghost btn--sm js-see-result" data-run="${esc(last.id)}">See result</button>
+          ${button({ label: "See result", variant: "ghost", size: "sm", hook: "js-see-result", attrs: { "data-run": last.id } })}
           ${compareBtn}
         </div>
       </div>`;
@@ -367,7 +368,7 @@ async function mountSafetyStrip(host, opts) {
           <strong>Free safety check</strong> <span class="text-ink-mute">(no AI)</span>
          . <span class="js-safety-summary text-ink-mute">checking…</span>
         </div>
-        <button class="btn btn--ghost btn--sm js-safety-recheck" type="button" disabled>Re-check</button>
+        ${button({ label: "Re-check", variant: "ghost", size: "sm", hook: "js-safety-recheck", disabled: true })}
       </div>
       <div class="js-safety-fails l-stack l-stack--2 bench-safety__fails"></div>
     </div>`;
@@ -453,7 +454,7 @@ function runBarHtml(job) {
     const cost = typeof job.costUsd === "number" ? ` · about $${job.costUsd.toFixed(2)} in AI` : "";
     status =
       `<span class="bench-status--good">${icon(Sparkles, { size: 16 })} Finished${esc(cost)}</span>` +
-      (job.sessionId ? `<button type="button" class="btn btn--sm js-review-it">Review it</button>` : "");
+      (job.sessionId ? button({ label: "Review it", size: "sm", hook: "js-review-it" }) : "");
   } else if (failed) {
     status = `<span class="bench-status--bad">Run failed: ${esc(job.error || "unknown error")}</span>`;
   } else {

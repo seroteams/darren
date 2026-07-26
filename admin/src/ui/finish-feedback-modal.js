@@ -14,6 +14,7 @@
 
 import "../styles/finish-feedback-modal.css";
 import { openModalShell } from "./modal-shell.ts";
+import { button } from "./button.ts";
 import { rateMyRun, submitRunVerdict } from "../../../shared/api.js";
 
 // Q1 answer <-> star rating, so the numeric rating signal (and admin-ratings) stays fed.
@@ -36,17 +37,17 @@ export function showFinishFeedbackModal({ sessionId, initialStars = 0 }) {
       <div class="ffm__sec">
         <div class="eyebrow" id="ffm-useful-label">Did the prep give you something useful?</div>
         <div class="l-cluster l-cluster--2 items-center" role="group" aria-labelledby="ffm-useful-label">
-          <button type="button" class="btn btn--ghost btn--sm js-ffm-u" data-u="Yes" aria-pressed="false">Yes</button>
-          <button type="button" class="btn btn--ghost btn--sm js-ffm-u" data-u="Sort of" aria-pressed="false">Sort of</button>
-          <button type="button" class="btn btn--ghost btn--sm js-ffm-u" data-u="No" aria-pressed="false">No</button>
+          ${button({ label: "Yes", variant: "ghost", size: "sm", hook: "js-ffm-u", attrs: { "data-u": "Yes", "aria-pressed": "false" } })}
+          ${button({ label: "Sort of", variant: "ghost", size: "sm", hook: "js-ffm-u", attrs: { "data-u": "Sort of", "aria-pressed": "false" } })}
+          ${button({ label: "No", variant: "ghost", size: "sm", hook: "js-ffm-u", attrs: { "data-u": "No", "aria-pressed": "false" } })}
           <span class="js-ffm-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
         </div>
       </div>
       <div class="ffm__sec">
         <div class="eyebrow" id="ffm-verdict-label">Would you use this before your next 1:1?</div>
         <div class="l-cluster l-cluster--2 items-center" role="group" aria-labelledby="ffm-verdict-label">
-          <button type="button" class="btn btn--ghost btn--sm js-ffm-v" data-v="yes" aria-pressed="false">Yes</button>
-          <button type="button" class="btn btn--ghost btn--sm js-ffm-v" data-v="no" aria-pressed="false">No</button>
+          ${button({ label: "Yes", variant: "ghost", size: "sm", hook: "js-ffm-v", attrs: { "data-v": "yes", "aria-pressed": "false" } })}
+          ${button({ label: "No", variant: "ghost", size: "sm", hook: "js-ffm-v", attrs: { "data-v": "no", "aria-pressed": "false" } })}
         </div>
       </div>
       <div class="ffm__sec">
@@ -55,8 +56,8 @@ export function showFinishFeedbackModal({ sessionId, initialStars = 0 }) {
           placeholder="One line. Optional" aria-labelledby="ffm-stuck-label" />
       </div>
       <div class="modal__actions">
-        <button type="button" class="btn btn--ghost js-ffm-skip">Skip</button>
-        <button type="button" class="btn js-ffm-done">Done</button>
+        ${button({ label: "Skip", variant: "ghost", hook: "js-ffm-skip" })}
+        ${button({ label: "Done", hook: "js-ffm-done" })}
       </div>`,
     });
     const modal = shell.el;

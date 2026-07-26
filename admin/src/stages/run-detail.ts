@@ -17,6 +17,7 @@ import { formatDate, relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
 import { Check, Calendar, Clock, MessageSquare } from "lucide";
 import type { Mount, Unmount } from "./stage.types.ts";
+import { button } from "../ui/button.ts";
 
 export type TurnRead = "skip" | "decline" | "thin" | "note";
 export type Turn = { alias: string | null; name: string | null; answer: string | null; skipped: boolean; read?: TurnRead | null };
@@ -59,7 +60,7 @@ function renderRating(run: RunDetail): string {
       <div class="star-rating__note l-stack l-stack--2" ${stars && stars <= 2 ? "" : "hidden"}>
         <label class="text-sm text-ink-dim" for="rating-note">What did it miss? (optional)</label>
         <textarea id="rating-note" class="input" rows="2">${escapeHtml(note)}</textarea>
-        <div><button type="button" class="btn btn--sm js-note-save">Save note</button></div>
+        <div>${button({ label: "Save note", size: "sm", hook: "js-note-save" })}</div>
       </div>
       <div class="text-sm text-ink-mute js-rating-status" role="status" aria-live="polite"></div>
     </section>`;
@@ -206,7 +207,10 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const id = store.myRunId;
-  root.innerHTML = frame(crumbHeader, loadingHtml(3));
+  // The recap preset ghosts the identity block too, not just the panel: this screen
+  // paints a crumb-only header first and swaps in the full profile on load, so the
+  // page used to grow by the height of a name and an avatar the moment data landed.
+  root.innerHTML = frame(crumbHeader, loadingHtml({ preset: "recap", tabs: 3, rows: 3 }));
   wireCrumbs();
 
   if (!id) {

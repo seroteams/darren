@@ -811,6 +811,22 @@
       "port": 3341
     },
     {
+      "name": "modal-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3341",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3345",
+        "--strictPort"
+      ],
+      "port": 3345
+    },
+    {
       "name": "modal-web",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

@@ -13,6 +13,8 @@ import { escapeHtml as esc } from "../ui/html.js";
 import { groupTerms, isGrouped } from "../ui/vocab-groups.js";
 import { icon } from "../ui/icon.js";
 import { Trash2 } from "lucide";
+import { button } from "../ui/button.ts";
+import { skeletonHtml } from "../ui/skeleton.js";
 
 export async function mount(root) {
   root.innerHTML = `
@@ -24,7 +26,7 @@ export async function mount(root) {
           The everyday vocabulary the assistant knows for each job, so a 1:1 speaks the same language. Add the words your team actually uses, they sit alongside the AI's and are always yours to remove.
         </div>
       </header>
-      <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading job words…</div>
+      <div class="thinking-host">${skeletonHtml({ preset: "two-col", railRows: 8, rows: 3, label: "Loading job words" })}</div>
       <div class="joblex-layout" hidden>
         <aside class="joblex-sidebar">
           <input class="input joblex-search js-role-search" type="search" placeholder="Search a job…" aria-label="Search roles" autocomplete="off" />
@@ -281,7 +283,7 @@ function sectionHtml(role) {
       <div class="joblex-add">
         <input class="input joblex-add__term js-term" type="text" maxlength="60" placeholder="Add a word (e.g. Standup)" aria-label="New word for ${title}" />
         <input class="input joblex-add__meaning js-meaning" type="text" maxlength="140" placeholder="What it means" aria-label="Meaning of the new word" />
-        <button class="btn btn--sm js-add-word" type="button" data-key="${esc(role.key)}">Add</button>
+        ${button({ label: "Add", size: "sm", hook: "js-add-word", attrs: { "data-key": role.key } })}
       </div>
       <p class="joblex-error js-add-error" role="alert" hidden></p>
       ${hiddenBlock}

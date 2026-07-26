@@ -22,6 +22,7 @@ import { changePassword, updateProfile, getCompany, updateCompany } from "../../
 import { SECTORS, findSector, sectorLabel } from "../../../shared/sectors.ts";
 import { store, setState, isAdmin } from "../state.ts";
 import { escapeHtml } from "./html.js";
+import { button } from "./button.ts";
 
 type User = { name?: string; email?: string } | null | undefined;
 
@@ -107,7 +108,7 @@ export function showAccountSheet(user: User): void {
       <p class="js-company-err text-negative text-sm" hidden></p>
       <p class="js-company-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="acct-actions">
-        <button type="submit" class="btn btn--ghost js-company-save" disabled>Save company</button>
+        ${button({ label: "Save company", variant: "ghost", type: "submit", hook: "js-company-save", disabled: true })}
       </div>
     </form>`
     : "";
@@ -125,7 +126,7 @@ export function showAccountSheet(user: User): void {
       <p class="js-name-err text-negative text-sm" hidden></p>
       <p class="js-name-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="acct-actions">
-        <button type="submit" class="btn btn--ghost js-name-save">Save name</button>
+        ${button({ label: "Save name", variant: "ghost", type: "submit", hook: "js-name-save" })}
       </div>
     </form>
 
@@ -133,7 +134,7 @@ export function showAccountSheet(user: User): void {
 
     <div class="acct-quiet-row js-pw-summary">
       <span class="acct-label">Password <span class="acct-dots">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span></span>
-      <button type="button" class="btn btn--ghost js-pw-reveal">Change</button>
+      ${button({ label: "Change", variant: "ghost", hook: "js-pw-reveal" })}
     </div>
     <form class="card acct-card-gap js-pw-form" novalidate hidden>
       <div class="eyebrow">Change password</div>
@@ -144,8 +145,8 @@ export function showAccountSheet(user: User): void {
       <p class="js-err text-negative text-sm" hidden></p>
       <p class="js-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="acct-actions">
-        <button type="button" class="btn btn--ghost js-pw-cancel">Cancel</button>
-        <button type="submit" class="btn js-save">Change password</button>
+        ${button({ label: "Cancel", variant: "ghost", hook: "js-pw-cancel" })}
+        ${button({ label: "Change password", type: "submit", hook: "js-save" })}
       </div>
     </form>
   `;
