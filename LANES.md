@@ -9,6 +9,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
+| bd909e4b | Nav rail colours (navy for manager/admin) | admin/src/styles/design/app-nav.css, admin/src/styles/design/mobile.css, admin/src/styles/design/tokens.css, admin/src/ui/app-nav.js, frontend/src/ui/app-nav.js | 2026-07-27 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 

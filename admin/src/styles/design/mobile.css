@@ -34,7 +34,7 @@
     gap: 0.25rem;
     padding-left: calc(0.25rem + env(safe-area-inset-left));
     padding-right: calc(0.75rem + env(safe-area-inset-right));
-    background: var(--sero-primary-800);
+    background: var(--app-nav-bg);
     color: var(--color-surface);
     z-index: var(--sero-z-fixed, 30);
   }
@@ -73,7 +73,7 @@
     height: 8px;
     border-radius: 50%;
     background: var(--color-negative);
-    box-shadow: 0 0 0 2px var(--sero-primary-800);
+    box-shadow: 0 0 0 2px var(--app-nav-bg);
   }
 
   /* The rail becomes a drawer: slides in from the left, labels always shown.

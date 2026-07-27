@@ -12,7 +12,7 @@ import { icon } from "../../../admin/src/ui/icon.js";
 import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Info, MessageSquare, Menu, PanelLeftClose, PanelLeftOpen } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
-  <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
+  <rect width="48" height="48" rx="12" fill="var(--sero-primary-700)"/>
   <rect x="9" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
   <rect x="32.5" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
   <circle cx="24" cy="18.5" r="5" fill="#fff"/>
@@ -252,6 +252,11 @@ export function createAppNav({ setState, resetSession } = {}) {
     document.body.classList.add("has-app-nav");
     // Show exactly one audience's rows: managers get their rail, members theirs.
     const wanted = isAdmin(user) ? "mgr" : "member";
+    // Same audience drives the rail's colour: the manager gets the navy rail, the
+    // member keeps the lighter blue (design/app-nav.css reads this attribute). It
+    // sits on <body> so the mobile header strip — a sibling of the rail, not a
+    // child — picks up the same background.
+    document.body.dataset.navAudience = wanted;
     homeKey = wanted === "mgr" ? "mghome" : "runs";
     // The quiet rail (onboarding-firstrun Phase 3): until a manager has run a single
     // 1:1, the work rows stay away and the brief-first welcome is the only way in.

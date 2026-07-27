@@ -241,6 +241,9 @@
   --color-accent-dark: var(--sero-primary-800);    /* #1b5d91 */
   --color-accent-soft: var(--sero-primary-200);    /* #e9f3fb */
   --color-accent-glow: rgba(90, 169, 230, 0.32);
+  /* Selected row on the dark nav rail — Carl's sidebar palette, 2026-07-27. Sits
+     between primary-400 and navy-300; neither was an exact match for his value. */
+  --color-nav-active: #c3ddfd;
 
   /* Purple — Sero lavender */
   --color-purple: var(--sero-lavender-700);        /* #b49edb */

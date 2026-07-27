@@ -2,6 +2,49 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "navcol-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3371",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3371
+    },
+    {
+      "name": "navcol-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3371",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3373",
+        "--strictPort"
+      ],
+      "port": 3373
+    },
+    {
+      "name": "navcol-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3371",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3375",
+        "--strictPort"
+      ],
+      "port": 3375
+    },
+    {
       "name": "lookback-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
