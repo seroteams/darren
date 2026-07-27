@@ -1212,3 +1212,42 @@ separate CSS families for icon affordances and text triggers, two were anchors d
 navigation, and sixteen were the design showcase demonstrating raw markup on purpose. They were
 recorded as deliberate exclusions with reasons rather than forced through the renderer to make
 a count look better.
+
+## 2026-07-27 — design-cleanup-invisible: what "unused" means, and why the proof has to be the build
+
+Six phases, two days, £0, zero pixels moved. The lessons are about method, not tokens.
+
+**A text search cannot see a runtime consumer, and a design system is full of them.** The audit
+declared 70 colour ramp steps dead. They are rendered by the Design system screen, which builds
+its 121 swatches as `var(--sero-${scale}-${step})`. Deleting them would have shipped 70 blank
+squares. Same shape of error twice more: the Tailwind config was the sole "consumer" of ~40 tokens
+because it generates names in a loop, and four component families had escaped the internal design
+sheet into real product code (`.ds-alert` was live on the customer Team screen). The habit that
+catches all three: before deleting, resolve the dynamic constructions too, and cross-reference
+against the *import graph* of the app you claim isn't using it, not just its own folder.
+
+**Order the work so the fake consumers go first.** Trimming the Tailwind config before auditing
+tokens is what turned 75 "dead" tokens into 98. Audit, act, re-audit, act.
+
+**The proof has to be the artefact, not the source.** Every phase signed off on a comparison of
+the *built* CSS: `:root` compared separately from the rules, so a token deletion must shrink the
+first and leave the second byte-identical. Renames defeat that, so the check evolved to resolve
+every `var()` chain to a literal and compare resolved rules. Both tools found real things a diff
+of the source never would have, and both distinguished this session's changes from the five other
+chats writing the same folder.
+
+**Guard debt with a ceiling, not a boolean.** Two design linters existed and passed, but nothing
+ran them: not `npm test`, not CI, not a hook. Setting their soft counts to zero would have meant
+~256 failures on day one, so they went in at today's measured numbers as ceilings that may fall
+and never rise, each phase lowering the one it earns (non-token fonts went 76 → 13 that way).
+Freezing existing debt while blocking new debt is the only version of this that survives contact
+with a working repo. The ceiling was proved to trip before being trusted: a deliberately wrong
+throwaway file failed all three, then was deleted.
+
+**The lane-discipline miss from the button-renderer phase repeated here, so it needs the sharper
+rule.** A path-scoped commit swept 57 lines of another session's uncommitted start-screen work,
+because the pathspec was right about *which file* and silent about *which hunks inside it*.
+`git diff <path>` on every file in the pathspec, every time. The other half of the discipline held
+well: five sessions' lanes blocked roughly 150 call sites, and those were surfaced as a follow-up
+rather than edited through, with the two unavoidable bridge tokens marked in `tokens.css` naming
+the lane that blocks them and the line to delete.

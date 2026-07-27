@@ -2,6 +2,32 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-27 — the design system lost a third of itself and nothing moved on screen.**
+design-cleanup-invisible CLOSED, all 6 phases green-lit in two days, £0. **Tokens 309 → 250**, with
+54 that were referenced nowhere at all (whole families: the interaction-state overlays, the
+breakpoints, which could never have worked because custom properties don't function in `@media`).
+Radius and shadow each had **two rival naming systems** running at once, so one 12px corner
+answered to three names; now one name per value, named for the job. Four token names all meant
+14px; now one, and 55 hardcoded sizes became tokens. The **Tailwind config went 211 lines → 74**:
+it was generating ~380 shortcuts off the token layer and the app used nine, a second design system
+anyone could reach for while bypassing DESIGN.md. And the customer app stopped downloading the
+admin console's styling: **both first-paint stylesheets −18%** (157,894 → 129,423 bytes), the
+1,000-line internal Design-system screen now loading only when opened.
+
+The guards are the durable part. Two design linters existed and passed, but **nothing ever ran
+them** — not the test suite, not CI, not a hook. They are now inside `npm test` as a **ratchet**:
+today's drift is frozen at a ceiling that may fall and never rise. Non-token font sizes went
+**76 → 13** in the process, and all 13 left are genuinely wrong sizes (15/17/30/32px) that
+DESIGN.md itself bans.
+
+Every phase proved itself against the *built* CSS, not by claim: `:root` compared separately from
+the rules, and for renames every `var()` chain resolved to a literal first. Three audit findings
+were **wrong and corrected in flight** — the loudest being "70 dead colour shades", which the
+Design-system screen renders live from those very tokens; deleting them would have left 70 blank
+swatches. **NOT pushed live** (styling only, no behaviour change). Next, both needing Carl:
+a **P3b** to finish the namespace collapse (~150 call sites still held by other chats' lanes) and
+the **visible pass** (the type ladder is still inverted at the top).
+
 📍 **2026-07-26 — the first minute now shows the work instead of asking for it.**
 onboarding-firstrun CLOSED, all 4 phases green-lit in two days. A brand-new manager lands on a
 welcome that quotes the seeded example's REAL prep brief (drift-tested against the fixture, labelled
@@ -172,6 +198,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 1. **Walk the live first-run** — you said go live on 2026-07-26 and everything shipped (build `1db2d5c`). The one thing local could never prove: register a brand-new account on sero.team and check the brief-first welcome and the quiet rail behave.
 2. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
 3. **Three walks are waiting on you** — screen-gallery P2 (static gallery built), sero-run-memory P1 (read chips built 2026-07-20), audit-fixes P2 when the other chat hands it over.
+4. **Two design follow-ups need a yes or a no** — the design-system clean-up closed 2026-07-27 and left both deliberately: **P3b** finishes the namespace collapse (~150 call sites still inside other chats' lanes), and the **visible pass** fixes the type ladder, which is still inverted at the top and still carries the 15px/17px sizes your own rules ban. The second one changes what you see, so it wants before-and-after mockups first.
 
 ## 🔨 Building now
 | Build | State |
@@ -183,6 +210,9 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail), awaiting your QA walk. P2–P4 not started. |
 | [component-consolidation](docs/plans/doing/component-consolidation/plan.md) | 8 phases: one owner module per UI part (modal, button, card, empty state, chip, field, avatar, nav, router) plus a lint guard. P1 ✅ green-lit 2026-07-26 (one modal shell, 9 dialogs, 3 gained a keyboard trap they never had, -216 lines). P2 ✅ green-lit 2026-07-26 (one `avatar.ts` replaces 9 initials helpers; the two-letter rule had drifted into two different rules, so one person read "KK" on Team and "K" on Pulse). P3 ✅ green-lit 2026-07-27 (one `button.ts`, 150 call sites across 40 files, proved byte-identical). **P4 ⏸️ PAUSED 2026-07-27 (your call)** — lane `70b40d36` (loading skeletons) holds 33 files covering 17 of P4's 27 empty states and most of its card files; half-doing it would leave two empty-state systems in the app. Resumes when that lane clears, opening with a card-padding comparison for you (24px vs 20px, you pick). P5–P8 ⬜. [Board](https://claude.ai/code/artifact/7bc89958-58d5-42a4-8c6f-92cbac891cb8) · [mockup](https://claude.ai/code/artifact/200aff4b-61d2-48a8-accc-40145baac39a). |
+
+## ✅ Closed 2026-07-27
+[design-cleanup-invisible](docs/plans/done/design-cleanup-invisible/plan.md) — the design system's dead weight, removed without moving a pixel. All 6 phases green-lit in two days, £0. Tokens 309 → 250 (54 referenced nowhere, including a whole breakpoint family that could never work); one name per value for radius, shadow and text size (four names meant 14px); Tailwind config 211 → 74 lines after finding it generated ~380 shortcuts the app used nine of; both first-paint stylesheets −18% now the customer no longer downloads the admin console's CSS. The lasting bit: two design linters that existed but **never ran anywhere** are now in `npm test` as a ratchet — drift may fall, never rise (non-token font sizes 76 → 13 already). Proved against the built CSS every phase, never by claim. Two follow-ups need you: **P3b** (~150 call sites still inside other chats' lanes) and the **visible pass** (the type ladder is inverted at the top). Committed local, ships next push.
 
 ## ✅ Closed 2026-07-26
 [onboarding-firstrun](docs/plans/done/onboarding-firstrun/plan.md) — the brief-first welcome, the quiet rail, and one shared first-run rule. All 4 phases green-lit; 189/189 tests; ships on your next "go live".

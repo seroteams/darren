@@ -143,6 +143,18 @@ codified: a visual **component sheet** (in-app under Admin → Design system) + 
 that auto-loads for every agent, every session — with a "before you build" checklist. New and
 touched screens follow it; **no bulk re-skin** (Carl's call). Plan → [done/](docs/plans/done/design-system/plan.md).
 
+**✅ Closed (2026-07-27): the design system got its dead weight cut, and a ratchet.** Six phases,
+two days, £0, not one pixel moved. Tokens 309 → 250 with 54 referenced nowhere at all; one name
+per value for radius, shadow and text size; the Tailwind config cut 211 → 74 lines once it turned
+out to be generating ~380 shortcuts the app used nine of, a second design system anyone could reach
+for while bypassing `DESIGN.md`. Customers stopped downloading the admin console's styling: both
+first-paint stylesheets **−18%**. The durable part is governance: two design linters existed and
+**nothing ever ran them**, so they now sit inside `npm test` as a **ratchet** where drift may fall
+and never rise (non-token font sizes 76 → 13 already). Every phase proved itself against the built
+CSS, and three audit findings were wrong and corrected in flight. Two follow-ups need Carl: **P3b**
+(~150 call sites held by other chats' lanes) and the **visible pass** (type ladder still inverted).
+Plan → [done/](docs/plans/done/design-cleanup-invisible/plan.md).
+
 **▶ Active line: pre-go-live — a manager tool worth coming back to.** New track (2026-07-01), 9 phases,
 one at a time: the manager's own **Runs** list + reopen, **rate a 1:1** (1–5★, Carl sees all), **Team**
 auto-built from past 1:1s + person detail, and a **superadmin** read-only window on the whole alpha
