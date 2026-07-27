@@ -10,7 +10,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
 | 43ed6aba | About page visual rebuild | admin/src/stages/about.js, admin/src/stages/about.test.ts, admin/src/styles/design/about-stage.css, admin/src/styles/design.css | 2026-07-27 |
-| a1867f25 | entry-redesign P2 (Version A into the real auth screens) | admin/src/stages/login.js, admin/src/stages/register.js, admin/src/stages/auth-screens.test.ts, admin/src/styles/design/auth.css, frontend/src/stages/welcome.ts, frontend/src/stages/welcome.test.ts, backend/api/services/auth/auth.service.ts, docs/plans/doing/entry-redesign/ | 2026-07-27 |
+| f4b03826 | First-visit empty states (un-quiet the manager rail) | docs/plans/doing/empty-states/, frontend/src/ui/app-nav.js, frontend/src/ui/app-nav-quiet.test.ts, frontend/src/stages/team.ts, frontend/src/stages/members.ts, admin/src/stages/runs.ts | 2026-07-27 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
