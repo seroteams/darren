@@ -80,3 +80,7 @@ frontend/dist
 # ~26MB with fonts inlined. Regenerate with `node scripts/gallery-export.mjs` (dev server up).
 # The README + export script + fixtures are tracked; the generated .html is not.
 /docs/screen-gallery/*.html
+
+# Screen-gallery capture shots (~9MB) — regenerable from the same export run as the
+# .html above, so they follow the same rule.
+/docs/plans/doing/screen-gallery/test-shots/
