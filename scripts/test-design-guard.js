@@ -100,6 +100,8 @@ if (data) {
       failures.push(
         `${key} rose to ${actual}, ceiling is ${ceiling} (+${actual - ceiling}).` +
           `\n      Design drift may only shrink. Fix the new one, or lower nothing and ask Carl.` +
+          `\n      (Parallel chats share this checkout, so this can also be another session's` +
+          `\n       file mid-edit. Re-run once before hunting: if it is real, it stays red.)` +
           extra
       );
     }
