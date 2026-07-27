@@ -27,12 +27,12 @@
 | 3 | Detail, tiles, sections, two-column | `tiles` / `recap` / `sections` / `two-col` / `prose` on 10 screens | ✅ |
 | 4 | The run lane and forms | `flowInterstitial` takes a spec; the run lane previews the screen it routes into | ✅ |
 | 5 | The proof and the rule | A live "Loading skeletons" sheet in `/design`; DESIGN.md rule 5; clean-up Lens G | ✅ |
-| 6 | The last twelve | Every remaining screen off the generic cards, including two recap views I had missed | 🔨 |
+| 6 | The last twelve | Every remaining screen off the generic cards, including two recap views I had missed | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1 to 5 ✅. **Phase 6 built, awaiting Carl's walk. This is the last one.**
+Phases 1 to 5 ✅. **All six phases ✅, green-lit by Carl 2026-07-27. Plan closed.**
 
 Carl restated the acceptance criterion as "all pages", and it wasn't: 13 screens were still on the generic grey cards, two of them my own miss. Phase 6 closed them. The count now:
 

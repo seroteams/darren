@@ -2,6 +2,26 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-27 — every loading screen in the app now shows the shape of the page
+that's coming, and you green-lit it.** skeleton-shapes CLOSED, all 6 phases in two days, £0.
+Before: one grey three-card ghost on every screen, whatever was actually loading. Now a table
+ghosts as a table, the KPI dashboard as tiles, a people list as avatar rows, and the run lane
+previews the screen it is about to route you into. **Generic grey cards left: zero.**
+
+The technique is the reason it works: a ghost IS the real element wearing the real classes, holding
+one non-breaking space, so it inherits the real font and lands the same height. Most presets now
+measure **exact** against the loaded page.
+
+Two of the finds were yours. You spotted the ghost lines rendering as a few grey pips: `width` does
+nothing on an inline element, and every height I had measured was correct, which is exactly how it
+hid. You also refused the sign-off when the bar said "all pages" and it was 34 of 47, which turned
+up two screens I had genuinely missed. Both are why the proof sheet exists: **Design → Loading
+skeletons** renders every preset beside the real thing and measures it live, so the next one cannot
+hide. DESIGN.md rule 5 now states the rule; the clean-up skill checks it.
+
+**This also unblocks component-consolidation P4**, which paused waiting on this lane's 33 files.
+197/197, typecheck, both linters. **Committed local, ships on your next "go live".**
+
 📍 **2026-07-27 — the welcome screen's sample brief became a document, and you green-lit it
 ("yeah i like it").** You rejected the first-screen design on sight, asked for options, and picked
 **B, brief as hero** from five. The sample now reads like the thing it is: Sofia's name in the
@@ -223,6 +243,9 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 🔨 built 2026-07-20 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail), awaiting your QA walk. P2–P4 not started. |
 | [component-consolidation](docs/plans/doing/component-consolidation/plan.md) | 8 phases: one owner module per UI part (modal, button, card, empty state, chip, field, avatar, nav, router) plus a lint guard. P1 ✅ green-lit 2026-07-26 (one modal shell, 9 dialogs, 3 gained a keyboard trap they never had, -216 lines). P2 ✅ green-lit 2026-07-26 (one `avatar.ts` replaces 9 initials helpers; the two-letter rule had drifted into two different rules, so one person read "KK" on Team and "K" on Pulse). P3 ✅ green-lit 2026-07-27 (one `button.ts`, 150 call sites across 40 files, proved byte-identical). **P4 ⏸️ PAUSED 2026-07-27 (your call)** — lane `70b40d36` (loading skeletons) holds 33 files covering 17 of P4's 27 empty states and most of its card files; half-doing it would leave two empty-state systems in the app. Resumes when that lane clears, opening with a card-padding comparison for you (24px vs 20px, you pick). **P8 ✅ green-lit 2026-07-27** — `npm run lint:components`, the guard that stops P1-P3 drifting back (5 rules, 18 recorded leftovers, proved by making each rule fail). P5–P7 ⬜ and all lane-blocked on the same two chats, so this plan can build nothing more until one releases. [Board](https://claude.ai/code/artifact/7bc89958-58d5-42a4-8c6f-92cbac891cb8) · [mockup](https://claude.ai/code/artifact/200aff4b-61d2-48a8-accc-40145baac39a). |
+
+## ✅ Closed 2026-07-27
+[skeleton-shapes](docs/plans/done/skeleton-shapes/plan.md) — every loading state now previews its own page. 6 phases, £0. One central kit (`ui/skeleton-presets.ts`) with 11 presets; a ghost wears the real element's classes so it inherits the real box, and most measure exact against the loaded page. Zero screens left on the generic cards; two stay un-ghosted on purpose (a disabled input already at final size, and intake's roster, where a ghost would cause a worse shrink). Live proof sheet at Design → Loading skeletons. Known limit, stated: a ghost is right at the width its screen uses and drifts at others, because every height is a count of wrapped lines.
 
 ## ✅ Closed 2026-07-27
 [design-cleanup-invisible](docs/plans/done/design-cleanup-invisible/plan.md) — the design system's dead weight, removed without moving a pixel. All 6 phases green-lit in two days, £0. Tokens 309 → 250 (54 referenced nowhere, including a whole breakpoint family that could never work); one name per value for radius, shadow and text size (four names meant 14px); Tailwind config 211 → 74 lines after finding it generated ~380 shortcuts the app used nine of; both first-paint stylesheets −18% now the customer no longer downloads the admin console's CSS. The lasting bit: two design linters that existed but **never ran anywhere** are now in `npm test` as a ratchet — drift may fall, never rise (non-token font sizes 76 → 13 already). Proved against the built CSS every phase, never by claim. Two follow-ups need you: **P3b** (~150 call sites still inside other chats' lanes) and the **visible pass** (the type ladder is inverted at the top). Committed local, ships next push.

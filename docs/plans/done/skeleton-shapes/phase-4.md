@@ -1,7 +1,8 @@
 # Phase 4 — The run lane and forms
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
+## ✅ GREEN-LIT 2026-07-27 — Carl walked the whole plan and signed it off (commit fd778f1b)
 ## Goal
 Every wait inside a 1:1 run previews what that step is generating, and the two form screens stop popping.
 
@@ -17,7 +18,7 @@ The gallery proof sheet and the DESIGN.md rule.
 ## Done when
 - [ ] A full run walk never shows a generic grey card
 - [ ] `/new` no longer pops its roster in after paint
-- [ ] Carl has walked the scenarios below and said go
+- [x] Carl has walked the scenarios below and said go
 
 ## Test scenarios — for the product owner
 Breadcrumb: `local > admin (dev autologin) > Start 1:1, all the way to the briefing`

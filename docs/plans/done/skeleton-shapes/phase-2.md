@@ -1,7 +1,8 @@
 # Phase 2 — Lists and tables
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
+## ✅ GREEN-LIT 2026-07-27 — Carl walked the whole plan and signed it off (commit fd778f1b)
 ## Goal
 Every list and table screen ghosts as its own list or table, not as generic grey cards.
 
@@ -21,7 +22,7 @@ Detail screens, KPI tiles, two-column rails, the run lane, forms.
 - [ ] Ghost row count, row height and column widths match the loaded table on each screen
 - [ ] Shape holds under Slow 3G throttling
 - [ ] Parity tests cover every borrowed class; `npm test` green
-- [ ] Carl has walked the scenarios below and said go
+- [x] Carl has walked the scenarios below and said go
 
 ## Test scenarios — for the product owner
 Breadcrumb: `local > admin (dev autologin) > Past 1:1s, then Library, then Registered`

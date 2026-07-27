@@ -1,7 +1,8 @@
 # Phase 6 — The last twelve
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 awaiting green light
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
+## ✅ GREEN-LIT 2026-07-27 — Carl walked the whole plan and signed it off (commit fd778f1b)
 ## Why this phase exists
 Carl restated the acceptance criterion: the loading state has a similar structure to the loaded page **for all pages**. It wasn't all pages. A count found 13 screens still on the generic grey cards, two of them my own miss (I had migrated each admin screen's list but not its second, inner recap state). The rest had been blocked behind another chat's lane, which cleared.
 
@@ -28,7 +29,7 @@ Wired the last twelve:
 ## Done when
 - [x] No screen in either app passes a bare row count: `grep -rn "loadingHtml([0-9)]\|createSkeleton([0-9)]" admin/src frontend/src` returns nothing outside the kit and its tests
 - [x] The proof sheet shows every preset with no case flagged
-- [ ] Carl has walked the scenarios below and said go
+- [x] Carl has walked the scenarios below and said go
 
 ## The count, after
 - **Generic grey cards left: zero.**

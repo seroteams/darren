@@ -2,6 +2,7 @@
 
 **Part of:** [plan.md](plan.md) · **Status:** ✅ Carl moved us on to Phase 2 on 2026-07-26 rather than walk an invisible phase, which is a fair call: with zero screens migrated there was nothing to see. The geometry proof below stands on its own.
 
+## ✅ GREEN-LIT 2026-07-27 — Carl walked the whole plan and signed it off (commit fd778f1b)
 ## Built (2026-07-26)
 
 New:
@@ -49,7 +50,7 @@ Bar widths honoured `--sk-w`: count 52.5px (6ch), name 117.4px (11ch), sub 192.5
 - [x] Ghost row geometry matches loaded row geometry on a real screen
 - [x] Skeletons announce themselves to a screen reader and stay inert
 - [x] Free checks green (bar the pre-existing failure above)
-- [ ] Carl has walked the scenarios below and said go
+- [x] Carl has walked the scenarios below and said go
 
 ## Test scenarios — for the product owner
 

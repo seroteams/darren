@@ -1,7 +1,8 @@
 # Phase 3 — Detail, tiles, sections, two-column
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
+## ✅ GREEN-LIT 2026-07-27 — Carl walked the whole plan and signed it off (commit fd778f1b)
 ## Goal
 The remaining read screens ghost as themselves, and the last text-only "Loading…" sentences die.
 
@@ -16,7 +17,7 @@ The run lane and forms.
 ## Done when
 - [ ] Each screen's ghost matches its loaded shape (measured, not eyeballed)
 - [ ] Grepping `admin/src` + `frontend/src` for `Loading…`, `Loading from the codebase`, `Loading job words`, `Loading meeting arcs`, `Loading session` returns nothing outside tests
-- [ ] Carl has walked the scenarios below and said go
+- [x] Carl has walked the scenarios below and said go
 
 ## Test scenarios — for the product owner
 Breadcrumb: `local > admin (dev autologin) > Pulse, then a person, then Guide`

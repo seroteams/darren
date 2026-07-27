@@ -1286,3 +1286,35 @@ remove them and watch it go green.
 Also recorded: with P4 through P7 all blocked behind two other sessions' lane claims, P8 was
 built out of order. Not ideal, but banking the guard while the rest waits is better than
 either half-doing a blocked phase or leaving three finished consolidations unprotected.
+
+## 2026-07-27 — Shape-matched loading skeletons (skeleton-shapes, 6 phases, closed)
+
+**The technique.** A ghost is not a grey bar drawn next to the real element: it IS the real element,
+wearing the real classes, holding a single `&nbsp;`. That one detail is what makes it work. Any
+inline content creates the real line box, so the ghost inherits the real font-size, weight and
+line-height, and the row lands the same height as a loaded row. An empty div can't: a Pulse tile is
+~32px empty against 255px loaded.
+
+**The lesson worth keeping: measuring heights is not the same as looking.** Two real defects hid
+behind clean measurements. `.sk-leaf` was inline, and `width` does nothing to an inline element, so
+every bare ghost line collapsed to a few grey pips while every height I had measured stayed correct.
+Carl caught it from a screenshot. Separately, the kit's CSS sits in `motion.css` and any stylesheet
+imported after it was quietly winning at equal specificity, so the ghost answer box rendered 96px
+against a real 153px and ghost avatars painted the real avatar's colour. Both are now guarded: kit
+rules are double-classed, and the proof sheet renders every preset beside the real thing.
+
+**The limit, worth stating rather than hiding.** A ghost is correct at the width its screen uses and
+drifts at others, because every height here is a count of wrapped text lines and a skeleton cannot
+know how long the text will be. Table rows match a short row but not a wrapped one. The tiles preset
+is hardcoded to Pulse's 168px grid track. The proof sheet had to pin its own width to 760px before
+its numbers meant anything. Where the copy is ours and fixed (dashboard tiles), matching exactly is
+fair; where it is user data (names, emails), it is not, and the gap is documented instead of tuned.
+
+**Process note.** The plan said "all pages" and I reported done at 34 of 47. Carl refused the
+sign-off and asked for a count, which found 13 remaining, two of them a genuine miss: I had migrated
+each admin screen's list but never its second, inner recap view. Counting beats recalling.
+
+**Anti-flash, and failing safe.** The 150ms hold that stops a fast load flickering lives in the
+keyframes with an opaque `0%` stop, not in `animation-delay` + `fill: backwards`. A backgrounded tab
+freezes the animation clock, and a backwards fill would strand the skeleton invisible: a blank
+screen instead of a flicker, which is far worse than the problem it solves.

@@ -1,7 +1,8 @@
 # Phase 5 — The proof and the rule
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
 
+## ✅ GREEN-LIT 2026-07-27 — Carl walked the whole plan and signed it off (commit fd778f1b)
 ## Goal
 Carl can judge all ~40 skeletons in one pass, and the rule is written down so this can't drift back.
 
@@ -18,7 +19,7 @@ Carl can judge all ~40 skeletons in one pass, and the rule is written down so th
 ## Done when
 - [ ] The sheet covers every route, ghost beside loaded
 - [ ] DESIGN.md and the clean-up skill both name the rule
-- [ ] Carl has walked the scenarios below and said go
+- [x] Carl has walked the scenarios below and said go
 
 ## Test scenarios — for the product owner
 Breadcrumb: `local > open docs/screen-gallery/ in a browser`
