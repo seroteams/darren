@@ -2,6 +2,19 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-27 — the welcome screen's sample brief became a document, and you green-lit it
+("yeah i like it").** You rejected the first-screen design on sight, asked for options, and picked
+**B, brief as hero** from five. The sample now reads like the thing it is: Sofia's name in the
+display face with an initial avatar, small-caps labels over full-width paragraphs, on lifted paper.
+The "this is an example" line moved onto a banner above the card, so the brief itself never
+apologises. A real bug fell out of the rebuild: the old three-column layout watched the window
+width, not the card's, so on a wide screen each part was squeezed to about 160px. Also fixed the
+same day: the welcome video was returning YouTube "Error 153" on live, because that morning's
+hardening pass told the player to send no referrer and YouTube then had no way to check we may
+embed. Kept on purpose above the brief: the intro and the four "what managers tell us" pairs.
+The five options stay walkable at `admin/src/stages/tests/welcome-options.js`.
+196/196, typecheck, both linters. **Committed local, ships on your next "go live".**
+
 📍 **2026-07-27 — the design system lost a third of itself and nothing moved on screen.**
 design-cleanup-invisible CLOSED, all 6 phases green-lit in two days, £0. **Tokens 309 → 250**, with
 54 that were referenced nowhere at all (whole families: the interaction-state overlays, the
