@@ -146,6 +146,50 @@
 .session-topbar__stages .stage-rail.is-filled {
   background: var(--color-accent);
 }
+/* The way out of a 1:1, said plainly (Carl, 2026-07-27). The run lane hides the
+   nav rail, so this bar is the only chrome; the exit used to be a popover item
+   behind a button labelled "New 1:1". Quiet by design: every run screen already
+   spends its one blue action on the step it is asking for, so this is an
+   outlined control, not a second accent button. */
+.session-topbar__exit {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sero-space-2);
+  padding: 0.34rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-full);
+  background: var(--color-surface);
+  font: inherit;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  line-height: 1;
+  color: var(--color-ink-dim);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out-expo),
+    color var(--dur-fast) var(--ease-out-expo);
+}
+.session-topbar__exit:hover {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+.session-topbar__exit:focus-visible {
+  outline: none;
+  box-shadow: var(--sero-shadow-focus);
+}
+.session-topbar__exit[hidden] {
+  display: none;
+}
+/* Tight and phone: the word folds away, the door icon carries it. The button
+   itself never folds — it is the only way out of the lane. */
+.session-topbar.is-tight .session-topbar__exit-word {
+  display: none;
+}
+.session-topbar.is-tight .session-topbar__exit {
+  padding: 0.34rem 0.45rem;
+}
+
 /* Who's signed in — initials circle + email pill, where the step counter used
    to be. Matches the floating profile badge (app-nav.css) so the two surfaces
    read as one. */
@@ -251,6 +295,13 @@ body.has-session-topbar {
   }
   .session-topbar__email {
     display: none;
+  }
+  /* The exit keeps its place, wearing just the door icon. */
+  .session-topbar__exit-word {
+    display: none;
+  }
+  .session-topbar__exit {
+    padding: 0.34rem 0.45rem;
   }
 }
 

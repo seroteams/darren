@@ -6,7 +6,7 @@
 // Left-anchored Session button opens a popover to save & exit or delete.
 // Mounted once in main.js, kept in sync by the store subscribe callback.
 
-import { Check } from "lucide";
+import { Check, LogOut } from "lucide";
 import { STAGES } from "../state.ts";
 import { exitStage } from "./landing.ts";
 import { deleteRun } from "../../../shared/api.js";
@@ -46,6 +46,16 @@ const RUN_STAGES = new Set([
 export function stepperVisible(stage, sessionId) {
   const current = String(stage || "");
   return RUN_STAGES.has(current) || (current === STAGES.LEXICON_REVIEW && !!sessionId);
+}
+
+// The way out, said plainly (Carl, 2026-07-27). The run lane hides the nav rail,
+// so this bar is the only chrome on screen — and until now the exit was a popover
+// item behind a button labelled "New 1:1", which nobody reads as a menu. It is a
+// visible button now. Only once a run exists: on a fresh Setup there is nothing to
+// save yet, and that screen carries its own Discard.
+export const EXIT_LABEL = "Save and exit";
+export function exitVisible(stage, sessionId) {
+  return !!sessionId && stepperVisible(stage, sessionId);
 }
 
 // First letter of the name (or email) for the initials circle — same rule as
@@ -120,6 +130,18 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
   const profileEmail = profile.querySelector(".session-topbar__email");
   const right = document.createElement("div");
   right.className = "session-topbar__side session-topbar__side--right";
+
+  // The visible way out. Before the profile chip so it survives the degrade
+  // ladder below: the email is a courtesy, the exit is not.
+  const exitBtn = document.createElement("button");
+  exitBtn.type = "button";
+  exitBtn.className = "session-topbar__exit js-topbar-exit";
+  exitBtn.innerHTML = `${icon(LogOut, { size: 16 })}<span class="session-topbar__exit-word">${EXIT_LABEL}</span>`;
+  exitBtn.title = EXIT_LABEL;
+  exitBtn.setAttribute("aria-label", EXIT_LABEL);
+  exitBtn.hidden = true;
+  right.appendChild(exitBtn);
+
   right.appendChild(profile);
   row.appendChild(right);
 
@@ -201,6 +223,11 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     if (popover) closePopover(); else openPopover();
   });
 
+  exitBtn.addEventListener("click", () => {
+    closePopover();
+    saveAndExit();
+  });
+
   function render({ stage, sessionId, user, lookbackStage, lookbackReturn } = {}) {
     // While looking back, the run has NOT moved: the rail draws its progress from
     // the stage we'll return to, and the step being viewed gets its own marker on
@@ -234,6 +261,10 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     profileEmail.textContent = role ? `${email} · ${role}` : email;
     profile.title = email ? `Signed in as ${email}${role ? ` (${role.toLowerCase()})` : ""}` : "";
     profile.hidden = !user;
+
+    // Set before the fit ladder measures: a button that appears afterwards would
+    // be measured as absent and the rail would claim room it does not have.
+    exitBtn.hidden = !exitVisible(current, sessionId);
 
     // Reveal BEFORE painting: the fit check below measures the rail, and a
     // display:none bar measures zero.
