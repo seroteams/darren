@@ -1,7 +1,7 @@
 // The org Members page service (members-page Phase 1). Owns one rule: merge the org's login
 // accounts and its pending invites into a single list of rows the page renders, each tagged
-// active | invited | deactivated. Read-only for now (invite + row actions land in later
-// phases). Fenced to the caller's orgId — the controller supplies it, the repo enforces it.
+// active | invited | deactivated, plus the row actions (role change, deactivate/reactivate).
+// Fenced to the caller's orgId — the controller supplies it, the repo enforces it.
 
 import { pgMembersRepo } from "./members.repo.ts";
 import type { MembersRepo } from "./members.repo.ts";

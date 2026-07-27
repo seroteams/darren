@@ -309,7 +309,8 @@ body.has-session-topbar .stage {
   min-height: calc(100dvh - var(--app-nav-h) - var(--session-topbar-h, 44px));
 }
 .stage-wide {
-  /* @deprecated → use .l-container--wide */
+  /* Live: briefing, compare, run-debrief. NOT a drop-in for .l-container--wide,
+     which adds padding-inline — swapping blind shifts those three screens. */
   width: 100%;
   max-width: var(--container-wide);
   margin: 0 auto;
@@ -336,15 +337,10 @@ body.has-session-topbar .stage {
   flex-wrap: wrap;
 }
 .stage-step {
-  /* @deprecated → use .page-header__step */
+  /* Live: the session-topbar stepper in both apps. .page-header__step is the
+     newer block, not a replacement for this one. */
   color: var(--color-ink-mute);
   letter-spacing: 0.01em;
   font-weight: 500;
-}
-.field-actions {
-  /* @deprecated → use .field__actions / .l-cluster */
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 0.25rem;
 }
 

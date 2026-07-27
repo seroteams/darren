@@ -424,7 +424,8 @@ async function main(): Promise<void> {
   // Org Members page (members-page Phase 1) — a normal admin's view of who can log in to
   // their OWN workspace (login accounts + pending invites). Manager/admin only (requireAdmin
   // in the controller; members 403), org-fenced. Distinct from the superadmin console, which
-  // is cross-company. Read-only for now; invite + row actions arrive in later phases.
+  // is cross-company. Carries the full surface: list, invite, role change, deactivate/
+  // reactivate, and invite revoke/resend.
   router.add("GET", "/api/v1/members", v1Route(members.listMembers));
   router.add("POST", "/api/v1/members/invite", guardedV1(members.inviteMember));
   router.add("PATCH", /^\/api\/v1\/members\/(?<id>[^/]+)\/role$/, guardedV1(members.setMemberRole));

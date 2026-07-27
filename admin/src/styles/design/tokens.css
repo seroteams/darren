@@ -194,12 +194,6 @@
   --radius-input: var(--sero-radius-sm);
   --radius-offspec-8: 8px;                         /* 5 sites — DESIGN sanctions no 8px */
   --radius-offspec-16: 16px;                       /* 2 sites — DESIGN sanctions no 16px */
-  /* TEMPORARY bridge: admin/src/stages/tests/welcome-redesign.js still calls these 9
-     times and is held by another session's lane (97834757). Delete these three lines
-     and repoint that file the moment the lane clears. */
-  --sero-radius-card: var(--radius-card);
-  --sero-radius-button: var(--radius-button);
-  --sero-radius-input: var(--radius-input);
 
   /* Shadows — one name per elevation, named for the job (DESIGN §4). Flat by default;
      these are only for things that detach from the page. */
@@ -295,10 +289,6 @@
      the 32px and 30px literals. The visible type pass retires all of it. */
   --type-body-lg: 1.0625rem;                      /* 17px */
   --type-body-md: 15px;                           /* 15px */
-  /* TEMPORARY bridge: design/session-topbar.css calls --type-small once and is
-     held by another session's lane (4b899314). Delete this line and repoint that
-     call site the moment the lane clears. */
-  --type-small: var(--type-body-sm);
 
   /* Line-height (leading) */
   --type-leading-tight: 1.1;

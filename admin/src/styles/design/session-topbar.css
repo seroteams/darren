@@ -55,7 +55,7 @@
 }
 .session-topbar__row {
   width: 100%;
-  font-size: var(--type-small);
+  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   overflow: hidden;
   text-overflow: ellipsis;

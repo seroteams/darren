@@ -44,7 +44,8 @@
   margin: 0;
 }
 .briefing-grid--pair {
-  /* @deprecated → use .l-grid.l-grid--pair */
+  /* Live. .l-grid--pair has no :only-child rule (see below), so it is not a
+     drop-in replacement — a lone child would sit at half width. */
   display: grid;
   gap: 2rem;
   align-items: start;
