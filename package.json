@@ -21,6 +21,7 @@
     "lint": "eslint .",
     "lint:tokens": "node scripts/lint-design-tokens.js --report",
     "lint:copy": "node scripts/lint-copy.js",
+    "lint:components": "node scripts/lint-components.js",
     "typecheck": "tsc --noEmit",
     "typecheck:admin": "tsc --noEmit -p admin/tsconfig.json && tsc --noEmit -p admin/tsconfig.test.json",
     "typecheck:customer": "tsc --noEmit -p frontend/tsconfig.json && tsc --noEmit -p frontend/tsconfig.test.json",

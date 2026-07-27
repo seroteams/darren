@@ -33,7 +33,7 @@
 | 5 | Chip + field | `chip.ts` (8 hand-rolled chip functions) and `field.ts` (3 parallel form systems) | ⬜ |
 | 6 | Header + scaffold adoption | `pageHeader()` across 33 raw `<h1>`; the error card + retry wiring (15+ hand-rolled sites, moved here from P2) | ⬜ |
 | 7 | Kill the app forks | `app-nav` and `router` stop being 67% byte-identical copies; the logo constant (moved here from P2) | ⬜ |
-| 8 | The guard | `scripts/lint-components.js` + `npm run lint:components`; stale design docs fixed | ⬜ |
+| 8 | The guard | `npm run lint:components`: 5 rules, 18 recorded exemptions, proved by making each rule fail. Stale design docs held (lane `3a8bfd02`) | 🔨 |
 
 ⬜ not started · 🔨 in progress · ⏸️ paused · ✅ done (tested)
 
@@ -72,6 +72,8 @@ Lane `70b40d36` (shape-matched loading skeletons) has grown to **33 files** and 
 Building the free third would leave the app running two empty-state systems side by side until that lane finishes, which is worse than one consistent old one, and it means editing render paths another chat is mid-rewrite on. Carl chose to pause rather than half-do it or ask the other chat to yield.
 
 **Resume when lane `70b40d36` clears.** First task on resume is the card-padding comparison below, not code.
+
+**Phase 8 built out of order 2026-07-27, on Carl's "go next".** With P4 paused and P5/P6/P7 all sitting on the same blocked files, P8 was the one phase needing none of them. Building it now also means the three banked phases cannot quietly drift back while P4 waits.
 
 ### Decision waiting on Carl, first thing when P4 resumes
 
