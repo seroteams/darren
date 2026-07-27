@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1784975638854,
+  "role_title_raw": "Content Designer",
+  "role_slug": "content-designer",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "design",
+  "profile": {
+    "summary": "A mid-level Content Designer shapes product copy, flows, and information so people can complete tasks clearly and confidently. They usually work inside a product squad with designers, product managers, researchers, engineers, and legal or support partners. They own day-to-day content decisions, contribute to design critiques and testing, and help maintain consistency with content standards and the design system.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing clear user language with legal, policy, brand, or stakeholder constraints.",
+        "category": "topic"
+      },
+      {
+        "text": "Getting involved early enough in product work instead of being asked to polish words late.",
+        "category": "topic"
+      },
+      {
+        "text": "Keeping content consistent across journeys while shipping quickly with multiple teams.",
+        "category": "competency"
+      },
+      {
+        "text": "Defending content decisions with evidence when others see writing as subjective.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing review cycles and feedback from many partners without losing momentum.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Early involvement in product and design work",
+        "why": "This role does better work when content shapes the flow from the start, not after screens are set.",
+        "category": "topic"
+      },
+      {
+        "theme": "Evidence behind content decisions",
+        "why": "Mid-level content designers are often expected to back choices with research, testing, or support signals.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional feedback and decision-making",
+        "why": "They regularly navigate input from product, design, engineering, legal, and brand partners.",
+        "category": "topic"
+      },
+      {
+        "theme": "Consistency with standards and systems",
+        "why": "Their impact depends on balancing local product needs with shared patterns, voice, and terminology.",
+        "category": "competency"
+      },
+      {
+        "theme": "Workload from reviews, rewrites, and context switching",
+        "why": "Content work can look small from the outside while carrying heavy coordination and revision load.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Microcopy",
+        "meaning": "Small interface text like labels, helper text, and errors.",
+        "group": "content-design"
+      },
+      {
+        "term": "Content hierarchy",
+        "meaning": "Order of information by importance and user need.",
+        "group": "content-design"
+      },
+      {
+        "term": "Voice and tone",
+        "meaning": "How the product sounds, adjusted to context.",
+        "group": "content-design"
+      },
+      {
+        "term": "Plain language",
+        "meaning": "Writing people can understand quickly and act on.",
+        "group": "content-design"
+      },
+      {
+        "term": "Content-first design",
+        "meaning": "Shaping flows with words early, not filling gaps later.",
+        "group": "content-design"
+      },
+      {
+        "term": "Conversation design",
+        "meaning": "Designing prompts and replies for chat or voice interactions.",
+        "group": "content-design"
+      },
+      {
+        "term": "Design critique",
+        "meaning": "Team review of work to improve decisions.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Usability testing",
+        "meaning": "Watching people try tasks to find friction.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Continuous discovery",
+        "meaning": "Regular learning from users during product work.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Handoff",
+        "meaning": "Passing agreed work to engineering for build.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Edge cases",
+        "meaning": "Less common situations that still need clear content.",
+        "group": "product-collaboration"
+      },
+      {
+        "term": "Content debt",
+        "meaning": "Old or inconsistent content that causes problems later.",
+        "group": "systems-and-governance"
+      },
+      {
+        "term": "Content design system",
+        "meaning": "Shared patterns, standards, and guidance for product content.",
+        "group": "systems-and-governance"
+      },
+      {
+        "term": "Taxonomy",
+        "meaning": "Structured naming and grouping of content or concepts.",
+        "group": "systems-and-governance"
+      },
+      {
+        "term": "Accessibility",
+        "meaning": "Making content usable for people with different needs.",
+        "group": "systems-and-governance"
+      },
+      {
+        "term": "Localization",
+        "meaning": "Adapting content for other languages and regions.",
+        "group": "systems-and-governance"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "content-design",
+        "label": "Content design craft"
+      },
+      {
+        "key": "product-collaboration",
+        "label": "Product collaboration"
+      },
+      {
+        "key": "systems-and-governance",
+        "label": "Systems and standards"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about user outcomes or only final wording.",
+      "How often they mention being brought in late after decisions are already made.",
+      "Whether they can explain content choices with research, testing, or support evidence.",
+      "Signs they are carrying hidden coordination work across reviews and approvals.",
+      "Whether they raise consistency issues across journeys, not just within one screen."
+    ],
+    "avoid": [
+      "Treating them as a copy polisher instead of a product design partner.",
+      "Pushing for clever or branded wording when clarity is the real need.",
+      "Assuming short pieces of text are quick or low-effort.",
+      "Judging impact only by visible screens, not by research, alignment, and system work."
+    ]
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1784967646311,
+  "role_title_raw": "Engineer",
+  "role_slug": "engineer",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A mid-level Engineer delivers scoped features and fixes with moderate independence, usually within an established team. They turn requirements into working code, tests, and operational changes, and work closely with peers, product, design, and sometimes QA or support. They are expected to contribute reliably, review code, handle routine production issues, and grow from task execution toward stronger technical judgment and end-to-end ownership.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Balancing delivery speed with code quality, testing, and maintainability.",
+        "category": "topic"
+      },
+      {
+        "text": "Growing from implementing assigned work to owning problems end to end.",
+        "category": "competency"
+      },
+      {
+        "text": "Handling unclear requirements or shifting priorities from partners.",
+        "category": "topic"
+      },
+      {
+        "text": "Building confidence in technical trade-offs without over-relying on senior engineers.",
+        "category": "competency"
+      },
+      {
+        "text": "Context switching between feature work, bug fixes, reviews, and production support.",
+        "category": "wellbeing"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Ownership and decision-making",
+        "why": "This level often needs support moving from task completion to stronger judgment and clearer ownership.",
+        "category": "competency"
+      },
+      {
+        "theme": "Workload and context switching",
+        "why": "Frequent interruptions and mixed work can quietly reduce focus and energy.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Code quality and technical trade-offs",
+        "why": "Mid-level engineers are expected to balance pragmatism with long-term maintainability.",
+        "category": "competency"
+      },
+      {
+        "theme": "Clarity of requirements and collaboration",
+        "why": "Delivery often depends on how well they work through ambiguity with product and teammates.",
+        "category": "topic"
+      },
+      {
+        "theme": "Growth toward broader system understanding",
+        "why": "Progress at this level usually comes from seeing beyond individual tickets into system behavior and impact.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "PR",
+        "meaning": "Proposed code changes for review before merging.",
+        "group": "craft"
+      },
+      {
+        "term": "Code review",
+        "meaning": "Checking changes for correctness, clarity, and maintainability.",
+        "group": "craft"
+      },
+      {
+        "term": "Refactor",
+        "meaning": "Improving code structure without changing behavior.",
+        "group": "craft"
+      },
+      {
+        "term": "CI/CD",
+        "meaning": "Automated build, test, and deployment pipeline.",
+        "group": "craft"
+      },
+      {
+        "term": "Tech debt",
+        "meaning": "Shortcuts that slow future development or increase risk.",
+        "group": "craft"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Logs, metrics, and traces that explain system behavior.",
+        "group": "craft"
+      },
+      {
+        "term": "Sprint",
+        "meaning": "Short delivery cycle for planned work.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Backlog",
+        "meaning": "Prioritized list of work to do.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Ticket",
+        "meaning": "Tracked unit of work or issue.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Stand-up",
+        "meaning": "Brief team sync on progress and blockers.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Cross-functional",
+        "meaning": "Working with product, design, and other disciplines.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Blocker",
+        "meaning": "Issue preventing progress on a task.",
+        "group": "ways-of-working"
+      },
+      {
+        "term": "Ownership",
+        "meaning": "Taking responsibility for delivery and follow-through.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Trade-off",
+        "meaning": "Choice between competing benefits, costs, or risks.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Root cause",
+        "meaning": "Underlying reason an issue happened.",
+        "group": "growing-in-role"
+      },
+      {
+        "term": "Scope",
+        "meaning": "What is included in the work and what is not.",
+        "group": "growing-in-role"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "craft",
+        "label": "Engineering work"
+      },
+      {
+        "key": "ways-of-working",
+        "label": "Team delivery"
+      },
+      {
+        "key": "growing-in-role",
+        "label": "Growing as a mid-level engineer"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about outcomes or only assigned tasks.",
+      "How they describe trade-offs when discussing technical decisions.",
+      "Whether blockers are raised early or only after delays.",
+      "How confidently they explain production issues and debugging steps.",
+      "Whether they frame work as shared team delivery or isolated coding tasks."
+    ],
+    "avoid": [
+      "Assuming all engineers at this level want to become technical leads quickly.",
+      "Treating them as fully autonomous on ambiguous work without support.",
+      "Reducing their contribution to ticket throughput alone.",
+      "Using generic advice that ignores the realities of code quality and production responsibility."
+    ]
+  }
+}

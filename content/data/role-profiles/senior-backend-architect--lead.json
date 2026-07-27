@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1785000918510,
+  "role_title_raw": "Senior Backend Architect",
+  "role_slug": "senior-backend-architect",
+  "seniority_raw": "Lead",
+  "seniority_key": "lead",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "Owns the backend technical direction across multiple services or domains. Sets architecture standards, makes key design tradeoffs, and guides senior engineers through complex delivery. Usually works with engineering managers, staff engineers, product, security, platform, and data teams to balance scale, reliability, speed, and long-term maintainability.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Balancing long-term architecture health against short-term delivery pressure from product roadmaps.",
+        "category": "topic"
+      },
+      {
+        "text": "Influencing multiple teams without always having direct authority over their priorities or design choices.",
+        "category": "competency"
+      },
+      {
+        "text": "Carrying the cognitive load of high-impact technical decisions that are expensive to reverse.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Driving consistency across services while avoiding over-standardising teams with different needs.",
+        "category": "topic"
+      },
+      {
+        "text": "Translating deep technical risk into language product and business partners can act on.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Architecture tradeoffs and decision quality",
+        "why": "This role makes decisions with long-lived impact, so it helps to surface where tradeoffs feel unclear or risky.",
+        "category": "topic"
+      },
+      {
+        "theme": "Cross-team influence and alignment",
+        "why": "Lead-level architects often succeed through persuasion and clarity rather than line authority.",
+        "category": "competency"
+      },
+      {
+        "theme": "Technical debt and platform health",
+        "why": "They usually see system strain early and need support to protect time for foundational work.",
+        "category": "topic"
+      },
+      {
+        "theme": "Decision load and sustainability",
+        "why": "High-stakes design ownership can become draining when every hard problem escalates to them.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Delegation through technical leadership",
+        "why": "At this level, growth often depends on creating more strong decision-makers around them, not being the bottleneck.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Service boundaries",
+        "meaning": "Where one service's responsibilities end and another's begin.",
+        "group": "backend-architecture"
+      },
+      {
+        "term": "API contract",
+        "meaning": "The agreed interface between services or systems.",
+        "group": "backend-architecture"
+      },
+      {
+        "term": "Event-driven architecture",
+        "meaning": "Systems communicate through events instead of direct calls.",
+        "group": "backend-architecture"
+      },
+      {
+        "term": "Scalability",
+        "meaning": "How well a system handles more load.",
+        "group": "backend-architecture"
+      },
+      {
+        "term": "Fault tolerance",
+        "meaning": "Ability to keep working when parts fail.",
+        "group": "backend-architecture"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Using logs, metrics, and traces to understand systems.",
+        "group": "backend-architecture"
+      },
+      {
+        "term": "Architecture decision record",
+        "meaning": "Short record of a key technical decision.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "North star architecture",
+        "meaning": "Target technical direction teams align toward over time.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Technical roadmap",
+        "meaning": "Planned sequence of major technical improvements.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Design review",
+        "meaning": "Structured feedback on a proposed technical approach.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Stakeholder alignment",
+        "meaning": "Shared understanding across teams on goals and tradeoffs.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Guardrails",
+        "meaning": "Standards that guide teams without prescribing every choice.",
+        "group": "technical-leadership"
+      },
+      {
+        "term": "Legacy modernisation",
+        "meaning": "Improving old systems without full replacement.",
+        "group": "architecture-in-delivery"
+      },
+      {
+        "term": "Migration path",
+        "meaning": "Practical steps to move from old design to new.",
+        "group": "architecture-in-delivery"
+      },
+      {
+        "term": "Reliability budget",
+        "meaning": "Allowed room for instability before action is needed.",
+        "group": "architecture-in-delivery"
+      },
+      {
+        "term": "Bottleneck",
+        "meaning": "Part of the system limiting throughput or delivery.",
+        "group": "architecture-in-delivery"
+      },
+      {
+        "term": "Build versus buy",
+        "meaning": "Choosing between creating or purchasing a solution.",
+        "group": "architecture-in-delivery"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "backend-architecture",
+        "label": "Backend architecture"
+      },
+      {
+        "key": "technical-leadership",
+        "label": "Technical leadership"
+      },
+      {
+        "key": "architecture-in-delivery",
+        "label": "Architecture in delivery"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about systems as team-owned or as problems only they can solve.",
+      "How clearly they explain tradeoffs between speed, reliability, cost, and complexity.",
+      "Whether recurring incidents or scaling issues are framed as isolated fixes or systemic patterns.",
+      "Shifts from concrete architecture language into frustration about alignment, priorities, or decision churn.",
+      "Whether they mention growing other engineers' judgment or mainly carrying decisions alone."
+    ],
+    "avoid": [
+      "Treating them like a pure people manager when the role is usually anchored in technical direction.",
+      "Pushing quick feature delivery while dismissing architecture risk as overengineering.",
+      "Assuming standardisation is always good without asking where local team needs differ.",
+      "Turning every discussion into tooling preferences instead of system outcomes and tradeoffs."
+    ]
+  }
+}
