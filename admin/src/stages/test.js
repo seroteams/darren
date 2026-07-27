@@ -11,6 +11,7 @@ import { mount as runnerV2 } from "./tests/runner-v2.js";
 import { mount as entryRedesign } from "./tests/entry-redesign.js";
 import { mount as welcomeRedesign } from "./tests/welcome-redesign.js";
 import { mount as welcomeOptions } from "./tests/welcome-options.js";
+import { mount as welcomeLean } from "./tests/welcome-lean.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
@@ -121,6 +122,20 @@ const THUMB_WELCOME = `
   </svg>`;
 
 // The five layout bets: same content, five different shapes for it.
+// Leaner welcome: one short screen, a lot of empty page under it. The point of the
+// thumbnail is the whitespace, so it is drawn deliberately sparse.
+const THUMB_WELCOME_LEAN = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect class="card" x="70" y="14" width="160" height="76" rx="6"/>
+    <rect class="ink" x="84" y="26" width="30" height="4" rx="2" opacity="0.45"/>
+    <rect class="ink" x="84" y="36" width="104" height="8" rx="4" opacity="0.7"/>
+    <rect class="ink" x="84" y="50" width="86" height="4" rx="2" opacity="0.3"/>
+    <rect class="accent" x="84" y="62" width="52" height="12" rx="3"/>
+    <rect class="ink" x="144" y="66" width="26" height="4" rx="2" opacity="0.25"/>
+    <rect class="ink" x="84" y="100" width="132" height="3" rx="1.5" opacity="0.15"/>
+  </svg>`;
+
 const THUMB_WELCOME_OPTIONS = `
   <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect class="bg" width="300" height="120"/>
@@ -147,6 +162,18 @@ const THUMB_WELCOME_OPTIONS = `
   </svg>`;
 
 const TESTS = [
+  {
+    id: "welcome-lean",
+    title: "The welcome screen. Leaner, five ways",
+    blurb:
+      "The shipped welcome is three screens tall and buries the action. Five much shorter bets: one screen and a button, the notes box on the welcome itself, the three focus points shown as real output, notes in and brief out in one card, and a version that leads on getting sharper every time. A dashed line marks where a laptop screen ends. Switch option and width at the top.",
+    date: "27 Jul 2026",
+    tag: "onboarding",
+    thumb: THUMB_WELCOME_LEAN,
+    mount: welcomeLean,
+    bare: true,
+    wide: true,
+  },
   {
     id: "welcome-redesign",
     title: "The welcome screen. Five versions",
