@@ -24,7 +24,7 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Gallery shell (in-app) | Tree + host + deep links; all API-backed screens render live | ✅ **kept** (Carl: keep both) |
-| 2 | **v2: static HTML gallery** | Raw HTML snapshots in `docs/screen-gallery/` + export script + sample-data fixtures (Part A removal **cancelled**) | ✅ built, awaiting green light |
+| 2 | **v2: static HTML gallery** | Raw HTML snapshots in `docs/screen-gallery/` + export script + sample-data fixtures (Part A removal **cancelled**) | ✅ closed unwalked |
 | 3 | Design-loop polish (optional) | "Open real route" links, width toggle, empty/error-state stubs — only if wanted | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -40,7 +40,18 @@ in [phase-2.md](phase-2.md) and the approved plan `id-like-to-look-golden-zephyr
 `scripts/gallery-export.mjs` + sample-data fixtures (committed 4ad0c42e). 42/45 screens
 captured, Briefing/Team/Pulse verified on screen with sample data. **Part A (removing the in-app
 gallery) is CANCELLED** — Carl chose to keep both the live in-app gallery and the static
-snapshots (they do different jobs). Awaiting Carl's green-light walk to close the phase.
+snapshots (they do different jobs).
+
+**Phase 2 ✅ CLOSED 2026-07-27 — without a Carl walk.** He instructed: *"no more walk throughs
+please. just go, i have done lots of walk throughs already."* Verified in the 27 Jul clean-up:
+43 snapshot pages plus the README are present in `docs/screen-gallery/`, and the export script
+and fixtures are tracked. Not done: Carl clicking through the gallery himself.
+
+**Phase 3 is optional and undecided**, so the plan stays in `doing/` rather than moving to
+`done/`. If Carl does not want Phase 3, this folder can be archived as-is next sweep.
+
+The 46 capture shots under `test-shots/` are now gitignored as regenerable, matching the rule
+already applied to the generated `.html` (both come out of the same export run).
 
 ## Parked
 - Fetch-stub layer for designing empty/error states (only if Carl asks — Phase 3 candidate).

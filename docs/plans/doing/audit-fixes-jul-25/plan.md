@@ -32,7 +32,7 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Quick wins | Brand marks show, the build stamp stops blocking clicks, search boxes get a name, auth screens use the brand face, one date format per column | ✅ |
-| 2 | Shell and layout | Nav reaches the bottom of long pages, header buttons clear the account chip, the 1:1 wizard centres and drops the sidebar | 🔨 |
+| 2 | Shell and layout | Nav reaches the bottom of long pages, header buttons clear the account chip, the 1:1 wizard centres and drops the sidebar | ✅ closed unwalked |
 | 3 | The refresh dead end | `/runs/:id` opens on refresh, on Back, and from a pasted URL | ⬜ |
 | 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | ⬜ |
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
@@ -46,7 +46,9 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ## Current state
 **Phase 1 ✅ green-lit 2026-07-25** (commit 72a7c64b). Carl walked all five quick wins on the local build: brand marks back, a row under the build badge clickable, the badge still copying its SHA, "never active" replacing "last active no runs yet", and one date format down Past 1:1s. Proof table: [phase-1.md](phase-1.md); screenshots in `audits/full-app-audit-2026-07-25/p1-proof/`.
 
-**Phase 2 🔨 built 2026-07-25, waiting on Carl's walk.** Two changes, as re-scoped: the header actions now clear the signed-in chip (one CSS rule on `.page-header`, because the cause was the missing eyebrow, not the missing lede — the re-scope had that wrong too), and the customer app's 1:1 lane drops the left rail for everyone, not just guests. Before/after by `elementFromPoint`, the four free checks green, one new regression test. No screenshots: the Browser pane doesn't composite frames in this session and another chat holds the Playwright profile. Detail: [phase-2.md](phase-2.md).
+**Phase 2 ✅ CLOSED 2026-07-27 — without a Carl walk.** Two changes, as re-scoped: the header actions now clear the signed-in chip (one CSS rule on `.page-header`, because the cause was the missing eyebrow, not the missing lede — the re-scope had that wrong too), and the customer app's 1:1 lane drops the left rail for everyone, not just guests. Before/after by `elementFromPoint`, the four free checks green, one new regression test. No screenshots: the Browser pane doesn't composite frames in this session and another chat holds the Playwright profile. Detail: [phase-2.md](phase-2.md).
+
+⚠️ **How this closed.** Carl instructed on 2026-07-27: *"no more walk throughs please. just go, i have done lots of walk throughs already."* So this phase is signed off **without his QA walk**. What was actually verified, by the building session and re-verified in the 27 Jul clean-up: the change is present in commit `259a25a8`, `frontend/src/ui/app-nav-flow.test.ts` guards it, and the free suite is green (197/197, typecheck clean). What was **not** done: Carl seeing it on screen. Note the plan text above described the fix as a `min-height`; the commit message records that a min-height would have changed nothing and a padding rule was used instead — the prose was stale, the work is real.
 
 Mockup approved 2026-07-25 (Carl picked A; he renamed the merged screen to "My Team" first): https://claude.ai/code/artifact/1ce6ba66-56f8-4459-992b-96916db80ea3
 Board: https://claude.ai/code/artifact/b01de778-a0b8-4cf7-b65d-48fdbd1f71f1 (`board.html`, regenerate with `node scripts/plan-board.js audit-fixes-jul-25`).
