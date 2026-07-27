@@ -12,6 +12,7 @@ import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { isTouchScreen } from "../ui/field.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { actionRowHtml, scriptedControlsHtml, isSubmitShortcut, EXIT_LABEL, KBD_HINT } from "./questioning-actions.ts";
+import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL } from "./questioning-ready.ts";
 import { icon } from "../ui/icon.js";
 import { Copy } from "lucide";
 
@@ -579,11 +580,38 @@ export async function mount(root, { store, setState }) {
     }
   }
 
+  // The walk-in gate (runner-readiness): the runner's first screen is never a
+  // question. It hands back the reason to walk in and waits for a tap, so the
+  // manager starts the meeting on purpose instead of being fired at. Shown once
+  // per 1:1 (sessionStorage) — a mid-meeting refresh returns to the question.
+  function showReadyGate() {
+    return new Promise((resolve) => {
+      qHost.innerHTML = "";
+      thinkingHost.innerHTML = "";
+      footerHost.innerHTML = "";
+      turnLabel.textContent = READY_STEP_LABEL;
+
+      const card = document.createElement("div");
+      card.className = USE_COACH_SPLIT ? "cp-q cp-ready space-y-4 reveal" : "card questioning-card cp-ready space-y-4 reveal";
+      card.innerHTML = readyCardHtml({ name: store.ctx?.name || "", brief: store.preparation });
+      qHost.appendChild(card);
+      revealOne(card, 40);
+      window.scrollTo(0, 0);
+
+      card.querySelector(".js-wf-continue").addEventListener("click", async () => {
+        markReadyShown(store.sessionId);
+        await exitQuestion(card);
+        resolve();
+      });
+    });
+  }
+
   // Card zero (Promises loop phase 2): before question 1, check in on last
   // time's promises with this person. The server decides eligibility (fresh
   // person, scripted lane, resumed run, already answered → prior: null), so a
   // failed read just falls through to the questions — never blocks a 1:1.
   async function proceedBoot() {
+    if (!readyAlreadyShown(store.sessionId)) await showReadyGate();
     let prior = null;
     try {
       ({ prior } = await getPriorPromises(store.sessionId));
