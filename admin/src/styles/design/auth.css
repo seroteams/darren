@@ -151,6 +151,134 @@
   }
 }
 
+/* --- The entry set: log in / create account / front door -------------------- */
+/* entry-redesign Phase 2, Version A (the one Carl picked 2026-07-25): the same
+   three screens and the same routes as before, dressed to match. One card on the
+   page tint, compact boxed fields, one blue action, one divider, one grouped
+   footer, and errors that name the field they belong to.
+   The big session field (`.input`, buttons-inputs.css) is deliberately untouched:
+   the prep flow depends on it, so the boxed variant is a new class scoped here. */
+.auth-card {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-card-pad);
+}
+/* Full-width actions inside the card, EXCEPT the password toggle, which is an
+   icon-button floating inside its field (see .auth-pw below). */
+.auth-card .btn {
+  width: 100%;
+  justify-content: center;
+}
+/* The brand block sizes down a step inside the card: an h1 clamp overshot the
+   400px box it now lives in. */
+.auth-card .auth-brand__title {
+  font-size: var(--type-h2);
+}
+.auth-card .auth-brand__logo {
+  width: 44px;
+  height: 44px;
+}
+
+/* Compact boxed field — the variant DESIGN.md §5 asks a form to wear. */
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+}
+/* Label row: the label, and optionally something right-aligned beside it
+   (login's "Forgot password?"). */
+.auth-field__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sero-space-3);
+}
+.auth-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-input);
+  padding: var(--sero-space-3);
+  transition: border-color var(--dur-instant) ease-out;
+}
+.auth-input::placeholder {
+  color: var(--color-ink-mute);
+}
+.auth-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: var(--sero-shadow-focus);
+  outline: none;
+}
+.auth-input[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+/* Show/hide sits INSIDE the boxed field's right edge. On the old underlined
+   field it sat over the line's right end (.field-pw); a box needs it inset. */
+.auth-pw {
+  position: relative;
+  display: block;
+}
+.auth-pw .auth-input {
+  padding-right: var(--sero-space-12);
+}
+.auth-pw .js-toggle-pw {
+  position: absolute;
+  top: 50%;
+  right: var(--sero-space-1);
+  transform: translateY(-50%);
+  width: auto;
+}
+/* Per-field message — which field is wrong, and what it needs. */
+.auth-err {
+  font-size: var(--type-body-sm);
+  color: var(--color-negative-text);
+}
+/* Form-level alert — one message, and it carries the next step. Replaces the
+   bare red line that never said what to do about it. */
+.auth-alert {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  line-height: var(--type-leading-normal);
+  color: var(--color-negative-text);
+  background: var(--sero-coral-100);
+  border: 1px solid var(--color-coral-line);
+  border-radius: var(--sero-radius-sm);
+  padding: var(--sero-space-3);
+}
+.auth-alert .link {
+  color: var(--color-negative-text);
+}
+/* `.link` had no CSS anywhere in the repo, so every quiet link on the way in
+   rendered as plain grey text and read as disabled. Scoped to the auth shell
+   rather than defined globally: the class is used across the whole app, and a
+   global rule would restyle screens this lane never walked. */
+.auth-split .link {
+  font: inherit;
+  font-size: inherit;
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-accent-dark);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--sero-radius-sm);
+}
+.auth-split .link:hover {
+  text-decoration: underline;
+}
+.auth-split .link:focus-visible {
+  box-shadow: var(--sero-shadow-focus);
+  outline: none;
+}
+
 /* On narrow screens the photo drops away and the form takes the full width. */
 @media (max-width: 820px) {
   .auth-split,

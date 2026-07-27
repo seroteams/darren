@@ -103,7 +103,9 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
         throw badRequest(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
       }
       if (await repo.findByEmail(email)) {
-        throw conflict("That email already has an account — log in instead.");
+        // No em dash (house rule), and the "log in instead" half is now a real
+        // link the register screen appends to this message, not flat text.
+        throw conflict("That email already has an account.");
       }
 
       // Because it's HR, signing up creates the company too: the first person becomes

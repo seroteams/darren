@@ -9,7 +9,14 @@ import { SECTORS, findSector } from "../../../shared/sectors.ts";
 import { completeClaimAfterAuth } from "../guest.ts";
 import { isTouchScreen } from "../ui/field.js";
 import { landingStage } from "../ui/landing.ts";
-import { LOGIN_PHOTOS, passwordToggleHtml, wirePasswordToggles, googleButtonHtml } from "./login.js";
+import {
+  LOGIN_PHOTOS,
+  wirePasswordToggles,
+  googleButtonHtml,
+  authField,
+  authPasswordField,
+  authFormErrors,
+} from "./login.js";
 import { button } from "../ui/button.ts";
 
 export async function mount(root, { setState }) {
@@ -21,53 +28,39 @@ export async function mount(root, { setState }) {
   root.innerHTML = `
     <div class="auth-split">
       <div class="auth-split__form">
-        <div class="auth-panel l-stack l-stack--6">
-          <div class="auth-brand">
-            <img class="auth-brand__logo" src="${import.meta.env.BASE_URL}logo.png" alt="" aria-hidden="true" />
-            <h1 class="auth-brand__title">Create your account</h1>
-            <p class="auth-brand__sub">Your account comes with a private space for your company. You're the admin.</p>
-          </div>
-          <p class="text-ink-dim text-sm">Joining an existing team? Use the invite link your manager sent you.</p>
-          <form class="l-stack l-stack--4 js-form" novalidate>
-            <label class="l-stack l-stack--2">
-              <span class="field__label">Your name</span>
-              <input class="input js-name" type="text" autocomplete="name" required />
-            </label>
-            <label class="l-stack l-stack--2">
-              <span class="field__label">Company <span class="text-ink-mute">(optional)</span></span>
-              <input class="input js-company" type="text" autocomplete="organization" placeholder="Thriving Company Co Ltd" />
-            </label>
-            <label class="l-stack l-stack--2">
-              <span class="field__label">Sector <span class="text-ink-mute">(optional)</span></span>
-              <input class="input js-sector" type="text" list="register-sector-list" autocomplete="off" placeholder="Start typing, for example Healthcare" />
+        <div class="auth-panel l-stack l-stack--4">
+          <div class="auth-card l-stack l-stack--5">
+            <div class="auth-brand">
+              <img class="auth-brand__logo" src="${import.meta.env.BASE_URL}logo.png" alt="" aria-hidden="true" />
+              <h1 class="auth-brand__title">Create your account</h1>
+              <p class="auth-brand__sub">Your account comes with a private space for your company. You're the admin.</p>
+            </div>
+            <p class="text-ink-dim text-sm">Joining an existing team? Use the invite link your manager sent you.</p>
+            <form class="l-stack l-stack--4 js-form" novalidate>
+              <p class="auth-alert js-err" hidden></p>
+              ${authField({ label: "Your name", hook: "js-name", autocomplete: "name", attrs: "required" })}
+              ${authField({ label: "Company", hook: "js-company", autocomplete: "organization", optional: "(optional)", placeholder: "Thriving Company Co Ltd" })}
+              ${authField({ label: "Sector", hook: "js-sector", optional: "(optional)", placeholder: "Start typing, for example Healthcare", attrs: 'list="register-sector-list"' })}
               <datalist id="register-sector-list">
                 ${SECTORS.map((s) => `<option value="${s.label}"></option>`).join("")}
               </datalist>
-            </label>
-            <label class="l-stack l-stack--2">
-              <span class="field__label">Email</span>
-              <input class="input js-email" type="email" autocomplete="username" required />
-            </label>
-            <label class="l-stack l-stack--2">
-              <span class="field__label">Password <span class="text-ink-mute">(at least 8 characters)</span></span>
-              <span class="field-pw js-pw-wrap">
-                <input class="input js-password" type="password" autocomplete="new-password" required />
-                ${passwordToggleHtml()}
-              </span>
-            </label>
-            <p class="js-err text-negative text-sm" hidden></p>
-            ${button({ label: "Create account", type: "submit", hook: "js-submit" })}
-            <p class="text-ink-dim text-sm">
-              By creating an account you agree to how Sero handles your data.
-              <button type="button" class="link js-privacy">Read the privacy note</button>.
-            </p>
-            <p class="intake-or">or</p>
-            ${googleButtonHtml()}
-          </form>
-          <p class="text-ink-dim text-sm">
-            Already have an account?
-            <button type="button" class="link js-to-login">Log in</button>
-          </p>
+              ${authField({ label: "Email", hook: "js-email", type: "email", autocomplete: "username", attrs: "required" })}
+              ${authPasswordField({ optional: "(at least 8 characters)", autocomplete: "new-password" })}
+              ${button({ label: "Create account", type: "submit", hook: "js-submit" })}
+              <p class="text-ink-dim text-sm">
+                By creating an account you agree to how Sero handles your data.
+                <button type="button" class="link js-privacy">Read the privacy note</button>.
+              </p>
+              <p class="intake-or">or</p>
+              ${googleButtonHtml()}
+            </form>
+            <div class="auth-panel__foot">
+              <p class="text-ink-dim text-sm">
+                Already have an account?
+                <button type="button" class="link js-to-login">Log in</button>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="auth-split__media" aria-hidden="true">
@@ -83,26 +76,36 @@ export async function mount(root, { setState }) {
   const emailEl = root.querySelector(".js-email");
   const passwordEl = root.querySelector(".js-password");
   const submitBtn = root.querySelector(".js-submit");
-  const err = root.querySelector(".js-err");
+  const errors = authFormErrors(form);
 
-  function showError(message) {
-    err.textContent = message;
-    err.hidden = false;
+  // One form-level message, and it carries the next step (entry-redesign Phase 2).
+  // The alert is rebuilt on every failure, so its link is wired each time.
+  const LOGIN_STEP = `<button type="button" class="link js-alert-login">Log in instead</button>.`;
+  function showError(message, nextStepHtml = "") {
+    errors.alert(message, nextStepHtml);
+    root.querySelector(".js-alert-login")
+      ?.addEventListener("click", () => setState({ stage: STAGES.LOGIN }));
   }
 
   async function onSubmit(e) {
     e.preventDefault();
-    err.hidden = true;
+    errors.clear();
     const name = nameEl.value.trim();
     const company = companyEl.value.trim();
     const typedSector = sectorEl.value.trim();
     const sector = findSector(typedSector)?.id ?? "";
     const email = emailEl.value.trim();
     const password = passwordEl.value;
-    if (!name || !email || !password) { showError("Fill in your name, email, and password."); return; }
+    // Each field says what IT needs, under itself, instead of one line naming
+    // three fields and leaving you to work out which one you missed.
+    if (!name) errors.fail("js-name", "Tell us what to call you.");
+    if (!email) errors.fail("js-email", "Enter the email you use for work.");
+    if (!password) errors.fail("js-password", "Pick a password of at least 8 characters.");
+    else if (password.length < 8) errors.fail("js-password", "That is a bit short. Use at least 8 characters.");
     // The server would just drop an unrecognised sector rather than block the signup, but
     // saying so here beats letting someone type "Baking" and never learn it didn't stick.
-    if (typedSector && !sector) { showError("Pick a sector from the list, or leave it blank."); return; }
+    if (typedSector && !sector) errors.fail("js-sector", "Pick a sector from the list, or leave it blank.");
+    if (form.querySelector('[aria-invalid="true"]')) { errors.focusFirst(); return; }
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Creating…";
@@ -128,7 +131,11 @@ export async function mount(root, { setState }) {
       // reaches their Home (START) and its first-run empty state, not the setup wizard.
       setState({ user, stage: landingStage(user, store.memberHome ?? STAGES.RUNS) });
     } catch (e2) {
-      showError(e2.message || "Couldn't create your account. Try again. Nothing you typed is lost.");
+      // The one failure with a real way forward is "that email is already taken",
+      // so the log-in step is offered on that and nothing else: a generic outage
+      // is not solved by sending someone to a login they also cannot complete.
+      const message = e2.message || "Couldn't create your account. Try again. Nothing you typed is lost.";
+      showError(message, /already has an account/i.test(message) ? LOGIN_STEP : "");
       submitBtn.disabled = false;
       submitBtn.textContent = "Create account";
     }

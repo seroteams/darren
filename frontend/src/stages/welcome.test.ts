@@ -59,6 +59,13 @@ test("welcome: keeps the split layout with the given photo", () => {
   assert.ok(html.includes("/login/photo.jpg"), "photo passed through");
 });
 
+test("welcome: wears the same card and grouped footer as log in (entry-redesign P2)", () => {
+  // Carl picked Version A: three screens, one shape. The front door is one of
+  // the three, so it takes the card and the one centred footer group too.
+  assert.ok(html.includes('class="auth-card'), "the card the whole entry set wears");
+  assert.ok(html.includes("auth-panel__foot"), "log in + privacy read as one footer");
+});
+
 test("welcome: always shows the same fixed photo, never a random pick", () => {
   const src = readFileSync(
     join(dirname(fileURLToPath(import.meta.url)), "welcome.ts"),

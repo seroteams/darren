@@ -17,25 +17,27 @@ export function welcomeHtml(photo: string): string {
   return `
     <div class="auth-split auth-split--even">
       <div class="auth-split__form">
-        <div class="auth-panel l-stack l-stack--6">
-          <div class="auth-brand">
-            <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
-            <h1 class="auth-brand__title">Walk into your next 1:1 well prepared.</h1>
-            <p class="auth-brand__sub">Type a few rough notes. Sero turns them into a clear brief and sharper questions, in about two minutes.</p>
-          </div>
-          <div class="l-stack l-stack--3">
-            ${button({ label: "Prep my 1:1 free, no account", hook: "js-try-guest" })}
-            ${button({ label: "Create account", variant: "ghost", hook: "js-to-register" })}
-          </div>
-          <div class="l-stack l-stack--2">
-            <p class="text-ink-dim text-sm">
-              Already using Sero?
-              <button type="button" class="link js-to-login">Log in</button>
-            </p>
-            <p class="text-ink-dim text-sm">
-              What you type stays private to you.
-              <button type="button" class="link js-to-privacy">Privacy</button>
-            </p>
+        <div class="auth-panel l-stack l-stack--4">
+          <div class="auth-card l-stack l-stack--5">
+            <div class="auth-brand">
+              <img class="auth-brand__logo" src="/logo.png" alt="" aria-hidden="true" />
+              <h1 class="auth-brand__title">Walk into your next 1:1 well prepared.</h1>
+              <p class="auth-brand__sub">Type a few rough notes. Sero turns them into a clear brief and sharper questions, in about two minutes.</p>
+            </div>
+            <div class="l-stack l-stack--3">
+              ${button({ label: "Prep my 1:1 free, no account", hook: "js-try-guest" })}
+              ${button({ label: "Create account", variant: "ghost", hook: "js-to-register" })}
+            </div>
+            <div class="auth-panel__foot l-stack l-stack--2">
+              <p class="text-ink-dim text-sm">
+                Already using Sero?
+                <button type="button" class="link js-to-login">Log in</button>
+              </p>
+              <p class="text-ink-dim text-sm">
+                What you type stays private to you.
+                <button type="button" class="link js-to-privacy">Privacy</button>
+              </p>
+            </div>
           </div>
         </div>
       </div>

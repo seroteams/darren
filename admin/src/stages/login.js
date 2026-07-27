@@ -27,6 +27,71 @@ export function passwordToggleHtml() {
   });
 }
 
+// --- The shared entry field kit (entry-redesign Phase 2, Version A) ----------
+// A compact boxed field: label row (with an optional right-aligned aside), the
+// input, and its OWN message slot. DESIGN.md §5 reserves the big borderless
+// `.input` for the session flow; a form wears this instead. Defined once here
+// and shared with register.js, like passwordToggleHtml and googleButtonHtml.
+// Markup contract: `.auth-field` > `.auth-field__top` + `.auth-input` + `.auth-err`,
+// keyed by the field's own js- hook so an error finds its field.
+export function authField({ label, hook, type = "text", autocomplete = "off", optional = "", aside = "", placeholder = "", attrs = "" }) {
+  return `
+    <label class="auth-field">
+      <span class="auth-field__top">
+        <span class="field__label">${label}${optional ? ` <span class="text-ink-mute">${optional}</span>` : ""}</span>
+        ${aside}
+      </span>
+      <input class="auth-input ${hook}" data-field="${hook}" type="${type}" autocomplete="${autocomplete}"
+        placeholder="${placeholder}" aria-invalid="false" ${attrs} />
+      <span class="auth-err" data-err="${hook}" hidden></span>
+    </label>`;
+}
+
+export function authPasswordField({ label = "Password", hook = "js-password", autocomplete = "current-password", optional = "", aside = "" }) {
+  return `
+    <label class="auth-field">
+      <span class="auth-field__top">
+        <span class="field__label">${label}${optional ? ` <span class="text-ink-mute">${optional}</span>` : ""}</span>
+        ${aside}
+      </span>
+      <span class="auth-pw js-pw-wrap">
+        <input class="auth-input ${hook}" data-field="${hook}" type="password" autocomplete="${autocomplete}"
+          aria-invalid="false" required />
+        ${passwordToggleHtml()}
+      </span>
+      <span class="auth-err" data-err="${hook}" hidden></span>
+    </label>`;
+}
+
+// Error plumbing for a form built from the kit above. `fail` marks one field and
+// says what it needs; `alert` is the one form-level message, and it always
+// carries a next step (the old screens had a single red line that said neither).
+export function authFormErrors(form) {
+  const alertEl = form.querySelector(".js-err");
+  return {
+    clear() {
+      alertEl.hidden = true;
+      form.querySelectorAll(".auth-err").forEach((el) => { el.hidden = true; el.textContent = ""; });
+      form.querySelectorAll(".auth-input").forEach((el) => el.setAttribute("aria-invalid", "false"));
+    },
+    fail(hook, message) {
+      form.querySelector(`[data-field="${hook}"]`)?.setAttribute("aria-invalid", "true");
+      const el = form.querySelector(`[data-err="${hook}"]`);
+      if (el) { el.textContent = message; el.hidden = false; }
+    },
+    focusFirst() {
+      form.querySelector('[aria-invalid="true"]')?.focus();
+    },
+    // The message itself is set as text, never as markup: some of it comes back
+    // from the server. The next step is ours, so it rides as HTML.
+    alert(message, nextStepHtml = "") {
+      alertEl.textContent = message;
+      if (nextStepHtml) alertEl.insertAdjacentHTML("beforeend", ` ${nextStepHtml}`);
+      alertEl.hidden = false;
+    },
+  };
+}
+
 export function wirePasswordToggles(scope) {
   scope.querySelectorAll(".js-toggle-pw").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -93,40 +158,32 @@ export async function mount(root, { setState }) {
   root.innerHTML = `
     <div class="auth-split">
       <div class="auth-split__form">
-        <div class="auth-panel l-stack l-stack--6">
-          <div class="auth-brand">
-            <img class="auth-brand__logo" src="${import.meta.env.BASE_URL}logo.png" alt="" aria-hidden="true" />
-            <h1 class="auth-brand__title">Welcome back</h1>
-            <p class="auth-brand__sub">Log in to prep your next 1:1.</p>
-          </div>
-          <form class="l-stack l-stack--4 js-form" novalidate>
-            <label class="l-stack l-stack--2">
-              <span class="field__label">Email</span>
-              <input class="input js-email" type="email" autocomplete="username" required />
-            </label>
-            <label class="l-stack l-stack--2">
-              <span class="l-row l-row--between l-row--baseline">
-                <span class="field__label">Password</span>
-                <button type="button" class="link text-ink-dim text-sm js-to-forgot">Forgot password?</button>
-              </span>
-              <span class="field-pw js-pw-wrap">
-                <input class="input js-password" type="password" autocomplete="current-password" required />
-                ${passwordToggleHtml()}
-              </span>
-            </label>
-            <p class="js-err text-negative text-sm" hidden></p>
-            ${button({ label: "Log in", type: "submit", hook: "js-submit" })}
-            <p class="intake-or">or</p>
-            ${googleButtonHtml()}
-          </form>
-          <div class="auth-panel__foot l-stack l-stack--2">
-            <p class="text-ink-dim text-sm">
-              No account?
-              <button type="button" class="link js-to-register">Create one</button>
-            </p>
-            <p class="text-ink-dim text-sm">
-              <button type="button" class="link js-try-guest">Try it free. No account needed</button>
-            </p>
+        <div class="auth-panel l-stack l-stack--4">
+          <div class="auth-card l-stack l-stack--5">
+            <div class="auth-brand">
+              <img class="auth-brand__logo" src="${import.meta.env.BASE_URL}logo.png" alt="" aria-hidden="true" />
+              <h1 class="auth-brand__title">Welcome back</h1>
+              <p class="auth-brand__sub">Log in to prep your next 1:1.</p>
+            </div>
+            <form class="l-stack l-stack--4 js-form" novalidate>
+              <p class="auth-alert js-err" hidden></p>
+              ${authField({ label: "Email", hook: "js-email", type: "email", autocomplete: "username", attrs: "required" })}
+              ${authPasswordField({
+                aside: `<button type="button" class="link text-sm js-to-forgot">Forgot password?</button>`,
+              })}
+              ${button({ label: "Log in", type: "submit", hook: "js-submit" })}
+              <p class="intake-or">or</p>
+              ${googleButtonHtml()}
+            </form>
+            <div class="auth-panel__foot l-stack l-stack--2">
+              <p class="text-ink-dim text-sm">
+                New to Sero?
+                <button type="button" class="link js-to-register">Create an account</button>
+              </p>
+              <p class="text-ink-dim text-sm">
+                Or <button type="button" class="link js-try-guest">prep a 1:1 free, no account needed</button>.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -140,11 +197,16 @@ export async function mount(root, { setState }) {
   const emailEl = root.querySelector(".js-email");
   const passwordEl = root.querySelector(".js-password");
   const submitBtn = root.querySelector(".js-submit");
-  const err = root.querySelector(".js-err");
+  const errors = authFormErrors(form);
 
-  function showError(message) {
-    err.textContent = message;
-    err.hidden = false;
+  // The one form-level message. A wrong password now ends with a way forward
+  // instead of a bare red line (entry-redesign Phase 2, plan problem 5); the
+  // link is wired after every render because the alert is rebuilt each time.
+  const RESET_STEP = `Or <button type="button" class="link js-alert-forgot">reset your password</button>.`;
+  function showError(message, nextStepHtml = "") {
+    errors.alert(message, nextStepHtml);
+    root.querySelector(".js-alert-forgot")
+      ?.addEventListener("click", () => setState({ stage: STAGES.FORGOT_PASSWORD }));
   }
 
   // A failed Google round-trip lands back here with ?error=<code> (google-signin
@@ -158,10 +220,14 @@ export async function mount(root, { setState }) {
 
   async function onSubmit(e) {
     e.preventDefault();
-    err.hidden = true;
+    errors.clear();
     const email = emailEl.value.trim();
     const password = passwordEl.value;
-    if (!email || !password) { showError("Enter your email and password."); return; }
+    // Each empty field says what IT needs, under itself. One shared line above
+    // the button could never tell you which of the two was the problem.
+    if (!email) errors.fail("js-email", "Enter the email you use for work.");
+    if (!password) errors.fail("js-password", "Enter your password.");
+    if (!email || !password) { errors.focusFirst(); return; }
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Logging in…";
@@ -191,7 +257,10 @@ export async function mount(root, { setState }) {
       // the setup wizard. The ?? guards a stage loaded before boot set memberHome.
       setState({ user: identity, stage: landingStage(identity, store.memberHome ?? STAGES.RUNS) });
     } catch (e2) {
-      showError(e2.message || "That didn't work. Check your email and password, then try again.");
+      showError(
+        e2.message || "That email and password don't match. Check them and try again.",
+        RESET_STEP,
+      );
       submitBtn.disabled = false;
       submitBtn.textContent = "Log in";
     }
@@ -222,8 +291,8 @@ export async function mount(root, { setState }) {
     { label: "Member", email: devEnv.VITE_DEV_LOGIN_MEMBER_EMAIL, password: devEnv.VITE_DEV_LOGIN_MEMBER_PASSWORD || "" },
   ].filter((a) => a.email);
   if (DEV_ACCOUNTS.length > 0) {
-    // A small dev-only line under the form showing ALL test logins at once — click one
-    // to fill it. The current pick is bold; reuses the `.link` style from "Create one".
+    // A small dev-only line under the form showing ALL test logins at once. Click one
+    // to fill it; the current pick is bold. Reuses the footer's `.link` style.
     const swap = document.createElement("p");
     swap.className = "text-ink-dim text-sm js-dev-swap";
     root.querySelector(".js-to-register").closest("p").before(swap);

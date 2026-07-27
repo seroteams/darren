@@ -20,6 +20,11 @@ const REGISTER = read("register.js");
 const FORGOT = read("forgot-password.js");
 const RESET = read("reset-password.js");
 const ALL = { LOGIN, REGISTER, FORGOT, RESET };
+// entry-redesign Phase 2 puts the way in on a card with boxed fields, so the
+// contract also checks the CSS actually defines what the markup asks for — the
+// bug that started this plan was `.link` used everywhere and styled nowhere.
+const AUTH_CSS = readFileSync(join(here, "../styles/design/auth.css"), "utf8");
+const ENTRY = { LOGIN, REGISTER };
 
 // --- A1: register wears the same brand shell as login ------------------------
 
@@ -33,9 +38,11 @@ test("register: wears the .auth-split shell (logo, title, sub, photo half)", () 
   assert.ok(/unmount\(root\)[\s\S]{0,120}stage--auth/.test(REGISTER), "unmount removes stage class");
 });
 
-test("register: the phantom auth-card class and page-header are gone", () => {
-  assert.ok(!REGISTER.includes("auth-card"), "no undefined auth-card class");
+test("register: no page-header, and auth-card is now a real defined class", () => {
   assert.ok(!REGISTER.includes("page-header"), "page-header is not for auth pages");
+  // It used to be a phantom: the markup wore `auth-card` and no CSS defined it.
+  // entry-redesign Phase 2 brings the card back with a rule behind it.
+  assert.ok(/^\.auth-card \{/m.test(AUTH_CSS), "auth-card is defined in auth.css");
 });
 
 test("register: quiet signpost line routes a lost invitee", () => {
@@ -61,22 +68,35 @@ test("register: privacy-agreement line sits directly beneath the submit button",
 test("all four: field labels use the standard sentence-case label, not caps eyebrows (audit A4)", () => {
   for (const [name, src] of Object.entries(ALL)) {
     assert.ok(!src.includes("eyebrow"), `${name}: no small-caps eyebrow labels`);
+  }
+  // Login owns the label markup for the two entry screens now (the shared field
+  // kit), so register reaches it through the kit rather than repeating it.
+  assert.ok(LOGIN.includes('class="field__label"'), "LOGIN: standard field label in use");
+  assert.ok(REGISTER.includes("authField({ label:"), "REGISTER: labels via the shared kit");
+  for (const [name, src] of Object.entries({ FORGOT, RESET })) {
     assert.ok(src.includes('class="field__label"'), `${name}: standard field label in use`);
   }
 });
 
 test("login: Forgot password sits on the password label row, right-aligned", () => {
+  // The label row is now the boxed field's own top row (.auth-field__top), not a
+  // generic l-row: the field owns its label, its aside and its error slot. The
+  // forgot link rides in as that field's `aside`, which the kit puts on the row.
   assert.ok(
-    /l-row l-row--between[\s\S]{0,250}Password[\s\S]{0,250}js-to-forgot/.test(LOGIN),
-    "forgot link inside the password label row",
+    /auth-field__top[\s\S]{0,200}field__label[\s\S]{0,120}\$\{aside\}/.test(LOGIN),
+    "the kit renders an aside on the label row",
+  );
+  assert.ok(
+    /authPasswordField\(\{[\s\S]{0,160}aside:[\s\S]{0,120}js-to-forgot/.test(LOGIN),
+    "login passes Forgot password as the password field's aside",
   );
   const matches = LOGIN.match(/js-to-forgot/g) || [];
   assert.equal(matches.length, 2, "one markup slot + one listener, no second footer link");
 });
 
 test("login: footer collapses to one account line plus the guest line, centred as a group", () => {
-  assert.ok(LOGIN.includes("No account?"), "single account line");
-  assert.ok(LOGIN.includes(">Create one</button>"), "create link kept");
+  assert.ok(LOGIN.includes("New to Sero?"), "single account line");
+  assert.ok(LOGIN.includes(">Create an account</button>"), "create link kept");
   assert.ok(!LOGIN.includes("No account yet?"), "old ladder copy gone");
   assert.ok(!LOGIN.includes("Just curious?"), "old guest paragraph gone");
   assert.ok(
@@ -103,13 +123,73 @@ test("the toggle is defined once in login.js: Lucide Eye/EyeOff, ghost icon-butt
 
 test("login, register, reset: every password field carries the shared toggle", () => {
   for (const [name, src] of Object.entries({ LOGIN, REGISTER, RESET })) {
-    assert.ok(src.includes("passwordToggleHtml"), `${name}: toggle markup in the field`);
     assert.ok(src.includes("wirePasswordToggles"), `${name}: toggle wired`);
-    assert.ok(src.includes("js-pw-wrap"), `${name}: input + toggle share a row`);
-    // The toggle floats over the field's right end (.field-pw), so the input's
-    // underline stays the same width as every other field.
-    assert.ok(src.includes("field-pw js-pw-wrap"), `${name}: toggle overlays, never shortens the line`);
   }
+  // Login and register get the markup through the shared field kit; reset still
+  // builds its own field, so it names the pieces itself.
+  for (const [name, src] of Object.entries({ LOGIN, RESET })) {
+    assert.ok(src.includes("passwordToggleHtml"), `${name}: toggle markup in the field`);
+    assert.ok(src.includes("js-pw-wrap"), `${name}: input + toggle share a row`);
+  }
+  // The toggle always overlays the field rather than sitting beside it, so the
+  // input never comes up short of the others. Two wrappers, one per field shape:
+  // the boxed entry field insets it, the underlined session field floats it over
+  // the line's right end.
+  assert.ok(LOGIN.includes("authPasswordField"), "login: boxed field, toggle inset");
+  assert.ok(REGISTER.includes("authPasswordField"), "register: same shared field");
+  assert.ok(/\.auth-pw \.js-toggle-pw \{/.test(AUTH_CSS), "boxed wrapper insets the toggle");
+  assert.ok(RESET.includes("field-pw js-pw-wrap"), "reset keeps the underlined session field");
+});
+
+// --- entry-redesign Phase 2: Version A on the real screens -------------------
+// Carl walked both prototypes on 2026-07-25 and picked A (matching set): the
+// same three screens and routes, dressed to match. What that means, tested:
+// a card, compact boxed fields, one blue action, one divider, field-level
+// errors, one alert that carries a next step, and links that are actually styled.
+
+test("entry: log in and create account both sit on the card", () => {
+  for (const [name, src] of Object.entries(ENTRY)) {
+    assert.ok(src.includes('class="auth-card'), `${name}: form on a card`);
+  }
+});
+
+test("entry: the fields are the compact boxed variant, never the big session input", () => {
+  for (const [name, src] of Object.entries(ENTRY)) {
+    assert.ok(!/class="input /.test(src), `${name}: no big session .input on a form`);
+    assert.ok(src.includes("authField") || src.includes("authPasswordField"), `${name}: boxed field kit`);
+  }
+  assert.ok(/^\.auth-input \{/m.test(AUTH_CSS), "the boxed field is defined");
+  // DESIGN.md §5 reserves the borderless clamp field for the session flow, so the
+  // prep flow's .input must survive this change untouched.
+  const INPUTS = readFileSync(join(here, "../styles/design/buttons-inputs.css"), "utf8");
+  assert.ok(/^\.input \{/m.test(INPUTS), "the session field is left alone");
+});
+
+test("entry: the shared field kit gives every field its own error slot", () => {
+  assert.ok(LOGIN.includes("export function authField"), "field helper shared from login.js");
+  assert.ok(LOGIN.includes("export function authPasswordField"), "password variant shared too");
+  assert.ok(LOGIN.includes('class="auth-err"'), "a per-field message slot");
+  assert.ok(LOGIN.includes('aria-invalid="false"'), "fields start valid and are marked when not");
+  assert.ok(/^\.auth-err \{/m.test(AUTH_CSS), "the field message is styled");
+  assert.ok(REGISTER.includes("authField"), "register uses the same kit, not its own copy");
+});
+
+test("entry: a failed attempt names the field AND the alert carries a next step", () => {
+  // Login was one shared red line above the button that never said which field
+  // was wrong or what to do about it (plan problem 5).
+  assert.ok(LOGIN.includes("Enter your password."), "login: per-field message");
+  assert.ok(LOGIN.includes("Enter the email you use for work."), "login: per-field message");
+  assert.ok(/js-alert-forgot[\s\S]{0,200}reset your password/.test(LOGIN), "login alert offers the reset");
+  assert.ok(REGISTER.includes("Tell us what to call you."), "register: per-field message");
+  assert.ok(/js-alert-login[\s\S]{0,200}Log in instead/.test(REGISTER), "register alert offers log in");
+  assert.ok(/^\.auth-alert \{/m.test(AUTH_CSS), "the alert is styled, not a bare red line");
+});
+
+test("entry: .link finally has a rule behind it, scoped to the auth shell", () => {
+  // Plan problem 6: `.link` was used on every way-in screen and defined in no
+  // stylesheet, so "Create an account" and "Try it free" rendered as grey text.
+  assert.ok(/^\.auth-split \.link \{/m.test(AUTH_CSS), "styled under the auth shell");
+  assert.ok(/\.auth-split \.link:focus-visible/.test(AUTH_CSS), "and keyboard-focusable");
 });
 
 // --- A4: forgot confirmation gets a Resend button ----------------------------

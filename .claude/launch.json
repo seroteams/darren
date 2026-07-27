@@ -952,6 +952,70 @@
       "port": 3353
     },
     {
+      "name": "about-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3411",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3411
+    },
+    {
+      "name": "about-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3411",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3413",
+        "--strictPort"
+      ],
+      "port": 3413
+    },
+    {
+      "name": "about-mock-static",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/serve-static.js",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\claude\\C--Users-User-Documents-Sero-darren\\43ed6aba-1907-4330-8bb1-4b2a5b6f05bc\\scratchpad",
+        "4197"
+      ],
+      "port": 4197
+    },
+    {
+      "name": "entry-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3381",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3381
+    },
+    {
+      "name": "entry-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3381",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3385",
+        "--strictPort"
+      ],
+      "port": 3385
+    },
+    {
       "name": "dsclean-customer",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

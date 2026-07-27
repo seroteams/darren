@@ -1,8 +1,10 @@
 # Entry redesign — the way in (log in / create account / start free)
 
-**Status:** Phase 1 ✅ GREEN-LIT 2026-07-25. **Carl picked Version A (matching set).** Phase 2 is
-blocked: the `google-signin` lane still holds `login.js` / `register.js` / `auth-screens.test.ts`.
-**Owner lane:** `c62009ae` (see LANES.md).
+**Status:** Phase 1 ✅ GREEN-LIT 2026-07-25. **Carl picked Version A (matching set).**
+Phase 2 🔨 BUILT 2026-07-27 (the google-signin lane closed 2026-07-25, so the block cleared).
+Built, tested and measured on the real screens, **not walked by Carl and not screenshotted** —
+see [phase-2.md](phase-2.md) for exactly what was and was not verified.
+**Owner lane:** `a1867f25` (see LANES.md).
 **Board:** https://claude.ai/code/artifact/616f323d-8678-4122-ac21-78af9b370f55
 
 ## Current state
@@ -46,7 +48,7 @@ on the real screens in both apps with the contract tests updated.
 | # | Phase | Status |
 |---|---|---|
 | 1 | Prototype both versions in the Test area (`/test`), nothing live touched | ✅ GREEN-LIT 2026-07-25 (Carl picked A) |
-| 2 | Build **Version A** for real in `login.js` / `register.js` / `welcome.ts`, tests first | ⛔ Blocked on the google-signin lane |
+| 2 | Build **Version A** for real in `login.js` / `register.js` / `welcome.ts`, tests first | 🔨 Built 2026-07-27, awaiting Carl |
 
 ## Phase 2 preconditions (do not start without these)
 
