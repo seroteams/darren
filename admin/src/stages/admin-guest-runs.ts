@@ -84,7 +84,7 @@ export const mount: Mount = async (root, { setState }) => {
   const openRun = async (runId: string) => {
     if (!runId) return;
     root.innerHTML = recapShell(`<section class="js-skel"></section>`);
-    root.querySelector(".js-skel")?.replaceChildren(createSkeleton(3));
+    root.querySelector(".js-skel")?.replaceChildren(createSkeleton({ preset: "recap", tabs: 0, rows: 3 }));
     let run: { ctx: Run["ctx"]; briefing: Briefing | null };
     try {
       run = (await getAdminRun(runId)) as { ctx: Run["ctx"]; briefing: Briefing | null };

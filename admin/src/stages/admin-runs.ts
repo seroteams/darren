@@ -91,7 +91,7 @@ export async function openRunBriefing(
   wire: () => void,
 ): Promise<void> {
   const shell = (inner: string) => `<div class="l-container l-stack l-stack--8">${inner}</div>`;
-  root.innerHTML = shell(loadingHtml(3));
+  root.innerHTML = shell(loadingHtml({ preset: "recap", tabs: 0, rows: 3 }));
   let run: { ctx: RecapCtx; briefing: Briefing | null };
   try {
     run = (await getAdminRun(runId)) as { ctx: RecapCtx; briefing: Briefing | null };

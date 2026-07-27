@@ -34,7 +34,8 @@ export async function mount(root, { store, setState }) {
   `;
 
   const thinkingHost = root.querySelector(".thinking-host");
-  thinkingHost.replaceChildren(createSkeleton(3)); // standard ghost cards while candidates load
+  // The candidates land as Keep/Drop rows, so ghost those.
+  thinkingHost.replaceChildren(createSkeleton({ preset: "lex-rows", rows: 4, label: "Loading phrases to review" }));
   const resultHost = root.querySelector(".result-host");
   const tabsHost = root.querySelector(".js-tabs");
   const titleEl = root.querySelector(".js-stage-title");

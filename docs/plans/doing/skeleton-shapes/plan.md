@@ -22,41 +22,36 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The module, invisible | `skeleton-parts.ts` + `skeleton-presets.ts` + CSS; the two existing doors become façades; anti-flash + screen-reader announcement; `list-rows` proven | ✅ |
-| 2 | Lists and tables | `list-rows` + `table` wired to 9 screens: /runs, Home recents, /library and the five admin tables | ✅ |
-| 3 | Detail, tiles, sections, two-column | `tiles` / `recap` / `sections` / `two-col` / `prose` wired to 10 screens: /pulse, the three recap surfaces, /admin/feedback, /admin/errors, /job-lexicons, /guide, the stage data tab | 🔨 |
-| 4 | The run lane and forms | `flowInterstitial` takes a spec; /bank /evaluate /focus /prepare /interview each preview what they're generating; /join gets a form ghost | 🔨 |
-| 5 | The proof and the rule | A live "Loading skeletons" sheet in `/design`: every preset beside its real markup, measured in the browser. DESIGN.md rule 5 rewritten; clean-up Lens G updated | 🔨 |
+| 1 | The module, invisible | `skeleton-parts.ts` + `skeleton-presets.ts` + CSS; the two doors become facades; anti-flash + screen-reader announcement | ✅ |
+| 2 | Lists and tables | `list-rows` + `table` on 9 screens | ✅ |
+| 3 | Detail, tiles, sections, two-column | `tiles` / `recap` / `sections` / `two-col` / `prose` on 10 screens | ✅ |
+| 4 | The run lane and forms | `flowInterstitial` takes a spec; the run lane previews the screen it routes into | ✅ |
+| 5 | The proof and the rule | A live "Loading skeletons" sheet in `/design`; DESIGN.md rule 5; clean-up Lens G | ✅ |
+| 6 | The last twelve | Every remaining screen off the generic cards, including two recap views I had missed | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1 to 4 ✅. Phase 5 built, awaiting Carl's walk. That is the whole plan.
+Phases 1 to 5 ✅. **Phase 6 built, awaiting Carl's walk. This is the last one.**
 
-**The proof sheet is at `/design` → "Loading skeletons"**: every preset rendered live from the real module, stacked above the real markup, measured in the browser at mount. Five of six exact, the question card within 6.4px, and the one honest gap (KPI tiles, tuned to the Pulse grid) printed as a note instead of a misleading number. It cannot go stale, because it runs the same code the screens do. Replaces the planned Playwright export, which needed a new dependency and would have drifted.
+Carl restated the acceptance criterion as "all pages", and it wasn't: 13 screens were still on the generic grey cards, two of them my own miss. Phase 6 closed them. The count now:
 
-DESIGN.md rule 5 now states the rule; the clean-up skill's Lens G checks it.
+- **Generic grey cards: zero.** `grep -rn "loadingHtml([0-9)]\|createSkeleton([0-9)]" admin/src frontend/src` returns nothing outside the kit and its tests.
+- **Text-only "Loading…": one**, on purpose. `ui/account-sheet.ts:103` is a disabled input whose placeholder reads "Loading…" while the company name arrives. It is already at its final size, so nothing jumps.
+- **Not ghosted, on purpose: one.** `/new` pops its roster in. The screen cannot know a roster is coming, so a ghost would trade a pop-in for a shrink-back. See [phase-4.md](phase-4.md).
 
-### Earlier
-Phase 4: the run lane. **34 screens** ghosting as themselves.
+**The proof sheet** is at `/design` → "Loading skeletons": every preset rendered live from the real module above the real markup, measured in the browser. Six exact, the interview question 6.4px, KPI tiles carry a note (2.8px measured in place on /pulse). Nothing flagged.
 
-Phase 4 proof in [phase-4.md](phase-4.md). The run lane's waits now preview the screen they route into. It also turned up a systemic bug: the kit's CSS sits in `motion.css`, and every stylesheet imported after it was quietly beating the kit's rules at equal specificity, so the ghost answer box rendered 96px instead of 153px and the ghost avatar painted the real avatar's background. All kit rules are now double-classed. Measured after the fix: focus point card exact, answer box within 0.4px, question card within 13.6px.
+`npm test` 197/197, typecheck clean, both lints pass. No screenshots anywhere in this plan: the preview pane will not composite frames, so every claim above is a measurement of the live rendered DOM.
 
-Not done on purpose: the `/new` roster pop-in. Ghosting it would trade a pop-in for a shrink-back for guests and new managers. Reasoning in [phase-4.md](phase-4.md).
+### What each phase found
+Detail per phase in its own file. The three that matter:
+- **Phase 4:** the kit's CSS was being beaten by any stylesheet imported after `motion.css`, so the ghost answer box rendered 96px against a real 153px and ghost avatars painted the real avatar's colour. All kit rules are now double-classed.
+- **After Phase 5, from Carl's screenshot:** `.sk-leaf` was inline, and `width` does nothing on an inline element, so bare ghost lines collapsed to a few grey pips. Heights had all measured correct, which is exactly why the sheet now exists.
+- **Phase 6:** the sheet's own numbers were width-dependent and were measured before the fonts landed. Pinned to a 760px column, re-measured on `document.fonts.ready` and on resize.
 
-### Earlier
-
-Phase 3 proof in [phase-3.md](phase-3.md). The headline: a Pulse tile is 255px tall, not the 120px a one-line ghost gave, because its label and caption wrap at the grid's 168px track. Now within 2.8px. `recap` renders but could not be measured against a loaded run (the dev account has no run history), so that one wants Carl's eye.
-
-Two text-only "Loading…" strings survive, both inside chat `d03316aa`'s lane.
-
-Phase 2: 9 screens. Lists are pixel-exact (Home recents 0/0/0, Past 1:1s 0 across nine elements). Tables match toolbar, head and column proportions; row height matches the shortest real row but runs one line short of a wrapped one, because a real table row grows with content the skeleton hasn't got yet. Stated rather than tuned.
-
-Proof in [phase-2.md](phase-2.md). Lists are pixel-exact (Home recents 0/0/0, Past 1:1s 0 across nine elements). Tables match toolbar, head and column proportions; row height matches the shortest real row but runs one line short of a wrapped one, because a real table row grows with content the skeleton hasn't got yet. Stated rather than tuned.
-
-`npm test` 196/196, typecheck clean, both lints pass. No screenshot: the preview pane will not composite frames.
-
-Deferred out of Phase 2 into Phase 3: `frontend/src/stages/member-home.js` (its section shapes live in `member-home-view.ts`, held by chat `d03316aa`), plus /team, /members, /personas for the same reason.
+### The one honest limit, stated everywhere it matters
+**A ghost is correct at the width its screen uses, and drifts at others.** Every height here is a count of wrapped text lines, and a skeleton cannot know how long the text will be. That is why table rows match a short row but not a wrapped one, why the tiles preset is tuned to Pulse's 168px grid track, and why the proof sheet pins its own width.
 
 ## Parked
 - Converting `skeleton.js` → `.ts`. Twenty stages import `"./skeleton.js"`; renaming is pure churn. Revisit in Phase 5 if wanted.

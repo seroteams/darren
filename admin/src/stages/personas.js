@@ -72,7 +72,10 @@ export async function mount(root, opts = {}) {
   mountSafetyStrip(root.querySelector(".safety-strip-host"), opts);
 
   const thinkingHost = root.querySelector(".thinking-host");
-  thinkingHost.replaceChildren(createSkeleton(3)); // standard ghost cards while the bench loads
+  // The bench is a um-table: Persona / Scenario / Last run / Run.
+  thinkingHost.replaceChildren(
+    createSkeleton({ preset: "table", rows: 5, cols: ["stack", "text:20ch", "text:10ch", "actions"], label: "Loading the persona bench" }),
+  );
   const resultHost = root.querySelector(".result-host");
 
   let personas = [];

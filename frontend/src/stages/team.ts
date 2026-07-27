@@ -272,7 +272,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(loadingHtml(4));
+    root.innerHTML = shell(loadingHtml({ preset: "list-rows", rows: 5, toolbar: true, label: "Loading your team" }));
     let roster: { id: string; name: string; role: string | null; seniority?: string | null }[];
     let runs: unknown[];
     try {

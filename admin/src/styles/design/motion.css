@@ -202,6 +202,8 @@
    ghost only needs to be block. The interview's answer box is a five-row textarea,
    which a ghost holding one &nbsp; cannot reach on its own. */
 .sk-input.sk-input { display: block; }
+/* A ghosted button: the real one is sized by its label, which the ghost hasn't got. */
+.sk-btn.sk-btn { display: inline-block; min-width: 4.5rem; }
 /* An icon button sizes itself from the icon inside it; the ghost has none. */
 .sk-icon.sk-icon { display: inline-block; width: 1.125rem; height: 1.125rem; }
 .sk-answer.sk-answer { display: block; min-height: 9.6rem; }

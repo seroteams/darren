@@ -198,7 +198,7 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const key = store.personKey;
-  root.innerHTML = shell(loadingHtml(3));
+  root.innerHTML = shell(loadingHtml({ preset: "recap", tabs: 2, rows: 3 }));
   wireCrumbs();
 
   if (!key) {

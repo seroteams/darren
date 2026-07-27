@@ -156,7 +156,9 @@ export const mount: Mount = async (root) => {
   };
 
   const load = async () => {
-    root.innerHTML = shell(loadingHtml(4));
+    root.innerHTML = shell(
+      loadingHtml({ preset: "table", rows: 5, toolbar: true, cols: ["stack", "pill", "pill", "actions"], label: "Loading your people" }),
+    );
     wire();
     try {
       const res = (await getMembers()) as { members?: MemberRow[] };

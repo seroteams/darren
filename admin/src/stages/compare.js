@@ -67,7 +67,8 @@ export async function mount(root, { setState }) {
 
   loadBtn.addEventListener("click", async () => {
     err.hidden = true;
-    grid.replaceChildren(createSkeleton(2)); // standard ghost cards while both runs load
+    // Two runs land side by side in the grid, so ghost two stacks of cards.
+    grid.replaceChildren(createSkeleton({ preset: "sections", rows: 2, label: "Loading both runs" }));
     try {
       const metaA = runs.find((r) => r.id === selA.value) || {};
       const metaB = runs.find((r) => r.id === selB.value) || {};

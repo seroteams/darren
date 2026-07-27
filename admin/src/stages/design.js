@@ -111,6 +111,7 @@ let toastTimers = [];
 let liveToasts = [];
 let docClick = null;
 let orbDemo = null; // live loading-mark demo in the states section
+let skObserver = null; // re-measures the skeleton proof sheet when its row resizes
 
 function hexOf(el) {
   const c = getComputedStyle(el).backgroundColor;
@@ -691,7 +692,7 @@ const SKELETON_CASES = [
     spec: { preset: "question" },
     real: `<div class="card questioning-card space-y-4">
       <div class="question-card-head"><div class="question-card-head__text space-y-2">
-        <h1 class="question-stem leading-snug">What has felt hardest about the handover this month?</h1>
+        <h1 class="question-stem leading-snug">What has felt hardest about the handover this month, and where did it slow you down most?</h1>
         <div class="question-desc">Listen for whether the difficulty is the process or the people.</div>
       </div></div><textarea class="textarea textarea--question" rows="5"></textarea></div>`,
     measure: ".questioning-card",
@@ -721,6 +722,20 @@ const SKELETON_CASES = [
     measure: ".input",
   },
   {
+    id: "lex-rows",
+    label: "Keep / Drop rows",
+    where: "Lexicon review",
+    spec: { preset: "lex-rows", rows: 2 },
+    real: `<div class="l-stack l-stack--2">
+      ${[["Blocked on the platform team again", "Said in the second question."],
+         ["We keep re-litigating the same call", "Said near the end."]].map(([p, c], i) => `
+        <div class="lex-row lex-row--pick"><label class="lex-row__pick"><input type="checkbox"></label>
+        <div class="lex-row__num">${i + 1}</div>
+        <div class="lex-row__body"><div class="lex-row__phrase">${p}</div><div class="lex-row__context text-ink-dim text-sm">${c}</div></div>
+        <div class="lex-row__actions"><button type="button" class="btn btn--sm">Keep</button><button type="button" class="btn btn--ghost btn--sm">Drop</button></div></div>`).join("")}</div>`,
+    measure: ".lex-row",
+  },
+  {
     id: "cards",
     label: "Generic cards (the old default)",
     where: "Anything not yet given a shape",
@@ -737,10 +752,10 @@ function skeletonsHtml() {
         <p class="label">${c.label} <span class="ds-sub">${c.where}</span></p>
         <p class="caption" data-sk-diff>measuring…</p>
       </div>
-      <div class="ds-skcase__pair">
+      <div class="ds-skcase__scroll"><div class="ds-skcase__pair">
         <div><p class="caption">Loading</p><div data-sk-ghost></div></div>
         <div><p class="caption">Loaded</p><div data-sk-real>${c.real}</div></div>
-      </div>
+      </div></div>
     </div>`,
   ).join("");
   return sec(
@@ -828,17 +843,35 @@ export async function mount(root) {
     const host = root.querySelector(`[data-sk-case="${c.id}"]`);
     if (!host) continue;
     host.querySelector("[data-sk-ghost]").innerHTML = skeletonHtml(c.spec);
-    const out = host.querySelector("[data-sk-diff]");
-    if (c.note) { out.textContent = c.note; continue; }
-    if (!c.measure) { out.textContent = "no counterpart"; continue; }
-    const g = host.querySelector(`[data-sk-ghost] ${c.measure}`);
-    const r = host.querySelector(`[data-sk-real] ${c.measure}`);
-    if (!g || !r) { out.textContent = "not measurable"; continue; }
-    const gh = g.getBoundingClientRect().height;
-    const rh = r.getBoundingClientRect().height;
-    const d = gh - rh;
-    out.textContent = `${c.measure}: ghost ${gh.toFixed(1)}px, loaded ${rh.toFixed(1)}px, ${d === 0 ? "exact" : `${d > 0 ? "+" : ""}${d.toFixed(1)}px`}`;
-    out.classList.toggle("ds-skdiff--off", Math.abs(d) > 8);
+  }
+
+  const measureSkeletons = () => {
+    for (const c of SKELETON_CASES) {
+      const host = root.querySelector(`[data-sk-case="${c.id}"]`);
+      if (!host) continue;
+      const out = host.querySelector("[data-sk-diff]");
+      if (c.note) { out.textContent = c.note; continue; }
+      if (!c.measure) { out.textContent = "no counterpart"; continue; }
+      const g = host.querySelector(`[data-sk-ghost] ${c.measure}`);
+      const r = host.querySelector(`[data-sk-real] ${c.measure}`);
+      if (!g || !r) { out.textContent = "not measurable"; continue; }
+      const gh = g.getBoundingClientRect().height;
+      const rh = r.getBoundingClientRect().height;
+      const d = gh - rh;
+      out.textContent = `${c.measure}: ghost ${gh.toFixed(1)}px, loaded ${rh.toFixed(1)}px, ${d === 0 ? "exact" : `${d > 0 ? "+" : ""}${d.toFixed(1)}px`}`;
+      out.classList.toggle("ds-skdiff--off", Math.abs(d) > 8);
+    }
+  };
+
+  // Measure once the web fonts have landed, then again whenever the row resizes.
+  // Measured too early the numbers are nonsense, because every one of these heights
+  // is a count of wrapped text lines. Not rAF: this pane never fires it.
+  measureSkeletons();
+  void document.fonts?.ready.then(measureSkeletons);
+  const skRow = root.querySelector(".ds-skcase__pair");
+  if (skRow && "ResizeObserver" in window) {
+    skObserver = new ResizeObserver(measureSkeletons);
+    skObserver.observe(skRow);
   }
 
   // Core-swatch captions get the real resolved hex (token → computed colour).
@@ -917,6 +950,8 @@ export async function mount(root) {
 export function unmount(root) {
   observer?.disconnect();
   observer = null;
+  skObserver?.disconnect();
+  skObserver = null;
   toastTimers.forEach(clearTimeout);
   toastTimers = [];
   liveToasts.forEach((t) => t.remove());

@@ -927,15 +927,19 @@
    stands in for, so a ghost that renders wrong is visible rather than measured.
 ----------------------------------------------------------------------------- */
 .ds-skcase { display: grid; gap: var(--sero-space-3); }
-/* Stacked, not side by side. Two columns halve the width, and at half width the
-   real sample's text wraps more than the ghost's fixed line count assumes, so every
-   case reported a false gap. Full width is also closer to the screens these ghosts
-   actually stand in for, which is the comparison worth making. */
+/* Pinned to a page-like width, and stacked rather than side by side. Both matter:
+   these ghosts are only correct at the width their screen actually uses, so a
+   narrow or split container makes the real sample wrap and every case reports a
+   false gap. 760px is the reading column these screens live in; the sheet scrolls
+   sideways rather than squeezing it. */
+.ds-skcase__scroll { overflow-x: auto; }
 .ds-skcase__pair {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sero-space-4);
   align-items: start;
+  width: 760px;
+  max-width: 760px;
 }
 .ds-skcase__pair > div { display: grid; gap: var(--sero-space-2); min-width: 0; }
 /* A gap worth a second look. Not a failure: some are honest, see the plan notes. */

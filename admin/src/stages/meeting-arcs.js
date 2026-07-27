@@ -11,6 +11,7 @@ import { icon } from "../ui/icon.js";
 import { confirmAction } from "../ui/confirm.js";
 import { X, ChevronRight, ArrowUp, ArrowDown } from "lucide";
 import { button } from "../ui/button.ts";
+import { skeletonHtml } from "../ui/skeleton.js";
 
 // Scoped styling lives in styles/meeting-arcs.css (imported above).
 
@@ -45,7 +46,7 @@ export async function mount(root) {
           <span class="arc-update__time" id="arc-update-time"></span>
         </div>
       </header>
-      <div class="thinking-host min-h-[60px] flex items-center text-ink-mute">Loading meeting arcs…</div>
+      <div class="thinking-host">${skeletonHtml({ preset: "sections", rows: 4, label: "Loading meeting arcs" })}</div>
       <div class="result-host l-stack l-stack--4"></div>
     </div>
   `;

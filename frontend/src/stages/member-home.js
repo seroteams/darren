@@ -68,10 +68,10 @@ export async function mount(root) {
         lede: "The 1:1s your manager has prepped about you, plus the requests and goals you share with them.",
       })}
       <section class="js-about-me l-stack l-stack--4">
-        ${loadingHtml(2)}
+        ${loadingHtml({ preset: "sections", rows: 2, label: "Loading your 1:1s" })}
       </section>
       <div class="js-my-trackers">
-        ${loadingHtml(2)}
+        ${loadingHtml({ preset: "sections", rows: 2, label: "Loading your requests and goals" })}
       </div>
     </div>
   `;

@@ -63,7 +63,7 @@ export const mount: Mount = async (root, { store, setState }) => {
     return;
   }
 
-  root.innerHTML = `<div class="l-container">${loadingHtml(3)}</div>`;
+  root.innerHTML = `<div class="l-container">${loadingHtml({ preset: "sections", rows: 3, label: "Loading this Monthly Check-in" })}</div>`;
 
   let dto: GuidedSessionDto;
   try {

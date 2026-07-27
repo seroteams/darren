@@ -31,6 +31,7 @@ export type SkeletonPreset =
   | "two-col" // a left rail beside a content column
   | "question" // the interview card: stem, description, answer box
   | "focus-points" // the numbered checkbox cards on the What we will cover screen
+  | "lex-rows" // the lexicon review Keep/Drop rows
   | "form" // stacked label-over-input fields
   | "prose"; // bare lines, for a host that already owns its card
 
@@ -280,6 +281,22 @@ function focusPoints({ rows = 4 }: SkeletonOpts): string {
   return Array.from({ length: rows }, (_, i) => card(i)).join("");
 }
 
+// --- lex-rows: the lexicon review's Keep/Drop rows ----------------------------
+// Mirrors rowHtml() in stages/lexicon-review.js: tickbox, number, the phrase over
+// its context, and the two buttons on the right.
+function lexRows({ rows = 4 }: SkeletonOpts): string {
+  const row = (i: number) => `<div class="lex-row lex-row--pick" style="--sk-i:${i}">
+      <span class="lex-row__pick">${skFill("sk-icon")}</span>
+      ${skFill("lex-row__num sk-icon")}
+      <span class="lex-row__body">
+        ${skLeaf("lex-row__phrase", i % 2 ? "58%" : "72%")}
+        ${skLeaf("lex-row__context text-sm", "88%")}
+      </span>
+      <span class="lex-row__actions">${skFill("btn btn--sm sk-btn")}${skFill("btn btn--sm sk-btn")}</span>
+    </div>`;
+  return Array.from({ length: rows }, (_, i) => row(i)).join("");
+}
+
 // --- form: stacked label-over-input fields ------------------------------------
 function form({ rows = 3 }: SkeletonOpts): string {
   const field = (i: number) => `<label class="block space-y-2" style="--sk-i:${i}">
@@ -302,6 +319,7 @@ const ROOT_CLASS: Record<SkeletonPreset, string> = {
   "two-col": "l-stack l-stack--3",
   question: "l-stack l-stack--4",
   "focus-points": "l-stack l-stack--3",
+  "lex-rows": "l-stack l-stack--2",
   form: "l-stack l-stack--4",
   prose: "l-stack l-stack--2",
 };
@@ -316,6 +334,7 @@ const RENDER: Record<SkeletonPreset, (o: SkeletonOpts) => string> = {
   "two-col": twoCol,
   question,
   "focus-points": focusPoints,
+  "lex-rows": lexRows,
   form,
   prose,
 };
