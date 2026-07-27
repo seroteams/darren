@@ -1,8 +1,8 @@
-// The /prepare layout lab (design-consolidation F8) — internal admins only.
+// The /prepare layout lab (design-consolidation F8) — managers and admins.
 // The 11 non-default layouts, the switcher chip + tile popover, and the stored
 // layout choice. Split out of preparation-brief.ts (refactor-2026-07 P4) so the
-// customer bundle never downloads any of it: preparation.ts dynamic-imports this
-// module only when the viewer is an internal admin, and Vite splits it (plus
+// guest/member bundle never downloads any of it: preparation.ts dynamic-imports
+// this module only for signed-in managers and admins, and Vite splits it (plus
 // preparation-lab.css, dynamic-imported beside it in preparation.ts — NOT here,
 // so node:test can import this module without a CSS loader) into async chunks.
 // Same rules as the brief module: pure HTML-string renderers, no DOM, no state,
@@ -17,8 +17,10 @@ import {
   confMeter,
   eyebrow,
   isVariantId,
+  pairHtml,
   prepList,
   renderH,
+  renderL,
   type BriefSlots,
   type VariantId,
 } from "./preparation-brief.ts";
@@ -43,18 +45,9 @@ export const VARIANTS = [
 
 export const VARIANT_STORAGE_KEY = "sero.prepare.briefVariant";
 
-// The Listen for / Don't assume pair — shared by variants B, E, J and L.
-function pairHtml(s: BriefSlots): string {
-  const cells = [
-    s.listenFor.length ? `<div>${eyebrow(SLOT_LABELS.listenFor)}${prepList(s.listenFor)}</div>` : "",
-    s.dontAssume.length ? `<div>${eyebrow(SLOT_LABELS.dontAssume)}${prepList(s.dontAssume)}</div>` : "",
-  ].join("");
-  return cells ? `<div class="pv-pair">${cells}</div>` : "";
-}
-
 /* ---------------------------------------------------------------------------
    The 11 lab variants — same seven slots, one design direction each
-   (H "Sheet", the customer layout, lives in preparation-brief.ts)
+   (L "Arc", the default layout, lives in preparation-brief.ts)
 --------------------------------------------------------------------------- */
 
 // A "Editorial" — honesty leads: confidence sits under the title, larger than
@@ -260,75 +253,6 @@ function renderK(s: BriefSlots): string {
   </div>`;
 }
 
-// L "Arc" — Before · During · After, led by a dark highlight header. The likely
-// theme + confidence sit in a deep band up top (the one thing to walk in
-// knowing); the three phases follow. On desktop they stack down a spine; on
-// phones they collapse behind a Before/During/After segmented control so the
-// screen never becomes a wall of text. Accent family + the shared navy band.
-function renderL(s: BriefSlots): string {
-  const mini = (label: string, body: string) =>
-    body ? `<div class="pv-l__mini">${eyebrow(label)}${body}</div>` : "";
-  const para = (t: string) => (t ? `<p class="text-ink leading-relaxed">${esc(t)}</p>` : "");
-  const tip = s.styleTip
-    ? `<div class="pv-l__tip">${eyebrow(SLOT_LABELS.styleTip)}<p>${esc(s.styleTip)}</p></div>`
-    : "";
-  // Dark highlight header — the likely theme, with the confidence meter as an
-  // at-a-glance read. Skipped whole if there's nothing to carry.
-  const heroInner = [
-    s.theme
-      ? `${eyebrow(SLOT_LABELS.theme, "pv-l__hero-eyebrow")}<p class="pv-l__hero-theme">${esc(s.theme)}</p>`
-      : "",
-    confMeter(s.confidenceLevel),
-  ].join("");
-  const hero = heroInner ? `<div class="pv-l__hero">${heroInner}</div>` : "";
-
-  const before = [
-    tip,
-    s.confidence ? `<p class="pv-l__confidence">${esc(s.confidence)}</p>` : "",
-  ].join("");
-  const during = [
-    s.opener ? `<blockquote class="prep-callout">${esc(s.opener)}</blockquote>` : "",
-    pairHtml(s),
-    mini(SLOT_LABELS.yourMove, para(s.yourMove)),
-  ].join("");
-  const after = mini(SLOT_LABELS.leaveWith, para(s.leaveWith));
-
-  // Each phase is both a spine node (desktop) and a tab pane (mobile). Only
-  // phases with content render; the first present one is active by default.
-  const phases = [
-    { id: "before", tab: "Before", name: "Before you walk in", sub: "the read", body: before, mod: "" },
-    { id: "during", tab: "During", name: "In the room", sub: "the moves", body: during, mod: "" },
-    { id: "after", tab: "After", name: "Leave with", sub: "the goal", body: after, mod: "pv-l__phase--after" },
-  ].filter((p) => p.body);
-  const activeId = phases.length ? phases[0]!.id : "";
-
-  const tabs = phases.length
-    ? `<div class="pv-l__tabs" role="tablist" aria-label="1:1 stages">${phases
-        .map(
-          (p) =>
-            `<button type="button" class="pv-l__tab${p.id === activeId ? " is-active" : ""}" role="tab" data-pane="${p.id}" aria-selected="${p.id === activeId}">${esc(p.tab)}</button>`,
-        )
-        .join("")}</div>`
-    : "";
-
-  const phaseHtml = phases
-    .map(
-      (p) =>
-        `<div class="pv-l__phase${p.mod ? ` ${p.mod}` : ""}${p.id === activeId ? " is-active" : ""}" data-pane="${p.id}">
-          <span class="pv-l__dot" aria-hidden="true"></span>
-          <div class="pv-l__head"><span class="pv-l__name">${esc(p.name)}</span><span class="pv-l__sub">${esc(p.sub)}</span></div>
-          <div class="pv-l__body">${p.body}</div>
-        </div>`,
-    )
-    .join("");
-
-  return `<div class="pv pv-l">
-    ${hero}
-    ${tabs}
-    ${phaseHtml}
-  </div>`;
-}
-
 const RENDERERS: Record<VariantId, (s: BriefSlots) => string> = {
   A: renderA,
   B: renderB,
@@ -405,13 +329,13 @@ export interface StorageLike {
   setItem(key: string, value: string): void;
 }
 
-// The layout lab is admin-only: only when adminLab is true does the stored
-// choice count. Everyone else gets DEFAULT_VARIANT — a stored non-default
-// layout for a non-admin (saved before the fence, or by an admin on a shared
-// browser) silently falls back rather than leaking a lab layout. The flag
-// defaults to false so a forgotten call site fails safe, to the customer view.
-export function readVariant(storage: StorageLike | null | undefined, adminLab = false): VariantId {
-  if (!adminLab) return DEFAULT_VARIANT;
+// The picker belongs to managers and admins: only when canPick is true does the
+// stored choice count. Everyone else (guests, members) gets DEFAULT_VARIANT — a
+// stored non-default layout on a shared browser silently falls back rather than
+// leaking a lab layout. The flag defaults to false so a forgotten call site
+// fails safe, to the default view.
+export function readVariant(storage: StorageLike | null | undefined, canPick = false): VariantId {
+  if (!canPick) return DEFAULT_VARIANT;
   try {
     const v = storage ? storage.getItem(VARIANT_STORAGE_KEY) : null;
     return isVariantId(v) ? v : DEFAULT_VARIANT;

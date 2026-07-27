@@ -1,8 +1,8 @@
 // Pure render layer for the customer /prepare screen (prepare-variants).
-// One brief, seven content slots, ONE customer layout (renderH "Sheet"). The
-// 11 other layouts + the switcher live in preparation-lab.ts, an admin-only
-// module the customer bundle never downloads (refactor-2026-07 P4): the /prepare
-// stage dynamic-imports it only for internal admins. No DOM, no state, no fetch:
+// One brief, seven content slots, ONE default layout (renderL "Arc"). The
+// 11 other layouts + the switcher live in preparation-lab.ts, a module the
+// guest/member bundle never downloads (refactor-2026-07 P4): the /prepare
+// stage dynamic-imports it only for managers and admins. No DOM, no state, no fetch:
 // every function here takes data in and returns an HTML string, so the whole
 // file is testable under node:test (see preparation-brief.test.ts).
 // The payload contract is PreparationResult["brief"] (backend/shared/session.types.ts).
@@ -14,11 +14,12 @@ import { button } from "../../../admin/src/ui/button.ts";
 export type ConfidenceLevel = "low" | "medium" | "high" | "unknown";
 export type VariantId = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L";
 
-// THE one customer-facing layout (design-consolidation F8, 2026-07-23):
-// "H" is Sheet, the white memo. Flipping the product back to Arc = move renderL
-// back here from preparation-lab.ts and point renderDefaultBrief (and this id)
-// at it — one small move, nothing else needs touching.
-export const DEFAULT_VARIANT: VariantId = "H";
+// THE default layout (2026-07-27): "L" is Arc, the Before/During/After spine
+// under a dark theme band. It is what every viewer gets until a manager or
+// admin picks another in the layout switcher. Flipping the default = move that
+// variant's renderer back here from preparation-lab.ts and point
+// renderDefaultBrief (and this id) at it, plus its CSS block.
+export const DEFAULT_VARIANT: VariantId = "L";
 
 // Defensive mirror of the backend brief shape — the store value is untyped.
 export interface PrepBrief {
@@ -147,8 +148,87 @@ export function confMeter(level: ConfidenceLevel): string {
 }
 
 /* ---------------------------------------------------------------------------
-   The customer layout — the 11 lab layouts live in preparation-lab.ts
+   The default layout — the 11 other layouts live in preparation-lab.ts
 --------------------------------------------------------------------------- */
+
+// The Listen for / Don't assume pair — shared by L here and by B, E, J in the lab.
+export function pairHtml(s: BriefSlots): string {
+  const cells = [
+    s.listenFor.length ? `<div>${eyebrow(SLOT_LABELS.listenFor)}${prepList(s.listenFor)}</div>` : "",
+    s.dontAssume.length ? `<div>${eyebrow(SLOT_LABELS.dontAssume)}${prepList(s.dontAssume)}</div>` : "",
+  ].join("");
+  return cells ? `<div class="pv-pair">${cells}</div>` : "";
+}
+
+// L "Arc" — Before · During · After, led by a dark highlight header. The likely
+// theme + confidence sit in a deep band up top (the one thing to walk in
+// knowing); the three phases follow. On desktop they stack down a spine; on
+// phones they collapse behind a Before/During/After segmented control so the
+// screen never becomes a wall of text. Accent family + the shared navy band.
+// The tab wiring lives in preparation.ts (wireArcTabs).
+export function renderL(s: BriefSlots): string {
+  const mini = (label: string, body: string) =>
+    body ? `<div class="pv-l__mini">${eyebrow(label)}${body}</div>` : "";
+  const para = (t: string) => (t ? `<p class="text-ink leading-relaxed">${esc(t)}</p>` : "");
+  const tip = s.styleTip
+    ? `<div class="pv-l__tip">${eyebrow(SLOT_LABELS.styleTip)}<p>${esc(s.styleTip)}</p></div>`
+    : "";
+  // Dark highlight header — the likely theme, with the confidence meter as an
+  // at-a-glance read. Skipped whole if there's nothing to carry.
+  const heroInner = [
+    s.theme
+      ? `${eyebrow(SLOT_LABELS.theme, "pv-l__hero-eyebrow")}<p class="pv-l__hero-theme">${esc(s.theme)}</p>`
+      : "",
+    confMeter(s.confidenceLevel),
+  ].join("");
+  const hero = heroInner ? `<div class="pv-l__hero">${heroInner}</div>` : "";
+
+  const before = [
+    tip,
+    s.confidence ? `<p class="pv-l__confidence">${esc(s.confidence)}</p>` : "",
+  ].join("");
+  const during = [
+    s.opener ? `<blockquote class="prep-callout">${esc(s.opener)}</blockquote>` : "",
+    pairHtml(s),
+    mini(SLOT_LABELS.yourMove, para(s.yourMove)),
+  ].join("");
+  const after = mini(SLOT_LABELS.leaveWith, para(s.leaveWith));
+
+  // Each phase is both a spine node (desktop) and a tab pane (mobile). Only
+  // phases with content render; the first present one is active by default.
+  const phases = [
+    { id: "before", tab: "Before", name: "Before you walk in", sub: "the read", body: before, mod: "" },
+    { id: "during", tab: "During", name: "In the room", sub: "the moves", body: during, mod: "" },
+    { id: "after", tab: "After", name: "Leave with", sub: "the goal", body: after, mod: "pv-l__phase--after" },
+  ].filter((p) => p.body);
+  const activeId = phases.length ? phases[0]!.id : "";
+
+  const tabs = phases.length
+    ? `<div class="pv-l__tabs" role="tablist" aria-label="1:1 stages">${phases
+        .map(
+          (p) =>
+            `<button type="button" class="pv-l__tab${p.id === activeId ? " is-active" : ""}" role="tab" data-pane="${p.id}" aria-selected="${p.id === activeId}">${esc(p.tab)}</button>`,
+        )
+        .join("")}</div>`
+    : "";
+
+  const phaseHtml = phases
+    .map(
+      (p) =>
+        `<div class="pv-l__phase${p.mod ? ` ${p.mod}` : ""}${p.id === activeId ? " is-active" : ""}" data-pane="${p.id}">
+          <span class="pv-l__dot" aria-hidden="true"></span>
+          <div class="pv-l__head"><span class="pv-l__name">${esc(p.name)}</span><span class="pv-l__sub">${esc(p.sub)}</span></div>
+          <div class="pv-l__body">${p.body}</div>
+        </div>`,
+    )
+    .join("");
+
+  return `<div class="pv pv-l">
+    ${hero}
+    ${tabs}
+    ${phaseHtml}
+  </div>`;
+}
 
 // H "Sheet" — a single paper memo on the tinted page: one white sheet,
 // generous margins, one reading column, hairline rules between sections.
@@ -168,10 +248,10 @@ export function renderH(s: BriefSlots): string {
   </div>`;
 }
 
-// The customer render: the DEFAULT_VARIANT layout, statically bundled. The lab
-// (preparation-lab.ts) renders every other layout for internal admins.
+// The default render: the DEFAULT_VARIANT layout, statically bundled. The lab
+// (preparation-lab.ts) renders every other layout for managers and admins.
 export function renderDefaultBrief(s: BriefSlots): string {
-  return renderH(s);
+  return renderL(s);
 }
 
 /* ---------------------------------------------------------------------------

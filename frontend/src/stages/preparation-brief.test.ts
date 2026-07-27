@@ -10,8 +10,8 @@ import {
   renderDefaultBrief,
   type PrepBrief,
 } from "./preparation-brief.ts";
-// The lab module (admin-only chunk in the app; plain import here — node:test
-// has no bundle to protect). renderBrief covers all 12 variants incl. H.
+// The lab module (manager/admin-only chunk in the app; plain import here —
+// node:test has no bundle to protect). renderBrief covers all 12 variants incl. L.
 import {
   VARIANTS,
   VARIANT_STORAGE_KEY,
@@ -240,24 +240,24 @@ function fakeStorage(init?: Record<string, string>): StorageLike {
   };
 }
 
-test("default: the one customer layout is Sheet (H)", () => {
-  assert.equal(DEFAULT_VARIANT, "H");
+test("default: the default layout is Arc (L)", () => {
+  assert.equal(DEFAULT_VARIANT, "L");
 });
 
 test("customer render: renderDefaultBrief IS the default variant's markup", () => {
   assert.equal(renderDefaultBrief(SLOTS), renderBrief(DEFAULT_VARIANT, SLOTS));
 });
 
-test("switcher: defaults to H (Sheet) with no storage or no saved value", () => {
-  assert.equal(readVariant(null, true), "H");
-  assert.equal(readVariant(fakeStorage(), true), "H");
+test("switcher: defaults to L (Arc) with no storage or no saved value", () => {
+  assert.equal(readVariant(null, true), "L");
+  assert.equal(readVariant(fakeStorage(), true), "L");
 });
 
 test("fence: a stored non-default layout for a non-admin silently falls back to the default", () => {
-  const stored = fakeStorage({ [VARIANT_STORAGE_KEY]: "L" });
-  assert.equal(readVariant(stored, false), "H", "non-admin never sees a lab layout");
-  assert.equal(readVariant(stored), "H", "an omitted flag fails safe to the customer default");
-  assert.equal(readVariant(stored, true), "L", "the admin lab still honours the stored choice");
+  const stored = fakeStorage({ [VARIANT_STORAGE_KEY]: "H" });
+  assert.equal(readVariant(stored, false), "L", "a guest or member never sees a lab layout");
+  assert.equal(readVariant(stored), "L", "an omitted flag fails safe to the default");
+  assert.equal(readVariant(stored, true), "H", "a manager or admin still gets their stored choice");
 });
 
 test("switcher: dropdown lists layouts alphabetically", () => {
@@ -286,15 +286,15 @@ test("switcher: popover holds one tile per variant, current one marked", () => {
   assert.match(html, /data-id="J"[^>]*aria-checked="true"/, "current variant marked checked");
 });
 
-test("switcher: persists the chosen variant and reads it back in the admin lab", () => {
+test("switcher: persists the chosen variant and reads it back for a picker", () => {
   const storage = fakeStorage();
   writeVariant(storage, "E");
   assert.equal(storage.getItem(VARIANT_STORAGE_KEY), "E");
   assert.equal(readVariant(storage, true), "E");
 });
 
-test("switcher: invalid saved value falls back to H", () => {
-  assert.equal(readVariant(fakeStorage({ [VARIANT_STORAGE_KEY]: "Z" }), true), "H");
+test("switcher: invalid saved value falls back to L", () => {
+  assert.equal(readVariant(fakeStorage({ [VARIANT_STORAGE_KEY]: "Z" }), true), "L");
 });
 
 test("switcher: a throwing storage never throws out", () => {
@@ -306,6 +306,6 @@ test("switcher: a throwing storage never throws out", () => {
       throw new Error("blocked");
     },
   };
-  assert.equal(readVariant(broken, true), "H");
+  assert.equal(readVariant(broken, true), "L");
   assert.doesNotThrow(() => writeVariant(broken, "B"));
 });

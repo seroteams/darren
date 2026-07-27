@@ -1,7 +1,7 @@
 /* /prepare brief — customer stage. The page furniture (header tools) and the
-   ONE customer layout, H "Sheet". The 11 lab layouts + the switcher styles
-   live in preparation-lab.css, loaded only with the admin-only lab chunk
-   (preparation-lab.ts, refactor-2026-07 P4). Tokens only, 14px floor —
+   DEFAULT layout, L "Arc". The 11 other layouts + the switcher styles live in
+   preparation-lab.css, loaded only with the lab chunk that managers and admins
+   pull (preparation-lab.ts, refactor-2026-07 P4). Tokens only, 14px floor —
    guarded by preparation-css.test.ts across BOTH files. */
 
 /* Header tools — the Layout switcher + the demoted Reset link */
@@ -10,46 +10,181 @@
   align-items: center;
   gap: var(--sero-space-4);
 }
-/* H — Sheet: one paper memo on the tinted page. Generous margins, a single
-   reading column, hairline rules between sections. */
-.pv-h {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  padding: var(--sero-space-12) var(--sero-space-14);
-  max-width: var(--container-medium);
+
+/* L — Arc: Before · During · After. The seven slots on the meeting's shape —
+   a left spine with three phase nodes (walk-in read, in-the-room moves, the
+   goal). Accent family only; the opener reuses the shared .prep-callout. */
+.pv-l {
   display: flex;
   flex-direction: column;
 }
-.pv-h__confidence {
-  margin: 0 0 var(--sero-space-6);
-  max-width: var(--measure);
-  font-size: var(--type-body);
-  line-height: var(--type-leading-relaxed);
-  color: var(--color-ink-dim);
+.pv-l__phase {
+  position: relative;
+  padding-left: var(--sero-space-8);
+  padding-bottom: var(--sero-space-8);
 }
-.pv-h__section {
+.pv-l__phase:last-child {
+  padding-bottom: 0;
+}
+/* the spine — a hairline down the left, joining each node to the next */
+.pv-l__phase::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: var(--sero-space-1);
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border);
+}
+.pv-l__phase:last-child::before {
+  display: none;
+}
+.pv-l__dot {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-accent-soft);
+  border: 2px solid var(--color-accent);
+}
+.pv-l__phase--after .pv-l__dot {
+  background: var(--color-accent);
+}
+.pv-l__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sero-space-2);
+  margin-bottom: var(--sero-space-3);
+}
+.pv-l__name {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+}
+.pv-l__sub {
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-mute);
+}
+.pv-l__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-4);
+}
+.pv-l__mini {
   display: flex;
   flex-direction: column;
   gap: var(--sero-space-2);
-  padding: var(--sero-space-5) 0;
-  border-top: 1px solid var(--color-border-tinted);
-  max-width: var(--measure);
 }
-.pv-h__section p {
+.pv-l__mini p {
+  margin: 0;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+.pv-l__confidence {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+/* the meeting-style tip — a coaching note that frames the whole read */
+.pv-l__tip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-2);
+  padding: var(--sero-space-4);
+  border-radius: var(--radius-card);
+  background: var(--color-accent-soft);
+}
+.pv-l__tip p {
   margin: 0;
   font-size: var(--type-body);
   line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
-.pv-h__opener {
-  font-size: var(--type-h4);
-  font-weight: var(--type-weight-medium);
-  line-height: var(--type-leading-normal);
+
+/* Dark highlight header (Arc) — the likely theme + confidence sit in a deep
+   band above the spine; on phones it heads the tabbed layout below. */
+.pv-l__hero {
+  background: var(--sero-navy-800);
+  border-radius: var(--radius-card);
+  padding: var(--sero-space-6);
+  margin-bottom: var(--sero-space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-3);
 }
-@media (max-width: 768px) {
-  .pv-h {
-    padding: var(--sero-space-6) var(--sero-space-5);
-  }
+.pv-l__hero .eyebrow {
+  color: var(--sero-offwhite-300);
+}
+.pv-l__hero-theme {
+  margin: 0;
+  font-family: var(--type-family-display);
+  font-size: var(--type-h3);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-snug);
+  color: var(--sero-offwhite-50);
+}
+/* the dot-meter re-grounds on the dark band (same move as variant J) */
+.pv-l__hero .conf {
+  background: color-mix(in srgb, var(--sero-offwhite-50) 12%, transparent);
+  color: var(--sero-offwhite-50);
+  align-self: flex-start;
 }
 
+/* Before/During/After segmented control — hidden on desktop (the spine shows
+   all three phases); shown on phones, where each phase becomes a tab pane. */
+.pv-l__tabs {
+  display: none;
+  gap: var(--sero-space-1);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  padding: var(--sero-space-1);
+  margin-bottom: var(--sero-space-6);
+}
+.pv-l__tab {
+  flex: 1;
+  min-height: 40px;
+  cursor: pointer;
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-dim);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-input);
+  padding: var(--sero-space-2);
+}
+.pv-l__tab.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+}
+.pv-l__tab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+/* Phones (~480px): collapse the spine into tab panes — one phase visible at a
+   time, no left indent, the tab replaces each phase heading. */
+@media (max-width: 30rem) {
+  .pv-l__tabs {
+    display: flex;
+  }
+  .pv-l__phase {
+    display: none;
+    padding-left: 0;
+    padding-bottom: 0;
+  }
+  .pv-l__phase.is-active {
+    display: block;
+  }
+  .pv-l__phase::before,
+  .pv-l__dot,
+  .pv-l__head {
+    display: none;
+  }
+}
