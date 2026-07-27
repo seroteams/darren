@@ -921,3 +921,22 @@
     gap: var(--sero-space-12);
   }
 }
+
+/* -----------------------------------------------------------------------------
+   Skeleton proof sheet (stages/design.js) — each preset beside the real markup it
+   stands in for, so a ghost that renders wrong is visible rather than measured.
+----------------------------------------------------------------------------- */
+.ds-skcase { display: grid; gap: var(--sero-space-3); }
+/* Stacked, not side by side. Two columns halve the width, and at half width the
+   real sample's text wraps more than the ghost's fixed line count assumes, so every
+   case reported a false gap. Full width is also closer to the screens these ghosts
+   actually stand in for, which is the comparison worth making. */
+.ds-skcase__pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sero-space-4);
+  align-items: start;
+}
+.ds-skcase__pair > div { display: grid; gap: var(--sero-space-2); min-width: 0; }
+/* A gap worth a second look. Not a failure: some are honest, see the plan notes. */
+.ds-skdiff--off { color: var(--sero-gold-900); font-weight: 600; }

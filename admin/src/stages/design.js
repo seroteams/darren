@@ -8,6 +8,7 @@
 
 import "../styles/design/design-stage.css"; // this stage owns the sheet (P5: kept out of the shared bundle)
 import { createOrb } from "../ui/orb.js";
+import { skeletonHtml } from "../ui/skeleton.js";
 
 // Rail order = section order down the page. Each entry needs a matching builder below and
 // a <section id="ds-<id>">; the scrollspy wires up automatically.
@@ -34,6 +35,7 @@ const SECTIONS = [
   { id: "nav", label: "Navigation" },
   { id: "panel", label: "Side panel" },
   { id: "states", label: "Empty & loading" },
+  { id: "skeletons", label: "Loading skeletons" },
   { id: "login", label: "Login card" },
   { id: "inventory", label: "📋 What Sero needs" },
 ];
@@ -616,6 +618,140 @@ function statesHtml() {
   );
 }
 
+// The skeleton proof sheet. Every preset from ui/skeleton-presets.ts, rendered live
+// beside the real markup it stands in for, with the two heights measured at mount
+// and the gap printed. This exists because a skeleton bug hides easily: the ghost
+// lines once collapsed to a few grey pips on screen while every height I had
+// measured stayed correct. Here, wrong is visible.
+//
+// `real` is a sample of the loaded markup, not a live screen. The point is the box:
+// does the ghost occupy what the content will.
+const SKELETON_CASES = [
+  {
+    id: "list-rows",
+    label: "List rows",
+    where: "Home recents, Past 1:1s, Team",
+    spec: { preset: "list-rows", rows: 2, toolbar: true },
+    real: `<div class="l-stack l-stack--3">
+      <div class="list-toolbar"><input type="search" class="list-toolbar__search" placeholder="Search by name"><span class="list-toolbar__count">2 1:1s</span></div>
+      <ul class="run-list run-list--card">
+        <li class="run-list__item"><button type="button" class="run-list__row"><span class="ds-avatar run-list__avatar">M</span><span class="run-list__main"><span class="run-list__name">Ming Zhao</span><span class="run-list__sub">Weekly check-in · 2 days ago</span></span><span class="run-list__side"><span class="runs-list__stars text-sm">4</span></span></button></li>
+        <li class="run-list__item"><button type="button" class="run-list__row"><span class="ds-avatar run-list__avatar">A</span><span class="run-list__main"><span class="run-list__name">Aisha Bello</span><span class="run-list__sub">Bi-weekly 1:1 · last week</span></span><span class="run-list__side"></span></button></li>
+      </ul></div>`,
+    measure: ".run-list__item",
+  },
+  {
+    id: "table",
+    label: "Table",
+    where: "Library, Members, every admin table",
+    spec: { preset: "table", rows: 2, cols: ["stack", "text:12ch", "pill", "actions"] },
+    real: `<div class="um-table-wrap"><table class="um-table">
+      <thead><tr><th>User</th><th>Company</th><th>Role</th><th class="um-actions-th"></th></tr></thead>
+      <tbody>
+        <tr class="um-row"><td><button type="button" class="um-user__open">Ming Zhao</button><div class="um-user__email">ming@northwind.co</div></td><td class="text-ink-dim">Northwind</td><td><span class="um-badge um-badge--manager">manager</span></td><td class="um-actions"><button type="button" class="row-menu-btn"><svg width="18" height="18"></svg></button></td></tr>
+        <tr class="um-row"><td><button type="button" class="um-user__open">Aisha Bello</button><div class="um-user__email">aisha@northwind.co</div></td><td class="text-ink-dim">Northwind</td><td><span class="um-badge um-badge--member">member</span></td><td class="um-actions"><button type="button" class="row-menu-btn"><svg width="18" height="18"></svg></button></td></tr>
+      </tbody></table></div>`,
+    measure: ".um-row",
+  },
+  {
+    id: "tiles",
+    label: "KPI tiles",
+    where: "Live pulse",
+    spec: { preset: "tiles", rows: 3, hero: true },
+    real: `<div class="lp-tiles">
+      ${[["Came back unprompted", "2", "Gate 1, all time. A second prep within 14 days, unprompted"],
+         ["Managers who prepped", "9", "Anyone who finished a prep in the last 7 days"],
+         ["Preps this week", "14", "Finished preps, all managers, last 7 days"]]
+        .map(([l, v, n], i) => `<div class="lp-tile${i === 0 ? " lp-tile--hero" : ""}">
+          <div class="lp-tile__label">${l}</div><div class="lp-tile__value">${v}</div>
+          <div class="lp-tile__delta"><span class="lp-delta">no change</span><span>in the last 7 days</span></div>
+          <div class="lp-tile__note">${n}</div></div>`).join("")}</div>`,
+    measure: ".lp-tile",
+    // The one preset whose line counts are hardcoded: a Pulse tile sits on a 168px
+    // grid track where its label wraps to two lines and its caption to four, and the
+    // ghost is tuned to that. This sheet is wider, so the real tiles here don't wrap
+    // and the comparison reads worse than it is. Measured in place on /pulse the gap
+    // is 2.8px. Pulse is the only consumer, so it stays tuned to Pulse.
+    note: "tuned to the Pulse grid, not this width. Measured in place on /pulse: ghost 252px, loaded 254.8px",
+  },
+  {
+    id: "sections",
+    label: "Card sections",
+    where: "Feedback inbox, error log, the guide",
+    spec: { preset: "sections", rows: 2 },
+    real: `<div class="l-stack l-stack--4">
+      <section class="card-flat space-y-3"><div class="eyebrow">Something happened</div><p class="text-ink-dim">A sentence of body copy that runs the width of the card and then some more.</p><p class="text-ink-dim">A shorter second line.</p></section>
+      <section class="card-flat space-y-3"><div class="eyebrow">And again</div><p class="text-ink-dim">A sentence of body copy that runs the width of the card and then some more.</p><p class="text-ink-dim">A shorter second line.</p></section></div>`,
+    measure: ".card-flat",
+  },
+  {
+    id: "question",
+    label: "Interview question",
+    where: "The interview, and the wait before it",
+    spec: { preset: "question" },
+    real: `<div class="card questioning-card space-y-4">
+      <div class="question-card-head"><div class="question-card-head__text space-y-2">
+        <h1 class="question-stem leading-snug">What has felt hardest about the handover this month?</h1>
+        <div class="question-desc">Listen for whether the difficulty is the process or the people.</div>
+      </div></div><textarea class="textarea textarea--question" rows="5"></textarea></div>`,
+    measure: ".questioning-card",
+  },
+  {
+    id: "focus-points",
+    label: "Focus points",
+    where: "What we'll cover",
+    spec: { preset: "focus-points", rows: 2 },
+    real: `<div class="l-stack l-stack--3">
+      ${[["Handover friction with the platform team", "Raised twice in your notes this month."],
+         ["Where the new role is heading", "Nothing said about it since the promotion."]]
+        .map(([l, r]) => `<div class="js-fp-wrapper"><button type="button" class="focus-point focus-point--selectable">
+          <div class="focus-point__num">1</div>
+          <div class="focus-point__body"><div class="focus-point__label">${l}</div><div class="focus-point__reason">${r}</div></div>
+          <div class="focus-point__check"></div></button></div>`).join("")}</div>`,
+    measure: ".focus-point",
+  },
+  {
+    id: "form",
+    label: "Form fields",
+    where: "Join by invite",
+    spec: { preset: "form", rows: 2 },
+    real: `<div class="l-stack l-stack--4">
+      <label class="block space-y-2"><span class="field__label">Your name</span><input class="input" type="text"></label>
+      <label class="block space-y-2"><span class="field__label">Password</span><input class="input" type="password"></label></div>`,
+    measure: ".input",
+  },
+  {
+    id: "cards",
+    label: "Generic cards (the old default)",
+    where: "Anything not yet given a shape",
+    spec: 2,
+    real: `<p class="caption">No real counterpart. This is the fallback a screen gets before it is given its own shape.</p>`,
+    measure: null,
+  },
+];
+
+function skeletonsHtml() {
+  const cases = SKELETON_CASES.map(
+    (c) => `<div class="ds-card ds-skcase" data-sk-case="${c.id}">
+      <div class="ds-row" style="justify-content:space-between; align-items:baseline">
+        <p class="label">${c.label} <span class="ds-sub">${c.where}</span></p>
+        <p class="caption" data-sk-diff>measuring…</p>
+      </div>
+      <div class="ds-skcase__pair">
+        <div><p class="caption">Loading</p><div data-sk-ghost></div></div>
+        <div><p class="caption">Loaded</p><div data-sk-real>${c.real}</div></div>
+      </div>
+    </div>`,
+  ).join("");
+  return sec(
+    "skeletons",
+    "Loading skeletons",
+    `<p class="body" style="margin-bottom: var(--sero-space-4)">Every preset from <code>ui/skeleton-presets.ts</code>, live, beside the real thing. A screen's loading state is a preset, never hand-rolled markup. If a ghost here looks wrong, it is wrong on the screen too.</p>
+     ${cases}`,
+    "(ghost vs loaded, measured on this page)",
+  );
+}
+
 function loginHtml() {
   return sec(
     "login",
@@ -655,7 +791,7 @@ function contentHtml() {
     rulesHtml(), brandmarkHtml(), coloursHtml(), typeHtml(), buttonsHtml(), badgesHtml(),
     inputsHtml(), selectsHtml(), datetimeHtml(), toastsHtml(), tableHtml(), cardsHtml(),
     tabsHtml(), pageheadHtml(), scoresHtml(), goalsHtml(), chartHtml(), timelineHtml(),
-    overlaysHtml(), navHtml(), panelHtml(), statesHtml(), loginHtml(), inventoryHtml(),
+    overlaysHtml(), navHtml(), panelHtml(), statesHtml(), skeletonsHtml(), loginHtml(), inventoryHtml(),
   ].join("");
 }
 
@@ -682,6 +818,27 @@ export async function mount(root) {
   if (orbHost) {
     orbDemo = createOrb("Scoring answer…");
     orbHost.appendChild(orbDemo.el);
+  }
+
+  // The skeleton proof sheet: render each preset live, then measure it against the
+  // real sample beside it and print the gap. Measured rather than eyeballed, because
+  // the interesting failures are a few px of drift, and printed rather than asserted,
+  // because some gaps are honest (a table row grows with content a ghost can't know).
+  for (const c of SKELETON_CASES) {
+    const host = root.querySelector(`[data-sk-case="${c.id}"]`);
+    if (!host) continue;
+    host.querySelector("[data-sk-ghost]").innerHTML = skeletonHtml(c.spec);
+    const out = host.querySelector("[data-sk-diff]");
+    if (c.note) { out.textContent = c.note; continue; }
+    if (!c.measure) { out.textContent = "no counterpart"; continue; }
+    const g = host.querySelector(`[data-sk-ghost] ${c.measure}`);
+    const r = host.querySelector(`[data-sk-real] ${c.measure}`);
+    if (!g || !r) { out.textContent = "not measurable"; continue; }
+    const gh = g.getBoundingClientRect().height;
+    const rh = r.getBoundingClientRect().height;
+    const d = gh - rh;
+    out.textContent = `${c.measure}: ghost ${gh.toFixed(1)}px, loaded ${rh.toFixed(1)}px, ${d === 0 ? "exact" : `${d > 0 ? "+" : ""}${d.toFixed(1)}px`}`;
+    out.classList.toggle("ds-skdiff--off", Math.abs(d) > 8);
   }
 
   // Core-swatch captions get the real resolved hex (token → computed colour).

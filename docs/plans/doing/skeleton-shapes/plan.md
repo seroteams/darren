@@ -26,12 +26,19 @@
 | 2 | Lists and tables | `list-rows` + `table` wired to 9 screens: /runs, Home recents, /library and the five admin tables | ✅ |
 | 3 | Detail, tiles, sections, two-column | `tiles` / `recap` / `sections` / `two-col` / `prose` wired to 10 screens: /pulse, the three recap surfaces, /admin/feedback, /admin/errors, /job-lexicons, /guide, the stage data tab | 🔨 |
 | 4 | The run lane and forms | `flowInterstitial` takes a spec; /bank /evaluate /focus /prepare /interview each preview what they're generating; /join gets a form ghost | 🔨 |
-| 5 | The proof and the rule | `--skeletons` flag on the gallery exporter → side-by-side sheet of all 40; DESIGN.md rule; clean-up skill check | ⬜ |
+| 5 | The proof and the rule | A live "Loading skeletons" sheet in `/design`: every preset beside its real markup, measured in the browser. DESIGN.md rule 5 rewritten; clean-up Lens G updated | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1, 2 and 3 ✅. Phase 4 built, awaiting Carl's walk: **34 screens** now ghost as themselves.
+Phases 1 to 4 ✅. Phase 5 built, awaiting Carl's walk. That is the whole plan.
+
+**The proof sheet is at `/design` → "Loading skeletons"**: every preset rendered live from the real module, stacked above the real markup, measured in the browser at mount. Five of six exact, the question card within 6.4px, and the one honest gap (KPI tiles, tuned to the Pulse grid) printed as a note instead of a misleading number. It cannot go stale, because it runs the same code the screens do. Replaces the planned Playwright export, which needed a new dependency and would have drifted.
+
+DESIGN.md rule 5 now states the rule; the clean-up skill's Lens G checks it.
+
+### Earlier
+Phase 4: the run lane. **34 screens** ghosting as themselves.
 
 Phase 4 proof in [phase-4.md](phase-4.md). The run lane's waits now preview the screen they route into. It also turned up a systemic bug: the kit's CSS sits in `motion.css`, and every stylesheet imported after it was quietly beating the kit's rules at equal specificity, so the ghost answer box rendered 96px instead of 153px and the ghost avatar painted the real avatar's background. All kit rules are now double-classed. Measured after the fix: focus point card exact, answer box within 0.4px, question card within 13.6px.
 

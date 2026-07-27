@@ -329,7 +329,11 @@ The "before you build" checklist — every new or touched screen passes all fift
    mint 900, gold 900 — never a 700 as text; use `--color-positive-text`/`--color-negative-text`).
 3. **Do** give each screen exactly **one blue action**.
 4. **Do** round controls at **4px**, cards at **12px**.
-5. **Do** design the **empty, loading, and error** states with the screen, not after.
+5. **Do** design the **empty, loading, and error** states with the screen, not after. A loading
+   state is a **preset** from `ui/skeleton-presets.ts`, never hand-rolled markup and never a grey
+   "Loading…" sentence: it borrows the screen's own layout classes so the ghost is the same size
+   as the content, and nothing jumps when the data lands. No preset fits? Add one to the catalogue
+   and to the sheet's Loading skeletons section, then use it.
 6. **Do** build layout from the shared primitives (`.l-stack`, `.l-grid`…).
 7. **Do** route every destructive action through the confirm dialog.
 8. **Do** make it work at **phone width** — no page-level sideways scroll, everything tappable.

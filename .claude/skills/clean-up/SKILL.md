@@ -56,7 +56,9 @@ feels big; each returns findings only.
 ### Lens G — Styling drift
 - [ ] Against root DESIGN.md's checklist: hardcoded colors/radii that should be design.css
       tokens, text under the 14px floor, more than one blue action per view, hand-rolled
-      skeletons instead of `createSkeleton()`, feature CSS not in its own file.
+      skeletons or a plain "Loading…" sentence instead of a `ui/skeleton-presets.ts` preset
+      (and presets that pass a bare row count where the screen has a real shape), feature CSS
+      not in its own file.
 
 ## The report
 
