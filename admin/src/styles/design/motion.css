@@ -165,6 +165,11 @@
    min-width can't be used because the borrowed class often sets its own. */
 .sk-leaf.sk-leaf {
   position: relative;
+  /* Block, because `width` does nothing on an inline element: a bare ghost line
+     collapsed to the width of its &nbsp; and the card showed a few grey pips
+     instead of lines going across. Real leaves that are already flex or grid
+     items are blockified anyway, so this changes nothing there. */
+  display: block;
   width: var(--sk-w, 60%);
   max-width: 100%;
 }
@@ -197,6 +202,8 @@
    ghost only needs to be block. The interview's answer box is a five-row textarea,
    which a ghost holding one &nbsp; cannot reach on its own. */
 .sk-input.sk-input { display: block; }
+/* An icon button sizes itself from the icon inside it; the ghost has none. */
+.sk-icon.sk-icon { display: inline-block; width: 1.125rem; height: 1.125rem; }
 .sk-answer.sk-answer { display: block; min-height: 9.6rem; }
 
 /* The two-column screens (job words, the guide) each roll their own rail width, so

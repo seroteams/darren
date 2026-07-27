@@ -265,7 +265,7 @@ test("every class the presets emit is covered by a parity row", () => {
   // The kit's own classes, plus the shared layout and Tailwind utilities that aren't
   // borrowed from any one screen.
   const own =
-    /^(sk|sk-leaf|sk-fill|sk-line|sk-input|sk-answer|sk-table|sk-two-col|skeleton|skeleton__card|skeleton__bar|skeleton__bar--\w+|sr-only|card|block|l-stack|l-stack--\d+|space-y-\d+)$/;
+    /^(sk|sk-leaf|sk-fill|sk-line|sk-input|sk-answer|sk-icon|sk-table|sk-two-col|skeleton|skeleton__card|skeleton__bar|skeleton__bar--\w+|sr-only|card|block|l-stack|l-stack--\d+|space-y-\d+)$/;
   const emitted = new Set<string>();
   for (const m of src.matchAll(/class="([^"$]+)"/g)) {
     for (const cls of m[1]!.split(/\s+/).filter(Boolean)) emitted.add(cls);

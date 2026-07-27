@@ -138,7 +138,9 @@ function tableCell(spec: SkeletonCol, i: number): string {
     case "pill":
       return `<td>${skLeaf("um-badge", width || "7ch")}</td>`;
     case "actions":
-      return `<td class="um-actions">${skFill("row-menu-btn")}</td>`;
+      // The real ⋯ button takes its 18px square from the icon inside it, which the
+      // ghost hasn't got, so it needs the square stated.
+      return `<td class="um-actions">${skFill("row-menu-btn sk-icon")}</td>`;
     default:
       // Widths alternate a little so a column doesn't read as a solid block.
       return `<td>${skLeaf("", width || (i % 2 ? "10ch" : "14ch"))}</td>`;
