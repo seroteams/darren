@@ -18,7 +18,7 @@ import {
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
-  <rect width="48" height="48" rx="12" fill="var(--color-ink)"/>
+  <rect width="48" height="48" rx="12" fill="var(--sero-primary-700)"/>
   <rect x="9" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
   <rect x="32.5" y="12" width="6.5" height="24" rx="3.25" fill="#fff"/>
   <circle cx="24" cy="18.5" r="5" fill="#fff"/>
@@ -345,7 +345,10 @@ export function createAppNav({ setState, resetSession } = {}) {
     // And a guest running a 1:1 (no account) gets no rail either — there's nothing to
     // navigate to, and "Past 1:1s" / "Log out" make no sense for them (F-004).
     if (stage === STAGES.LOGIN || stage === STAGES.REGISTER
-        || (stage === STAGES.PRIVACY && !user) || (!user && isGuestStage(stage))) {
+        || (stage === STAGES.PRIVACY && !user) || (!user && isGuestStage(stage))
+        // The password-reset pair are reachable while logged out, so a signed-out
+        // visitor was seeing the app rail, Log out included (Carl, 2026-07-25).
+        || (!user && (stage === STAGES.FORGOT_PASSWORD || stage === STAGES.RESET_PASSWORD))) {
       el.classList.add("is-hidden");
       bar.classList.add("is-hidden");
       setDrawer(false);
@@ -369,6 +372,11 @@ export function createAppNav({ setState, resetSession } = {}) {
     const logoutNav = el.querySelector(".app-nav__links--logout");
     if (logoutNav) logoutNav.style.display = internal ? "none" : "";
     const wanted = internal ? "admin" : isAdmin(user) ? "mgr" : "member";
+    // Same audience drives the rail's colour: admin + manager get the navy rail,
+    // the member keeps the lighter blue (design/app-nav.css reads this attribute).
+    // It sits on <body> so the mobile header strip — a sibling of the rail, not a
+    // child — picks up the same background.
+    document.body.dataset.navAudience = wanted;
     const alwaysShown = new Set(["logout"]); // the util strip rows gate by audience now (Guide = internal help, P5)
     const shownGroups = new Set();
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
