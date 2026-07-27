@@ -46,7 +46,14 @@ export const POSITIONING_LINE =
 export const TIME_LINE = "About two minutes of typing.";
 
 /** The seeded example's real prep brief. Verbatim from content/demo/demo-run.json
- *  (state.preparationResult.brief + state.ctx), pinned by the drift test. */
+ *  (state.preparationResult.brief + state.ctx), pinned by the drift test.
+ *
+ *  Rendered as a DOCUMENT, not a card of form fields (Carl picked option B of five,
+ *  2026-07-27, prototype at stages/tests/welcome-options.js). It was three grey
+ *  label/paragraph pairs, which is how a settings screen looks; it is the one thing on
+ *  this page worth reading, so it now gets a person header, a lifted paper surface and
+ *  body type you can actually read. The honesty moved OUT of the card and onto a banner
+ *  above it, so the brief itself never has to apologise for existing. */
 export const SAMPLE_BRIEF = {
   name: "Sofia",
   meetingType: "Bi-weekly check-in",
@@ -150,7 +157,7 @@ export function firstVisitHtml(opts: FirstVisitOpts = {}): string {
     (s) => `
       <div class="start-sample__row">
         <div class="start-sample__label">${s.label}</div>
-        <p class="text-ink-dim text-sm">${SAMPLE_BRIEF[s.key]}</p>
+        <p class="start-sample__text">${SAMPLE_BRIEF[s.key]}</p>
       </div>`,
   ).join("");
 
@@ -207,13 +214,17 @@ export function firstVisitHtml(opts: FirstVisitOpts = {}): string {
           <h2 class="start-welcome__sec-title">What comes out</h2>
           <p class="start-welcome__sec-sub">The plan a manager walks in with. This one is real, from the example 1:1.</p>
         </div>
-        <div class="start-sample card-flat">
+        <div class="start-sample">
+          <p class="start-sample__banner">An example, so you can see one before you make one. <span class="start-sample__tag">Sample brief</span></p>
           <div class="start-sample__head">
-            <span class="start-sample__who">${SAMPLE_BRIEF.name} · ${SAMPLE_BRIEF.meetingType}</span>
-            <span class="run-list__example">Sample brief</span>
+            <span class="start-sample__avatar" aria-hidden="true">${SAMPLE_BRIEF.name.slice(0, 1)}</span>
+            <span class="start-sample__id">
+              <span class="start-sample__name">${SAMPLE_BRIEF.name}</span>
+              <span class="start-sample__meta">${SAMPLE_BRIEF.meetingType} · prep brief</span>
+            </span>
           </div>
           <div class="start-sample__body">${rows}</div>
-          ${link}
+          ${link ? `<div class="start-sample__foot">${link}</div>` : ""}
         </div>
       </section>
     </div>
