@@ -285,4 +285,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-27 (after the full-project clean-up). Live build `1db2d5c` on sero.team, deep health db: up, /admin still bounces logged-out visitors. **Main now runs ~20 commits ahead of live** — skeletons, the stage look-back, the prep-brief layout picker, the design clean-up and this sweep are all committed locally and ship on your next "go live". A local lead is normal here, not a problem.
+Last updated: 2026-07-27 (after the full-project clean-up). Live build `1db2d5c` on sero.team, deep health db: up, /admin still bounces logged-out visitors. **Main runs 9 commits ahead of live** — the rescued welcome-video guard, the design-debt close-out, the tracker corrections and this sweep are committed locally and ship on your next "go live". A local lead is normal here, not a problem.
