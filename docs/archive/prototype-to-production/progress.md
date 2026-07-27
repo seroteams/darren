@@ -1251,3 +1251,38 @@ because the pathspec was right about *which file* and silent about *which hunks 
 well: five sessions' lanes blocked roughly 150 call sites, and those were surfaced as a follow-up
 rather than edited through, with the two unavoidable bridge tokens marked in `tokens.css` naming
 the lane that blocks them and the line to delete.
+
+## 2026-07-27 — component consolidation P8: a linter you have not watched fail is not a linter
+
+The guard that stops phases 1 to 3 coming undone. `npm run lint:components`: pure Node, no
+dependencies, five rules — hand-rolled button, hand-rolled modal backdrop, local focus trap,
+local initials helper, duplicate logo — each pointing at the one module that owns it.
+
+The gap it fills is worth naming precisely. The repo already had two linters and neither has
+any concept of a component: a hand-typed `<button class="btn">` with perfectly tokenised CSS
+passes `lint:tokens` and `lint:copy` clean. Every value was correct; the part was still
+hand-rolled. That is exactly how the app accumulated 223 button strings, nine initials
+helpers, and five focus traps with two different selector lists — all of it invisible to the
+checks that were running on every commit. Consolidation without a guard is a tidy-up with a
+timer on it.
+
+Two design decisions worth keeping. First, exemptions are DATA, not silence: 18 leftovers are
+listed in the script with a file, a count and a written reason ("lane X held this during P3",
+"Phase 6 rebuilds this block"). The guard passes today, but a NEW violation anywhere still
+fails. Second, the exemption list cannot rot — if a KNOWN entry stops matching, that also
+fails the build, so a converted site cannot leave behind a standing permission slip for the
+violation to come back later.
+
+The lesson, though, is about the first run. Two of the five rules were wrong, and both were
+only visible by running the thing on the real tree. `\bbtn\b` looks like the obvious way to
+match a button class, but `\b` sits happily between a hyphen and a letter, so it also matched
+`row-menu-btn`, `um-menu-btn`, `copy-snippet-btn` and — best of all — `js-btn-label` inside
+one of my own `button()` calls. And the owner-module pattern `ui/app-nav.js` matched the
+customer app's fork as well as admin's, silently excusing one of the very duplicates the logo
+rule exists to count. A linter that passes on its first run has usually not been tested; the
+useful move is to deliberately reintroduce every violation, watch each one fail by name, then
+remove them and watch it go green.
+
+Also recorded: with P4 through P7 all blocked behind two other sessions' lane claims, P8 was
+built out of order. Not ideal, but banking the guard while the rest waits is better than
+either half-doing a blocked phase or leaving three finished consolidations unprotected.

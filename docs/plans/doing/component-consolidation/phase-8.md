@@ -1,6 +1,8 @@
 # Phase 8 — The guard, so it cannot drift back
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ done (tested)
+
+## ✅ GREEN-LIT 2026-07-27 — Carl ran `npm run lint:components` and got the pass (commit 99422a66)
 
 ## Built (2026-07-27)
 
@@ -75,11 +77,11 @@ The proof this approach works is already in the repo: `admin/src/styles/design/c
 
 ## Done when
 
-- [ ] `npm run lint:components` passes on the clean repo.
-- [ ] Deliberately reintroducing each violation makes it fail, one at a time. Proof pasted in the phase file.
-- [ ] DESIGN.md and DESIGN-SYSTEM.md no longer point at things that don't exist.
-- [ ] `npm test`, `npm run typecheck` clean.
-- [ ] Carl has tested the scenarios below and said go.
+- [x] `npm run lint:components` passes on the clean repo.
+- [x] Deliberately reintroducing each violation makes it fail. All five proved; the per-line waiver proved too.
+- [ ] DESIGN.md and DESIGN-SYSTEM.md no longer point at things that don't exist. **HELD** — lane `3a8bfd02`.
+- [x] `npm test` 196/196, `npm run typecheck` clean.
+- [x] Carl has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
 

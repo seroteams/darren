@@ -33,7 +33,7 @@
 | 5 | Chip + field | `chip.ts` (8 hand-rolled chip functions) and `field.ts` (3 parallel form systems) | ⬜ |
 | 6 | Header + scaffold adoption | `pageHeader()` across 33 raw `<h1>`; the error card + retry wiring (15+ hand-rolled sites, moved here from P2) | ⬜ |
 | 7 | Kill the app forks | `app-nav` and `router` stop being 67% byte-identical copies; the logo constant (moved here from P2) | ⬜ |
-| 8 | The guard | `npm run lint:components`: 5 rules, 18 recorded exemptions, proved by making each rule fail. Stale design docs held (lane `3a8bfd02`) | 🔨 |
+| 8 | The guard | `npm run lint:components`: 5 rules, 18 recorded exemptions, proved by making each rule fail. Stale design docs held (lane `3a8bfd02`) | ✅ |
 
 ⬜ not started · 🔨 in progress · ⏸️ paused · ✅ done (tested)
 
@@ -73,7 +73,7 @@ Building the free third would leave the app running two empty-state systems side
 
 **Resume when lane `70b40d36` clears.** First task on resume is the card-padding comparison below, not code.
 
-**Phase 8 built out of order 2026-07-27, on Carl's "go next".** With P4 paused and P5/P6/P7 all sitting on the same blocked files, P8 was the one phase needing none of them. Building it now also means the three banked phases cannot quietly drift back while P4 waits.
+**Phase 8 ✅ green-lit 2026-07-27** (commit `99422a66`), built out of order on Carl's "go next". With P4 paused and P5/P6/P7 all sitting on the same blocked files, P8 was the one phase needing none of them. Building it now also means the three banked phases cannot quietly drift back while P4 waits.
 
 ### Decision waiting on Carl, first thing when P4 resumes
 
@@ -82,6 +82,21 @@ Building the free third would leave the app running two empty-state systems side
 Baseline taken before Phase 1: `npm test` 191/191, `npm run typecheck` clean. After Phase 1: 194/194 and clean. Free checks only for this plan: `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`. No paid OpenAI run is needed anywhere in these 8 phases, and none has been used.
 
 **Lane note for Phase 2:** `admin/src/ui/screen-scaffold.ts` (the `wireRetry` half) is now held by session `70b40d36` (shape-matched skeletons), and `session-topbar.js` (the logo half) by `4b899314`. Both halves may have to wait; the avatar half is clear.
+
+## Where this plan stands, 2026-07-27
+
+**4 of 8 phases signed off: 1, 2, 3 and 8.** The three consolidations are banked AND guarded, so they cannot drift back while the rest waits.
+
+**Everything remaining is blocked on the same lane.** P4, P5, P6 and P7 all need files held by `70b40d36` (loading skeletons, 33 files) or `4b899314` (shell + layout):
+
+| Phase | Needs | Held by |
+|---|---|---|
+| 4 Card + empty state | 17 of 27 empty states, most big card files | `70b40d36` |
+| 5 Chip + field | `admin-feedback`, `run-detail`, `start-core` chips; `primitives.css` | `70b40d36`, `4b899314` |
+| 6 Header + error card | `screen-scaffold.ts` and every error-card stage | `70b40d36` |
+| 7 App forks | `frontend/router.js`, `app-nav.css`, `session-topbar.js` | `4b899314` |
+
+Nothing more can be built here without one of those chats releasing its claim. When they do, resume at Phase 4 — and its first deliverable is the card-padding comparison for Carl, not code.
 
 ## Parked
 
