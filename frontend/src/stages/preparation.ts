@@ -1,13 +1,14 @@
 // /prepare — the customer-owned prep-brief stage (prepare-variants). One
-// brief, no At-a-glance/Full-brief duplication, ONE customer layout
-// (renderDefaultBrief in preparation-brief.ts). The 12-layout lab is internal-
-// admin only AND out of the customer download (refactor-2026-07 P4): the lab
-// module + its CSS load via dynamic import only when the viewer is an internal
-// admin, as their own async chunk. Render-only: same SSE stream, same payload,
+// brief, no At-a-glance/Full-brief duplication, ONE default layout
+// (renderDefaultBrief in preparation-brief.ts, layout L "Arc"). The 12-layout
+// lab is for managers + admins AND out of the guest/member download
+// (refactor-2026-07 P4): the lab module + its CSS load via dynamic import only
+// when the viewer is a manager or an admin, as their own async chunk.
+// Render-only: same SSE stream, same payload,
 // same stage transitions as the shared screen it replaces
 // (admin/src/stages/preparation.js, which the admin console keeps).
 
-import { STAGES, resetSession, isInternalAdmin } from "../../../admin/src/state.ts";
+import { STAGES, resetSession, isAdmin } from "../../../admin/src/state.ts";
 import { exitStage } from "../../../admin/src/ui/landing.ts";
 import type { Mount } from "../../../admin/src/stages/stage.types.ts";
 import { createOrb } from "../../../admin/src/ui/orb.js";
@@ -41,10 +42,11 @@ function storage(): Storage | null {
 
 export const mount: Mount = async (root, { store, setState }) => {
   const sessionId = store.sessionId || "";
-  // The layout lab (switcher + 11 non-default variants) is internal-admin
-  // only. isAdmin would let manager customers in — isInternalAdmin is the lab
-  // flag, matching the header comment this file has always carried.
-  const lab = isInternalAdmin(store.user);
+  // The layout picker (switcher + 11 non-default variants) belongs to everyone
+  // who runs 1:1s: managers and admins (Carl, 2026-07-27). Guests and members
+  // get the default layout with no switcher, so the lab stays out of their
+  // bundle. The chosen layout persists per browser (readVariant/writeVariant).
+  const lab = isAdmin(store.user);
 
   root.innerHTML = `
     <div class="stage-reading l-stack l-stack--8">
