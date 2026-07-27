@@ -159,11 +159,11 @@
   display: none;
 }
 
-/* The welcome, rebuilt 2026-07-26 as the stage ladder (Carl picked version A of five).
-   One column, not two: the old right-hand column held nothing but a video poster, so
-   the page read as a paragraph beside a hole. Groups sit twice as far apart as their
-   contents (DESIGN §3a L1), and a section heading sits closer to its own block than to
-   the one above it (L2). */
+/* The welcome, rebuilt 2026-07-26 as "problem and fix" (Carl picked version B of five,
+   after seeing version A live for an hour). One column, not two: the old right-hand
+   column held nothing but a video poster, so the page read as a paragraph beside a hole.
+   Groups sit twice as far apart as their contents (DESIGN §3a L1), and a section heading
+   sits closer to its own block than to the one above it (L2). */
 .start-welcome {
   display: flex;
   flex-direction: column;
