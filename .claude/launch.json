@@ -1057,6 +1057,49 @@
         "--strictPort"
       ],
       "port": 3423
+    },
+    {
+      "name": "lean-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3421",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3425",
+        "--strictPort"
+      ],
+      "port": 3425
+    },
+    {
+      "name": "lean-api-real",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3431",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3431
+    },
+    {
+      "name": "lean-customer-real",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3431",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3433",
+        "--strictPort"
+      ],
+      "port": 3433
     }
   ]
 }

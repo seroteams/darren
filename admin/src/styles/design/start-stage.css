@@ -159,15 +159,16 @@
   display: none;
 }
 
-/* The welcome, rebuilt 2026-07-26 as "problem and fix" (Carl picked version B of five,
-   after seeing version A live for an hour). One column, not two: the old right-hand
-   column held nothing but a video poster, so the page read as a paragraph beside a hole.
-   Groups sit twice as far apart as their contents (DESIGN §3a L1), and a section heading
-   sits closer to its own block than to the one above it (L2). */
+/* The welcome, rebuilt 2026-07-27 as "start typing" (Carl picked option B of five,
+   prototype at stages/tests/welcome-lean.js). The old screen ran 1421px tall: a
+   headline, an eight-cell grid of manager complaints, then a sample brief. This one is
+   a headline, a box to type in, and one paragraph. Groups sit twice as far apart as
+   their contents (DESIGN §3a L1). */
 .start-welcome {
   display: flex;
   flex-direction: column;
-  gap: var(--sero-space-10);
+  gap: var(--sero-space-6);
+  max-width: 40rem;
 }
 .start-welcome__intro {
   display: flex;
@@ -179,235 +180,77 @@
   color: var(--color-ink-dim);
   max-width: var(--measure);
 }
-/* The action lives inside the intro, not as a sibling: the button belongs to the
-   headline that asks for it, and it must stay above the four steps (Seibel seat). */
-.start-welcome__action {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--sero-space-4);
-  margin-top: var(--sero-space-3);
-}
-.start-welcome__sec {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-4);
-}
-.start-welcome__sec-head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-1);
-}
-.start-welcome__sec-title {
-  margin: 0;
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-semibold);
-  color: var(--color-ink);
-}
-.start-welcome__sec-sub {
-  margin: 0;
-  font-size: var(--type-body-sm);
-  color: var(--color-ink-dim);
-  max-width: var(--measure);
-}
 
-/* Problem and fix. Two columns of four rows: the thing a manager says on the left, the
-   step that answers it on the right, paired across. The DOM order is quote, answer,
-   quote, answer, so the phone layout is just this grid at one column and the pairing
-   survives. Row gap is the group gap (L1); the column gap is wider so the two sides read
-   as two columns rather than one wrapped block. */
-.start-vs {
-  display: grid;
-  /* The complaint is one line, the answer is four, so an even split left the whole left
-     column looking like a hole. */
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  align-items: start;
-  gap: var(--sero-space-4) var(--sero-space-8);
-}
-.start-vs__head {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-ink-mute);
-}
-/* The complaint. Quiet, unboxed and italic, so the eye lands on the answer beside it and
-   the screen never looks like it is shouting at the reader about their own management. */
-.start-pain {
-  margin: 0;
-  /* 1.25rem is .card-flat's padding: the quote lands on the same line as the answer's
-     first line, so the pairing reads across the gap. Centring it in the row put it
-     halfway down the card opposite, next to nothing in particular. */
-  padding-top: 1.25rem;
-  color: var(--color-ink-dim);
-  font-style: italic;
-  line-height: var(--type-leading-snug);
-  text-wrap: pretty;
-}
-.start-step {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sero-space-4);
-}
-.start-step__body-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-1);
-  min-width: 0;
-}
-.start-step__n {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: var(--sero-radius-full);
-  background: var(--color-accent-soft);
-  color: var(--color-accent-dark);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
-  font-variant-numeric: tabular-nums;
-}
-.start-step__benefit {
-  color: var(--color-ink);
-  font-weight: var(--type-weight-semibold);
-  line-height: var(--type-leading-snug);
-  text-wrap: balance;
-}
-.start-step__title {
-  color: var(--color-accent-dark);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-}
-.start-step__body {
-  margin: 0;
-  color: var(--color-ink-dim);
-  font-size: var(--type-body-sm);
-  line-height: var(--type-leading-normal);
-  text-wrap: pretty;
-}
-
-/* The sample brief as a DOCUMENT (Carl picked option B of five, 2026-07-27). It used to
-   be a flat card of label/paragraph pairs, which reads as a settings form; it is real
-   engine output and the one thing on this screen worth reading, so it now wears a person
-   header on a lifted paper surface. The "this is an example" disclosure sits on a banner
-   ABOVE the paper rather than inside it, so the brief never apologises for itself. */
-.start-sample {
+/* The box. It is a card that happens to be an input: the border and the lift belong to
+   the whole object, not to the textarea inside it, so the button in the footer reads as
+   part of the same thing rather than as a control parked underneath. */
+.start-notes {
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-lift);
-  overflow: hidden;
+  padding: var(--space-card-pad);
+  gap: var(--sero-space-3);
 }
-.start-sample__banner {
+/* Focus lands on the box, not on a rectangle inside a rectangle. */
+.start-notes:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: var(--sero-shadow-focus);
+}
+.start-notes__field {
+  width: 100%;
+  min-height: 7rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: var(--type-body);
+  line-height: var(--type-leading-relaxed);
+  resize: vertical;
+}
+.start-notes__field:focus-visible {
+  outline: none;
+}
+/* The placeholder is a worked example, so it has to be readable rather than a hint:
+   ink-mute, not the browser's near-invisible default. */
+.start-notes__field::placeholder {
+  color: var(--color-ink-mute);
+}
+.start-notes__foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--sero-space-3);
-  margin: 0;
-  padding: var(--sero-space-3) var(--space-card-pad);
-  background: var(--color-accent-soft);
-  color: var(--color-accent-dark);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-}
-.start-sample__tag {
-  border: 1px solid currentColor;
-  border-radius: var(--sero-radius-pill);
-  padding: 0 var(--sero-space-2);
-  font-size: var(--type-body-sm);
-}
-.start-sample__head {
-  display: flex;
-  align-items: center;
-  gap: var(--sero-space-3);
-  padding: var(--space-card-pad);
-  border-bottom: 1px solid var(--color-border);
-}
-/* The initial, not a photo: there is no real person behind the example and a stock face
-   would be the screen's only untrue thing. */
-.start-sample__avatar {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--sero-radius-pill);
-  background: var(--sero-mint-300);
-  color: var(--sero-mint-900);
-  font-weight: var(--type-weight-semibold);
-}
-.start-sample__id {
-  display: flex;
-  flex-direction: column;
-}
-.start-sample__name {
-  font-family: var(--type-family-display);
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-semibold);
-  line-height: var(--type-leading-tight);
-  color: var(--color-ink);
-}
-.start-sample__meta {
-  font-size: var(--type-body-sm);
-  color: var(--color-ink-dim);
-}
-.start-sample__foot {
-  padding: 0 var(--space-card-pad) var(--space-card-pad);
-}
-/* The three parts side by side. Stacked, each line ran to about half the card and left
-   the other half empty, which was half the balance problem on the old screen. */
-/* Stacked, full measure. The three-column version was answering a different layout: it
-   read as three cramped table cells here, and its 60rem media query watched the VIEWPORT
-   while the card sits in the 608px reading column, so on a wide screen it never collapsed
-   and each part got about 160px. A document has paragraphs, not columns. */
-.start-sample__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-5);
-  padding: var(--space-card-pad);
-}
-.start-sample__row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-2);
-}
-/* Small caps label over full-size body text: the label is furniture, the sentence is the
-   product. The old pairing set both at 14px and the difference disappeared. */
-.start-sample__label {
-  color: var(--color-ink-mute);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: var(--type-tracking-wide);
-  text-transform: uppercase;
-}
-.start-sample__text {
-  margin: 0;
-  color: var(--color-ink);
-  font-size: var(--type-body);
-  line-height: var(--type-leading-relaxed);
-  text-wrap: pretty;
-}
-.start-sample__link {
-  align-self: flex-start;
-  background: none;
-  border: 0;
-  padding: 0;
-  color: var(--color-accent);
-  font-size: var(--type-body-sm);
-  cursor: pointer;
-}
-.start-sample__link:hover {
-  text-decoration: underline;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--sero-space-3);
 }
 
-/* The walkthrough, now a line of text rather than a 16:9 black box. Nothing reaches
-   YouTube until the link is pressed, which is also why the CSP only opens frame-src.
-   When the player does arrive it replaces the link in place and takes the whole row. */
-.start-video__link {
+/* What happens after the button. One paragraph doing two jobs: the back and forth in
+   the middle of the flow, and the reason to run a second one. */
+.start-welcome__after {
+  margin: 0;
+  color: var(--color-ink-dim);
+  font-size: var(--type-body-sm);
+  line-height: var(--type-leading-normal);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+/* The walkthrough and the example: two quiet text links on one row, below everything.
+   Nothing reaches YouTube until the link is pressed, which is also why the CSP only
+   opens frame-src. When the player does arrive it replaces the link in place and takes
+   the whole row. */
+.start-quiet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sero-space-5);
+}
+.start-quiet__link {
   background: none;
   border: 0;
   padding: 0;
@@ -419,13 +262,12 @@
   text-underline-offset: 2px;
   cursor: pointer;
 }
-.start-video__link:hover {
+.start-quiet__link:hover {
   color: var(--color-accent);
 }
 .start-video:has(.start-video__frame) {
   flex-basis: 100%;
   max-width: 40rem;
-  margin-top: var(--sero-space-3);
 }
 .start-video__frame {
   width: 100%;
@@ -435,25 +277,16 @@
   display: block;
 }
 
-/* One column on a phone. The two column headers go with it: the DOM order already reads
-   complaint then answer, so labelling each one would be repeating what the reader can
-   see, four times over. The section subtitle keeps the framing. */
+/* On a phone the button owns its own line and goes full width: side by side with the
+   time line it was squeezed to about half the row. */
 @media (max-width: 48rem) {
-  .start-vs {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--sero-space-2);
+  .start-notes__foot {
+    flex-direction: column-reverse;
+    align-items: stretch;
   }
-  .start-vs__head {
-    display: none;
-  }
-  .start-pain {
-    padding: var(--sero-space-2) 0 0;
-  }
-  .start-step {
-    margin-bottom: var(--sero-space-4);
-  }
-  .start-step:last-child {
-    margin-bottom: 0;
+  .start-notes__foot .btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 

@@ -1,59 +1,64 @@
 // The welcome: what a brand-new manager sees on Home before they have run a single 1:1.
 //
-// Rebuilt 2026-07-26 as "problem and fix" (Carl picked version B of five after seeing A
-// live, prototype at stages/tests/welcome-redesign.js). Four things managers say about
-// their own 1:1s, each paired with the step that answers it, then the sample brief.
-// Version A taught the same four steps but never named the problem they solve, so the
-// steps had nothing to be the answer to.
+// Rebuilt 2026-07-27 as "start typing" (Carl picked option B of five, prototype at
+// stages/tests/welcome-lean.js). The notes box IS the screen: the fastest way to explain
+// that Sero runs on rough typed notes is to hand the manager the box and let them type
+// into it. What they type is carried straight into the prep wizard's notes step, so the
+// first thing they did was the first real step, not a warm-up.
 //
-// What the version before both of them got wrong, read off the live screen rather than
-// taste:
-//   1 · Two columns where the right one held only a video poster, and on live that
-//       poster was showing YouTube "Error 153". The loudest object on the screen was an
-//       error message, and the page ended a third of the way down.
-//   2 · It never said what Sero does. A stranger saw a finished brief and had to work
-//       the product out backwards from it.
-//   3 · The sample brief was carrying both jobs, proof AND explanation, and it cannot
-//       carry both.
+// What the version before it got wrong, measured off the live screen rather than taste:
+//   1 · It ran 1421px tall at desktop. Headline, then a video line, then an eight-cell
+//       grid of complaints, then a sample brief. A manager who came to prep a 1:1 had to
+//       scroll past an argument before they could start one.
+//   2 · The four "things managers tell us" were the loudest block on the page. That is a
+//       landing page for someone deciding whether to buy, and this manager already
+//       signed up. Being told your 1:1s are bad, at length, after signing up, is a cost.
+//   3 · The one blue action sat at the top and never appeared again through two more
+//       screens of reading.
+//   4 · "Focus points" and "it gets sharper as you use it" are the two things worth
+//       knowing about Sero and neither was on the screen.
 //
-// So: one column, the action high, then the complaint-and-answer grid, then the sample
-// brief underneath as proof of step 3. The walkthrough video is now a line of text, not
-// a black rectangle.
+// So: headline, one line, the box, the button in the box, and one paragraph under it
+// that carries both the middle of the flow and the reason to come back. The sample brief
+// and the walkthrough are still reachable, as two quiet text links, because the seeded
+// example run has no other door on a first visit.
 //
-// Committee 2026-07-26 (log: logs/committee/2026-07-26-welcome-screen-five-versions.html)
-// changed this before it was built: action above the fold (Seibel), benefit before
-// mechanism (Dunford), reported behaviour not invented despair (Rogelberg), and the
-// right-hand column deleted rather than refilled (Andersson).
-//
-// The sample IS the seeded example run's real prep brief, quoted verbatim from
-// content/demo/demo-run.json (start-welcome.test.ts fails if the two drift apart).
-// Nothing here is invented copy dressed up as engine output, and the card says
-// "Sample brief" on its face.
+// SAMPLE_BRIEF is the seeded example run's real prep brief, quoted verbatim from
+// content/demo/demo-run.json (start-welcome.test.ts fails if the two drift apart). It is
+// no longer rendered here, but the prototypes under stages/tests/ quote it and the drift
+// test still guards it, so it stays exported rather than retyped in five places.
 //
 // Pure string renderers so the copy contract is unit-tested, mirroring
 // intake-firstrun.ts. House rules: UK English, plain words, no em dashes, 14px floor.
 import { escapeHtml } from "../ui/html.js";
 
-// The trigger line (Dunford seat, committee 2026-07-25): the screen already showed
-// what Sero makes but never when to reach for it. This is the "when". Reworded
-// 2026-07-26 to name the middle of the flow too, because the four steps below now
-// promise a back and forth and the lede has to set it up.
-export const POSITIONING_LINE =
-  "Type rough notes before your next 1:1. Sero asks a few questions back, then hands you a plan for the conversation.";
+// The headline asks a question, and the box below it is where the answer goes. That
+// pairing is the whole screen: no instruction to read, just somewhere to start.
+export const HEADLINE = "Who is your next 1:1 with?";
 
-// Honest about the typing, not the whole flow — the same restraint as
-// intake-firstrun.ts: nobody has re-timed end to end.
+// The lede's only job is to lower the bar for typing. It is not positioning.
+export const INPUT_LINE = "Whatever you already know. Half sentences are fine.";
+
+/** The example inside the empty box. It teaches the input style by being it: fragments,
+ *  no capitals, no punctuation to speak of. Written as the notes that would have
+ *  produced SAMPLE_BRIEF, so the example a manager reads and the example run they can
+ *  open are the same person. */
+export const NOTES_PLACEHOLDER = `sofia, product designer, mid level
+flat in design reviews lately
+shipped checkout fine but quiet in the crits`;
+
+// What happens after the button, in one paragraph. Sentence one is the middle of the
+// flow (Dunford seat, committee 2026-07-25: the screen has to name the back and forth,
+// or the brief looks like it came from nowhere). Sentence two is the reason to run a
+// second one, which is the only thing that turns this into a habit.
+export const POSITIONING_LINE =
+  "Sero asks you two or three questions back, then hands you the focus points for the conversation. Every 1:1 you run makes the next one sharper.";
+
+// Honest about the typing, not the whole flow: nobody has re-timed end to end.
 export const TIME_LINE = "About two minutes of typing.";
 
 /** The seeded example's real prep brief. Verbatim from content/demo/demo-run.json
- *  (state.preparationResult.brief + state.ctx), pinned by the drift test.
- *
- *  Rendered as a DOCUMENT, not a card of form fields (Carl picked option B of five,
- *  2026-07-27, prototype at stages/tests/welcome-options.js). It was three grey
- *  label/paragraph pairs, which is how a settings screen looks; it is the one thing on
- *  this page worth reading, so it now gets a person header, a lifted paper surface and
- *  body type you can actually read. The honesty moved OUT of the card and onto a banner
- *  above it, so the brief itself never has to apologise for existing. */
+ *  (state.preparationResult.brief + state.ctx), pinned by the drift test. */
 export const SAMPLE_BRIEF = {
   name: "Sofia",
   meetingType: "Bi-weekly check-in",
@@ -64,8 +69,8 @@ export const SAMPLE_BRIEF = {
 } as const;
 
 // Carl's walkthrough on YouTube. Privacy mode (youtube-nocookie) AND click to play:
-// the poster below is local markup, so nothing reaches Google until a manager asks
-// for the video. That is also why the CSP only needs frame-src, not img-src.
+// the link below is local markup, so nothing reaches Google until a manager asks for
+// the video. That is also why the CSP only needs frame-src, not img-src.
 export const VIDEO = {
   id: "Xve0NyKH7Co",
   startSeconds: 49,
@@ -96,137 +101,57 @@ export function videoIframeHtml(): string {
   `;
 }
 
-const SECTIONS: Array<{ label: string; key: "open" | "explore" | "listenFor" }> = [
-  { label: "How to open", key: "open" },
-  { label: "What to explore", key: "explore" },
-  { label: "What to listen for", key: "listenFor" },
-];
-
-/** The screen, as one data structure: a thing managers say about their own 1:1s, and the
- *  step that answers it.
- *
- *  `pain` is reported behaviour, not invented despair (Rogelberg seat, committee
- *  2026-07-26). "I have not thought about it" and "what we agreed evaporated" are things
- *  managers say out loud; "my 1:1s are failing" is not, and a manager who reads that
- *  about themselves leaves.
- *
- *  `benefit` comes before `title` everywhere it renders: a manager buys "no blank first
- *  minute", not "a preparation stage" (Dunford seat, same session). The order of the
- *  four is real, which is the only reason they carry numbers. */
-export const STEPS = [
-  {
-    pain: "It is in ten minutes and I have not thought about it.",
-    benefit: "Two minutes of typing, not a form.",
-    title: "Say what is on your mind",
-    body: "Their first name, their role, and rough notes. Half sentences are fine.",
-  },
-  {
-    pain: "Same three questions, same ‘yeah, all good’.",
-    benefit: "It finds the real issue under the notes.",
-    title: "Sero asks you back",
-    body: "A short back and forth about what you actually saw, so the plan is about this 1:1 and not 1:1s in general.",
-  },
-  {
-    pain: "I know something is off. I cannot name it.",
-    benefit: "No blank first minute.",
-    title: "Walk in with a brief",
-    body: "How to open, what to explore, what to listen for, what to avoid, and what a good outcome looks like.",
-  },
-  {
-    pain: "Whatever we agreed last time has evaporated.",
-    benefit: "Follow through without a spreadsheet.",
-    title: "The next one picks up here",
-    body: "What you both agreed comes back at the top of the next 1:1, so nothing quietly evaporates.",
-  },
-] as const;
-
-/** The walkthrough, demoted to a line of text. It used to be a 16:9 black box holding a
- *  third of the screen; the player still appears in place when it is asked for. */
+/** The walkthrough and the example, demoted to two quiet text links on one row. Neither
+ *  is the job of this screen, but the seeded example has no other way in once the
+ *  recents list is hidden, and a dead end is worse than a small link. */
 export const VIDEO_LINK = "Watch the two minute walkthrough";
+export const EXAMPLE_LINK = "See an example brief";
 
 export interface FirstVisitOpts {
-  /** The seeded example run's id, when the account has one: turns the sample card's
-   *  footer into a way into the real thing. Absent means no link, never a dead one. */
+  /** The seeded example run's id, when the account has one: turns the footer link into a
+   *  way into the real thing. Absent means no link, never a dead one. */
   exampleRunId?: string | null;
 }
 
 // Home's first-visit view. It brings its own eyebrow, title and lede because the
 // standard page header ("Work / Prep a 1:1") assumes you already know what Sero is.
 export function firstVisitHtml(opts: FirstVisitOpts = {}): string {
-  const rows = SECTIONS.map(
-    (s) => `
-      <div class="start-sample__row">
-        <div class="start-sample__label">${s.label}</div>
-        <p class="start-sample__text">${SAMPLE_BRIEF[s.key]}</p>
-      </div>`,
-  ).join("");
-
-  const link = opts.exampleRunId
-    ? `<button type="button" class="start-sample__link js-open-example" data-id="${escapeHtml(opts.exampleRunId)}">See the whole example 1:1</button>`
+  const example = opts.exampleRunId
+    ? `<button type="button" class="start-quiet__link js-open-example" data-id="${escapeHtml(opts.exampleRunId)}">${EXAMPLE_LINK}</button>`
     : "";
 
-  // Each pain sits in the grid immediately before the step that answers it, so the
-  // single-column phone layout falls out of the DOM order: quote, answer, quote, answer.
-  // Two parallel columns would have stacked as four complaints followed by four fixes,
-  // and the pairing is the whole argument of this screen.
-  const pairs = STEPS.map(
-    (s, i) => `
-      <p class="start-pain">“${s.pain}”</p>
-      <div class="start-step card-flat">
-        <span class="start-step__n" aria-hidden="true">${i + 1}</span>
-        <span class="start-step__body-wrap">
-          <span class="start-step__benefit">${s.benefit}</span>
-          <span class="start-step__title">${s.title}</span>
-          <p class="start-step__body">${s.body}</p>
-        </span>
-      </div>`,
-  ).join("");
-
+  // The button lives INSIDE the box, on the same row as the time line, because the box
+  // is the thing being submitted. js-start-slot is the hook Home moves the one blue
+  // button into (start-core.js) so the screen still has exactly one accent object.
   return `
     <div class="start-welcome">
       <header class="start-welcome__intro">
         <div class="eyebrow">Welcome to Sero</div>
-        <h1 class="h1">Your next 1:1 does not have to be a guess</h1>
-        <p class="start-welcome__lede">${POSITIONING_LINE}</p>
-        <div class="start-welcome__action">
-          <span class="js-start-slot"></span>
-          <span class="text-ink-dim text-sm">${TIME_LINE}</span>
-          <span class="start-video js-video">
-            <button type="button" class="start-video__link js-play-video">${VIDEO_LINK}</button>
-          </span>
-        </div>
+        <h1 class="h1">${HEADLINE}</h1>
+        <p class="start-welcome__lede">${INPUT_LINE}</p>
       </header>
 
-      <section class="start-welcome__sec">
-        <div class="start-welcome__sec-head">
-          <h2 class="start-welcome__sec-title">The four things managers tell us about their 1:1s</h2>
-          <p class="start-welcome__sec-sub">And what Sero does about each one.</p>
+      <div class="start-notes">
+        <textarea
+          class="start-notes__field js-first-notes"
+          aria-label="Rough notes about the person and what is on your mind"
+          rows="4"
+          placeholder="${escapeHtml(NOTES_PLACEHOLDER)}"
+        ></textarea>
+        <div class="start-notes__foot">
+          <span class="text-ink-dim text-sm">${TIME_LINE}</span>
+          <span class="js-start-slot"></span>
         </div>
-        <div class="start-vs">
-          <span class="start-vs__head">What usually happens</span>
-          <span class="start-vs__head">What Sero does</span>
-          ${pairs}
-        </div>
-      </section>
+      </div>
 
-      <section class="start-welcome__sec">
-        <div class="start-welcome__sec-head">
-          <h2 class="start-welcome__sec-title">What comes out</h2>
-          <p class="start-welcome__sec-sub">The plan a manager walks in with. This one is real, from the example 1:1.</p>
-        </div>
-        <div class="start-sample">
-          <p class="start-sample__banner">An example, so you can see one before you make one. <span class="start-sample__tag">Sample brief</span></p>
-          <div class="start-sample__head">
-            <span class="start-sample__avatar" aria-hidden="true">${SAMPLE_BRIEF.name.slice(0, 1)}</span>
-            <span class="start-sample__id">
-              <span class="start-sample__name">${SAMPLE_BRIEF.name}</span>
-              <span class="start-sample__meta">${SAMPLE_BRIEF.meetingType} · prep brief</span>
-            </span>
-          </div>
-          <div class="start-sample__body">${rows}</div>
-          ${link ? `<div class="start-sample__foot">${link}</div>` : ""}
-        </div>
-      </section>
+      <p class="start-welcome__after">${POSITIONING_LINE}</p>
+
+      <div class="start-quiet">
+        <span class="start-video js-video">
+          <button type="button" class="start-quiet__link js-play-video">${VIDEO_LINK}</button>
+        </span>
+        ${example}
+      </div>
     </div>
   `;
 }

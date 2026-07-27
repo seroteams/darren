@@ -174,8 +174,24 @@ test("the ONE blue button moves into the welcome; no second button is ever creat
   const accents = SRC.match(/class="btn js-/g) || [];
   assert.equal(accents.length, 1, "still exactly one accent button in this screen's markup");
   assert.ok(/slot\.appendChild\(startBtn\)/.test(SRC), "the existing node is moved, not re-rendered");
-  assert.ok(SRC.includes("Prep your first 1:1"), "it says what it does for a newcomer");
+  assert.ok(
+    /startBtn\.textContent = "Get my brief"/.test(SRC),
+    "in the welcome it is the notes box's submit, so it says what the typing buys",
+  );
   assert.ok(/headerActions\.appendChild\(startBtn\)/.test(SRC), "and moves back to the header once there are 1:1s");
+});
+
+test("what was typed on the welcome is carried into the prep wizard, not thrown away", () => {
+  // The welcome's box IS the first step ("start typing", 2026-07-27). If this handoff
+  // breaks, the screen silently becomes a decorative textarea and the manager types
+  // their notes twice.
+  assert.ok(/\.js-first-notes/.test(SRC), "the welcome's box is read on submit");
+  assert.ok(/freeNotes: typed/.test(SRC), "the text lands in the notes step's own field");
+  assert.ok(
+    SRC.indexOf(".js-first-notes") < SRC.indexOf("beginCleanSetup(typed"),
+    "read before the wipe: beginCleanSetup resets ctx",
+  );
+  assert.ok(/freeNotes: ""/.test(SRC), "and a fresh run never inherits the last one's typing");
 });
 
 test("the returning manager's header copy is unchanged", () => {

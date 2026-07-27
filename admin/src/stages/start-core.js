@@ -83,7 +83,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     const slot = intoWelcome ? welcomeHost.querySelector(".js-start-slot") : null;
     if (slot) {
       slot.appendChild(startBtn);
-      startBtn.textContent = "Prep your first 1:1";
+      // "Get my brief", not "Prep your first 1:1": on the welcome the button now sits in
+      // the footer of the notes box, so it is the box's submit and should say what the
+      // typing buys, not restate the screen (welcome "start typing", 2026-07-27).
+      startBtn.textContent = "Get my brief";
     } else if (headerActions && startBtn.parentElement !== headerActions) {
       headerActions.appendChild(startBtn);
       startBtn.textContent = "Start a new 1:1";
@@ -324,16 +327,27 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     meetingType: "",
     meetingTypeIndex: null,
     notes: "",
+    // The raw text of the notes step's textarea, kept apart from `notes` (which is
+    // pills + free text composed together). Listed here so a new run never inherits the
+    // last one's typing: the welcome now seeds it, so a stale value would be visible.
+    freeNotes: "",
   });
 
-  function beginCleanSetup() {
+  // `seed` is applied after the wipe and before the state change, so a caller can carry
+  // something into the fresh run without racing the render.
+  function beginCleanSetup(seed) {
     store.scripted = null;
-    Object.assign(store.ctx, emptyCtx());
+    Object.assign(store.ctx, emptyCtx(), seed || {});
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   }
 
+  // The welcome's box is the first step, not a warm-up: whatever was typed there is
+  // carried into the wizard's notes step verbatim, so a manager who wrote three lines on
+  // the first screen never types them twice. Read BEFORE beginCleanSetup, which wipes
+  // ctx. An empty box is fine and just starts the ordinary intake.
   function startNew() {
-    beginCleanSetup();
+    const typed = welcomeHost?.querySelector(".js-first-notes")?.value.trim() || "";
+    beginCleanSetup(typed ? { freeNotes: typed } : null);
   }
 
   root.querySelector(".js-startnew")?.addEventListener("click", startNew);

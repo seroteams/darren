@@ -1,22 +1,36 @@
-// The brief-first welcome (onboarding-firstrun Phase 2). start-core.js mounts through
-// the DOM, so its own guard reads source text; these are the real behaviour tests.
+// The "start typing" welcome (Carl picked option B of five, 2026-07-27). start-core.js
+// mounts through the DOM, so its own guard reads source text; these are the real
+// behaviour tests.
 //
-// The rule that matters most here: the sample brief on the welcome screen is the
-// seeded example's REAL prep brief, not copy written to look like one. If the fixture
-// ever changes, this file fails rather than letting the screen quietly show a brief
-// the manager can no longer find anywhere in the product.
+// The rule that matters most here: SAMPLE_BRIEF is the seeded example's REAL prep
+// brief, not copy written to look like one. The welcome no longer renders it, but five
+// prototypes quote it and the example run is still one click from this screen, so the
+// drift test stays: if the fixture changes, this file fails rather than letting the
+// product quietly show a brief the manager can no longer find anywhere.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { firstVisitHtml, videoIframeHtml, SAMPLE_BRIEF, POSITIONING_LINE, VIDEO, STEPS } from "./start-welcome.ts";
+import {
+  firstVisitHtml,
+  videoIframeHtml,
+  SAMPLE_BRIEF,
+  POSITIONING_LINE,
+  NOTES_PLACEHOLDER,
+  HEADLINE,
+  VIDEO,
+} from "./start-welcome.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const fixture = JSON.parse(readFileSync(join(here, "../../../content/demo/demo-run.json"), "utf8"));
 
 const html = firstVisitHtml();
 const withLink = firstVisitHtml({ exampleRunId: "run-123" });
+
+// The two banned dashes, assembled rather than written down (see the copy test below).
+const EM_DASH = String.fromCharCode(0x2014);
+const EN_DASH = String.fromCharCode(0x2013);
 
 test("the sample brief is the seeded example's real prep brief, verbatim", () => {
   const brief = fixture.state.preparationResult.brief;
@@ -28,87 +42,65 @@ test("the sample brief is the seeded example's real prep brief, verbatim", () =>
   assert.equal(SAMPLE_BRIEF.listenFor, brief.listenFor[0], "What to listen for = the real first listen-for");
 });
 
-test("the sample says it is a sample, on its face", () => {
-  assert.ok(html.includes("Sample brief"), "the card is labelled");
-  assert.ok(html.includes("How to open") && html.includes("What to explore") && html.includes("What to listen for"), "the three sections are named");
-  assert.ok(html.includes(SAMPLE_BRIEF.open), "the real brief text is rendered");
+test("the screen asks a question and gives somewhere to answer it", () => {
+  assert.ok(html.includes("Welcome to Sero"), "names the product");
+  assert.ok(html.includes(HEADLINE), "the headline is the question");
+  assert.ok(html.includes("js-first-notes"), "the notes box carries the hook Home reads on submit");
+  assert.ok(/<textarea/.test(html), "it is a real input, not a picture of one");
+  assert.ok(
+    html.indexOf(HEADLINE) < html.indexOf("js-first-notes"),
+    "the question comes before the box that answers it",
+  );
 });
 
-test("a stranger is told what Sero is and when to use it", () => {
-  assert.ok(html.includes("Welcome to Sero"), "names the product");
-  assert.ok(html.includes(POSITIONING_LINE), "the trigger line is on the screen");
-  assert.ok(/before your next 1:1/i.test(POSITIONING_LINE), "the line carries the moment of use, not just the promise");
+test("the empty box teaches the input style by being an example of it", () => {
+  assert.ok(html.includes(NOTES_PLACEHOLDER), "the placeholder is rendered");
+  assert.ok(!/^[A-Z]/.test(NOTES_PLACEHOLDER), "fragments, not sentences: no leading capital");
+  assert.ok(NOTES_PLACEHOLDER.includes("\n"), "more than one line, so it reads as rough notes");
+  assert.ok(
+    NOTES_PLACEHOLDER.toLowerCase().includes(SAMPLE_BRIEF.name.toLowerCase()),
+    "the same person as the example run: one story on this screen, not two",
+  );
+});
+
+test("the button sits in the box, and is still Home's ONE blue button", () => {
+  assert.ok(html.includes("js-start-slot"), "the slot is there for Home to move its button into");
+  assert.ok(!/class="btn\b/.test(html), "no second accent button is created here");
+  assert.ok(
+    html.indexOf("js-first-notes") < html.indexOf("js-start-slot"),
+    "the box is above its own submit",
+  );
+});
+
+test("what happens after the button is on the screen, in one line", () => {
+  assert.ok(html.includes(POSITIONING_LINE), "the line is rendered");
+  assert.ok(
+    /asks you (two|three|a few)/i.test(POSITIONING_LINE),
+    "it names the back and forth in the middle, or the brief looks like it came from nowhere",
+  );
+  assert.ok(/focus points/i.test(POSITIONING_LINE), "it names what comes out");
+  assert.ok(/sharper|better/i.test(POSITIONING_LINE), "it names the reason to run a second one");
+});
+
+test("the screen stays short: no complaint grid, no sample document", () => {
+  // The whole point of this rebuild. The previous welcome ran 1421px tall because it
+  // carried an eight-cell "what managers tell us" grid and a full sample brief before
+  // the manager could start anything.
+  assert.ok(!html.includes("start-step"), "no four-step teaching block");
+  assert.ok(!html.includes("start-pain"), "no grid of manager complaints");
+  assert.ok(!html.includes("start-sample__body"), "no sample brief document");
+  assert.ok(!/<section/.test(html), "one block, not a stack of sections");
 });
 
 test("the example link only exists when there is an example to open", () => {
   assert.ok(!html.includes("js-open-example"), "no link without a run id: never a dead end");
-  assert.ok(withLink.includes('js-open-example'), "the link appears when the account has the seeded run");
+  assert.ok(withLink.includes("js-open-example"), "the link appears when the account has the seeded run");
   assert.ok(withLink.includes('data-id="run-123"'), "it carries the run id");
 });
 
-test("the screen hosts Home's ONE blue button and brings none of its own", () => {
-  assert.ok(html.includes("js-start-slot"), "the slot is there for Home to move its button into");
-  assert.ok(!/class="btn\b/.test(html), "no second accent button is created here");
-});
-
-test("a stranger is told how it works, in four steps, benefit first", () => {
-  assert.equal(STEPS.length, 4, "four steps, matching the copy on the screen");
-  for (const [i, s] of STEPS.entries()) {
-    assert.ok(html.includes(s.benefit), `step ${i + 1}: the benefit is rendered`);
-    assert.ok(html.includes(s.title), `step ${i + 1}: the mechanism is rendered`);
-    assert.ok(
-      html.indexOf(s.benefit) < html.indexOf(s.title),
-      `step ${i + 1}: benefit comes before the mechanism (Dunford seat, committee 2026-07-26)`,
-    );
-  }
-});
-
-test("every step answers a named problem, and the pairing survives one column", () => {
-  // Version B's whole argument is the pairing. The complaint must render immediately
-  // before the step that answers it, because the phone layout is this same DOM order at
-  // one column: quote, answer, quote, answer.
-  for (const [i, s] of STEPS.entries()) {
-    assert.ok(html.includes(s.pain), `step ${i + 1}: the complaint is rendered`);
-    assert.ok(
-      html.indexOf(s.pain) < html.indexOf(s.benefit),
-      `step ${i + 1}: the complaint comes before the answer to it`,
-    );
-    if (i > 0) {
-      assert.ok(
-        html.indexOf(STEPS[i - 1].benefit) < html.indexOf(s.pain),
-        `step ${i + 1}: its complaint comes after the previous answer, so the pairs interleave`,
-      );
-    }
-  }
-});
-
-test("the complaints are things managers say, not verdicts on them", () => {
-  // Rogelberg seat, committee 2026-07-26. Reported behaviour survives being read by the
-  // manager it describes; a judgement on their management does not.
-  for (const s of STEPS) {
-    assert.ok(!/\bfail(ing|ure|ed)?\b/i.test(s.pain), `"${s.pain}" reads as a verdict`);
-    assert.ok(!/\bbad\b|\bpoor\b|\bterrible\b/i.test(s.pain), `"${s.pain}" reads as a verdict`);
-  }
-});
-
-test("the action sits above the teaching, not below it", () => {
-  // Seibel seat, committee 2026-07-26: four steps of education is four chances to
-  // bounce, so the way in must never be pushed under them.
-  assert.ok(
-    html.indexOf("js-start-slot") < html.indexOf(STEPS[0].pain),
-    "the button slot is rendered before the complaint-and-answer grid",
-  );
-  assert.ok(
-    html.indexOf(STEPS[3].benefit) < html.indexOf("Sample brief"),
-    "the steps explain before the sample proves",
-  );
-});
-
 test("the walkthrough is a line of text, not a black rectangle", () => {
-  // The old poster was the biggest, darkest object on the screen and on live it was
-  // showing YouTube Error 153. It is a link now.
   assert.ok(!html.includes("start-video__poster"), "no 16:9 poster block");
-  assert.ok(html.includes("start-video__link"), "a text link does the asking instead");
+  assert.ok(html.includes("start-quiet__link"), "a quiet text link does the asking instead");
 });
 
 test("nothing reaches YouTube until the manager clicks play", () => {
@@ -146,9 +138,10 @@ test("the player still carries the referrerpolicy that keeps YouTube from errori
 
 test("copy: UK English, no em dashes, no exclamation marks, no sub-14px inline font-size", () => {
   for (const [label, markup] of [["welcome", html], ["welcome+link", withLink]] as const) {
-    // Escapes, not the characters themselves: the copy linter scans this repo too.
-    assert.ok(!markup.includes("\u2014"), `${label}: no em dash (house rule)`);
-    assert.ok(!markup.includes(" \u2013 "), `${label}: no en dash separator either`);
+    // Built from char codes, never typed: the copy linter scans this repo too, so a
+    // literal em dash here would fail `npm run lint:copy` on the test that guards it.
+    assert.ok(!markup.includes(EM_DASH), `${label}: no em dash (house rule)`);
+    assert.ok(!markup.includes(` ${EN_DASH} `), `${label}: no en dash separator either`);
     assert.ok(!markup.includes("!"), `${label}: no exclamation marks`);
     for (const m of markup.matchAll(/font-size:\s*(\d+)px/g)) {
       assert.ok(Number(m[1]) >= 14, `${label}: inline font-size ${m[1]}px below the 14 floor`);
