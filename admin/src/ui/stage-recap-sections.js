@@ -1,101 +1,18 @@
-// Read-only review overlay. Opened from the top-bar breadcrumb so the user can
-// look back at any completed stage (Setup … Briefing) without leaving — or
-// re-running — the live one-way run. It NEVER calls setState({ stage }); it
-// only reads cached store fields plus getRunFull(sessionId) for the Q&A
-// transcript, which the store does not hold.
+// What each finished stage of a run looked like, as HTML.
+//
+// Lifted out of the old ui/stage-review.js overlay (stage-back-nav P1) so the
+// same renderers can be shown as a full page instead of a popup. They are pure
+// `(store, run) => html` functions: no DOM, no fetching, no setState. `run` is a
+// getRunFull() result, needed only for the Q&A transcript, which the store does
+// not hold.
+//
+// Class names are deliberately unchanged (`stage-review__*`) — the stylesheet
+// that dresses them, styles/design/stage-review.css, is shared with the run
+// detail screens and renaming would have been churn for nothing.
 
-import { getRunFull } from "../../../shared/api.js";
-import { attachModalBehaviour } from "./modal-shell.ts";
-import { TOPBAR_STAGES } from "./stage-labels.js";
 import { escapeHtml as esc } from "./html.js";
-import { icon } from "./icon.js";
-import { X } from "lucide";
 
-export function createStageReview({ store } = {}) {
-  let overlay = null;
-  let detach = null;
-  let run = null; // cached getRunFull result
-  let runId = null; // session it was fetched for
-
-  function close() {
-    // Detach BEFORE removing, so focus lands back on the breadcrumb that opened this.
-    if (detach) { detach(); detach = null; }
-    if (overlay) { overlay.remove(); overlay = null; }
-  }
-
-  async function open(stageKey) {
-    close();
-
-    overlay = document.createElement("div");
-    overlay.className = "stage-review";
-    overlay.setAttribute("role", "dialog");
-    overlay.setAttribute("aria-modal", "true");
-    overlay.setAttribute("aria-label", "Session review");
-    overlay.innerHTML = `
-      <div class="stage-review__backdrop"></div>
-      <div class="stage-review__panel">
-        <header class="stage-review__head">
-          <div class="stage-review__nav" role="tablist" aria-label="Review sections"></div>
-          <button type="button" class="stage-review__close" aria-label="Close review">${icon(X, { size: 16 })}</button>
-        </header>
-        <div class="stage-review__body"></div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-
-    overlay.querySelector(".stage-review__backdrop").addEventListener("click", close);
-    overlay.querySelector(".stage-review__close").addEventListener("click", close);
-    detach = attachModalBehaviour(overlay, { onClose: close });
-    // Focus has to enter the panel for the trap to hold it: this overlay declares
-    // aria-modal, so Tab used to walk straight out into the live run behind it.
-    overlay.querySelector(".stage-review__close").focus({ preventScroll: true });
-
-    renderNav(stageKey);
-    const body = overlay.querySelector(".stage-review__body");
-    body.innerHTML = `<p class="stage-review__loading caption">Loading session…</p>`;
-
-    // Fetch the full run once per session; reuse the cache on re-open.
-    if (store?.sessionId && (run == null || runId !== store.sessionId)) {
-      try {
-        run = await getRunFull(store.sessionId);
-        runId = store.sessionId;
-      } catch (e) {
-        console.warn("[stage-review] getRunFull failed:", e.message);
-      }
-    }
-    // The overlay may have been closed while awaiting.
-    if (!overlay) return;
-    renderSection(stageKey);
-  }
-
-  function renderNav(activeKey) {
-    const nav = overlay.querySelector(".stage-review__nav");
-    nav.innerHTML = TOPBAR_STAGES
-      .map(([key, label]) =>
-        `<button type="button" role="tab" class="stage-review__tab${key === activeKey ? " is-active" : ""}" data-stage="${key}" aria-selected="${key === activeKey}">${esc(label)}</button>`
-      )
-      .join("");
-    nav.querySelectorAll(".stage-review__tab").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        renderNav(btn.dataset.stage);
-        renderSection(btn.dataset.stage);
-      });
-    });
-  }
-
-  function renderSection(stageKey) {
-    const body = overlay.querySelector(".stage-review__body");
-    const html = SECTIONS[stageKey] ? SECTIONS[stageKey](store, run) : emptyBlock("Nothing to show for this stage.");
-    body.innerHTML = html;
-    body.scrollTop = 0;
-  }
-
-  return { open, close, el: () => overlay };
-}
-
-// --- Section renderers -------------------------------------------------------
-
-function emptyBlock(msg) {
+export function emptyBlock(msg) {
   return `<p class="stage-review__empty caption">${esc(msg)}</p>`;
 }
 
@@ -103,7 +20,7 @@ function head(title) {
   return `<div class="stage-review__section-title">${esc(title)}</div>`;
 }
 
-const SECTIONS = {
+export const SECTIONS = {
   INTAKE(store, run) {
     const ctx = store?.ctx || run?.ctx || {};
     const rows = [
@@ -234,6 +151,13 @@ const SECTIONS = {
     `;
   },
 };
+
+// Render one stage's recap, or a plain note when the key isn't one we cover.
+export function renderStageRecap(stageKey, store, run) {
+  return SECTIONS[stageKey]
+    ? SECTIONS[stageKey](store, run)
+    : emptyBlock("Nothing to show for this stage.");
+}
 
 function cap(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;

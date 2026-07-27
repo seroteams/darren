@@ -1,7 +1,8 @@
 // Fixed top-bar showing the run's stage progression. The current stage is
-// bolded; the rest are muted. Completed stages are clickable — they open a
-// read-only review overlay (the live run itself stays one-way; reviewing never
-// navigates back).
+// bolded; the rest are muted. Completed stages are clickable — they navigate to
+// the look-back screen (stages/stage-lookback.js), which shows what that stage
+// produced. The live run itself never moves backwards: `lookbackReturn` holds
+// the stage the run is really on, and the rail keeps drawing progress from it.
 // Left-anchored Session button opens a popover to save & exit or delete.
 // Mounted once in main.js, kept in sync by the store subscribe callback.
 
@@ -11,7 +12,6 @@ import { exitStage } from "./landing.ts";
 import { deleteRun } from "../../../shared/api.js";
 import { confirmAction } from "./confirm.js";
 import { TOPBAR_STAGES } from "./stage-labels.js";
-import { createStageReview } from "./stage-review.js";
 import { icon } from "./icon.js";
 
 // Rendered once — the check that marks a completed, reviewable stage.
@@ -35,6 +35,7 @@ const LOGO = `<svg viewBox="0 0 48 48" width="22" height="22" aria-hidden="true"
 const RUN_STAGES = new Set([
   ...TOPBAR_STAGES.map(([key]) => key), // INTAKE … BRIEFING
   STAGES.RUN_DEBRIEF,                   // post-run review
+  STAGES.STAGE_LOOKBACK,                // looking back at a finished stage — the rail is the way out
 ]);
 
 // Does this stage carry the stepper? The flow's constant spine, visible from the
@@ -64,7 +65,6 @@ function roleLabelOf(user) {
 }
 
 export function createSessionTopbar({ store, setState, resetSession } = {}) {
-  const stageReview = createStageReview({ store });
   const el = document.createElement("div");
   // Mount HIDDEN: whether a run is live is only known once boot's async auth
   // check resolves. Starting visible painted a stray "New 1:1" bar over the
@@ -201,8 +201,13 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     if (popover) closePopover(); else openPopover();
   });
 
-  function render({ stage, sessionId, user } = {}) {
-    const current = String(stage || "");
+  function render({ stage, sessionId, user, lookbackStage, lookbackReturn } = {}) {
+    // While looking back, the run has NOT moved: the rail draws its progress from
+    // the stage we'll return to, and the step being viewed gets its own marker on
+    // top. Both states are visible at once, so the bar never claims the run went
+    // backwards.
+    const viewing = stage === STAGES.STAGE_LOOKBACK ? lookbackStage : null;
+    const current = String((viewing ? lookbackReturn || stage : stage) || "");
     // On INTAKE (pre-run, usually no session id yet) the bar shows with Setup
     // current and everything ahead upcoming; the "New 1:1" menu only unlocks
     // once the run exists (its actions save/delete a live session) — until then
@@ -211,7 +216,6 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
       el.classList.add("is-hidden");
       document.body.classList.remove("has-session-topbar");
       if (popover) closePopover();
-      stageReview.close();
       return;
     }
 
@@ -254,6 +258,10 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
             // moved past the board (curIdx === -1, e.g. session review), every
             // stage is done.
             const status = curIdx === -1 || i < curIdx ? "done" : i === curIdx ? "current" : "upcoming";
+            // While looking back, the step you're on is the way home, so it has
+            // to be pressable too — otherwise the only exit is the button on the
+            // screen itself.
+            const clickable = status === "done" || (viewing && status === "current");
             // The rail leading into this step is "filled" once the step is reached
             // (done or current), grey while it's still ahead — a progress track.
             const railFilled = curIdx === -1 || i <= curIdx;
@@ -261,10 +269,12 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
               ? `<span class="stage-rail ${railFilled ? "is-filled" : "is-empty"}" aria-hidden="true"></span>`
               : "";
             const inner = `${status === "done" ? CHECK_MARK : '<span class="stage-step__dot" aria-hidden="true"></span>'}<span class="stage-step__label">${label}</span>`;
-            if (status === "done") {
-              return `${rail}<button type="button" class="stage-step is-done stage-step--clickable" data-stage="${key}" title="${fullLabel}">${inner}</button>`;
+            const viewCls = key === viewing ? " is-viewing" : "";
+            if (clickable) {
+              const aria = key === viewing ? ' aria-current="true"' : "";
+              return `${rail}<button type="button" class="stage-step is-${status}${viewCls} stage-step--clickable" data-stage="${key}" title="${fullLabel}"${aria}>${inner}</button>`;
             }
-            return `${rail}<span class="stage-step is-${status}" title="${fullLabel}">${inner}</span>`;
+            return `${rail}<span class="stage-step is-${status}${viewCls}" title="${fullLabel}">${inner}</span>`;
           }
         )
         .join("");
@@ -292,7 +302,20 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     );
 
     stages.querySelectorAll(".stage-step--clickable").forEach((btn) => {
-      btn.addEventListener("click", () => stageReview.open(btn.dataset.stage));
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.stage;
+        if (key === viewing) return;              // already looking at this one
+        if (key === current) {                    // the live step: go back to the run
+          setState({ stage: current, lookbackStage: null, lookbackReturn: null, stageTick: store.stageTick + 1 });
+          return;
+        }
+        setState({
+          stage: STAGES.STAGE_LOOKBACK,
+          lookbackStage: key,
+          lookbackReturn: current,                // never `stage` — that may already be STAGE_LOOKBACK
+          stageTick: store.stageTick + 1,
+        });
+      });
     });
 
     const noSession = !sessionId;

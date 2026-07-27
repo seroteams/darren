@@ -1,0 +1,102 @@
+/* -----------------------------------------------------------------------------
+   Stage look-back (stage-back-nav P1) — a finished stage of the run, shown as a
+   real screen instead of the old popup. Loaded by stages/stage-lookback.js, not
+   from design.css: only this screen needs it.
+
+   The card / list / transcript styling underneath comes from stage-review.css,
+   which the recap renderers still share with the run detail screens.
+----------------------------------------------------------------------------- */
+
+.lookback {
+  width: min(56rem, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* The one piece of new furniture: says where you are and names the way back.
+   Deliberately a single line, not a toolbar — the breadcrumb above is still the
+   primary way to move, and a second bar of controls would compete with it. */
+.lookback__band {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.7rem 1rem;
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+}
+.lookback__eye {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--color-accent-dark);
+}
+.lookback__what strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.lookback__back {
+  margin-left: auto;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.lookback__back:hover {
+  color: var(--color-ink);
+}
+
+.lookback__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* The recap cards were written for the old overlay, which supplied the white
+   panel behind them. On a page they need their own surface, or they read as
+   floating outlines on the page tint. */
+.lookback__body .stage-review__card {
+  background: var(--color-surface);
+}
+
+/* The breadcrumb step you are looking back at. Lives here rather than in
+   session-topbar.css so the look-back feature owns its own visual state: the
+   run's own "here" pill (.is-current) keeps its meaning, and this ring reads as
+   a second, temporary marker on top of it. */
+.session-topbar__stages .stage-step.is-viewing {
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+  /* The rail's narrow-width ladder hides every done step and keeps only the one
+     you're on. That would hide the step you came to look at, which is the whole
+     point of the marker, so this one always survives the collapse. */
+  display: inline-flex;
+}
+.session-topbar__stages .stage-step.is-viewing .stage-step__check {
+  color: var(--color-accent-dark);
+}
+/* Same reason: the collapsed rail drops labels from everything but the current
+   step. The viewed step keeps its name, otherwise it is an anonymous dot. The
+   selector is this long on purpose: it has to out-weigh
+   `.session-topbar.is-collapsed .stage-step:not(.is-current) .stage-step__label`
+   in session-topbar.css, which is five classes deep. */
+.session-topbar.is-collapsed .session-topbar__stages .stage-step.is-viewing .stage-step__label,
+.session-topbar.is-tight .session-topbar__stages .stage-step.is-viewing .stage-step__label,
+.session-topbar__stages .stage-step.is-viewing .stage-step__label {
+  display: inline;
+}
+
+@media (max-width: 640px) {
+  .lookback__back {
+    margin-left: 0;
+  }
+}

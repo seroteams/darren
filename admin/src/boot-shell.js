@@ -188,7 +188,12 @@ export function startShell({ loaders, syncUrl, appNav, profileBadge, fadeStages 
   let routedStage = null;
   let routedTick = null;
   subscribe((s) => {
-    topbar.render({ ctx: s.ctx, stage: s.stage, sessionId: s.sessionId, user: s.user });
+    topbar.render({
+      ctx: s.ctx, stage: s.stage, sessionId: s.sessionId, user: s.user,
+      // Look-back position, so the rail can mark the stage being viewed while
+      // still drawing the run's real progress (stage-back-nav P1).
+      lookbackStage: s.lookbackStage, lookbackReturn: s.lookbackReturn,
+    });
     appNav.render({ stage: s.stage, user: s.user });
     profileBadge.render({ stage: s.stage, user: s.user });
     notesPanel.render(s);

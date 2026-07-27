@@ -28,9 +28,10 @@ const REFITTED = [
   "give-access-modal.ts",
   "share-link-modal.ts",
   "finish-feedback-modal.js",
-  // Own their own DOM, so they take attachModalBehaviour rather than openModalShell.
+  // Owns its own DOM, so it takes attachModalBehaviour rather than openModalShell.
+  // (stage-review.js was the other one; the stage look-back replaced that overlay
+  // with a real screen in stage-back-nav P1, so there is no dialog left to trap.)
   "account-sheet.ts",
-  "stage-review.js",
 ];
 
 test("the focusable selector list is defined once, in the shell", () => {
@@ -99,8 +100,8 @@ test("the shell exports both shapes", () => {
   }
 });
 
-test("the two overlays that own their DOM take the behaviour helper", () => {
-  for (const name of ["account-sheet.ts", "stage-review.js"]) {
+test("the overlay that owns its own DOM takes the behaviour helper", () => {
+  for (const name of ["account-sheet.ts"]) {
     assert.match(
       read(`./${name}`),
       /attachModalBehaviour\(/,

@@ -32,6 +32,7 @@ export const loaders = {
   QUESTIONING:     () => import("./stages/questioning.js"),
   EVAL:            () => import("./stages/eval.js"),
   BRIEFING:        () => import("./stages/briefing.js"),
+  STAGE_LOOKBACK:  () => import("./stages/stage-lookback.js"), // a finished stage, re-opened read-only from the breadcrumb
   LEXICON_REVIEW:  () => import("./stages/lexicon-review.js"),
   RUN_DEBRIEF:     () => import("./stages/run-debrief.js"),
   COMPARE:         () => import("./stages/compare.js"),

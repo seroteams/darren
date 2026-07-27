@@ -29,6 +29,7 @@ const STAGES_OBJ = {
   QUESTIONING: "QUESTIONING",
   EVAL: "EVAL",
   BRIEFING: "BRIEFING",
+  STAGE_LOOKBACK: "STAGE_LOOKBACK",
   LEXICON_REVIEW: "LEXICON_REVIEW",
   RUN_DEBRIEF: "RUN_DEBRIEF",
   COMPARE: "COMPARE",
@@ -114,6 +115,11 @@ export interface Store {
   stageTick: number;
   regenerateFocusPoints: boolean;
   scripted: unknown;
+  // Stage look-back (stage-back-nav P1): which finished stage the user clicked in
+  // the run breadcrumb, and the live stage to send them back to. Both null unless
+  // stage === STAGE_LOOKBACK. The run's own `stage` is never moved backwards.
+  lookbackStage: StageName | null;
+  lookbackReturn: StageName | null;
   // Promises-before-recap (in `initial`, so resetSession clears them).
   promises: unknown;
   promisesConfirmed: boolean;
@@ -165,6 +171,11 @@ const initial = {
   stageTick: 0,
   regenerateFocusPoints: false,
   scripted: null,
+  // Look-back position. In `initial` so resetSession clears it: a stale
+  // lookbackStage would otherwise send the next run in this tab straight into a
+  // look-back screen for a session that no longer exists.
+  lookbackStage: null,
+  lookbackReturn: null,
   // Promises-before-recap. These MUST live in `initial`: resetSession() only
   // resets keys listed here, so a flag set ad-hoc on the store would leak into
   // the next run in the same tab (the old confirm card had exactly that bug).
