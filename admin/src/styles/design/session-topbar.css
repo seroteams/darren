@@ -182,12 +182,16 @@
   display: none;
 }
 /* Tight and phone: the word folds away, the door icon carries it. The button
-   itself never folds — it is the only way out of the lane. */
+   itself never folds — it is the only way out of the lane. Icon-only, it squares
+   up to the profile chip's 34px so the one escape hatch stays thumb-sized. */
 .session-topbar.is-tight .session-topbar__exit-word {
   display: none;
 }
 .session-topbar.is-tight .session-topbar__exit {
-  padding: 0.34rem 0.45rem;
+  justify-content: center;
+  padding: 0;
+  min-width: 34px;
+  min-height: 34px;
 }
 
 /* Who's signed in — initials circle + email pill, where the step counter used
@@ -296,12 +300,16 @@ body.has-session-topbar {
   .session-topbar__email {
     display: none;
   }
-  /* The exit keeps its place, wearing just the door icon. */
+  /* The exit keeps its place, wearing just the door icon, squared up to the
+     avatar beside it so it stays a thumb target on a phone. */
   .session-topbar__exit-word {
     display: none;
   }
   .session-topbar__exit {
-    padding: 0.34rem 0.45rem;
+    justify-content: center;
+    padding: 0;
+    min-width: 34px;
+    min-height: 34px;
   }
 }
 
