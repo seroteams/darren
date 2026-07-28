@@ -1340,3 +1340,26 @@ survived the phase intact and only its consumer changed. A boolean would have fo
 code shows the full rail too, so it proved nothing. Registering a brand-new manager against a local
 API was the only test that could tell the fix from the bug. The Browser pane could not screenshot
 (the pane was not compositing), so Playwright drove the walk instead.
+
+## 2026-07-28 — The empty states a new manager never reaches (empty-states P2)
+
+**The copy change.** Team, Past 1:1s and Members each described the absence ("you haven't done any
+1:1s yet") rather than the thing. Each now leads with what a filled screen holds, then how it
+fills up. Describing the absence answers a question nobody asked; describing the contents tells a
+new customer what the product is for.
+
+**The finding that outranked the change.** Verifying it needed genuinely empty data, and that is
+when the seeding showed up: signup already plants an example person and an example 1:1, and the
+Members table always contains you. So two of the three empty states are unreachable on a fresh
+account, and the third is unreachable full stop. The copy is still right for anyone who clears
+the example, and Carl accepted that. Worth remembering: **an empty state is only worth what its
+reachability is**, and seeding quietly takes that to zero.
+
+**A second button is a wiring change.** Adding a ghost Start 1:1 to the Past 1:1s empty card meant
+`wire()` had to move from `querySelector` to `querySelectorAll`. Team had hit exactly this before
+and the comment recording it is the only reason the trap was spotted rather than shipped.
+
+**Verification without a picture.** A parallel chat held the Playwright browser profile all
+session and the Browser pane was not compositing frames, so no screenshot was possible. Reading
+the live rendered DOM and clicking the real buttons proved the behaviour, and the phase file says
+in writing that a picture was not taken. Not the same standard, and recorded as such.

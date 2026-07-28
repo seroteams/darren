@@ -20,12 +20,12 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Un-quiet the rail | Manager rows always visible; quiet-rail tests retired | ✅ |
-| 2 | The three empty states | Team / Past 1:1s / Members match the approved mock | 🔨 |
+| 2 | The three empty states | Team / Past 1:1s / Members match the approved mock | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 GREEN-LIT 2026-07-28 (commit 2ac61fc6). Phase 2 in progress.**
+**PLAN COMPLETE 2026-07-28.** Phase 1 green-lit (commit 2ac61fc6), Phase 2 green-lit (commit d14d6d76). Both closed **unwalked**: Carl signed off on the evidence in chat rather than a click-walk. Phase 1 has a screenshot; Phase 2 does not (see its file). Nothing here is pushed live yet, so sero.team still shows the quiet rail until the next "go live".
 
 Baseline before Phase 1: `npm test` 198/199 (one pre-existing fail, `admin/src/stages/questioning-ready.test.ts`), typecheck clean.
 After Phase 1: `npm test` 198/200, typecheck clean, `lint:copy` clean. The two fails are the same pre-existing one plus `frontend/src/stages/person-detail.test.ts`, which belongs to another session's in-flight demo-member work. Every app-nav and first-visit test passes.

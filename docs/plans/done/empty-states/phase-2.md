@@ -1,6 +1,11 @@
 # Phase 2 — The three empty states
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT, awaiting Carl
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-28 — Carl picked A off the built work (commit d14d6d76)
+Closed **unwalked**, and without a screenshot: Carl signed off on the rendered-DOM and click
+evidence in chat. He also took option A on the seeded-example finding below, accepting that a
+brand-new signup does not reach the Team or Past 1:1s empty state.
 
 ## Built (2026-07-28)
 `frontend/src/stages/team.ts`, `frontend/src/stages/members.ts` and `admin/src/stages/runs.ts`
