@@ -5,7 +5,7 @@
 // classes as the admin rail (design.css owns the look), same mobile drawer behaviour.
 
 import { STAGES, isAdmin } from "../../../admin/src/state.ts";
-import { isFirstVisit, onFirstVisitChange, forgetFirstVisit } from "../../../admin/src/ui/first-visit.ts";
+import { forgetFirstVisit } from "../../../admin/src/ui/first-visit.ts";
 import { isRailFreeStage, urlForState } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
@@ -204,8 +204,8 @@ export function createAppNav({ setState, resetSession } = {}) {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
     if (resetSession) resetSession();
     // Logging out in this app is pure SPA (no reload), so whatever we learned about the
-    // last manager's 1:1s would otherwise be applied to the NEXT person who signs in:
-    // a veteran logging in after a first-timer would get the newcomer's stripped rail.
+    // last manager's 1:1s would otherwise be applied to the NEXT person who signs in —
+    // Home's first-run welcome would greet a veteran, or skip it for a newcomer.
     forgetFirstVisit();
     setState && setState({ user: null, stage: STAGES.LOGIN });
   }
@@ -226,14 +226,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.FEEDBACK]: "feedback",
   };
 
-  // The answer to "have they run a 1:1 yet?" arrives from Home's own fetch, after the
-  // shell has already rendered. Replaying the last render is how the rail responds to it
-  // without the shell having to know the question exists.
-  let lastRender = {};
-  onFirstVisitChange(() => render(lastRender));
-
   function render({ stage, user } = {}) {
-    lastRender = { stage, user };
     // The start/login/register screens stand alone — no nav rail. So does the privacy note
     // when a logged-out visitor opens it from the signup screen. And nobody gets a rail
     // while a 1:1 is being set up or run (audit F13): the run's own topbar is the only
@@ -258,17 +251,15 @@ export function createAppNav({ setState, resetSession } = {}) {
     // child — picks up the same background.
     document.body.dataset.navAudience = wanted;
     homeKey = wanted === "mgr" ? "mghome" : "runs";
-    // The quiet rail (onboarding-firstrun Phase 3): until a manager has run a single
-    // 1:1, the work rows stay away and the brief-first welcome is the only way in.
-    // The SHELL never goes with them — Log out lives here and nowhere else in the
-    // customer app, and What is Sero? / Send feedback have no other entrance. A member's
-    // rail is one row already, so this is managers only, and an unknown answer (a deep
-    // link, a claimed guest run) leaves the full rail alone.
-    const quiet = wanted === "mgr" && isFirstVisit();
+    // Every row of the signed-in audience's rail, from day one. This used to hide a new
+    // manager's work rows until their first 1:1 (the "quiet rail"), which left the app
+    // looking broken rather than new — each destination now says for itself what will
+    // appear there once it fills up (empty-states Phase 1). Home still opens on its
+    // first-run welcome; that's the hero's job, not the rail's.
     const alwaysShown = new Set(["logout", "about", "feedback"]);
     el.querySelectorAll(".app-nav__link[data-key]").forEach((b) => {
       if (alwaysShown.has(b.dataset.key)) return;
-      b.hidden = b.dataset[wanted] !== "1" || quiet;
+      b.hidden = b.dataset[wanted] !== "1";
     });
     const activeKeys = [].concat(ACTIVE_BY_STAGE[stage] || []);
     el.querySelectorAll(".app-nav__link").forEach((b) => {
