@@ -19,13 +19,20 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Un-quiet the rail | Manager rows always visible; quiet-rail tests retired | ⬜ |
+| 1 | Un-quiet the rail | Manager rows always visible; quiet-rail tests retired | 🔨 |
 | 2 | The three empty states | Team / Past 1:1s / Members match the approved mock | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-27. Mockup + board shared; waiting on Carl's read of the mock and the phases before Phase 1 starts. Baseline to be run at Phase 1 start.
+**Phase 1 BUILT and committed (2ac61fc6), not yet walked by Carl.** Phase 2 not started.
+
+Baseline before Phase 1: `npm test` 198/199 (one pre-existing fail, `admin/src/stages/questioning-ready.test.ts`), typecheck clean.
+After Phase 1: `npm test` 198/200, typecheck clean, `lint:copy` clean. The two fails are the same pre-existing one plus `frontend/src/stages/person-detail.test.ts`, which belongs to another session's in-flight demo-member work. Every app-nav and first-visit test passes.
+
+Verified on screen, not from code: registered a brand-new zero-run manager (`emptystate.qa@seroteams.com`) on a local API and walked it at localhost:3455. The full rail renders (Home, Start 1:1, Team, Past 1:1s, Members, What is Sero?, Send feedback, Log out) and Home still opens on its first-run welcome. Proof: [phase-1-proof.png](phase-1-proof.png).
+
+Not verified: mobile drawer at that width, and the member rail (unchanged by the edit, no reason to expect drift).
 
 ## Parked
 - Richer previews (ghost table rows, sample brief) inside the empty states — Carl asked for simple; revisit only if the simple version feels thin.
