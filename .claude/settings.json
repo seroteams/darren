@@ -49,13 +49,7 @@
           {
             "type": "command",
             "command": "powershell -NoProfile -Command \"[Console]::OutputEncoding=[Text.Encoding]::UTF8; Write-Output '[LANE BOARD] This folder is shared by parallel chats. As soon as your work area is clear, claim a lane: add a row to LANES.md (session = first 8 chars of your session id, narrow paths, today''s date). Remove your row when the work is committed. Full rules in LANES.md.'\""
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "powershell -NoProfile -Command \"[Console]::OutputEncoding=[Text.Encoding]::UTF8; Get-Content -Raw -Encoding UTF8 '.claude/hooks/guardrails-reminder.txt'\""
