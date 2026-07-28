@@ -13,7 +13,7 @@ open. The one thing worse than leaving something open is *hiding* that it's open
 
 - [ ] `git status --porcelain` + `git log --oneline -10`.
 - [ ] Read [STATUS.md](../../../STATUS.md) and glance at every `docs/plans/doing/<slug>/` folder.
-- [ ] Classify every changed/untracked file by owner (this is [safe-commit](../safe-commit/SKILL.md)'s
+- [ ] Classify every changed/untracked file by owner (this is [commit](../commit/SKILL.md)'s
       mine-vs-foreign call, done for the whole tree):
       - **Tie-off** — belongs to a green-lit phase or finished work that was never committed.
       - **Deliberately open** — a phase file says it stays uncommitted (awaiting proof or Carl's walk).

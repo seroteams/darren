@@ -32,7 +32,7 @@ Carl said "tested, good". Now every tracker moves together — this exact list, 
       [docs/reports/sero-how-it-works.html](../../../docs/reports/sero-how-it-works.html) +
       [docs/reports/sero-changelog.html](../../../docs/reports/sero-changelog.html) (manual refresh — they never self-update).
 - [ ] **7. Commit** — green light = commit, right away, local only (no push/PR unless asked).
-      Follow [safe-commit](../safe-commit/SKILL.md): path-scoped, never sweeping foreign work.
+      Follow [commit](../commit/SKILL.md): path-scoped, never sweeping foreign work.
 - [ ] **8. All phases ✅?** Move the folder to `docs/plans/done/<slug>/` and roll STATUS.md
       to the next active plan.
 

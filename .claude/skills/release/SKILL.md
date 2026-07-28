@@ -12,7 +12,7 @@ Take whatever's ready locally and get it live at **https://sero-obwq.onrender.co
 
 1. **Free checks first** (no cost). Run `npm test` and `npm run typecheck`.
    - Red? **Stop.** Say what failed in one plain sentence and ask whether to fix or release anyway. Don't push broken work silently.
-2. **Save anything unsaved.** If `git status` shows uncommitted work, run the [commit](../commit/SKILL.md) steps first (path-scoped, safe-commit). Nothing to commit → carry on.
+2. **Save anything unsaved.** If `git status` shows uncommitted work, run the [commit](../commit/SKILL.md) steps first (path-scoped, own files only). Nothing to commit → carry on.
 3. **Push.** `git push origin main`. This is what triggers Render.
 4. **Watch the deploy** (Render API — free). Read the key + service id:
    - Key: `.secrets/render-api-key` · Service id: `.secrets/render-service-id`

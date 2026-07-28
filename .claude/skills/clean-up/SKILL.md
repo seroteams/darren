@@ -29,7 +29,7 @@ feels big; each returns findings only.
 - [ ] `docs/plans/future/` — anything superseded by work that already shipped?
 
 ### Lens C — Git mess
-- [ ] `git status --porcelain` — classify every entry by owner (safe-commit's mine-vs-foreign
+- [ ] `git status --porcelain` — classify every entry by owner (the [commit](../commit/SKILL.md) skill's mine-vs-foreign
       call). Foreign/live-session work is REPORTED, never touched.
 - [ ] `git branch -vv` + `git branch --merged main` — merged-and-stale vs unmerged. For unmerged:
       what's on it (`git log main..<branch> --oneline`), finished or abandoned?
@@ -82,7 +82,7 @@ Then STOP and wait for Carl's picks. The sweep alone is a complete, useful deliv
 ## Pass 2 — TIDY (only what Carl picked)
 
 - [ ] Deletions of tracked files: path-scoped commit first (`git add <paths>` +
-      `git commit -- <paths>` — safe-commit rules), so everything is recoverable.
+      `git commit -- <paths>` — path-scoped, own files only), so everything is recoverable.
 - [ ] Stale-branch deletes: merged-only unless Carl explicitly named an unmerged one; quote what
       dies with it before deleting.
 - [ ] Tracker refreshes, stale-TODO removals, doc fixes: small path-scoped commits, one per theme.
