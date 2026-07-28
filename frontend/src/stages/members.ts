@@ -36,10 +36,12 @@ export const mount: Mount = async (root) => {
   });
   const shell = (inner: string) => `<div class="stage-medium l-stack l-stack--8">${header}${inner}</div>`;
 
+  // Says what a filled screen holds, not just that this one is empty (empty-states Phase 2).
   const emptyCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">No one has access yet</div>
-      <p class="text-ink-dim">This is where people who can log in to your workspace will appear.</p>
+      <p class="text-ink-dim">People who can log in to your workspace will appear here, with their name, email and role.</p>
+      <p class="text-ink-mute">You stay in control: access can be removed at any time.</p>
     </section>`;
   const errorCard = errorCardHtml({ title: "Couldn't load members" });
 

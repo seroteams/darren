@@ -1,6 +1,27 @@
 # Phase 2 — The three empty states
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 BUILT, awaiting Carl
+
+## Built (2026-07-28)
+`frontend/src/stages/team.ts`, `frontend/src/stages/members.ts` and `admin/src/stages/runs.ts`
+carry the approved copy: each card now says what a filled screen holds, then how it fills up.
+The manager's Past 1:1s card gains a ghost Start 1:1, so `wire()` moved from `querySelector` to
+`querySelectorAll` (the singular form would have wired the header's button and left the card's
+dead, the exact bug Team hit earlier). The member's Past 1:1s copy was rewritten in the same
+voice but keeps no action, since a member cannot start a 1:1.
+
+Offline: npm test 200/200, typecheck clean, lint:copy clean, lint:tokens clean.
+
+Verified in the running app at localhost:3455 on a fresh manager account, by reading the live
+rendered DOM and clicking through: all three cards show the new copy, and the card's ghost
+Start 1:1 navigates to the prep screen ("Who are you prepping for?").
+
+**Not verified: a screenshot.** The Playwright browser profile was held by a parallel chat all
+session, and the Browser pane was not compositing frames, so no picture could be taken. The
+proof above is real rendered text and real clicks, not a picture of the screen.
+
+See plan.md's "Open question for Carl": a brand-new signup does not actually reach the Team or
+Past 1:1s empty state, because an example person and example 1:1 are seeded.
 
 ## Goal
 Team, Past 1:1s and Members each greet a new manager with a simple empty state that says what the page will hold, matching the approved mockup.

@@ -68,10 +68,14 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   // Ghost buttons here — the header's solid "Add person" is the screen's one accent action.
+  // The copy describes what a filled screen holds rather than just saying it is empty
+  // (empty-states Phase 2): a manager seeing this on day one is still working out what the
+  // product does, and "nothing here" answers the wrong question.
   const emptyCard = `
     <section class="card-flat space-y-3">
       <div class="eyebrow">Your team starts here</div>
-      <p class="text-ink-dim">Add the people you manage, even before your first 1:1. Their history fills in as you prep and meet.</p>
+      <p class="text-ink-dim">The people you manage will appear here, each with their role and their 1:1 history with you.</p>
+      <p class="text-ink-mute">Add someone now, or they'll arrive on their own as you prep 1:1s.</p>
       <div class="l-cluster l-cluster--2">
         ${button({ label: "Add person", variant: "ghost", hook: "js-add" })}
         ${button({ label: "Start 1:1", variant: "ghost", hook: "js-start" })}

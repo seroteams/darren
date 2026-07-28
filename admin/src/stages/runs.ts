@@ -17,6 +17,7 @@ import { icon } from "../ui/icon.js";
 import { Star } from "lucide";
 import { formatDate, whenLabelsFor } from "../ui/time.ts";
 import { pageHeader } from "../ui/page-header.ts";
+import { button } from "../ui/button.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
@@ -103,19 +104,24 @@ export const mount: Mount = async (root, { setState }) => {
     : pageHeader({ title: "Past 1:1s", actionsHtml: `<button type="button" class="btn js-start">Start 1:1</button>` });
   const shell = (inner: string) => `<div class="stage-medium l-stack l-stack--8">${header}${inner}</div>`;
 
-  // The friendly empty state. A manager starts their first 1:1 from the header's Start
-  // button (the screen's one accent); a plain member can't start one (member-view:
-  // only-runs), so they just get a note that nothing's here yet.
+  // The friendly empty state. It describes what a filled list holds rather than only saying
+  // it is empty (empty-states Phase 2): a manager meeting this on day one is still working
+  // out what the product does. The card's Start 1:1 is a ghost, so the header's solid one
+  // stays the screen's single accent. A plain member can't start a 1:1 (member-view:
+  // only-runs), so theirs stays a note with no action.
   const emptyCard = isAdmin(store.user)
     ? `
     <section class="card-flat space-y-3">
       <div class="eyebrow">No 1:1s yet</div>
-      <p class="text-ink-dim">You haven't done any 1:1s yet. Start your first one and it'll show up here.</p>
+      <p class="text-ink-dim">Every 1:1 you prep lands here: who it was with, when, and the brief you walked in with.</p>
+      <p class="text-ink-mute">Start your first one and it appears at the top.</p>
+      <div>${button({ label: "Start 1:1", variant: "ghost", hook: "js-start" })}</div>
     </section>`
     : `
     <section class="card-flat space-y-3">
       <div class="eyebrow">No 1:1s yet</div>
-      <p class="text-ink-dim">Your past 1:1s will show up here once you've had one.</p>
+      <p class="text-ink-dim">The 1:1s your manager preps about you will appear here, with the date and the kind of conversation.</p>
+      <p class="text-ink-mute">Nothing to see until your first one.</p>
     </section>`;
 
   const errorCard = errorCardHtml({
@@ -130,7 +136,10 @@ export const mount: Mount = async (root, { setState }) => {
   };
 
   const wire = () => {
-    root.querySelector(".js-start")?.addEventListener("click", startOneOnOne);
+    // Two Start 1:1 buttons on the empty screen (header + card), so querySelectorAll: the
+    // singular form wired the header's and left the card's dead, which is exactly the bug
+    // Team hit when its empty state grew a second button.
+    root.querySelectorAll(".js-start").forEach((el) => el.addEventListener("click", startOneOnOne));
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
     root.querySelectorAll<HTMLElement>(".js-open").forEach((el) => {
       el.addEventListener("click", () => {

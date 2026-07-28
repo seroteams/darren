@@ -37,3 +37,16 @@ Not verified: mobile drawer at that width, and the member rail (unchanged by the
 ## Parked
 - Richer previews (ghost table rows, sample brief) inside the empty states — Carl asked for simple; revisit only if the simple version feels thin.
 - Any change to the member's one-row rail — members are untouched by this plan.
+
+## Open question for Carl (found while verifying Phase 2)
+A brand-new manager does **not** actually reach two of these three empty states, because signup
+already seeds content:
+- **Team** shows the example person (Sofia), so it is never empty on day one.
+- **Past 1:1s** shows her example 1:1, so it is never empty either. (Home still shows its
+  first-run welcome, because the example run is excluded from `hasRealRuns`.)
+- **Members** always contains you, so it is never empty at all.
+
+The copy is right and the states render correctly when the data IS empty (a manager who removes
+the example, or any older account). But Phase 2 does not change what a new signup sees. Worth
+deciding whether that is fine, or whether the seeded-example screens want their own first-run
+treatment. Not actioned; raised for Carl.
