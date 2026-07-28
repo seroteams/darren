@@ -1,6 +1,20 @@
 # Phase 1 — Un-quiet the rail
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-28 — Carl picked A off the built work (commit 2ac61fc6)
+Closed on the evidence in chat (screenshot of a fresh zero-run manager with the full rail
+plus the test/typecheck output), not a click-walk. Recorded as **closed unwalked**: the
+desktop rail and Home's welcome were verified on screen; the mobile drawer and the member
+rail were not re-checked, both being untouched by the edit.
+
+## Built (2026-07-28)
+`frontend/src/ui/app-nav.js` drops the quiet gate, the `isFirstVisit` import and the
+`onFirstVisitChange` re-render. `frontend/src/ui/app-nav-quiet.test.ts` retired, replaced by
+`frontend/src/ui/app-nav-rows.test.ts`; the first-visit module's own unit tests move to
+`admin/src/ui/first-visit.test.ts`. Proof screenshot at `phase-1-proof.png`.
+Offline: npm test 198/200 (both fails pre-existing or another session's in-flight work, every
+app-nav and first-visit test green), typecheck clean, lint:copy clean.
 
 ## Goal
 A manager with zero 1:1s sees the full manager rail from their first login.

@@ -1318,3 +1318,25 @@ each admin screen's list but never its second, inner recap view. Counting beats 
 keyframes with an opaque `0%` stop, not in `animation-delay` + `fill: backwards`. A backgrounded tab
 freezes the animation clock, and a backwards fill would strand the skeleton invisible: a blank
 screen instead of a flicker, which is far worse than the problem it solves.
+
+## 2026-07-28 — Empty states beat hiding (empty-states P1)
+
+**The bug Carl found by using it.** He signed in on a fresh manager account and asked why the app
+had no features. It had them; the rail was hiding them. The "quiet rail" shipped in July on a real
+argument (seven doors on day one is a lot for a first-timer) and solved it by subtraction: until a
+manager had run one 1:1, every work row was hidden and the brief-first welcome was the only door.
+
+**Why subtraction was the wrong tool.** An empty app and a broken app look identical. Hiding
+navigation removes the evidence that a product has features at all, which is exactly the thing a
+new customer is trying to work out. The replacement is additive: keep every row, and let each
+destination say for itself what will appear there once it fills up. Carl's words: "that way we can
+have an empty state that says here is what you would see."
+
+**A three-state answer earned its keep.** `first-visit.ts` deliberately distinguishes "nobody has
+asked" (`null`) from "no". The rail stopped asking, but Home's welcome still does, so the module
+survived the phase intact and only its consumer changed. A boolean would have forced a rewrite.
+
+**Verifying it needed a genuinely new account.** The dev session had runs, and with runs the OLD
+code shows the full rail too, so it proved nothing. Registering a brand-new manager against a local
+API was the only test that could tell the fix from the bug. The Browser pane could not screenshot
+(the pane was not compositing), so Playwright drove the walk instead.
