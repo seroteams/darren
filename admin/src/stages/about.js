@@ -81,7 +81,7 @@ export function managerHtml() {
   ).join("");
 
   return `
-    <div class="l-container l-stack l-stack--10">
+    <div class="stage-medium l-stack l-stack--10">
       ${heroHtml({
         title: "Walk into every 1:1 with a plan",
         lede: "You tell Sero who you're meeting and what's on your mind. It asks a few questions back, then writes a short brief to guide the conversation.",
@@ -127,7 +127,7 @@ export function managerHtml() {
 
 export function memberHtml() {
   return `
-    <div class="l-container l-stack l-stack--10">
+    <div class="stage-medium l-stack l-stack--10">
       ${heroHtml({
         title: "Your 1:1s, and what stays private",
         lede: "Sero is a tool your manager uses to prepare for your 1:1s. It helps them come to the conversation ready and focused.",
