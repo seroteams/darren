@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { personCard, teamList, filterPeople, initialsAvatar, type Person, type OrgUser, type PersonAccess } from "./team-card.ts";
+import { personCard, teamList, filterPeople, initialsAvatar, exampleChip, type Person, type OrgUser, type PersonAccess } from "./team-card.ts";
 
 // The Team card, post redesign (team-page-redesign Phase 3, reshaped by design-consolidation
 // Phase 1): ONE card (teamList) holding divider rows — one row per person. Access shows as ONE
@@ -84,6 +84,24 @@ test("filterPeople matches name or role as you type, case-insensitively", () => 
   assert.deepEqual(filterPeople(all, "priya").map((p) => p.key), ["p1"], "matches by name");
   assert.deepEqual(filterPeople(all, "ux des").map((p) => p.key), ["p2"], "matches by role");
   assert.deepEqual(filterPeople(all, "ZZZ"), [], "no match filters everyone out");
+});
+
+// ── demo-member P2: the seeded example person says so ────────────────────────────
+
+test("the example person carries an Example chip beside their name", () => {
+  const html = personCard({ ...joined, key: "p9", name: "Sofia", isDemo: true }, users);
+  assert.match(html, /team-card__name[\s\S]{0,300}chip chip--plain">Example</, "chip sits on the name row");
+});
+
+test("a real person is never labelled Example", () => {
+  assert.doesNotMatch(personCard(joined, users), /Example/, "flag absent");
+  assert.doesNotMatch(personCard({ ...none, isDemo: false }, users), /Example/, "flag explicitly false");
+});
+
+test("exampleChip only ever fires on a true flag, never on anything truthy-ish", () => {
+  assert.equal(exampleChip(undefined), "");
+  assert.equal(exampleChip(false), "");
+  assert.match(exampleChip(true), /chip chip--plain">Example</);
 });
 
 test("initialsAvatar is the one avatar recipe (shared with the Members table)", () => {

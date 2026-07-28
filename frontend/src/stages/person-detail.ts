@@ -10,7 +10,9 @@
 // only running the full pipeline from there spends, same as starting any 1:1).
 
 import { STAGES, store } from "../../../admin/src/state.ts";
-import { listMyRuns, getMyRun, listPeople } from "../../../shared/api.js";
+import { listMyRuns, getMyRun, listPeople, deletePerson } from "../../../shared/api.js";
+import { confirmAction, alertAction } from "../../../admin/src/ui/confirm.js";
+import { exampleChip } from "./team-card.ts";
 import { escapeHtml } from "../../../admin/src/ui/html.js";
 import { breadcrumb } from "../../../admin/src/ui/breadcrumb.ts";
 import { loadingHtml } from "../../../admin/src/ui/screen-scaffold.ts";
@@ -42,6 +44,7 @@ type Person = {
   lastMet: number;
   ratedCount: number;
   avgStars: number | null;
+  isDemo?: boolean; // the example person seeded at signup (demo-member)
 };
 type NextAction = { when?: string; action?: string };
 type Briefing = { next_actions?: NextAction[]; watch_for?: string[]; axes?: AxisRead[] } | null;
@@ -80,6 +83,7 @@ export function identityHtml(name: string): string {
           <h1 class="rd-name js-name">${escapeHtml(name || "Person")}</h1>
           <div class="person-summary js-sub"></div>
         </div>
+        <span class="js-example"></span>
       </div>
       <div class="page-header__actions js-actions"></div>
     </div>`;
@@ -190,11 +194,43 @@ export const mount: Mount = async (root, { setState }) => {
     if (crumbs) crumbs.innerHTML = breadcrumb([{ label: "Team", nav: "team" }, { label: name }]);
     wireCrumbs();
   };
+  // Only the seeded example person offers "Remove example" (demo-member P2). Set once the
+  // roster row is resolved, below; false until then so a slow load can never offer it.
+  let isExample = false;
+
+  // Clear the example: the person, their example 1:1 and its artifacts all go, through the
+  // roster's existing hard delete. Nothing of the manager's own is touched, because nothing
+  // of theirs is attached to this person. Land back on Team, which returns to its first-run
+  // empty state on its own.
+  const wireRemoveExample = () => {
+    root.querySelector(".js-remove-example")?.addEventListener("click", async () => {
+      const ok = await confirmAction({
+        message:
+          "Remove the example person and the example 1:1 that came with them? This cannot be undone. Nothing of your own is touched.",
+        confirmLabel: "Remove example",
+        destructive: true,
+      });
+      if (!ok) return;
+      try {
+        await deletePerson(store.personKey);
+      } catch {
+        await alertAction({ message: "Couldn't remove the example just now. Try again in a moment." });
+        return;
+      }
+      setState({ personKey: null, stage: STAGES.TEAM });
+    });
+  };
+
   // The screen's one blue action, a normal-size solid accent button in the header actions
   // row (M5 — was a full-width mid-page .btn--cta slab). Empty label = no action (error paths).
+  // The example's quiet Remove sits beside it as a ghost, so the blue stays on Start 1:1.
   const setActions = (label: string | null) => {
     const host = root.querySelector<HTMLElement>(".js-actions");
-    if (host) host.innerHTML = label ? button({ label, hook: "js-prep" }) : "";
+    if (!host) return;
+    host.innerHTML =
+      (isExample ? button({ label: "Remove example", variant: "ghost", hook: "js-remove-example" }) : "") +
+      (label ? button({ label, hook: "js-prep" }) : "");
+    wireRemoveExample();
   };
 
   const key = store.personKey;
@@ -208,7 +244,7 @@ export const mount: Mount = async (root, { setState }) => {
   }
 
   let runs: MyRun[];
-  let people: { id: string; name: string; role: string | null }[];
+  let people: { id: string; name: string; role: string | null; isDemo?: boolean }[];
   try {
     const [res, peopleRes] = await Promise.all([
       listMyRuns(),
@@ -216,7 +252,7 @@ export const mount: Mount = async (root, { setState }) => {
     ]);
     runs = Array.isArray(res?.runs) ? (res.runs as MyRun[]) : [];
     people = Array.isArray((peopleRes as { people?: unknown })?.people)
-      ? ((peopleRes as { people: { id: string; name: string; role: string | null }[] }).people)
+      ? ((peopleRes as { people: { id: string; name: string; role: string | null; isDemo?: boolean }[] }).people)
       : [];
   } catch {
     root.querySelector(".js-host")!.innerHTML = notice(
@@ -245,6 +281,11 @@ export const mount: Mount = async (root, { setState }) => {
   }
 
   setName(person.name);
+  // One flag, two things: the chip that labels the row and the action that clears it. A real
+  // person gets neither, and absent means real (demo-member P2).
+  isExample = person.isDemo === true;
+  const exampleHost = root.querySelector<HTMLElement>(".js-example");
+  if (exampleHost) exampleHost.innerHTML = exampleChip(person.isDemo);
   const sub = root.querySelector<HTMLElement>(".js-sub");
 
   // "Start 1:1" — seed a fresh intake with this person and open the form. Seeding is free;

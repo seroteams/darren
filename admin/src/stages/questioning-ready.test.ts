@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   readyCardHtml,
   readyReasons,
@@ -17,7 +18,10 @@ import {
 // outcome) and one primary that starts the meeting. With no brief it says so
 // instead of inventing a purpose.
 
-const HERE = path.dirname(new URL(import.meta.url).pathname);
+// fileURLToPath, not new URL().pathname: on Windows the latter yields "/C:/..." and
+// path.join then builds "C:\C:\...", so this whole file threw ENOENT before it ran a
+// single assertion. Every other source-reading test here uses the same helper.
+const HERE = path.dirname(fileURLToPath(import.meta.url));
 const HOST = fs.readFileSync(path.join(HERE, "questioning.js"), "utf8");
 
 const BRIEF = {

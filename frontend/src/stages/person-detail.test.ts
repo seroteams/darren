@@ -1,5 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { identityHtml, renderTabs, runRow, type MyRun } from "./person-detail.ts";
 
 // Person detail's pure render pieces (design-consolidation Phase 1, M5). The stage's
@@ -68,4 +71,45 @@ test("an unrated row still renders (no badge, chevron intact)", () => {
   const html = runRow({ ...run, rating: null });
   assert.doesNotMatch(html, /prep rating/);
   assert.match(html, /m9 18 6-6-6-6/);
+});
+
+// ── demo-member P2: the seeded example person, labelled and removable ────────────
+// mount() is browser-only, so the wiring is guarded against the source text (same
+// approach as auth-screens.test.ts / start-core.test.ts).
+
+const SRC = readFileSync(
+  join(dirname(fileURLToPath(import.meta.url)), "person-detail.ts"),
+  "utf8",
+);
+
+test("the identity header carries a slot for the Example chip", () => {
+  assert.match(identityHtml("Sofia"), /<span class="js-example"><\/span>/);
+});
+
+test("the chip comes from the one shared helper, never a second copy", () => {
+  assert.match(SRC, /import \{ exampleChip \} from "\.\/team-card\.ts"/, "shared with the Team card");
+  assert.match(SRC, /exampleHost\.innerHTML = exampleChip\(person\.isDemo\)/, "driven by the row's own flag");
+  assert.ok(!SRC.includes('">Example<'), "no hand-typed second chip");
+});
+
+test("Remove example is offered ONLY on the example person", () => {
+  assert.match(SRC, /let isExample = false;/, "false until the roster row proves otherwise");
+  assert.match(SRC, /isExample = person\.isDemo === true/, "absent means real");
+  assert.match(
+    SRC,
+    /isExample \? button\(\{ label: "Remove example", variant: "ghost"/,
+    "quiet ghost, so the blue stays on Start 1:1",
+  );
+});
+
+test("Remove example confirms first, then hard-deletes through the roster", () => {
+  assert.match(SRC, /confirmAction\(\{[\s\S]{0,400}destructive: true/, "destructive confirm dialog");
+  assert.match(SRC, /This cannot be undone\. Nothing of your own is touched\./, "says what it costs");
+  assert.match(SRC, /await deletePerson\(store\.personKey\)/, "the existing person delete cascade");
+  assert.match(SRC, /setState\(\{ personKey: null, stage: STAGES\.TEAM \}\)/, "lands back on Team");
+});
+
+test("a failed removal says so and stays put, rather than pretending it worked", () => {
+  assert.match(SRC, /catch \{[\s\S]{0,200}alertAction\(\{ message: "Couldn't remove the example/);
+  assert.match(SRC, /alertAction\(\{ message: "Couldn't remove the example[\s\S]{0,160}return;/, "no navigation on failure");
 });

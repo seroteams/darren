@@ -147,6 +147,29 @@ test("runs join onto their roster person by personId", () => {
   assert.equal(rows[0].lastMet, 200);
 });
 
+test("the seeded example person carries its flag through to the card (demo-member P2)", () => {
+  type DemoRow = Row & { isDemo: boolean };
+  const rows = buildRosterView(
+    [
+      { id: "p1", name: "Sofia", role: "Product Designer", isDemo: true },
+      { id: "p2", name: "Priya", role: "Engineer" },
+    ],
+    [],
+  ) as DemoRow[];
+  const byName = new Map(rows.map((r) => [r.name, r]));
+  assert.equal(byName.get("Sofia")!.isDemo, true, "the example is labelled");
+  assert.equal(byName.get("Priya")!.isDemo, false, "a real person is not");
+});
+
+test("a straggler run with no roster row is never guessed to be the example", () => {
+  type DemoRow = Row & { isDemo: boolean };
+  const rows = buildRosterView(
+    [],
+    [{ personId: "ghost", ctx: { name: "Nobody" }, lastSeenAt: 5, finished: true }],
+  ) as DemoRow[];
+  assert.equal(rows[0].isDemo, false, "absent means real");
+});
+
 test("the roster name wins over the run's ctx.name", () => {
   const rows = buildRosterView(
     [{ id: "p1", name: "Daniel Lee" }],

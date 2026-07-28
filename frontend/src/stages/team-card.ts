@@ -33,6 +33,7 @@ export type Person = {
   ratedCount: number;
   avgStars: number | null;
   met: boolean;
+  isDemo?: boolean; // the example person seeded at signup (demo-member)
 };
 export type OrgUser = { id: string; name: string; email: string };
 
@@ -42,6 +43,14 @@ export type OrgUser = { id: string; name: string; email: string };
  *  (component-consolidation P2) — a one-word name used to read "KK" here and "K" there. */
 export function initialsAvatar(name: string, mod: string): string {
   return `<div class="team-card__avatar team-card__avatar--${escapeHtml(mod)}" aria-hidden="true">${escapeHtml(initialsOf(name))}</div>`;
+}
+
+/** The "Example" label on the person seeded into every new account (demo-member P2). The
+ *  neutral chip on purpose: it names the row rather than drawing the eye to it, matching
+ *  the chip Home already puts on the example 1:1. Empty string for a real person, so the
+ *  label can only ever appear where the flag really is. */
+export function exampleChip(isDemo: boolean | undefined): string {
+  return isDemo === true ? `<span class="chip chip--plain">Example</span>` : "";
 }
 
 /** Client-side search over the already-fetched roster: name or role, case-insensitive. */
@@ -106,7 +115,7 @@ export function personCard(p: Person, orgUsers: OrgUser[]): string {
     <div class="team-card js-card-open" data-key="${escapeHtml(p.key)}">
       ${initialsAvatar(p.name, p.access.state)}
       <div class="team-card__who">
-        <div class="team-card__name"><button type="button" class="team-card__name-btn js-open-person" data-key="${escapeHtml(p.key)}">${escapeHtml(p.name)}</button>${role}</div>
+        <div class="team-card__name"><button type="button" class="team-card__name-btn js-open-person" data-key="${escapeHtml(p.key)}">${escapeHtml(p.name)}</button>${role}${exampleChip(p.isDemo)}</div>
         <div class="team-card__meta">${metaLine(p)}</div>
       </div>
       <div class="team-card__right">

@@ -55,6 +55,12 @@
 }
 .team-card__name-btn:hover { text-decoration: underline; }
 .team-card__role { color: var(--color-ink-dim); }
+/* The "Example" chip beside the seeded person's name (demo-member P2). The chip's own
+   geometry stays in the shared recipe; this only sets it apart from the role text. */
+.team-card__name .chip {
+  margin-inline-start: var(--sero-space-2);
+  vertical-align: middle;
+}
 
 /* The whole card opens the person (audit M8) — the cursor now tells the truth. */
 .team-card.js-card-open { cursor: pointer; }

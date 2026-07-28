@@ -24,11 +24,20 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Seed on signup | New registrations get the flagged demo person + finished example run; admin metrics exclude demo rows | ✅ |
-| 2 | Label + remove | "Example" badge on Home card, Team card and person detail; one-click "Remove example" with confirm | ⬜ |
+| 2 | Label + remove | "Example" badge on Home card, Team card and person detail; one-click "Remove example" with confirm | 🔨 Built 2026-07-28, awaiting Carl |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+Phase 2 🔨 BUILT 2026-07-28: the Example chip is on the Team card and the person-detail
+header (one shared `exampleChip()`), and "Remove example" clears the person, their example
+1:1 and its artifacts through the roster's existing hard delete. Proven on a real fresh
+signup: chip present, cancel changes nothing, confirm leaves people/runs/recent all at
+zero and Home back on its first-run welcome. 200/200, typecheck, three linters. **Not
+walked by Carl and not screenshotted.** Two pieces are NOT built because they sit inside
+lane `f4b03826`: the "See all past 1:1s" label (`admin/src/stages/runs.ts` + `isDemo` on
+`toMemberRow`) and the Team ⋯ menu shortcut. See [phase-2.md](phase-2.md).
+
 Phase 1 ✅ GREEN-LIT by Carl 2026-07-22 (commit 543a8cba) after the fresh-signup walk: register → Home shows the Sofia example 1:1, recap + Team render, admin metrics/returns exclude it, account delete clears it. Proof: npm test 169/169 (baseline 168/168), typecheck + both lints clean, live local verification in chat. Next: Phase 2 (Example badge + one-click remove) — not started, waits for a fresh session/day. Committee log: `logs/committee/2026-07-22-demo-member-on-signup.html`.
 
 ## Must agree with (added by the onboarding-firstrun lane, 2026-07-26)

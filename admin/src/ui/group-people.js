@@ -129,10 +129,14 @@ export function buildRosterView(people, runs) {
     if (stars >= 1 && stars <= 5) { s.starSum += stars; s.ratedCount += 1; }
   }
 
-  const row = (personId, name, role, s, userId = null, access = null) => ({
+  const row = (personId, name, role, s, userId = null, access = null, isDemo = false) => ({
     key: personId,
     name,
     userId, // the linked member account, when the roster row carries one (Phase 5)
+    // The example person seeded into every new account (demo-member). Unlabelled, a
+    // roster of one invented colleague reads as real data. Absent means real: a
+    // straggler run with no roster row is never guessed into being an example.
+    isDemo: isDemo === true,
     // The login-access state for the card (team-page-redesign Phase 3): none/invited/opened/joined
     // + inviteId (for Remind) + timestamps. Null for a straggler run with no roster row.
     access: access || { state: userId ? "joined" : "none", inviteId: null, invitedAt: null, openedAt: null },
@@ -149,7 +153,7 @@ export function buildRosterView(people, runs) {
   const rosterIds = new Set();
   const rows = (people || []).map((p) => {
     rosterIds.add(p.id);
-    return row(p.id, String(p?.name ?? ""), String(p?.role ?? ""), stats.get(p.id), p.userId ?? null, p.access ?? null);
+    return row(p.id, String(p?.name ?? ""), String(p?.role ?? ""), stats.get(p.id), p.userId ?? null, p.access ?? null, p.isDemo === true);
   });
   for (const [pid, s] of stats) {
     if (!rosterIds.has(pid)) rows.push(row(pid, s.name || "(unnamed)", s.role, s)); // straggler
