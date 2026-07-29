@@ -29,12 +29,18 @@ test("a hard situation with no stated strain is flagged", () => {
   assert.match(fails[0]!, /no strain stated/);
 });
 
-test("stated strain in the same answer is left alone", () => {
+test("anything they say about their OWN state is left alone", () => {
+  // Wider than distress on purpose. "Got a cold" is the real answer from the Machar
+  // Jun-11 run, which booked wellbeing -1 correctly: a cold is the person, not the
+  // situation. A gate that nags on a true positive teaches people to ignore it.
   for (const answer of [
     "honestly he's exhausted, been working most evenings",
     "said he's stressed about the handover",
     "sounds overwhelmed by the number of open threads",
     "burned out after the launch",
+    "Got a cold but hopefully gone in a few days.",
+    "shattered, hasn't been sleeping",
+    "just back from a week off, feels better for it",
   ]) {
     assert.deepEqual(
       runWellbeingSituationGate([turn(2, answer, -3)]),
@@ -69,6 +75,15 @@ test("null-safe on missing transcript, turns and fields", () => {
   assert.deepEqual(runWellbeingSituationGate([{ realized_deltas: {} }]), []);
   // A negative booked with no answer text recorded still flags: unverifiable is not clean.
   assert.equal(runWellbeingSituationGate([{ realized_deltas: { wellbeing: -1 } }]).length, 1);
+});
+
+test("sales vocabulary does not read as personal health", () => {
+  // "cold" is the one word here that a working answer can carry innocently, and this
+  // gate runs on 1:1s where partner and sales work come up constantly.
+  const fails = runWellbeingSituationGate([
+    turn(4, "cold outreach isn't converting and the pipeline is thin", -1),
+  ]);
+  assert.equal(fails.length, 1, "a cold-outreach answer is a situation, not their health");
 });
 
 test("other axes going negative is none of this gate's business", () => {

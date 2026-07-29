@@ -241,6 +241,25 @@ function runRationaleArcGate(
   return failures;
 }
 
+// Anything the report says about THEIR OWN state — not only distress. Deliberately
+// wider than WELLBEING_TRANSCRIPT_EVIDENCE, which the briefing check uses to ask a
+// different question ("is there evidence for a distress claim?"). This one asks
+// "did they say anything about themselves at all?", so physical health and plain
+// tiredness count. The Machar Jun-11 run answered "Got a cold but hopefully gone in
+// a few days" and booked wellbeing -1: correct, because a cold IS the person, and
+// flagging it would have taught us to distrust a true positive.
+//
+// "cold" excludes sales vocabulary, which appears in exactly the kind of 1:1 this runs on.
+//
+// The second clause is feelings language, added after the first version of this gate
+// wrongly flagged a real one: Maya's "the comments felt like proof she wasn't good
+// enough rather than feedback on the work" is unmistakably her own state, and no
+// keyword in the first clause appears in it. A detect-only warning that nags on true
+// positives is a warning people learn to scroll past, so this errs toward silence:
+// missing a mis-score costs a count, crying wolf costs the whole gate.
+const WELLBEING_PERSONAL_STATE =
+  /\b(stress|stressed|burnout|burned out|burnt out|overwhelmed|anxious|anxiety|exhausted|knackered|shattered|drained|run[- ]?down|tired|tiredness|fatigue|ill|unwell|sick|poorly|flu|migraine|headache|sleep|sleeping|insomnia|recovering|recovery|energy|can't cope|can't switch off|switch off|struggling emotionally|low energy|depressed|working evenings|working weekends|annual leave|holiday|signed off)\b|\b(?:time|days?|weeks?|fortnight|months?) off\b|\bcold\b(?!\s+(?:call|calling|outreach|email|lead|start|open))|\b(felt|feels|feeling|not good enough|imposter|confidence|self[- ]doubt|morale|demoralis|deflated|frustrated|upset|worried|worrying|dreading|beating (?:him|her|them)self up)\b/i;
+
 // runWellbeingSituationGate — machar-fixes P3. The LIVE sibling of
 // runWellbeingMeaningCheck, which only ever looked at the finished briefing.
 //
@@ -265,7 +284,7 @@ function runWellbeingSituationGate(transcript: GateTranscript): string[] {
     // Evidence must be in THIS turn's answer. Strain three turns ago does not
     // license a negative here, which is exactly the over-reach being caught.
     const answer = typeof t?.answer === "string" ? t.answer : "";
-    if (WELLBEING_TRANSCRIPT_EVIDENCE.test(answer)) continue;
+    if (WELLBEING_PERSONAL_STATE.test(answer)) continue;
     failures.push(
       `turn ${t?.turn ?? "?"} booked wellbeing ${booked} with no strain stated by the report: "${answer.slice(0, 80)}"`
     );

@@ -1,7 +1,9 @@
 {
-  "verdict": "PASS",
+  "verdict": "WARN",
   "hard_fails": [],
-  "warnings": [],
+  "warnings": [
+    "WELLBEING_SITUATION_LEAK: turn 2 booked wellbeing -1 with no strain stated by the report: \"agrees. been holding back more than usual\""
+  ],
   "briefing": {
     "headline": "Rachel’s quietness tracks to research landing after decisions are already set, not to a lack of ideas.",
     "summary_bullets": [

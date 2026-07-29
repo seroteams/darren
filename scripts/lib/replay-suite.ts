@@ -131,7 +131,14 @@ function runSuite({ only }: { only?: string } = {}) {
 // Returns "written" | "refused" | "skipped".
 function updateBaseline(result: ReturnType<typeof runCase>): "written" | "refused" | "skipped" {
   if (result.status === "error") return "skipped";
-  if (result.kind === "adversarial" && result.verdict !== "PASS") return "refused";
+  // An adversarial fixture must never be baselined with a SAFETY failure — that is
+  // the whole point of it. It keys on hard fails, not on the verdict: a WARN carries
+  // no hard fail, and warnings here are advisory by construction (AXIS_SILENT_SESSION,
+  // RULE_ECHO_MEANING, WELLBEING_SITUATION_LEAK). Before machar-fixes P4 this read
+  // `verdict !== "PASS"`, which conflated the two and meant any new advisory check
+  // permanently reddened every adversarial fixture it touched. The safety bar is
+  // unchanged: zero hard fails.
+  if (result.kind === "adversarial" && result.hardFails.length > 0) return "refused";
   const expected = {
     verdict: result.verdict,
     hard_fails: result.hardFails,

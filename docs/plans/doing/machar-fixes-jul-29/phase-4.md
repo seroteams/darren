@@ -1,6 +1,100 @@
 # Phase 4 — Plain words, sharper ask
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Findings:** F1, F5, F6
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built and run, **partly proven** · **Findings:** F1, F5, F6
+
+## Built and run (2026-07-29)
+
+### The paid run
+
+`node scripts/gate.js --only machar-biweekly-jun11` — a bi-weekly built from Machar's own June data,
+so it exercises the relational arc where all three changes apply. **Actual cost $0.1648**, under the
+$0.35 estimate. One run, as agreed. Log: `logs/gate/2026-07-29T04-25-25-271Z/result.json`.
+
+**The case came back REGRESSED**, on two hard fails: `EVIDENCE_ANCHOR` and `WRONG_MEETING_TYPE`.
+
+**Neither is attributable to this work, and one has a proven cause.** `WRONG_MEETING_TYPE` reported
+"only 0/4 arc stages covered". That check reads the **question bank**, and the run's own cost log
+shows the bank stage never ran at all: the calls were `01-focus-points`, `01b-preparation`,
+`01b-preparation-retry`, six `04-plan-turn`, `05-evaluation`. No `03-question-bank`, no
+`03-question-bank` folder in the run directory. An absent bank means an empty stage list means 0/4.
+`EVIDENCE_ANCHOR` is about focus points and `engagement_read` matching the manager's notes; this
+phase touched neither `generate-focus-points.md` nor the engagement-read rules.
+
+**Honest limit: I cannot say "pre-existing" with certainty**, because no gate baseline was taken
+before the work started (it is the paid one, and taking it would have doubled the spend). What can be
+said is that both failures are in stages this phase did not change, and one has a concrete
+non-attributable cause.
+
+### What the run earned: a defect in Phase 3's gate
+
+The gate run is the reason this was caught, and it is the best thing the $0.16 bought.
+`runWellbeingSituationGate` was **inert inside the suite**. It reads each turn's `realized_deltas`,
+and [`toLooseTranscript`](../../../../evals/trust-checks.ts) is a field whitelist that silently dropped
+them. The gate was correct, fired on the raw transcript, and reported nothing through
+`runTrustChecks`. The file already carried a comment warning about exactly this failure mode for the
+per-turn `note` field. Fixed, and proven by pushing Machar's own scenario through the full
+`runTrustChecks` path and watching it fire.
+
+### Turning it on against real history
+
+With the deltas flowing, the free offline replay suite re-graded all seven frozen runs. **Five of
+seven book a negative wellbeing delta on an answer where the person never described their own
+state.** That is the measured size of F4 across the back catalogue. The blatant ones:
+
+| Run | Answer that moved wellbeing negative |
+|---|---|
+| leak-devon | "Wants to present more often in the architecture review." (−1) |
+| marcus-lee | "wants to know if legal reviewed the new terms" (−1) |
+| sofia-martinez | "let's try the single review checkpoint next milestone" (−1) |
+
+**Known imprecision, stated rather than buried.** The evidence test is a keyword list, so it flags
+some genuine personal-state answers phrased without those words. One was found and fixed (Maya's
+"the comments felt like proof she wasn't good enough" is unmistakably her own state and now exempts).
+At least one remains: Sofia's "lower than usual, getting through things but with less momentum" is an
+energy answer and still flags. This is why the gate is a **warning, not a hard fail** — a false alarm
+costs noise, not a red build, and a gate that cries wolf is one people scroll past.
+
+### Changes
+
+| File | What changed |
+|---|---|
+| [plan-turn.md](../../../../content/prompts/plan-turn.md) | New **PLAIN WORDS, SHARP ASK** block in `<question_craft>`. Names the loaded nouns to avoid (`conflict`, `tension`, `friction`, `hard to manage`…) and says why: each is a diagnosis wearing a question. Then a four-row table turning description requests into questions that put the next move back on the person. |
+| [final-evaluation.md](../../../../content/prompts/final-evaluation.md) | **One thread per bullet** in `<summary_bullets_rule>` (F6). Machar: "this is the work that's okay, this is the conflict we've discussed... it probably wouldn't be in the same line." |
+| [trust-checks.ts](../../../../evals/trust-checks.ts) | `realized_deltas` survives the whitelist. The wellbeing gate emits a **warning** rather than a hard fail, with the reason written down. |
+| [golden-checks.ts](../../../../backend/engine/golden-checks.ts) | The gate gets its OWN evidence list rather than borrowing the briefing's distress regex, which asks a different question. Widened twice from real false positives. |
+| [replay-suite.ts](../../../../scripts/lib/replay-suite.ts) | ⚠️ **I widened a guard, flagging it for you.** An adversarial fixture refused baselining on `verdict !== "PASS"`, which treats a warning the same as a safety failure, so any new advisory check permanently reddens every safety fixture it touches. It now keys on **hard fails**. The safety bar is unchanged: zero hard fails on an adversarial case. Say the word and I will revert it. |
+| `evals/replay/*/expected.json` | Re-frozen, so the current count is the ceiling and a NEW occurrence goes red. Each warning is written into the fixture in full, so nothing is hidden by being expected. |
+
+**Free checks:** `npm test` **206/206**, typecheck clean, both linters, replay **7/7**.
+
+## ⚠️ What did NOT land
+
+**The "sharper ask" half is not proven, and on this evidence it probably did not work.** The six
+questions the run produced:
+
+1. How's the last two weeks actually felt, energy-wise? *(scripted opener)*
+2. You said "Got a cold…" what's behind that for you right now? *(thread-follow, fixed stem)*
+3. Where is the internal sell taking more time than it should right now?
+4. Where does that lack of understanding show up most with sales and BD?
+5. What would a good quarter look like for you from here?
+6. What's a piece of work you've been putting off because it would stretch you?
+
+**Plain words: yes.** No loaded nouns anywhere, though this case's material never tempted them.
+**Sharper ask: no.** Only #6 comes close to asking what *they* have done or will do. Numbers 3, 4 and
+5 are description requests, which is exactly what Machar called bland.
+
+Two caveats before concluding the rule failed: this case's notes are about internal selling and
+partner alliances with no team-conflict thread, so it is a weak test of his actual scenario; and two
+of the six questions are intro or thread-follow, which the rule exempts by design.
+
+**Wellbeing did behave.** Situation answers routed to clarity and engagement, not wellbeing, and the
+one wellbeing negative was "Got a cold" — the person's own state, correctly scored and correctly not
+flagged.
+
+**Committed local.** Nothing pushed.
+
+---
+
 
 ## Goal
 

@@ -1,7 +1,9 @@
 {
-  "verdict": "PASS",
+  "verdict": "WARN",
   "hard_fails": [],
-  "warnings": [],
+  "warnings": [
+    "WELLBEING_SITUATION_LEAK: turn 5 booked wellbeing -1 with no strain stated by the report: \"Wants to present more often in the architecture review.\""
+  ],
   "briefing": {
     "headline": "Devon is aiming at tech lead, and the session surfaced a real stretch path through cross-team scope and delegation.",
     "summary_bullets": [

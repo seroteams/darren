@@ -136,6 +136,8 @@ Exactly 2 bullets (1 in partial-read mode). Each must name one of:
 - A contradiction inside their own answers.
 - Something unspoken — a silence or deflection that carries signal.
 
+**One thread per bullet.** A bullet carries one subject. Never weld two unrelated threads into one line ("the beta test is on track, and there's friction in the team") — the reader has to unpick it, and the two halves need different responses. If the session had two threads worth naming, that is what the two bullets are for; if one thread deserves both, give it both. The same holds for `understanding_paragraph`: one thread, per its own rules.
+
 **Restatement test**: could a reader produce this bullet by reading a single answer in the transcript? If yes, it's a restatement — remove it. Fewer real bullets beats more hollow ones. 1 sharp bullet is better than 2 padded ones.
 
 **4-gram overlap hard rule**: no bullet may share 4 or more consecutive content words (stop words excluded) with `headline`. If enforcing this leaves only 1 valid bullet, emit only 1 — fewer real bullets beats restatement of the headline.

@@ -1,6 +1,12 @@
 # Phase 3 — A hard team is not a hard week
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl · **Finding:** F4
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Finding:** F4
+
+## ✅ GREEN-LIT 2026-07-29 — Carl signed off from the proof in chat (commit `b32fa269`)
+
+Approved with the correction stated: the −1 seed caused a first-paint flash, not the settled red
+score he and Machar reacted to. He also approved **one paid run at about $0.35** to close the engine
+half here plus P2's live check plus P4.
 
 ## Built (2026-07-29)
 

@@ -1,7 +1,13 @@
 {
-  "verdict": "PASS",
+  "verdict": "WARN",
   "hard_fails": [],
-  "warnings": [],
+  "warnings": [
+    "WELLBEING_SITUATION_LEAK: turn 2 booked wellbeing -1 with no strain stated by the report: \"Just the Hendricks renewal logistics — wants to know if legal reviewed the new t\"",
+    "WELLBEING_SITUATION_LEAK: turn 4 booked wellbeing -3 with no strain stated by the report: \"He said past experience — last year when he handed Brockman to a colleague for a\"",
+    "WELLBEING_SITUATION_LEAK: turn 5 booked wellbeing -3 with no strain stated by the report: \"He counted it out: client portfolio went from 6 to 9 accounts after Dana left in\"",
+    "WELLBEING_SITUATION_LEAK: turn 6 booked wellbeing -3 with no strain stated by the report: \"Quiet on this one. Said he skips the team standup most days now because it clash\"",
+    "WELLBEING_SITUATION_LEAK: turn 7 booked wellbeing -1 with no strain stated by the report: \"(Same question as the previous one, repeated verbatim.) Nothing new — he repeate\""
+  ],
   "briefing": {
     "headline": "Marcus looks worn down by one account becoming the whole job, and the load is now spilling into the rest of his week.",
     "summary_bullets": [

@@ -78,6 +78,7 @@ interface LooseTurn {
   skipped?: boolean;
   alias?: string;
   note?: string;
+  realized_deltas?: Record<string, number>;
   question?: LooseQuestion;
 }
 
@@ -107,6 +108,17 @@ function toLooseTranscript(v: unknown): LooseTurn[] {
     // answers; it MUST survive materialisation or the OVERDIAGNOSIS_ON_THIN gate
     // silently goes dark on substantive-but-thin reads.
     if (typeof r.note === "string") out.note = r.note;
+    // The per-turn booked deltas must survive too, or runWellbeingSituationGate goes
+    // dark exactly like the note-dropping case above. Found by the machar-fixes P4 gate
+    // run: the gate was correct, fired on the raw transcript, and reported nothing
+    // through the suite because this whitelist silently dropped the field it reads.
+    if (isObjectRecord(r.realized_deltas)) {
+      const deltas: Record<string, number> = {};
+      for (const [k, v] of Object.entries(r.realized_deltas)) {
+        if (typeof v === "number") deltas[k] = v;
+      }
+      out.realized_deltas = deltas;
+    }
     if (r.question !== undefined) out.question = toLooseQuestion(r.question);
     return out;
   });
@@ -121,7 +133,6 @@ const HARD_FAIL = {
   FOCUS_SHAPE_LEAK: "FOCUS_SHAPE_LEAK",
   QUESTION_ARC_LEAK: "QUESTION_ARC_LEAK",
   RATIONALE_ARC_LEAK: "RATIONALE_ARC_LEAK",
-  WELLBEING_SITUATION_LEAK: "WELLBEING_SITUATION_LEAK",
   ROLE_PROFILE_ARC_LEAK: "ROLE_PROFILE_ARC_LEAK",
   ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
@@ -496,10 +507,15 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // on them. The first corridor manager watched this happen to a team conflict. The
   // briefing-stage cousin of this rule already existed; the live per-turn score had
   // nothing. Detect-only; surfaces for a prompt fix, never edits a score.
-  const wellbeingSituation = runWellbeingSituationGate(turns);
-  if (wellbeingSituation.length) {
-    hard_fails.push(HARD_FAIL.WELLBEING_SITUATION_LEAK);
-    details.push(...wellbeingSituation);
+  //
+  // WARNING, not a hard fail, and deliberately so. Every run recorded before
+  // 2026-07-29 was scored under the old rule, so the whole back catalogue trips this
+  // — 5 of the offline replay fixtures do. Hard-failing would either make the replay
+  // suite permanently red or force us to re-baseline known-bad runs as expected,
+  // which would bury the very signal the gate exists to raise. It counts the problem
+  // honestly; promote it to a hard fail once new runs stop tripping it.
+  for (const w of runWellbeingSituationGate(turns)) {
+    warnings.push(`WELLBEING_SITUATION_LEAK: ${w}`);
   }
 
   // Warning, not a hard fail: a signal-free session is legitimately silent,

@@ -229,6 +229,23 @@ Every question you ADD or MODIFY must pass these:
 
 Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (what gets dropped); ask for the negative ("what's wasting time?", "where will this go wrong?"); specific over abstract; name names/outcomes; observation-first for personal probes ("I've noticed X — what's underneath?"); "what are you waiting on?" over "what's blocking you?"; offer the opt-out. Before emitting, ask: does it look like the weak column? If so, rewrite toward sharp.
 
+**PLAIN WORDS, SHARP ASK (hard).** These pull in opposite directions and BOTH are required. "Sharp" describes what you ask FOR. It never licenses heavier vocabulary.
+
+**1. Name what happened, not a label for it.** Use the person's own words from the transcript. Loaded abstract nouns are the tell: `conflict`, `tension`, `friction`, `dysfunction`, `resistance`, `pushback`, `the dynamic`, `the underlying issue`, and adjectives like `hard to manage`, `difficult`, `challenging`, `problematic`. Each one is a diagnosis wearing a question, and every manager hears a different thing in it. Say the situation instead: "the beta date slipping because two people both think the other owns it" costs a few more words and cannot be misread; "the conflict in the team" makes the person argue with the word before they answer.
+
+**2. Then put the next move back on them.** A question that only asks for a description leaves the work sitting with the manager. Ask what they have already done, tried, chosen, or said, and what came of it:
+
+| Description request (leaves it with you) | Puts it back on them |
+|---|---|
+| What's making the team conflict hard to manage right now? | What have you tried with the team so far, and what happened? |
+| How are you finding the tension in the team? | Who have you spoken to about it, and who's next? |
+| What's the situation with the delivery date? | What would you change to hold the date, and what would it cost? |
+| Can you tell me more about the handover problems? | What did you do the last time it dropped something? |
+
+Not every question: an opening or a wellbeing probe should not interrogate. But across the session, at least one question in the working part of the arc must ask for **their** action, not their account. This is the move the end-of-meeting summary already makes; it is worth more inside the room, while they can still answer it.
+
+**3. The plain-speech lint in `generate-questions.md` applies here too** — no coach-speak, no journal-prompt register, no business or military jargon. A question the person would never say aloud about their own work is the wrong question.
+
 </question_craft>
 
 <worked_examples>

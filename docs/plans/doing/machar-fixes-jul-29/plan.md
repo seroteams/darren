@@ -75,8 +75,8 @@ Dug out of the code so no phase stalls:
 |---|---|---|---|
 | 1 | The last screen stops interviewing them | The end-of-run prompt in Sero's voice, one question, return-intent signal kept | ✅ |
 | 2 | The opening merges both agendas | Asks what the employee wants from the session; "nothing specific" stops costing a turn | ✅ |
-| 3 | A hard team is not a hard week | Wellbeing scores the person, not the situation they describe; baseline and "why" bugs fixed | 🔨 built, awaiting Carl |
-| 4 | Plain words, sharper ask | Live questions lose the heavy vocabulary and gain the push-it-back move; recap's second summary separated | ⬜ |
+| 3 | A hard team is not a hard week | Wellbeing scores the person, not the situation they describe; baseline and "why" bugs fixed | ✅ |
+| 4 | Plain words, sharper ask | Live questions lose the heavy vocabulary and gain the push-it-back move; recap's second summary separated | 🔨 run, partly proven |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -99,7 +99,16 @@ asks for the other person's, wording taken unchanged; "nothing specific" mints n
 turn. Its live behaviour is deliberately unproven because reaching it costs a paid model call, and
 that check **rides P4's single paid run** rather than buying a second.
 
-**Phase 3 🔨 built 2026-07-29, awaiting Carl.** Wellbeing now reads the person rather than the
+**Phase 4 🔨 built and run 2026-07-29 — the paid run happened, cost $0.16 of the $0.35 budgeted, and
+the result is mixed.** Plain words landed; the sharper ask did not visibly land. The run also earned
+a real defect fix: P3's wellbeing gate was **inert** in the suite because a field whitelist dropped
+the deltas it reads. With that fixed, **5 of 7 frozen runs** turn out to book wellbeing negatives on
+answers where the person never described their own state. The gate case itself came back REGRESSED on
+two hard fails, both in stages this work never touched, one traced to the question-bank stage not
+running at all. Full account, including a guard I widened and a false-positive class I could not fully
+close, in [phase-4.md](phase-4.md). **Carl's call: strengthen the ask and buy a second run, or accept.**
+
+**Phase 3 ✅ green-lit 2026-07-29.** Wellbeing now reads the person rather than the
 difficulty of what they describe, in the axis definition and in the live scoring rule; a new
 detect-only gate flags a negative booked without stated strain; and three UI faults are fixed (the
 seed disagreed with the engine in three places, the recap's first paint flashed a red −1, and one

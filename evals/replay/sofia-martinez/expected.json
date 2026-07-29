@@ -1,7 +1,12 @@
 {
-  "verdict": "PASS",
+  "verdict": "WARN",
   "hard_fails": [],
-  "warnings": [],
+  "warnings": [
+    "WELLBEING_SITUATION_LEAK: turn 2 booked wellbeing -3 with no strain stated by the report: \"lower than usual. getting through things but with less momentum\"",
+    "WELLBEING_SITUATION_LEAK: turn 3 booked wellbeing -3 with no strain stated by the report: \"the redesign has lots of small stakeholder revisions. death by a thousand tweaks\"",
+    "WELLBEING_SITUATION_LEAK: turn 4 booked wellbeing -3 with no strain stated by the report: \"feedback comes scattered across three channels - spends a lot of time chasing wh\"",
+    "WELLBEING_SITUATION_LEAK: turn 9 booked wellbeing -1 with no strain stated by the report: \"let's try the single review checkpoint next milestone and see if it calms the ch\""
+  ],
   "briefing": {
     "headline": "Sofia is still into the work, but the review loop is draining her and blurring what matters.",
     "summary_bullets": [
