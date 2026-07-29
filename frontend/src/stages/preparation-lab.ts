@@ -171,20 +171,49 @@ function renderF(s: BriefSlots): string {
   </div>`;
 }
 
-// G "Bento" — varied-size card grid: the opener card is tinted and double
-// width, lists get list cards, action row runs wide. Sizes vary on purpose.
+// Split a listen-for item into its lead clause and the rest, so the card can be
+// scanned mid-conversation. Emphasis only — the words are never changed. Splits
+// on the first sentence end, else the first comma, and only when the lead lands
+// in a sensible band; anything else stays unemphasised rather than mis-cut.
+export function leadClause(item: string): { lead: string; rest: string } {
+  const stop = /^(.{15,90}?[.?!])\s+(\S.*)$/s.exec(item);
+  if (stop && stop[1] && stop[2]) return { lead: stop[1], rest: stop[2] };
+  const comma = /^(.{15,70}?),\s+(\S.*)$/s.exec(item);
+  if (comma && comma[1] && comma[2]) return { lead: `${comma[1]},`, rest: comma[2] };
+  return { lead: "", rest: item };
+}
+
+// Listen-for as a live checklist: each line leads with its point and ticks off
+// as the manager hears it. Pure CSS state (a checkbox + sibling selector), so
+// this module stays a string renderer with no DOM and nothing persisted.
+function bentoTicks(items: string[]): string {
+  const rows = items
+    .map((item) => {
+      const { lead, rest } = leadClause(item);
+      const text = lead ? `<b>${esc(lead)}</b> ${esc(rest)}` : esc(rest);
+      return `<li><label class="pv-g__tick"><input type="checkbox"><span>${text}</span></label></li>`;
+    })
+    .join("");
+  return `<ul class="pv-g__ticks">${rows}</ul>`;
+}
+
+// G "Bento" — an asymmetric mosaic on a 4-column grid. Three surface tiers sort
+// the content at a glance: loud (the opener, tinted and triple width), working
+// (listen-for and the during-the-1:1 row, on card surface), context (theme,
+// don't-assume, confidence, leave-with, flat and borderless). Cells start rather
+// than stretch, so a short card stays short and listen-for drives its own height.
 function renderG(s: BriefSlots): string {
   const cell = (label: string, body: string, mod = "") =>
     body ? `<div class="pv-g__cell${mod ? ` ${mod}` : ""}">${label ? eyebrow(label) : ""}${body}</div>` : "";
   const para = (t: string) => (t ? `<p>${esc(t)}</p>` : "");
   return `<div class="pv pv-g">
     ${s.opener ? cell(SLOT_LABELS.opener, `<p class="pv-g__opener">${esc(s.opener)}</p>`, "pv-g__cell--opener") : ""}
-    ${s.confidence ? cell("", `${confMeter(s.confidenceLevel)}<p class="pv-g__confidence">${esc(s.confidence)}</p>`, "pv-g__cell--quiet") : ""}
-    ${cell(SLOT_LABELS.theme, para(s.theme))}
-    ${s.listenFor.length ? cell(SLOT_LABELS.listenFor, prepList(s.listenFor)) : ""}
-    ${s.dontAssume.length ? cell(SLOT_LABELS.dontAssume, prepList(s.dontAssume)) : ""}
-    ${cell(SLOT_LABELS.yourMove, para(s.yourMove), "pv-g__cell--wide")}
-    ${cell(SLOT_LABELS.leaveWith, para(s.leaveWith))}
+    ${s.confidence ? cell("", `${confMeter(s.confidenceLevel)}<p class="pv-g__confidence">${esc(s.confidence)}</p>`, "pv-g__cell--ctx pv-g__cell--conf") : ""}
+    ${s.listenFor.length ? cell(SLOT_LABELS.listenFor, bentoTicks(s.listenFor), "pv-g__cell--work pv-g__cell--listen") : ""}
+    ${s.dontAssume.length ? cell(SLOT_LABELS.dontAssume, prepList(s.dontAssume), "pv-g__cell--ctx pv-g__cell--assume") : ""}
+    ${cell(SLOT_LABELS.theme, para(s.theme), "pv-g__cell--ctx pv-g__cell--theme")}
+    ${cell(SLOT_LABELS.yourMove, para(s.yourMove), "pv-g__cell--work pv-g__cell--move")}
+    ${cell(SLOT_LABELS.leaveWith, para(s.leaveWith), "pv-g__cell--ctx pv-g__cell--leave")}
   </div>`;
 }
 
@@ -287,7 +316,7 @@ const PV_THUMB: Record<VariantId, string> = {
   D: `<span class="pv-thmb pv-thmb--flat">${tbar("70%")}${tbar("100%", true)}${tbar("80%")}${tbar("100%", true)}${tbar("60%")}</span>`,
   E: `<span class="pv-thmb pv-thmb--stack"><b class="pv-tblk pv-tblk--tall"></b><hr class="pv-thr">${tbar("70%", true)}${tbar("85%")}</span>`,
   F: `<span class="pv-thmb pv-thmb--hero"><b class="pv-tblk pv-tblk--hero"></b>${tbar("40%", true)}<span class="pv-trow pv-trow--3"><i></i><i></i><i></i></span></span>`,
-  G: `<span class="pv-thmb pv-thmb--bento"><b class="pv-tblk pv-tblk--span2"></b><i></i><i></i><i></i><b class="pv-tblk pv-tblk--span2 pv-tblk--short"></b></span>`,
+  G: `<span class="pv-thmb pv-thmb--bento"><b class="pv-tblk pv-tblk--span3"></b><i></i><b class="pv-tblk pv-tblk--span2 pv-tblk--tall2"></b><b class="pv-tblk pv-tblk--span2 pv-tblk--short"></b><b class="pv-tblk pv-tblk--span2 pv-tblk--short"></b><b class="pv-tblk pv-tblk--span3"></b><i></i></span>`,
   H: `<span class="pv-thmb pv-thmb--sheet"><span class="pv-tpaper">${tbar("30%", true)}${tbar("85%")}${tbar("70%")}${tbar("80%")}</span></span>`,
   I: `<span class="pv-thmb pv-thmb--split"><span class="pv-trail">${tbar("70%")}${tbar("60%")}</span><span class="pv-tcol">${tbar("90%")}${tbar("80%")}${tbar("70%")}</span></span>`,
   J: `<span class="pv-thmb pv-thmb--contrast"><b class="pv-tband"></b>${tbar("85%")}<span class="pv-trow"><i></i><i></i></span></span>`,

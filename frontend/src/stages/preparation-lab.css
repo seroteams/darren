@@ -220,24 +220,33 @@
   width: 80%;
   height: 9px;
 }
+/* Bento tile — mirrors the mosaic itself: wide opener + narrow confidence, a
+   tall listen-for beside two short context cards, then a wide closing row. */
 .pv-thmb--bento {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 5px;
+  gap: 2px;
+  align-content: center;
 }
 .pv-thmb--bento .pv-tblk,
 .pv-thmb--bento i {
-  min-height: 7px;
+  min-height: 0;
   border-radius: 2px;
   background: var(--color-accent);
   opacity: 0.85;
 }
-.pv-tblk--span2 {
-  grid-column: 1 / -1;
-  height: 9px;
+.pv-thmb--bento .pv-tblk--span3 {
+  grid-column: span 3;
 }
-.pv-tblk--short {
-  height: 6px !important;
+.pv-thmb--bento .pv-tblk--span2 {
+  grid-column: span 2;
+}
+.pv-thmb--bento .pv-tblk--tall2 {
+  grid-row: span 2;
+}
+.pv-thmb--bento .pv-tblk--short {
+  opacity: 0.45;
 }
 .pv-thmb--sheet {
   justify-content: center;
@@ -545,23 +554,24 @@
   }
 }
 
-/* G — Bento: varied-size card grid. Cards per the system (surface, 1px
-   border, 12px radius, never nested); the opener card is tinted and double
-   width so no two rows read alike. */
+/* G — Bento: an asymmetric mosaic on four columns. Cards per the system (12px
+   radius, never nested), but in three surface tiers so the eye can sort them:
+   LOUD (the opener, tinted, triple width), WORKING (listen-for and the
+   during-the-1:1 row, on card surface with a border), CONTEXT (flat page fill,
+   no border). Cells start rather than stretch, so a short card stays short and
+   the varied heights are the point. */
 .pv-g {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--sero-space-4);
-  align-items: stretch;
+  align-items: start;
 }
 .pv-g__cell {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border-tinted);
   border-radius: var(--radius-card);
   padding: var(--sero-space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--sero-space-2);
+  gap: var(--sero-space-3);
   min-width: 0;
 }
 .pv-g__cell p {
@@ -570,34 +580,148 @@
   line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
+/* Tier: working */
+.pv-g__cell--work {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-tinted);
+}
+/* Tier: context — same card surface, no border. On the tinted page ground that
+   reads as a quieter sibling of the working cards, not as a hole. */
+.pv-g__cell--ctx {
+  background: var(--color-surface);
+  border: 1px solid transparent;
+}
+/* Tier: loud — the one line to walk in with, so it leads and it dominates */
 .pv-g__cell--opener {
-  grid-column: span 2;
+  grid-column: span 3;
   background: var(--color-accent-soft);
 }
 .pv-g__opener {
-  font-size: var(--type-h4);
+  font-family: var(--type-family-display);
+  font-size: var(--type-h3);
   font-weight: var(--type-weight-medium);
-  line-height: var(--type-leading-normal);
+  line-height: var(--type-leading-snug);
+  text-wrap: pretty;
 }
-.pv-g__cell--quiet {
-  background: transparent;
-  border-color: transparent;
-  justify-content: center;
+
+/* Confidence: a quiet filled panel beside the opener. It used to be transparent
+   and borderless in prime top-right, which read as a hole rather than a note. */
+.pv-g__cell--conf {
+  grid-column: span 1;
+}
+.pv-g__cell--conf .conf {
+  align-self: flex-start;
 }
 .pv-g__confidence {
   font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
-.pv-g__cell--wide {
+
+/* Three rows, none alike: 3+1 opener row, an even 2+2 working pair, then a
+   2+1+1 closing row. No row spans, so no card is stretched and no gap is left
+   under a short one. */
+.pv-g__cell--listen,
+.pv-g__cell--assume,
+.pv-g__cell--move {
   grid-column: span 2;
+}
+.pv-g__cell--theme,
+.pv-g__cell--leave {
+  grid-column: span 1;
+}
+
+/* The one cautionary card: the only slot written in the negative, marked once
+   with the fix/partial accent and nowhere else on the page. */
+.pv-g__cell--assume {
+  border-left: 2px solid var(--color-amber);
+}
+.pv-g__cell--assume .eyebrow {
+  color: var(--color-amber);
+}
+
+/* Listen-for as a live checklist: lead clause in bold, tick it off as you hear
+   it. Pure CSS state, nothing stored. */
+.pv-g__ticks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pv-g__tick {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sero-space-3);
+  padding: var(--sero-space-2);
+  margin: 0 calc(var(--sero-space-2) * -1);
+  border-radius: var(--sero-radius-sm);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+.pv-g__tick:hover {
+  background: var(--color-page);
+}
+.pv-g__tick input {
+  appearance: none;
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin-top: 3px;
+  border: 1.5px solid var(--color-border-tinted);
+  border-radius: var(--sero-radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+  position: relative;
+}
+.pv-g__tick input:checked {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.pv-g__tick input:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 9px;
+  border: solid var(--color-surface);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.pv-g__tick input:focus-visible {
+  outline: 2px solid var(--color-accent-dark);
+  outline-offset: 2px;
+}
+.pv-g__tick span {
+  font-size: var(--type-body);
+  line-height: var(--type-leading-normal);
+  color: var(--color-ink);
+}
+.pv-g__tick b {
+  font-weight: var(--type-weight-semibold);
+}
+.pv-g__tick input:checked ~ span {
+  color: var(--color-ink-mute);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-border-tinted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-g__tick {
+    transition: none;
+  }
 }
 @media (max-width: 768px) {
   .pv-g {
     grid-template-columns: 1fr;
   }
   .pv-g__cell--opener,
-  .pv-g__cell--wide {
+  .pv-g__cell--conf,
+  .pv-g__cell--listen,
+  .pv-g__cell--theme,
+  .pv-g__cell--assume,
+  .pv-g__cell--move,
+  .pv-g__cell--leave {
     grid-column: auto;
+    grid-row: auto;
   }
 }
 
