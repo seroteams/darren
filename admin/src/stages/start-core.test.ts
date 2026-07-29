@@ -175,23 +175,20 @@ test("the ONE blue button moves into the welcome; no second button is ever creat
   assert.equal(accents.length, 1, "still exactly one accent button in this screen's markup");
   assert.ok(/slot\.appendChild\(startBtn\)/.test(SRC), "the existing node is moved, not re-rendered");
   assert.ok(
-    /startBtn\.textContent = "Get my brief"/.test(SRC),
-    "in the welcome it is the notes box's submit, so it says what the typing buys",
+    /startBtn\.textContent = "Prep your first 1:1"/.test(SRC),
+    "in the welcome it names the newcomer's own first run, next to somebody else's example",
   );
   assert.ok(/headerActions\.appendChild\(startBtn\)/.test(SRC), "and moves back to the header once there are 1:1s");
 });
 
-test("what was typed on the welcome is carried into the prep wizard, not thrown away", () => {
-  // The welcome's box IS the first step ("start typing", 2026-07-27). If this handoff
-  // breaks, the screen silently becomes a decorative textarea and the manager types
-  // their notes twice.
-  assert.ok(/\.js-first-notes/.test(SRC), "the welcome's box is read on submit");
-  assert.ok(/freeNotes: typed/.test(SRC), "the text lands in the notes step's own field");
-  assert.ok(
-    SRC.indexOf(".js-first-notes") < SRC.indexOf("beginCleanSetup(typed"),
-    "read before the wipe: beginCleanSetup resets ctx",
-  );
-  assert.ok(/freeNotes: ""/.test(SRC), "and a fresh run never inherits the last one's typing");
+// The "start typing" welcome (option B, 2026-07-27) put a notes box on this screen and
+// carried its text into the wizard. Option C replaced it with the example brief, so the
+// box and its handoff are gone: a leftover reader here would be dead code pointing at an
+// element that no longer exists.
+test("no welcome notes box survives: the wizard's notes step is the only place to type", () => {
+  assert.ok(!SRC.includes("js-first-notes"), "no reader for a box this screen no longer renders");
+  assert.ok(!/freeNotes: typed/.test(SRC), "no handoff from a welcome that has no input");
+  assert.ok(/freeNotes: ""/.test(SRC), "a fresh run still never inherits the last one's typing");
 });
 
 test("the returning manager's header copy is unchanged", () => {

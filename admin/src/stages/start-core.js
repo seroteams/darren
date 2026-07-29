@@ -72,9 +72,9 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
 
   // The screen has exactly ONE blue button and it is the same DOM node in every state
   // (DESIGN rule 3, guarded by start-core.test.ts's source count). On a first visit it
-  // MOVES into the welcome, under the sample brief, so the thing they just read and the
-  // way in are one object; once there are 1:1s it moves back to the header. Moving keeps
-  // its click wiring bound.
+  // MOVES into the welcome, above the sample brief, so the way in and the thing it
+  // produces are one object; once there are 1:1s it moves back to the header. Moving
+  // keeps its click wiring bound.
   //
   // On the admin app the bench owns the accent, so there is no button to move and the
   // welcome gets none. Correct: internal QA is not the first-run audience.
@@ -83,10 +83,10 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     const slot = intoWelcome ? welcomeHost.querySelector(".js-start-slot") : null;
     if (slot) {
       slot.appendChild(startBtn);
-      // "Get my brief", not "Prep your first 1:1": on the welcome the button now sits in
-      // the footer of the notes box, so it is the box's submit and should say what the
-      // typing buys, not restate the screen (welcome "start typing", 2026-07-27).
-      startBtn.textContent = "Get my brief";
+      // "Prep your first 1:1", not "Start a new 1:1": the welcome's card is somebody
+      // else's example, so the button has to say this next one is theirs (welcome
+      // "three focus points", 2026-07-29).
+      startBtn.textContent = "Prep your first 1:1";
     } else if (headerActions && startBtn.parentElement !== headerActions) {
       headerActions.appendChild(startBtn);
       startBtn.textContent = "Start a new 1:1";
@@ -341,13 +341,8 @@ export async function mount(root, { setState, rehydrateById }, bench = null) {
     setState({ sessionId: null, stage: STAGES.INTAKE, substage: "NAME" });
   }
 
-  // The welcome's box is the first step, not a warm-up: whatever was typed there is
-  // carried into the wizard's notes step verbatim, so a manager who wrote three lines on
-  // the first screen never types them twice. Read BEFORE beginCleanSetup, which wipes
-  // ctx. An empty box is fine and just starts the ordinary intake.
   function startNew() {
-    const typed = welcomeHost?.querySelector(".js-first-notes")?.value.trim() || "";
-    beginCleanSetup(typed ? { freeNotes: typed } : null);
+    beginCleanSetup(null);
   }
 
   root.querySelector(".js-startnew")?.addEventListener("click", startNew);

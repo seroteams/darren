@@ -1,12 +1,12 @@
-// The "start typing" welcome (Carl picked option B of five, 2026-07-27). start-core.js
-// mounts through the DOM, so its own guard reads source text; these are the real
-// behaviour tests.
+// The "three focus points" welcome (Carl picked option C of five, 2026-07-29).
+// start-core.js mounts through the DOM, so its own guard reads source text; these are
+// the real behaviour tests.
 //
 // The rule that matters most here: SAMPLE_BRIEF is the seeded example's REAL prep
-// brief, not copy written to look like one. The welcome no longer renders it, but five
-// prototypes quote it and the example run is still one click from this screen, so the
-// drift test stays: if the fixture changes, this file fails rather than letting the
-// product quietly show a brief the manager can no longer find anywhere.
+// brief, not copy written to look like one. This screen now renders it as its main
+// object, so the drift test is load-bearing rather than archival: if the fixture
+// changes, this file fails rather than letting a newcomer's first impression of Sero
+// drift away from what the engine actually returns.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -17,8 +17,9 @@ import {
   videoIframeHtml,
   SAMPLE_BRIEF,
   POSITIONING_LINE,
-  NOTES_PLACEHOLDER,
+  POINT_LABELS,
   HEADLINE,
+  LEDE,
   VIDEO,
 } from "./start-welcome.ts";
 
@@ -42,34 +43,45 @@ test("the sample brief is the seeded example's real prep brief, verbatim", () =>
   assert.equal(SAMPLE_BRIEF.listenFor, brief.listenFor[0], "What to listen for = the real first listen-for");
 });
 
-test("the screen asks a question and gives somewhere to answer it", () => {
+test("the screen shows the real output, not a description of it", () => {
   assert.ok(html.includes("Welcome to Sero"), "names the product");
-  assert.ok(html.includes(HEADLINE), "the headline is the question");
-  assert.ok(html.includes("js-first-notes"), "the notes box carries the hook Home reads on submit");
-  assert.ok(/<textarea/.test(html), "it is a real input, not a picture of one");
+  assert.ok(html.includes(HEADLINE), "the headline names what a manager walks away with");
+  assert.ok(html.includes(LEDE), "the lede frames the card as an output");
+  for (const text of [SAMPLE_BRIEF.open, SAMPLE_BRIEF.explore, SAMPLE_BRIEF.listenFor]) {
+    assert.ok(html.includes(text), "each of the three real points is rendered verbatim");
+  }
+  assert.ok(html.includes(SAMPLE_BRIEF.name), "the card says whose brief this is");
+  assert.ok(html.includes(SAMPLE_BRIEF.meetingType), "and which meeting it was for");
+});
+
+test("the three points are numbered and labelled with the words the real brief uses", () => {
+  assert.equal(POINT_LABELS.length, 3, "three, as the headline promises");
+  for (const label of POINT_LABELS) assert.ok(html.includes(label), `${label} is on the card`);
+  assert.ok(/<ol class="start-points">/.test(html), "an ordered list, so the numbering is real");
+  assert.equal((html.match(/class="start-point"/g) || []).length, 3, "exactly three points, never a fourth");
   assert.ok(
-    html.indexOf(HEADLINE) < html.indexOf("js-first-notes"),
-    "the question comes before the box that answers it",
+    html.indexOf(POINT_LABELS[0]) < html.indexOf(POINT_LABELS[1]) &&
+      html.indexOf(POINT_LABELS[1]) < html.indexOf(POINT_LABELS[2]),
+    "open, then explore, then listen for: the order of the conversation",
   );
 });
 
-test("the empty box teaches the input style by being an example of it", () => {
-  assert.ok(html.includes(NOTES_PLACEHOLDER), "the placeholder is rendered");
-  assert.ok(!/^[A-Z]/.test(NOTES_PLACEHOLDER), "fragments, not sentences: no leading capital");
-  assert.ok(NOTES_PLACEHOLDER.includes("\n"), "more than one line, so it reads as rough notes");
+test("the card is labelled as an example, so it is never mistaken for the manager's own", () => {
+  assert.ok(html.includes("Example brief"), "the card carries the tag");
   assert.ok(
-    NOTES_PLACEHOLDER.toLowerCase().includes(SAMPLE_BRIEF.name.toLowerCase()),
-    "the same person as the example run: one story on this screen, not two",
+    html.indexOf("Example brief") < html.indexOf(SAMPLE_BRIEF.open),
+    "the label is read before the content it labels",
   );
 });
 
-test("the button sits in the box, and is still Home's ONE blue button", () => {
+test("the button sits above the card, and is still Home's ONE blue button", () => {
   assert.ok(html.includes("js-start-slot"), "the slot is there for Home to move its button into");
   assert.ok(!/class="btn\b/.test(html), "no second accent button is created here");
   assert.ok(
-    html.indexOf("js-first-notes") < html.indexOf("js-start-slot"),
-    "the box is above its own submit",
+    html.indexOf("js-start-slot") < html.indexOf("start-brief"),
+    "the way in comes before the proof, so it is never below a card a newcomer has to scroll past",
   );
+  assert.ok(!/<textarea/.test(html), "no notes box: option B's input is gone with option B");
 });
 
 test("what happens after the button is on the screen, in one line", () => {
@@ -82,13 +94,13 @@ test("what happens after the button is on the screen, in one line", () => {
   assert.ok(/sharper|better/i.test(POSITIONING_LINE), "it names the reason to run a second one");
 });
 
-test("the screen stays short: no complaint grid, no sample document", () => {
-  // The whole point of this rebuild. The previous welcome ran 1421px tall because it
-  // carried an eight-cell "what managers tell us" grid and a full sample brief before
-  // the manager could start anything.
+test("the screen stays short: no complaint grid, no full sample document", () => {
+  // The whole point of this rebuild. The 2026-07-26 welcome ran 1421px tall because it
+  // carried an eight-cell "what managers tell us" grid and a whole sample brief before
+  // the manager could start anything. Three points is an excerpt, not that document.
   assert.ok(!html.includes("start-step"), "no four-step teaching block");
   assert.ok(!html.includes("start-pain"), "no grid of manager complaints");
-  assert.ok(!html.includes("start-sample__body"), "no sample brief document");
+  assert.ok(!html.includes("start-sample__body"), "no full sample brief document");
   assert.ok(!/<section/.test(html), "one block, not a stack of sections");
 });
 

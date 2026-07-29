@@ -159,16 +159,16 @@
   display: none;
 }
 
-/* The welcome, rebuilt 2026-07-27 as "start typing" (Carl picked option B of five,
-   prototype at stages/tests/welcome-lean.js). The old screen ran 1421px tall: a
-   headline, an eight-cell grid of manager complaints, then a sample brief. This one is
-   a headline, a box to type in, and one paragraph. Groups sit twice as far apart as
-   their contents (DESIGN §3a L1). */
+/* The welcome, rebuilt 2026-07-29 as "three focus points" (Carl picked option C of five,
+   prototype at stages/tests/welcome-lean.js). A headline, the button, the real three
+   points from the seeded example, one paragraph. It replaces the empty notes box of
+   option B, which was short but showed a newcomer nothing. Groups sit twice as far apart
+   as their contents (DESIGN §3a L1). */
 .start-welcome {
   display: flex;
   flex-direction: column;
   gap: var(--sero-space-6);
-  max-width: 40rem;
+  max-width: 42.5rem;
 }
 .start-welcome__intro {
   display: flex;
@@ -181,52 +181,96 @@
   max-width: var(--measure);
 }
 
-/* The box. It is a card that happens to be an input: the border and the lift belong to
-   the whole object, not to the textarea inside it, so the button in the footer reads as
-   part of the same thing rather than as a control parked underneath. */
-.start-notes {
+/* The action and its time cost, side by side above the card. */
+.start-cta {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sero-space-4);
+}
+
+/* The card. It is the real output of the seeded run, so it is styled as the product
+   surface it is (card radius, one lift) rather than as an illustration of one. */
+.start-brief {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-lift);
-  padding: var(--space-card-pad);
-  gap: var(--sero-space-3);
+  overflow: hidden;
 }
-/* Focus lands on the box, not on a rectangle inside a rectangle. */
-.start-notes:focus-within {
-  border-color: var(--color-accent);
-  box-shadow: var(--sero-shadow-focus);
-}
-.start-notes__field {
-  width: 100%;
-  min-height: 7rem;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--color-ink);
-  font: inherit;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-relaxed);
-  resize: vertical;
-}
-.start-notes__field:focus-visible {
-  outline: none;
-}
-/* The placeholder is a worked example, so it has to be readable rather than a hint:
-   ink-mute, not the browser's near-invisible default. */
-.start-notes__field::placeholder {
-  color: var(--color-ink-mute);
-}
-.start-notes__foot {
+/* The head names whose brief this is. Recessed onto the page background so the three
+   points below are the lit part of the card, not the label above them. */
+.start-brief__head {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--sero-space-3);
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--sero-space-3);
+  padding: var(--sero-space-3) var(--space-card-pad);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+.start-brief__who {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+}
+/* Neutral, never accent: it labels the card honestly, it does not sell it (same rule as
+   the Example chip on a recents row). */
+.start-brief__tag {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-dim);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-pill);
+  padding: 2px var(--sero-space-3);
+}
+.start-points {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-card-pad);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-4);
+}
+.start-point {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sero-space-3);
+}
+/* The counters carry the "three" the headline promises, so they are numerals rather
+   than bullets. Soft accent, not solid: the screen keeps one blue object. */
+.start-point__n {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--sero-radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+}
+.start-point__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.start-point__label {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+}
+.start-point__text {
+  margin: 0;
+  font-size: var(--type-body);
+  color: var(--color-ink);
+  line-height: var(--type-leading-relaxed);
+  text-wrap: pretty;
 }
 
 /* What happens after the button. One paragraph doing two jobs: the back and forth in
@@ -280,11 +324,12 @@
 /* On a phone the button owns its own line and goes full width: side by side with the
    time line it was squeezed to about half the row. */
 @media (max-width: 48rem) {
-  .start-notes__foot {
-    flex-direction: column-reverse;
+  .start-cta {
+    flex-direction: column;
     align-items: stretch;
+    gap: var(--sero-space-2);
   }
-  .start-notes__foot .btn {
+  .start-cta .btn {
     width: 100%;
     justify-content: center;
   }
