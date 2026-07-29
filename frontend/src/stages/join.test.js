@@ -56,6 +56,19 @@ test("join form: locked email, name prefill, password, one blue Join CTA", () =>
   assert.ok(html.includes("js-toggle-pw"), "show/hide password toggle, same as the other auth forms");
 });
 
+test("join form: the password label doesn't wrap the show/hide button", () => {
+  // A <label> around its control folds any button inside it into the control's
+  // accessible name, so the box got announced as "Choose a password ... Show
+  // password". The label points at the input by id instead.
+  const html = inviteHtml(invite);
+  for (const block of html.split(/<label\b/).slice(1)) {
+    const inside = block.split("</label>")[0];
+    assert.ok(!inside.includes("<button"), "no button inside a <label>");
+  }
+  assert.ok(html.includes('for="join-password"'), "label points at the password input");
+  assert.ok(html.includes('id="join-password"'), "password input carries the matching id");
+});
+
 test("join reassurance: compact what-you-see / what-stays-private rows + Privacy link", () => {
   const html = inviteHtml(invite);
   assert.ok(html.includes("What you'll see"), "seeing row");

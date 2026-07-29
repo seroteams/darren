@@ -94,6 +94,44 @@ test("login: Forgot password sits on the password label row, right-aligned", () 
   assert.equal(matches.length, 2, "one markup slot + one listener, no second footer link");
 });
 
+// --- A5: a field's accessible name is its label, and nothing else ------------
+// A <label> wrapping its control also folds every button inside it into the
+// control's accessible name. Login's password box was announced as "Password
+// Forgot password? Show password". Wrapping stays a plain element and the label
+// text points at the input by id, so the name is just the label again.
+
+/** The buttons an auth field can carry, literal or via a helper call. */
+const BUTTON_SOURCES = ["<button", "passwordToggleHtml()", "${aside}"];
+
+/** Every `<label ...>` block in a source file, crudely but sufficiently sliced. */
+function labelBlocks(src: string): string[] {
+  return src.split(/<label\b/).slice(1).map((rest) => rest.split("</label>")[0]);
+}
+
+test("auth fields: no <label> wraps a button, so the name is the label alone", () => {
+  for (const [name, src] of Object.entries(ALL)) {
+    for (const block of labelBlocks(src)) {
+      for (const button of BUTTON_SOURCES) {
+        assert.ok(
+          !block.includes(button),
+          `${name}: a <label> contains ${button}, which would land in the field's accessible name`,
+        );
+      }
+    }
+  }
+});
+
+test("auth fields: the kit ties label to input by id, not by wrapping", () => {
+  assert.ok(/<div class="auth-field">/.test(LOGIN), "the field wrapper is a plain div");
+  assert.ok(!/<label class="auth-field">/.test(LOGIN), "the field wrapper is never a label");
+  const forAttrs = LOGIN.match(/<label class="field__label" for="\$\{hook\}"/g) || [];
+  assert.equal(forAttrs.length, 2, "both kit fields label by for=, one text and one password");
+  const ids = LOGIN.match(/<input id="\$\{hook\}"/g) || [];
+  assert.equal(ids.length, 2, "both kit inputs carry the matching id");
+  assert.ok(/<label class="field__label" for="reset-password"/.test(RESET), "reset labels by for=");
+  assert.ok(/<input id="reset-password"/.test(RESET), "reset input carries the id");
+});
+
 test("login: footer collapses to one account line plus the guest line, centred as a group", () => {
   assert.ok(LOGIN.includes("New to Sero?"), "single account line");
   assert.ok(LOGIN.includes(">Create an account</button>"), "create link kept");

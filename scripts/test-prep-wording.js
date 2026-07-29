@@ -156,7 +156,7 @@ check(
     listenFor: [
       "whether she names a specific project eating her time",
       "whether she volunteers where the pressure is coming from",
-      "if they mention a deadline that slipped this sprint",
+      "if she mentions a deadline that slipped this sprint",
     ],
     avoid: ["do not turn this into a status audit", "do not jump to fixes before she names the pressure"],
     goodOutcome: "You and Priya have agreed one concrete thing to take off her plate this fortnight, senior scope.",

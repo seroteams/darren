@@ -17,12 +17,22 @@
 
 import { skeletonFor } from "./skeleton-presets.ts";
 
-/** The HTML-string door, for screens built with innerHTML. */
+/** @typedef {import("./skeleton-presets.ts").SkeletonSpec} SkeletonSpec */
+
+/**
+ * The HTML-string door, for screens built with innerHTML.
+ * @param {SkeletonSpec} [spec]
+ * @returns {string}
+ */
 export function skeletonHtml(spec = 3) {
   return skeletonFor(spec);
 }
 
-/** The DOM-node door, for screens that appendChild / replaceChildren. */
+/**
+ * The DOM-node door, for screens that appendChild / replaceChildren.
+ * @param {SkeletonSpec} [spec]
+ * @returns {Element}
+ */
 export function createSkeleton(spec = 3) {
   const el = document.createElement("div");
   el.innerHTML = skeletonFor(spec);

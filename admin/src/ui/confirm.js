@@ -4,6 +4,16 @@
 import { openModalShell } from "./modal-shell.ts";
 import { button } from "./button.ts";
 
+/**
+ * @typedef {object} DialogOpts
+ * @property {string} [message] The line the dialog asks. Defaults to "Are you sure?".
+ * @property {string} [confirmLabel]
+ * @property {string} [cancelLabel]
+ * @property {boolean} [destructive] Red confirm button, and focus starts on Cancel.
+ * @property {boolean} [alert] One button, no cancel: tell rather than ask.
+ */
+
+/** @param {DialogOpts} [opts] */
 function openDialog({
   message,
   confirmLabel = "Confirm",
@@ -60,10 +70,20 @@ function openDialog({
   });
 }
 
+/**
+ * Ask. Resolves true on confirm, false on cancel or Escape.
+ * @param {DialogOpts} [opts]
+ * @returns {Promise<boolean>}
+ */
 export function confirmAction(opts = {}) {
   return openDialog({ ...opts, alert: false });
 }
 
+/**
+ * Tell. One button, resolves when it's dismissed.
+ * @param {DialogOpts} [opts]
+ * @returns {Promise<void>}
+ */
 export function alertAction({ message, confirmLabel = "OK" } = {}) {
   return openDialog({ message, confirmLabel, alert: true });
 }

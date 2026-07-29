@@ -49,13 +49,13 @@ export async function mount(root, { setState }) {
 
   host.innerHTML = `
     <form class="l-stack l-stack--4 js-form" novalidate>
-      <label class="l-stack l-stack--2">
-        <span class="field__label">New password <span class="text-ink-mute">(at least ${MIN_PASSWORD} characters)</span></span>
+      <div class="l-stack l-stack--2">
+        <label class="field__label" for="reset-password">New password <span class="text-ink-mute">(at least ${MIN_PASSWORD} characters)</span></label>
         <span class="field-pw js-pw-wrap">
-          <input class="input js-password" type="password" autocomplete="new-password" required />
+          <input id="reset-password" class="input js-password" type="password" autocomplete="new-password" required />
           ${passwordToggleHtml()}
         </span>
-      </label>
+      </div>
       <p class="js-err text-negative text-sm" hidden></p>
       ${button({ label: "Set new password", type: "submit", hook: "js-submit" })}
     </form>`;

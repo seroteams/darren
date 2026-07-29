@@ -89,13 +89,13 @@ export function inviteHtml(invite) {
         <span class="field__label">Your name</span>
         <input class="input js-name" type="text" autocomplete="name" value="${esc(invite.personName || "")}" required />
       </label>
-      <label class="l-stack l-stack--2">
-        <span class="field__label">Choose a password <span class="text-ink-mute">(at least 8 characters)</span></span>
+      <div class="l-stack l-stack--2">
+        <label class="field__label" for="join-password">Choose a password <span class="text-ink-mute">(at least 8 characters)</span></label>
         <span class="l-row l-row--2 js-pw-wrap">
-          <input class="input js-password" type="password" autocomplete="new-password" required />
+          <input id="join-password" class="input js-password" type="password" autocomplete="new-password" required />
           ${passwordToggleHtml()}
         </span>
-      </label>
+      </div>
       <p class="js-err text-negative text-sm" hidden></p>
       ${button({ label: `Join ${invite.orgName}`, type: "submit", hook: "js-submit" })}
     </form>

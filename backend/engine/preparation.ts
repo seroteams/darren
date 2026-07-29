@@ -126,7 +126,12 @@ const OPENER_PERFORMATIVE = /\b(the real version|honest version|no filter|real t
 
 const LISTENFOR_PARAPHRASE = /\b(acknowledges|has a plan to|has received)\b/i;
 const LISTENFOR_BEHAVIORAL = /\b(deflects|pivots|names|avoids|mentions|redirects|interrupts|pauses|volunteers|describes|offers|signals|hesitates|concrete|specific|last week|this quarter|this sprint|stakeholders?|projects?|meetings?)\b/i;
-const LISTENFOR_PREFIX = /^(whether|if they)\b/i;
+// The opener is "whether" or "if". It used to be "whether" or "if they", which
+// forced a they/them item to sit beside "whether she ..." siblings and made the
+// brief read as though two different people were in the meeting.
+const LISTENFOR_PREFIX = /^(whether|if)\b/i;
+// The subject right after that opener, when it's a pronoun for the report.
+const LISTENFOR_SUBJECT_PRONOUN = /^(?:whether|if)\s+(she|he|they)\b/i;
 const AVOID_PREFIX = /^do not\b/i;
 
 const GOODOUTCOME_LEVEL_MARKERS =
@@ -269,17 +274,27 @@ function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; 
     }
   }
 
-  // C3 — listenFor behavioural tells, phrased as a "whether …"/"if they …" clause
+  // C3 — listenFor behavioural tells, phrased as a "whether …"/"if …" clause
+  const listenForPronouns = new Set<string>();
   for (const item of brief.listenFor || []) {
     const t = String(item).trim();
     if (!LISTENFOR_PREFIX.test(t)) {
-      issues.push(`listenFor item must start with "whether" or "if they": "${t.slice(0, 60)}…"`);
+      issues.push(`listenFor item must start with "whether" or "if": "${t.slice(0, 60)}…"`);
     }
+    const pronoun = t.match(LISTENFOR_SUBJECT_PRONOUN)?.[1];
+    if (pronoun) listenForPronouns.add(pronoun.toLowerCase());
     if (LISTENFOR_PARAPHRASE.test(t)) {
       issues.push(`listenFor paraphrases focus instead of behavioural tell: "${t.slice(0, 60)}…"`);
     } else if (!LISTENFOR_BEHAVIORAL.test(t)) {
       issues.push(`listenFor may lack observable behavioural cue: "${t.slice(0, 60)}…"`);
     }
+  }
+
+  // C3b — one pronoun for the report across the three tells. Mixing "she" and
+  // "they" in one list reads as though a second person joined the meeting.
+  if (listenForPronouns.size > 1) {
+    const mixed = [...listenForPronouns].sort().join("/");
+    issues.push(`listenFor mixes pronouns for the same person (${mixed}) — pick one and use it in all three items`);
   }
 
   // C4 — goodOutcome level-specific

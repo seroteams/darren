@@ -68,6 +68,69 @@ test("validateBrief: a cue-less listenFor is still flagged (fix didn't weaken th
   assert.ok(issues.length >= 1, "expected a 'may lack observable behavioural cue' flag");
 });
 
+// --- C3/C3b: one pronoun for the report, across all three tells --------------
+// A live brief for "Priya" said "whether she names ...", "whether she volunteers
+// ...", then "if they mention ...". The old prefix rule required the opener to be
+// "whether" or "if they", so the third item's pronoun was forced by the grammar,
+// not chosen. The opener is now plain "if", and mixing is flagged.
+
+function prefixIssues(listenFor: string[]) {
+  return validateBrief(briefWith(listenFor) as never, baseInputs as never).issues.filter((i) =>
+    i.includes('must start with "whether" or "if"'),
+  );
+}
+function pronounIssues(listenFor: string[]) {
+  return validateBrief(briefWith(listenFor) as never, baseInputs as never).issues.filter((i) =>
+    i.includes("mixes pronouns"),
+  );
+}
+
+test("validateBrief: 'if she ...' is a legal opener, not just 'if they ...'", () => {
+  assert.deepEqual(
+    prefixIssues([
+      "whether she names a specific late-start example",
+      "if she mentions a recent week",
+      "if they name the meetings that crowd her mornings",
+    ]),
+    [],
+  );
+});
+
+test("validateBrief: an opener that is neither 'whether' nor 'if' is still flagged", () => {
+  assert.ok(prefixIssues(["does he name a specific late-start example"]).length >= 1);
+});
+
+test("validateBrief: mixing she and they across the tells is flagged", () => {
+  const issues = pronounIssues([
+    "whether she names a specific change in how work gets assigned",
+    "whether she volunteers where review timing has gotten stuck",
+    "if they mention payments work as a deliberate tradeoff",
+  ]);
+  assert.equal(issues.length, 1, "one flag naming the mix");
+  assert.ok(issues[0]?.includes("she/they"), `expected the mixed pair named, got: ${issues[0]}`);
+});
+
+test("validateBrief: one consistent pronoun passes, whichever it is", () => {
+  for (const p of [
+    ["whether she names a specific change", "whether she volunteers a recent week", "if she mentions the projects that slipped"],
+    ["whether he names a specific change", "whether he volunteers a recent week", "if he mentions the projects that slipped"],
+    ["whether they name a specific change", "whether they volunteer a recent week", "if they mention the projects that slipped"],
+  ]) {
+    assert.deepEqual(pronounIssues(p), [], `expected no flag for: ${p[0]}`);
+  }
+});
+
+test("validateBrief: tells with no pronoun subject are left alone", () => {
+  assert.deepEqual(
+    pronounIssues([
+      "whether the handoff notes name a specific dependency",
+      "if review timing comes up before you raise it",
+      "whether the projects that slipped get a concrete cause",
+    ]),
+    [],
+  );
+});
+
 // styleTip clause — a real, on-style line that isn't just a restatement of the
 // core issue. Filters to styleTip-specific issues so unrelated fixture drift
 // can't mask the assertion.

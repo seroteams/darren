@@ -1173,6 +1173,33 @@
       "port": 3503
     },
     {
+      "name": "authfix-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3521",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3521
+    },
+    {
+      "name": "authfix-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3001",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3525",
+        "--strictPort"
+      ],
+      "port": 3525
+    },
+    {
       "name": "es-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

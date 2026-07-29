@@ -34,33 +34,40 @@ export function passwordToggleHtml() {
 // and shared with register.js, like passwordToggleHtml and googleButtonHtml.
 // Markup contract: `.auth-field` > `.auth-field__top` + `.auth-input` + `.auth-err`,
 // keyed by the field's own js- hook so an error finds its field.
+//
+// The wrapper is a plain element, NOT a <label>: the top row and the password
+// wrapper both carry buttons (Forgot password?, Show password), and a <label>
+// around a button folds that button's text into the input's accessible name.
+// A screen reader was reading the login password box as "Password Forgot
+// password? Show password". The label text is its own <label for>, so clicking
+// it still focuses the input.
 export function authField({ label, hook, type = "text", autocomplete = "off", optional = "", aside = "", placeholder = "", attrs = "" }) {
   return `
-    <label class="auth-field">
+    <div class="auth-field">
       <span class="auth-field__top">
-        <span class="field__label">${label}${optional ? ` <span class="text-ink-mute">${optional}</span>` : ""}</span>
+        <label class="field__label" for="${hook}">${label}${optional ? ` <span class="text-ink-mute">${optional}</span>` : ""}</label>
         ${aside}
       </span>
-      <input class="auth-input ${hook}" data-field="${hook}" type="${type}" autocomplete="${autocomplete}"
+      <input id="${hook}" class="auth-input ${hook}" data-field="${hook}" type="${type}" autocomplete="${autocomplete}"
         placeholder="${placeholder}" aria-invalid="false" ${attrs} />
       <span class="auth-err" data-err="${hook}" hidden></span>
-    </label>`;
+    </div>`;
 }
 
 export function authPasswordField({ label = "Password", hook = "js-password", autocomplete = "current-password", optional = "", aside = "" }) {
   return `
-    <label class="auth-field">
+    <div class="auth-field">
       <span class="auth-field__top">
-        <span class="field__label">${label}${optional ? ` <span class="text-ink-mute">${optional}</span>` : ""}</span>
+        <label class="field__label" for="${hook}">${label}${optional ? ` <span class="text-ink-mute">${optional}</span>` : ""}</label>
         ${aside}
       </span>
       <span class="auth-pw js-pw-wrap">
-        <input class="auth-input ${hook}" data-field="${hook}" type="password" autocomplete="${autocomplete}"
+        <input id="${hook}" class="auth-input ${hook}" data-field="${hook}" type="password" autocomplete="${autocomplete}"
           aria-invalid="false" required />
         ${passwordToggleHtml()}
       </span>
       <span class="auth-err" data-err="${hook}" hidden></span>
-    </label>`;
+    </div>`;
 }
 
 // Error plumbing for a form built from the kit above. `fail` marks one field and
