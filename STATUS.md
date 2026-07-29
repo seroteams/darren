@@ -2,6 +2,22 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-29 — every console feature was walked, and the two things it turned up are fixed and
+green-lit ("yeah its good").** All 16 sidebar rows were opened in a live build: every one mounts and
+is wired to a real API. Two real problems came out of it. **One:** opening "New session" could freeze
+the whole sidebar. The field swap resolved inside an animation frame with no timer fallback, so in
+any tab that isn't painting (backgrounded, restored) it never settled, and because every screen
+render is serialised through one chain, the URL changed and the screen never did. Fixed with the same
+belt-and-braces `boot-shell.js` already used for its own reveal, and proved in the exact condition
+that broke it. **Two, the bigger one:** your machine and the live site use two SEPARATE databases, so
+Pulse was headed "Live pulse. The live site right now" while showing your local rows, and the Error
+log's Live filter could never match. Both screens now say "this machine" when they are on your
+machine. Live error reporting itself was proved working end to end with one authorised probe (landed
+in the live DB, `production`/`browser`, 11:18). **Live holds 19 errors never read, because the local
+console cannot reach them.** Commits `1747f4ad` + `4badeefa`, 208/208, typecheck, copy guard green,
+local only. Committee log: `logs/committee/2026-07-29-sidebar-feature-audit.html`; five findings
+parked in a research handoff, now running in its own session.
+
 📍 **2026-07-29 — "What is Sero?" is now the six-step How-Sero-works walkthrough, LIVE on your word
 ("put this live").** The committee reviewed the real first-login and relogin screens and found no
 reachable page told the story past the brief: the meeting itself, the recap, and the loop were
