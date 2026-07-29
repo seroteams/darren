@@ -68,18 +68,30 @@ Output shape:
       "axis_effects": [ { "axis": "<id>", "delta": <int> } ],
       "grounding": "<≤10-word verbatim quote from the note/transcript, or \"open\">",
       "probes_cause": "<a resolved_causes phrase this question re-probes, or \"\">",
-      "new_layer": true | false
+      "new_layer": true | false,
+      "hints": [
+        { "kind": "ask" | "listen", "text": "<one line, under 20 words>" },
+        { "kind": "ask" | "listen", "text": "<one line, under 20 words>" },
+        { "kind": "ask" | "listen", "text": "<one line, under 20 words>" }
+      ]
     }
   ]
 }
 
-Every item carries all of: ref_alias, label (2–5 words), name, description, purpose, stage, axis_effects, grounding, probes_cause, new_layer. Construction rules (thread-follow, shallow, crisis, generated closer) override only the fields they name. For thread-follow, shallow, and crisis items, `purpose` is "wellbeing" or "topic", never "competency".
+Every item carries all of: ref_alias, label (2–5 words), name, description, purpose, stage, axis_effects, grounding, probes_cause, new_layer, hints. Construction rules (thread-follow, shallow, crisis, generated closer) override only the fields they name. For thread-follow, shallow, and crisis items, `purpose` is "wellbeing" or "topic", never "competency".
 
 Per item:
 - **Carried unchanged:** `ref_alias` = original alias, copy fields verbatim incl. `stage`, but set `grounding` to "open" (engine re-verifies grounding only on added/reworded items).
 - **Modified:** `ref_alias` = original alias, new wording (and new `axis_effects` if the probe shifted); keep original `stage` unless the angle moved to another arc stage.
 - **Brand new:** `ref_alias: null`, `stage` = its arc stage, or `null` for a thread-follow inside the current stage.
 - Order best-next first; omit dropped items; never include anything already asked.
+
+**`hints` — the manager's coaching for that question.** Exactly 3 per item, shown beside the question on the manager's screen while the meeting runs. The employee never sees them.
+- At least one `ask` (how to put it) and at least one `listen` (what to notice in the answer).
+- One line each, under 20 words, plain spoken English. Same jargon and plain-speech bans as the question text.
+- The test: could this line sit under a different question? If yes, rewrite it. Name the specific thing to say, or the specific thing to notice in THIS answer. "Listen carefully" is not a hint; "Whether he names a date or talks around it" is.
+- A `listen` line describes what is **said or not said**, never a read of their inner state and never a conclusion to draw. `NO_INFERRED_STATES` applies to hints exactly as it does to questions.
+- **Carried unchanged:** copy the item's hints verbatim with the rest of its fields. **Modified:** write fresh hints for the new wording; the old question's hints no longer fit. **Brand new:** write hints from scratch.
 </output_contract>
 
 <crisis_override>

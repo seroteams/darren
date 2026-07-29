@@ -45,6 +45,14 @@ export function buildCarryForwardQuestion(summary: string, stageId: string | nul
     stage: stageId,
     axis_effects: { engagement: 1 },
     source: "agenda_carry_forward",
+    // Built in code, so its manager coaching is written here rather than by the
+    // model (question-support-hints Phase 3). It always asks the same thing —
+    // pick up what they asked for at the top — so fixed lines fit it exactly.
+    hints: [
+      { kind: "ask", text: "Use their words for it, not your summary of them." },
+      { kind: "listen", text: "Whether this still matters as much as it did at the start." },
+      { kind: "listen", text: "Whether they wanted a decision from you, or just to be heard." },
+    ],
   };
   return Object.freeze(q);
 }

@@ -8,3 +8,10 @@ axis_effects:
   growth: +3
   engagement: +1
 source: seed
+hints:
+  - kind: ask
+    text: Ask which part, not whether. Assume something is stretching them.
+  - kind: listen
+    text: Whether they name current work or reach for a past project.
+  - kind: listen
+    text: Whether the stretch is skill, scope, or dealing with people.

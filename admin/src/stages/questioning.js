@@ -222,7 +222,7 @@ export async function mount(root, { store, setState }) {
     const q = res.question;
     store.currentQuestion = q;
     // Feed this question's manager-only hints to the coach panel's Support view.
-    if (USE_COACH_SPLIT && axes.setQuestionHints) axes.setQuestionHints(q.hints);
+    if (USE_COACH_SPLIT && axes.setQuestionHints) axes.setQuestionHints(q.hints, q.hints_source);
 
     // Replay test lane: prefer the server's current scripted answer so refreshes
     // and resumed sessions do not silently fall back to manual/dev controls.

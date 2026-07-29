@@ -8,3 +8,10 @@ axis_effects:
   growth: +3
   engagement: +1
 source: seed
+hints:
+  - kind: ask
+    text: Give them a moment. This one rarely has a ready answer.
+  - kind: listen
+    text: Whether they describe a role, a kind of work, or a feeling.
+  - kind: listen
+    text: Whether the picture is theirs or the one they think you want.

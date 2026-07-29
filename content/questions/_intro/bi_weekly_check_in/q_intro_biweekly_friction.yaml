@@ -8,3 +8,10 @@ axis_effects:
   clarity: +1
   engagement: +3
 source: seed
+hints:
+  - kind: ask
+    text: Ask for one thing, not a list. Specific beats comprehensive here.
+  - kind: listen
+    text: Whether the friction is a person, a process, or a missing decision.
+  - kind: listen
+    text: Whether they call it a one-off or say it keeps happening.

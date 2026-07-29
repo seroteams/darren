@@ -8,3 +8,10 @@ axis_effects:
   growth: +3
   clarity: +1
 source: seed
+hints:
+  - kind: ask
+    text: Hold the distinction. If they name a gap, ask what is blocking instead.
+  - kind: listen
+    text: Whether the blocker is something you control, or something they do.
+  - kind: listen
+    text: Whether they name one real obstacle or a general shortage of time.

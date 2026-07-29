@@ -6,10 +6,29 @@
     "description": "Undirected, casual, invites any topic without setting an agenda. MBS Kickstart Question.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 1, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "neutral"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it, then say nothing. This one only works with silence after it."
+      },
+      {
+        "kind": "listen",
+        "text": "Whatever they raise first, before anything steers them."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether it is work at all."
+      }
+    ]
   },
   {
     "alias": "q_open_most_like_to_talk",
@@ -18,10 +37,29 @@
     "description": "Hands full agenda ownership to them. Pure person-centered opener — nothing is presupposed.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 1, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "neutral"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Mean it. If they pick something you did not plan for, go there."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they have something ready or defer back to you."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether their topic is on your list too."
+      }
+    ]
   },
   {
     "alias": "q_open_how_are_you_really",
@@ -30,10 +68,28 @@
     "description": "'Really' subverts the ritual. One word signals this is a different kind of conversation.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 2 },
+    "axis_effects": {
+      "wellbeing": 2
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "warm"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "warm",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "The really is the question. Let it land before you fill the gap."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the second answer differs from the first."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they answer about themselves or about the work."
+      }
+    ]
   },
   {
     "alias": "q_open_giving_you_energy",
@@ -42,10 +98,29 @@
     "description": "Strengths-based, not scoped to work. Reveals what genuinely animates the person.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 2, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["bi_weekly_check_in"],
-    "tone": "warm"
+    "meeting_types": [
+      "bi_weekly_check_in"
+    ],
+    "tone": "warm",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask about energy, not achievements. Do not turn it into a progress check."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether anything comes to mind at all."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether what lifts them is the work or the people."
+      }
+    ]
   },
   {
     "alias": "q_open_what_matters_now",
@@ -54,10 +129,29 @@
     "description": "Growth-fitted opener. Surfaces what the report is actively choosing to develop, not what's drifting.",
     "purpose": "growth",
     "stage": null,
-    "axis_effects": { "growth": 2, "engagement": 1 },
+    "axis_effects": {
+      "growth": 2,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["growth_career_plan"],
-    "tone": "neutral"
+    "meeting_types": [
+      "growth_career_plan"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask what is worth it, not what is urgent. The wording matters."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether their answer matches where their time actually goes."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they name one thing or hedge across everything."
+      }
+    ]
   },
   {
     "alias": "q_open_since_last_spoke",
@@ -66,10 +160,29 @@
     "description": "Acknowledges the relationship and the gap between conversations. Open and non-evaluative.",
     "purpose": "wellbeing",
     "stage": "pulse",
-    "axis_effects": { "wellbeing": 1, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["bi_weekly_check_in"],
-    "tone": "neutral"
+    "meeting_types": [
+      "bi_weekly_check_in"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it warm and open. It is a door, not a status request."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they pick up a thread from last time or start fresh."
+      },
+      {
+        "kind": "listen",
+        "text": "What they choose to lead with."
+      }
+    ]
   },
   {
     "alias": "q_open_useful_for_you",
@@ -78,10 +191,29 @@
     "description": "Positions them as expert on their own needs. Research shows this dramatically improves engagement.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 1, "engagement": 2 },
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 2
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "neutral"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask before your agenda, not after. Afterwards it reads as a formality."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they can name what would help, or say anything is fine."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether their answer shifts what you had planned."
+      }
+    ]
   },
   {
     "alias": "q_open_alive_lately",
@@ -90,10 +222,29 @@
     "description": "'Alive' invites vitality and the whole person — broader than 'what's on your mind', no work scope.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 2, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "warm"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "warm",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Keep it light. It is an opener, not a probe."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the answer comes from work or from outside it."
+      },
+      {
+        "kind": "listen",
+        "text": "How long it takes them to find one."
+      }
+    ]
   },
   {
     "alias": "q_open_real_version",
@@ -102,10 +253,29 @@
     "description": "Bi-weekly pulse without performative intimacy. Invites an honest read without 'the real version' audition framing.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 2, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["bi_weekly_check_in"],
-    "tone": "neutral"
+    "meeting_types": [
+      "bi_weekly_check_in"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask about how it felt, not what happened. Redirect once if they list tasks."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they describe the fortnight or just the last two days."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the feeling matches the delivery you have seen."
+      }
+    ]
   },
   {
     "alias": "q_open_bit_of_joy",
@@ -114,10 +284,28 @@
     "description": "'A bit of' removes pressure to perform happiness. PERMA positive emotion — activates openness.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 3 },
+    "axis_effects": {
+      "wellbeing": 3
+    },
     "source": "research",
-    "meeting_types": ["something_feels_off"],
-    "tone": "warm"
+    "meeting_types": [
+      "something_feels_off"
+    ],
+    "tone": "warm",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it and let it be small. A small answer is a real answer."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether anything comes easily, or nothing does."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they need to make it work-related to justify it."
+      }
+    ]
   },
   {
     "alias": "q_open_most_space",
@@ -126,10 +314,29 @@
     "description": "Spatial metaphor is more honest than 'what's on your mind'. Weight implies it matters.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 1, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "neutral"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask about head space, not workload. They are different questions."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the thing taking the space is the thing they are paid to do."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether it is one thing or everything at once."
+      }
+    ]
   },
   {
     "alias": "q_open_carrying_in",
@@ -138,10 +345,28 @@
     "description": "Acknowledges people are not clean slates. Non-evaluative — carrying could be burden or gift.",
     "purpose": "wellbeing",
     "stage": "landing",
-    "axis_effects": { "wellbeing": 2 },
+    "axis_effects": {
+      "wellbeing": 2
+    },
     "source": "research",
-    "meeting_types": ["something_feels_off"],
-    "tone": "warm"
+    "meeting_types": [
+      "something_feels_off"
+    ],
+    "tone": "warm",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it slowly. It gives permission to name something heavy."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they arrive with something specific or say nothing much."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether what they are carrying is about work at all."
+      }
+    ]
   },
   {
     "alias": "q_open_curious_lately",
@@ -150,10 +375,29 @@
     "description": "Positions them as active and alive, not performing. Works as a natural growth-oriented opener.",
     "purpose": "wellbeing",
     "stage": "anchor",
-    "axis_effects": { "engagement": 2, "growth": 1 },
+    "axis_effects": {
+      "engagement": 2,
+      "growth": 1
+    },
     "source": "research",
-    "meeting_types": ["growth_career_plan"],
-    "tone": "neutral"
+    "meeting_types": [
+      "growth_career_plan"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it genuinely. Curiosity questions die if they sound like a test."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the curiosity is near their work or far from it."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they have had any room for it recently."
+      }
+    ]
   },
   {
     "alias": "q_open_learning_yourself",
@@ -162,10 +406,29 @@
     "description": "Signals interest in them as a human, not just their output. Reflective, non-evaluative.",
     "purpose": "wellbeing",
     "stage": "anchor",
-    "axis_effects": { "growth": 2, "wellbeing": 1 },
+    "axis_effects": {
+      "growth": 2,
+      "wellbeing": 1
+    },
     "source": "research",
-    "meeting_types": ["growth_career_plan"],
-    "tone": "reflective"
+    "meeting_types": [
+      "growth_career_plan"
+    ],
+    "tone": "reflective",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it, then give it real time. It is a slow question."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they answer about a skill or about how they operate."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the learning came from something that went badly."
+      }
+    ]
   },
   {
     "alias": "q_open_wanting_to_raise",
@@ -174,10 +437,29 @@
     "description": "Amy Edmondson: explicit space for withheld speech is the most powerful safety-building move a leader can make.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 1, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "neutral"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask early, so whatever it is shapes the rest of the conversation."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they take it, or say no and then circle back later."
+      },
+      {
+        "kind": "listen",
+        "text": "How long they have been sitting on it."
+      }
+    ]
   },
   {
     "alias": "q_open_arriving_today",
@@ -186,10 +468,28 @@
     "description": "Acknowledges people come from somewhere. Grounding, non-evaluative — makes space before the conversation starts.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 1 },
+    "axis_effects": {
+      "wellbeing": 1
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "neutral"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask about right now, this hour. Not the week."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they are actually present or still in the last meeting."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they name a state or default to fine."
+      }
+    ]
   },
   {
     "alias": "q_open_most_like_yourself",
@@ -198,10 +498,29 @@
     "description": "Authentic self-concept research. Identity-based, not performance-based. Deep without being intrusive.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 2, "growth": 1 },
+    "axis_effects": {
+      "wellbeing": 2,
+      "growth": 1
+    },
     "source": "research",
-    "meeting_types": ["something_feels_off"],
-    "tone": "reflective"
+    "meeting_types": [
+      "something_feels_off"
+    ],
+    "tone": "reflective",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask for a moment, not a period. A specific occasion is easier to answer."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the moment is at work or outside it."
+      },
+      {
+        "kind": "listen",
+        "text": "What they were doing when it happened."
+      }
+    ]
   },
   {
     "alias": "q_open_growth_lookforward",
@@ -210,10 +529,29 @@
     "description": "Growth-native opener. Forward-leaning, lets the report frame their own trajectory before manager introduces concerns.",
     "purpose": "topic",
     "stage": null,
-    "axis_effects": { "growth": 2, "engagement": 1 },
+    "axis_effects": {
+      "growth": 2,
+      "engagement": 1
+    },
     "source": "designed",
-    "meeting_types": ["growth_career_plan"],
-    "tone": "forward"
+    "meeting_types": [
+      "growth_career_plan"
+    ],
+    "tone": "forward",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask before any specifics. Their framing should set the agenda."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they think in roles, skills, or scope."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the direction is theirs or inherited from someone else."
+      }
+    ]
   },
   {
     "alias": "q_open_understand_where_you_are",
@@ -222,10 +560,29 @@
     "description": "Rogers' empathic understanding made explicit. Positions the manager as a receiver, not evaluator.",
     "purpose": "wellbeing",
     "stage": "landing",
-    "axis_effects": { "wellbeing": 2, "engagement": 1 },
+    "axis_effects": {
+      "wellbeing": 2,
+      "engagement": 1
+    },
     "source": "research",
-    "meeting_types": ["something_feels_off"],
-    "tone": "warm"
+    "meeting_types": [
+      "something_feels_off"
+    ],
+    "tone": "warm",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it as a real request. You are handing them the frame."
+      },
+      {
+        "kind": "listen",
+        "text": "What they most want on the record."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they are correcting an impression they think you hold."
+      }
+    ]
   },
   {
     "alias": "q_open_outside_work",
@@ -234,10 +591,26 @@
     "description": "Explicitly non-work. Kim Scott's 'care personally' — shows genuine interest in the whole person.",
     "purpose": "wellbeing",
     "stage": "pulse",
-    "axis_effects": { "wellbeing": 2 },
+    "axis_effects": {
+      "wellbeing": 2
+    },
     "source": "research",
     "meeting_types": [],
-    "tone": "warm"
+    "tone": "warm",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask it and stay out of it. No follow-up needed unless they offer."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether there is a life with room in it, or not much to report."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether the answer is recent or from a while ago."
+      }
+    ]
   },
   {
     "alias": "q_open_time_is_yours",
@@ -246,10 +619,29 @@
     "description": "The most honest version of 'I'm here for you'. Makes explicit that the 1:1 belongs to them.",
     "purpose": "wellbeing",
     "stage": null,
-    "axis_effects": { "wellbeing": 1, "engagement": 2 },
+    "axis_effects": {
+      "wellbeing": 1,
+      "engagement": 2
+    },
     "source": "research",
-    "meeting_types": ["all"],
-    "tone": "neutral"
+    "meeting_types": [
+      "all"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Say it and then genuinely hand it over. Do not steer for the first minute."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they use it or hand it straight back."
+      },
+      {
+        "kind": "listen",
+        "text": "What they spend it on when it is theirs."
+      }
+    ]
   },
   {
     "alias": "q_open_anything_to_cover",
@@ -258,9 +650,30 @@
     "description": "Manager-led check that the report has agenda input before the prepared questions begin.",
     "purpose": "topic",
     "stage": null,
-    "axis_effects": { "engagement": 1, "clarity": 1 },
+    "axis_effects": {
+      "engagement": 1,
+      "clarity": 1
+    },
     "source": "designed",
-    "meeting_types": ["bi_weekly_check_in", "growth_career_plan", "performance_feedback"],
-    "tone": "neutral"
+    "meeting_types": [
+      "bi_weekly_check_in",
+      "growth_career_plan",
+      "performance_feedback"
+    ],
+    "tone": "neutral",
+    "hints": [
+      {
+        "kind": "ask",
+        "text": "Ask before your agenda, and write theirs down in front of them."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether they name something you had not planned for."
+      },
+      {
+        "kind": "listen",
+        "text": "Whether it is the thing they actually care about, or a warm-up."
+      }
+    ]
   }
 ]

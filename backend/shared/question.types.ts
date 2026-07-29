@@ -27,7 +27,13 @@ export interface Question {
   stage: string | null; // arc stage id; null when not stage-bound
   axis_effects: Record<string, number>; // map axisId→delta at runtime (an array on the LLM wire; toAxisObject converts it)
   source: string; // provenance: "generated" | "seed" | "semi_set" | "agenda_carry_forward" | opener sources (open string)
-  hints?: QuestionHint[]; // manager-only coaching (coach-panel Phase 2); absent on intro/agenda/seed questions
+  hints?: QuestionHint[]; // manager-only coaching (coach-panel Phase 2)
+  // Where those hints came from, when it isn't this question. "inherited" means
+  // they were written for the question this one follows up on — a thread-follow
+  // is minted in code with no model call, so it can never have its own. The panel
+  // labels them, rather than passing them off as written for this question
+  // (question-support-hints Phase 3). Absent = the hints are this question's own.
+  hints_source?: "inherited";
   // NOTE (decision for review): the YAML loader (questions.ts) surfaces any extra top-level
   // scalar key, so YAML questions *can* carry more than these fields. We keep the contract
   // CLOSED — a new field (like `hints`) is added explicitly here, which documents it, rather
@@ -39,4 +45,7 @@ export interface Question {
  * `hints` is manager-only coaching — the whole app runs behind manager/admin auth,
  * so it is safe on this wire; it must never reach a member-facing payload.
  */
-export type WireQuestion = Pick<Question, "alias" | "label" | "name" | "description" | "purpose" | "hints">;
+export type WireQuestion = Pick<
+  Question,
+  "alias" | "label" | "name" | "description" | "purpose" | "hints" | "hints_source"
+>;

@@ -8,3 +8,10 @@ axis_effects:
   clarity: +3
   engagement: +1
 source: seed
+hints:
+  - kind: ask
+    text: Ask it first and mean it. Sharing your view early closes the answer down.
+  - kind: listen
+    text: Whether their read is close to yours, and where it separates.
+  - kind: listen
+    text: Whether they self-assess with examples or with adjectives.

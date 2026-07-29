@@ -1,6 +1,6 @@
 # Phase 2 — Mid-meeting questions carry coaching lines
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
 
 ## Goal
 The questions the engine invents while the meeting is running carry their own coaching lines, not the prep-brief fallback.

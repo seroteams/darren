@@ -7,3 +7,10 @@ stage: landing
 axis_effects:
   wellbeing: +3
 source: seed
+hints:
+  - kind: ask
+    text: Keep the separation. If they answer about work, ask again about them.
+  - kind: listen
+    text: Whether they can talk about energy at all without going back to tasks.
+  - kind: listen
+    text: Whether anything outside work comes up unprompted.

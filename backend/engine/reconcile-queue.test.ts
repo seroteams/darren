@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { toAxisObject, nameWordCount, plannerNameIssue, resolvedCauseHit } from "./reconcile-queue.ts";
+import { toAxisObject, nameWordCount, plannerNameIssue, resolvedCauseHit, reconcileQueue } from "./reconcile-queue.ts";
+import type { RawQueueItem } from "./queue-constants.ts";
+import type { QuestionHint } from "../shared/question.types.ts";
 
 // Item-shape gates (Phase 1). These pure predicates are the decision logic the
 // reconcile loop calls to drop malformed planner items before they materialise.
@@ -90,4 +92,47 @@ test("resolvedCauseHit: a probe of a cause not yet resolved is kept", () => {
 test("resolvedCauseHit: no resolved causes yet drops nothing", () => {
   const item = { name: "anything", probes_cause: "some cause", new_layer: false };
   assert.equal(resolvedCauseHit(item, []), null);
+});
+
+// --- Coaching hints survive the rebuild (question-support-hints Phase 2) -----
+
+// reconcileQueue rebuilds every new or reworded planner question field by field.
+// A field it doesn't name is dropped without an error — which is how mid-meeting
+// questions used to reach the manager's Support panel with no coaching at all.
+// These lock the carry so a future edit can't quietly undo it.
+
+const RAW_HINTS: QuestionHint[] = [
+  { kind: "ask", text: "Ask it flat, then leave the pause alone." },
+  { kind: "listen", text: "Whether he names the QA environment or something else." },
+  { kind: "listen", text: "Whether the trade-off was his call or handed to him." },
+];
+
+const plannerItem = (over: Record<string, unknown> = {}): RawQueueItem => ({
+  ref_alias: null,
+  label: "Beta path",
+  name: "What has to land before the beta can go out?",
+  description: "Gets the sequence out loud.",
+  purpose: "topic" as const,
+  stage: "explore",
+  axis_effects: [{ axis: "clarity", delta: 3 }],
+  grounding: "open",
+  probes_cause: "",
+  new_layer: true,
+  hints: RAW_HINTS,
+  ...over,
+});
+
+test("reconcileQueue: a brand-new planner question keeps its 3 coaching hints", () => {
+  const { queue } = reconcileQueue([plannerItem()], { remainingQueue: [], askedAliases: new Set<string>() });
+  assert.equal(queue.length, 1);
+  assert.deepEqual(queue[0]?.hints, RAW_HINTS);
+});
+
+test("reconcileQueue: malformed hints degrade to none, they never break the turn", () => {
+  const { queue } = reconcileQueue(
+    [plannerItem({ hints: [{ kind: "shout", text: "nope" }, { text: "no kind" }, "not an object"] })],
+    { remainingQueue: [], askedAliases: new Set<string>() },
+  );
+  assert.equal(queue.length, 1);
+  assert.equal(queue[0]?.hints, undefined);
 });

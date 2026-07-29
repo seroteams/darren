@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { stringifyYaml, parseYaml } from "./questions.ts";
+import fs from "node:fs";
+import path from "node:path";
+import { stringifyYaml, parseYaml, loadDir, QUESTIONS_ROOT } from "./questions.ts";
 
 // question-support-hints Phase 1. The codec used to have no list support, so a
 // question's `hints` array hit emitScalar's String(v) and every saved copy read
@@ -95,4 +97,36 @@ test("the old corrupted files parse without throwing, and carry no hints", () =>
   assert.equal(back.alias, "q_old");
   assert.ok(!Array.isArray(back.hints));
   assert.equal(back.source, "generated");
+});
+
+// --- Static content carries its own coaching (Phase 3) ----------------------
+
+// The intro set opens every meeting and the seeds fill the queue when it runs
+// dry — none of them is ever model-generated, so their coaching is hand-written
+// into the files. This walks the real content: if a question here loses its
+// hints, the manager's Support panel falls back to whole-meeting prep cues on
+// the FIRST question of the meeting, which is exactly what Phase 3 fixed.
+test("every intro, seed and opener question carries 3 tagged coaching hints", () => {
+  const bare: string[] = [];
+  const check = (alias: string, hints: unknown): void => {
+    const ok =
+      Array.isArray(hints) &&
+      hints.length === 3 &&
+      hints.every(
+        (h) =>
+          (h as { kind?: string })?.kind === "ask" || (h as { kind?: string })?.kind === "listen",
+      ) &&
+      hints.every((h) => typeof (h as { text?: string })?.text === "string" && (h as { text: string }).text.trim());
+    if (!ok) bare.push(alias);
+  };
+
+  const introRoot = path.join(QUESTIONS_ROOT, "_intro");
+  for (const slug of fs.readdirSync(introRoot)) {
+    for (const doc of loadDir(path.join("_intro", slug))) check(String(doc.alias), doc.hints);
+  }
+  for (const doc of loadDir("_seed")) check(String(doc.alias), doc.hints);
+  const openers = JSON.parse(fs.readFileSync(path.join(QUESTIONS_ROOT, "_openers.json"), "utf8"));
+  for (const o of openers) check(String(o.alias), o.hints);
+
+  assert.deepEqual(bare, [], `questions with no usable coaching: ${bare.join(", ")}`);
 });

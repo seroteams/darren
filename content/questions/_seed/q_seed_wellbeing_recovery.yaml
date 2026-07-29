@@ -6,3 +6,10 @@ purpose: wellbeing
 axis_effects:
   wellbeing: +3
 source: seed
+hints:
+  - kind: ask
+    text: Ask it plainly. The distinction lands on its own without explaining it.
+  - kind: listen
+    text: Whether they have an answer, or have never thought about it.
+  - kind: listen
+    text: Whether rest is something planned or whatever is left over.

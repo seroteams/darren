@@ -8,3 +8,10 @@ axis_effects:
   clarity: +3
   engagement: +1
 source: seed
+hints:
+  - kind: ask
+    text: Make them actually choose. A both answer is not an answer.
+  - kind: listen
+    text: What they drop first, and whether it surprises you.
+  - kind: listen
+    text: Whether the non-negotiable is the work or the people around it.

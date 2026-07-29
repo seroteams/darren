@@ -47,9 +47,9 @@ Two corrections from the dependency sweep (2026-07-29), which reshaped the phase
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Bank questions carry real lines | The generation prompt writes 3 coaching lines per question; the YAML codec stores and reads them; the 22 corrupted files cleaned | ⬜ |
-| 2 | Mid-meeting questions carry lines | The planner writes coaching lines for every question it queues mid-meeting | ⬜ |
-| 3 | Every remaining question type | The meeting's first 3 questions, the seeds, the openers, the closer, the agenda carry-forward and the "Following up on..." follow-ups all carry lines; the panel labels where each line came from | ⬜ |
+| 1 | Bank questions carry real lines | The generation prompt writes 3 coaching lines per question; the YAML codec stores and reads them; the 22 corrupted files cleaned | 🔨 built |
+| 2 | Mid-meeting questions carry lines | The planner writes coaching lines for every question it queues mid-meeting | 🔨 built |
+| 3 | Every remaining question type | The meeting's first 3 questions, the seeds, the openers, the closer, the agenda carry-forward and the "Following up on..." follow-ups all carry lines; the panel labels where each line came from | 🔨 built |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -91,7 +91,19 @@ Built:
 
 Proof: `npm test` 214/214, `npm run typecheck` clean, `npm run lint:copy` clean (baseline before the work: 211/211, clean). One real bank call returned 8 questions, all with 3 question-specific hints.
 
-**Not yet proven on screen.** The engine now produces the hints; nobody has walked a live meeting to see them land in the Support panel. That is the Phase 1 test scenario below, and it needs a real run (about 16p of model calls).
+### All three phases built and walked (2026-07-29, Carl asked for the full flight)
+
+**Phase 2 — mid-meeting questions.** `hints` added to the planner's response schema (and to `required`, the strict-mode rule that caused the outage) and to `RawQueueItem`; `reconcileQueue` now carries them into the rebuilt question, which is where they were being dropped in silence. A reworded question takes the planner's fresh lines, never the original's. Same whole-schema regression guard added for the planner.
+
+**Phase 3 — everything else.** Hand-written coaching for all 12 intro questions, 8 seeds and 22 openers (no model cost, ever); `pickOpener` was rebuilding the opener field by field and dropping them, now fixed; the agenda carry-forward carries lines written into its builder; a thread-follow inherits the hints of the question it follows, tagged `hints_source: "inherited"`, and the panel labels them "From the question this follows up on" instead of passing them off as its own. A content test fails if any static question loses its lines.
+
+**Proof — a full meeting walked in the browser against the fixed engine** ([live-walk-2026-07-29.md](proof/live-walk-2026-07-29.md)): 5 questions, **5 with their own coaching, and the prep-brief fallback did not appear once**. The five covered an opener, a planner-invented question and three reworded bank questions, so all three phases were exercised. `npm test` 214/214, `npm run typecheck` clean, `npm run lint:copy` clean.
+
+**Honest gaps:**
+- **No screenshot.** The Browser pane could not composite frames in this session, so the proof is a DOM-level capture of the rendered panel, not a picture of it.
+- **The inherited label was not seen live.** No thread-follow fired in those five turns. That path is unit-tested only.
+- **Nobody has judged the writing.** The coaching lines read well to me; whether a manager would actually say them is Carl's call.
+- **The silent fallback still swallows failures** (option B, not chosen yet).
 
 Board: https://claude.ai/code/artifact/2b559180-7f87-44e4-be28-65ed20813753
 

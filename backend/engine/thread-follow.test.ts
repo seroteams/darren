@@ -66,3 +66,38 @@ test("buildThreadFollowQuestion quotes the whole clause, never a mid-phrase cut"
   const check = validateQuestionBeforeShow({ name: follow.name, answer });
   assert.ok(check.ok, `validator rejected the whole-clause stem: ${JSON.stringify(check)}`);
 });
+
+// --- Inherited coaching (question-support-hints Phase 3) --------------------
+
+// A thread-follow is minted here in code with no model call, so it can never have
+// coaching written for it. It pulls the same thread as the question it follows,
+// so it carries that question's hints — tagged `inherited` so the panel can say
+// where they came from instead of passing them off as written for this question.
+test("a thread-follow carries the parent question's hints, tagged as inherited", () => {
+  const parent = {
+    ...lastQ,
+    hints: [
+      { kind: "ask", text: "Ask it flat, then leave the pause alone." },
+      { kind: "listen", text: "Whether he names the QA environment or something else." },
+    ],
+  } as unknown as Question;
+  const follow = buildThreadFollowQuestion(
+    parent,
+    "the test environment kept falling over and we lost a week",
+    [],
+  );
+  assert.ok(follow, "expected a grounded follow to mint");
+  assert.deepEqual(follow?.hints, parent.hints);
+  assert.equal(follow?.hints_source, "inherited");
+});
+
+test("a thread-follow off a hint-less question claims no coaching of its own", () => {
+  const follow = buildThreadFollowQuestion(
+    lastQ,
+    "the test environment kept falling over and we lost a week",
+    [],
+  );
+  assert.ok(follow, "expected a grounded follow to mint");
+  assert.equal(follow?.hints, undefined);
+  assert.equal(follow?.hints_source, undefined);
+});

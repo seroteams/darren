@@ -7,3 +7,10 @@ axis_effects:
   clarity: +3
   growth: +1
 source: seed
+hints:
+  - kind: ask
+    text: Ask from here, not from January. The window matters.
+  - kind: listen
+    text: Whether good is measurable to them, or a feeling.
+  - kind: listen
+    text: Whether their picture of a good quarter includes anything about them.

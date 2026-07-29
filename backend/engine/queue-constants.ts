@@ -2,7 +2,7 @@
 // the extracted gate / coverage / thread-follow modules and queue-manager agree
 // without importing each other circularly.
 import { getArc } from "./meeting-arcs.ts";
-import type { QuestionPurpose } from "../shared/question.types.ts";
+import type { QuestionPurpose, QuestionHint } from "../shared/question.types.ts";
 
 // The arc-shaped view getArc returns (slug/tone_register/arc/anti_patterns).
 export type Arc = ReturnType<typeof getArc>;
@@ -35,6 +35,10 @@ export interface RawQueueItem {
   // what/why reworded.
   probes_cause?: string;
   new_layer?: boolean;
+  // Manager-only coaching for this question (question-support-hints Phase 2).
+  // Read off the wire here and carried into the built Question by reconcileQueue
+  // — a field the reconciler doesn't name is silently dropped.
+  hints?: QuestionHint[];
 }
 
 // One {axis, delta} pair on the wire.

@@ -7,6 +7,7 @@ import { checkQuestionEligibility, contentTokens, isRepeatOfAsked } from "./ques
 import { isRelationalArc } from "./relational-arcs.ts";
 import { AXIS_IDS } from "./axes.ts";
 import { ALLOWED_DELTAS, MAX_QUEUE, RUNTIME_SUBDIR } from "./queue-constants.ts";
+import { toHints } from "./question-generator.ts";
 import { isObjectRecord } from "../shared/guards.ts";
 import type { RawQueueItem } from "./queue-constants.ts";
 import type { Question } from "../shared/question.types.ts";
@@ -305,6 +306,13 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
     existingAliases.add(alias);
     usedAliases.add(alias);
     const source = ref ? `reworded_from:${ref.alias}` : "planner_added";
+    // Manager-only coaching for this question (question-support-hints Phase 2).
+    // This object is rebuilt field by field, so anything not named here is
+    // dropped in silence — which is exactly why mid-meeting questions used to
+    // reach the panel with no coaching. A reworded item takes the planner's
+    // FRESH hints, never the original question's: the wording has changed, so
+    // the old lines no longer describe what to listen for.
+    const hints = toHints(item.hints);
     const q: Question = {
       alias,
       label: item.label ?? "",
@@ -314,6 +322,7 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
       stage: item.stage ?? ref?.stage ?? null,
       axis_effects: toAxisObject(item.axis_effects),
       source,
+      ...(hints.length ? { hints } : {}),
       // Carried into the transcript so the grounding audit can re-verify
       // served questions after the fact.
       ...(item.grounding ? { grounding: item.grounding } : {}),

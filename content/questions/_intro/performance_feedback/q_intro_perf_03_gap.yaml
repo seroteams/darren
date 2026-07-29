@@ -8,3 +8,10 @@ axis_effects:
   growth: +3
   clarity: +1
 source: seed
+hints:
+  - kind: ask
+    text: Ask, then wait. Rushing to reassure will end the honesty.
+  - kind: listen
+    text: Whether they name something concrete or apologise in general terms.
+  - kind: listen
+    text: Whether their gap is the same one you were going to raise.

@@ -84,7 +84,11 @@ function pickOpener(
   }
   const pick = choice.opener;
 
-  // Return shape compatible with existing question objects
+  // Return shape compatible with existing question objects. Rebuilt field by
+  // field, so anything not named here is dropped in silence — `hints` is the
+  // opener's hand-written manager coaching from _openers.json and must be
+  // carried, or the meeting's first question reaches the Support panel bare
+  // (question-support-hints Phase 3).
   return {
     alias: pick.alias,
     label: pick.label,
@@ -94,6 +98,7 @@ function pickOpener(
     stage: pick.stage ?? anchorStageId,
     axis_effects: pick.axis_effects,
     source: pick.source,
+    ...(Array.isArray(pick.hints) && pick.hints.length ? { hints: pick.hints } : {}),
   };
 }
 

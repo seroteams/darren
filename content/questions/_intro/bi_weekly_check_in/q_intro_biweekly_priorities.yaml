@@ -8,3 +8,10 @@ axis_effects:
   clarity: +3
   engagement: +1
 source: seed
+hints:
+  - kind: ask
+    text: Let them list before you react, even if the order surprises you.
+  - kind: listen
+    text: Whether they can name why, or only what.
+  - kind: listen
+    text: Whether their top item matches what you would have put first.

@@ -7,3 +7,10 @@ axis_effects:
   growth: +3
   clarity: +1
 source: seed
+hints:
+  - kind: ask
+    text: Name that putting things off is normal, then ask which thing.
+  - kind: listen
+    text: Whether they name the work, or explain why there was no time.
+  - kind: listen
+    text: Whether the stretch they avoid is the one they say they want.

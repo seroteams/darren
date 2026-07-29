@@ -7,3 +7,10 @@ axis_effects:
   wellbeing: +3
   engagement: -1
 source: seed
+hints:
+  - kind: ask
+    text: Ask about three months, not today. A yes about today tells you nothing.
+  - kind: listen
+    text: Whether the yes comes with a condition attached to it.
+  - kind: listen
+    text: Whether they answer for the pace, or for how much they want to cope.

@@ -83,6 +83,12 @@ function buildThreadFollowQuestion(lastQuestion: Question | null | undefined, la
   if (!mirrorCheck.ok) return null;
 
   const alias = newAlias("thread follow", listAllAliases());
+  // A thread-follow is minted here in code, with no model call, so it can never
+  // have coaching written for it. It pulls the same thread as the question it
+  // follows, so that question's hints still apply — carried over explicitly and
+  // tagged "inherited" so the panel can say where they came from rather than
+  // passing them off as written for this question (question-support-hints P3).
+  const inherited = lastQuestion?.hints?.length ? lastQuestion.hints : null;
   return {
     alias,
     label: "Thread follow",
@@ -92,6 +98,7 @@ function buildThreadFollowQuestion(lastQuestion: Question | null | undefined, la
     stage: lastQuestion?.stage ?? null,
     axis_effects: { ...(lastQuestion?.axis_effects || { engagement: 1 }) },
     source: "planner_added",
+    ...(inherited ? { hints: inherited, hints_source: "inherited" as const } : {}),
   };
 }
 

@@ -1,6 +1,6 @@
 # Phase 3 — Every remaining question type
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
 
 ## Goal
 No question in a meeting is left without coaching, and no line ever pretends to be something it isn't.

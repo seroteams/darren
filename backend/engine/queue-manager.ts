@@ -101,8 +101,30 @@ const QUEUE_ITEM = {
     // re-probes a resolved cause with new_layer=false.
     probes_cause: { type: "string" },
     new_layer: { type: "boolean" },
+    // Manager-only coaching for THIS question (question-support-hints Phase 2):
+    // exactly 3 tagged how-to-ask / listen-for lines, craft rules in plan-turn.md.
+    // Without these, every mid-meeting question fell back to the prep brief's
+    // whole-meeting cues, which is what the manager saw for most of a run.
+    //
+    // MUST stay in `required` below — strict structured outputs reject a schema
+    // whose `required` omits any key in `properties`, and the fallback would
+    // swallow the 400 (see the same trap in question-generator.ts).
+    hints: {
+      type: "array",
+      minItems: 3,
+      maxItems: 3,
+      items: {
+        type: "object",
+        properties: {
+          kind: { type: "string", enum: ["ask", "listen"] },
+          text: { type: "string" },
+        },
+        required: ["kind", "text"],
+        additionalProperties: false,
+      },
+    },
   },
-  required: ["ref_alias", "label", "name", "description", "purpose", "stage", "axis_effects", "grounding", "probes_cause", "new_layer"],
+  required: ["ref_alias", "label", "name", "description", "purpose", "stage", "axis_effects", "grounding", "probes_cause", "new_layer", "hints"],
   additionalProperties: false,
 };
 
@@ -578,4 +600,5 @@ export {
   computeLastRealizedDeltas,
   computeConsecutiveWellbeingClarifierCount,
   computeOffArcDrillCount,
+  RESPONSE_SCHEMA,
 };

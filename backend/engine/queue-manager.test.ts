@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature, enforceDrillCap, enforceThreadFollow } from "./queue-manager.ts";
+import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature, enforceDrillCap, enforceThreadFollow, RESPONSE_SCHEMA } from "./queue-manager.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import type { Question } from "../shared/question.types.ts";
 import type { Arc } from "./queue-constants.ts";
@@ -178,4 +178,38 @@ test("isRelationalArc: check-in and feels-off are relational; performance is not
   assert.equal(isRelationalArc("bi_weekly_check_in"), true);
   assert.equal(isRelationalArc("something_feels_off"), true);
   assert.equal(isRelationalArc("performance_feedback"), false);
+});
+
+// --- Planner schema: the strict-mode trap (question-support-hints Phase 2) ----
+
+// The planner call runs with strict structured outputs, where OpenAI rejects any
+// schema whose `required` omits a key in `properties` — the whole request 400s.
+// The bank stage hit exactly this when `hints` was added to properties alone, and
+// its fallback swallowed the error for nine days. This walks the WHOLE planner
+// schema so the same trap can't be set here.
+test("planner RESPONSE_SCHEMA: every property is listed in required (strict mode)", () => {
+  const gaps: string[] = [];
+  const walk = (node: Record<string, unknown>, path: string): void => {
+    if (!node || typeof node !== "object") return;
+    const props = node.properties as Record<string, Record<string, unknown>> | undefined;
+    if (node.type === "object" && props) {
+      const required = Array.isArray(node.required) ? (node.required as string[]) : [];
+      for (const key of Object.keys(props)) {
+        if (!required.includes(key)) gaps.push(`${path}.${key}`);
+        walk(props[key] as Record<string, unknown>, `${path}.${key}`);
+      }
+    }
+    if (node.type === "array" && node.items) walk(node.items as Record<string, unknown>, `${path}[]`);
+  };
+  walk(RESPONSE_SCHEMA as unknown as Record<string, unknown>, "");
+  assert.deepEqual(gaps, [], `missing from required: ${gaps.join(", ")}`);
+});
+
+test("planner RESPONSE_SCHEMA: each queued question carries exactly 3 tagged hints", () => {
+  const item = RESPONSE_SCHEMA.properties.new_queue.items as {
+    properties: { hints: { minItems: number; maxItems: number; items: { properties: { kind: { enum: string[] } } } } };
+  };
+  assert.equal(item.properties.hints.minItems, 3);
+  assert.equal(item.properties.hints.maxItems, 3);
+  assert.deepEqual(item.properties.hints.items.properties.kind.enum, ["ask", "listen"]);
 });

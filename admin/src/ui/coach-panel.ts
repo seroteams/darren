@@ -67,6 +67,7 @@ export function createCoachPanel({
 
   let mode: "support" | "scores" = "support"; // POC default: coaching first
   let questionHints: Hint[] = [];
+  let hintsInherited = false; // lines written for the question this one follows up on
   const fallbackCues = cleanBriefCues(briefCues); // brief-level, only when the question has none
 
   const attacher = createNoteAttacher(readStored());
@@ -128,7 +129,16 @@ export function createCoachPanel({
   }
 
   function supportHtml(): string {
-    if (questionHints.length) return questionHints.map(hintHtml).join("");
+    if (questionHints.length) {
+      // A thread-follow ("Following up on what you just said") is minted in code
+      // with no model call, so it carries the hints of the question it follows.
+      // Say so — the alternative is passing whole-thread coaching off as written
+      // for this exact question (question-support-hints Phase 3).
+      const label = hintsInherited
+        ? `<p class="coach-source">From the question this follows up on.</p>`
+        : "";
+      return label + questionHints.map(hintHtml).join("");
+    }
     // Openers, agenda and seed questions never carry generated hints. Rather than an
     // empty shrug, fall back to the prep brief's real listen-for cues for this person,
     // LABELLED as brief-level so it is never mistaken for per-question coaching.
@@ -172,8 +182,11 @@ export function createCoachPanel({
   }
 
   // Called each question with that question's wire hints (validated here).
-  function setQuestionHints(raw: unknown): void {
+  // `source` is "inherited" only when the lines belong to the question this one
+  // follows up on; anything else means they were written for this question.
+  function setQuestionHints(raw: unknown, source?: unknown): void {
     questionHints = cleanHints(raw);
+    hintsInherited = questionHints.length > 0 && source === "inherited";
     render();
   }
 

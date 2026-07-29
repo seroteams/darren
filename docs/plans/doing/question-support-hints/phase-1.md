@@ -1,6 +1,6 @@
 # Phase 1 — Bank questions carry real coaching lines
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
 
 ## Goal
 The questions generated before a meeting each carry 1–3 coaching lines written for that question, and those lines survive being saved and read back.
