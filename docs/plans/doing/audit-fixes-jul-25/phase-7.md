@@ -9,7 +9,7 @@ found two of its items no longer exist. It now runs as:
 |---|---|---|
 | **7a** | Member home says what it is (F10) | 🔨 BUILT 2026-07-29, awaiting Carl |
 | **7b** | Three motion wins (F12) | ⬜ not started |
-| **7c** | The small sweep | 🔨 BUILT 2026-07-29: 6 fixed, 3 need Carl |
+| **7c** | The small sweep | 🔨 BUILT 2026-07-29: **7 fixed**, 2 still need Carl |
 
 ## Reality check before building (2026-07-29)
 
@@ -83,7 +83,7 @@ elements with a transition and almost all were hover colours.
 Respect `prefers-reduced-motion` on all three. Verify by reading computed styles, not by
 watching: screenshots time out on running animations.
 
-## 7c — The small sweep 🔨 BUILT 2026-07-29 (6 fixed, 3 need Carl)
+## 7c — The small sweep 🔨 BUILT 2026-07-29 (7 fixed, 2 need Carl)
 
 ### Fixed
 
@@ -95,21 +95,39 @@ watching: screenshots time out on running animations.
 | 4 | Run detail: the meeting type appeared twice | The blue `.rd-type-badge` is gone. The breadcrumb's current crumb names the meeting once, in ink at semibold rather than accent blue, so it no longer reads as a link that isn't one. |
 | 5 | Compare runs: the nav lit "Test engine" while the page said "Compare runs" | The eyebrow became a breadcrumb, `Test engine › Compare runs`, matching the pattern the Pulse sub-pages already use. The parent crumb navigates. |
 | 6 | Collapsed nav: icon-only with no tooltips | `title` on every rail row in both apps, including the hand-written Log out row that does not go through `rowHtml`. The aria-labels only ever helped screen-reader users. |
+| 7 | The 1:1 wizard used two vocabularies | One name per step at every width (Carl chose it, see below). The long forms are deleted and the degrade ladder no longer renames anything. |
 
 ### Needs Carl, not built
 
-**The wizard vocabulary — and the audit got this one wrong.** It reads as "a guest sees
-*Focus areas / Prep brief / During the meeting*, a manager sees *Focus / Prep / Meeting*",
-so it looks like two vocabularies picked by audience. It is not. `session-topbar.js` paints
-the full labels, measures whether the strip overflowed, and falls back to the short ones if
-it did. A guest has no nav rail, so there is more room, so they get the long form. It is one
-vocabulary with a measured responsive degrade, and the full name always rides on the `title`.
+**The wizard vocabulary — ✅ DONE 2026-07-29, and the audit got this one wrong.** It read as
+"a guest sees *Focus areas / Prep brief / During the meeting*, a manager sees *Focus / Prep /
+Meeting*", which looks like two vocabularies picked by audience. It was not.
+`session-topbar.js` painted the full labels, measured whether the strip overflowed, and fell
+back to the short ones. A guest has no nav rail, so more room, so the long form. One
+vocabulary, a measured responsive degrade.
 
-The complaint still has something in it: "During the meeting" → "Meeting" is a big jump for
-the same step. But making the two forms agree is a copy decision, so it is yours:
-- **A** leave it (the degrade is deliberate and the title always carries the full name)
-- **B** shorten the long forms so both agree ("Focus / Prep / Meeting" everywhere)
-- **C** change only the jarring one ("During the meeting" → "In the meeting", short "Meeting")
+Carl picked **one name each, always** (2026-07-29). The long forms are deleted:
+
+| Step | Was (roomy / tight) | Now |
+|---|---|---|
+| 1 | Setup / Setup | Setup |
+| 2 | Focus areas / Focus | **Focus** |
+| 3 | Prep brief / Prep | **Prep** |
+| 4 | Questions / Questions | Questions |
+| 5 | During the meeting / Meeting | **Meeting** |
+| 6 | Pulling it together / Wrap-up | **Wrap-up** |
+| 7 | Recap / Recap | Recap |
+
+`TOPBAR_STAGES` is `[key, label]` pairs now, so there is no second form to drift, and
+`STAGE_DISPLAY` carries the same words (a test asserts every pair matches it, so the two
+lists cannot disagree). The topbar still degrades when the strip runs out of room, but by
+shrinking steps to their nodes, never by renaming them. Verified on a real run: seven steps,
+one name each, every label equal to its own tooltip.
+
+One note: `TOPBAR_STAGES` keeps literal strings rather than `STAGE_DISPLAY.X` lookups,
+because `stage-lookback.test.ts` (another chat's lane) pulls the seven keys out of this file
+with a regex that expects `["KEY", "Label"`. Changed to lookups, that guard silently found
+zero keys.
 
 **The logged-out 401.** Not something our code logs. `main.js` calls `me()` inside a
 `try/catch` and stays silent; the red line is the browser's own network log of a 401

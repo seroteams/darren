@@ -275,15 +275,11 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
     // ("During the meeting", "Pulling it together") are longer than the old engine
     // ones, so the full strip needs a wide screen; otherwise we use the short form
     // rather than let the rail scroll or slide under the profile chip. The full name
-    // still rides on the title attribute at every width. Measured, not guessed by
-    // breakpoint: how much room is left depends on the nav rail and the width of the
-    // signed-in email, so we paint the full strip, ask whether it overflowed, and
-    // fall back to the short one if it did.
-    const paint = (useFull) => {
+    // One label per step, at every width (see the ladder note below).
+    const paint = () => {
       stages.innerHTML = TOPBAR_STAGES
         .map(
-          ([key, fullLabel, shortLabel], i) => {
-            const label = useFull ? fullLabel : shortLabel;
+          ([key, label], i) => {
             // Stages before the current one are "done" (reviewable); the current
             // stage is "current"; anything after is "upcoming". When the run has
             // moved past the board (curIdx === -1, e.g. session review), every
@@ -303,23 +299,26 @@ export function createSessionTopbar({ store, setState, resetSession } = {}) {
             const viewCls = key === viewing ? " is-viewing" : "";
             if (clickable) {
               const aria = key === viewing ? ' aria-current="true"' : "";
-              return `${rail}<button type="button" class="stage-step is-${status}${viewCls} stage-step--clickable" data-stage="${key}" title="${fullLabel}"${aria}>${inner}</button>`;
+              return `${rail}<button type="button" class="stage-step is-${status}${viewCls} stage-step--clickable" data-stage="${key}" title="${label}"${aria}>${inner}</button>`;
             }
-            return `${rail}<span class="stage-step is-${status}${viewCls}" title="${fullLabel}">${inner}</span>`;
+            return `${rail}<span class="stage-step is-${status}${viewCls}" title="${label}">${inner}</span>`;
           }
         )
         .join("");
     };
-    // Measured degrade ladder, 1px of slack for sub-pixel rounding: full labels →
-    // short labels → the signed-in email folds to its initials circle → every step
-    // but the one you're on shrinks to its node. Measured rather than guessed by
-    // breakpoint, because the room left over depends on the nav rail and on how
-    // long the signed-in email is. The rail is the load-bearing thing on this bar;
-    // the email is a courtesy that also lives in the nav.
+    // Measured degrade ladder, 1px of slack for sub-pixel rounding: the signed-in email
+    // folds to its initials circle → every step but the one you're on shrinks to its node.
+    // Measured rather than guessed by breakpoint, because the room left over depends on the
+    // nav rail and on how long the signed-in email is. The rail is the load-bearing thing on
+    // this bar; the email is a courtesy that also lives in the nav.
+    //
+    // The ladder used to START by renaming the steps: long labels, then short ones. That is
+    // gone (Carl, 2026-07-29). A step keeps its one name at every width — a guest reading
+    // "During the meeting" where a manager read "Meeting", purely because a guest has no nav
+    // rail, was the same step wearing two names. Space is won by shrinking, never by renaming.
     el.classList.remove("is-tight", "is-collapsed");
-    paint(true);
+    paint();
     const overflows = () => stages.scrollWidth > stages.clientWidth + 1;
-    if (overflows()) paint(false);
     if (overflows()) el.classList.add("is-tight");
     if (overflows()) el.classList.add("is-collapsed");
 

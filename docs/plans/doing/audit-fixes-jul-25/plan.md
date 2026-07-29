@@ -48,11 +48,13 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 chart says something instead of drawing a flat line, the person page's dangling middot is
 structurally impossible now, the axis numbers say what they are out of, the run-detail header
 names the meeting type once instead of twice, Compare runs wears a breadcrumb matching the
-rail row it lights, and every rail row has a tooltip when collapsed. Three need Carl: the
-wizard vocabulary (**the audit misdiagnosed it** — it is a width-driven degrade, not two
-audiences, so making the forms agree is a copy call), the logged-out 401 (only fixable by
-changing `/auth/me` to answer 200 with a null user, which is an auth contract change), and
-the Pulse grid (unmeasurable without a laid-out viewport).
+rail row it lights, and every rail row has a tooltip when collapsed. Then a seventh: Carl
+picked **one wizard vocabulary** (Setup · Focus · Prep · Questions · Meeting · Wrap-up ·
+Recap), so the long forms are deleted and the topbar wins space by shrinking steps, never by
+renaming them. **The audit had misdiagnosed that one** as guest-versus-manager; it was a
+width-driven degrade, and a guest simply has no nav rail. Two still need Carl: the logged-out
+401 (only fixable by changing `/auth/me` to answer 200 with a null user, an auth contract
+change) and the Pulse grid (unmeasurable without a laid-out viewport).
 
 **Phase 7 SPLIT into 7a/7b/7c on 2026-07-29 (Carl's call), and 7a is 🔨 BUILT.** A reality
 check before building found two of the eleven small items are already gone: the Screen gallery
