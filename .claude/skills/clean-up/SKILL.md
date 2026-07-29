@@ -1,6 +1,6 @@
 ---
 name: clean-up
-description: "The repo spring-clean: sweep the whole house, show Carl what's dusty, then tidy only what he picks. Trigger when Carl says 'clean up', 'let's do a clean up', 'cleanup', 'tidy the repo', 'spring clean', or 'declutter'. Sweeps TODOs, tracker freshness, unfinished plans, git mess (branches/worktrees/stashes/uncommitted), old and orphaned files, stale systems with no consumers, refactor opportunities, and styling drift against DESIGN.md — then reports it all as scannable tables with a lettered pick-list. Read-only until Carl chooses; free checks only, never a paid run. NOT the same as goodnight (end-of-day tie-off + push) — clean-up is the audit-and-tidy sweep, any time of day, no push."
+description: "The repo spring-clean: sweep the whole house, show Carl what's dusty, tidy only what he picks. Trigger on 'clean up', 'cleanup', 'tidy the repo', 'spring clean', 'declutter'. Sweeps TODOs, trackers, unfinished plans, git mess, orphaned files, and DESIGN.md drift into scannable tables with a lettered pick-list. Read-only until Carl chooses; free checks only, never paid. NOT goodnight (end-of-day tie-off + push) — this is audit-and-tidy, any time, no push."
 argument-hint: "(optional: a focus area, e.g. 'clean up, just git' or 'clean up the docs')"
 user-invocable: true
 ---

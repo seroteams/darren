@@ -1,6 +1,6 @@
 ---
 name: release
-description: "Put Carl's work live on Render. Trigger when Carl says /release, 'release', 'go live', 'ship it', 'push it live', 'deploy'. Runs free checks, commits anything unsaved, pushes main (Render auto-deploys), then watches the Render API until the deploy is live or failed — reporting in plain words. On failure it explains the problem and waits for Carl's yes before changing anything. Never prints or commits the API key."
+description: "Put Carl's work live on Render. Trigger on /release, 'release', 'go live', 'ship it', 'deploy'. Runs free checks, commits anything unsaved, pushes main, watches the Render API until live or failed, reports in plain words. On failure, explains and waits for Carl's yes before changing anything. Never prints or commits the API key."
 argument-hint: ""
 user-invocable: true
 disable-model-invocation: true

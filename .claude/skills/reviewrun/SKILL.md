@@ -1,6 +1,6 @@
 ---
 name: reviewrun
-description: "Load a pipeline run log directory, digest each stage, and prime an improvement discussion. Trigger when the user says /reviewrun, 'review this run', 'look at run', or passes a path under logs/<month>/<run-id>. Reads all stage inputs/prompts/responses plus transcript and axis-state, surfaces what happened, where it weakened, and seeds 2-3 sharpening questions. Use to start refinement conversations, not to write code."
+description: "Load a pipeline run log directory, digest each stage, prime an improvement discussion. Trigger on /reviewrun, 'review this run', 'look at run', or a path under logs/<month>/<run-id>. Reads all stage data + transcript, surfaces what happened and where it weakened, seeds 2-3 sharpening questions. For starting a discussion, not writing code."
 argument-hint: "<absolute-path-to-run-dir>"
 user-invocable: true
 ---

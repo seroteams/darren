@@ -1,6 +1,6 @@
 ---
 name: night-test
-description: "Run the unattended overnight full-QA pass of the whole Sero app. Trigger when Carl says 'night test', 'overnight QA', 'run the overnight test', 'test everything overnight', or asks for an autonomous full sweep with a report by morning. Loads the canonical prompt from docs/reference/night-test-prompt.md and enforces its cost ceiling, no-fixes rule, and report shape — instead of Carl rewriting the whole brief from scratch each time."
+description: "Run the unattended overnight full-QA pass of the whole Sero app. Trigger on 'night test', 'overnight QA', 'test everything overnight', or an autonomous full sweep with a report by morning. Loads the canonical prompt from docs/reference/night-test-prompt.md and enforces its cost ceiling, no-fixes rule, and report shape."
 argument-hint: "<optional: paid-run budget override, e.g. '4 runs / $1.40'>"
 user-invocable: true
 ---

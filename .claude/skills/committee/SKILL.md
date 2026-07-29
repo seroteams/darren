@@ -1,6 +1,6 @@
 ---
 name: committee
-description: Convene Carl's advisory committee — eight named seats that pressure-test any plan or direction decision that matters. Trigger when Carl says "check with the committee", "ask the committee", "what would the committee say", or AUTOMATICALLY before locking in any plan (darren-method setup) or any direction choice that matters (engine design, product scope, GTM, pricing, trust/legal, evaluation strategy). Do NOT trigger for UI tweaks, copy changes, bugfixes, or routine phase work.
+description: Convene Carl's advisory committee — 8 named seats that pressure-test any plan or direction decision. Trigger on "check with the committee", "ask the committee", "what would the committee say", or AUTOMATICALLY before locking in a plan or a direction call (engine design, product scope, GTM, pricing, trust/legal, evaluation). NOT for UI tweaks, copy changes, bugfixes, or routine phase work.
 ---
 
 # The Committee

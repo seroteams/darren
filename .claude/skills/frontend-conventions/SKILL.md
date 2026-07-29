@@ -1,6 +1,6 @@
 ---
 name: frontend-conventions
-description: "Sero's house rules for frontend / UI code (the admin console and the future customer app). Use when writing, naming, structuring, or reviewing any frontend file — components, pages, hooks, types — covering TypeScript with tight contracts, kebab-case role-suffixed file names, composition over inheritance, the mirrored test layout, the 14px minimum text-size floor, and plain user-facing language. Apply before creating or moving frontend files."
+description: "Sero's house rules for frontend/UI code (admin console + customer app). Use when writing, naming, or reviewing any frontend file — TypeScript with tight contracts, kebab-case role-suffixed names, composition over inheritance, mirrored test layout, the 14px minimum text-size floor, plain user-facing language. Apply before creating or moving frontend files."
 ---
 
 # Frontend conventions — Sero house rules

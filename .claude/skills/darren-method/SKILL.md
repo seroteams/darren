@@ -1,6 +1,6 @@
 ---
 name: darren-method
-description: "The team's standard way to run any multi-step build. Turn a plan into a docs/plans/doing/<slug>/ folder — a plan.md overview plus phase files that each end with QA scenarios — then do ONE phase at a time, with the product owner testing and green-lighting before the next phase. Trigger when the user says /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or hands over a plan to break down and work through. Use for any change big enough to need a plan; skip for trivial one-file edits."
+description: "The standard way to run any multi-step build. Turns a plan into docs/plans/doing/<slug>/ (plan.md + phase files ending in QA scenarios), then does ONE phase at a time — Carl tests and green-lights before the next. Trigger on /darren-method, 'darren method', 'split this into phases', 'set up the todo folder', or a plan handed over to break down. Use for anything big enough to need a plan; skip trivial one-file edits."
 argument-hint: "<plan file path, or feature name/slug>"
 user-invocable: true
 ---

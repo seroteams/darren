@@ -1,6 +1,6 @@
 ---
 name: dependency-check
-description: "Always check what ELSE must change when building a new feature or updating an existing one. Trigger on ANY feature build, feature update, or behavior change — before writing code AND again before calling it done. A feature isn't finished when its own file works; it's finished when every screen, engine stage, test page, and content file that should know about it actually does. Example miss this skill exists to prevent: building a new 'promises' feature but the test-engine page never shows it."
+description: "Always check what ELSE must change when building or updating a feature — before coding AND before calling it done. A feature isn't finished when its own file works; it's finished when every dependent screen, engine stage, test page, and content file knows about it. Example miss this prevents: a new 'promises' feature that never shows up on the test-engine page."
 user-invocable: true
 ---
 

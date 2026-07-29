@@ -1,6 +1,6 @@
 ---
 name: phase-close
-description: "The close-out ritual when Carl approves a phase. Trigger when Carl says 'close the phase', 'phase approved', 'green light', 'tested, good', 'sign it off', or otherwise confirms a Darren-Method phase passed his QA walk. Runs the ordered checklist of every tracker that must move together — plan.md, STATUS.md, SERO_BOARD.md, build badges, progress log, changelog — then commits. Skipping any one of these is how trackers drift."
+description: "The close-out ritual when Carl approves a phase. Trigger on 'close the phase', 'phase approved', 'green light', 'tested, good', 'sign it off', or confirming a Darren-Method phase passed QA. Moves every tracker together — plan.md, STATUS.md, SERO_BOARD.md, build badges, changelog — then commits. Skipping one is how trackers drift."
 argument-hint: "<workstream slug, if not obvious from context>"
 user-invocable: true
 ---

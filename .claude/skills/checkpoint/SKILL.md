@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: "Save or restore the full project picture on one word from Carl. Trigger on 'checkpoint' / 'check point' (any spelling), 'save everything', 'save where we are' — that's the SAVE job. Trigger on 'checkpoint' said at the START of a fresh session, or 'where are we', 'catch me up', 'bring me back up to speed' — that's the RESTORE job. Never ask which one he means: mid-work = save, fresh session = restore."
+description: "Save or restore the full project picture on one word from Carl. Trigger on 'checkpoint'/'check point' (any spelling), 'save everything', 'save where we are' → SAVE. Trigger on 'checkpoint' at the START of a fresh session, or 'where are we', 'catch me up', 'bring me back up to speed' → RESTORE. Never ask which — mid-work = save, fresh session = restore."
 argument-hint: "(no args — the word itself is the command)"
 user-invocable: true
 ---

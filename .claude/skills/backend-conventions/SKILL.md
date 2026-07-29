@@ -1,6 +1,6 @@
 ---
 name: backend-conventions
-description: "Sero's house rules for backend code (the engine, API server, services, repos, controllers, types). Use when writing, naming, structuring, or reviewing any backend file — TypeScript with tight contracts, kebab-case role-suffixed file names, slim-controller → service → co-located repo layering, RESTful versioned /api/v1 design, error handling, and the mirrored test layout. Apply before creating or moving backend files."
+description: "Sero's house rules for backend code (engine, API server, services, repos, controllers). Apply when writing, naming, or reviewing any backend file, or before creating/moving one — TypeScript with tight contracts, kebab-case role-suffixed names, controller→service→repo layering, /api/v1 REST design, mirrored test layout."
 ---
 
 # Backend conventions — Sero house rules

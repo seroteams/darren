@@ -1,6 +1,6 @@
 ---
 name: goodnight
-description: "The end-of-day sweep, so Carl can walk away with nothing left open. Trigger when Carl says 'goodnight', 'good night', 'end of day sweep', 'closing up for the night', 'tie everything off for the night'. Runs every free check, spends at most the stated paid-test budget (default $2) only where a run proves something owed, ties off green-lit-but-uncommitted work, tidies junk and docs, surfaces any stray branches (trunk-only — there shouldn't be any), pushes main (Render auto-deploys) and watches it go live — then reports honestly what stayed open and why. Never sweeps a live session's work; never self-certifies a phase closed."
+description: "The end-of-day sweep so Carl can walk away with nothing left open. Trigger on 'goodnight', 'good night', 'end of day sweep', 'tie everything off for the night'. Runs every free check, spends at most the stated paid-test budget (default $2) only where owed, ties off green-lit-but-uncommitted work, tidies junk, pushes main live — reports honestly what stayed open and why. Never sweeps a live session's work; never self-certifies a phase closed."
 argument-hint: "(optional: a paid-test budget, e.g. 'goodnight, $1' — default $2)"
 user-invocable: true
 disable-model-invocation: true
