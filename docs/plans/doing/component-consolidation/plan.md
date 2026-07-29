@@ -107,7 +107,8 @@ Prior Carl rulings, not to be reopened by this plan:
 - Re-skinning untouched screens (standing rule is incremental adoption on touch).
 - Flowbite 3.x (pinned at 2.5.2 to stay true to the Figma).
 - Promoting the `.ds-*` showcase widgets app-wide (parked as too risky).
-- Pixel-diff automation (manual eyeball-diff against `docs/screen-gallery/` is the rail).
+- Pixel-diff automation (manual before/after screenshots are the rail — the screen gallery that
+  used to hold the baseline was deleted 2026-07-29 on Carl's word).
 
 Found while building, not in scope here:
 

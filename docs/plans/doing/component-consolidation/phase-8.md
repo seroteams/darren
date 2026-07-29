@@ -67,7 +67,7 @@ The proof this approach works is already in the repo: `admin/src/styles/design/c
 
 - New `scripts/lint-components.js` and `npm run lint:components`. Pure Node, no dependencies, free, same skeleton as `scripts/lint-design-tokens.js`.
 - Fails on: a `modal-backdrop` created outside `modal-shell.ts`; a `class="btn"` string outside `button.ts`; a locally defined `initialOf`; a second copy of the logo SVG.
-- Explicit allowlist for the DESIGN.md §6 exemptions (`dev-badge.js`, `build-stamp.js`, `universe.ts`, `design.js`, `gallery/`), plus a `lint-components-ignore` per-line waiver, matching how the other two linters work.
+- Explicit allowlist for the DESIGN.md §6 exemptions (`dev-badge.js`, `build-stamp.js`, `universe.ts`, `design.js`), plus a `lint-components-ignore` per-line waiver, matching how the other two linters work. *(`gallery/` was in this list until the Screens feature was deleted 2026-07-29.)*
 - Fix the stale design docs this work exposed: DESIGN.md still points at `admin/public/sero-flowbite/index.html`, which was deleted in commit `5edacbea`. `admin/src/styles/DESIGN-SYSTEM.md` contradicts `tokens.css` on caption, label and display sizes.
 
 ## Not in this phase

@@ -17,7 +17,7 @@ A brand-new registration comes with one flagged demo person and one finished exa
 
 ## Changes
 - `backend/db/schema.ts`: add `is_demo` boolean (default false) to `people` and `sessions` (+ migration).
-- New demo-seed service (backend, near auth): after `createOrgWithOwner` succeeds in `auth.service.ts`, create the demo person + clone one curated finished run from a shipped fixture (modelled on `scripts/seed-runs.ts`; fixture from `scripts/gallery/fixtures/`), back-dated a few days, all rows `is_demo = true`. Seeding failure must never fail registration (log and continue).
+- New demo-seed service (backend, near auth): after `createOrgWithOwner` succeeds in `auth.service.ts`, create the demo person + clone one curated finished run from a shipped fixture (modelled on `scripts/seed-runs.ts`; fixture shipped as `content/demo/demo-run.json`), back-dated a few days, all rows `is_demo = true`. Seeding failure must never fail registration (log and continue).
 - Exclude `is_demo` rows from admin metrics, admin run lists and any validation counts (sweep `backend/api/services/` consumers of people/sessions).
 - Tests: unit test the seed step; typecheck; no OpenAI calls anywhere in the path.
 

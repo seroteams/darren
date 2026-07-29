@@ -15,7 +15,7 @@
 
 ## Resolved before we start
 - **Seam:** seed right after `createOrgWithOwner` in `backend/api/services/auth/auth.service.ts` (~line 98). The repo transaction (`auth.repo.ts:102-124`) creates org + manager; the seeding step follows it.
-- **Data shape:** one `people` row + one finished `sessions` row (briefing inside `state`, `personId` + `completedAt` set) + its `run_artifacts`. Blueprint: `scripts/seed-runs.ts` (clone via `createSession` → `upsertSession(hydrateSession(...))` → `cloneArtifacts`), fixtures in `scripts/gallery/fixtures/` (e.g. `run-full.json`) so seeding never depends on on-disk run ids.
+- **Data shape:** one `people` row + one finished `sessions` row (briefing inside `state`, `personId` + `completedAt` set) + its `run_artifacts`. Blueprint: `scripts/seed-runs.ts` (clone via `createSession` → `upsertSession(hydrateSession(...))` → `cloneArtifacts`), fixture shipped as `content/demo/demo-run.json` so seeding never depends on on-disk run ids.
 - **Why it shows on Home:** manager Home (START, `admin/src/stages/start-core.js`) lists recent runs, so the demo run appears there; the person appears on Team (`frontend/src/stages/team.ts`). Person detail (`frontend/src/stages/person-detail.ts`) works off the same rows.
 - **Flag:** new `is_demo` boolean (default false) on `people` + `sessions`; every admin metric / run list / validation count filters it out.
 - **Gotcha:** never seed under the synthetic `dev-org` (non-uuid ids short-circuit repos) — only real registration orgs.

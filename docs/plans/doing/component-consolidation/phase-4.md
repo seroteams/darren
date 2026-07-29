@@ -36,7 +36,7 @@ Same rule as Phase 3: before-and-after screenshots on at least one admin screen 
 - [ ] Card class strings outside `card.ts` are down to recorded exemptions.
 - [ ] The 14 empty-state families are down to one, plus any recorded exemptions.
 - [ ] `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy` clean.
-- [ ] Before/after screenshots attached; `docs/screen-gallery/` regenerated.
+- [ ] Before/after screenshots attached.
 - [ ] Carl has tested the scenarios below and said go.
 
 ## Test scenarios — for the product owner
