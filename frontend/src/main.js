@@ -100,7 +100,11 @@ startPopstate((parsed) => {
     return;
   }
   if (parsed.stage === STAGES.RUN_DETAIL) {
-    if (parsed.params?.myRunId) setState({ myRunId: parsed.params.myRunId, stage: STAGES.RUN_DETAIL });
+    // stageTick forces a remount even when the stage doesn't change (audit F3) — Back from
+    // one run straight to another keeps stage === RUN_DETAIL, so without the bump the shell's
+    // render gate (stage !== routedStage || stageTick !== routedTick) sees nothing new and
+    // never re-mounts; the screen keeps showing whichever run last rendered.
+    if (parsed.params?.myRunId) setState({ myRunId: parsed.params.myRunId, stage: STAGES.RUN_DETAIL, stageTick: store.stageTick + 1 });
     else setState({ stage: isAdmin(store.user) ? STAGES.RUNS : STAGES.MEMBER_HOME });
     return;
   }
@@ -228,6 +232,16 @@ async function boot() {
   if (route?.stage === STAGES.PERSON_DETAIL && route.params?.personKey) {
     setState({ personKey: route.params.personKey, stage: STAGES.PERSON_DETAIL });
     return;
+  }
+
+  // /runs/:id deep link (audit F3) — a refresh, Back, or a pasted link must not lose the run.
+  // The router already parses this correctly; boot had no branch that acted on it for a
+  // manager, so it fell through to the generic fallback below, which sets the stage but never
+  // carries myRunId — run-detail.ts then reads a stale/empty id and shows "No 1:1 selected".
+  // Mirrors the /team/:person handler just above.
+  if (route?.stage === STAGES.RUN_DETAIL) {
+    if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
+    history.replaceState(null, "", "/runs"); setState({ stage: STAGES.RUNS }); return;
   }
 
   // /guided/:id deep link (Monthly Check-in) — id from URL, no live session needed. Only
