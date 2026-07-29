@@ -9,7 +9,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
-| 43ed6aba | Phone width: About page + topbar exit | admin/src/styles/design/about-stage.css, admin/src/styles/design/session-topbar.css, admin/src/stages/about.js, admin/src/ui/session-topbar.js | 2026-07-28 |
+| a1867f25 | audit-fixes P3 (the refresh dead end) | frontend/src/main.js, admin/src/main.js, frontend/src/router.js, admin/src/router.js, frontend/src/main.test.js, admin/src/main.test.js, docs/plans/doing/audit-fixes-jul-25/ | 2026-07-28 |
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).
