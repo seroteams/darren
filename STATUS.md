@@ -2,6 +2,13 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-29 — the Screens gallery is gone, on your word ("delete screens feature we dont
+need it").** The whole feature came out: the Build rail row, the `/gallery` routes and deep links,
+the edit-bar host, the static-export script and its fixtures, the 43 exported snapshot pages, and
+the `screen-gallery` plan folder. Nothing else lost a screen: Tests, Design system and every real
+screen are untouched, because the gallery only ever *borrowed* them from the stage registry.
+204/204 tests, typecheck clean, all three free guards green.
+
 📍 **2026-07-29 — the welcome screen leads with a real brief again, and you green-lit it ("love it!").**
 You looked at the first screen a new manager sees and said it wasn't very interesting. It was
 **option B, "start typing"** — an empty notes box as the whole screen, picked 2026-07-27 from the
@@ -291,7 +298,6 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 | [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 ✅ closed **unwalked** 2026-07-27 (shell + layout; built 07-25, regression test guards it). P3–P9 ⬜ — nothing built, so this stays open. |
 | [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). Must reuse `hasRealRuns` from the onboarding build. |
-| [screen-gallery](docs/plans/doing/screen-gallery/plan.md) | Phase 1 ✅ green-lit 2026-07-18. Phase 2 v2 (static HTML gallery at `docs/screen-gallery/`) ✅ closed **unwalked** 2026-07-27 — 43 snapshot pages present. P3 ⬜ optional and undecided; say no and this folder archives. |
 | [promises-loop](docs/plans/doing/promises-loop/plan.md) | P1–P2 live. P3 SPLIT: surfacing half ✅ green-lit 2026-07-18 (person page + Recap show promises + outcome chips; walkable via `scripts/seed-promises.ts`). Engine feed (turn-1 + reviewer) still to build. |
 | [sero-run-memory](docs/plans/doing/sero-run-memory/plan.md) | Phase 1 ✅ closed **unwalked** 2026-07-27 (every turn tagged Good note/Thin/Skipped/Declined, chip in run detail; built 07-20, 19 new tests green). P2–P4 ⬜ not started, so this stays open. |
 | [component-consolidation](docs/plans/doing/component-consolidation/plan.md) | 8 phases: one owner module per UI part (modal, button, card, empty state, chip, field, avatar, nav, router) plus a lint guard. P1 ✅ green-lit 2026-07-26 (one modal shell, 9 dialogs, 3 gained a keyboard trap they never had, -216 lines). P2 ✅ green-lit 2026-07-26 (one `avatar.ts` replaces 9 initials helpers; the two-letter rule had drifted into two different rules, so one person read "KK" on Team and "K" on Pulse). P3 ✅ green-lit 2026-07-27 (one `button.ts`, 150 call sites across 40 files, proved byte-identical). **P4 ⏸️ PAUSED 2026-07-27 (your call)** — lane `70b40d36` (loading skeletons) holds 33 files covering 17 of P4's 27 empty states and most of its card files; half-doing it would leave two empty-state systems in the app. Resumes when that lane clears, opening with a card-padding comparison for you (24px vs 20px, you pick). **P8 ✅ green-lit 2026-07-27** — `npm run lint:components`, the guard that stops P1-P3 drifting back (5 rules, 18 recorded leftovers, proved by making each rule fail). P5–P7 ⬜ and all lane-blocked on the same two chats, so this plan can build nothing more until one releases. [Board](https://claude.ai/code/artifact/7bc89958-58d5-42a4-8c6f-92cbac891cb8) · [mockup](https://claude.ai/code/artifact/200aff4b-61d2-48a8-accc-40145baac39a). |

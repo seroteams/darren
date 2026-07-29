@@ -124,12 +124,6 @@ startPopstate((parsed) => {
     else setState({ stage: STAGES.ADMIN_REGISTERED });
     return;
   }
-  // Screen Gallery — /gallery or /gallery/:screenId. The screenId rides into state and the
-  // stageTick bump makes main re-render the gallery so it opens on that screen.
-  if (parsed.stage === STAGES.GALLERY) {
-    setState({ galleryScreen: parsed.params?.galleryScreen || null, stage: STAGES.GALLERY, stageTick: store.stageTick + 1 });
-    return;
-  }
   if (isFlowStage(parsed.stage)) {                 // only valid with a live session
     if (store.sessionId) setState({ stage: parsed.stage, stageTick: store.stageTick + 1 });
     // No session: a logged-in user goes home; a guest goes to login.
@@ -334,14 +328,6 @@ async function boot() {
   if (route?.stage === STAGES.RUN_DETAIL) {
     if (route.params?.myRunId) { setState({ myRunId: route.params.myRunId, stage: STAGES.RUN_DETAIL }); return; }
     replaceUrl("/runs"); setState({ stage: STAGES.RUNS }); return;
-  }
-
-  // /gallery/:screenId deep link — carry the screen id into state so a reload lands back on
-  // the same screen inside the gallery. The internal/superadmin/live guards above already
-  // bounced non-internal callers and the live site, so this is safe.
-  if (route?.stage === STAGES.GALLERY) {
-    setState({ galleryScreen: route.params?.galleryScreen || null, stage: STAGES.GALLERY });
-    return;
   }
 
   let rehydrated = false;

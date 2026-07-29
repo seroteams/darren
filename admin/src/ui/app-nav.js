@@ -14,7 +14,7 @@ import {
   Users, House, CirclePlus, Library, MessageSquareText, Languages,
   Waypoints, UsersRound, FileCheck, ShieldCheck, BookOpen, UserRoundCog,
   Palette, LogOut, Info, MessageSquare, TriangleAlert, Inbox, Menu, UserRoundSearch,
-  FlaskConical, Gauge, LayoutGrid, PanelLeftClose, PanelLeftOpen,
+  FlaskConical, Gauge, PanelLeftClose, PanelLeftOpen,
 } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
@@ -49,7 +49,6 @@ const ICON = {
   guests: icon(UserRoundSearch),
   tests: icon(FlaskConical),
   pulse: icon(Gauge),
-  gallery: icon(LayoutGrid),
   collapse: icon(PanelLeftClose),
   expand: icon(PanelLeftOpen),
 };
@@ -112,7 +111,6 @@ const LINKS = [
   // local-only: every row here is in the router's LIVE_HIDDEN (live-hide in render()).
   { key: "personas", label: "Test engine", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Build" },
   { key: "tests", label: "Tests", stage: STAGES.TEST, icon: ICON.tests, admin: true, group: "Build" },
-  { key: "gallery", label: "Screens", stage: STAGES.GALLERY, icon: ICON.gallery, admin: true, group: "Build" },
   { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Build" },
   // OPERATE — running the live service. All superadmin-only (pre-go-live PG7): `admin: true`
   // puts them in the admin rail, `superadmin: true` hides them from every owner but Carl.
@@ -275,7 +273,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
     design: () => setState && setState({ stage: STAGES.DESIGN }),
     tests: () => setState && setState({ stage: STAGES.TEST }),
-    gallery: () => setState && setState({ stage: STAGES.GALLERY, galleryScreen: null }),
     pulse: () => setState && setState({ stage: STAGES.ADMIN_PULSE }),
     registered: () => setState && setState({ stage: STAGES.ADMIN_REGISTERED }),
     errors: () => setState && setState({ stage: STAGES.ADMIN_ERROR_LOG }),
@@ -321,7 +318,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.MEETING_ARCS]: "arcs",
     [STAGES.DESIGN]: "design",
     [STAGES.TEST]: "tests",
-    [STAGES.GALLERY]: "gallery",
     [STAGES.ADMIN_PULSE]: "pulse",
     // Pulse drill-down list pages keep the Pulse rail item lit (no nav rows of their own).
     [STAGES.ADMIN_GATE1]: "pulse",

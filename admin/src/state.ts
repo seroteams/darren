@@ -50,7 +50,6 @@ const STAGES_OBJ = {
   ADMIN_GUEST_RUNS: "ADMIN_GUEST_RUNS",
   DESIGN: "DESIGN",
   TEST: "TEST",
-  GALLERY: "GALLERY",
   ERROR: "ERROR",
 } as const;
 
@@ -102,7 +101,6 @@ export interface Store {
   resetToken: string | null;
   adminUserId: string | null;
   adminUserName: string | null;
-  galleryScreen: string | null; // Screen Gallery: which screen the /gallery host is showing (stage key or null)
   currentQuestion: unknown;
   axes: unknown[];
   briefing: unknown;
@@ -158,7 +156,6 @@ const initial = {
   resetToken: null,
   adminUserId: null,
   adminUserName: null,
-  galleryScreen: null, // Screen Gallery: which screen the /gallery host is showing (stage key or null)
   currentQuestion: null,
   axes: [],
   briefing: null,

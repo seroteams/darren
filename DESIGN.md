@@ -368,7 +368,4 @@ the `ALLOWLIST` in `scripts/lint-design-tokens.js`; if you change one, change th
 - **The PDF renderer** (`ui/recap-pdf.ts`) — pdfmake can't read CSS variables, so each hex there
   names the token it mirrors.
 - **`design/tokens.css`** — the source of truth; it is where hex values are supposed to live.
-- **The Screen Gallery edit bar** (`stages/gallery/`) — internal design-mode chrome that stays a
-  top toolbar (not a sidebar) so previewed screens keep their real width, and wears a deliberate
-  gold "edit mode" tint over the shared `.btn` shape.
 - **Tests** (`*.test.*`).

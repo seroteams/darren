@@ -21,7 +21,7 @@ test("every run stage keeps the stepper, Setup through Recap plus the review", (
 });
 
 test("standalone screens stay single-bar: no stepper outside the run", () => {
-  for (const stage of ["START", "RUNS", "LOGIN", "ERROR", "GALLERY", "", undefined]) {
+  for (const stage of ["START", "RUNS", "LOGIN", "ERROR", "DESIGN", "", undefined]) {
     assert.equal(stepperVisible(stage as string, null), false, `${stage || "(empty)"} has no stepper`);
   }
 });

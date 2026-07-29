@@ -183,7 +183,7 @@ const QA = [
   ["Regression", "Runs quietly in the background on load and puts an alert dot on the rail when a golden check fails. npm run gate / eval / replay do the same offline."],
   ["Library", "Filter all / unreviewed / keep / fix / block, search, open a review or copy the block."],
   ["Compare runs", "Same persona, different prompt versions, side by side."],
-  ["Tests + Screens", "Two local-only benches: Tests is throwaway UI prototypes on mock data (nothing saved), Screens is the gallery of every real screen for design review."],
+  ["Tests", "A local-only bench of throwaway UI prototypes on mock data. Nothing is saved."],
   ["suggest-fix", "Ask the model for a fix on a stage, given the run + your verdict."],
   ["QA prompt / Auto-QA", "Copy a ready-made review prompt, or drive the API per turn (not the browser) to replay a scripted persona plus your notes."],
 ];

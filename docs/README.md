@@ -16,7 +16,6 @@ The rooms (refreshed 2026-07-26):
 | [`research/`](research/) | External evidence reviews behind product calls. | yes |
 | [`carl-method/`](carl-method/) | The portable pack of how this project is run, for use outside this repo. | yes |
 | [`archive/`](archive/) | Superseded plans, old artifacts. | yes |
-| `screen-gallery/` | Static HTML snapshot of every screen. README + export script tracked; the generated `.html` is not (~26MB). Rebuild with `node scripts/gallery-export.mjs`. | partly |
 | `chat-history/` | Past conversation transcripts, rebuilt by `scripts/chat-log.py`. | **no, local only** |
 
 ---

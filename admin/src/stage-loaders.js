@@ -1,7 +1,5 @@
 // The single stage → module registry for the admin app. Extracted verbatim from
-// main.js so BOTH the boot/render cycle (main.js) and the Screen Gallery
-// (stages/gallery/) read the same list — add a screen here and it appears in the
-// gallery automatically, with nothing to keep in sync.
+// main.js so the boot/render cycle has one list to read.
 //
 // Each value is a lazy () => import(...) so HMR + code-splitting keep working.
 
@@ -53,6 +51,5 @@ export const loaders = {
   ADMIN_GUEST_RUNS: () => import("./stages/admin-guest-runs.ts"),
   DESIGN:          () => import("./stages/design.js"),
   TEST:            () => import("./stages/test.js"),
-  GALLERY:         () => import("./stages/gallery/gallery.js"),
   ERROR:           () => import("./stages/error.ts"),
 };

@@ -17,7 +17,7 @@
  *
  * Exemptions — this list is the twin of DESIGN.md §6 "Exemptions". Change one, change the other.
  *   whole files — tokens.css (the source of truth), dev-badge.js, build-stamp.js,
- *   stages/design.js (the live design sheet), stages/gallery/ (design-mode edit chrome),
+ *   stages/design.js (the live design sheet),
  *   orb.css + motion.css (decorative animation signatures), app-nav.css (dark-rail on-dark
  *   translucency), app-nav.js + session-topbar.js (the brandmark LOGO SVG),
  *   recap-pdf.ts (pdfmake can't read CSS vars). Plus any *.test.* file.
@@ -43,7 +43,6 @@ const ALLOWLIST = [
   /(^|[\\/])dev-badge\.js$/,
   /(^|[\\/])build-stamp\.js$/,
   /(^|[\\/])stages[\\/]design\.js$/,
-  /(^|[\\/])stages[\\/]gallery[\\/]/, // Screen Gallery edit bar — design-mode chrome (DESIGN §6)
   /(^|[\\/])orb\.css$/, // decorative thinking-orb gradient (signature)
   /(^|[\\/])motion\.css$/, // decorative aura/shimmer (signature)
   /(^|[\\/])app-nav\.css$/, // dark-rail on-dark alpha-white translucency (no token home)

@@ -14,7 +14,7 @@ in [`file-notes/`](file-notes/), marked 📄) only if you need more.
 > Hand-written descriptions are kept; auto-seeded ones (lifted from each file's first
 > comment/heading) refresh automatically. New/blank files show `_(no summary yet)_`.
 
-_1585 entries · 1103 described · 482 to fill · `npm run build-map`._
+_1562 entries · 1119 described · 443 to fill · `npm run build-map`._
 
 ## 🔑 Sign in, accounts & access
 
@@ -388,7 +388,8 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 
 ## 🗂️ Catalog, library & meeting arcs
 
-- `admin/src/stages/about.js` — _(no summary yet)_
+- `admin/src/stages/about.js` — About — the one-pager (009 Phase 5; visual rebuild 2026-07-27, mock approved by
+- `admin/src/stages/about.test.ts` — The "What is Sero?" page (visual rebuild 2026-07-27, mock approved by Carl:
 - `admin/src/stages/admin-guest-runs.ts` — _(no summary yet)_
 - `admin/src/stages/design.js` — _(no summary yet)_
 - `admin/src/stages/guide.js` — _(no summary yet)_
@@ -421,6 +422,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `admin/src/boot-splash.js` — Boot splash: the Sero mark plays a game of pong while the app loads, then
 - `admin/src/css.d.ts` — Ambient declaration so TypeScript accepts side-effect CSS imports from stage modules
 - `admin/src/main.js` — _(no summary yet)_
+- `admin/src/main.test.ts` — main.js runs boot()/startPopstate() as a side effect of import (real fetches, real DOM),
 - `admin/src/router.js` — Path-based routing for the SPA. Maps store.stage <-> location.pathname so every
 - `admin/src/router.test.ts` — Tests for the router's audience walls — which stages are internal-toolset-only
 - `admin/src/stage-loaders.js` — The single stage → module registry for the admin app. Extracted verbatim from
@@ -434,23 +436,25 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `admin/src/stages/finish-destination.ts` — After a manager finishes a run, land on that person's page when the run is tied to a roster
 - `admin/src/stages/focus-points-card.test.ts` — Phase 3 (design-consolidation, audit F5): the focus list is checkbox-cards.
 - `admin/src/stages/focus-points-card.ts` — Focus-point checkbox-card (design-consolidation Phase 3, audit F5). Pure
-- `admin/src/stages/gallery/gallery.js` — _(no summary yet)_
-- `admin/src/stages/gallery/screens.js` — Screen Gallery — the thin metadata overlay on top of the stage registry.
 - `admin/src/stages/intake-wizard.test.ts` — Phase 3 (design-consolidation): intake substages share the one wizard footer.
 - `admin/src/stages/intake-wizard.ts` — Intake wizard helpers (design-consolidation Phase 3). The intake substages
 - `admin/src/stages/questioning-actions.test.ts` — Phase 4 (design-consolidation, audit F6): the interview action row is the
 - `admin/src/stages/questioning-actions.ts` — _(no summary yet)_
+- `admin/src/stages/questioning-ready.test.ts` — runner-readiness: the runner opens on a walk-in gate, never straight on
+- `admin/src/stages/questioning-ready.ts` — The walk-in gate (runner-readiness) — the runner's FIRST screen, before any
 - `admin/src/stages/runs.test.ts` — runs.ts imports CSS, so node can't import it directly — this guard reads the
 - `admin/src/stages/runs.ts` — _(no summary yet)_
 - `admin/src/stages/stage-lookback.js` — Looking back at a finished stage of a live run (stage-back-nav P1).
 - `admin/src/stages/start-rows.test.ts` — Home's row vocabulary (home-screen-truth Phase 1). start-core.js mounts through
 - `admin/src/stages/start-rows.ts` — Home's row vocabulary (home-screen-truth Phase 1). Pure functions so the copy
-- `admin/src/stages/start-welcome.test.ts` — The brief-first welcome (onboarding-firstrun Phase 2). start-core.js mounts through
+- `admin/src/stages/start-welcome.test.ts` — The "three focus points" welcome (Carl picked option C of five, 2026-07-29).
 - `admin/src/stages/start-welcome.ts` — The welcome: what a brand-new manager sees on Home before they have run a single 1:1.
 - `admin/src/stages/tests/entry-redesign.js` — Test: "The way in. Two versions" — a redesign of the entry set (log in, create
+- `admin/src/stages/tests/how-it-works.js` — Test: "How it works. Three shapes" — Carl, 2026-07-29: testers are unclear on how Sero
 - `admin/src/stages/tests/promises-before-recap.js` — Test: "Promises before the recap" — the promises step as its OWN full-screen moment
 - `admin/src/stages/tests/promises-loop.js` — Test: the "Promises loop" inside the REAL runner (the /interview screen). Mock only —
 - `admin/src/stages/tests/runner-v2.js` — Test: "Runner v2" — the questioning screen as a TRUE 50/50, Typeform-style. Mock only —
+- `admin/src/stages/tests/welcome-lean.js` — Test: "The welcome screen. Leaner, five ways" — Carl, 2026-07-27: the shipped welcome
 - `admin/src/stages/tests/welcome-options.js` — Test: "The first screen. Five options" — five ways to build the brand-new manager's
 - `admin/src/stages/tests/welcome-redesign.js` — Test: "The welcome screen. Five versions" — a redesign of the first-visit Home a
 - `admin/src/state.test.ts` — Tests for the role helpers in state.ts — who counts as console-admitted (isAdmin)
@@ -460,6 +464,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `admin/src/styles/coach-panel.css` — _(no summary yet)_
 - `admin/src/styles/DESIGN-SYSTEM.md` — Sero design system
 - `admin/src/styles/design.css` — _(no summary yet)_
+- `admin/src/styles/design/about-stage.css` — _(no summary yet)_
 - `admin/src/styles/design/admin-tables.css` — _(no summary yet)_
 - `admin/src/styles/design/app-nav.css` — _(no summary yet)_
 - `admin/src/styles/design/auth.css` — _(no summary yet)_
@@ -531,7 +536,9 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `admin/src/ui/feedback-kinds.test.ts` — The inbox types every row from its data — a verdict tap carries a runId/verdict,
 - `admin/src/ui/feedback-kinds.ts` — Feedback kinds (validation-kit Phase 3b) — type an inbox row from its data so the
 - `admin/src/ui/field.js` — Typeform-style field swap. `host` is the container; `render()` returns the
-- `admin/src/ui/finish-feedback-modal.js` — _(no summary yet)_
+- `admin/src/ui/finish-feedback-modal.js` — Finish feedback modal (validation-kit Phase 3b; alpha-questions retune 2026-07-15;
+- `admin/src/ui/finish-feedback-modal.test.ts` — Guard for the softened finish prompt (machar-fixes P1).
+- `admin/src/ui/first-visit.test.ts` — The three-state first-visit answer. Moved here from the customer app's rail tests
 - `admin/src/ui/first-visit.ts` — "Has this manager actually run a 1:1 yet?", held for the whole app shell
 - `admin/src/ui/flow-interstitial.test.ts` — The one waiting screen for the flow's generation moments (design-consolidation
 - `admin/src/ui/flow-interstitial.ts` — The one waiting screen for the flow's generation moments (design-consolidation
@@ -755,6 +762,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `frontend/README.md` — frontend/ — the customer app
 - `frontend/src/boot-splash.js` — Boot splash entry for the customer app. The actual splash (the Sero mark's
 - `frontend/src/main.js` — Customer app entry (frontend-admin-split Phase 2) — the customer subset of
+- `frontend/src/main.test.ts` — main.js runs boot()/startPopstate() as a side effect of import (real fetches, real DOM),
 - `frontend/src/router.js` — Path-based routing for the customer app — the customer subset of the admin
 - `frontend/src/router.test.ts` — Tests for the CUSTOMER router's audience walls (frontend-admin-split Phase 3) —
 - `frontend/src/stages/guided/coaching-copy.ts` — Static coaching copy + per-stage UI metadata for the guided runner. Durable content
@@ -779,7 +787,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `frontend/src/stages/person-axes.test.ts` — Axis memory, re-rendered as the shared axis bars (design-consolidation Phase 1, M5):
 - `frontend/src/stages/person-axes.ts` — Axis memory for a person's page (axis-memory Phase 2, re-skinned by
 - `frontend/src/stages/person-detail.test.ts` — Person detail's pure render pieces (design-consolidation Phase 1, M5). The stage's
-- `frontend/src/stages/person-detail.ts` — _(no summary yet)_
+- `frontend/src/stages/person-detail.ts` — Person detail — one person's page: all the manager's own 1:1s with them, newest first
 - `frontend/src/stages/preparation-brief.test.ts` — _(no summary yet)_
 - `frontend/src/stages/preparation-brief.ts` — _(no summary yet)_
 - `frontend/src/stages/preparation-css.test.ts` — The 14px accessibility floor, checked at the source: every font-size in the
@@ -797,7 +805,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `frontend/src/styles/team-card.css` — _(no summary yet)_
 - `frontend/src/ui/app-nav-collapse.test.ts` — Regression guard for the left-rail collapse (2026-07-25). Clicking "Collapse
 - `frontend/src/ui/app-nav-flow.test.ts` — Guard for the rail-free 1:1 lane (audit F13, 2026-07-25). Setting up or running a
-- `frontend/src/ui/app-nav-quiet.test.ts` — The quiet rail (onboarding-firstrun Phase 3). Before a manager has run a single 1:1,
+- `frontend/src/ui/app-nav-rows.test.ts` — What the customer rail shows, and to whom (empty-states Phase 1, 2026-07-28).
 - `frontend/src/ui/app-nav.js` — Left-rail app nav for the customer app — the customer subset of the admin
 - `frontend/tailwind.config.js` — Same theme as the admin app (one design system, one source), different content
 - `frontend/tsconfig.json` — _(no summary yet)_
@@ -825,44 +833,6 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `scripts/export-demo-fixture.ts` — Dev-only, one-off: export the signup demo fixture (demo-member phase 1).
 - `scripts/fixtures/toby-prep-inputs.json` — _(no summary yet)_
 - `scripts/focus-example.js` — Promote a run's focus points into a paste-ready prompt example.
-- `scripts/gallery-export.mjs` — Screen-gallery static export (screen-gallery Phase 2 v2).
-- `scripts/gallery/fixtures/admin-feedback.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/admin-run.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/admin-runs.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/arcs.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/errors.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/guest-runs.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/guided-session.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/heartbeat.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/invite.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/lexicon-candidates.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/lexicon-pending.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/lexicon-scope.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/linkable-users.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/me.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/meeting-types.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/members.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/people.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/persona-run-current.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/personas.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/pipeline-status.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/prior-promises.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/pulse.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/question.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/registered.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/regression.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/role-lexicons.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/role-profile.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/run-full.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/runs-finished.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/runs-mine.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/runs-recent.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/session-rules.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/session.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/suggest-answers.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/team-aliases.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/user-runs.json` — _(no summary yet)_
-- `scripts/gallery/fixtures/version.json` — _(no summary yet)_
 - `scripts/gate.js` — Trust regression gate.
 - `scripts/golden-prose-snapshot.js` — gate.js and replay compare trust-check VERDICTS (and offline replay re-grades a
 - `scripts/install-autostart.ps1` — _(no summary yet)_
@@ -1030,19 +1000,19 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `docs/plans/doing/entry-redesign/phase-1.md` — Phase 1 — prototype both versions in the Test area
 - `docs/plans/doing/entry-redesign/phase-2.md` — Phase 2 — build Version A into the real screens
 - `docs/plans/doing/entry-redesign/plan.md` — Entry redesign — the way in (log in / create account / start free)
+- `docs/plans/doing/machar-fixes-jul-29/board.html` — _(no summary yet)_
+- `docs/plans/doing/machar-fixes-jul-29/phase-1.md` — Phase 1 — The last screen stops interviewing them
+- `docs/plans/doing/machar-fixes-jul-29/phase-2.md` — Phase 2 — The opening merges both agendas
+- `docs/plans/doing/machar-fixes-jul-29/phase-3.md` — Phase 3 — A hard team is not a hard week
+- `docs/plans/doing/machar-fixes-jul-29/phase-4.md` — Phase 4 — Plain words, sharper ask
+- `docs/plans/doing/machar-fixes-jul-29/plan.md` — Machar's fixes — what the first corridor manager asked for
+- `docs/plans/doing/machar-fixes-jul-29/proof/p1-after-phone.png` — _(no summary yet)_
+- `docs/plans/doing/machar-fixes-jul-29/proof/p1-after.png` — _(no summary yet)_
 - `docs/plans/doing/promises-loop/board.html` — _(no summary yet)_
 - `docs/plans/doing/promises-loop/phase-1.md` — Phase 1 — Promise contract + wrap-up confirm
 - `docs/plans/doing/promises-loop/phase-2.md` — Phase 2 — Card zero: resurface + close-out
 - `docs/plans/doing/promises-loop/phase-3.md` — Phase 3 — Q1 feed, review feed + closed-loop surfacing
 - `docs/plans/doing/promises-loop/plan.md` — Promises Loop — the real build
-- `docs/plans/doing/screen-gallery/board.html` — _(no summary yet)_
-- `docs/plans/doing/screen-gallery/mockup.html` — _(no summary yet)_
-- `docs/plans/doing/screen-gallery/options.html` — _(no summary yet)_
-- `docs/plans/doing/screen-gallery/phase-1.md` — Phase 1 — Gallery shell
-- `docs/plans/doing/screen-gallery/phase-2.md` — Phase 2 (v2) — remove the in-app gallery + build the static HTML gallery
-- `docs/plans/doing/screen-gallery/phase-3.md` — Phase 3 — Design-loop polish (optional, on demand)
-- `docs/plans/doing/screen-gallery/plan.md` — Screen Gallery — every page in one tree, prefilled, editable for real
-- `docs/plans/doing/screen-gallery/test-results.html` — _(no summary yet)_
 - `docs/plans/doing/sero-run-memory/board.html` — _(no summary yet)_
 - `docs/plans/doing/sero-run-memory/mockup.html` — _(no summary yet)_
 - `docs/plans/doing/sero-run-memory/phase-1.md` — Phase 1 — One read signal
@@ -1167,6 +1137,11 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `docs/plans/done/design-system/phase-1.md` — Phase 1 — Sero × Flowbite component sheet
 - `docs/plans/done/design-system/phase-2.md` — Phase 2 — DESIGN.md at the root + wiring
 - `docs/plans/done/design-system/plan.md` — Design system — Sero × Flowbite
+- `docs/plans/done/empty-states/board.html` — _(no summary yet)_
+- `docs/plans/done/empty-states/phase-1-proof.png` — _(no summary yet)_
+- `docs/plans/done/empty-states/phase-1.md` — Phase 1 — Un-quiet the rail
+- `docs/plans/done/empty-states/phase-2.md` — Phase 2 — The three empty states
+- `docs/plans/done/empty-states/plan.md` — First-visit empty states
 - `docs/plans/done/engine-hardening/phase-1.md` — Phase 1 — Per-call latency capture
 - `docs/plans/done/engine-hardening/phase-2.md` — Phase 2 — Concurrency cap + circuit breaker on AI calls
 - `docs/plans/done/engine-hardening/phase-3.md` — Phase 3 — Positive validation checks
@@ -1536,6 +1511,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `docs/plans/future/run-qa-fixes-jul04/phase-4.md` — Phase 4 — Who said it (B3)
 - `docs/plans/future/run-qa-fixes-jul04/plan.md` — Run QA fixes — Brian run (Jul 04)
 - `docs/plans/future/shared-shell-layer/plan.md` — Shared shell layer — stop hand-syncing admin ↔ frontend
+- `docs/plans/future/shell-trio-and-scaffold/plan.md` — Shell trio dedupe + finish the scaffold adoption
 - `docs/plans/future/ui-look-and-feel/audit-findings.md` — Audit findings — UI look-and-feel initiative
 - `docs/plans/future/ui-look-and-feel/board.html` — _(no summary yet)_
 - `docs/plans/future/ui-look-and-feel/carl-findings-team-past-1on1.md` — Carl's findings — Team + Past 1:1s (handed to this track 2026-07-17)
@@ -1550,6 +1526,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `docs/plans/future/ui-look-and-feel/plan.md` — Whole-project UI polish — the artifact look & feel
 - `docs/plans/future/ui-look-and-feel/recap-redesign-mockup.html` — _(no summary yet)_
 - `docs/plans/future/ui-look-and-feel/recap-redesign.md` — Recap redesign — the end-of-1:1 results screen
+- `docs/plans/future/visible-type-and-radius-pass/plan.md` — The visible type + radius pass
 
 ## 📄 Docs — other
 
@@ -1602,7 +1579,7 @@ _1585 entries · 1103 described · 482 to fill · `npm run build-map`._
 - `docs/research/2026-07-26-welcome-screen-open-questions.md` — Welcome screen: the four open questions
 - `docs/research/article-geo-reference-v2.md` — Can AI Detect Employee Disengagement From Manager Notes? What the Evidence Actually Shows
 - `docs/research/prompt-no-inference-codebase-audit.md` — Prompt for Claude Code: No-Inference Discovery Audit (READ-ONLY)
-- `docs/screen-gallery/README.md` — Screen gallery (static snapshots)
+- `docs/validation/machar-2026-07-29.md` — Corridor test — Manager 1: Machar Smith — session 1, 2026-07-29
 
 ## 🧪 Testing (tester packs & results)
 

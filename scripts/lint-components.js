@@ -25,7 +25,7 @@
  * Exemptions — the twin of DESIGN.md §6, matching lint-design-tokens.js's list, plus the
  * component-specific ones recorded in docs/plans/doing/component-consolidation/phase-3.md:
  *   whole files — stages/design.js (the live design sheet demonstrates raw markup on
- *   purpose), stages/gallery/ (design-mode chrome), stages/tests/ (internal harness pages,
+ *   purpose), stages/tests/ (internal harness pages,
  *   not product), dev-badge.js, build-stamp.js, and any *.test.* file (those assert ABOUT
  *   the markup — keeping them literal is what proves the output did not change).
  *   single line — add `lint-components-ignore` in a comment on the line, with a reason.
@@ -46,7 +46,6 @@ const EXTS = new Set([".js", ".ts"]);
 
 const ALLOWLIST = [
   /(^|[\\/])stages[\\/]design\.js$/, // the live design sheet — shows the markup on purpose
-  /(^|[\\/])stages[\\/]gallery[\\/]/, // Screen Gallery edit chrome (DESIGN §6)
   /(^|[\\/])stages[\\/]tests[\\/]/, // internal test-harness pages, not product
   /(^|[\\/])dev-badge\.js$/,
   /(^|[\\/])build-stamp\.js$/,

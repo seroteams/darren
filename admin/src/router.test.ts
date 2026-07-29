@@ -66,7 +66,7 @@ test("existing walls unchanged: member stages still classify", () => {
 test("isLiveHiddenStage: live is the console; the workshop and the bench are local-only", () => {
   // The local/live split (Carl 2026-07-25). Every engine + design tool is off the live
   // site — hidden from the rail and bounced on deep link, even for a superadmin.
-  for (const s of [STAGES.PERSONAS, STAGES.GALLERY, STAGES.LIBRARY, STAGES.COMPARE,
+  for (const s of [STAGES.PERSONAS, STAGES.LIBRARY, STAGES.COMPARE,
     STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS, STAGES.DESIGN,
     STAGES.TEST]) {
     assert.equal(isLiveHiddenStage(s), true, `${s} is local-only`);

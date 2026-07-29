@@ -53,7 +53,6 @@ just reference, and what's generated (and therefore safe to delete/rebuild).
 | `docs/design/` | Design source material and mock references | **docs (reference)** |
 | `docs/research/` | External evidence reviews behind product calls (e.g. the arc evidence review behind the 20 Jul arc trims) | **docs (reference)** |
 | `docs/carl-method/` | The portable pack of how this project is run, for use outside this repo | **docs (live)** |
-| `docs/screen-gallery/` | Static HTML snapshots of every screen. README + export script tracked; the generated `.html` is **not** (~26MB). Rebuild: `node scripts/gallery-export.mjs` with the dev server up | **generated (untracked)** |
 | `docs/chat-history/` | Past conversation transcripts, rebuilt by `scripts/chat-log.py`. **Local only, never committed** | **generated (untracked)** |
 | `docs/archive/` | Old artifacts kept for the record, including the pre-reorg progress log | **docs (archive)** |
 

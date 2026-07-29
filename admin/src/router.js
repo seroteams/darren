@@ -67,7 +67,6 @@ const PATH_FOR = {
   [STAGES.GUIDE]:          () => "/guide",
   [STAGES.DESIGN]:         () => "/design",
   [STAGES.TEST]:           () => "/test",
-  [STAGES.GALLERY]:        (s) => (s.galleryScreen ? `/gallery/${encodeURIComponent(String(s.galleryScreen).toLowerCase())}` : "/gallery"),
   [STAGES.ADMIN_PULSE]:    () => "/pulse",
   [STAGES.ADMIN_GATE1]:    () => "/admin/gate1",
   [STAGES.ADMIN_RUNS]:     () => "/admin/runs",
@@ -94,7 +93,7 @@ const STAGE_FOR = {
   "/job-lexicons": STAGES.ROLE_LEXICONS, "/meeting-arcs": STAGES.MEETING_ARCS,
   "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
   "/design": STAGES.DESIGN,
-  "/test": STAGES.TEST, "/gallery": STAGES.GALLERY,
+  "/test": STAGES.TEST,
   "/pulse": STAGES.ADMIN_PULSE,
   "/admin/gate1": STAGES.ADMIN_GATE1,
   "/admin/runs": STAGES.ADMIN_RUNS,
@@ -127,7 +126,7 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // gate is requireAdmin now), so the runner is a manager destination like RUN_DETAIL.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.GALLERY, STAGES.REVIEW_RUN]);
+  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2, widened by the
@@ -139,7 +138,7 @@ export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 // the backend fence; local dev shows every screen exactly as before.
 // GUIDE stays live-visible: it's the operator handbook, useful wherever you are.
 const LIVE_HIDDEN = new Set([
-  STAGES.PERSONAS, STAGES.GALLERY,
+  STAGES.PERSONAS,
   STAGES.LIBRARY, STAGES.COMPARE, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS,
   STAGES.MEETING_ARCS, STAGES.DESIGN, STAGES.TEST,
 ]);
@@ -183,10 +182,6 @@ export function parseLocation() {
   // /admin/registered still resolves above). The segment is the user id.
   const adminUser = p.match(/^\/admin\/users\/([^/]+)$/);
   if (adminUser) return { stage: STAGES.ADMIN_USER, params: { adminUserId: decodeURIComponent(adminUser[1]) } };
-  // Screen Gallery deep link: /gallery/:screenId (after the exact-path map, so bare /gallery
-  // still resolves to the tree above). The segment is the lower-cased stage key.
-  const gallery = p.match(/^\/gallery\/([^/]+)$/);
-  if (gallery) return { stage: STAGES.GALLERY, params: { galleryScreen: decodeURIComponent(gallery[1]).toUpperCase() } };
   // An emailed password-reset link: /reset-password/:token. Public — the token IS the
   // credential (the user is logged out). Bare /reset-password resolves via STAGE_FOR? No —
   // it's token-only, so a missing token falls through to null and the screen shows "invalid".
