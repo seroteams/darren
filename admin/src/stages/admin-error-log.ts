@@ -13,6 +13,7 @@ import "../styles/error-log.css";
 import "../styles/pulse-drilldowns.css";
 import { STAGES } from "../state.ts";
 import { pulseCrumbs } from "../ui/pulse-labels.ts";
+import { errorLogIntro, liveNotVisibleNote } from "../ui/env-label.ts";
 import { listToolbar } from "../ui/list-toolbar.ts";
 import { errorCardHtml, loadingHtml } from "../ui/screen-scaffold.ts";
 import { alertAction as alertJs } from "../ui/confirm.js";
@@ -203,7 +204,7 @@ export const mount: Mount = async (root, { setState }) => {
       <header class="page-header l-stack l-stack--2">
         ${pulseCrumbs('Error log')}
         <h1 class="h1">Error log</h1>
-        <div class="text-ink-dim">Everything that broke, grouped into issues. Your local dev and the live Sero, freshest first. Click a row for the full detail.</div>
+        <div class="text-ink-dim">${errorLogIntro()}</div>
       </header>
       ${inner}
     </div>`;
@@ -317,7 +318,8 @@ export const mount: Mount = async (root, { setState }) => {
         ${segbar("tab", tab, TABS, tabCounts)}
         <div class="el-control"><span class="el-control__label">Where</span>${segbar("env", env, ENV_FILTERS, envCounts)}</div>
         <div class="el-control"><span class="el-control__label">Source</span>${segbar("src", source, SRC_FILTERS, null)}</div>
-      </div>`;
+      </div>
+      ${liveNotVisibleNote() ? `<p class="text-ink-dim el-envnote">${liveNotVisibleNote()}</p>` : ""}`;
     const emptyCopy = q ? "No issues match that search." : "No issues match this view.";
     const body = shown.length
       ? table(pageRows, open) + pager(page, pages, shown.length)

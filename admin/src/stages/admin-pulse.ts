@@ -15,6 +15,7 @@ import type { StageName } from "../state.ts";
 import { escapeHtml } from "../ui/html.js";
 import { initialsOf } from "../ui/avatar.ts";
 import { prettyType, prettyStage, activeLabel, dateLabel } from "../ui/pulse-labels.ts";
+import { envTitleWord, envPlace, pulseIntro } from "../ui/env-label.ts";
 import { createSkeleton } from "../ui/skeleton.js";
 import type { Mount } from "./stage.types.ts";
 
@@ -148,7 +149,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void, set
     }),
     tile({
       cls: "js-tile-managers",
-      label: "Managers on live",
+      label: `Managers on ${envPlace()}`,
       valueHtml: `${p.managersOnLive}`,
       chipHtml: p.managersNewInRange > 0 ? chip("pos", `+${p.managersNewInRange} new`) : chip("flat", "none new"),
       chipNote: inLast,
@@ -197,8 +198,8 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void, set
     <div class="l-container l-container--wide l-stack l-stack--4">
       <header class="page-header lp-head">
         <div class="lp-head__text">
-          <h1 class="h1">Live pulse</h1>
-          <p class="text-ink-dim">The live site right now. Managers, runs, who came back, what broke. Internal Sero accounts are counted separately.</p>
+          <h1 class="h1">${envTitleWord()} pulse</h1>
+          <p class="text-ink-dim">${pulseIntro()}</p>
         </div>
         ${rangeControl}
       </header>
@@ -214,7 +215,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void, set
           </div>
           <div class="lp-card">
             <div class="lp-card__head"><h3>Managers</h3><button type="button" class="lp-viewall js-all-managers">View all →</button></div>
-            <p class="lp-hnote">Everyone registered on live. Click for their full record</p>
+            <p class="lp-hnote">Everyone registered on ${envPlace()}. Click for their full record</p>
             ${p.managers.length ? `<div class="um-table-wrap"><table class="um-table">
               <thead><tr><th>Manager</th><th>Runs</th><th>Last active</th><th>First run</th><th>Status</th></tr></thead>
               <tbody>
@@ -227,7 +228,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void, set
                   <td>${statusPill(m)}</td>
                 </tr>`).join("")}
               </tbody>
-            </table></div>` : `<p class="lp-empty">No external managers on live yet.</p>`}
+            </table></div>` : `<p class="lp-empty">No external managers on ${envPlace()} yet.</p>`}
           </div>
         </div>
         <div class="lp-colstack">
@@ -241,7 +242,7 @@ function render(root: HTMLElement, p: Pulse, go: (stage: StageName) => void, set
           </div>
           <div class="lp-card">
             <div class="lp-card__head"><h3>Latest feedback</h3><button type="button" class="lp-viewall js-all-feedback">View all →</button></div>
-            <p class="lp-hnote">Straight from the thumbs on live recaps</p>
+            <p class="lp-hnote">Straight from the thumbs on recaps here</p>
             ${p.latestFeedback.length ? `<div class="lp-feed">
               ${p.latestFeedback.map((f) => `
                 <div class="lp-feed__item">
@@ -294,7 +295,7 @@ export const mount: Mount = async (root, { setState }) => {
     } catch {
       root.innerHTML = `
         <div class="l-container l-container--wide l-stack l-stack--4">
-          <header class="page-header"><h1 class="h1">Live pulse</h1></header>
+          <header class="page-header"><h1 class="h1">${envTitleWord()} pulse</h1></header>
           <section class="card-flat l-stack l-stack--2">
             <div class="eyebrow">Couldn't load</div>
             <p class="text-ink-dim">Something went wrong loading the pulse. Please try again.</p>

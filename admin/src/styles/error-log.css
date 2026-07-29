@@ -61,6 +61,8 @@
 .el-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
 .el-control { display: inline-flex; align-items: center; gap: 8px; }
 .el-control__label { font-size: var(--type-body-sm, 14px); color: var(--color-ink-mute); font-weight: var(--type-weight-medium, 500); }
+/* Local only: says why the Live filter can never match here (two separate databases). */
+.el-envnote { font-size: var(--type-body-sm, 14px); margin-top: 8px; }
 /* The segmented control itself now comes from the shared .seg recipe
    (design/base.css) — this file only carries what's local to the error log. */
 .el-filter__n { color: var(--color-ink-mute); font-size: var(--type-body-sm, 14px); margin-left: 3px; }
