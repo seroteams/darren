@@ -20,10 +20,23 @@ export function swapField(host, renderNext) {
     const delay = outgoing ? 140 : 0;
     setTimeout(() => {
       host.appendChild(next);
-      requestAnimationFrame(() => {
+      // rAF does not fire in a tab that isn't painting (backgrounded, restored
+      // session). This promise is awaited at the end of intake's mount(), and
+      // boot-shell serialises every render through one chain — so a queued-forever
+      // callback froze the whole nav rail: the URL changed, the screen never did
+      // (console audit, 2026-07-29). Whichever of the frame or the timer lands
+      // first reveals and resolves; both paths are idempotent, and in a painting
+      // tab rAF still wins, so the enter animation is unchanged. Same belt-and-
+      // braces boot-shell.js already uses for its own stage reveal.
+      let done = false;
+      const reveal = () => {
+        if (done) return;
+        done = true;
         next.classList.add("is-in");
         resolve(next);
-      });
+      };
+      requestAnimationFrame(reveal);
+      setTimeout(reveal, 60);
     }, delay);
   });
 }
