@@ -20,6 +20,10 @@ export function roleLine(c: RecapCtx): string {
 
 // `trail` is the crumbs leading TO this recap (each with the nav key its host stage wires);
 // the meeting itself is appended as the current, non-navigating crumb.
+// The meeting type is named ONCE, by the breadcrumb's current crumb (audit F-dup). It used
+// to appear there AND again as a blue `.rd-type-badge` beside the name, which read as a link
+// and was not one. The crumb is the better home: it is the "you are here" marker, it sits in
+// ink at semibold rather than accent blue, and it keeps the header a single identity block.
 export function recapHeader(ctx: RecapCtx, trail: Crumb[]): string {
   const c = ctx || ({} as RecapCtx);
   const crumbs = breadcrumb([...trail, { label: c.meetingType || "1:1" }]);
@@ -33,7 +37,6 @@ export function recapHeader(ctx: RecapCtx, trail: Crumb[]): string {
           <h1 class="rd-name">${escapeHtml(c.name || "This 1:1")}</h1>
           ${role ? `<div class="text-ink-dim text-sm">${escapeHtml(role)}</div>` : ""}
         </div>
-        ${c.meetingType ? `<span class="rd-type-badge">${escapeHtml(c.meetingType)}</span>` : ""}
       </div>
     </header>`;
 }

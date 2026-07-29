@@ -98,7 +98,14 @@ function tile(t: TileSpec): string {
 }
 
 // Runs-per-day sparkline as an inline SVG (area + line + last-point dot).
+// With no runs at all it used to draw a flat line along the floor, which reads as data
+// ("nothing happened every day") rather than as an absence. The card beside it already had a
+// written empty state; this one now says the same kind of thing (audit small sweep).
 function sparkline(series: number[], days: number): string {
+  const total = (Array.isArray(series) ? series : []).reduce((a, b) => a + (Number(b) || 0), 0);
+  if (total === 0) {
+    return `<p class="lp-empty">No runs in the last ${days} days yet. The line starts once managers begin prepping.</p>`;
+  }
   const w = 560, h = 88, pad = 8;
   const max = Math.max(1, ...series);
   const n = Math.max(1, series.length - 1);

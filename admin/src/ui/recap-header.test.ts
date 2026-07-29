@@ -27,11 +27,21 @@ test("carries ONE breadcrumb trail with the meeting as the current page", () => 
   assert.ok(!html.includes("‹ ") && !html.includes("Back to"), "no bespoke back buttons");
 });
 
-test("shows role · seniority (middot) and the meeting badge", () => {
+test("shows role · seniority (middot)", () => {
   const html = recapHeader(ctx, userTrail);
   assert.ok(html.includes(">UX Designer · Staff<"), "middot-joined role · seniority");
   assert.ok(!html.includes("UX Designer, Staff"), "not the old comma form");
-  assert.ok(html.includes('rd-type-badge">Bi-weekly check-in<'), "meeting-type badge");
+});
+
+test("the meeting type is named ONCE, by the crumb, never twice (audit small sweep)", () => {
+  const html = recapHeader(ctx, userTrail);
+  assert.equal(
+    (html.match(/Bi-weekly check-in/g) ?? []).length,
+    1,
+    "it appeared in the crumb AND as a blue badge that read like a link",
+  );
+  assert.match(html, /aria-current="page">Bi-weekly check-in</, "the crumb is where it lives");
+  assert.ok(!html.includes("rd-type-badge"), "the duplicate badge is gone");
 });
 
 test("works with a single-crumb trail (the guest pile)", () => {

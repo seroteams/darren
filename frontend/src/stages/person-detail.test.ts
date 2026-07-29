@@ -113,3 +113,21 @@ test("a failed removal says so and stays put, rather than pretending it worked",
   assert.match(SRC, /catch \{[\s\S]{0,200}alertAction\(\{ message: "Couldn't remove the example/);
   assert.match(SRC, /alertAction\(\{ message: "Couldn't remove the example[\s\S]{0,160}return;/, "no navigation on failure");
 });
+
+// ── audit small sweep: no dangling separator on the meta line ────────────────────
+
+test("the meta line's middots belong to their item, so a wrap cannot strand one", () => {
+  // The audit saw "Content Designer · 1 1:1 ·" at the end of a wrapped line. The separator
+  // was a standalone <span> BETWEEN items, so it could wrap while its item did not.
+  assert.match(SRC, /class="person-summary__item"/, "each part is one item");
+  assert.ok(!/person-summary__sep"[^>]*>·/.test(SRC), "no standalone separator elements");
+  const css = readFileSync(
+    join(dirname(fileURLToPath(import.meta.url)), "../../../admin/src/styles/design/admin-tables.css"),
+    "utf8",
+  );
+  assert.match(
+    css,
+    /\.person-summary__item \+ \.person-summary__item::before/,
+    "the middot is a ::before on every item after the first",
+  );
+});

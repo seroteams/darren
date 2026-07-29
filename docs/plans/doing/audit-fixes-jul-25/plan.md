@@ -37,13 +37,23 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 | 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | 🔨 Built 2026-07-29, awaiting Carl |
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
 | 6 | Error log readability | Message head in the table, full statement in the row detail, paged at 50 | 🔨 Built 2026-07-29, awaiting Carl |
-| 7 | Member view, motion, small sweep | SPLIT 2026-07-29 (Carl). **7a** member home 🔨 built · **7b** motion ⬜ · **7c** the sweep ⬜ (9 live items; 2 of the original 11 no longer exist) | 🔨 7a built |
+| 7 | Member view, motion, small sweep | SPLIT 2026-07-29 (Carl). **7a** member home 🔨 built · **7b** motion ⬜ · **7c** the sweep 🔨 built (6 fixed, 3 need Carl; 2 of the original 11 no longer exist) | 🔨 7a + 7c built |
 | 8 | Team and Members become one screen | One "My Team" screen with an access column; the second nav item goes | ⬜ |
 | 9 | Triage the tester notes | The 11 Feedback-inbox notes read, the real ones turned into work, the rest closed | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Phase 7c 🔨 BUILT 2026-07-29** — six of the nine live small items fixed: the Pulse empty
+chart says something instead of drawing a flat line, the person page's dangling middot is
+structurally impossible now, the axis numbers say what they are out of, the run-detail header
+names the meeting type once instead of twice, Compare runs wears a breadcrumb matching the
+rail row it lights, and every rail row has a tooltip when collapsed. Three need Carl: the
+wizard vocabulary (**the audit misdiagnosed it** — it is a width-driven degrade, not two
+audiences, so making the forms agree is a copy call), the logged-out 401 (only fixable by
+changing `/auth/me` to answer 200 with a null user, which is an auth contract change), and
+the Pulse grid (unmeasurable without a laid-out viewport).
+
 **Phase 7 SPLIT into 7a/7b/7c on 2026-07-29 (Carl's call), and 7a is 🔨 BUILT.** A reality
 check before building found two of the eleven small items are already gone: the Screen gallery
 was deleted wholesale by another chat, and the front door's fake-button was fixed by

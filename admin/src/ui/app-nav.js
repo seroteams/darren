@@ -65,8 +65,12 @@ function hrefFor(stage) {
 // The rail row markup, <a> or <button> by whether the destination has a URL.
 function rowHtml({ key, icon: glyph, label, href = null, data = "" }) {
   const inner = `<span class="app-nav__icon">${glyph}</span><span class="app-nav__label">${label}</span>`;
-  if (href) return `<a class="app-nav__link js-nav-${key}" href="${href}" data-key="${key}" ${data}>${inner}</a>`;
-  return `<button type="button" class="app-nav__link js-nav-${key}" data-key="${key}" ${data}>${inner}</button>`;
+  // title carries the label for the COLLAPSED rail (audit small sweep): collapsed, the row is
+  // icon-only, and the aria-label route only helped people using a screen reader. A sighted
+  // user had to expand the rail to find out what an icon meant.
+  const t = `title="${label}"`;
+  if (href) return `<a class="app-nav__link js-nav-${key}" href="${href}" data-key="${key}" ${t} ${data}>${inner}</a>`;
+  return `<button type="button" class="app-nav__link js-nav-${key}" data-key="${key}" ${t} ${data}>${inner}</button>`;
 }
 
 // One row per destination. Guide is DEV-only. `stage` drives the active highlight.
@@ -213,7 +217,7 @@ export function createAppNav({ setState, resetSession } = {}) {
         ${rowHtml({ key: "feedback", icon: ICON.feedback, label: "Send feedback", href: hrefFor(STAGES.FEEDBACK), data: 'data-mgr="1" data-member="1"' })}
       </nav>
       <nav class="app-nav__links app-nav__links--logout" aria-label="Session">
-        <button type="button" class="app-nav__link js-logout" data-key="logout">
+        <button type="button" class="app-nav__link js-logout" data-key="logout" title="Log out">
           <span class="app-nav__icon">${ICON.logout}</span>
           <span class="app-nav__label">Log out</span>
         </button>

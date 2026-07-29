@@ -9,7 +9,7 @@ found two of its items no longer exist. It now runs as:
 |---|---|---|
 | **7a** | Member home says what it is (F10) | 🔨 BUILT 2026-07-29, awaiting Carl |
 | **7b** | Three motion wins (F12) | ⬜ not started |
-| **7c** | The small sweep | ⬜ not started, 9 live items |
+| **7c** | The small sweep | 🔨 BUILT 2026-07-29: 6 fixed, 3 need Carl |
 
 ## Reality check before building (2026-07-29)
 
@@ -83,26 +83,63 @@ elements with a transition and almost all were hover colours.
 Respect `prefers-reduced-motion` on all three. Verify by reading computed styles, not by
 watching: screenshots time out on running animations.
 
-## 7c — The small sweep ⬜ (9 live items)
+## 7c — The small sweep 🔨 BUILT 2026-07-29 (6 fixed, 3 need Carl)
 
-- Live pulse: the "Runs per day" chart draws a flat line with no message when there is no
-  data, while the card beside it has a written empty state. **Confirmed live** in
-  `sparkline()` — no empty branch.
-- Live pulse: six metric cards in a five-wide grid, so "Errors" sits alone. (The grid is
-  `auto-fit minmax(10.5rem, 1fr)`, so this may already self-correct; needs a laid-out
-  viewport to confirm before changing anything.)
-- Person page: the meta line wraps and leaves a dangling "·". And "1 1:1" is hard to read.
-- Person page: the Clarity and Growth bars show "-5" with no scale or legend. Say what the
-  number is out of. (`person-axes.ts` clamps to ±6 but never tells the reader.)
-- Run detail: the meeting type appears twice in the header, once in the breadcrumb and once
-  as `.rd-type-badge`.
-- The 1:1 wizard: a guest sees "Focus areas, Prep brief, During the meeting"; a manager sees
-  "Focus, Prep, Meeting". Pick one vocabulary.
-- Compare runs: the nav highlights "Test engine" while the page says "Compare runs".
-- Collapsed nav: icon-only with no tooltips. The aria-labels are there, so this is for
-  sighted users only.
-- Logged out: every page logs a red 401 on `/api/v1/auth/me`. Treat a logged-out 401 as a
-  normal state, not an error.
+### Fixed
+
+| # | Item | What changed |
+|---|---|---|
+| 1 | Live pulse: the "Runs per day" chart drew a flat line with no message when there was no data | `sparkline()` returns the written empty state when the series totals zero, reusing the existing `.lp-empty` the card beside it already used. A floor-level line read as data ("nothing happened, every day") rather than absence. |
+| 2 | Person page: the meta line left a dangling "·" | The middot was a standalone `<span>` **between** items, so a wrap could strand it: "Content Designer · 1 1:1 ·". Each part is now one `.person-summary__item` and the middot is a `::before` on every item after the first, so separator and item can only wrap together. |
+| 3 | Person page: "-5" with no scale, legend or tooltip | A legend under the bars ("Each score runs from -6 to +6 … below it reads as a concern") plus a `title` on every number. The track always carried `aria-valuemin/max`, so only the screen was missing the scale. |
+| 4 | Run detail: the meeting type appeared twice | The blue `.rd-type-badge` is gone. The breadcrumb's current crumb names the meeting once, in ink at semibold rather than accent blue, so it no longer reads as a link that isn't one. |
+| 5 | Compare runs: the nav lit "Test engine" while the page said "Compare runs" | The eyebrow became a breadcrumb, `Test engine › Compare runs`, matching the pattern the Pulse sub-pages already use. The parent crumb navigates. |
+| 6 | Collapsed nav: icon-only with no tooltips | `title` on every rail row in both apps, including the hand-written Log out row that does not go through `rowHtml`. The aria-labels only ever helped screen-reader users. |
+
+### Needs Carl, not built
+
+**The wizard vocabulary — and the audit got this one wrong.** It reads as "a guest sees
+*Focus areas / Prep brief / During the meeting*, a manager sees *Focus / Prep / Meeting*",
+so it looks like two vocabularies picked by audience. It is not. `session-topbar.js` paints
+the full labels, measures whether the strip overflowed, and falls back to the short ones if
+it did. A guest has no nav rail, so there is more room, so they get the long form. It is one
+vocabulary with a measured responsive degrade, and the full name always rides on the `title`.
+
+The complaint still has something in it: "During the meeting" → "Meeting" is a big jump for
+the same step. But making the two forms agree is a copy decision, so it is yours:
+- **A** leave it (the degrade is deliberate and the title always carries the full name)
+- **B** shorten the long forms so both agree ("Focus / Prep / Meeting" everywhere)
+- **C** change only the jarring one ("During the meeting" → "In the meeting", short "Meeting")
+
+**The logged-out 401.** Not something our code logs. `main.js` calls `me()` inside a
+`try/catch` and stays silent; the red line is the browser's own network log of a 401
+response, which no JavaScript can suppress. The only real fix is to make `/api/v1/auth/me`
+answer **200 with a null user** when logged out instead of 401. That changes an auth API
+contract and every caller that currently relies on the throw, so it is not a small-sweep
+item. Worth doing, worth doing on purpose.
+
+**Pulse metric grid.** The tiles are `repeat(auto-fit, minmax(10.5rem, 1fr))`, which should
+already reflow rather than strand "Errors" alone. Confirming needs a laid-out viewport, and
+this session's Browser pane reports 0x0. Not changed: altering a working responsive grid
+blind would be worse than leaving it.
+
+### Verified
+
+- `npm test` **206/206**, typecheck, `lint:copy`, `lint:tokens`, `lint:components` green.
+  Six new tests.
+- **On screen** (admin app, superadmin): the Pulse chart shows "No runs in the last 7 days
+  yet…" instead of a flat line; **23 of 23** rail rows carry a tooltip; Compare runs renders
+  `Test engine › Compare runs` with the eyebrow gone and the crumb navigating to the Test
+  engine, which is the row the rail was lighting all along.
+- No console errors.
+
+### NOT verified
+
+- No screenshot, and nothing geometric: the Browser pane reports a 0x0 viewport, so the
+  dangling-middot fix is proved by its markup and CSS rule rather than by seeing a line wrap.
+  That one wants your eyes on a narrow window.
+- The person page's axis legend and the run-detail header were not opened on a real record
+  this session; both are covered by unit tests against their render output.
 
 ## Not in this phase
 - A real member history screen. Parked: Carl chose the reframe, and it needs a ruling on what

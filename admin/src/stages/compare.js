@@ -6,6 +6,11 @@ import { icon } from "../ui/icon.js";
 import { ChevronUp, ChevronDown, TriangleAlert } from "lucide";
 import { createSkeleton } from "../ui/skeleton.js";
 import { button } from "../ui/button.ts";
+// A breadcrumb, not an eyebrow (audit small sweep). The rail lights "Test engine" while this
+// page is called "Compare runs", which read as the wrong row being highlighted. The Pulse
+// sub-pages already solve exactly this with a trail naming the parent; now this one matches
+// instead of marking its parent with an eyebrow nobody can click.
+import { breadcrumb } from "../ui/breadcrumb.ts";
 
 const FIX_STAGES = ["focus_points", "preparation", "bank", "questioning", "evaluation"];
 
@@ -26,7 +31,7 @@ export async function mount(root, { setState }) {
   root.innerHTML = `
     <div class="stage-wide l-stack l-stack--5">
       <header class="page-header">
-        <div class="eyebrow">Test lane</div>
+        ${breadcrumb([{ label: "Test engine", nav: "personas" }, { label: "Compare runs" }])}
         <h1 class="h1">Compare runs</h1>
         <p class="text-ink-dim">Two runs, side by side. See what your prompt change moved.</p>
       </header>
@@ -40,6 +45,10 @@ export async function mount(root, { setState }) {
       <div class="cmp-results js-compare-grid"></div>
     </div>
   `;
+
+  // The parent crumb goes back to the Test engine, the row the rail is lighting.
+  root.querySelector('.js-crumb[data-nav="personas"]')
+    ?.addEventListener("click", () => setState({ stage: STAGES.PERSONAS }));
 
   const selA = root.querySelector(".js-run-a");
   const selB = root.querySelector(".js-run-b");

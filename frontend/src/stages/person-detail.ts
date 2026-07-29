@@ -54,17 +54,21 @@ type Briefing = { next_actions?: NextAction[]; watch_for?: string[]; axes?: Axis
 function summaryHtml(p: Person): string {
   const items: string[] = [];
   if (p.role) items.push(`<span class="person-summary__role">${escapeHtml(p.role)}</span>`);
-  items.push(`<span><b>${p.count}</b> 1:1${p.count > 1 ? "s" : ""}</span>`);
+  items.push(`<b>${p.count}</b> 1:1${p.count > 1 ? "s" : ""}`);
   const last = relTime(p.lastMet);
-  if (last) items.push(`<span>last <b>${escapeHtml(last)}</b></span>`);
+  if (last) items.push(`last <b>${escapeHtml(last)}</b>`);
   // The stars rate the PREP, not the person (audit X1) — say so, and keep them in the meta
   // row rather than anywhere near the name line.
   items.push(
     p.avgStars != null
-      ? `<span><b>${icon(Star, { size: 16, fill: "currentColor" })} ${p.avgStars.toFixed(1)}</b> prep rating · ${p.ratedCount} rated</span>`
-      : `<span>prep not yet rated</span>`,
+      ? `<b>${icon(Star, { size: 16, fill: "currentColor" })} ${p.avgStars.toFixed(1)}</b> prep rating · ${p.ratedCount} rated`
+      : `prep not yet rated`,
   );
-  return items.join(`<span class="person-summary__sep" aria-hidden="true">·</span>`);
+  // Each part is one .person-summary__item, and the middot is a ::before on every item after
+  // the first (person-detail.css). It used to be a standalone <span> BETWEEN items, so a wrap
+  // could strand it at the end of a line: "Content Designer · 1 1:1 ·". A separator that
+  // belongs to its item can only wrap with it.
+  return items.map((html) => `<span class="person-summary__item">${html}</span>`).join("");
 }
 
 // The identity block — the recap-header look (rd-profile / ds-avatar / rd-name), so a

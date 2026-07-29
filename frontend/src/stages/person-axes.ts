@@ -48,10 +48,19 @@ function bar(id: string, label: string, score: number): string {
     `<div class="axis__midline"></div>` +
     `<div class="axis__fill ${dir}" style="transform: scaleX(${ratio})"></div>` +
     `</div>` +
-    `<div class="axis__value num-tabular">${escapeHtml(fmt(score))}${offscale}</div>` +
+    // The number carries its own scale on hover too (audit small sweep): a bare "-5" in red
+    // told a sighted reader nothing about what it was out of. The track's aria-valuemin/max
+    // always said so; only the screen did not.
+    `<div class="axis__value num-tabular" title="${escapeHtml(fmt(score))} on a scale of -6 to +6">${escapeHtml(fmt(score))}${offscale}</div>` +
     `</div>`
   );
 }
+
+// One quiet line above the bars saying what the numbers are out of. Without it the block
+// showed "-5" in red with no scale, no legend and no tooltip, so there was no way to know
+// whether that was mild or catastrophic.
+export const AXIS_SCALE_NOTE =
+  "Each score runs from -6 to +6 across recent 1:1s. Above the middle line reads positive, below it reads as a concern.";
 
 // Render the per-axis memory block. `axesPerRun` is the axes array from each of
 // the person's recent 1:1s, ORDERED OLDEST → NEWEST, so the suffix reads left to
@@ -84,5 +93,7 @@ export function renderAxisMemory(axesPerRun: Array<AxisRead[] | null | undefined
     rows.push(row);
   }
   if (!anyRead) return "";
-  return `<div class="l-stack l-stack--1">${rows.join("")}</div>`;
+  // The legend only renders when at least one axis was actually read — no scale note above
+  // a block of "not read" rows.
+  return `<div class="l-stack l-stack--1">${rows.join("")}<p class="axis-mem__scale">${AXIS_SCALE_NOTE}</p></div>`;
 }
