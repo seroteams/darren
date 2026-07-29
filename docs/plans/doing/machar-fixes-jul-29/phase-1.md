@@ -1,6 +1,55 @@
 # Phase 1 — The last screen stops interviewing them
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Finding:** F7
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk · **Finding:** F7
+
+## Built (2026-07-29)
+
+Carl picked **option A** off the mockup: one question, and the auto star rating goes.
+
+| File | What changed |
+|---|---|
+| [finish-feedback-modal.js](../../../../admin/src/ui/finish-feedback-modal.js) | Three labelled sections down to one question plus an optional line. `rateMyRun`, `STARS_FOR`, `usefulFromStars`, `initialStars` and the `composeMessage` packer all gone; the note now posts as itself. |
+| [finish-feedback-modal.css](../../../../admin/src/styles/finish-feedback-modal.css) | `.ffm__sec` rhythm replaced by one `.ffm__body` flex column; new `.ffm__q` sets the question at reading size (16px) instead of as a small-caps field label. Dead `.js-ffm-u` selector dropped. |
+| [briefing.js](../../../../admin/src/stages/briefing.js) | Dropped the `getMyRun` prefetch that existed only to seed `initialStars`, and its now-unused import. **The gate is untouched** (`store.user && !store.scripted`). |
+| [finish-feedback-modal.test.ts](../../../../admin/src/ui/finish-feedback-modal.test.ts) | New source-reading guard, 4 cases: the pass-bar question survives and is still saved; the dropped questions and eyebrow labels cannot come back; no rating is derived from the verdict; every exit still resolves. Comments are stripped before matching, because the module's own header names the dropped questions. |
+
+**Free checks:** `npm test` **203/203** (was 202 before, the new guard is the extra), `npm run typecheck`
+clean, `lint:copy` and `lint:tokens` both pass.
+
+**Real screen** (customer app on my own server, ports 3471/3475, real registered manager account):
+
+- ![the card](proof/p1-after.png) — desktop, 440×275, "One last thing." then one question.
+- ![on a phone](proof/p1-after-phone.png) — 390px wide, fits, no sideways scroll.
+- Measured live in the page: question **16px**, note field **14px** (both at or above the floor),
+  `text-transform: none`, no letter-spacing. **Zero** `.ffm__sec`, **zero** `.eyebrow`, **zero** star
+  buttons left.
+
+**Destination proved, not inferred.** Clicked Yes, typed a line, clicked Done, then read the Feedback
+inbox back over the API. The row is really there:
+
+```
+verdict: "yes"
+message: "the wellbeing meter read red for a team problem"
+runId:   2026_Jul29_10-30-127bfd51...
+from:    mfix.admin@seroteams.com · Mfix Proof Ltd
+```
+
+The message is now the note alone. It used to be prefixed `Useful: Yes · `.
+
+**What I did NOT do, honestly.** I did not walk a whole 1:1 to reach the Finish button, because every
+turn of a live run costs OpenAI money and this phase did not need it. Instead the real card was
+mounted on the real screen with the real stylesheet and driven through its real save path. So the one
+thing not re-exercised is the *gate* in `briefing.js` that decides who sees the card, which this phase
+did not change. Scenario 1 below covers it if you want it covered.
+
+**Local test data left behind:** a throwaway `mfix.admin@seroteams.com` account and the one feedback
+row above, both in your **local** database only. Delete the row from the Feedback screen whenever.
+
+**Committed local** (parallel chats share this folder, so built work does not sit loose). Nothing is
+pushed, so sero.team still shows the three-question form until your next "go live".
+
+---
+
 
 ## Goal
 
@@ -64,12 +113,15 @@ options are: lose the auto-star (recommended), or keep two questions. Both are d
 
 ## Test scenarios — for Carl
 
-`local > customer app (localhost:3000) > sign in as a manager > run any 1:1 to the end`
+Only walk these if you want to. The card and the saved row are both proved above, and a full
+walk means running a real 1:1, which costs money.
 
-1. **The card itself** — finish a 1:1 and click Finish. You should see **one** question and one
-   optional line. ❌ Not OK if it still reads like a form, or if any small-caps label stack remains.
-2. **It saves** — answer the question, type a line, click Done. Then open
-   `admin console > Feedback`. You should see your answer on a row with the line attached.
-   ❌ Not OK if the row is missing or the line is dropped.
-3. **It never traps you** — run another 1:1, click Finish, then press Escape without answering.
-   You should land on the next screen as normal. ❌ Not OK if Finish stalls or the card sticks.
+`local > customer app > sign in as a manager > run any 1:1 to the end > Finish`
+
+1. **The card, in its real place** — finish a 1:1 and click Finish. You should see **one** question
+   and one optional line. This is the only step the proof above does not cover, because it is the one
+   that exercises who gets shown the card. ❌ Not OK if it reads like a form, or does not appear.
+2. **It saves** — answer, type a line, click Done, then open `admin console > Feedback`. Your answer
+   should be a row with the line attached. ❌ Not OK if the row is missing or the line is dropped.
+3. **It never traps you** — click Finish, then press Escape without answering. You should land on the
+   next screen as normal. ❌ Not OK if Finish stalls or the card sticks.

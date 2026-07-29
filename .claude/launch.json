@@ -1118,6 +1118,34 @@
       "port": 3495
     },
     {
+      "name": "mfix-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3471",
+        "SUPERADMIN_EMAILS=mfix.admin@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3471
+    },
+    {
+      "name": "mfix-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3471",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3475",
+        "--strictPort"
+      ],
+      "port": 3475
+    },
+    {
       "name": "es-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

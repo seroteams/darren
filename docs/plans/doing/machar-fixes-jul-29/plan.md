@@ -73,7 +73,7 @@ Dug out of the code so no phase stalls:
 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The last screen stops interviewing them | The end-of-run prompt in Sero's voice, one question, return-intent signal kept | ⬜ |
+| 1 | The last screen stops interviewing them | The end-of-run prompt in Sero's voice, one question, return-intent signal kept | 🔨 built, awaiting walk |
 | 2 | The opening merges both agendas | Asks what the employee wants from the session; "nothing specific" stops costing a turn | ⬜ |
 | 3 | A hard team is not a hard week | Wellbeing scores the person, not the situation they describe; baseline and "why" bugs fixed | ⬜ |
 | 4 | Plain words, sharper ask | Live questions lose the heavy vocabulary and gain the push-it-back move; recap's second summary separated | ⬜ |
@@ -90,10 +90,13 @@ Carl's explicit yes.
 
 ## Current state
 
-Plan written 2026-07-29, nothing built. Waiting on Carl to read the phases and the mockup.
+**Phase 1 built 2026-07-29 and awaiting Carl's walk** (Carl picked option A off the mockup: one
+question, auto star rating dropped). Proof, screenshots and the honest gap are in
+[phase-1.md](phase-1.md). Phase 2 does not start until he says go.
+
 **Baseline recorded 2026-07-29, before any change: `npm test` 202/202 green, `npm run typecheck`
 clean.** Both free. `npm run gate` was NOT run as a baseline: it is the paid one (~$3) and the free
-suite already proves the tree is green.
+suite already proves the tree is green. After P1: **203/203**, typecheck clean, both linters pass.
 Board: [board.html](board.html).
 
 ## Parked

@@ -9,10 +9,12 @@
   color: var(--color-ink);
   margin-bottom: 14px;
 }
-.ffm__sec { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-.ffm__sec .input { font-size: var(--type-body-sm, 14px); }
-.ffm .js-ffm-v.is-active,
-.ffm .js-ffm-u.is-active {
+/* One question, asked at reading size. The old small-caps section labels are what
+   made this read as a form rather than as Sero asking (machar-fixes P1). */
+.ffm__body { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.ffm__q { font-size: var(--type-body, 16px); color: var(--color-ink); }
+.ffm__body .input { font-size: var(--type-body-sm, 14px); }
+.ffm .js-ffm-v.is-active {
   background: var(--sero-active-state-bg);
   border-color: var(--sero-primary-500);
 }

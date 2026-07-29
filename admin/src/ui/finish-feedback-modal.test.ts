@@ -1,0 +1,87 @@
+// Guard for the softened finish prompt (machar-fixes P1).
+//
+// Carl caught this live over the first corridor manager's shoulder: "see that QA prompt.
+// We don't need that QA prompt. That's for me." It was three labelled sections with button
+// rows, which is what made it read as an internal form rather than as Sero asking one thing.
+//
+// Two things must not drift back:
+//   1. It stays ONE question. Re-stacking sections rebuilds the form Carl rejected.
+//   2. The verdict question survives. It is the corridor test's only automatic read on
+//      whether a tester would come back, so "tidying" it away would silently remove the
+//      pass-bar instrument (docs/reference/gtm-validation-plan.md).
+//
+// There is no DOM in this test runner (node:test, no jsdom), so this is a source-reading
+// guard in the same shape as modal-shell.test.ts. The rendered card and the inbox row are
+// verified in the browser as part of the phase walk.
+
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+
+const here = (rel: string) => new URL(rel, import.meta.url);
+const read = (rel: string) => readFileSync(here(rel), "utf8");
+
+// Comments are stripped before matching: the module's own header explains WHICH questions
+// were dropped and why, so a raw substring search would fire on the explanation itself.
+const stripComments = (src: string) =>
+  src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^[ \t]*\/\/.*$/gm, "");
+
+const MODAL = stripComments(read("./finish-feedback-modal.js"));
+const CSS = stripComments(read("../styles/finish-feedback-modal.css"));
+
+test("the pass-bar question survives", () => {
+  assert.match(
+    MODAL,
+    /Would you use this before your next 1:1\?/,
+    "The verdict question is the corridor test's only automatic return-intent signal. Do not remove it.",
+  );
+  assert.match(
+    MODAL,
+    /submitRunVerdict/,
+    "The verdict must still be saved, or the question is decoration.",
+  );
+});
+
+test("it asks one question, not a form", () => {
+  for (const dropped of [
+    "Did the prep give you something useful?",
+    "Where did you get stuck or confused?",
+  ]) {
+    assert.ok(
+      !MODAL.includes(dropped),
+      `"${dropped}" is back. The three-question stack is what read as an internal QA form.`,
+    );
+  }
+  assert.ok(
+    !/class="eyebrow"/.test(MODAL),
+    "Small-caps eyebrow labels are back. A question is asked at reading size, not labelled like a field.",
+  );
+  assert.ok(
+    !/ffm__sec/.test(MODAL) && !/\.ffm__sec/.test(CSS),
+    "The multi-section rhythm is back. One flex column, one question.",
+  );
+  assert.match(CSS, /\.ffm__q\b/, "The question needs its own reading-size rule.");
+});
+
+test("no rating is invented from the verdict", () => {
+  // The dropped question doubled as the star rating (Yes/Sort of/No -> 5/3/1). Deriving
+  // stars from "would you use this again" would be making a rating up; rating stays a
+  // deliberate act on the run detail screen instead.
+  assert.ok(
+    !/rateMyRun/.test(MODAL),
+    "The finish prompt is rating runs again. If a rating is wanted here, ask for it plainly.",
+  );
+  assert.ok(
+    !/STARS_FOR|usefulFromStars/.test(MODAL),
+    "A verdict-to-stars mapping is back. That fabricates a rating the manager never gave.",
+  );
+});
+
+test("every way out still lets Finish proceed", () => {
+  // Any exit that fails to resolve would strand the manager on the briefing.
+  for (const hook of ["js-ffm-skip", "js-ffm-done"]) {
+    assert.ok(MODAL.includes(hook), `${hook} is missing; the card would have no way out.`);
+  }
+  assert.match(MODAL, /onClose:\s*\(\)\s*=>\s*close\(\)/, "Escape and the backdrop must resolve too.");
+  assert.match(MODAL, /function close\(\)\s*\{\s*shell\.destroy\(\);\s*resolve\(\);/, "close() must resolve the promise.");
+});

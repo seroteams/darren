@@ -1,7 +1,7 @@
 import { STAGES, isInternalAdmin } from "../state.ts";
 import { createAxesPanel } from "../ui/axes.js";
 import { revealOne } from "../ui/reveal.js";
-import { postVerdict, getMyRun, submitRunVerdict, savePromises } from "../../../shared/api.js";
+import { postVerdict, submitRunVerdict, savePromises } from "../../../shared/api.js";
 import { draftsFromNextActions, renderPromiseAgree } from "../ui/promise-agree.ts";
 import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
 import { markRunForClaim } from "../guest.ts";
@@ -549,15 +549,13 @@ export async function mount(root, deps) {
     if (!seesDebrief) finishBtn.textContent = "Finish";
     finishBtn.addEventListener("click", () => {
       void (async () => {
-        // The one feedback moment (validation-kit Phase 3b): stars + the verdict
-        // question in a single modal on Finish — replaces the two inline cards for
-        // logged-in users. Skippable every way (Done/Skip/Escape/backdrop), and any
-        // failure falls through — Finish ALWAYS proceeds.
+        // The one feedback moment (validation-kit Phase 3b, softened machar-fixes P1):
+        // a single question on Finish — replaces the two inline cards for logged-in
+        // users. Skippable every way (Done/Not now/Escape/backdrop), and any failure
+        // falls through — Finish ALWAYS proceeds.
         if (store.user && !store.scripted) {
           try {
-            let savedStars = 0;
-            try { savedStars = (await getMyRun(store.sessionId))?.rating?.stars ?? 0; } catch { /* blank */ }
-            await showFinishFeedbackModal({ sessionId: store.sessionId, initialStars: savedStars });
+            await showFinishFeedbackModal({ sessionId: store.sessionId });
           } catch { /* never block the exit */ }
         }
         if (seesDebrief) {
