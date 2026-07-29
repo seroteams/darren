@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sero · How the engine builds its picture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#F4F5F3; --stone:#E4E5E0; --stonebg:#DDDED8; --char:#1A1A1A;
+    --soft:#3A3733; --grey:#7A776F; --hair:#C9CAC4; --red:#C8102E;
+    --green:#2E7D32; --card:#FDFDFC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--white);color:var(--char);font-family:'Inter',sans-serif;font-size:15px;line-height:1.55}
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px 120px}
+  .kicker{display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.14em;font-size:14px;font-weight:600;color:var(--grey)}
+  .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:none}
+  h1,h2{font-family:'Fraunces',serif;font-weight:600;line-height:1.15}
+  h1{font-size:44px;margin:18px 0 14px}
+  h2{font-size:28px;margin:0 0 8px}
+  .lede{font-size:19px;color:var(--soft);max-width:640px}
+  header{padding:72px 0 30px}
+
+  .stats{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+  .stat{background:var(--card);border:1px solid var(--hair);border-radius:10px;padding:16px 20px;min-width:180px;flex:1}
+  .stat b{font-family:'Fraunces',serif;font-size:30px;font-weight:600;display:block}
+  .stat span{font-size:14px;color:var(--grey)}
+  .stat.good b{color:var(--green)}
+  .stat.bad b{color:var(--red)}
+
+  .legend{position:sticky;top:0;z-index:5;background:var(--white);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:12px 0;margin:40px 0 0;display:flex;gap:26px;flex-wrap:wrap;font-size:14px}
+  .legend .li{display:flex;align-items:center;gap:8px;color:var(--soft)}
+  .swatch{width:26px;height:0;border-top:3px solid;flex:none;border-radius:2px}
+  .swatch.live{border-color:var(--green)}
+  .swatch.rule{border-color:var(--soft);border-top-width:2px}
+  .swatch.script{border-color:#ABAA9F}
+  .swatch.dead{border-top-style:dashed;border-color:var(--red)}
+
+  section.stage{position:relative;padding:56px 0 24px;border-bottom:1px solid var(--hair)}
+  .stageno{font-size:14px;font-weight:600;letter-spacing:.14em;color:var(--grey);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .stageno::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red)}
+  .plain{color:var(--soft);max-width:620px;margin-bottom:26px}
+
+  .board{position:relative;display:grid;grid-template-columns:minmax(240px,340px) 1fr minmax(240px,330px);gap:0 24px;align-items:start}
+  svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  .colhead{font-size:14px;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+  .pills{display:flex;flex-direction:column;gap:8px;position:relative;z-index:2}
+  .pill{background:var(--card);border:1px solid var(--hair);border-radius:8px;padding:9px 12px;font-size:14px;display:flex;gap:9px;align-items:baseline;position:relative}
+  .pill .dot{width:9px;height:9px;border-radius:50%;flex:none;position:relative;top:0}
+  .pill[data-wire="live"] .dot{background:var(--green)}
+  .pill[data-wire="rule"] .dot{background:var(--soft)}
+  .pill[data-wire="script"] .dot{background:#ABAA9F}
+  .pill[data-wire="dead"] .dot{background:var(--red)}
+  .pill[data-wire="dead"]{border-style:dashed;border-color:#D9A2AC}
+  .pill small{display:block;color:var(--grey);font-size:14px;font-weight:400}
+  .pill b{font-weight:600;font-size:14px}
+
+  .stage-card{grid-column:3;background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:20px 22px;box-shadow:0 1px 4px rgba(26,26,26,.05);position:relative;z-index:2}
+  .stage-card h3{font-family:'Fraunces',serif;font-size:21px;font-weight:600;margin-bottom:6px}
+  .stage-card p{font-size:14px;color:var(--soft)}
+  .stage-card .out{margin-top:14px;padding-top:12px;border-top:1px solid var(--hair);font-size:14px;color:var(--grey)}
+  .stage-card .out b{color:var(--char)}
+
+  .verdict{margin:26px 0 6px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .verdict .label{font-size:14px;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:.1em}
+  .meter{display:flex;gap:5px}
+  .meter i{width:34px;height:8px;border-radius:4px;background:var(--stone)}
+  .meter i.on{background:var(--green)}
+  .verdict .word{font-size:14px;color:var(--soft)}
+
+  .deadnote{margin-top:14px;font-size:14px;color:var(--soft);background:#FBF6F6;border:1px dashed #D9A2AC;border-radius:8px;padding:10px 14px;max-width:640px}
+  .deadnote b{color:var(--red)}
+
+  /* turn strip */
+  .turns{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:26px 0 8px}
+  .turn{background:var(--card);border:1px solid var(--hair);border-radius:10px;padding:12px 12px 14px;position:relative;overflow:hidden}
+  .turn::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:#ABAA9F}
+  .turn.open::before{background:var(--green)}
+  .turn.pinned::before{background:var(--soft)}
+  .turn .t{font-size:14px;font-weight:600;color:var(--grey)}
+  .turn .n{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:3px 0 4px}
+  .turn p{font-size:14px;color:var(--grey);line-height:1.4}
+  .caption{font-size:14px;color:var(--grey);max-width:640px}
+
+  .panel{background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:24px 26px;margin-top:28px}
+  .panel h3{font-family:'Fraunces',serif;font-size:21px;margin-bottom:12px}
+  .panel ol{margin-left:20px;font-size:15px;color:var(--soft)}
+  .panel ol li{margin-bottom:8px}
+  .panel .foot{margin-top:12px;font-size:14px;color:var(--grey)}
+
+  table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px}
+  th{text-align:left;font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey);font-weight:600;padding:10px 12px;border-bottom:2px solid var(--hair)}
+  td{padding:12px;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--soft)}
+  td:first-child{font-weight:600;color:var(--char);white-space:nowrap}
+  td .rdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:8px}
+
+  .fixes{margin-top:20px;display:flex;flex-direction:column;gap:12px}
+  .fix{background:var(--card);border:1px solid var(--hair);border-radius:10px;padding:16px 18px;display:flex;gap:16px;align-items:baseline}
+  .fix .letter{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--char);flex:none;width:28px}
+  .fix p{font-size:15px;color:var(--soft)}
+  .fix b{color:var(--char)}
+  .fix.star{border-color:var(--char)}
+  .fix .tag{margin-left:auto;flex:none;font-size:14px;color:var(--grey);white-space:nowrap}
+
+  footer{padding-top:40px;font-size:14px;color:var(--grey)}
+
+  @media(max-width:760px){
+    h1{font-size:32px}
+    .board{grid-template-columns:1fr;gap:18px}
+    .stage-card{grid-column:1}
+    svg.wires{display:none}
+    .turns{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Sero engine · deep dive · 30 July 2026</div>
+  <h1>How the engine builds its picture.</h1>
+  <p class="lede">Sero reads you carefully <b>before</b> the meeting starts. Once you are in the room, it mostly follows the plan it already wrote. This page maps every wire: what you give it, where each piece actually lands, and which wires are dead.</p>
+  <div class="stats">
+    <div class="stat good"><b>4 of 5</b><span>pre-meeting stages genuinely shaped by what you type</span></div>
+    <div class="stat"><b>1 of 6</b><span>question slots in a bi-weekly that stay open to change mid-meeting</span></div>
+    <div class="stat bad"><b>7</b><span>dead wires: collected, then never used where it matters</span></div>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="li"><i class="swatch live"></i>Shapes the words</div>
+  <div class="li"><i class="swatch rule"></i>Rule only (filters, never wording)</div>
+  <div class="li"><i class="swatch script"></i>Fixed script</div>
+  <div class="li"><i class="swatch dead"></i>Dead wire</div>
+</div>
+
+<!-- ====================== STAGE 0 ====================== -->
+<section class="stage">
+  <div class="stageno">00 · What Sero collects</div>
+  <h2>The raw material</h2>
+  <p class="plain">Everything below exists inside a single run. Three groups: what you hand over before the meeting, what builds up while you talk, and the standing knowledge Sero keeps about the role.</p>
+  <div class="board" style="grid-template-columns:1fr 1fr 1fr;gap:24px">
+    <div>
+      <div class="colhead">Before the meeting</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Name, role, seniority</b><small>the person you are meeting</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Meeting type</b><small>one of five, sets the shape</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Your note</b><small>the chip you tap plus free text</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Your focus picks</b><small>up to three taps on the focus screen</small></span></div>
+      </div>
+    </div>
+    <div>
+      <div class="colhead">While you talk</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Every answer</b><small>what you type each turn</small></span></div>
+        <div class="pill" data-wire="rule"><i class="dot"></i><span><b>Skips</b><small>blank, "skip", "pass"</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Agenda answer</b><small>what the report wants to cover</small></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>Notes you jot mid-meeting</b><small>the notes panel</small></span></div>
+      </div>
+    </div>
+    <div>
+      <div class="colhead">Standing knowledge</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Role profile</b><small>challenges and themes for this job title</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Vocabulary guide</b><small>words to prefer and avoid</small></span></div>
+        <div class="pill" data-wire="script"><i class="dot"></i><span><b>Question library</b><small>openers, intros, the 21-item focus menu</small></span></div>
+        <div class="pill" data-wire="script"><i class="dot"></i><span><b>Meeting arc</b><small>fixed stages and question budget per type</small></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="deadnote"><b>Already dead on arrival:</b> who the person actually <i>is</i>. Personalisation keys on job title plus seniority, so two different people with the same title get the same standing treatment.</div>
+</section>
+
+<!-- ====================== STAGE 1 ====================== -->
+<section class="stage">
+  <div class="stageno">01 · Focus points</div>
+  <h2>A fixed menu, a smart waiter</h2>
+  <p class="plain">The engine cannot invent a focus point. It picks 2 to 5 from a closed menu of 21, then rewrites the labels around your note. If your note is empty, the pick follows a recipe keyed to seniority and meeting type.</p>
+  <div class="board">
+    <div>
+      <div class="colhead">Wired in</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Your note</b><small>the only free text it reads</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Name, role, seniority</b></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Role profile</b><small>summary and known challenges</small></span></div>
+        <div class="pill" data-wire="rule"><i class="dot"></i><span><b>Meeting type</b><small>relational types hide all 11 competency items</small></span></div>
+        <div class="pill" data-wire="script"><i class="dot"></i><span><b>The 21-item menu</b><small>closed list, never grows</small></span></div>
+      </div>
+    </div>
+    <div></div>
+    <div class="stage-card">
+      <h3>Focus points</h3>
+      <p>2 to 5 suggested focus areas with a reason each. You then tap the ones that ring true.</p>
+      <div class="out"><b>Feeds:</b> the prep brief, the question bank, every mid-meeting decision.</div>
+    </div>
+  </div>
+  <div class="verdict"><span class="label">How much your words shape it</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="word">Menu fixed, picking adapts</span></div>
+</section>
+
+<!-- ====================== STAGE 2 ====================== -->
+<section class="stage">
+  <div class="stageno">02 · Prep brief</div>
+  <h2>Adaptive words on a scripted skeleton</h2>
+  <p class="plain">The brief is written fresh each run and your note visibly steers it. But the shape never moves: always exactly three things to listen for, exactly two things to avoid, and a tone that comes from a lookup table for the meeting type, not from reading your situation.</p>
+  <div class="board">
+    <div>
+      <div class="colhead">Wired in</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Your note</b><small>load-bearing when present</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Focus points + your picks</b></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Role profile</b><small>full version</small></span></div>
+        <div class="pill" data-wire="script"><i class="dot"></i><span><b>Tone and anti-patterns</b><small>constants per meeting type</small></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>Open promises from last time</b><small>known to the system, never told to prep</small></span></div>
+      </div>
+    </div>
+    <div></div>
+    <div class="stage-card">
+      <h3>Prep brief</h3>
+      <p>Core issue, opening question, three listen-fors, two avoids, a suggested action.</p>
+      <div class="out"><b>Feeds:</b> the question bank and the mid-meeting planner. <b>Never regenerated</b> once written.</div>
+    </div>
+  </div>
+  <div class="verdict"><span class="label">How much your words shape it</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span><span class="word">Wording adapts, shape is fixed</span></div>
+</section>
+
+<!-- ====================== STAGE 3 ====================== -->
+<section class="stage">
+  <div class="stageno">03 · Question bank</div>
+  <h2>The richest picture, frozen too early</h2>
+  <p class="plain">This is the engine at its most connected: one AI call that reads nearly everything you gave it and writes 8 to 12 tailored questions. The catch: it happens once, before the first answer exists, and is never refreshed. Everything the meeting later "adapts" is drawn from this pre-meeting pool.</p>
+  <div class="board">
+    <div>
+      <div class="colhead">Wired in</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Your note</b></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Focus points + your picks</b></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Prep brief</b><small>core issue and listen-fors</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Role profile + vocabulary guide</b></span></div>
+        <div class="pill" data-wire="rule"><i class="dot"></i><span><b>Meeting arc</b><small>stages, budget, banned phrasings</small></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>Anything said in the meeting</b><small>the bank never hears it</small></span></div>
+      </div>
+    </div>
+    <div></div>
+    <div class="stage-card">
+      <h3>Question bank</h3>
+      <p>8 to 12 questions, each staged, purposed and hinted. The closer is chosen from here before turn 1.</p>
+      <div class="out"><b>Feeds:</b> the live queue. <b>Written once</b>, cached, never re-minted.</div>
+    </div>
+  </div>
+  <div class="verdict"><span class="label">How much your words shape it</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span class="word">Deeply shaped, but only by pre-meeting words</span></div>
+</section>
+
+<!-- ====================== STAGE 4 ====================== -->
+<section class="stage">
+  <div class="stageno">04 · The live meeting</div>
+  <h2>The planner sees plenty. It can change little.</h2>
+  <p class="plain">Each turn, the planner AI reads the whole transcript, your last answer and the running scores, and may reword or reorder what is left. But the pool was written before turn 1, several slots are pinned, and a skipped question skips the AI entirely: the next turn comes back byte-identical.</p>
+
+  <div class="turns">
+    <div class="turn"><div class="t">Turn 1</div><div class="n">Warm opener</div><p>Picked from a fixed pool of 22. Your note nudges the pick by one point.</p></div>
+    <div class="turn"><div class="t">Turn 2</div><div class="n">Agenda check</div><p>Frozen wording, every run, every type.</p></div>
+    <div class="turn"><div class="t">Turn 3</div><div class="n">Intro question</div><p>Fixed file per meeting type, fixed order.</p></div>
+    <div class="turn pinned"><div class="t">Turn 4</div><div class="n">Prep opener</div><p>Written before the meeting, pinned here until asked.</p></div>
+    <div class="turn open"><div class="t">Turn 5</div><div class="n">The open slot</div><p>The planner's one real choice, drawn from the pre-meeting bank.</p></div>
+    <div class="turn"><div class="t">Turn 6</div><div class="n">Closer</div><p>Chosen before turn 1, force-inserted at the end.</p></div>
+  </div>
+  <p class="caption">A bi-weekly check-in, turn by turn. Green is the only slot genuinely open to what you said. Bring an agenda item and one extra turn is added for it.</p>
+
+  <div class="board" style="margin-top:34px">
+    <div>
+      <div class="colhead">Wired in</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Full transcript + last answer</b><small>the planner reads every word</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Prep core issue + listen-fors</b></span></div>
+        <div class="pill" data-wire="rule"><i class="dot"></i><span><b>Your own words as police</b><small>new questions must quote ground you actually covered</small></span></div>
+        <div class="pill" data-wire="rule"><i class="dot"></i><span><b>Repeat + drill caps</b><small>no near-duplicates, no digging three turns deep</small></span></div>
+        <div class="pill" data-wire="script"><i class="dot"></i><span><b>Pinned slots</b><small>prep opener, closer, intro run-in</small></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>Notes you jot mid-meeting</b><small>invisible until the final brief</small></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>Answer-quality tags</b><small>thin, declined, real: scored every turn, acted on never</small></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>Score levels</b><small>a falling wellbeing score triggers nothing extra</small></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>Vocabulary guide</b><small>used for the bank, absent live</small></span></div>
+      </div>
+    </div>
+    <div></div>
+    <div class="stage-card">
+      <h3>Next question</h3>
+      <p>Usually the next queued item, possibly reworded. Sometimes a mirror follow-up built from one clause of your answer, on a fixed sentence pattern, if seven separate conditions all pass.</p>
+      <div class="out"><b>What one answer can change today:</b> the running scores, the vocabulary new questions may use, one possible follow-up, a softer repeat-score, one agenda turn. <b>That is the whole list.</b></div>
+    </div>
+  </div>
+  <div class="verdict"><span class="label">How much your words shape it</span><span class="meter"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><span class="word">Rewording yes, re-planning no</span></div>
+  <div class="deadnote"><b>Already in motion:</b> the fixed-pattern follow-up is being rebuilt right now in another work stream, so the mirror question will be written by the model instead of a template.</div>
+</section>
+
+<!-- ====================== STAGE 5 ====================== -->
+<section class="stage">
+  <div class="stageno">05 · The final brief</div>
+  <h2>Everything arrives, one thing is missing</h2>
+  <p class="plain">After the meeting the wiring is at its best: transcript, your mid-meeting notes, scores, answer quality, agenda, promises all land in the evaluation. The one absentee is the prep brief itself, so Sero can never tell you whether the meeting did what you set out to do.</p>
+  <div class="board">
+    <div>
+      <div class="colhead">Wired in</div>
+      <div class="pills">
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Full transcript</b></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Your notes</b><small>intake and mid-meeting, finally read</small></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Scores + answer quality</b></span></div>
+        <div class="pill" data-wire="live"><i class="dot"></i><span><b>Agenda + promise taps</b></span></div>
+        <div class="pill" data-wire="dead"><i class="dot"></i><span><b>The prep brief</b><small>the plan is never compared with reality</small></span></div>
+      </div>
+    </div>
+    <div></div>
+    <div class="stage-card">
+      <h3>Final brief</h3>
+      <p>Axis reads, engagement, next actions, the recap you keep.</p>
+      <div class="out"><b>Ends the run.</b> The richest reader in the pipeline.</div>
+    </div>
+  </div>
+  <div class="verdict"><span class="label">How much the run shapes it</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="word">Fully fed</span></div>
+</section>
+
+<!-- ====================== GAP BOARD ====================== -->
+<section class="stage">
+  <div class="stageno">06 · The dead wires</div>
+  <h2>Collected, then dropped</h2>
+  <p class="plain">Each row is information Sero already holds during a run that never reaches the place it would matter. This is the gap between "following a script" and "building a picture".</p>
+  <table>
+    <tr><th>What Sero holds</th><th>Where it should land</th><th>What happens today</th></tr>
+    <tr><td><span class="rdot"></span>Mid-meeting notes</td><td>The next question</td><td>You can type a whole observation mid-meeting; the planner never sees it. Only the final brief reads it.</td></tr>
+    <tr><td><span class="rdot"></span>Your intake note, live</td><td>The mid-meeting planner</td><td>Read by every pre-meeting stage, then never re-read while questions are being chosen. It only polices wording.</td></tr>
+    <tr><td><span class="rdot"></span>Answer-quality tags</td><td>Pacing</td><td>Every answer is tagged skipped, declined, thin or real. The tag changes nothing until the end-of-run report.</td></tr>
+    <tr><td><span class="rdot"></span>Score levels</td><td>Question choice</td><td>The coverage safety-net only counts whether an area was touched. A score crashing to the floor triggers nothing.</td></tr>
+    <tr><td><span class="rdot"></span>The prep brief</td><td>The final brief</td><td>Plan and outcome never meet, so there is no "you set out to X, and here is what happened".</td></tr>
+    <tr><td><span class="rdot"></span>Who the person is</td><td>All wording</td><td>Everything personalises on job title + seniority. The specific human is only a name.</td></tr>
+    <tr><td><span class="rdot"></span>Vocabulary guide, live</td><td>Mid-meeting questions</td><td>Prefer/avoid wording shapes the bank, but questions written live get no vocabulary guidance.</td></tr>
+  </table>
+  <p class="caption" style="margin-top:14px">Learning across past runs is deliberately out of scope here, as agreed. One border case is noted above: last meeting's open promises exist at prep time but only the check-in card sees them.</p>
+</section>
+
+<!-- ====================== FIXES ====================== -->
+<section class="stage" style="border-bottom:none">
+  <div class="stageno">07 · Where I would start</div>
+  <h2>Three fixes that turn script into picture</h2>
+  <div class="fixes">
+    <div class="fix star"><span class="letter">A</span><p><b>Let the meeting reshape the plan.</b> After the first real answers, refresh the remaining questions from what was actually said, instead of serving a pool written before turn 1. This is the single biggest "it gets me" unlock.</p><span class="tag">⭐ biggest effect</span></div>
+    <div class="fix"><span class="letter">B</span><p><b>Give the planner your notes.</b> Wire mid-meeting notes and the intake note into the live planner. Small change, immediately visible connective feel.</p><span class="tag">smallest lift</span></div>
+    <div class="fix"><span class="letter">C</span><p><b>Make the signals matter.</b> Thin answers, declines and falling scores should change pacing: chase what is dropping, stop drilling what is closed, close the loop in the final brief against the prep brief.</p><span class="tag">depth</span></div>
+  </div>
+</section>
+
+<footer>Built from a full trace of the live engine, 30 July 2026. Every wire on this page was verified in code, not inferred.</footer>
+</div>
+
+<script>
+function drawWires(){
+  document.querySelectorAll('section.stage').forEach(function(sec){
+    var board = sec.querySelector('.board');
+    if(!board) return;
+    var card = board.querySelector('.stage-card');
+    if(!card) return;
+    var old = board.querySelector('svg.wires');
+    if(old) old.remove();
+    if(window.innerWidth <= 760) return;
+    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','wires');
+    board.insertBefore(svg, board.firstChild);
+    var br = board.getBoundingClientRect();
+    var cr = card.getBoundingClientRect();
+    var pills = board.querySelectorAll('.pill');
+    var n = pills.length;
+    var pad = 26;
+    pills.forEach(function(p, i){
+      var wire = p.getAttribute('data-wire');
+      var pr = p.getBoundingClientRect();
+      var x1 = pr.right - br.left, y1 = pr.top + pr.height/2 - br.top;
+      var x2 = cr.left - br.left, y2 = (cr.top - br.top) + pad + ((cr.height - pad*2) * (n>1 ? i/(n-1) : .5));
+      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      var ex = x2, ey = y2;
+      if(wire === 'dead'){ ex = x1 + (x2-x1)*0.62; ey = y1 + (y2-y1)*0.62; }
+      var mx = (x1+ex)/2;
+      path.setAttribute('d','M'+x1+' '+y1+' C'+mx+' '+y1+', '+mx+' '+ey+', '+ex+' '+ey);
+      path.setAttribute('fill','none');
+      if(wire==='live'){ path.setAttribute('stroke','#2E7D32'); path.setAttribute('stroke-width','2'); path.setAttribute('opacity','.85'); }
+      else if(wire==='rule'){ path.setAttribute('stroke','#3A3733'); path.setAttribute('stroke-width','1.2'); path.setAttribute('opacity','.7'); }
+      else if(wire==='script'){ path.setAttribute('stroke','#ABAA9F'); path.setAttribute('stroke-width','1.6'); path.setAttribute('opacity','.9'); }
+      else { path.setAttribute('stroke','#C8102E'); path.setAttribute('stroke-width','1.6'); path.setAttribute('stroke-dasharray','5 4'); path.setAttribute('opacity','.75'); }
+      svg.appendChild(path);
+      if(wire === 'dead'){
+        var c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        c.setAttribute('cx',ex); c.setAttribute('cy',ey); c.setAttribute('r','4.5');
+        c.setAttribute('fill','#F4F5F3'); c.setAttribute('stroke','#C8102E'); c.setAttribute('stroke-width','1.6');
+        svg.appendChild(c);
+      }
+    });
+  });
+}
+drawWires();
+window.addEventListener('load', drawWires);
+if (document.fonts && document.fonts.ready) { document.fonts.ready.then(drawWires); }
+window.addEventListener('resize', function(){ clearTimeout(window.__wt); window.__wt = setTimeout(drawWires, 150); });
+</script>
+</body>
+</html>
