@@ -14,9 +14,13 @@ import { me } from "../../shared/api.js";
 import { syncUrl, parseLocation, startPopstate, isFlowStage, isMemberStage, isSharedStage, isGuestStage } from "./router.js";
 import { createAppNav } from "./ui/app-nav.js";
 import { createProfileBadge } from "../../admin/src/ui/profile-badge.js";
+import { applyEnvFavicon } from "../../admin/src/ui/favicon-env.ts";
 // The shared shell: chrome, render loop, stale-chunk recovery, rehydrate
 // (refactor-2026-07 P7). This app's own gates live in boot()/popstate below.
 import { startShell, rehydrateById } from "../../admin/src/boot-shell.js";
+
+// Tab icon: sky-blue brand tile on the live site, charcoal on a local machine.
+applyEnvFavicon();
 
 // This app's member home (audit B1): a plain member lands on MEMBER_HOME. Injected once so
 // the shared login/register resolver lands them where a reload does — no split-brain.

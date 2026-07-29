@@ -14,6 +14,10 @@ import { createProfileBadge } from "./ui/profile-badge.js";
 // (refactor-2026-07 P7). This app's own gates live in boot()/popstate below.
 import { startShell, rehydrateById } from "./boot-shell.js";
 import { button } from "./ui/button.ts";
+import { applyEnvFavicon } from "./ui/favicon-env.ts";
+
+// Tab icon: sky-blue brand tile on the live console, charcoal on a local machine.
+applyEnvFavicon();
 
 // This app's member home (audit B1): a plain member lands on their Past 1:1s (RUNS).
 // Injected once so the shared login/register resolver lands them where a reload does.
