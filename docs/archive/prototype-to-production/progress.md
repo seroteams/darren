@@ -1476,3 +1476,47 @@ Phase 4 already needed, so the whole task still costs one run.
 **Don't rewrite history to match the present.** `demo-run.json`, the persona bench and the
 `_runtime` YAML files all still carry the old opening question. They are records of runs that
 already happened. Updating them would have made the fixtures lie.
+
+## 2026-07-29 — machar-fixes P3/P4: the paid run's value was not the thing it was bought for
+
+Two phases, two paid gate runs, $0.3288 total. What the money actually bought was not proof.
+
+**A gate can be correct and inert.** P3 added `runWellbeingSituationGate`, unit-tested, six cases,
+green. It reported nothing through `runTrustChecks` because `toLooseTranscript` is a field whitelist
+and silently dropped `realized_deltas`, the field the gate reads. The same function already carried a
+comment warning about exactly this for the `note` field. **A new check is not wired until you have
+watched it fire through the real path with real data** — unit tests prove the function, not the
+plumbing. Only the paid run surfaced it.
+
+**Run it against history before believing the fix.** With the deltas flowing, 5 of 7 frozen replay
+runs trip the gate — including wellbeing marked down for "Wants to present more often in the
+architecture review". The size of the problem was invisible until the gate was real.
+
+**A per-turn planner cannot honour a session-level quota.** P4's first attempt said "across the
+session, at least one question must ask for their action". The planner sees one turn; it has no way
+to know whether the quota is met. It also sat below a worked-example table whose PREFER column
+teaches locate questions, and question craft ranks 10 of 10 in `<decision_order>`, so it lost every
+tie. Rewritten as a per-turn trigger with a concrete condition, promoted into `<planning_rules>`, and
+the example table changed so the imitation target moved too. Second run produced the wanted question.
+**When a prompt rule does not fire, diagnose the structure before writing a louder version.**
+
+**Change the examples, not just the instructions.** Models imitate the worked examples far more
+reliably than they follow prose. Two rows converting run 1's own weak questions did more than three
+paragraphs of rule.
+
+**A detect-only warning must not cry wolf.** The gate's evidence test is a keyword list and flagged
+Maya's "the comments felt like proof she wasn't good enough" — unmistakably her own state. Widened,
+and the residual imprecision documented rather than buried. It stays a WARNING, not a hard fail: the
+whole back catalogue was scored under the old rule, so hard-failing would either redden the suite
+forever or force re-baselining known-bad runs as expected.
+
+**Two hard fails were left open, on evidence, not on hope.** Both runs failed `WRONG_MEETING_TYPE`;
+the cost log shows the case never runs its question-bank stage at all, so the arc-coverage check sees
+an empty bank whatever the code does. The second hard fail differed between runs (`EVIDENCE_ANCHOR`,
+then `FOCUS_SHAPE_LEAK`), both in focus-points. "Pre-existing" was NOT claimed, because no baseline
+was taken first — the narrower, evidenced claim was made instead.
+
+**Take the baseline when the plan says to.** The darren-method says baseline before touching
+anything. It was skipped here because the baseline is the paid run, and skipping it cost the ability
+to attribute two failures. Next engine track: budget for the baseline or accept the ambiguity in
+writing up front.

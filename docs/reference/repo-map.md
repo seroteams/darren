@@ -1000,14 +1000,14 @@ _1562 entries · 1119 described · 443 to fill · `npm run build-map`._
 - `docs/plans/doing/entry-redesign/phase-1.md` — Phase 1 — prototype both versions in the Test area
 - `docs/plans/doing/entry-redesign/phase-2.md` — Phase 2 — build Version A into the real screens
 - `docs/plans/doing/entry-redesign/plan.md` — Entry redesign — the way in (log in / create account / start free)
-- `docs/plans/doing/machar-fixes-jul-29/board.html` — _(no summary yet)_
-- `docs/plans/doing/machar-fixes-jul-29/phase-1.md` — Phase 1 — The last screen stops interviewing them
-- `docs/plans/doing/machar-fixes-jul-29/phase-2.md` — Phase 2 — The opening merges both agendas
-- `docs/plans/doing/machar-fixes-jul-29/phase-3.md` — Phase 3 — A hard team is not a hard week
-- `docs/plans/doing/machar-fixes-jul-29/phase-4.md` — Phase 4 — Plain words, sharper ask
-- `docs/plans/doing/machar-fixes-jul-29/plan.md` — Machar's fixes — what the first corridor manager asked for
-- `docs/plans/doing/machar-fixes-jul-29/proof/p1-after-phone.png` — _(no summary yet)_
-- `docs/plans/doing/machar-fixes-jul-29/proof/p1-after.png` — _(no summary yet)_
+- `docs/plans/done/machar-fixes-jul-29/board.html` — _(no summary yet)_
+- `docs/plans/done/machar-fixes-jul-29/phase-1.md` — Phase 1 — The last screen stops interviewing them
+- `docs/plans/done/machar-fixes-jul-29/phase-2.md` — Phase 2 — The opening merges both agendas
+- `docs/plans/done/machar-fixes-jul-29/phase-3.md` — Phase 3 — A hard team is not a hard week
+- `docs/plans/done/machar-fixes-jul-29/phase-4.md` — Phase 4 — Plain words, sharper ask
+- `docs/plans/done/machar-fixes-jul-29/plan.md` — Machar's fixes — what the first corridor manager asked for
+- `docs/plans/done/machar-fixes-jul-29/proof/p1-after-phone.png` — _(no summary yet)_
+- `docs/plans/done/machar-fixes-jul-29/proof/p1-after.png` — _(no summary yet)_
 - `docs/plans/doing/promises-loop/board.html` — _(no summary yet)_
 - `docs/plans/doing/promises-loop/phase-1.md` — Phase 1 — Promise contract + wrap-up confirm
 - `docs/plans/doing/promises-loop/phase-2.md` — Phase 2 — Card zero: resurface + close-out

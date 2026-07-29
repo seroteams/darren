@@ -12,6 +12,32 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ CLOSED 2026-07-29: [machar-fixes-jul-29](docs/plans/done/machar-fixes-jul-29/plan.md) — every fix
+from the first corridor manager's session, all 4 phases green-lit in one day, $0.3288 total.** This is
+the first time the validation loop actually closed: a real manager used the product, said what was
+wrong, and the product changed. **P1** the end-of-run prompt went from three stacked questions that
+read as an internal QA form to one question in Sero's voice, keeping the return-intent signal that is
+the pass bar for this whole stage. **P2** the opening now names the manager's agenda before asking for
+the other person's, and a polite "nothing specific" stopped being minted into a question about the
+word nothing that also silently bought itself an extra turn. **P3** wellbeing reads the person, not
+the difficulty of the situation they are describing; the rule that should have caught this was scoped
+to competency questions, which are banned in the relational arcs where bi-weeklies run, so it could
+never have fired. **P4** the sharp question the recap kept to itself is now asked in the room:
+*"What have you tried with sales and BD so far, and what happened?"* replaced *"Where does that lack
+of understanding show up most?"* on the same case with the same answers.
+
+Two findings arrived unbidden and are worth more than some of the fixes. P3's new wellbeing gate was
+**inert** — it reads per-turn booked deltas and a field whitelist dropped them, so it reported nothing
+through the suite; only the paid run exposed it, and the file already carried a comment warning about
+that exact failure mode for a neighbouring field. With it live, **5 of 7 frozen replay runs** book a
+negative wellbeing delta against an answer where the report never described their own state. And the
+**no-em-dash rule does not reach the engine's output** — `lint:copy` scans the two apps only, never a
+generated question. Both are parked in the plan with what is known.
+
+Carl cut F3 (a hold-a-question control) outright; its research is recorded so it is not re-proposed.
+F8 and F9 stay on watch for the next tester rather than being fixed on one data point. Committed
+local, **not pushed** — one "go live" puts all of it in front of Kate and Nora.
+
 **▶ THE CORRIDOR TEST IS RUNNING (2026-07-29) — Manager 1: Machar Smith, session 1 done.**
 The whole VALIDATION STAGE gate is now live in the field. Machar drove an 18-minute facilitated
 walkthrough on video (Carl watching, real scenario). Verdict positive — "tweaks more than anything
