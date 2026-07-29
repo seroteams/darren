@@ -1,0 +1,236 @@
+<title>User-test fixes · Phase 2 preview</title>
+<style>
+  /* Real Sero tokens (admin/src/styles/design/tokens.css) — light app depicted as-is;
+     only the page surround adapts to the viewer's theme. */
+  :root {
+    --page: #f5fafd; --surface: #fdfefe; --border: #e8e8e8;
+    --ink: #1f2a37; --ink-dim: #636363; --ink-mute: #757575;
+    --lav-100: #faf9fd; --lav-200: #f4f1fa; --lav-400: #e2d9f1; --lav-500: #d5c9eb;
+    --lav-600: #c5b5e4; --lav-700: #b49edb; --lav-800: #55358f; --lav-900: #261840;
+    --accent: #1b5d91; --accent-soft: #e9f3fb;
+    --pos-text: #0c4b3c; --neg-text: #ac1608;
+    --surround: #eef2f5; --surround-ink: #1f2a37; --note: #f9a8d4; --note-ink: #500724;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --surround: #23272e; --surround-ink: #e8eaed; }
+  }
+  :root[data-theme="dark"] { --surround: #23272e; --surround-ink: #e8eaed; }
+  :root[data-theme="light"] { --surround: #eef2f5; --surround-ink: #1f2a37; }
+
+  body { background: var(--surround); color: var(--surround-ink);
+    font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+    margin: 0; padding: 32px 16px 64px; }
+  .wrap { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+  .masthead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .masthead h1 { font-size: 22px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+  .preview-chip { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    background: #ffe7b7; color: #523600; border-radius: 9999px; padding: 4px 12px; }
+  .masthead p { flex-basis: 100%; margin: 4px 0 0; font-size: 15px; opacity: .75; max-width: 62ch; }
+
+  .screen { position: relative; }
+  .screen-label { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    opacity: .6; margin: 0 0 10px; }
+  .card { background: var(--page); border: 1px solid var(--border); border-radius: 14px;
+    padding: 40px 48px; color: var(--ink); box-shadow: 0 2px 10px rgba(31,42,55,.06); }
+  @media (max-width: 640px) { .card { padding: 24px 20px; } }
+
+  /* sticky annotations — same pink as Carl's board */
+  .note { display: inline-flex; gap: 6px; align-items: baseline; background: var(--note); color: var(--note-ink);
+    font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 4px;
+    box-shadow: 1px 2px 5px rgba(0,0,0,.14); transform: rotate(-1deg); }
+  .note b { font-weight: 800; }
+  .notes-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 12px; }
+
+  /* ---- shared app bits ---- */
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--lav-800); margin: 0 0 10px; }
+  .headline { font-family: "Bricolage Grotesque", "Inter", ui-sans-serif, sans-serif;
+    font-size: 30px; line-height: 1.18; font-weight: 650; margin: 0 0 6px; letter-spacing: -0.015em;
+    text-wrap: balance; }
+  .sub { font-size: 15px; color: var(--ink-dim); margin: 0; max-width: 60ch; line-height: 1.5; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600;
+    border-radius: 8px; padding: 10px 18px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); }
+  .btn--primary { background: #3b82c4; border-color: #3b82c4; color: #fff; }
+  .btn--ghost { background: none; border-color: transparent; color: var(--ink-dim); }
+  .btn-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 28px; }
+
+  /* ---- lock-in screen ---- */
+  .pa-row { display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: start;
+    padding: 16px 0; border-top: 1px solid var(--border); }
+  .pa-row:first-of-type { border-top: 0; }
+  .pa-avatar { width: 32px; height: 32px; border-radius: 9999px; background: var(--accent-soft);
+    color: var(--accent); display: grid; place-items: center; font-size: 15px; }
+  .pa-text { font-size: 15px; line-height: 1.5; margin: 0 0 6px; }
+  .pa-badges { display: flex; gap: 8px; }
+  .pa-who { font-size: 13px; font-weight: 700; color: var(--accent); }
+  .pa-when { font-size: 13px; background: var(--accent-soft); color: var(--accent);
+    border-radius: 9999px; padding: 2px 10px; }
+  .pa-return { font-size: 14px; color: var(--ink-dim); margin: 20px 0 0; }
+  .skip-cost { font-size: 14px; color: var(--ink-dim); margin: 6px 0 0; }
+
+  /* ---- recap ---- */
+  .act { margin-top: 34px; }
+  .act:first-of-type { margin-top: 24px; }
+  .act-label { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 12px; }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .pair { grid-template-columns: 1fr; } }
+
+  .bullet { display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: baseline;
+    font-size: 14.5px; line-height: 1.5; padding: 6px 0; }
+  .bullet .mark { color: var(--lav-700); font-size: 11px; line-height: inherit; }
+
+  /* Final read — the runner's meter language, absolute score on a ±6 track */
+  .fr-row { display: grid; grid-template-columns: 6.4rem 1fr 3.4rem; gap: 14px; align-items: center; padding: 13px 0; }
+  .fr-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .fr-meter { position: relative; height: 14px; border-radius: 9999px; background: var(--lav-200); }
+  .fr-mid { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--lav-500); }
+  .fr-fill { position: absolute; top: 0; bottom: 0; border-radius: 9999px;
+    background: linear-gradient(90deg, var(--lav-400), var(--lav-700)); }
+  .fr-thumb { position: absolute; top: 50%; transform: translate(-50%, -50%);
+    min-width: 34px; height: 25px; padding: 0 7px; border-radius: 9999px;
+    background: var(--surface); border: 1px solid var(--lav-600);
+    box-shadow: 0 1px 3px rgba(31,42,55,.12); display: grid; place-items: center;
+    font-size: 13px; font-weight: 700; color: var(--lav-900); font-variant-numeric: tabular-nums; }
+  .fr-value { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; font-size: 14.5px; }
+  .fr-value--down { color: var(--neg-text); }
+  .fr-value--up { color: var(--pos-text); }
+  .fr-value--none { color: var(--ink-mute); font-weight: 500; font-size: 13.5px; }
+  .fr-reads { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px;
+    display: flex; flex-direction: column; gap: 8px; }
+  .fr-read { font-size: 13.5px; line-height: 1.5; color: var(--ink-dim); margin: 0; }
+  .fr-read b { color: var(--lav-800); font-size: 12px; letter-spacing: .07em; }
+
+  .action-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: start;
+    padding: 12px 0; border-top: 1px solid var(--border); font-size: 14.5px; line-height: 1.5; }
+  .action-row:first-of-type { border-top: 0; }
+  .action-when { font-size: 13px; background: var(--accent-soft); color: var(--accent);
+    border-radius: 9999px; padding: 3px 10px; white-space: nowrap; }
+
+  .local-badge { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+    background: #1f2a37; color: #ffd072; border-radius: 4px; padding: 3px 8px; margin-left: 8px; }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>End-of-meeting screens, fixed</h1>
+    <span class="preview-chip">Preview · not the live app</span>
+    <p>Phase 2 of the user-test fixes. Pink tags mark what changes, in the same spots as your board stickies. Everything else stays as it is today.</p>
+  </header>
+
+  <!-- ============ SCREEN 1: LOCK-IN ============ -->
+  <section class="screen">
+    <p class="screen-label">Screen 1 · Lock in what you two agreed</p>
+    <div class="notes-row">
+      <span class="note"><b>Make it clear:</b> says it happens in the meeting, together</span>
+      <span class="note"><b>New:</b> skipping states its cost</span>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Before your recap</p>
+      <h2 class="headline">Lock in what you two agreed</h2>
+      <p class="sub">Do this together, before the meeting ends. Sero heard these in the conversation. Fix the wording, tap a face to set who owns it.</p>
+
+      <div style="margin-top: 24px;">
+        <div class="pa-row">
+          <div class="pa-avatar">👤</div>
+          <div>
+            <p class="pa-text">Set up a follow-up with Darryl to map the specific team conflicts, missed handoffs, and owners blocking beta test readiness.</p>
+            <div class="pa-badges"><span class="pa-who">You</span><span class="pa-when">📅 today</span></div>
+          </div>
+        </div>
+        <div class="pa-row">
+          <div class="pa-avatar">👤</div>
+          <div>
+            <p class="pa-text">Ask Darryl to bring one dated delivery plan showing beta-test criteria, live-date dependencies, and where he will escalate conflict.</p>
+            <div class="pa-badges"><span class="pa-who">You</span><span class="pa-when">📅 next 1:1</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="pa-return">↩ They come back at the start of your next 1:1 with Darryl.</p>
+
+      <div class="btn-row">
+        <span class="btn btn--primary">Lock these in</span>
+        <span class="btn btn--ghost">Skip. Straight to the recap</span>
+      </div>
+      <p class="skip-cost">Skip and these are gone: Sero will not bring them back next time.</p>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 2: RECAP ============ -->
+  <section class="screen">
+    <p class="screen-label">Screen 2 · Recap</p>
+    <div class="notes-row">
+      <span class="note"><b>Spacing:</b> top gap halved</span>
+      <span class="note"><b>Tidy:</b> dots sit beside their line</span>
+      <span class="note"><b>Design:</b> Final read now matches the runner</span>
+      <span class="note"><b>Tidy:</b> no empty date pills</span>
+      <span class="note"><b>QA prompt:</b> local only</span>
+    </div>
+    <div class="card" style="padding-top: 28px;">
+      <p class="eyebrow">Recap · For Darryl</p>
+      <h2 class="headline">Darryl has the delivery outcomes in view, but team conflict is now blocking the beta test and live-date path.</h2>
+
+      <div class="act">
+        <p class="act-label">What came out</p>
+        <div class="pair">
+          <div class="panel">
+            <p style="font-size:13px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-mute); margin:0 0 8px;">What stood out</p>
+            <div class="bullet"><span class="mark">●</span><span>He named a concrete release bar, "beta test" first, then "agree a live app delivery date", so the delivery target is not the gap.</span></div>
+            <div class="bullet"><span class="mark">●</span><span>The contradiction is operational: Darryl can state the release sequence clearly, but "we need to resolve the conflict and I am finding it difficult" now sits in the critical path.</span></div>
+          </div>
+          <div class="panel">
+            <p style="font-size:13px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-mute); margin:0 0 8px;">Final read</p>
+            <div class="fr-row">
+              <span class="fr-label">Wellbeing</span>
+              <span class="fr-meter"><span class="fr-mid"></span><span class="fr-fill" style="right:50%; left:16.7%;"></span><span class="fr-thumb" style="left:16.7%;">−4</span></span>
+              <span class="fr-value fr-value--down">−4</span>
+            </div>
+            <div class="fr-row">
+              <span class="fr-label">Engagement</span>
+              <span class="fr-meter"><span class="fr-mid"></span><span class="fr-fill" style="left:50%; right:33.3%;"></span><span class="fr-thumb" style="left:66.7%;">+2</span></span>
+              <span class="fr-value fr-value--up">+2</span>
+            </div>
+            <div class="fr-row">
+              <span class="fr-label">Clarity</span>
+              <span class="fr-meter"><span class="fr-mid"></span><span class="fr-fill" style="left:50%; right:16.7%;"></span><span class="fr-thumb" style="left:83.3%;">+4</span></span>
+              <span class="fr-value fr-value--up">+4</span>
+            </div>
+            <div class="fr-row">
+              <span class="fr-label">Growth</span>
+              <span class="fr-meter"><span class="fr-mid"></span><span class="fr-thumb" style="left:50%;">–</span></span>
+              <span class="fr-value fr-value--none">Not rated</span>
+            </div>
+            <div class="fr-reads">
+              <p class="fr-read"><b>WELLBEING</b> He described the period as "stressful" and the people issues as "hard to manage"; worth noting, watch over the next few weeks.</p>
+              <p class="fr-read"><b>CLARITY</b> The quarter goals were clear, but team conflict is now obscuring what good execution looks like day to day.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="act">
+        <p class="act-label">What to do next</p>
+        <div class="panel">
+          <p style="font-size:13px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-mute); margin:0 0 8px;">What you agreed · You promised</p>
+          <div class="action-row">
+            <span>Set up a follow-up with Darryl to map the specific team conflicts, missed handoffs, and owners blocking beta test readiness.</span>
+            <span class="action-when">today</span>
+          </div>
+          <div class="action-row">
+            <span>Go live still TBC, we have one concrete agreement.</span>
+            <!-- no date set: no pill at all (today an empty pill renders here) -->
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row" style="justify-content: flex-end;">
+        <span class="btn">Save as PDF</span>
+        <span class="btn" style="opacity:.55;">Copy QA prompt<span class="local-badge">local only</span></span>
+        <span class="btn btn--primary">Finish</span>
+      </div>
+    </div>
+  </section>
+</div>
