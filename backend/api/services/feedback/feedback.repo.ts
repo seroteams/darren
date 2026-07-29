@@ -47,12 +47,28 @@ export interface FeedbackRepo {
   remove(id: string): Promise<boolean>;
 }
 
+// feedback_notes.org_id / user_id are uuid columns. A synthetic dev identity
+// (DEV_AUTOLOGIN) carries non-uuid ids like "dev-org" / "dev-user"; writing that literal
+// into a uuid column throws "invalid input syntax for type uuid" — every local verdict
+// tap 500'd and the note was lost. Unlike the read repos (people.repo.ts et al) we must
+// NOT short-circuit here: the note is the whole point. Store it with a null author
+// instead — the reads LEFT JOIN, so it lists with no name / no company, which is true.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const uuidOrNull = (v: string | null): string | null => (v && UUID_RE.test(v) ? v : null);
+
+/** The two uuid-keyed author columns, safe to write for any caller. Exported for its test. */
+export function identityColumns(record: { orgId: string | null; userId: string | null }): {
+  orgId: string | null;
+  userId: string | null;
+} {
+  return { orgId: uuidOrNull(record.orgId), userId: uuidOrNull(record.userId) };
+}
+
 export const pgFeedbackRepo: FeedbackRepo = {
   async append(record) {
     const db = getDb();
     await db.insert(feedbackNotes).values({
-      orgId: record.orgId,
-      userId: record.userId,
+      ...identityColumns(record),
       message: record.message,
       page: record.page ?? null,
       createdAt: new Date(record.at),
@@ -66,8 +82,7 @@ export const pgFeedbackRepo: FeedbackRepo = {
     // fine for a human tapping one button.
     const set: { verdict: string; userId: string | null; orgId: string | null; message?: string } = {
       verdict: record.verdict,
-      userId: record.userId,
-      orgId: record.orgId,
+      ...identityColumns(record),
     };
     if (record.message) set.message = record.message;
     const updated = await db
@@ -77,8 +92,7 @@ export const pgFeedbackRepo: FeedbackRepo = {
       .returning({ id: feedbackNotes.id });
     if (updated.length > 0) return;
     await db.insert(feedbackNotes).values({
-      orgId: record.orgId,
-      userId: record.userId,
+      ...identityColumns(record),
       message: record.message,
       runId: record.runId,
       verdict: record.verdict,

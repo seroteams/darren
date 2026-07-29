@@ -74,6 +74,14 @@ export interface AuthRepo {
   createOrgWithOwner(input: NewOrgOwner): Promise<AuthUser>;
 }
 
+// organizations.id is a uuid column. A synthetic dev identity (DEV_AUTOLOGIN) carries
+// non-uuid ids like "dev-org"; comparing a uuid column to that literal throws "invalid
+// input syntax for type uuid" — a 500 on every company read. A non-uuid org provably
+// matches no uuid-keyed row, so short-circuit before touching the DB (same guard
+// people.repo.ts and members.repo.ts already use).
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const isUuid = (v: string): boolean => UUID_RE.test(v);
+
 export const pgAuthRepo: AuthRepo = {
   async findByEmail(email) {
     const db = getDb();
@@ -101,6 +109,7 @@ export const pgAuthRepo: AuthRepo = {
     return { id: u.id, orgId: u.orgId, email: u.email, name: u.name, role: u.role, passwordHash: u.passwordHash, deactivatedAt: u.deactivatedAt };
   },
   async orgProfile(orgId) {
+    if (!isUuid(orgId)) return null; // non-uuid caller matches no uuid-keyed org
     const db = getDb();
     const rows = await db
       .select({ name: organizations.name, sector: organizations.sector })
@@ -111,6 +120,7 @@ export const pgAuthRepo: AuthRepo = {
     return o ? { name: o.name, sector: o.sector } : null;
   },
   async updateOrg(orgId, patch) {
+    if (!isUuid(orgId)) return null; // same guard as orgProfile — nothing to update
     const db = getDb();
     const rows = await db
       .update(organizations)

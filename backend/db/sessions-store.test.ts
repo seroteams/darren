@@ -1,6 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createWriteQueue, queueSessionUpsert, flushSessionWrites, liveSessionsQuery } from "./sessions-store.ts";
+import {
+  createWriteQueue,
+  queueSessionUpsert,
+  flushSessionWrites,
+  liveSessionsQuery,
+  identityColumns,
+  DEFAULT_ORG_ID,
+} from "./sessions-store.ts";
 import { closeDb } from "./client.ts";
 import type { Session } from "../shared/session.types.ts";
 
@@ -93,4 +100,30 @@ test("queueSessionUpsert: a no-op without DATABASE_URL, and flush resolves", asy
   } finally {
     if (saved !== undefined) process.env.DATABASE_URL = saved;
   }
+});
+
+// sessions.org_id / user_id / person_id are uuid columns. A synthetic dev identity
+// (DEV_AUTOLOGIN) carries non-uuid ids like "dev-org" / "dev-user", so the mirror upsert
+// threw "invalid input syntax for type uuid" on EVERY write — the retry streak then
+// escalated to the error log ("session mirror write failed 3x in a row"), and the run
+// existed only in memory. A run must still mirror: fall back to the placeholder org and
+// drop the unusable author, rather than lose the run on restart.
+const UUID = "3f1a9c8e-2b4d-4a7f-8c1e-5d6b7a8c9e0f";
+
+test("identityColumns: a dev identity falls back to the placeholder org and a null author", () => {
+  const s = { orgId: "dev-org", userId: "dev-user", personId: "dev-person" } as unknown as Session;
+  assert.deepEqual(identityColumns(s), { orgId: DEFAULT_ORG_ID, userId: null, personId: null });
+});
+
+test("identityColumns: real uuids pass straight through", () => {
+  const s = { orgId: UUID, userId: UUID, personId: UUID } as unknown as Session;
+  assert.deepEqual(identityColumns(s), { orgId: UUID, userId: UUID, personId: UUID });
+});
+
+test("identityColumns: a session with no org still gets the placeholder org", () => {
+  assert.deepEqual(identityColumns({ id: "k" } as unknown as Session), {
+    orgId: DEFAULT_ORG_ID,
+    userId: null,
+    personId: null,
+  });
 });

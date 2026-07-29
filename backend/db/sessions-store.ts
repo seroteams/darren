@@ -30,13 +30,34 @@ export async function ensureDefaultOrg(): Promise<void> {
   orgEnsured = true;
 }
 
+// sessions.org_id / user_id / person_id are uuid columns. A synthetic dev identity
+// (DEV_AUTOLOGIN) carries non-uuid ids like "dev-org" / "dev-user"; writing that literal
+// into a uuid column throws "invalid input syntax for type uuid", so EVERY mirror write
+// failed and the retry streak escalated to the error log ("session mirror write failed
+// 3x in a row"). We can't short-circuit like the read repos do — a run that never
+// mirrors is lost on restart. Fall back to the placeholder org and drop the unusable
+// author instead; `state` keeps the full truth either way.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const uuidOrNull = (v: string | null | undefined): string | null => (v && UUID_RE.test(v) ? v : null);
+
+/** The three uuid-keyed owner columns, safe to write for any caller. Exported for its test. */
+export function identityColumns(session: Session): {
+  orgId: string;
+  userId: string | null;
+  personId: string | null;
+} {
+  return {
+    orgId: uuidOrNull(session.orgId) ?? DEFAULT_ORG_ID,
+    userId: uuidOrNull(session.userId),
+    personId: uuidOrNull(session.personId),
+  };
+}
+
 /** The index columns denormalized from the session state at upsert time — so run
  *  listings are indexed SQL, not jsonb scans. `state` stays the authoritative copy.
  *  (postgres-runtime-data Phase 2.) */
 function indexColumns(session: Session) {
   return {
-    userId: session.userId ?? null,
-    personId: session.personId ?? null,
     personName: session.ctx?.name ?? null,
     role: session.ctx?.role ?? null,
     seniority: session.ctx?.seniority ?? null,
@@ -55,16 +76,16 @@ export async function upsertSession(session: Session): Promise<void> {
   await ensureDefaultOrg();
   const state = serialize(session);
   const completedAt = session.completedAt ? new Date(session.completedAt) : null;
-  const cols = indexColumns(session);
+  const cols = { ...identityColumns(session), ...indexColumns(session) };
   await getDb()
     .insert(sessionsTable)
-    .values({ orgId: session.orgId ?? DEFAULT_ORG_ID, sessionKey: session.id, state, logDir: session.dir, completedAt, ...cols })
+    .values({ sessionKey: session.id, state, logDir: session.dir, completedAt, ...cols })
     .onConflictDoUpdate({
       target: sessionsTable.sessionKey,
       // orgId updates too: a guest run CLAIMED after login moves from the
       // placeholder org to the caller's — without this the org-fenced reads
       // (Phase 3) would never list the claimed run.
-      set: { orgId: session.orgId ?? DEFAULT_ORG_ID, state, logDir: session.dir, completedAt, updatedAt: new Date(), ...cols },
+      set: { state, logDir: session.dir, completedAt, updatedAt: new Date(), ...cols },
     });
 }
 
