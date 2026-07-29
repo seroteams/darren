@@ -9,7 +9,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
-| a1867f25 | audit-fixes P3 (the refresh dead end) | frontend/src/main.js, admin/src/main.js, frontend/src/router.js, admin/src/router.js, frontend/src/main.test.js, admin/src/main.test.js, docs/plans/doing/audit-fixes-jul-25/ | 2026-07-28 |
+| 3a92b974 | machar-fixes (F1/F2/F4/F5/F6/F7) | docs/plans/doing/machar-fixes-jul-29/, docs/validation/, content/prompts/plan-turn.md, content/prompts/final-evaluation.md, content/prompts/rule-registry.ts, content/axes.json, backend/engine/agenda.ts, backend/engine/golden-checks.ts, backend/api/services/sessions/session-streams.ts, backend/api/services/sessions/sessions.service.ts, evals/trust-checks.ts, admin/src/ui/finish-feedback-modal.js, admin/src/ui/axes.js, admin/src/ui/coach-panel-state.ts, admin/src/styles/finish-feedback-modal.css, admin/src/stages/briefing.js | 2026-07-29 |
+| 090a66d9 | How-it-works gallery prototype | admin/src/stages/tests/how-it-works.js, admin/src/stages/test.js | 2026-07-29 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
