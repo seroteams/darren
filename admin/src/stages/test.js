@@ -12,6 +12,7 @@ import { mount as entryRedesign } from "./tests/entry-redesign.js";
 import { mount as welcomeRedesign } from "./tests/welcome-redesign.js";
 import { mount as welcomeOptions } from "./tests/welcome-options.js";
 import { mount as welcomeLean } from "./tests/welcome-lean.js";
+import { mount as howItWorks } from "./tests/how-it-works.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
@@ -161,7 +162,37 @@ const THUMB_WELCOME_OPTIONS = `
     <rect class="accent" x="264" y="34" width="14" height="8" rx="3"/>
   </svg>`;
 
+// How it works: a row of six numbered stops with one open panel below, the accent on
+// stop four (Sero in the meeting with you).
+const THUMB_HOWITWORKS = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect class="card" x="16" y="14" width="38" height="16" rx="8"/>
+    <rect class="card" x="60" y="14" width="38" height="16" rx="8"/>
+    <rect class="card" x="104" y="14" width="38" height="16" rx="8"/>
+    <rect class="accent" x="148" y="14" width="38" height="16" rx="8"/>
+    <rect class="card" x="192" y="14" width="38" height="16" rx="8"/>
+    <rect class="card" x="236" y="14" width="38" height="16" rx="8"/>
+    <rect class="card" x="16" y="40" width="268" height="66" rx="8"/>
+    <rect class="accent" x="28" y="52" width="12" height="12" rx="6"/>
+    <rect class="ink" x="48" y="54" width="110" height="8" rx="4" opacity="0.6"/>
+    <rect class="ink" x="28" y="74" width="220" height="6" rx="3" opacity="0.3"/>
+    <rect class="ink" x="28" y="86" width="180" height="6" rx="3" opacity="0.3"/>
+  </svg>`;
+
 const TESTS = [
+  {
+    id: "how-it-works",
+    title: "How it works. Three shapes",
+    blurb:
+      "The six-step story of Sero, start to finish, as a click-through in three shapes: a stepper you click along, three chapters (before, in the room, after), and a flat one-pager with nothing hidden. Step four, Sero in the meeting with you, carries extra weight in all three. Every step names the real screen label so the walkthrough and the app speak one language. Switch shape and width at the top.",
+    date: "29 Jul 2026",
+    tag: "onboarding",
+    thumb: THUMB_HOWITWORKS,
+    mount: howItWorks,
+    bare: true,
+    wide: true,
+  },
   {
     id: "welcome-lean",
     title: "The welcome screen. Leaner, five ways",
