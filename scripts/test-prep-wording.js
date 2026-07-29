@@ -59,9 +59,9 @@ const frozenBrief = JSON.parse(
     coreIssue:
       "This check-in is likely about what support Machar needs as more of his time goes into selling partnership value.",
     listenFor: [
-      "whether he names one repeat objection or stall point that keeps coming up",
-      "whether he volunteers where backing from above, assets, or faster decisions would help",
-      "whether he sounds stretched across too many conversations or one specific deal path",
+      "Whether he names one repeat objection or stall point that keeps coming up.",
+      "Whether he volunteers where backing from above, assets, or faster decisions would help.",
+      "Whether he sounds stretched across too many conversations or one specific deal path.",
     ],
   };
   const { issues } = validateBrief(corrected, MACHAR_INPUTS);
@@ -92,6 +92,8 @@ check(
   check("preparation.md: name-not-title rule present", /never (?:by their job title|describe them by their job title)/i.test(prep));
   check("preparation.md: jargon ban present", /air cover/i.test(prep));
   check("preparation.md: clean-ending rule for suggestedAction", /ends cleanly/i.test(prep));
+  check("preparation.md: capitalisation rule present", /<capitalisation_rules>/.test(prep));
+  check("preparation.md: sentence case named", /sentence case/i.test(prep));
   check("preparation.md: relational-arc gate present", /Relational-arc gate/.test(prep));
   check(
     "preparation.md: relational-arc gate names both meeting types",
@@ -154,11 +156,11 @@ check(
     coreIssue: "This check-in is about the workload Priya is carrying this fortnight.",
     openingQuestion: "How has your workload felt over the last couple of weeks from your side?",
     listenFor: [
-      "whether she names a specific project eating her time",
-      "whether she volunteers where the pressure is coming from",
-      "if she mentions a deadline that slipped this sprint",
+      "Whether she names a specific project eating her time.",
+      "Whether she volunteers where the pressure is coming from.",
+      "If she mentions a deadline that slipped this sprint.",
     ],
-    avoid: ["do not turn this into a status audit", "do not jump to fixes before she names the pressure"],
+    avoid: ["Do not turn this into a status audit.", "Do not jump to fixes before she names the pressure."],
     goodOutcome: "You and Priya have agreed one concrete thing to take off her plate this fortnight, senior scope.",
     suggestedAction: "Before the 1:1, pick one recent week and note what filled it.",
     confidence: "Medium — based on your note and her workload",

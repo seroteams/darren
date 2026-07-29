@@ -134,6 +134,18 @@ const LISTENFOR_PREFIX = /^(whether|if)\b/i;
 const LISTENFOR_SUBJECT_PRONOUN = /^(?:whether|if)\s+(she|he|they)\b/i;
 const AVOID_PREFIX = /^do not\b/i;
 
+// C6 — sentence case. Every line the manager reads is a sentence: it opens with
+// a capital and closes with terminal punctuation, list items included. The Jul 29
+// Machar brief showed the cost of not saying so: "Listen for" arrived as three
+// lowercase fragments with no full stops while every other card was a sentence,
+// so one card read as notes and the next as prose (Carl, 2026-07-29).
+// A leading quote or digit is allowed before the capital ("2 outcomes …").
+const SENTENCE_OPEN = /^["'“‘(]?[A-Z0-9]/;
+const SENTENCE_CLOSE = /[.!?]["'”’)]?$/;
+// Shouting. Real acronyms this product uses are two or three letters (HR, 1:1,
+// UX, PR), so four-plus capitals in a row is emphasis, not an abbreviation.
+const SHOUTING = /\b[A-Z]{4,}\b/;
+
 const GOODOUTCOME_LEVEL_MARKERS =
   /\b(junior|mid|senior|expert|lead|staff|principal|director|vp|end-to-end|end to end|owns|ownership|scope|decision authority|leading|lead-level|lead level)\b/i;
 
@@ -402,6 +414,34 @@ function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; 
   }
   if (styleTip && styleTip.toLowerCase() === (brief.coreIssue || "").trim().toLowerCase()) {
     issues.push("styleTip must not restate coreIssue — it's advice on the meeting style, not the topic");
+  }
+
+  // C6 — sentence case across every field the brief renders. One rule for the
+  // whole card set: capital in, full stop out, list items included. `confidence`
+  // is exempt from the closing check (its own rule fixes the Low/Medium/High
+  // shape and it renders as a rewritten sentence on screen).
+  const sentenceFields: Array<[string, string]> = [
+    ["coreIssue", brief.coreIssue || ""],
+    ["openingQuestion", brief.openingQuestion || ""],
+    ["goodOutcome", brief.goodOutcome || ""],
+    ["suggestedAction", brief.suggestedAction || ""],
+    ["dontAssume", brief.dontAssume || ""],
+    ["styleTip", brief.styleTip || ""],
+    ...(brief.listenFor || []).map((i, n): [string, string] => [`listenFor[${n}]`, String(i)]),
+    ...(brief.avoid || []).map((i, n): [string, string] => [`avoid[${n}]`, String(i)]),
+  ];
+  for (const [field, raw] of sentenceFields) {
+    const text = raw.trim();
+    if (!text) continue;
+    if (!SENTENCE_OPEN.test(text)) {
+      issues.push(`${field} must start with a capital letter: "${text.slice(0, 60)}…"`);
+    }
+    if (!SENTENCE_CLOSE.test(text)) {
+      issues.push(`${field} must end with a full stop or question mark: "${text.slice(0, 60)}…"`);
+    }
+    if (SHOUTING.test(text)) {
+      issues.push(`${field} shouts in capitals — write it in sentence case: "${text.slice(0, 60)}…"`);
+    }
   }
 
   // Unsafe interpretation — word-boundary checks with negative lookaheads for common safe-use phrases

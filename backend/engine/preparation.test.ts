@@ -22,7 +22,7 @@ function briefWith(listenFor: string[]) {
     coreIssue: "Carl's late starts may be a capacity issue this fortnight.",
     openingQuestion: "How have the last couple of weeks felt in terms of pace?",
     listenFor,
-    avoid: ["do not accuse Carl of being unreliable", "do not jump straight to fixes"],
+    avoid: ["Do not accuse Carl of being unreliable.", "Do not jump straight to fixes."],
     goodOutcome: "You and Carl agree one lead-level change to his working pattern.",
     suggestedAction: "During the 1:1, ask Carl to walk through a typical late-start day.",
     confidence: "Medium — based on your note about a repeated pattern",
@@ -197,4 +197,60 @@ test("assemblePreparation: prior brief renders in the prompt's User half; sentin
   // block lives in the User half only.
   const sys = (p: string) => p.split(/\n## User/)[0];
   assert.equal(sys(withHistory), sys(without));
+});
+
+// --- C6: sentence case across every field ------------------------------------
+// Carl, 2026-07-29: the Machar brief rendered "Listen for" as three lowercase
+// fragments with no full stops beside cards that were written sentences, so the
+// capitalisation read as an accident. One rule now covers every field and every
+// list item (docs/reference/copy-rules.md).
+
+function caseIssues(brief: Record<string, unknown>) {
+  return validateBrief({ ...briefWith(SENTENCE_TELLS), ...brief } as never, baseInputs as never).issues.filter(
+    (i) => /must start with a capital|must end with a full stop|shouts in capitals/.test(i),
+  );
+}
+
+const SENTENCE_TELLS = [
+  "Whether he names a specific late-start example.",
+  "Whether he mentions a recent week.",
+  "Whether he links his mornings to meetings and workload.",
+];
+
+test("validateBrief: a fully sentence-cased brief raises no capitalisation issue", () => {
+  assert.deepEqual(caseIssues({}), []);
+});
+
+test("validateBrief: a lowercase listenFor item is flagged", () => {
+  const issues = caseIssues({ listenFor: ["whether he names a specific late-start example.", ...SENTENCE_TELLS.slice(1)] });
+  assert.ok(issues.some((i) => i.includes("listenFor[0] must start with a capital")));
+});
+
+test("validateBrief: a listenFor item with no full stop is flagged", () => {
+  const issues = caseIssues({ listenFor: ["Whether he names a specific late-start example", ...SENTENCE_TELLS.slice(1)] });
+  assert.ok(issues.some((i) => i.includes("listenFor[0] must end with a full stop")));
+});
+
+test("validateBrief: a lowercase avoid item is flagged, sentence case is not", () => {
+  assert.ok(
+    caseIssues({ avoid: ["do not accuse Carl of being unreliable.", "Do not jump straight to fixes."] }).some((i) =>
+      i.includes("avoid[0] must start with a capital"),
+    ),
+  );
+  assert.deepEqual(
+    caseIssues({ avoid: ["Do not accuse Carl of being unreliable.", "Do not jump straight to fixes."] }),
+    [],
+  );
+});
+
+test("validateBrief: shouting in a sentence field is flagged", () => {
+  const issues = caseIssues({ coreIssue: "Carl's late starts are the ONLY thing to settle this fortnight." });
+  assert.ok(issues.some((i) => i.includes("coreIssue shouts in capitals")));
+});
+
+test("validateBrief: a question mark closes openingQuestion, and 1:1 is not shouting", () => {
+  assert.deepEqual(
+    caseIssues({ openingQuestion: "How have the last couple of weeks felt in this 1:1 cadence?" }),
+    [],
+  );
 });

@@ -32,8 +32,8 @@ The response must match this exact shape:
 Field rules:
 - `coreIssue`: exactly one sentence, max 28 words. Names the probable centre of the conversation. Refer to {{NAME}} by name, never by job title (see tone_rules for the canonical rule and the "what support Machar needs" example). Let the role, seniority, meeting type, or selected concerns shape the substance — pick the most load-bearing element, do not stack all four. Cannot be generic filler. Do not restate the manager's notes verbatim.
 - `openingQuestion`: max 28 words. A real sentence the manager could say verbatim to open the 1:1. Must be specific to the selected concerns. Prefer "What" or "How" unless a no-oriented question is safer. Must NOT be "How are you?", "Tell me about...", "What do you think?", or any other generic opener. Must invite a concrete, personal response. See opening_question_rules below.
-- `listenFor`: exactly 3 items, each starting with "whether" or "if". Short, specific, observable. See listen_for_rules below. Whatever the underlying cue — a bare tell like "handoff completeness" or a verb like "deflects" — phrase every item as a "whether ..." or "if ..." clause. The cue is the content; the opening word is the required shape.
-- `avoid`: exactly 2 items, each starting with "do not". Practical traps for this specific meeting type and seniority.
+- `listenFor`: exactly 3 items, each starting with "Whether" or "If" and ending with a full stop. Short, specific, observable. See listen_for_rules below. Whatever the underlying cue — a bare tell like "handoff completeness" or a verb like "deflects" — phrase every item as a "Whether ..." or "If ..." clause. The cue is the content; the opening word is the required shape.
+- `avoid`: exactly 2 items, each starting with "Do not" and ending with a full stop. Practical traps for this specific meeting type and seniority.
 - `goodOutcome`: one sentence. The single observable agreement, decision, or shared frame reachable in *this* 30–60 minute meeting. Not a multi-meeting arc, not "a clear understanding of X" (that's a quarter's worth of work). Format: "You and {{NAME}} have agreed [one concrete next step or shared frame]." If the topic genuinely takes more than one meeting, narrow to the first agreement that unlocks the rest. See good_outcome_rules below.
 - `suggestedAction`: one practical action for the manager — prep before the 1:1 or a move during it. One sentence that ends cleanly: read it aloud, and if the tail is clunky ("…and agree that intervention live"), rewrite the ending plainly ("…and agree live on what you'll do"). See suggested_action_rules below.
 - `confidence`: starts with "Low", "Medium", or "High", then one clause naming exactly what the read rests on — e.g. "Medium — based on your note and her seniority" or "Low — role and meeting-type defaults only, no notes". Confidence describes the evidence behind `coreIssue`, not how important the topic is. Empty or vague notes → "Low". A concrete, specific note observation → "Medium". "High" only when the notes state the issue plainly.
@@ -85,12 +85,12 @@ Forbidden verbs/phrases in listenFor items: "acknowledges", "has a plan to", "ha
 
 **One pronoun for {{NAME}}, across all three items.** Use the pronoun the manager's notes use. If the notes never signal one, use they/them in every item. Never mix: two items saying "she" and a third saying "they" reads as though a second person wandered into the meeting. This is why the opener is "if", not "if they" — write "if she mentions ...", "if he volunteers ...", or "if they name ..." to match.
 
-Bad (mixed): "whether she names a specific change" + "if they mention payments work as a tradeoff"
-Better (matched): "whether she names a specific change" + "if she mentions payments work as a tradeoff"
+Bad (mixed): "Whether she names a specific change." + "If they mention payments work as a tradeoff."
+Better (matched): "Whether she names a specific change." + "If she mentions payments work as a tradeoff."
 
-Bad: "whether he acknowledges communication challenges"
-Better (direct performance/feedback register): "whether he names a specific meeting or stakeholder where communication broke down"
-Better (Something feels off register): "whether he volunteers where his energy has been this fortnight, or steers around it"
+Bad: "Whether he acknowledges communication challenges."
+Better (direct performance/feedback register): "Whether he names a specific meeting or stakeholder where communication broke down."
+Better (Something feels off register): "Whether he volunteers where his energy has been this fortnight, or steers around it."
 </listen_for_rules>
 
 <good_outcome_rules>
@@ -115,6 +115,16 @@ Use exactly one of:
 Forbidden: "schedule", "set up follow-up", "follow-up meeting", "next month", "next quarter", "review progress in one month"
 </suggested_action_rules>
 </output_contract>
+
+<capitalisation_rules>
+One rule for every field: **write in sentence case**. The manager reads these as cards side by side, so a lowercase fragment next to a written sentence looks like a mistake.
+
+- Every value starts with a capital letter and ends with a full stop (or a question mark for `openingQuestion`). This includes every item in `listenFor` and `avoid`, which are sentences, not note fragments.
+- Never write a word in ALL CAPS for emphasis. Emphasis comes from the words, not the case.
+- Never use Title Case Across A Whole Line.
+- Capitals are for real proper nouns only: {{NAME}} exactly as given, and named products, companies, or tools the manager mentioned. Job titles, seniority levels, meeting types, and focus areas stay lowercase mid-sentence ("as she moves toward lead-level work", not "as she moves toward Lead-Level work").
+- Keep the established forms: 1:1, Low / Medium / High at the start of `confidence`.
+</capitalisation_rules>
 
 <tone_rules>
 - Practical over inspirational. No motivational filler.
