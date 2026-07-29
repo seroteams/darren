@@ -1,6 +1,12 @@
 # Phase 2 — The opening merges both agendas
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl · **Finding:** F2
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Finding:** F2
+
+## ✅ GREEN-LIT 2026-07-29 — Carl approved the wording as written (commit `07158ae8`)
+
+He read the new opening line and took it unchanged. Signed off from the proof in chat, not a walk.
+The live turn-counter check stays open by choice: it costs a paid model call, and it will ride
+Phase 4's single paid run rather than buying a second.
 
 ## Built (2026-07-29)
 

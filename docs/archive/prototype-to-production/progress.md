@@ -1439,3 +1439,40 @@ the phase did not change, and which was written down as unproven rather than glo
 uuid: "dev-org"`. Not the change — the autologin lane's fake ids can never write to Postgres.
 Registering a real local account took a minute and made the proof real. Third time this has bitten;
 it is in memory, and the memory was right.
+
+## 2026-07-29 — machar-fixes P2: the rule already existed, one caller just never asked it
+
+Two faults in the opening of a 1:1. The interesting one was not the wording.
+
+**A polite non-answer was being treated as an agenda item.** Answering "nothing specific" made the
+carry-forward mint `At the start they wanted to make sure you covered: "nothing specific". Dig into
+it.` *and* run `session.totalBudget += 1` to make room for it. So a non-answer cost the manager a
+real question. Machar: "asking me the question on what does nothing specific mean is a wasted
+opportunity."
+
+**The fix was a guard, not a feature.** `isDecline()` in `read-quality.ts` already listed "nothing
+specific" verbatim, and every other stage consulted it. The agenda carry-forward was the one path
+that never did, because its test was written inline as "not skipped and not empty". **When a
+behaviour looks like a missing rule, check whether the rule exists and the caller is simply not
+asking it.** Cheaper, and it keeps one definition of the concept.
+
+**Inline conditions are where rules go to hide.** Four conditions in an `if` inside a 250-line SSE
+handler cannot be unit tested and cannot be found by anyone looking for "how do we decide X". Pulled
+out as `shouldCarryAgendaForward()` — named, pure, six test cases. The extraction was the smallest
+change that made the rule testable, not a refactor for its own sake.
+
+**Watch the false-positive edge.** The decline list is deliberately multi-word: a bare "nothing"
+must not match, because "nothing has changed since we spoke" is real signal. That is now a test in
+its own right, so a future "simplification" to `includes("nothing")` fails loudly.
+
+**Some things genuinely cannot be proven free, and saying so beats implying otherwise.** The
+carry-forward runs *after* the paid `planTurn` call inside `planStream`, so there is no seam that
+reaches it without spending money, and `--fixtures-only` replays recorded output so it would replay
+the old behaviour. What was written down: the rule is tested with the tester's exact words, the
+wiring is guarded against the exact regression, the new question is asserted against the real
+assembled intro queue — and the live turn counter was never watched. It was folded into the paid run
+Phase 4 already needed, so the whole task still costs one run.
+
+**Don't rewrite history to match the present.** `demo-run.json`, the persona bench and the
+`_runtime` YAML files all still carry the old opening question. They are records of runs that
+already happened. Updating them would have made the fixtures lie.

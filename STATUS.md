@@ -29,6 +29,22 @@ Prototype of all five stays at `admin/src/stages/tests/welcome-lean.js`.
 **Commit `7341697d` — and it is already LIVE**: a parallel chat's push carried it out inside build
 `33dfdca7` (sero.team, confirmed on `/api/version`). Nothing has touched these files since.
 
+📍 **2026-07-29 — the first minute of a 1:1 now asks what THEY want out of it, and you green-lit it.**
+[machar-fixes](docs/plans/doing/machar-fixes-jul-29/plan.md) P2 of 4. Two faults sat in the same
+moment. The opening asked only what to *cover*, which collects topics but never the other person's
+aim for the time; Machar: "you've got two people coming with maybe not exactly the same agenda... I
+also want to hear from my staff." It now says **"I've got a couple of things to cover. What do you
+want to get out of today?"** Naming your own agenda first is what makes the second half a real
+invitation rather than a formality.
+
+The second fault was quieter and worse. Answering "nothing specific" made Sero mint a question about
+the word nothing **and silently add a turn to the meeting** to fit it in, so a polite non-answer cost
+a real question. The engine already knew that exact phrase was a decline; the opening was the one
+path that never asked. Now it does, and the rule is a named, tested one rather than four conditions
+buried in a stream handler. **204/204, typecheck, both linters. Commit `07158ae8`.** Honest gap: the
+live turn counter was never watched moving, because reaching that code costs a paid model call. It
+rides P4's single run. P3 (wellbeing) building now.
+
 📍 **2026-07-29 — the last screen of a 1:1 stopped interviewing the tester, and you green-lit it.**
 [machar-fixes](docs/plans/doing/machar-fixes-jul-29/plan.md) P1 of 4, the first fix out of Machar's
 session. You caught it live over his shoulder: "we don't need that QA prompt, that's for me." It was
@@ -294,7 +310,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [machar-fixes-jul-29](docs/plans/doing/machar-fixes-jul-29/plan.md) | 4 phases from the first corridor manager's session. **P1 ✅ green-lit 2026-07-29** (the finish prompt is one question, not a form). **P2 🔨** the opening merges both agendas and "nothing specific" stops costing a turn. P3 ⬜ wellbeing stops reading a team problem as personal strain. P4 ⬜ plain words, sharper ask — the only paid step (~$0.35). F3, the hold-a-question control, was **cut by Carl** and is parked with its research. |
+| [machar-fixes-jul-29](docs/plans/doing/machar-fixes-jul-29/plan.md) | 4 phases from the first corridor manager's session. **P1 ✅** the finish prompt is one question, not a form. **P2 ✅** the opening merges both agendas and "nothing specific" stops costing a turn. **P3 🔨** wellbeing stops reading a team problem as personal strain. P4 ⬜ plain words, sharper ask — the only paid step (~$0.35), and it also carries P2's and P3's live checks so one run covers everything. F3, the hold-a-question control, was **cut by Carl** and is parked with its research. |
 | [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 ✅ closed **unwalked** 2026-07-27 (shell + layout; built 07-25, regression test guards it). P3–P9 ⬜ — nothing built, so this stays open. |
 | [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). Must reuse `hasRealRuns` from the onboarding build. |
