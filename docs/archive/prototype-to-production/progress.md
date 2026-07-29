@@ -1520,3 +1520,16 @@ was taken first — the narrower, evidenced claim was made instead.
 anything. It was skipped here because the baseline is the paid run, and skipping it cost the ability
 to attribute two failures. Next engine track: budget for the baseline or accept the ambiguity in
 writing up front.
+
+## 2026-07-30 — user-test-fixes P1: the code-word leak (Machar board)
+
+Machar's screen showed `[THREAD-DEFERRED-WINDDOWN]` inside a live-scores explanation. The marker is
+part of the planner's note contract and four engine readers parse it, so the fix is a strip at the
+LAST hop before the browser (both the live write and the reconnect replay in `session-streams.ts`),
+never in the engine — the stored note stays raw. Shape rule: ALL-CAPS in brackets is an engine tag;
+"[sic]" survives.
+
+**The protection that existed was omission, not sanitisation.** The evaluation/export boundary was
+already fenced (plan-turn-runner-gates P3) by simply not projecting the note; the one path that
+SHOWS the note had nothing. When a field is deliberately raw internally, every new surface that
+prints it needs its own boundary check — grep for `stream.write` on that field, not for the tag.

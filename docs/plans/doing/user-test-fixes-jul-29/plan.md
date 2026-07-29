@@ -3,7 +3,7 @@
 **Goal:** Every sticky from Carl's Figma "TO FIX" board (Machar test, machar-2026-07-29) is fixed and tested, so next week's testers see a cleaner app.
 **Driver:** Carl
 **Created:** 2026-07-29
-**Mockup:** https://claude.ai/code/artifact/0295a4fe-db2c-42e6-bee4-b39363aef32a — awaiting Carl's nod (Phase 2 is the visual phase)
+**Mockup:** https://claude.ai/code/artifact/0295a4fe-db2c-42e6-bee4-b39363aef32a — approved 2026-07-29
 
 ## Done means
 - The live-scores explanations never show a `[CAPITAL-CODE]` word.
@@ -22,14 +22,14 @@
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Rating panel: kill the code-word leak | Score explanations always read as plain sentences | ⬜ |
+| 1 | Rating panel: kill the code-word leak | Score explanations always read as plain sentences | ✅ |
 | 2 | End-of-meeting screens | Lock-in copy, Final read matches runner, recap tidy, QA button local-only | ⬜ |
 | 3 | Engine: stock questions respect the focus | No more off-focus stock questions | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-29. Waiting on Carl: confirm the phase split + approve the Phase 2 mockup. No building started.
+Phase 1 ✅ GREEN-LIT 2026-07-30 (Carl walked a local 1:1, explanations clean; commit 205610c4, suite 214/214, typecheck clean). Next: Phase 2 (end-of-meeting screens) — mockup already approved 2026-07-29.
 Board: https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3
 
 ## Parked

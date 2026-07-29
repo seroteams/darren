@@ -1,6 +1,15 @@
 # Phase 1 — Rating panel: kill the code-word leak
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl walked a local 1:1 to the second-to-last question, Live scores explanations clean (commit 205610c4)
+
+## Built (2026-07-29)
+- `backend/api/services/sessions/note-tags.ts` — `stripEngineTags()`: removes ALL-CAPS `[BRACKET-TAGS]` (and a dangling separator) from note text; lowercase brackets like "[sic]" survive; a tag-only note becomes empty.
+- `backend/api/services/sessions/note-tags.test.ts` — 7 cases, including the exact Machar sentence shape.
+- `backend/api/services/sessions/session-streams.ts` — strip applied at BOTH note writes to the browser (live turn + reconnect replay); `turnEntry.note` and the replay cache stay raw for the engine checks that parse tags.
+- Offline proof: note-tags 7/7 · full suite 214/214 · typecheck clean.
+- Not proven on a live screen by me: making the planner emit a deferred-thread tag on demand needs a real model run — your walk below is the on-screen proof.
 
 ## Goal
 The live-scores explanations always read as plain sentences. Internal code words like `[THREAD-DEFERRED-WINDDOWN]` never reach the screen.

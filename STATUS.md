@@ -2,6 +2,16 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-30 — the code words are off the rating panel, and you green-lit it.**
+[user-test-fixes](docs/plans/doing/user-test-fixes-jul-29/plan.md) P1 of 3 — the first fix from your
+Figma sticky board (Machar's session). His screen showed `[THREAD-DEFERRED-WINDDOWN]` inside a
+live-scores explanation: an internal planner marker that four engine checks legitimately read, so it
+can't be removed at the source. It is now stripped at the last hop before the browser — both the live
+turn and the reconnect replay — while the stored note stays raw for the engine. A note that was
+nothing but codes now shows nothing instead of punctuation. You walked a local 1:1 to the
+second-to-last question: explanations clean. **Commit `205610c4`, 214/214, typecheck clean, committed
+local — ships next "go live".** Next: P2, the end-of-meeting screens (mockup already approved).
+
 📍 **2026-07-29 — every console feature was walked, and the two things it turned up are fixed and
 green-lit ("yeah its good").** All 16 sidebar rows were opened in a live build: every one mounts and
 is wired to a real API. Two real problems came out of it. **One:** opening "New session" could freeze
@@ -371,6 +381,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
+| [user-test-fixes-jul-29](docs/plans/doing/user-test-fixes-jul-29/plan.md) | 3 phases from your Figma sticky board (Machar session). P1 ✅ green-lit 2026-07-30 (code words off the rating panel, commit `205610c4`). P2 next: end-of-meeting screens (lock-in copy, Final read matches the runner, recap tidy, QA button local-only) — [mockup approved](https://claude.ai/code/artifact/0295a4fe-db2c-42e6-bee4-b39363aef32a). P3 ⬜ engine focus filter (~$0.35 paid proof). [Board](https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3). |
 | [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 ✅ closed **unwalked** 2026-07-27 (shell + layout; built 07-25, regression test guards it). P3–P9 ⬜ — nothing built, so this stays open. |
 | [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). Must reuse `hasRealRuns` from the onboarding build. |
@@ -419,4 +430,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-29 (after the welcome option-C close). Live build `33dfdca7` on sero.team, committed 2026-07-29 09:44 (confirmed on `/api/version`). **Main is level with live** — everything committed locally has shipped, including the empty-states fix and the new welcome. A local lead is normal here when it appears; right now there isn't one.
+Last updated: 2026-07-30 (after user-test-fixes P1 close). Live build `33dfdca7` on sero.team, committed 2026-07-29 09:44 (confirmed on `/api/version`). **Main is one commit ahead of live** — user-test-fixes P1 (`205610c4`) is committed local and ships on your next "go live".
