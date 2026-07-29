@@ -1,0 +1,240 @@
+<meta charset="utf-8">
+<title>The test walk — 29 Jul 2026</title>
+<style>
+  .board{--bg:#0c0c0e;--card:#161619;--card2:#1c1c20;--line:#2a2a30;--ink:#ececf0;--mut:#8a8a94;--dim:#5f5f68;
+    --red:#e5484d;--amber:#d9a441;--green:#41b658;
+    background:var(--bg);color:var(--ink);max-width:860px;margin:0 auto;padding:56px 28px 100px;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.55;
+    -webkit-font-smoothing:antialiased;}
+  .board *{box-sizing:border-box;}
+  .eyebrow{color:var(--mut);font-size:12px;font-weight:600;letter-spacing:.16em;margin-bottom:18px;}
+  .eyebrow .dot{color:var(--red);}
+  .board h1{font-family:Georgia,'Times New Roman',serif;font-size:56px;line-height:1.02;font-weight:600;
+    letter-spacing:-.02em;margin:0 0 18px;}
+  .board h1 .dot{color:var(--red);}
+  .lead{color:var(--mut);font-size:18px;max-width:600px;margin:0 0 32px;}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 28px;margin-bottom:16px;}
+  .prog-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .prog-head h2{font-family:Georgia,serif;font-size:24px;font-weight:600;margin:0;}
+  .prog-sub{color:var(--mut);font-size:14px;}
+  .track{height:8px;border-radius:99px;background:var(--card2);overflow:hidden;}
+  .track i{display:block;height:100%;width:0;background:var(--green);transition:width .25s ease;}
+  .board code{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;
+    font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:#dfe1e6;}
+  .setup p{margin:0 0 8px;color:#c9c9d2;font-size:15px;}
+  .sitting{margin-top:34px;}
+  .sit-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 4px 12px;}
+  .sit-head h2{font-family:Georgia,serif;font-size:28px;font-weight:600;margin:0;}
+  .mins{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--mut);
+    background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:5px 11px;}
+  .where{margin:0 4px 14px;color:var(--mut);font-size:14px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:14px;}
+  .card-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .card-head h3{font-family:Georgia,serif;font-size:22px;font-weight:600;margin:0;}
+  .from{font-size:11px;font-weight:700;letter-spacing:.06em;padding:5px 11px;border-radius:99px;
+    background:var(--card2);color:var(--mut);white-space:nowrap;}
+  .desc{color:var(--mut);font-size:15px;margin:0 0 16px;}
+  .checks{list-style:none;padding:0;margin:0;}
+  .checks li{display:flex;gap:14px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line);}
+  .checks li:first-child{border-top:none;}
+  .checks input{flex:none;width:20px;height:20px;margin:2px 0 0;accent-color:var(--green);cursor:pointer;}
+  .checks label{font-size:15.5px;color:#d4d4dc;cursor:pointer;}
+  .checks input:checked + label{color:var(--dim);text-decoration:line-through;}
+  .fail{display:block;color:var(--mut);font-size:14px;margin-top:5px;text-decoration:none !important;}
+  .fail b{color:var(--red);font-weight:600;}
+  .note{color:var(--amber);font-size:14px;margin:14px 0 0;}
+  .closes{margin:26px 0 0;color:var(--mut);font-size:15px;}
+  .closes b{color:var(--ink);}
+  .reset{margin-top:36px;background:none;border:1px solid var(--line);color:var(--mut);
+    border-radius:99px;padding:9px 18px;font-size:13px;cursor:pointer;font-family:inherit;}
+</style>
+
+<div class="board">
+  <div class="eyebrow">SERO <span class="dot">·</span> ONE WALK, FOUR PLANS</div>
+  <h1>The test walk<span class="dot">.</span></h1>
+  <p class="lead">Everything that has been built and is waiting on your eyes, in one order.
+  Five sittings, grouped so you sign in once per group instead of hopping about.</p>
+
+  <div class="panel">
+    <div class="prog-head">
+      <h2>Progress</h2>
+      <span class="prog-sub" id="count">0 of 32 checked</span>
+    </div>
+    <div class="track"><i id="bar"></i></div>
+  </div>
+
+  <div class="panel setup">
+    <div class="eyebrow">BEFORE YOU START</div>
+    <p>Run <code>npm run dev</code> once and leave it running. Everything below is local.</p>
+    <p>Customer app: <code>localhost:3385</code> · Admin: <code>localhost:3001</code></p>
+    <p>Tick as you go. Your ticks are saved in this browser, so you can stop and come back.</p>
+  </div>
+
+  <!-- SITTING 1 -->
+  <div class="sitting">
+    <div class="sit-head"><h2>1. The way in</h2><span class="mins">~10 MIN</span></div>
+    <p class="where">Customer app, signed out. Use an incognito window.</p>
+
+    <div class="card">
+      <div class="card-head"><h3>Log in and create account</h3><span class="from">ENTRY REDESIGN P2</span></div>
+      <p class="desc">The three doors were redesigned to match. This is the first thing a new tester sees.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c1"><label for="c1">Press "Log in" with both boxes empty. Each box says what it needs, underneath itself.</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2">Log in with a wrong password. One coral alert, ending in a "reset your password" link.</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3">Log in properly. You land where you always did.</label></li>
+        <li><input type="checkbox" id="c4"><label for="c4">Sign out. Visit Log in, Create account and the free front door. All three wear the same card.</label></li>
+        <li><input type="checkbox" id="c5"><label for="c5">Narrow the window to phone width. The photo drops away and nothing scrolls sideways.</label></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>The example person</h3><span class="from">DEMO MEMBER P2</span></div>
+      <p class="desc">A brand-new account arrives with one example team member and one finished example 1:1, so it is never empty.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c6"><label for="c6">Register a brand-new account. Team shows "Sofia" with an "Example" chip; click in and the chip is in the header too.
+          <span class="fail"><b>Not OK</b> if any example thing is unlabelled.</span></label></li>
+        <li><input type="checkbox" id="c7"><label for="c7">Add a real member of your own first, then click "Remove example" and confirm. Your real member is untouched.</label></li>
+        <li><input type="checkbox" id="c8"><label for="c8">The example is gone from Team and from Home.</label></li>
+      </ul>
+      <p class="note">Check 7 is the one I could not run myself. Please look properly.</p>
+    </div>
+    <p class="closes">Both green and <b>two whole plans close</b>.</p>
+  </div>
+
+  <!-- SITTING 2 -->
+  <div class="sitting">
+    <div class="sit-head"><h2>2. Signed in as a manager</h2><span class="mins">~10 MIN</span></div>
+    <p class="where">Customer app, a manager account. Needs an org that has an admin and a member in it.</p>
+
+    <div class="card">
+      <div class="card-head"><h3>Opening a past 1:1 no longer dead-ends</h3><span class="from">AUDIT P3</span></div>
+      <p class="desc">The big one from the audit: a refresh used to throw away the 1:1 you were reading.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c9"><label for="c9">Click into any past 1:1, press refresh. You are still looking at it.
+          <span class="fail"><b>Not OK</b> if you get "No 1:1 selected".</span></label></li>
+        <li><input type="checkbox" id="c10"><label for="c10">Press Back, then Forward. Both land somewhere real.
+          <span class="fail"><b>Not OK</b> if the address changes but the page sits empty, or shows the wrong 1:1.</span></label></li>
+        <li><input type="checkbox" id="c11"><label for="c11">Copy the address from an open 1:1 and paste it into a new tab. It opens.</label></li>
+        <li><input type="checkbox" id="c12"><label for="c12">Change the last bit of the address to <code>nonsense</code>. You get "Couldn't open this 1:1", not a blank card.</label></li>
+        <li><input type="checkbox" id="c13"><label for="c13">Go to Past 1:1s with nothing after it in the address. The list is unchanged.</label></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>A manager cannot demote an admin</h3><span class="from">AUDIT P4</span></div>
+      <p class="desc">A real permission hole: the app was offering the control and only the server said no.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c14"><label for="c14">On My Team, the admin's row has no ⋯ at all.
+          <span class="fail"><b>Not OK</b> if a menu is offered.</span></label></li>
+        <li><input type="checkbox" id="c15"><label for="c15">A member or manager row still has its ⋯ and it works as before.</label></li>
+        <li><input type="checkbox" id="c16"><label for="c16">Sign in as an admin instead. Every row has its ⋯ back.</label></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SITTING 3 -->
+  <div class="sitting">
+    <div class="sit-head"><h2>3. Signed in as a member</h2><span class="mins">~5 MIN</span></div>
+    <p class="where">Customer app, an invited member account. Ideally one who has had a 1:1.</p>
+
+    <div class="card">
+      <div class="card-head"><h3>The member's own screen</h3><span class="from">AUDIT P4 + 7a</span></div>
+      <p class="desc">The nav and the page disagreed on where you were, and the "Add request" button did nothing visible when empty.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c17"><label for="c17">The rail item and the page heading say the same thing.
+          <span class="fail"><b>Not OK</b> if the page still says "Home".</span></label></li>
+        <li><input type="checkbox" id="c18"><label for="c18">If that member has any 1:1s, the line under the list explains <i>why</i> they only see the date and the type, in a human sentence.</label></li>
+        <li><input type="checkbox" id="c19"><label for="c19">Leave the request box empty and press "Add request". A line tells you what to do.</label></li>
+        <li><input type="checkbox" id="c20"><label for="c20">Type "more design review time" and press it. It appears in the list.</label></li>
+      </ul>
+      <p class="note">Checks 18 and 20 are the two I could not prove. They need your eyes.</p>
+    </div>
+  </div>
+
+  <!-- SITTING 4 -->
+  <div class="sitting">
+    <div class="sit-head"><h2>4. The admin side</h2><span class="mins">~13 MIN</span></div>
+    <p class="where">Admin app, signed in as superadmin.</p>
+
+    <div class="card">
+      <div class="card-head"><h3>Error log you can actually read</h3><span class="from">AUDIT P6</span></div>
+      <p class="desc">It was a wall of raw database statements. Now the sentence is in the table and the full statement is in the row.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c21"><label for="c21">Each row reads as a sentence you can take in at a glance.
+          <span class="fail"><b>Not OK</b> if any cell is still a wall of SQL.</span></label></li>
+        <li><input type="checkbox" id="c22"><label for="c22">Click a row with a database error. The full statement is there, complete, in its own scrolling block.</label></li>
+        <li><input type="checkbox" id="c23"><label for="c23">The list pages at 50. Get to page 2 and back.</label></li>
+        <li><input type="checkbox" id="c24"><label for="c24">At your normal window width the page never scrolls left and right.</label></li>
+        <li><input type="checkbox" id="c25"><label for="c25">The filters still work: Unresolved / Resolved / All, and Local / Live. Counts add up.</label></li>
+      </ul>
+      <p class="note">Check 24 is the one I could not measure. Please look.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>The small sweep</h3><span class="from">AUDIT 7c</span></div>
+      <p class="desc">Seven small wrongs from the audit, fixed together. Mostly a look-and-see.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c26"><label for="c26">Live pulse: with no runs this week, the "Runs per day" chart writes that it is empty instead of drawing a flat line.</label></li>
+        <li><input type="checkbox" id="c27"><label for="c27">A person's page: narrow the window. The meta line never strands a dangling "·" on its own.</label></li>
+        <li><input type="checkbox" id="c28"><label for="c28">Same page: the scores now carry a legend saying the scale runs from -6 to +6.</label></li>
+        <li><input type="checkbox" id="c29"><label for="c29">Open a run: the meeting type is named once, not twice.</label></li>
+        <li><input type="checkbox" id="c30"><label for="c30">Compare runs: the breadcrumb reads "Test engine › Compare runs" and the nav lights the matching row.</label></li>
+        <li><input type="checkbox" id="c31"><label for="c31">Collapse the nav to icons only. Hovering any icon names it.</label></li>
+      </ul>
+      <p class="note">Check 27 is the one I could not see. My browser pane had no window size to measure.</p>
+    </div>
+  </div>
+
+  <!-- SITTING 5 -->
+  <div class="sitting">
+    <div class="sit-head"><h2>5. Run a real 1:1</h2><span class="mins">~15 MIN</span></div>
+    <p class="where">Admin app, start a 1:1 and answer it properly. This one costs a little, so do it once.</p>
+
+    <div class="card">
+      <div class="card-head"><h3>No code words in the live scores</h3><span class="from">USER-TEST FIXES P1</span></div>
+      <p class="desc">From Machar's session: the score explanations were leaking the engine's own internal tags.</p>
+      <ul class="checks">
+        <li><input type="checkbox" id="c32"><label for="c32">Answer questions until near the end, watching Live scores. Every explanation is a plain sentence.
+          <span class="fail"><b>Not OK</b> if any of them ends in a <code>[WORD-IN-BRACKETS]</code> code.</span></label></li>
+      </ul>
+    </div>
+    <p class="closes">This one unblocks the <b>rest of the Machar fixes</b>, which are the fresh ones from a real tester.</p>
+  </div>
+
+  <button class="reset" id="reset">Clear all ticks</button>
+</div>
+
+<script>
+  (function () {
+    var KEY = "sero-test-walk-jul29";
+    var boxes = Array.prototype.slice.call(document.querySelectorAll(".checks input"));
+    var bar = document.getElementById("bar");
+    var count = document.getElementById("count");
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { saved = {}; }
+
+    function paint() {
+      var done = boxes.filter(function (b) { return b.checked; }).length;
+      count.textContent = done + " of " + boxes.length + " checked";
+      bar.style.width = (done / boxes.length * 100) + "%";
+    }
+
+    boxes.forEach(function (b) {
+      b.checked = !!saved[b.id];
+      b.addEventListener("change", function () {
+        saved[b.id] = b.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+        paint();
+      });
+    });
+
+    document.getElementById("reset").addEventListener("click", function () {
+      boxes.forEach(function (b) { b.checked = false; });
+      saved = {};
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      paint();
+    });
+
+    paint();
+  })();
+</script>

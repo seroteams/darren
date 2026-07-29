@@ -11,6 +11,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
 | fff2a82e | Per-question coaching support (hints end to end) | docs/plans/doing/question-support-hints/, content/prompts/generate-questions.md, content/prompts/plan-turn.md, backend/engine/questions.ts, backend/engine/questions.test.ts, backend/engine/question-generator.ts, backend/engine/queue-manager.ts, backend/engine/thread-follow.ts, backend/engine/thread-follow.test.ts, admin/src/ui/coach-panel.ts, admin/src/ui/coach-panel-state.ts | 2026-07-29 |
 | 20818dd4 | User-test fixes P1 (note tag strip at stream boundary) | docs/plans/doing/user-test-fixes-jul-29/, backend/api/services/sessions/session-streams.ts, backend/api/services/sessions/session-streams.test.ts | 2026-07-29 |
+| f7b9bc57 | Combined test walk (read-only across plans; writes one board file) | docs/plans/test-walk-jul-29.html | 2026-07-29 |
 
 
 
