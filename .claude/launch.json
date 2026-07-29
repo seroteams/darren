@@ -1146,6 +1146,33 @@
       "port": 3475
     },
     {
+      "name": "navaudit-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3501",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3501
+    },
+    {
+      "name": "navaudit-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3501",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3503",
+        "--strictPort"
+      ],
+      "port": 3503
+    },
+    {
       "name": "es-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
