@@ -16,9 +16,9 @@ Pick people who are all of these:
 
 | # | Name | Where they manage | Why them | Asked? |
 |---|------|-------------------|----------|--------|
-| 1 | ______ | ______ | ______ | ☐ |
-| 2 | ______ | ______ | ______ | ☐ |
-| 3 | ______ | ______ | ______ | ☐ |
+| 1 | Machar Smith | ______ (Carl to fill) | Trusted, honest, reachable weekly; offered to recruit further testers himself | ✅ tested 2026-07-29 — [session log](../validation/machar-2026-07-29.md) |
+| 2 | ______ (one of the two managers Machar will sit with) | ______ | ______ | ☐ |
+| 3 | ______ (the other) | ______ | ______ | ☐ |
 
 Nice-to-have: at least two different contexts (e.g. one design/creative team, one ops/commercial team) so we learn whether Sero's questions travel.
 

@@ -2,6 +2,19 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-29 — THE CORRIDOR TEST STARTED. Manager 1 is Machar Smith, and he tested today.**
+An 18-minute facilitated walkthrough on video, Machar driving, a real scenario end to end. Verdict:
+positive — "it just feels like tweaks more than anything else", usability "really good", first
+summary "really strong", the lock-ins carrying to the next 1:1 liked. Nine findings captured in the
+[session log](docs/validation/machar-2026-07-29.md), the sharpest being **F1: Sero's best question
+("what's one step you've taken to resolve the conflict?") appeared on the summary page instead of in
+the live meeting** — "that seems like a miss... the questions being a bit bland". Also: the opening
+jumps into the meat without asking what the employee wants from the session (F2), no way to hold a
+question the pair aren't ready for (F3), the wellbeing score over-fired on a *team* conflict (F4),
+and the QA prompt showed to a tester (F7). Machar will himself sit with managers 2 and 3 on recorded
+video calls and is lining up more testers for next week. **This session doesn't count toward the
+pass bar** — the bar is an unprompted return; watch whether Machar comes back on his own.
+
 📍 **2026-07-27 — every loading screen in the app now shows the shape of the page
 that's coming, and you green-lit it.** skeleton-shapes CLOSED, all 6 phases in two days, £0.
 Before: one grey three-card ghost on every screen, whatever was actually loading. Now a table
@@ -228,9 +241,10 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Walk the live first-run** — you said go live on 2026-07-26 and everything shipped (build `1db2d5c`). The one thing local could never prove: register a brand-new account on sero.team and check the brief-first welcome behaves.
-2. **Push the empty-states fix when you're ready** — [empty-states](docs/plans/done/empty-states/plan.md) closed 2026-07-28 (both phases, commits `2ac61fc6` + `d14d6d76`): the customer rail no longer hides a new manager's rows, and Team / Past 1:1s / Members say what they will hold. It is committed but **not pushed**, so sero.team still shows the stripped rail you hit. One "go live" ships it. [Board](https://claude.ai/code/artifact/9bc58e32-53e9-48b8-a17e-f3accbd7951b).
-3. **Start the corridor test** — name the 3 managers on the [GTM one-pager](docs/reference/gtm-validation-plan.md), flip Render to paid. This is the whole stage.
+1. **Pick which Machar fixes to build** — nine findings in the [session log](docs/validation/machar-2026-07-29.md); F1 (the summary's sharp question belongs in the meeting) is the big one.
+2. **Walk the live first-run** — you said go live on 2026-07-26 and everything shipped (build `1db2d5c`). The one thing local could never prove: register a brand-new account on sero.team and check the brief-first welcome behaves.
+3. **Push the empty-states fix when you're ready** — [empty-states](docs/plans/done/empty-states/plan.md) closed 2026-07-28 (both phases, commits `2ac61fc6` + `d14d6d76`): the customer rail no longer hides a new manager's rows, and Team / Past 1:1s / Members say what they will hold. It is committed but **not pushed**, so sero.team still shows the stripped rail you hit. One "go live" ships it. [Board](https://claude.ai/code/artifact/9bc58e32-53e9-48b8-a17e-f3accbd7951b).
+4. **The corridor test is RUNNING** — Machar named + tested 2026-07-29 on the [GTM one-pager](docs/reference/gtm-validation-plan.md); managers 2 and 3 still to name (Machar is recruiting them himself). Left for you: flip Render to paid.
 4. ~~Three walks are waiting on you~~ — **cleared 2026-07-27 on your instruction** ("no more walk throughs please. just go"). screen-gallery P2, sero-run-memory P1 and audit-fixes P2 are now marked closed **unwalked**: each one's code is present, tested and green on the free suite, but none was seen on screen by you. Each plan records that in writing. Nothing else is queued for your eyes.
 5. **Two design follow-ups need a yes or a no** — the design-system clean-up closed 2026-07-27 and left both deliberately: **P3b** finishes the namespace collapse (~150 call sites still inside other chats' lanes), and the **visible pass** fixes the type ladder, which is still inverted at the top and still carries the 15px/17px sizes your own rules ban. The second one changes what you see, so it wants before-and-after mockups first.
 
