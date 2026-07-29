@@ -66,8 +66,13 @@ down for *"wants to present more often in the architecture review"*. And your no
 reach the engine: the copy guard scans the two apps, never a generated question, which is the most
 user-facing text you have. Parked, not fixed.
 
-**206/206, typecheck, both linters, replay 7/7. Committed local, NOT pushed.** One "go live" puts all
-of it in front of Kate and Nora, which is worth doing before their sessions.
+**206/206, typecheck, both linters, replay 7/7. ✅ LIVE 2026-07-29 on your "go live"** — pushed as
+build `9d8b674`, confirmed on `sero.team/api/version`, `/api/v1/health/deep` reports `db: up`. Checked
+at the destination rather than assumed: the live `briefing` chunk carries "One last thing.", "Would
+you use this before your next 1:1?" and "Anything get in the way?", and the old three-question form
+appears **zero** times. The engine-side changes (the opening wording, the wellbeing rule, the agency
+question) shipped in the same build but were not re-observed on live, because watching them means
+running a real 1:1 and every turn is a paid call. Kate and Nora will be the first to see them.
 
 📍 **2026-07-29 — the first minute of a 1:1 now asks what THEY want out of it, and you green-lit it.**
 [machar-fixes](docs/plans/done/machar-fixes-jul-29/plan.md) P2 of 4. Two faults sat in the same
@@ -340,7 +345,7 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **The Machar fixes are DONE and need nothing from you** — all 4 phases green-lit 2026-07-29, $0.33 spend, [closed](docs/plans/done/machar-fixes-jul-29/plan.md) · [board](https://claude.ai/code/artifact/8d3b845b-d57b-4af4-b49d-d4eeac25c521). Committed local, **not pushed** — one "go live" puts them in front of Kate and Nora. Worth doing before their sessions, since every fix came from the manager who sat in the same chair.
+1. **The Machar fixes are DONE and LIVE** — all 4 phases green-lit and shipped 2026-07-29, $0.33 spend, build `9d8b674` on sero.team, [closed](docs/plans/done/machar-fixes-jul-29/plan.md) · [board](https://claude.ai/code/artifact/8d3b845b-d57b-4af4-b49d-d4eeac25c521). Nothing needed from you. Kate and Nora will be the first testers to meet the fixed version.
 2. **Walk the live first-run** — the new three-focus-points welcome is live now (build `33dfdca7`), and it changed the exact screen this item is about. The one thing local can never prove: register a brand-new account on sero.team and check the first screen and the empty rail behave on the real deploy.
 3. ~~Push the empty-states fix~~ — **SHIPPED**. [empty-states](docs/plans/done/empty-states/plan.md) closed 2026-07-28 (both phases, commits `2ac61fc6` + `d14d6d76`): the customer rail no longer hides a new manager's rows, and Team / Past 1:1s / Members say what they will hold. Both commits verified inside live build `33dfdca7` on 2026-07-29, so the stripped rail you hit is gone from sero.team. [Board](https://claude.ai/code/artifact/9bc58e32-53e9-48b8-a17e-f3accbd7951b).
 4. **The corridor test is RUNNING, and all three names are locked** — **Kate, Machar, Nora** (2026-07-29, on the [GTM one-pager](docs/reference/gtm-validation-plan.md)). Machar has run his first session ([log](docs/validation/machar-2026-07-29.md)); Kate and Nora have not been asked yet. Left for you: ask those two, and flip Render to paid so the site never sleeps on a tester. **Render goes paid 2026-07-30 (Carl, payday).** Until then the free plan sleeps after inactivity, so a cold first click can hang about 50 seconds: worth sending Kate's and Nora's invites after the flip, not before.

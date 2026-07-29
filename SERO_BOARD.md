@@ -35,8 +35,11 @@ negative wellbeing delta against an answer where the report never described thei
 generated question. Both are parked in the plan with what is known.
 
 Carl cut F3 (a hold-a-question control) outright; its research is recorded so it is not re-proposed.
-F8 and F9 stay on watch for the next tester rather than being fixed on one data point. Committed
-local, **not pushed** — one "go live" puts all of it in front of Kate and Nora.
+F8 and F9 stay on watch for the next tester rather than being fixed on one data point. **✅ LIVE
+2026-07-29 on Carl's "go live"** — build `9d8b674`, `db: up`, and the live briefing chunk verified to
+carry the new finish-prompt copy with zero occurrences of the old three-question form. The
+engine-side changes shipped in the same build but were not re-observed on live, because that costs a
+paid run; Kate and Nora are the first testers to meet them.
 
 **▶ THE CORRIDOR TEST IS RUNNING (2026-07-29) — Manager 1: Machar Smith, session 1 done.**
 The whole VALIDATION STAGE gate is now live in the field. Machar drove an 18-minute facilitated
