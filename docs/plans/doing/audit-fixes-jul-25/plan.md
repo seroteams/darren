@@ -36,7 +36,7 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 | 3 | The refresh dead end | `/runs/:id` opens on refresh, on Back, and from a pasted URL | 🔨 Built 2026-07-28, awaiting Carl |
 | 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | 🔨 Built 2026-07-29, awaiting Carl |
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
-| 6 | Error log readability | Message head in the table, full statement in the row detail, paged at 50 | ⬜ |
+| 6 | Error log readability | Message head in the table, full statement in the row detail, paged at 50 | 🔨 Built 2026-07-29, awaiting Carl |
 | 7 | Member view, motion, small sweep | Member home says what it is, three motion wins, the 11 smaller things | ⬜ |
 | 8 | Team and Members become one screen | One "My Team" screen with an access column; the second nav item goes | ⬜ |
 | 9 | Triage the tester notes | The 11 Feedback-inbox notes read, the real ones turned into work, the rest closed | ⬜ |
@@ -44,6 +44,16 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Phase 6 🔨 BUILT 2026-07-29**, awaiting Carl. The error log's visible text drops from
+3.3 million characters to **8,321**, the longest cell from a whole SQL statement to 99
+characters, and 122 issues now page at 50. The trap avoided: the old detail printed the
+message only when there was NO stack, so truncating the table without changing that would
+have made the full message unreachable for any error with one. It now prints verbatim
+(checked byte-for-byte against the DB row) with the stack after it. Search had to leave the
+painted-rows approach or it would have searched 50 of 122 and still called the count honest.
+**The page-height number could not be measured** (0x0 viewport in this session) — see
+[phase-6.md](phase-6.md).
+
 **Phase 4 🔨 BUILT 2026-07-29**, awaiting Carl. The rank hole is closed: `requireAdmin` lets
 managers through, so a plain manager could demote **or switch off** the admin account running
 the workspace. One shared `canActOn` guard now covers both endpoints (fixing only `setRole`

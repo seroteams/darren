@@ -21,6 +21,8 @@ import { escapeHtml } from "../ui/html.js";
 import { relTime } from "../ui/time.ts";
 import type { Mount, Unmount } from "./stage.types.ts";
 import { button } from "../ui/button.ts";
+// The pure row vocabulary lives next door so it is unit-testable (this file imports CSS).
+import { messageHead, pageSlice, PAGE_SIZE } from "./admin-error-log-rows.ts";
 
 const alertAction = alertJs as unknown as (opts: { message: string; confirmLabel?: string }) => Promise<void>;
 
@@ -117,7 +119,8 @@ function detailRow(issue: Issue): string {
   return `<tr class="el-detail-row"><td colspan="6">
     <div class="el-detail">
       <div class="el-detail__meta">${meta}</div>
-      ${stack ? `<pre class="el-stack">${escapeHtml(stack)}</pre>` : `<div class="el-detail__msg">${escapeHtml(row.message)}</div>`}
+      <pre class="el-stack el-msg-full">${escapeHtml(row.message)}</pre>
+      ${stack ? `<pre class="el-stack">${escapeHtml(stack)}</pre>` : ""}
       ${ua ? `<div class="el-ua"><b>Browser:</b> ${escapeHtml(ua)}</div>` : ""}
       <div class="el-detail__actions">
         ${button({ label: issue.resolved ? "Reopen" : `Mark resolved${issue.count > 1 ? ` (${issue.count})` : ""}`, variant: "ghost", hook: "js-resolve", attrs: { "data-key": issue.key, "data-resolved": issue.resolved ? "1" : "" } })}
@@ -133,7 +136,7 @@ function issueRow(issue: Issue, open: boolean): string {
     <tr class="el-row js-row${issue.resolved ? " el-row--resolved" : ""}${open ? " is-open" : ""}"
         data-key="${escapeHtml(issue.key)}"
         data-search="${escapeHtml(`${row.message} ${row.path}`.toLowerCase())}">
-      <td class="el-msg"><div class="el-msg__text">${escapeHtml(row.message)}</div></td>
+      <td class="el-msg"><div class="el-msg__text" title="${escapeHtml(messageHead(row.message))}">${escapeHtml(messageHead(row.message))}</div></td>
       <td>${envPill(row.environment)}<div class="el-route">${escapeHtml(row.method ? `${row.method} ${row.path}` : row.path)}</div></td>
       <td>${sourcePill(row.source)}</td>
       <td><span class="chip chip--plain" title="${issue.count} ${issue.count === 1 ? "occurrence" : "occurrences"}">${issue.count}</span></td>
@@ -155,6 +158,18 @@ function table(issues: Issue[], open: Set<string>): string {
         <tbody>${issues.map((i) => issueRow(i, open.has(i.key))).join("")}</tbody>
       </table>
     </div>`;
+}
+
+// Only rendered when there is more than one page — a pager under a 12-row list is noise.
+function pager(page: number, pages: number, total: number): string {
+  if (pages <= 1) return "";
+  const from = page * PAGE_SIZE + 1;
+  const to = Math.min(total, (page + 1) * PAGE_SIZE);
+  return `<div class="el-pager">
+    ${button({ label: "Previous", variant: "ghost", hook: "js-prev", attrs: page === 0 ? { disabled: "" } : {} })}
+    <span class="el-pager__at">${from}-${to} of ${total}</span>
+    ${button({ label: "Next", variant: "ghost", hook: "js-next", attrs: page >= pages - 1 ? { disabled: "" } : {} })}
+  </div>`;
 }
 
 const TABS = [
@@ -204,24 +219,13 @@ export const mount: Mount = async (root, { setState }) => {
   let env = "all";
   let source = "all";
   let q = "";
+  let page = 0;
   const open = new Set<string>();
 
-  // Hidden-toggle search over the painted rows (typing never repaints the input away).
-  // Hiding an issue row also hides its open detail row, and the count stays honest.
-  const applySearch = () => {
-    let visible = 0;
-    root.querySelectorAll<HTMLTableRowElement>(".js-row").forEach((row) => {
-      const hit = !q || (row.dataset.search || "").includes(q);
-      row.hidden = !hit;
-      const next = row.nextElementSibling;
-      if (next instanceof HTMLTableRowElement && next.classList.contains("el-detail-row")) next.hidden = !hit;
-      if (hit) visible++;
-    });
-    const count = root.querySelector<HTMLElement>(".list-toolbar__count");
-    if (count) count.textContent = `${visible} ${visible === 1 ? "issue" : "issues"}`;
-    const noMatch = root.querySelector<HTMLElement>(".js-no-match");
-    if (noMatch) noMatch.hidden = visible > 0;
-  };
+  // Search is part of the filter chain now, not a hidden-toggle over the painted rows
+  // (audit F19). With paging in, hiding only what is on screen would have quietly searched
+  // 50 of 103 issues and still called the count honest. Repainting costs the input its
+  // focus, so paint() puts the caret back where it was.
 
   const wire = () => {
     root.querySelectorAll<HTMLButtonElement>(".js-seg").forEach((b) =>
@@ -230,9 +234,12 @@ export const mount: Mount = async (root, { setState }) => {
         if (b.dataset.group === "tab") tab = val;
         else if (b.dataset.group === "env") env = val;
         else source = val;
+        page = 0; // a new filter starts at page 1, never on a stale page 3
         paint();
       }),
     );
+    root.querySelector<HTMLButtonElement>(".js-prev")?.addEventListener("click", () => { page -= 1; paint(); });
+    root.querySelector<HTMLButtonElement>(".js-next")?.addEventListener("click", () => { page += 1; paint(); });
     root.querySelectorAll<HTMLElement>(".js-row").forEach((r) =>
       r.addEventListener("click", () => {
         const key = r.dataset.key;
@@ -269,7 +276,8 @@ export const mount: Mount = async (root, { setState }) => {
     );
     root.querySelector<HTMLInputElement>(".js-lt-search")?.addEventListener("input", (e) => {
       q = (e.target as HTMLInputElement).value.trim().toLowerCase();
-      applySearch();
+      page = 0; // a new search starts at page 1
+      paint();
     });
     root.querySelector(".js-retry")?.addEventListener("click", () => { void load(); });
   };
@@ -291,9 +299,15 @@ export const mount: Mount = async (root, { setState }) => {
       local: issues.filter((i) => i.newest.environment === "local").length,
       production: issues.filter((i) => i.newest.environment === "production").length,
     };
-    const shown = afterEnvSrc.filter(
+    const afterTab = afterEnvSrc.filter(
       (i) => tab === "all" || (tab === "resolved" ? i.resolved : !i.resolved),
     );
+    // Search runs over EVERY issue in the current filter, not just the painted page.
+    const shown = q
+      ? afterTab.filter((i) => `${i.newest.message} ${i.newest.path}`.toLowerCase().includes(q))
+      : afterTab;
+    const { rows: pageRows, page: safePage, pages } = pageSlice(shown, page);
+    page = safePage;
     const toolbar = listToolbar({
       search: { placeholder: "Search message or path" },
       count: { n: shown.length, noun: "issue" },
@@ -304,16 +318,20 @@ export const mount: Mount = async (root, { setState }) => {
         <div class="el-control"><span class="el-control__label">Where</span>${segbar("env", env, ENV_FILTERS, envCounts)}</div>
         <div class="el-control"><span class="el-control__label">Source</span>${segbar("src", source, SRC_FILTERS, null)}</div>
       </div>`;
+    const emptyCopy = q ? "No issues match that search." : "No issues match this view.";
     const body = shown.length
-      ? table(shown, open)
-      : `<section class="card-flat"><p class="text-ink-dim">No issues match this view.</p></section>`;
-    const noMatch = shown.length
-      ? `<p class="text-ink-dim js-no-match" hidden>No issues match that search.</p>`
-      : "";
-    root.innerHTML = shell(`${toolbar}${controls}${body}${noMatch}`);
+      ? table(pageRows, open) + pager(page, pages, shown.length)
+      : `<section class="card-flat"><p class="text-ink-dim">${emptyCopy}</p></section>`;
+    root.innerHTML = shell(`${toolbar}${controls}${body}`);
     wire();
+    // Typing repaints the list, so hand the caret back to the search box or every second
+    // keystroke would land nowhere.
     const search = root.querySelector<HTMLInputElement>(".js-lt-search");
-    if (search && q) { search.value = q; applySearch(); }
+    if (search && q) {
+      search.value = q;
+      search.focus();
+      search.setSelectionRange(search.value.length, search.value.length);
+    }
   };
 
   const load = async () => {
@@ -336,6 +354,7 @@ export const mount: Mount = async (root, { setState }) => {
     env = "all";
     source = "all";
     q = "";
+    page = 0;
     open.clear();
     paint();
   };
