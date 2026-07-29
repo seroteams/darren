@@ -37,13 +37,21 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 | 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | 🔨 Built 2026-07-29, awaiting Carl |
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
 | 6 | Error log readability | Message head in the table, full statement in the row detail, paged at 50 | 🔨 Built 2026-07-29, awaiting Carl |
-| 7 | Member view, motion, small sweep | Member home says what it is, three motion wins, the 11 smaller things | ⬜ |
+| 7 | Member view, motion, small sweep | SPLIT 2026-07-29 (Carl). **7a** member home 🔨 built · **7b** motion ⬜ · **7c** the sweep ⬜ (9 live items; 2 of the original 11 no longer exist) | 🔨 7a built |
 | 8 | Team and Members become one screen | One "My Team" screen with an access column; the second nav item goes | ⬜ |
 | 9 | Triage the tester notes | The 11 Feedback-inbox notes read, the real ones turned into work, the rest closed | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Phase 7 SPLIT into 7a/7b/7c on 2026-07-29 (Carl's call), and 7a is 🔨 BUILT.** A reality
+check before building found two of the eleven small items are already gone: the Screen gallery
+was deleted wholesale by another chat, and the front door's fake-button was fixed by
+entry-redesign P2. The stage cross-fade also already exists in `motion.css`. **7a**: the
+member's rail item and page heading now both say "Your 1:1s" (they said "Your 1:1s" and
+"Home"), and the orphaned "Only the date and 1:1 type are recorded here." became a sentence
+that explains why. 206/206. See [phase-7.md](phase-7.md).
+
 **Phase 6 🔨 BUILT 2026-07-29**, awaiting Carl. The error log's visible text drops from
 3.3 million characters to **8,321**, the longest cell from a whole SQL statement to 99
 characters, and 122 issues now page at 50. The trap avoided: the old detail printed the

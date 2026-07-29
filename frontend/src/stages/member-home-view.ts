@@ -25,7 +25,11 @@ export type MemberRun = {
 export type MemberRequest = { id?: string; text: string; status: string };
 export type MemberGoal = { id: string; text: string; progress?: number | null };
 
-const CAPTION = `<p class="caption">Only the date and 1:1 type are recorded here.</p>`;
+// Not an orphaned grey statement any more (audit F10). It answers the question a member
+// actually has when the list shows a date and a type and nothing else: where is the rest?
+// The no-inference ruling is not being changed here, it is being explained, in the voice a
+// person would use. Copy only, and it stays a quiet caption rather than a warning.
+const CAPTION = `<p class="caption">Your manager's notes and prep stay private to them, so they can think honestly before your 1:1. What you see here is the record of the conversation: when it happened, and what kind it was.</p>`;
 
 // The designed empty-state block: a quiet Lucide icon, a one-line headline, and the
 // reassurance copy. Used for the first-visit timeline and goals (audit: grey-sentence

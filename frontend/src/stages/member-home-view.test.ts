@@ -40,8 +40,20 @@ test("earlier 1:1s go in the timeline; the latest is not repeated there", () => 
 });
 
 test("the privacy caption sits under the timeline whenever there is history", () => {
-  assert.ok(renderRunsSection(runs).includes("Only the date and 1:1 type are recorded here."));
-  assert.ok(renderRunsSection([runs[0]]).includes("Only the date and 1:1 type are recorded here."), "caption stays with a single run");
+  const withHistory = renderRunsSection(runs);
+  assert.ok(withHistory.includes("stay private to them"), "the caption is there");
+  assert.ok(renderRunsSection([runs[0]]).includes("stay private to them"), "caption stays with a single run");
+});
+
+test("the caption EXPLAINS the privacy rule rather than just stating it (audit F10)", () => {
+  const html = renderRunsSection(runs);
+  // The old line was an orphan: "Only the date and 1:1 type are recorded here." True, but it
+  // left the member to work out why, on the one screen they have.
+  assert.ok(!html.includes("Only the date and 1:1 type are recorded here."), "the orphan line is gone");
+  assert.ok(/why|private|honestly/i.test(html), "it gives a reason");
+  assert.ok(html.includes("when it happened, and what kind it was"), "and says what they DO get");
+  // The em-dash rule is `npm run lint:copy`'s job, repo-wide. Asserting it here needs the
+  // literal character in the file, which the guard then flags. One guard, not two.
 });
 
 test("a single 1:1 renders the top card without an empty timeline section", () => {
@@ -157,4 +169,18 @@ test("the empty-box message and its wiring live in member-home.js", () => {
   // The save-failure path reuses the same slot rather than injecting a fresh <p> each time,
   // which is how the old version could stack duplicate errors under the form.
   assert.doesNotMatch(src, /insertAdjacentHTML\("afterend", `<p class="field__error"/);
+});
+
+// ── audit-fixes F10: the nav item and the page name the same place ───────────────
+
+test("the member's rail label and the page heading say the same thing", () => {
+  const dir = dirname(fileURLToPath(import.meta.url));
+  const nav = readFileSync(join(dir, "../ui/app-nav.js"), "utf8");
+  const page = readFileSync(join(dir, "member-home.js"), "utf8");
+  // The rail item that lands a member here.
+  const navLabel = /label: "([^"]+)",\s*stage: STAGES\.MEMBER_HOME/.exec(nav)?.[1];
+  assert.equal(navLabel, "Your 1:1s", "the rail item");
+  // The heading the page paints once they arrive. It said "Home".
+  assert.match(page, /title: "Your 1:1s"/, "the page heading matches the rail");
+  assert.ok(!/title: "Home"/.test(page), "the mismatched heading is gone");
 });

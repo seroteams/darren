@@ -1,56 +1,110 @@
 # Phase 7 — Member view, motion, and the small sweep
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md)
 
-## Goal
-The member's one screen stops feeling half-built, the app acknowledges when something is happening, and the eleven small untidy things go.
+**Split on 2026-07-29, Carl's call.** The phase was three jobs in one, and a reality check
+found two of its items no longer exist. It now runs as:
 
-## Changes
+| | Slice | Status |
+|---|---|---|
+| **7a** | Member home says what it is (F10) | 🔨 BUILT 2026-07-29, awaiting Carl |
+| **7b** | Three motion wins (F12) | ⬜ not started |
+| **7c** | The small sweep | ⬜ not started, 9 live items |
 
-**Member home says what it is (F10)**
-Copy only, no new capability. Today the nav item says "Your 1:1s", the page says "Home", and it lists exactly one. And an orphaned grey line says "Only the date and 1:1 type are recorded here." Make the nav label and the page agree, and turn that orphan line into a proper, warm explanation of why a member sees the date and the type and not the notes. The no-inference ruling is not being changed here; it is being explained.
+## Reality check before building (2026-07-29)
 
-**Three motion wins (F12)**
-Measured across 256 page loads: 3 pages had a running animation, the average page had 33 elements with a transition and almost all were hover colours. No page transition, no stagger, no visible loading.
-- a 120ms cross-fade when the stage changes
+The audit ran on 25 July. Four days and a lot of work later, some findings are stale. Checked
+each against today's code rather than fixing from the list:
+
+| Item | Still real? |
+|---|---|
+| Screen gallery: second yellow chrome bar, missing h1 | **Gone.** The whole gallery feature was deleted by another chat. Item dropped. |
+| Front door: "Try it free. No account needed" is a divider label, not a button | **Already fixed** by entry-redesign P2. `welcome.ts` renders a real `button()`; the login footer link is now a styled `.link`. |
+| A 120ms cross-fade when the stage changes | **Already exists.** `.stage-enter` / `.is-in` in `motion.css`, with `prefers-reduced-motion` honoured. What is missing is the customer app opting in, plus the stagger and the skeleton timing. Folded into 7b. |
+| The other 9 small items | Real. Confirmed in source. Listed in 7c below. |
+
+---
+
+## 7a — Member home says what it is (F10) 🔨 BUILT
+
+Copy only, no new capability.
+
+**What it did**
+
+- **The nav label and the page heading now name the same place.** The rail item said
+  "Your 1:1s" and the page it opened said "Home". The heading is now "Your 1:1s"
+  (`frontend/src/stages/member-home.js`).
+- **The orphaned grey line became an explanation.** It said, flatly:
+  *"Only the date and 1:1 type are recorded here."* True, and it left the member to work out
+  why on the one screen they have. It now reads:
+  > Your manager's notes and prep stay private to them, so they can think honestly before
+  > your 1:1. What you see here is the record of the conversation: when it happened, and
+  > what kind it was.
+
+  The no-inference ruling is not changed. It is explained.
+
+**Verified**
+
+- `npm test` **206/206**, typecheck, `lint:copy`, `lint:tokens`, `lint:components` green.
+  Four new assertions, including one that reads the rail source and the page source together
+  so the two labels cannot drift apart again.
+- **On screen** (customer app, signed in as a real member): the active rail item reads
+  "Your 1:1s" and the `<h1>` reads "Your 1:1s". Measured off the live DOM, not claimed.
+  No console errors.
+
+**NOT verified**
+
+- **The new caption was not seen on screen.** It only renders when the member has 1:1
+  history, and the member account available in this session has none, so the page showed the
+  empty state instead. The copy itself is covered by unit test. Worth a glance when you have
+  a member with a real 1:1.
+- No screenshot: the Browser pane does not composite frames in this session.
+
+**Test scenario**
+
+`local > customer app > sign in as a member > Your 1:1s`
+
+1. The rail item and the page heading should say the same thing.
+   ❌ Not OK if the page still says "Home".
+2. If that member has any 1:1s, the line under the list should explain *why* they see the
+   date and the type, in a sentence a person would write.
+
+---
+
+## 7b — Three motion wins (F12) ⬜
+
+Measured across 256 page loads: 3 pages had a running animation, the average page had 33
+elements with a transition and almost all were hover colours.
+
+- the stage cross-fade (exists in CSS; the customer app does not pass `fadeStages`)
 - a 40ms-per-row stagger when a list mounts
-- the shared skeleton (`admin/src/ui/skeleton.js`) actually visible on a first fetch, with a minimum display time so it does not flash
-Respect `prefers-reduced-motion` on all three.
+- the shared skeleton visible on a first fetch, with a minimum display time so it does not flash
 
-**The eleven small things**
-- Front door: "Try it free. No account needed" is a real button styled as a divider label. Make it look tappable.
-- Live pulse: the "Runs per day" chart renders an empty flat line with no message while the card beside it has a written empty state. Give it one.
-- Live pulse: six metric cards in a five-wide grid, so "Errors" sits alone. Fix the grid.
-- Person page: the meta line wraps and leaves a dangling "·" ("Content Designer · 1 1:1 ·"). And "1 1:1" is hard to read.
-- Person page: the Clarity and Growth bars show "-5" in red with no scale, legend or tooltip. Say what the number is out of.
-- Run detail: the meeting type appears twice in the header, once as blue text that looks like a link but is not.
-- The 1:1 wizard: a guest sees "Focus areas, Prep brief, During the meeting"; a manager sees "Focus, Prep, Meeting". Pick one vocabulary.
-- Compare runs: the nav highlights "Test engine" while the page says "Compare runs", and it marks its parent with an eyebrow where the Pulse sub-pages use a breadcrumb. Pick one pattern.
-- Collapsed nav: icon-only with no tooltips. The aria-labels are there, so this is for sighted users only.
-- Logged out: every page logs a red 401 on `/api/v1/auth/me`. Treat a logged-out 401 as a normal state, not an error.
-- Screen gallery: a second yellow chrome bar above the app shell, and the one screen with no h1.
+Respect `prefers-reduced-motion` on all three. Verify by reading computed styles, not by
+watching: screenshots time out on running animations.
+
+## 7c — The small sweep ⬜ (9 live items)
+
+- Live pulse: the "Runs per day" chart draws a flat line with no message when there is no
+  data, while the card beside it has a written empty state. **Confirmed live** in
+  `sparkline()` — no empty branch.
+- Live pulse: six metric cards in a five-wide grid, so "Errors" sits alone. (The grid is
+  `auto-fit minmax(10.5rem, 1fr)`, so this may already self-correct; needs a laid-out
+  viewport to confirm before changing anything.)
+- Person page: the meta line wraps and leaves a dangling "·". And "1 1:1" is hard to read.
+- Person page: the Clarity and Growth bars show "-5" with no scale or legend. Say what the
+  number is out of. (`person-axes.ts` clamps to ±6 but never tells the reader.)
+- Run detail: the meeting type appears twice in the header, once in the breadcrumb and once
+  as `.rd-type-badge`.
+- The 1:1 wizard: a guest sees "Focus areas, Prep brief, During the meeting"; a manager sees
+  "Focus, Prep, Meeting". Pick one vocabulary.
+- Compare runs: the nav highlights "Test engine" while the page says "Compare runs".
+- Collapsed nav: icon-only with no tooltips. The aria-labels are there, so this is for
+  sighted users only.
+- Logged out: every page logs a red 401 on `/api/v1/auth/me`. Treat a logged-out 401 as a
+  normal state, not an error.
 
 ## Not in this phase
-- A real member history screen. Parked: Carl chose the reframe, and it needs a ruling on what a member may see first.
+- A real member history screen. Parked: Carl chose the reframe, and it needs a ruling on what
+  a member may see first.
 - The empty right third of the list pages. Parked with the same decision.
-
-## Done when
-- [ ] The member's nav label and page heading match, and the explanation reads as a sentence a person would write
-- [ ] Each of the three motion changes is verified by reading computed styles, not by watching (screenshots time out on running animations)
-- [ ] The skeleton is proven visible with the network throttled, captured
-- [ ] `prefers-reduced-motion: reduce` turns all three off, verified
-- [ ] All eleven small items ticked off individually in this file
-- [ ] The logged-out console is clean: zero red lines on a fresh visit
-- [ ] Product owner has tested the scenarios below and said go
-
-## Test scenarios — for the product owner
-Walk through these yourself. Next phase waits for your green light.
-
-1. **The member's screen makes sense** — `local > customer (audit.member) > Home`. The nav item and the heading should say the same thing, and you should be able to read why only the date and type are shown. ❌ Not OK if it still says "Home" under a nav item called "Your 1:1s".
-2. **Things move now** — `local > customer (audit.manager) > Past 1:1s`, then click into a 1:1 and back out. There should be a short fade rather than a hard cut, and the list rows should arrive in quick sequence.
-3. **You can see it loading** — hard-refresh Team. You should catch the grey placeholder cards for a moment. ❌ Not OK if you get a white flash and then content.
-4. **Front door button looks like a button** — `local > customer (logged out) > /`. "Try it free. No account needed" should look tappable.
-5. **Pulse has no odd gaps** — `local > admin > Pulse`. The metric cards should fill their rows, and the empty chart should say something rather than showing a bare line.
-6. **The person page reads cleanly** — `local > customer (audit.manager) > Team > Nina Petrova`. No dangling "·" at the end of a line, and the Clarity and Growth numbers should say what they are out of.
-7. **The wizard uses one vocabulary** — start a 1:1 signed in, note the step names. Then log out and start a guest run. Same names. ❌ Not OK if one says "Prep" and the other "Prep brief".
-8. **Quiet console** — `local > customer (logged out) > /`, open the browser console. No red lines. ❌ Not OK if you still see a 401.

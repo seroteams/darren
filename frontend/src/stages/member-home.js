@@ -75,7 +75,9 @@ export async function mount(root) {
     <div class="stage-medium l-stack l-stack--8">
       ${pageHeader({
         eyebrow: "Your space",
-        title: "Home",
+        // "Your 1:1s", matching the nav item that got you here (audit F10). The heading said
+        // "Home" under a rail item called "Your 1:1s", so the two named different places.
+        title: "Your 1:1s",
         lede: "The 1:1s your manager has prepped about you, plus the requests and goals you share with them.",
       })}
       <section class="js-about-me l-stack l-stack--4">
