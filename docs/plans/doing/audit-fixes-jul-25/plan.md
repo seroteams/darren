@@ -33,7 +33,7 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 |---|---|---|---|
 | 1 | Quick wins | Brand marks show, the build stamp stops blocking clicks, search boxes get a name, auth screens use the brand face, one date format per column | ✅ |
 | 2 | Shell and layout | Nav reaches the bottom of long pages, header buttons clear the account chip, the 1:1 wizard centres and drops the sidebar | ✅ closed unwalked |
-| 3 | The refresh dead end | `/runs/:id` opens on refresh, on Back, and from a pasted URL | ⬜ |
+| 3 | The refresh dead end | `/runs/:id` opens on refresh, on Back, and from a pasted URL | 🔨 Built 2026-07-28, awaiting Carl |
 | 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | ⬜ |
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
 | 6 | Error log readability | Message head in the table, full statement in the row detail, paged at 50 | ⬜ |
@@ -44,6 +44,14 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Phase 3 🔨 BUILT 2026-07-28** (commit `69edbb24`), awaiting Carl. `/runs/:id` now survives a
+refresh, a Back and a pasted link in both apps. Two causes, not one: boot never carried
+`myRunId` on the admin/owner path (the member path always did, which is why it looked
+intermittent), and popstate never bumped `stageTick`, so Back from one run to *another* left
+the shell's render gate seeing no change and the previous run still on screen. 202/202, eight
+new tests, typecheck and three linters clean. **Not walked, no screenshot** — see
+[phase-3.md](phase-3.md).
+
 **Phase 1 ✅ green-lit 2026-07-25** (commit 72a7c64b). Carl walked all five quick wins on the local build: brand marks back, a row under the build badge clickable, the badge still copying its SHA, "never active" replacing "last active no runs yet", and one date format down Past 1:1s. Proof table: [phase-1.md](phase-1.md); screenshots in `audits/full-app-audit-2026-07-25/p1-proof/`.
 
 **Phase 2 ✅ CLOSED 2026-07-27 — without a Carl walk.** Two changes, as re-scoped: the header actions now clear the signed-in chip (one CSS rule on `.page-header`, because the cause was the missing eyebrow, not the missing lede — the re-scope had that wrong too), and the customer app's 1:1 lane drops the left rail for everyone, not just guests. Before/after by `elementFromPoint`, the four free checks green, one new regression test. No screenshots: the Browser pane doesn't composite frames in this session and another chat holds the Playwright profile. Detail: [phase-2.md](phase-2.md).
