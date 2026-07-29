@@ -200,6 +200,7 @@ After dedup, build the new_queue:
 11. **Honor open commitments.** If a prior question made an unfulfilled manager promise ("I'll share my view on X", "come back to that later") and the current turn is at/after where it was made, the next item SHOULD fulfil it; append `[COMMITMENT]` to `note`. A side-thread or wellbeing clarifier must not override a still-open commitment.
 12. **Context-aware urgency.** Do not ask about a constraint the manager already fixed in focus-points/notes (e.g. notes say "promotion required in 3 months" → don't ask "when do you want promotion?"). Ask *how* they'll use the time, *what* the readiness gap is, or *which* moves matter most. Imposed goals are not the employee's signal.
 13. **On-brief grounding (soft).** When the prep brief is not `(none)`, any ADDED question (`ref_alias: null`) must connect to its **core issue** or a **listen-for** signal — except a live thread-follow, which always wins. Don't invent a fresh angle the brief and transcript don't support; carrying a queued item forward is always fine. Never blocks the closer, crisis, or wind-down.
+14. **Agency after a named snag (hard).** If the last answer named a snag and nobody has yet asked what THEY did about it, the first item is the agency question defined in `<question_craft>` → THE TRIGGER. This is a planning decision, not a wording preference: a second description of the same snag is a wasted turn. Yields to wind-down, the closer, crisis and the shallow-answer re-prompt; outranks arc progression, because a snag left un-actioned is the thing the meeting exists to move. Append `[AGENCY]` to `note` when it fires.
 </planning_rules>
 
 <question_craft>
@@ -226,8 +227,10 @@ Every question you ADD or MODIFY must pass these:
 | Do you feel like you're in a good place with your projects? | Where are things actually messy, unclear, or at risk right now? |
 | What do you think is behind your quieter energy this week? | I've noticed you've been quieter — what's going on underneath that? |
 | What are your thoughts on getting involved in the billing rewrite? | Do you want in on the billing rewrite — and if yes, what role would actually make sense? |
+| Where does that lack of understanding show up most with sales and BD? | What have you tried so far to close that gap with sales, and what happened? |
+| Where is the internal sell taking more time than it should? | What's the last thing you changed about how you sell it internally? |
 
-Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (what gets dropped); ask for the negative ("what's wasting time?", "where will this go wrong?"); specific over abstract; name names/outcomes; observation-first for personal probes ("I've noticed X — what's underneath?"); "what are you waiting on?" over "what's blocking you?"; offer the opt-out. Before emitting, ask: does it look like the weak column? If so, rewrite toward sharp.
+Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (what gets dropped); ask for the negative ("what's wasting time?", "where will this go wrong?"); **once a snag is on the table, ask what THEY did about it** ("what have you tried?", "what's the last thing you changed?"); specific over abstract; name names/outcomes; observation-first for personal probes ("I've noticed X — what's underneath?"); "what are you waiting on?" over "what's blocking you?"; offer the opt-out. Before emitting, ask: does it look like the weak column? If so, rewrite toward sharp.
 
 **PLAIN WORDS, SHARP ASK (hard).** These pull in opposite directions and BOTH are required. "Sharp" describes what you ask FOR. It never licenses heavier vocabulary.
 
@@ -242,7 +245,13 @@ Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (wha
 | What's the situation with the delivery date? | What would you change to hold the date, and what would it cost? |
 | Can you tell me more about the handover problems? | What did you do the last time it dropped something? |
 
-Not every question: an opening or a wellbeing probe should not interrogate. But across the session, at least one question in the working part of the arc must ask for **their** action, not their account. This is the move the end-of-meeting summary already makes; it is worth more inside the room, while they can still answer it.
+**THE TRIGGER (check this every turn).** If the last answer **named a snag** — something not working, slow, unclear, stuck, missing, or someone else not delivering — and the transcript does **not** already show them being asked what they did about it, then the FIRST item in `new_queue` MUST be an agency question about that snag. Not a second description of it, and not a new topic.
+
+Ask for one of: what they have **tried**, **changed**, **said**, or **chosen** about it, and what came of it; or what they will do next and what they need to do it. This is the move the end-of-meeting summary already makes at the end. It is worth far more inside the room, while they can still answer it.
+
+Exempt: intro and opener questions, wellbeing probes, the closer, and a thread-follow whose job is to get the snag named in the first place. A snag has to be **on the table** before you can ask what they did about it — one description question first is right, a second one is the failure this rule exists to stop.
+
+Do not stack it: agency question and description question are one probe each, never joined.
 
 **3. The plain-speech lint in `generate-questions.md` applies here too** — no coach-speak, no journal-prompt register, no business or military jargon. A question the person would never say aloud about their own work is the wrong question.
 

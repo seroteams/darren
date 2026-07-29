@@ -1,8 +1,78 @@
 # Phase 4 — Plain words, sharper ask
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built and run, **partly proven** · **Findings:** F1, F5, F6
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built and run twice, **proven** · **Findings:** F1, F5, F6
 
-## Built and run (2026-07-29)
+## Second run — the sharper ask landed (2026-07-29)
+
+Carl chose to strengthen the rule and pay for one more run. **$0.1640. Two runs, $0.3288 total,
+still under the single-run estimate of $0.35.**
+
+### Why the first attempt failed, before writing a louder version
+
+Three causes, all structural rather than "the model ignored it":
+
+1. **It was a session-level quota.** "Across the session, at least one question must ask for their
+   action" is unenforceable by a planner that only ever sees **one turn**. It has no reliable way to
+   know whether the quota is already met.
+2. **It sat below a table teaching the opposite.** Three of the five `PREFER` examples in the
+   "Weak → sharp" table are locate questions, and the Distilled line's first instruction is
+   *"locate + cause… where is X at?"*. Run 1's questions 3 and 4 followed that pattern exactly. The
+   model imitated the worked examples, which is what worked examples are for.
+3. **It was craft, and craft is last.** `<decision_order>` ranks question craft **10 of 10**, below
+   arc planning. A craft-section rule loses every tie.
+
+### What changed
+
+- **A per-turn trigger, not a quota:** if the last answer named a snag and nobody has yet asked what
+  they did about it, the first `new_queue` item must be the agency question. Checkable from the last
+  answer alone. Tagged `[AGENCY]` in the note so it can be counted.
+- **Promoted out of craft** into `<planning_rules>` as rule 14, so it sits at arc-planning priority
+  and outranks arc progression. It still yields to wind-down, the closer, crisis and the shallow
+  re-prompt.
+- **The imitation target changed:** two rows added to the "Weak → sharp" table converting Run 1's own
+  weak questions, and the Distilled line now carries the agency move.
+
+### The result, same case, same fixture answers
+
+| | Run 1 | Run 2 |
+|---|---|---|
+| T3 | Where is the internal sell **taking more time than it should** right now? | Where is the internal sell **getting stuck** right now? |
+| T4 | **Where does that lack of understanding show up most** with sales and BD? | **What have you tried** with sales and BD so far, **and what happened?** |
+| T6 | What's a piece of work you've been putting off because it would stretch you? | Which part of your work have you been leaning into, and which part you've been avoiding? |
+
+**T4 is Machar's ask, generated live, in the meeting.** He said the recap's "what's one step you've
+taken so far to resolve the conflict?" should have been asked in the room. It now is. Turn 3's note
+carries `[AGENCY]`, so the planner consciously fired the rule rather than landing there by chance.
+
+**Wellbeing held up too:** the situation answers routed to engagement and clarity, the only wellbeing
+delta was "Got a cold" (the person's own state, correctly scored), and the new gate returned clean.
+
+### The two hard fails, twice
+
+Run 2 came back REGRESSED again, on `WRONG_MEETING_TYPE` and `FOCUS_SHAPE_LEAK`.
+
+- `WRONG_MEETING_TYPE` is identical to Run 1 and has the same proven cause: **the question-bank stage
+  never runs on this case**. Both runs' cost logs show focus-points, preparation, a preparation retry,
+  six plan turns and evaluation. No `03-question-bank` call, no folder. An absent bank is 0/4 stages.
+- The other hard fail **was different each time** — `EVIDENCE_ANCHOR` in Run 1, `FOCUS_SHAPE_LEAK` in
+  Run 2 — and both are focus-points-stage failures. Two runs failing that stage two different ways is
+  evidence the stage is flaky on this case, independent of anything here. Neither
+  `generate-focus-points.md` nor the bank was touched by this work.
+
+**Still not claimed: "pre-existing".** No baseline was taken before the work began. What is claimed
+is narrower and evidenced: the failures are in stages this phase never edited, one has a concrete
+mechanical cause, and the other is not reproducible run to run.
+
+### Found on the way, not fixed here
+
+**Your no-em-dash rule does not reach the engine's output.** `npm run lint:copy` scans `admin/src` and
+`frontend/src` only. Generated questions are the most user-facing text in the product and both runs
+produced em dashes in them, e.g. *"Which part of your work have you been leaning into — and which
+part you've been avoiding?"* Parked in [plan.md](plan.md) rather than folded in here.
+
+---
+
+## First run (2026-07-29)
 
 ### The paid run
 

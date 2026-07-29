@@ -99,14 +99,20 @@ asks for the other person's, wording taken unchanged; "nothing specific" mints n
 turn. Its live behaviour is deliberately unproven because reaching it costs a paid model call, and
 that check **rides P4's single paid run** rather than buying a second.
 
-**Phase 4 🔨 built and run 2026-07-29 — the paid run happened, cost $0.16 of the $0.35 budgeted, and
-the result is mixed.** Plain words landed; the sharper ask did not visibly land. The run also earned
-a real defect fix: P3's wellbeing gate was **inert** in the suite because a field whitelist dropped
-the deltas it reads. With that fixed, **5 of 7 frozen runs** turn out to book wellbeing negatives on
-answers where the person never described their own state. The gate case itself came back REGRESSED on
-two hard fails, both in stages this work never touched, one traced to the question-bank stage not
-running at all. Full account, including a guard I widened and a false-positive class I could not fully
-close, in [phase-4.md](phase-4.md). **Carl's call: strengthen the ask and buy a second run, or accept.**
+**Phase 4 🔨 built, run twice, proven — awaiting Carl's sign-off.** Run 1 ($0.1648) showed plain words
+landing and the sharper ask NOT landing. The diagnosis was structural, not "the model ignored it": the
+rule was a session-level quota a per-turn planner cannot honour, it sat below a worked-example table
+teaching the opposite, and craft ranks last in `<decision_order>`. Rebuilt as a per-turn trigger
+promoted into `<planning_rules>`, with the example table changed. Run 2 ($0.1640) produced
+**"What have you tried with sales and BD so far, and what happened?"** in the meeting: Machar's exact
+ask, tagged `[AGENCY]` so it can be counted. **Two runs, $0.3288 total, under the $0.35 estimate.**
+
+Run 1 also earned a real defect fix: P3's wellbeing gate was **inert** in the suite because a field
+whitelist dropped the deltas it reads. With that fixed, **5 of 7 frozen runs** book wellbeing
+negatives on answers where the person never described their own state. Both runs hard-failed on
+`WRONG_MEETING_TYPE` (the case never runs its question-bank stage, proven from the cost log) and on a
+focus-points failure that differed between runs. Neither stage was touched here. Full account in
+[phase-4.md](phase-4.md).
 
 **Phase 3 ✅ green-lit 2026-07-29.** Wellbeing now reads the person rather than the
 difficulty of what they describe, in the axis definition and in the live scoring rule; a new
@@ -141,3 +147,13 @@ Board: [board.html](board.html).
 - **Carl's own note: "this is such a messy design now I look at it"** — the recap screen. Not scoped
   here; would be its own design pass.
 - Wiring `validateQuestionBeforeShow` into the planner path (see above).
+- **The no-em-dash rule does not reach the engine's output.** `npm run lint:copy` scans `admin/src`
+  and `frontend/src` only, so it never sees a generated question, which is the most user-facing text
+  in the product. Both P4 gate runs produced em dashes in questions ("Which part of your work have
+  you been leaning into — and which part you've been avoiding?"). Found 2026-07-29, not fixed: it is
+  its own small job (extend the linter to `content/prompts/**` examples, or add a question-validator
+  rule), and folding it into P4 would have widened a phase that was already carrying three findings.
+- **The `machar-biweekly-jun11` gate case never runs the question-bank stage.** Proven twice from the
+  cost log. That is why it hard-fails `WRONG_MEETING_TYPE` on 0/4 arc stages regardless of the code
+  under test, which makes the case a weak regression signal until someone looks at why the stage is
+  skipped. Its focus-points stage also failed two different ways across two runs.
