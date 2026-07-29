@@ -34,10 +34,17 @@ test("the first-visit answer can never reach the rail again", () => {
   assert.doesNotMatch(navJs, /onFirstVisitChange/, "and nothing re-renders it on the answer");
 });
 
-test("a manager's four work rows and Members are all in the rail", () => {
-  for (const key of ["mghome", "mgnew", "mgteam", "mgruns", "mgmembers"]) {
+test("a manager's four work rows are all in the rail", () => {
+  for (const key of ["mghome", "mgnew", "mgteam", "mgruns"]) {
     assert.match(navJs, new RegExp(`js-nav-${key}|key: "${key}"`), `${key} exists`);
   }
+});
+
+test("Members has no way back into the rail", () => {
+  // Two people lists read as a mistake to a manager, and Team already owns per-person access
+  // (invite / link / remove). The /members screen still answers at its URL; nothing links it.
+  assert.doesNotMatch(navJs, /mgmembers/, "no Members row, handler or active-state entry");
+  assert.doesNotMatch(navJs, /STAGES\.MEMBERS/, "the rail never routes to the Members stage");
 });
 
 test("logging out still forgets the answer, for Home's first-run welcome", () => {

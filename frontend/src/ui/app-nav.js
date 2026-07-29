@@ -9,7 +9,7 @@ import { forgetFirstVisit } from "../../../admin/src/ui/first-visit.ts";
 import { isRailFreeStage, urlForState } from "../router.js";
 import { logout } from "../../../shared/api.js";
 import { icon } from "../../../admin/src/ui/icon.js";
-import { House, CirclePlus, UsersRound, UserCog, FileCheck, LogOut, Info, MessageSquare, Menu, PanelLeftClose, PanelLeftOpen } from "lucide";
+import { House, CirclePlus, UsersRound, FileCheck, LogOut, Info, MessageSquare, Menu, PanelLeftClose, PanelLeftOpen } from "lucide";
 
 const LOGO = `<svg viewBox="0 0 48 48" width="24" height="24" aria-hidden="true" focusable="false">
   <rect width="48" height="48" rx="12" fill="var(--sero-primary-700)"/>
@@ -25,7 +25,6 @@ const ICON = {
   home: icon(House),
   new: icon(CirclePlus),
   team: icon(UsersRound),
-  members: icon(UserCog),
   runs: icon(FileCheck),
   logout: icon(LogOut),
   about: icon(Info),
@@ -59,8 +58,9 @@ const LINKS = [
   { key: "mgnew", label: "Start 1:1", stage: STAGES.INTAKE, icon: ICON.new, mgr: true },
   { key: "mgteam", label: "Team", stage: STAGES.TEAM, icon: ICON.team, mgr: true },
   { key: "mgruns", label: "Past 1:1s", stage: STAGES.RUNS, icon: ICON.runs, mgr: true },
-  // "Members" (workspace access admin) is NOT here — it lives in the account/admin group at the
-  // foot of the rail (Notion/Linear pattern: your daily nav is your work; access lives in settings).
+  // "Members" used to sit in the foot group as a second people list. Two roster screens read as
+  // a mistake to a manager, and Team already owns access per person (invite, link, remove), so
+  // the rail carries Team only. The /members screen still exists at its URL, unlinked.
 ];
 
 const MENU_ICON = icon(Menu);
@@ -126,7 +126,6 @@ export function createAppNav({ setState, resetSession } = {}) {
         })).join("")}
       </nav>
       <nav class="app-nav__links app-nav__links--foot" aria-label="Workspace">
-        ${rowHtml({ key: "mgmembers", icon: ICON.members, label: "Members", href: hrefFor(STAGES.MEMBERS), data: 'data-mgr="1"' })}
         ${rowHtml({ key: "about", icon: ICON.about, label: "What is Sero?", href: hrefFor(STAGES.ABOUT) })}
         ${rowHtml({ key: "feedback", icon: ICON.feedback, label: "Send feedback", href: hrefFor(STAGES.FEEDBACK) })}
       </nav>
@@ -178,7 +177,6 @@ export function createAppNav({ setState, resetSession } = {}) {
       setState && setState({ stage: STAGES.INTAKE, substage: "NAME" });
     },
     mgteam: () => setState && setState({ stage: STAGES.TEAM }),
-    mgmembers: () => setState && setState({ stage: STAGES.MEMBERS }),
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     about: () => setState && setState({ stage: STAGES.ABOUT }),
     feedback: () => setState && setState({ stage: STAGES.FEEDBACK }),
@@ -198,7 +196,7 @@ export function createAppNav({ setState, resetSession } = {}) {
   el.querySelector(".js-home").addEventListener("click", goHome);
   bar.querySelector(".js-bar-home").addEventListener("click", goHome);
   LINKS.forEach((it) => el.querySelector(`.js-nav-${it.key}`)?.addEventListener("click", navClick(onNav[it.key])));
-  ["mgmembers", "about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", navClick(onNav[k])));
+  ["about", "feedback"].forEach((k) => el.querySelector(`.js-nav-${k}`)?.addEventListener("click", navClick(onNav[k])));
 
   async function onLogout() {
     try { await logout(); } catch (e) { console.warn("[nav] logout failed:", e); }
@@ -219,7 +217,6 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.TEAM]: "mgteam",
     [STAGES.PERSON_DETAIL]: "mgteam",
     [STAGES.GUIDED]: "mgteam",
-    [STAGES.MEMBERS]: "mgmembers",
     [STAGES.MEMBER_HOME]: "runs",
     [STAGES.RUNS]: "mgruns",
     [STAGES.ABOUT]: "about",

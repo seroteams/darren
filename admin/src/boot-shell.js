@@ -162,7 +162,16 @@ export function startShell({ loaders, syncUrl, appNav, profileBadge, fadeStages 
     // Every screen starts at the top — the previous screen's scroll position was
     // carrying over, so the new screen opened mid-page (phone walk 2026-07-11).
     window.scrollTo(0, 0);
-    requestAnimationFrame(() => node.classList.add("is-in"));
+    // The stage mounts at opacity:0 (.stage-enter in design/motion.css) and only becomes
+    // visible once `is-in` lands. rAF does not fire in a tab that isn't painting — a
+    // background tab, a session restore, a tab switched away during the cold boot — so the
+    // callback could stay queued and the whole screen stayed blank with the rail still
+    // drawn. That is the "empty page" with content sitting invisible underneath. Whichever
+    // of the frame or the timer arrives first reveals it; classList.add is idempotent, and
+    // in a painting tab rAF always wins, so the enter animation is unchanged.
+    const reveal = () => node.classList.add("is-in");
+    requestAnimationFrame(reveal);
+    setTimeout(reveal, 60);
     current = { stage: nextStage, mod, node };
     if (devBadge) devBadge.render(nextStage);
     await mod.mount(node, { store, setState, resetSession, rehydrateById, ...mountDeps });

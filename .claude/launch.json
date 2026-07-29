@@ -1100,6 +1100,49 @@
         "--strictPort"
       ],
       "port": 3433
+    },
+    {
+      "name": "tm-customer-borrow",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3371",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3495",
+        "--strictPort"
+      ],
+      "port": 3495
+    },
+    {
+      "name": "es-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3451",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3451
+    },
+    {
+      "name": "es-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3451",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3455",
+        "--strictPort"
+      ],
+      "port": 3455
     }
   ]
 }
