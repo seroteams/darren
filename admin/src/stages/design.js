@@ -694,7 +694,15 @@ const SKELETON_CASES = [
       <div class="question-card-head"><div class="question-card-head__text space-y-2">
         <h1 class="question-stem leading-snug">What has felt hardest about the handover this month, and where did it slow you down most?</h1>
         <div class="question-desc">Listen for whether the difficulty is the process or the people.</div>
-      </div></div><textarea class="textarea textarea--question" rows="5"></textarea></div>`,
+      </div>
+      <button type="button" class="copy-snippet-btn"><span class="copy-snippet-btn__label">Copy</span></button></div>
+      <label class="block field-live-label"><span class="field-live-label__text">What Ming said</span>
+        <textarea class="textarea textarea--question" rows="5"></textarea></label>
+      <div class="wizard-footer">
+        <div class="wizard-footer__left"><button type="button" class="btn btn--ghost">Back</button></div>
+        <div class="wizard-footer__right"><button type="button" class="btn btn--ghost">Skip</button><button type="button" class="btn">Submit answer</button></div>
+      </div>
+      <p class="hint hint--kbd text-xs text-ink-mute">Ctrl+Enter to submit (Cmd+Enter on Mac)</p></div>`,
     measure: ".questioning-card",
   },
   {

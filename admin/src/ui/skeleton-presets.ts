@@ -69,6 +69,8 @@ export interface SkeletonOpts {
   tabs?: number;
   /** two-col: how many items in the left rail. */
   railRows?: number;
+  /** question: the 50/50 runner's bare column (.cp-q) instead of the single-column .card. */
+  flat?: boolean;
   /** What a screen reader is told during the wait. */
   label?: string;
 }
@@ -248,19 +250,45 @@ function twoCol({ rows = 5, railRows = 8 }: SkeletonOpts): string {
 }
 
 // --- question: the interview card --------------------------------------------
-// Mirrors the card questioning.js builds each turn: the stem (an h1), an optional
-// description, then the answer box. Used both between turns and by the Questions
-// interstitial, which routes straight here, so the wait previews where you land.
-function question({ rows = 2 }: SkeletonOpts): string {
-  const stem = skLines("question-stem", ["96%", "62%"]);
-  // Stems typically run to two lines, descriptions to one. Measured against the real
-  // card: a two-line description overshot it by 24px.
-  const desc = rows > 1 ? skLeaf("question-desc", "82%") : "";
+// Mirrors the card questioning.js builds each turn, top to bottom: the stem (an h1),
+// an optional description, the Copy button beside them, the "What X said" label over
+// the answer box, the action row, and the keyboard hint. Anything the ghost leaves
+// out is a jump when the real question lands (Carl, 2026-07-30: the between-turns
+// ghost was head + box only, so the card grew by the footer's height every turn).
+// Used both between turns and by the Questions interstitial, which routes straight
+// here, so the wait previews where you land.
+//
+// `flat` is the 50/50 runner (.cp-q), which is bare by design — no card chrome —
+// while the single-column flow still lands in a .card.
+function question({ rows = 2, flat = false }: SkeletonOpts): string {
+  // The runner's stem is 32px in a 560px column, so a typical question wraps to
+  // three lines there against two in the wider single-column card.
+  const stem = skLines("question-stem", flat ? ["96%", "88%", "54%"] : ["96%", "62%"]);
+  // Line counts are the modal case, measured against the real bank (1,100 questions):
+  // in the runner's 560px column a stem runs to three lines and a description to two;
+  // in the wider single-column card it is two and one. A two-line description overshot
+  // the card by 24px, which is where the old single line came from.
+  const desc = rows > 1
+    ? flat
+      ? skLines("question-desc", ["100%", "64%"])
+      : skLeaf("question-desc", "82%")
+    : "";
   // The answer box is a .textarea--question at rows=5, not a plain .input: 153px
   // against 53px. Ghosting it as an input left the card ~40px short.
-  return `<div class="card questioning-card space-y-4">
-      <div class="question-card-head"><div class="question-card-head__text space-y-2">${stem}${desc}</div></div>
-      ${skFill("textarea textarea--question sk-answer")}
+  return `<div class="${flat ? "cp-q" : "card questioning-card"} space-y-4">
+      <div class="question-card-head">
+        <div class="question-card-head__text space-y-2">${stem}${desc}</div>
+        ${skFill("copy-snippet-btn sk-btn")}
+      </div>
+      <label class="block field-live-label">
+        ${skLeaf("field-live-label__text", "14ch")}
+        ${skFill("textarea textarea--question sk-answer")}
+      </label>
+      <div class="wizard-footer">
+        <div class="wizard-footer__left">${skFill("btn btn--ghost sk-btn")}</div>
+        <div class="wizard-footer__right">${skFill("btn btn--ghost sk-btn")}${skFill("btn sk-btn")}</div>
+      </div>
+      ${skLeaf("hint hint--kbd text-xs", "32ch")}
     </div>`;
 }
 

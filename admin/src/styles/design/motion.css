@@ -206,7 +206,11 @@
 .sk-btn.sk-btn { display: inline-block; min-width: 4.5rem; }
 /* An icon button sizes itself from the icon inside it; the ghost has none. */
 .sk-icon.sk-icon { display: inline-block; width: 1.125rem; height: 1.125rem; }
-.sk-answer.sk-answer { display: block; min-height: 9.6rem; }
+/* inline-block + overflow, not block: the real textarea is an inline-block whose
+   overflow isn't visible, so it baselines on its bottom edge and the line box adds
+   ~6.4px of descender space under it. A block ghost lost exactly that, and the card
+   grew by it when the question landed. */
+.sk-answer.sk-answer { display: inline-block; width: 100%; min-height: 9.6rem; overflow: hidden; }
 
 /* The two-column screens (job words, the guide) each roll their own rail width, so
    the ghost carries a neutral one rather than borrowing from any single screen. */

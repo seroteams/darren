@@ -226,7 +226,31 @@ const PARITY: { preset: string; src: string; classes: string[] }[] = [
   {
     preset: "question",
     src: "admin/src/stages/questioning.js",
-    classes: ["questioning-card", "question-card-head", "question-card-head__text", "question-stem", "question-desc"],
+    classes: [
+      "questioning-card",
+      // the 50/50 runner's bare column, which the flat variant mirrors
+      "cp-q",
+      "question-card-head",
+      "question-card-head__text",
+      "question-stem",
+      "question-desc",
+      "copy-snippet-btn",
+      "field-live-label",
+      "field-live-label__text",
+      "hint",
+      "hint--kbd",
+      "text-xs",
+    ],
+  },
+  {
+    preset: "question action row",
+    src: "admin/src/ui/wizard-footer.ts",
+    classes: ["wizard-footer", "wizard-footer__left", "wizard-footer__right"],
+  },
+  {
+    preset: "question action row buttons",
+    src: "admin/src/ui/button.ts",
+    classes: ["btn--ghost"],
   },
   {
     preset: "focus-points",

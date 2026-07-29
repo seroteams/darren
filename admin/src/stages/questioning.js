@@ -504,7 +504,7 @@ export async function mount(root, { store, setState }) {
     thinkingHost.appendChild(orb.el);
     // Preview the next question card while it's being written, so the turn-to-turn
     // wait shows the shape that's coming instead of an empty gap under the orb.
-    qHost.appendChild(createSkeleton({ preset: "question", label: "Writing the next question" }));
+    qHost.appendChild(createSkeleton({ preset: "question", flat: USE_COACH_SPLIT, label: "Writing the next question" }));
     // Pull the page up so the progress orb is visible, not stranded above the fold.
     window.scrollTo(0, 0);
 
