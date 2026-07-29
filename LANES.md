@@ -10,6 +10,13 @@ stops the edit and surfaces a warning instead of ploughing in.
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
 
+
+
+
+| e0011772 | Live-only blue favicon | frontend/public/favicon.svg, frontend/public/favicon-local.svg, admin/public/favicon.svg, admin/public/favicon-local.svg, shared/favicon-env.js, shared/favicon-env.test.ts, frontend/src/main.js, admin/src/main.js | 2026-07-29 |
+
+| f8128927 | Error-log uuid guards (dev side-door 500s) | backend/api/services/feedback/feedback.repo.ts, backend/api/services/feedback/feedback.repo.test.ts, backend/api/services/auth/auth.repo.ts, backend/api/services/auth/auth.repo.test.ts, backend/db/sessions-store.ts, backend/db/sessions-store.test.ts | 2026-07-29 |
+
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
 - `session` = first 8 chars of the session id (from the scratchpad path).
