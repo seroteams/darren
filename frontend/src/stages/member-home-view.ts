@@ -105,8 +105,9 @@ export function renderRequestsCard(requests: MemberRequest[]): string {
   return `<section class="card-flat l-stack l-stack--4">
       <h2 class="h3">Requests</h2>
       ${rows}
-      <form class="js-add-req l-stack l-stack--2">
-        <input class="js-req-text apm-field__input" type="text" placeholder="What would help? Add a request…" aria-label="Your request" />
+      <form class="js-add-req l-stack l-stack--2" novalidate>
+        <input class="js-req-text apm-field__input" type="text" placeholder="What would help? Add a request…" aria-label="Your request" aria-invalid="false" />
+        <p class="field__error js-req-error" hidden></p>
         <div class="l-row l-row--2 l-row--wrap">
           <select class="js-req-cat apm-field__input member-req__cat" aria-label="Category"><option value="growth_development">Growth &amp; development</option><option value="ideas_suggestions">Ideas &amp; suggestions</option><option value="concerns_feedback">Concerns &amp; feedback</option></select>
           ${button({ label: "Add request", type: "submit" })}

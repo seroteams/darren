@@ -34,7 +34,7 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 | 1 | Quick wins | Brand marks show, the build stamp stops blocking clicks, search boxes get a name, auth screens use the brand face, one date format per column | ✅ |
 | 2 | Shell and layout | Nav reaches the bottom of long pages, header buttons clear the account chip, the 1:1 wizard centres and drops the sidebar | ✅ closed unwalked |
 | 3 | The refresh dead end | `/runs/:id` opens on refresh, on Back, and from a pasted URL | 🔨 Built 2026-07-28, awaiting Carl |
-| 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | ⬜ |
+| 4 | Permissions and silent controls | A manager cannot change an admin's role, Add request answers back, tap targets reach 44px | 🔨 Built 2026-07-29, awaiting Carl |
 | 5 | Em dashes, all three layers | Prompt line gone, lint widened, generated prose guarded | ⬜ |
 | 6 | Error log readability | Message head in the table, full statement in the row detail, paged at 50 | ⬜ |
 | 7 | Member view, motion, small sweep | Member home says what it is, three motion wins, the 11 smaller things | ⬜ |
@@ -44,6 +44,15 @@ Source of the findings: `audits/full-app-audit-2026-07-25/report.html` (256 page
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
+**Phase 4 🔨 BUILT 2026-07-29**, awaiting Carl. The rank hole is closed: `requireAdmin` lets
+managers through, so a plain manager could demote **or switch off** the admin account running
+the workspace. One shared `canActOn` guard now covers both endpoints (fixing only `setRole`
+would have left the same escalation reachable through `deactivate`), and the Members table
+hides the ⋯ on an admin row for a non-admin. Also: the member's "Add request" button no longer
+fails silently, and the small tap targets get 44px hit areas without changing their look.
+Proved against the real HTTP API (409 on both routes, 200 on a peer control) and on screen.
+202/202, ten new tests. **Not walked, no screenshot** — see [phase-4.md](phase-4.md).
+
 **Phase 3 🔨 BUILT 2026-07-28** (commit `69edbb24`), awaiting Carl. `/runs/:id` now survives a
 refresh, a Back and a pasted link in both apps. Two causes, not one: boot never carried
 `myRunId` on the admin/owner path (the member path always did, which is why it looked

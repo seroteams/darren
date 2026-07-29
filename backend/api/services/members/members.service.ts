@@ -5,7 +5,7 @@
 
 import { pgMembersRepo } from "./members.repo.ts";
 import type { MembersRepo } from "./members.repo.ts";
-import { isActiveLead } from "./account-guards.ts";
+import { isActiveLead, canActOn } from "./account-guards.ts";
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
 import { isSuperadminEmail } from "../../middleware/require-auth.ts";
 
@@ -83,6 +83,13 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
       const users = await repo.listOrgUsers(orgId);
       const target = users.find((u) => u.id === targetId);
       if (!target) throw notFound("We couldn't find that person — refresh and try again.");
+      // Rank check (audit F16). The route is requireAdmin, which lets managers through too,
+      // so without this a plain manager could demote the admin account that runs the
+      // workspace. The actor's role is read from the same org list, so an unresolvable
+      // actor has no role and fails closed.
+      if (!canActOn(users.find((u) => u.id === actor.userId)?.role, target.role)) {
+        throw conflict("Only an admin can change an admin's role.");
+      }
       // Never leave the workspace with no active manager: block demoting its last active lead.
       if (isActiveLead(target) && role === "member" && users.filter(isActiveLead).length <= 1) {
         throw conflict("This is the workspace's only manager — make someone else a manager first.");
@@ -97,6 +104,12 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
       const target = users.find((u) => u.id === targetId);
       if (!target) throw notFound("We couldn't find that person — refresh and try again.");
       if (actor.userId && actor.userId === targetId) throw conflict("You can't switch off your own account.");
+      // The same rank hole as setRole (audit F16): the superadmin-email guard below only
+      // covers Sero's own accounts, so a plain manager could still switch off a customer
+      // org's admin. Shipping the role guard without this one would be half a fix.
+      if (!canActOn(users.find((u) => u.id === actor.userId)?.role, target.role)) {
+        throw conflict("Only an admin can switch off an admin's account.");
+      }
       if (isSuperadminEmail(target.email)) throw conflict("This account can't be deactivated.");
       if (isActiveLead(target) && users.filter(isActiveLead).length <= 1) {
         throw conflict("This is the workspace's only active manager — activate or promote someone else first.");

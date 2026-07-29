@@ -129,3 +129,59 @@ test("reactivate restores a switched-off account", async () => {
   await svc.reactivate("o1", actor, "u1");
   assert.equal(seed.users[0]!.deactivatedAt, null);
 });
+
+// ── audit-fixes-jul-25 F16: rank check on role changes ───────────────────────────
+// `requireAdmin` on the members routes lets managers AND admins through, which is right
+// for managing members but meant a plain manager could demote or switch off the admin
+// account that runs the workspace. Only an admin may act on an admin.
+
+const asManager = { userId: "mgr1", email: "mgr@qa.test" };
+const asAdmin = { userId: "adm1", email: "adm@qa.test" };
+// Every fixture below carries a spare active manager so the last-lead guard is never the
+// thing doing the rejecting — these tests must fail for the RANK reason or not at all.
+const rankUsers = () => [
+  user({ id: "mgr1", role: "manager", email: "mgr@qa.test" }),
+  user({ id: "adm1", role: "admin", email: "adm@qa.test" }),
+  user({ id: "mem1", role: "member", email: "mem@qa.test" }),
+  user({ id: "spare", role: "manager", email: "spare@qa.test" }),
+];
+
+test("setRole refuses a manager acting on an admin", async () => {
+  const svc = createMembersService(fakeRepo({ users: rankUsers() }));
+  await assert.rejects(() => svc.setRole("o1", asManager, "adm1", "member"), /only an admin/i);
+});
+
+test("setRole still lets a manager act on a manager or a member", async () => {
+  const seed = { users: rankUsers() };
+  const svc = createMembersService(fakeRepo(seed));
+  await svc.setRole("o1", asManager, "mem1", "manager");
+  assert.equal(seed.users[2]!.role, "manager");
+  await svc.setRole("o1", asManager, "spare", "member");
+  assert.equal(seed.users[3]!.role, "member");
+});
+
+test("setRole still lets an admin change anyone, including another admin", async () => {
+  const seed = { users: rankUsers() };
+  const svc = createMembersService(fakeRepo(seed));
+  await svc.setRole("o1", asAdmin, "adm1", "manager");
+  assert.equal(seed.users[1]!.role, "manager");
+});
+
+test("deactivate refuses a manager switching off an admin (same hole, same guard)", async () => {
+  const svc = createMembersService(fakeRepo({ users: rankUsers() }));
+  await assert.rejects(() => svc.deactivate("o1", asManager, "adm1"), /only an admin/i);
+});
+
+test("deactivate still lets an admin switch off ANOTHER admin", async () => {
+  // Not adm1 acting on adm1 — that trips the older self-deactivate guard, not this one.
+  const seed = { users: [...rankUsers(), user({ id: "adm2", role: "admin", email: "adm2@qa.test" })] };
+  const svc = createMembersService(fakeRepo(seed));
+  await svc.deactivate("o1", asAdmin, "adm2");
+  assert.ok(seed.users[4]!.deactivatedAt);
+});
+
+test("an actor whose role can't be resolved fails closed against an admin target", async () => {
+  // A stranger's userId isn't in the org list, so there is no role to read. Fail closed.
+  const svc = createMembersService(fakeRepo({ users: rankUsers() }));
+  await assert.rejects(() => svc.setRole("o1", { userId: "ghost", email: "g@qa.test" }, "adm1", "member"), /only an admin/i);
+});

@@ -12,3 +12,16 @@ export function isLead(role: string): boolean {
 export function isActiveLead(u: { role: string; deactivatedAt?: Date | null }): boolean {
   return isLead(u.role) && !u.deactivatedAt;
 }
+
+/** Can `actorRole` act on an account whose role is `targetRole`? (audit-fixes F16)
+ *
+ *  The rule is one line: only an admin may touch an admin. `requireAdmin` on the members
+ *  routes lets managers AND admins through — that is correct for managing members, but it
+ *  meant a plain manager could demote or switch off the admin account that runs the
+ *  workspace. Rank is not a hierarchy beyond this: manager and member are peers to act on.
+ *
+ *  An unknown/absent actor role is treated as NOT admin, so a lookup miss fails closed. */
+export function canActOn(actorRole: string | null | undefined, targetRole: string): boolean {
+  if (targetRole !== "admin") return true;
+  return actorRole === "admin";
+}

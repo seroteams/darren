@@ -15,6 +15,9 @@ import { showShareLinkModal } from "../../../admin/src/ui/share-link-modal.ts";
 import { openRowMenu, closeRowMenu } from "../../../admin/src/ui/row-menu.ts";
 import { showActionError } from "../../../admin/src/ui/action-error.ts";
 import { membersTable, filterMembers, type MemberRow } from "./members-table.ts";
+// Who is looking: only an admin gets row actions on an ADMIN row (audit F16). The server
+// refusal in members.service.ts is the wall; this keeps the UI from offering the dead end.
+import { store, isInternalAdmin } from "../../../admin/src/state.ts";
 import { pageHeader } from "../../../admin/src/ui/page-header.ts";
 import { listToolbar } from "../../../admin/src/ui/list-toolbar.ts";
 import { errorCardHtml, loadingHtml } from "../../../admin/src/ui/screen-scaffold.ts";
@@ -129,7 +132,7 @@ export const mount: Mount = async (root) => {
   const listRegion = () => {
     const rows = filterMembers(members, query);
     return rows.length
-      ? membersTable(rows)
+      ? membersTable(rows, isInternalAdmin(store.user))
       : `<section class="card-flat"><p class="text-ink-dim">No one matches your search.</p></section>`;
   };
 

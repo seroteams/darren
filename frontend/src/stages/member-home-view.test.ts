@@ -9,6 +9,9 @@ import {
   type MemberGoal,
 } from "./member-home-view.ts";
 import { formatDate } from "../../../admin/src/ui/time.ts";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
 // Member Home, recomposed (design-consolidation Phase 2, audit A5): a top card for the
 // most recent 1:1 about the member, a timeline of the earlier ones, a privacy caption,
@@ -132,4 +135,26 @@ test("one accent per screen: across both cards there is exactly one solid .btn",
   const html = renderRequestsCard(requests) + renderGoalsCard(goals);
   assert.equal((html.match(/class="btn"/g) ?? []).length, 1, "Add request is the only solid button");
   assert.ok(!/\bmh-/.test(html), "no mh-* classes anywhere");
+});
+
+// ── audit-fixes-jul-25 F18: the add-request form answers back ────────────────────
+// It was a bare `return` on an empty box: the button looked live, did nothing, and said
+// nothing. It is the member's only control on this screen.
+
+test("the add-request form carries a message slot and starts valid", () => {
+  const html = renderRequestsCard([]);
+  assert.ok(html.includes('class="field__error js-req-error" hidden'), "a slot for the message, hidden until needed");
+  assert.ok(html.includes('aria-invalid="false"'), "the box starts valid and is marked when it isn't");
+  assert.ok(html.includes("novalidate"), "our message, not the browser's bubble");
+});
+
+test("the empty-box message and its wiring live in member-home.js", () => {
+  const src = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "member-home.js"), "utf8");
+  assert.match(src, /Type what would help, then add it\./, "says what to do, not what went wrong");
+  assert.match(src, /if \(!text\) \{ fail\(/, "the silent bare return is gone");
+  assert.match(src, /input\?\.setAttribute\("aria-invalid", "true"\)/, "marks the field");
+  assert.match(src, /input\?\.focus\(\)/, "puts the cursor where the fix is");
+  // The save-failure path reuses the same slot rather than injecting a fresh <p> each time,
+  // which is how the old version could stack duplicate errors under the form.
+  assert.doesNotMatch(src, /insertAdjacentHTML\("afterend", `<p class="field__error"/);
 });

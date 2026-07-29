@@ -262,6 +262,32 @@ pre {
   .notes-panel__toggle {
     min-height: 40px;
   }
+
+  /* 44px hit areas WITHOUT changing the look (audit F9). Measured before this rule:
+     row overflow menus 34x26, nav collapse 28x28, account chip 28x22, filter
+     checkboxes 18x18 — all below the 44px touch minimum. An inset ::before grows only
+     the area that receives the tap, so the glyph, padding and alignment are untouched.
+     position:relative is set alongside so the pseudo-element anchors to the control
+     itself; none of these are already positioned. */
+  .row-menu-btn,
+  .um-menu-btn,
+  .app-nav__collapse,
+  .profile-badge--menu {
+    position: relative;
+  }
+  .row-menu-btn::before,
+  .um-menu-btn::before,
+  .app-nav__collapse::before,
+  .profile-badge--menu::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    /* No paint of its own — this is hit area, not decoration. */
+  }
 }
 
 @media (max-width: 767.98px) {

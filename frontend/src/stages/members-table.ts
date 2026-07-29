@@ -47,15 +47,31 @@ export function filterMembers(rows: MemberRow[], query: string): MemberRow[] {
   return rows.filter((m) => m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q));
 }
 
-function memberRow(m: MemberRow): string {
+/** Does this viewer get a ⋯ menu on this row? (audit-fixes F16)
+ *
+ *  Mirrors the server's `canActOn` in backend/api/services/members/account-guards.ts: only an
+ *  admin may act on an admin. The server refusal is the actual wall — this exists so nobody is
+ *  invited to hit it. Every action the menu offers on an account row (change role, switch off)
+ *  is now refused for this case, so an empty menu would be worse than no menu.
+ *  Invite rows are unaffected: their role is what the invite WILL grant, not power held today. */
+export function canManageRow(viewerIsAdmin: boolean, m: Pick<MemberRow, "kind" | "role">): boolean {
+  if (m.kind === "invite") return true;
+  if (m.role !== "admin") return true;
+  return viewerIsAdmin;
+}
+
+function memberRow(m: MemberRow, viewerIsAdmin: boolean): string {
   const off = m.status === "deactivated";
   // A pending invite has no name yet — its email carries the row.
   const primary = m.name || m.email;
   const sub = m.name ? `<div class="um-user__email">${escapeHtml(m.email)}</div>` : "";
-  // Every row gets a ⋯ menu (the shared Lucide glyph via ui/icon.js, matching the Team rows) —
+  // Most rows get a ⋯ menu (the shared Lucide glyph via ui/icon.js, matching the Team rows) —
   // account rows: role / deactivate / reactivate; invite rows: resend / revoke. The menu
-  // contents are chosen from data-kind in members.ts.
-  const actions = `<button type="button" class="um-menu-btn js-member-menu" data-kind="${escapeHtml(m.kind)}" data-id="${escapeHtml(m.id)}" data-role="${escapeHtml(m.role)}" data-status="${escapeHtml(m.status)}" data-name="${escapeHtml(primary)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(primary)}">${icon(MoreHorizontal, { size: 18 })}</button>`;
+  // contents are chosen from data-kind in members.ts. A manager looking at an ADMIN row gets
+  // no menu at all (audit F16): every action it would offer is refused server-side.
+  const actions = canManageRow(viewerIsAdmin, m)
+    ? `<button type="button" class="um-menu-btn js-member-menu" data-kind="${escapeHtml(m.kind)}" data-id="${escapeHtml(m.id)}" data-role="${escapeHtml(m.role)}" data-status="${escapeHtml(m.status)}" data-name="${escapeHtml(primary)}" aria-haspopup="menu" aria-label="Manage ${escapeHtml(primary)}">${icon(MoreHorizontal, { size: 18 })}</button>`
+    : "";
   return `
     <tr class="um-row${off ? " um-row--off" : ""}">
       <td>
@@ -74,8 +90,10 @@ function memberRow(m: MemberRow): string {
 }
 
 /** The whole table (header + rows). Rows arrive already ordered by the service.
- *  `.mem-table` scopes the avatar-row alignment tweaks (members.css) to this page only. */
-export function membersTable(rows: MemberRow[]): string {
+ *  `.mem-table` scopes the avatar-row alignment tweaks (members.css) to this page only.
+ *  `viewerIsAdmin` defaults to false so a caller that forgets it hides admin-row actions
+ *  rather than offering ones the server will refuse. */
+export function membersTable(rows: MemberRow[], viewerIsAdmin = false): string {
   return `
     <div class="um-table-wrap mem-table">
       <table class="um-table">
@@ -87,7 +105,7 @@ export function membersTable(rows: MemberRow[]): string {
             <th class="um-actions-th" aria-label="Actions"></th>
           </tr>
         </thead>
-        <tbody>${rows.map(memberRow).join("")}</tbody>
+        <tbody>${rows.map((m) => memberRow(m, viewerIsAdmin)).join("")}</tbody>
       </table>
     </div>`;
 }

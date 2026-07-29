@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { membersTable, roleBadge, statusTag, filterMembers, type MemberRow } from "./members-table.ts";
+import { membersTable, roleBadge, statusTag, filterMembers, canManageRow, type MemberRow } from "./members-table.ts";
 
 // Pure render for the Members table — no DOM, no CSS, so it runs under node --test. Proves the
 // row/badge/tag markup, HTML-escaping, the pending-invite (no-name) case, the shared initials
@@ -70,4 +70,43 @@ test("filterMembers matches name or email as you type, case-insensitively", () =
   assert.deepEqual(filterMembers(rows, "ANA").map((m) => m.id), ["u1"], "matches by name");
   assert.deepEqual(filterMembers(rows, "new@").map((m) => m.id), ["i1"], "matches by email");
   assert.deepEqual(filterMembers(rows, "nobody"), [], "no match filters everyone out");
+});
+
+// ── audit-fixes-jul-25 F16: a manager gets no actions on an admin row ────────────
+// The server refusal (members.service.ts canActOn) is the wall; this is so nobody is
+// invited to hit it. Every action the ⋯ offers on an account row is refused for this
+// case, so an empty menu would read worse than no menu.
+
+test("canManageRow: only an admin may act on an admin account row", () => {
+  assert.equal(canManageRow(false, { kind: "account", role: "admin" }), false, "manager blocked");
+  assert.equal(canManageRow(true, { kind: "account", role: "admin" }), true, "admin allowed");
+  assert.equal(canManageRow(false, { kind: "account", role: "manager" }), true, "peers unaffected");
+  assert.equal(canManageRow(false, { kind: "account", role: "member" }), true, "members unaffected");
+});
+
+test("canManageRow: a pending invite is never gated, whatever role it will grant", () => {
+  // The role on an invite row is what it WILL grant, not power anyone holds today.
+  assert.equal(canManageRow(false, { kind: "invite", role: "admin" }), true);
+});
+
+test("membersTable hides the row menu on an admin row for a manager", () => {
+  const admin: MemberRow = { kind: "account", id: "a1", name: "The Admin", email: "a@qa.test", role: "admin", status: "active" };
+  const mgr: MemberRow = { kind: "account", id: "m1", name: "A Manager", email: "m@qa.test", role: "manager", status: "active" };
+  const asManager = membersTable([admin, mgr], false);
+  assert.equal((asManager.match(/js-member-menu/g) ?? []).length, 1, "only the manager row keeps its menu");
+  assert.doesNotMatch(asManager, /Manage The Admin/, "no menu button on the admin row");
+  assert.match(asManager, /Manage A Manager/, "the manager row is untouched");
+  // The admin row itself still renders — it is hidden ACTIONS, not a hidden person.
+  assert.match(asManager, /The Admin/);
+});
+
+test("membersTable keeps every menu for an admin viewer", () => {
+  const admin: MemberRow = { kind: "account", id: "a1", name: "The Admin", email: "a@qa.test", role: "admin", status: "active" };
+  const mgr: MemberRow = { kind: "account", id: "m1", name: "A Manager", email: "m@qa.test", role: "manager", status: "active" };
+  assert.equal((membersTable([admin, mgr], true).match(/js-member-menu/g) ?? []).length, 2);
+});
+
+test("membersTable defaults to the safe side when the viewer isn't passed", () => {
+  const admin: MemberRow = { kind: "account", id: "a1", name: "The Admin", email: "a@qa.test", role: "admin", status: "active" };
+  assert.doesNotMatch(membersTable([admin]), /js-member-menu/, "hides rather than offering a refused action");
 });

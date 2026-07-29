@@ -34,14 +34,25 @@ async function loadTrackers(host) {
 
   host.querySelector(".js-add-req")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const text = host.querySelector(".js-req-text")?.value?.trim();
+    const input = host.querySelector(".js-req-text");
+    const errEl = host.querySelector(".js-req-error");
+    const text = input?.value?.trim();
     const category = host.querySelector(".js-req-cat")?.value;
-    if (!text) return;
+    // Say what to do (audit F18). This was a bare `return`: the button looked live, did
+    // nothing, and said nothing — and it is the member's only control on this screen.
+    const fail = (message) => {
+      if (errEl) { errEl.textContent = message; errEl.hidden = false; }
+      input?.setAttribute("aria-invalid", "true");
+      input?.focus();
+    };
+    if (errEl) errEl.hidden = true;
+    input?.setAttribute("aria-invalid", "false");
+    if (!text) { fail("Type what would help, then add it."); return; }
     try {
       await createMyRequest({ text, category });
       await loadTrackers(host);
     } catch {
-      host.querySelector(".js-add-req")?.insertAdjacentHTML("afterend", `<p class="field__error">Couldn't save that. Try again in a moment.</p>`);
+      fail("Couldn't save that. Try again in a moment.");
     }
   });
   host.querySelectorAll(".js-goal").forEach((el) => {
