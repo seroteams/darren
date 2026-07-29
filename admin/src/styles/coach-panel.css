@@ -154,6 +154,15 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
   font-size: var(--type-body-sm); font-weight: 700; color: var(--sero-lavender-900);
 }
 
+/* The pre-runner wait (stages/bank.js) wears this same split while the question
+   bank is written, so the runner isn't a whole new page shape. Two differences
+   from the live screen: the loading mark sits INLINE above the ghost question
+   instead of stacked under a real one, and the two hosts need a gap because the
+   left column is a bare flex stack with no card between them. */
+.cp-wait .cp-col { gap: var(--sero-space-5); }
+.cp-wait .thinking-orb { flex-direction: row; align-items: center; gap: var(--sero-space-4); }
+.cp-wait .orb { width: 40px; height: 40px; flex: none; }
+
 /* =============================================================================
    Stacked and phone (runner-readiness). Must stay LAST in this file: every rule
    below overrides a desktop one at the same specificity, so source order is the
