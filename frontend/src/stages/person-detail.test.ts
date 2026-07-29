@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { identityHtml, renderTabs, runRow, type MyRun } from "./person-detail.ts";
+import { identityHtml, prepActionLabel, renderTabs, runRow, type MyRun } from "./person-detail.ts";
 
 // Person detail's pure render pieces (design-consolidation Phase 1, M5). The stage's
 // mount is browser-only; these string renderers carry the look: the recap-header
@@ -130,4 +130,38 @@ test("the meta line's middots belong to their item, so a wrap cannot strand one"
     /\.person-summary__item \+ \.person-summary__item::before/,
     "the middot is a ::before on every item after the first",
   );
+});
+
+// ── the header action label ──────────────────────────────────────────────────────
+// The header is a 608px reading measure: avatar + name + stat line on the left, the
+// one blue action on the right. Interpolating the person's name into that button made
+// it 285px of the 576px row, so the identity block collapsed to 191px and the stat
+// line wrapped over three ragged lines (191px, and 60px once the Example chip joined
+// it). The name is the <h1> immediately left of the button, so repeating it there
+// bought nothing and cost the whole left-hand column.
+
+test("the header action is short, because the name is the heading beside it", () => {
+  assert.equal(prepActionLabel(true), "Start 1:1");
+  assert.equal(prepActionLabel(false), "Start first 1:1");
+});
+
+test("the action label never interpolates the person's name", () => {
+  assert.doesNotMatch(
+    SRC,
+    /Start (first )?1:1 with \$\{/,
+    "a name in this button squashes the identity block it sits next to",
+  );
+  assert.match(SRC, /setActions\(prepActionLabel\(/, "both call sites go through the one helper");
+});
+
+test("the header row wraps instead of crushing the title block", () => {
+  // .page-header__actions is flex-shrink: 0, so without wrap every pixel the buttons
+  // need comes out of the identity block. Two buttons (Remove example + Start 1:1) in
+  // the 608px measure left it ~120px.
+  const css = readFileSync(
+    join(dirname(fileURLToPath(import.meta.url)), "../../../admin/src/styles/design/primitives.css"),
+    "utf8",
+  );
+  const row = css.match(/\.page-header__row \{[^}]*\}/)?.[0] ?? "";
+  assert.match(row, /flex-wrap:\s*wrap/, "the row must be allowed to wrap");
 });

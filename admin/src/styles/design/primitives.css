@@ -43,6 +43,14 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--sero-space-4);
+  /* Wrap rather than crush. .page-header__actions never shrinks (below), so every
+     pixel the actions need is taken from the title block beside them. On a person's
+     page inside the 608px measure, two buttons left the name and stat line ~120px and
+     broke them over three ragged lines. Wrapping only engages when the row genuinely
+     cannot fit, so a header that already fits is untouched; when it can't, the actions
+     drop to their own line and the title gets the full width. design/mobile.css
+     already did exactly this at narrow widths. */
+  flex-wrap: wrap;
 }
 /* The signed-in chip is pinned top-right (top: 12px, 39px tall), so the first
    ~52px of the content area belongs to it. A header that opens with the title row

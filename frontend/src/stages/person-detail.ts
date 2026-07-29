@@ -93,6 +93,15 @@ export function identityHtml(name: string): string {
     </div>`;
 }
 
+// The header's one blue action. Deliberately short: this header lives in the 608px
+// reading measure, and the person's name is the <h1> immediately to its left. Naming
+// them again inside the button made it 285px of a 576px row, which starved the identity
+// block beside it (191px, or 60px once the Example chip was there) and broke the stat
+// line over three ragged lines. Exported so the label has one owner and a test.
+export function prepActionLabel(hasHistory: boolean): string {
+  return hasHistory ? "Start 1:1" : "Start first 1:1";
+}
+
 // The ds-tabs shelf (same idiom as run-detail.ts renderRunDetail): Overview first and
 // default-active, the history log behind "Past 1:1s". Pure string, exported for tests.
 export function renderTabs(overviewHtml: string, historyHtml: string): string {
@@ -318,7 +327,7 @@ export const mount: Mount = async (root, { setState }) => {
   // other state of this screen.
   if (mine.length === 0) {
     if (sub) sub.textContent = person.role || "Not met yet";
-    setActions(`Start first 1:1 with ${person.name}`);
+    setActions(prepActionLabel(false));
     root.querySelector(".js-host")!.innerHTML = `
       <section class="card-flat space-y-3">
         <div class="eyebrow">Not met yet</div>
@@ -330,7 +339,7 @@ export const mount: Mount = async (root, { setState }) => {
   }
 
   if (sub) sub.innerHTML = summaryHtml(person);
-  setActions(`Start 1:1 with ${person.name}`);
+  setActions(prepActionLabel(true));
 
   // The list carries no briefings, so fetch the last few runs' details: the newest
   // feeds "Since last time" (agreed + watch), and all of them feed the axis trend

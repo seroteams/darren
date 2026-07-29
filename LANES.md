@@ -9,7 +9,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
-| 20818dd4 | User-test fixes P1 (note tag strip at stream boundary) | docs/plans/doing/user-test-fixes-jul-29/, backend/api/services/sessions/session-streams.ts, backend/api/services/sessions/session-streams.test.ts | 2026-07-29 |
+| 20818dd4 | User-test fixes P1 (note tag strip at stream boundary) | backend/api/services/sessions/session-streams.ts, backend/api/services/sessions/session-streams.test.ts | 2026-07-29 |
 
 
 
