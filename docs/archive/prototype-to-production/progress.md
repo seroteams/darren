@@ -1363,3 +1363,41 @@ and the comment recording it is the only reason the trap was spotted rather than
 session and the Browser pane was not compositing frames, so no screenshot was possible. Reading
 the live rendered DOM and clicking the real buttons proved the behaviour, and the phase file says
 in writing that a picture was not taken. Not the same standard, and recorded as such.
+
+## 2026-07-29 — the welcome, option C: an empty box teaches nothing
+
+**A shelf of walkable prototypes is worth more than a good decision.** Carl looked at the first
+screen, said it was not very interesting, and asked what we had done before. The 27 Jul round had
+built five leaner concepts, and four of them were still mounted at `/admin/test`. So the answer to
+"this is boring" was not a re-design, it was a two-minute look at the alternatives that already
+existed and a one-letter reply. **Keep the losing options runnable.** They are the cheapest thing
+in the repo and they turn a re-open into a pick.
+
+**Short is not the same as good.** Option B ("start typing") won on 27 Jul because it took a
+1421px screen down to a headline and a notes box. It was measurably better on the metric we were
+optimising, and it was still wrong: an empty rectangle cannot show a newcomer what comes out the
+other end, so the screen read as blank. **We had swapped "too long" for "says nothing" and only
+noticed on sight.** The real target was never brevity, it was the shortest screen that still
+teaches. Option C is 790px, taller than B, and correct.
+
+**The output IS the pitch.** C shows Sofia's real three-point brief, quoted verbatim from the
+seeded fixture and drift-tested against it. The screen can never oversell what the engine returns
+because it is not describing the engine, it is showing one of its answers. That property came free
+with the choice and is worth protecting.
+
+**Deleting the feature that came with the rejected option.** B's notes box carried its text into
+the wizard's notes step. C has no box, so the reader in `start-core.js` and the `freeNotes` seed
+went with it, and the test that guarded the hand-off was inverted to guard its absence. Leaving a
+`querySelector(".js-first-notes")` behind would have been dead code pointing at an element that no
+longer exists, and it would still have passed every test that mentioned it.
+
+**The Browser pane was not compositing again** (same as 28 Jul), so screenshots timed out. Driving
+the real local app with Playwright instead gave real pictures at desktop and phone width. Second
+time this has blocked verification: **Playwright is the fallback, not a lesser standard**, as long
+as it is the real app and not a rendered fragment.
+
+**Check the deploy before writing "ships on your next go live".** The commit was written up as
+local-only, then `/api/version` showed sero.team already running a build that contained it: a
+parallel chat had pushed. STATUS had also been claiming "9 commits ahead of live" since 27 Jul
+while main was level. **Trackers should state the deploy state they measured, never the one they
+assumed.**

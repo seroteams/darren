@@ -2,6 +2,26 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-29 — the welcome screen leads with a real brief again, and you green-lit it ("love it!").**
+You looked at the first screen a new manager sees and said it wasn't very interesting. It was
+**option B, "start typing"** — an empty notes box as the whole screen, picked 2026-07-27 from the
+five leaner concepts. Short, but it showed a newcomer nothing: an empty rectangle can't teach what
+comes out the other end, so the screen read as blank. The other four were still built and walkable,
+so nothing needed re-designing: you picked **C, three focus points**, from the same set.
+
+Now the screen is the headline, one line, the blue button, and **Sofia's real three-point brief**
+from the seeded example run: how to open, what to explore, what to listen for, quoted verbatim from
+the fixture and labelled "Example brief". The button sits **above** the card on purpose, so the way
+in is never below something you have to scroll past. The notes box and its hand-off into the wizard
+went with option B; the wizard already asks for notes on its own step, and it happens to teach the
+same three labels, so the welcome and the first step now say the same words.
+
+Verified on the real screen (customer app, zero-run manager account): **790px at desktop, one
+screen, no scroll**, phone stacks with a full-width button. 202/202, typecheck, both linters.
+Prototype of all five stays at `admin/src/stages/tests/welcome-lean.js`.
+**Commit `7341697d` — and it is already LIVE**: a parallel chat's push carried it out inside build
+`33dfdca7` (sero.team, confirmed on `/api/version`). Nothing has touched these files since.
+
 📍 **2026-07-29 — THE CORRIDOR TEST STARTED. Manager 1 is Machar Smith, and he tested today.**
 An 18-minute facilitated walkthrough on video, Machar driving, a real scenario end to end. Verdict:
 positive — "it just feels like tweaks more than anything else", usability "really good", first
@@ -242,8 +262,8 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 
 ## ▶ Your move
 1. **Pick which Machar fixes to build** — nine findings in the [session log](docs/validation/machar-2026-07-29.md); F1 (the summary's sharp question belongs in the meeting) is the big one.
-2. **Walk the live first-run** — you said go live on 2026-07-26 and everything shipped (build `1db2d5c`). The one thing local could never prove: register a brand-new account on sero.team and check the brief-first welcome behaves.
-3. **Push the empty-states fix when you're ready** — [empty-states](docs/plans/done/empty-states/plan.md) closed 2026-07-28 (both phases, commits `2ac61fc6` + `d14d6d76`): the customer rail no longer hides a new manager's rows, and Team / Past 1:1s / Members say what they will hold. It is committed but **not pushed**, so sero.team still shows the stripped rail you hit. One "go live" ships it. [Board](https://claude.ai/code/artifact/9bc58e32-53e9-48b8-a17e-f3accbd7951b).
+2. **Walk the live first-run** — the new three-focus-points welcome is live now (build `33dfdca7`), and it changed the exact screen this item is about. The one thing local can never prove: register a brand-new account on sero.team and check the first screen and the empty rail behave on the real deploy.
+3. ~~Push the empty-states fix~~ — **SHIPPED**. [empty-states](docs/plans/done/empty-states/plan.md) closed 2026-07-28 (both phases, commits `2ac61fc6` + `d14d6d76`): the customer rail no longer hides a new manager's rows, and Team / Past 1:1s / Members say what they will hold. Both commits verified inside live build `33dfdca7` on 2026-07-29, so the stripped rail you hit is gone from sero.team. [Board](https://claude.ai/code/artifact/9bc58e32-53e9-48b8-a17e-f3accbd7951b).
 4. **The corridor test is RUNNING** — Machar named + tested 2026-07-29 on the [GTM one-pager](docs/reference/gtm-validation-plan.md); managers 2 and 3 still to name (Machar is recruiting them himself). Left for you: flip Render to paid.
 4. ~~Three walks are waiting on you~~ — **cleared 2026-07-27 on your instruction** ("no more walk throughs please. just go"). screen-gallery P2, sero-run-memory P1 and audit-fixes P2 are now marked closed **unwalked**: each one's code is present, tested and green on the free suite, but none was seen on screen by you. Each plan records that in writing. Nothing else is queued for your eyes.
 5. **Two design follow-ups need a yes or a no** — the design-system clean-up closed 2026-07-27 and left both deliberately: **P3b** finishes the namespace collapse (~150 call sites still inside other chats' lanes), and the **visible pass** fixes the type ladder, which is still inverted at the top and still carries the 15px/17px sizes your own rules ban. The second one changes what you see, so it wants before-and-after mockups first.
@@ -300,4 +320,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-27 (after the full-project clean-up). Live build `1db2d5c` on sero.team, deep health db: up, /admin still bounces logged-out visitors. **Main runs 9 commits ahead of live** — the rescued welcome-video guard, the design-debt close-out, the tracker corrections and this sweep are committed locally and ship on your next "go live". A local lead is normal here, not a problem.
+Last updated: 2026-07-29 (after the welcome option-C close). Live build `33dfdca7` on sero.team, committed 2026-07-29 09:44 (confirmed on `/api/version`). **Main is level with live** — everything committed locally has shipped, including the empty-states fix and the new welcome. A local lead is normal here when it appears; right now there isn't one.
