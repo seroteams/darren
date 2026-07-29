@@ -8,7 +8,7 @@ import { drivePong } from "./sero-pong.js";
 
 export function createOrb(initialLabel = "") {
   const el = document.createElement("div");
-  el.className = "thinking-orb flex items-center gap-4 thinking-enter";
+  el.className = "thinking-orb flex flex-col items-start gap-6 thinking-enter";
   el.innerHTML = `
     <div class="orb" aria-hidden="true">
       <svg class="orb__mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
