@@ -30,6 +30,14 @@ interface RuleCoupling {
 
 const RULE_REGISTRY: readonly RuleCoupling[] = [
   {
+    rule: "wellbeing reads the person, not the situation they describe",
+    promptFile: "plan-turn.md",
+    promptAnchor: "**The person vs the situation (EVERY question, not just competency ones).**",
+    gateFile: "backend/engine/golden-checks.ts",
+    gateIdentifier: "runWellbeingSituationGate",
+    provenBy: ["*"],
+  },
+  {
     rule: "focus reason opener (Whether/How they're/What/If)",
     promptFile: "generate-focus-points.md",
     promptAnchor: "the `reason` MUST start with one of: `Whether `, `How they're `, `What `, `If `",

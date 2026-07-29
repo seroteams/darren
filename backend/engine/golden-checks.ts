@@ -34,6 +34,7 @@ interface GateTurn {
   skipped?: boolean;
   question?: GateQuestion;
   note?: string; // the planner's per-turn assessment.note (the score "why")
+  realized_deltas?: Record<string, number>; // what the planner actually booked this turn
 }
 type GateTranscript = ReadonlyArray<GateTurn> | null | undefined;
 
@@ -236,6 +237,38 @@ function runRationaleArcGate(
   for (const t of transcript || []) flag(t?.note, `turn ${t?.turn ?? "?"} note`);
   if (isBriefingShape(briefing)) {
     for (const ax of briefing.axes || []) flag(ax?.meaning, `axis ${ax?.id ?? "?"} meaning`);
+  }
+  return failures;
+}
+
+// runWellbeingSituationGate — machar-fixes P3. The LIVE sibling of
+// runWellbeingMeaningCheck, which only ever looked at the finished briefing.
+//
+// The first corridor manager watched wellbeing go negative while his report
+// described a TEAM problem, calmly: "I don't think Daryl's wellbeing is impacted.
+// I think it's the team and he's just not done anything about it yet. So the
+// wellbeing score is quite a red flag and maybe it shouldn't be."
+// (docs/validation/machar-2026-07-29.md, F4.)
+//
+// Every existing correction for this ran at the briefing stage, after the meeting.
+// Nothing watched the per-turn delta the manager sees on the coach panel while the
+// 1:1 is happening. This does — and like every sibling gate it is DETECT ONLY: it
+// flags so the PROMPT gets fixed, it never edits or suppresses a score.
+//
+// The rule it enforces is the one now stated in plan-turn.md <assessment_rules>:
+// wellbeing reads the person, not the difficulty of what they are describing.
+function runWellbeingSituationGate(transcript: GateTranscript): string[] {
+  const failures: string[] = [];
+  for (const t of transcript || []) {
+    const booked = t?.realized_deltas?.wellbeing;
+    if (typeof booked !== "number" || booked >= 0) continue;
+    // Evidence must be in THIS turn's answer. Strain three turns ago does not
+    // license a negative here, which is exactly the over-reach being caught.
+    const answer = typeof t?.answer === "string" ? t.answer : "";
+    if (WELLBEING_TRANSCRIPT_EVIDENCE.test(answer)) continue;
+    failures.push(
+      `turn ${t?.turn ?? "?"} booked wellbeing ${booked} with no strain stated by the report: "${answer.slice(0, 80)}"`
+    );
   }
   return failures;
 }
@@ -764,6 +797,7 @@ export {
   ruleEchoAxisIds,
   runRoleProfileArcGate,
   runRationaleArcGate,
+  runWellbeingSituationGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
   runQuestionStemChecks,

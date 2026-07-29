@@ -46,8 +46,22 @@ export function createNoteAttacher(initial: WhyMap = {}) {
   let moved: Array<{ id: string; delta: number }> = [];
   let pendingNote: string | null = null;
 
+  // The planner writes ONE sentence per turn about the strongest signal it saw
+  // (plan-turn.md <assessment_rules>), not one sentence per axis. Copying it under
+  // every axis that moved made a note about a delivery date read as the reason
+  // Wellbeing fell — which is exactly what the first corridor manager objected to:
+  // "I don't think Daryl's wellbeing is impacted, I think it's the team"
+  // (machar-fixes P3). It now lands on the axis that actually moved most; the
+  // others keep their delta and show no reason, which rowStateFor already renders
+  // honestly as a blank rather than filler.
   function attach(note: string): void {
-    for (const m of moved) whys[m.id] = { delta: m.delta, why: note };
+    const owner = moved.reduce<{ id: string; delta: number } | null>(
+      (best, m) => (best && Math.abs(best.delta) >= Math.abs(m.delta) ? best : m),
+      null,
+    );
+    for (const m of moved) {
+      whys[m.id] = { delta: m.delta, why: m.id === owner?.id ? note : "" };
+    }
     moved = [];
   }
 

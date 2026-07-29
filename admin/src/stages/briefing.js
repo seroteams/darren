@@ -1,5 +1,5 @@
 import { STAGES, isInternalAdmin } from "../state.ts";
-import { createAxesPanel } from "../ui/axes.js";
+import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { revealOne } from "../ui/reveal.js";
 import { postVerdict, submitRunVerdict, savePromises } from "../../../shared/api.js";
 import { draftsFromNextActions, renderPromiseAgree } from "../ui/promise-agree.ts";
@@ -259,10 +259,11 @@ export async function mount(root, deps) {
   // A score of 0 means "not enough signal to read this axis" (final-evaluation
   // axis_meaning_rules) — render it as an unread baseline, not a measured 0, so
   // a quiet session doesn't look like a flat verdict.
-  axes.renderInitial([
-    { id: "wellbeing", score: -1 }, { id: "engagement", score: -1 },
-    { id: "clarity", score: 0, noRead: true }, { id: "growth", score: 0, noRead: true },
-  ]);
+  // First paint, before the briefing's real axes land. Nothing is known yet, so every
+  // axis renders as not-read. This used to hardcode wellbeing and engagement at -1
+  // WITHOUT `noRead`, which is the one path where the old seed reached the screen: both
+  // drew a red -1 bar for a beat before the real numbers replaced them (machar-fixes P3).
+  axes.renderInitial(AXIS_ORDER.map((id) => ({ id, score: 0, noRead: true })));
 
   // The backend declares read-status per axis; trust it. Fall back to the old
   // score-0 heuristic only for briefings produced before read_status existed.
@@ -276,10 +277,11 @@ export async function mount(root, deps) {
     noRead: isNotRead(a),
   }));
   const known = new Set(axesList.map((a) => a.id));
-  const AXIS_SEED = { wellbeing: -1, engagement: -1, clarity: 0, growth: 0 };
-  for (const id of ["wellbeing", "engagement", "clarity", "growth"]) {
+  for (const id of AXIS_ORDER) {
     // An axis the evaluator omitted was not read — never fabricate a measured bar.
-    if (!known.has(id)) axesList.push({ id, label: id, score: AXIS_SEED[id], lastDelta: 0, noRead: true });
+    // `noRead` forces the neutral rail, so the score here is only a placeholder; it
+    // uses the shared seed rather than a third private copy of it (machar-fixes P3).
+    if (!known.has(id)) axesList.push({ id, label: id, score: AXIS_SEED[id] ?? 0, lastDelta: 0, noRead: true });
   }
   axes.update(axesList, { showDelta: false });
 

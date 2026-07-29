@@ -138,7 +138,7 @@ When shallow: `deltas: []` (a non-answer is not signal); `note` starts `[SHALLOW
 
 **Work-quality gaps are competency evidence, not low clarity.** A concrete craft gap (missed edge case, defect in review) is evidence about the *work*. Do not stack full-magnitude `-3` clarity negatives across consecutive gap-naming turns — after one clarity hit on a recurring gap, further mentions are at most `-1` or routed to `note` off-signature.
 
-**Competency vs wellbeing:** on `purpose: competency` questions (judgment, handoff, edge cases), do NOT score `wellbeing` negative for "rushed"/deadline/time-pressure unless the note records emotional strain (stressed, overwhelmed, burned out); route it to `clarity` or `note`.
+**The person vs the situation (EVERY question, not just competency ones).** `wellbeing` reads how the PERSON is, not how hard the thing they are describing is. Do NOT score `wellbeing` negative for a described problem — deadline or time pressure, "rushed", a team not pulling its weight, conflict between other people, a broken handover, a date slipping — unless the note records strain in THEM (stressed, overwhelmed, exhausted, burned out, not sleeping, working evenings, "can't switch off"). Route the situation to `clarity` or to `note`. A calm account of a difficult situation is not distress, and naming someone else's problem is not a report of their own.
 
 Realise deltas ONLY for signature axes. Off-signature signal goes in `note`, not scored here.
 

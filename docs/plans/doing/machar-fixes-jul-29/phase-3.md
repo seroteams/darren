@@ -1,6 +1,66 @@
 # Phase 3 — A hard team is not a hard week
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜ · **Finding:** F4
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl · **Finding:** F4
+
+## Built (2026-07-29)
+
+### Correction to what this plan first claimed
+
+The plan said the app's **−1 seed** was probably why Machar saw wellbeing red, and flagged it as
+needing confirming on screen. Confirmed, and **the original claim was too strong**. `noRead` already
+forces the neutral rail, so an axis Sero never read has always rendered honestly. The seed reached
+the screen on exactly one path, and it is a real bug, but it is **not** what Machar was reacting to:
+
+- **What the seed actually did:** the recap's *first paint* hardcoded wellbeing and engagement to
+  `-1` with no not-read flag, so both drew a **red −1 bar** for a beat before the real numbers
+  arrived. A flash, on every recap.
+- **What Machar actually hit:** the settled, engine-scored wellbeing going negative on a team
+  problem. That is the prompt half below, and it is the real fix.
+
+Both are fixed. Only the first is provable for free.
+
+### Changes
+
+| File | What changed |
+|---|---|
+| [content/axes.json](../../../../content/axes.json) | The wellbeing definition now draws the boundary: it reads **the person's own state**, and a team that is not delivering, a slipping date or a broken handover only touch it if they say how it is landing on them. It also stops handing the model `running hot` / `masked fatigue` / `drift toward burnout`, which `final-evaluation.md` separately **bans** from output. The definition was supplying the exact vocabulary another rule forbids. |
+| [content/prompts/plan-turn.md](../../../../content/prompts/plan-turn.md) | The person-vs-situation rule was scoped to `purpose: competency` questions, and competency questions are **banned** in the relational arcs where bi-weeklies run, so it could never have fired in Machar's session. Now it applies to every question, and names the cases: deadline pressure, a team not pulling its weight, conflict between other people, a broken handover, a date slipping. |
+| [golden-checks.ts](../../../../backend/engine/golden-checks.ts) | New **`runWellbeingSituationGate`**, the live sibling of the existing `runWellbeingMeaningCheck` (which only ever read the finished briefing). Flags a negative wellbeing delta booked on a turn whose answer states no strain. **Detect only** — it flags so the prompt gets fixed, it never edits or suppresses a score. |
+| [evals/trust-checks.ts](../../../../evals/trust-checks.ts) | New `WELLBEING_SITUATION_LEAK` hard-fail key, wired beside `RATIONALE_ARC_LEAK`. |
+| [rule-registry.ts](../../../../content/prompts/rule-registry.ts) | The prompt rule and the gate are registered as a coupled pair, so editing one without the other goes red in `npm test` instead of drifting silently. |
+| [axes.js](../../../../admin/src/ui/axes.js) | One seed, matching the engine's `content/axes.json` (all zeros). The old comment claimed it mirrored the backend; it did not. The seed drives `isBaseline`, so a wrong seed made a genuine −1 read as "not measured" and a genuine 0 read as measured. |
+| [briefing.js](../../../../admin/src/stages/briefing.js) | First paint renders every axis as not-read. The third private copy of the seed table is gone; it imports the shared one. |
+| [coach-panel-state.ts](../../../../admin/src/ui/coach-panel-state.ts) | The turn's note now lands on the axis that moved **most**, not on every axis that moved. The planner writes one sentence per turn about the strongest signal, so copying it under all of them made a delivery-date sentence read as the reason Wellbeing fell. Others keep their delta and stay blank, which `rowStateFor` already renders honestly. |
+| Tests | `golden-checks.wellbeing-situation.test.ts` (6 cases, including strain in a *different* turn not licensing this one, and null-safety); `coach-panel-state.test.ts` updated to the new attribution rule with Machar's exact scenario added as its own case. |
+
+**Free checks:** `npm test` **206/206**, `npm run typecheck` clean, `lint:copy` and `lint:tokens`
+pass. The rule-registry test passing is what proves the prompt anchor and the gate are actually linked.
+
+### Proof on the real screen
+
+![axis first paint](proof/p3-axis-first-paint.png)
+
+Both panels are the real component with the real stylesheet, rendered in the running app. Before:
+Wellbeing and Engagement read **−1** in red. After: all four read **–**, not measured. Measured in
+the page, not eyeballed.
+
+## ⚠️ What is NOT proven
+
+**The engine half.** A prompt change cannot be proven free: `--fixtures-only` replays recorded model
+output, so it would replay the old scoring. Untested until a real run:
+
+- that a calm team-problem answer no longer books a negative wellbeing delta, and
+- that a real strain answer still does (the failure mode to watch is muting the axis rather than
+  aiming it).
+
+The new gate is unit-tested but has **never run against real run data**. Both close in **Phase 4's
+single paid run** (~$0.35), which now carries P2's live check as well. One run, three phases' worth
+of evidence.
+
+**Committed local.** Nothing pushed.
+
+---
+
 
 ## Goal
 

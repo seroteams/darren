@@ -24,6 +24,7 @@ import {
   runMeaningRuleEchoCheck,
   runRoleProfileArcGate,
   runRationaleArcGate,
+  runWellbeingSituationGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
 } from "../backend/engine/golden-checks.ts";
@@ -120,6 +121,7 @@ const HARD_FAIL = {
   FOCUS_SHAPE_LEAK: "FOCUS_SHAPE_LEAK",
   QUESTION_ARC_LEAK: "QUESTION_ARC_LEAK",
   RATIONALE_ARC_LEAK: "RATIONALE_ARC_LEAK",
+  WELLBEING_SITUATION_LEAK: "WELLBEING_SITUATION_LEAK",
   ROLE_PROFILE_ARC_LEAK: "ROLE_PROFILE_ARC_LEAK",
   ROLE_PROFILE_VOCAB_LEAK: "ROLE_PROFILE_VOCAB_LEAK",
   SCHEMA_INVALID: "SCHEMA_INVALID",
@@ -487,6 +489,17 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   if (rationaleArc.length) {
     hard_fails.push(HARD_FAIL.RATIONALE_ARC_LEAK);
     details.push(...rationaleArc);
+  }
+
+  // Wellbeing situation gate (machar-fixes P3): a negative wellbeing delta booked on a
+  // turn where the report described a hard SITUATION but never said how it was landing
+  // on them. The first corridor manager watched this happen to a team conflict. The
+  // briefing-stage cousin of this rule already existed; the live per-turn score had
+  // nothing. Detect-only; surfaces for a prompt fix, never edits a score.
+  const wellbeingSituation = runWellbeingSituationGate(turns);
+  if (wellbeingSituation.length) {
+    hard_fails.push(HARD_FAIL.WELLBEING_SITUATION_LEAK);
+    details.push(...wellbeingSituation);
   }
 
   // Warning, not a hard fail: a signal-free session is legitimately silent,

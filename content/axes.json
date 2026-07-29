@@ -4,7 +4,7 @@
       "id": "wellbeing",
       "label": "Wellbeing",
       "seed": 0,
-      "description": "Energy, sustainability, stress. Positive = sustainable pace, genuine recovery. Negative = running hot, masked fatigue, drift toward burnout."
+      "description": "The person's own state: energy, pace, recovery. Positive = a pace they can keep up, genuine time off. Negative = strain they describe in themselves. Reads the PERSON, not the situation: a team that is not delivering, a slipping date, a broken handover or deadline pressure only touch this axis if they say how it is landing on them. A calm account of a hard situation is not distress; score that under clarity."
     },
     {
       "id": "engagement",

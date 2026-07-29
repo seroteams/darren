@@ -24,14 +24,30 @@ const read = (id: string, lastDelta: number, historyLen: number): AxisRead => ({
   historyLen,
 });
 
-test("a note attaches to exactly the axes that moved this turn", () => {
+test("a note reaches the axes that moved, and explains only the biggest mover", () => {
+  // The planner writes ONE sentence per turn about the strongest signal, not one per
+  // axis. Copying it under every mover was the bug (machar-fixes P3): the biggest
+  // mover owns the sentence, the rest keep their delta and stay honestly blank.
   const att = createNoteAttacher();
   att.onAxes([read("wellbeing", -1, 1), read("clarity", 0, 0), read("growth", 2, 1)]);
   const whys = att.onNote("She sounded drained talking about the review cycle.");
   assert.deepEqual(Object.keys(whys).sort(), ["growth", "wellbeing"]);
   assert.equal(whys.wellbeing.delta, -1);
   assert.equal(whys.growth.delta, 2);
-  assert.equal(whys.wellbeing.why, "She sounded drained talking about the review cycle.");
+  assert.equal(whys.growth.why, "She sounded drained talking about the review cycle.");
+  assert.equal(whys.wellbeing.why, "");
+});
+
+test("a note about the team never becomes the reason wellbeing fell", () => {
+  // Machar's actual complaint. A delivery-and-ownership sentence sat under Wellbeing
+  // because clarity and wellbeing both moved that turn: "I don't think Daryl's
+  // wellbeing is impacted. I think it's the team."
+  const att = createNoteAttacher();
+  att.onAxes([read("clarity", -3, 1), read("wellbeing", -1, 1)]);
+  const whys = att.onNote("Delivery date slipping with no owner named.");
+  assert.equal(whys.clarity.why, "Delivery date slipping with no owner named.");
+  assert.equal(whys.wellbeing.why, "", "a clarity sentence must not explain the wellbeing meter");
+  assert.equal(whys.wellbeing.delta, -1, "the delta itself is still shown honestly");
 });
 
 test("note-before-axes (SSE handler race) still attaches on the next axes event", () => {

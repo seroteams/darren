@@ -75,7 +75,7 @@ Dug out of the code so no phase stalls:
 |---|---|---|---|
 | 1 | The last screen stops interviewing them | The end-of-run prompt in Sero's voice, one question, return-intent signal kept | ✅ |
 | 2 | The opening merges both agendas | Asks what the employee wants from the session; "nothing specific" stops costing a turn | ✅ |
-| 3 | A hard team is not a hard week | Wellbeing scores the person, not the situation they describe; baseline and "why" bugs fixed | 🔨 |
+| 3 | A hard team is not a hard week | Wellbeing scores the person, not the situation they describe; baseline and "why" bugs fixed | 🔨 built, awaiting Carl |
 | 4 | Plain words, sharper ask | Live questions lose the heavy vocabulary and gain the push-it-back move; recap's second summary separated | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
@@ -99,7 +99,14 @@ asks for the other person's, wording taken unchanged; "nothing specific" mints n
 turn. Its live behaviour is deliberately unproven because reaching it costs a paid model call, and
 that check **rides P4's single paid run** rather than buying a second.
 
-**Phase 3 🔨 started 2026-07-29.**
+**Phase 3 🔨 built 2026-07-29, awaiting Carl.** Wellbeing now reads the person rather than the
+difficulty of what they describe, in the axis definition and in the live scoring rule; a new
+detect-only gate flags a negative booked without stated strain; and three UI faults are fixed (the
+seed disagreed with the engine in three places, the recap's first paint flashed a red −1, and one
+note was printed as the reason under every axis that moved). 206/206, typecheck, both linters, with
+a real-screen before-and-after. **The plan's own claim about the −1 seed was too strong and is
+corrected in [phase-3.md](phase-3.md)**: it caused a first-paint flash, not the settled red score
+Machar reacted to. The engine half stays unproven until P4's paid run.
 
 **Baseline recorded 2026-07-29, before any change: `npm test` 202/202 green, `npm run typecheck`
 clean.** Both free. `npm run gate` was NOT run as a baseline: it is the paid one (~$3) and the free

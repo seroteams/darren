@@ -17,11 +17,17 @@ const AXIS_DESCRIPTIONS = {
   clarity: "How clear priorities, expectations, and direction feel",
   growth: "Learning, stretch, and career momentum",
 };
-// Seeded baselines — mirrors backend axes catalogue. Wellbeing/engagement
-// start slightly negative so a session "earns" positive movement.
+// Seeded baselines. These MUST match the engine's catalogue (content/axes.json),
+// which seeds all four at 0 — `isBaseline` uses this to decide "hasn't moved yet",
+// so a seed the engine disagrees with mislabels a real score as untouched and an
+// untouched axis as a real score.
+//
+// Until 2026-07-29 wellbeing and engagement sat at -1 here, with a comment claiming
+// it mirrored the backend. It did not, and it had two consequences: a genuine -1
+// read as "not measured", and a genuine 0 read as measured (machar-fixes P3).
 export const AXIS_SEED = {
-  wellbeing: -1,
-  engagement: -1,
+  wellbeing: 0,
+  engagement: 0,
   clarity: 0,
   growth: 0,
 };
