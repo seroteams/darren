@@ -1,11 +1,11 @@
 ---
 name: committee
-description: Convene Carl's advisory committee — 8 named seats that pressure-test any plan or direction decision. Trigger on "check with the committee", "ask the committee", "what would the committee say", or AUTOMATICALLY before locking in a plan or a direction call (engine design, product scope, GTM, pricing, trust/legal, evaluation). NOT for UI tweaks, copy changes, bugfixes, or routine phase work.
+description: Convene Carl's advisory committee — 10 named seats that pressure-test any plan or direction decision. Trigger on "check with the committee", "ask the committee", "what would the committee say", or AUTOMATICALLY before locking in a plan or a direction call (engine design, product scope, GTM, pricing, trust/legal, evaluation, user interviews). NOT for UI tweaks, copy changes, bugfixes, or routine phase work.
 ---
 
 # The Committee
 
-Carl's standing advisory board (created 2026-07-20). Advisory only — **Carl always decides**. The committee sharpens the decision; it never replaces his call.
+Carl's standing advisory board (created 2026-07-20, deepened + expanded to 10 seats 2026-07-29). Advisory only — **Carl always decides**. The committee sharpens the decision; it never replaces his call.
 
 ## When to convene
 
@@ -16,24 +16,38 @@ Carl's standing advisory board (created 2026-07-20). Advisory only — **Carl al
 
 ## The seats
 
-| Seat | Voice | Pressure-tests | Register |
-|------|-------|----------------|----------|
-| Seed partner / traction | Michael Seibel (YC blunt-partner voice) | "How many managers prepped a real 1:1 last week? Do they come back?" Kills narrative-over-evidence. | Cold, numbers-first |
-| Design leadership / trust UX | Rasmus Andersson (Nordic craft, restraint) | Chip count, progressive disclosure, "add nothing." Matches Sero's design system. | Craft, subtractive |
-| Staff engineering / evals | Simon Willison (pragmatic LLM eval) | Determinism, logs, replay, "LLMs assist inside contracts." Guards final-evaluation miscalibration. | Skeptical, test-first |
-| Observability | Charity Majors (optional 2nd eng seat) | "Can you debug this from the run log alone?" | Ops-hardened |
-| Trust & legal | EU AI-Act counsel (role, not named) | No-Inference architecture, GDPR special-category data, no public legal-exemption claims. | Conservative |
-| Management science / org-psych | Steven Rogelberg (Glad We Met) | Are the four arcs sound? Is prep the real lever? | Evidence-bound |
-| GTM / positioning | April Dunford (Obviously Awesome) | Honesty-as-credibility, buyer-fork discipline, no dashboard drift. | Sharp, category-first |
-| Real user | Kate Jackson (Siemens, actual tester) | "Would a real EM open this twice?" | Practitioner |
+Ten seats. This table is the index only — the depth lives in **[seats.md](seats.md)**, one method card per seat: named frameworks, signature questions, verified positions, voice tells, and the shallow-imitation traps. **Read the cards for every speaking seat before writing any verdict.**
+
+| Seat | Voice | Speaks on | Register |
+|------|-------|-----------|----------|
+| Seed partner / traction | Michael Seibel (YC) | Traction truth: return-unprompted arithmetic, launch pace, metric discipline. | Cold, numbers-first |
+| Design leadership / trust UX | Rasmus Andersson | Constraints before pixels, weakest-link quality, add nothing. | Craft, subtractive |
+| Staff engineering / evals | Simon Willison | Evals from real failures, prompt injection, log-everything. | Enthusiast-skeptic |
+| Observability | Charity Majors | Slice to the exact run; ask telemetry unplanned questions; prod watching for a nondeterministic system. | Ops-hardened |
+| Trust & legal | EU AI-Act counsel (role, not named) | Annex III 4(b), Art 6(3) profiling override, Art 5(1)(f) emotion inference, deployer duties, GDPR Art 9. | Conservative, cites articles |
+| Management science / org-psych | Steven Rogelberg (Glad We Met) | Whose meeting is it, talk-time, agenda ownership, the manager blind spot. | Evidence-bound |
+| GTM / positioning | April Dunford (Obviously Awesome) | True alternatives, the no-decision loss, positioning-as-thesis pre-PMF. | Sharp, category-first |
+| Behavioural science / perceived value | Rory Sutherland (Alchemy) | Perception vs reality problems, doorman fallacy, testing the opposite. | Digressive, contrarian |
+| Discovery & negotiation | Chris Voss (Never Split the Difference) | Validation interviews, pricing conversations, hearing what users don't say. | Calm, short sentences |
+| Real user | Kate Jackson + validation testers | Recorded feedback ONLY — never invented. | Practitioner, verbatim |
+
+## The depth bar (Carl, 2026-07-29 — "average and mid-level replies" are a miss)
+
+A verdict any seat could have written is a failed verdict. Before it reaches Carl, every seat's contribution must clear all three:
+
+1. **A named tool, applied.** Use one of that seat's named frameworks or findings from seats.md, by name, on the specifics of THIS decision — not adjacent wisdom. ("Doorman fallacy: the recap KPI deletes the unmeasured trust job the briefing does.")
+2. **Real evidence touched.** Cite an actual number, run log, validation-session note, or repo fact — or name precisely what evidence is missing and the cheapest way to get it. No verdicts from the armchair.
+3. **A concrete landing.** End on a falsifiable claim or a specific change ("cut the third chip", "ask Machar X next session", "measure Y for two weeks"). Generic caution ("be careful with scope") gets rewritten, not shown.
+
+Length stays 2–4 sentences per seat — depth comes from specificity, not word count. If two seats are saying the same thing, one of them isn't doing their job: sharpen or drop one.
 
 ## How to run a session
 
 1. State the decision in one plain sentence (the question the committee is answering).
-2. Pick the **relevant seats only** — usually 3–5. Not every seat speaks on every decision (the EU counsel has nothing to say about a question-bank tweak; Seibel has nothing to say about a legal wording). Convening all 8 every time is noise.
-3. For each seat, channel the named lens honestly: 1–2 sentences of verdict or objection, in that seat's register. Objections must be concrete ("this adds a third chip — cut it"), not generic caution.
-4. **Kate Jackson's seat is grounded ONLY in her actual recorded feedback** (session notes, run logs, emails). If there is no real Kate signal on the question, say "no real signal from Kate on this" — never invent her opinion.
-5. Synthesise: where the seats agree, where they clash, and your recommendation.
+2. Pick the **relevant seats only** — usually 3–5. Not every seat speaks on every decision (the EU counsel has nothing to say about a question-bank tweak; Seibel has nothing to say about a legal wording). Convening all 10 every time is noise.
+3. **Read the speaking seats' method cards in [seats.md](seats.md)**, then write each verdict against the depth bar above, in that seat's register. Objections must be concrete ("this adds a third chip — cut it"), not generic caution.
+4. **The real-user seat is grounded ONLY in recorded feedback** — Kate Jackson's actual notes/emails and validation-session logs (docs/validation/). If there is no real signal on the question, say "no real signal on this" — never invent an opinion.
+5. Synthesise: where the seats agree, where they clash, and your recommendation. A committee with no clash on a hard decision is a sign the seats went soft — check the depth bar again before presenting.
 
 ## How to present it to Carl
 
