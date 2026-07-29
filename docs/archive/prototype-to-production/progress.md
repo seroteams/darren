@@ -1533,3 +1533,31 @@ never in the engine — the stored note stays raw. Shape rule: ALL-CAPS in brack
 already fenced (plan-turn-runner-gates P3) by simply not projecting the note; the one path that
 SHOWS the note had nothing. When a field is deliberately raw internally, every new surface that
 prints it needs its own boundary check — grep for `stream.write` on that field, not for the tag.
+
+## 2026-07-30 — question-support-hints P1–P3: a schema field that killed a whole stage in silence
+
+Carl asked why the Support panel never changed with the question. It didn't because the questions
+that carry coaching were not being generated at all. coach-panel P2 (19 Jul) added `hints` to the
+bank request's `properties` and left it out of `required`. Strict structured outputs reject that
+schema outright — every bank call 400'd from ~21 Jul, and `generateBankWithFallback` turned each
+rejection into the 8 static `_seed` questions. Three live meetings, two of them validation sessions
+with a real manager, ran on generic stock questions.
+
+**The lesson is not the schema rule, it is the fallback.** A designed fallback that catches a HARD
+error and degrades quietly is indistinguishable from working software. Nine days, three real
+meetings, and only a `console.warn`. A fallback should be reserved for conditions you expect; a 400
+from the provider is not one, and it needs to reach a human. Both schemas now have a test that walks
+every property and fails if any is missing from `required`, because the class of bug is invisible
+from the code and only shows up at the API.
+
+**Second lesson, found three more times in the same session: rebuild-by-field silently drops data.**
+`reconcileQueue`, `pickOpener` and the YAML codec each reconstructed a question from a named list of
+fields, so `hints` vanished with no error at three separate hops. When a type is deliberately CLOSED
+(question.types.ts says so explicitly), every place that reconstructs it is a place a new field must
+be added by hand. Grep for the constructors, not for the field.
+
+**Third: evidence beats a plausible story.** The first diagnosis ("the prompt never asked for
+hints") was wrong — the model had been writing them all along, unprompted, because the optional
+schema field was enough. Reading a real run log rather than reasoning from the prompt is what found
+the outage. The first count reported to Carl was also wrong (23 runs, actually 3 real meetings);
+runs that never reached the stage prove nothing.

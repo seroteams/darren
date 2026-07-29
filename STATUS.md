@@ -2,6 +2,22 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-30 — the Support panel now coaches every question, and a nine-day outage came out of the woodwork.**
+[question-support-hints](docs/plans/done/question-support-hints/plan.md) — all 3 phases green-lit in one
+sitting ("the support questions are ok, with the limited information, so we can pass"). You flagged that
+the right-hand Support panel never changed with the question. It didn't, and the reason was bigger than
+the panel: **the question bank stage had been failing on every live meeting since 20 July.** A field was
+added to the request on 19 July but not to its required list, OpenAI rejected the whole call, and the
+fallback quietly served 8 generic stock questions with nothing but a console warning. Three live
+meetings ran that way, two of them Machar's. Fixed, then proved with a real call: rejected before, 8
+personalised questions after. On top of that, every question type now carries its own coaching — the
+bank, the mid-meeting planner questions, all 12 intro questions, 8 seeds, 22 openers, the agenda
+carry-forward, and follow-ups which inherit and say so. Three more silent field-drops found and closed
+(the reconcile rebuild, the opener picker, the YAML codec). Proof: a full meeting walked live, 5
+questions, **5 with their own coaching, the prep-brief fallback never appeared**. Commits `914151c9` +
+`04f3a738`, 214/214, typecheck + copy guard clean, local only. **Next, your call at sign-off: the
+coaching only knows this meeting's notes. Giving it the person's history is its own plan.**
+
 📍 **2026-07-30 — the code words are off the rating panel, and you green-lit it.**
 [user-test-fixes](docs/plans/doing/user-test-fixes-jul-29/plan.md) P1 of 3 — the first fix from your
 Figma sticky board (Machar's session). His screen showed `[THREAD-DEFERRED-WINDDOWN]` inside a
