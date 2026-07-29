@@ -1,6 +1,13 @@
 # Phase 1 — The last screen stops interviewing them
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk · **Finding:** F7
+**Part of:** [plan.md](plan.md) · **Status:** ✅ · **Finding:** F7
+
+## ✅ GREEN-LIT 2026-07-29 — Carl signed it off from the proof in chat, unwalked (commit `2118b32e`)
+
+He picked option A off the mockup, then green-lit on the screenshots plus the real inbox row rather
+than walking to the Finish button himself. Consistent with his evidence-first rule. The one thing
+neither of us exercised stays written down: the gate that decides who is shown the card. It was not
+changed by this phase.
 
 ## Built (2026-07-29)
 

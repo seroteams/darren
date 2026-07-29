@@ -1401,3 +1401,41 @@ local-only, then `/api/version` showed sero.team already running a build that co
 parallel chat had pushed. STATUS had also been claiming "9 commits ahead of live" since 27 Jul
 while main was level. **Trackers should state the deploy state they measured, never the one they
 assumed.**
+
+## 2026-07-29 — machar-fixes P1: softening an instrument is not the same as deleting it
+
+The first fix out of the first corridor-test session. Carl, watching Machar's screen, said "we don't
+need that QA prompt, that's for me." The obvious reading was "remove it".
+
+**Reading the code first changed the answer.** The prompt was three stacked questions, and the
+middle one, "Would you use this before your next 1:1?", is the **only automatic read on whether a
+tester would come back** — the pass bar for the whole validation stage
+(`docs/reference/gtm-validation-plan.md`). Removing it would have deleted the measurement while
+the experiment was running, in the same week Machar sits with two more managers Carl will not be
+watching. Put back to Carl as a fork with that cost named, he chose soften-and-keep. **When a
+request would remove something, check what else it is load-bearing for before agreeing.**
+
+**The QA-form feel came from the labels, not the questions.** Three `eyebrow` small-caps section
+headers over button rows is the shape of an internal form. One question set at reading size reads
+as a conversation. Same component, same modal shell.
+
+**A dropped question can be carrying a second job.** The one that went ("Did the prep give you
+something useful?") also *was* the star rating, mapping Yes/Sort of/No to 5/3/1. Runs therefore no
+longer auto-rate on Finish. The tempting fix — derive stars from the verdict — would have fabricated
+a rating the manager never gave, so it was refused and the trade-off was drawn on the mockup for
+Carl to choose knowingly. **Honesty rule holds for ratings, not only for engine output.**
+
+**A source-reading guard fired on its own explanation.** The new test asserts the dropped questions
+cannot come back, and the module's header comment names them to explain why they went. The guard read
+the comment and failed the file it was protecting. Strip comments before substring-matching source.
+
+**Verification stayed free by mounting the real card rather than walking to it.** Reaching the Finish
+button means running a whole 1:1, and every turn is a paid model call. Mounting the real module on
+the real page with the real stylesheet, then driving its real save path and reading the row back out
+of the Feedback inbox, proved everything except *who gets shown the card* — which is the one thing
+the phase did not change, and which was written down as unproven rather than glossed.
+
+**Dev autologin cost a detour, again.** The first save attempt 500'd: `invalid input syntax for type
+uuid: "dev-org"`. Not the change — the autologin lane's fake ids can never write to Postgres.
+Registering a real local account took a minute and made the proof real. Third time this has bitten;
+it is in memory, and the memory was right.

@@ -22,6 +22,22 @@ Prototype of all five stays at `admin/src/stages/tests/welcome-lean.js`.
 **Commit `7341697d` — and it is already LIVE**: a parallel chat's push carried it out inside build
 `33dfdca7` (sero.team, confirmed on `/api/version`). Nothing has touched these files since.
 
+📍 **2026-07-29 — the last screen of a 1:1 stopped interviewing the tester, and you green-lit it.**
+[machar-fixes](docs/plans/doing/machar-fixes-jul-29/plan.md) P1 of 4, the first fix out of Machar's
+session. You caught it live over his shoulder: "we don't need that QA prompt, that's for me." It was
+three stacked questions with small-caps labels, which is what made it read as an internal form. It is
+now **one question in Sero's voice** — "Would you use this before your next 1:1?" — plus an optional
+line. That question stays because it is the corridor test's only automatic read on whether a tester
+would come back; deleting it would have quietly removed the pass-bar instrument.
+
+You picked option A off the mockup, so the dropped question took the star rating with it: it had been
+doubling as one (Yes/Sort of/No became 5/3/1). Runs no longer rate themselves at the end; rating stays
+a deliberate act on the run's own page. Deriving stars from "would you use this again" would have been
+inventing a rating, so it is not done, and a test now says so. Proved on the real screen at desktop
+and phone width, and the answer was read back out of the Feedback inbox rather than inferred from the
+save code. **203/203, typecheck, both linters. Commit `2118b32e`, committed local, ships next
+"go live".** P2 (the opening) building now.
+
 📍 **2026-07-29 — THE CORRIDOR TEST STARTED. Manager 1 is Machar Smith, and he tested today.**
 An 18-minute facilitated walkthrough on video, Machar driving, a real scenario end to end. Verdict:
 positive — "it just feels like tweaks more than anything else", usability "really good", first
@@ -261,7 +277,7 @@ every unbuilt tail was parked (nothing deleted — one sentence un-parks any of 
 green-lit is pushed live — **except** the repeat-question fix green-lit later today, which is committed and ships on the next push.
 
 ## ▶ Your move
-1. **Pick which Machar fixes to build** — nine findings in the [session log](docs/validation/machar-2026-07-29.md); F1 (the summary's sharp question belongs in the meeting) is the big one.
+1. **Nothing on the Machar fixes right now** — P1 ✅ green-lit, P2 (the opening) is building. The next thing needing you is a yes to **one paid run, about $0.35**, at P4: a prompt change cannot be proven free, because replay returns recorded model output. [Plan](docs/plans/doing/machar-fixes-jul-29/plan.md) · [board](docs/plans/doing/machar-fixes-jul-29/board.html) · [mockup](https://claude.ai/code/artifact/aae6f4d2-d715-42cc-8229-2b177daf5926).
 2. **Walk the live first-run** — the new three-focus-points welcome is live now (build `33dfdca7`), and it changed the exact screen this item is about. The one thing local can never prove: register a brand-new account on sero.team and check the first screen and the empty rail behave on the real deploy.
 3. ~~Push the empty-states fix~~ — **SHIPPED**. [empty-states](docs/plans/done/empty-states/plan.md) closed 2026-07-28 (both phases, commits `2ac61fc6` + `d14d6d76`): the customer rail no longer hides a new manager's rows, and Team / Past 1:1s / Members say what they will hold. Both commits verified inside live build `33dfdca7` on 2026-07-29, so the stripped rail you hit is gone from sero.team. [Board](https://claude.ai/code/artifact/9bc58e32-53e9-48b8-a17e-f3accbd7951b).
 4. **The corridor test is RUNNING, and all three names are locked** — **Kate, Machar, Nora** (2026-07-29, on the [GTM one-pager](docs/reference/gtm-validation-plan.md)). Machar has run his first session ([log](docs/validation/machar-2026-07-29.md)); Kate and Nora have not been asked yet. Left for you: ask those two, and flip Render to paid so the site never sleeps on a tester. **Render goes paid 2026-07-30 (Carl, payday).** Until then the free plan sleeps after inactivity, so a cold first click can hang about 50 seconds: worth sending Kate's and Nora's invites after the flip, not before.
@@ -271,6 +287,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
+| [machar-fixes-jul-29](docs/plans/doing/machar-fixes-jul-29/plan.md) | 4 phases from the first corridor manager's session. **P1 ✅ green-lit 2026-07-29** (the finish prompt is one question, not a form). **P2 🔨** the opening merges both agendas and "nothing specific" stops costing a turn. P3 ⬜ wellbeing stops reading a team problem as personal strain. P4 ⬜ plain words, sharper ask — the only paid step (~$0.35). F3, the hold-a-question control, was **cut by Carl** and is parked with its research. |
 | [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 ✅ closed **unwalked** 2026-07-27 (shell + layout; built 07-25, regression test guards it). P3–P9 ⬜ — nothing built, so this stays open. |
 | [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). Must reuse `hasRealRuns` from the onboarding build. |
