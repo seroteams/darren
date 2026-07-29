@@ -9,7 +9,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
-| a1867f25 | audit-fixes P7c (the small sweep) | admin/src/stages/admin-pulse.ts, admin/src/styles/admin-pulse.css, frontend/src/stages/person-detail.ts, frontend/src/stages/person-detail.test.ts, frontend/src/stages/person-axes.ts, frontend/src/stages/person-axes.test.ts, admin/src/ui/recap-header.ts, admin/src/ui/recap-header.test.ts, admin/src/ui/app-nav.js, frontend/src/ui/app-nav.js, admin/src/styles/design/app-nav.css, admin/src/styles/design/admin-tables.css, shared/api.js, docs/plans/doing/audit-fixes-jul-25/ | 2026-07-29 |
 
 **Rules (for Claude sessions — Carl never has to touch this file):**
 
