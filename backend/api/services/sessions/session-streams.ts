@@ -34,6 +34,7 @@ import { openStream } from "../../sse.ts";
 import { summarizeAxes } from "./session-views.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
 import { formatNotesForEvaluation, stripTesterNoteLines } from "./notes-format.ts";
+import { stripEngineTags } from "./note-tags.ts";
 import { finalizeBriefing } from "./finalize-briefing.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
@@ -301,7 +302,9 @@ export async function planStream(c: RequestContext): Promise<void> {
     stream.write("thinking", { label: cached.thinkingLabel });
     setTimeout(() => {
       stream.write("axes", { axes: cached.axes, issues: cached.issues });
-      if (cached.note) stream.write("note", { note: cached.note });
+      // The cache keeps the raw note (tags and all); the screen never sees tags.
+      const replayNote = cached.note ? stripEngineTags(cached.note) : "";
+      if (replayNote) stream.write("note", { note: replayNote });
       stream.write(cached.terminal, {});
       stream.close();
     }, 250);
@@ -502,8 +505,12 @@ export async function planStream(c: RequestContext): Promise<void> {
   // not in queue) are moot — its re-plan is discarded — so don't surface them.
   const issues = !scripted && planResult.issues?.length ? planResult.issues : undefined;
   stream.write("axes", { axes, issues });
-  if (planResult.assessment.note) {
-    stream.write("note", { note: planResult.assessment.note });
+  // Strip engine bracket tags at this boundary only (user-test-fixes P1):
+  // turnEntry.note (set above) stays raw for delta-gates/read-quality; the
+  // browser gets plain sentences. A tag-only note sends nothing.
+  const uiNote = planResult.assessment.note ? stripEngineTags(planResult.assessment.note) : "";
+  if (uiNote) {
+    stream.write("note", { note: uiNote });
   }
 
   // Turn + run-root logs through the dual-write funnel (postgres-runtime-data
