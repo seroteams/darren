@@ -2,6 +2,19 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-29 — "What is Sero?" is now the six-step How-Sero-works walkthrough, LIVE on your word
+("put this live").** The committee reviewed the real first-login and relogin screens and found no
+reachable page told the story past the brief: the meeting itself, the recap, and the loop were
+invisible. Three shapes were prototyped in the test gallery ("How it works. Three shapes"); you
+picked **C, one flat page**, then asked for pictures, so every step carries a small ghost schematic
+of its real screen. The About page's manager view is now that page: six steps chaptered Before /
+In the room / After, step 4 (Sero sits in the meeting with you) highlighted, every step naming the
+real on-screen stage label so the walkthrough and the app speak one language. Member view untouched.
+Page tests 9/9, typecheck, both guards green. **Commit `d55e3259`, pushed inside build `969da20`,
+confirmed on the live `/api/version` badge.** Signed-in managers reach it from "What is Sero?" in
+the rail; the logged-out front door still doesn't link to it (parked with the committee's research
+handoff). Committee log: `logs/committee/2026-07-29-how-it-works-clickthrough.html`.
+
 📍 **2026-07-29 — the Screens gallery is gone, on your word ("delete screens feature we dont
 need it").** The whole feature came out: the Build rail row, the `/gallery` routes and deep links,
 the edit-bar host, the static-export script and its fixtures, the 43 exported snapshot pages, and
