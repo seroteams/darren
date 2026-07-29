@@ -873,6 +873,18 @@ test("start (manual) creates via the seam, persists, fires the pre-warm once, an
     notes: "busy week",
   });
   assert.ok(call.introQueue.length >= 1 && call.introQueue.length <= INTRO_BUDGET);
+
+  // The agenda check reaches the queue the runner reads, and it asks for the OTHER
+  // person's aim rather than only for topics (machar-fixes P2). Machar: "you've got two
+  // people coming with maybe not exactly the same agenda... I also want to hear from my
+  // staff." Naming the manager's own agenda first is what makes the ask a real invitation.
+  const agendaCheck = call.introQueue.find((q) => q.alias === "q_intro_agenda_check");
+  assert.ok(agendaCheck, "the agenda check was dropped from the intro queue");
+  assert.equal(
+    agendaCheck.name,
+    "I've got a couple of things to cover. What do you want to get out of today?",
+  );
+  assert.deepEqual(agendaCheck.axis_effects, { engagement: 1, clarity: 1 });
   // Budget follows the arc: index 0 is the bi-weekly check-in, whose arc sums to 6
   // (not the old flat 9). This is what stops the light meeting types over-running.
   assert.equal(call.totalBudget, 6);

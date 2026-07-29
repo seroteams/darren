@@ -74,7 +74,7 @@ Dug out of the code so no phase stalls:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The last screen stops interviewing them | The end-of-run prompt in Sero's voice, one question, return-intent signal kept | ✅ |
-| 2 | The opening merges both agendas | Asks what the employee wants from the session; "nothing specific" stops costing a turn | 🔨 |
+| 2 | The opening merges both agendas | Asks what the employee wants from the session; "nothing specific" stops costing a turn | 🔨 built, awaiting Carl |
 | 3 | A hard team is not a hard week | Wellbeing scores the person, not the situation they describe; baseline and "why" bugs fixed | ⬜ |
 | 4 | Plain words, sharper ask | Live questions lose the heavy vocabulary and gain the push-it-back move; recap's second summary separated | ⬜ |
 
@@ -92,8 +92,14 @@ Carl's explicit yes.
 
 **Phase 1 ✅ green-lit 2026-07-29** (commit `2118b32e`) — the end-of-run prompt is one question in
 Sero's voice, and the auto star rating went with the question that carried it, Carl's choice off the
-mockup. Signed off from the proof in chat rather than a walk. **Phase 2 (the opening) started
-2026-07-29** on his "a".
+mockup. Signed off from the proof in chat rather than a walk.
+
+**Phase 2 🔨 built 2026-07-29, awaiting Carl.** The opening now names the manager's agenda and asks
+for the other person's; "nothing specific" mints nothing and buys no turn. 204/204, typecheck, both
+linters. **The one open question for him is the wording of the new opening line.** Its live behaviour
+is deliberately unproven, because reaching it costs a paid model call: see the gap section in
+[phase-2.md](phase-2.md), which proposes folding that check into P4's single paid run rather than
+buying a second.
 
 **Baseline recorded 2026-07-29, before any change: `npm test` 202/202 green, `npm run typecheck`
 clean.** Both free. `npm run gate` was NOT run as a baseline: it is the paid one (~$3) and the free

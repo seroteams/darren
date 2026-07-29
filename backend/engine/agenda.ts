@@ -2,8 +2,23 @@
 // one-line item that gets re-asked in the runner and surfaced in the briefing.
 
 import type { Question } from "../shared/question.types.ts";
+import { isDecline } from "./read-quality.ts";
 
 const MAX_SUMMARY_CHARS = 80;
+
+// Is the agenda-check answer a topic worth re-asking, or a polite "no thanks"?
+//
+// machar-fixes P2. The caller used to decide this inline with "not skipped and not
+// empty", so "nothing specific" was carried forward as if it were an agenda item and
+// bought itself an extra turn. `isDecline` already lists those phrases verbatim
+// (read-quality.ts) — the carry-forward simply never consulted it. Named and pure so
+// the rule is testable on its own rather than buried in the SSE handler.
+export function shouldCarryAgendaForward(answer: { skipped?: boolean; text?: string }): boolean {
+  if (answer?.skipped) return false;
+  const text = String(answer?.text || "").trim();
+  if (!text) return false;
+  return !isDecline(text);
+}
 
 // Deterministic one-line condense of the raw agenda answer. No model call.
 export function summarizeAgenda(raw: string | undefined): string {

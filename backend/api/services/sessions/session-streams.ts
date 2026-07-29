@@ -22,7 +22,7 @@ import { applyDeltas, serialize } from "../../../engine/axes.ts";
 import { planTurn } from "../../../engine/queue-manager.ts";
 import { classifyAnswer } from "../../../engine/read-quality.ts";
 import { appendEligibilityLog } from "../../../engine/question-eligibility.ts";
-import { summarizeAgenda, buildCarryForwardQuestion } from "../../../engine/agenda.ts";
+import { summarizeAgenda, buildCarryForwardQuestion, shouldCarryAgendaForward } from "../../../engine/agenda.ts";
 import * as questions from "../../../engine/questions.ts";
 import { materializeQuestion } from "../../../engine/intro-queue.ts";
 import { logTurn, logRunRoot } from "../../../engine/session.ts";
@@ -437,12 +437,18 @@ export async function planStream(c: RequestContext): Promise<void> {
 
   // Agenda carry-forward: when the agenda-check answer is real, re-ask it as
   // the immediate next question so the topic the report raised can't be dropped.
+  //
+  // A polite decline is NOT a topic (machar-fixes P2). The test used to be
+  // "not skipped and not empty", so "nothing specific" became the question
+  // `At the start they wanted to make sure you covered: "nothing specific".
+  // Dig into it.` AND bought itself a turn off the budget. Machar, the first
+  // corridor manager: "asking me the question on what does nothing specific
+  // mean is a wasted opportunity." See shouldCarryAgendaForward.
   if (
     !scripted &&
     !session.agendaInjected &&
     q.alias === "q_intro_agenda_check" &&
-    !pending.skipped &&
-    pending.text.trim()
+    shouldCarryAgendaForward(pending)
   ) {
     const summary = summarizeAgenda(pending.text);
     session.agendaInput = { raw: pending.text, summary };

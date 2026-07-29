@@ -64,14 +64,21 @@ function isIssueType(v: unknown): v is IssueType {
 }
 
 // The semi-set early agenda question /start always seeds into the intro queue,
-// anchored to the meeting arc's first stage. Pure — moved verbatim from the handler.
+// anchored to the meeting arc's first stage.
+//
+// Reworded 2026-07-29 (machar-fixes P2). It used to ask only what to COVER, which
+// collects topics but never the other person's aim for the time. Machar, the first
+// corridor manager: "you've got two people coming with maybe not exactly the same
+// agenda... I'm okay with that on my side, but I also want to hear from my staff."
+// Naming the manager's own agenda first is what makes the second half a real
+// invitation rather than a formality.
 function buildAgendaCheck(anchorStageId: string | null): Question {
   return Object.freeze({
     alias: "q_intro_agenda_check",
     label: "Agenda check",
-    name: "Before we get into it, anything you want to make sure we cover today?",
+    name: "I've got a couple of things to cover. What do you want to get out of today?",
     description:
-      "Semi-set early question. Gives the team member explicit permission to set the agenda before the manager's plan takes over.",
+      "Semi-set early question. Names that the manager has an agenda, then asks for the team member's, so both are on the table before the manager's plan takes over.",
     purpose: "engagement",
     stage: anchorStageId,
     axis_effects: { engagement: 1, clarity: 1 },
