@@ -50,22 +50,122 @@
   max-width: var(--measure);
 }
 
-/* How it works: four flat cards in a two-by-two grid, one column on a phone. */
-.about-steps {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--sero-space-4);
-}
-.about-step {
+/* How Sero works: the six-step walkthrough (shape C of the gallery prototype,
+   Carl's pick 2026-07-29). Chapter rule-rows, then one flat card per step:
+   number, text, ghost picture. One column of rows, the picture on the right at
+   desktop and stacked under the text on a phone. */
+.about-how {
   display: flex;
   flex-direction: column;
   gap: var(--sero-space-3);
 }
-.about-step__top {
+.about-cap {
   display: flex;
   align-items: center;
   gap: var(--sero-space-3);
+  margin-top: var(--sero-space-2);
 }
+.about-cap:first-child {
+  margin-top: 0;
+}
+.about-cap::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--color-border);
+}
+.about-cap span {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+}
+.about-how__row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--sero-space-3);
+}
+.about-how__row--big {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+}
+.about-how__b {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+}
+.about-how__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sero-space-2);
+}
+.about-how__title {
+  margin: 0;
+  font-size: var(--type-body-lg);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-tight);
+  color: var(--color-ink);
+}
+.about-how__line {
+  margin: 0;
+  color: var(--color-ink-dim);
+  line-height: var(--type-leading-normal);
+  max-width: 52ch;
+}
+.about-how__you {
+  margin: 0;
+  font-size: var(--type-body-sm);
+  color: var(--color-ink-dim);
+  line-height: var(--type-leading-normal);
+}
+.about-how__you b {
+  color: var(--color-ink);
+  font-weight: var(--type-weight-semibold);
+}
+.about-chip {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-ink-mute);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--sero-radius-full);
+  padding: 2px var(--sero-space-3);
+  white-space: nowrap;
+}
+
+/* The ghost pictures: token-coloured schematics, shapes only, never words. */
+.about-art {
+  flex: none;
+  width: 200px;
+  align-self: center;
+}
+.about-art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.about-art .c {
+  fill: var(--color-surface);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+.about-art .ln {
+  fill: var(--color-ink);
+}
+.about-art .ac {
+  fill: var(--color-accent);
+}
+.about-art .acs {
+  fill: var(--color-accent-soft);
+}
+.about-art .lv {
+  fill: var(--sero-lavender-300);
+}
+.about-art .lvd {
+  fill: var(--sero-lavender-800);
+}
+
 .about-step__n {
   display: inline-flex;
   align-items: center;
@@ -80,136 +180,6 @@
   font-weight: var(--type-weight-semibold);
   font-variant-numeric: tabular-nums;
 }
-.about-step__icon {
-  display: inline-flex;
-  color: var(--color-accent-dark);
-}
-.about-step__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-1);
-}
-.about-step__title {
-  font-weight: var(--type-weight-semibold);
-  line-height: var(--type-leading-snug);
-  color: var(--color-ink);
-}
-.about-step__body {
-  margin: 0;
-  color: var(--color-ink-dim);
-  font-size: var(--type-body-sm);
-  line-height: var(--type-leading-normal);
-  text-wrap: pretty;
-}
-
-/* The sample brief as a decorative product shot: the paper card in front, a
-   tinted back-sheet rotated behind it for the layered-stack look. The paper is
-   position:relative so it paints above the ::before sheet in tree order; the
-   corner clipping lives on the paper, never the wrapper, so the sheet survives. */
-.about-sample {
-  position: relative;
-  border-radius: var(--radius-card);
-}
-.about-sample::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--sero-navy-200);
-  border-radius: var(--radius-card);
-  transform: rotate(-1.5deg) translateY(4px);
-}
-.about-sample__paper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-lift);
-  overflow: hidden;
-}
-.about-sample__banner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sero-space-3);
-  margin: 0;
-  padding: var(--sero-space-3) var(--space-card-pad);
-  background: var(--color-accent-soft);
-  color: var(--color-accent-dark);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-}
-.about-sample__tag {
-  border: 1px solid currentColor;
-  border-radius: var(--sero-radius-full);
-  padding: 0 var(--sero-space-2);
-  font-size: var(--type-body-sm);
-  white-space: nowrap;
-}
-.about-sample__head {
-  display: flex;
-  align-items: center;
-  gap: var(--sero-space-3);
-  padding: var(--space-card-pad);
-  border-bottom: 1px solid var(--color-border);
-}
-/* The initial, not a photo: there is no real person behind the example. */
-.about-sample__avatar {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--sero-radius-full);
-  background: var(--sero-mint-300);
-  color: var(--sero-mint-900);
-  font-weight: var(--type-weight-semibold);
-}
-.about-sample__id {
-  display: flex;
-  flex-direction: column;
-}
-.about-sample__name {
-  font-family: var(--type-family-display);
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-semibold);
-  line-height: var(--type-leading-tight);
-  color: var(--color-ink);
-}
-.about-sample__meta {
-  font-size: var(--type-body-sm);
-  color: var(--color-ink-dim);
-}
-.about-sample__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-5);
-  padding: var(--space-card-pad);
-}
-.about-sample__row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sero-space-2);
-}
-.about-sample__label {
-  color: var(--color-ink-mute);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: var(--type-tracking-wide);
-  text-transform: uppercase;
-}
-/* Ghost lines: the shape of a brief, never invented copy (Carl's pick A). */
-.about-ghost {
-  height: var(--sero-space-2);
-  border-radius: var(--sero-radius-full);
-  background: var(--sero-navy-100);
-}
-.about-ghost + .about-ghost {
-  margin-top: var(--sero-space-2);
-}
-
 /* The alpha note: a quiet left-rule row, not a card. */
 .about-alpha {
   display: flex;
@@ -272,8 +242,17 @@
 }
 
 @media (max-width: 34rem) {
-  .about-steps,
   .about-duo {
     grid-template-columns: 1fr;
+  }
+  /* Phone: the picture drops under the text, aligned with it. */
+  .about-how__row {
+    grid-template-columns: auto 1fr;
+  }
+  .about-how__row .about-art {
+    grid-column: 2;
+    width: 100%;
+    max-width: 240px;
+    margin-top: var(--sero-space-2);
   }
 }
