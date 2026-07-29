@@ -54,13 +54,16 @@ Length stays 2–4 sentences per seat — depth comes from specificity, not word
 Carl-style. The committee table is a STANDING EXCEPTION to the postcard cap (like review tables): the table may run long, prose around it may not.
 
 - 🟡 **YOUR TURN — decide** banner, then the decision in one plain line.
-- **The committee table** (Carl chose this format 2026-07-20) — one row per speaking seat, columns:
+- **The committee table** — **three columns, never more** (Carl, 2026-07-29: the old five-column version was unreadable. Seat and Who said the same thing twice, and Register was a note-to-self dressed up as information).
 
-| Seat | Who | Verdict | What they said | Register |
-|------|-----|---------|----------------|----------|
-| Seed partner / traction | Michael Seibel | ✅ / ⚠️ / ❌ | 1–2 sentences in the seat's own voice and register | Cold, numbers-first |
+| Who | Their call | What they said |
+|-----|-----------|----------------|
+| **Michael Seibel** · traction | ❌ Not yet | 2–4 sentences in that seat's own voice |
 
-  Verdict marks: ✅ back it · ⚠️ back it with a change (name the change) · ❌ against (say why). "What they said" is written in-character — blunt for Seibel, subtractive for Rasmus, etc. — never generic.
+  - **Who** = the name in bold, then a middot and what they are in the room for, in plain words: *traction · 1:1 science · design · evals · ops · law · positioning · behaviour · negotiation · real user*. Never the old formal seat title.
+  - **Their call** = the mark PLUS a plain-English position, so the column reads without a key: ✅ **Do it** · ⚠️ **Yes, but** (name the change) · ❌ **Not yet** / ❌ **No** (say why). Vary the words to fit the actual question ("Ship it", "Wait", "Cut it") — never a bare tick.
+  - **What they said** = written in-character, carrying the depth bar. Never generic.
+  - **Register is not a column.** It is how you write the cell, not something Carl reads.
 - Below the table: the clash (if any) in one plain line, then lettered options A/B/C with ⭐ on the recommendation.
 - If the committee is unanimous and the call is obvious, say so in one line and proceed — don't manufacture a fork.
 - Extra seat-by-seat depth lives behind "more".
