@@ -29,6 +29,89 @@
 
 import { STAGE_DISPLAY } from "../../ui/stage-labels.js";
 
+// Ghost-style schematic of each step's screen (Carl, 2026-07-29: "so text heavy" - every
+// step gets a picture). Shapes only, never fake copy, drawn in the design tokens so they
+// recolour with the theme. viewBox 220x140 across the set so the rows line up.
+const ART = {
+  notes: `
+    <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect class="c" x="14" y="12" width="192" height="116" rx="10"/>
+      <rect class="ln" x="30" y="30" width="70" height="7" rx="3.5" opacity="0.55"/>
+      <rect class="ln" x="30" y="52" width="150" height="6" rx="3" opacity="0.28"/>
+      <rect class="ln" x="30" y="68" width="128" height="6" rx="3" opacity="0.28"/>
+      <rect class="ln" x="30" y="84" width="140" height="6" rx="3" opacity="0.28"/>
+      <rect class="ln" x="30" y="100" width="92" height="6" rx="3" opacity="0.28"/>
+      <rect class="ac" x="128" y="98" width="3" height="11"/>
+    </svg>`,
+  asks: `
+    <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect class="c" x="14" y="14" width="140" height="32" rx="16"/>
+      <rect class="ln" x="30" y="27" width="106" height="6" rx="3" opacity="0.4"/>
+      <rect class="acs" x="66" y="56" width="140" height="28" rx="14"/>
+      <rect class="ln" x="82" y="67" width="96" height="6" rx="3" opacity="0.45"/>
+      <rect class="c" x="14" y="94" width="120" height="30" rx="15"/>
+      <rect class="ln" x="30" y="106" width="86" height="6" rx="3" opacity="0.4"/>
+    </svg>`,
+  brief: `
+    <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect class="c" x="26" y="10" width="168" height="120" rx="10"/>
+      <rect class="ln" x="42" y="24" width="64" height="6" rx="3" opacity="0.5"/>
+      <circle class="ac" cx="50" cy="52" r="7"/>
+      <rect class="ln" x="64" y="44" width="40" height="5" rx="2.5" opacity="0.55"/>
+      <rect class="ln" x="64" y="54" width="112" height="5" rx="2.5" opacity="0.28"/>
+      <circle class="ac" cx="50" cy="80" r="7"/>
+      <rect class="ln" x="64" y="72" width="46" height="5" rx="2.5" opacity="0.55"/>
+      <rect class="ln" x="64" y="82" width="104" height="5" rx="2.5" opacity="0.28"/>
+      <circle class="ac" cx="50" cy="108" r="7"/>
+      <rect class="ln" x="64" y="100" width="52" height="5" rx="2.5" opacity="0.55"/>
+      <rect class="ln" x="64" y="110" width="96" height="5" rx="2.5" opacity="0.28"/>
+    </svg>`,
+  meeting: `
+    <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect class="c" x="10" y="12" width="122" height="116" rx="10"/>
+      <rect class="ln" x="24" y="28" width="94" height="7" rx="3.5" opacity="0.6"/>
+      <rect class="ln" x="24" y="46" width="80" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="ln" x="24" y="58" width="88" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="ln" x="24" y="70" width="64" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="acs" x="24" y="98" width="56" height="16" rx="8"/>
+      <rect class="lv" x="142" y="12" width="68" height="116" rx="10"/>
+      <rect class="lvd" x="152" y="26" width="30" height="5" rx="2.5" opacity="0.7"/>
+      <rect class="lvd" x="152" y="36" width="48" height="6" rx="3" opacity="0.4"/>
+      <rect class="lvd" x="152" y="54" width="34" height="5" rx="2.5" opacity="0.7"/>
+      <rect class="lvd" x="152" y="64" width="40" height="6" rx="3" opacity="0.4"/>
+      <rect class="lvd" x="152" y="82" width="26" height="5" rx="2.5" opacity="0.7"/>
+      <rect class="lvd" x="152" y="92" width="46" height="6" rx="3" opacity="0.4"/>
+      <rect class="lvd" x="152" y="110" width="38" height="6" rx="3" opacity="0.4"/>
+    </svg>`,
+  recap: `
+    <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect class="c" x="26" y="10" width="168" height="120" rx="10"/>
+      <rect class="ln" x="42" y="26" width="100" height="8" rx="4" opacity="0.6"/>
+      <rect class="ln" x="42" y="44" width="136" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="ln" x="42" y="56" width="120" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="ac" x="42" y="74" width="12" height="12" rx="3"/>
+      <rect class="ln" x="62" y="77" width="100" height="5" rx="2.5" opacity="0.4"/>
+      <rect class="ac" x="42" y="96" width="12" height="12" rx="3" opacity="0.35"/>
+      <rect class="ln" x="62" y="99" width="84" height="5" rx="2.5" opacity="0.4"/>
+    </svg>`,
+  loop: `
+    <svg viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect class="c" x="12" y="34" width="84" height="76" rx="10"/>
+      <rect class="ac" x="26" y="48" width="10" height="10" rx="5"/>
+      <rect class="ln" x="42" y="50" width="40" height="5" rx="2.5" opacity="0.4"/>
+      <rect class="ln" x="26" y="68" width="56" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="ln" x="26" y="80" width="48" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="c" x="124" y="34" width="84" height="76" rx="10"/>
+      <rect class="ln" x="138" y="50" width="52" height="5" rx="2.5" opacity="0.4"/>
+      <rect class="ln" x="138" y="68" width="56" height="5" rx="2.5" opacity="0.28"/>
+      <rect class="ln" x="138" y="80" width="40" height="5" rx="2.5" opacity="0.28"/>
+      <path d="M100 72 H114" stroke="var(--color-accent)" stroke-width="2.5" fill="none"/>
+      <path d="M112 66 L120 72 L112 78 Z" fill="var(--color-accent)"/>
+      <path d="M166 32 C166 12, 54 12, 54 30" stroke="var(--color-accent)" stroke-width="2" fill="none" opacity="0.45" stroke-dasharray="4 4"/>
+      <path d="M49 28 L59 28 L54 37 Z" fill="var(--color-accent)" opacity="0.45"/>
+    </svg>`,
+};
+
 // The six steps. `chip` is the label the real screen shows for that part of the flow,
 // straight from STAGE_DISPLAY; step 6 has no screen of its own (it is the loop), so its
 // chip names the moment instead.
@@ -40,6 +123,7 @@ const STEPS = [
     line: "Type rough notes about the person you are meeting. Half sentences are fine.",
     you: "About two minutes of typing.",
     chip: STAGE_DISPLAY.INTAKE,
+    art: ART.notes,
   },
   {
     n: 2,
@@ -48,6 +132,7 @@ const STEPS = [
     line: "Two or three short questions to find what the conversation is really about.",
     you: "You answer in a line or two.",
     chip: STAGE_DISPLAY.FOCUS_POINTS,
+    art: ART.asks,
   },
   {
     n: 3,
@@ -56,6 +141,7 @@ const STEPS = [
     line: "Three focus points: how to open, what to explore, what to listen for.",
     you: "Small enough to hold in your head on the way to the room.",
     chip: STAGE_DISPLAY.PREPARATION,
+    art: ART.brief,
   },
   {
     n: 4,
@@ -65,6 +151,7 @@ const STEPS = [
     you: "You ask, listen, and jot a quick note.",
     chip: STAGE_DISPLAY.QUESTIONING,
     big: true,
+    art: ART.meeting,
   },
   {
     n: 5,
@@ -73,6 +160,7 @@ const STEPS = [
     line: "What was said, what it means, and the actions you both agreed.",
     you: "Only actions you confirm are kept.",
     chip: STAGE_DISPLAY.BRIEFING,
+    art: ART.recap,
   },
   {
     n: 6,
@@ -81,6 +169,7 @@ const STEPS = [
     line: "Last time's promises are checked in, and fresh ground gets covered.",
     you: "You just start the next one. Sero remembers.",
     chip: "Next 1:1",
+    art: ART.loop,
   },
 ];
 
@@ -161,6 +250,16 @@ const STYLE = `
     line-height:var(--type-leading-normal); }
   .hw-you b { color:var(--color-ink); font-weight:var(--type-weight-semibold); }
 
+  /* Step art: ghost schematics drawn in tokens, one per step */
+  .hw-art { flex:none; width:200px; align-self:center; }
+  .hw-art svg { display:block; width:100%; height:auto; }
+  .hw-art .c { fill:var(--color-surface); stroke:var(--color-border); stroke-width:1; }
+  .hw-art .ln { fill:var(--color-ink); }
+  .hw-art .ac { fill:var(--color-accent); }
+  .hw-art .acs { fill:var(--color-accent-soft); }
+  .hw-art .lv { fill:var(--sero-lavender-300); }
+  .hw-art .lvd { fill:var(--sero-lavender-800); }
+
   /* A — the stepper */
   .hw-a { max-width:760px; margin-inline:auto; display:flex; flex-direction:column;
     gap:var(--sero-space-5); padding-top:var(--sero-space-6); }
@@ -187,8 +286,10 @@ const STYLE = `
     color:var(--color-accent-dark); }
   .hw-panel { background:var(--color-surface); border:1px solid var(--color-border);
     border-radius:var(--radius-card); box-shadow:var(--shadow-lift);
-    padding:var(--space-card-pad); display:flex; flex-direction:column;
-    gap:var(--sero-space-3); }
+    padding:var(--space-card-pad); display:grid; grid-template-columns:1fr auto;
+    gap:var(--sero-space-4); align-items:center; }
+  .hw-frame--phone .hw-panel { grid-template-columns:1fr; }
+  .hw-panel__text { display:flex; flex-direction:column; gap:var(--sero-space-3); }
   .hw-panel--big { background:var(--color-accent-soft);
     border-color:var(--color-accent); }
   .hw-panel__meta { display:flex; flex-wrap:wrap; align-items:center;
@@ -239,9 +340,12 @@ const STYLE = `
     gap:var(--sero-space-5); padding-top:var(--sero-space-6); }
   .hw-frame--phone .hw-c { padding-top:var(--sero-space-3); }
   .hw-list { display:flex; flex-direction:column; gap:var(--sero-space-3); }
-  .hw-flat { display:grid; grid-template-columns:auto 1fr; gap:var(--sero-space-3);
+  .hw-flat { display:grid; grid-template-columns:auto 1fr auto; gap:var(--sero-space-3);
     background:var(--color-surface); border:1px solid var(--color-border);
     border-radius:var(--radius-card); padding:var(--sero-space-4) var(--space-card-pad); }
+  .hw-frame--phone .hw-flat { grid-template-columns:auto 1fr; }
+  .hw-frame--phone .hw-flat .hw-art { grid-column:2; width:100%; max-width:240px;
+    margin-top:var(--sero-space-2); }
   .hw-flat--big { background:var(--color-accent-soft); border-color:var(--color-accent); }
   .hw-flat__b { display:flex; flex-direction:column; gap:var(--sero-space-1); }
   .hw-flat__meta { display:flex; flex-wrap:wrap; align-items:baseline;
@@ -260,7 +364,8 @@ const STYLE = `
     color:var(--color-ink-mute); }
 `;
 
-let option = "a";
+// C is the default: Carl picked it on 29 Jul ("c but any chance we can add some images?").
+let option = "c";
 let width = "desktop";
 let stepA = 1; // which step is open in the stepper
 let openB = new Set([4]); // which steps are expanded in chapters; step 4 starts open
@@ -274,7 +379,7 @@ const OPTIONS = [
 const NOTES = {
   a: "<b>A · Stepper.</b> The whole journey as one row of six; click along it, one step open at a time. Bet: six small stops seen at a glance says \"this is light\" better than any sentence. The five kinds of 1:1 strip rides along at the foot so we can judge whether it belongs on this page at all.",
   b: "<b>B · Three chapters.</b> Before, in the room, after. The story lands in three reads; click a step for its detail. Step 4 starts open because it is the part nobody else can say. Bet: managers already hold a meeting in their head as before, during and after, so the shape does the teaching.",
-  c: "<b>C · One page.</b> All six steps visible, nothing behind a click. Bet: thirty seconds of scanning beats any interaction, and a flat page is the version you could send to someone who has never seen Sero.",
+  c: "<b>C · One page.</b> Carl's pick, now with a picture per step: each row carries a small ghost schematic of the real screen at that moment. All six steps visible, nothing behind a click. Bet: thirty seconds of scanning beats any interaction, and a flat page is the version you could send to someone who has never seen Sero.",
 };
 
 // ---- shared bits ----------------------------------------------------------------------
@@ -313,13 +418,16 @@ const screenA = () => {
       ${cta()}
       <div class="hw-rail">${stops}</div>
       <div class="hw-panel ${s.big ? "hw-panel--big" : ""}">
-        <div class="hw-panel__meta">
-          <span class="hw-chip">${s.chapter}</span>
-          ${chips(s)}
+        <div class="hw-panel__text">
+          <div class="hw-panel__meta">
+            <span class="hw-chip">${s.chapter}</span>
+            ${chips(s)}
+          </div>
+          <h2 class="hw-panel__title">${s.title}</h2>
+          <p class="hw-panel__line">${s.line}</p>
+          <p class="hw-you"><b>You:</b> ${s.you}</p>
         </div>
-        <h2 class="hw-panel__title">${s.title}</h2>
-        <p class="hw-panel__line">${s.line}</p>
-        <p class="hw-you"><b>You:</b> ${s.you}</p>
+        <span class="hw-art">${s.art}</span>
       </div>
       <div class="hw-types">
         <span class="hw-types__cap">Five kinds of 1:1</span>
@@ -342,6 +450,7 @@ const screenB = () => {
           <div class="hw-row__body">
             <p class="hw-row__line">${s.line}</p>
             <p class="hw-you"><b>You:</b> ${s.you}</p>
+            <span class="hw-art">${s.art}</span>
             <div>${chips(s)}</div>
           </div>
         </div>`,
@@ -376,6 +485,7 @@ const screenC = () => {
             <p class="hw-flat__line">${s.line}</p>
             <p class="hw-you"><b>You:</b> ${s.you}</p>
           </div>
+          <span class="hw-art">${s.art}</span>
         </div>`,
       )
       .join("");
@@ -457,7 +567,7 @@ function render(host) {
 
 // Mounts into a host element provided by the /test gallery stage.
 export function mount(root) {
-  option = "a";
+  option = "c";
   width = "desktop";
   stepA = 1;
   openB = new Set([4]);
