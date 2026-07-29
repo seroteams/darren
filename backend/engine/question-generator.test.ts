@@ -19,14 +19,37 @@ test("RESPONSE_SCHEMA: axis_effects is non-empty and capped at 3", () => {
   assert.equal(axisEffects.maxItems, 3);
 });
 
-// Coaching hints (coach-panel Phase 2) — optional in the schema so the bank is
-// accepted before and after the prompt is taught to write them; toHints is the
-// gate that keeps only clean ≤3 tagged entries.
-test("RESPONSE_SCHEMA: hints are optional, tagged ask/listen, capped at 3", () => {
+// Coaching hints: exactly 3 tagged entries per question; toHints is the gate
+// that keeps only clean ones off the wire.
+test("RESPONSE_SCHEMA: hints are exactly 3, tagged ask/listen", () => {
   const hints = RESPONSE_SCHEMA.properties.questions.items.properties.hints;
+  assert.equal(hints.minItems, 3);
   assert.equal(hints.maxItems, 3);
   assert.deepEqual(hints.items.properties.kind.enum, ["ask", "listen"]);
-  assert.ok(!RESPONSE_SCHEMA.properties.questions.items.required.includes("hints"));
+});
+
+// THE REGRESSION GUARD. The call runs with strict structured outputs, where
+// OpenAI rejects any schema whose `required` omits a key in `properties` — the
+// whole request 400s. `hints` was added to properties only (19 Jul 2026), and
+// generateBankWithFallback swallowed the 400 into the 8 static _seed questions,
+// so live meetings ran on generic questions for nine days in silence. This
+// walks the WHOLE schema, so the next field added can't repeat it.
+test("RESPONSE_SCHEMA: every property is listed in required (strict mode)", () => {
+  const gaps: string[] = [];
+  const walk = (node: Record<string, unknown>, path: string): void => {
+    if (!node || typeof node !== "object") return;
+    const props = node.properties as Record<string, Record<string, unknown>> | undefined;
+    if (node.type === "object" && props) {
+      const required = Array.isArray(node.required) ? (node.required as string[]) : [];
+      for (const key of Object.keys(props)) {
+        if (!required.includes(key)) gaps.push(`${path}.${key}`);
+        walk(props[key] as Record<string, unknown>, `${path}.${key}`);
+      }
+    }
+    if (node.type === "array" && node.items) walk(node.items as Record<string, unknown>, `${path}[]`);
+  };
+  walk(RESPONSE_SCHEMA as unknown as Record<string, unknown>, "");
+  assert.deepEqual(gaps, [], `missing from required: ${gaps.join(", ")}`);
 });
 
 test("toHints keeps valid ask/listen entries and caps at 3", () => {

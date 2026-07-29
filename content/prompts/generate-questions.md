@@ -23,7 +23,7 @@ The six standing rules of the no-inference ruling (docs/reference/prompt-improve
 <output_contract>
 Return strict JSON only. No prose, no markdown fences.
 
-`questions` is an array of 8–12 items. Each item has exactly: `label`, `name`, `description`, `purpose`, `stage`, `axis_effects`.
+`questions` is an array of 8–12 items. Each item has exactly: `label`, `name`, `description`, `purpose`, `stage`, `axis_effects`, `hints`.
 
 Field rules:
 - `label` — 2–5 words, internal title.
@@ -32,6 +32,7 @@ Field rules:
 - `purpose` — one of `wellbeing`, `topic`, `competency`.
 - `stage` — the `id` of one of the meeting-arc stages below. Tells the planner where in the arc this question lives.
 - `axis_effects` — array of `{axis, delta}`. Include only the 1–2 axes this question meaningfully probes; never more than 3. Each delta is `3`, `1`, `-1`, or `-3`. This is the question's *signature*: the runtime scorer can only score axes you list here, bounded by the magnitude you set.
+- `hints` — **exactly 3** items, each `{kind, text}`. `kind` is `ask` (how to put this question) or `listen` (what to notice in the answer). At least one of each. Manager-only: the employee never sees them. Craft rules in `<coaching_hints>` — a hint that would fit under a different question is a failed hint.
 
 ```json
 {
@@ -42,7 +43,12 @@ Field rules:
       "description": "Tells you whether the pace is a short push or quietly becoming the norm.",
       "purpose": "wellbeing",
       "stage": "pulse",
-      "axis_effects": [ { "axis": "wellbeing", "delta": 3 } ]
+      "axis_effects": [ { "axis": "wellbeing", "delta": 3 } ],
+      "hints": [
+        { "kind": "ask", "text": "Ask it flat, then stop talking. The pause is what gets the real answer." },
+        { "kind": "listen", "text": "Whether the pace is tied to one deadline or has no end date attached." },
+        { "kind": "listen", "text": "Whether they answer for the team instead of for themselves." }
+      ]
     }
   ]
 }
@@ -267,6 +273,27 @@ Tells of the bad register, in any question: "stronger / next-level X", "reaching
 Business and military jargon is also banned in question text and descriptions: "air cover", "leverage", "circle back", "synergy". Say the plain version instead — "where would backing from me help most?", not "where would a bit more air cover from me help most?". A generated question containing these terms is dropped before it can be asked.
 
 </question_craft>
+
+<coaching_hints>
+**Every question carries exactly 3 coaching hints for the manager.** They sit beside the question on the manager's screen while the meeting runs. The employee never sees them. They are the difference between a manager reading a question aloud and a manager actually hearing the answer.
+
+**The test that matters: could this hint sit under a different question?** If yes, it has failed. Name the specific thing to say, or the specific thing to notice in THIS answer. "Listen carefully" and "ask with curiosity" are not hints.
+
+- One line each, **under 20 words**, plain spoken English. Same plain-speech and jargon bans as the questions themselves.
+- At least one `ask` and at least one `listen` in every set of 3.
+- `ask` — how to put it: what to say first, what to hold back, when to stay quiet, how to handle a deflection.
+- `listen` — what to notice in the answer: a specific thing named or avoided, a trade-off made, an ordering given, who they answer for.
+- A `listen` hint describes what is **said or not said**. Never a read of the person's inner state, and never a conclusion to draw. "Whether he names a date" — yes. "Whether he's disengaged" — never (`NO_INFERRED_STATES` applies to hints exactly as it does to questions).
+- Never coach the manager on what to think about the employee, what to decide, or what to say next week. The hint helps them ask and listen, nothing else.
+
+| Avoid (generic, could sit anywhere)     | Prefer (only fits this question)                                  |
+|-----------------------------------------|-------------------------------------------------------------------|
+| "Listen for what they really mean"      | "Whether the blocker they name is a person, a process, or a date" |
+| "Ask with genuine curiosity"            | "Ask, then don't fill the silence. Let them pick where to start."  |
+| "Watch for signs of frustration"        | "Whether they describe the handoff as a one-off or as the norm"    |
+| "Note their level of engagement"        | "Whether they answer for themselves or slide into 'we'"            |
+| "Follow up if the answer is vague"      | "If they give you a status update, ask which of it was theirs"     |
+</coaching_hints>
 
 <meeting_arc>
 **This meeting type follows a specific narrative arc. The bank you generate must support that arc — not a generic axis sweep.**

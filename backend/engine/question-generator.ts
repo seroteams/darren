@@ -70,11 +70,23 @@ const RESPONSE_SCHEMA = {
               additionalProperties: false,
             },
           },
-          // Manager-only coaching hints (coach-panel Phase 2). Optional so the schema
-          // accepts model output both before and after the generate-questions prompt is
-          // taught to write them; when present, ≤3 tagged how-to-ask / listen-for lines.
+          // Manager-only coaching hints: 3 tagged how-to-ask / listen-for lines
+          // (see <coaching_hints> in generate-questions.md).
+          //
+          // MUST stay in `required` below. The call runs with strict structured
+          // outputs, and OpenAI rejects a strict schema whose `required` omits any
+          // key in `properties`:
+          //   "Invalid schema for response_format 'question_bank': 'required' is
+          //    required to be supplied and to be an array including every key in
+          //    properties. Missing 'hints'."
+          // Added to `properties` only (coach-panel Phase 2, 19 Jul 2026), that 400
+          // killed every bank call. generateBankWithFallback caught it and served
+          // the 8 static _seed questions instead, so live meetings ran on generic
+          // questions for nine days with nothing but a console.warn to show for it
+          // (found 29 Jul 2026 — question-support-hints Phase 1).
           hints: {
             type: "array",
+            minItems: 3,
             maxItems: 3,
             items: {
               type: "object",
@@ -87,7 +99,7 @@ const RESPONSE_SCHEMA = {
             },
           },
         },
-        required: ["label", "name", "description", "purpose", "stage", "axis_effects"],
+        required: ["label", "name", "description", "purpose", "stage", "axis_effects", "hints"],
         additionalProperties: false,
       },
     },

@@ -40,8 +40,16 @@ interface QuestionIndex {
 }
 
 // -----------------------------------------------------------------------------
-// Minimal YAML codec (scoped to our question shape: flat scalars + one-level
-// nested axis_effects: {axisId: int}). Not a general YAML parser.
+// Minimal YAML codec (scoped to our question shape: flat scalars, one-level
+// nested axis_effects: {axisId: int}, and one-level lists of flat objects for
+// `hints`). Not a general YAML parser.
+//
+// The list support is question-support-hints Phase 1. Before it, a `hints` array
+// fell through to emitScalar's String(v) and every saved copy read
+// `hints: [object Object],[object Object]` — the field was destroyed on write
+// and unreadable on load, so file-mode and seed questions could never carry
+// coaching. Nesting stays ONE level deep on purpose: anything deeper belongs in
+// a real YAML library, not here.
 // -----------------------------------------------------------------------------
 
 function needsQuoting(s: string): boolean {
@@ -63,6 +71,29 @@ function emitSignedNumber(n: number): string {
   return n > 0 ? `+${n}` : String(n);
 }
 
+// One list, as indented block-sequence lines. Object items emit their first key
+// on the dash line and the rest aligned under it; scalar items emit inline.
+// Items that carry nothing usable are skipped rather than written as an empty
+// dash, which would parse back as a stray null.
+function emitList(items: unknown[]): string[] {
+  const lines: string[] = [];
+  for (const item of items) {
+    if (item && typeof item === "object" && !Array.isArray(item)) {
+      const entries = Object.entries(item as Record<string, unknown>).filter(
+        ([, val]) => val !== undefined && val !== null && typeof val !== "object",
+      );
+      if (!entries.length) continue;
+      entries.forEach(([k, val], idx) => {
+        lines.push(`${idx === 0 ? "  - " : "    "}${k}: ${emitScalar(val)}`);
+      });
+      continue;
+    }
+    if (item === undefined || item === null) continue;
+    lines.push(`  - ${emitScalar(item)}`);
+  }
+  return lines;
+}
+
 function stringifyYaml(obj: Record<string, unknown>): string {
   const lines: string[] = [];
   const keys = FIELD_ORDER.filter((k) => k in obj).concat(
@@ -77,6 +108,17 @@ function stringifyYaml(obj: Record<string, unknown>): string {
       for (const axisId of Object.keys(effects)) {
         lines.push(`  ${axisId}: ${emitSignedNumber(Number(effects[axisId]))}`);
       }
+      continue;
+    }
+    // A list of flat objects (hints) or of scalars. An empty list is written as
+    // nothing at all — same as an absent field, which is how every reader
+    // already treats it.
+    if (Array.isArray(v)) {
+      if (!v.length) continue;
+      const block = emitList(v);
+      if (!block.length) continue;
+      lines.push(`${key}:`);
+      lines.push(...block);
       continue;
     }
     lines.push(`${key}: ${emitScalar(v)}`);
@@ -95,6 +137,61 @@ function parseScalar(raw: string): string | number | boolean {
   if (/^[+-]?\d+$/.test(s)) return Number(s);
   if (/^[+-]?\d+\.\d+$/.test(s)) return Number(s);
   return s;
+}
+
+const LIST_ITEM_RE = /^\s+-\s+(.*)$/;
+const INDENTED_PAIR_RE = /^\s+([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$/;
+
+// Is the first non-blank line from `start` a list item? Decides between the
+// nested-map branch and the list branch, since both open with a bare `key:`.
+function nextBodyLineIsListItem(lines: string[], start: number): boolean {
+  for (let i = start; i < lines.length; i++) {
+    const line = lines[i];
+    if (line === undefined) return false;
+    if (/^\s*(#.*)?$/.test(line)) continue;
+    return LIST_ITEM_RE.test(line);
+  }
+  return false;
+}
+
+// The mirror of emitList: dash lines open an item, indented pairs continue the
+// object opened by the last dash. Stops at the first line that is neither.
+function parseListBlock(lines: string[], start: number): { items: unknown[]; next: number } {
+  const items: unknown[] = [];
+  let current: Record<string, unknown> | null = null;
+  let i = start;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (line === undefined) break;
+    if (/^\s*(#.*)?$/.test(line)) {
+      i++;
+      continue;
+    }
+    const dash = line.match(LIST_ITEM_RE);
+    if (dash) {
+      const body = (dash[1] ?? "").replace(/\s+#.*$/, "").trim();
+      const pair = body.match(/^([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$/);
+      if (pair && pair[1] !== undefined) {
+        current = { [pair[1]]: parseScalar(pair[2] ?? "") };
+        items.push(current);
+      } else if (body !== "") {
+        current = null;
+        items.push(parseScalar(body));
+      } else {
+        current = null;
+      }
+      i++;
+      continue;
+    }
+    const pair = line.match(INDENTED_PAIR_RE);
+    if (pair && current && pair[1] !== undefined) {
+      current[pair[1]] = parseScalar((pair[2] ?? "").replace(/\s+#.*$/, ""));
+      i++;
+      continue;
+    }
+    break;
+  }
+  return { items, next: i };
 }
 
 function parseYaml(text: string): Record<string, unknown> {
@@ -120,6 +217,12 @@ function parseYaml(text: string): Record<string, unknown> {
       continue;
     }
     const stripped = rest.replace(/\s+#.*$/, "").trim();
+    if (stripped === "" && nextBodyLineIsListItem(lines, i + 1)) {
+      const { items, next } = parseListBlock(lines, i + 1);
+      out[key] = items;
+      i = next;
+      continue;
+    }
     if (stripped === "") {
       const nested: Record<string, unknown> = {};
       i++;
