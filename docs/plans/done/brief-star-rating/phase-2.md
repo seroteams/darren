@@ -1,6 +1,8 @@
 # Phase 2 — Scores in the inbox
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl rated a brief, opened the Feedback inbox, and followed the row through to the 1:1 (commit 0d026aaa)
 
 ## Built (2026-07-30)
 

@@ -39,13 +39,18 @@ Nothing currently tells us whether the prep brief is any good. The manager reads
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Stars on the brief | The rating card on the Prep screen, saving to the database | ✅ |
-| 2 | Scores in the inbox | Brief-rating rows in `/admin/feedback` with the score and a run link | 🔨 |
+| 2 | Scores in the inbox | Brief-rating rows in `/admin/feedback` with the score and a run link | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 
-Mockup approved by Carl 2026-07-30. **Phase 1 signed off by Carl 2026-07-30** (commit e21ed525): he walked the prep brief, tapped the stars, and carried on into the questions. Phase 2 in progress.
+**✅ CLOSED 2026-07-30. Both phases green-lit, same day, £0 spent.**
+
+- Mockup approved, then P1 signed off (commit `e21ed525`): he walked the prep brief, tapped the stars, and carried on into the questions.
+- P2 signed off (commit `0d026aaa`): he rated a brief, opened the Feedback inbox, and followed the row through to the 1:1.
+
+Nothing left open. Not yet pushed live: it ships on the next "go live".
 
 Board: https://claude.ai/code/artifact/6de9e218-84d0-4ad7-b860-8998d3fc1e3c
 
