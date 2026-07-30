@@ -1,0 +1,242 @@
+<title>Questions loading state</title>
+<style>
+  :root {
+    --page: #f5fafd;
+    --surface: #fdfefe;
+    --border: #e8e8e8;
+    --ink: #1f2a37;
+    --dim: #636363;
+    --lav-100: #faf9fd;
+    --lav-200: #f4f1fa;
+    --lav-600: #c5b5e4;
+    --lav-800: #55358f;
+    --lav-900: #261840;
+    --ghost: #ebeef0;
+    --ghost-hi: #f5f7f8;
+    --display: "Bricolage Grotesque", "InterVariable", Inter, system-ui, sans-serif;
+    --body: "InterVariable", Inter, system-ui, -apple-system, sans-serif;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);
+  }
+
+  body { margin: 0; background: #eef3f7; color: var(--ink); font-family: var(--body); font-size: 15px; }
+  .wrap { max-width: 1220px; margin: 0 auto; padding: 28px 20px 56px; display: flex; flex-direction: column; gap: 18px; }
+
+  .lede { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  .lede h1 { font-family: var(--display); font-size: 26px; font-weight: 600; margin: 0 0 4px; letter-spacing: -.01em; }
+  .lede p { margin: 0; color: var(--dim); max-width: 62ch; }
+
+  .switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: var(--lav-200); border: 1px solid var(--lav-600); flex: none; }
+  .switch button { font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; border: 0; border-radius: 999px; padding: 6px 18px; background: none; color: var(--lav-800); }
+  .switch button[aria-selected="true"] { background: var(--surface); color: var(--lav-900); box-shadow: var(--shadow); }
+  .switch button:focus-visible { outline: 2px solid var(--lav-800); outline-offset: 2px; }
+
+  /* --- the mock frame ------------------------------------------------- */
+  .frame { border: 1px solid #d9e2e8; border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 18px 40px -24px rgb(31 42 55 / .28); }
+  .topbar { height: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; border-bottom: 1px solid var(--border); background: var(--surface); font-size: 14px; padding: 0 16px; overflow: hidden; }
+  .step { display: inline-flex; align-items: center; gap: 6px; color: var(--dim); white-space: nowrap; }
+  .step.done { color: var(--ink); }
+  .step.now { color: var(--lav-800); font-weight: 600; background: var(--lav-200); border-radius: 999px; padding: 4px 12px; }
+  .rule { width: 22px; height: 1px; background: var(--border); flex: none; }
+
+  .body-row { display: grid; grid-template-columns: 60px 1fr; min-height: 560px; }
+  .rail { border-right: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 0; }
+  .rail i { width: 22px; height: 22px; border-radius: 7px; background: var(--lav-200); display: block; }
+  .rail i:first-child { background: var(--ink); }
+
+  /* --- proposed: the 50/50 runner ------------------------------------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; }
+  .half { display: grid; grid-template-rows: auto 1fr; padding: 0 40px; min-width: 0; }
+  .half--q { background: var(--page); }
+  .half--coach { background: var(--surface); border-left: 1px solid var(--border); }
+  .head { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-bottom: 1px solid var(--border); min-width: 0; }
+  .facts { display: flex; align-items: baseline; gap: 10px; min-width: 0; white-space: nowrap; overflow: hidden; }
+  .facts b { font-size: 14px; font-weight: 600; }
+  .facts span { font-size: 14px; color: var(--dim); overflow: hidden; text-overflow: ellipsis; }
+  .btn-ghost { font: inherit; font-size: 14px; border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 7px 14px; color: var(--ink); white-space: nowrap; }
+  .privacy { font-size: 14px; color: var(--lav-800); white-space: nowrap; }
+  .col { padding: 36px 0; max-width: 520px; width: 100%; margin-inline: auto; }
+
+  /* the working line: orb + label, sitting where the question will land */
+  .working { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+  .orb { width: 38px; height: 38px; border-radius: 11px; background: #263241; flex: none; display: grid; place-items: center; animation: breathe 2.4s ease-in-out infinite; }
+  .orb svg { display: block; }
+  .working span { font-size: 15px; color: var(--dim); }
+  .working span em { font-style: normal; color: var(--ink); font-weight: 600; }
+  .dots::after { content: "…"; }
+
+  /* ghosts, sized to the real thing they replace */
+  .g { background: linear-gradient(90deg, var(--ghost) 0%, var(--ghost-hi) 50%, var(--ghost) 100%); background-size: 220% 100%; border-radius: 6px; animation: shimmer 1.5s linear infinite; }
+  .g-stem { height: 34px; border-radius: 8px; }
+  .g-desc { height: 18px; }
+  .g-answer { height: 150px; border-radius: 10px; border: 1px solid var(--border); }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .stack--tight { gap: 10px; }
+  .foot-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+  .g-btn { height: 40px; width: 96px; border-radius: 8px; }
+  .g-btn--wide { width: 128px; }
+
+  /* coach half: real content, no ghosts */
+  .source { font-size: 14px; color: var(--dim); margin: 0 0 20px; }
+  .hint { padding: 18px 0; border-top: 1px solid var(--border); }
+  .hint:first-of-type { border-top: 0; padding-top: 0; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; border-radius: 999px; padding: 3px 12px; background: var(--lav-100); color: var(--lav-800); }
+  .hint p { font-size: 16px; line-height: 1.5; margin: 8px 0 0; max-width: 46ch; }
+
+  /* --- now: the centred interstitial --------------------------------- */
+  .now-pane { background: linear-gradient(180deg, #f7fbfe, #eaf3fb); display: grid; place-items: center; padding: 48px 20px; }
+  .now-inner { text-align: center; max-width: 520px; width: 100%; }
+  .orb--big { width: 60px; height: 60px; border-radius: 14px; margin: 0 auto 18px; }
+  .now-label { font-family: var(--display); font-size: 20px; font-weight: 600; margin: 0 0 22px; }
+  .eyebrow { font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); margin: 0 0 18px; }
+  .now-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 26px; text-align: left; }
+
+  /* --- notes ---------------------------------------------------------- */
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .note { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .note h3 { font-family: var(--display); font-size: 15px; margin: 0 0 6px; }
+  .note p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--dim); }
+
+  [hidden] { display: none !important; }
+
+  @keyframes shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+  @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @media (prefers-reduced-motion: reduce) { .g, .orb { animation: none; } }
+
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; }
+    .half--coach { border-left: 0; border-top: 1px solid var(--border); }
+    .half { padding: 0 22px 22px; }
+    .body-row { grid-template-columns: 1fr; }
+    .rail { display: none; }
+    .topbar .step:not(.now) { display: none; }
+    .topbar .rule { display: none; }
+  }
+</style>
+
+<div class="wrap">
+  <div class="lede">
+    <div>
+      <h1>Questions: the waiting screen</h1>
+      <p>Same moment, two versions. The proposed one is already the screen you land on, so nothing moves when the first question arrives.</p>
+    </div>
+    <div class="switch" role="tablist" aria-label="Version">
+      <button type="button" role="tab" aria-selected="false" data-view="now">Now</button>
+      <button type="button" role="tab" aria-selected="true" data-view="new">Proposed</button>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="topbar">
+      <span class="step done">✓ Setup</span><span class="rule"></span>
+      <span class="step done">✓ Focus</span><span class="rule"></span>
+      <span class="step done">✓ Prep</span><span class="rule"></span>
+      <span class="step now">● Questions</span><span class="rule"></span>
+      <span class="step">Meeting</span><span class="rule"></span>
+      <span class="step">Wrap-up</span><span class="rule"></span>
+      <span class="step">Recap</span>
+    </div>
+
+    <div class="body-row">
+      <div class="rail" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+      <!-- PROPOSED -->
+      <div class="split" data-pane="new">
+        <div class="half half--q">
+          <div class="head">
+            <div class="facts">
+              <b>Before you walk in</b>
+              <span>Carl · Mid · UX Designer · Bi-weekly check-in</span>
+            </div>
+            <button type="button" class="btn-ghost">Save and exit</button>
+          </div>
+          <div class="col">
+            <div class="working">
+              <div class="orb" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="3" height="12" rx="1.5" fill="#fdfefe"/><circle cx="10" cy="10" r="1.8" fill="#fdfefe"/><rect x="14" y="4" width="3" height="12" rx="1.5" fill="#fdfefe"/></svg>
+              </div>
+              <span class="dots">Writing your first question<em></em></span>
+            </div>
+            <div class="stack">
+              <div class="g g-stem" style="width:96%"></div>
+              <div class="g g-stem" style="width:62%"></div>
+              <div class="g g-desc" style="width:82%; margin-top:6px"></div>
+              <div class="g g-answer" style="margin-top:14px"></div>
+            </div>
+            <div class="foot-btns" aria-hidden="true">
+              <div class="g g-btn"></div>
+              <div class="g g-btn g-btn--wide"></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="half half--coach" aria-label="Coaching">
+          <div class="head">
+            <div class="switch" aria-hidden="true">
+              <button type="button" aria-selected="true">Support</button>
+              <button type="button" aria-selected="false">Live scores</button>
+            </div>
+            <span class="privacy">Only you see this. Never Carl.</span>
+          </div>
+          <div class="col">
+            <p class="source">From your prep brief for Carl. Written for the whole meeting, not this question.</p>
+            <div class="hint">
+              <span class="pill">Listen for</span>
+              <p>Whether he names one specific flow, screen, or handoff where the trade-off is biting right now.</p>
+            </div>
+            <div class="hint">
+              <span class="pill">Listen for</span>
+              <p>If he mentions unclear scope, shifting priorities, or waiting on product or engineering decisions.</p>
+            </div>
+            <div class="hint">
+              <span class="pill">Listen for</span>
+              <p>Whether he asks for a decision, cover, or clearer priority from you rather than just describing the tension.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- NOW -->
+      <div class="now-pane" data-pane="now" hidden>
+        <div class="now-inner">
+          <div class="orb orb--big" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 20 20" fill="none"><rect x="3" y="4" width="3" height="12" rx="1.5" fill="#fdfefe"/><circle cx="10" cy="10" r="1.8" fill="#fdfefe"/><rect x="14" y="4" width="3" height="12" rx="1.5" fill="#fdfefe"/></svg>
+          </div>
+          <p class="now-label dots">Generating question bank</p>
+          <p class="eyebrow">Questions</p>
+          <div class="now-card">
+            <div class="stack stack--tight">
+              <div class="g g-desc" style="width:100%"></div>
+              <div class="g g-desc" style="width:64%"></div>
+              <div class="g g-desc" style="width:86%; height:14px"></div>
+              <div class="g" style="height:150px; border-radius:10px; margin-top:10px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <div class="note">
+      <h3>The furniture arrives first</h3>
+      <p>Stepper, header, the person's details, Save and exit, the Support toggle and the privacy line are all known already. They render straight away instead of flashing in a second later.</p>
+    </div>
+    <div class="note">
+      <h3>The coach half is real, not grey</h3>
+      <p>Your listen-fors come from the prep brief, which finished two screens ago. No reason to ghost them: you can read them while the question is being written.</p>
+    </div>
+    <div class="note">
+      <h3>Only the question is a ghost</h3>
+      <p>And at the exact size the real one lands: two lines of stem, one of description, the answer box. The page holds still when it swaps.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const btns = document.querySelectorAll('.switch[role="tablist"] button');
+  const panes = document.querySelectorAll('[data-pane]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((o) => o.setAttribute('aria-selected', String(o === b)));
+    panes.forEach((p) => { p.hidden = p.dataset.pane !== b.dataset.view; });
+  }));
+</script>

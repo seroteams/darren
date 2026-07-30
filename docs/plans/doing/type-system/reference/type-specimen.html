@@ -1,0 +1,531 @@
+<title>Sero type system — specimen</title>
+
+<style>
+  :root {
+    /* Sero's real tokens, read from admin/src/styles/design/tokens.css */
+    --ink: #1f2a37;
+    --ink-dim: #636363;
+    --ink-mute: #757575;
+    --page: #f5fafd;
+    --surface: #fdfefe;
+    --border: #e8e8e8;
+    --border-strong: #cccccc;
+    --lav-100: #faf9fd;
+    --lav-200: #f4f1fa;
+    --lav-600: #c5b5e4;
+    --lav-800: #55358f;
+    --negative: #ac1608;
+    --positive: #0c4b3c;
+
+    --display: "Bricolage Grotesque Variable", "Bricolage Grotesque", "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+    --body: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e8eef5;
+      --ink-dim: #a2adba;
+      --ink-mute: #8b95a1;
+      --page: #12181f;
+      --surface: #1a222c;
+      --border: #2b3642;
+      --border-strong: #3d4a58;
+      --lav-100: #221a33;
+      --lav-200: #2b2140;
+      --lav-600: #4d3a75;
+      --lav-800: #c3aeea;
+      --negative: #ff8f82;
+      --positive: #6fd9bb;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e8eef5;
+    --ink-dim: #a2adba;
+    --ink-mute: #8b95a1;
+    --page: #12181f;
+    --surface: #1a222c;
+    --border: #2b3642;
+    --border-strong: #3d4a58;
+    --lav-100: #221a33;
+    --lav-200: #2b2140;
+    --lav-600: #4d3a75;
+    --lav-800: #c3aeea;
+    --negative: #ff8f82;
+    --positive: #6fd9bb;
+  }
+  :root[data-theme="light"] {
+    --ink: #1f2a37;
+    --ink-dim: #636363;
+    --ink-mute: #757575;
+    --page: #f5fafd;
+    --surface: #fdfefe;
+    --border: #e8e8e8;
+    --border-strong: #cccccc;
+    --lav-100: #faf9fd;
+    --lav-200: #f4f1fa;
+    --lav-600: #c5b5e4;
+    --lav-800: #55358f;
+    --negative: #ac1608;
+    --positive: #0c4b3c;
+  }
+
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  /* ---- masthead ---- */
+  .mast { display: flex; flex-direction: column; gap: 14px; }
+  .flag {
+    align-self: flex-start;
+    font-size: 14px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--lav-800); background: var(--lav-200);
+    border: 1px solid var(--lav-600);
+    border-radius: 999px; padding: 4px 14px;
+  }
+  .mast h1 {
+    font-family: var(--display);
+    font-size: 36px; line-height: 40px; font-weight: 600;
+    letter-spacing: -.02em; margin: 0; text-wrap: balance;
+  }
+  .mast p { margin: 0; max-width: 64ch; color: var(--ink-dim); }
+
+  /* ---- section scaffolding ---- */
+  section { display: flex; flex-direction: column; gap: 20px; }
+  .sec-head { display: flex; flex-direction: column; gap: 6px;
+    border-bottom: 1px solid var(--border-strong); padding-bottom: 12px; }
+  .sec-head h2 {
+    font-family: var(--display);
+    font-size: 24px; line-height: 32px; font-weight: 600;
+    letter-spacing: -.01em; margin: 0;
+  }
+  .sec-head p { margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-mute); max-width: 66ch; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* ---- specimen rows ---- */
+  .row {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+  }
+  .row:first-child { border-top: 0; }
+  .row--rung { align-items: center; }
+
+  .spec { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .spec .name {
+    font-family: var(--mono);
+    font-size: 14px; line-height: 20px; font-weight: 400;
+    color: var(--lav-800); word-break: break-word;
+  }
+  .spec .meta {
+    font-size: 14px; line-height: 20px; color: var(--ink-mute);
+    font-variant-numeric: tabular-nums;
+  }
+  .sample { min-width: 0; color: var(--ink); }
+  .sample.dim { color: var(--ink-dim); }
+
+  /* the roles, rendered at true size */
+  .r-display     { font-family: var(--display); font-size: 36px; line-height: 40px; font-weight: 600; letter-spacing: -.02em; }
+  .r-heading-xl  { font-family: var(--display); font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -.01em; }
+  .r-heading-lg  { font-family: var(--display); font-size: 24px; line-height: 32px; font-weight: 600; letter-spacing: -.01em; }
+  .r-heading-md  { font-family: var(--display); font-size: 20px; line-height: 28px; font-weight: 600; }
+  .r-heading-sm  { font-size: 18px; line-height: 28px; font-weight: 600; }
+  .r-heading-xs  { font-size: 16px; line-height: 24px; font-weight: 600; }
+  .r-body-lg     { font-size: 18px; line-height: 28px; font-weight: 400; max-width: 72ch; }
+  .r-body        { font-size: 16px; line-height: 24px; font-weight: 400; max-width: 66ch; }
+  .r-body-sm     { font-size: 14px; line-height: 20px; font-weight: 400; max-width: 66ch; }
+  .r-label       { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: .02em; }
+  .r-label-strong{ font-size: 14px; line-height: 20px; font-weight: 600; }
+  .r-overline    { font-size: 14px; line-height: 20px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .r-code        { font-family: var(--mono); font-size: 14px; line-height: 20px; font-weight: 400; }
+  .r-metric      { font-family: var(--display); font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+
+  .group-label {
+    font-size: 14px; line-height: 20px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--ink-mute);
+    padding: 16px 24px 8px; background: var(--lav-100);
+    border-top: 1px solid var(--border);
+  }
+  .card > .group-label:first-child { border-top: 0; }
+
+  /* ---- the rung bars ---- */
+  .bar {
+    display: inline-block; height: 10px; border-radius: 2px;
+    background: var(--lav-600); vertical-align: middle; margin-right: 12px;
+  }
+  .rung-sample { display: flex; align-items: center; gap: 0; min-width: 0; }
+  .rung-text { font-weight: 500; white-space: nowrap; }
+
+  /* ---- retired table ---- */
+  .tbl-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; }
+  th, td {
+    text-align: left; padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    font-size: 14px; line-height: 20px;
+  }
+  th {
+    font-weight: 600; color: var(--ink-mute);
+    letter-spacing: .02em; border-top: 0;
+    background: var(--lav-100);
+  }
+  td.num { font-variant-numeric: tabular-nums; }
+  .strike { text-decoration: line-through; color: var(--negative); font-family: var(--mono); }
+  .arrow { color: var(--ink-mute); }
+  .lands { font-family: var(--mono); color: var(--lav-800); }
+
+  /* ---- now / proposed ---- */
+  .switch {
+    display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px;
+    background: var(--lav-200); border: 1px solid var(--lav-600); align-self: flex-start;
+  }
+  .switch button {
+    font-family: inherit; font-size: 14px; line-height: 20px; font-weight: 600;
+    cursor: pointer; border: 0; border-radius: 999px; padding: 6px 18px;
+    background: none; color: var(--lav-800);
+  }
+  .switch button[aria-selected="true"] {
+    background: var(--surface); color: var(--ink);
+    box-shadow: 0 1px 2px rgb(31 42 55 / .08);
+  }
+  .switch button:focus-visible { outline: 2px solid var(--lav-800); outline-offset: 2px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; min-height: 340px; }
+  @media (max-width: 780px) { .split { grid-template-columns: 1fr; } }
+  .half { padding: 28px 26px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .half--coach { border-left: 1px solid var(--border); background: var(--lav-100); }
+  @media (max-width: 780px) { .half--coach { border-left: 0; border-top: 1px solid var(--border); } }
+
+  .pill {
+    align-self: flex-start; display: inline-flex; border-radius: 999px;
+    padding: 3px 12px; background: var(--lav-200); color: var(--lav-800);
+    font-size: 14px; line-height: 20px; font-weight: 600;
+  }
+  .stem { margin: 0; text-wrap: balance; }
+  .fieldlabel { margin: 0; }
+  .fauxbox {
+    border: 1px solid var(--border-strong); border-radius: 8px;
+    height: 84px; background: var(--surface);
+  }
+  .hint { margin: 0; }
+  .hintblock { display: flex; flex-direction: column; gap: 8px; padding: 14px 0; border-top: 1px solid var(--border); }
+  .hintblock:first-of-type { border-top: 0; padding-top: 0; }
+
+  /* size annotation flags on the demo */
+  .tag {
+    font-family: var(--mono); font-size: 14px; line-height: 20px;
+    color: var(--ink-mute); white-space: nowrap;
+  }
+  .tag.bad { color: var(--negative); }
+  .tag.good { color: var(--positive); }
+  .annot { display: flex; align-items: baseline; gap: 10px; min-width: 0; flex-wrap: wrap; }
+
+  /* ---- font check ---- */
+  .fontcheck {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 18px 24px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+  }
+  .fontcheck .line { font-family: var(--mono); font-size: 14px; line-height: 20px; }
+  .ok { color: var(--positive); font-weight: 600; }
+  .no { color: var(--negative); font-weight: 600; }
+
+  .callout {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 18px 22px; border-radius: 12px;
+    background: var(--lav-200); border: 1px solid var(--lav-600);
+  }
+  .callout h3 {
+    margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; color: var(--lav-800);
+  }
+  .callout p { margin: 0; font-size: 16px; line-height: 24px; max-width: 66ch; }
+
+  [hidden] { display: none !important; }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <span class="flag">Preview · not the live app</span>
+    <h1>Sero type system</h1>
+    <p>Seven sizes. Fourteen named roles. Every piece of text in both apps picks one, and nothing invents its own. This page is the thing to sign off before any building starts. Everything below is rendered at its real size.</p>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <h2>One open question</h2>
+    </div>
+    <div class="callout">
+      <h3>The hero lands at 36px, not the 40 you picked</h3>
+      <p>Tailwind's standard ramp stops at 36. Adding a 40 would be exactly the bespoke step you ruled out, so the welcome screen comes down from ~42px today to 36px. If you want 40 back, say so and I'll add it as a documented one-off.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>The ladder</h2>
+      <p>Seven rungs, taken straight from Tailwind's default scale. Each size arrives welded to its line spacing, and every one of those spacings lands on the 4px grid Sero already uses for everything else. There is no 12px step: 14px is the floor.</p>
+    </div>
+    <div class="card">
+      <div class="row row--rung">
+        <div class="spec"><span class="name">14 / 20</span><span class="meta">chrome, labels, tables</span></div>
+        <div class="rung-sample"><span class="bar" style="width:70px"></span><span class="rung-text" style="font-size:14px;line-height:20px">The quick brown fox</span></div>
+      </div>
+      <div class="row row--rung">
+        <div class="spec"><span class="name">16 / 24</span><span class="meta">all reading text</span></div>
+        <div class="rung-sample"><span class="bar" style="width:80px"></span><span class="rung-text" style="font-size:16px;line-height:24px">The quick brown fox</span></div>
+      </div>
+      <div class="row row--rung">
+        <div class="spec"><span class="name">18 / 28</span><span class="meta">lede, sub-heading</span></div>
+        <div class="rung-sample"><span class="bar" style="width:90px"></span><span class="rung-text" style="font-size:18px;line-height:28px">The quick brown fox</span></div>
+      </div>
+      <div class="row row--rung">
+        <div class="spec"><span class="name">20 / 28</span><span class="meta">card heading</span></div>
+        <div class="rung-sample"><span class="bar" style="width:100px"></span><span class="rung-text" style="font-size:20px;line-height:28px">The quick brown fox</span></div>
+      </div>
+      <div class="row row--rung">
+        <div class="spec"><span class="name">24 / 32</span><span class="meta">section heading</span></div>
+        <div class="rung-sample"><span class="bar" style="width:120px"></span><span class="rung-text" style="font-size:24px;line-height:32px">The quick brown fox</span></div>
+      </div>
+      <div class="row row--rung">
+        <div class="spec"><span class="name">30 / 36</span><span class="meta">page title, big numbers</span></div>
+        <div class="rung-sample"><span class="bar" style="width:150px"></span><span class="rung-text" style="font-size:30px;line-height:36px">The quick brown fox</span></div>
+      </div>
+      <div class="row row--rung">
+        <div class="spec"><span class="name">36 / 40</span><span class="meta">welcome hero only</span></div>
+        <div class="rung-sample"><span class="bar" style="width:180px"></span><span class="rung-text" style="font-size:36px;line-height:40px">The quick brown fox</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>The fourteen roles</h2>
+      <p>A role is a complete recipe: face, size, spacing, weight, letter tracking, and where it matters a line length. A component picks a role and never picks a number. Note the last five: they are all 14px, and they tell themselves apart by weight and colour rather than by being a pixel apart.</p>
+    </div>
+
+    <div class="card">
+      <div class="group-label">Headings</div>
+
+      <div class="row">
+        <div class="spec"><span class="name">display</span><span class="meta">Bricolage 600 · 36/40</span></div>
+        <div class="sample r-display">Ready when you are</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">heading-xl</span><span class="meta">Bricolage 600 · 30/36</span></div>
+        <div class="sample r-heading-xl">Your team</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">heading-lg</span><span class="meta">Bricolage 600 · 24/32</span></div>
+        <div class="sample r-heading-lg">Before you walk in</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">heading-md</span><span class="meta">Bricolage 600 · 20/28</span></div>
+        <div class="sample r-heading-md">What to listen for</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">heading-sm</span><span class="meta">Inter 600 · 18/28</span></div>
+        <div class="sample r-heading-sm">Promises from last time</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">heading-xs</span><span class="meta">Inter 600 · 16/24</span></div>
+        <div class="sample r-heading-xs">Where the tension is</div>
+      </div>
+
+      <div class="group-label">Reading</div>
+
+      <div class="row">
+        <div class="spec"><span class="name">body-lg</span><span class="meta">Inter 400 · 18/28 · 72ch</span></div>
+        <div class="sample r-body-lg dim">The one paragraph that sits under a title and sets up the page. Wider than body, quieter in colour, and never more than a few lines.</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">body</span><span class="meta">Inter 400 · 16/24 · 66ch</span></div>
+        <div class="sample r-body">Every piece of reading text in the product is this. Briefings, recaps, coaching notes, guidance. It breaks at sixty-six characters so the eye finds the start of the next line without hunting for it, which is the single thing that separates text you read from text you skim past.</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">body-sm</span><span class="meta">Inter 400 · 14/20 · 66ch</span></div>
+        <div class="sample r-body-sm">Dense reading: table cells, row detail, secondary notes. Same words, tighter setting, used where a screen is being scanned rather than read.</div>
+      </div>
+
+      <div class="group-label">Chrome — all 14px, told apart by weight and colour</div>
+
+      <div class="row">
+        <div class="spec"><span class="name">label</span><span class="meta">Inter 500 · 14/20 · +0.02em</span></div>
+        <div class="sample r-label dim">What Carl said</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">label-strong</span><span class="meta">Inter 600 · 14/20</span></div>
+        <div class="sample r-label-strong">Openness &nbsp;<span style="color:var(--positive)">+0.4</span></div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">overline</span><span class="meta">Inter 600 · 14/20 · caps</span></div>
+        <div class="sample r-overline dim">Listen for</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">code</span><span class="meta">mono 400 · 14/20</span></div>
+        <div class="sample r-code dim">POST /api/v1/sessions/4821</div>
+      </div>
+      <div class="row">
+        <div class="spec"><span class="name">metric</span><span class="meta">Bricolage 600 · 30/36 · lining</span></div>
+        <div class="sample r-metric">7.4</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>The meeting screen, now and after</h2>
+      <p>The screen you screenshotted. Five sizes today, three after. Nothing here is a redesign: the layout, the colours and the words are untouched. Only the type changes.</p>
+    </div>
+
+    <div class="switch" role="tablist" aria-label="Compare versions">
+      <button role="tab" id="tab-now" aria-selected="false" aria-controls="pane-now" data-view="now">Now</button>
+      <button role="tab" id="tab-new" aria-selected="true" aria-controls="pane-new" data-view="new">Proposed</button>
+    </div>
+
+    <div class="card">
+      <!-- NOW -->
+      <div class="split" id="pane-now" role="tabpanel" aria-labelledby="tab-now" hidden>
+        <div class="half">
+          <div class="annot"><span class="tag bad">32px</span></div>
+          <p class="stem" style="font-family:var(--display);font-size:32px;line-height:1.2;font-weight:600">You said "he wants time to improve things", what's behind that for you right now?</p>
+          <div class="annot"><span class="tag bad">16px · 1.55</span></div>
+          <p class="hint" style="font-size:16px;line-height:1.55;color:var(--ink-dim)">Following up on what they just said.</p>
+          <div class="annot"><span class="tag bad">14px</span></div>
+          <p class="fieldlabel" style="font-size:14px;font-weight:600">What Carl said</p>
+          <div class="fauxbox"></div>
+        </div>
+        <div class="half half--coach">
+          <div class="annot"><span class="tag bad">14px</span></div>
+          <span class="pill">Listen for</span>
+          <div class="annot"><span class="tag bad">17px · 1.55 · 62ch</span></div>
+          <p class="hint" style="font-size:17px;line-height:1.55">Whether he names one specific flow, screen or handoff where the trade-off is biting right now, rather than describing the tension in general.</p>
+          <div class="annot"><span class="tag bad">15px · 600</span> <span class="tag bad">15px · 700</span></div>
+          <p style="margin:0"><span style="font-size:15px;font-weight:600">Openness</span> &nbsp; <span style="font-size:15px;font-weight:700;color:var(--positive)">+0.4</span></p>
+          <div class="annot"><span class="tag bad">15px · 1.5</span></div>
+          <p style="margin:0;font-size:15px;line-height:1.5;color:var(--ink-dim)">He gave a concrete example without being pushed.</p>
+        </div>
+      </div>
+
+      <!-- PROPOSED -->
+      <div class="split" id="pane-new" role="tabpanel" aria-labelledby="tab-new">
+        <div class="half">
+          <div class="annot"><span class="tag good">heading-xl · 30/36</span></div>
+          <p class="stem r-heading-xl">You said "he wants time to improve things", what's behind that for you right now?</p>
+          <div class="annot"><span class="tag good">body · 16/24</span></div>
+          <p class="hint r-body dim">Following up on what they just said.</p>
+          <div class="annot"><span class="tag good">label · 14/20</span></div>
+          <p class="fieldlabel r-label dim">What Carl said</p>
+          <div class="fauxbox"></div>
+        </div>
+        <div class="half half--coach">
+          <div class="annot"><span class="tag good">label · 14/20</span></div>
+          <span class="pill">Listen for</span>
+          <div class="annot"><span class="tag good">body · 16/24 · 46ch</span></div>
+          <p class="hint r-body" style="max-width:46ch">Whether he names one specific flow, screen or handoff where the trade-off is biting right now, rather than describing the tension in general.</p>
+          <div class="annot"><span class="tag good">label-strong · 14/20</span></div>
+          <p class="r-label-strong" style="margin:0">Openness &nbsp; <span style="color:var(--positive)">+0.4</span></p>
+          <div class="annot"><span class="tag good">body · 16/24 · 46ch</span></div>
+          <p class="r-body dim" style="max-width:46ch">He gave a concrete example without being pushed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>What dies</h2>
+      <p>Every size currently on screen that is not a rung. The two at the bottom are below the 14px floor today and neither the design guard nor anyone else has caught them, because the check only looks at pixel values and these are written as fractions.</p>
+    </div>
+    <div class="card tbl-scroll">
+      <table>
+        <thead>
+          <tr><th>Today</th><th>Renders</th><th></th><th>Lands on</th><th>Where</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="strike">15px</td><td class="num">15px</td><td class="arrow">→</td><td class="lands">14 or 16</td><td>18 places — coach scores, guided rows, avatars</td></tr>
+          <tr><td class="strike">17px</td><td class="num">17px</td><td class="arrow">→</td><td class="lands">16 or 18</td><td>6 places — coach hints, about page</td></tr>
+          <tr><td class="strike">1.05rem</td><td class="num">16.8px</td><td class="arrow">→</td><td class="lands">16</td><td>test engine</td></tr>
+          <tr><td class="strike">1.1rem</td><td class="num">17.6px</td><td class="arrow">→</td><td class="lands">18</td><td>meeting arcs</td></tr>
+          <tr><td class="strike">1.75rem</td><td class="num">28px</td><td class="arrow">→</td><td class="lands">24 or 30</td><td>admin tables</td></tr>
+          <tr><td class="strike">32px</td><td class="num">32px</td><td class="arrow">→</td><td class="lands">30</td><td>the question you screenshotted</td></tr>
+          <tr><td class="strike">clamp 32–44px</td><td class="num">32–44px</td><td class="arrow">→</td><td class="lands">30</td><td>page titles — and it renders bigger than the hero today</td></tr>
+          <tr><td class="strike">clamp 30–42px</td><td class="num">30–42px</td><td class="arrow">→</td><td class="lands">36</td><td>the welcome hero</td></tr>
+          <tr><td class="strike">0.85em</td><td class="num">11.9px</td><td class="arrow">→</td><td class="lands">14</td><td>trend figure in the people table</td></tr>
+          <tr><td class="strike">0.65em</td><td class="num">10.4px</td><td class="arrow">→</td><td class="lands">14</td><td>briefing bullet marks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Which fonts your browser found</h2>
+      <p>Live check, run in this page. The app currently asks for a font name that does not exist, so anyone without Inter installed on their own machine has been reading Sero in Windows' default face. You have Inter installed, which is why you have never seen it.</p>
+    </div>
+    <div class="fontcheck" id="fontcheck">
+      <div class="line">Checking…</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function () {
+    var tabs = document.querySelectorAll('.switch button');
+    function show(view) {
+      tabs.forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.view === view)); });
+      document.getElementById('pane-now').hidden = view !== 'now';
+      document.getElementById('pane-new').hidden = view !== 'new';
+    }
+    tabs.forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.view); }); });
+
+    var box = document.getElementById('fontcheck');
+    function line(label, ok, note) {
+      return '<div class="line">' + label + ' — <span class="' + (ok ? 'ok' : 'no') + '">'
+        + (ok ? 'found' : 'not found') + '</span>' + (note ? ' <span style="color:var(--ink-mute)">' + note + '</span>' : '') + '</div>';
+    }
+    function render() {
+      var checks = [
+        ['"Inter Variable"', 'the name the bundled font actually registers'],
+        ['"InterVariable"', 'the name the app asks for today'],
+        ['Inter', 'the static font installed on your machine'],
+        ['"Bricolage Grotesque Variable"', 'headings']
+      ];
+      var html = '';
+      checks.forEach(function (c) {
+        var ok = false;
+        try { ok = document.fonts.check('16px ' + c[0]); } catch (e) { ok = false; }
+        html += line(c[0], ok, c[1]);
+      });
+      html += '<div class="line" style="color:var(--ink-mute);padding-top:6px">Body text on this page is rendering in: '
+        + getComputedStyle(document.body).fontFamily.split(',')[0] + '</div>';
+      box.innerHTML = html;
+    }
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(render); } else { render(); }
+  })();
+</script>
