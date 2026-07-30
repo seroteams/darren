@@ -7,6 +7,11 @@ axis_effects:
   wellbeing: +3
   engagement: -1
 source: seed
+# stock question: only served in these meeting types (user-test-fixes P3)
+fits_meetings:
+  - bi_weekly_check_in
+  - something_feels_off
+  - onboarding_check_in
 hints:
   - kind: ask
     text: Ask about three months, not today. A yes about today tells you nothing.

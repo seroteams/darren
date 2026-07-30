@@ -6,6 +6,11 @@ purpose: wellbeing
 axis_effects:
   wellbeing: +3
 source: seed
+# stock question: only served in these meeting types (user-test-fixes P3)
+fits_meetings:
+  - bi_weekly_check_in
+  - something_feels_off
+  - onboarding_check_in
 hints:
   - kind: ask
     text: Ask it plainly. The distinction lands on its own without explaining it.

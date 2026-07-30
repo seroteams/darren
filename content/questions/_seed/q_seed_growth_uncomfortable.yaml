@@ -7,6 +7,10 @@ axis_effects:
   growth: +3
   clarity: +1
 source: seed
+# stock question: only served in these meeting types (user-test-fixes P3)
+fits_meetings:
+  - growth_career_plan
+  - bi_weekly_check_in
 hints:
   - kind: ask
     text: Name that putting things off is normal, then ask which thing.

@@ -20,6 +20,9 @@ interface EligibilityQuestion {
   label?: string;
   description?: string;
   alias?: string;
+  // Stock (_seed) questions only: the meeting types this question suits, as type
+  // slugs or labels. Absent/empty = fits everywhere (the whole generated bank).
+  fits_meetings?: unknown;
 }
 
 type EligibilityResult = { ok: true } | { ok: false; reason: string; matched: string };
@@ -97,13 +100,43 @@ function forbiddenPatternsFor(meetingType: string | undefined): RegExp[] {
   }
 }
 
+// Rule 3 (user-test-fixes P3): a stock question that declares `fits_meetings`
+// must name the active meeting type (slug or label). Machar's Performance &
+// feedback run was served the generic "good quarter" seed — "that's a weak
+// question for performance and feedback". Fails OPEN on unknown/absent type:
+// a context bug must never block a real question.
+function checkMeetingFit(
+  question: EligibilityQuestion | null | undefined,
+  meetingType: string | undefined,
+): EligibilityResult {
+  const fits = question?.fits_meetings;
+  if (!Array.isArray(fits) || !fits.length || !meetingType) return { ok: true };
+  let slug = "";
+  let label = "";
+  try {
+    const type = getType(meetingType);
+    slug = type.slug;
+    label = type.label;
+  } catch {
+    return { ok: true };
+  }
+  if (fits.some((f) => f === slug || f === label)) return { ok: true };
+  return {
+    ok: false,
+    reason: "off_meeting_fit",
+    matched: `${slug} not in [${fits.map(String).join(", ")}]`,
+  };
+}
+
 // The gate. `question` is any object with name/label/description; `askedNames`
 // is the list of question texts already asked this session. Returns {ok:true}
-// or {ok:false, reason: "forbidden_pattern"|"duplicate_text", matched}.
+// or {ok:false, reason: "forbidden_pattern"|"duplicate_text"|"off_meeting_fit", matched}.
 function checkQuestionEligibility(
   question: EligibilityQuestion | null | undefined,
   { meetingType, askedNames = [] }: { meetingType?: string; askedNames?: string[] } = {},
 ): EligibilityResult {
+  const fit = checkMeetingFit(question, meetingType);
+  if (!fit.ok) return fit;
   const text = `${question?.name || ""} ${question?.label || ""} ${question?.description || ""}`;
   for (const re of forbiddenPatternsFor(meetingType)) {
     if (re.test(text)) {

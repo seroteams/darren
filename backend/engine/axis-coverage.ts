@@ -131,9 +131,10 @@ function enforceAxisCoverage({
     }
     // REVIEW: the gate takes a {name,label,description,alias} view; bank records
     // are loosely typed, so narrow those fields (asString matches how the gate's
-    // own `|| ""` / contentTokens already coerce non-strings).
+    // own `|| ""` / contentTokens already coerce non-strings). fits_meetings rides
+    // along raw — the gate's meeting-fit rule (user-test-fixes P3) validates it.
     const eligibility = checkQuestionEligibility(
-      { name: asString(c.name), label: asString(c.label), description: asString(c.description), alias: asString(c.alias) },
+      { name: asString(c.name), label: asString(c.label), description: asString(c.description), alias: asString(c.alias), fits_meetings: c.fits_meetings },
       { meetingType: meetingType ?? undefined }
     );
     if (!eligibility.ok) {

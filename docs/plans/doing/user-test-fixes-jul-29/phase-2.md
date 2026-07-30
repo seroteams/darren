@@ -1,6 +1,15 @@
 # Phase 2 — End-of-meeting screens: lock-in + recap
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-30)
+- Lock-in copy: "Do this together, before the meeting ends…" + skip cost line ("Skip and these are gone: Sero will not bring them back next time") — `promise-agree.ts`.
+- Final read wears the runner's meter language (lavender track, gradient fill, numbered thumb chip, "Not rated" at centre), value column colour-coded; PDF bar kept in step (lavender + white thumb pill) — `axes.js`, `axes.css`, `recap-pdf.ts`.
+- Recap tidy: bullets sit beside their dot (missing CSS rule), empty engine bullets filtered, dateless promises render no pill and no reserved gutter (screen + PDF), top gap halved — `briefing.js`, `briefing.css`.
+- **QA button root cause was deeper than the plan said**: it rendered for EVERYONE with a `hidden` class this footer never hides; the role gate only controlled un-hiding. Now it is not rendered at all unless internal admin AND not live AND notes exist — `briefing.js`.
+- New walkable proof: Tests → "Recap fixes. Machar board, P2" mounts the REAL recap stage on Machar-shaped fixture data (includes each defect's trigger); `/test?t=<id>` deep-links added.
+- Proof: suite green on all my files (the one red test + typecheck error live in `feedback.service.test.ts` / earlier `thread-follow.ts`, both another live session's uncommitted edits), lint:copy + lint:tokens PASS, real-screen screenshots in [proof/](proof/) (p2-recap.png, p2-lockin.png). Commit `7bdb06e2`.
+- Not yet proven: the QA button's absence on the LIVE site (needs the next deploy; test scenario 5).
 
 ## Goal
 The lock-in and recap screens look finished: the Final read matches the runner's meters, nothing floats or sits empty, the QA button stays local, and the lock-in screen explains itself.

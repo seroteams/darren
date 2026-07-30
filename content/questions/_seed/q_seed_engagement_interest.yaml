@@ -7,6 +7,12 @@ axis_effects:
   engagement: +3
   wellbeing: +1
 source: seed
+# stock question: only served in these meeting types (user-test-fixes P3)
+fits_meetings:
+  - bi_weekly_check_in
+  - growth_career_plan
+  - something_feels_off
+  - onboarding_check_in
 hints:
   - kind: ask
     text: Ask for both halves. The avoiding half is where the information is.

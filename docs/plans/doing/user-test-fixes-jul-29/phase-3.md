@@ -1,6 +1,15 @@
 # Phase 3 — Engine: stock questions respect the focus
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-30)
+- All 8 stock questions in `content/questions/_seed/` now carry `fits_meetings` (which meeting types each suits). Machar's two offenders are locked out of Performance & feedback: "good quarter" and "actually recovering".
+- New rule 3 in the central gate (`question-eligibility.ts` `checkMeetingFit`): a stock question that declares `fits_meetings` must name the active meeting type; questions without the field (the whole generated bank) untouched; unknown type fails open. Covers coverage-insert, seed-overflow and serve-time in one place.
+- `axis-coverage.ts` passes `fits_meetings` through its narrowed gate view (the inert-gate trap checked: proven end-to-end by test, not assumed).
+- Tests first: `question-eligibility.test.ts`, 8 cases (gate, overflow, coverage both ways). Suite 215/215, typecheck clean.
+- Free proof on the real files: in Performance & feedback the eligible stock pool is exactly `clarity_priorities`, `engagement_ownership`, `growth_feedback`; overflow serves ownership → feedback and then honestly stops.
+- Paid proof: `node scripts/gate.js --only performance-tom` → **PASS** (question specificity 1.0, delta accuracy 0.86), all 7 asked questions generated/on-arc, zero seeds served. **Cost $0.19** (under the ~$0.35 estimate; one run, as agreed).
+- Trade-off, stated: in a Performance & feedback run with wellbeing untouched, coverage now prefers "Not rated" over an off-topic wellbeing question.
 
 ## Goal
 A meeting about Performance & feedback never gets a generic stock question about something else. The stock pool knows which focus areas each question suits, and the pickers use that.

@@ -23,13 +23,13 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Rating panel: kill the code-word leak | Score explanations always read as plain sentences | ✅ |
-| 2 | End-of-meeting screens | Lock-in copy, Final read matches runner, recap tidy, QA button local-only | ⬜ |
-| 3 | Engine: stock questions respect the focus | No more off-focus stock questions | ⬜ |
+| 2 | End-of-meeting screens | Lock-in copy, Final read matches runner, recap tidy, QA button local-only | 🔨 |
+| 3 | Engine: stock questions respect the focus | No more off-focus stock questions | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ GREEN-LIT 2026-07-30 (Carl walked a local 1:1, explanations clean; commit 205610c4, suite 214/214, typecheck clean). Next: Phase 2 (end-of-meeting screens) — mockup already approved 2026-07-29.
+Phase 1 ✅ GREEN-LIT 2026-07-30 (Carl walked a local 1:1, explanations clean; commit 205610c4). Phases 2 + 3 BUILT same day on Carl's "continue and finish this" (commits 7bdb06e2 + P3): screenshots in proof/, suite 215/215, typecheck + both linters clean, one paid gate run PASS ($0.19). Waiting on Carl's walk of the P2+P3 scenarios; not green-lit yet.
 Board: https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3
 
 ## Parked

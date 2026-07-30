@@ -7,6 +7,10 @@ axis_effects:
   growth: +3
   engagement: +1
 source: seed
+# stock question: only served in these meeting types (user-test-fixes P3)
+fits_meetings:
+  - performance_feedback
+  - growth_career_plan
 hints:
   - kind: ask
     text: The second half is the question. Do not let what did you do with it slide.
