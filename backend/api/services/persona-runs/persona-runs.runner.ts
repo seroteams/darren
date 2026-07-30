@@ -16,7 +16,7 @@ import * as cost from "../../../engine/cost.ts";
 import { applyDeltas, serialize } from "../../../engine/axes.ts";
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
 import { buildPreparationInputs } from "../sessions/preparation-inputs.ts";
-import { formatNotesForEvaluation, stripTesterNoteLines } from "../sessions/notes-format.ts";
+import { formatCapturedNotes } from "../sessions/notes-format.ts";
 import { asString } from "../../../shared/guards.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
@@ -230,7 +230,14 @@ export function createPersonaRunner(deps: PersonaRunnerDeps): PersonaRunner {
     // deliberately skipped (QA runs have no human in the loop).
     hooks.onProgress({ stageLabel: "Final briefing" });
     const intakeNotes = String(session.ctx?.notes || "").trim();
-    const capturedNotes = stripTesterNoteLines(formatNotesForEvaluation(session.notes || []));
+    // Same one rule as the web lane (audit fix): a persona run always carries a
+    // runLabel, so this still strips stamped tester lines — but through the
+    // shared predicate rather than a third hand-rolled copy of it.
+    const capturedNotes = formatCapturedNotes({
+      notes: session.notes || [],
+      mode: session.mode,
+      runLabel: session.runLabel,
+    });
     const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
     if (!session.focusPointsResult) throw new Error("focus points not ready");
     const result = await deps.engine.evaluate(

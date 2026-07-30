@@ -58,3 +58,32 @@ test("employee-authored state is allowed (said it themselves in the session)", (
   const s = screenBriefingLeaks(notes, transcript, leaked);
   assert.equal(s.blocked, false, "a state the employee themselves said is not a leak");
 });
+
+// Audit fix 2026-07-31: since no-dead-wires P4 a real run's mid-run notes reach the
+// evaluation. They are the manager's private observations but carry no judgment
+// marker, so the marker-gated pass above never saw them. Stamped lines are screened
+// at a 3-word run.
+const STAMPED = "[14:26 @ q_energy] How's your energy? - He keeps glancing at his phone";
+
+const ECHOED = { ...cleanBriefing, brutal_truth_employee: "One to watch: he keeps glancing at his phone." };
+
+test("PRIVATE_NOTE_LEAK: a mid-run note reused verbatim in employee-facing text blocks", () => {
+  const priv = checkPrivateNoteLeak(STAMPED, ECHOED);
+  assert.ok(priv, "expected the stamped mid-run note to be caught");
+  assert.equal(priv.reason, PRIVATE_NOTE_LEAK);
+  assert.equal(screenBriefingLeaks(STAMPED, [], ECHOED).blocked, true);
+});
+
+test("PRIVATE_NOTE_LEAK: a mid-run note that shares only topic words does not block", () => {
+  const shared = { ...cleanBriefing, summary_bullets: ["Shipped the refactor", "The phone rota moved"] };
+  assert.equal(checkPrivateNoteLeak(STAMPED, shared), null);
+  assert.equal(screenBriefingLeaks(STAMPED, [], shared).blocked, false);
+});
+
+test("PRIVATE_NOTE_LEAK: the stamp is what opens the 3-gram pass, not the words", () => {
+  // Same words with no stamp: intake context the manager typed to be used. It has
+  // no judgment marker, so the marker-gated pass leaves it alone and the new pass
+  // must not start blocking it either.
+  const intake = "How's your energy? - He keeps glancing at his phone";
+  assert.equal(checkPrivateNoteLeak(intake, ECHOED), null);
+});

@@ -5,7 +5,7 @@ import fs from "node:fs";
 import { getArc } from "./meeting-arcs.ts";
 import { promptFor } from "./one-on-one-types/index.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
-import { splitSystemUser } from "./prompt-utils.ts";
+import { splitSystemUser, neutralizePlaceholders } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock } from "./role-profile.ts";
 import { loadLexicon, renderPreferTerms, renderPreferPhrases, renderAvoidPhrases } from "./lexicon.ts";
 import {
@@ -47,7 +47,7 @@ function renderSessionNotes(notes: PlannerSessionNote[] | null | undefined): str
   if (!rows.length) return "(none yet)";
   return rows
     .map((n) => {
-      const text = String(n.text).replace(/\s+/g, " ").trim().slice(0, 160);
+      const text = neutralizePlaceholders(n.text).replace(/\s+/g, " ").trim().slice(0, 160);
       const where = n.turn ? ` (at Q${n.turn})` : "";
       return `- Manager noted${where}: ${text}`;
     })
@@ -130,7 +130,7 @@ function buildMessages({
     .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
     .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
-    .replaceAll("{{MANAGER_NOTES}}", ctx.notes?.trim() ? ctx.notes.trim() : "(none)")
+    .replaceAll("{{MANAGER_NOTES}}", ctx.notes?.trim() ? neutralizePlaceholders(ctx.notes).trim() : "(none)")
     .replaceAll("{{CONVERSATION_PREFER_TERMS}}", renderPreferTerms(lexicon.preferTerms))
     .replaceAll("{{CONVERSATION_PREFER_PHRASES}}", renderPreferPhrases(lexicon.preferPhrases))
     .replaceAll("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases))

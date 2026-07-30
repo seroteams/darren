@@ -33,7 +33,7 @@ import { runStage, abortStage } from "../../handlers/stream-helper.ts";
 import { openStream } from "../../sse.ts";
 import { summarizeAxes } from "./session-views.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
-import { formatCapturedNotes } from "./notes-format.ts";
+import { formatCapturedNotes, capturedNotesForPlanner } from "./notes-format.ts";
 import { stripEngineTags } from "./note-tags.ts";
 import { finalizeBriefing } from "./finalize-briefing.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
@@ -400,8 +400,14 @@ export async function planStream(c: RequestContext): Promise<void> {
       sessionBank: Array.isArray(session.sessionBank) ? session.sessionBank : [],
       // No dead wires phase 4: the manager's mid-meeting notes reach the planner
       // (prompt block + grounding corpus), so a jotted observation can shape the
-      // next question instead of waiting for the final brief.
-      sessionNotes: session.notes || [],
+      // next question instead of waiting for the final brief. Same QA rule as the
+      // evaluation (audit fix): a QA run sends none, so a tester's note cannot
+      // steer the next question.
+      sessionNotes: capturedNotesForPlanner({
+        notes: session.notes,
+        mode: session.mode,
+        runLabel: session.runLabel,
+      }),
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);

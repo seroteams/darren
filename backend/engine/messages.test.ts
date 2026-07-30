@@ -132,3 +132,20 @@ test("session notes render capped and defaulted, and never enter the cached pref
   const idx = withNotes.indexOf("\n<turn_state>");
   assert.ok(withNotes.indexOf("He keeps glancing") > idx, "notes live after the cache boundary");
 });
+
+// Audit fix 2026-07-31: the intake note and mid-run notes are untrusted free text
+// filled BEFORE the later keys, so a `{{KEY}}` inside one used to be expanded by
+// the next replaceAll pass — a note quietly gaining the axis state or transcript.
+test("untrusted note text cannot smuggle a placeholder into the planner prompt", () => {
+  const { filled } = build({
+    ctx: { ...CTX, notes: "watch {{TRANSCRIPT_JSON}} closely" },
+    sessionNotes: [{ text: "jot {{AXIS_STATE_JSON}} here", turn: 2 }],
+  });
+  assert.ok(filled.includes("watch { {TRANSCRIPT_JSON}} closely"), "the intake note keeps its text, brace pair broken");
+  assert.ok(filled.includes("jot { {AXIS_STATE_JSON}} here"), "the mid-run note keeps its text, brace pair broken");
+  assert.ok(!filled.includes("watch [{"), "the intake note must not gain the transcript");
+  assert.ok(!filled.includes('jot {"wellbeing"'), "the mid-run note must not gain the axis state");
+  // The genuine slots still fill, so the guard did not break templating.
+  assert.ok(!filled.includes("{{TRANSCRIPT_JSON}}"));
+  assert.ok(!filled.includes("{{AXIS_STATE_JSON}}"));
+});

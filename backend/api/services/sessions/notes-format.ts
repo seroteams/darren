@@ -127,21 +127,44 @@ function renderNotesMarkdown(session: Session): string {
 
 // No dead wires P4: one rule for the captured-notes channel. The strip above was
 // built when mid-run notes were tester observations (run-qa-fixes C1, the Brian
-// leak). Real managers now use the notes panel for genuine observations, so a
-// real run passes its notes through; QA runs (a runLabel, or scripted mode) keep
-// the strip so tester lines still never reach a briefing.
-function formatCapturedNotes({
+// leak). A real run passes its notes through; QA runs (a runLabel, or scripted
+// mode) keep the strip so tester lines still never reach a briefing.
+//
+// Audit fix 2026-07-31: this is now the ONE place that decides what a QA run is.
+// P4 applied the rule to the evaluation only, so tester notes still reached the
+// per-turn planner (prompt block + grounding corpus) on every lane. Both
+// consumers read the same predicate now.
+interface RunLane {
+  mode?: string | null;
+  runLabel?: string | null;
+}
+
+function isQaRun({ mode, runLabel }: RunLane): boolean {
+  return Boolean(runLabel) || mode === "scripted";
+}
+
+function formatCapturedNotes({ notes, mode, runLabel }: RunLane & { notes: unknown }): string {
+  const formatted = formatNotesForEvaluation(notes);
+  return isQaRun({ mode, runLabel }) ? stripTesterNoteLines(formatted) : formatted;
+}
+
+// The planner half of the same rule: a real run's mid-run notes ride along to
+// planTurn; a QA run sends none, so a tester's "this question repeats" can never
+// steer the next question or enter the grounding corpus. Always an array.
+function capturedNotesForPlanner({
   notes,
   mode,
   runLabel,
-}: {
-  notes: unknown;
-  mode?: string | null;
-  runLabel?: string | null;
-}): string {
-  const formatted = formatNotesForEvaluation(notes);
-  const isQaRun = Boolean(runLabel) || mode === "scripted";
-  return isQaRun ? stripTesterNoteLines(formatted) : formatted;
+}: RunLane & { notes: SessionNote[] | null | undefined }): SessionNote[] {
+  if (!Array.isArray(notes) || notes.length === 0) return [];
+  return isQaRun({ mode, runLabel }) ? [] : notes;
 }
 
-export { renderNotesMarkdown, formatNotesForEvaluation, stripTesterNoteLines, formatCapturedNotes };
+export {
+  renderNotesMarkdown,
+  formatNotesForEvaluation,
+  stripTesterNoteLines,
+  formatCapturedNotes,
+  capturedNotesForPlanner,
+  isQaRun,
+};

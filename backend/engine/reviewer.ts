@@ -7,7 +7,7 @@ import { loadAxes, AXIS_IDS, AXIS_MIN, AXIS_MAX } from "./axes.ts";
 import { promptFor, getArc, getType } from "./one-on-one-types/index.ts";
 import { withPromptVersion } from "./prompt-version.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
-import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
+import { splitSystemUser, fillPlaceholders, neutralizePlaceholders } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./role-profile.ts";
 import { ruleEchoAxisIds } from "./golden-checks.ts";
 
@@ -560,7 +560,10 @@ function buildMessages({
     TONE_REGISTER: arc.tone_register,
     ANTI_PATTERNS_JSON: JSON.stringify(arc.anti_patterns, null, 2),
     MEETING_ARC_JSON: JSON.stringify(arc.arc, null, 2),
-    MANAGER_NOTES: notes || "(none)",
+    // Untrusted free text: the manager's intake note plus (on a real run) their
+    // mid-run notes. Neutralised so a `{{KEY}}` inside it cannot be expanded by a
+    // later fill pass.
+    MANAGER_NOTES: notes ? neutralizePlaceholders(notes) : "(none)",
     FOCUS_POINTS_JSON: JSON.stringify(focusPoints, null, 2),
     SELECTED_FOCUS_JSON: JSON.stringify(sf || {}, null, 2),
     PRIMARY_FOCUS_ID: sf?.id || "(none)",

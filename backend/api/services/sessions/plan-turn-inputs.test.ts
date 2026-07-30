@@ -41,3 +41,15 @@ test("buildPlanTurnInputs: no notes still yields an array (never undefined)", ()
   const out = buildPlanTurnInputs(s);
   assert.deepEqual(out.sessionNotes, []);
 });
+
+// Audit fix 2026-07-31: the QA rule applies to the planner too, and the preview
+// builder must mirror it or the "Sending" pane lies about what a QA run sends.
+test("buildPlanTurnInputs: a QA run sends the planner no mid-run notes", () => {
+  const labelled = baseSession();
+  (labelled as unknown as { runLabel: string }).runLabel = "qa-sweep";
+  assert.deepEqual(buildPlanTurnInputs(labelled).sessionNotes, []);
+
+  const scripted = baseSession();
+  (scripted as unknown as { mode: string }).mode = "scripted";
+  assert.deepEqual(buildPlanTurnInputs(scripted).sessionNotes, []);
+});

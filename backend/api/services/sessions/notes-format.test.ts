@@ -1,6 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { stripTesterNoteLines, formatNotesForEvaluation, formatCapturedNotes } from "./notes-format.ts";
+import {
+  stripTesterNoteLines,
+  formatNotesForEvaluation,
+  formatCapturedNotes,
+  capturedNotesForPlanner,
+} from "./notes-format.ts";
+import type { SessionNote } from "../../../shared/session.types.ts";
 
 // run-qa-fixes C1: mid-run captured notes are stamped `[HH:MM @ alias]` and must not
 // reach the manager-notes channel; genuine intake notes (free text) must survive.
@@ -49,4 +55,31 @@ test("formatCapturedNotes: a QA-labelled run still strips stamped tester lines",
 test("formatCapturedNotes: no notes is an empty string on every lane", () => {
   assert.equal(formatCapturedNotes({ notes: [], mode: "manual", runLabel: null }), "");
   assert.equal(formatCapturedNotes({ notes: undefined, mode: "scripted", runLabel: "x" }), "");
+});
+
+// Audit fix 2026-07-31: P4 applied the QA rule to the evaluation only, so tester
+// notes still reached the per-turn planner (prompt block AND grounding corpus) on
+// every lane. The planner half now reads the same predicate.
+function note(text: string): SessionNote {
+  return { id: "n1", stage: "QUESTIONING", turn: 1, ts: 0, text, question_alias: "", question_stem: "" };
+}
+
+test("capturedNotesForPlanner: a real manual run sends its notes to the planner", () => {
+  const out = capturedNotesForPlanner({
+    notes: [note("He keeps glancing at his phone.")],
+    mode: "manual",
+    runLabel: null,
+  });
+  assert.equal(out.length, 1);
+});
+
+test("capturedNotesForPlanner: a QA run sends the planner nothing", () => {
+  const notes = [note("this question is repeated a lot")];
+  assert.deepEqual(capturedNotesForPlanner({ notes, mode: "manual", runLabel: "qa-sweep" }), []);
+  assert.deepEqual(capturedNotesForPlanner({ notes, mode: "scripted", runLabel: null }), []);
+});
+
+test("capturedNotesForPlanner: always an array, never undefined", () => {
+  assert.deepEqual(capturedNotesForPlanner({ notes: undefined, mode: "manual", runLabel: null }), []);
+  assert.deepEqual(capturedNotesForPlanner({ notes: [], mode: "manual", runLabel: null }), []);
 });

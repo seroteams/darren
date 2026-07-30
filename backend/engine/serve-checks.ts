@@ -40,6 +40,10 @@ const MARKER_RE = new RegExp(
   "i",
 );
 
+// A mid-run note carries the `[14:26 @ alias]` / `[14:26]` stamp that
+// formatNotesForEvaluation writes. Mirrors TESTER_NOTE_LINE in notes-format.ts.
+const STAMPED_NOTE_RE = /^\s*\[\d{1,2}:\d{2}(:\d{2})?(\s*@\s*[^\]]+)?\]/;
+
 const STOP_WORDS = new Set([
   "a", "an", "the", "and", "or", "but", "of", "in", "on", "to", "for", "with",
   "is", "are", "was", "were", "be", "been", "has", "have", "had", "his", "her", "their", "they",
@@ -170,6 +174,25 @@ export function checkPrivateNoteLeak(managerNotes: unknown, briefing: unknown): 
     for (const g of grams) {
       if (employeeGrams.has(g)) {
         return { reason: PRIVATE_NOTE_LEAK, detail: `private judgment reused in employee-facing output: "${g}"` };
+      }
+    }
+  }
+
+  // Mid-run notes (stamped `[14:26 @ alias] …` by formatNotesForEvaluation) are the
+  // manager's live private observations. They usually carry no judgment marker
+  // ("keeps glancing at his phone"), so the pass above never sees them — and since
+  // no-dead-wires P4 they reach the evaluation on a real run. Screen them too, at a
+  // longer 3-word run: verbatim reuse of three content words from a private jot is a
+  // leak, while ordinary topic words shared with the transcript stay below the bar.
+  const employeeTriGrams = ngramSet(contentWords(employeeText), 3);
+  if (employeeTriGrams.size) {
+    for (const line of asString(managerNotes).split("\n")) {
+      if (!STAMPED_NOTE_RE.test(line)) continue;
+      const body = line.replace(STAMPED_NOTE_RE, " ");
+      for (const g of ngramSet(contentWords(body), 3)) {
+        if (employeeTriGrams.has(g)) {
+          return { reason: PRIVATE_NOTE_LEAK, detail: `mid-run note reused in employee-facing output: "${g}"` };
+        }
       }
     }
   }
