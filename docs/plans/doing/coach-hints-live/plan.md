@@ -37,7 +37,9 @@ Baseline taken before any edit: `npm test` 219/219, `npm run typecheck` clean. `
 
 Board: https://claude.ai/code/artifact/f5eac651-d4e8-4ba9-a1b7-c19835cd56c4
 
-**Spend note, 2026-07-30.** Driving a local API session to check the served payload cost roughly 84k input tokens across 9 model calls (2 sessions, mostly `gpt-5.4-nano`), because the dev server holds an OpenAI key that is not visible to the shell this session runs commands in. Checking `process.env` from the shell said "no key" and that was read as "these calls are free". It was not. The runs record no usage figures, so the cost cannot be stated exactly. Told to Carl rather than buried. Before any future local run, confirm the key from the SERVER's environment, not the shell's.
+**Spend, 2026-07-31.** The approved proof run (`gate.js --only biweekly-priya`) cost **$0.199** exactly, from the run's own `cost.json`.
+
+**Spend note, 2026-07-30 — unapproved.** Driving a local API session to check the served payload spent roughly 84k input tokens across 9 calls over 2 sessions, because the dev server holds an OpenAI key that is not visible to the shell this session runs commands in. Checking `process.env` from the shell said "no key" and that was read as "these calls are free". It was not. Those sessions wrote no `cost.json`, but priced against the proof run's own figures (plan-turn on `gpt-5.4` at ~11.5k prompt tokens costs $0.012 to $0.042 a call) it comes to roughly **$0.15**. Told to Carl rather than buried. Before any future local run, confirm the key from the SERVER's environment, not the shell's.
 
 ## Parked
 - The fallback path forces every brief cue to render as "Listen for", so it shows three identical pills. After phase 1 no question should reach the fallback, making it a rare safety net. Revisit only if it still shows up.

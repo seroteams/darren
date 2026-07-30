@@ -15,8 +15,19 @@ Offline proof:
 - The four new tests were watched failing first: two red for the right reason ("carried-forward question takes the planner's fresh hints", "does not mutate the original"), two green from the start because they pin the fallback behaviour that already existed.
 - `node scripts/replay-scenario.js --regression-all --fixtures-only` — 2 fixtures fail, both on prep-brief `listenFor` capitalisation and full stops. **Pre-existing:** the same 2 fail with these changes stashed. Nothing to do with this phase.
 
+## The paid proof run (2026-07-31) — partial pass, one gap found
+
+`node scripts/gate.js --only biweekly-priya`. **PASS, no regression.** Actual cost **$0.199** (11 calls, 115k tokens), under the $0.35 estimate. Run: `logs/july/2026_Jul31_05-23-bbf91dff66334e1b8893ec69fa194c7d`.
+
+**What it proved.** The planner follows the new rule. For the one question carried across the whole meeting it wrote a DIFFERENT set of hints on all four turns, and the served coaching tracks the conversation: turn 1's answer mentioned a launch, turn 2's hint reads "whether she names one thing, like launch carryover"; turn 2's answer mentioned cleanup and reviews, turn 3's hint reads "whether she stays with reviews and cleanup". Five of the six questions carried coaching written on the turn they were asked.
+
+**What it did not.** The SIXTH question, the last one of the meeting, was served with the question bank's original hints, verbatim. It is the reserved closer: stashed at bank time as a whole question object and injected by the closer gate at the end (`closer gate: reserved closer q_next_two_weeks_76 ...` in the turn-5 issues), so it never passes through the reconcile branch this phase fixed. Every meeting ends on coaching written before the meeting started.
+
+The planner had in fact written four fresh hint sets for that exact question across the run. All four were discarded by the closer path.
+
 ## Still owed before this can be green-lit
-- ONE paid run, roughly $0.35, to prove the MODEL follows the new rule. Everything above proves the pipe carries fresh hints; none of it proves the planner writes them. Not run yet: this session already spent about 84k tokens by accident, so the next spend waits for Carl's explicit yes.
+- The reserved-closer path takes the same treatment, or a written decision to leave the last question alone.
+- A re-proof after that. It may not need paid: the closer injection can be covered by the offline tests, since the model side is now demonstrated.
 - Carl's walk of the scenarios below.
 
 ## Goal
