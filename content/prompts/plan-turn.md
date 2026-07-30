@@ -84,7 +84,7 @@ Output shape:
 Every item carries all of: ref_alias, label (2–5 words), name, description, purpose, stage, axis_effects, grounding, probes_cause, new_layer, hints. Construction rules (thread-follow, shallow, crisis, generated closer) override only the fields they name. For thread-follow, shallow, and crisis items, `purpose` is "wellbeing" or "topic", never "competency".
 
 Per item:
-- **Carried unchanged:** `ref_alias` = original alias, copy fields verbatim incl. `stage`, but set `grounding` to "open" (engine re-verifies grounding only on added/reworded items).
+- **Carried unchanged:** `ref_alias` = original alias, copy fields verbatim incl. `stage`, but set `grounding` to "open" (engine re-verifies grounding only on added/reworded items). `hints` on the FIRST item are the one exception, see the hints block below.
 - **Modified:** `ref_alias` = original alias, new wording (and new `axis_effects` if the probe shifted); keep original `stage` unless the angle moved to another arc stage.
 - **Brand new:** `ref_alias: null`, `stage` = its arc stage, or `null` for a thread-follow inside the current stage.
 - Order best-next first; omit dropped items; never include anything already asked.
@@ -94,7 +94,8 @@ Per item:
 - One line each, under 20 words, plain spoken English. Same jargon and plain-speech bans as the question text.
 - The test: could this line sit under a different question? If yes, rewrite it. Name the specific thing to say, or the specific thing to notice in THIS answer. "Listen carefully" is not a hint; "Whether he names a date or talks around it" is.
 - A `listen` line describes what is **said or not said**, never a read of their inner state and never a conclusion to draw. `NO_INFERRED_STATES` applies to hints exactly as it does to questions.
-- **Carried unchanged:** copy the item's hints verbatim with the rest of its fields. **Modified:** write fresh hints for the new wording; the old question's hints no longer fit. **Brand new:** write hints from scratch.
+- **The FIRST item's hints are always written for THIS moment**, whichever of the three cases it is. That item is the question the manager is about to ask, so its `listen` lines must point at something the last answer actually put on the table: a name, a date, a number, a decision they made or dodged. If the previous answer named "the 14th", a listen line may turn on the 14th. Coaching that would have read identically before the person spoke is a failed hint here, even when the question itself is carried forward word for word.
+- **Carried unchanged (items 2 onward):** copy the item's hints verbatim with the rest of its fields. **Modified:** write fresh hints for the new wording; the old question's hints no longer fit. **Brand new:** write hints from scratch.
 </output_contract>
 
 <crisis_override>

@@ -234,7 +234,18 @@ function reconcileQueue(rawNewQueue: RawQueueItem[] | null | undefined, { remain
         continue;
       }
       usedAliases.add(ref.alias);
-      out.push(ref);
+      // The question carries forward verbatim; its COACHING does not have to
+      // (coach-hints-live Phase 2). isUnchanged() compares name, label,
+      // description and axis_effects — hints are deliberately not in it, because
+      // a question worth asking unchanged can still need a different thing
+      // listened for once the last answer has landed. Pushing `ref` whole meant
+      // hints written before the meeting survived every turn, so the manager's
+      // Support panel never moved. Fresh, valid hints win; anything missing or
+      // malformed leaves the existing coaching alone, so the panel is never
+      // emptier than it was. `ref` is frozen and shared with the transcript
+      // snapshot, so this copies rather than assigns into it.
+      const freshHints = toHints(item.hints);
+      out.push(freshHints.length ? { ...ref, hints: freshHints } : ref);
       continue;
     }
 

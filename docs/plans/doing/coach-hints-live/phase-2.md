@@ -1,6 +1,23 @@
 # Phase 2 — Coaching that re-earns itself each turn
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built offline, waiting on ONE paid run and Carl's walk
+
+## Built (2026-07-31)
+
+**The staleness was not where the plan said it was.** The plan blamed `plan-turn.md`'s "copy the item's hints verbatim". That line is real, but changing it alone would have altered nothing on screen. `reconcileQueue` decides what the manager actually sees, and when the planner carries a question forward it calls `isUnchanged(ref, item)` — which compares name, label, description and axis_effects, and does NOT look at hints — then pushes the ORIGINAL question object and discards the planner's payload whole. Fresh hints were being thrown away one line before they reached the queue. A prompt rule on its own would have been correct and completely inert, which is the failure this repo has hit before.
+
+- `backend/engine/reconcile-queue.ts` — the carried-unchanged branch now pushes `{ ...ref, hints: freshHints }` when the planner sent valid hints, and the untouched `ref` when it did not. The question's wording still carries forward verbatim; only the coaching beside it is allowed to move. `ref` is frozen and shared with the turn snapshot, so this copies rather than assigns into it.
+- `backend/engine/reconcile-queue.test.ts` — four tests: fresh hints win on a carried question; missing hints keep the old ones; malformed hints fall back to the old ones rather than emptying the panel; the original question object is not mutated.
+- `content/prompts/plan-turn.md` — the hints block gains "The FIRST item's hints are always written for THIS moment", with a worked example (if the last answer named "the 14th", a listen line may turn on the 14th). Placed inside the existing hints block, directly above the "carried unchanged" line it overrides, rather than added as a louder paragraph elsewhere. The upstream "copy fields verbatim" bullet now points at the exception so the two do not contradict each other.
+
+Offline proof:
+- `npm test` 220/220 (up one file from phase 1's 219), `npm run typecheck` clean, `npm run lint:copy` PASS.
+- The four new tests were watched failing first: two red for the right reason ("carried-forward question takes the planner's fresh hints", "does not mutate the original"), two green from the start because they pin the fallback behaviour that already existed.
+- `node scripts/replay-scenario.js --regression-all --fixtures-only` — 2 fixtures fail, both on prep-brief `listenFor` capitalisation and full stops. **Pre-existing:** the same 2 fail with these changes stashed. Nothing to do with this phase.
+
+## Still owed before this can be green-lit
+- ONE paid run, roughly $0.35, to prove the MODEL follows the new rule. Everything above proves the pipe carries fresh hints; none of it proves the planner writes them. Not run yet: this session already spent about 84k tokens by accident, so the next spend waits for Carl's explicit yes.
+- Carl's walk of the scenarios below.
 
 ## Goal
 The coaching beside the next question is written for this moment in the meeting, not copied from before it started.
