@@ -1,6 +1,9 @@
 # Phase 4: reading surfaces
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+**Part of:** [plan.md](plan.md) · **Status:** ✅ closed UNWALKED
+
+## ✅ CLOSED UNWALKED 2026-07-31 — Carl lifted the walk gate ("as this is a frontend, can you keep going?" then "lets go!"). He has NOT seen these screens. Proof stands in place of the walk; anything genuinely aesthetic is listed in plan.md's Current state for his eye.
+
 
 ## Goal
 Kill 15px and 17px from the product, put every reading block at 16px, and give prose a real line length. This is the phase Carl will actually see the quality change in.

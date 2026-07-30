@@ -1782,3 +1782,31 @@ cost could not be reconstructed afterwards.
 lines are written out in full in `sessions.service.test.ts` rather than imported from the source.
 Copy a manager reads mid-meeting should fail a test when it changes, so someone looks at the new
 wording. A test that imports the value it asserts moves silently with the code.
+
+## 2026-07-31 — type-system closed: what a type migration actually finds
+
+**Three of the four biggest finds were not about type at all.** The bundled Inter never painted for
+anyone because the app asked for a font name that does not exist; the coach panel's reading-width
+cap was wider than the column it sat in, so it had never once applied; `.btn` rendered off the 4px
+grid on every screen because it took a size without its leading. None of these was the stated job.
+A systematic sweep of one property is worth doing partly because of what it walks past.
+
+**A counter that counts declarations punishes completing a pair.** Adding the missing
+`line-height` beside a `font-size` fixes the render and costs +1 on a "type declared outside the
+layer" counter. The temptation is to redefine the counter to count blocks, which holds the number
+flat and reads as discipline. That is measure-moving. Raise the number, write down why, and leave
+the better fix visible.
+
+**Some constraints have no clean answer and the honest move is to say where the cost lands.** Four
+display-face heading roles, three rungs a phone may legally use, so exactly one adjacent pair must
+share a size. There is no arithmetic that avoids it. The decision is only WHICH pair collides, and
+that is a question about which two headings share a screen most often.
+
+**A test named after a file it never opens is worse than no test**, and a rule that cannot see the
+syntax the design system recommends is worse than no rule. Both shipped inside this plan and both
+were caught by adversarial review rather than by the suite, which passed throughout.
+
+**Read-only recon before building found four holes in the plan itself**: sixteen stylesheets named
+in no phase, an acceptance check that could never pass, a phase that would have grown the hero on
+phones, and a deletion that would have silently stripped tracking off six roles with no test
+failing. All four would have been discovered at the last step instead of the first.

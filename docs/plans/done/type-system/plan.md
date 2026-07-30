@@ -3,7 +3,7 @@
 **Goal:** Every piece of text in both apps takes its size, spacing and weight from one of fourteen named roles, so the app reads like one product instead of seventeen different font sizes.
 **Driver:** Carl
 **Created:** 2026-07-30
-**Mockup:** https://claude.ai/code/artifact/401c7c5c-b460-4711-a8d1-f2f27147abb3 — _awaiting approval_ (source: `reference/type-specimen.html`)
+**Mockup:** https://claude.ai/code/artifact/401c7c5c-b460-4711-a8d1-f2f27147abb3 — approved 2026-07-30 (Carl's "A": Tailwind scale, 30px titles, 36px hero). Source: `reference/type-specimen.html`
 
 ## How this plan runs (changed 2026-07-30)
 Carl: _"as this is a frontend, can you keep going?"_ then _"lets go!"_ — so **the one-phase-then-stop gate is lifted from Phase 2 onward**. Phases run back to back and close on evidence in the chat rather than on a walk. **Phases 0 and 1 were walked and green-lit by Carl. Phase 2 onward is closed unwalked**, recorded as such in each phase file with its measured proof, so the record never implies he saw something he did not. Anything genuinely ambiguous or irreversible still stops and asks.
@@ -19,7 +19,7 @@ Carl: _"as this is a frontend, can you keep going?"_ then _"lets go!"_ — so **
   `tokens.css` contains the string zero times and about seventeen files match it legitimately
   for ever (test files asserting ON it, the parked gallery, two comments), so the floor for that
   grep is ~17. The invariant is now the guard's own `type-property-outside-type-layer` rule,
-  which reads declarations rather than text. It reports **142** and is frozen there; the nine
+  which reads declarations rather than text. It reports **164** and is frozen there; the nine
   other type rules ARE errors at zero, so anywhere else genuinely does fail the build.
 
 ## Resolved before we start
@@ -41,49 +41,74 @@ Dug out of the code so the phases don't stall:
 | 0 | Font truth + floor breaches | The app renders the font it ships; no text below 14px | ✅ |
 | 1 | Build the three layers | Scale, fourteen roles and the type layer exist; nothing consumes them yet | ✅ |
 | 2 | The Meeting screen | Carl's screenshot: five sizes become three | ✅ unwalked |
-| 3 | The 14px stratum | ~150 chrome, table and label selectors take a role | 🔨 |
-| 4 | Reading surfaces | 15px and 17px die; prose gets a real line length | ⬜ |
-| 5 | Headings + markup sweep | One heading ladder; old tokens and aliases deleted | 🔨 |
-| 6 | Lock it | Guard rules become errors; PDF and email brought in line | 🔨 |
+| 3 | The 14px stratum | ~300 chrome, table and label selectors take a role | ✅ unwalked |
+| 4 | Reading surfaces | 15px and 17px die; prose gets a real line length | ✅ unwalked |
+| 5 | Headings + markup sweep | One heading ladder; old tokens and aliases deleted | ✅ unwalked |
+| 6 | Lock it | Guard rules are errors at zero; PDF and email brought in line | ✅ unwalked |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
-## Current state
-**Phase 0 ✅ green-lit 2026-07-30** (commit `8ba3516b`). Carl approved the specimen mockup first (his "A" on the 36px hero), then walked the user list, a briefing and general text after the build.
+## Current state — ALL SEVEN PHASES DONE (2026-07-31)
 
-What landed: the app now renders the Inter it actually ships. Measured in the running app before touching anything — the bundled webfont stack rendered byte-identical to the `serif` control, all 7 faces `unloaded`, while the app's stack matched Carl's locally installed Inter. So the webfont downloaded and was discarded every page load, and anyone without Inter installed read Sero in Segoe UI, ~8% narrower. Plus two floor breaches the px-only guard could not see: `.um-trend` at `0.85em` computed to 11.9px on 37 rows, `.bullet__mark` at `0.65em` to 10.4px.
+Phases 0 and 1 were walked and green-lit by Carl. Phases 2 to 6 are **closed unwalked** on his
+"as this is a frontend, can you keep going?" then "lets go!", each with measured proof in its own
+file. Commits: `8ba3516b` · `fa8b0762` · `29b9d29f` · `b662b101` · `a0543bd2` · `af1eea22` and the
+P4/P5/P6 chain · `ca5a3109`.
 
-Not verified by screenshot — the Browser pane would not composite this session and the headless browser was held by another chat. Every number is a computed-style or width-probe read from the live page: [proof/p0-font-measurements.md](proof/p0-font-measurements.md). Carl's eye was the visual check.
+**What the app looks like now**
 
-**Baseline (free checks only — this plan needs no paid run):** `npm test` 216/216 before, 217/217 after; typecheck clean; `lint:tokens` PASS with 13 known warnings; `lint:copy` PASS.
+| | Before | After |
+|---|---|---|
+| Distinct rendered text sizes | ~17 | **7**, enforced |
+| Sizes off the ladder | 28 | **0**, a build error |
+| Sizes written as literals | 18 | **0**, a build error |
+| Sizes pointing at an old token | 451 | **0**, a build error |
+| Fluid sizes with an off-rung endpoint | 12 | **0**, a build error |
+| Bricolage below 20px (T6) | 7 | **0**, a build error |
+| Font stacks written out by hand | 8 | **0**, a build error |
+| `var()` references that resolve to nothing | 3 | **0**, a build error |
+| Text below the 14px floor | 2 live, invisible to the guard | **0**, unit-aware error |
 
-**Phase 1 ✅ green-lit 2026-07-30** (commit `fa8b0762`). Carl walked sign in, Start, Team and a live 1:1 question and confirmed nothing had moved.
+Nine rules, all at zero, all errors. Every size in both apps is one of seven rungs, each welded to
+a leading on the 4px grid.
 
-What landed: Tailwind's scale as seven locked size/leading pairs, fourteen semantic roles in a new `design/type.css`, and nine new guard rules held to frozen ceilings. The roles are inert: measured live, all fourteen role classes match zero elements, and the ten existing treatment classes compute exactly as before. `type.css` imports **before** `base.css` on purpose, so a role loses every same-specificity tie. The consequence for Phase 2: a role must **replace** an old class in markup, never sit beside it.
+**Four things found on the way that were nothing to do with type**
 
-Three verifiers attacked the build; four real defects were fixed before hand-over, the worst being that the 14px floor was still px-only and blind to the `font:` shorthand, in the very phase that published composites designed for that syntax. Detail: [proof/p1-invisibility.md](proof/p1-invisibility.md).
+- The bundled Inter **never painted**, on any page load, for anyone. The app asked for a font name
+  that does not exist. Carl saw Inter only because he has it installed; customers read Sero in
+  Segoe UI, about 8% narrower, so their line breaks never matched his.
+- The coach panel's reading-width cap **never applied** — 62ch at 17px is 664px inside a 560px
+  column, so the cap was wider than the box. That is most of why the Meeting screen read badly.
+- `.btn`, the app's primary control, rendered 16px text on a 24.8px line box on **every screen**,
+  because it took a size without its leading and fell back to body's 1.55 ratio.
+- The email shell was a **fourth type system nobody had ever checked**: `backend/` was outside the
+  guard's scan path entirely, and three of its sizes were below the 14px floor. It shipped to real
+  managers like that.
 
-**Phase 2 ✅ closed unwalked 2026-07-30** (commits `29b9d29f` + `b662b101`). The Meeting screen now renders three sizes, not five, and `coach-panel.css` holds zero type declarations.
+**What is left, honestly**
 
-The finding worth keeping: the old `max-width: 62ch` on the coach prose **never applied**, because 62ch at 17px is 664.9px inside a 560px column. The cap was wider than the box. That is why the coaching text ran the full panel width, and it is most of what made the screen read badly next to the mockup.
-
-Adversarial review caught two real regressions in the first build, both fixed before close: the phone stem landed *larger* than what it replaced, and the coach column shrank 96px. [proof/p2-meeting-screen.md](proof/p2-meeting-screen.md).
-
-**Phase 6 🔨 built 2026-07-31, awaiting Carl.** The lock. Nine of the ten type rules are
-now hard ERRORS at zero and their ceilings are deleted; the tenth is the new
-`type-property-outside-type-layer`, the rule that replaced the unmeasurable "two files"
-invariant, frozen at a measured 142. The recap PDF is on a derived print ladder
-(`pt = px x 0.75`, held by four new tests), the email shell turned out to be a fourth type
-system with THREE sub-14px breaches rather than the one the plan flagged, and DESIGN.md
-section 3 and the in-app design sheet now describe the system the code actually has.
-
-Full record, including the six things still open for Carl: [phase-6.md](phase-6.md).
-
-**Board:** https://claude.ai/code/artifact/189fce23-69c4-437f-9121-6417d8926f7f (regenerated at every phase-close via `node scripts/plan-board.js type-system`)
-
-Full research and rationale: `C:\Users\User\.claude\plans\compare-these-two-screens-wise-tarjan.md`.
+- **`type-property-outside-type-layer` reports 164, not zero.** No `font-size` in it is off the
+  ladder: it is weights, leadings and cases still declared in component sheets rather than routed
+  through a role. Sixteen of those sheets were named in no phase file of this plan. Clearing them
+  is a **Phase 5b sweep** that changes sizes on screens someone has to look at first.
+- **That ceiling rose, 142 to 164**, which this plan otherwise forbids. Completing 25 half-declared
+  size/leading pairs is a visible fix and costs +1 each on a counter that counts declarations. The
+  counter was deliberately not redefined to hide it. Reversible, and Carl's to overrule.
+- **Reading measure.** Prose is capped at `--measure-read: 60ch`, which sets as roughly 74 to 82
+  real characters. DESIGN.md T5 says 66, with 75 as the absolute maximum. It is far better than the
+  full-panel-width it replaced, but it is over the written spec and narrowing it is a look-at-it
+  decision, not an arithmetic one.
+- **The phone heading collision.** Four display-face heading roles, three rungs a phone may legally
+  use, so exactly one adjacent pair must share a size. It was moved to `.h3`/`.h4` (15 and 6 uses,
+  rarely adjacent) instead of `.h2`/`.h3` (together on almost every admin screen). One rule to move
+  it back.
+- **The promises card** changed look, on the customer app as well as admin, because it shares the
+  question-stem class. Correct by the system, outside phase 2's stated scope.
 
 ## Parked
+- **Phase 5b: the last 164.** Weights, leadings and cases still declared in component sheets rather than routed through a role, across ~30 sheets, sixteen of which this plan never named. It changes sizes on real screens, so it wants eyes before it is swept. Doing it takes the ceiling down past 142 and lets that rule flip to an error too.
+- **The reading measure vs DESIGN.md T5.** Prose sets at roughly 74 to 82 real characters against T5's 66 (75 absolute). Narrowing is one token.
+- **The phone heading collision.** Four display roles into three legal phone rungs; one adjacent pair must share a size. Currently h3/h4. One rule to move it.
 - Radius and spacing normalisation. The guard's `literalRadius: 53` and `offGridSpacing: 135` ceilings are untouched by this plan — different request.
 - The five gallery prototypes in `admin/src/stages/tests/*.js` (123 font-sizes). No customer sees them; they get a narrow exemption and stay as they are.
 - `--type-family-display`'s optical-size and width axes. Both fonts ship `opsz` and `wdth` axes that are not imported. Possible refinement later, not now.
