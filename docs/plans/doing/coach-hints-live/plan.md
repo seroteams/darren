@@ -29,9 +29,13 @@ Dug out of the code before phase 1, so neither phase stalls on an unknown:
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-30. Mockup built and sent to Carl, awaiting sign-off before phase 1 starts. No baseline run yet.
+Mockup signed off 2026-07-30. Phase 1 built the same day and is waiting on Carl's walk of its scenarios.
+
+Baseline taken before any edit: `npm test` 219/219, `npm run typecheck` clean. `npm run gate` was deliberately NOT run as the baseline: it is a paid OpenAI run and phase 1 changes three lines of static content, so the free suite is the honest bar. The one paid run this plan allows is reserved for phase 2.
 
 Board: https://claude.ai/code/artifact/f5eac651-d4e8-4ba9-a1b7-c19835cd56c4
+
+**Spend note, 2026-07-30.** Driving a local API session to check the served payload cost roughly 84k input tokens across 9 model calls (2 sessions, mostly `gpt-5.4-nano`), because the dev server holds an OpenAI key that is not visible to the shell this session runs commands in. Checking `process.env` from the shell said "no key" and that was read as "these calls are free". It was not. The runs record no usage figures, so the cost cannot be stated exactly. Told to Carl rather than buried. Before any future local run, confirm the key from the SERVER's environment, not the shell's.
 
 ## Parked
 - The fallback path forces every brief cue to render as "Listen for", so it shows three identical pills. After phase 1 no question should reach the fallback, making it a rare safety net. Revisit only if it still shows up.

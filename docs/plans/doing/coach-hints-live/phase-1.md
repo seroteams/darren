@@ -1,6 +1,24 @@
 # Phase 1 — The agenda question gets its own coaching
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-30)
+
+- `backend/api/services/sessions/sessions.service.ts` — `buildAgendaCheck` now carries the three hints below and is exported. It builds `const q: Question` before freezing, the same shape `buildCarryForwardQuestion` uses: inside a bare object literal TypeScript widens `kind` to `string`, which fails `QuestionHint`.
+- `backend/api/services/sessions/sessions.service.test.ts` — the existing intro-queue test now asserts the hints reach the queue, plus a new guard, "every question built in code carries 3 tagged coaching hints", walking both code-minted questions for count, both kinds, non-empty text, no em dash, and the under-20-words craft rule.
+
+Wording as shipped:
+- **How to ask** — Name your own one or two items first, then stop and let them fill the rest.
+- **Listen for** — Whether they name something of their own, or just agree to your list.
+- **Listen for** — Whether what they want out of today is a decision, help, or just to be heard.
+
+Offline proof:
+- Baseline before touching anything: `npm test` 219/219, `npm run typecheck` clean. No pre-existing failures, so nothing below is inherited.
+- After: `npm test` 219/219, `npm run typecheck` clean, `npm run lint:copy` PASS.
+- The guard was watched failing before the fix (`expected exactly 3 coaching hints, got 0`) and watched failing on the OTHER question by temporarily corrupting its first hint, which tripped both the em-dash and the 20-word rules. That edit was reverted; `git diff backend/engine/agenda.ts` is empty.
+- Destination, not routing: a session created through the real API persisted its queue as `q_open_since_last_spoke -> q_intro_agenda_check -> q_intro_biweekly_pace -> q_intro_biweekly_friction`, with the agenda check carrying all three hints.
+
+Not verified on screen. The panel component itself is untouched by this phase, so the on-screen check is scenario 1 below, for Carl to walk.
 
 ## Goal
 The early agenda question stops borrowing whole-meeting prep cues and carries three coaching lines written for itself.

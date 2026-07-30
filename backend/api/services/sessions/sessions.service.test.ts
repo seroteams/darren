@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createSessionsService } from "./sessions.service.ts";
+import { createSessionsService, buildAgendaCheck } from "./sessions.service.ts";
+import { buildCarryForwardQuestion } from "../../../engine/agenda.ts";
 import type { SessionsRepo, RoleProfileDoc } from "./sessions.repo.ts";
 import { HttpError } from "../../middleware/http-error.ts";
 import { initState } from "../../../engine/axes.ts";
@@ -12,6 +13,15 @@ import { INTRO_BUDGET } from "../../sessions.ts";
 import type { Persona } from "../../persona-script.ts";
 import type { Session, MeetingContext, TurnSnapshot } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
+
+// The agenda check's coaching, written out in full rather than imported from the
+// service: this is copy a manager reads mid-meeting, so a change to the wording
+// should fail here and be looked at, not pass because both sides moved together.
+const AGENDA_CHECK_HINTS = [
+  { kind: "ask", text: "Name your own one or two items first, then stop and let them fill the rest." },
+  { kind: "listen", text: "Whether they name something of their own, or just agree to your list." },
+  { kind: "listen", text: "Whether what they want out of today is a decision, help, or just to be heard." },
+];
 
 // A complete-but-minimal live Session, built with the same pure engine helpers the
 // real store uses (initState/createTracker) — no disk, no model. The service treats
@@ -885,6 +895,11 @@ test("start (manual) creates via the seam, persists, fires the pre-warm once, an
     "I've got a couple of things to cover. What do you want to get out of today?",
   );
   assert.deepEqual(agendaCheck.axis_effects, { engagement: 1, clarity: 1 });
+  // ...and it reaches the queue carrying its OWN coaching (coach-hints-live Phase 1).
+  // With none, the Support panel falls back to preparation.listenFor, which is computed
+  // once per session and never changes, so every hintless question renders the identical
+  // three cards (Carl, 2026-07-30: "the right panel is repeating itself").
+  assert.deepEqual(agendaCheck.hints, AGENDA_CHECK_HINTS);
   // Budget follows the arc: index 0 is the bi-weekly check-in, whose arc sums to 6
   // (not the old flat 9). This is what stops the light meeting types over-running.
   assert.equal(call.totalBudget, 6);
@@ -1405,4 +1420,44 @@ test("claim 404s an unknown session id", () => {
   const { repo } = fakeRepo();
   assert.throws(() => createSessionsService(repo).claim("ghost", "org-1", "user-1"),
     (e: unknown) => e instanceof HttpError && e.status === 404);
+});
+
+// --- Code-minted questions carry their own coaching (coach-hints-live Phase 1) ---
+//
+// Static coaching is guarded by engine/questions.test.ts, which walks the _intro,
+// _seed and _openers content files. The two questions below live in neither: they
+// are built in code, so that walk never covered them, and the agenda check shipped
+// with no hints at all from question-support-hints Phase 3 until 2026-07-30. Every
+// manager hit it early in every meeting and got whole-meeting prep cues instead.
+// This is the same walk, for the code-built pair.
+//
+// The em-dash assertion is here rather than in scripts/lint-copy.js because that
+// guard scans admin/src and frontend/src only, so backend-authored screen copy is
+// outside it. Widening the linter is a separate job (parked in the plan).
+test("every question built in code carries 3 tagged coaching hints", () => {
+  const built: Array<[string, Question]> = [
+    ["q_intro_agenda_check", buildAgendaCheck("pulse")],
+    ["q_agenda_carry_forward", buildCarryForwardQuestion("the payment step", "pulse")],
+  ];
+
+  for (const [alias, q] of built) {
+    assert.equal(q.alias, alias);
+    const hints = q.hints ?? [];
+    assert.equal(hints.length, 3, `${alias}: expected exactly 3 coaching hints, got ${hints.length}`);
+    assert.ok(hints.some((h) => h.kind === "ask"), `${alias}: needs at least one "How to ask" line`);
+    assert.ok(hints.some((h) => h.kind === "listen"), `${alias}: needs at least one "Listen for" line`);
+    for (const h of hints) {
+      assert.ok(h.text.trim(), `${alias}: has an empty hint`);
+      assert.ok(
+        !h.text.includes("—") && !h.text.includes(" – "),
+        `${alias}: hint uses a dash banned in user-facing copy: "${h.text}"`,
+      );
+      // The craft rule the model is held to in generate-questions.md, applied to the
+      // hand-written lines as well so they read the same length on screen.
+      assert.ok(
+        h.text.split(/\s+/).length < 20,
+        `${alias}: hint runs past the 20-word ceiling: "${h.text}"`,
+      );
+    }
+  }
 });

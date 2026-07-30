@@ -72,8 +72,14 @@ function isIssueType(v: unknown): v is IssueType {
 // agenda... I'm okay with that on my side, but I also want to hear from my staff."
 // Naming the manager's own agenda first is what makes the second half a real
 // invitation rather than a formality.
-function buildAgendaCheck(anchorStageId: string | null): Question {
-  return Object.freeze({
+// Exported for the code-minted coaching guard in sessions.service.test.ts: the
+// static-content walk in engine/questions.test.ts only reads the _intro, _seed and
+// _openers files, so it never saw this one.
+export function buildAgendaCheck(anchorStageId: string | null): Question {
+  // Named `q: Question` before freezing, the same way buildCarryForwardQuestion does:
+  // inside a bare object literal TypeScript widens each hint's `kind` to `string`,
+  // which no longer fits QuestionHint's "ask" | "listen".
+  const q: Question = {
     alias: "q_intro_agenda_check",
     label: "Agenda check",
     name: "I've got a couple of things to cover. What do you want to get out of today?",
@@ -83,7 +89,20 @@ function buildAgendaCheck(anchorStageId: string | null): Question {
     stage: anchorStageId,
     axis_effects: { engagement: 1, clarity: 1 },
     source: "semi_set",
-  });
+    // Built in code, so its manager coaching is written here rather than by the
+    // model, exactly as buildCarryForwardQuestion does (question-support-hints
+    // Phase 3). It was the last code-minted question without any: every manager
+    // reached it early and the Support panel fell back to the prep brief's
+    // whole-meeting cues, which are fixed for the session and so repeated on
+    // every hintless question (Carl, 2026-07-30 — coach-hints-live Phase 1).
+    // The question always asks the same thing, so fixed lines fit it exactly.
+    hints: [
+      { kind: "ask", text: "Name your own one or two items first, then stop and let them fill the rest." },
+      { kind: "listen", text: "Whether they name something of their own, or just agree to your list." },
+      { kind: "listen", text: "Whether what they want out of today is a decision, help, or just to be heard." },
+    ],
+  };
+  return Object.freeze(q);
 }
 
 // The preview response: either the assembled stage payload or "this stage has no
