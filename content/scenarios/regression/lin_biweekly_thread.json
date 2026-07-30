@@ -12,8 +12,11 @@
     },
     "floors": {
       "question_specificity": 0.4,
-      "plan_thread_follow": 0.55,
+      "plan_thread_follow": 0.2,
       "plan_delta_accuracy": 0.65
+    },
+    "floor_notes": {
+      "plan_thread_follow": "Was 0.55, lowered to the measured 0.2 on 2026-07-30. The 0.55 was never earned by the model: until then the engine minted its own follow-up in code with source `planner_added` quoting the answer verbatim, which is exactly what this metric counts, so the mint was scoring itself. The mint is gone (bland fixed sentence, see backend/engine/thread-follow.ts). This floor is now a no-regression tripwire on real model behaviour, NOT a target. Raising it is open work: SERO_BOARD.md `thread-following coverage`."
     }
   },
   "prep": {

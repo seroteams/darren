@@ -12,6 +12,32 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**⚠️ OPEN 2026-07-30: thread-following coverage — the AI drops about one thread in five, and we only
+found out because a self-scoring metric stopped flattering us.** Carl hit a bland follow-up on the
+live meeting screen and asked where it came from. It was not the model: the engine minted its own
+follow-up in code from one fixed sentence, `You said "<clause>" — what's behind that for you right
+now?`, identical on every turn it fired, quoting a clause its slicer could cut mid-word (`"ne wants
+time to improve things"` on the Jul-29 user test), carrying an em dash Sero copy bans. Carl's call:
+let the AI write it. Done and committed — the mint is gone, `backend/engine/thread-follow.ts` no
+longer writes question text, it only marks the planner's own follow-up (`follows_thread`, which also
+keeps the screen's "following up on what you just said" cue and the drill-cap pin) or notes that the
+planner dropped the thread. Em dashes were also stripped from the example questions both prompts
+teach the model to copy, and quoting the note back is now banned in `<thread_follow_rule>`.
+
+**The catch, and it is the real finding.** `plan_thread_follow` counts a `planner_added` question that
+quotes the last answer — exactly what the code mint was. **The mint had been scoring itself**, so the
+0.43 that closed the thread-follow track on 2026-07-11 was never the model's. Measured on
+`biweekly-priya` ($0.20, PASS, no hard-fails): **0.20**, and reading the run confirms it is not purely
+a measurement artefact — the model wrote one genuinely good follow-up (*"What has happened since the
+cutover, and what did you do about it?"*) and silently skipped a mentoring thread. The 0.55 floors in
+the three `content/scenarios/regression/` scenarios were lowered to the measured 0.20 with a
+`floor_notes` entry in each recording why; they are now no-regression tripwires, **not targets**.
+Raising them is this item. Note the metric under-counts: it needs one shared word over 4 characters,
+while the prompt tells the model to rephrase rather than paste, so a good rephrasing can read as a
+miss. Any attempt to lift the score should sharpen the metric and the prompt together.
+**Not verified on screen** — seeing the cue on a real meeting screen costs a paid run and the one
+budgeted run went to the gate.
+
 **✅ CLOSED 2026-07-29: [machar-fixes-jul-29](docs/plans/done/machar-fixes-jul-29/plan.md) — every fix
 from the first corridor manager's session, all 4 phases green-lit in one day, $0.3288 total.** This is
 the first time the validation loop actually closed: a real manager used the product, said what was
