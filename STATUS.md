@@ -2,6 +2,22 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-31 — an independent audit of the engine rewiring found four real defects in it, and
+they are fixed and LIVE.** You asked for a fresh chat to check the no-dead-wires work. It did not
+come back clean, which is the point of asking. **One:** the QA rule only covered half the path, so a
+tester's note still reached the live planner and its grounding corpus on every lane. **Two:** three
+separate copies of "what counts as a QA run" had drifted apart. **Three, the one that matters most:**
+text you type in a note was being filled into the prompt before other keys, so a `{{...}}` hidden in
+a note got expanded by the next pass. Proved offline: a note carrying `{{AXIS_STATE_JSON}}` came back
+holding the engine's full internal axis state. **Four:** the leak screen could not see mid-run notes
+at all, while phase 4 had just started routing them into the briefing. All four fixed with tests
+proven to go red when the fix is removed, plus a tripwire for the evaluation payload being built in
+two places. Commit `ca343851`, re-verified independently before the push (the four fixes hold and
+both features still work). **✅ LIVE 2026-07-31** — build `28e9eb1` on `sero.team/api/version`,
+`/api/v1/health/deep` reports `db: up`, homepage 200. 221/221, typecheck and copy guard clean.
+Riding the same push: type-system-5b closed, action-review-placement P1 (green-lit), and
+**coach-hints-live P2, which is live but you have not walked it** — that was your call on the fork.
+
 📍 **2026-07-31 — the type system is in, and it caught three bugs that had nothing to do with type.
 [type-system CLOSED](docs/plans/done/type-system/plan.md), all 7 phases, £0, no paid runs.**
 You compared the Questions mockup against your live Meeting screen and said one had great typography
