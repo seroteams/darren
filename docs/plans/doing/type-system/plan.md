@@ -15,7 +15,12 @@ Carl: _"as this is a frontend, can you keep going?"_ then _"lets go!"_ — so **
 - Reading text everywhere is 16px and breaks at a comfortable line length instead of running the full panel width.
 - One heading ladder across the admin console and the customer app: hero 36, page title 30, section 24, card 20.
 - The app renders the font it actually ships. Right now customers without Inter installed are seeing Windows' default face.
-- `font-size` exists in exactly two files in the whole repo. Anywhere else fails the build.
+- ~~`font-size` exists in exactly two files in the whole repo.~~ **Unmeasurable as written, replaced in P6.**
+  `tokens.css` contains the string zero times and about seventeen files match it legitimately
+  for ever (test files asserting ON it, the parked gallery, two comments), so the floor for that
+  grep is ~17. The invariant is now the guard's own `type-property-outside-type-layer` rule,
+  which reads declarations rather than text. It reports **142** and is frozen there; the nine
+  other type rules ARE errors at zero, so anywhere else genuinely does fail the build.
 
 ## Resolved before we start
 Dug out of the code so the phases don't stall:
@@ -39,7 +44,7 @@ Dug out of the code so the phases don't stall:
 | 3 | The 14px stratum | ~150 chrome, table and label selectors take a role | 🔨 |
 | 4 | Reading surfaces | 15px and 17px die; prose gets a real line length | ⬜ |
 | 5 | Headings + markup sweep | One heading ladder; old tokens and aliases deleted | 🔨 |
-| 6 | Lock it | Guard rules become errors; PDF and email brought in line | ⬜ |
+| 6 | Lock it | Guard rules become errors; PDF and email brought in line | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -64,7 +69,15 @@ The finding worth keeping: the old `max-width: 62ch` on the coach prose **never 
 
 Adversarial review caught two real regressions in the first build, both fixed before close: the phone stem landed *larger* than what it replaced, and the coach column shrank 96px. [proof/p2-meeting-screen.md](proof/p2-meeting-screen.md).
 
-**Next: Phases 3 to 6, running back to back.** Recon for all four is in flight.
+**Phase 6 🔨 built 2026-07-31, awaiting Carl.** The lock. Nine of the ten type rules are
+now hard ERRORS at zero and their ceilings are deleted; the tenth is the new
+`type-property-outside-type-layer`, the rule that replaced the unmeasurable "two files"
+invariant, frozen at a measured 142. The recap PDF is on a derived print ladder
+(`pt = px x 0.75`, held by four new tests), the email shell turned out to be a fourth type
+system with THREE sub-14px breaches rather than the one the plan flagged, and DESIGN.md
+section 3 and the in-app design sheet now describe the system the code actually has.
+
+Full record, including the six things still open for Carl: [phase-6.md](phase-6.md).
 
 **Board:** https://claude.ai/code/artifact/189fce23-69c4-437f-9121-6417d8926f7f (regenerated at every phase-close via `node scripts/plan-board.js type-system`)
 

@@ -294,8 +294,16 @@ pre {
   /* iOS zooms the page when a focused control's text is under 16px. Nothing
      may render below the 14px floor, but a couple of dense desktop controls
      sit between 14 and 16 — bump exactly those to 16px on phones. */
+  /* THE permanent waiver, and the reason literal-font-size could not otherwise
+     become an error (type-system P6). There is no token form of max(1rem, 1em)
+     and there should not be: the point is to lift a control that is UNDER 16px up
+     to 16 and leave one already above it exactly where it is. A flat
+     --type-size-base here would SHRINK the front door's 24px .input to 16px on
+     every phone. The linter's own max() branch exists to keep this line green
+     (see resolveFontSize in scripts/lint-design-tokens.js). The waiver has to sit
+     on the declaration line itself, because that is the line the guard reads. */
   input, select, textarea {
-    font-size: max(1rem, 1em);
+    font-size: max(1rem, 1em); /* lint-tokens-ignore: iOS focus-zoom guard, see above */
   }
 
   /* User management / Error log table: sideways scroll keeps every column

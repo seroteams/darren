@@ -40,7 +40,10 @@ function injectMenuStyles() {
   s.textContent = `
     .profile-badge--menu { cursor: pointer; }
     .profile-badge__caret {
-      display: inline-flex; margin-left: 2px; color: var(--color-ink-subtle, var(--color-ink));
+      /* --color-ink-subtle was defined nowhere in either app, so this only ever
+         painted through its fallback. It was the last of the three undefined-token
+         hits and it blocked that rule becoming an error (P6). */
+      display: inline-flex; margin-left: 2px; color: var(--color-ink-dim);
       opacity: .55; transition: transform .15s ease;
     }
     .profile-badge__caret svg { width: 14px; height: 14px; }
@@ -53,11 +56,17 @@ function injectMenuStyles() {
       z-index: var(--sero-z-fixed, 30);
     }
     .profile-badge__menu[hidden] { display: none; }
+    /* Type comes from .type-body-sm in the markup below, not from here. This block is
+       appended to document.head at RUNTIME so it loads last and beats every stylesheet,
+       which means a role grouped into design/type.css could never reach it. A <button>
+       inherits no type at all, so the role class is the only thing giving these three
+       menu items a face: dropping the font shorthand with the size is the same move P2
+       made for .cp-seg (type-system P6). */
     .profile-badge__mi {
       display: flex; align-items: center; gap: 10px; width: 100%;
       padding: 8px 10px; border: 0; border-radius: var(--sero-radius-sm, 8px);
-      background: transparent; color: var(--color-ink); font: inherit;
-      font-size: var(--type-size-sm); text-align: left; cursor: pointer;
+      background: transparent; color: var(--color-ink);
+      text-align: left; cursor: pointer;
     }
     .profile-badge__mi:hover, .profile-badge__mi:focus-visible {
       background: var(--color-surface-hover); outline: none;
@@ -87,9 +96,9 @@ export function createProfileBadge({ setState, resetSession, customer = false } 
     <span class="profile-badge__email"></span>
     <span class="profile-badge__caret" aria-hidden="true" hidden>${CARET}</span>
     <div class="profile-badge__menu" role="menu" hidden>
-      <button type="button" class="profile-badge__mi" role="menuitem" data-act="privacy">${IC_PRIVACY}<span>Privacy</span></button>
-      <button type="button" class="profile-badge__mi" role="menuitem" data-act="account">${IC_ACCOUNT}<span>Account</span></button>
-      <button type="button" class="profile-badge__mi" role="menuitem" data-act="logout">${IC_LOGOUT}<span>Log out</span></button>
+      <button type="button" class="profile-badge__mi type-body-sm" role="menuitem" data-act="privacy">${IC_PRIVACY}<span>Privacy</span></button>
+      <button type="button" class="profile-badge__mi type-body-sm" role="menuitem" data-act="account">${IC_ACCOUNT}<span>Account</span></button>
+      <button type="button" class="profile-badge__mi type-body-sm" role="menuitem" data-act="logout">${IC_LOGOUT}<span>Log out</span></button>
     </div>
   `;
   const avatarEl = el.querySelector(".profile-badge__avatar");

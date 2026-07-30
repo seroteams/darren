@@ -62,8 +62,16 @@ the hero would have GROWN to 36px.
    `page-header.test.ts` would hard-fail and `recap-header.test.ts` and
    `finish-feedback-modal.test.ts` would go INERT, passing trivially on a class that no
    longer exists; and grouping costs one edit per role instead of 269. `.h1` still had
-   to split two ways, so `start-welcome.ts` is the **one** markup line this phase
-   changed.
+   to split two ways, so `start-welcome.ts` changed its markup.
+
+   > **Corrected in P6.** This bullet used to end "so `start-welcome.ts` is the **one**
+   > markup line this phase changed", and that was not true. Counted from commit
+   > `808a66e9`: **seven markup lines across four files**, four of them genuine class
+   > changes. `start-welcome.ts` (`.h1` to `.type-display`), and three in
+   > `ui/briefing-view.ts` (`text-sm` to `.briefing-prose` and twice to `.brutal__body`,
+   > which the P4 review had asked for). The other three were inline token repoints in
+   > `stages/design.js` (two) and `stages/meeting-arcs.js` (one). Grouping was still
+   > overwhelmingly the route; "one" was a headline that read better than it counted.
 2. **The parked gallery kept its tokens rather than breaking silently.** The nine
    prototypes read the old names ~180 times and are exempt by Carl's call. The
    definitions moved to `admin/src/stages/tests/parked-tokens.css`, imported by the
@@ -89,6 +97,18 @@ the hero would have GROWN to 36px.
    rather than a lint number's.
 
 ## Still open for Carl
+- **On a phone, `.h2` and `.h3` render identically** (20px/28px, weight 600, Bricolage),
+  so two levels of the ladder collapse into one. Added in P6; the build did not flag it,
+  and it fails this phase's own QA scenario 4 and DESIGN.md T2. It cannot be fixed by
+  moving a number: there are FOUR display-face heading roles and only THREE rungs a
+  phone may use (36 eats the screen, T6 forbids the face below 20), and all four are
+  weight 600 in the same face, so one adjacent pair must always share a size. The only
+  question is where the collision sits. **(a)** leave it at lg/md, as now, which costs
+  `.h2` against `.h3` and those co-occur often. **(b)** stop dropping `heading-xl`,
+  which puts 30px page titles back on a 390px screen, the regression `mobile.css`
+  existed to prevent. **(c)** drop `heading-md` to 18px in the base face on a phone,
+  which is `.type-heading-sm` exactly, so the collision just moves to md/sm.
+  The reasoning is written out at the foot of `design/type.css`.
 - Retire `admin/src/stages/tests/runner-v2.js`? It shows a design the Meeting screen
   deliberately no longer matches, and it is the only thing left in `nonTokenFont`.
 - `--measure-read` at 55ch clears T5's absolute maximum. T5's stated **target** is 66
@@ -125,9 +145,9 @@ One heading ladder across both apps, and the old system deleted rather than left
 
 ## Done when
 - [x] The old tokens are deleted. The same grep, excluding the parked gallery, returns nothing outside `admin/src/stages/tests/parked-tokens.css`
-- [x] Every alias class takes a role. `.h1 .h2 .h3 .h4 .text-display .lead .body .label .caption .eyebrow` are grouped into roles in `type.css` and declare nothing of their own; markup is untouched except the one hero
+- [x] Every alias class takes a role. `.h1 .h2 .h3 .h4 .text-display .lead .body .label .caption .eyebrow` are grouped into roles in `type.css` and declare nothing of their own. **Corrected in P6:** the second half of this line used to read "markup is untouched except the one hero". Seven markup lines changed across four files. See the correction under decision 1
 - [x] Textarea auto-grow still works in the notes panel. Typed by hand: `getComputedStyle().lineHeight` returns `"24px"`, the `|| 22` fallback never fires, the box grew 115.6px to 282px over 442 characters and capped at exactly 288px (12 × 24) before scrolling internally
-- [x] `npm test` 219/219, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`, `node scripts/test-design-guard.js`, `npm run build:all` all clean
+- [x] `npm test` 219/219, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy`, `node scripts/test-design-guard.js`, `npm run build:all` all clean. **P6 note:** the suite is 220/220 now; P6 added the print-ladder and email tests and retired none
 - [ ] Screenshots. **Not done, and it is not possible in this session:** the Browser pane will not composite a frame here, so every screenshot times out. Everything above is a computed style read off the live page instead, which is stated wherever it is claimed
 - [ ] Product owner has tested the scenarios below and said go
 

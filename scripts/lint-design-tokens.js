@@ -6,18 +6,15 @@
  * Walks admin/src + frontend/src for .css/.js/.ts and fails (exit 1) on design-token
  * integrity violations that a human reviewer would otherwise have to catch by eye:
  *
- *   ERROR (fails the build):
+ *   COLOUR + FLOOR ERRORS (always have been):
  *     · raw-hex        — a #rgb/#rrggbb colour literal used as a value (not in a token def)
  *     · rgb-literal    — an rgb()/rgba() colour literal used as a value (not in a token def)
  *     · hex-fallback   — a var(--token, #hex | rgba(...)) fallback (drop it; tokens always exist)
  *     · sub-14px-font  — font-size below the 14px accessibility floor (DESIGN §3)
  *
- *   WARN (reported, does NOT fail): non-token font-size literal >=14px.
- *   REPORT ONLY (with --report): off-grid spacing + literal border-radius counts.
- *
- *   TYPE WARN (type-system plan, P1. Counted separately, held to a ceiling by
- *   scripts/test-design-guard.js, turned into errors by P6 once the debt they
- *   measure has been paid down):
+ *   TYPE ERRORS (type-system P1 built them as warnings; P6 flipped them, once phases
+ *   2 to 5 had driven every one of them to ZERO. A rule flipped while its count is
+ *   non-zero is a rule that gets reverted, so the sequencing was the point):
  *     · relative-font-size            em / % / calc / anything unresolvable
  *     · off-ladder-font               a static size off 14 / 16 / 18 / 20 / 24 / 30 / 36
  *     · unsanctioned-size-token       font-size: var(--x) where --x is not a --type-size-*
@@ -32,6 +29,26 @@
  *                                     by swapping tokens for rem literals on a rung, which
  *                                     reads as a finished migration and is the same debt.
  *
+ *   COUNTED, held to a falling ceiling by scripts/test-design-guard.js:
+ *     · type-property-outside-type-layer
+ *                                     THE headline rule of P6, and the one thing the
+ *                                     whole migration was for: any of the eight type
+ *                                     properties declared outside design/tokens.css and
+ *                                     design/type.css. It replaced an invariant that
+ *                                     could never be measured ("font-size appears in
+ *                                     exactly two files", checked by grep) with one that
+ *                                     reads declarations, so a comment, a test assertion
+ *                                     and a JS object key cannot trip it. It is NOT an
+ *                                     error yet because it still counts real debt; see
+ *                                     the ceiling note in scripts/test-design-guard.js
+ *                                     for the number and where it lives.
+ *
+ *   RETIRED IN P6: the px-only `non-token-font` warning. Every hit it had was also a
+ *   literal-font-size hit, so it reported one debt under two names and held two
+ *   ceilings that could disagree with each other.
+ *
+ *   REPORT ONLY (with --report): off-grid spacing + literal border-radius counts.
+ *
  *   Why unit-aware resolution rather than a px check: the px-only rule could not
  *   see a fraction, so .um-trend shipped at 0.85em (11.9px) and .bullet__mark at
  *   0.65em (10.4px) and both sat under the floor for months looking clean.
@@ -41,16 +58,60 @@
  *   floor, the ladder and T6 at once, which mattered the moment this phase
  *   published composites meant to be used in exactly that syntax.
  *
- * Exemptions — this list is the twin of DESIGN.md §6 "Exemptions". Change one, change the other.
- *   whole files — tokens.css (the source of truth), dev-badge.js, build-stamp.js,
- *   stages/design.js (the live design sheet),
- *   orb.css + motion.css (decorative animation signatures), app-nav.css (dark-rail on-dark
- *   translucency), app-nav.js + session-topbar.js (the brandmark LOGO SVG),
- *   recap-pdf.ts (pdfmake can't read CSS vars). Plus any *.test.* file.
- *   single line — add `lint-tokens-ignore` in a comment on the line (with a reason).
- *   token definitions — a line that assigns to a `--custom-property` may hold raw values.
- *   the parked gallery: admin/src/stages/tests/ skips the TYPE WARN rules only
- *   (TYPE_EXEMPT below). It keeps the 14px floor and the colour rules in full.
+ * EXEMPTIONS, every one with the reason. This list is the twin of DESIGN.md §6
+ * "Exemptions": change one, change the other.
+ *
+ *   WHOLE FILES (ALLOWLIST below), skipped entirely so no rule sees them:
+ *     · design/tokens.css        the source of truth. It is where raw values are
+ *                                SUPPOSED to live, and it is still read for the token
+ *                                table even though it is never checked.
+ *     · ui/dev-badge.js,
+ *       ui/build-stamp.js        dev/debug chrome. A deliberate terminal-style kit with
+ *                                its own dark mono palette, never shown to a customer.
+ *     · stages/design.js         the live design sheet. It DEMONSTRATES the system,
+ *                                including illustrative glyphs in its mock cards, so it
+ *                                documents the rules rather than being bound by them.
+ *     · design/orb.css,
+ *       design/motion.css        decorative signatures (the thinking orb's gradient, the
+ *                                aura/shimmer). One-offs with no token home.
+ *     · design/app-nav.css       alpha-white translucency over the dark rail. No token.
+ *     · ui/app-nav.js,
+ *       ui/session-topbar.js     the brandmark LOGO SVG. It is the mark, not an icon,
+ *                                and its fills are the mark's own.
+ *     · ui/recap-pdf.ts          pdfmake cannot read a CSS variable. Each hex names its
+ *                                token and each fontSize is a print rung derived from
+ *                                the roles; both held by ui/recap-pdf.test.ts.
+ *     · notifications/
+ *       email-layout.ts,
+ *       email-type.ts            mail clients strip <style>, so an email has no
+ *                                stylesheet, no classes and no custom properties. Inline
+ *                                hex and a literal system-font stack are forced, not
+ *                                drift. email-type.ts is to email what tokens.css is to
+ *                                the screens. Held by email-layout.test.ts, which parses
+ *                                the REAL tokens.css and compares rung by rung.
+ *     · *.test.*                 a test that asserts on a bad value has to contain one.
+ *
+ *   STRUCTURAL TYPE RULES ONLY (TYPE_EXEMPT below, narrower than ALLOWLIST):
+ *     · admin/src/stages/tests/  the parked gallery. Design sketches behind /test that
+ *                                no customer reaches (plan.md, "Parked"). The 14px floor
+ *                                and the colour rules still apply IN FULL: parked is not
+ *                                the same as unreadable.
+ *
+ *   VALUES THAT SET NO TYPE (type-property-outside-type-layer only):
+ *     · inherit / initial / unset / revert / revert-layer
+ *                                a CSS-wide keyword hands the property back to the
+ *                                cascade rather than setting a value. `font: inherit` on
+ *                                a <button> is how a control rejoins the page face at
+ *                                all, so counting it would make the rule unsatisfiable
+ *                                for every control in the app.
+ *
+ *   SINGLE LINES:
+ *     · `lint-tokens-ignore` in a comment ON the declaration line, with a stated reason.
+ *       Live waivers: design/mobile.css (font-size: max(1rem, 1em), the iOS focus-zoom
+ *       guard, which has no token form and must NOT become one) and ui/account-sheet.ts
+ *       (letter-spacing: 3px, which spreads the masked password's bullets and is
+ *       decoration rather than tracking).
+ *     · a line that assigns to a `--custom-property` may hold raw values.
  *
  * Usage:  node scripts/lint-design-tokens.js [--report] [--json]
  *
@@ -63,7 +124,22 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const SCAN_DIRS = ["admin/src", "frontend/src"];
+/*
+ * backend/api/services/notifications joined the walk in type-system P6, and the
+ * reason is the whole point of the rule below it. The guard had only ever walked the
+ * two front ends, so backend/api/services/notifications/email-layout.ts sat outside
+ * every check in the repo and quietly became a FOURTH type system: font-size 11, 12,
+ * 12.5, 14, 15, 22 and 23px, three of them below the 14px floor, plus fourteen hex
+ * literals of which eleven match no Sero token. Nothing failed, because nothing
+ * looked.
+ *
+ * Adding the directory costs nothing today (it is the only place under backend/ with
+ * a type property or a hex) and it means the NEXT file dropped in there is seen on
+ * arrival. email-layout.ts itself is allowlisted below, because an email genuinely
+ * has to be inline hex and a literal font stack; its type is held by
+ * email-layout.test.ts instead, which is a stronger check than this file could make.
+ */
+const SCAN_DIRS = ["admin/src", "frontend/src", "backend/api/services/notifications"];
 const EXTS = new Set([".css", ".js", ".ts"]);
 
 const ALLOWLIST = [
@@ -76,7 +152,23 @@ const ALLOWLIST = [
   /(^|[\\/])app-nav\.css$/, // dark-rail on-dark alpha-white translucency (no token home)
   /(^|[\\/])app-nav\.js$/, // brandmark LOGO SVG (both apps)
   /(^|[\\/])session-topbar\.js$/, // brandmark LOGO SVG
-  /(^|[\\/])recap-pdf\.ts$/, // pdfmake PDF output — can't read CSS vars; each hex names its token
+  // pdfmake PDF output. can't read CSS vars. Each hex names its token, AND each
+  // fontSize is a print rung derived from the roles (pt = px x 0.75). Both halves are
+  // held by admin/src/ui/recap-pdf.test.ts, which is the only thing that can hold a
+  // file this guard is not allowed to read.
+  /(^|[\\/])recap-pdf\.ts$/,
+  // The email shell. Mail clients strip <style>, so it has no stylesheet, no classes
+  // and no custom properties: inline hex and a literal system-font stack are forced,
+  // not drift. Its sizes come from ./email-type.ts and are asserted against the real
+  // design/tokens.css by email-layout.test.ts.
+  /(^|[\\/])email-layout\.ts$/,
+  // email-type.ts is to email what design/tokens.css is to the screens: the ONE file
+  // allowed to write the numbers out. Like tokens.css it is exempt from being checked
+  // and is instead the thing everything else is checked against. by
+  // email-layout.test.ts, which parses the real tokens.css and compares them rung by
+  // rung. It is here for the same mechanical reason tokens.css is: it emits
+  // `font-size:${n}px` from a template literal, which no static resolver can read.
+  /(^|[\\/])email-type\.ts$/,
   /\.test\./,
 ];
 
@@ -97,6 +189,41 @@ const isAllowlisted = (rel) => ALLOWLIST.some((re) => re.test(rel));
  */
 const TYPE_EXEMPT = [/^admin\/src\/stages\/tests\//];
 const isTypeExempt = (rel) => TYPE_EXEMPT.some((re) => re.test(rel));
+
+/*
+ * THE TWO-FILE LAW (type-system P6). the sanctioned home of every type property.
+ *
+ * design/tokens.css holds the ladder (Layer 1) and design/type.css holds the
+ * fourteen roles and the composites (Layers 2 and 3). A type property declared
+ * anywhere else is a second opinion about the same decision, and the whole
+ * migration exists because the app had accumulated several hundred of them.
+ *
+ * These are matched on the FULL relative path, not the basename, so a file that
+ * happens to be called type.css somewhere else does not inherit the licence.
+ */
+const SANCTIONED_TYPE_FILES = [
+  "admin/src/styles/design/tokens.css",
+  "admin/src/styles/design/type.css",
+];
+const isSanctionedTypeFile = (rel) => SANCTIONED_TYPE_FILES.includes(rel);
+
+/*
+ * The eight properties the law covers. Every one of them can change how text
+ * looks on its own, which is why the list is not just `font-size`: a stray
+ * `font-weight: 600` or `letter-spacing: 0.05em` in a component sheet drifts a
+ * role just as effectively as a size does, and until P6 nothing counted them at
+ * all.
+ */
+const TYPE_PROPS = new Set([
+  "font-size",
+  "line-height",
+  "font-weight",
+  "letter-spacing",
+  "font-family",
+  "text-transform",
+  "font-variant-numeric",
+  "font",
+]);
 
 // --- file walk ---------------------------------------------------------------
 function walk(dir, out) {
@@ -410,7 +537,6 @@ const HEX = /#[0-9a-fA-F]{3,8}\b/;
 const RGB = /\brgba?\(/;
 const VAR_FALLBACK_LITERAL = /var\(\s*--[a-z0-9-]+\s*,\s*(#[0-9a-fA-F]{3,8}|rgba?\()/i;
 const IS_TOKEN_DEF = /^\s*--[a-z0-9-]+\s*:/i; // a custom-property definition may hold raw values
-const FONT_SIZE_PX = /font-size\s*:\s*([0-9]+(?:\.[0-9]+)?)px/gi;
 const RADIUS_PX = /border-radius\s*:\s*([0-9]+(?:\.[0-9]+)?)px/gi;
 const SPACING_PX = /\b(?:padding|margin|gap)(?:-[a-z]+)?\s*:\s*([^;{}]*)/gi;
 
@@ -421,10 +547,15 @@ const FONT_FAMILY_DECL = /(?<![-\w])font-family\s*:\s*([^;{}]+)/gi;
 const VAR_REF = /var\(\s*(--[a-z0-9-]+)/gi;
 
 /*
- * The eight type rules, all WARNINGS in this phase. They are counted separately
- * from `non-token-font` so the frozen nonTokenFont ceiling cannot move. Phase 6
- * of the type-system plan turns them into errors, once the debt they measure has
- * been paid down by phases 2 to 5.
+ * The ten type rules. NINE of them are errors as of P6 (see TYPE_ERRORS below);
+ * the tenth, type-property-outside-type-layer, is counted and held to a ceiling
+ * because it still carries real debt.
+ *
+ * Severity is applied at REPORT time, not here: every rule lands in acc.typeWarns
+ * so the per-rule counts and the detail lines keep working whatever its severity,
+ * and only the reporter decides which counts fail the run. Routing errors into
+ * acc.errors at push time instead would have emptied the very counters
+ * scripts/test-design-guard.js and scripts/test-type-rules.js assert on.
  *
  * The CLI key on the right is what scripts/test-design-guard.js holds to a
  * ceiling. Every one of these must appear in the --json payload as a number, or
@@ -440,7 +571,34 @@ const TYPE_RULES = [
   ["font-family-literal", "fontFamilyLiteral"],
   ["font-shorthand-resets-numeric", "fontShorthandResetsNumeric"],
   ["literal-font-size", "literalFontSize"],
+  ["type-property-outside-type-layer", "typePropOutsideTypeLayer"],
 ];
+
+/*
+ * Which of the rules above FAIL the build (P6). Every rule not named here is
+ * still counted and reported, and scripts/test-design-guard.js holds it to a
+ * ceiling that may only ever fall.
+ *
+ * The nine below were all measured at ZERO on 2026-07-31 before they were
+ * flipped, so the flip could not red the build for the parallel sessions sharing
+ * this checkout. That sequencing is the point: a rule flipped while its count is
+ * non-zero is a rule that gets reverted.
+ *
+ * type-property-outside-type-layer is deliberately NOT here. It is the newest
+ * rule and the only one still carrying real debt; see its note in
+ * scripts/test-design-guard.js for the number and where it lives.
+ */
+const TYPE_ERRORS = new Set([
+  "relative-font-size",
+  "off-ladder-font",
+  "unsanctioned-size-token",
+  "undefined-token",
+  "clamp-off-rung",
+  "display-face-below-20",
+  "font-family-literal",
+  "font-shorthand-resets-numeric",
+  "literal-font-size",
+]);
 
 const pushType = (acc, rel, lineNo, rule, snippet) =>
   acc.typeWarns.push({ rel, lineNo, rule, snippet });
@@ -589,8 +747,35 @@ function parseBlocks(text) {
 function checkTypeBlocks(rel, text, acc, tokens) {
   const lines = text.split(/\r?\n/);
   const waived = (lineNo) => /lint-tokens-ignore/.test(lines[lineNo - 1] || "");
+  const sanctioned = isSanctionedTypeFile(rel);
 
   for (const block of parseBlocks(text)) {
+    /*
+     * The two-file law. One hit per DECLARATION, which is why it lives here on the
+     * block parser rather than on a text match: the invariant this replaced was
+     * `grep -l font-size` returning exactly two files, and that could never work.
+     * tokens.css contains the string zero times (it defines --type-size-* and
+     * never uses the property), five test files assert ON the string, and two more
+     * carry it only inside a comment. Reading declarations means a comment, a test
+     * and a JS object key are all invisible to it, and a real one is named with its
+     * line.
+     */
+    if (!sanctioned) {
+      for (const d of block.decls) {
+        if (!TYPE_PROPS.has(d.prop)) continue;
+        /*
+         * A CSS-wide keyword sets no type VALUE, it hands the property back to the
+         * cascade, so it cannot drift a role. It is also load-bearing: a <button>,
+         * an <input> and a <textarea> inherit no type from the document at all, so
+         * `font: inherit` is how a control rejoins the page face. Counting it would
+         * make the rule unsatisfiable for every control in the app.
+         */
+        if (CSS_WIDE.test(String(d.value).trim())) continue;
+        if (waived(d.lineNo)) continue;
+        pushType(acc, rel, d.lineNo, "type-property-outside-type-layer", `${d.prop}: ${d.value}`);
+      }
+    }
+
     const last = (prop) => {
       for (let i = block.decls.length - 1; i >= 0; i--) if (block.decls[i].prop === prop) return i;
       return -1;
@@ -682,15 +867,13 @@ function checkLine(rel, lineNo, rawLine, state, acc, tokens = new Map()) {
   }
 
   /*
-   * non-token-font stays px-only on purpose. It is a legacy counter frozen at 13
-   * and retired in Phase 6; widening it would move a ceiling that is meant to
-   * only ever fall. The new literal-font-size type rule is the unit-aware
-   * version and counts the rest.
+   * The legacy px-only `non-token-font` warning was RETIRED here in P6, as its own
+   * comment always said it would be. Every hit it had was also a literal-font-size
+   * hit, so keeping it meant reporting one debt under two names and holding two
+   * ceilings that could disagree. Its last five live hits were all in one parked
+   * gallery prototype. literal-font-size is the unit-aware replacement, and unlike
+   * the old rule it can see a rem, a clamp endpoint and a `font:` shorthand.
    */
-  FONT_SIZE_PX.lastIndex = 0;
-  while ((m = FONT_SIZE_PX.exec(text))) {
-    if (parseFloat(m[1]) >= 14) acc.warns.push({ rel, lineNo, rule: "non-token-font", snippet: m[0] });
-  }
 
   // report-only: literal radius + off-grid spacing
   RADIUS_PX.lastIndex = 0;
@@ -709,7 +892,7 @@ function checkLine(rel, lineNo, rawLine, state, acc, tokens = new Map()) {
 // One accumulator shape, built in one place, so the repo walk and
 // scripts/test-type-rules.js can never drift apart on what a rule may push into.
 function newAcc() {
-  return { errors: [], warns: [], typeWarns: [], report: { radius: 0, offGrid: 0 } };
+  return { errors: [], typeWarns: [], report: { radius: 0, offGrid: 0 } };
 }
 
 // Lint a block of source as if it were the file at `rel`. It takes TEXT, not a
@@ -782,18 +965,29 @@ function main() {
   const asJson = process.argv.includes("--json");
   const typeBy = group(acc.typeWarns);
 
+  /*
+   * Severity, applied here rather than at push time (P6). The nine rules in
+   * TYPE_ERRORS join the colour and floor errors and fail the run; the rest are
+   * counted and held to a ceiling by scripts/test-design-guard.js. Keeping the split
+   * at report time is what lets every rule stay in typeWarns, so the per-rule counts
+   * this file publishes are the same numbers whatever a rule's severity is.
+   */
+  const typeErrs = acc.typeWarns.filter((w) => TYPE_ERRORS.has(w.rule));
+  const errors = [...acc.errors, ...typeErrs];
+
   // Machine-readable mode — one JSON line, no prose. Consumed by test-design-guard.js.
   if (asJson) {
     console.log(
       JSON.stringify({
         scanned,
-        errors: acc.errors.length,
+        errors: errors.length,
         errorsByRule: Object.fromEntries(
-          Object.entries(group(acc.errors)).map(([rule, list]) => [rule, list.length])
+          Object.entries(group(errors)).map(([rule, list]) => [rule, list.length])
         ),
-        errorDetail: acc.errors.map((e) => `${e.rel}:${e.lineNo}  [${e.rule}]  ${e.snippet}`),
-        nonTokenFont: acc.warns.length,
-        nonTokenFontDetail: acc.warns.map((w) => `${w.rel}:${w.lineNo}  ${w.snippet}`),
+        errorDetail: errors.map((e) => `${e.rel}:${e.lineNo}  [${e.rule}]  ${e.snippet}`),
+        // How many of those errors came from a flipped type rule, so a reader can tell
+        // a colour or floor violation from a ladder one without parsing the detail.
+        typeErrors: typeErrs.length,
         literalRadius: acc.report.radius,
         offGridSpacing: acc.report.offGrid,
         // One key per type rule, always a number even at zero. Built from the
@@ -804,14 +998,14 @@ function main() {
         typeWarnDetail: acc.typeWarns.map((w) => `${w.rel}:${w.lineNo}  [${w.rule}]  ${w.snippet}`),
       })
     );
-    process.exit(acc.errors.length ? 1 : 0);
+    process.exit(errors.length ? 1 : 0);
   }
 
   console.log(`\ndesign-token guard — scanned ${scanned} files under ${SCAN_DIRS.join(", ")}\n`);
 
-  if (acc.errors.length) {
-    const by = group(acc.errors);
-    console.log(`✗ ${acc.errors.length} error(s):\n`);
+  if (errors.length) {
+    const by = group(errors);
+    console.log(`✗ ${errors.length} error(s):\n`);
     for (const rule of Object.keys(by)) {
       console.log(`  [${rule}] : ${by[rule].length}`);
       for (const e of by[rule]) console.log(`    ${e.rel}:${e.lineNo}  ${e.snippet}`);
@@ -820,20 +1014,20 @@ function main() {
   }
 
   if (report) {
-    const by = group(acc.warns);
-    console.log(`~ ${acc.warns.length} warning(s) (non-token font-size >=14px):`);
-    for (const rule of Object.keys(by)) console.log(`  [${rule}] : ${by[rule].length}`);
     console.log(`~ report: ${acc.report.radius} literal border-radius, ${acc.report.offGrid} off-grid spacing declarations\n`);
-    console.log(`~ ${acc.typeWarns.length} type warning(s) (type-system P1, warnings until P6):`);
-    for (const [rule] of TYPE_RULES) console.log(`  [${rule}] : ${(typeBy[rule] || []).length}`);
+    console.log(`~ type rules (P6: nine are errors, one is counted):`);
+    for (const [rule] of TYPE_RULES) {
+      const n = (typeBy[rule] || []).length;
+      console.log(`  [${rule}] : ${n}${TYPE_ERRORS.has(rule) ? " (error)" : " (counted)"}`);
+    }
     console.log("");
   }
 
-  if (acc.errors.length) {
-    console.log(`FAIL — ${acc.errors.length} design-token violation(s). Fix or add a 'lint-tokens-ignore' comment with a reason.\n`);
+  if (errors.length) {
+    console.log(`FAIL: ${errors.length} design-token violation(s). Fix or add a 'lint-tokens-ignore' comment with a reason.\n`);
     process.exit(1);
   } else {
-    console.log(`PASS — no hard violations.${report ? "" : " Run with --report for warnings + grid counts."}\n`);
+    console.log(`PASS: no hard violations.${report ? "" : " Run with --report for the type-rule table + grid counts."}\n`);
     process.exit(0);
   }
 }
@@ -846,6 +1040,7 @@ module.exports = {
   TYPE_EXEMPT,
   isTypeExempt,
   TYPE_RULES,
+  TYPE_ERRORS,
   RUNGS,
   SANCTIONED_SIZE_TOKENS,
   stripComments,

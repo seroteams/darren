@@ -65,8 +65,16 @@
      outside the heading tokens. Flat 24px is the rung the clamp's top was reaching
      for. Desktop comes down 4px; a phone goes up 4px, which is the one place this
      lands larger than it did, and a single-line field cannot eat a screen the way a
-     heading can (P5). */
+     heading can (P5).
+     P6: the leading was missing, so the rung was half-applied. A <input> gets its
+     line box from base.css's 1.55 body ratio, which put 24px text on a 37.2px line
+     and stood the field 5px taller than the pair says. tokens.css's own note calls a
+     size taken without its matching leading exactly this mistake, and P5 wrote that
+     note in the commit that made it. There is no 24/32 role in the base family for
+     this field to join, so the pair is declared here rather than invented as a
+     fifteenth role. It is one of the survivors the P6 report names. */
   font-size: var(--type-size-2xl);
+  line-height: var(--type-leading-2xl);
   color: var(--color-ink);
   border-bottom: 1.5px solid var(--color-border-strong);
   transition: border-color var(--dur-instant) ease-out;

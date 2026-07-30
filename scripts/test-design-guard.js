@@ -45,117 +45,76 @@ const SCRIPTS = __dirname;
  * must also be reported as a number by lint-design-tokens.js --json, or this
  * guard fails with "did not report" rather than passing quietly.
  */
+/*
+ * CEILINGS: the soft counts, held so drift can only ever shrink.
+ *
+ * The ceiling is the trick that made the type migration possible. Setting a new rule
+ * to zero on day one means a wall of failures for every session sharing this
+ * checkout, so a rule starts at its MEASURED count and is lowered by whichever phase
+ * earns it, in the same commit. Existing debt is frozen; new debt is blocked.
+ *
+ * LOWER these when a phase removes drift; never raise them. If a raise looks
+ * unavoidable, that is a design decision for Carl, not a number to nudge.
+ *
+ *   literalRadius   a border-radius in px instead of --radius-* (DESIGN §5: 4 / 12 / full)
+ *   offGridSpacing  padding/margin/gap off the 4px grid (DESIGN §3a)
+ * Both measured 2026-07-26 at type-system P1 and untouched since. Radius and spacing
+ * are a different request and this plan never claimed them.
+ *
+ * WHAT LEFT THIS LIST IN P6, and why it is now short:
+ *
+ * The NINE type rules P1 added are gone from here because they became ERRORS in
+ * scripts/lint-design-tokens.js. An error needs no ceiling: zero is the only passing
+ * value. They could be flipped because phases 2 to 5 drove them down and P6 cleared
+ * the last few by hand (two --sero-radius-pill typos in start-stage.css, one
+ * --color-ink-subtle in profile-badge.js, and a stated waiver on design/mobile.css's
+ * iOS focus-zoom guard, which has no token form and must not get one). Measured with
+ * `node scripts/lint-design-tokens.js --json` immediately BEFORE the flip, never
+ * predicted:
+ *   relativeFontSize 33 -> 0 · offLadderFont 28 -> 0 · unsanctionedSizeToken 451 -> 0
+ *   literalFontSize 18 -> 0 · undefinedToken 3 -> 0 · clampOffRung 12 -> 0
+ *   displayFaceBelow20 7 -> 0 · fontFamilyLiteral 8 -> 0 · fontShorthandResetsNumeric 0
+ * That history stays here on purpose. It is the record of how the debt was paid, and
+ * it is the argument for the ceiling mechanism next time someone wants to set a new
+ * rule straight to zero.
+ *
+ * nonTokenFont is gone too, but RETIRED rather than paid: it was px-only, its own
+ * comment always said P6 would retire it, and its hits were a strict subset of
+ * literal-font-size's. Two ceilings for one debt could only ever disagree.
+ */
 const CEILINGS = {
-  nonTokenFont: 5,
   literalRadius: 53,
   offGridSpacing: 135,
 
   /*
-   * The eight type rules, added by type-system P1 and measured on 2026-07-30
-   * against the tree that P1 built. They are warnings for now: P6 turns them
-   * into errors, once phases 2 to 5 have driven these numbers down.
+   * type-property-outside-type-layer. THE headline rule of P6, and the only type
+   * rule still carrying debt. It counts every one of the eight type properties
+   * declared outside design/tokens.css and design/type.css.
    *
-   * P2 (the Meeting screen) lowered five of them, re-measured with
-   * `node scripts/lint-design-tokens.js --json` after the edit rather than
-   * predicted: coach-panel.css went from 24 type hits to 0, and briefing.css's
-   * question-stem rule went from 2 to 0.
+   * 142, measured 2026-07-31. It is NOT zero, and the phase does not pretend it is.
    *
-   * P3 (the 14px chrome stratum) lowered four more, re-measured the same way after
-   * the edit and not predicted. It moved roughly 300 selectors across 40 sheets onto
-   * the roles, which is why unsanctionedSizeToken falls furthest.
+   * What the number is made of, so the next session can work it rather than guess it:
+   * about 138 declarations across 33 component sheets. The largest are
+   * buttons-inputs.css (25), design-stage.css (14), stage-extras.css (12),
+   * stage-review.css (8), test-engine.css (8), admin-pulse.css (7), start-stage.css
+   * (7) and pulse-drilldowns.css (7). Three groups dominate, and none of them is a
+   * mechanical fix:
+   *   - weight-only rules on objects that inherit 16px. Taking a 14px role would
+   *     SHRINK them, so each is a design decision rather than a sed.
+   *   - `font-variant-numeric: tabular-nums` on about 20 non-metric chrome
+   *     selectors. base.css's .num-tabular is the sanctioned escape hatch, so the fix
+   *     is a markup pairing, not a role.
+   *   - `line-height` on glyph containers and `text-transform: capitalize/lowercase`,
+   *     which no role expresses and which shape content rather than size it.
+   * Sixteen of those sheets are named in NO phase file of this plan. The P6 recon
+   * flagged that as the largest hole in it. Clearing them is a Phase 5b sweep, not a
+   * lock: it changes sizes on screens that need looking at first.
    *
-   * P4 (the reading surfaces) lowered six more, re-measured the same way.
-   *
-   * P5 (headings, metrics and the markup sweep) took SEVEN of the nine to zero and
-   * cleared the last shipped literal from an eighth. Every count below is what
-   * `node scripts/lint-design-tokens.js --json` printed on 2026-07-31 with the
-   * migration in place. None of them is a prediction.
-   *
-   * Read them as the size of the job, not as a list of bugs:
-   *   relativeFontSize      33->8->0  all var(--x, <fallback>) today. Zero em or %:
-   *                                   P0 cleared the last two. The rule is here so
-   *                                   the next 0.85em cannot hide again. P5 took the
-   *                                   last eight by dropping the fallbacks in the two
-   *                                   runtime-injected style blocks (account-sheet.ts,
-   *                                   profile-badge.js) and ux-audit-fixes.css while
-   *                                   repointing them at the ladder. A fallback on a
-   *                                   token that is always defined only ever hid which
-   *                                   token was being read.
-   *   offLadderFont           28->0   sizes off the ladder. P2 took the Meeting
-   *                                   screen's six: 32px, 17px and four 15px. P3
-   *                                   touched none. P4 took the last 22, and the
-   *                                   sentence that used to sit here was wrong about
-   *                                   what they were: NOT ONE of the 22 was a clamp.
-   *                                   Sixteen were guided.css at 15px and 17px, two
-   *                                   were team-card.css, one was about-stage.css,
-   *                                   and three were plain literals off every rung
-   *                                   (28px, 17.6px, 16.8px). Clamp sites belong to
-   *                                   clampOffRung, a different key, which did not
-   *                                   move. This one is at ZERO now, so the next
-   *                                   off-rung size breaks the build on its own.
-   *   unsanctionedSizeToken 451->0    every font-size still pointing at an old token.
-   *                                   This is the migration itself, counted. It reads
-   *                                   the token name through a fallback as well, so
-   *                                   dropping a fallback can only ever remove a hit.
-   *                                   Counting bare var() only made the two ceilings
-   *                                   trade against each other: following the guard's
-   *                                   own advice moved 33 sites into this key and
-   *                                   broke a build that had fixed something. At zero
-   *                                   because P5 deleted the tokens themselves, so
-   *                                   there is no longer an older token to point at.
-   *   literalFontSize         18->1   a size written as a literal in any unit rather
-   *                                   than a token. Without it every counter here
-   *                                   could be zeroed by swapping tokens for rem
-   *                                   literals on a rung, which reads as a finished
-   *                                   migration and is the same debt in a new unit.
-   *                                   P5 took three of the four: add-person-modal's
-   *                                   20px and admin-pulse's 30px joined roles, and
-   *                                   .input's clamp became a flat 24px rung. The one
-   *                                   left is mobile.css's max(1rem, 1em), which is
-   *                                   the iOS focus-zoom guard, not drift: it lifts
-   *                                   small controls to 16 and leaves big ones alone,
-   *                                   so a flat token there would SHRINK the front
-   *                                   door's input. P6 waives it.
-   *   undefinedToken               3  an undefined reference. Two are dropped at
-   *                                   render (--sero-radius-pill in start-stage.css);
-   *                                   the third, --color-ink-subtle in profile-badge.js,
-   *                                   carries a working fallback and paints normally.
-   *   clampOffRung         12->10->0  the fluid heading tokens, endpoints off the rungs.
-   *                                   P2 retired two --type-h2 sites, the coach split's
-   *                                   phone override and briefing.css's stem. Nine of
-   *                                   the ten P5 inherited were headings on the three
-   *                                   clamp tokens; the tenth was NOT a heading, it was
-   *                                   .input's own clamp(1.25rem, 3.5vw, 1.75rem) in
-   *                                   buttons-inputs.css. Zero now, and with the tokens
-   *                                   deleted there is no fluid font-size left in
-   *                                   either app.
-   *   displayFaceBelow20    7->4->0   Bricolage under 20px, banned by DESIGN.md T6.
-   *                                   P4 took three of the seven by moving the object
-   *                                   onto a base-family role rather than leaving the
-   *                                   face where it was: guided.css's 14px monogram
-   *                                   (.type-label-strong) and team-card.css's 15px
-   *                                   avatar and 17px name (.type-heading-sm). P5 took
-   *                                   the last four the same way, all at 18px:
-   *                                   design-stage, test-gallery, guided and the
-   *                                   session top bar's copy of the Sero wordmark.
-   *   fontFamilyLiteral      8->1->0  family stacks written out instead of tokenised.
-   *                                   P3 took seven of the eight: six copies of the
-   *                                   run-log mono stack and guide.css's near-copy.
-   *                                   The last was base.css's body stack, which a
-   *                                   comment required to stay byte-identical to
-   *                                   --type-family-base. P5 pointed it at the token
-   *                                   instead, so the two cannot drift.
-   *   fontShorthandResetsNumeric   0  none today, and it starts locked at zero.
+   * It is counted rather than flipped for exactly the reason the ceilings exist. A
+   * rule landed as an error at 142 would red the build for every parallel session in
+   * this checkout on the day it shipped.
    */
-  relativeFontSize: 0,
-  offLadderFont: 0,
-  unsanctionedSizeToken: 0,
-  literalFontSize: 1,
-  undefinedToken: 3,
-  clampOffRung: 0,
-  displayFaceBelow20: 0,
-  fontFamilyLiteral: 0,
-  fontShorthandResetsNumeric: 0,
+  typePropOutsideTypeLayer: 142,
 };
 
 /*
@@ -176,33 +135,16 @@ const HINTS = {
   displayFaceBelow20: `Bricolage is legal at 20px and up only (DESIGN.md T6). Use --type-family-base below that.`,
   fontFamilyLiteral: `Use --type-family-base / -display / -mono instead of writing the stack out.`,
   fontShorthandResetsNumeric: `The font: shorthand resets font-variant-numeric. Declare tabular figures AFTER it.`,
+  typePropOutsideTypeLayer: `Type belongs in design/tokens.css and design/type.css only. Group the selector into a role, or take the role class in markup. DESIGN.md §3, "How a screen joins a role".`,
 };
 
 // CEILINGS key -> the rule name that appears in typeWarnDetail. The twin of
 // TYPE_RULES in scripts/lint-design-tokens.js: change one, change the other.
 const TYPE_RULE_BY_KEY = {
-  relativeFontSize: "relative-font-size",
-  offLadderFont: "off-ladder-font",
-  unsanctionedSizeToken: "unsanctioned-size-token",
-  undefinedToken: "undefined-token",
-  clampOffRung: "clamp-off-rung",
-  displayFaceBelow20: "display-face-below-20",
-  fontFamilyLiteral: "font-family-literal",
-  fontShorthandResetsNumeric: "font-shorthand-resets-numeric",
-  literalFontSize: "literal-font-size",
+  typePropOutsideTypeLayer: "type-property-outside-type-layer",
 };
 
 const failures = [];
-
-// "admin/src/foo.css:12  font-size:15px" -> [[file, count], …], biggest first.
-const byFile = (detail) => {
-  const counts = {};
-  for (const line of detail) {
-    const file = line.split(":")[0];
-    counts[file] = (counts[file] || 0) + 1;
-  }
-  return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-};
 
 // --- 1. the token guard, in machine-readable mode ----------------------------
 const tokens = spawnSync(
@@ -249,13 +191,7 @@ if (data) {
             .map((d) => `        ${d}`)
             .join("\n") +
           `\n      ${HINTS[key]}`
-        : key === "nonTokenFont"
-          ? `\n      Non-token font-sizes by file (yours is most likely the one that grew):\n` +
-            byFile(data.nonTokenFontDetail)
-              .map(([file, n]) => `        ${n.toString().padStart(3)}  ${file}`)
-              .join("\n") +
-            `\n      Use a --type-size-* token from the ladder (14 / 16 / 18 / 20 / 24 / 30 / 36).`
-          : `\n      ${HINTS[key]}`;
+        : `\n      ${HINTS[key]}`;
       failures.push(
         `${key} rose to ${actual}, ceiling is ${ceiling} (+${actual - ceiling}).` +
           `\n      Design drift may only shrink. Fix the new one, or lower nothing and ask Carl.` +
@@ -285,14 +221,11 @@ if (failures.length) {
   process.exit(1);
 }
 
-const typeTotal = Object.keys(TYPE_RULE_BY_KEY).reduce((n, k) => n + data[k], 0);
-const typeCeiling = Object.keys(TYPE_RULE_BY_KEY).reduce((n, k) => n + CEILINGS[k], 0);
-
 console.log(
   `design guard ok — ${data.scanned} files, 0 violations; ` +
-    `fonts ${data.nonTokenFont}/${CEILINGS.nonTokenFont}, ` +
     `radii ${data.literalRadius}/${CEILINGS.literalRadius}, ` +
     `spacing ${data.offGridSpacing}/${CEILINGS.offGridSpacing}, ` +
-    `type ${typeTotal}/${typeCeiling} across ${Object.keys(TYPE_RULE_BY_KEY).length} rules; copy clean`
+    `type outside the layer ${data.typePropOutsideTypeLayer}/${CEILINGS.typePropOutsideTypeLayer}; ` +
+    `nine type rules at zero, as errors; copy clean`
 );
 process.exit(0);

@@ -214,7 +214,12 @@ async function boot() {
       root.innerHTML = `
         <div class="min-h-dvh flex items-center justify-center p-6">
           <div class="max-w-md text-center">
-            <h1 class="text-xl mb-2">This account belongs in the customer app</h1>
+            <!-- type-heading-md, not text-xl: this was the last heading in either app
+                 sized by a raw Tailwind utility rather than a role, and text-xl was the
+                 only size utility outside sm that any markup still reached for. Both
+                 are 20px, so nothing moves; the face becomes the display face, like
+                 every other card-tier heading (type-system P6). -->
+            <h1 class="type-heading-md mb-2">This account belongs in the customer app</h1>
             <p class="text-ink-dim mb-5">You're signed in as a manager or member. This is the internal admin app.
               Your app lives at <a class="link" href="http://localhost:3002/">localhost:3002</a>; your session carries over.
               (If it isn't running: <code>npm run dev:customer</code>.)</p>

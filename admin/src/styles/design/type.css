@@ -174,6 +174,12 @@
 .modal__message,
 .cl-phase-title h3,
 .stage-review__headline,
+/* P6. The design sheet's two oversized specimens. TWO classes each, because the
+   plain .ds-avatar is claimed by .type-label-strong below and a single class would
+   lose on source order: the same trap .btn.btn--sm and
+   .axis__value.axis__value--baseline already solve this way. */
+.ds-avatar.ds-avatar--lg,
+.ds-brandbadge.ds-brandbadge--lg,
 .ds-rail__title,
 .tg-card__title,
 .gd-rec__block h3 {
@@ -536,6 +542,14 @@
 .app-nav__word,
 .app-nav-mobilebar__brand,
 .session-topbar__brand-word,
+/* P6. The design sheet's brand-badge specimen is the mark too, and it kept a
+   font-weight of its own in design-stage.css until these lines took it. The
+   oversized variant needs BOTH classes named: it is grouped into .type-heading-sm
+   above as .ds-brandbadge.ds-brandbadge--lg, and a single class here would lose that
+   tie on specificity however late it sits. Measured: with one class the specimen
+   rendered 600 while the real badge rendered 700, so the page that documents the
+   system would have been showing the wrong weight. */
+.ds-brandbadge, .ds-brandbadge.ds-brandbadge--lg,
 .gd-q__logo {
   font-weight: var(--type-weight-bold);
 }
@@ -647,7 +661,15 @@
 .arc-edit .input,
 .gd-notes textarea,
 .gd-field select, .gd-field input, .gd-field textarea,
-.gd-eng button { max-width: none; }
+.gd-eng button,
+/* P6. Three guided rows that joined .type-body in P4 for their FACE and picked up
+   its 60ch reading measure with it. All three are `display: flex` chrome, not
+   prose: .gd-sugg__row is a suggestion line with a tag beside it,
+   .gd-rec__scorerow is `justify-content: space-between` so a capped width pulls
+   its right-hand figure in off the edge, and .gd-rec__item is the same row shape.
+   The P4 review flagged them and the P5 build could not identify them. */
+.gd-sugg__row,
+.gd-rec__scorerow, .gd-rec__item { max-width: none; }
 
 /* -----------------------------------------------------------------------------
    .type-flush — a role WITHOUT its leading.
@@ -756,9 +778,31 @@
      meant to fix headings. The three rungs below reproduce what mobile.css did to
      within 1.6px at every level.
 
-     heading-lg and heading-md both land on 20px here. That is not an oversight:
-     mobile.css already had them 1.6px apart (21.6 and 20), which DESIGN.md T2
-     says is not a level. */
+     KNOWN, AND IT IS A CONSTRAINT RATHER THAN A BUG (P6, stated properly).
+     heading-lg and heading-md both render 20/28 Bricolage 600 on a phone, so .h2
+     and .h3 are indistinguishable there and two levels of the ladder collapse
+     into one. DESIGN.md T2 says that is not a level, and this rule is what does
+     it.
+
+     It cannot be fixed by moving a number. There are FOUR display-face heading
+     roles (display, heading-xl, heading-lg, heading-md) and only THREE rungs a
+     phone may use: 36 eats the screen, and T6 forbids the display face below 20,
+     so the legal set is 30 / 24 / 20. Four into three does not go, and no other
+     signal is free either: all four are weight 600 in the same face. Whichever
+     way the rungs are assigned, exactly one adjacent pair must share a size.
+
+     So the open question is only WHERE the collision should sit, and that is a
+     design call on real screens, not an arithmetic one:
+       (a) leave it at lg/md, as here. Costs .h2 against .h3, which co-occur
+           often in the admin console.
+       (b) move it to display/heading-xl by not dropping heading-xl. Costs 30px
+           page titles back on a 390px screen, which is the regression
+           design/mobile.css originally existed to prevent.
+       (c) let heading-md drop to 18 in the BASE family on a phone, which is
+           .type-heading-sm exactly, so the collision just moves to md/sm.
+     The earlier note here said only that mobile.css had already had the two
+     1.6px apart. That was true and it is not a justification, so it is replaced
+     rather than kept. Carl's call. */
   .type-display,
   .text-display,
   .briefing-headline {

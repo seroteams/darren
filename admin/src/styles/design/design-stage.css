@@ -176,6 +176,56 @@
   flex-direction: column;
   gap: var(--sero-space-4);
 }
+/* The type specimen (type-system P6). LAYOUT ONLY: no type property may appear in
+   this block. Every sample on that page is rendered in its own real .type-* class so
+   the sheet IS the system rather than a description of it, and a size declared here
+   would override the very role it is meant to be showing. */
+.ds-type__note { margin: 0; }
+.ds-rungs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+  margin: 0 0 var(--sero-space-2);
+}
+.ds-rung {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sero-space-3);
+  padding: var(--sero-space-1) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+/* Fixed column so the seven pairs line up as a ladder rather than a ragged list. */
+.ds-rung__no { flex: 0 0 5rem; color: var(--color-ink); }
+.ds-rung__tok { color: var(--color-ink-mute); }
+.ds-roles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-5);
+}
+.ds-role {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sero-space-1);
+  padding-bottom: var(--sero-space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+/* The sample keeps its role's own size and face. The only thing overridden is the
+   measure: a role that carries max-width would wrap this one-line specimen early and
+   make the ladder look uneven for a reason that has nothing to do with the type. */
+.ds-role__sample {
+  margin: 0;
+  max-width: none;
+  color: var(--color-ink);
+}
+.ds-role__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sero-space-1) var(--sero-space-3);
+  margin: 0;
+  max-width: none;
+  color: var(--color-ink-mute);
+}
+.ds-role__use { color: var(--color-ink-dim); }
 
 /* Shared bits */
 .ds-sub {
@@ -722,11 +772,19 @@
   border-radius: var(--sero-radius-sm);
   background: var(--color-accent);
   color: var(--sero-offwhite-50);
-  font-weight: var(--type-weight-bold);
   display: grid;
   place-items: center;
   flex: none;
 }
+/* The two oversized specimens on the design sheet. Both used to carry an inline
+   `font-size: var(--type-size-lg)` beside an inline width/height, which is a type
+   decision taken in markup on the one page that is supposed to demonstrate that you
+   never do that. The box lives here; the type comes from .type-heading-sm in
+   design/type.css, grouped with a TWO-class selector because the plain .ds-avatar is
+   already claimed by .type-label-strong further down that file and would win on
+   source order (type-system P6). */
+.ds-avatar--lg { width: 3.5rem; height: 3.5rem; }
+.ds-brandbadge--lg { width: 2.5rem; height: 2.5rem; }
 
 /* Side panel */
 .ds-panel {

@@ -28,6 +28,15 @@ type User = { name?: string; email?: string } | null | undefined;
 
 // One-time scoped styles for the account page overlay + its calm column. All new classes —
 // nothing here overrides the shared modal chrome. Tokens only (DESIGN §2 tokens-only rule).
+//
+// NO TYPE PROPERTIES (type-system P6). This block is appended to document.head at
+// RUNTIME, so it lands after every stylesheet including the code-split satellites and
+// wins every same-specificity tie. That makes it the one place a role can never reach:
+// grouping .acct-* into design/type.css would be the half-application P2 measured on
+// coach-panel.css, where only the property the component sheet did NOT declare came
+// through. So the type comes from role classes in the markup below instead, and this
+// block keeps layout and colour only. The one survivor is .acct-dots' letter-spacing,
+// which is not tracking: it spreads the eight bullets of the masked password.
 let stylesInjected = false;
 function injectStyles(): void {
   if (stylesInjected) return;
@@ -42,32 +51,45 @@ function injectStyles(): void {
       max-width: 560px; margin: 0 auto; padding: 24px 20px 72px;
       display: flex; flex-direction: column; gap: 20px;
     }
+    /* Takes .type-body-sm in the markup: a <button> inherits no type at all, so the
+       role class is the only thing giving this one a face. Dropping the font shorthand
+       with the size is deliberate and is a small gain: the shorthand was also
+       resetting Inter's ss01/cv11 stylistic sets for this control. */
     .acct-back {
       align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
       border: 0; background: transparent; color: var(--color-ink-dim); cursor: pointer;
-      font: inherit; font-size: var(--type-size-sm); padding: 6px 2px;
+      padding: 6px 2px;
     }
     .acct-back:hover, .acct-back:focus-visible { color: var(--color-ink); outline: none; }
     .acct-head { display: flex; flex-direction: column; gap: 4px; }
     .acct-quiet-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .acct-dots { letter-spacing: 3px; color: var(--color-ink-dim); font-size: var(--type-size-sm); }
+    /* letter-spacing here is DECORATION, not tracking: it spreads the eight bullet
+       characters of the masked password so they read as a row of dots rather than a
+       blob. No role expresses that and none should. */
+    .acct-dots { letter-spacing: 3px; color: var(--color-ink-dim); } /* lint-tokens-ignore: spreads the password bullets, not type tracking */
     .acct-card-gap { display: flex; flex-direction: column; gap: 10px; }
     .acct-page .card { padding: 18px; }
     /* The compact boxed field (DESIGN §5 form variant), NOT the big borderless session
-       .input — this is a settings form, not the prep flow. Same recipe as .apm-field__input. */
+       .input: this is a settings form, not the prep flow. Same recipe as .apm-field__input.
+       Takes .type-body-sm in the markup; an <input> inherits no type either, so the
+       role replaces both the size and the inherited font-family that used to be here. */
     .acct-input {
       width: 100%; padding: 10px 14px;
-      font-size: var(--type-size-sm); font-family: inherit; color: var(--color-ink);
+      color: var(--color-ink);
       background: var(--color-surface); border: 1px solid var(--color-border);
       border-radius: var(--radius-input, 4px);
     }
     .acct-input::placeholder { color: var(--color-ink-mute); }
     .acct-input:focus { outline: none; border-color: var(--color-accent); box-shadow: var(--shadow-focus); }
     .acct-input:disabled { color: var(--color-ink-mute); }
-    .acct-hint { font-size: var(--type-size-sm); color: var(--color-ink-dim); }
+    .acct-hint { color: var(--color-ink-dim); }
     .acct-actions { display: flex; justify-content: flex-end; gap: 8px; }
-    .acct-page .btn { padding: 8px 14px; font-size: var(--type-size-sm); }
-    .acct-label { font-size: var(--type-size-sm); color: var(--color-ink-dim); }
+    /* Padding only. The font-size that used to sit here existed for one reason: to beat
+       .btn's 16px in buttons-inputs.css. The buttons below now ask for size "sm", so
+       they carry .btn.btn--sm, which IS a role (.type-label, 14/500) in design/type.css.
+       An override that fights a component sheet is not the same thing as a role. */
+    .acct-page .btn { padding: 8px 14px; }
+    .acct-label { color: var(--color-ink-dim); }
     /* .l-stack / .acct-quiet-row set display:flex, which outweighs the bare [hidden]
        attribute — restore the hide so the password form + its summary toggle cleanly
        (same trap noted in profile-badge.js). */
@@ -99,22 +121,22 @@ export function showAccountSheet(user: User): void {
     ? `
     <form class="card acct-card-gap js-company-form" novalidate>
       <label class="eyebrow" for="acct-company">Company</label>
-      <p class="acct-hint">Everyone on your team sees this.</p>
-      <input id="acct-company" class="acct-input js-company" type="text" autocomplete="organization" placeholder="Loading…" disabled required />
-      <label class="acct-label" for="acct-sector">Sector</label>
-      <input id="acct-sector" class="acct-input js-sector" type="text" list="acct-sector-list" autocomplete="off" placeholder="Start typing, for example Healthcare" disabled />
+      <p class="acct-hint type-body-sm">Everyone on your team sees this.</p>
+      <input id="acct-company" class="acct-input type-body-sm js-company" type="text" autocomplete="organization" placeholder="Loading…" disabled required />
+      <label class="acct-label type-label" for="acct-sector">Sector</label>
+      <input id="acct-sector" class="acct-input type-body-sm js-sector" type="text" list="acct-sector-list" autocomplete="off" placeholder="Start typing, for example Healthcare" disabled />
       <datalist id="acct-sector-list">${sectorOptions}</datalist>
-      <p class="acct-hint">Optional. We'll use this to tailor questions to your industry.</p>
+      <p class="acct-hint type-body-sm">Optional. We'll use this to tailor questions to your industry.</p>
       <p class="js-company-err text-negative text-sm" hidden></p>
       <p class="js-company-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="acct-actions">
-        ${button({ label: "Save company", variant: "ghost", type: "submit", hook: "js-company-save", disabled: true })}
+        ${button({ label: "Save company", variant: "ghost", size: "sm", type: "submit", hook: "js-company-save", disabled: true })}
       </div>
     </form>`
     : "";
 
   page.innerHTML = `
-    <button type="button" class="acct-back js-close" aria-label="Back">&larr; Back</button>
+    <button type="button" class="acct-back type-body-sm js-close" aria-label="Back">&larr; Back</button>
     <div class="acct-head">
       <h1 class="h2" id="account-title">Your account</h1>
       <p class="text-sm text-ink-dim js-identity">${escapeHtml([name, email].filter(Boolean).join(" · "))}</p>
@@ -122,31 +144,31 @@ export function showAccountSheet(user: User): void {
 
     <form class="card acct-card-gap js-name-form" novalidate>
       <label class="eyebrow" for="acct-name">Your name</label>
-      <input id="acct-name" class="acct-input js-name" type="text" autocomplete="name" value="${escapeHtml(name)}" required />
+      <input id="acct-name" class="acct-input type-body-sm js-name" type="text" autocomplete="name" value="${escapeHtml(name)}" required />
       <p class="js-name-err text-negative text-sm" hidden></p>
       <p class="js-name-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="acct-actions">
-        ${button({ label: "Save name", variant: "ghost", type: "submit", hook: "js-name-save" })}
+        ${button({ label: "Save name", variant: "ghost", size: "sm", type: "submit", hook: "js-name-save" })}
       </div>
     </form>
 
     ${companySection}
 
     <div class="acct-quiet-row js-pw-summary">
-      <span class="acct-label">Password <span class="acct-dots">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span></span>
-      ${button({ label: "Change", variant: "ghost", hook: "js-pw-reveal" })}
+      <span class="acct-label type-label">Password <span class="acct-dots type-body-sm">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span></span>
+      ${button({ label: "Change", variant: "ghost", size: "sm", hook: "js-pw-reveal" })}
     </div>
     <form class="card acct-card-gap js-pw-form" novalidate hidden>
       <div class="eyebrow">Change password</div>
-      <label class="acct-label" for="acct-current">Current password</label>
-      <input id="acct-current" class="acct-input js-current" type="password" autocomplete="current-password" required />
-      <label class="acct-label" for="acct-new">New password (at least 8 characters)</label>
-      <input id="acct-new" class="acct-input js-new" type="password" autocomplete="new-password" required />
+      <label class="acct-label type-label" for="acct-current">Current password</label>
+      <input id="acct-current" class="acct-input type-body-sm js-current" type="password" autocomplete="current-password" required />
+      <label class="acct-label type-label" for="acct-new">New password (at least 8 characters)</label>
+      <input id="acct-new" class="acct-input type-body-sm js-new" type="password" autocomplete="new-password" required />
       <p class="js-err text-negative text-sm" hidden></p>
       <p class="js-ok text-sm" style="color:var(--color-positive-text);" hidden></p>
       <div class="acct-actions">
-        ${button({ label: "Cancel", variant: "ghost", hook: "js-pw-cancel" })}
-        ${button({ label: "Change password", type: "submit", hook: "js-save" })}
+        ${button({ label: "Cancel", variant: "ghost", size: "sm", hook: "js-pw-cancel" })}
+        ${button({ label: "Change password", size: "sm", type: "submit", hook: "js-save" })}
       </div>
     </form>
   `;

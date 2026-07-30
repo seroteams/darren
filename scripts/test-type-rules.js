@@ -23,6 +23,8 @@ const {
   isTypeExempt,
   RUNGS,
   SANCTIONED_SIZE_TOKENS,
+  TYPE_RULES,
+  TYPE_ERRORS,
 } = require("./lint-design-tokens.js");
 
 let failed = 0;
@@ -90,7 +92,6 @@ const GALLERY = "admin/src/stages/tests/welcome-lean.js";
 const lint = (text, rel = CSS) => lintText(text, rel, newAcc(), TOKENS);
 const typeHits = (acc, rule) => acc.typeWarns.filter((w) => w.rule === rule).length;
 const errHits = (acc, rule) => acc.errors.filter((e) => e.rule === rule).length;
-const warnHits = (acc, rule) => acc.warns.filter((w) => w.rule === rule).length;
 
 console.log("\n--- type rules unit ---");
 
@@ -101,9 +102,8 @@ console.log("\n--- type rules unit ---");
   check("isTypeExempt is exported", typeof isTypeExempt === "function");
   const acc = newAcc();
   check(
-    "newAcc carries the four buckets",
+    "newAcc carries the three buckets",
     Array.isArray(acc.errors) &&
-      Array.isArray(acc.warns) &&
       Array.isArray(acc.typeWarns) &&
       typeof acc.report.radius === "number" &&
       typeof acc.report.offGrid === "number",
@@ -318,10 +318,108 @@ console.log("\n--- type rules unit ---");
   );
 }
 
+// --- 11b. type-property-outside-type-layer: the two-file law -----------------
+/*
+ * The headline rule of type-system P6, and the one that replaced an invariant
+ * that could never be measured. The plan used to say `font-size` must appear in
+ * "exactly two files" and be checked with a grep. It cannot: tokens.css contains
+ * the string zero times (it defines --type-size-* and never uses the property),
+ * and about seventeen files match the string legitimately for ever after, five of
+ * them test files asserting ON it and two where it only appears in a comment.
+ *
+ * This rule reads DECLARATIONS instead of text, so a comment, a test assertion
+ * and a JS object key cannot trip it, and it names the exact line when it does.
+ */
+{
+  const TYPE_LAYER = "admin/src/styles/design/type.css";
+  const TOKEN_LAYER = "admin/src/styles/design/tokens.css";
+  const outside = (acc) => typeHits(acc, "type-property-outside-type-layer");
+
+  check("a font-size in a component sheet is a hit",
+    outside(lint(".a { font-size: var(--type-size-sm); }")) === 1);
+  check("so are the other seven properties",
+    outside(lint(`.a {
+      line-height: 1.4; font-weight: 600; letter-spacing: 0.02em;
+      font-family: var(--type-family-base); text-transform: uppercase;
+      font-variant-numeric: tabular-nums; font: 400 16px/24px sans-serif;
+    }`)) === 7);
+  check("a non-type property is not a hit",
+    outside(lint(".a { color: var(--color-ink); padding: 4px; }")) === 0);
+
+  // The two sanctioned files are the whole point of the rule.
+  check("type.css may declare type", outside(lint(".type-body { font-size: 16px; }", TYPE_LAYER)) === 0);
+  check("tokens.css may declare type", outside(lint("body { font-size: 16px; }", TOKEN_LAYER)) === 0);
+  check("a look-alike path elsewhere is NOT sanctioned",
+    outside(lint(".a { font-size: 16px; }", "admin/src/stages/tests-type.css")) === 1);
+
+  // A CSS-wide keyword sets no type VALUE: it hands the property back to the
+  // cascade. `font: inherit` on a <button> is how a control rejoins the document
+  // face at all, so counting it would make the rule unsatisfiable for controls.
+  check("font: inherit introduces no type", outside(lint(".a { font: inherit; }")) === 0);
+  check("font-family: inherit introduces no type", outside(lint(".a { font-family: inherit; }")) === 0);
+  check("unset/revert introduce no type",
+    outside(lint(".a { font-weight: unset; line-height: revert; }")) === 0);
+
+  check("the parked gallery is exempt here too",
+    outside(lint(".a { font-size: 16px; }", GALLERY)) === 0);
+  check("a per-line waiver still works",
+    outside(lint(".a { font-size: 16px; } /* lint-tokens-ignore reason */")) === 0);
+
+  // It has to see a runtime-injected <style> block in a .ts file, because those
+  // load LAST and beat every stylesheet, so they are the worst place to hide type.
+  check("a template-literal style block is read the same way",
+    outside(lint("const s = `\n.acct-hint { font-size: 14px; }\n`;", "admin/src/ui/account-sheet.ts")) === 1);
+}
+
+// --- 11c. severity: which rules FAIL the build (P6) --------------------------
+/*
+ * P6 flipped nine rules from warning to error. The flip is a REPORT-TIME decision,
+ * not an accumulator one: every rule still lands in typeWarns so the per-rule counts
+ * and the detail lines keep working, and TYPE_ERRORS decides which of those counts
+ * fails the run. Doing it the other way round would have moved nine rules out of
+ * typeWarns and silently emptied the counters this file has always asserted on.
+ *
+ * Sequencing mattered more than the mechanism: all nine measured ZERO before they
+ * were flipped, so the flip could not red the build for the parallel sessions
+ * sharing this checkout.
+ */
+{
+  const errorRules = [
+    "relative-font-size",
+    "off-ladder-font",
+    "unsanctioned-size-token",
+    "undefined-token",
+    "clamp-off-rung",
+    "display-face-below-20",
+    "font-family-literal",
+    "font-shorthand-resets-numeric",
+    "literal-font-size",
+  ];
+  for (const r of errorRules) {
+    check(`${r} fails the build`, TYPE_ERRORS.has(r), `${r} is not in TYPE_ERRORS`);
+  }
+  check(
+    "the two-file law is counted, NOT an error yet",
+    !TYPE_ERRORS.has("type-property-outside-type-layer"),
+    "it still carries real debt; see the ceiling note in test-design-guard.js"
+  );
+  check(
+    "every error rule is a real rule name",
+    errorRules.every((r) => TYPE_RULES.some(([name]) => name === r)),
+    JSON.stringify(TYPE_RULES.map(([n]) => n))
+  );
+}
+
 // --- 12. the rules that were already there are untouched ---------------------
 {
   check("sub-14px is still a hard error", errHits(lint(".a { font-size: 12px; }"), "sub-14px-font") === 1);
-  check("a non-token literal is still a warn", warnHits(lint(".a { font-size: 30px; }"), "non-token-font") === 1);
+  // The px-only non-token-font warning was RETIRED in P6: every hit it had was also
+  // a literal-font-size hit, so it reported one debt under two names. Its unit-aware
+  // replacement catches the same fixture and is now an error rather than a warning.
+  check("the retired non-token-font rule is gone", !TYPE_RULES.some(([n]) => n === "non-token-font"));
+  check("its unit-aware replacement catches the same fixture",
+    typeHits(lint(".a { font-size: 30px; }"), "literal-font-size") === 1);
+  check("and that replacement fails the build", TYPE_ERRORS.has("literal-font-size"));
   check("raw hex is still an error", errHits(lint(".a { color: #ff0000; }"), "raw-hex") === 1);
   check("rgb() is still an error", errHits(lint(".a { color: rgb(1, 2, 3); }"), "rgb-literal") === 1);
   check(
@@ -359,7 +457,6 @@ console.log("\n--- type rules unit ---");
   const real = lint(realCss, "admin/src/styles/design/type.css");
   check("the real type.css raises no type warning", real.typeWarns.length === 0, JSON.stringify(real.typeWarns));
   check("the real type.css raises no error", real.errors.length === 0, JSON.stringify(real.errors));
-  check("the real type.css adds no non-token font literal", real.warns.length === 0, JSON.stringify(real.warns));
 
   // All fourteen roles are present, so a deletion cannot pass by being absent.
   const ROLES = [
@@ -428,7 +525,6 @@ console.log("\n--- type rules unit ---");
   const acc = lint(typeCss, "admin/src/styles/design/type.css");
   check("the reference role shape raises no type warning", acc.typeWarns.length === 0, JSON.stringify(acc.typeWarns));
   check("the reference role shape raises no error", acc.errors.length === 0, JSON.stringify(acc.errors));
-  check("the reference role shape adds no non-token font literal", acc.warns.length === 0, JSON.stringify(acc.warns));
 }
 
 // --- 14. the composites are safe in the shorthand ----------------------------
@@ -449,9 +545,25 @@ console.log("\n--- type rules unit ---");
   ]);
   const at = (css) => lintText(css, "admin/src/styles/x.css", newAcc(), tokens);
 
+  /*
+   * P6 split this assertion in two, because the two things it used to check
+   * together stopped being the same thing. A composite carries the ladder
+   * correctly, so it raises no ladder rule and no error. But it is still a type
+   * declaration in a component sheet, so the two-file law counts it, and it
+   * SHOULD: `font: var(--type-role-body)` in a component sheet is a role applied
+   * outside the role layer, which is precisely the shape the composites' own
+   * header warns is a partial (no tracking, no measure, no phone breakpoint).
+   * Asserting "zero warnings of any kind" would have forced the new rule to be
+   * blind to the composites, which are the easiest way to smuggle a role.
+   */
   const composite = at(".a { font: var(--type-role-body); }");
-  check("a role composite in the shorthand is clean", composite.typeWarns.length === 0 && composite.errors.length === 0,
-    JSON.stringify({ type: composite.typeWarns, err: composite.errors }));
+  const ladderRules = composite.typeWarns.filter((w) => w.rule !== "type-property-outside-type-layer");
+  check("a role composite in the shorthand raises no LADDER warning and no error",
+    ladderRules.length === 0 && composite.errors.length === 0,
+    JSON.stringify({ ladder: ladderRules, err: composite.errors }));
+  check("but the two-file law still sees it",
+    composite.typeWarns.filter((w) => w.rule === "type-property-outside-type-layer").length === 1,
+    JSON.stringify(composite.typeWarns));
 
   const tiny = at(".a { font: 400 12px/16px var(--type-family-base); }");
   check("a sub-14px shorthand is an ERROR, not a warning",

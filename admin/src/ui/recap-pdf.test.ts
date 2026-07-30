@@ -1,7 +1,7 @@
 // Unit tests for the recap-PDF document builder (pure — no pdfmake import).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildRecapDocDefinition, recapPdfFilename } from "./recap-pdf.ts";
+import { buildRecapDocDefinition, recapPdfFilename, PRINT, PRINT_RUNGS } from "./recap-pdf.ts";
 
 const FULL = {
   headline: "Amira's review churn comes from checking screens late.",
@@ -91,4 +91,80 @@ test("a locked-empty list suppresses the suggestions too. The manager's call sta
 test("filename slugs the name and stamps the completed date", () => {
   assert.equal(recapPdfFilename("Amira Khan", "2026-07-18T10:00:00Z"), "sero-recap-amira-khan-2026-07-18.pdf");
   assert.equal(recapPdfFilename("", null).startsWith("sero-recap-1-1-"), true);
+});
+
+/* -----------------------------------------------------------------------------
+   The print ladder (type-system P6).
+
+   This file is allowlisted out of the CSS guard (scripts/lint-design-tokens.js)
+   because pdfmake cannot read a CSS variable, so a lint rule can never hold it.
+   These three tests are the only thing that can. Before them the builder held
+   eight free-floating pt values and nothing anywhere checked a single one.
+   ----------------------------------------------------------------------------- */
+
+// Walk the whole document definition, not just `content`: defaultStyle and the
+// footer carry sizes too, and the footer is a FUNCTION, so it has to be called.
+function everyNode(doc: Record<string, unknown>): Record<string, unknown>[] {
+  const out: Record<string, unknown>[] = [];
+  const visit = (n: unknown) => {
+    if (Array.isArray(n)) return n.forEach(visit);
+    if (!n || typeof n !== "object") return;
+    const o = n as Record<string, unknown>;
+    out.push(o);
+    for (const v of Object.values(o)) visit(v);
+  };
+  visit(doc.content);
+  visit(doc.defaultStyle);
+  const footer = doc.footer as ((p: number, c: number) => unknown) | undefined;
+  if (typeof footer === "function") visit(footer(1, 2));
+  return out;
+}
+
+const DOC = () =>
+  buildRecapDocDefinition(
+    FULL,
+    { name: "Amira", role: "Junior Product Designer", meetingType: "Performance & feedback", notes: "Needs review rounds." },
+    [{ owner: "manager", action: "Book the buddy", when: "next 1:1" }]
+  ) as unknown as Record<string, unknown>;
+
+test("every fontSize in the document is a print rung", () => {
+  const sizes = everyNode(DOC())
+    .map((n) => n.fontSize)
+    .filter((v): v is number => typeof v === "number");
+  assert.ok(sizes.length > 0, "the walker found no sizes at all, so it is not walking");
+  const off = [...new Set(sizes)].filter((s) => !(PRINT_RUNGS as readonly number[]).includes(s));
+  assert.deepEqual(off, [], `off-ladder pt sizes: ${off.join(", ")}. pt = px x 0.75, see PRINT.`);
+});
+
+test("no print size falls below the bottom rung, which is the 14px floor converted", () => {
+  const sizes = everyNode(DOC())
+    .map((n) => n.fontSize)
+    .filter((v): v is number => typeof v === "number");
+  const floor = Math.min(...(PRINT_RUNGS as readonly number[]));
+  assert.equal(floor, 10.5, "the bottom print rung IS 14px x 0.75");
+  assert.equal(sizes.filter((s) => s < floor).length, 0, "something printed below the converted floor");
+});
+
+test("the ladder is derived from the screen roles, not hand-picked", () => {
+  // pt = px x 0.75 for all seven rungs of design/tokens.css.
+  assert.deepEqual([...PRINT_RUNGS].sort((a, b) => a - b), [14, 16, 18, 20, 24, 30, 36].map((px) => px * 0.75));
+  // pdfmake's lineHeight is a MULTIPLIER, so each role's is its own pair's ratio.
+  assert.equal(PRINT.bodySm.lineHeight, 20 / 14);
+  assert.equal(PRINT.headingXl.lineHeight, 36 / 30);
+  // characterSpacing is ABSOLUTE POINTS, so it is em x sizePt: 0.08em x 10.5pt.
+  assert.equal(PRINT.overline.characterSpacing, 0.84);
+});
+
+test("one uppercase label recipe, not four", () => {
+  // The three hand-written copies of the eyebrow object are gone: every uppercase
+  // section label in the PDF now comes through eyebrow() on .type-overline, so
+  // they cannot drift to three different sizes and trackings again.
+  const upper = everyNode(DOC()).filter(
+    (n) => typeof n.text === "string" && n.text === (n.text as string).toUpperCase() && /[A-Z]{3}/.test(n.text as string)
+  );
+  assert.ok(upper.length >= 4, `expected several uppercase labels, found ${upper.length}`);
+  for (const n of upper) {
+    assert.equal(n.fontSize, PRINT.overline.fontSize, `${n.text} is off the overline rung`);
+    assert.equal(n.characterSpacing, PRINT.overline.characterSpacing, `${n.text} has its own tracking`);
+  }
 });

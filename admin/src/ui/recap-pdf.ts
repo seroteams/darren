@@ -121,13 +121,91 @@ function axisWasRead(a: Axis): boolean {
   return a.read_status ? a.read_status !== "not_read" : a.score !== 0;
 }
 
+/* =============================================================================
+   THE PRINT LADDER (type-system P6)
+
+   The screen's fourteen roles, converted once, here, instead of eight free
+   pt values scattered through the builder. Before this the file held 8, 8.5, 9,
+   9.5, 10, 10.5, 15 and 20pt with three different characterSpacing values for
+   what is one object (an uppercase eyebrow), which is the same T2 defect the
+   screen migration exists to fix.
+
+   THE CONVERSION, and why it is the only defensible one.
+   pdfmake measures in POINTS. 1pt = 1/72 inch and CSS 1px = 1/96 inch, so
+        pt = px x 0.75
+   Any other factor prints the page at a different size from the screen for no
+   stated reason. The file was already half on this conversion by accident, which
+   is the strongest evidence for adopting it rather than inventing a print scale:
+   defaultStyle was fontSize 10.5 / lineHeight 1.4, and 10.5pt IS 14px with a
+   20/14 leading. The PDF's body copy was .type-body-sm all along. The "Sero"
+   wordmark at 15pt is likewise exactly .type-heading-md (20px x 0.75).
+
+   TWO pdfmake UNITS THAT ARE NOT CSS UNITS, and both bite:
+   - `lineHeight` is a MULTIPLIER, not a length. So it is leadingPx / sizePx, and
+     the locked pairs come through as ratios: 14/20 becomes 1.4286, not 20.
+   - `characterSpacing` is ABSOLUTE POINTS, not em. So it is emValue x sizePt.
+     .type-overline's 0.08em at 10.5pt is 0.84pt.
+
+   WEIGHTS WITH NO PDF EQUIVALENT. Only three static faces ship
+   (admin/src/assets/pdf-fonts/): inter-regular, inter-bold, bricolage-semibold.
+   Rather than invent files, the gaps are named and substituted here:
+   - Inter 600 (heading-sm, heading-xs, label-strong, overline) has no
+     inter-semibold.ttf. All four fall to inter-bold 700 and print a step heavier
+     than they look on screen.
+   - Inter 500 (label) has no inter-medium.ttf. It falls to regular 400, so
+     `label` and `bodySm` are indistinguishable in print. label is therefore not
+     used below: anything that needed to separate from body takes labelStrong.
+   - .type-code has NO mono TTF at all, so it has no print form. Nothing in the
+     recap renders code today, so this is a gap rather than a bug.
+   - .type-metric's tabular figures cannot be delivered either: pdfmake exposes no
+     font-feature control. The Final read column is one digit wide, so it does not
+     bite, and metric is not used below.
+   Bricolage 600 is covered exactly. Its `normal` and `bold` both point at
+   bricolage-semibold.ttf, so bold:true on Bricolage is a no-op and no synthetic
+   emboldening happens. That is correct and should stay.
+
+   CONSEQUENCE, stated plainly: the screen ladder has no rung below 14px, so the
+   print ladder has no rung below 10.5pt. Six of the eight sizes this file used
+   (8, 8.5, 9, 9.5, 10 and the 20pt headline) were below or off it, so the
+   eyebrows, the labels, the axis lines, the when-pills and the footer all rise.
+   Expect the document to grow by roughly a page. That is a visible change to
+   something customers forward and file, and it is the point of the phase.
+
+   Held by admin/src/ui/recap-pdf.test.ts, which is the ONLY thing that can hold
+   this file: it is allowlisted out of the CSS guard at
+   scripts/lint-design-tokens.js because pdfmake cannot read a CSS variable.
+   ============================================================================= */
+export const PRINT = {
+  //          pt     lineHeight (leadingPx/sizePx)   from the screen role
+  display:     { fontSize: 27,   lineHeight: 40 / 36, font: "Bricolage", characterSpacing: -0.54 },
+  headingXl:   { fontSize: 22.5, lineHeight: 36 / 30, font: "Bricolage", characterSpacing: -0.225 },
+  headingLg:   { fontSize: 18,   lineHeight: 32 / 24, font: "Bricolage", characterSpacing: -0.18 },
+  headingMd:   { fontSize: 15,   lineHeight: 28 / 20, font: "Bricolage" },
+  headingSm:   { fontSize: 13.5, lineHeight: 28 / 18, bold: true },
+  headingXs:   { fontSize: 12,   lineHeight: 24 / 16, bold: true },
+  bodyLg:      { fontSize: 13.5, lineHeight: 28 / 18 },
+  body:        { fontSize: 12,   lineHeight: 24 / 16 },
+  bodySm:      { fontSize: 10.5, lineHeight: 20 / 14 },
+  labelStrong: { fontSize: 10.5, lineHeight: 20 / 14, bold: true },
+  overline:    { fontSize: 10.5, lineHeight: 20 / 14, bold: true, characterSpacing: 0.84 },
+} as const;
+
+// Every fontSize the ladder above can produce. The test asserts the document uses
+// nothing else, which is what stops a ninth loose number appearing next year.
+export const PRINT_RUNGS = [10.5, 12, 13.5, 15, 18, 22.5, 27] as const;
+
+/*
+ * ONE uppercase label recipe, not four. This helper carried 8.5pt / cs 1.2, while
+ * three hand-written copies of the same object elsewhere in the builder used 8pt /
+ * cs 1 ("WHO THIS WAS FOR", "WHAT SERO WAS TOLD GOING IN", the promise group
+ * label). All four are the same thing: an uppercase section eyebrow. They now all
+ * come through here on .type-overline.
+ */
 function eyebrow(text: string, opts: Record<string, unknown> = {}) {
   return {
     text: text.toUpperCase(),
-    fontSize: 8.5,
-    bold: true,
+    ...PRINT.overline,
     color: COLOR.accentDark,
-    characterSpacing: 1.2,
     margin: [0, 18, 0, 6],
     ...opts,
   };
@@ -204,8 +282,10 @@ export function buildRecapDocDefinition(
   content.push({
     columns: [
       { svg: LOGO_SVG, width: 20 },
-      { text: "Sero", fontSize: 15, bold: true, color: COLOR.accentDark, margin: [7, 1, 0, 0] },
-      { text: dateLine, alignment: "right", fontSize: 9, color: COLOR.inkMute, margin: [0, 5, 0, 0] },
+      // 15pt IS heading-md (20px x 0.75), so the size does not move. It gains the
+      // display face, which is what carries it on screen.
+      { text: "Sero", ...PRINT.headingMd, bold: true, color: COLOR.accentDark, margin: [7, 1, 0, 0] },
+      { text: dateLine, alignment: "right", ...PRINT.bodySm, color: COLOR.inkMute, margin: [0, 5, 0, 0] },
     ],
   });
   content.push({
@@ -218,24 +298,26 @@ export function buildRecapDocDefinition(
   if (name || role || meetingType || notes) {
     const ctxLines: unknown[] = [];
     if (name || role) {
-      ctxLines.push({ text: "Who this was for".toUpperCase(), fontSize: 8, bold: true, color: COLOR.accentDark, characterSpacing: 1, margin: [0, 0, 0, 3] });
+      ctxLines.push(eyebrow("Who this was for", { margin: [0, 0, 0, 3] }));
       ctxLines.push({
         text: [
           { text: name || "–", bold: true },
           ...(role ? [{ text: `  ·  ${role}`, color: COLOR.inkDim }] : []),
         ],
       });
-      if (meetingType) ctxLines.push({ text: `Meeting: ${meetingType}`, fontSize: 9.5, color: COLOR.inkDim, margin: [0, 2, 0, 0] });
+      if (meetingType) ctxLines.push({ text: `Meeting: ${meetingType}`, ...PRINT.bodySm, color: COLOR.inkDim, margin: [0, 2, 0, 0] });
     }
     if (notes) {
-      ctxLines.push({ text: "What Sero was told going in".toUpperCase(), fontSize: 8, bold: true, color: COLOR.accentDark, characterSpacing: 1, margin: [0, name || role ? 8 : 0, 0, 3] });
+      ctxLines.push(eyebrow("What Sero was told going in", { margin: [0, name || role ? 8 : 0, 0, 3] }));
       ctxLines.push({ text: `“${notes}”`, color: COLOR.inkDim });
     }
     content.push(tintedBox(ctxLines, COLOR.accentBg, COLOR.accentLine));
   }
 
   content.push(eyebrow("1:1 recap", { margin: [0, 8, 0, 8] }));
-  content.push({ text: pdfSafe(b.headline || "Recap"), font: "Bricolage", fontSize: 20, color: COLOR.ink, lineHeight: 1.12 });
+  // The most visible change in the document: 20pt was off every print rung (it is
+  // 26.67px, between the 24 and 30 rungs). heading-xl is the role this is on screen.
+  content.push({ text: pdfSafe(b.headline || "Recap"), ...PRINT.headingXl, color: COLOR.ink });
 
   const bullets = b.summary_bullets || [];
   if (bullets.length) {
@@ -260,14 +342,16 @@ export function buildRecapDocDefinition(
     for (const a of readAxes) {
       content.push({
         columns: [
-          { text: cap(a.id), width: 78, bold: true, fontSize: 10 },
+          // width 78 was sized for 10pt; the longest axis name needs a little more room
+          // at 10.5pt bold. The row totals 282pt inside a 499pt text column, so the extra
+          // 8pt costs nothing.
+          { text: cap(a.id), width: 86, ...PRINT.labelStrong },
           axisBar(a.score),
           {
             text: String(a.score),
             width: 26,
             alignment: "right",
-            bold: true,
-            fontSize: 10,
+            ...PRINT.labelStrong,
             color: a.score > 0 ? COLOR.mintText : a.score < 0 ? COLOR.negText : COLOR.inkDim,
           },
         ],
@@ -275,7 +359,7 @@ export function buildRecapDocDefinition(
         margin: [0, 2, 0, 1],
       });
       if (a.meaning) {
-        content.push({ text: pdfSafe(a.meaning), color: COLOR.inkDim, fontSize: 9.5, margin: [0, 0, 0, 6] });
+        content.push({ text: pdfSafe(a.meaning), ...PRINT.bodySm, color: COLOR.inkDim, margin: [0, 0, 0, 6] });
       }
     }
     if (unreadAxes.length) {
@@ -285,8 +369,8 @@ export function buildRecapDocDefinition(
         : names[0];
       content.push({
         text: `${list}. Not enough signal to read this session.`,
+        ...PRINT.bodySm,
         color: COLOR.inkMute,
-        fontSize: 9.5,
         margin: [0, 2, 0, 0],
       });
     }
@@ -298,13 +382,15 @@ export function buildRecapDocDefinition(
     content.push(eyebrow("The honest read"));
     if (empTruth) {
       content.push(tintedBox([
-        { text: (name ? `Honest read:${name}` : "Honest read:Them") + "   ·   OK to share", fontSize: 8.5, bold: true, color: COLOR.mintText, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
+        // Sentence case, so this is label-strong and NOT overline: the 0.5pt tracking
+        // it used to carry only existed to make 8.5pt legible.
+        { text: (name ? `Honest read:${name}` : "Honest read:Them") + "   ·   OK to share", ...PRINT.labelStrong, color: COLOR.mintText, margin: [0, 0, 0, 4] },
         { text: empTruth },
       ], COLOR.mintBg, COLOR.mintLine));
     }
     if (mgrTruth) {
       content.push(tintedBox([
-        { text: "Honest read:You   ·   Private, just for you", fontSize: 8.5, bold: true, color: COLOR.goldText, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
+        { text: "Honest read:You   ·   Private, just for you", ...PRINT.labelStrong, color: COLOR.goldText, margin: [0, 0, 0, 4] },
         { text: mgrTruth },
       ], COLOR.goldBg, COLOR.goldLine));
     }
@@ -313,7 +399,7 @@ export function buildRecapDocDefinition(
   const er = b.engagement_read;
   if (er && er.read_status === "read" && er.recommended_action) {
     content.push(eyebrow("How engaged they seem"));
-    content.push({ text: [{ text: "Your move  ", bold: true, color: COLOR.accentDark, fontSize: 9.5 }, { text: pdfSafe(er.recommended_action) }] });
+    content.push({ text: [{ text: "Your move  ", ...PRINT.labelStrong, color: COLOR.accentDark }, { text: pdfSafe(er.recommended_action) }] });
   }
 
   // Locked-in promises beat raw suggestions: when the manager confirmed the
@@ -331,20 +417,15 @@ export function buildRecapDocDefinition(
     ];
     for (const [label, list] of groups) {
       if (!list.length) continue;
-      content.push({
-        text: label.toUpperCase(),
-        fontSize: 8,
-        bold: true,
-        color: COLOR.accentDark,
-        characterSpacing: 1,
-        margin: [0, 4, 0, 4],
-      });
+      content.push(eyebrow(label, { margin: [0, 4, 0, 4] }));
       for (const p of list) {
         // No date set → no empty gutter (user-test-fixes P2: the blank pill/gap).
         content.push({
           columns: [
             ...(capWhen(p.when)
-              ? [{ text: capWhen(p.when), width: 66, fontSize: 9, bold: true, color: COLOR.accentDark, margin: [0, 1, 0, 0] as [number, number, number, number] }]
+              // width 66 was sized for 9pt. "Next 1:1" is the longest value and it has to
+              // stay on one line at 10.5pt bold, so the column gains 6pt.
+              ? [{ text: capWhen(p.when), width: 72, ...PRINT.labelStrong, color: COLOR.accentDark, margin: [0, 1, 0, 0] as [number, number, number, number] }]
               : []),
             { text: pdfSafe(p.action) },
           ],
@@ -363,7 +444,8 @@ export function buildRecapDocDefinition(
         content.push({
           columns: [
             ...(capWhen(a.when)
-              ? [{ text: capWhen(a.when), width: 66, fontSize: 9, bold: true, color: COLOR.accentDark, margin: [0, 1, 0, 0] as [number, number, number, number] }]
+              // Twin of the promise when-pill above; same widening for the same reason.
+              ? [{ text: capWhen(a.when), width: 72, ...PRINT.labelStrong, color: COLOR.accentDark, margin: [0, 1, 0, 0] as [number, number, number, number] }]
               : []),
             { text: pdfSafe(a.action) },
           ],
@@ -385,12 +467,14 @@ export function buildRecapDocDefinition(
   return {
     pageSize: "A4",
     pageMargins: [48, 52, 48, 58] as [number, number, number, number],
-    defaultStyle: { font: "Inter", fontSize: 10.5, color: COLOR.ink, lineHeight: 1.4 },
+    // bodySm, which is what this already was by accident: 10.5pt = 14px and the old
+    // 1.4 is 1.4286 once it is derived from the pair rather than chosen.
+    defaultStyle: { font: "Inter", ...PRINT.bodySm, color: COLOR.ink },
     info: { title: name ? `Sero 1:1 recap. ${name}` : "Sero 1:1 recap", creator: "Sero" },
     footer: (currentPage: number, pageCount: number) => ({
       columns: [
-        { text: "Made with Sero · seroapp.com", fontSize: 8.5, color: COLOR.inkMute },
-        { text: `${currentPage} / ${pageCount}`, alignment: "right", fontSize: 8.5, color: COLOR.inkMute },
+        { text: "Made with Sero · seroapp.com", ...PRINT.bodySm, color: COLOR.inkMute },
+        { text: `${currentPage} / ${pageCount}`, alignment: "right", ...PRINT.bodySm, color: COLOR.inkMute },
       ],
       margin: [48, 24, 48, 0],
     }),

@@ -327,11 +327,19 @@
      There is no 12px step, on purpose. 14px is Sero's accessibility floor, and
      a token below it is an invitation to breach it.
 
-     WATCH THE SUFFIX. The four --type-leading-tight/snug/normal/relaxed above
-     are unitless MULTIPLIERS (1.1 to 1.6). The seven --type-leading-sm..4xl
-     below are ABSOLUTE lengths in rem, each married to one size. Swapping one
-     family for the other turns a 24px leading into a 1.5 multiplier with no
-     lint error and no failing test, so read the name before you use it.
+     WATCH THE SUFFIX. The seven --type-leading-sm..4xl below are ABSOLUTE
+     lengths in rem, each married to one size. A second family of leading tokens
+     called --type-leading-tight/snug/normal/relaxed holds unitless MULTIPLIERS
+     (1.1 to 1.6), and swapping one family for the other turns a 24px leading
+     into a 1.5 ratio with no lint error and no failing test.
+
+     P6: this note used to say those four were "above", in this file. They are
+     not, and have not been since P5 moved them out to
+     stages/tests/parked-tokens.css, which is the only sheet still reading them
+     (the parked gallery). The warning is kept rather than deleted because the
+     same two shapes still exist in the repo and the Tailwind `leading-*`
+     utilities are ratios too, so the trap is real even though the four tokens
+     are no longer neighbours. Read the name before you use it.
      ========================================================================= */
   --type-size-sm: 0.875rem;                       /* 14px */
   --type-leading-sm: 1.25rem;                     /* 20px */
@@ -357,11 +365,18 @@
      two cannot drift. Two parked prototype screens also read it
      (stages/tests/welcome-options.js, stages/tests/welcome-lean.js).
 
-     --type-family-mono is the one mono stack. The old --font-mono, which resolved
-     to "ui-monospace, monospace", was deleted in P3 once its thirteen call sites
-     took .type-code. On Windows ui-monospace does not resolve, so those thirteen
-     were falling through to generic monospace while six literal stacks elsewhere
-     picked Consolas: one app, two typewriter faces. Naming Consolas here ends it. */
+     --type-family-mono is the one mono stack. The app used to carry four: the old
+     --font-mono ("ui-monospace, monospace"), a longer var() form whose extra
+     fallbacks could never fire, a literal stack naming Consolas, and a fourth
+     literal without it. P3 deleted the token and put all twenty-one call sites on
+     .type-code, so there is one stack to reason about instead of four.
+
+     P6 correction: the note here used to claim those stacks rendered as TWO
+     typewriter faces on Windows, generic monospace against Consolas. Width-probing
+     the real stacks on this machine does not reproduce that, so the claim is
+     withdrawn rather than left standing as a measurement nobody took. What is
+     true without measuring anything is that four stacks with different fallback
+     chains cannot be reasoned about, and one can. */
   --type-family-base: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --type-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 

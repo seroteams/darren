@@ -43,6 +43,7 @@ const SECTIONS = [
 const RULES = [
   "Colours come <strong>only from the tokens</strong>. Never type a hex code in a screen file.",
   "<strong>Nothing under 14px</strong>, and colour used as text passes <strong>4.5:1</strong>. On light backgrounds that means the scale's dark step (coral <strong>800</strong>, mint <strong>900</strong>, gold <strong>900</strong>). Never a 700 as text.",
+  "Type comes from a <strong>role</strong> in <code>design/type.css</code>. Never declare a size, weight or line-height on a screen. The ladder is <strong>14 &middot; 16 &middot; 18 &middot; 20 &middot; 24 &middot; 30 &middot; 36</strong>, and a size always travels with its paired line-height.",
   "<strong>One blue action per screen.</strong> If two blue buttons compete, one is wrong.",
   "Corners: <strong>4px on controls, 12px on cards.</strong>",
   "Every screen ships with its <strong>empty, loading, and error states</strong> designed.",
@@ -207,16 +208,104 @@ function coloursHtml() {
   );
 }
 
+/*
+ * The type section (rewritten, type-system P6).
+ *
+ * This file is allowlisted out of scripts/lint-design-tokens.js, so it is the one
+ * screen in the app that can drift with nothing failing. It had. It showed FIVE
+ * specimen lines off the OLD system (.text-display, .h2, .h3, .body, .caption) and
+ * captioned .h3 as "Inter semibold" after P5 changed that rung's face to Bricolage,
+ * so the sheet meant to document the system was describing a system the app no
+ * longer had. Four of its five tokens were deleted in P5 as well.
+ *
+ * Two rules for anything added here:
+ *  1. Every sample is rendered IN its real class, so the sheet IS the system rather
+ *     than a description of it. If a role changes, this page changes with it and
+ *     cannot go stale the way the old captions did.
+ *  2. Numbers are written once, in RUNGS / ROLES below, and read from there.
+ */
+
+// Layer 1: the seven rungs of design/tokens.css. Tailwind's default scale, adopted
+// whole. No 12px step, on purpose: 14px is the floor.
+const RUNGS = [
+  ["sm", 14, 20],
+  ["base", 16, 24],
+  ["lg", 18, 28],
+  ["xl", 20, 28],
+  ["2xl", 24, 32],
+  ["3xl", 30, 36],
+  ["4xl", 36, 40],
+];
+
+// Layer 2: the fourteen roles of design/type.css, in ladder order.
+// [class, size/leading, weight, family, what it is for]
+const ROLES = [
+  ["type-display", "36 / 40", 600, "Bricolage", "The hero. One per screen."],
+  ["type-heading-xl", "30 / 36", 600, "Bricolage", "Page title. Drops a rung on a phone."],
+  ["type-heading-lg", "24 / 32", 600, "Bricolage", "Section heading. Drops a rung on a phone."],
+  ["type-heading-md", "20 / 28", 600, "Bricolage", "Card heading. The last Bricolage rung."],
+  ["type-heading-sm", "18 / 28", 600, "Inter", "Below the display face's floor."],
+  ["type-heading-xs", "16 / 24", 600, "Inter", "Body size, but has to outrank the body beside it."],
+  ["type-body-lg", "18 / 28", 400, "Inter", "A lede."],
+  ["type-body", "16 / 24", 400, "Inter", "All reading. Carries the line-length cap."],
+  ["type-body-sm", "14 / 20", 400, "Inter", "Quiet lines, table cells, chrome. No cap."],
+  ["type-label", "14 / 20", 500, "Inter", "Field labels, chips, small controls."],
+  ["type-label-strong", "14 / 20", 600, "Inter", "The same, when it has to carry weight."],
+  ["type-overline", "14 / 20", 600, "Inter", "The little uppercase label above a block."],
+  ["type-code", "14 / 20", 400, "mono", "Code and machine output."],
+  ["type-metric", "30 / 36", 600, "Bricolage", "A figure that changes while you watch."],
+];
+
 function typeHtml() {
+  const rungRows = RUNGS.map(
+    ([name, size, leading]) => `
+       <div class="ds-rung">
+         <span class="ds-rung__no type-label">${size} / ${leading}</span>
+         <span class="ds-rung__tok type-code">--type-size-${name}</span>
+       </div>`
+  ).join("");
+
+  const roleRows = ROLES.map(
+    ([cls, pair, weight, family, use]) => `
+       <div class="ds-role">
+         <p class="${cls} ds-role__sample">${cls.replace("type-", "")}. The quick brown fox</p>
+         <p class="ds-role__meta type-body-sm">
+           <code class="type-code">.${cls}</code>
+           <span>${pair} &middot; ${weight} &middot; ${family}</span>
+           <span class="ds-role__use">${use}</span>
+         </p>
+       </div>`
+  ).join("");
+
   return sec(
     "type",
     "Type",
     `<div class="ds-card ds-type">
-       <p class="text-display">Display. Bricolage Grotesque</p>
-       <p class="h2">Headline. Bricolage Grotesque</p>
-       <p class="h3">Title. Inter semibold</p>
-       <p class="body">Body 16. Inter regular. Most reading happens here; keep lines under 75 characters.</p>
-       <p class="caption">Small 14. Inter, secondary details. This is the floor; nothing goes smaller.</p>
+       <p class="type-overline">The ladder</p>
+       <p class="ds-type__note type-body">Seven rungs, each a locked size and line-height
+         <strong>pair</strong>. Every line-height lands on the 4px grid, so type and spacing keep
+         one rhythm. There is no 12px rung on purpose: <strong>14px is the floor</strong>. The top
+         rung is <strong>36, not 40</strong>, because the scale is Tailwind's, adopted whole.</p>
+       <div class="ds-rungs">${rungRows}</div>
+
+       <p class="type-overline">The fourteen roles</p>
+       <p class="ds-type__note type-body">Pick a role by what the text <strong>is</strong>, never
+         by how big it should be. Each line below is rendered in its own class, so this page shows
+         the real thing rather than a description of it.</p>
+       <div class="ds-roles">${roleRows}</div>
+
+       <p class="type-overline">Two modifiers, which are not roles</p>
+       <p class="ds-type__note type-body"><code class="type-code">.type-body--narrow</code> and
+         <code class="type-code">.type-body--full</code> change one property of a body role and
+         mean nothing on their own. <code class="type-code">.type-flush</code> removes the
+         line-height for a glyph centred in a fixed-height circle. Always used beside a role.</p>
+
+       <p class="type-overline">Where type may be declared</p>
+       <p class="ds-type__note type-body">Only in <code class="type-code">design/tokens.css</code>
+         and <code class="type-code">design/type.css</code>. A screen joins a role by having its
+         selector grouped into that role, or by taking the role class in its markup. Adding a role
+         class <em>beside</em> an old class does nothing: type.css loads first, so the old class
+         wins.</p>
      </div>`
   );
 }
@@ -568,7 +657,7 @@ function panelHtml() {
     `<div class="ds-panel">
        <div class="ds-panel__body">
          <div style="display:flex; align-items:flex-start; justify-content:space-between"><p class="eyebrow">Upcoming 1:1</p><button class="ds-rowmenu" aria-label="Close">✕</button></div>
-         <div class="ds-row" style="gap: var(--sero-space-4)"><span class="ds-avatar" style="width:3.5rem; height:3.5rem; font-size: var(--type-size-lg)">JW</span>
+         <div class="ds-row" style="gap: var(--sero-space-4)"><span class="ds-avatar ds-avatar--lg">JW</span>
            <div><p class="h3">James Warren</p><p class="body" style="color: var(--color-ink-dim)">Senior UX Writer</p></div></div>
          <div class="ds-row" style="gap: var(--sero-space-3)"><button class="ds-link">View profile</button><button class="ds-link">Edit</button></div>
          <hr style="border:0; border-top:1px solid var(--color-border); margin:0">
@@ -781,7 +870,7 @@ function loginHtml() {
     "Login card",
     `<div class="ds-loginwrap">
        <div class="card ds-logincard">
-         <div class="ds-row" style="gap: var(--sero-space-3)"><span class="ds-brandbadge" style="width:2.5rem; height:2.5rem; font-size: var(--type-size-lg)">S</span>
+         <div class="ds-row" style="gap: var(--sero-space-3)"><span class="ds-brandbadge ds-brandbadge--lg">S</span>
            <div><p class="h3">Welcome back</p><p class="caption">Log in to Sero</p></div></div>
          <div class="field"><label class="field__label" for="ds-email">Email</label><input class="ds-input" id="ds-email" type="email" placeholder="you@company.com"></div>
          <div class="field"><label class="field__label" for="ds-pass">Password</label><input class="ds-input" id="ds-pass" type="password" placeholder="••••••••"></div>
