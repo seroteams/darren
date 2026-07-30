@@ -30,12 +30,17 @@ Concentration: `buttons-inputs.css` 32, `design-stage.css` 17, `stage-extras.css
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The last 164 | Every component sheet gives up its type; the tenth rule becomes an error at zero | ⬜ |
+| 1 | The last 164 | Every component sheet gives up its type; the tenth rule becomes an error at zero | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done
 
 ## Current state
 Folder set up 2026-07-31. Carl green-lit the sweep after walking the app.
+
+Phase 1 built 2026-07-31. `typePropOutsideTypeLayer` measured 164 → **0**, the rule is an
+error, and its ceiling is deleted. Eight things change on screen, all sub-pixel line spacing
+or one typeface swap; every one is listed with a before and after measured in the running app
+in [proof/p5b-measurements.md](proof/p5b-measurements.md). Waiting on Carl.
 
 ## Parked
 - The reading measure sits at `--measure-read: 60ch`, roughly 74 to 82 real characters, against DESIGN.md T5's 66 (75 absolute). One token to change, and a look-at-it decision rather than an arithmetic one.

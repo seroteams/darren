@@ -91,7 +91,9 @@
   padding: 0.85rem 1rem;
   margin-bottom: 0.85rem;
 }
-.stage-review__card p { margin: 0.25rem 0 0; line-height: 1.55; }
+/* .type-body + .type-body--full (P5b): the 1.55 ratio was 24.8px, half a rung off
+   the grid. Now 24. */
+.stage-review__card p { margin: 0.25rem 0 0; }
 .stage-review__facts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
@@ -120,26 +122,26 @@
   place-items: center;
   color: var(--color-ink-dim);
 }
-.stage-review__row-title { font-weight: 500; color: var(--color-ink); }
+.stage-review__row-title { color: var(--color-ink); } /* weight-only in type.css (P5b) */
 .stage-review__row-sub {
   color: var(--color-ink-dim);
   margin-top: 0.2rem;
 }
 .stage-review__bullets { margin: 0.4rem 0 0; padding-left: 1.1rem; }
-.stage-review__bullets li { margin: 0.25rem 0; line-height: 1.5; }
+.stage-review__bullets li { margin: 0.25rem 0; } /* .type-body + --full (P5b): 1.5 was already 24px */
 .stage-review__qlist { margin: 0; padding-left: 1.4rem; }
-.stage-review__qlist li { margin: 0.35rem 0; line-height: 1.5; }
+.stage-review__qlist li { margin: 0.35rem 0; } /* .type-body + --full (P5b): 1.5 was already 24px */
 .stage-review__qa { display: flex; flex-direction: column; gap: 0.85rem; }
 .stage-review__turn {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: 0.7rem 0.9rem;
 }
-.stage-review__q { font-weight: 600; color: var(--color-ink); }
-.stage-review__a { margin-top: 0.35rem; line-height: 1.55; color: var(--color-ink-dim); }
+.stage-review__q { color: var(--color-ink); } /* weight-only in type.css (P5b) */
+.stage-review__a { margin-top: 0.35rem; color: var(--color-ink-dim); } /* .type-body + --full (P5b): 24.8 -> 24 */
 .stage-review__axis { margin-top: 0.5rem; }
 .stage-review__axis-name {
-  font-weight: 600;
+  /* weight-only in type.css (P5b) */
   color: var(--color-accent-dark, var(--color-purple));
   margin-right: 0.4rem;
 }
@@ -245,7 +247,7 @@
 /* Library (QA tooling) ----------------------------------------------------- */
 .lib-progress { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem; }
 .lib-progress__row { display: flex; align-items: baseline; gap: 0.6rem; }
-.lib-progress__count { font-weight: 600; color: var(--color-ink); }
+.lib-progress__count { color: var(--color-ink); } /* weight-only in type.css (P5b) */
 .lib-progress__bar {
   height: 3px;
   background: var(--color-border);

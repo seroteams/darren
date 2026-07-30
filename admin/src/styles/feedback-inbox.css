@@ -66,8 +66,7 @@
 .fb-head__meta { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
 .fb-time {
   color: var(--color-ink-mute);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  white-space: nowrap; /* .num-tabular in type.css (P5b) */
 }
 
 /* Email line: a Mail icon, the address (a mailto link) on ONE line — truncated with an
@@ -136,8 +135,7 @@
    actually tapped, so a rating row is findable scanning down the column. */
 .fb-stars {
   background: var(--sero-gold-200);
-  color: var(--sero-gold-800);
-  font-variant-numeric: tabular-nums;
+  color: var(--sero-gold-800); /* .num-tabular in type.css (P5b) */
 }
 
 /* Kind chip (validation-kit Phase 3b): icon + label in the card head, so a 1:1 verdict

@@ -206,10 +206,8 @@
   align-items: center;
   justify-content: center;
   /* Glyph geometry: a 1em icon inside a 38px medallion, so this number is the icon
-     size. 17px was off the ladder; 16 clears it without leaving a small glyph
-     rattling round a big circle, which 14 would have. */
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+     size. The 16px pair moved to the glyph section of design/type.css in P5b, with
+     the other nine. */
 }
 /* .type-heading-xs: 16/700 today, and .type-body would have un-bolded it. */
 .gd-block__label { display: inline-flex; gap: 6px; align-items: center; }
@@ -231,7 +229,9 @@
   color: var(--sero-primary-800);
   white-space: nowrap;
 }
-.gd-lastmark::after { content: "▾"; display: block; line-height: 0.7; }
+.gd-lastmark::after { content: "▾"; display: block; }
+/* The 0.7 line-height moved to design/type.css beside .type-flush (P5b): any line
+   box at all drops this caret off the mark it points at. */
 .gd-slider input[type="range"] { width: 100%; accent-color: var(--sero-primary-700); height: 22px; cursor: pointer; }
 .gd-slider__labels { display: flex; justify-content: space-between; color: var(--sero-charcoal-700); margin-top: 2px; }
 .gd-block__note { margin-top: var(--sero-space-3); }
@@ -334,11 +334,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* Glyph geometry again: the close cross at 1em in a 32px button. 17px was off the
-     ladder. The font shorthand went with it, because with an explicit size a button
-     holding no text has nothing left to inherit. */
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* Glyph geometry again: the close cross at 1em in a 32px button. The 16px pair is
+     in the glyph section of design/type.css from P5b. */
 }
 .gd-panel__body { padding: var(--sero-space-5); overflow-y: auto; display: flex; flex-direction: column; gap: var(--sero-space-4); }
 /* .type-heading-md (P5): 20px unchanged, weight 700 to 600. */

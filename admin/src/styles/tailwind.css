@@ -25,7 +25,12 @@
     padding: 0;
     /* Take the family, SIZE, weight and leading from the sentence around it. */
     font: inherit;
-    font-weight: var(--type-weight-semibold);
+    /* The one type declaration in the app that CANNOT move to design/type.css. It has
+       to stay inside @layer components so a Tailwind utility still beats it, which is
+       the whole reason this block is here rather than in design.css; type.css is
+       unlayered, so moving it would let .link win against the four deliberately quiet
+       links the layer exists to protect. Stated waiver, P5b. */
+    font-weight: var(--type-weight-semibold); /* lint-tokens-ignore: must stay in @layer components so Tailwind utilities can still override it; type.css is unlayered */
     color: var(--color-accent-dark);
     text-decoration: none;
     vertical-align: baseline;

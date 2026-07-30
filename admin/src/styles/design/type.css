@@ -10,9 +10,16 @@
    THIS FILE AND design/tokens.css ARE THE ONLY TWO FILES ALLOWED TO CONTAIN A
    TYPE PROPERTY. font-size, line-height, font-weight, font-family,
    letter-spacing, text-transform, font-variant-numeric and the font shorthand
-   belong in one of these two files and nowhere else. Phase 6 turns that into a
-   lint error, so anything declared elsewhere between now and then is debt that
-   has to come back out again.
+   belong in one of these two files and nowhere else. That is a BUILD ERROR as of
+   P5b, not advice: scripts/lint-design-tokens.js fails the run on any of the eight
+   declared anywhere else, and there is no ceiling left to absorb one. Five lines
+   in the whole app are waived, each by name in that file's header.
+
+   It follows that this file holds a few things that are NOT roles, and they are
+   labelled where they sit: the document default at the top, the control tier and
+   the glyph sizes below the roles, one weight-only section, .type-caps,
+   .type-flush and .num-tabular. A role decides size, leading and weight together.
+   These decide one property, for objects that take the rest from context.
 
    design.css imports this sheet BEFORE base.css, so a role loses every
    same-specificity tie it could ever be in. That is deliberate, and it decides
@@ -55,6 +62,32 @@
       .cp-screen .question-stem. Grouped into the desktop rule alone, the stem
       held 30px on a 390px screen instead of dropping a rung.
    ----------------------------------------------------------------------------- */
+
+/* -----------------------------------------------------------------------------
+   Layer 1a: the document default (P5b, moved from base.css).
+
+   The page face and the page rung. Everything that takes no role inherits from
+   here, which is why the two rules below are the busiest type declarations in the
+   app even though nothing names them.
+
+   The second rule exists because a <button>, an <input>, a <textarea> and a
+   <select> inherit no type from the document at all: without it every control in
+   both apps would render at the browser's own default, which is neither Inter nor
+   16px. base.css held both rules until P5b; they moved rather than being waived,
+   because "the document default" is a type decision and this is where type
+   decisions live. Nothing changes on screen: an element selector loses to every
+   class in either file whichever sheet it sits in.
+   ----------------------------------------------------------------------------- */
+body {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
+}
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
+}
 
 /* Display and headings. The display family, balanced wrapping and negative
    tracking are what make a heading read as one shape rather than a wide line
@@ -196,7 +229,14 @@
    intent line directly beneath it, which is the difference the label exists to make.
    .gd-eng button[data-selected] carries its own higher specificity, so it beats
    .gd-eng button in .type-body below and the chosen engagement digit stays bold. */
+/* P5b. .team-card__avatar declared this exact recipe (base family, 16/24, 600) in
+   frontend/src/styles/team-card.css, and .btn--cta declared it in ux-audit-fixes.css.
+   Both are the role written out by hand, so both join it and change nothing on screen.
+   .btn.btn--cta needs TWO classes: its base .btn is one class deep in the control tier
+   below, and a single class here would lose that tie whichever came first. */
 .type-heading-xs,
+.team-card__avatar,
+.btn.btn--cta,
 .about-how__title, .about-duo__title,
 .focus-point__label,
 .arc-phase__label,
@@ -230,6 +270,13 @@
 .type-body-lg,
 /* P5. .lead is the 18px opening paragraph from base.css. It kept only its ink there. */
 .lead,
+/* P5b. The Pulse KPI's denominator. It declared 18/28 and a weight in admin-pulse.css
+   and NO family, so it inherited Bricolage from .type-metric above it: 18px in the
+   display face, which DESIGN.md T6 bans below 20 and which the block-level guard rule
+   cannot see because the family and the size were declared in different rules. Two
+   classes deep, so it still beats .type-metric. Its 500 comes back on in the
+   weight-only section below. This changes the FACE on the Pulse dashboard. */
+.lp-tile__value .lp-den,
 .notes-quote,
 .pv-e__lead,
 .pv-h__opener {
@@ -293,7 +340,32 @@
 .pv-a__confidence, .pv-b__confidence, .pv-b__row p, .pv-d__value, .pv-e__low p,
 .pv-f__confidence, .pv-f__col p, .pv-g__cell p, .pv-g__confidence, .pv-g__tick span,
 .pv-h__confidence, .pv-h__section p, .pv-i__confidence, .pv-i__slot p,
-.pv-j__confidence, .pv-j__slot p, .pv-k__body p {
+.pv-j__confidence, .pv-j__slot p, .pv-k__body p,
+/* P5b. The last of the 16px sheets. Every one of these declared the 16/24 pair by
+   hand in its own file; grouping them here is a move, not a resize. Three notes:
+   - The controls (.textarea, .bench-select, the two note fields, .auth-input, the two
+     .input overrides) also take .type-body--full at the foot of this file, for the
+     reason the P4 note above gives: a field has to fill its column.
+   - .auth-input, .notes-panel__edit and .notes-panel__compose textarea gave up a
+     `font: inherit` as they came, because a shorthand in a later sheet beats a role
+     here whatever the specificity. MEASURED before and after on the running app: size,
+     leading, weight, family and font-feature-settings are identical. One computed
+     value does move, and it renders the same: font-variant-ligatures goes from
+     `common-ligatures` (which `font: inherit` was pulling off body) to `normal`, which
+     is the browser's own default for a control and still uses the font's standard
+     ligatures. Every other control in the app has read `normal` all along.
+   - The five that carried a RATIO rather than a token land on the 4px grid:
+     .stage-review__card p and .stage-review__a were 1.55 (24.8px), .question-session-ctx
+     was 1.45 (23.2px), .copyable-row__mark 1.55 and the two review lists 1.5 (24px,
+     already right). A ratio is what tokens.css's own note calls a half-applied rung. */
+.textarea, .bench-select, .bench-flow__desc, .hint,
+.js-runlabel-wrap .input, .auth-input,
+.notes-panel__item, .notes-panel__edit, .notes-panel__compose textarea,
+.joblex-item, .ds-sub, .ds-axes, .ds-dl, .ds-rowmenu,
+.start-point__text, .lex-row__phrase,
+.stage-review__card p, .stage-review__a,
+.stage-review__bullets li, .stage-review__qlist li,
+.copyable-row__mark, .question-session-ctx {
   font-family: var(--type-family-base);
   font-size: var(--type-size-base);
   font-weight: var(--type-weight-regular);
@@ -387,6 +459,14 @@
    nothing but an icon, and guided.css sizes every icon at 1em, so for those two this
    role is the PICTURE's size, not a text size: a 17px chevron becomes 14px and a 15px
    clock becomes 14px, level with the chrome they sit in. */
+/* P5b. Four more 14px surfaces. .lookback__band declared the pair itself; .about-alpha__link
+   and .gd-panel__err are a button and an error line that had no role at all; and
+   .cmp-verdict-edit .js-verdict is the compare screen's verdict field, two classes deep so
+   it still overrides the 24px .input it wears. The link keeps its medium weight through
+   the weight-only section below rather than taking the .type-label role, which would
+   have added 0.02em of tracking to an underlined word. */
+.lookback__band, .about-alpha__link, .gd-panel__err,
+.cmp-verdict-edit .js-verdict,
 .gd-q__n, .gd-row__chev, .gd-q__clock {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
@@ -524,6 +604,13 @@
    is the Sero monogram in a 22px square and does NOT change size: it was already 14px
    and it is here to leave the display face, which DESIGN.md T6 bans below 20px. This
    is the 14px rung that carries the base family and a weight. */
+/* P5b. Two 14px buttons that used to carry `font: inherit` plus a weight. The
+   shorthand had to go for the role to hold: it sits in a later sheet, so it would have
+   reset the role's weight back to the inherited 400.
+   Measured on the running app before and after: 14px / 20px / 600 / Inter either way,
+   and the stylistic sets are unchanged. See the note in the .type-body group above for
+   the one computed value that does move and why it renders the same. */
+.session-topbar__start, .lookback__back,
 .gd-row__pct, .gd-q__logo {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
@@ -589,6 +676,34 @@
   line-height: var(--type-leading-sm);
   text-transform: uppercase;
 }
+/* An aside INSIDE an overline heading: the meeting-arcs editor writes "Anti-patterns
+   . One per line" and the second half has to leave the caps and the weight behind.
+   text-transform inherits, so nothing short of `none` un-shouts it, and it was an
+   inline style in stages/meeting-arcs.js until P5b gave it a class. It keeps the
+   heading's tracking, exactly as the inline style did (P5b). */
+.arc-sec__note {
+  font-weight: var(--type-weight-regular);
+  text-transform: none;
+}
+/* .type-caps — uppercase WITHOUT the overline recipe.
+   Three badges are set in caps and are not section eyebrows: .brutal__badge on the
+   briefing reflection, .cl-tag on the internal checklist and .cmp-verdict-tag on the
+   compare screen. Each kept its caps and its own tracking in its own sheet with a
+   comment saying promotion to .type-overline would widen the tracking and, for two of
+   them, change the weight. That reasoning still holds, so the CAPS move here and the
+   roles they already wear keep deciding size and weight.
+   The three trackings were 0.02em, 0.03em and 0.04em and they are now one. That is the
+   same call P3 made on the eighteen eyebrow rivals: at 14px the spread is 0.28px per
+   character, which is a rounding error rather than a level. Must sit after the
+   .type-label role, which gives .cmp-verdict-tag the same 0.02em from the other
+   direction (P5b). */
+.type-caps,
+.brutal__badge,
+.cl-tag,
+.cmp-verdict-tag {
+  letter-spacing: var(--type-tracking-wide);
+  text-transform: uppercase;
+}
 
 /* Four mono stacks became one (P3). Two of them pointed at --font-mono, whose value
    was `ui-monospace, monospace`; on Windows ui-monospace does not resolve, so those
@@ -636,8 +751,155 @@
   line-height: var(--type-leading-3xl);
   /* Last on purpose. Any font shorthand applied above this line resets it back
      to normal, and a number whose digits change width as it ticks is unreadable
-     in a column. base.css keeps .num-tabular as the standalone escape hatch. */
+     in a column. The .num-tabular escape hatch is at the foot of this file. */
   font-variant-numeric: tabular-nums;
+}
+
+/* -----------------------------------------------------------------------------
+   The control tier (P5b). NOT roles, and the comment is here so the next reader
+   does not turn them into roles by accident.
+
+   A button's label is sized by the target it sits in, not by how much of it there
+   is to read, and the app's control ladder is 14 / 16 / 18. Its bottom rung IS a
+   role: .btn.btn--sm has taken .type-label (14/500) since P3. The two rungs above
+   it have no role to take, and neither does the big underlined field:
+
+     16/24 at weight 500  no reading role is medium weight at body size. .type-body
+                          would flatten every primary button in the app to 400 and
+                          .type-heading-xs would embolden it to 600. Both are visible
+                          on every screen, and neither is a decision this sweep was
+                          asked to make.
+     18/28 at weight 500  the same argument one rung up.
+     24/32 in the base    24px is .type-heading-lg, which is Bricolage at 600 with
+     family              negative tracking. A single-line field is not a heading.
+
+   So the pairs are declared here, in one of the two files allowed to hold them,
+   rather than invented as three roles with one consumer each. If a fourth object
+   ever needs medium weight at 16 or 18, that is the moment the ladder has earned a
+   medium tier and this block should become one.
+
+   .btn--lg must stay after .btn: both are one class deep and source order is what
+   decides which rung a large button lands on.
+   ----------------------------------------------------------------------------- */
+.btn, .btn--md {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-base);
+  font-weight: var(--type-weight-medium);
+  line-height: var(--type-leading-base);
+}
+.btn--lg {
+  font-size: var(--type-size-lg);
+  line-height: var(--type-leading-lg);
+}
+/* The big underlined field: intake, feedback, the password screens, briefing notes
+   and job lexicons. buttons-inputs.css carried the pair with a note explaining that
+   no 24/32 base-family role exists for it to join. That note was right, so the pair
+   moves rather than the field. */
+.input {
+  font-size: var(--type-size-2xl);
+  line-height: var(--type-leading-2xl);
+}
+
+/* -----------------------------------------------------------------------------
+   Glyph geometry (P5b). A size that draws a PICTURE, not text.
+
+   Ten component sheets carried a font-size whose job was to scale an icon, an
+   initial, a star or a close cross inside a fixed-height circle or button. Every
+   one of them says so in its own comment, and type.css already used the phrase
+   twice for .gd-row__chev and .gd-q__logo. None of them can take a reading role:
+   a role would also hand them a weight and a measure they have no use for, and
+   .ds-star would change typeface, which for a literal star character means
+   changing the drawing.
+
+   They are grouped by the rung they already sit on, so a glyph cannot drift off
+   the ladder. The ones that must not gain a line box are in .type-flush below.
+   ----------------------------------------------------------------------------- */
+.arc-chip__sep, .gd-block__icon, .gd-panel__x, .joblex-remove {
+  font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
+}
+.rd-avatar {
+  font-size: var(--type-size-lg);
+  line-height: var(--type-leading-lg);
+}
+/* Flush by design: the '+' in a 32px dashed circle, the row-menu ellipsis and the
+   design sheet's star specimen all take their leading from .type-flush below. */
+.pa-add__plus, .um-menu-btn {
+  font-size: var(--type-size-lg);
+}
+.ds-star {
+  font-size: var(--type-size-2xl);
+}
+
+/* -----------------------------------------------------------------------------
+   Weight-only exceptions (P5b).
+
+   Every selector below takes its SIZE from its surroundings and adjusts nothing
+   but the weight: a <strong> inside a sentence, a state on a row, a modifier on a
+   chip, an icon medallion. Giving each of them a role would pin a size they were
+   deliberately letting the context decide, and in most cases would change it.
+
+   This is the pattern type.css already used nine times for the state rules in
+   .type-label-strong, collected in one place instead of scattered. It must sit
+   AFTER every role above: most of these are one class deep and source order is
+   what lets a modifier beat the role its base class wears.
+
+   IT IS ALSO THE PRESSURE GAUGE. Fourteen of the entries want medium weight at a
+   size the ladder only carries at 14px. If that list grows again, the answer is a
+   medium tier at 16 and 18, not a fifteenth line here.
+   ----------------------------------------------------------------------------- */
+/* Emphasis and state, at 600. */
+.script-state,
+.meeting-card__label,
+.cmp-axis__vals, .cmp-axis__delta,
+.joblex-item.is-active,
+.guide-ref--text strong, .guide-step__title,
+.ds-details > summary, .ds-axis__val, .ds-skdiff--off,
+.cl-num, .cl-feat,
+.lp-down, .lp-bar__n,
+.stage-review__q, .stage-review__axis-name, .lib-progress__count,
+.lookback__what strong,
+.pv-g__tick b,
+/* .link lives in tailwind.css's @layer components on purpose, so a Tailwind utility
+   can still override it; the auth shell's unlayered copy is the one that can move. */
+.auth-split .link {
+  font-weight: var(--type-weight-semibold);
+}
+/* Medium weight, at sizes the ladder only carries at 14px. See the note above. */
+.cmp-delta.cmp-delta--flat,
+.cmp-axis--unread .cmp-axis__label, .cmp-axis--unread .cmp-axis__vals,
+.run-step--active .run-step__label,
+/* Mono, so it cannot take .type-label: the role swaps the family back to Inter and
+   this line sits inside an ASCII tree whose columns only align in the mono face. */
+.run-log__tree-line--stage,
+.pa-who.pa-who--them,
+.lp-pill.lp-pill--none, .lp-bar__name,
+.lp-tile__value .lp-den,
+.ds-dl__row dd,
+.stage-review__row-title,
+.intake-firstrun__title,
+.lex-row__phrase,
+.pv-e__opener,
+.about-alpha__link {
+  font-weight: var(--type-weight-medium);
+}
+/* Weight DOWN, inside something heavier. */
+.cmp-delta-sep,
+.tg-card__ext,
+.joblex-hidden__row .flow-glossary__term {
+  font-weight: var(--type-weight-regular);
+}
+/* 700, above the ladder. <strong> defaults to `bolder`, which against a 600 rung
+   computes to 900 and reads as a different typeface, so the hero's names say 700
+   out loud. The two icon medallions draw a symbol rather than set text. */
+.join-hero strong,
+.ds-alert__icon, .ds-requestcard__icon {
+  font-weight: var(--type-weight-bold);
+}
+/* Bold mono has no role: .type-code is the only mono recipe and it is weight 400,
+   so a single-class entry anywhere above would lose to it on source order. */
+.fp-chip.fp-chip--changed {
+  font-weight: var(--type-weight-semibold);
 }
 
 /* Measure modifiers. These are not roles: they adjust one property of a body
@@ -669,7 +931,25 @@
    its right-hand figure in off the edge, and .gd-rec__item is the same row shape.
    The P4 review flagged them and the P5 build could not identify them. */
 .gd-sugg__row,
-.gd-rec__scorerow, .gd-rec__item { max-width: none; }
+.gd-rec__scorerow, .gd-rec__item,
+/* P5b. Everything that joined .type-body in this phase and had NO max-width before
+   it. The sweep was told to move declarations, not redesign screens, so a measure
+   is not applied to a surface that never had one: six of these are controls that
+   must fill their column, four are flex or grid containers a measure would squeeze,
+   and the rest are card and row text whose column already IS the measure. */
+.textarea, .bench-select, .bench-flow__desc, .hint,
+.js-runlabel-wrap .input, .auth-input,
+.notes-panel__item, .notes-panel__edit, .notes-panel__compose textarea,
+.joblex-item, .ds-sub, .ds-axes, .ds-dl, .ds-rowmenu,
+.start-point__text, .lex-row__phrase,
+.stage-review__card p, .stage-review__a,
+.stage-review__bullets li, .stage-review__qlist li,
+.copyable-row__mark, .question-session-ctx,
+/* The Pulse denominator is inline, so the measure it inherited from .type-body-lg
+   never applied. Named anyway: measured on /admin/pulse it showed a computed
+   max-width of 639px, and a latent measure on a KPI is exactly the kind of thing
+   that bites the day someone makes the tile a flex row. */
+.lp-tile__value .lp-den { max-width: none; }
 
 /* -----------------------------------------------------------------------------
    .type-flush — a role WITHOUT its leading.
@@ -701,11 +981,55 @@
    26px star whose button must not gain a text line box around it. */
 .gd-q__logo,
 .star-rating__star,
+/* P5b. Five more, all of them named in the glyph-geometry section above: the design
+   sheet's star specimen and its row-menu ellipsis, the job-lexicon remove cross, the
+   '+' in the add-a-promise circle and the user table's row-actions button. */
+.ds-star, .ds-rowmenu, .joblex-remove, .pa-add__plus, .um-menu-btn,
 .cmp-tag { line-height: 1; }
-/* Three glyph rules could NOT come here and kept a line-height in their own sheet,
-   each with a comment saying why: .ud-chev and .row-menu-btn need line-height 0, not
-   1, so the line box collapses entirely; and .bullet__mark needs `inherit`, because it
-   has to sit on the same baseline as the 16px prose line beside it. */
+/* Two glyphs need ZERO, not one, so the line box collapses entirely rather than
+   merely stopping at the glyph: a chevron in a table cell and the row-menu trigger.
+   They kept the declaration in their own sheets until P5b, each with a comment
+   saying .type-flush was the wrong value for them. That was true and it is not a
+   reason to sit outside the layer, so the second value lives here beside the first. */
+.ud-chev, .row-menu-btn { line-height: 0; }
+/* And one needs 0.7: the guided slider's "last time" caret is a ▾ hung above the
+   track, and any line box at all drops it off the mark it points at. */
+.gd-lastmark::after { line-height: 0.7; }
+/* .bullet__mark is the one glyph still holding a line-height in its own sheet, and it
+   is invisible to the two-file rule rather than exempt from it: the value is
+   `inherit`, a CSS-wide keyword, which hands the property back to the cascade instead
+   of setting one. It has to, because it sits on the same baseline as the 16px prose
+   line beside it. */
+
+/* -----------------------------------------------------------------------------
+   .num-tabular — tabular figures, and the same mechanism again.
+
+   This class moved here from base.css in P5b, with twenty selectors grouped into
+   it. It is not a role and it must not become one: figure width is orthogonal to
+   size, and every rung would need a tabular twin.
+
+   Twenty component sheets declared `font-variant-numeric: tabular-nums` on a
+   counter, a medallion, a timestamp or a KPI, and four of them carried a comment
+   saying the fix was to pair .num-tabular in markup. Grouping is the cheaper and
+   more honest version of the same fix, and it is what this file's own opening note
+   tells a screen to do: "a screen joins by having its component selector grouped
+   into a role below", not by adding a class to markup. Twenty markup edits across
+   fourteen JS and TS files would also have been twenty chances to miss one.
+
+   Nothing here resets it: after P5b no component sheet holds a `font:` shorthand at
+   all, which is the only thing that could have.
+   ----------------------------------------------------------------------------- */
+.num-tabular,
+.cmp-axis__read,
+.prep-timeline__num, .cl-overall__pct, .cl-num, .cl-count, .cl-step-no,
+.focus-point__num,
+.axis__thumb, .axis__value, .axis__delta,
+.notes-panel__ts,
+.about-step__n,
+.lex-row__num,
+.lp-bar__n,
+.pd-count b, .pd-stars, .pd-num, .pd-hist__n,
+.fb-time, .fb-stars { font-variant-numeric: tabular-nums; }
 
 /* -----------------------------------------------------------------------------
    Layer 3: one composite custom property per role (the Material Web pattern),
@@ -718,7 +1042,8 @@
    more than it looks:
 
    - font-variant-numeric goes back to normal, so a composite cannot deliver
-     .type-metric's tabular figures. Pair it with base.css's .num-tabular.
+     .type-metric's tabular figures. Pair it with .num-tabular at the foot of
+     this file.
    - font-feature-settings and font-variant-ligatures reset too, and base.css
      sets "ss01", "cv11" and common-ligatures on body. A composite therefore
      drops Sero's Inter stylistic sets for that whole subtree.

@@ -75,7 +75,8 @@
   display: grid;
   place-items: center;
   color: var(--sero-lavender-900);
-  font-variant-numeric: tabular-nums;
+  /* Tabular figures: .num-tabular in design/type.css (P5b). A score that changes
+     width as it moves is the whole reason this thumb needs them. */
   transition: left var(--dur-hero) var(--ease-out-expo);
   z-index: 1;
 }
@@ -84,8 +85,7 @@
 }
 .axis__value {
   text-align: right;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-ink);
+  color: var(--color-ink); /* .num-tabular in type.css (P5b) */
 }
 .axis__value--up { color: var(--color-positive-text); }
 .axis__value--down { color: var(--color-negative-text); }
@@ -97,7 +97,7 @@
   margin-left: 0.4rem;
   padding: 0.05rem 0.45rem;
   border-radius: var(--sero-radius-full);
-  font-variant-numeric: tabular-nums;
+  /* .num-tabular in type.css (P5b) */
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
   opacity: 0;

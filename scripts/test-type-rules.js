@@ -394,14 +394,18 @@ console.log("\n--- type rules unit ---");
     "font-family-literal",
     "font-shorthand-resets-numeric",
     "literal-font-size",
+    // P5b. The tenth and last. It was counted rather than flipped for two phases
+    // because it still carried 164 declarations across 31 component sheets; this
+    // line moved here in the same commit that measured it at zero.
+    "type-property-outside-type-layer",
   ];
   for (const r of errorRules) {
     check(`${r} fails the build`, TYPE_ERRORS.has(r), `${r} is not in TYPE_ERRORS`);
   }
   check(
-    "the two-file law is counted, NOT an error yet",
-    !TYPE_ERRORS.has("type-property-outside-type-layer"),
-    "it still carries real debt; see the ceiling note in test-design-guard.js"
+    "every type rule is an error, so none of them needs a ceiling",
+    TYPE_RULES.every(([name]) => TYPE_ERRORS.has(name)),
+    "scripts/test-design-guard.js only holds literalRadius and offGridSpacing now"
   );
   check(
     "every error rule is a real rule name",

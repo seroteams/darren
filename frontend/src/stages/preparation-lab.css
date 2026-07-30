@@ -462,9 +462,9 @@
   margin: 0;
   color: var(--color-ink);
 }
-.pv-e__opener {
-  font-weight: var(--type-weight-medium);
-}
+/* weight-only in design/type.css (P5b): medium weight at the 18px .pv-e__lead gives
+   it, which is a size the ladder only carries at 14. */
+.pv-e__opener { /* type.css, weight-only */ }
 .pv-e__slot {
   display: flex;
   flex-direction: column;
@@ -671,9 +671,8 @@
 .pv-g__tick span {
   color: var(--color-ink);
 }
-.pv-g__tick b {
-  font-weight: var(--type-weight-semibold);
-}
+/* weight-only in design/type.css (P5b). */
+.pv-g__tick b { /* type.css, weight-only */ }
 .pv-g__tick input:checked ~ span {
   color: var(--color-ink-mute);
   text-decoration: line-through;

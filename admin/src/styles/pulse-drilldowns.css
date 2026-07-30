@@ -7,18 +7,20 @@
 /* Geometry comes from the shared chip recipe (design/base.css) — colours only here. */
 .pd-pill--back { background: var(--sero-mint-100); color: var(--color-positive-text); }
 .pd-pill--once { background: var(--sero-gold-100); color: var(--sero-gold-900); }
-.pd-pill--none { background: var(--color-page); color: var(--color-ink-dim); border: 1px solid var(--color-border); font-weight: 500; }
-.pd-pill--internal { background: var(--sero-lavender-100, var(--color-page)); color: var(--color-ink-dim); border: 1px solid var(--color-border); font-weight: 500; }
-.pd-pill--guest { background: var(--color-page); color: var(--color-ink-dim); border: 1px dashed var(--color-border); font-weight: 500; }
+/* The three weights that used to sit here were redundant: .pd-pill already takes
+   .type-label in design/type.css, which IS 500. Deleted rather than moved (P5b). */
+.pd-pill--none { background: var(--color-page); color: var(--color-ink-dim); border: 1px solid var(--color-border); }
+.pd-pill--internal { background: var(--sero-lavender-100, var(--color-page)); color: var(--color-ink-dim); border: 1px solid var(--color-border); }
+.pd-pill--guest { background: var(--color-page); color: var(--color-ink-dim); border: 1px dashed var(--color-border); }
 
 /* The reconciliation line under the title — the card's exact number, restated. */
 .pd-count { color: var(--color-ink-dim); }
-.pd-count b { color: var(--color-ink); font-variant-numeric: tabular-nums; }
+.pd-count b { color: var(--color-ink); } /* .num-tabular in type.css (P5b) */
 
 .pd-sub { display: block; color: var(--color-ink-dim); }
-.pd-stars { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pd-stars { white-space: nowrap; } /* .num-tabular in type.css (P5b) */
 .pd-note { max-width: 26rem; }
-.pd-num { font-variant-numeric: tabular-nums; }
+.pd-num { /* .num-tabular in type.css (P5b) */ }
 
 /* The ratings star histogram (design-consolidation P6, D8) — five plain HTML/CSS bars,
    5 stars down to 1, above the ratings table. Low scores (≤2) bar in the warm gold so
@@ -30,4 +32,4 @@
 .pd-hist__track { background: var(--color-page); border-radius: var(--sero-radius-sm); height: 13px; overflow: hidden; }
 .pd-hist__fill { height: 100%; border-radius: var(--sero-radius-sm); background: var(--color-accent); opacity: 0.85; }
 .pd-hist__fill--low { background: var(--sero-gold-700); }
-.pd-hist__n { text-align: right; font-variant-numeric: tabular-nums; }
+.pd-hist__n { text-align: right; } /* .num-tabular in type.css (P5b) */

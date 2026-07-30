@@ -111,9 +111,9 @@
    design/type.css (P5). The hero drops 36 to 24 and gains a weight step, 500 to 600:
    the line was set at medium so the NAMES inside it carried the emphasis, and the
    <strong> below still does that job a weight above whatever the rung is. */
-.join-hero strong {
-  font-weight: var(--type-weight-bold);
-}
+/* weight-only in design/type.css (P5b): <strong> defaults to `bolder`, which against
+   the hero's 600 rung computes to 900, so the 700 has to be said out loud. */
+.join-hero strong { /* type.css, weight-only */ }
 /* The compact label/value trust list ("What you'll see" / "What stays private").
    Also worn by the Privacy note's "Who can see it" rows — same member-trust voice,
    same recipe. 14px floor; labels ink, values dim. */
@@ -188,9 +188,9 @@
 .auth-input {
   width: 100%;
   box-sizing: border-box;
-  font: inherit;
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* .type-body + .type-body--full (P5b). The `font: inherit` went with the pair,
+     because a shorthand in a later sheet beats the role whatever its specificity.
+     Measured on the sign-in screen before and after: 16/24/400 Inter either way. */
   color: var(--color-ink);
   background: var(--color-surface);
   border: 1px solid var(--color-border-strong);
@@ -247,9 +247,20 @@
    rather than defined globally: the class is used across the whole app, and a
    global rule would restyle screens this lane never walked. */
 .auth-split .link {
-  font: inherit;
+  /* The three properties this link has to take from the sentence around it, spelled
+     out rather than written as `font: inherit`. The shorthand ALSO resets the weight,
+     and it sits in a later sheet than design/type.css, so it silently beat the 600
+     that moved there in P5b and the link rendered 400. Measured on a live auth shell,
+     which is the only reason it was caught: the diff read clean.
+     A CSS-wide keyword sets no type value, so these three are invisible to the
+     two-file rule rather than waived by it. */
+  font-family: inherit;
   font-size: inherit;
-  font-weight: var(--type-weight-semibold);
+  line-height: inherit;
+  /* The weight is in design/type.css (P5b). The global .link keeps its own copy in
+     tailwind.css's @layer components, which is a waiver rather than a move: moving
+     it would take it out of the layer and let it beat the Tailwind utilities the
+     four quiet links rely on. */
   color: var(--color-accent-dark);
   background: none;
   border: none;

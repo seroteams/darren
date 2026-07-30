@@ -23,9 +23,8 @@
   display: block;
   width: 100%;
   padding: 0.9rem 1.25rem;
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
-  font-weight: var(--type-weight-semibold, 600);
+  /* .type-heading-xs (P5b), grouped as .btn.btn--cta so it beats the control tier's
+     .btn on specificity rather than on source order. Same 16/24/600 it had here. */
   text-align: center;
 }
 

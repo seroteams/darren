@@ -136,7 +136,8 @@
   width: 1%;
   color: var(--color-ink-mute);
   vertical-align: middle;
-  line-height: 0;
+  /* line-height: 0 is in design/type.css beside .type-flush (P5b). Zero, not one:
+     the line box has to collapse entirely, not stop at the glyph. */
 }
 
 /* The error-log row pills, filters, and detail rows live in their own file
@@ -151,9 +152,8 @@
   background: none;
   border: 0;
   cursor: pointer;
-  font-size: var(--type-size-lg);
-  line-height: 1;
-  letter-spacing: 1px;
+  /* The 18px rung and the collapsed line box are in design/type.css (P5b). */
+  letter-spacing: 1px; /* lint-tokens-ignore: spreads the three dots of the row-actions glyph, decoration rather than tracking (same call as ui/account-sheet.ts) */
   padding: 2px 8px;
   border-radius: var(--radius-input);
   color: var(--color-ink-dim);
@@ -184,8 +184,10 @@
   border-radius: var(--radius-input);
   color: var(--color-ink);
   /* Content-shaping, not a type level: the role names arrive lower-cased from the
-     API. No role carries text-transform except .type-overline's uppercase. */
-  text-transform: capitalize;
+     API, and capitalize REWRITES the words rather than sizing them. Uppercase is a
+     treatment the ladder expresses (.type-overline, .type-caps); capitalize is not,
+     so this is a stated waiver rather than a fifteenth grouping (P5b). */
+  text-transform: capitalize; /* lint-tokens-ignore: shapes the CONTENT, not the type level. The API returns role names lower-cased. */
 }
 .um-menu__item:hover { background: var(--color-surface-2); }
 .um-menu__item.is-current { color: var(--color-ink-mute); cursor: default; }

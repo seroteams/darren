@@ -33,7 +33,8 @@
   display: grid;
   place-items: center;
   border-radius: var(--sero-radius-sm);
-  font-weight: var(--type-weight-bold);
+  /* weight-only in design/type.css (P5b): an icon medallion draws a symbol, so it
+     keeps the 700 without a role pinning its size. */
 }
 .ds-alert--error {
   border-color: var(--sero-coral-700);

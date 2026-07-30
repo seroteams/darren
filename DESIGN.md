@@ -218,10 +218,26 @@ never by how big it should be, so the same decision made on two screens lands on
 The three 14px chrome roles separate by **weight and tracking, not size**, so nothing here can
 ever be shrunk to distinguish it.
 
-**Modifiers, which are not roles:** `.type-body--narrow` and `.type-body--full` adjust one
-property of a body role and mean nothing alone. `.type-flush` (`line-height: 1`) exists for the
-~18 selectors that centre a glyph, an avatar initial or a stepper number inside a fixed-height
-circle; it is always used alongside a role, never on its own.
+**Not roles, and `design/type.css` labels each one where it sits.** A role decides size, leading
+and weight together; these decide one thing, for objects that take the rest from context.
+- `.type-body--narrow` / `.type-body--full` adjust the measure on a body role.
+- `.type-flush` (`line-height: 1`) for the ~23 selectors that centre a glyph, an avatar initial
+  or a stepper number inside a fixed-height circle. Two more values sit beside it: `0` for two
+  glyphs whose line box must collapse entirely, and `0.7` for the guided slider's caret.
+- `.type-caps` (uppercase + 0.02em) for three badges set in caps that are **not** eyebrows;
+  `.type-overline` would widen their tracking and embolden two of them.
+- `.num-tabular` for tabular figures, with 20 selectors grouped in. Figure width is orthogonal
+  to size, so it must never become a role: every rung would need a tabular twin.
+- **The control tier**: `.btn` / `.btn--md` (16/24/500), `.btn--lg` (18/28) and `.input`
+  (24/32). A button's label is sized by its target, not by how much of it there is to read, and
+  no reading role is medium weight at 16 or 18. `.btn--sm` is the exception that proves it: at
+  14px the control ladder's bottom rung IS a role, `.type-label`.
+- **Glyph geometry**: ten sizes that draw a picture (an icon, an initial, a star, a close
+  cross) rather than set text.
+- **One weight-only section**: ~35 selectors that adjust the weight and let the context decide
+  the size, mostly `<strong>`, a state or a modifier. Fourteen of them want medium weight at a
+  size the ladder only carries at 14px. If that list grows again, the answer is a medium tier
+  at 16 and 18, not a fifteenth line in it.
 
 **Layer 3** is one `--type-role-*` composite per role, for a canvas or an inline style. Read the
 warning at the head of `design/type.css` first: the `font:` shorthand carries only
@@ -231,13 +247,24 @@ everything outside the font group; and the phone breakpoint targets the class, n
 ### Where type may be declared
 `font-size`, `line-height`, `font-weight`, `letter-spacing`, `font-family`, `text-transform`,
 `font-variant-numeric` and the `font` shorthand belong in **`design/tokens.css` and
-`design/type.css` and nowhere else.** `npm run lint:tokens` counts every one that lives anywhere
-else, as `type-property-outside-type-layer`.
+`design/type.css` and nowhere else.** That is a **build error**, not advice: `npm run lint:tokens`
+fails the run on any of the eight declared anywhere else, as `type-property-outside-type-layer`.
+It was counted to a falling ceiling while the migration ran, reached zero on 2026-07-31 and was
+flipped in the same commit. There is no ceiling left to absorb one.
 
 Two things are not counted, and both for the same reason: they set no type **value**.
 - A CSS-wide keyword (`inherit`, `initial`, `unset`, `revert`). `font: inherit` on a `<button>`
-  is how a control rejoins the page face at all.
-- A line carrying a `lint-tokens-ignore` comment **with a stated reason**.
+  is how a control rejoins the page face at all. **Watch this one.** A `font:` shorthand in a
+  component sheet loads later than `type.css` and silently resets everything the role set, so a
+  role and a `font: inherit` on the same selector is a half-application the linter cannot see.
+  Where a control genuinely has to inherit, write the longhands (`font-family` / `font-size` /
+  `line-height: inherit`) and leave the weight to the layer. `.auth-split .link` shipped at 400
+  instead of 600 for exactly this reason and was caught by measuring, not by reading the diff.
+- A line carrying a `lint-tokens-ignore` comment **with a stated reason**. Five lines in the
+  whole app: the iOS focus-zoom guard (`design/mobile.css`), two decorative letter-spacings
+  (`ui/account-sheet.ts`, `.um-menu-btn`), and two content-shaping cases,
+  `text-transform: capitalize` on `.um-menu__item` and `lowercase` on `.action-when`. Uppercase
+  is a type level and stays in the layer; capitalize and lowercase rewrite the words.
 
 ### How a screen joins a role
 `design.css` imports `type.css` **before** `base.css`, and component sheets import later still
@@ -454,7 +481,7 @@ The "before you build" checklist — every new or touched screen passes all fift
     ("–") is fine only as an empty-value glyph in a cell. Guard: `npm run lint:copy` (free).
 14. **Do** take a **role** from `design/type.css` rather than declaring type on a screen. Type
     properties are legal in `design/tokens.css` and `design/type.css` **only** — anywhere else is
-    counted by `npm run lint:tokens`. Keep to the ladder (**14 · 16 · 18 · 20 · 24 · 30 · 36**),
+    a **build error** in `npm run lint:tokens`. Keep to the ladder (**14 · 16 · 18 · 20 · 24 · 30 · 36**),
     at most **four levels** per screen, each visibly different; **don't** invent 15px or 17px.
     Bricolage ≥20px only; prose capped at 66 characters a line (see §3).
 15. **Do** space **groups twice as far apart as their contents**, and sit a heading closer to what

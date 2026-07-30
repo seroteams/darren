@@ -7,10 +7,9 @@
 .rd-avatar {
   width: 52px;
   height: 52px;
-  /* Glyph geometry: one initial letter inside a 52px circle. Tokenised off the
-     1.125rem literal; it was already on the 18px rung. */
-  font-size: var(--type-size-lg);
-  line-height: var(--type-leading-lg);
+  /* Glyph geometry: one initial letter inside a 52px circle. The 18px pair is in the
+     glyph section of design/type.css (P5b), placed after .type-label-strong so it
+     still beats the .ds-avatar this element also wears. */
 }
 
 .rd-profile {

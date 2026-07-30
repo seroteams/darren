@@ -81,60 +81,26 @@ const SCRIPTS = __dirname;
  * nonTokenFont is gone too, but RETIRED rather than paid: it was px-only, its own
  * comment always said P6 would retire it, and its hits were a strict subset of
  * literal-font-size's. Two ceilings for one debt could only ever disagree.
+ *
+ * WHAT LEFT THIS LIST IN P5b: typePropOutsideTypeLayer, the tenth and last type rule.
+ * P6 landed it counted at 142 and recorded an honest raise to 164 when it completed 25
+ * half-applied size/leading pairs. P5b paid both back. 164 -> 0 across 31 component
+ * sheets, measured with `node scripts/lint-design-tokens.js --json` after every one of
+ * the six biggest files, then flipped to an error in scripts/lint-design-tokens.js. An
+ * error needs no ceiling: zero is the only passing value, and there is no number here
+ * left to nudge.
+ *
+ * The three groups the P6 note said were "not a mechanical fix" were not fixed
+ * mechanically. Weight-only rules went into one grouped section of design/type.css
+ * that changes weight and nothing else, so no object was shrunk to fit a 14px role.
+ * The twenty tabular-figure sites were GROUPED into .num-tabular rather than paired in
+ * markup, which is the joining rule design/type.css states for every other treatment.
+ * Uppercase became .type-caps; capitalize and lowercase were waived by line, because
+ * they rewrite words rather than size them.
  */
 const CEILINGS = {
   literalRadius: 53,
   offGridSpacing: 135,
-
-  /*
-   * type-property-outside-type-layer. THE headline rule of P6, and the only type
-   * rule still carrying debt. It counts every one of the eight type properties
-   * declared outside design/tokens.css and design/type.css.
-   *
-   * 142, measured 2026-07-31. It is NOT zero, and the phase does not pretend it is.
-   *
-   * What the number is made of, so the next session can work it rather than guess it:
-   * about 138 declarations across 33 component sheets. The largest are
-   * buttons-inputs.css (25), design-stage.css (14), stage-extras.css (12),
-   * stage-review.css (8), test-engine.css (8), admin-pulse.css (7), start-stage.css
-   * (7) and pulse-drilldowns.css (7). Three groups dominate, and none of them is a
-   * mechanical fix:
-   *   - weight-only rules on objects that inherit 16px. Taking a 14px role would
-   *     SHRINK them, so each is a design decision rather than a sed.
-   *   - `font-variant-numeric: tabular-nums` on about 20 non-metric chrome
-   *     selectors. base.css's .num-tabular is the sanctioned escape hatch, so the fix
-   *     is a markup pairing, not a role.
-   *   - `line-height` on glyph containers and `text-transform: capitalize/lowercase`,
-   *     which no role expresses and which shape content rather than size it.
-   * Sixteen of those sheets are named in NO phase file of this plan. The P6 recon
-   * flagged that as the largest hole in it. Clearing them is a Phase 5b sweep, not a
-   * lock: it changes sizes on screens that need looking at first.
-   *
-   * It is counted rather than flipped for exactly the reason the ceilings exist. A
-   * rule landed as an error at 142 would red the build for every parallel session in
-   * this checkout on the day it shipped.
-   *
-   * 142 -> 164, AND THAT IS A RAISE, WHICH THIS FILE OTHERWISE FORBIDS.
-   *
-   * The rule above says a raise is a decision for Carl, not a number to nudge, so it
-   * is written down here rather than absorbed. What happened: a sweep for the locked
-   * pairs found 25 rule blocks taking a --type-size-* WITHOUT its matching
-   * --type-leading-*, including `.btn`, the app's primary control, which rendered
-   * 16px text on a 24.8px line box on every screen because it fell back to body's
-   * 1.55 ratio. Every one of those was off the 4px grid. Completing the pair is a
-   * visible fix and costs +1 on a counter that counts DECLARATIONS, so doing the
-   * right thing pushed the number up by 22.
-   *
-   * The counter was not redefined to hide that. Counting blocks instead of
-   * declarations would have held it flat, which is exactly the kind of measure-moving
-   * this ceiling exists to prevent.
-   *
-   * The durable fix is the Phase 5b sweep: those 25 selectors should join a role and
-   * leave their component sheets entirely, which takes the number DOWN past 142 rather
-   * than around it. Until then this records an honest, deliberate, reversible raise:
-   * 22 screens render on the grid that did not before.
-   */
-  typePropOutsideTypeLayer: 164,
 };
 
 /*
@@ -146,23 +112,14 @@ const CEILINGS = {
 const HINTS = {
   literalRadius: `Use --radius-button (4px), --radius-card (12px) or --sero-radius-full.`,
   offGridSpacing: `Keep padding/margin/gap on the 4px grid (--sero-space-*).`,
-  relativeFontSize: `A font-size must resolve to px. Drop the var() fallback, and never size in em or %.`,
-  offLadderFont: `Use a rung: 14 / 16 / 18 / 20 / 24 / 30 / 36 (--type-size-* in tokens.css).`,
-  unsanctionedSizeToken: `Point font-size at a --type-size-* token, not an older type token.`,
-  undefinedToken: `That var() has no definition anywhere. Without a fallback the declaration is dropped at render.`,
-  literalFontSize: `Size text with a --type-size-* token, not a literal, whatever the unit.`,
-  clampOffRung: `A fluid font-size needs both clamp endpoints on the ladder.`,
-  displayFaceBelow20: `Bricolage is legal at 20px and up only (DESIGN.md T6). Use --type-family-base below that.`,
-  fontFamilyLiteral: `Use --type-family-base / -display / -mono instead of writing the stack out.`,
-  fontShorthandResetsNumeric: `The font: shorthand resets font-variant-numeric. Declare tabular figures AFTER it.`,
-  typePropOutsideTypeLayer: `Type belongs in design/tokens.css and design/type.css only. Group the selector into a role, or take the role class in markup. DESIGN.md §3, "How a screen joins a role".`,
 };
-
-// CEILINGS key -> the rule name that appears in typeWarnDetail. The twin of
-// TYPE_RULES in scripts/lint-design-tokens.js: change one, change the other.
-const TYPE_RULE_BY_KEY = {
-  typePropOutsideTypeLayer: "type-property-outside-type-layer",
-};
+/*
+ * The eleven type-rule hints that used to sit here went with the last ceiling in P5b.
+ * All ten type rules are errors now, so lint-design-tokens.js prints the offending
+ * line itself and this file never gets the chance to explain one. The advice did not
+ * disappear: each rule's reason is in the header of scripts/lint-design-tokens.js,
+ * beside the code that raises it. Two hints, two ceilings, no dead branches.
+ */
 
 const failures = [];
 
@@ -200,24 +157,12 @@ if (data) {
       continue;
     }
     if (actual > ceiling) {
-      // The type rules ship their own per-line detail, so name the offending
-      // lines rather than the files: there are eight rules and "which file" is
-      // not enough to tell which of them grew.
-      const rule = TYPE_RULE_BY_KEY[key];
-      const extra = rule
-        ? `\n      ${rule} hits:\n` +
-          (data.typeWarnDetail || [])
-            .filter((d) => d.includes(`[${rule}]`))
-            .map((d) => `        ${d}`)
-            .join("\n") +
-          `\n      ${HINTS[key]}`
-        : `\n      ${HINTS[key]}`;
       failures.push(
         `${key} rose to ${actual}, ceiling is ${ceiling} (+${actual - ceiling}).` +
           `\n      Design drift may only shrink. Fix the new one, or lower nothing and ask Carl.` +
           `\n      (Parallel chats share this checkout, so this can also be another session's` +
           `\n       file mid-edit. Re-run once before hunting: if it is real, it stays red.)` +
-          extra
+          `\n      ${HINTS[key]}`
       );
     }
   }
@@ -244,8 +189,7 @@ if (failures.length) {
 console.log(
   `design guard ok — ${data.scanned} files, 0 violations; ` +
     `radii ${data.literalRadius}/${CEILINGS.literalRadius}, ` +
-    `spacing ${data.offGridSpacing}/${CEILINGS.offGridSpacing}, ` +
-    `type outside the layer ${data.typePropOutsideTypeLayer}/${CEILINGS.typePropOutsideTypeLayer}; ` +
-    `nine type rules at zero, as errors; copy clean`
+    `spacing ${data.offGridSpacing}/${CEILINGS.offGridSpacing}; ` +
+    `all ten type rules at zero, as errors; copy clean`
 );
 process.exit(0);

@@ -138,7 +138,8 @@
 .ds-details > summary {
   cursor: pointer;
   padding: var(--sero-space-5);
-  font-weight: var(--type-weight-semibold);
+  /* Weight-only in design/type.css (P5b): the summary row keeps the 16px it
+     inherits and only the weight is decided elsewhere. */
 }
 .ds-details__body {
   padding: 0 var(--sero-space-5) var(--sero-space-5);
@@ -228,10 +229,8 @@
 .ds-role__use { color: var(--color-ink-dim); }
 
 /* Shared bits */
+/* .type-body + .type-body--full (P5b): the same 16/24/400, no measure added. */
 .ds-sub {
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
-  font-weight: var(--type-weight-regular);
   color: var(--color-ink-dim);
 }
 .ds-row {
@@ -267,8 +266,9 @@
   padding: var(--sero-space-1) var(--sero-space-2);
   color: var(--color-ink-dim);
   cursor: pointer;
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* .type-body + .type-body--full + .type-flush (P5b): 16px, and the line box
+     collapsed to the glyph, which is what the second .ds-rowmenu rule below used
+     to do on its own. */
 }
 .ds-rowmenu:hover {
   background: var(--color-accent-soft);
@@ -480,10 +480,8 @@
   opacity: 1;
 }
 
-/* Table extras (reuses .um-table / .um-badge / .um-row) */
-.ds-rowmenu {
-  line-height: 1;
-}
+/* Table extras (reuses .um-table / .um-badge / .um-row). The .ds-rowmenu
+   line-height: 1 that used to repeat here is in .type-flush (P5b). */
 
 /* Cards */
 .ds-cardgrid .card {
@@ -496,7 +494,8 @@
 .ds-requestcard__icon {
   flex: none;
   color: var(--color-accent);
-  font-weight: var(--type-weight-bold);
+  /* Weight-only in design/type.css (P5b): an icon medallion draws a symbol, so it
+     keeps the 700 without taking a role's size with it. */
 }
 
 /* Tabs & breadcrumb */
@@ -542,10 +541,10 @@
   border: 0;
   padding: 0;
   /* Glyph geometry: design.js renders a literal star character here, so unlike
-     .star-rating__star the font-size genuinely draws it. Tokenised only, not resized:
-     1.5rem was already the 24px rung. */
-  font-size: var(--type-size-2xl);
-  line-height: 1;
+     .star-rating__star the font-size genuinely draws it. The 24px rung and the
+     collapsed line box are in design/type.css (P5b), with the other nine glyphs;
+     no role could take it, because a role would also change the typeface and for a
+     literal star that means changing the drawing. */
   cursor: pointer;
   color: var(--sero-gold-700);
 }
@@ -557,8 +556,7 @@
   grid-template-columns: 7rem 1fr 3rem;
   align-items: center;
   gap: var(--sero-space-3);
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* .type-body + .type-body--full (P5b): a grid, so the measure comes off. */
 }
 .ds-axis__track {
   height: 10px;
@@ -573,7 +571,7 @@
 }
 .ds-axis__val {
   text-align: right;
-  font-weight: var(--type-weight-semibold);
+  /* Weight-only in design/type.css (P5b). */
 }
 
 /* Goals & legend */
@@ -815,8 +813,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sero-space-3);
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* .type-body + .type-body--full (P5b): a flex column, so the measure comes off. */
 }
 .ds-dl__row {
   display: flex;
@@ -826,9 +823,9 @@
 .ds-dl__row dt {
   color: var(--color-ink-dim);
 }
-.ds-dl__row dd {
-  font-weight: var(--type-weight-medium);
-}
+/* Weight-only in design/type.css (P5b): medium weight at 16px, which the ladder
+   only carries at 14. The value keeps the size its list gives it. */
+.ds-dl__row dd { /* type.css, weight-only */ }
 
 /* Empty / loading / tooltip */
 .ds-empty {
@@ -978,4 +975,4 @@
 }
 .ds-skcase__pair > div { display: grid; gap: var(--sero-space-2); min-width: 0; }
 /* A gap worth a second look. Not a failure: some are honest, see the plan notes. */
-.ds-skdiff--off { color: var(--sero-gold-900); font-weight: 600; }
+.ds-skdiff--off { color: var(--sero-gold-900); } /* weight-only in type.css (P5b) */

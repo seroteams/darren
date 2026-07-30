@@ -24,13 +24,13 @@ button.lp-tile--hero:hover { border-color:var(--sero-mint-700); background:linea
    it already had; it gains -0.01em and 1.5px of leading, and it gives up the last
    literal font-size on a shipped screen. The denominator stays a rung and a half below
    on purpose: on the metric role it would read as a second number of equal weight. */
-.lp-tile__value .lp-den { font-size:var(--type-size-lg); font-weight:500; color:var(--color-ink-dim); line-height: var(--type-leading-lg); }
+.lp-tile__value .lp-den { color:var(--color-ink-dim); } /* .type-body-lg + weight-only in type.css (P5b) */
 .lp-tile__delta { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 6px; margin:4px 0 2px; color:var(--color-ink-dim); }
 .lp-delta { display:inline-block; border-radius:9999px; padding:1px 10px; white-space:nowrap; background:var(--color-page); color:var(--color-ink-dim); border:1px solid var(--color-border); }
 .lp-delta--pos { background:var(--sero-mint-100); color:var(--color-positive-text); border-color:transparent; }
 .lp-delta--neg { background:var(--sero-coral-100); color:var(--color-negative-text); border-color:transparent; }
 .lp-tile__note { color:var(--color-ink-dim); }
-.lp-down { color:var(--color-negative-text); font-weight:600; }
+.lp-down { color:var(--color-negative-text); } /* weight-only in type.css (P5b) */
 .lp-wide { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:var(--sero-space-3); align-items:start; }
 .lp-colstack { display:flex; flex-direction:column; gap:var(--sero-space-3); min-width:0; }
 @media (max-width: 1100px) { .lp-wide { grid-template-columns:1fr; } }
@@ -43,15 +43,15 @@ button.lp-tile--hero:hover { border-color:var(--sero-mint-700); background:linea
 .lp-viewall:hover { text-decoration:underline; }
 .lp-spark { width:100%; height:88px; display:block; }
 .lp-bar { display:grid; grid-template-columns:6.5rem 1fr 1.5rem; align-items:center; gap:10px; margin-top:8px; }
-.lp-bar__name { color:var(--color-ink-dim); font-weight:500; }
+.lp-bar__name { color:var(--color-ink-dim); } /* weight-only in type.css (P5b) */
 .lp-bar__track { background:var(--color-page); border-radius:4px; height:13px; overflow:hidden; }
 .lp-bar__fill { height:100%; border-radius:4px; background:var(--color-accent); opacity:.85; }
 .lp-bar__fill--warn { background:var(--sero-gold-700); }
-.lp-bar__n { text-align:right; font-variant-numeric:tabular-nums; font-weight:600; }
+.lp-bar__n { text-align:right; } /* .num-tabular + weight-only in type.css (P5b) */
 .lp-pill { display:inline-block; border-radius:9999px; padding:1px 10px; white-space:nowrap; }
 .lp-pill--back { background:var(--sero-mint-100); color:var(--color-positive-text); }
 .lp-pill--once { background:var(--sero-gold-100); color:var(--sero-gold-900); }
-.lp-pill--none { background:var(--color-page); color:var(--color-ink-dim); border:1px solid var(--color-border); font-weight:500; }
+.lp-pill--none { background:var(--color-page); color:var(--color-ink-dim); border:1px solid var(--color-border); } /* weight-only in type.css (P5b) */
 .lp-pill--gone { background:var(--sero-coral-100); color:var(--color-negative-text); }
 .lp-who { display:flex; align-items:center; gap:10px; white-space:nowrap; }
 .lp-avatar { display:inline-flex; align-items:center; justify-content:center; flex:none; width:30px; height:30px; border-radius:9999px; background:var(--sero-primary-200); color:var(--color-accent-dark); }

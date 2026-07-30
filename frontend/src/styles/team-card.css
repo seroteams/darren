@@ -26,14 +26,10 @@
   border-radius: var(--sero-radius-full);
   display: grid;
   place-items: center;
-  /* Glyph geometry: an initials monogram in a 44px circle. It was the display face at
-     15px, which is both off the ladder and a DESIGN.md T6 breach, so it moves onto the
-     16px rung in the base family. The -0.01em tracking went with the display face; at
-     16px on one or two letters it was doing nothing visible. */
-  font-family: var(--type-family-base);
-  font-weight: var(--type-weight-semibold);
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* .type-heading-xs (P5b). The four declarations that used to sit here WERE that
+     role, written out: base family, 600, 16/24. P5 put them here when it moved the
+     monogram off the display face at 15px (off the ladder and a DESIGN.md T6 breach);
+     grouping the selector is the same numbers in the one file allowed to hold them. */
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
 }

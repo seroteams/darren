@@ -16,9 +16,9 @@
   padding:4px 11px; border-radius:7px; background:var(--sero-soft-200); color:var(--color-ink);
   border:1px solid var(--color-border-strong); }
 /* Glyph geometry: meeting-arcs.js renders a bare aria-hidden arrow here, never read.
-   17.6px was off the ladder and fired two guard rules; 16 clears both and keeps the
-   arrow a shade larger than the 14px chips on either side of it. */
-.arc-chip__sep { color:var(--color-ink-dim); font-size:var(--type-size-base); line-height: var(--type-leading-base); }
+   Its 16px pair is in the glyph section of design/type.css (P5b), which keeps the arrow
+   a shade larger than the 14px chips on either side of it. */
+.arc-chip__sep { color:var(--color-ink-dim); }
 .arc-body { padding:4px 16px 16px; border-top:1px solid var(--color-border); }
 .arc-sec {
   color:var(--color-ink-dim); margin:16px 0 8px; }
@@ -56,7 +56,9 @@
 /* Shared primitives, sized down for the dense editor rows (same move as
    .js-runlabel-wrap .input in buttons-inputs.css). */
 .arc-edit .input { /* .type-body + .type-body--full */ padding:0.4rem 0; }
-.arc-edit .textarea { min-height:3rem; line-height:1.5; }
+/* The 1.5 ratio was 24px on a 16px textarea, which is exactly what .type-body gives
+   .textarea now, so the declaration went rather than moved (P5b). */
+.arc-edit .textarea { min-height:3rem; }
 .arc-edit__foot { display:flex; align-items:center; gap:10px; margin-top:16px; flex-wrap:wrap; }
 .arc-edit__msg { /* .type-body */ }
 .arc-edit__msg--err { color:var(--color-negative-text); }

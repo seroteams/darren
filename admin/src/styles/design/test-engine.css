@@ -21,7 +21,7 @@
   background: var(--color-accent); color: var(--color-surface); border-color: transparent;
   animation: run-pulse 1.1s ease-in-out infinite;
 }
-.run-step--active .run-step__label { color: var(--color-accent-dark, var(--color-accent)); font-weight: 500; }
+.run-step--active .run-step__label { color: var(--color-accent-dark, var(--color-accent)); } /* weight-only in type.css (P5b) */
 .run-step--failed .run-step__dot { background: var(--color-negative); color: var(--color-surface); border-color: transparent; }
 @keyframes run-pulse {
   0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 45%, transparent); }
@@ -91,8 +91,7 @@
   display: block;
   width: 100%;
   text-align: left;
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* .type-body + .type-body--full (P5b): the same 16/24, no measure. */
   color: var(--color-ink);
   background: transparent;
   border: 0;
@@ -104,9 +103,9 @@
 .joblex-item.is-active {
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
-  /* The base .joblex-item takes no role (it inherits 16px prose), so grouping this
-     state into .type-label-strong would shrink it as well as embolden it. */
-  font-weight: 600;
+  /* The weight bump is in design/type.css (P5b), two classes deep, in the weight-only
+     group: grouping this state into .type-label-strong would shrink it to 14px as
+     well as embolden it, and the base .joblex-item is 16px prose. */
 }
 .joblex-empty { padding: 0.35rem 0.25rem; }
 
@@ -132,11 +131,9 @@
   background: none;
   cursor: pointer;
   color: var(--color-ink-mute);
-  /* Glyph geometry: job-lexicons.js renders a bare remove cross here. 1.05rem was
-     16.8px, off the ladder and a literal; 16 is a 0.8px change nobody sees and it
-     clears both rules. */
-  font-size: var(--type-size-base);
-  line-height: 1;
+  /* Glyph geometry: job-lexicons.js renders a bare remove cross here. The 16px rung
+     and the collapsed line box moved to design/type.css in P5b, with the other nine
+     glyphs. */
   padding: 0 0.3rem;
   margin-left: 0.2rem;
   vertical-align: middle;
@@ -170,7 +167,7 @@
   padding: 0.35rem 0;
 }
 .joblex-hidden__list { margin-top: 0.5rem; }
-.joblex-hidden__row .flow-glossary__term { color: var(--color-ink-mute); font-weight: var(--type-weight-regular); }
+.joblex-hidden__row .flow-glossary__term { color: var(--color-ink-mute); } /* weight-only in type.css (P5b) */
 .joblex-restore {
   border: 0;
   background: var(--color-surface-2);
@@ -250,7 +247,7 @@
 }
 .guide-ref span { color: var(--color-ink-dim); }
 .guide-ref--text { grid-template-columns: minmax(9rem, 14rem) 1fr; }
-.guide-ref--text strong { color: var(--color-ink); font-weight: var(--type-weight-semibold); }
+.guide-ref--text strong { color: var(--color-ink); } /* weight-only in type.css (P5b) */
 
 .guide-step {
   display: grid;
@@ -271,7 +268,7 @@
   color: var(--color-accent-dark);
 }
 .guide-step__body { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
-.guide-step__title { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+.guide-step__title { color: var(--color-ink); } /* weight-only in type.css (P5b) */
 .guide-step__body p { margin: 0; color: var(--color-ink-dim); }
 .guide-step__files {
   color: var(--color-ink-mute);

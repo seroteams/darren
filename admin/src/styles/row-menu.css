@@ -12,9 +12,9 @@
   padding: 4px 8px;
   border-radius: var(--radius-input);
   color: var(--color-ink-dim);
-  /* Not .type-flush: that is line-height 1, and this glyph button needs 0 so the
-     line box collapses entirely inside a 4px-padded target. No role expresses it. */
-  line-height: 0;
+  /* Not .type-flush: that is line-height 1, and this glyph button needs 0 so the line
+     box collapses entirely inside a 4px-padded target. P5b put the zero next to
+     .type-flush in design/type.css rather than leaving a second opinion out here. */
 }
 .row-menu-btn:hover {
   background: var(--color-surface-2);
@@ -50,3 +50,4 @@
 .row-menu__item--danger {
   color: var(--color-negative-text);
 }
+

@@ -342,7 +342,9 @@ export const mount: Mount = async (root, { store, setState }) => {
         err.className = "gd-panel__err";
         err.textContent = "Couldn't save. Try again.";
         err.style.cssText =
-          "color:var(--color-negative-text);font-size:var(--type-size-sm);line-height:var(--type-leading-sm);margin-right:auto;align-self:center;";
+          // The size and leading are .type-body-sm in design/type.css: an inline style
+          // is a component sheet with no file, and it drifts the same way (P5b).
+          "color:var(--color-negative-text);margin-right:auto;align-self:center;";
         foot.prepend(err);
       }
     }

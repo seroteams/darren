@@ -62,10 +62,9 @@
   color: var(--color-ink-mute);
   margin-bottom: 0.5rem;
 }
+/* .type-body + .type-body--full (P5b): the same 16/24, no measure added. */
 .notes-panel__item {
-  font-size: var(--type-size-base);
   color: var(--color-ink);
-  line-height: var(--type-leading-base);
   padding: 0.6rem 0.75rem;
   margin: 0.35rem 0;
   border-radius: 8px;
@@ -89,10 +88,9 @@
   margin-bottom: 0.25rem;
 }
 .notes-panel__ts {
-  /* Tabular figures are not part of any 14px role: only .type-metric bakes them
-     in. base.css keeps .num-tabular as the standalone escape hatch, but pairing
-     it means editing markup, so the declaration stays here for now. */
-  font-variant-numeric: tabular-nums;
+  /* Tabular figures are not part of any 14px role: only .type-metric bakes them in.
+     P5b grouped this selector into .num-tabular in design/type.css rather than
+     pairing the class in markup, which is the joining rule that file states. */
   color: var(--color-ink-mute);
   flex-shrink: 0;
 }
@@ -104,9 +102,9 @@
 .notes-panel__compose textarea {
   width: 100%;
   resize: none;
-  font: inherit;
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
+  /* .type-body + .type-body--full (P5b). The `font: inherit` went with the pair,
+     because a shorthand in a later sheet beats the role whatever its specificity. A
+     textarea inherits no type, so the role has to supply all four properties. */
   color: var(--color-ink);
   background: transparent;
   border: 1px solid var(--color-border);

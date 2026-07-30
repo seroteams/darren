@@ -96,9 +96,10 @@
   grid-template-columns: 1.25rem 1fr auto;
   padding: 0.55rem 0;
 }
+/* .type-body + .type-body--full (P5b): the 1.55 ratio was 24.8px, and the mark has
+   to sit on the same baseline as the 16px line beside it, which is 24. */
 .copyable-row__mark {
   color: var(--color-ink-mute);
-  line-height: 1.55;
 }
 .copy-snippet-btn {
   display: inline-flex;
@@ -141,9 +142,8 @@
 }
 
 /* Questioning — session context above the card */
-.question-session-ctx {
-  line-height: 1.45;
-}
+/* .type-body + .type-body--full (P5b): 1.45 was 23.2px, off the 4px grid. */
+.question-session-ctx { /* type.css */ }
 .question-session-ctx.is-empty {
   display: none;
 }
@@ -282,8 +282,10 @@
   border-radius: var(--sero-radius-full);
   justify-self: start;
   /* Content-shaping, not a type level: the model returns "Today" / "Next 1:1"
-     capitalised and the pill reads better lower-cased. No role carries it. */
-  text-transform: lowercase;
+     capitalised and the pill reads better lower-cased. lowercase REWRITES the words
+     rather than sizing them, so unlike uppercase (which .type-overline and .type-caps
+     both express) it is a stated waiver rather than a grouping (P5b). */
+  text-transform: lowercase; /* lint-tokens-ignore: shapes the CONTENT, not the type level. The model returns these pill labels capitalised. */
 }
 .action-body { color: var(--color-ink); }  /* .type-body */
 

@@ -29,19 +29,20 @@
  *                                     by swapping tokens for rem literals on a rung, which
  *                                     reads as a finished migration and is the same debt.
  *
- *   COUNTED, held to a falling ceiling by scripts/test-design-guard.js:
  *     · type-property-outside-type-layer
- *                                     THE headline rule of P6, and the one thing the
- *                                     whole migration was for: any of the eight type
+ *                                     THE headline rule, and the one thing the whole
+ *                                     migration was for: any of the eight type
  *                                     properties declared outside design/tokens.css and
  *                                     design/type.css. It replaced an invariant that
  *                                     could never be measured ("font-size appears in
  *                                     exactly two files", checked by grep) with one that
  *                                     reads declarations, so a comment, a test assertion
- *                                     and a JS object key cannot trip it. It is NOT an
- *                                     error yet because it still counts real debt; see
- *                                     the ceiling note in scripts/test-design-guard.js
- *                                     for the number and where it lives.
+ *                                     and a JS object key cannot trip it. P6 landed it
+ *                                     counted at 142 and it rose to 164; P5b swept the
+ *                                     last sixteen sheets to ZERO and flipped it here,
+ *                                     and deleted its ceiling from
+ *                                     scripts/test-design-guard.js, because an error
+ *                                     needs no ceiling.
  *
  *   RETIRED IN P6: the px-only `non-token-font` warning. Every hit it had was also a
  *   literal-font-size hit, so it reported one debt under two names and held two
@@ -105,12 +106,33 @@
  *                                all, so counting it would make the rule unsatisfiable
  *                                for every control in the app.
  *
+ *   TEXT-TRANSFORM, AND WHY THE RULE STILL COVERS IT (P5b decided this, so the next
+ *   reader does not reopen it). `uppercase` IS a type level: .type-overline is built out
+ *   of it and P5b added .type-caps for three badges that are set in caps without being
+ *   eyebrows. `capitalize` and `lowercase` are not: they REWRITE the words, so they can
+ *   never be expressed as a rung and there is nothing for a role to carry. Narrowing the
+ *   rule to drop text-transform would have taken .type-overline's uppercase out of the
+ *   layer with them, so the property stays in and the two content-shaping sites are
+ *   waived by line, each with its reason.
+ *
  *   SINGLE LINES:
  *     · `lint-tokens-ignore` in a comment ON the declaration line, with a stated reason.
- *       Live waivers: design/mobile.css (font-size: max(1rem, 1em), the iOS focus-zoom
- *       guard, which has no token form and must NOT become one) and ui/account-sheet.ts
- *       (letter-spacing: 3px, which spreads the masked password's bullets and is
- *       decoration rather than tracking).
+ *       Live waivers, four of them:
+ *         design/mobile.css      font-size: max(1rem, 1em), the iOS focus-zoom guard,
+ *                                which has no token form and must NOT become one.
+ *         ui/account-sheet.ts    letter-spacing: 3px, which spreads the masked
+ *                                password's bullets: decoration, not tracking.
+ *         design/admin-tables.css
+ *                                letter-spacing: 1px on .um-menu-btn, the same call one
+ *                                glyph over: it spreads the three dots of the row-actions
+ *                                mark. And text-transform: capitalize on .um-menu__item,
+ *                                which re-cases role names the API returns lower-cased.
+ *         design/briefing.css    text-transform: lowercase on .action-when, which
+ *                                re-cases pill labels the model returns capitalised.
+ *         styles/tailwind.css    font-weight on .link. It is the one type declaration in
+ *                                the app that cannot move: it has to stay inside
+ *                                @layer components so a Tailwind utility still beats it,
+ *                                and design/type.css is unlayered.
  *     · a line that assigns to a `--custom-property` may hold raw values.
  *
  * Usage:  node scripts/lint-design-tokens.js [--report] [--json]
@@ -547,9 +569,7 @@ const FONT_FAMILY_DECL = /(?<![-\w])font-family\s*:\s*([^;{}]+)/gi;
 const VAR_REF = /var\(\s*(--[a-z0-9-]+)/gi;
 
 /*
- * The ten type rules. NINE of them are errors as of P6 (see TYPE_ERRORS below);
- * the tenth, type-property-outside-type-layer, is counted and held to a ceiling
- * because it still carries real debt.
+ * The ten type rules. ALL TEN are errors as of P5b (see TYPE_ERRORS below).
  *
  * Severity is applied at REPORT time, not here: every rule lands in acc.typeWarns
  * so the per-rule counts and the detail lines keep working whatever its severity,
@@ -557,9 +577,9 @@ const VAR_REF = /var\(\s*(--[a-z0-9-]+)/gi;
  * acc.errors at push time instead would have emptied the very counters
  * scripts/test-design-guard.js and scripts/test-type-rules.js assert on.
  *
- * The CLI key on the right is what scripts/test-design-guard.js holds to a
- * ceiling. Every one of these must appear in the --json payload as a number, or
- * that guard hard-fails with "did not report".
+ * Every one of these must still appear in the --json payload as a number: nine of
+ * them no longer have a ceiling to breach, but scripts/test-type-rules.js asserts
+ * on the counts directly and a missing key would read as zero.
  */
 const TYPE_RULES = [
   ["relative-font-size", "relativeFontSize"],
@@ -575,18 +595,15 @@ const TYPE_RULES = [
 ];
 
 /*
- * Which of the rules above FAIL the build (P6). Every rule not named here is
- * still counted and reported, and scripts/test-design-guard.js holds it to a
- * ceiling that may only ever fall.
+ * Which of the rules above FAIL the build. All ten, as of P5b.
  *
- * The nine below were all measured at ZERO on 2026-07-31 before they were
- * flipped, so the flip could not red the build for the parallel sessions sharing
+ * Every one was measured at ZERO immediately before it was flipped, never
+ * predicted, so a flip could not red the build for the parallel sessions sharing
  * this checkout. That sequencing is the point: a rule flipped while its count is
- * non-zero is a rule that gets reverted.
- *
- * type-property-outside-type-layer is deliberately NOT here. It is the newest
- * rule and the only one still carrying real debt; see its note in
- * scripts/test-design-guard.js for the number and where it lives.
+ * non-zero is a rule that gets reverted. Nine went in P6; the tenth went here,
+ * once P5b had cleared 164 declarations out of 31 component sheets and
+ * `node scripts/lint-design-tokens.js --json` reported
+ * typePropOutsideTypeLayer: 0.
  */
 const TYPE_ERRORS = new Set([
   "relative-font-size",
@@ -598,6 +615,7 @@ const TYPE_ERRORS = new Set([
   "font-family-literal",
   "font-shorthand-resets-numeric",
   "literal-font-size",
+  "type-property-outside-type-layer",
 ]);
 
 const pushType = (acc, rel, lineNo, rule, snippet) =>
@@ -1015,7 +1033,7 @@ function main() {
 
   if (report) {
     console.log(`~ report: ${acc.report.radius} literal border-radius, ${acc.report.offGrid} off-grid spacing declarations\n`);
-    console.log(`~ type rules (P6: nine are errors, one is counted):`);
+    console.log(`~ type rules (P5b: all ten are errors):`);
     for (const [rule] of TYPE_RULES) {
       const n = (typeBy[rule] || []).length;
       console.log(`  [${rule}] : ${n}${TYPE_ERRORS.has(rule) ? " (error)" : " (counted)"}`);

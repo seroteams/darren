@@ -16,28 +16,21 @@ html {
   overflow-y: scroll;
 }
 body {
-  /* "Inter Variable" WITH the space is the family name @fontsource-variable/inter
-     actually registers. The old "InterVariable" matched nothing, so the bundled
-     webfont downloaded and never painted: machines with Inter installed fell
-     through to the local copy, everyone else got system-ui (Segoe UI on Windows,
-     ~8% wider text). Verified on screen 2026-07-30 by width-probe.
-     The stack itself moved into --type-family-base in P5. It used to be written
-     out here because the token had to stay byte-identical to it, which is a rule
-     that cannot be checked by anything and was the guard's last font-family-literal
-     hit. Reading the token is the same string by construction. */
-  font-family: var(--type-family-base);
+  /* The page's FACE, its rung and its leading moved to design/type.css in P5b, along
+     with the input/textarea/button/select rule that used to sit below this one. The
+     document default is a type decision, and after P5b type decisions live in one of
+     two files. Nothing moved on screen: an element selector loses to every class in
+     either sheet whichever one it sits in.
+     What stays here is what is NOT type: the Inter stylistic sets, the ligatures, the
+     ink and the smoothing. They stay because they are the same in every role, so a
+     role that redeclared them would be repeating the page. */
   font-feature-settings: "ss01", "cv11";
   font-variant-ligatures: common-ligatures;
   color: var(--color-ink);
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
   -webkit-font-smoothing: antialiased;
 }
 
 input, textarea, button, select {
-  font-family: inherit;
-  font-size: var(--type-size-base);
-  line-height: var(--type-leading-base);
   color: inherit;
 }
 textarea { resize: vertical; }
@@ -48,7 +41,9 @@ textarea { resize: vertical; }
   border-radius: var(--radius-input);
 }
 
-.num-tabular { font-variant-numeric: tabular-nums; }
+/* .num-tabular moved to design/type.css in P5b, and took twenty component-sheet
+   declarations with it. It is still the standalone escape hatch and it is still not a
+   role; it just lives in one of the two files allowed to hold a type property now. */
 
 /* Lucide icons (admin/src/ui/icon.js) — the one glyph system (DESIGN.md §5).
    Sit an inline icon on the text baseline and stop it shrinking in flex rows. */

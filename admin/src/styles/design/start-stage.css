@@ -240,12 +240,11 @@
 .start-point__label {
   color: var(--color-ink-mute);
 }
+/* .type-body + .type-body--full (P5b): the same 16/24 and the same pretty wrapping,
+   from the role. */
 .start-point__text {
   margin: 0;
-  font-size: var(--type-size-base);
   color: var(--color-ink);
-  line-height: var(--type-leading-base);
-  text-wrap: pretty;
 }
 
 /* What happens after the button. One paragraph doing two jobs: the back and forth in
@@ -317,8 +316,10 @@
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-ink);
-  font: inherit;
-  font-weight: 600;
+  /* .type-label-strong (P5b). The `font: inherit` went with the weight: it sits in a
+     later sheet than type.css, so it would have reset the role's 600 back to the
+     inherited 400. Measured on the live topbar before and after: 14px / 20px / 600
+     Inter either way. */
   padding: 0.3rem 0.85rem;
   margin-right: 1.25rem;
   cursor: pointer;
@@ -433,7 +434,7 @@
   gap: 0.75rem;
 }
 .intake-firstrun__title {
-  font-weight: var(--type-weight-medium);
+  /* weight-only in type.css (P5b): medium weight at the 16px it inherits. */
   color: var(--color-ink);
 }
 .intake-firstrun__steps {
@@ -520,16 +521,16 @@
   border-bottom: none;
 }
 .lex-row__num {
-  /* Tabular figures have no 14px role; .num-tabular in base.css is the escape
-     hatch and pairing it means a markup edit. Left here for Phase 6. */
-  font-variant-numeric: tabular-nums;
+  /* Tabular figures have no 14px role. P5b grouped this selector into .num-tabular
+     in design/type.css instead of pairing the class in markup, which is the joining
+     rule that file states for every other treatment. */
   color: var(--color-ink-mute);
   padding-top: 0.15rem;
 }
+/* .type-body + .type-body--full for the face and the pair, weight-only for the 500
+   (P5b). The 1.45 ratio was 23.2px, a rung and a bit off the grid; now 24. */
 .lex-row__phrase {
-  font-weight: 500;
   color: var(--color-ink);
-  line-height: 1.45;
 }
 .lex-row__context {
   margin-top: 0.25rem;

@@ -417,7 +417,7 @@ function editHtml() {
       <div class="arc-sec">Tone</div>
       <textarea class="textarea" data-f="tone" rows="2" placeholder="The register this 1:1 is asked in…">${esc(draft.tone_register || "")}</textarea>
 
-      <div class="arc-sec">Anti-patterns <span style="text-transform:none; font-weight:400;">. One per line</span></div>
+      <div class="arc-sec">Anti-patterns <span class="arc-sec__note">. One per line</span></div>
       <textarea class="textarea" data-f="anti" rows="4" placeholder="One thing to avoid per line…">${esc((draft.anti_patterns || []).join("\n"))}</textarea>
 
       <div class="arc-edit__foot">

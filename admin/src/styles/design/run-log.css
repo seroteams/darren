@@ -136,10 +136,10 @@
   user-select: all;
 }
 .run-log__tree-line--stage {
-  /* The one weight bump that cannot take .type-label: the role also swaps the
-     family back to Inter, and this line lives inside a mono ASCII tree whose
-     columns only line up in the mono face. Weight stays here on purpose. */
-  font-weight: 500;
+  /* The one weight bump that cannot take .type-label: the role also swaps the family
+     back to Inter, and this line lives inside a mono ASCII tree whose columns only
+     line up in the mono face. P5b moved it to the weight-only group in
+     design/type.css, which is exactly the case that group exists for. */
   color: var(--color-ink);
 }
 .run-log__tree-prefix {

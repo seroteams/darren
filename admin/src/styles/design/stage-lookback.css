@@ -27,8 +27,7 @@
   background: var(--color-accent-soft);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  font-size: var(--type-size-sm);
-  line-height: var(--type-leading-sm);
+  /* .type-body-sm (P5b): the same 14/20. */
   color: var(--color-ink-dim);
 }
 .lookback__eye {
@@ -37,16 +36,16 @@
   color: var(--color-accent-dark);
 }
 .lookback__what strong {
-  color: var(--color-ink);
-  font-weight: 600;
+  color: var(--color-ink); /* weight-only in type.css (P5b) */
 }
 .lookback__back {
   margin-left: auto;
   border: 0;
   background: none;
   padding: 0;
-  font: inherit;
-  font-weight: 600;
+  /* .type-label-strong (P5b). The `font: inherit` went with the weight: it sits in a
+     later sheet than type.css, so it would have reset the role's 600 back to the
+     inherited 400. The band around it is 14px, which is exactly what the role gives. */
   color: var(--color-accent-dark);
   cursor: pointer;
   text-decoration: underline;

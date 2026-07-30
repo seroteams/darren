@@ -70,9 +70,10 @@
 }
 .pa-who { /* .type-label-strong */ }
 .pa-who--you { color: var(--color-accent-dark); }
-/* A weight-DOWN modifier on a .type-label-strong base. Both are one class deep, so a
-   .type-label grouping would lose on source order. The weight stays here. */
-.pa-who--them { color: var(--color-ink-mute); font-weight: var(--type-weight-medium); }
+/* A weight-DOWN modifier on a .type-label-strong base. P5b moved it to the weight-only
+   group in design/type.css as .pa-who.pa-who--them: two classes beat one whatever the
+   source order, the same fix .btn.btn--sm already uses. */
+.pa-who--them { color: var(--color-ink-mute); }
 .pa-when {
   display: inline-flex;
   align-items: center;
@@ -121,10 +122,9 @@
   align-items: center;
   justify-content: center;
   /* Glyph geometry, not type: this is the size of a '+' drawn inside a 32px dashed
-     circle, so no reading role applies. Tokenised onto the ladder; P6 decides whether
-     an icon size can keep living in a component sheet. */
-  font-size: var(--type-size-lg);
-  line-height: 1;
+     circle, so no reading role applies. P5b answered the question this comment used to
+     ask: it cannot keep living here, so the 18px rung and the collapsed line box are in
+     design/type.css with the other nine glyphs. */
   color: var(--color-accent);
 }
 .pa-add:hover .pa-add__plus { border-color: var(--color-accent); }

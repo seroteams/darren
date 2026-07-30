@@ -21,10 +21,10 @@
 .tg-thumb .dot-todo { fill:var(--color-surface); stroke:var(--color-border); stroke-width:1.5; }
 .tg-thumb .check { fill:none; stroke:var(--color-surface); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 a.tg-card { text-decoration:none; }
-/* The trailing arrow inside .tg-card__title, which is an 18px display heading the
-   heading phase owns. It keeps its own weight rather than taking a 14px role and
-   shrinking mid-heading. */
-.tg-card__ext { color:var(--color-accent); font-weight:400; }
+/* The trailing arrow inside .tg-card__title, an 18px heading the heading phase owns.
+   It needs the weight back DOWN without a role pinning its size, which is the
+   weight-only group in design/type.css (P5b). */
+.tg-card__ext { color:var(--color-accent); }
 .tg-card__link { margin-left:auto; color:var(--color-accent-dark); }
 /* .type-heading-sm (P5): 18px unchanged, base face. DESIGN.md T6 bans Bricolage below 20. */
 .tg-card__title { color:var(--color-ink); }

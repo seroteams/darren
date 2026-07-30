@@ -168,7 +168,7 @@
   border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
-  font-variant-numeric: tabular-nums;
+  /* Tabular figures: .num-tabular in design/type.css (P5b). */
 }
 /* The alpha note: a quiet left-rule row, not a card. */
 .about-alpha {
@@ -191,9 +191,12 @@
   background: none;
   border: 0;
   padding: 0;
-  font: inherit;
+  /* .type-body-sm for the 14/20 the caveat row already had, weight-only for the 500
+     (P5b). The `font: inherit` went with them, because a shorthand in a later sheet
+     would have reset the weight straight back to 400. The .type-label role was the
+     wrong home for the 500: it would have added 0.02em of tracking to an underlined
+     word. */
   color: var(--color-accent-dark);
-  font-weight: var(--type-weight-medium);
   text-decoration: underline;
   text-underline-offset: 2px;
   cursor: pointer;
