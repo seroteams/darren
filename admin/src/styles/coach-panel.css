@@ -88,7 +88,14 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 
 /* Left column — the POC's bare Typeform look (no card chrome) */
 .cp-q { width: 100%; }
-.cp-screen .question-host, .cp-screen .thinking-host, .cp-screen .footer-host { width: 100%; }
+/* .coach-host joined this list in P2. Without it the host shrink-wrapped to its
+   max-content, and once the coach prose took a 46ch measure that max-content
+   became 464px: every hairline divider, score row and meter stopped 96px short
+   of its own column and the 50/50 mirror with the question half broke. It only
+   looked fine before because the old 62ch cap was wider than the column and so
+   never bit. Layout, not type, which is why it can live here. */
+.cp-screen .question-host, .cp-screen .thinking-host, .cp-screen .footer-host,
+.cp-screen .coach-host { width: 100%; }
 .cp-screen .question-stem { color: var(--color-ink); margin: 0; }
 .cp-screen .question-desc { color: var(--color-ink-dim); margin: var(--sero-space-2) 0 0; }
 .cp-screen .question-drill-hint { color: var(--color-ink-dim); margin: 0 0 var(--sero-space-3); }

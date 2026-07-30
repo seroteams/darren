@@ -13,6 +13,9 @@ One heading ladder across both apps, and the old system deleted rather than left
 - **`admin/src/styles/design/chip-system.test.ts`** — its `inGroup()` regex reads `base.css`; the chip recipe now lives in `type.css`. Repoint it.
 - **`admin/src/ui/notes-panel-utils.js:54`** reads `parseFloat(getComputedStyle(ta).lineHeight) || 22` for textarea auto-grow. Confirm it still grows correctly against absolute leadings — the `|| 22` fallback suggests it has returned `normal` in the past.
 
+## Carried in from Phase 2's verification
+- **`admin/src/stages/tests/runner-v2.js` still carries the old five-size stack** (32px stem, 17px hint, three 15px rows) under parallel `rv2-*` class names. It is the POC the Meeting screen was designed from, so it now shows a design the live screen deliberately no longer matches, and it holds five of the seven remaining non-token font hits in the whole tree. It is a parked gallery file, so this is a judgement call: either retire it here so the gallery stops contradicting the product, or leave it and say so plainly in the phase note.
+
 ## Not in this phase
 - The PDF, the email layout and the two template-literal style blocks — Phase 6.
 - Flipping guard rules to errors — Phase 6.

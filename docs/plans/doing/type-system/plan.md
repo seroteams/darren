@@ -5,6 +5,9 @@
 **Created:** 2026-07-30
 **Mockup:** https://claude.ai/code/artifact/401c7c5c-b460-4711-a8d1-f2f27147abb3 — _awaiting approval_ (source: `reference/type-specimen.html`)
 
+## How this plan runs (changed 2026-07-30)
+Carl: _"as this is a frontend, can you keep going?"_ — so from **Phase 3 onward the one-phase-then-stop gate is lifted**. Phases run back to back and close on evidence in the chat rather than on a walk. Phases 0, 1 and 2 were walked and green-lit normally; every phase after that is recorded as **closed unwalked** in its own file, with its measured proof, so the record never implies he saw something he did not. Anything genuinely ambiguous or irreversible still stops and asks.
+
 ## Done means
 - Nothing on any screen renders at 15px or 17px again. The near-duplicate sizes are gone.
 - Reading text everywhere is 16px and breaks at a comfortable line length instead of running the full panel width.

@@ -289,12 +289,20 @@
      A class selector cannot match a descendant selector, so the grouped stems do
      not follow the drop on their own: measured at 390px, they held 30px until
      these three lines were added. Carl's phone shot (27 Jul) is what this rule
-     exists for, a stem that ate the screen before the answer box showed. */
+     exists for, a stem that ate the screen before the answer box showed.
+
+     The rung is xl (20/28), not 2xl. The old phone recipe read --type-h2, which
+     design/mobile.css:352 re-points to 1.35rem specifically so "question stems
+     fit beside a keyboard": it computed 21.6px, not the 36px it reads at desktop.
+     Landing on 2xl (24/32) measured BIGGER than the recipe it replaced, wrapping
+     a real stem to four lines and pushing the answer box 50px further down a
+     390px screen. That is the exact failure the rule above exists to prevent, so
+     the drop goes one rung further. */
   .type-heading-xl,
   .cp-screen .question-stem,
   .questioning-card .question-stem,
   .flow-section .question-stem {
-    font-size: var(--type-size-2xl);
-    line-height: var(--type-leading-2xl);
+    font-size: var(--type-size-xl);
+    line-height: var(--type-leading-xl);
   }
 }

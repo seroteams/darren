@@ -30,7 +30,7 @@ Turn the screen Carl screenshotted from five text sizes into three, and prove th
 ## Done when
 - [ ] `grep -c "font-size\|line-height\|font-weight\|letter-spacing" admin/src/styles/coach-panel.css` returns 0
 - [ ] Exactly three rendered sizes on the screen — 30, 16, 14 — read off the real elements in the Browser pane
-- [ ] A coach hint line breaks at ~46 characters, measured in the console
+- [ ] A coach hint line is capped at 46ch, which sets as roughly **58 real characters** (`ch` is the width of a zero, so it overstates: do not expect to count 46)
 - [ ] `npm test`, `npm run typecheck`, `npm run lint:tokens`, `npm run lint:copy` clean
 - [ ] Screenshots at 1440px and 390px saved to `proof/`, plus the mockup open beside it at the same width
 - [ ] Product owner has tested the scenarios below and said go
