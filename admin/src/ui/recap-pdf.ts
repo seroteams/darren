@@ -66,6 +66,11 @@ const COLOR = {
   goldText: "#523600",   // --sero-gold-900
   accentBg: "#e9f3fb",   // --color-accent-soft (primary-200)
   accentLine: "#d7eaf8", // --sero-primary-300
+  negText: "#ac1608",    // --color-negative-text (coral-800)
+  lavTrack: "#f4f1fa",   // --sero-lavender-200
+  lavMid: "#d5c9eb",     // --sero-lavender-500
+  lavFill: "#b49edb",    // --sero-lavender-700
+  lavLine: "#c5b5e4",    // --sero-lavender-600
 };
 
 // The app logo (session-topbar.js), with the CSS-variable fill resolved to the
@@ -128,20 +133,28 @@ function eyebrow(text: string, opts: Record<string, unknown> = {}) {
   };
 }
 
-// Centre-zero score bar, mirroring the on-screen axis meter: grey track,
-// mint fill rightwards for positive, coral leftwards for negative.
+// Centre-zero score bar, mirroring the on-screen Final read meter (user-test-fixes
+// P2: the runner's lavender language) — lavender track, centre-out lavender fill,
+// a white thumb pill at the fill's leading edge. The score number stays in the
+// text column; pdfmake canvases can't carry text, so the pill is the marker.
 function axisBar(score: number) {
   const W = 150;
-  const H = 5;
+  const H = 6;
   const half = W / 2;
-  const ratio = Math.min(Math.abs(score), VISUAL_MAX) / VISUAL_MAX;
+  const clamped = Math.max(-VISUAL_MAX, Math.min(VISUAL_MAX, score));
+  const ratio = Math.abs(clamped) / VISUAL_MAX;
   const fill = half * ratio;
   const shapes: Record<string, unknown>[] = [
-    { type: "rect", x: 0, y: 0, w: W, h: H, r: 2.5, color: COLOR.border },
+    { type: "rect", x: 0, y: 0, w: W, h: H, r: 3, color: COLOR.lavTrack },
   ];
-  if (score > 0) shapes.push({ type: "rect", x: half, y: 0, w: fill, h: H, r: 2.5, color: COLOR.positive });
-  if (score < 0) shapes.push({ type: "rect", x: half - fill, y: 0, w: fill, h: H, r: 2.5, color: COLOR.negative });
-  shapes.push({ type: "rect", x: half - 0.75, y: -1, w: 1.5, h: H + 2, color: "#cccccc" });
+  if (score > 0) shapes.push({ type: "rect", x: half, y: 0, w: fill, h: H, r: 3, color: COLOR.lavFill });
+  if (score < 0) shapes.push({ type: "rect", x: half - fill, y: 0, w: fill, h: H, r: 3, color: COLOR.lavFill });
+  shapes.push({ type: "rect", x: half - 0.5, y: -1, w: 1, h: H + 2, color: COLOR.lavMid });
+  const thumbX = half + (clamped / VISUAL_MAX) * half;
+  shapes.push({
+    type: "rect", x: Math.max(0, Math.min(W - 18, thumbX - 9)), y: -2.5, w: 18, h: H + 5, r: 5.5,
+    color: "#ffffff", lineColor: COLOR.lavLine, lineWidth: 0.75,
+  });
   return { canvas: shapes, width: W, margin: [0, 3, 0, 0] };
 }
 
@@ -255,7 +268,7 @@ export function buildRecapDocDefinition(
             alignment: "right",
             bold: true,
             fontSize: 10,
-            color: a.score > 0 ? COLOR.positive : a.score < 0 ? COLOR.negative : COLOR.inkDim,
+            color: a.score > 0 ? COLOR.mintText : a.score < 0 ? COLOR.negText : COLOR.inkDim,
           },
         ],
         columnGap: 10,
@@ -327,9 +340,12 @@ export function buildRecapDocDefinition(
         margin: [0, 4, 0, 4],
       });
       for (const p of list) {
+        // No date set → no empty gutter (user-test-fixes P2: the blank pill/gap).
         content.push({
           columns: [
-            { text: capWhen(p.when), width: 66, fontSize: 9, bold: true, color: COLOR.accentDark, margin: [0, 1, 0, 0] },
+            ...(capWhen(p.when)
+              ? [{ text: capWhen(p.when), width: 66, fontSize: 9, bold: true, color: COLOR.accentDark, margin: [0, 1, 0, 0] as [number, number, number, number] }]
+              : []),
             { text: pdfSafe(p.action) },
           ],
           columnGap: 10,
@@ -346,7 +362,9 @@ export function buildRecapDocDefinition(
       .forEach((a) => {
         content.push({
           columns: [
-            { text: capWhen(a.when), width: 66, fontSize: 9, bold: true, color: COLOR.accentDark, margin: [0, 1, 0, 0] },
+            ...(capWhen(a.when)
+              ? [{ text: capWhen(a.when), width: 66, fontSize: 9, bold: true, color: COLOR.accentDark, margin: [0, 1, 0, 0] as [number, number, number, number] }]
+              : []),
             { text: pdfSafe(a.action) },
           ],
           columnGap: 10,

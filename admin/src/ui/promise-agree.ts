@@ -103,7 +103,7 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
         <div class="question-card-head">
           <div class="question-card-head__text space-y-2">
             <h1 class="question-stem leading-snug">Lock in what you two agreed</h1>
-            <div class="question-desc">Sero heard these in the conversation. Fix the wording, tap a face to set who owns it. Only what you lock in is kept.</div>
+            <div class="question-desc">Do this together, before the meeting ends. Sero heard these in the conversation. Fix the wording, tap a face to set who owns it.</div>
           </div>
         </div>
         ${listHtml()}
@@ -112,6 +112,7 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
           ${button({ label: "Lock these in", hook: "js-lock" })}
           ${button({ label: "Skip. Straight to the recap", variant: "ghost", hook: "js-skip" })}
         </div>
+        <div class="pa-skipnote text-sm text-ink-mute">Skip and these are gone: Sero will not bring them back next time.</div>
         <span class="pa-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
       </div>`;
     wire();
@@ -159,7 +160,7 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
           await opts.onLock(confirmed);
         } catch {
           btn.disabled = false;
-          if (status) status.textContent = "Couldn't save. Try again, or skip (skipping costs nothing).";
+          if (status) status.textContent = "Couldn't save. Try again, or skip and move on.";
         }
       })();
     });

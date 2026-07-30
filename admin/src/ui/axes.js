@@ -87,11 +87,13 @@ function createRow(id, celebrate) {
     <div class="axis__track" role="meter" aria-valuemin="-6" aria-valuemax="6" aria-valuenow="0" aria-label="${AXIS_LABELS[id] || id} score">
       <div class="axis__midline"></div>
       <div class="axis__fill axis__fill--neutral"></div>
+      <div class="axis__thumb${celebrate ? " axis__thumb--celebrate" : ""}">–</div>
     </div>
     <div class="axis__value num-tabular" aria-live="polite">0<span class="axis__delta"></span></div>
   `;
   const track = el.querySelector(".axis__track");
   const fill = el.querySelector(".axis__fill");
+  const thumb = el.querySelector(".axis__thumb");
   const value = el.querySelector(".axis__value");
   const deltaChip = el.querySelector(".axis__delta");
 
@@ -112,6 +114,7 @@ function createRow(id, celebrate) {
     if (baseline) {
       fill.classList.add("axis__fill--neutral");
       fill.style.transform = "scaleX(1)";
+      thumb.style.left = "50%";
       return;
     }
     if (score > 0) {
@@ -120,13 +123,18 @@ function createRow(id, celebrate) {
       fill.classList.add("axis__fill--negative");
     }
     fill.style.transform = `scaleX(${ratio})`;
+    // The thumb rides the fill's leading edge (runner language); CSS animates left.
+    thumb.style.left = `${50 + (clamped / VISUAL_MAX) * 50}%`;
   }
 
   function setValueText(score, { baseline = false } = {}) {
     value.classList.toggle("axis__value--baseline", !!baseline);
-    const text = baseline ? "–" : (score > 0 ? `+${score}` : `${score}`);
+    value.classList.toggle("axis__value--up", !baseline && score > 0);
+    value.classList.toggle("axis__value--down", !baseline && score < 0);
+    const text = baseline ? "Not rated" : (score > 0 ? `+${score}` : `${score}`);
     // Preserve chip
     value.firstChild.nodeValue = text;
+    thumb.textContent = baseline ? "–" : text;
   }
 
   function showOffscale(score) {

@@ -1,4 +1,4 @@
-import { STAGES, isInternalAdmin } from "../state.ts";
+import { STAGES, isInternalAdmin, isLiveEnv } from "../state.ts";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { revealOne } from "../ui/reveal.js";
 import { postVerdict, submitRunVerdict, savePromises } from "../../../shared/api.js";
@@ -88,8 +88,16 @@ export async function mount(root, deps) {
     setTimeout(() => wash.remove(), 1600);
   }
 
+  // The run debrief + "Copy QA prompt" are internal QA tooling. Decided BEFORE the
+  // markup because the button must not be RENDERED for anyone else (user-test-fixes
+  // P2, Machar F7: it used to render for everyone with a `hidden` class that this
+  // footer never actually hides, so a corridor tester saw it live) — and never on
+  // the live site at all, even for an internal admin walking a tester through.
+  const seesDebrief = isInternalAdmin(store.user);
+  const showQaPrompt = !!(seesDebrief && !isLiveEnv() && (store.notes || []).length && store.sessionDir);
+
   root.innerHTML = `
-    <div class="stage-wide max-w-wide mx-auto briefing-page recap-page reveal-soft relative z-10 py-8">
+    <div class="stage-wide max-w-wide mx-auto briefing-page recap-page reveal-soft relative z-10 py-4">
       <header class="briefing-block recap-hero space-y-3">
         <div class="briefing-section-head">
           <div class="eyebrow">Recap · For ${escape(store.ctx.name)}</div>
@@ -213,8 +221,10 @@ export async function mount(root, deps) {
         primary: { label: "Finish & review this 1:1" },
         secondaryHtml:
           button({ label: "Save as PDF", variant: "ghost", hook: "js-save-pdf" }) +
-          button({ label: "Copy QA prompt", variant: "ghost", hook: "js-copy-review hidden" }) +
-          `<span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>`,
+          (showQaPrompt
+            ? button({ label: "Copy QA prompt", variant: "ghost", hook: "js-copy-review" }) +
+              `<span class="js-copy-confirm feedback-confirm text-sm text-ink-mute">Copied</span>`
+            : ""),
       }) : ""}
     </div>
   `;
@@ -242,9 +252,10 @@ export async function mount(root, deps) {
   const headline = root.querySelector(".briefing-headline");
   headline.textContent = b.headline || "Recap";
 
-  // --- 2) Bullets
+  // --- 2) Bullets. Blank entries from the engine used to paint a mark with no
+  // text (user-test-fixes P2) — filter them; never render an empty dot.
   const bulletsHost = root.querySelector(".bullets-host");
-  for (const text of b.summary_bullets || []) {
+  for (const text of (b.summary_bullets || []).filter((t) => String(t || "").trim())) {
     const row = document.createElement("div");
     row.className = "bullet";
     row.innerHTML = `<div class="bullet__mark">●</div><div>${escape(text)}</div>`;
@@ -388,11 +399,15 @@ export async function mount(root, deps) {
       label.textContent = g.label;
       host.appendChild(label);
       for (const p of list) {
+        // No date set → no pill at all (user-test-fixes P2: the empty accent
+        // pill Machar saw). The lock-in screen already hides it; the recap now
+        // agrees. --nowhen collapses the 8rem date column with it.
+        const when = capWhen(p.when);
         const row = createCopyableRow({
-          className: "action-group",
+          className: "action-group" + (when ? "" : " action-group--nowhen"),
           mark: "",
           bodyHtml: `
-            <div class="action-when">${escape(capWhen(p.when))}</div>
+            ${when ? `<div class="action-when">${escape(when)}</div>` : ""}
             <div class="action-body">${escape(p.action || "")}</div>
           `,
           copyText: formatPromiseCopy(p, store.ctx?.name),
@@ -417,11 +432,12 @@ export async function mount(root, deps) {
     const host = root.querySelector(".actions-host");
     const sortedActions = [...actions].sort((a, b) => whenRank(a.when) - whenRank(b.when));
     sortedActions.forEach((a) => {
+      const when = capWhen(a.when);
       const row = createCopyableRow({
-        className: "action-group",
+        className: "action-group" + (when ? "" : " action-group--nowhen"),
         mark: "",
         bodyHtml: `
-          <div class="action-when">${escape(capWhen(a.when))}</div>
+          ${when ? `<div class="action-when">${escape(when)}</div>` : ""}
           <div class="action-body">${escape(a.action || "")}</div>
         `,
         copyText: formatActionCopy(a),
@@ -542,11 +558,11 @@ export async function mount(root, deps) {
     });
   }
 
-  // The run debrief (API time / cost / CLI replay / QA prompt) is internal QA tooling —
-  // only the internal admin role sees it. A manager just finishes the run and goes home.
-  // Absent for guests (the save card replaces the whole finish cluster).
+  // The run debrief (API time / cost / CLI replay) is internal QA tooling —
+  // only the internal admin role sees it (seesDebrief, decided above the markup).
+  // A manager just finishes the run and goes home. Absent for guests (the save
+  // card replaces the whole finish cluster).
   const finishBtn = root.querySelector(".js-wf-continue");
-  const seesDebrief = isInternalAdmin(store.user);
   if (finishBtn) {
     if (!seesDebrief) finishBtn.textContent = "Finish";
     finishBtn.addEventListener("click", () => {
@@ -607,12 +623,11 @@ export async function mount(root, deps) {
     noteInput.addEventListener("change", save);
   }
 
-  // "Copy QA prompt" — internal QA tooling (same as the run debrief above): only the
-  // internal admin sees it, and only when there are notes to discuss. Managers never see it.
+  // "Copy QA prompt" — only rendered when showQaPrompt allowed it (see above);
+  // here it just gets wired.
   const copyBtn = root.querySelector(".js-copy-review");
   const copyConfirm = root.querySelector(".js-copy-confirm");
-  if (seesDebrief && (store.notes || []).length && store.sessionDir) {
-    copyBtn.classList.remove("hidden");
+  if (copyBtn) {
     copyBtn.addEventListener("click", async () => {
       const notesPath = `${String(store.sessionDir).replace(/\\/g, "/")}/notes.md`;
       const prompt = [

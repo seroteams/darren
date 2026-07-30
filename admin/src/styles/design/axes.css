@@ -1,22 +1,27 @@
 /* -----------------------------------------------------------------------------
-   Axis bars
+   Axis bars — the recap's Final read, restyled to the RUNNER's meter language
+   (user-test-fixes P2, Machar: "does not match the design from the runner").
+   Same geometry family as .coach-meter (styles/coach-panel.css): lavender track,
+   centre-out gradient fill, numbered thumb chip. The semantics are unchanged —
+   this meter plots the ABSOLUTE score clamped to ±6, the runner's plots the
+   per-answer delta; only the look converged.
 ----------------------------------------------------------------------------- */
 .axis {
   display: grid;
   grid-template-columns: 7rem 1fr 5rem;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
 }
 .axis__label {
   font-size: var(--type-body-sm);
-  color: var(--color-ink-mute);
-  font-weight: 500;
+  color: var(--color-ink);
+  font-weight: 600;
 }
 .axis__track {
   position: relative;
-  height: 10px;
-  background: var(--sero-soft-500);
+  height: 14px;
+  background: var(--sero-lavender-200);
   border-radius: var(--sero-radius-full);
   overflow: visible;
 }
@@ -26,20 +31,18 @@
   bottom: -3px;
   left: 50%;
   width: 1px;
-  background: var(--color-border-strong);
+  background: var(--sero-lavender-500);
   transform: translateX(-0.5px);
 }
 .axis__fill {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 50%;
   border-radius: var(--sero-radius-full);
-  background: var(--color-neutral);
+  background: linear-gradient(90deg, var(--sero-lavender-400), var(--sero-lavender-700));
   transform: scaleX(0);
   transform-origin: right center;
-  transition: transform var(--dur-hero) var(--ease-out-expo),
-              background-color var(--dur-medium) var(--ease-out-expo);
+  transition: transform var(--dur-hero) var(--ease-out-expo);
 }
 .axis__fill--celebrate {
   transition-timing-function: var(--ease-spring);
@@ -47,18 +50,41 @@
 .axis__fill--positive {
   left: 50%;
   transform-origin: left center;
-  background: var(--color-positive);
 }
 .axis__fill--negative {
   right: 50%;
   transform-origin: right center;
-  background: var(--color-negative);
 }
 .axis__fill--neutral {
   left: 50%;
   width: 4px;
   transform: scaleX(1);
-  background: var(--color-neutral);
+  background: var(--sero-lavender-500);
+}
+/* The numbered thumb chip (runner language: .coach-meter__thumb) */
+.axis__thumb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 36px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: var(--sero-radius-full);
+  background: var(--color-surface);
+  border: 1px solid var(--sero-lavender-600);
+  box-shadow: var(--shadow-card);
+  display: grid;
+  place-items: center;
+  font-size: var(--type-body-sm);
+  font-weight: 700;
+  color: var(--sero-lavender-900);
+  font-variant-numeric: tabular-nums;
+  transition: left var(--dur-hero) var(--ease-out-expo);
+  z-index: 1;
+}
+.axis__thumb--celebrate {
+  transition-timing-function: var(--ease-spring);
 }
 .axis__value {
   text-align: right;
@@ -66,9 +92,12 @@
   font-weight: 600;
   color: var(--color-ink);
 }
+.axis__value--up { color: var(--color-positive-text); }
+.axis__value--down { color: var(--color-negative-text); }
 .axis__value--baseline {
   color: var(--color-ink-mute);
   font-weight: 500;
+  font-size: var(--type-body-sm);
 }
 .axis__delta {
   display: inline-block;
@@ -99,4 +128,3 @@
   color: var(--color-ink-mute);
   margin-left: 0.3rem;
 }
-

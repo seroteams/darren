@@ -13,6 +13,7 @@ import { mount as welcomeRedesign } from "./tests/welcome-redesign.js";
 import { mount as welcomeOptions } from "./tests/welcome-options.js";
 import { mount as welcomeLean } from "./tests/welcome-lean.js";
 import { mount as howItWorks } from "./tests/how-it-works.js";
+import { mount as recapFixes } from "./tests/recap-fixes.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
@@ -180,7 +181,37 @@ const THUMB_HOWITWORKS = `
     <rect class="ink" x="28" y="86" width="180" height="6" rx="3" opacity="0.3"/>
   </svg>`;
 
+// Recap fixes: the three-act recap with the lavender meter panel on the right pair.
+const THUMB_RECAPFIX = `
+  <svg class="tg-thumb" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="bg" width="300" height="120"/>
+    <rect class="ink" x="16" y="14" width="180" height="10" rx="5" opacity="0.6"/>
+    <rect class="card" x="16" y="36" width="128" height="70" rx="8"/>
+    <rect class="ink" x="28" y="48" width="100" height="6" rx="3" opacity="0.35"/>
+    <rect class="ink" x="28" y="62" width="88" height="6" rx="3" opacity="0.35"/>
+    <rect class="ink" x="28" y="76" width="96" height="6" rx="3" opacity="0.35"/>
+    <rect class="card" x="152" y="36" width="132" height="70" rx="8"/>
+    <rect x="164" y="50" width="108" height="8" rx="4" fill="var(--sero-lavender-300)"/>
+    <circle cx="196" cy="54" r="7" fill="var(--color-surface)" stroke="var(--sero-lavender-700)"/>
+    <rect x="164" y="70" width="108" height="8" rx="4" fill="var(--sero-lavender-300)"/>
+    <circle cx="244" cy="74" r="7" fill="var(--color-surface)" stroke="var(--sero-lavender-700)"/>
+    <rect x="164" y="90" width="108" height="8" rx="4" fill="var(--sero-lavender-300)"/>
+    <circle cx="218" cy="94" r="7" fill="var(--color-surface)" stroke="var(--sero-lavender-700)"/>
+  </svg>`;
+
 const TESTS = [
+  {
+    id: "recap-fixes",
+    title: "Recap fixes. Machar board, P2",
+    blurb:
+      "The REAL recap stage mounted on Machar-shaped fixture data, so the user-test fixes are walkable without a paid 1:1: the Final read wearing the runner's lavender meters, dots beside their sentences, a dateless promise with no empty pill, and the tighter top spacing. The fixture deliberately includes each defect's trigger.",
+    date: "30 Jul 2026",
+    tag: "runner",
+    thumb: THUMB_RECAPFIX,
+    mount: recapFixes,
+    bare: true,
+    wide: true,
+  },
   {
     id: "how-it-works",
     title: "How it works. Three shapes",
@@ -344,5 +375,9 @@ export async function mount(root) {
     test.mount(root.querySelector(".js-test-host"));
   };
 
-  openGallery();
+  // Deep link: /test?t=<id> opens that test directly (unknown id → gallery).
+  // Lets a proof screenshot or a chat link land on the exact mock.
+  const deepId = new URLSearchParams(window.location.search).get("t");
+  if (deepId) openTest(deepId);
+  else openGallery();
 }

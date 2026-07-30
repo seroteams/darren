@@ -67,9 +67,22 @@
   gap: 0.75rem;
   flex-wrap: wrap;
 }
+/* The dot sits BESIDE its sentence (user-test-fixes P2). .bullet__mark had no
+   layout rule anywhere, so two block divs stacked and every ● floated alone on
+   its own line — the same grid treatment .copyable-row already uses. */
 .bullets-host .bullet {
   font-size: var(--type-body);
   line-height: 1.55;
+  display: grid;
+  grid-template-columns: 1rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.25rem 0;
+}
+.bullet__mark {
+  color: var(--sero-lavender-700);
+  font-size: 0.65em;
+  line-height: inherit;
 }
 
 /* Copy-to-clipboard rows (actions + reminders) */
@@ -264,6 +277,11 @@
   grid-template-columns: 8rem 1fr;
   gap: 1rem;
   align-items: baseline;
+}
+/* No date on the promise → no pill AND no reserved 8rem gutter (user-test-fixes
+   P2: an empty accent pill used to render here). */
+.action-group--nowhen.copyable-row .copyable-row__content {
+  grid-template-columns: 1fr;
 }
 .action-group:last-child { border-bottom: none; }
 .action-when {
