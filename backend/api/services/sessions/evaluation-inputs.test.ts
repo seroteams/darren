@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildEvaluationInputs } from "./evaluation-inputs.ts";
-import type { Session } from "../../../shared/session.types.ts";
+import { PLANNER_FAILED_NOTE } from "../../../engine/run-health.ts";
+import type { PriorCheckin, Session } from "../../../shared/session.types.ts";
 
 // Guard (runner-gates Phase 3): the customer-facing evaluation input must never
 // carry the per-turn planner note. That note holds engine-only vocabulary tags
@@ -74,4 +75,49 @@ test("buildEvaluationInputs: the prep brief is projected when present", () => {
 test("buildEvaluationInputs: no prep brief projects as null", () => {
   const out = buildEvaluationInputs(sessionWithTaggedNote());
   assert.equal(out.prep, null);
+});
+
+// Preview/live parity: the live evaluation stream (session-streams.ts) also sends
+// scoring health rebuilt from the transcript and the card-zero prior check-in.
+// Without these the preview always rendered the "OK" scoring default and the
+// no-check-in sentinel even when the live prompt would differ (engine honesty).
+
+test("buildEvaluationInputs: scoring health is rebuilt from the transcript", () => {
+  const session = sessionWithTaggedNote();
+  session.transcript.push(
+    {
+      question: { name: "What blocks you?", alias: "q2", stage: "friction" },
+      answer: "",
+      skipped: false,
+      note: PLANNER_FAILED_NOTE,
+      unbooked_signal: [],
+    } as unknown as Session["transcript"][number],
+    {
+      question: { name: "Anything else?", alias: "q3", stage: "close" },
+      answer: "",
+      skipped: true,
+      unbooked_signal: [],
+    } as unknown as Session["transcript"][number],
+  );
+  const out = buildEvaluationInputs(session);
+  // 2 non-skipped turns, 1 carrying the planner-failed sentinel.
+  assert.deepEqual(out.scoring, { failures: 1, scoredTurns: 2 });
+});
+
+test("buildEvaluationInputs: the prior check-in is projected when present", () => {
+  const session = sessionWithTaggedNote();
+  const checkin: PriorCheckin = {
+    fromSessionId: "s-prior",
+    skipped: false,
+    outcomes: [{ id: "p1", owner: "manager", action: "Book the review", outcome: "yes" }],
+    at: 1753800000000,
+  };
+  session.priorCheckin = checkin;
+  const out = buildEvaluationInputs(session);
+  assert.deepEqual(out.priorCheckin, checkin);
+});
+
+test("buildEvaluationInputs: no prior check-in projects as null", () => {
+  const out = buildEvaluationInputs(sessionWithTaggedNote());
+  assert.equal(out.priorCheckin, null);
 });

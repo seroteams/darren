@@ -6,6 +6,7 @@
 
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
 import { serialize } from "../../../engine/axes.ts";
+import { scoringFromTranscript } from "../../../engine/run-health.ts";
 import { formatNotesForEvaluation, stripTesterNoteLines } from "./notes-format.ts";
 import type { Session } from "../../../shared/session.types.ts";
 
@@ -42,6 +43,11 @@ function buildEvaluationInputs(session: Session) {
       summary: session.agendaInput?.summary ?? null,
       covered: session.agendaCovered ?? null,
     },
+    // Scoring health rebuilt from the transcript, as the live stream does — without
+    // it the preview always rendered the "OK" scoring default.
+    scoring: scoringFromTranscript(session.transcript),
+    // Promises loop phase 3: card zero's taps on last time's promises.
+    priorCheckin: session.priorCheckin ?? null,
     // No dead wires phase 1: the prep brief flows to the briefing (plan-vs-reality).
     prep: session.preparationResult?.brief || null,
   };
