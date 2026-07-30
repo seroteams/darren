@@ -2,6 +2,35 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "bankwait-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3801",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3801
+    },
+    {
+      "name": "bankwait-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3801",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3805",
+        "--strictPort"
+      ],
+      "port": 3805
+    },
+    {
       "name": "fav-live-static",
       "runtimeExecutable": "node",
       "runtimeArgs": [
@@ -1349,6 +1378,20 @@
       "port": 3705
     },
     {
+      "name": "skjump-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3611",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3613",
+        "--strictPort"
+      ],
+      "port": 3613
+    },
+    {
       "name": "hints-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -1374,6 +1417,60 @@
         "--strictPort"
       ],
       "port": 3393
+    },
+    {
+      "name": "utfix-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3901",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3901
+    },
+    {
+      "name": "utfix-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3901",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3903",
+        "--strictPort"
+      ],
+      "port": 3903
+    },
+    {
+      "name": "stars-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3921",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3921
+    },
+    {
+      "name": "stars-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3921",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3923",
+        "--strictPort"
+      ],
+      "port": 3923
     }
   ]
 }

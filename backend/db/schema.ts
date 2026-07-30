@@ -383,6 +383,14 @@ export const feedbackNotes = pgTable(
      *  Both NULL on a plain Send-feedback note. */
     runId: text("run_id"),
     verdict: text("verdict"),
+    /** Which feedback moment this row is (brief-star-rating): "verdict" for the recap
+     *  tap, "brief_rating" for the prep brief's out-of-5. NULL on a plain Send-feedback
+     *  note. Load-bearing, not decorative: ONE run now carries TWO run-tied rows, and
+     *  the repo's read-then-write upserts key on (run_id, kind). Without it the prep
+     *  score and the recap verdict overwrite each other silently. */
+    kind: text("kind"),
+    /** The prep brief's score, 1-5 (brief-star-rating). NULL on every other kind. */
+    stars: integer("stars"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [

@@ -188,3 +188,44 @@
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   The brief's out-of-5 tap (brief-star-rating). Sits between the brief and the
+   wizard footer: a quiet flat card, question left, stars right. The stars need
+   no rules here — .star-rating ships in admin-tables.css and the whole design
+   system is loaded globally (frontend/src/main.js).
+--------------------------------------------------------------------------- */
+.pv-rate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sero-space-4);
+  flex-wrap: wrap;
+}
+.pv-rate__q {
+  font-size: var(--type-body);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-ink);
+  margin: 0;
+}
+.pv-rate__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sero-space-3);
+}
+.pv-rate__status {
+  font-size: var(--type-body-sm);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-positive-text);
+  white-space: nowrap;
+}
+
+/* Phones: question above, stars below and full-width, so five 26px targets
+   never squeeze onto a shared line with the text. */
+@media (max-width: 30rem) {
+  .pv-rate {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sero-space-3);
+  }
+}

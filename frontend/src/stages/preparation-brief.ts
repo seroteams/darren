@@ -269,6 +269,22 @@ export function ctaRowHtml(): string {
   });
 }
 
+// The one-tap score on the brief (brief-star-rating). Rendered here rather than
+// inside a variant renderer so all 12 layouts get it from one place, and sits
+// between the brief and the footer — never inside the button row. The stars
+// themselves are appended by preparation.ts (createStarRating owns that DOM);
+// this only lays out the question, the host, and the status line.
+export function briefRatingHtml(): string {
+  return `
+    <section class="pv-rate card-flat">
+      <p class="pv-rate__q" id="pv-rate-q">How good is this brief?</p>
+      <div class="pv-rate__right">
+        <div class="pv-rate__stars js-brief-rating-host"></div>
+        <span class="pv-rate__status js-brief-rating-status" role="status" aria-live="polite"></span>
+      </div>
+    </section>`;
+}
+
 /* ---------------------------------------------------------------------------
    Copy all — built from the same slots the screen renders, so clipboard and
    page always agree

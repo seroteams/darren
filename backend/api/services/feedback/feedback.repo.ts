@@ -5,13 +5,14 @@
 // same shape as error-log.repo.ts. The service depends on the interface, so it's
 // unit-tested against an in-memory fake without a database.
 
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "../../../db/client.ts";
 import { feedbackNotes, users, organizations } from "../../../db/schema.ts";
 
 // One feedback note as stored. Kept minimal on purpose (simplicity rule): the message,
 // who sent it, when, and the page they were on — nothing speculative. `runId`/`verdict`
-// only appear on a briefing verdict tap (validation-kit Phase 3).
+// only appear on a briefing verdict tap (validation-kit Phase 3); `stars` only on a prep
+// brief rating (brief-star-rating). `kind` says which of the two a run-tied row is.
 export interface FeedbackRecord {
   at: string; // ISO timestamp, stamped by the controller
   userId: string | null;
@@ -20,7 +21,12 @@ export interface FeedbackRecord {
   page?: string;
   runId?: string;
   verdict?: "yes" | "no";
+  stars?: number;
+  kind?: FeedbackNoteKind;
 }
+
+/** The two run-tied feedback moments. A plain Send-feedback note carries neither. */
+export type FeedbackNoteKind = "verdict" | "brief_rating";
 
 /** One note as read for the Feedback screen (createdAt is a Date; the service turns it into ISO). */
 export interface FeedbackNoteRow {
@@ -32,6 +38,8 @@ export interface FeedbackNoteRow {
   message: string;
   runId: string | null;
   verdict: string | null;
+  stars: number | null;
+  kind: string | null;
   createdAt: Date;
 }
 
@@ -41,6 +49,10 @@ export interface FeedbackRepo {
    *  updates that run's row (keeping its original tap time) instead of inserting a
    *  duplicate. The comment is only overwritten when the new record carries one. */
   upsertVerdict(record: FeedbackRecord & { runId: string; verdict: "yes" | "no" }): Promise<void>;
+  /** Write the prep brief's 1-5 score, ONE row per run: re-tapping a different score
+   *  updates that run's row. Scoped to its own kind, so it never lands on the recap
+   *  verdict's row for the same run. */
+  upsertBriefRating(record: FeedbackRecord & { runId: string; stars: number }): Promise<void>;
   /** The most recent `limit` notes across every company, newest first. */
   listRecent(limit: number): Promise<FeedbackNoteRow[]>;
   /** Permanently delete one note. Returns true if a row matched the id, false if none did. */
@@ -80,15 +92,21 @@ export const pgFeedbackRepo: FeedbackRepo = {
     // new one arrives — an empty re-tap must not wipe an earlier comment); insert on
     // the first tap. run_id has no unique constraint, so this is a read-then-write —
     // fine for a human tapping one button.
-    const set: { verdict: string; userId: string | null; orgId: string | null; message?: string } = {
+    //
+    // The kind filter is load-bearing (brief-star-rating): the prep brief now writes a
+    // SECOND run-tied row for the same run. Matching on run_id alone would let a verdict
+    // tap land on the brief rating's row and wipe the score. Legacy rows were stamped
+    // kind = 'verdict' by migration 0023, so they still match.
+    const set: { verdict: string; kind: string; userId: string | null; orgId: string | null; message?: string } = {
       verdict: record.verdict,
+      kind: "verdict",
       ...identityColumns(record),
     };
     if (record.message) set.message = record.message;
     const updated = await db
       .update(feedbackNotes)
       .set(set)
-      .where(eq(feedbackNotes.runId, record.runId))
+      .where(and(eq(feedbackNotes.runId, record.runId), eq(feedbackNotes.kind, "verdict")))
       .returning({ id: feedbackNotes.id });
     if (updated.length > 0) return;
     await db.insert(feedbackNotes).values({
@@ -96,6 +114,27 @@ export const pgFeedbackRepo: FeedbackRepo = {
       message: record.message,
       runId: record.runId,
       verdict: record.verdict,
+      kind: "verdict",
+      createdAt: new Date(record.at),
+    });
+  },
+  async upsertBriefRating(record) {
+    const db = getDb();
+    // Same read-then-write shape as upsertVerdict, scoped to this kind so the two
+    // run-tied moments stay independent. Re-tapping a different score overwrites the
+    // score and keeps the original tap time — the first reaction is when it happened.
+    const updated = await db
+      .update(feedbackNotes)
+      .set({ stars: record.stars, kind: "brief_rating", ...identityColumns(record) })
+      .where(and(eq(feedbackNotes.runId, record.runId), eq(feedbackNotes.kind, "brief_rating")))
+      .returning({ id: feedbackNotes.id });
+    if (updated.length > 0) return;
+    await db.insert(feedbackNotes).values({
+      ...identityColumns(record),
+      message: record.message,
+      runId: record.runId,
+      stars: record.stars,
+      kind: "brief_rating",
       createdAt: new Date(record.at),
     });
   },
@@ -111,6 +150,8 @@ export const pgFeedbackRepo: FeedbackRepo = {
         message: feedbackNotes.message,
         runId: feedbackNotes.runId,
         verdict: feedbackNotes.verdict,
+        stars: feedbackNotes.stars,
+        kind: feedbackNotes.kind,
         createdAt: feedbackNotes.createdAt,
       })
       .from(feedbackNotes)

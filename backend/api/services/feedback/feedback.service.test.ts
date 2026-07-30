@@ -5,20 +5,23 @@ import type { FeedbackRepo, FeedbackRecord, FeedbackNoteRow } from "./feedback.r
 
 // An in-memory repo proves the service logic is storage-agnostic — no real database
 // in the test (the Phase 004 injected-boundary seam; mirrors error-log.service.test.ts).
-function fakeRepo(rows: FeedbackNoteRow[] = []): { repo: FeedbackRepo; records: FeedbackRecord[]; verdicts: FeedbackRecord[]; limits: number[]; deleted: string[] } {
+function fakeRepo(rows: FeedbackNoteRow[] = []): { repo: FeedbackRepo; records: FeedbackRecord[]; verdicts: FeedbackRecord[]; ratings: FeedbackRecord[]; limits: number[]; deleted: string[] } {
   const records: FeedbackRecord[] = [];
   const verdicts: FeedbackRecord[] = [];
+  const ratings: FeedbackRecord[] = [];
   const limits: number[] = [];
   const deleted: string[] = [];
   return {
     repo: {
       append: async (r) => { records.push(r); },
       upsertVerdict: async (r) => { verdicts.push(r); },
+      upsertBriefRating: async (r) => { ratings.push(r); },
       listRecent: async (limit) => { limits.push(limit); return rows; },
       remove: async (id) => { deleted.push(id); return rows.some((r) => r.id === id); },
     },
     records,
     verdicts,
+    ratings,
     limits,
     deleted,
   };
@@ -79,6 +82,8 @@ test("listRecent maps rows to views with ISO dates and wraps them in { notes }",
     message: "love it",
     runId: null,
     verdict: null,
+    stars: null,
+    kind: null,
     createdAt: new Date("2026-07-05T10:00:00.000Z"),
   };
   const { repo } = fakeRepo([row]);
@@ -93,6 +98,8 @@ test("listRecent maps rows to views with ISO dates and wraps them in { notes }",
     message: "love it",
     runId: null,
     verdict: null,
+    stars: null,
+    kind: null,
     createdAt: "2026-07-05T10:00:00.000Z",
   });
 });
@@ -152,7 +159,7 @@ test("submitVerdict accepts an anonymous caller — a guest's tap still counts",
 test("listRecent passes a verdict row's runId and verdict through to the view", async () => {
   const row: FeedbackNoteRow = {
     id: "f2", email: null, userName: null, company: null, page: null,
-    message: "", runId: "run-1", verdict: "yes",
+    message: "", runId: "run-1", verdict: "yes", stars: null, kind: "verdict",
     createdAt: new Date("2026-07-05T10:00:00.000Z"),
   };
   const { repo } = fakeRepo([row]);
@@ -172,7 +179,7 @@ test("listRecent asks the repo for a bounded number of rows and passes an empty 
 test("remove deletes an existing note and returns its id", async () => {
   const row: FeedbackNoteRow = {
     id: "f1", email: null, userName: null, company: null, page: null,
-    message: "junk", runId: null, verdict: null, createdAt: new Date(AT),
+    message: "junk", runId: null, verdict: null, stars: null, kind: null, createdAt: new Date(AT),
   };
   const { repo, deleted } = fakeRepo([row]);
   const out = await createFeedbackService(repo).remove("f1");
@@ -189,4 +196,94 @@ test("remove rejects a missing id without touching the repo", async () => {
 test("remove 404s when no row matches the id", async () => {
   const { repo } = fakeRepo();
   await assert.rejects(() => createFeedbackService(repo).remove("nope"), /not found/i);
+});
+
+// --- brief-star-rating: the prep brief's out-of-5 tap -----------------------
+// A second feedback moment in the SAME run as the recap verdict, so it must ride
+// its own `kind` and never touch the verdict's row. Stars only, no comment.
+
+test("submitBriefRating upserts the score tied to the run, on its own kind", async () => {
+  const { repo, ratings, verdicts, records } = fakeRepo();
+  const out = await createFeedbackService(repo).submitBriefRating({ runId: "run-1", stars: 4 }, ID, AT);
+  assert.deepEqual(out, { ok: true });
+  assert.equal(records.length, 0); // never mixed into the plain-note path
+  assert.equal(verdicts.length, 0); // nor the verdict path — that's the collision this guards
+  assert.equal(ratings.length, 1);
+  assert.equal(ratings[0]?.runId, "run-1");
+  assert.equal(ratings[0]?.stars, 4);
+  assert.equal(ratings[0]?.kind, "brief_rating");
+  assert.equal(ratings[0]?.message, ""); // no comment on this one, by design
+  assert.equal(ratings[0]?.at, AT);
+  assert.equal(ratings[0]?.userId, "u1");
+});
+
+test("submitBriefRating accepts every score from 1 to 5", async () => {
+  const { repo, ratings } = fakeRepo();
+  const service = createFeedbackService(repo);
+  for (const n of [1, 2, 3, 4, 5]) await service.submitBriefRating({ runId: "run-1", stars: n }, ID, AT);
+  assert.deepEqual(ratings.map((r) => r.stars), [1, 2, 3, 4, 5]);
+});
+
+test("submitBriefRating rejects a score outside 1 to 5 and writes nothing", async () => {
+  const { repo, ratings } = fakeRepo();
+  const service = createFeedbackService(repo);
+  for (const bad of [0, 6, -1, 99]) {
+    await assert.rejects(() => service.submitBriefRating({ runId: "r", stars: bad }, ID, AT), /1 to 5/i);
+  }
+  assert.equal(ratings.length, 0);
+});
+
+test("submitBriefRating rejects a non-integer or non-number score and writes nothing", async () => {
+  const { repo, ratings } = fakeRepo();
+  const service = createFeedbackService(repo);
+  for (const bad of [3.5, "3", null, undefined, NaN, true]) {
+    await assert.rejects(() => service.submitBriefRating({ runId: "r", stars: bad }, ID, AT), /1 to 5/i);
+  }
+  assert.equal(ratings.length, 0);
+});
+
+test("submitBriefRating rejects a missing run id and writes nothing", async () => {
+  const { repo, ratings } = fakeRepo();
+  await assert.rejects(() => createFeedbackService(repo).submitBriefRating({ runId: "  ", stars: 3 }, ID, AT), /run/i);
+  assert.equal(ratings.length, 0);
+});
+
+test("submitBriefRating accepts an anonymous caller — a guest's score still counts", async () => {
+  const { repo, ratings } = fakeRepo();
+  await createFeedbackService(repo).submitBriefRating(
+    { runId: "run-g", stars: 5 }, { userId: null, orgId: null }, AT,
+  );
+  assert.equal(ratings[0]?.userId, null);
+  assert.equal(ratings[0]?.orgId, null);
+  assert.equal(ratings[0]?.runId, "run-g");
+});
+
+test("a brief rating and a verdict on the SAME run go to different repo calls", async () => {
+  const { repo, ratings, verdicts } = fakeRepo();
+  const service = createFeedbackService(repo);
+  await service.submitVerdict({ runId: "run-1", verdict: "yes", message: "sharper" }, ID, AT);
+  await service.submitBriefRating({ runId: "run-1", stars: 4 }, ID, AT);
+  assert.equal(verdicts.length, 1);
+  assert.equal(verdicts[0]?.message, "sharper"); // untouched by the rating
+  assert.equal(ratings.length, 1);
+  assert.equal(ratings[0]?.stars, 4);
+  assert.notEqual(verdicts[0]?.kind, ratings[0]?.kind); // the discriminator that keeps them apart
+});
+
+test("submitVerdict stamps its own kind so the two upserts can't collide", async () => {
+  const { repo, verdicts } = fakeRepo();
+  await createFeedbackService(repo).submitVerdict({ runId: "run-1", verdict: "no" }, ID, AT);
+  assert.equal(verdicts[0]?.kind, "verdict");
+});
+
+test("listRecent passes a brief rating's stars and kind through to the view", async () => {
+  const row: FeedbackNoteRow = {
+    id: "f3", email: null, userName: null, company: null, page: null,
+    message: "", runId: "run-1", verdict: null, stars: 4, kind: "brief_rating",
+    createdAt: new Date("2026-07-05T10:00:00.000Z"),
+  };
+  const { repo } = fakeRepo([row]);
+  const out = await createFeedbackService(repo).listRecent();
+  assert.equal(out.notes[0]?.stars, 4);
+  assert.equal(out.notes[0]?.kind, "brief_rating");
 });

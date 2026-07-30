@@ -41,6 +41,20 @@ export async function submitVerdict(c: RequestContext): Promise<void> {
   c.json(200, result);
 }
 
+/** POST /api/v1/feedback/brief-rating — the prep brief's out-of-5 tap (brief-star-rating).
+ *  Same anonymous tolerance as the verdict route: a guest's score counts. Origin-guarded
+ *  in server.ts; the service validates the score and the run id. */
+export async function submitBriefRating(c: RequestContext): Promise<void> {
+  const identity = await buildIdentity(c.req);
+  const body = asRecord(await c.readBody());
+  const result = await service.submitBriefRating(
+    { runId: body.runId, stars: body.stars },
+    { userId: identity.userId, orgId: identity.orgId },
+    new Date().toISOString()
+  );
+  c.json(200, result);
+}
+
 /** GET /api/v1/admin/feedback — the most recent notes across every company, newest first. */
 export async function list(c: RequestContext): Promise<void> {
   c.json(200, await service.listRecent());

@@ -280,6 +280,10 @@ async function main(): Promise<void> {
   // of value. No login wall (a guest's tap counts); origin-guarded like the error
   // reports, and the service upserts so re-taps can't pile up rows.
   router.add("POST", "/api/v1/feedback/verdict", guardedV1(feedback.submitVerdict));
+  // prep brief star rating (brief-star-rating) — "How good is this brief?", 1-5, tapped
+  // before the manager walks in. Same shape as the verdict route: no login wall, origin-
+  // guarded, upserted per run so a re-tap corrects the score instead of piling up rows.
+  router.add("POST", "/api/v1/feedback/brief-rating", guardedV1(feedback.submitBriefRating));
 
   // client error reports (error-log Phase 3) — the app POSTs a browser crash / failed load
   // here so it lands in the same error_logs table (source "browser"). Not superadmin-gated

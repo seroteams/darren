@@ -6,6 +6,11 @@
 
 import type { FeedbackRepo, FeedbackRecord, FeedbackNoteRow } from "./feedback.repo.ts";
 
+/** The prep brief's score is out of 5 (Carl, 2026-07-30) — the same scale as the
+ *  run rating, and the same control. Whole numbers only. */
+const MIN_STARS = 1;
+const MAX_STARS = 5;
+
 const MAX_LEN = 2000; // a short note, not a transcript
 const MAX_PAGE_LEN = 200;
 
@@ -26,6 +31,13 @@ export interface VerdictInput {
   message?: unknown;
 }
 
+/** The prep brief's out-of-5 tap (brief-star-rating): "How good is this brief?",
+ *  tied to the run. Stars only, no comment. */
+export interface BriefRatingInput {
+  runId: unknown;
+  stars: unknown;
+}
+
 const MAX_RUN_ID_LEN = 100;
 
 export interface FeedbackIdentity {
@@ -43,6 +55,8 @@ export interface FeedbackNoteView {
   message: string;
   runId: string | null;
   verdict: string | null;
+  stars: number | null;
+  kind: string | null;
   createdAt: string;
 }
 
@@ -51,6 +65,9 @@ export interface FeedbackService {
   /** Record a briefing verdict tap — one row per run (an upsert: a re-tap or a
    *  late comment updates the row). Anonymous callers allowed: a guest's tap counts. */
   submitVerdict(input: VerdictInput, identity: FeedbackIdentity, at: string): Promise<{ ok: true }>;
+  /** Record the prep brief's 1-5 score — one row per run, on its own kind so it never
+   *  collides with that run's verdict. Anonymous callers allowed, same reasoning. */
+  submitBriefRating(input: BriefRatingInput, identity: FeedbackIdentity, at: string): Promise<{ ok: true }>;
   /** The most recent notes across every company, newest first. */
   listRecent(): Promise<{ notes: FeedbackNoteView[] }>;
   /** Permanently delete one note. 400 on a missing id, 404 when nothing matches. */
@@ -93,6 +110,28 @@ export function createFeedbackService(repo: FeedbackRepo): FeedbackService {
         message: comment.slice(0, MAX_LEN), // "" on a bare tap — still a valid row
         runId: runId.slice(0, MAX_RUN_ID_LEN),
         verdict,
+        kind: "verdict",
+      });
+      return { ok: true };
+    },
+    async submitBriefRating(input, identity, at) {
+      // Whole numbers only, in range. `typeof NaN === "number"`, so lean on
+      // Number.isInteger rather than a typeof check.
+      const stars = input.stars;
+      if (typeof stars !== "number" || !Number.isInteger(stars) || stars < MIN_STARS || stars > MAX_STARS) {
+        throw Object.assign(new Error("The score must be a whole number from 1 to 5."), { status: 400 });
+      }
+      const runId = typeof input.runId === "string" ? input.runId.trim() : "";
+      if (!runId) throw Object.assign(new Error("A run id is required."), { status: 400 });
+
+      await repo.upsertBriefRating({
+        at,
+        userId: identity.userId,
+        orgId: identity.orgId,
+        message: "", // no comment on this one: one tap, then straight on to the questions
+        runId: runId.slice(0, MAX_RUN_ID_LEN),
+        stars,
+        kind: "brief_rating",
       });
       return { ok: true };
     },

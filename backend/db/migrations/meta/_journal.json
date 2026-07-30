@@ -162,6 +162,13 @@
       "when": 1785001024405,
       "tag": "0022_org_sector",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1785370494485,
+      "tag": "0023_wooden_gamma_corps",
+      "breakpoints": true
     }
   ]
 }

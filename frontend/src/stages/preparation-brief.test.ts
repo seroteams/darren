@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   DEFAULT_VARIANT,
+  briefRatingHtml,
   confidenceCopy,
   ctaRowHtml,
   extractSlots,
@@ -308,4 +309,34 @@ test("switcher: a throwing storage never throws out", () => {
   };
   assert.equal(readVariant(broken, true), "L");
   assert.doesNotThrow(() => writeVariant(broken, "B"));
+});
+
+// --- brief-star-rating: the out-of-5 tap under the brief -------------------
+
+test("rating: asks the question in plain words and leaves a host for the stars", () => {
+  const html = briefRatingHtml();
+  assert.match(html, /How good is this brief\?/);
+  assert.match(html, /js-brief-rating-host/, "preparation.ts appends the stars here");
+  assert.match(html, /js-brief-rating-status/, "and writes the confirmation here");
+  // Built from code points, not typed: this file is itself scanned by lint:copy,
+  // so a literal dash here would trip the very guard it is checking for.
+  for (const dash of [0x2014, 0x2013].map((c) => String.fromCharCode(c))) {
+    assert.ok(!html.includes(dash), "no em or en dashes in user-facing copy");
+  }
+});
+
+test("rating: the status line announces itself to screen readers", () => {
+  assert.match(briefRatingHtml(), /aria-live="polite"/);
+});
+
+test("rating: renders no stars of its own, since that DOM belongs to createStarRating", () => {
+  const html = briefRatingHtml();
+  assert.doesNotMatch(html, /star-rating__star/);
+  assert.doesNotMatch(html, /<svg/);
+});
+
+test("rating: is a sibling of the footer, never inside the button row", () => {
+  const html = briefRatingHtml();
+  assert.doesNotMatch(html, /wizard-footer/);
+  assert.doesNotMatch(html, /js-wf-continue/);
 });

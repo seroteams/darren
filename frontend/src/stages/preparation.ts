@@ -19,7 +19,10 @@ import { confirmAction } from "../../../admin/src/ui/confirm.js";
 import { confirmResetSession } from "../../../admin/src/ui/session-reset.js";
 import { icon } from "../../../admin/src/ui/icon.js";
 import { Check } from "lucide";
+import { createStarRating } from "../../../admin/src/ui/star-rating.js";
+import { submitBriefRating } from "../../../shared/api.js";
 import {
+  briefRatingHtml,
   ctaRowHtml,
   extractSlots,
   formatBriefForCopy,
@@ -76,6 +79,9 @@ export const mount: Mount = async (root, { store, setState }) => {
   });
 
   let lastBrief: PrepBrief | null = null;
+  // The score this manager has given the brief, 0 until they tap. Survives the
+  // re-renders that the layout switcher triggers (see mountBriefRating).
+  let briefStars = 0;
   let labMod: LabModule | null = null;
   let labCleanup: (() => void) | null = null;
   let labSwitchOpen: () => boolean = () => false;
@@ -181,10 +187,11 @@ export const mount: Mount = async (root, { store, setState }) => {
     const briefHtml = labMod
       ? labMod.renderBrief(labMod.readVariant(storage(), true), slots)
       : renderDefaultBrief(slots);
+    const rate = briefRatingHtml();
     const cta = ctaRowHtml();
     resultHost.innerHTML = animate
-      ? `<div class="space-y-6"><div class="reveal">${briefHtml}</div><div class="reveal">${cta}</div></div>`
-      : `<div class="space-y-6">${briefHtml}${cta}</div>`;
+      ? `<div class="space-y-6"><div class="reveal">${briefHtml}</div><div class="reveal">${rate}</div><div class="reveal">${cta}</div></div>`
+      : `<div class="space-y-6">${briefHtml}${rate}${cta}</div>`;
     if (animate) {
       revealSequence(Array.from(resultHost.querySelectorAll(".reveal")), {
         stagger: 80,
@@ -208,6 +215,30 @@ export const mount: Mount = async (root, { store, setState }) => {
       setState({ stage: STAGES.FOCUS_POINTS });
     });
     wireArcTabs();
+    mountBriefRating();
+  }
+
+  // The brief's out-of-5 tap (brief-star-rating). innerHTML rebuilds this host on
+  // every render, so the score lives in `briefStars` out here: without that, an
+  // admin flipping layout would wipe a score the manager had already given.
+  // Saving is fire-and-forget on purpose — a dead save must never stand between
+  // the manager and "Start 1:1 questions", so a failure leaves the stars filled
+  // and says nothing.
+  function mountBriefRating() {
+    const host = resultHost?.querySelector<HTMLElement>(".js-brief-rating-host");
+    if (!host) return;
+    const status = resultHost?.querySelector<HTMLElement>(".js-brief-rating-status") ?? null;
+    if (status && briefStars) status.textContent = "Thanks";
+    const rating = createStarRating({
+      initialStars: briefStars,
+      ariaLabel: "How good is this brief? 1 to 5 stars",
+      onChange: (stars: number) => {
+        briefStars = stars;
+        if (status) status.textContent = "Thanks";
+        void submitBriefRating(sessionId, stars).catch(() => {});
+      },
+    });
+    host.replaceChildren(rating.el);
   }
 
   // Arc's Before/During/After segmented control (phones only; lab layout L).

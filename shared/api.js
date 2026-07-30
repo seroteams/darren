@@ -230,6 +230,13 @@ export async function submitRunVerdict(runId, verdict, message) {
   return postJson("/api/v1/feedback/verdict", { runId, verdict, message });
 }
 
+// Prep brief star rating (brief-star-rating): "How good is this brief?", 1-5, tapped
+// before the 1:1. No login needed (a guest's score counts); re-sending for the same run
+// corrects that run's score rather than adding a row. Returns { ok: true }.
+export async function submitBriefRating(runId, stars) {
+  return postJson("/api/v1/feedback/brief-rating", { runId, stars });
+}
+
 export async function getMeetingTypes() {
   return json(await fetch("/api/v1/meeting-types"));
 }
