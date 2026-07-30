@@ -2,6 +2,20 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-30 — your whole Figma sticky board is fixed, tested and signed off.
+[user-test-fixes CLOSED](docs/plans/done/user-test-fixes-jul-29/plan.md), all 3 phases in two days, $0.19 total spend.**
+Every sticky from the Machar test landed: the code words are off the rating panel (P1), the lock-in
+screen says it happens together in the meeting and what skipping costs, the recap's Final read wears
+the runner's lavender meters (PDF too), the floating dots and empty date pills are gone, and a
+Performance & feedback meeting can no longer be served an off-topic stock question — "good quarter"
+and "actually recovering" are locked to the meetings they suit (P3, one gate run PASS).
+**The find worth keeping: the QA prompt button was rendering for EVERY manager** — its `hidden`
+class never worked on that footer, which is exactly what Machar saw (F7). It is now not rendered at
+all unless internal admin, local, with notes. Proof: real-screen screenshots in the plan's proof/,
+suite 215/215, typecheck + both linters, walkable fixture at Tests → "Recap fixes". Commits
+`205610c4` · `7bdb06e2` · `1ce13d35`, committed local — **ships next "go live"; check the QA button
+is gone from sero.team recaps after that deploy.** [Board](https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3).
+
 📍 **2026-07-30 — the Support panel now coaches every question, and a nine-day outage came out of the woodwork.**
 [question-support-hints](docs/plans/done/question-support-hints/plan.md) — all 3 phases green-lit in one
 sitting ("the support questions are ok, with the limited information, so we can pass"). You flagged that
@@ -19,7 +33,7 @@ questions, **5 with their own coaching, the prep-brief fallback never appeared**
 coaching only knows this meeting's notes. Giving it the person's history is its own plan.**
 
 📍 **2026-07-30 — the code words are off the rating panel, and you green-lit it.**
-[user-test-fixes](docs/plans/doing/user-test-fixes-jul-29/plan.md) P1 of 3 — the first fix from your
+[user-test-fixes](docs/plans/done/user-test-fixes-jul-29/plan.md) P1 of 3 — the first fix from your
 Figma sticky board (Machar's session). His screen showed `[THREAD-DEFERRED-WINDDOWN]` inside a
 live-scores explanation: an internal planner marker that four engine checks legitimately read, so it
 can't be removed at the source. It is now stripped at the last hop before the browser — both the live
@@ -397,7 +411,6 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [user-test-fixes-jul-29](docs/plans/doing/user-test-fixes-jul-29/plan.md) | 3 phases from your Figma sticky board (Machar session). P1 ✅ green-lit 2026-07-30 (code words off the rating panel, `205610c4`). **P2 + P3 🔨 BUILT 2026-07-30 on your "continue and finish this", awaiting your walk** — end-of-meeting screens (`7bdb06e2`, screenshots in the plan's proof/) + stock questions respect the meeting type (`1ce13d35`, gate run PASS, $0.19). Real find on the way: the QA button was visible to EVERY manager, not just you — the `hidden` class never worked on that footer; it now isn't rendered at all off-limits. [Board](https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3). |
 | [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 ✅ closed **unwalked** 2026-07-27 (shell + layout; built 07-25, regression test guards it). P3–P9 ⬜ — nothing built, so this stays open. |
 | [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). Must reuse `hasRealRuns` from the onboarding build. |
@@ -446,4 +459,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-30 (after user-test-fixes P1 close). Live build `33dfdca7` on sero.team, committed 2026-07-29 09:44 (confirmed on `/api/version`). **Main is one commit ahead of live** — user-test-fixes P1 (`205610c4`) is committed local and ships on your next "go live".
+Last updated: 2026-07-30 (user-test-fixes plan closed). Live build `33dfdca7` on sero.team, committed 2026-07-29 09:44 (confirmed on `/api/version`). **Main is ahead of live** — the whole user-test-fixes plan (`205610c4`, `7bdb06e2`, `1ce13d35`) is committed local and ships on your next "go live".
