@@ -1,6 +1,8 @@
 # Phase 4 — Notes flow everywhere
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl chose "a · tested, good" on the scenario hand-off (commit 8a8defdf, committed local, ships next go-live). Closes the plan: all 4 phases signed.
 
 ## Built (2026-07-30)
 - backend/api/services/sessions/session-streams.ts + plan-turn-inputs.ts: the live planner and its byte-honest preview both pass `session.notes` to planTurn, so a jotted observation reaches the next question's prompt AND the grounding corpus (the P3 plumbing this flips on).

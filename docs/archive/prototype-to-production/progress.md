@@ -1712,3 +1712,16 @@ cap (three per turn) bounds output-token growth, which is the cost lever on an u
 in cost.json: plan-turn prompts 11.2-11.6k tokens, cached 8,960 on every turn after the first, run
 $0.196 against a $0.16-0.20 baseline. The planned gate case name (lin_biweekly_thread) did not exist;
 checking evals/golden/_index.json before running saved a wasted paid call.
+
+## 2026-07-30 — no-dead-wires P4 + plan closed: notes flow everywhere
+
+**A deliberate exclusion needs an expiry condition.** Mid-run notes were stripped from the evaluation
+on purpose (tester-note leak, run-qa-fixes C1) — correct in the QA era, wrong once real managers used
+the notes panel. The repair keeps the strip where its reason still holds (QA-labelled and scripted
+runs) and opens the channel where it does not (real runs), with one rule in one function
+(formatCapturedNotes) instead of three drifting call sites. When code excludes data "for now", record
+what would make the exclusion wrong; this one sat inverted for weeks.
+
+**The whole plan, in one line each:** trace first (the map made the argument), committee before
+locking, cache boundary as a tested contract, one paid proof at the end ($0.196), every phase walked
+by Carl same day. Four dead wires closed, four parked with written reasons.

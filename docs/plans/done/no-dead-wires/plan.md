@@ -26,12 +26,12 @@
 | 1 | Plan meets reality | Prep brief reaches the final brief; recap says what happened to your plan | ✅ |
 | 2 | The planner learns the room | Intake note, vocabulary guide, answer-quality tags and score levels reach the live planner | ✅ |
 | 3 | The living plan | The queue rewrites and reorders itself from the conversation; prep-opener pin releases | ✅ |
-| 4 | Notes flow everywhere | Mid-meeting notes reach the next question and the final brief | 🔨 |
+| 4 | Notes flow everywhere | Mid-meeting notes reach the next question and the final brief | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phases 1-3 ✅ GREEN-LIT by Carl 2026-07-30 (his "a" three times). P1 commit 4f85e144 (live in build 4f85e14); P2 commit 4117b5b0; P3 commit 15aa9959 (both committed local, ship next go-live). P3 paid proof: gate case machar-biweekly-jun11 PASS, run cost $0.196, cache intact (8,960 cached tokens on turns 2+), no grounding-dropped spike; total paid spend this plan ~$0.20, under the ~$0.35 estimate. Phase 4 (notes flow everywhere: the last phase) building now, all free checks. The 2 replay-fixture failures remain pre-existing (832d63da, chipped separately). Board: https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847
+PLAN CLOSED 2026-07-30 — all 4 phases ✅ GREEN-LIT by Carl the same day the deep dive ran (his "a" four times). Commits: P1 4f85e144 (LIVE in build 4f85e14), P2 4117b5b0, P3 15aa9959, P4 8a8defdf (P2-P4 committed local, ship next go-live). Paid spend: one gate case, $0.196, PASS, cache intact. Every dead wire from the input map is now closed or explicitly parked (see Parked). Board: https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847
 
 ## Parked
 - Who-the-person-is personalisation and last-run promises into prep: need cross-run data; Carl parked cross-run learning this round.

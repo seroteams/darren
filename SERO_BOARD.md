@@ -38,6 +38,23 @@ miss. Any attempt to lift the score should sharpen the metric and the prompt tog
 **Not verified on screen** — seeing the cue on a real meeting screen costs a paid run and the one
 budgeted run went to the gate.
 
+**✅ CLOSED 2026-07-30: [no-dead-wires](docs/plans/done/no-dead-wires/plan.md) — the engine stopped
+following a script, all 4 phases green-lit in one day, $0.196 total paid.** Carl's "it's not building
+a picture from what I give it" instinct was traced through the whole engine first: the
+[input-to-output map](docs/reports/engine-input-map.html) showed seven collected inputs never reached
+the place they mattered, and in a six-question bi-weekly only one slot was genuinely open mid-meeting.
+Now: the final brief sees the prep plan and answers plan-vs-reality honestly (P1, already live); the
+per-turn planner reads the intake note, the vocabulary guide, answer-quality tags and score levels,
+with two weak answers in a row forcing a change of tack (P2); the question queue is a draft that
+reorders, rewrites stale questions in the report's own words and drops overtaken ones, with the
+prep-opener pin releasing after three questions (P3, gate case PASS at $0.196, cache intact); and a
+note jotted mid-meeting shapes the next question and reaches the final brief on real runs, while QA
+runs keep the tester-note strip (P4). Cost discipline held: everything per-run-constant sits inside
+the cached prompt prefix, a unit test guards that boundary, and no new AI calls were added. Parked
+with reasons in the plan: person-level personalisation and promises-into-prep (cross-run, Carl's
+scope cut), the axis-coverage code gate and the mid-run bank refresh (evidence-gated). Directly
+answers Machar's sharpest corridor finding (F1, "the questions being a bit bland").
+
 **✅ CLOSED 2026-07-29: [machar-fixes-jul-29](docs/plans/done/machar-fixes-jul-29/plan.md) — every fix
 from the first corridor manager's session, all 4 phases green-lit in one day, $0.3288 total.** This is
 the first time the validation loop actually closed: a real manager used the product, said what was
