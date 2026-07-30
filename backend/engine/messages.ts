@@ -7,6 +7,7 @@ import { promptFor } from "./one-on-one-types/index.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
 import { splitSystemUser } from "./prompt-utils.ts";
 import { loadRoleProfile, renderRoleProfileBlock } from "./role-profile.ts";
+import { loadLexicon, renderPreferTerms, renderPreferPhrases, renderAvoidPhrases } from "./lexicon.ts";
 import {
   computeArcProgress,
   computeConsecutiveDrillCount,
@@ -74,6 +75,9 @@ function buildMessages({
     name: t.question.name,
     answer: t.answer,
     skipped: t.skipped,
+    // How the answer read (note|thin|decline|skip) — drives planning rule 15.
+    // Undefined on pre-tag recordings; JSON.stringify drops the key (replay-safe).
+    read: t.read,
   }));
   const queueSummary = (remainingQueue || []).map((q) => ({
     alias: q.alias,
@@ -91,6 +95,10 @@ function buildMessages({
   const consecutiveWellbeingClarifierCount = computeConsecutiveWellbeingClarifierCount(transcript);
   const offArcDrillCount = computeOffArcDrillCount(transcript);
   const isFinalTurn = Number(remainingBudget) === 1;
+  // Per-run constants — these land inside the cached prompt prefix
+  // (session_context), so they are near-free after turn 1. Nothing here may
+  // vary turn to turn (see messages.test.ts prefix-stability).
+  const lexicon = loadLexicon({ meetingType: ctx.meetingType, role: ctx.role, seniority: ctx.seniority });
   const filled = template
     .replaceAll("{{AXES_JSON}}", JSON.stringify(axes))
     .replaceAll("{{FOCUS_POINTS_JSON}}", JSON.stringify(focusPoints))
@@ -100,6 +108,10 @@ function buildMessages({
     .replaceAll("{{ROLE}}", ctx.role || "(not provided)")
     .replaceAll("{{SENIORITY}}", ctx.seniority || "(not provided)")
     .replaceAll("{{MEETING_TYPE}}", ctx.meetingType)
+    .replaceAll("{{MANAGER_NOTES}}", ctx.notes?.trim() ? ctx.notes.trim() : "(none)")
+    .replaceAll("{{CONVERSATION_PREFER_TERMS}}", renderPreferTerms(lexicon.preferTerms))
+    .replaceAll("{{CONVERSATION_PREFER_PHRASES}}", renderPreferPhrases(lexicon.preferPhrases))
+    .replaceAll("{{CONVERSATION_AVOID_PHRASES}}", renderAvoidPhrases(lexicon.avoidPhrases))
     .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcriptSummary))
     .replaceAll("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion ? { ...lastQuestion, description: undefined } : lastQuestion))
     .replaceAll("{{LAST_ANSWER}}", lastAnswer || "(skipped)")

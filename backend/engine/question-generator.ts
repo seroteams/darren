@@ -6,7 +6,7 @@ import { newAlias, saveQuestion, listAllAliases, loadDir } from "./questions.ts"
 import { getArc, listStageIds } from "./meeting-arcs.ts";
 import { promptFor } from "./one-on-one-types/index.ts";
 import { resolveSelectedFocus } from "./selected-focus.ts";
-import { loadLexicon } from "./lexicon.ts";
+import { loadLexicon, renderPreferTerms, renderPreferPhrases, renderAvoidPhrases } from "./lexicon.ts";
 import { findJargon } from "./golden-checks.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { splitSystemUser, fillPlaceholders } from "./prompt-utils.ts";
@@ -107,29 +107,6 @@ const RESPONSE_SCHEMA = {
   required: ["questions"],
   additionalProperties: false,
 };
-
-function renderPreferTerms(terms: string[] | null | undefined): string {
-  if (!terms || !terms.length) return "(none yet)";
-  return terms.join(", ");
-}
-
-function renderPreferPhrases(phrases: string[] | null | undefined): string {
-  if (!phrases || !phrases.length) return "(none yet)";
-  return phrases.map((p) => `- "${p}"`).join("\n");
-}
-
-function renderAvoidPhrases(
-  items: ReadonlyArray<{ phrase: string; reason: string; better_as: string }> | null | undefined
-): string {
-  if (!items || !items.length) return "(none yet)";
-  return items
-    .map((it) => {
-      const reason = it.reason ? ` — ${it.reason}` : "";
-      const better = it.better_as ? ` Better: "${it.better_as}"` : "";
-      return `- "${it.phrase}"${reason}${better}`;
-    })
-    .join("\n");
-}
 
 function renderPrepText(value: unknown): string {
   return value && String(value).trim() ? String(value).trim() : "(none)";

@@ -1,6 +1,14 @@
 # Phase 2 — The planner learns the room
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨
+
+## Built (2026-07-30)
+- backend/engine/messages.ts: fills `{{MANAGER_NOTES}}` (intake note) + the three `{{CONVERSATION_*}}` vocabulary placeholders into the planner prompt's cached section; transcript summary now carries each turn's `read` tag (replay-safe: absent tags stay absent).
+- content/prompts/plan-turn.md: intake-note block + vocabulary block in `<session_context>` (cache-safe statics); planning rule 15 (two weak reads in a row force a change of tack, `[TACK-CHANGE]`) and rule 16 (do not re-confirm a strongly-evidenced axis); transcript header names the `read` tag.
+- backend/engine/lexicon.ts + question-generator.ts: the three vocabulary renderers moved to lexicon.ts, shared verbatim by the bank prompt and the planner.
+- Tests: NEW backend/engine/messages.test.ts (5 tests, TDD red-first) including the prefix-stability test: the session_context half is byte-identical across turns, and the note + vocabulary live inside it.
+- Offline proof: npm test 217/217 · typecheck clean · lint:copy PASS · replay fixtures: only the 2 known pre-existing prep-validator failures (832d63da, chipped separately).
+- Token check: all additions except the read tags sit inside the cached prefix; the read tags add a few words per turn to the transcript summary.
 
 ## Goal
 The mid-meeting planner reads your intake note, the vocabulary guide, the answer-quality tags and the running score levels, and changes its pacing accordingly.

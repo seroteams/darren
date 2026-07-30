@@ -156,6 +156,32 @@ function resolveLexiconScope(ctx: LexiconCtx): ResolvedLexiconScope {
   return base;
 }
 
+// Prompt renderers for the lexicon blocks — moved verbatim from
+// question-generator.ts (no dead wires P2) so the bank prompt and the per-turn
+// planner render the same vocabulary the same way.
+function renderPreferTerms(terms: string[] | null | undefined): string {
+  if (!terms || !terms.length) return "(none yet)";
+  return terms.join(", ");
+}
+
+function renderPreferPhrases(phrases: string[] | null | undefined): string {
+  if (!phrases || !phrases.length) return "(none yet)";
+  return phrases.map((p) => `- "${p}"`).join("\n");
+}
+
+function renderAvoidPhrases(
+  items: ReadonlyArray<{ phrase: string; reason: string; better_as: string }> | null | undefined
+): string {
+  if (!items || !items.length) return "(none yet)";
+  return items
+    .map((it) => {
+      const reason = it.reason ? ` — ${it.reason}` : "";
+      const better = it.better_as ? ` Better: "${it.better_as}"` : "";
+      return `- "${it.phrase}"${reason}${better}`;
+    })
+    .join("\n");
+}
+
 const REVIEW_SENIORITIES = new Set(["lead", "expert"]);
 
 // LF-5 path B: all role families; still growth + lead|expert (bi-weekly stays out-of-scope).
@@ -169,6 +195,9 @@ function isLexiconReviewScope(scope: LexiconScope): boolean {
 
 export {
   loadLexicon,
+  renderPreferTerms,
+  renderPreferPhrases,
+  renderAvoidPhrases,
   lexiconScopeFor,
   resolveLexiconScope,
   isLexiconReviewScope,

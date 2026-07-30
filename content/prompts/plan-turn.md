@@ -216,6 +216,8 @@ After dedup, build the new_queue:
 12. **Context-aware urgency.** Do not ask about a constraint the manager already fixed in focus-points/notes (e.g. notes say "promotion required in 3 months" → don't ask "when do you want promotion?"). Ask *how* they'll use the time, *what* the readiness gap is, or *which* moves matter most. Imposed goals are not the employee's signal.
 13. **On-brief grounding (soft).** When the prep brief is not `(none)`, any ADDED question (`ref_alias: null`) must connect to its **core issue** or a **listen-for** signal — except a live thread-follow, which always wins. Don't invent a fresh angle the brief and transcript don't support; carrying a queued item forward is always fine. Never blocks the closer, crisis, or wind-down.
 14. **Agency after a named snag (hard).** If the last answer named a snag and nobody has yet asked what THEY did about it, the first item is the agency question defined in `<question_craft>` → THE TRIGGER. This is a planning decision, not a wording preference: a second description of the same snag is a wasted turn. Yields to wind-down, the closer, crisis and the shallow-answer re-prompt; outranks arc progression, because a snag left un-actioned is the thing the meeting exists to move. Append `[AGENCY]` to `note` when it fires.
+15. **Change tack after two weak reads (hard).** Each transcript turn may carry `read`: `note` (a real answer), `thin`, `decline`, or `skip`. If the LAST TWO turns both read `thin`, `decline`, or `skip` in any mix, the next item MUST change tack: a different arc stage, or a plainly easier and more concrete angle on new ground. Do not re-drill the same topic or ask for specifics a third time; one clarifying re-prompt per thread stays the cap. Append `[TACK-CHANGE]` to `note` when it fires. Yields to wind-down, the closer and crisis.
+16. **Aim where the picture is thin.** `axis_state` carries live scores built from real answers. Do not spend a turn re-confirming an axis whose read is already strong (absolute score 3 or more); put the next question where the state is still thin or contested, subject to rule 6 coverage and the arc.
 </planning_rules>
 
 <question_craft>
@@ -315,6 +317,14 @@ Hard boundaries:
 
 {{ROLE_PROFILE_BLOCK}}
 
+**Conversation vocabulary (for this role and seniority; apply to every question you add or reword):**
+
+- Prefer these terms: {{CONVERSATION_PREFER_TERMS}}
+- Prefer these phrasings:
+{{CONVERSATION_PREFER_PHRASES}}
+- Avoid these phrasings:
+{{CONVERSATION_AVOID_PHRASES}}
+
 **Focus points (stage 1):**
 
 ```json
@@ -333,6 +343,12 @@ Primary focus id: {{PRIMARY_FOCUS_ID}}
 
 - Core issue: {{PREP_CORE_ISSUE}}
 - Listen for: {{PREP_LISTEN_FOR_JSON}}
+
+**Manager's intake note (written before the meeting; the situation as the manager framed it — context for wording and priorities, never evidence of what the employee said):**
+
+```
+{{MANAGER_NOTES}}
+```
 
 **Meeting arc:**
 
@@ -380,7 +396,7 @@ Primary focus id: {{PRIMARY_FOCUS_ID}}
 {{LAST_REALIZED_DELTAS_JSON}}
 ```
 
-**Transcript so far (oldest first; do not re-ask any of these):**
+**Transcript so far (oldest first; do not re-ask any of these; a turn's `read` field is its answer-quality tag, see planning rule 15):**
 
 ```json
 {{TRANSCRIPT_JSON}}
