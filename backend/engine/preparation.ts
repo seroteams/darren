@@ -124,8 +124,14 @@ const BIWEEKLY_HARD_EDGE =
   /\b(what specific|what's not working|where are you strugg|why haven't you|what problems|what issues have you|what's going wrong|what has gone wrong)\b/i;
 const OPENER_PERFORMATIVE = /\b(the real version|honest version|no filter|real talk|level with me)\b/i;
 
-const LISTENFOR_PARAPHRASE = /\b(acknowledges|has a plan to|has received)\b/i;
-const LISTENFOR_BEHAVIORAL = /\b(deflects|pivots|names|avoids|mentions|redirects|interrupts|pauses|volunteers|describes|offers|signals|hesitates|concrete|specific|last week|this quarter|this sprint|stakeholders?|projects?|meetings?)\b/i;
+const LISTENFOR_PARAPHRASE = /\b(acknowledges?|ha(?:s|ve) a plan to|ha(?:s|ve) received)\b/i;
+// Both conjugations of every verb: the prompt mandates they/them when the notes
+// don't signal a pronoun, so "if they volunteer" must count exactly like "if
+// she volunteers". The singular-only list made the prompt's own pronoun rule
+// unpassable and fired a paid retry on every run (July 2026 cost leak); the
+// added tells (points to, asks for, brings up, talks about, raises, frames,
+// steers) are the verbs real logged briefs were wrongly flagged for.
+const LISTENFOR_BEHAVIORAL = /\b(deflects?|pivots?|names?|avoids?|mentions?|redirects?|interrupts?|pauses?|volunteers?|describes?|offers?|signals?|hesitates?|raises?|frames?|steers?|asks?|points? to|brings? up|talks? about|concrete|specific|last week|this quarter|this sprint|this fortnight|stakeholders?|projects?|meetings?)\b/i;
 // The opener is "whether" or "if". It used to be "whether" or "if they", which
 // forced a they/them item to sit beside "whether she ..." siblings and made the
 // brief read as though two different people were in the meeting.
@@ -147,7 +153,7 @@ const SENTENCE_CLOSE = /[.!?]["'”’)]?$/;
 const SHOUTING = /\b[A-Z]{4,}\b/;
 
 const GOODOUTCOME_LEVEL_MARKERS =
-  /\b(junior|mid|senior|expert|lead|staff|principal|director|vp|end-to-end|end to end|owns|ownership|scope|decision authority|leading|lead-level|lead level)\b/i;
+  /\b(junior|mid|senior|expert|lead|staff|principal|director|vp|end-to-end|end to end|owns|ownership|owner-level|scope|decision authority|leading|lead-level|lead level)\b/i;
 
 const POST_MEETING_ACTION =
   /\b(schedule|set up a follow|follow-up meeting|follow up meeting|next month|next quarter|in one month|review progress)\b/i;
@@ -343,9 +349,13 @@ function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; 
   }
 
   // Meeting-type awareness
+  // Each list mirrors the register the prompt teaches for that meeting type.
+  // The bi-weekly prompt coaches "since we last spoke" / "the last couple of
+  // weeks" / "this fortnight" — a brief written exactly as instructed must
+  // count as reflecting the type ("week" also covers weekly/bi-weekly).
   const meetingWords: Record<string, string[]> = {
-    "check": ["check", "routine", "regular", "cadence", "weekly", "bi-weekly", "biweekly"],
-    "performance": ["performance", "feedback", "review", "rating", "expectation"],
+    "check": ["check", "routine", "regular", "cadence", "week", "fortnight", "sprint", "rhythm", "catch", "bandwidth", "since we last", "in flight"],
+    "performance": ["performance", "feedback", "review", "rating", "expect", "deliver", "evidence"],
     "growth": ["growth", "career", "development", "trajectory", "next", "goal", "lead"],
     "off": ["concern", "feeling", "tension", "shift", "off", "struggling", "issue", "friction"],
   };
@@ -466,8 +476,10 @@ function validateBrief(brief: PrepBrief, inputs: PrepInput): { passed: boolean; 
   return { passed: issues.length === 0, issues };
 }
 
+// Split on punctuation too: "Engineering manager, app build" must yield
+// "manager", not "manager," (which can never appear in the outcome text).
 function roleWordsFromTitle(roleLower: string): string[] {
-  return roleLower.split(/\s+/).filter((w) => w.length > 3);
+  return roleLower.split(/[^a-z0-9-]+/).filter((w) => w.length > 3);
 }
 
 async function generatePreparation(

@@ -254,3 +254,141 @@ test("validateBrief: a question mark closes openingQuestion, and 1:1 is not shou
     [],
   );
 });
+
+// --- C3 cue check: verb conjugation + tells observed in real briefs ----------
+// July 2026 cost leak: every run paid for a validation retry, and 53 shipped
+// briefs were still flagged "may lack observable behavioural cue". The flagged
+// items WERE behavioural tells — the whitelist only knew third-person-singular
+// forms ("volunteers"), so the they/them items the prompt itself mandates
+// ("if they volunteer") could never pass, and common observable verbs the model
+// reaches for (points to, brings up, asks for, talks about) were absent.
+// Fixtures below are from logs/july run briefs.
+
+test("validateBrief: they/them tells count — 'they volunteer' equals 'she volunteers'", () => {
+  assert.deepEqual(
+    cueIssues([
+      "Whether they volunteer a recent example where proving partner value took more time than expected.",
+      "If they describe work as flowing through them by default rather than by explicit ask.",
+      "Whether they mention a partner conversation that ran long.",
+    ]),
+    [],
+  );
+});
+
+test("validateBrief: points to / asks for / brings up / talks about are behavioural cues", () => {
+  assert.deepEqual(
+    cueIssues([
+      "Whether she points to missing edge cases, weak rationale, or unclear tradeoffs in the review notes.",
+      "Whether he asks for a decision, cover, or clearer priority from you.",
+      "Whether she brings up tradeoffs between review work, her own delivery, and mentoring.",
+    ]),
+    [],
+  );
+  assert.deepEqual(
+    cueIssues([
+      "Whether he talks about the busier pace as a short spike or as the new normal.",
+      "Whether she raises the billing rewrite before you do.",
+      "If he frames next quarter around one system area he expects to own.",
+    ]),
+    [],
+  );
+});
+
+test("validateBrief: paraphrase block-list catches plural forms too", () => {
+  const issues = validateBrief(briefWith([
+    "If they acknowledge the feedback from design.",
+    ...SENTENCE_TELLS.slice(1),
+  ]) as never, baseInputs as never).issues.filter((i) => i.includes("paraphrases focus"));
+  assert.equal(issues.length, 1);
+});
+
+// --- Meeting-type reflection: the register words the prompt teaches count ----
+// Second-biggest retry driver (28 shipped briefs flagged). For a bi-weekly the
+// validator wanted check/routine/regular/cadence/weekly, but the prompt coaches
+// the opener toward "since we last spoke" / "last couple of weeks" / "this
+// fortnight" — so a brief written exactly as instructed failed the check.
+
+function meetingTypeIssues(overrides: Record<string, unknown>, inputs: Record<string, unknown> = {}) {
+  return validateBrief(
+    { ...briefWith(SENTENCE_TELLS), ...overrides } as never,
+    { ...baseInputs, ...inputs } as never,
+  ).issues.filter((i) => i.includes("meeting type"));
+}
+
+test("validateBrief: bi-weekly phrased in the prompt's own register passes the meeting-type check", () => {
+  // briefWith's coreIssue says "this fortnight" and the opener "the last couple
+  // of weeks" — the exact phrasing preparation.md recommends for a bi-weekly.
+  assert.deepEqual(meetingTypeIssues({}), []);
+});
+
+test("validateBrief: a bi-weekly brief with no cadence signal is still flagged", () => {
+  const issues = meetingTypeIssues({
+    coreIssue: "Carl's late starts are draining his mornings.",
+    openingQuestion: "What is taking most of your energy right now?",
+  });
+  assert.equal(issues.length, 1);
+});
+
+test("validateBrief: 'last couple of sprints' locates the bi-weekly stretch too", () => {
+  assert.deepEqual(
+    meetingTypeIssues({
+      coreIssue: "Darryl likely needs a sharper sequence from beta test to live date after recent slips.",
+      openingQuestion: "How is the path from beta test to a live date looking after the last couple of sprints?",
+    }),
+    [],
+  );
+});
+
+// --- C4 goodOutcome level check: same lexical-gap class, seen on Darryl runs --
+// "Engineering manager, app build" split on whitespace kept the comma, so
+// "manager," could never match the outcome text; and "owner-level" (a genuine
+// level artefact) was not on the marker list. Both flagged real level-specific
+// outcomes and fed the retry.
+
+function outcomeIssues(goodOutcome: string, roleTitle: string) {
+  return validateBrief(
+    { ...briefWith(SENTENCE_TELLS), goodOutcome } as never,
+    { ...baseInputs, roleTitle, seniority: "Mid-level" } as never,
+  ).issues.filter((i) => i.includes("goodOutcome"));
+}
+
+test("validateBrief: a role word reaches the outcome even when the title has a comma", () => {
+  assert.deepEqual(
+    outcomeIssues(
+      "You and Darryl have agreed how he will run the beta as manager for this app build.",
+      "Engineering manager, app build",
+    ),
+    [],
+  );
+});
+
+test("validateBrief: 'owner-level' counts as a level marker", () => {
+  assert.deepEqual(
+    outcomeIssues(
+      "You and Darryl have agreed the one delivery owner-level call he will make this fortnight.",
+      "Engineering role",
+    ),
+    [],
+  );
+});
+
+test("validateBrief: a genuinely level-free goodOutcome is still flagged", () => {
+  const issues = outcomeIssues(
+    "You and Carl have agreed one concrete next step to talk again soon.",
+    "Engineering role",
+  );
+  assert.equal(issues.length, 1);
+});
+
+test("validateBrief: performance brief naming delivery and expectations passes the meeting-type check", () => {
+  assert.deepEqual(
+    meetingTypeIssues(
+      {
+        coreIssue: "Tom may be delivering reliably, but his principal-level effect on the team is hard to see.",
+        openingQuestion: "What work on this team do you see as yours to shape at principal scope?",
+      },
+      { meetingType: "Performance & feedback" },
+    ),
+    [],
+  );
+});
