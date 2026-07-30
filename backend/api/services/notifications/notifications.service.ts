@@ -69,7 +69,7 @@ function adminAccountAlert(user: RegisteredUser, a: AdminAlert, send: Send): voi
     to,
     subject: a.subject,
     html: renderSeroEmail({ eyebrow: "Admin notification", heading: a.heading, bodyHtml }),
-    text: `${a.textLabel} — ${user.name} <${user.email}> (org ${user.orgId})`,
+    text: `${a.textLabel}: ${user.name} <${user.email}> (org ${user.orgId})`,
   });
 }
 
@@ -108,7 +108,7 @@ export function notifyInviteeOfInvite(params: InviteEmailParams, send: Send = se
   const org = esc(orgPlain);
   const url = esc(params.joinUrl);
   const bodyHtml =
-    emailParagraph(`${inviter} has invited you to join <b>${org}</b> on Sero — the place your 1:1 notes and prep live.`) +
+    emailParagraph(`${inviter} has invited you to join <b>${org}</b> on Sero, the place your 1:1 notes and prep live.`) +
     emailDetailPanel([
       ["Invited by", inviter],
       ["Team", org],
@@ -137,7 +137,7 @@ export function notifyPasswordReset(params: PasswordResetEmailParams, send: Send
   const bodyHtml =
     emailParagraph(
       "We got a request to reset your Sero password. Click below to choose a new one. " +
-        "If this wasn't you, you can safely ignore this email — nothing changes.",
+        "If this wasn't you, you can safely ignore this email. Nothing changes.",
     ) +
     emailButton("Reset your password", url) +
     emailFinePrint("This link is just for you and expires in 1 hour.");

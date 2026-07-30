@@ -159,7 +159,7 @@ async function runStage<T>(
   // stages can't cross-attribute spend or slip past the per-run ceiling.
   await runWithTracker(session.tracker, async () => {
   try {
-    if (shouldStall(stageKey)) console.warn(`[${stageKey}] SERO_STALL_STAGE active — stalling on purpose (dev only)`);
+    if (shouldStall(stageKey)) console.warn(`[${stageKey}] SERO_STALL_STAGE active: stalling on purpose (dev only)`);
     const run = shouldStall(stageKey) ? stallForever : produce;
     const result = await run(entry.controller.signal);
     setCached(result);

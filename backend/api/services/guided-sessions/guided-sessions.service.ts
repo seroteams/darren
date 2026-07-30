@@ -67,7 +67,7 @@ function collectBlockScores(
     const raw = scoreMap[block];
     if (raw === undefined || raw === null || raw === "") continue; // unrated block
     const s = validScore(raw);
-    if (s === null) throw badRequest(`Invalid score for ${block} — must be 1.0–10.0 in 0.5 steps`);
+    if (s === null) throw badRequest(`Invalid score for ${block}: must be 1.0–10.0 in 0.5 steps`);
     const noteRaw = noteMap[block];
     const note = typeof noteRaw === "string" && noteRaw.trim() ? noteRaw.trim().slice(0, 500) : null;
     out.push({ block, score: s, note });
@@ -241,7 +241,7 @@ export function createGuidedSessionsService(
     managerId: string,
   ): Promise<{ id: string; name: string }> {
     const person = await people.findForManager(personId, orgId, managerId);
-    if (!person) throw notFound("We couldn't find that person — refresh and try again.");
+    if (!person) throw notFound("We couldn't find that person. Refresh and try again.");
     return person;
   }
 

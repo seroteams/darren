@@ -14,7 +14,7 @@ import { getDb, hasDatabaseUrl } from "../../../db/client.ts";
 import { appState } from "../../../db/schema.ts";
 import { shouldEchoToDisk } from "../../../db/run-artifacts-store.ts";
 
-export const GUEST_CAP_MESSAGE = "Today's free tries are used up — please come back tomorrow.";
+export const GUEST_CAP_MESSAGE = "Today's free tries are used up. Please come back tomorrow.";
 
 const DEFAULT_LIMIT = 10;
 

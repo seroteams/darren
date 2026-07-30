@@ -105,7 +105,7 @@ const rateLimitAuth = perIpLimit(10);
 
 function warnIfNoKey(): void {
   if (!process.env.OPENAI_API_KEY) {
-    console.warn("\x1b[33m[warn] OPENAI_API_KEY not set — AI stages will fail on first call.\x1b[0m");
+    console.warn("\x1b[33m[warn] OPENAI_API_KEY not set. AI stages will fail on first call.\x1b[0m");
     console.warn("       bash:       export OPENAI_API_KEY=sk-...");
     console.warn("       PowerShell: $env:OPENAI_API_KEY='sk-...'");
   }
@@ -159,7 +159,7 @@ async function main(): Promise<void> {
     await runEnvironmentGuard();
   } catch (e) {
     if (e instanceof EnvGuardError) {
-      console.error(`\n  \x1b[1;31mEnvironment mismatch\x1b[0m — ${e.message}\n`);
+      console.error(`\n  \x1b[1;31mEnvironment mismatch\x1b[0m: ${e.message}\n`);
       process.exit(1);
     }
     throw e;
@@ -170,7 +170,7 @@ async function main(): Promise<void> {
   // start rather than run in that state — better a loud failure than quiet loss.
   if (resolveAppEnv() === "live" && !hasDatabaseUrl()) {
     console.error(
-      "\n  \x1b[1;31mNo database on a live deploy\x1b[0m — DATABASE_URL is not set. " +
+      "\n  \x1b[1;31mNo database on a live deploy\x1b[0m: DATABASE_URL is not set. " +
         "Refusing to start so customer data can't be written to disk that a restart wipes. " +
         "Set DATABASE_URL in the Render dashboard.\n",
     );
@@ -230,11 +230,11 @@ async function main(): Promise<void> {
   // stops login-CSRF logging a victim into an attacker's account) and per-IP
   // rate-limited (audit F3 — caps online password guessing + signup/email spam).
   router.add("POST", "/api/v1/auth/register", guardedV1((c) => {
-    if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts — try again in a minute.");
+    if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts. Try again in a minute.");
     return auth.register(c);
   }));
   router.add("POST", "/api/v1/auth/login", guardedV1((c) => {
-    if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts — try again in a minute.");
+    if (rateLimitAuth(c.req)) throw rateLimited("Too many attempts. Try again in a minute.");
     return auth.login(c);
   }));
   router.add("POST", "/api/v1/auth/logout", guardedV1(auth.logout));
@@ -245,7 +245,7 @@ async function main(): Promise<void> {
   // like the other mutating routes. The request is rate-limited so it can't be used to
   // flood a victim's inbox; it always answers a generic 200 (no account-existence leak).
   router.add("POST", "/api/v1/auth/forgot-password", guardedV1((c) => {
-    if (rateLimitReset(c.req)) throw rateLimited("Too many reset requests — try again in a minute.");
+    if (rateLimitReset(c.req)) throw rateLimited("Too many reset requests. Try again in a minute.");
     return auth.forgotPassword(c);
   }));
   router.add("POST", "/api/v1/auth/reset-password", guardedV1(auth.resetPassword));
@@ -361,7 +361,7 @@ async function main(): Promise<void> {
   // On LIVE the start is blocked for everyone (blockOnLive): it spends OpenAI money
   // and writes test runs into the live database.
   router.add("POST", "/api/v1/persona-runs", internalV1(blockOnLive(
-    "Test engine is off on the live site — run persona tests locally.",
+    "Test engine is off on the live site. Run persona tests locally.",
     guarded(personaRuns.start),
   )));
   router.add("GET", "/api/v1/persona-runs/current", internalV1(personaRuns.current));
@@ -574,7 +574,7 @@ async function main(): Promise<void> {
   // alive so `npm run dev` looks healthy while every /api call 500s.
   server.on("error", (err: NodeJS.ErrnoException) => {
     if (err.code === "EADDRINUSE") {
-      console.error(`\n  \x1b[1;31mPort ${PORT} is already in use\x1b[0m — likely a leftover API from a previous run.`);
+      console.error(`\n  \x1b[1;31mPort ${PORT} is already in use\x1b[0m: likely a leftover API from a previous run.`);
       console.error(`  Free it and retry:  npx kill-port ${PORT}\n`);
     } else {
       console.error("[server error]", err);

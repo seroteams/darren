@@ -203,7 +203,7 @@ export function createAuthService(repo: AuthRepo, hasher: PasswordHasher): AuthS
 
 /** How long a reset link is good for (1 hour) — short on purpose. */
 const RESET_TTL_MS = 60 * 60 * 1000;
-const RESET_INVALID = "That reset link isn't valid anymore — request a new one.";
+const RESET_INVALID = "That reset link isn't valid anymore. Request a new one.";
 
 const sha256 = (s: string): string => createHash("sha256").update(s).digest("hex");
 
