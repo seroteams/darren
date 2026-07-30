@@ -209,6 +209,7 @@
      size. 17px was off the ladder; 16 clears it without leaving a small glyph
      rattling round a big circle, which 14 would have. */
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
 }
 /* .type-heading-xs: 16/700 today, and .type-body would have un-bolded it. */
 .gd-block__label { display: inline-flex; gap: 6px; align-items: center; }
@@ -337,6 +338,7 @@
      ladder. The font shorthand went with it, because with an explicit size a button
      holding no text has nothing left to inherit. */
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
 }
 .gd-panel__body { padding: var(--sero-space-5); overflow-y: auto; display: flex; flex-direction: column; gap: var(--sero-space-4); }
 /* .type-heading-md (P5): 20px unchanged, weight 700 to 600. */

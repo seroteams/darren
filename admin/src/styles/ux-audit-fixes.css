@@ -24,6 +24,7 @@
   width: 100%;
   padding: 0.9rem 1.25rem;
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
   font-weight: var(--type-weight-semibold, 600);
   text-align: center;
 }

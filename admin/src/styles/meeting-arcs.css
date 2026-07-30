@@ -18,7 +18,7 @@
 /* Glyph geometry: meeting-arcs.js renders a bare aria-hidden arrow here, never read.
    17.6px was off the ladder and fired two guard rules; 16 clears both and keeps the
    arrow a shade larger than the 14px chips on either side of it. */
-.arc-chip__sep { color:var(--color-ink-dim); font-size:var(--type-size-base); }
+.arc-chip__sep { color:var(--color-ink-dim); font-size:var(--type-size-base); line-height: var(--type-leading-base); }
 .arc-body { padding:4px 16px 16px; border-top:1px solid var(--color-border); }
 .arc-sec {
   color:var(--color-ink-dim); margin:16px 0 8px; }

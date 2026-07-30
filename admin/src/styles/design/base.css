@@ -30,13 +30,14 @@ body {
   font-variant-ligatures: common-ligatures;
   color: var(--color-ink);
   font-size: var(--type-size-base);
-  line-height: 1.55;
+  line-height: var(--type-leading-base);
   -webkit-font-smoothing: antialiased;
 }
 
 input, textarea, button, select {
   font-family: inherit;
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
   color: inherit;
 }
 textarea { resize: vertical; }

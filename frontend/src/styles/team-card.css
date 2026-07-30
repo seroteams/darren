@@ -33,6 +33,7 @@
   font-family: var(--type-family-base);
   font-weight: var(--type-weight-semibold);
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
 }

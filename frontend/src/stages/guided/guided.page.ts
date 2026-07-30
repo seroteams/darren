@@ -342,7 +342,7 @@ export const mount: Mount = async (root, { store, setState }) => {
         err.className = "gd-panel__err";
         err.textContent = "Couldn't save. Try again.";
         err.style.cssText =
-          "color:var(--color-negative-text);font-size:var(--type-size-sm);margin-right:auto;align-self:center;";
+          "color:var(--color-negative-text);font-size:var(--type-size-sm);line-height:var(--type-leading-sm);margin-right:auto;align-self:center;";
         foot.prepend(err);
       }
     }

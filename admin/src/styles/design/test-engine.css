@@ -92,6 +92,7 @@
   width: 100%;
   text-align: left;
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
   color: var(--color-ink);
   background: transparent;
   border: 0;

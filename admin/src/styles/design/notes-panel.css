@@ -65,7 +65,7 @@
 .notes-panel__item {
   font-size: var(--type-size-base);
   color: var(--color-ink);
-  line-height: 1.55;
+  line-height: var(--type-leading-base);
   padding: 0.6rem 0.75rem;
   margin: 0.35rem 0;
   border-radius: 8px;
@@ -106,7 +106,7 @@
   resize: none;
   font: inherit;
   font-size: var(--type-size-base);
-  line-height: 1.5;
+  line-height: var(--type-leading-base);
   color: var(--color-ink);
   background: transparent;
   border: 1px solid var(--color-border);

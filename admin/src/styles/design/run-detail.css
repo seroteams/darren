@@ -10,6 +10,7 @@
   /* Glyph geometry: one initial letter inside a 52px circle. Tokenised off the
      1.125rem literal; it was already on the 18px rung. */
   font-size: var(--type-size-lg);
+  line-height: var(--type-leading-lg);
 }
 
 .rd-profile {

@@ -230,6 +230,7 @@
 /* Shared bits */
 .ds-sub {
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
   font-weight: var(--type-weight-regular);
   color: var(--color-ink-dim);
 }
@@ -267,6 +268,7 @@
   color: var(--color-ink-dim);
   cursor: pointer;
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
 }
 .ds-rowmenu:hover {
   background: var(--color-accent-soft);
@@ -556,6 +558,7 @@
   align-items: center;
   gap: var(--sero-space-3);
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
 }
 .ds-axis__track {
   height: 10px;
@@ -813,6 +816,7 @@
   flex-direction: column;
   gap: var(--sero-space-3);
   font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
 }
 .ds-dl__row {
   display: flex;

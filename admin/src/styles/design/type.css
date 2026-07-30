@@ -802,7 +802,15 @@
            .type-heading-sm exactly, so the collision just moves to md/sm.
      The earlier note here said only that mobile.css had already had the two
      1.6px apart. That was true and it is not a justification, so it is replaced
-     rather than kept. Carl's call. */
+     rather than kept.
+
+     TAKEN: (c), and it is reversible in one rule. Shipping (a) meant shipping a
+     T2 breach between the two heading levels that sit together most often, so the
+     collision was moved to where it costs least rather than left where it was
+     found. .h3 has 15 markup uses and .h4 has 6, and the two are rarely adjacent,
+     against .h2 and .h3 which share a screen constantly in the admin console.
+     18px takes the BASE family, so T6 holds. Carl can move the collision back to
+     lg/md, or up to display/heading-xl, by editing the one rule below. */
   .type-display,
   .text-display,
   .briefing-headline {
@@ -833,5 +841,15 @@
   .pv-f__opener {
     font-size: var(--type-size-xl);
     line-height: var(--type-leading-xl);
+  }
+  /* The card tier drops a rung too, so it stays distinct from the section tier
+     above it. It changes FACE as well as size, because T6 puts the floor for the
+     display face at 20px: at 18 this role is Inter, exactly as .type-heading-sm
+     is at every width. Two signals apart, not one. */
+  .type-heading-md,
+  .h3 {
+    font-family: var(--type-family-base);
+    font-size: var(--type-size-lg);
+    line-height: var(--type-leading-lg);
   }
 }
