@@ -234,9 +234,12 @@ export async function mount(root, { store, setState }) {
         : undefined;
     const hasScript = Boolean(scripted) && scriptAnswer != null;
 
-    // Quiet "planner adapted" cue: a thread-follow / drill question digs into the
-    // previous answer, so flag it so the jump never reads as random.
-    const isFollowUp = /thread_follow|drill|follow_up/i.test(q.alias || "");
+    // Quiet "planner adapted" cue: a follow-up digs into the previous answer, so
+    // flag it and the jump never reads as random. `follows_thread` is set by the
+    // engine on the model's own follow-up, which carries no telltale alias. The
+    // alias test stays for sessions recorded before 2026-07-30, when the engine
+    // wrote the follow-up itself.
+    const isFollowUp = q.follows_thread === true || /thread_follow|drill|follow_up/i.test(q.alias || "");
 
     // Promises loop phase 1 — the final question carries the fork: the PRIMARY way
     // out of a 1:1 is agreeing next actions (the briefing then opens on the confirm

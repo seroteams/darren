@@ -39,7 +39,7 @@ Field rules:
   "questions": [
     {
       "label": "Sustainable pace",
-      "name": "Where's the pace at for you right now — and what's driving that?",
+      "name": "Where's the pace at for you right now, and what's driving that?",
       "description": "Tells you whether the pace is a short push or quietly becoming the norm.",
       "purpose": "wellbeing",
       "stage": "pulse",
@@ -154,7 +154,7 @@ The closer does not need `wellbeing`, `engagement`, or `clarity` axis effects. U
 
 Type-specific closer examples:
 - Something feels off: "What would help, if anything, right now?" / "Where do you want to focus first?"
-- Growth & career plan: "What would that next step look like in the next few weeks — and where would you start?"
+- Growth & career plan: "What would that next step look like in the next few weeks, and where would you start?"
 </closing_question_rule>
 
 <quality_rules>
@@ -227,7 +227,7 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 
 | #  | Avoid (weak)                                                                                 | Prefer (sharp)                                                                                                   |
 |----|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| 1  | How are you feeling in terms of energy and motivation after the launch?                      | Now that the launch is done, where is your energy actually at — and what's driving that?                        |
+| 1  | How are you feeling in terms of energy and motivation after the launch?                      | Now that the launch is done, where is your energy actually at, and what's driving that?                         |
 | 2  | What do you see as our top priorities moving forward after the refactor?                     | Given everything on your plate, what are *you* choosing to prioritise next, and what are you deprioritising?     |
 | 3  | What specific actions do you think we should prioritise as a team after the refactor?        | What's the one thing we should *not* be doing right now as a team, even if it feels important?                  |
 | 4  | How do you think we can improve our weekly retrospectives?                                   | What part of our current process is wasting time or not giving you value?                                       |
@@ -237,11 +237,11 @@ A meeting-type-neutral "how's your energy" probe is too generic — anchor it.
 | 8  | How can we better support your interest in mentoring?                                        | What would mentoring actually look like in your week, and what would you need to drop to make space for it?     |
 | 9  | What aspect of the payments refactor are you most proud of?                                  | What specifically made the refactor land well, and what should we repeat next time?                             |
 | 10 | Are there any blockers or challenges you're currently facing?                                | What's currently slowing you down, and what part of that is within your control vs needs escalation?            |
-| 11 | What do you think is behind your quieter energy this week?                                   | I've noticed you've been quieter — what's going on underneath that?                                             |
+| 11 | What do you think is behind your quieter energy this week?                                   | I've noticed you've been quieter. What's going on underneath that?                                              |
 | 12 | How did it feel to see the team's response to the payments refactor success?                 | Did the recognition land properly for you, or did anything feel missing?                                        |
 | 13 | What kind of mentoring opportunities are you envisioning for yourself?                       | Who specifically would you mentor, and what outcomes would you want from it?                                    |
 | 14 | What blockers or dependencies are you currently facing that we haven't discussed?            | What are you currently waiting on that could quietly stall your progress?                                       |
-| 15 | What are your thoughts on getting involved in the checkout migration?                        | Do you want to be involved in the checkout migration — and if yes, what role would actually make sense for you? |
+| 15 | What are your thoughts on getting involved in the checkout migration?                        | Do you want to be involved in the checkout migration, and if yes, what role would actually make sense for you?  |
 | 16 | What part of the work is still getting discovered too late?                                  | What parts of the design are we only finding too late in review?                                                |
 
 Patterns distilled from the rewrites:
@@ -252,7 +252,7 @@ Patterns distilled from the rewrites:
 - Swap binary/abstract for specific problem areas: "where are things messy?" beats "do you feel good?".
 - Force a prediction of risk: "where do you expect this to get difficult?" beats "initial thoughts".
 - Name names and outcomes: "*who* specifically?", "*what* outcomes?" beats "what are you envisioning?".
-- Observation-first for personal probes: "I've noticed X — what's underneath?" beats "why are you X?".
+- Observation-first for personal probes: "I've noticed X. What's underneath?" beats "why are you X?".
 - Verb swap: "what are you *waiting on*?" beats "what's blocking you?".
 - Offer the opt-out explicitly: "do you want X — and if so..." beats assuming they want X.
 - Gap-naming framing (`gap_naming` stage): collaborative "what are *we* only finding too late?" beats manager-diagnostic "what's *getting discovered* too late?" or "where have you fallen short?" — and name the medium ("the design", "the spec") rather than the abstract "the work". The gap is shared and named plainly, not pinned on the report.
@@ -318,7 +318,7 @@ Rules:
 - Every question must carry a `stage` field whose value is one of the arc stage `id`s above.
 - Distribute the bank across stages roughly matching each stage's `target_questions`. Over-generating one stage at the expense of another breaks the arc.
 - The first item in the bank (position 0) must belong to the **first** stage of the arc. The last item must belong to the **last** stage (it is the designated closer — see `<closing_question_rule>`).
-- The **tone register above OVERRIDES** the generic `<question_craft>` rewrites where they conflict. Example: in "Growth & career plan", the sharp-column "where is your energy actually at — and what's driving that?" reads too diagnostic for the `anchor` stage — prefer "What's feeling solid in your role right now, and what's stretching you?". In "Something feels off", a question must be observation-first/opt-in even if the sharp-column rewrite is more pointed.
+- The **tone register above OVERRIDES** the generic `<question_craft>` rewrites where they conflict. Example: in "Growth & career plan", the sharp-column "where is your energy actually at, and what's driving that?" reads too diagnostic for the `anchor` stage — prefer "What's feeling solid in your role right now, and what's stretching you?". In "Something feels off", a question must be observation-first/opt-in even if the sharp-column rewrite is more pointed.
 - Stage governs flow; axis_effects governs scoring. They are independent — a single stage can include questions probing different axes.
 </meeting_arc>
 

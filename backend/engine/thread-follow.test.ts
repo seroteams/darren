@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildThreadFollowQuestion, followReferencesAnswer } from "./thread-follow.ts";
-import { validateQuestionBeforeShow } from "./question-validator.ts";
+import { markThreadFollow, followReferencesAnswer, isFollowUpQuestion } from "./thread-follow.ts";
 import type { Question } from "../shared/question.types.ts";
 
 const lastQ = {
@@ -14,90 +13,102 @@ const lastQ = {
   source: "reworded_from:q_friction_scan_34",
 } as unknown as Question;
 
-// Real substantive answers from the 2026-07-11 biweekly-priya gate roll. Every
-// one passed answerHasThread and then died in the builder: the old canned
-// "can you say more about what that means" stem is the exact phrase the
-// validator bans on substantive answers, so the runtime mint could never fire
-// on the very answers it exists for.
+function planned(name: string, extra: Partial<Question> = {}): Question {
+  return {
+    alias: "q_planner_item",
+    label: "Planner item",
+    name,
+    description: "",
+    purpose: "topic",
+    stage: "explore",
+    axis_effects: { clarity: 1 },
+    source: "planner_added",
+    ...extra,
+  } as Question;
+}
+
+// Real substantive answers from the 2026-07-11 biweekly-priya gate roll.
 const REAL_ANSWERS = [
   "Mentioned mentoring before — still wants it, but stopped pushing.",
   "Proud of the migration plan and how the cutover was handled.",
   "Felt a bit stuck doing similar work for months.",
 ];
 
+// The engine no longer writes the follow-up. Until 2026-07-30 it minted one fixed
+// sentence in code (`You said "…" — what's behind that for you right now?`), which
+// read as bland on every turn it fired and could slice a quote mid-word. These
+// tests pin the replacement: mark what the model did, never author a question.
+
 for (const answer of REAL_ANSWERS) {
-  test(`buildThreadFollowQuestion mints a validator-passing follow for: "${answer.slice(0, 32)}…"`, () => {
-    const follow = buildThreadFollowQuestion(lastQ, answer, []);
-    assert.ok(follow, "builder returned null — the stem failed its own validation");
-    assert.equal(follow.label, "Thread follow");
-    assert.equal(follow.source, "planner_added");
-    // Grounded: the stem quotes the answer's own words (this is also what the
-    // gate's plan_thread_follow metric checks).
+  test(`no question is invented when the planner drops the thread: "${answer.slice(0, 32)}…"`, () => {
+    const queue = [planned("What's on for the rest of the quarter?")];
+    const issues: string[] = [];
+    markThreadFollow({ newQueue: queue, lastAnswer: answer, lastQuestion: lastQ, remainingBudget: 6, issues });
+    assert.equal(queue.length, 1, "queue membership changed — the engine authored a question again");
+    assert.equal(queue[0]?.follows_thread, undefined);
     assert.ok(
-      followReferencesAnswer(answer, follow.name),
-      `stem does not reference the answer: ${follow.name}`,
+      issues.some((i) => /dropped the open thread/.test(i)),
+      `expected the dropped-thread note, got: ${JSON.stringify(issues)}`,
     );
-    const check = validateQuestionBeforeShow({ name: follow.name, answer });
-    assert.ok(check.ok, `validator rejected the minted stem: ${JSON.stringify(check)}`);
   });
 }
 
-test("buildThreadFollowQuestion still skips an answer with no mirrorable clause", () => {
-  const follow = buildThreadFollowQuestion(lastQ, "and but so um uh and but", []);
-  assert.equal(follow, null);
+test("the planner's own follow-up is tagged, not replaced", () => {
+  const answer = "the test environment kept falling over and we lost a week";
+  const modelFollow = planned("What did you try when the test environment went down?");
+  assert.ok(followReferencesAnswer(answer, modelFollow.name), "fixture must reference the answer");
+  const queue = [modelFollow, planned("Where's the quarter heading?")];
+  const issues: string[] = [];
+  markThreadFollow({ newQueue: queue, lastAnswer: answer, lastQuestion: lastQ, remainingBudget: 6, issues });
+  assert.equal(queue.length, 2, "queue membership changed");
+  assert.equal(queue[0]?.follows_thread, true);
+  assert.deepEqual(issues, [], `expected no issue when the planner followed the thread: ${JSON.stringify(issues)}`);
 });
 
-// Regression for the 2026-07-21 user test: the quoted mirror cut the first
-// clause's last word off ("some issues on top of her" from "…her mind"), which
-// read as a broken quote with no visible source. The whole clause must survive.
-test("buildThreadFollowQuestion quotes the whole clause, never a mid-phrase cut", () => {
-  const answer = "Some issues on top of her mind. PO is slowing UX down for the team.";
-  const follow = buildThreadFollowQuestion(lastQ, answer, []);
-  assert.ok(follow, "builder returned null on a clean, mirrorable answer");
-  assert.match(
-    follow.name,
-    /some issues on top of her mind/i,
-    `quote was truncated mid-clause: ${follow.name}`,
-  );
-  assert.ok(
-    /her mind/i.test(follow.name),
-    `last word of the clause was lopped off: ${follow.name}`,
-  );
-  const check = validateQuestionBeforeShow({ name: follow.name, answer });
-  assert.ok(check.ok, `validator rejected the whole-clause stem: ${JSON.stringify(check)}`);
+test("no note and no tag in wind-down, so the arc can reach the closer", () => {
+  const queue = [planned("What's on for the rest of the quarter?")];
+  const issues: string[] = [];
+  markThreadFollow({
+    newQueue: queue,
+    lastAnswer: "the test environment kept falling over and we lost a week",
+    lastQuestion: lastQ,
+    remainingBudget: 2,
+    issues,
+  });
+  assert.equal(queue[0]?.follows_thread, undefined);
+  assert.deepEqual(issues, []);
 });
 
-// --- Inherited coaching (question-support-hints Phase 3) --------------------
-
-// A thread-follow is minted here in code with no model call, so it can never have
-// coaching written for it. It pulls the same thread as the question it follows,
-// so it carries that question's hints — tagged `inherited` so the panel can say
-// where they came from instead of passing them off as written for this question.
-test("a thread-follow carries the parent question's hints, tagged as inherited", () => {
-  const parent = {
-    ...lastQ,
-    hints: [
-      { kind: "ask", text: "Ask it flat, then leave the pause alone." },
-      { kind: "listen", text: "Whether he names the QA environment or something else." },
-    ],
-  } as unknown as Question;
-  const follow = buildThreadFollowQuestion(
-    parent,
-    "the test environment kept falling over and we lost a week",
-    [],
-  );
-  assert.ok(follow, "expected a grounded follow to mint");
-  assert.deepEqual(follow?.hints, parent.hints);
-  assert.equal(follow?.hints_source, "inherited");
+test("a follow-up is never chased with another follow-up", () => {
+  const queue = [planned("What's on for the rest of the quarter?")];
+  const issues: string[] = [];
+  markThreadFollow({
+    newQueue: queue,
+    lastAnswer: "the test environment kept falling over and we lost a week",
+    lastQuestion: planned("What did you try when the test environment went down?", { follows_thread: true }),
+    remainingBudget: 6,
+    issues,
+  });
+  assert.deepEqual(issues, [], "chained a second follow-up onto a follow-up");
 });
 
-test("a thread-follow off a hint-less question claims no coaching of its own", () => {
-  const follow = buildThreadFollowQuestion(
-    lastQ,
-    "the test environment kept falling over and we lost a week",
-    [],
+test("a shallow or skipped answer opens no thread", () => {
+  for (const answer of ["ok", "(skipped)", "", "fine"]) {
+    const queue = [planned("What's on for the rest of the quarter?")];
+    const issues: string[] = [];
+    markThreadFollow({ newQueue: queue, lastAnswer: answer, lastQuestion: lastQ, remainingBudget: 6, issues });
+    assert.deepEqual(issues, [], `treated "${answer}" as an open thread`);
+    assert.equal(queue[0]?.follows_thread, undefined);
+  }
+});
+
+// Sessions recorded before 2026-07-30 still carry code-minted follow-ups. The
+// drill cap pins them by this check, so replay must keep recognising them.
+test("a pre-2026-07-30 code-minted follow-up is still recognised as a follow-up", () => {
+  assert.equal(
+    isFollowUpQuestion({ source: "planner_added", label: "Thread follow" } as Question),
+    true,
   );
-  assert.ok(follow, "expected a grounded follow to mint");
-  assert.equal(follow?.hints, undefined);
-  assert.equal(follow?.hints_source, undefined);
+  assert.equal(isFollowUpQuestion(planned("Where's the quarter heading?")), false);
+  assert.equal(isFollowUpQuestion(null), false);
 });

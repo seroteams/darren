@@ -34,6 +34,11 @@ export interface Question {
   // labels them, rather than passing them off as written for this question
   // (question-support-hints Phase 3). Absent = the hints are this question's own.
   hints_source?: "inherited";
+  // True when this question drills the thread the last answer opened, set at
+  // runtime by markThreadFollow (backend/engine/thread-follow.ts). The question
+  // screen shows its "following up on what you just said" cue off this: a
+  // model-written drill carries no q_thread_follow alias to match on.
+  follows_thread?: boolean;
   // NOTE (decision for review): the YAML loader (questions.ts) surfaces any extra top-level
   // scalar key, so YAML questions *can* carry more than these fields. We keep the contract
   // CLOSED — a new field (like `hints`) is added explicitly here, which documents it, rather
@@ -47,5 +52,5 @@ export interface Question {
  */
 export type WireQuestion = Pick<
   Question,
-  "alias" | "label" | "name" | "description" | "purpose" | "hints" | "hints_source"
+  "alias" | "label" | "name" | "description" | "purpose" | "hints" | "hints_source" | "follows_thread"
 >;

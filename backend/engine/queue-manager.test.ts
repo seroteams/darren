@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature, enforceDrillCap, enforceThreadFollow, RESPONSE_SCHEMA } from "./queue-manager.ts";
+import { enforceCloserOnFinalTurn, enforceBudgetLength, clampToSignature, enforceDrillCap, markThreadFollow, RESPONSE_SCHEMA } from "./queue-manager.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import type { Question } from "../shared/question.types.ts";
 import type { Arc } from "./queue-constants.ts";
@@ -130,41 +130,57 @@ test("enforceDrillCap: without a thread-follow, a same-stage drill at the front 
   assert.ok(issues.some((i) => i.includes("drill cap")));
 });
 
-// --- Thread-follow: mint under drill pressure, but never chain (Phase 2) ----
+// --- Thread-follow: mark what the planner did, never write a question --------
 
-// ≥5 words, not shallow, yet no clause survives filler-stripping to a 3-word
-// span — so buildThreadFollowQuestion returns null and pushes "no stem grounded"
-// WITHOUT writing a question file. That issue is our disk-free proof of whether
-// the guard let the answer through to the builder.
-const UNMIRRORABLE = "and but so um uh and but";
+// A substantive answer the planner's first item does not pick up. The engine
+// notes it and leaves the queue exactly as it found it (until 2026-07-30 it
+// injected a fixed code-written stem here instead).
+const UNFOLLOWED_ANSWER = "the partner rollout keeps stalling on leadership sign-off";
 
-test("enforceThreadFollow: a new thread still reaches the builder under drill pressure", () => {
+test("markThreadFollow: a dropped thread is noted, and the queue is untouched", () => {
   const issues: string[] = [];
-  enforceThreadFollow({
-    newQueue: [q("planned")],
-    lastAnswer: UNMIRRORABLE,
-    lastQuestion: drill("d1", "explore"), // a normal same-stage drill, not a thread-follow
-    remainingBudget: 6, // drill count no longer gates the follow — only "was the last Q itself a follow?"
-    askedNames: [],
-    transcript: [],
+  const queue = [q("planned")];
+  markThreadFollow({
+    newQueue: queue,
+    lastAnswer: UNFOLLOWED_ANSWER,
+    lastQuestion: drill("d1", "explore"), // a normal same-stage drill, not a follow-up
+    remainingBudget: 6, // drill count doesn't gate this — only "was the last Q itself a follow?"
     issues,
   });
-  assert.ok(issues.some((i) => i.includes("no stem grounded")));
+  assert.deepEqual(queue.map((x) => x.alias), ["planned"]);
+  assert.ok(issues.some((i) => i.includes("dropped the open thread")));
 });
 
-test("enforceThreadFollow: a thread-follow is never chained onto another thread-follow", () => {
+test("markThreadFollow: a follow-up is never chased with another follow-up", () => {
   const issues: string[] = [];
-  const out = enforceThreadFollow({
-    newQueue: [q("planned")],
-    lastAnswer: UNMIRRORABLE,
-    lastQuestion: tf("prev-follow", "explore"), // last question was itself a thread-follow
+  const queue = [q("planned")];
+  markThreadFollow({
+    newQueue: queue,
+    lastAnswer: UNFOLLOWED_ANSWER,
+    lastQuestion: tf("prev-follow", "explore"), // last question was itself a follow-up
     remainingBudget: 6,
-    askedNames: [],
-    transcript: [],
     issues,
   });
-  assert.deepEqual(out.map((x) => x.alias), ["planned"]); // unchanged
-  assert.equal(issues.length, 0); // bailed before the builder — no injection, no "no stem grounded"
+  assert.deepEqual(queue.map((x) => x.alias), ["planned"]); // unchanged
+  assert.equal(issues.length, 0); // bailed before the check, so no note either
+});
+
+// The drill cap used to pin only code-minted follow-ups. A model-written
+// follow-up shares the last question's stage, so without the `follows_thread`
+// pin the cap eats it exactly when someone keeps opening up (thread-follow P1).
+test("enforceDrillCap: a model-written follow-up at slot 0 survives drill pressure", () => {
+  const issues: string[] = [];
+  const follow = { ...drill("model-follow", "explore"), follows_thread: true };
+  const out = enforceDrillCap({
+    newQueue: [follow, drill("d2", "explore")],
+    lastQuestion: drill("d1", "explore"),
+    remainingQueue: [],
+    consecutiveDrillCount: 2,
+    transcript: [],
+    arc: emptyArc,
+    issues,
+  });
+  assert.equal(out[0]?.alias, "model-follow", "the cap ate the planner's follow-up");
 });
 
 // --- Regression: gates that already existed --------------------------------

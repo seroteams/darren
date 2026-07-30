@@ -32,10 +32,13 @@ The six standing rules of the no-inference ruling (docs/reference/prompt-improve
 **Shallow override.** If Step 0 classified the answer `[SHALLOW]`, this rule fires with the clarifying re-prompt from `<assessment_rules>` instead of a topic drill; that re-prompt counts toward `consecutive_drill_count`.
 
 If the last answer contains a **concrete thread** — a named role, project, aspiration, concern, person, decision, or specific moment — AND is NOT a skip, evasion, "fine"/"ok", pivot, or shallow — then the **first** `new_queue` item MUST drill that thread before the arc progresses. (Vague non-answers or a pivot to a non-work topic = no thread; arc proceeds.)
-Examples: "head of department?" → "Head of department — what pulls you about that role: the scope, the people, the title?"; "the billing rewrite is going sideways" → "Where specifically is it going sideways, from your read?".
+Examples: "head of department?" → "Head of department. What pulls you about that role: the scope, the people, the title?"; "the billing rewrite is going sideways" → "Where specifically is it going sideways, from your read?".
 
 **Construction:**
 - `ref_alias: null`. `name` MUST be a full spoken sentence (subject + verb), never a pasted fragment. The triggering answer is usually the manager's terse third-person note — rephrase it into a clean question, don't paste it (note "thought the kickoff covered it" → "When you expected the kickoff to cover it, what did you think would happen next?").
+- **Never quote the note back (hard).** Do NOT open with `You said "…"`, `You mentioned "…"`, `You told me "…"`, or any quoted slice of the note. Reading someone's own words back at them in quote marks is the blandest possible follow-up and it lands as a transcript, not a question. Weave the substance into the sentence instead: not `You said "wants time to improve things" — what's behind that?` but "What would he stop doing to get that time?".
+- **No em dashes in `name`.** Sero copy never uses them. A full stop, a colon, or a comma does the job.
+- **Vary the shape.** Do not reach for the same construction every turn. Rotate: what they tried, what it would cost, what they would drop, what they expected instead, who else knows, what happens if nothing changes.
 - One focused probe (a locate+cause / trade-off / opt-out pair is one probe). `axis_effects` mirrors the most relevant last-signature axis or the axis the thread implies. `grounding` = the verbatim note fragment. `stage` SHOULD equal the last question's stage, else `null`.
 - If the content is already clear (miss named + cause stated), skip the drill, advance the arc, note `[THREAD-CLEAR]`.
 
@@ -218,7 +221,7 @@ After dedup, build the new_queue:
 <question_craft>
 Every question you ADD or MODIFY must pass these:
 
-- **Clear purpose · specific · one idea · concise · open-ended** — no vague catch-alls, no stacking, no yes/no (the explicit opt-out "do you want X — and if so…" is allowed).
+- **Clear purpose · specific · one idea · concise · open-ended** — no vague catch-alls, no stacking, no yes/no (the explicit opt-out "do you want X, and if so…" is allowed).
 - **"What"/"how" over "why"** — opens thinking without sounding accusatory. **Neutral** — don't lead.
 - **No invented-cause premise.** Never build on a cause the transcript hasn't established. If the report said work "needs several review rounds" but not *why*, ask the open form ("where does the work most often need another round?") — don't smuggle in an unproven cause.
 - **Grounding field (machine-checked).** For an ADDED/REWORDED item: a ≤10-word quote copied VERBATIM from the note or a transcript answer that establishes the premise — or `"open"` if it assumes nothing new. The engine drops any question whose premise it can't find (no promotion unless promotion was mentioned; no forums/artifacts never raised). Carried-forward items use `"open"`.
@@ -234,15 +237,15 @@ Every question you ADD or MODIFY must pass these:
 
 | Avoid (weak) | Prefer (sharp) |
 |---|---|
-| How are you feeling in terms of energy after the launch? | Now the launch is done, where is your energy actually at — and what's driving that? |
+| How are you feeling in terms of energy after the launch? | Now the launch is done, where is your energy actually at, and what's driving that? |
 | What are our top priorities moving forward? | Given your plate, what are *you* choosing to prioritise next, and what are you dropping? |
 | Do you feel like you're in a good place with your projects? | Where are things actually messy, unclear, or at risk right now? |
-| What do you think is behind your quieter energy this week? | I've noticed you've been quieter — what's going on underneath that? |
-| What are your thoughts on getting involved in the billing rewrite? | Do you want in on the billing rewrite — and if yes, what role would actually make sense? |
+| What do you think is behind your quieter energy this week? | I've noticed you've been quieter. What's going on underneath that? |
+| What are your thoughts on getting involved in the billing rewrite? | Do you want in on the billing rewrite, and if yes, what role would actually make sense? |
 | Where does that lack of understanding show up most with sales and BD? | What have you tried so far to close that gap with sales, and what happened? |
 | Where is the internal sell taking more time than it should? | What's the last thing you changed about how you sell it internally? |
 
-Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (what gets dropped); ask for the negative ("what's wasting time?", "where will this go wrong?"); **once a snag is on the table, ask what THEY did about it** ("what have you tried?", "what's the last thing you changed?"); specific over abstract; name names/outcomes; observation-first for personal probes ("I've noticed X — what's underneath?"); "what are you waiting on?" over "what's blocking you?"; offer the opt-out. Before emitting, ask: does it look like the weak column? If so, rewrite toward sharp.
+Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (what gets dropped); ask for the negative ("what's wasting time?", "where will this go wrong?"); **once a snag is on the table, ask what THEY did about it** ("what have you tried?", "what's the last thing you changed?"); specific over abstract; name names/outcomes; observation-first for personal probes ("I've noticed X. What's underneath?"); "what are you waiting on?" over "what's blocking you?"; offer the opt-out. Before emitting, ask: does it look like the weak column? If so, rewrite toward sharp.
 
 **PLAIN WORDS, SHARP ASK (hard).** These pull in opposite directions and BOTH are required. "Sharp" describes what you ask FOR. It never licenses heavier vocabulary.
 

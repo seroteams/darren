@@ -44,8 +44,7 @@ import {
   isRuntimeThreadFollow,
   answerHasThread,
   followReferencesAnswer,
-  buildThreadFollowQuestion,
-  enforceThreadFollow,
+  markThreadFollow,
 } from "./thread-follow.ts";
 import {
   isShallowAnswer,
@@ -240,12 +239,15 @@ function enforceDrillCap({
     return queue;
   }
 
-  // A runtime thread-follow at slot 0 is a content-locked follow-up to what the
-  // person just said — pin it so the cap slices and advances AROUND it, never
-  // over it. (It inherits lastQuestion.stage, so without this it reads as a
-  // same-stage planner drill and gets eaten below.) Mirrors the coverage gate's
-  // slot-0 guard (axis-coverage.ts `insertAt`).
-  const pinned = isRuntimeThreadFollow(queue[0]) ? queue[0] : null;
+  // A follow-up at slot 0 is content-locked to what the person just said — pin it
+  // so the cap slices and advances AROUND it, never over it. It shares
+  // lastQuestion.stage, so without this it reads as a same-stage planner drill and
+  // gets eaten below. Mirrors the coverage gate's slot-0 guard (axis-coverage.ts
+  // `insertAt`). `follows_thread` covers the model-written follow-up;
+  // isRuntimeThreadFollow still covers replayed sessions from before 2026-07-30,
+  // when the engine minted the follow-up itself.
+  const pinned =
+    queue[0]?.follows_thread === true || isRuntimeThreadFollow(queue[0]) ? queue[0] : null;
   let body = pinned ? queue.slice(1) : queue;
 
   while (body.length && isSameStagePlannerDrill(body[0], lastStage)) {
@@ -467,17 +469,18 @@ async function planTurn({
     resolvedCauses,
   });
   const consecutiveDrillCount = computeConsecutiveDrillCount(transcript, lastQuestion);
-  let newQueue = enforceThreadFollow({
+  // Read-only: tags the planner's own follow-up, or notes that it dropped the
+  // thread. The engine no longer writes a follow-up question itself (see
+  // thread-follow.ts) — the model's first new_queue item is the follow-up.
+  markThreadFollow({
     newQueue: reconciledQueue,
     lastAnswer,
     lastQuestion,
     remainingBudget,
-    askedNames,
-    transcript: transcript || [],
     issues: gateIssues,
   });
-  newQueue = enforceDrillCap({
-    newQueue,
+  let newQueue = enforceDrillCap({
+    newQueue: reconciledQueue,
     lastQuestion,
     remainingQueue,
     consecutiveDrillCount,
@@ -585,8 +588,7 @@ export {
   applyMisalignmentClarity,
   applyRecurringGapClarityDamper,
   enforceAxisCoverage,
-  enforceThreadFollow,
-  buildThreadFollowQuestion,
+  markThreadFollow,
   enforceDrillCap,
   enforceCloserOnFinalTurn,
   enforceBudgetLength,

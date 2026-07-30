@@ -130,10 +130,11 @@ export function createCoachPanel({
 
   function supportHtml(): string {
     if (questionHints.length) {
-      // A thread-follow ("Following up on what you just said") is minted in code
-      // with no model call, so it carries the hints of the question it follows.
-      // Say so — the alternative is passing whole-thread coaching off as written
-      // for this exact question (question-support-hints Phase 3).
+      // Only replayed sessions from before 2026-07-30 reach this label: back then
+      // a follow-up was minted in code with no model call, so it borrowed the
+      // hints of the question it followed. Say so — the alternative is passing
+      // whole-thread coaching off as written for this exact question
+      // (question-support-hints Phase 3). Model-written follow-ups have their own.
       const label = hintsInherited
         ? `<p class="coach-source">From the question this follows up on.</p>`
         : "";

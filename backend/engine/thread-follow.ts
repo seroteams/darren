@@ -1,16 +1,28 @@
-// Runtime thread-follow: detect when an answer opens a thread worth pulling, and
-// mint a grounded one-turn follow-up that mirrors the answer's own words.
-// Extracted verbatim from queue-manager.ts (Phase 2 repo-tidy) — no behaviour change.
-import { newAlias, saveQuestion, listAllAliases } from "./questions.ts";
-import { contentTokens, isRepeatOfAsked } from "./question-eligibility.ts";
-import { validateQuestionBeforeShow } from "./question-validator.ts";
+// Runtime thread-follow: detect whether the planner picked up a thread the last
+// answer opened, and record what it found. This module used to MINT the follow-up
+// itself, in code, from one fixed sentence:
+//
+//   You said "<clause from the answer>" — what's behind that for you right now?
+//
+// That was removed on 2026-07-30 (Carl: "questions like this feel very bland").
+// A fixed tail can never not be bland, its clause slicer had no word-boundary
+// guard (it served `"ne wants time to improve things"` from "…one wants…" on the
+// Jul-29 user test), and it carried an em dash, which is banned in Sero copy.
+// The follow-up is now the model's job: <thread_follow_rule> in
+// content/prompts/plan-turn.md makes drilling an open thread the first new_queue
+// item, phrased fresh rather than pasted. Nothing here writes question text.
 import { isShallowAnswer } from "./delta-gates.ts";
-import { RUNTIME_SUBDIR } from "./queue-constants.ts";
 import type { Question } from "../shared/question.types.ts";
-import type { TranscriptEntry } from "../shared/session.types.ts";
 
+// Matches the code-minted follow-ups that ran until 2026-07-30, so replayed
+// sessions and saved q_thread_follow_* rows still behave. New follow-ups are
+// model-written and carry `follows_thread` instead.
 function isRuntimeThreadFollow(q: { source?: string; label?: string } | null | undefined): boolean {
   return q?.source === "planner_added" && q?.label === "Thread follow";
+}
+
+function isFollowUpQuestion(q: Question | null | undefined): boolean {
+  return q?.follows_thread === true || isRuntimeThreadFollow(q);
 }
 
 function answerHasThread(answer: string | null | undefined): boolean {
@@ -35,123 +47,49 @@ function firstQueueFollowsThread(queue: Question[] | null | undefined, answer: s
   return followReferencesAnswer(answer, queue[0]?.name);
 }
 
-// The mirror must quote a contiguous run of the answer's own words, clause-
-// bounded. The old version took the first three long tokens from anywhere in
-// the answer — a skip-gram that read as word salad on typo-heavy notes
-// ("tell will working — can you say more…", Jun 02 Luke run).
-const MIRROR_FILLER = /^(yeah|yes|yep|ok|okay|well|so|um|uh|and|but)\s+/i;
-// Quote a WHOLE clause, never a mid-phrase slice. Clauses are already
-// punctuation-bounded, so each is a complete thought — the old `slice(0, 6)` cut
-// "some issues on top of her mind" down to "some issues on top of her", which
-// read as a broken quote with the last word lopped off (2026-07-21 user test).
-// Take the first clause that's a mirrorable length; if the only clauses are too
-// long to quote cleanly, mint nothing (ground-or-skip) rather than truncate one
-// mid-thought — a half-sentence quote fakes a connection the report never made.
-const MIRROR_MIN_WORDS = 3;
-const MIRROR_MAX_WORDS = 12;
-function contiguousAnswerSpan(answer: string | null | undefined): string | null {
-  for (const raw of String(answer || "").split(/[.!?;,\n—–]+/)) {
-    let clause = raw.replace(/[^a-z0-9\s'-]/gi, " ").replace(/\s+/g, " ").trim();
-    while (MIRROR_FILLER.test(clause)) clause = clause.replace(MIRROR_FILLER, "");
-    const words = clause.split(" ").filter(Boolean);
-    if (words.length >= MIRROR_MIN_WORDS && words.length <= MIRROR_MAX_WORDS) {
-      return words.join(" ");
-    }
-  }
-  return null;
-}
-
-// Ground-or-skip: a thread-follow must mirror the answer's own words. If the
-// mirror stem can't pass validation, return null and inject nothing — a canned
-// context-free stem fakes a connection the engine didn't make (the Jun 11
-// Machar run served the identical generic stem on consecutive turns and it
-// read as disconnected both times).
-function buildThreadFollowQuestion(lastQuestion: Question | null | undefined, lastAnswer: string | null | undefined, transcript: TranscriptEntry[] | null | undefined): Question | null {
-  const mirrorSpan = contiguousAnswerSpan(lastAnswer);
-  if (!mirrorSpan) return null;
-  // Quote the answer's own words, then probe the cause — the plan-turn prompt's
-  // "one focused probe" craft. The old "can you say more about what that means"
-  // tail was the exact phrase the validator bans on substantive answers
-  // (VAGUE_MORE), so the mint could never fire on the very answers it exists
-  // for — every runtime thread-follow died at validation.
-  const mirrorStem = `You said "${mirrorSpan}" — what's behind that for you right now?`;
-
-  const mirrorCheck = validateQuestionBeforeShow({
-    name: mirrorStem,
-    answer: lastAnswer ?? undefined,
-  });
-  if (!mirrorCheck.ok) return null;
-
-  const alias = newAlias("thread follow", listAllAliases());
-  // A thread-follow is minted here in code, with no model call, so it can never
-  // have coaching written for it. It pulls the same thread as the question it
-  // follows, so that question's hints still apply — carried over explicitly and
-  // tagged "inherited" so the panel can say where they came from rather than
-  // passing them off as written for this question (question-support-hints P3).
-  const inherited = lastQuestion?.hints?.length ? lastQuestion.hints : null;
-  return {
-    alias,
-    label: "Thread follow",
-    name: mirrorStem,
-    description: "Following up on what they just said.",
-    purpose: lastQuestion?.purpose || "topic",
-    stage: lastQuestion?.stage ?? null,
-    axis_effects: { ...(lastQuestion?.axis_effects || { engagement: 1 }) },
-    source: "planner_added",
-    ...(inherited ? { hints: inherited, hints_source: "inherited" as const } : {}),
-  };
-}
-
-function enforceThreadFollow({
+// Read-only on queue membership: tag the planner's own follow-up when it picked
+// the thread up, note it when it didn't. Never inserts, reorders, or removes.
+//
+// The note is a heuristic and says so. followReferencesAnswer needs just one
+// shared word over 4 characters, while the prompt tells the model to rephrase the
+// note rather than paste it — so a good rephrasing can read as a miss here. It is
+// a run record for us, and never reaches a screen.
+function markThreadFollow({
   newQueue,
   lastAnswer,
   lastQuestion,
   remainingBudget,
-  askedNames = [],
-  transcript = [],
   issues,
 }: {
   newQueue: Question[];
   lastAnswer: string | null | undefined;
   lastQuestion: Question | null | undefined;
   remainingBudget: number | string | null | undefined;
-  askedNames?: string[];
-  transcript?: TranscriptEntry[];
   issues: string[];
-}): Question[] {
-  if (Number(remainingBudget) <= 2) return newQueue;
-  // Don't chain a thread-follow onto another thread-follow — following a follow
-  // lets one thread stall the whole arc. But a genuine NEW thread opened after
-  // ordinary drilling still earns ONE follow, even under drill pressure: that's
-  // the point of the feature, and Phase 1 pins the follow so the drill cap still
-  // advances everything behind it. (Was: a blanket `consecutiveDrillCount >= 2`
-  // bail, which went deaf exactly when the person kept opening up.)
-  if (isRuntimeThreadFollow(lastQuestion)) return newQueue;
-  if (!answerHasThread(lastAnswer)) return newQueue;
-  if (firstQueueFollowsThread(newQueue, lastAnswer)) return newQueue;
-  const follow = buildThreadFollowQuestion(lastQuestion, lastAnswer, transcript);
-  if (!follow) {
-    issues.push("runtime: thread-follow skipped (no stem grounded in the answer)");
-    return newQueue;
+}): void {
+  // Same guards the mint used, for the same reasons: in wind-down the arc has to
+  // reach the closer, a follow of a follow lets one thread stall everything, and
+  // a shallow or skipped answer opens no thread to follow.
+  if (Number(remainingBudget) <= 2) return;
+  if (isFollowUpQuestion(lastQuestion)) return;
+  if (!answerHasThread(lastAnswer)) return;
+  const first = Array.isArray(newQueue) ? newQueue[0] : undefined;
+  if (!first) return;
+
+  if (followReferencesAnswer(lastAnswer, first.name)) {
+    // Lets the question screen show its "following up on what you just said" cue
+    // on a model-written drill, which carries no q_thread_follow alias to match.
+    first.follows_thread = true;
+    return;
   }
-  // Don't inject a thread-follow that repeats a question already asked — or
-  // one already sitting in the queue, which would be served as a duplicate a
-  // few turns later.
-  const askedTokenSets = (askedNames || []).map(contentTokens);
-  const queuedTokenSets = (newQueue || []).map((q) => contentTokens(q?.name));
-  if (isRepeatOfAsked(follow.name, [...askedTokenSets, ...queuedTokenSets])) {
-    issues.push("runtime: thread-follow skipped (would repeat an asked or queued question)");
-    return newQueue;
-  }
-  issues.push("runtime: injected thread-follow question");
-  saveQuestion(follow, { subdir: RUNTIME_SUBDIR });
-  return [follow, ...(newQueue || [])];
+  issues.push("runtime: planner may have dropped the open thread (heuristic)");
 }
 
 export {
   isRuntimeThreadFollow,
+  isFollowUpQuestion,
   answerHasThread,
   followReferencesAnswer,
-  buildThreadFollowQuestion,
-  enforceThreadFollow,
+  firstQueueFollowsThread,
+  markThreadFollow,
 };

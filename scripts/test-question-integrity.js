@@ -21,10 +21,7 @@ const {
 } = require("../backend/engine/question-eligibility.ts");
 const { pickOpener } = require("../backend/engine/opener.ts");
 const { pickSeedOverflow } = require("../backend/engine/closer.ts");
-const {
-  buildThreadFollowQuestion,
-  enforceThreadFollow,
-} = require("../backend/engine/queue-manager.ts");
+const { markThreadFollow } = require("../backend/engine/queue-manager.ts");
 const { checkQuestionIntegrity } = require("../evals/trust-checks.ts");
 const { QUESTIONS_DIR } = require("../backend/engine/paths.mts");
 
@@ -178,92 +175,76 @@ for (const { type, reject, accept } of TYPE_GATE_CASES) {
   check("duplicate seed rejection logged", dupRejections.length === 1 && dupRejections[0].reason === "duplicate_text");
 }
 
-// --- 4. thread-follow grounds or skips
+// --- 4. the engine marks the model's follow-up, it never writes one
+// Until 2026-07-30 the engine minted the follow-up itself from one fixed
+// sentence (`You said "…" — what's behind that for you right now?`). It read as
+// bland on every turn it fired, sliced quotes mid-word, and carried a banned em
+// dash. The model owns the follow-up now (plan-turn.md <thread_follow_rule>), so
+// this section pins that nothing here authors question text or touches disk.
 {
   const lastQ = { purpose: "topic", stage: "friction", axis_effects: { clarity: 1 } };
-  // enforceThreadFollow saves injected questions into the global bank —
-  // snapshot the index, collect what this test creates, and restore both at
-  // the end so test runs don't pollute questions/.
-  const createdAliases = [];
   const QUESTIONS_ROOT = QUESTIONS_DIR;
   const INDEX_PATH = path.join(QUESTIONS_ROOT, "_index.json");
   const indexSnapshot = fs.readFileSync(INDEX_PATH, "utf8");
+  const filesBefore = fs.readdirSync(QUESTIONS_ROOT).length;
 
-  const grounded = buildThreadFollowQuestion(
-    lastQ,
-    "leadership keeps stalling the partner rollout",
-    []
-  );
-  check(
-    "thread-follow mirrors the answer's words when it can ground",
-    Boolean(grounded) && /leadership/i.test(grounded.name)
-  );
-
-  check(
-    "thread-follow returns null on an empty/junk answer",
-    buildThreadFollowQuestion(lastQ, "ok", []) === null
-  );
-
-  // A long substantive answer used to be skipped because the only stem shape
-  // was the vague "can you say more" mirror, which the validator bans on
-  // substantive answers — so the runtime mint could never fire on the answers
-  // it exists for. The builder now quotes the answer's own contiguous words and
-  // probes the cause — grounded, never canned — so it mints AND validates
-  // (thread-follow P2). The Jun 11 "fake connection" shape stays impossible:
-  // the quote must be the answer's own words or the validator rejects it.
-  const longFollow = buildThreadFollowQuestion(
-    lastQ,
-    "leadership and corporate communication keep stalling the rollout across six different teams",
-    []
-  );
-  check(
-    "thread-follow mints a grounded (never canned) follow on a long substantive answer",
-    Boolean(longFollow) &&
-      /leadership and corporate communication/i.test(longFollow.name) &&
-      !/can you say more about what that means/i.test(longFollow.name)
-  );
-
-  // The Jun 11 failure shape: same answer thread two turns running must not
-  // produce two near-identical injected questions.
-  const issues1 = [];
-  const q1 = enforceThreadFollow({
-    newQueue: [{ alias: "q_x", name: "Which customer path is taking the most of your time right now?" }],
+  // The planner ignored the thread: note it, change nothing.
+  const droppedIssues = [];
+  const droppedQueue = [
+    { alias: "q_x", name: "Which customer path is taking the most of your time right now?" },
+  ];
+  markThreadFollow({
+    newQueue: droppedQueue,
     lastAnswer: "leadership keeps stalling the partner rollout",
     lastQuestion: lastQ,
     remainingBudget: 5,
-    consecutiveDrillCount: 0,
-    askedNames: [],
-    transcript: [],
-    issues: issues1,
-  });
-  const injected = q1[0]?.label === "Thread follow" ? q1[0] : null;
-  if (injected?.alias) createdAliases.push(injected.alias);
-  check("thread-follow injects on an unfollowed mid-length answer", Boolean(injected));
-
-  const issues2 = [];
-  const q2 = enforceThreadFollow({
-    newQueue: [{ alias: "q_y", name: "Which customer path is taking the most of your time right now?" }],
-    lastAnswer: "leadership keeps stalling the partner rollout",
-    lastQuestion: lastQ,
-    remainingBudget: 4,
-    consecutiveDrillCount: 0,
-    askedNames: injected ? [injected.name] : [],
-    transcript: [],
-    issues: issues2,
+    issues: droppedIssues,
   });
   check(
-    "second identical thread-follow is skipped as a repeat",
-    !injected || q2[0]?.label !== "Thread follow"
+    "dropped thread is noted, not patched with a written question",
+    droppedQueue.length === 1 &&
+      droppedQueue[0].alias === "q_x" &&
+      droppedIssues.some((i) => /dropped the open thread/i.test(i))
   );
 
-  check("no debug text in injected description", !injected || !/\b(runtime|injected|planner)\b/i.test(injected.description));
+  // The planner followed the thread: tag it so the screen can show the cue.
+  const followedIssues = [];
+  const followedQueue = [
+    { alias: "q_y", name: "What have you tried with leadership to unblock the rollout?" },
+  ];
+  markThreadFollow({
+    newQueue: followedQueue,
+    lastAnswer: "leadership keeps stalling the partner rollout",
+    lastQuestion: lastQ,
+    remainingBudget: 5,
+    issues: followedIssues,
+  });
+  check(
+    "the planner's own follow-up is tagged and left alone",
+    followedQueue.length === 1 &&
+      followedQueue[0].follows_thread === true &&
+      followedIssues.length === 0
+  );
 
-  // Cleanup: remove the question files this test created and restore the
-  // index exactly as it was before the test ran.
-  for (const alias of createdAliases) {
-    try { fs.unlinkSync(path.join(QUESTIONS_ROOT, `${alias}.yaml`)); } catch {}
-  }
-  try { fs.writeFileSync(INDEX_PATH, indexSnapshot); } catch {}
+  // The old bland stem must not be reachable from anywhere in the engine. Only
+  // live code counts — the file's header comment quotes the stem on purpose, to
+  // record what was removed and why.
+  const engineCode = fs
+    .readFileSync(path.join(__dirname, "..", "backend", "engine", "thread-follow.ts"), "utf8")
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .split("\n")
+    .filter((line) => !/^\s*\/\//.test(line))
+    .join("\n");
+  check(
+    "no code-written question stem survives in thread-follow.ts",
+    !/You said/i.test(engineCode) && !/what's behind that/i.test(engineCode)
+  );
+
+  check(
+    "marking a follow-up writes nothing to questions/",
+    fs.readdirSync(QUESTIONS_ROOT).length === filesBefore &&
+      fs.readFileSync(INDEX_PATH, "utf8") === indexSnapshot
+  );
 }
 
 // --- 5. frozen Jun 11 run trips every detector

@@ -107,7 +107,7 @@ type QuestionResult =
       total: number;
       queueLen: number;
       scripted: { alias: string; answer: string | null; fallback: string } | null;
-      question: Pick<Question, "alias" | "label" | "name" | "description" | "purpose" | "hints" | "hints_source">;
+      question: Pick<Question, "alias" | "label" | "name" | "description" | "purpose" | "hints" | "hints_source" | "follows_thread">;
     };
 
 // The /start 201 body — the new session's id + dir + when it was created + how
@@ -454,6 +454,9 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
           // question this one follows, so the panel can label them honestly.
           ...(q.hints?.length ? { hints: q.hints } : {}),
           ...(q.hints?.length && q.hints_source ? { hints_source: q.hints_source } : {}),
+          // Set when this question drills the thread the last answer opened, so
+          // the screen can show its "following up on what you just said" cue.
+          ...(q.follows_thread ? { follows_thread: true as const } : {}),
         },
       };
     },
