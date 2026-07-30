@@ -254,3 +254,93 @@ test("buildGroundingCorpus: carries intake context and answers; mid-run notes jo
   } as never);
   assert.ok(withNotes.includes("glancing"), "a mid-run note joins the corpus so note-grounded questions survive the gate");
 });
+
+// --- The reserved closer takes the freshest coaching (coach-hints-live P2b) ---
+//
+// The closer is chosen at bank time and stashed as a whole question object, so it
+// is the one question that never passes through the reconcile rebuild. It reached
+// the manager carrying hints written before the meeting started — found by the
+// biweekly-priya proof run, where the planner had written four fresh hint sets for
+// that exact question across the meeting and all four were discarded.
+//
+// It cannot be matched on alias: reconcile mints a NEW alias every time it rebuilds
+// a carried question, so the refreshed twin sits in the queue as q_x_79 while the
+// stashed closer is q_x_76. The question TEXT is what survives a carry, so that is
+// what these match on.
+
+const STALE = [
+  { kind: "ask" as const, text: "Land it on the next two weeks and keep it concrete." },
+  { kind: "listen" as const, text: "Whether she asks for a change in scope, timing, or support." },
+  { kind: "listen" as const, text: "Whether the answer points to one thing to do first." },
+];
+const FRESH = [
+  { kind: "ask" as const, text: "Pick up the mentoring thread she just raised." },
+  { kind: "listen" as const, text: "Whether next quarter's ownership is still open for her." },
+  { kind: "listen" as const, text: "Whether she names one change or stays broad." },
+];
+
+const CLOSER_TEXT = "What would make the next two weeks steadier for you?";
+// Same question, different alias and fresher coaching — what reconcile leaves behind.
+const twin = (alias: string, hints: unknown): Question =>
+  ({ alias, name: CLOSER_TEXT, hints } as unknown as Question);
+const stashedCloser = (): Question =>
+  ({ alias: "q_next_two_weeks_76", name: CLOSER_TEXT, hints: STALE } as unknown as Question);
+
+test("enforceCloserOnFinalTurn: the pulled-in closer takes its twin's fresh hints", () => {
+  const out = enforceCloserOnFinalTurn({
+    newQueue: [twin("q_next_two_weeks_79", FRESH)],
+    remainingBudget: 1,
+    closerAlias: "q_next_two_weeks_76",
+    remainingQueue: [stashedCloser()],
+    issues: [],
+  });
+  assert.equal(out[0]?.alias, "q_next_two_weeks_76"); // still the reserved closer
+  assert.equal(out[0]?.name, CLOSER_TEXT); // wording untouched
+  assert.deepEqual(out[0]?.hints, FRESH); // coaching is this turn's
+});
+
+test("enforceCloserOnFinalTurn: a closer already at the front still takes fresh hints", () => {
+  const out = enforceCloserOnFinalTurn({
+    newQueue: [stashedCloser(), twin("q_next_two_weeks_79", FRESH)],
+    remainingBudget: 1,
+    closerAlias: "q_next_two_weeks_76",
+    remainingQueue: [],
+    issues: [],
+  });
+  assert.deepEqual(out[0]?.hints, FRESH);
+});
+
+test("enforceCloserOnFinalTurn: no twin means the closer keeps its own coaching", () => {
+  const out = enforceCloserOnFinalTurn({
+    newQueue: [q("something_else")],
+    remainingBudget: 1,
+    closerAlias: "q_next_two_weeks_76",
+    remainingQueue: [stashedCloser()],
+    issues: [],
+  });
+  assert.deepEqual(out[0]?.hints, STALE);
+});
+
+test("enforceCloserOnFinalTurn: a twin with no usable hints never empties the panel", () => {
+  const out = enforceCloserOnFinalTurn({
+    newQueue: [twin("q_next_two_weeks_79", [])],
+    remainingBudget: 1,
+    closerAlias: "q_next_two_weeks_76",
+    remainingQueue: [stashedCloser()],
+    issues: [],
+  });
+  assert.deepEqual(out[0]?.hints, STALE);
+});
+
+test("enforceCloserOnFinalTurn: refreshing hints does not mutate the stashed closer", () => {
+  const stashed = stashedCloser();
+  const out = enforceCloserOnFinalTurn({
+    newQueue: [twin("q_next_two_weeks_79", FRESH)],
+    remainingBudget: 1,
+    closerAlias: "q_next_two_weeks_76",
+    remainingQueue: [stashed],
+    issues: [],
+  });
+  assert.notEqual(out[0], stashed);
+  assert.deepEqual(stashed.hints, STALE); // session.closer is reused every turn
+});

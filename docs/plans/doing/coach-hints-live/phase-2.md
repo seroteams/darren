@@ -25,9 +25,23 @@ Offline proof:
 
 The planner had in fact written four fresh hint sets for that exact question across the run. All four were discarded by the closer path.
 
+## The closer fix (2026-07-31) — half landed, half blocked by another chat's lane
+
+There are **three** places the reserved closer can be put in front, not one:
+
+1. `enforceCloserOnFinalTurn` moves it when it is already in the planner's queue.
+2. The same function pulls it from the remaining queue.
+3. `session-streams.ts` force-inserts it when the gate found it in neither.
+
+**Done:** a pure `withFreshestHints(closer, pool)` in `backend/engine/queue-manager.ts`, wired into all three of that function's outcomes, with 5 tests in `queue-manager.test.ts` (3 watched red first). It matches the refreshed copy on question TEXT, not alias, because reconcile mints a new alias each rebuild: the stashed closer stays `q_next_two_weeks_76` while its refreshed twin is `q_next_two_weeks_79`. Wording, alias and order are untouched; only the coaching moves. No usable twin leaves it alone, and the copy means `session.closer`, reused every turn, is never mutated.
+
+**Blocked:** path 3 is the one the proof run actually took (turn 5 logged `closer gate: reserved closer q_next_two_weeks_76 not found in queue or remaining — could not enforce`, then the stream force-inserted it). The one-line change there is written and ready but `backend/api/services/sessions/session-streams.ts` is claimed in LANES.md by session `4946b27d` ("No-dead-wires audit fixes"). The lane hook stopped the edit and it was NOT made. **So the closer on the observed run is still stale.** Surfaced to Carl rather than edited through.
+
+Suite state while this was built: my four relevant test files are 144/144, `node scripts/test-design-guard.js` clean. The whole-suite figure flickers between 218 and 220 run to run because three other chats are mid-edit in this checkout; stashing my two files and re-running showed the failures move with THEIR files, not mine.
+
 ## Still owed before this can be green-lit
-- The reserved-closer path takes the same treatment, or a written decision to leave the last question alone.
-- A re-proof after that. It may not need paid: the closer injection can be covered by the offline tests, since the model side is now demonstrated.
+- The one-line `session-streams.ts` change, once that lane clears or Carl says go.
+- A re-proof after that. Probably free: the model side is already demonstrated, so the closer injection can be covered offline.
 - Carl's walk of the scenarios below.
 
 ## Goal

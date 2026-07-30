@@ -273,6 +273,34 @@ function enforceDrillCap({
 // real closer is reserved it MUST lead new_queue (plan-turn.md rule 7 / final-
 // turn enforcement). Reorder it to the front if it's present but out of place,
 // or pull it from the remaining queue if the planner dropped it. No-op off the
+// The reserved closer is picked at bank time and stashed as a whole question
+// object, so it is the ONE question that never passes through the reconcile
+// rebuild — and it reached the manager carrying coaching written before the
+// meeting started (coach-hints-live Phase 2, found by the biweekly-priya proof
+// run: the planner had written four fresh hint sets for that exact question
+// across the meeting and every one was discarded).
+//
+// It cannot be matched on alias. Reconcile mints a NEW alias each time it
+// rebuilds a carried question, so the refreshed copy sits in the queue as
+// q_next_two_weeks_79 while the stashed closer is still q_next_two_weeks_76.
+// The question TEXT is what survives a carry, so that is what this matches on.
+// The closer's own wording, alias and everything else stay exactly as reserved;
+// only the coaching beside it moves. No usable twin leaves it untouched, so the
+// panel is never emptier than it was, and the copy means `session.closer` (which
+// is reused every turn) is never mutated.
+const normalizeQuestionText = (s: string | null | undefined): string =>
+  (s || "").replace(/\s+/g, " ").trim().toLowerCase();
+
+function withFreshestHints(closer: Question, pool: Question[]): Question {
+  const twin = (pool || []).find(
+    (x) =>
+      x.alias !== closer.alias &&
+      normalizeQuestionText(x.name) === normalizeQuestionText(closer.name) &&
+      x.hints?.length,
+  );
+  return twin?.hints?.length ? { ...closer, hints: twin.hints } : closer;
+}
+
 // final turn or when no closer is reserved.
 function enforceCloserOnFinalTurn({
   newQueue,
@@ -290,17 +318,17 @@ function enforceCloserOnFinalTurn({
   const queue = [...(newQueue || [])];
   const isFinal = Number(remainingBudget) <= 1;
   if (!isFinal || !closerAlias || closerAlias === "(none)") return queue;
-  if (queue[0]?.alias === closerAlias) return queue;
+  if (queue[0]?.alias === closerAlias) return [withFreshestHints(queue[0], queue), ...queue.slice(1)];
 
   const inQueue = queue.find((x) => x.alias === closerAlias);
   if (inQueue) {
     issues.push(`closer gate: moved reserved closer ${closerAlias} to front on final turn`);
-    return [inQueue, ...queue.filter((x) => x.alias !== closerAlias)];
+    return [withFreshestHints(inQueue, queue), ...queue.filter((x) => x.alias !== closerAlias)];
   }
   const fromRemaining = (remainingQueue || []).find((x) => x.alias === closerAlias);
   if (fromRemaining) {
     issues.push(`closer gate: pulled reserved closer ${closerAlias} from remaining queue to front on final turn`);
-    return [fromRemaining, ...queue.filter((x) => x.alias !== closerAlias)];
+    return [withFreshestHints(fromRemaining, queue), ...queue.filter((x) => x.alias !== closerAlias)];
   }
   issues.push(`closer gate: reserved closer ${closerAlias} not found in queue or remaining — could not enforce`);
   return queue;
@@ -617,6 +645,7 @@ export {
   markThreadFollow,
   enforceDrillCap,
   enforceCloserOnFinalTurn,
+  withFreshestHints,
   enforceBudgetLength,
   isPlannerOriginated,
   isSameStagePlannerDrill,
