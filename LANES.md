@@ -9,7 +9,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
-| 080b9104 | Brief star rating (prep screen + feedback inbox) | docs/plans/doing/brief-star-rating/, frontend/src/stages/preparation.ts, frontend/src/stages/preparation-brief.ts, frontend/src/stages/preparation-brief.test.ts, frontend/src/stages/preparation.css, backend/api/services/feedback/, backend/db/schema.ts, backend/db/migrations/, backend/api/server.ts, shared/api.js, admin/src/ui/feedback-kinds.ts, admin/src/ui/feedback-kinds.test.ts, admin/src/stages/admin-feedback.ts, admin/src/styles/feedback-inbox.css | 2026-07-30 |
 | c9200bfa | Nightly database backup (photocopy the notebook) | scripts/backup-db.js, scripts/backup-nightly.ps1, docs/reference/db-backup-restore.md | 2026-07-30 |
 
 
