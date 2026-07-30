@@ -1581,3 +1581,23 @@ not assumed. Honest trade recorded: a Performance run with wellbeing untouched n
 mounting the REAL stage on Machar-shaped fixture data (Tests → recap-fixes, deep-linkable via
 `/test?t=<id>`) made every defect walkable and screenshotable for free — and the fixture carries
 each defect's trigger (empty bullet, dateless promise, unread axis) so regressions stay visible.
+
+## 2026-07-30 — no-dead-wires P1: the prep brief reaches the final briefing
+
+**Trace before you rewire.** Carl's "it follows a script" feeling became fixable only after a full
+input-to-output trace (docs/reports/engine-input-map.html): seven collected inputs never reached the
+place they mattered, and the sharpest one was the final brief never seeing the prep brief — the
+prompt even carried a rule about prep phrases the model could never see (final-evaluation.md line 49
+referenced data absent from the payload). A rule about invisible data is a smell worth grepping for.
+
+**Facts in the formatter, judgement in the prompt.** The wiring copies the promise-checkin split:
+formatPrepBrief renders plan facts only (core issue, good outcome, listen-fors, action, dont-assume)
+with a sentinel when absent; the <prep_follow_through_rule> owns the honesty rules (a plan is not
+evidence; one plan-vs-reality statement; never quote the plan as the report's words). Coaching meta
+(avoid, styleTip, confidence) stays out of the payload deliberately — every extra prep phrase is
+extra echo surface for the leak screens.
+
+**Cost discipline is a design input now.** The plan behind this phase measured plan-turn at 61% of
+run spend with a ~9.8k-token cached prefix; every later phase's additions are placed by the rule
+"per-run constants before </session_context>, per-turn state after, capped". Evaluation runs once
+uncached, so this phase's block cost ~$0.001/run.

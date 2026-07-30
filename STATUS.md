@@ -2,6 +2,20 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-07-30 — the engine's wiring map landed, and the first dead wire is closed on your green light.**
+Your "it follows a script" instinct was traced through the whole engine: the [input-to-output map](docs/reports/engine-input-map.html)
+shows Sero reads you deeply before a meeting, then largely follows the pre-written plan — in a
+six-question bi-weekly, one slot was genuinely open, and seven collected inputs never reached the
+place they mattered. You said "no dead wires", the committee backed the four-phase rewiring
+(logs/committee/2026-07-30-no-dead-wires.html), and **[no-dead-wires](docs/plans/doing/no-dead-wires/plan.md)
+P1 of 4 is ✅ green-lit (your "A"): the final brief now sees your prep plan and says honestly whether
+the meeting reached it, touched it, or never got there** — never inventing follow-through, never
+quoting your plan as the report's words. Commit `4f85e144`, carried LIVE the same day inside build
+`4f85e14` by a parallel chat's go-live. 216/216, typecheck + copy guard clean; the cost trace behind
+the plan found plan-turn is 61% of run spend, so every later phase is budgeted against the cached
+prompt prefix (~+$0.03/run ceiling, no new AI calls). P2 (the planner reads your note, vocabulary,
+answer-quality and score levels) building now. [Board](https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847).
+
 📍 **2026-07-30 — your whole Figma sticky board is fixed, tested and signed off.
 [user-test-fixes CLOSED](docs/plans/done/user-test-fixes-jul-29/plan.md), all 3 phases in two days, $0.19 total spend.**
 Every sticky from the Machar test landed: the code words are off the rating panel (P1), the lock-in
@@ -412,6 +426,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
+| [no-dead-wires](docs/plans/doing/no-dead-wires/plan.md) | 4 phases wiring every in-run input to where it matters. P1 ✅ green-lit 2026-07-30 (prep brief reaches the final brief, LIVE in build `4f85e14`). P2 🔨 (planner reads intake note, vocabulary, answer-quality tags, score levels). P3 ⬜ living plan · P4 ⬜ notes flow everywhere. One paid gate case (~$0.35) reserved for end of P3. [Board](https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847). |
 | [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 ✅ closed **unwalked** 2026-07-27 (shell + layout; built 07-25, regression test guards it). P3–P9 ⬜ — nothing built, so this stays open. |
 | [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |
 | [demo-member](docs/plans/doing/demo-member/plan.md) | Phase 1 ✅ green-lit 2026-07-22 (example person + finished 1:1 seeded at signup, metrics-clean). Phase 2 ⬜ (Example badge + one-click remove). Must reuse `hasRealRuns` from the onboarding build. |

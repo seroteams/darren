@@ -1,6 +1,8 @@
 # Phase 1 — Plan meets reality
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl chose "A · tested, good" on the scenario hand-off (commit 4f85e144, live on sero.team in build 4f85e14 via a parallel chat's go-live)
 
 ## Built (2026-07-30)
 - Engine: backend/engine/reviewer.ts (formatPrepBrief formatter, `{{PREP_BRIEF}}` fill, prep threaded through EvaluateArgs/BuildMessagesArgs/assembleEvaluation/evaluate, prep recorded in the run log's inputs.json).
