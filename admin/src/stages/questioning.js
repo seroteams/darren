@@ -1,5 +1,5 @@
 import { STAGES } from "../state.ts";
-import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession, getPriorPromises, savePromiseOutcomes } from "../../../shared/api.js";
+import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession, savePromiseOutcomes } from "../../../shared/api.js";
 import { renderPromiseCheckin } from "../ui/promise-checkin.ts";
 import { createOrb } from "../ui/orb.js";
 import { createSkeleton } from "../ui/skeleton.js";
@@ -13,6 +13,7 @@ import { isTouchScreen } from "../ui/field.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { actionRowHtml, scriptedControlsHtml, isSubmitShortcut, EXIT_LABEL, KBD_HINT } from "./questioning-actions.ts";
 import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL } from "./questioning-ready.ts";
+import { loadPriorActions, openActionCount } from "./prior-actions.ts";
 import { icon } from "../ui/icon.js";
 import { Copy } from "lucide";
 
@@ -587,7 +588,10 @@ export async function mount(root, { store, setState }) {
   // question. It hands back the reason to walk in and waits for a tap, so the
   // manager starts the meeting on purpose instead of being fired at. Shown once
   // per 1:1 (sessionStorage) — a mid-meeting refresh returns to the question.
-  function showReadyGate() {
+  //
+  // It is also where last time's actions are OFFERED (action-review-placement
+  // P1): resolves "review" if the manager asks for them, "start" otherwise.
+  function showReadyGate(openActions) {
     return new Promise((resolve) => {
       qHost.innerHTML = "";
       thinkingHost.innerHTML = "";
@@ -596,32 +600,35 @@ export async function mount(root, { store, setState }) {
 
       const card = document.createElement("div");
       card.className = USE_COACH_SPLIT ? "cp-q cp-ready space-y-4 reveal" : "card questioning-card cp-ready space-y-4 reveal";
-      card.innerHTML = readyCardHtml({ name: store.ctx?.name || "", brief: store.preparation });
+      card.innerHTML = readyCardHtml({ name: store.ctx?.name || "", brief: store.preparation, openActions });
       qHost.appendChild(card);
       revealOne(card, 40);
       window.scrollTo(0, 0);
 
-      card.querySelector(".js-wf-continue").addEventListener("click", async () => {
+      const leave = async (choice) => {
         markReadyShown(store.sessionId);
         await exitQuestion(card);
-        resolve();
-      });
+        resolve(choice);
+      };
+      card.querySelector(".js-wf-continue").addEventListener("click", () => leave("start"));
+      card.querySelector(".js-review-actions")?.addEventListener("click", () => leave("review"));
     });
   }
 
-  // Card zero (Promises loop phase 2): before question 1, check in on last
-  // time's promises with this person. The server decides eligibility (fresh
-  // person, scripted lane, resumed run, already answered → prior: null), so a
-  // failed read just falls through to the questions — never blocks a 1:1.
+  // The boot order (action-review-placement P1): read what's still open BEFORE
+  // the gate, because the gate is where it gets offered — a second button that
+  // appears late is worse than none. The check-in is then reachable only by
+  // choosing it, here or on the bank stage's copy of the same card. The server
+  // decides eligibility (fresh person, scripted lane, resumed run, already
+  // answered → nothing open), and a failed read degrades to nothing open, so
+  // this can never block a 1:1.
   async function proceedBoot() {
-    if (!readyAlreadyShown(store.sessionId)) await showReadyGate();
-    let prior = null;
-    try {
-      ({ prior } = await getPriorPromises(store.sessionId));
-    } catch (e) {
-      console.warn("[questioning] prior-promises read failed (skipping check-in):", e.message);
-    }
-    if (prior?.promises?.length) {
+    const gateSeen = readyAlreadyShown(store.sessionId);
+    const prior = await loadPriorActions(store);
+    let wantsReview = store.reviewActionsFirst === true;
+    if (!gateSeen) wantsReview = (await showReadyGate(openActionCount(prior))) === "review";
+    store.reviewActionsFirst = false;
+    if (wantsReview && prior?.promises?.length) {
       showPromiseCheckin(prior);
       return;
     }
@@ -632,7 +639,7 @@ export async function mount(root, { store, setState }) {
     qHost.innerHTML = "";
     thinkingHost.innerHTML = "";
     footerHost.innerHTML = "";
-    turnLabel.textContent = "Before question 1";
+    turnLabel.textContent = "Last time's actions";
 
     const card = document.createElement("div");
     card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";

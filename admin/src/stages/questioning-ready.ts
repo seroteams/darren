@@ -1,15 +1,18 @@
 // The walk-in gate (runner-readiness) — the runner's FIRST screen, before any
-// question. Two jobs: ask whether the manager is ready, and put the reason they
+// question. Three jobs: ask whether the manager is ready, put the reason they
 // are walking in back in front of them (the prep brief's theme and the outcome
-// to aim for). Pure string render like questioning-actions.ts, so the shape and
-// the honesty rules are testable; the host (stages/questioning.js) wires
-// js-wf-continue and owns the DOM.
+// to aim for), and OFFER last time's agreed actions rather than serving them
+// ahead of question 1 (action-review-placement P1). Pure string render like
+// questioning-actions.ts, so the shape and the honesty rules are testable; the
+// hosts (stages/questioning.js, stages/bank.js) wire js-wf-continue and
+// js-review-actions and own the DOM.
 //
 // Honesty: the reasons are the brief's own fields, verbatim. No brief (a guest
 // run, a resumed session with no stored prep) means NO reasons — the card says
 // so plainly rather than inventing a purpose.
 
 import { escapeCopy } from "../ui/html.js";
+import { button } from "../ui/button.ts";
 import { wizardFooter } from "../ui/wizard-footer.ts";
 
 export type ReadyBrief = {
@@ -22,6 +25,16 @@ export const READY_CTA = "Start the meeting";
 // Shown INSTEAD of reasons when there is no brief to quote.
 export const READY_NO_BRIEF =
   "There's no brief on this one, so nothing to hand you. Go in on what you already know.";
+
+// action-review-placement P1: last time's agreed actions are OFFERED here rather
+// than served ahead of question 1. The primary never changes — it always starts
+// the meeting — so the offer can only ever cost a glance. Empty string means no
+// offer, which is also the whole render rule: no count, no second button.
+export function reviewActionsLabel(openActions: number): string {
+  const n = Math.floor(Number(openActions) || 0);
+  if (n < 1) return "";
+  return n === 1 ? "Check off last time's one thing first" : `Check off last time's ${n} things first`;
+}
 
 export type ReadyReason = { label: string; text: string };
 
@@ -45,8 +58,13 @@ export function readyHeading(name: string): string {
   return who ? `Ready to start with ${who}?` : "Ready to start?";
 }
 
-export function readyCardHtml({ name = "", brief = null }: { name?: string; brief?: ReadyBrief } = {}): string {
+export function readyCardHtml({
+  name = "",
+  brief = null,
+  openActions = 0,
+}: { name?: string; brief?: ReadyBrief; openActions?: number } = {}): string {
   const reasons = readyReasons(brief);
+  const offer = reviewActionsLabel(openActions);
   const body = reasons.length
     ? `<div class="cp-ready__reasons">${reasons
         .map(
@@ -61,7 +79,10 @@ export function readyCardHtml({ name = "", brief = null }: { name?: string; brie
       <h1 class="question-stem leading-snug">${escapeCopy(readyHeading(name))}</h1>
     </div>
     ${body}
-    ${wizardFooter({ primary: { label: READY_CTA } })}`;
+    ${wizardFooter({
+      primary: { label: READY_CTA },
+      secondaryHtml: offer ? button({ label: offer, variant: "ghost", hook: "js-review-actions" }) : "",
+    })}`;
 }
 
 // Shown once per 1:1, not once per page load: a mid-meeting refresh drops you

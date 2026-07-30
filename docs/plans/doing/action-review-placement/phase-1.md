@@ -1,6 +1,36 @@
 # Phase 1 — The offer replaces the gate
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-31)
+
+Landed in [questioning-ready.ts](../../../../admin/src/stages/questioning-ready.ts) (the offer +
+`reviewActionsLabel`), [questioning.js](../../../../admin/src/stages/questioning.js) (boot order:
+read what's open, then the gate, then the branch),
+[bank.js](../../../../admin/src/stages/bank.js) (the same card while the bank generates, so the two
+copies can't disagree), [promise-checkin.ts](../../../../admin/src/ui/promise-checkin.ts) (the gate
+removed, `tappedOutcomes` added), plus one new shared read,
+[prior-actions.ts](../../../../admin/src/stages/prior-actions.ts).
+
+**Offline:** 221/221 tests (baseline 220/220 + the new ones), typecheck clean, `lint:copy` pass.
+
+**Walked on the real running app** (local admin, seeded data, no OpenAI call, £0):
+1. Walk-in card for a repeat person renders two controls: *Check off last time's 3 things first* and *Start the meeting*.
+2. Pressing **Start the meeting** goes straight to **"Question 1 of 6" — "What's been on your mind since we last spoke?"**. No form in between.
+3. Pressing the offer opens **"Last time's actions"** with the three items, and **"Start the questions" is enabled from the first paint** (`disabled: false` with zero taps).
+4. Tapped 2 of 3 (Partly / Not done), pressed on, then read the PRIOR run's stored state back: `wp-1 → "partly"`, `wp-2 → null`, `wp-3 → "no"`, `outcomeCheck → "partly"`. The untouched action stayed open and was never given an answer.
+5. First-ever 1:1 with a new person: one button only.
+
+**Not screenshotted.** The Browser pane in this session would not composite frames, so every
+screenshot call timed out. The walk above is evidence read out of the live DOM and out of the
+stored run, not a picture. Carl's own walk is the sign-off either way.
+
+**Deferred, blocked by another chat's lane:** the stale header comment in
+`admin/src/styles/design/promise-checkin.css` (still says "Not yet") sits inside session
+`1a2e5006`'s type-system lane. Comment only, no behaviour. Left for whoever holds that lane.
+
+---
+
 
 ## Goal
 
@@ -31,7 +61,9 @@ A repeat 1:1 opens on the walk-in card and then on question 1. Last time's actio
 
 ## Test scenarios — for the product owner
 
-`local > admin > /interview`, with a person you've had a 1:1 with before (one that ended with actions locked in).
+**Seeded and waiting for you:** `local > admin > Start 1:1 > Recent 1:1s > Priya Sharma (newest)`.
+She has three actions still open from a 1:1 two days ago. Run
+`node scripts/seed-walkin.ts` to seed another one when you have used this up.
 
 1. **The meeting opens on a question.** Start the 1:1. First screen is "Before you walk in" as usual, now with a second, quieter button underneath about last time's actions. Press **Start the meeting**. ✅ **Pass:** the very next thing you see is a real opening question. ❌ **Fail:** the agreements form appears first.
 2. **The review is still there when you want it.** Start another 1:1 with the same person and press the second button instead. ✅ **Pass:** the "How did last time's agreements go?" card appears, and the questions follow after it. ❌ **Fail:** the button does nothing, or it skips the questions.

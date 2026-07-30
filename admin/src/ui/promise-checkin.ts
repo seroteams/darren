@@ -1,7 +1,12 @@
-// Card zero — "Before question 1" (Promises loop phase 2). Last time's promises
-// come back, the manager's own first, closed off with one tap each: Yes / Partly /
-// No / Things changed. The start gate opens once every promise is tapped; a quiet
-// skip covers the in-a-rush case (nothing is written back — promises stay open).
+// Last time's actions (Promises loop phase 2, re-placed by action-review-placement
+// P1). The promises come back, the manager's own first, closed off with one tap
+// each: Done / Partly / Not done / Changed.
+//
+// It no longer gates the meeting. The card is reached only by choosing it on the
+// walk-in screen, so trapping the manager inside it until every row is tapped
+// would punish the person who took the offer. Answer what you know, leave the
+// rest: an untapped promise is simply not sent, so it stays open on the prior run
+// exactly as skipping the card leaves it. Nothing is ever invented.
 // Styles live in styles/design/promise-checkin.css.
 
 import { escapeHtml as esc } from "./html.js";
@@ -31,17 +36,29 @@ export function orderForCheckin(promises: CheckinPromise[]): CheckinPromise[] {
   return [...promises.filter((p) => p.owner === "manager"), ...promises.filter((p) => p.owner !== "manager")];
 }
 
-// The start gate: every promise tapped. An empty list is never "all tapped" —
-// an empty card must not render in the first place.
+// Whether every promise has been answered. No longer gates the start button —
+// kept because it still describes the complete state. An empty list is never
+// "all tapped": an empty card must not render in the first place.
 export function allTapped(promises: CheckinPromise[], taps: Record<string, string>): boolean {
   return promises.length > 0 && promises.every((p) => Boolean(taps[p.id]));
+}
+
+// What actually gets sent: the tapped rows only, in card order. An untouched
+// promise is not an answer and never becomes one (the no-inference ruling).
+export function tappedOutcomes(
+  promises: CheckinPromise[],
+  taps: Record<string, string>,
+): Array<{ id: string; outcome: CheckinTap }> {
+  return promises
+    .filter((p) => Boolean(taps[p.id]))
+    .map((p) => ({ id: p.id, outcome: taps[p.id] as CheckinTap }));
 }
 
 export interface PromiseCheckinOpts {
   promises: CheckinPromise[];
   reportName: string; // labels the "them" side ("Priya will…")
   onDone: (outcomes: Array<{ id: string; outcome: CheckinTap }>) => Promise<void>;
-  onSkip: () => void;
+  onSkip: () => void; // nothing tapped: carry on, write nothing, leave them open
 }
 
 // Renders the check-in card into `host`. Owns its tap state; onDone is awaited so
@@ -64,11 +81,10 @@ export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts
     </div>`;
 
   host.innerHTML = `
-    <p class="pck-lead text-ink-dim">Last time you two agreed on ${promises.length === 1 ? "one thing" : "these"}. A quick tap each before you start.</p>
+    <p class="pck-lead text-ink-dim">Tap what's true. Anything you leave stays open for next time.</p>
     <div class="pck-rows">${promises.map(rowHtml).join("")}</div>
     <div class="field__actions pck-actions">
-      ${button({ label: "Start the questions", hook: "js-start", disabled: true })}
-      ${button({ label: "Skip for now", variant: "ghost", hook: "js-skip" })}
+      ${button({ label: "Start the questions", hook: "js-start" })}
     </div>
     <span class="pck-status text-sm text-ink-mute" role="status" aria-live="polite"></span>`;
 
@@ -85,24 +101,26 @@ export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts
           b.classList.toggle("is-active", active);
           b.setAttribute("aria-pressed", String(active));
         });
-        startBtn.disabled = !allTapped(promises, taps);
       });
     });
   });
 
   startBtn.addEventListener("click", () => {
-    if (!allTapped(promises, taps)) return;
+    const outcomes = tappedOutcomes(promises, taps);
+    // Nothing tapped IS the skip — one control, and no empty answer is ever sent.
+    if (outcomes.length === 0) {
+      opts.onSkip();
+      return;
+    }
     startBtn.disabled = true;
     status.textContent = "";
     void (async () => {
       try {
-        await opts.onDone(promises.map((p) => ({ id: p.id, outcome: taps[p.id]! })));
+        await opts.onDone(outcomes);
       } catch {
         startBtn.disabled = false;
-        status.textContent = "Couldn't save the check-in. Try again, or skip for now.";
+        status.textContent = "Couldn't save that. Try again.";
       }
     })();
   });
-
-  host.querySelector(".js-skip")?.addEventListener("click", () => opts.onSkip());
 }

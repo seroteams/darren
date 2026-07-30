@@ -8,6 +8,7 @@ import {
   readyReasons,
   readyHeading,
   readyKey,
+  reviewActionsLabel,
   READY_CTA,
   READY_STEP_LABEL,
   READY_NO_BRIEF,
@@ -58,10 +59,29 @@ test("the heading names the person, and copes without one", () => {
   assert.equal(readyHeading("  "), "Ready to start?");
 });
 
-test("one primary, no second button: the gate is a door, not a fork", () => {
+test("with nothing open, the gate is still a door: one button", () => {
   const html = readyCardHtml({ name: "Sofia", brief: BRIEF });
   assert.equal(html.split("<button").length - 1, 1, "exactly one button");
   assert.ok(html.includes(READY_CTA), "and it starts the meeting");
+  assert.equal(readyCardHtml({ name: "Sofia", brief: BRIEF, openActions: 0 }), html, "0 renders the same card");
+});
+
+// action-review-placement P1: last time's actions are OFFERED here, never forced
+// ahead of question 1. The primary always starts the meeting; the review is the
+// quiet second control, and choosing it is the only way to reach the check-in.
+test("with actions open, the gate offers them without taking the primary", () => {
+  const html = readyCardHtml({ name: "Sofia", brief: BRIEF, openActions: 2 });
+  assert.equal(html.split("<button").length - 1, 2, "the offer, and the door");
+  assert.match(html, /js-wf-continue[^>]*>Start the meeting</, "the primary still starts the meeting");
+  assert.ok(html.includes("js-review-actions"), "the offer is its own hook");
+  assert.ok(html.includes(reviewActionsLabel(2)), "and says how many are waiting");
+});
+
+test("the offer counts in plain words, singular and plural", () => {
+  assert.equal(reviewActionsLabel(1), "Check off last time's one thing first");
+  assert.equal(reviewActionsLabel(3), "Check off last time's 3 things first");
+  assert.equal(reviewActionsLabel(0), "", "nothing open, nothing to say");
+  assert.equal(reviewActionsLabel(-1), "", "a nonsense count is not an offer");
 });
 
 test("brief text is escaped, so a quote in a brief can't break the card", () => {
@@ -77,12 +97,27 @@ test("the gate is once per 1:1, keyed per session", () => {
 
 test("the runner shows the gate before anything else, and only when unseen", () => {
   assert.match(HOST, /readyAlreadyShown\(store\.sessionId\)/, "the seen-flag is consulted");
-  assert.match(
-    HOST,
-    /async function proceedBoot\(\)[\s\S]{0,320}showReadyGate\(\)[\s\S]{0,400}getPriorPromises/,
-    "the gate runs before the promises check-in and before question 1"
-  );
   assert.match(HOST, /markReadyShown\(store\.sessionId\)/, "starting the meeting stamps it seen");
   assert.match(HOST, /turnLabel\.textContent = READY_STEP_LABEL/, "the step reads as the walk-in moment");
   assert.equal(READY_STEP_LABEL, "Before you walk in", "and that moment is named plainly");
+});
+
+// The order flipped in action-review-placement P1: the open actions are read
+// BEFORE the gate, because the gate is where they are offered. The check-in is
+// then only reachable through that offer — never ahead of question 1 by default.
+test("the runner reads what's open before the gate, and only shows the check-in on request", () => {
+  assert.match(
+    HOST,
+    /async function proceedBoot\(\)[\s\S]{0,400}loadPriorActions\([\s\S]{0,400}showReadyGate\(/,
+    "what's open is known before the gate renders"
+  );
+  assert.match(
+    HOST,
+    /showPromiseCheckin\(prior\)[\s\S]{0,200}\n\s*\}\n\s*showNextQuestion\(\)/,
+    "the check-in is the branch, the questions are the default"
+  );
+  assert.ok(
+    !/showReadyGate\(\)[\s\S]{0,200}getPriorPromises/.test(HOST),
+    "the old gate-then-fetch order is gone"
+  );
 });

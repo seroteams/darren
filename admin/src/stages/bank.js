@@ -34,6 +34,7 @@ import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { revealOne } from "../ui/reveal.js";
 import { EXIT_LABEL } from "./questioning-actions.ts";
 import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL } from "./questioning-ready.ts";
+import { loadPriorActions, openActionCount } from "./prior-actions.ts";
 
 let unmountFn = null;
 let waitScreen = null;
@@ -141,24 +142,33 @@ export async function mount(root, { store, setState }) {
     // The walk-in gate, rendered from the runner's own module so the card can't
     // drift between the two stages. Hiding the empty thinking host keeps the
     // column's gap off a card that has no loading mark above it.
-    function showGate() {
+    //
+    // `openActions` is how many of last time's agreed actions are still open. It
+    // is read before this runs (see start()) because the offer has to be there
+    // from the first paint — a second button that appears late is the "header
+    // fills in late" fault in a different coat.
+    function showGate(openActions) {
       thinkingHost.hidden = true;
       const card = document.createElement("div");
       card.className = "cp-q cp-ready space-y-4 reveal";
-      card.innerHTML = readyCardHtml({ name, brief: store.preparation });
+      card.innerHTML = readyCardHtml({ name, brief: store.preparation, openActions });
       questionHost.appendChild(card);
       revealOne(card, 40);
-      card.querySelector(".js-wf-continue").addEventListener("click", () => {
+      const leave = (reviewFirst) => {
         if (handedOver || waitShownAt) return; // one tap only
         // Stamped here, so questioning.js's own showReadyGate skips it and the
-        // manager never reads the same card twice.
+        // manager never reads the same card twice. The choice rides the store,
+        // because the runner mounts as a separate stage.
         markReadyShown(store.sessionId);
+        store.reviewActionsFirst = reviewFirst;
         if (bankReady) {
           enterRunner();
           return;
         }
         showWait();
-      });
+      };
+      card.querySelector(".js-wf-continue").addEventListener("click", () => leave(false));
+      card.querySelector(".js-review-actions")?.addEventListener("click", () => leave(true));
     }
 
     async function enterRunner() {
@@ -178,8 +188,7 @@ export async function mount(root, { store, setState }) {
       setState({ stage: STAGES.QUESTIONING, substage: "Q_SHOW", turn: 0 });
     }
 
-    if (gateFirst) showGate();
-    else showWait();
+    if (!gateFirst) showWait();
 
     const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/bank/stream`);
     sse
@@ -196,6 +205,19 @@ export async function mount(root, { store, setState }) {
       .on("error", (d) => showError(d.message || "Couldn't build your questions. Try again."))
       .onError(() => showError("Lost connection while building questions."))
       .open();
+
+    // The gate goes up AFTER the stream is open, so reading last time's open
+    // actions costs the manager nothing: the bank is already generating behind
+    // the empty column while this one small GET lands. It degrades to zero, so
+    // the card always arrives — with the offer if there is one, without if not.
+    if (gateFirst) {
+      loadPriorActions(store).then((prior) => {
+        // The run may have moved on while this was in flight: handed over, fallen
+        // back to the ghost, or errored (which detaches this whole screen).
+        if (handedOver || waitShownAt || !questionHost.isConnected) return;
+        showGate(openActionCount(prior));
+      });
+    }
 
     unmountFn = () => {
       sse.close();

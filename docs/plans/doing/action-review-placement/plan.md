@@ -30,21 +30,23 @@ Dug out of the code so no phase stalls:
 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The offer replaces the gate | Walk-in card gains a second button when actions are open; "Start the meeting" goes straight to Q1; the check-in stops blocking | ⬜ |
+| 1 | The offer replaces the gate | Walk-in card gains a second button when actions are open; "Start the meeting" goes straight to Q1; the check-in stops blocking | 🔨 built, awaiting Carl |
 | 2 | The feels-off exception | "Something feels off" never offers the review at the open; it appears at the recap instead | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 
-Folder set up 2026-07-31 from the approved decision brief. **Nothing built yet.** The mockup is
-with Carl; phase 1 waits on his nod to it.
+**Phase 1 built 2026-07-31, waiting on Carl's walk.** Details + the walk evidence in
+[phase-1.md](phase-1.md). Nothing committed as done until he says go.
 Board: [board.html](board.html) · [open it](https://claude.ai/code/artifact/8fa125e8-076f-4ac1-90ee-5351b4c07b70).
 Committee record: `logs/committee/2026-07-31-action-review-placement.html`.
 
-Baseline to record before phase 1 touches code: `npm test` + `npm run typecheck` (both free).
-`npm run gate` is the paid one (~$3) and is **not** needed — this phase changes no engine code
-and no prompt.
+**Baseline before phase 1 touched anything:** `npm test` 220/220 green; `npm run typecheck` had
+2 pre-existing errors in `session-streams.ts` / `sessions.service.ts`, both inside another chat's
+live lane and both since fixed by that lane. After phase 1: **221/221, typecheck clean,
+`lint:copy` pass.** `npm run gate` was not run: it is the paid one (~$3) and this phase changes
+no engine code and no prompt. **Total spend on phase 1: £0.**
 
 ## Parked
 
