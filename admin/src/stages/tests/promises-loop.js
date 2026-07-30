@@ -161,7 +161,7 @@ function sceneHtml(state) {
           <button class="btn btn--ghost" data-mock-finish>Finish. Skip to briefing</button>
         </div>
         <div class="pl-mocknote" data-finish-note hidden>(mock) That path ends the 1:1 at the briefing. Nothing carries forward. The primary button is where the loop starts.</div>
-        <p class="hint hint--kbd text-xs text-ink-mute">Enter · Skip · Esc</p>`,
+        <p class="hint hint--kbd text-sm text-ink-mute">Enter · Skip · Esc</p>`,
     };
   }
 
@@ -238,7 +238,7 @@ function sceneHtml(state) {
       </div>
       <div class="pl-mocknote" data-submit-note hidden>(mock) From here it's the normal runner. Question by question to the briefing, where the loop wraps again.</div>
       <div class="pl-loopnote">↻&nbsp; That's the loop. Every 1:1 picks up exactly where the last one left off.</div>
-      <p class="hint hint--kbd text-xs text-ink-mute">Enter · Skip · Esc</p>
+      <p class="hint hint--kbd text-sm text-ink-mute">Enter · Skip · Esc</p>
       <div class="pl-footnav">
         <button class="btn btn--ghost" data-go="2">← Back</button>
         <button class="btn btn--ghost" data-restart>Start over ↻</button>

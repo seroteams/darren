@@ -7,7 +7,6 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sero-space-2);
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   white-space: nowrap;
 }

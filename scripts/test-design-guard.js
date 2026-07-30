@@ -55,13 +55,23 @@ const CEILINGS = {
    * predicted: coach-panel.css went from 24 type hits to 0, and briefing.css's
    * question-stem rule went from 2 to 0.
    *
+   * P3 (the 14px chrome stratum) lowered four more, re-measured the same way after
+   * the edit and not predicted. It moved roughly 300 selectors across 40 sheets onto
+   * the roles, which is why unsanctionedSizeToken falls furthest.
+   *
    * Read them as the size of the job, not as a list of bugs:
-   *   relativeFontSize            33  all var(--x, <fallback>) today. Zero em or %:
+   *   relativeFontSize        33->10  all var(--x, <fallback>) today. Zero em or %:
    *                                   P0 cleared the last two. The rule is here so
-   *                                   the next 0.85em cannot hide again.
+   *                                   the next 0.85em cannot hide again. The ten left
+   *                                   are the two runtime-injected style blocks
+   *                                   (account-sheet.ts 6, profile-badge.js 1), which
+   *                                   P6 owns, plus finish-feedback-modal.css 2 and
+   *                                   ux-audit-fixes.css 1, none of them 14px.
    *   offLadderFont           28->22  sizes off the ladder. P2 took the Meeting
-   *                                   screen's six: 32px, 17px and four 15px.
-   *   unsanctionedSizeToken  451->439 every font-size still pointing at an old token.
+   *                                   screen's six: 32px, 17px and four 15px. P3
+   *                                   touched none: every one of the 22 is a 15px,
+   *                                   17px or clamp site that P4 and P5 own.
+   *   unsanctionedSizeToken 451->138  every font-size still pointing at an old token.
    *                                   This is the migration itself, counted. It reads
    *                                   the token name through a fallback as well, so
    *                                   dropping a fallback can only ever remove a hit.
@@ -69,11 +79,12 @@ const CEILINGS = {
    *                                   trade against each other: following the guard's
    *                                   own advice moved 33 sites into this key and
    *                                   broke a build that had fixed something.
-   *   literalFontSize         18->12  a size written as a literal in any unit rather
+   *   literalFontSize         18->10  a size written as a literal in any unit rather
    *                                   than a token. Without it every counter here
    *                                   could be zeroed by swapping tokens for rem
    *                                   literals on a rung, which reads as a finished
    *                                   migration and is the same debt in a new unit.
+   *                                   P3 cleared member-runs.css's two 0.875rem.
    *   undefinedToken               3  an undefined reference. Two are dropped at
    *                                   render (--sero-radius-pill in start-stage.css);
    *                                   the third, --color-ink-subtle in profile-badge.js,
@@ -82,17 +93,25 @@ const CEILINGS = {
    *                                   P2 retired two --type-h2 sites, the coach split's
    *                                   phone override and briefing.css's stem.
    *   displayFaceBelow20           7  Bricolage under 20px, banned by DESIGN.md T6.
-   *   fontFamilyLiteral            8  family stacks written out instead of tokenised.
+   *                                   Untouched on purpose: all seven are a heading
+   *                                   decision, including guided.css's 14px .gd-q__logo,
+   *                                   which no 14px role can carry because none of them
+   *                                   holds the display face.
+   *   fontFamilyLiteral        8->1  family stacks written out instead of tokenised.
+   *                                   P3 took seven of the eight: six copies of the
+   *                                   run-log mono stack and guide.css's near-copy.
+   *                                   The one left is base.css:24's body stack, which
+   *                                   tokens.css:355 requires to stay byte-identical.
    *   fontShorthandResetsNumeric   0  none today, and it starts locked at zero.
    */
-  relativeFontSize: 33,
+  relativeFontSize: 10,
   offLadderFont: 22,
-  unsanctionedSizeToken: 439,
-  literalFontSize: 12,
+  unsanctionedSizeToken: 138,
+  literalFontSize: 10,
   undefinedToken: 3,
   clampOffRung: 10,
   displayFaceBelow20: 7,
-  fontFamilyLiteral: 8,
+  fontFamilyLiteral: 1,
   fontShorthandResetsNumeric: 0,
 };
 

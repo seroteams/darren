@@ -702,7 +702,7 @@ const SKELETON_CASES = [
         <div class="wizard-footer__left"><button type="button" class="btn btn--ghost">Back</button></div>
         <div class="wizard-footer__right"><button type="button" class="btn btn--ghost">Skip</button><button type="button" class="btn">Submit answer</button></div>
       </div>
-      <p class="hint hint--kbd text-xs text-ink-mute">Ctrl+Enter to submit (Cmd+Enter on Mac)</p></div>`,
+      <p class="hint hint--kbd text-sm text-ink-mute">Ctrl+Enter to submit (Cmd+Enter on Mac)</p></div>`,
     measure: ".questioning-card",
   },
   {

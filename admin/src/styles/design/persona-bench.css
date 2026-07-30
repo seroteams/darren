@@ -37,8 +37,8 @@
   overflow-y: auto;
   padding-right: var(--sero-space-1);
 }
-.bench-turn__who { font-size: var(--type-body-sm); color: var(--color-ink-mute); }
-.bench-turn__text { font-size: var(--type-body-sm); line-height: 1.5; color: var(--color-ink); }
+.bench-turn__who { color: var(--color-ink-mute); }
+.bench-turn__text { color: var(--color-ink); }
 
 /* Run status line under the progress track. */
 .run-bar__status { margin-top: var(--sero-space-2); }
@@ -47,7 +47,6 @@
   align-items: center;
   gap: var(--sero-space-1);
   color: var(--color-positive-text);
-  font-weight: var(--type-weight-medium);
 }
 .bench-status--bad { color: var(--color-negative-text); }
 .bench-status--good + .js-review-it { margin-left: var(--sero-space-2); }

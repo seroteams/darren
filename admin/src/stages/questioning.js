@@ -267,7 +267,7 @@ export async function mount(root, { store, setState }) {
               : ""
           }`
         : ""}
-      ${scripted ? `<div class="script-meta text-xs">
+      ${scripted ? `<div class="script-meta text-sm">
         <span class="script-alias">${escape(q.alias)}</span>
         <span class="script-state ${hasScript ? "script-state--matched" : "script-state--missing"}">${hasScript ? "replay answer ready" : "no replay answer. Fallback available"}</span>
         ${scriptedControlsHtml()}
@@ -286,8 +286,8 @@ export async function mount(root, { store, setState }) {
         <textarea class="textarea textarea--question" rows="5" placeholder="Jot their words, your shorthand, not a transcript" aria-label="${escape(whoSaid)}"></textarea>
       </label>
       ${actionRowHtml({ isFinal, scripted: Boolean(scripted), canGoBack: res.turn > 1 })}
-      <p class="hint hint--kbd text-xs text-ink-mute">${KBD_HINT}</p>
-      ${!scripted && import.meta.env.DEV ? `<p class="text-xs"><button type="button" class="link text-ink-dim text-sm js-suggest">Suggest notes (dev)</button></p>` : ""}
+      <p class="hint hint--kbd text-sm text-ink-mute">${KBD_HINT}</p>
+      ${!scripted && import.meta.env.DEV ? `<p class="text-sm"><button type="button" class="link text-ink-dim text-sm js-suggest">Suggest notes (dev)</button></p>` : ""}
       ${import.meta.env.DEV ? `<div class="answer-suggestions" hidden></div>` : ""}
     `;
     qHost.appendChild(card);

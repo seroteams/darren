@@ -33,8 +33,6 @@
   min-width: 0;
 }
 .run-log__id {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -93,21 +91,14 @@
   }
 }
 .run-log__block-label {
-  font-size: var(--type-body-sm);
-  font-weight: 600;
   color: var(--color-ink);
   margin-bottom: 0.5rem;
 }
 .run-log__disclaimer {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
-  line-height: 1.45;
   margin: 0 0 0.65rem;
 }
 .run-log__commands {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-body-sm);
-  line-height: 1.5;
   background: var(--color-deep);
   color: var(--sero-charcoal-100);
   border-radius: var(--radius-card);
@@ -123,16 +114,12 @@
   border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-body-sm);
 }
 
 .run-log__path {
   display: block;
   width: 100%;
   text-align: left;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-body-sm);
   color: var(--color-accent-dark);
   background: transparent;
   border: none;
@@ -145,13 +132,13 @@
   text-decoration: underline;
 }
 .run-log__tree {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
-  line-height: 1.55;
   user-select: all;
 }
 .run-log__tree-line--stage {
+  /* The one weight bump that cannot take .type-label: the role also swaps the
+     family back to Inter, and this line lives inside a mono ASCII tree whose
+     columns only line up in the mono face. Weight stays here on purpose. */
   font-weight: 500;
   color: var(--color-ink);
 }
@@ -175,8 +162,6 @@
   grid-template-columns: 4.5rem minmax(6rem, auto) 1fr;
   gap: 0.5rem 0.65rem;
   align-items: start;
-  font-size: var(--type-body-sm);
-  line-height: 1.4;
 }
 @media (max-width: 479px) {
   .run-log__note-row {
@@ -193,12 +178,10 @@
   color: var(--color-ink-mute);
 }
 .run-log__note-stage {
-  font-size: var(--type-body-sm);
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.1rem 0.45rem;
   border-radius: var(--sero-radius-full);
-  font-weight: 500;
   justify-self: start;
   white-space: nowrap;
 }
@@ -226,7 +209,6 @@
   padding: 0;
   margin: 0;
   cursor: pointer;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   color: var(--color-ink-mute);
 }
 .run-log__tip:hover {

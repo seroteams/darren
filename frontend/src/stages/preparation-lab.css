@@ -17,7 +17,6 @@
   gap: var(--sero-space-2);
   width: 12rem;
   cursor: pointer;
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -38,12 +37,9 @@
   box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 .pv-switch__label {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
 .pv-switch__value {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
 }
 .pv-switch__chev {
   margin-left: auto;
@@ -78,9 +74,6 @@
   pointer-events: auto;
 }
 .pv-switch__poptitle {
-  font-size: var(--type-body-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--color-ink-mute);
   margin: 0 0 var(--sero-space-3);
 }
@@ -116,9 +109,6 @@
   box-shadow: 0 0 0 2px var(--color-accent-soft);
 }
 .pv-tile__name {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-  line-height: 1;
 }
 
 /* schematic — bars/blocks that echo each layout; colours are tokens */
@@ -395,9 +385,7 @@
 }
 .pv-b__row p {
   margin: 0;
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
-  line-height: var(--type-leading-normal);
 }
 .pv-b .pv-pair {
   padding: var(--sero-space-2) 0;

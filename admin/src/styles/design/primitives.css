@@ -9,18 +9,13 @@
   gap: var(--sero-space-2);
 }
 .field__label {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-ink);
 }
 .field__control { width: 100%; }
 .field__hint {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
-  line-height: var(--type-leading-normal);
 }
 .field__error {
-  font-size: var(--type-body-sm);
   color: var(--color-negative-text); /* text-safe coral (a11y: coral-700 fails 4.5:1) */
 }
 .field__error[hidden] { display: none; }
@@ -66,10 +61,7 @@
   }
 }
 .page-header__step {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
-  font-weight: var(--type-weight-medium);
-  letter-spacing: var(--type-tracking-wide);
 }
 .page-header__actions {
   display: flex;
@@ -77,8 +69,9 @@
   flex-shrink: 0;
 }
 .page-header__lede {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
+  /* .type-body-sm carries no measure (it is the dense role), so the lede keeps
+     its own. */
   max-width: var(--measure);
 }
 

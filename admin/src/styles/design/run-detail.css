@@ -26,8 +26,6 @@
 }
 .rd-type-badge {
   margin-left: auto;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
   padding: var(--sero-space-1) var(--sero-space-3);
@@ -37,7 +35,7 @@
 
 /* The Answers tab's answered-question count — a quiet number beside the label,
    same idiom as .fb-tab__n / .el-filter__n. 14px floor via --type-caption. */
-.rd-tab__n { color: var(--color-ink-mute); font-size: var(--type-body-sm, 14px); margin-left: 3px; }
+.rd-tab__n { color: var(--color-ink-mute); margin-left: 3px; }
 
 /* The "what happened when" row: date · how long ago · questions answered */
 .rd-when {
@@ -52,7 +50,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
 .rd-when svg {
@@ -79,8 +76,6 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--sero-space-3);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   margin-bottom: 0.25rem;
 }
 .rd-turn__read {

@@ -261,8 +261,10 @@ function twoCol({ rows = 5, railRows = 8 }: SkeletonOpts): string {
 // `flat` is the 50/50 runner (.cp-q), which is bare by design — no card chrome —
 // while the single-column flow still lands in a .card.
 function question({ rows = 2, flat = false }: SkeletonOpts): string {
-  // The runner's stem is 32px in a 560px column, so a typical question wraps to
-  // three lines there against two in the wider single-column card.
+  // The runner's stem is 30px in a 560px column, not the 32px this comment used to
+  // claim: it took .type-heading-xl in type-system P1. The three-line assumption still
+  // holds at 30px (a 560px column fits ~46 characters a line and the bank's median stem
+  // runs past 90), so the widths below are unchanged.
   const stem = skLines("question-stem", flat ? ["96%", "88%", "54%"] : ["96%", "62%"]);
   // Line counts are the modal case, measured against the real bank (1,100 questions):
   // in the runner's 560px column a stem runs to three lines and a description to two;
@@ -288,7 +290,7 @@ function question({ rows = 2, flat = false }: SkeletonOpts): string {
         <div class="wizard-footer__left">${skFill("btn btn--ghost sk-btn")}</div>
         <div class="wizard-footer__right">${skFill("btn btn--ghost sk-btn")}${skFill("btn sk-btn")}</div>
       </div>
-      ${skLeaf("hint hint--kbd text-xs", "32ch")}
+      ${skLeaf("hint hint--kbd text-sm", "32ch")}
     </div>`;
 }
 

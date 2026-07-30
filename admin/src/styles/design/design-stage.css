@@ -54,8 +54,6 @@
   padding: var(--sero-space-2) var(--sero-space-3);
   color: var(--color-ink-dim);
   text-decoration: none;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
 }
 .ds-rail__link:hover {
   background: var(--color-bg);
@@ -106,8 +104,6 @@
   }
 }
 .ds-rulesgrid code {
-  font-family: var(--font-mono);
-  font-size: var(--type-body-sm);
 }
 
 /* Colour swatches */
@@ -129,11 +125,8 @@
 }
 .ds-swatch__name {
   margin-top: var(--sero-space-1);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
 }
 .ds-swatch__meta {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
 
@@ -160,8 +153,6 @@
   gap: var(--sero-space-5);
 }
 .ds-ramp__name {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   margin-bottom: 0.375rem;
 }
 .ds-ramp__row {
@@ -176,7 +167,6 @@
 }
 .ds-ramp__step {
   text-align: center;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   margin-top: 2px;
 }
@@ -204,9 +194,6 @@
   background: none;
   border: 0;
   padding: 0;
-  font: inherit;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-accent-dark);
   cursor: pointer;
 }
@@ -266,8 +253,6 @@
   gap: var(--sero-space-1);
   padding: 0.25rem 0.625rem;
   border-radius: var(--sero-radius-sm);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
 }
 .ds-scorepill {
   display: inline-flex;
@@ -275,8 +260,6 @@
   gap: var(--sero-space-1);
   padding: 0.25rem 0.75rem;
   border-radius: var(--sero-radius-full);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   background: var(--sero-mint-300);
   color: var(--color-positive-text);
 }
@@ -294,8 +277,6 @@
   border-radius: var(--sero-radius-full);
   background: var(--sero-coral-200);
   color: var(--sero-coral-800);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -326,7 +307,6 @@
   border-radius: var(--radius-input);
   background: var(--color-surface);
   padding: 0.625rem 0.75rem;
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
 }
 .ds-input::placeholder {
@@ -474,14 +454,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--sero-space-2);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
 }
 .ds-crumb__done {
   color: var(--color-positive-text);
 }
 .ds-crumb__now {
-  font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
   border-bottom: 2px solid var(--color-accent);
   padding-bottom: 2px;
@@ -568,7 +545,6 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-offspec-8);
   padding: var(--sero-space-3);
-  font-size: var(--type-body-sm);
 }
 .ds-goalcard.is-done {
   color: var(--color-ink-dim);
@@ -581,7 +557,6 @@
   gap: var(--sero-space-5);
   border-top: 1px solid var(--color-border);
   padding-top: var(--sero-space-4);
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
 .ds-legend span {
@@ -646,8 +621,6 @@
   padding: 0.5rem 1rem;
   background: none;
   border: 0;
-  font: inherit;
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
   cursor: pointer;
   text-decoration: none;
@@ -842,7 +815,6 @@
   transform: translateX(-50%);
   background: var(--color-ink);
   color: var(--sero-offwhite-50);
-  font-size: var(--type-body-sm);
   padding: 0.5rem 0.75rem;
   border-radius: var(--sero-radius-sm);
   white-space: nowrap;
@@ -881,7 +853,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
-  font-size: var(--type-body-sm);
 }
 
 /* -----------------------------------------------------------------------------

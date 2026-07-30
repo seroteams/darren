@@ -20,7 +20,6 @@
 }
 .wizard-footer__note {
   color: var(--color-ink-dim);
-  font-size: var(--type-body-sm);
 }
 
 /* One waiting screen: centred orb, quiet step name, skeleton preview below. */

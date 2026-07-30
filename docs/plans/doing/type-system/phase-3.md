@@ -1,6 +1,76 @@
 # Phase 3 — The 14px stratum
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+
+## What landed (2026-07-31)
+
+Roughly 300 selectors across 45 stylesheets gave up their type and were grouped into
+the roles in `design/type.css`. Nothing was left half-applied: every selector grouped
+in also had every type property stripped from its own sheet, including the code-split
+satellites, which was the failure mode P2 measured.
+
+Measured on the running app rather than reasoned about (the Browser pane will not
+composite here, so these are computed styles, not screenshots):
+
+| check | before | after |
+|---|---|---|
+| `relativeFontSize` | 33 | **10** |
+| `unsanctionedSizeToken` | 439 | **138** |
+| `fontFamilyLiteral` | 8 | **1** |
+| `literalFontSize` | 12 | **10** |
+| text below 14px on any screen read | 0 | **0** |
+| uppercase recipes on one screen | 2 | **1** |
+
+`offLadderFont` 22, `clampOffRung` 10, `displayFaceBelow20` 7 and `undefinedToken` 3
+are untouched on purpose: every one of them is a 15px, 17px, clamp or display-face
+decision that Phase 4 or Phase 5 owns.
+
+**Ten selectors changed SIZE, in a phase billed as changing none.** All ten declared a
+weight or a family and no size, so they inherited 16px; taking a 14px role drops them.
+Nine of the ten sit on a shared baseline beside a sibling that was already 14px, so
+this reads as the fix rather than the regression, but it is a size change and here they
+all are: `.run-list__name`, `.pck-action`, `.lex-row__num`, `.fb-name`,
+`.member-runs__type`, `.ds-avatar`, `.axis__value`, `.ds-btn-quiet`, `.tg-card__link`
+and `.run-log__tip` (the last is mono, not weight). Measured live: `.run-list__name`
+now renders 14px/600 level with `.run-list__sub` at 14px/400 on Past 1:1s.
+
+**Two weights dropped 700 to 600** on the avatar initials (`.profile-badge__avatar`,
+`.session-topbar__avatar`, `.fb-avatar`, `.run-step__dot`, `.cmp-tag`, `.axis__thumb`,
+`.axis__caret`): the roles have no 700 rung, and `.axis__thumb` was the convergence
+Machar asked for.
+
+**The media-query rule and the nine state rules, handled explicitly.**
+`.session-topbar__count` only ever renders inside the phone query, and it has a base
+`display: none` rule outside it, so the plain class selector was grouped into
+`.type-label` and the media block kept only layout and colour. Seven of the nine state
+rules are compound selectors (`.app-nav__link.is-active` and friends), so they carry
+their own higher specificity into `type.css` and were grouped into `.type-label-strong`.
+Two could not be: `.joblex-item.is-active` and `.fp-chip--changed` sit on a base that
+takes no role, so a 14px role would have shrunk them as well as emboldened them. Both
+kept their local weight with a comment saying why.
+
+**Twelve glyph selectors took `.type-flush`.** Three could not: `.ud-chev` and
+`.row-menu-btn` need `line-height: 0`, not 1, so the line box collapses entirely, and
+`.bullet__mark` needs `inherit` so it stays on the 16px prose baseline beside it. All
+three keep one declaration, each with a cited comment.
+
+**One extra fix, found by measuring.** Tailwind's `text-sm` still carried
+`lineHeight: 1.5` (21px), so 114 markup sites sat one pixel off the grid the roles had
+just landed on. It now reads `var(--type-leading-sm)`. Deleting the `xs` entry also
+un-shadowed Tailwind's own 12px `text-xs`, which would have been a new floor breach, so
+the two parked gallery sites that still said `text-xs` were swept too. `text-xs` now
+appears nowhere in either app and the utility is no longer emitted at all.
+
+Free checks after: `npm test` 219/219 · `npm run typecheck` clean ·
+`npm run lint:tokens` PASS · `npm run lint:copy` PASS ·
+`node scripts/test-design-guard.js` ok · `node scripts/test-type-rules.js` all passed.
+No paid run.
+
+**Skipped, not forgotten:** `admin/src/styles/design/stage-lookback.css` holds three
+selectors this phase wanted and is claimed by session `a6878b4e`. The claim is four
+days old and stale by the board's own two-day rule, but the row is still up, so it was
+left alone. Carl's call.
+
 
 ## Goal
 Move the ~150 chrome, table, label, eyebrow and code selectors onto roles. Nothing changes size — only the line spacing snaps onto the grid.

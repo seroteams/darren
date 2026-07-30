@@ -51,17 +51,14 @@
   gap: 1rem;
 }
 .member-runs__type {
-  font-weight: 600;
   color: var(--color-ink);
 }
 .member-runs__when {
   color: var(--color-ink-dim);
-  font-size: 0.875rem; /* 14px floor */
   white-space: nowrap;
 }
 .member-runs__meta {
   display: block;
   margin-top: 0.15rem;
   color: var(--color-ink-dim);
-  font-size: 0.875rem; /* 14px floor */
 }

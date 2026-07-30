@@ -12,6 +12,8 @@
   padding: 4px 8px;
   border-radius: var(--radius-input);
   color: var(--color-ink-dim);
+  /* Not .type-flush: that is line-height 1, and this glyph button needs 0 so the
+     line box collapses entirely inside a 4px-padded target. No role expresses it. */
   line-height: 0;
 }
 .row-menu-btn:hover {
@@ -38,8 +40,6 @@
   cursor: pointer;
   padding: 8px 10px;
   border-radius: var(--radius-input);
-  font: inherit;
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
 }
 .row-menu__item:hover,

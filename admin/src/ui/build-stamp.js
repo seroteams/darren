@@ -31,7 +31,10 @@ export function createBuildStamp() {
     "bottom:8px",
     "right:10px",
     "z-index:9999",
-    "font:14px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace",
+    // An inline style beats every class, so the role composite is the only route in.
+    // type.css warns the font shorthand resets font-feature-settings; on a debug chip
+    // that costs nothing. The leading goes 1.2 (16.8px) to the role's 20px.
+    "font:var(--type-role-code)",
     "background:rgba(15,23,42,0.82)",
     "color:#cbd5e1",
     "padding:4px 9px",

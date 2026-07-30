@@ -20,7 +20,9 @@ export function createDevBadge() {
   el.id = "dev-badge";
   el.style.cssText = [
     "position:relative",
-    "font:14px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace",
+    // Same as build-stamp.js: inline styles cannot be reached by a class, so the chip
+    // reads the role composite. Leading 1.4 (19.6px) becomes the role's 20px.
+    "font:var(--type-role-code)",
     "background:rgba(15,23,42,0.85)",
     "color:#e2e8f0",
     "padding:5px 7px",

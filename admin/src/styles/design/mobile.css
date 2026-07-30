@@ -349,7 +349,10 @@ pre {
   :root {
     --type-display: 1.9rem;   /* 30px — was 44px+; heroes ate half the screen */
     --type-h1: 1.6rem;        /* 26px */
-    --type-h2: 1.35rem;       /* 22px — question stems fit beside a keyboard */
+    --type-h2: 1.35rem;       /* 22px. The stem no longer reads this token (it takes
+                                 .type-heading-xl, which drops a rung in type.css's own
+                                 phone block), but other screens still do, so the value
+                                 stays and only the reason changes. */
   }
   /* Content starts at the top instead of floating mid-screen, so the question
      and its field are visible together when the keyboard opens. */

@@ -7,7 +7,6 @@
    the list just breathes wider. Tokens only; 14px floor holds.
 ----------------------------------------------------------------------------- */
 .pa-hint {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   margin-top: var(--sero-space-1);
 }
@@ -33,8 +32,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   cursor: pointer;
   border: 1px solid transparent;
   transition: box-shadow 0.12s ease, transform 0.12s ease;
@@ -74,14 +71,15 @@
   margin-top: var(--sero-space-1);
   padding: 0 6px;
 }
-.pa-who { font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold); }
+.pa-who { /* .type-label-strong */ }
 .pa-who--you { color: var(--color-accent-dark); }
+/* A weight-DOWN modifier on a .type-label-strong base. Both are one class deep, so a
+   .type-label grouping would lose on source order. The weight stays here. */
 .pa-who--them { color: var(--color-ink-mute); font-weight: var(--type-weight-medium); }
 .pa-when {
   display: inline-flex;
   align-items: center;
   gap: var(--sero-space-1);
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   white-space: nowrap;
 }
@@ -110,9 +108,6 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sero-space-3);
-  font: inherit;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-accent-dark);
   background: none;
   border: 0;
@@ -136,9 +131,8 @@
 .pa-add:focus-visible { outline: none; }
 .pa-add:focus-visible .pa-add__plus { box-shadow: var(--shadow-focus); }
 
-.pa-cap { display: block; font-size: var(--type-body-sm); color: var(--color-ink-mute); padding: var(--sero-space-3) 0; }
+.pa-cap { display: block; color: var(--color-ink-mute); padding: var(--sero-space-3) 0; }
 .pa-empty {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   font-style: italic;
   padding: var(--sero-space-3) 0;
@@ -150,7 +144,6 @@
   display: flex;
   align-items: center;
   gap: var(--sero-space-2);
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
 .pa-actions { align-items: center; }
@@ -158,16 +151,11 @@
 /* Recap "What you agreed" band — the locked list grouped by owner. */
 .agreed-owner-label {
   display: block;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: var(--type-tracking-caps);
-  text-transform: uppercase;
   color: var(--color-ink-mute);
   margin-top: var(--sero-space-3);
 }
 .agreed-owner-label--you { color: var(--color-accent-dark); }
 .agreed-note {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   margin-top: var(--sero-space-2);
 }

@@ -11,12 +11,8 @@
   align-items: center;
   flex-wrap: wrap;
   gap: var(--sero-space-2);
-  font-size: var(--type-body-sm); /* 14px floor */
-  line-height: 1.2;
 }
 .crumb--link {
-  font: inherit;
-  font-weight: var(--type-weight-medium);
   color: var(--color-accent-dark);
   background: none;
   border: none;
@@ -33,7 +29,6 @@
 }
 .crumb--current {
   color: var(--color-ink);
-  font-weight: var(--type-weight-semibold);
 }
 .crumb__sep {
   color: var(--color-ink-mute);

@@ -180,10 +180,7 @@
   line-height: 1.25;
 }
 .bench-flow__tag {
-  font-size: var(--type-body-sm);
-  font-weight: 500;
   color: var(--color-ink-mute);
-  letter-spacing: 0.02em;
 }
 .bench-flow.is-active .bench-flow__tag {
   color: var(--color-accent-dark, var(--color-accent));
@@ -194,8 +191,6 @@
   color: var(--color-ink);
 }
 .bench-flow__meta {
-  font-size: var(--type-body-sm);
-  line-height: 1.35;
   color: var(--color-ink-mute);
 }
 .js-runlabel-wrap { display: block; }
@@ -212,7 +207,6 @@
   flex-wrap: wrap;
 }
 .script-alias {
-  font-family: var(--font-mono, ui-monospace, monospace);
   color: var(--color-ink-mute);
   background: var(--color-accent-soft);
   border-radius: var(--sero-radius-full);
@@ -259,7 +253,6 @@
 .cmp-delta-tok--down { color: var(--color-negative-text); } /* text-safe coral (a11y) */
 
 .cmp-warn {
-  font-size: var(--type-body-sm);
   color: var(--color-negative-text); /* text-safe coral (a11y) */
   background: color-mix(in srgb, var(--color-negative) 8%, transparent);
   border-radius: var(--radius-input);
@@ -278,14 +271,10 @@
 }
 .cmp-row:last-child { border-bottom: none; }
 .cmp-row__label {
-  font-size: var(--type-body-sm);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--color-ink-mute);
   padding-top: 0.15rem;
 }
-.cmp-cell { font-size: var(--type-body-sm); color: var(--color-ink); min-width: 0; }
+.cmp-cell { color: var(--color-ink); min-width: 0; }
 .cmp-cell--muted { color: var(--color-ink-mute); font-style: italic; }
 .cmp-row--changed .cmp-row__label { color: var(--color-accent-dark); }
 .cmp-row--changed .cmp-cell {
@@ -297,11 +286,9 @@
 
 .cmp-id { display: flex; gap: 0.6rem; align-items: flex-start; }
 .cmp-id__body { min-width: 0; display: grid; gap: 0.3rem; }
-.cmp-id__headline { font-weight: 600; font-size: var(--type-body-sm); color: var(--color-ink); }
+.cmp-id__headline { color: var(--color-ink); }
 .cmp-id__meta {
   color: var(--color-ink-mute);
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: var(--type-body-sm);
 }
 
 /* A / B identity tags — reused in the axes legend and the action columns */
@@ -312,8 +299,6 @@
   width: 1.3rem;
   height: 1.3rem;
   border-radius: var(--sero-radius-full);
-  font-size: var(--type-body-sm);
-  font-weight: 700;
   color: var(--sero-offwhite-50);
 }
 .cmp-tag--a { background: var(--color-ink-mute); }
@@ -321,7 +306,7 @@
 
 /* axis diff: one track, "before" + "after" markers and a signed delta */
 .cmp-axes__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem; }
-.cmp-legend { display: flex; gap: 0.85rem; font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.cmp-legend { display: flex; gap: 0.85rem; color: var(--color-ink-mute); }
 .cmp-legend span { display: inline-flex; align-items: center; gap: 0.3rem; }
 .cmp-dot { width: 0.7rem; height: 0.7rem; border-radius: var(--sero-radius-full); }
 .cmp-dot--a { background: var(--color-surface); box-shadow: inset 0 0 0 2px var(--color-ink-mute); }
@@ -333,7 +318,7 @@
   gap: 1rem;
   padding: 0.45rem 0;
 }
-.cmp-axis__label { font-size: var(--type-body-sm); color: var(--color-ink-dim); font-weight: 500; }
+.cmp-axis__label { color: var(--color-ink-dim); }
 .cmp-axis__track { position: relative; height: 10px; background: var(--sero-soft-500); border-radius: var(--sero-radius-full); }
 .cmp-axis__mid { position: absolute; top: -3px; bottom: -3px; left: 50%; width: 1px; background: var(--color-border-strong); }
 .cmp-axis__seg { position: absolute; top: 50%; height: 3px; transform: translateY(-50%); border-radius: var(--sero-radius-full); }
@@ -343,7 +328,7 @@
 .cmp-axis__pt { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: var(--sero-radius-full); transform: translate(-50%, -50%); }
 .cmp-axis__pt--a { background: var(--color-surface); box-shadow: inset 0 0 0 2px var(--color-ink-mute); }
 .cmp-axis__pt--b { background: var(--color-accent); box-shadow: 0 0 0 2px var(--color-surface); }
-.cmp-axis__read { text-align: right; font-size: var(--type-body-sm); font-variant-numeric: tabular-nums; color: var(--color-ink); }
+.cmp-axis__read { text-align: right; font-variant-numeric: tabular-nums; color: var(--color-ink); }
 .cmp-axis__vals { font-weight: 600; }
 .cmp-axis__delta { margin-left: 0.45rem; font-weight: 600; }
 .cmp-axis__delta--up { color: var(--color-accent-dark); }
@@ -355,11 +340,9 @@
 /* action columns (verdict + suggest fix), demoted below the diff */
 .cmp-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
 .cmp-act-col__head { display: flex; align-items: center; gap: 0.5rem; }
-.cmp-act-col__name { font-weight: 600; font-size: var(--type-body-sm); color: var(--color-ink); min-width: 0; }
+.cmp-act-col__name { color: var(--color-ink); min-width: 0; }
 .cmp-input {
   width: 100%;
-  font: inherit;
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
   background: var(--color-surface);
   border: 1px solid var(--color-border-tinted);
@@ -374,13 +357,14 @@
 /* A mono code chip, so it keeps its own type + tighter padding — but it takes
    the house pill radius rather than staying squared (UI polish P3). */
 .fp-chip {
-  font-size: var(--type-body-sm);
-  font-family: var(--font-mono, ui-monospace, monospace);
   color: var(--color-ink-mute);
   background: var(--color-accent-soft);
   border-radius: var(--sero-radius-full);
   padding: 0.1rem 0.5rem;
 }
+/* A deliberate opt-OUT of the mono face on one code-chip variant: this one holds a
+   field NAME, not a value. No role expresses "the same role, other family", so the
+   override stays local. */
 .fp-chip--label { color: var(--color-ink); font-family: inherit; }
 .fp-chip--ok { color: var(--color-positive-text); }
 .fp-chip--warn { color: var(--color-amber); }
@@ -389,16 +373,19 @@
   color: var(--color-accent);
   background: color-mix(in srgb, var(--color-accent) 14%, transparent);
   box-shadow: inset 0 0 0 1px var(--color-accent);
+  /* A weight bump on a single class cannot be grouped into .type-label-strong:
+     both are one class deep, and .type-code would win on source order and drag the
+     weight back to 400. Bold mono has no role, so the bump stays here. */
   font-weight: 600;
 }
-.cmp-verdict { font-size: var(--type-body-sm); }
+.cmp-verdict { /* .type-body-sm */ }
 /* Geometry (incl. the pill radius — this was squared at 4px) comes from the
    shared chip recipe in design/base.css; the uppercase treatment stays local. */
 .cmp-verdict-tag {
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
-.cmp-verdict-issue { margin-left: 0.4rem; font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.cmp-verdict-issue { margin-left: 0.4rem; color: var(--color-ink-mute); }
 /* Soft tint triads, not solid fills with white text: --color-positive/-negative
    are 700/800 FILL steps (~2.2-2.9:1 behind white) — never text grounds
    (DESIGN.md §2). Same meaning, now actually readable. */
@@ -413,15 +400,14 @@
 .cmp-verdict-meta .js-issue-type { width: auto; min-width: 9rem; }
 .cmp-verdict-meta .js-verdict-note { flex: 1; min-width: 8rem; }
 .cmp-turn { padding: 0.4rem 0; border-bottom: 1px solid var(--color-border); }
-.cmp-q { font-weight: 600; font-size: var(--type-body-sm); }
-.cmp-a { font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.cmp-q { /* .type-label-strong */ }
+.cmp-a { color: var(--color-ink-dim); }
 .cmp-fix-row { display: flex; gap: 0.5rem; align-items: center; }
 .cmp-fix-hint { margin-top: 0.4rem; }
 .cmp-fix-out {
   margin-top: 0.5rem;
   white-space: pre-wrap;
   word-break: break-word;
-  font-size: var(--type-body-sm);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-input);
@@ -490,16 +476,13 @@
 }
 .meeting-card__badge {
   display: inline-block;
-  font-size: var(--type-body-sm);
   padding: 0.1rem 0.5rem;
   border-radius: var(--sero-radius-full);
   background: var(--color-purple-soft);
   color: var(--sero-lavender-800); /* 700 is a fill step, not a text colour (DESIGN §2) */
   vertical-align: middle;
-  font-weight: 500;
 }
 .meeting-card__meta {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   margin-top: 0.3rem;
 }
@@ -516,8 +499,6 @@
   text-align: left;
   width: 100%;
   padding: 0.65rem 0.85rem;
-  font-size: var(--type-body-sm);
-  line-height: 1.45;
   color: var(--color-ink);
   background: var(--color-surface);
   border: 1px solid var(--color-border);

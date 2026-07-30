@@ -60,14 +60,9 @@
   margin-bottom: var(--sero-space-3);
 }
 .pv-l__name {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--color-accent-dark);
 }
 .pv-l__sub {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
 .pv-l__body {
@@ -151,8 +146,6 @@
   flex: 1;
   min-height: 40px;
   cursor: pointer;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-ink-dim);
   background: transparent;
   border: 0;
@@ -214,8 +207,6 @@
   gap: var(--sero-space-3);
 }
 .pv-rate__status {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   color: var(--color-positive-text);
   white-space: nowrap;
 }

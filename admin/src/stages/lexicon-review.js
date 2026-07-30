@@ -108,7 +108,7 @@ export async function mount(root, { store, setState }) {
         <label class="lex-row__pick"><input type="checkbox" class="js-pick" aria-label="Select phrase"></label>
         <div class="lex-row__num">${num}</div>
         <div class="lex-row__body">
-          ${topLabel ? `<div class="text-ink-mute text-xs mb-1">${escape(topLabel)}</div>` : ""}
+          ${topLabel ? `<div class="text-ink-mute text-sm mb-1">${escape(topLabel)}</div>` : ""}
           <div class="lex-row__phrase">${escape(phrase)}</div>
           ${context ? `<div class="lex-row__context text-ink-dim text-sm">${escape(context)}</div>` : ""}
         </div>

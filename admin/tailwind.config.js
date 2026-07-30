@@ -52,9 +52,17 @@ export default {
         "out-expo": "var(--ease-out-expo)", // ease-out-expo ×1
       },
       fontSize: {
-        // xs/sm override Tailwind's defaults and are heavily used — do not drop them.
-        xs: ["var(--type-small)", { lineHeight: "1.5" }], // text-xs ×7
-        sm: ["var(--type-body-sm)", { lineHeight: "1.5" }], // text-sm ×107
+        // No `xs`. It pointed at --type-small, which is defined nowhere in the repo, so
+        // the font-size half of the utility was invalid at computed-value time and every
+        // text-xs element silently inherited its parent's size while still taking the
+        // line-height: 1.5. Seven shipped sites read it; all seven now say text-sm, which
+        // is what they were already rendering as or should have been (type-system P3).
+        // 14px is the floor, so there is deliberately no rung below `sm`.
+        // The leading is the role's absolute 20px, not the old 1.5 ratio (21px). Measured
+        // on the running app: text-sm sites were the only 14px text still off the 4px
+        // grid once the roles landed, so .type-body-sm and text-sm read a pixel apart on
+        // the same screen. The size token is Phase 5's to retire.
+        sm: ["var(--type-body-sm)", { lineHeight: "var(--type-leading-sm)" }], // text-sm ×114
         display: ["var(--type-display)", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }], // ×2
       },
       letterSpacing: {

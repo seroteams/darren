@@ -131,8 +131,6 @@
   padding: 0;
   display: grid;
   gap: var(--sero-space-3);
-  font-size: var(--type-body-sm);
-  line-height: var(--type-leading-normal);
 }
 .join-facts > li {
   display: grid;
@@ -142,7 +140,6 @@
 }
 .join-facts__label {
   color: var(--color-ink);
-  font-weight: var(--type-weight-semibold);
 }
 @media (max-width: 480px) {
   /* Phones: label sits above its value instead of beside it. */
@@ -238,15 +235,12 @@
 }
 /* Per-field message — which field is wrong, and what it needs. */
 .auth-err {
-  font-size: var(--type-body-sm);
   color: var(--color-negative-text);
 }
 /* Form-level alert — one message, and it carries the next step. Replaces the
    bare red line that never said what to do about it. */
 .auth-alert {
   margin: 0;
-  font-size: var(--type-body-sm);
-  line-height: var(--type-leading-normal);
   color: var(--color-negative-text);
   background: var(--sero-coral-100);
   border: 1px solid var(--color-coral-line);

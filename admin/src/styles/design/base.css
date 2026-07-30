@@ -111,12 +111,12 @@ textarea { resize: vertical; }
    reclassified to --slot in a later, eyes-on pass. Dark-ground eyebrows
    (.pv-j__eyebrow, .app-nav__group-label) keep their own colour via the cascade. */
 .eyebrow {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   color: var(--color-accent-dark);
-  letter-spacing: var(--type-tracking-caps-lg);
-  text-transform: uppercase;
 }
+/* The slot tier keeps a letter-spacing of its own: it is a narrower eyebrow, not
+   a different role, and .type-overline has no tighter variant. Type-system P3
+   recon, section 2 flagged it as the one tracking declaration the eyebrow
+   collapse leaves behind. */
 .eyebrow--slot {
   color: var(--color-ink-dim);
   letter-spacing: var(--type-tracking-caps);
@@ -146,8 +146,6 @@ textarea { resize: vertical; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   padding: 5px 11px;
   border-radius: var(--sero-radius-full);
   border: 1px solid transparent;
@@ -206,13 +204,9 @@ textarea { resize: vertical; }
 .rv-seg__btn {
   border: 0;
   background: transparent;
-  font: inherit;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-ink-dim);
   padding: 6px 14px;
   border-radius: var(--sero-radius-full);
-  line-height: 1.4;
   white-space: nowrap;
   cursor: pointer;
   transition: background var(--dur-instant) ease-out, color var(--dur-instant) ease-out;
@@ -237,8 +231,6 @@ textarea { resize: vertical; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 4px 11px 4px 9px;
@@ -265,22 +257,21 @@ textarea { resize: vertical; }
   line-height: var(--type-leading-snug);
   color: var(--color-ink);
 }
+/* .label, .caption and .field__label were three names for one 14px label, drifting
+   apart on tracking, leading and ink. All three now take a role in type.css and keep
+   only the ink that told them apart. */
 .label {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-  letter-spacing: var(--type-tracking-wider);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink-mute);
 }
 .caption {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
+/* .kbd deliberately does NOT take .type-code: a keycap is a picture of a key, and
+   the mono face makes it read as machine output. It takes .type-body-sm, which is
+   what its old font-family: inherit was reaching for. */
 .kbd {
   display: inline-block;
   padding: 0.05em 0.35em;
-  font-size: var(--type-body-sm); /* was 0.8em (~12.8px) → 14px floor */
-  font-family: inherit;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 3px;
@@ -345,7 +336,5 @@ body.has-session-topbar .stage {
   /* Live: the session-topbar stepper in both apps. .page-header__step is the
      newer block, not a replacement for this one. */
   color: var(--color-ink-mute);
-  letter-spacing: 0.01em;
-  font-weight: 500;
 }
 

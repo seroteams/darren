@@ -7,13 +7,12 @@
 .run-step__dot {
   flex: none; width: 20px; height: 20px; border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: var(--type-body-sm); font-weight: 700; line-height: 1;
   background: var(--color-surface-2); color: var(--color-ink-mute);
   border: 1px solid var(--color-border);
   transition: background-color .3s ease, color .3s ease, transform .3s ease;
 }
 .run-step__label {
-  font-size: var(--type-body-sm, 14px); color: var(--color-ink-mute);
+  color: var(--color-ink-mute);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .run-step--done .run-step__dot { background: var(--color-positive); color: var(--color-surface); border-color: transparent; }
@@ -84,10 +83,6 @@
   overflow-y: auto;
 }
 .joblex-group {
-  font-size: var(--type-body-sm);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--color-ink-dim);
   padding: 0.7rem 0.25rem 0.15rem;
 }
@@ -108,6 +103,8 @@
 .joblex-item.is-active {
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
+  /* The base .joblex-item takes no role (it inherits 16px prose), so grouping this
+     state into .type-label-strong would shrink it as well as embolden it. */
   font-weight: 600;
 }
 .joblex-empty { padding: 0.35rem 0.25rem; }
@@ -122,8 +119,6 @@
 .joblex-add .joblex-add__term { flex: 0 1 13rem; }
 .joblex-add .joblex-add__meaning { flex: 1 1 15rem; }
 .joblex-yours {
-  font-size: var(--type-body-sm);
-  font-weight: 600;
   color: var(--color-ink-mute);
   background: var(--color-surface-2);
   border-radius: var(--radius-input);
@@ -143,7 +138,7 @@
   vertical-align: middle;
 }
 .joblex-remove:hover { color: var(--color-negative); }
-.joblex-error { color: var(--color-negative); font-size: var(--type-body-sm); }
+.joblex-error { color: var(--color-negative); }
 
 /* Delete an AI word — revealed on row hover / keyboard focus, hidden otherwise
    so the list stays calm until you reach for it. */
@@ -167,8 +162,6 @@
 .joblex-hidden { margin-top: 0.35rem; }
 .joblex-hidden__head {
   cursor: pointer;
-  font-size: var(--type-body-sm);
-  font-weight: 600;
   color: var(--color-ink-dim);
   padding: 0.35rem 0;
 }
@@ -179,8 +172,6 @@
   background: var(--color-surface-2);
   cursor: pointer;
   color: var(--color-ink);
-  font-size: var(--type-body-sm);
-  font-weight: 600;
   border-radius: var(--radius-input);
   padding: 0.05rem 0.5rem;
   margin-left: 0.4rem;
@@ -220,12 +211,10 @@
   gap: var(--sero-space-2);
 }
 .guide-toc__status {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   white-space: nowrap;
 }
 .guide-toc a {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   text-decoration: none;
   padding: 0.2rem 0.65rem;
@@ -246,13 +235,10 @@
   align-items: baseline;
   padding: 0.5rem 0;
   border-top: 1px solid var(--color-border);
-  font-size: var(--type-body-sm);
 }
 .guide-ref:first-child { border-top: 0; }
 .guide-ref code {
   justify-self: start;
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: var(--type-body-sm); /* was 0.85em (~13.6px) → 14px floor */
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.1rem 0.4rem;
@@ -279,20 +265,16 @@
   border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
 }
 .guide-step__body { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
 .guide-step__title { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
-.guide-step__body p { margin: 0; font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.guide-step__body p { margin: 0; color: var(--color-ink-dim); }
 .guide-step__files {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
 
 .guide-gaps { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
-.guide-gaps li { font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.guide-gaps li { color: var(--color-ink-dim); }
 
 @media (max-width: 640px) {
   .guide-ref, .guide-ref--text { grid-template-columns: 1fr; gap: 0.15rem; }

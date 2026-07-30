@@ -3,8 +3,6 @@
 ----------------------------------------------------------------------------- */
 .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .pill {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   padding: 0.4rem 0.85rem;
   border-radius: var(--sero-radius-full);
   border: 1px solid var(--color-border);
@@ -37,12 +35,10 @@
   display: flex; align-items: center; justify-content: center;
   border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft); color: var(--color-accent-dark);
-  font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 .prep-timeline__body { min-width: 0; }
 .prep-timeline__when {
-  font-size: var(--type-body-sm); font-weight: var(--type-weight-semibold);
   color: var(--color-ink); margin-bottom: 0.25rem;
 }
 .prep-timeline__body .prep-callout,
@@ -52,9 +48,10 @@
    Shared vs private briefing reflection (next-stage Phase 8)
 ----------------------------------------------------------------------------- */
 .brutal__eyebrow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+/* A badge, not a section eyebrow: it takes .type-label-strong and keeps its own
+   tighter tracking and its caps. Promoting it to .type-overline would widen the
+   tracking to 0.08em inside a 0.5rem pill (P3 recon, section 2). */
 .brutal__badge {
-  font-size: var(--type-body-sm, 0.875rem);
-  font-weight: var(--type-weight-semibold);
   letter-spacing: 0.02em;
   text-transform: uppercase;
   padding: 0.12rem 0.5rem;
@@ -64,7 +61,7 @@
 .brutal__badge--shareable { background: var(--color-surface); border: 1px solid var(--color-mint-line); color: var(--color-positive-text); }
 .brutal__badge--private { background: var(--color-surface); border: 1px solid var(--color-gold-line); color: var(--sero-gold-900); }
 .brutal--private { border-left: 3px solid var(--sero-gold-700); }
-.brutal__note { margin-top: 0.4rem; font-size: var(--type-body-sm); color: var(--color-ink-mute); font-style: italic; }
+.brutal__note { margin-top: 0.4rem; color: var(--color-ink-mute); font-style: italic; }
 
 /* Prototype â†’ Production checklist (internal) ------------------------------ */
 .cl-overall {
@@ -75,8 +72,6 @@
 }
 .cl-overall__pct {
   font-variant-numeric: tabular-nums;
-  font-weight: var(--type-weight-semibold);
-  font-size: var(--type-body-sm);
   min-width: 2.6rem;
   text-align: right;
   color: var(--color-ink);
@@ -135,11 +130,11 @@
 }
 .cl-phase-title { flex: 1; min-width: 0; }
 .cl-phase-title h3 { margin: 0; font-size: var(--type-h4); font-weight: var(--type-weight-semibold); color: var(--color-ink); }
-.cl-phase-tag { color: var(--color-ink-mute); font-weight: 400; font-size: var(--type-body-sm); }
-.cl-goal { color: var(--color-ink-dim); font-size: var(--type-body-sm); margin-top: 0.25rem; }
+.cl-phase-tag { color: var(--color-ink-mute); }
+.cl-goal { color: var(--color-ink-dim); margin-top: 0.25rem; }
 .cl-phase-meter { display: flex; align-items: center; gap: var(--sero-space-2); margin-top: var(--sero-space-2); }
 .cl-phase-meter .cl-bar { max-width: 22rem; }
-.cl-count { font-size: var(--type-body-sm); color: var(--color-ink-mute); font-variant-numeric: tabular-nums; }
+.cl-count { color: var(--color-ink-mute); font-variant-numeric: tabular-nums; }
 
 .cl-chev { flex: none; color: var(--color-ink-mute); transition: transform 0.2s ease; margin-top: 0.2rem; }
 .cl-phase.is-collapsed .cl-chev { transform: rotate(-90deg); }
@@ -156,13 +151,13 @@
 .cl-row__body { flex: 1; min-width: 0; }
 .cl-feat { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
 .cl-row.done .cl-feat { color: var(--color-ink-mute); text-decoration: line-through; }
-.cl-means { color: var(--color-ink-dim); font-size: var(--type-body-sm); margin-top: 0.2rem; }
+.cl-means { color: var(--color-ink-dim); margin-top: 0.2rem; }
 .cl-meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin-top: 0.5rem; }
-.cl-meta div { font-size: var(--type-body-sm); }
+.cl-meta div { /* .type-body-sm */ }
 .cl-k { color: var(--color-ink-mute); margin-right: 0.4rem; }
 .cl-have { color: var(--color-accent-dark); }
 .cl-check { color: var(--color-positive); }
-.cl-step-no { color: var(--color-ink-mute); font-size: var(--type-body-sm); font-variant-numeric: tabular-nums; margin-right: 0.5rem; }
+.cl-step-no { color: var(--color-ink-mute); font-variant-numeric: tabular-nums; margin-right: 0.5rem; }
 
 /* sign-off gate row */
 .cl-row--gate {
@@ -173,9 +168,10 @@
 }
 .cl-row--gate .cl-feat { color: var(--color-amber); }
 .cl-row--gate.done .cl-feat { text-decoration: none; opacity: 0.75; }
+/* Same call as .brutal__badge: a pill keeps its caps and its own tracking rather
+   than being promoted to .type-overline, which would also take it 400 -> 600. */
 .cl-tag {
   display: inline-block;
-  font-size: var(--type-body-sm);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--sero-gold-900); /* amber is a fill step, not a text colour */
@@ -188,7 +184,6 @@
 /* status badge — Done / In progress / To do, on step + phase titles */
 /* Geometry comes from the shared chip recipe (design/base.css). */
 .cl-badge {
-  letter-spacing: 0.02em;
   vertical-align: middle;
   margin-left: 0.5rem;
 }
@@ -207,16 +202,15 @@
   padding: var(--sero-space-3) 0;
   border-top: 1px solid var(--color-border);
 }
-.cl-kick__lede { font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.cl-kick__lede { color: var(--color-ink-dim); }
 .cl-kick__actions { display: flex; align-items: center; gap: var(--sero-space-2); }
 .cl-kick__saved {
-  font-size: var(--type-body-sm);
   color: var(--color-positive);
   opacity: 0;
   transition: opacity 0.2s ease;
 }
 .cl-kick__saved.is-show { opacity: 1; }
-.cl-kick__preview { font-size: var(--type-body-sm); }
+.cl-kick__preview { /* .type-body-sm */ }
 .cl-kick__preview summary { cursor: pointer; color: var(--color-accent-dark); width: fit-content; }
 .cl-kick__preview pre {
   white-space: pre-wrap;
@@ -224,9 +218,6 @@
   padding: var(--sero-space-3);
   background: var(--color-surface-2);
   border-radius: var(--sero-radius-sm);
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: var(--type-body-sm);
-  line-height: 1.5;
   color: var(--color-ink-dim);
 }
 
@@ -274,8 +265,6 @@
   border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 .focus-point.is-selected .focus-point__num { background: var(--color-surface); }
@@ -288,8 +277,8 @@
   gap: 0.15rem;
 }
 .focus-point__label { font-weight: var(--type-weight-semibold); color: var(--color-ink); }
-.focus-point__reason { font-size: var(--type-body-sm); color: var(--color-ink-dim); line-height: 1.5; }
-.focus-point__evidence { font-size: var(--type-body-sm); color: var(--color-ink-mute); }
+.focus-point__reason { color: var(--color-ink-dim); }
+.focus-point__evidence { color: var(--color-ink-mute); }
 
 /* Selection tick — an empty ring that fills accent with a white check when chosen.
    A state indicator inside the card, not a tappable chip, so the solid fill is fine. */
@@ -344,7 +333,6 @@
 
 /* Helper line above the list. */
 .focus-select-hint {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
 

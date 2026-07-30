@@ -81,9 +81,10 @@
 }
 .bullet__mark {
   color: var(--sero-lavender-700);
-  /* Was 0.65em, which resolved to 10.4px against the 16px bullet and broke the
-     floor. The px-only guard could not see a fraction. */
-  font-size: var(--type-body-sm);
+  /* .type-body-sm gives it the 14px the 0.65em breach was fixed to. The leading
+     stays local and inherited on purpose: the mark has to sit on the SAME
+     baseline as the 16px bullet line beside it, and a role's fixed 20px would
+     pull it out of step. No role expresses "inherit the line I sit on". */
   line-height: inherit;
 }
 
@@ -120,9 +121,7 @@
               border-color var(--dur-instant) ease-out,
               background-color var(--dur-instant) ease-out;
 }
-.copy-snippet-btn__label {
-  font-size: var(--type-body-sm);
-}
+.copy-snippet-btn__label { /* .type-body-sm */ }
 .copy-snippet-btn:hover {
   color: var(--color-accent-dark);
   border-color: var(--color-accent);
@@ -155,10 +154,9 @@
 /* The "what you told Sero" echo, quoted under the context line. */
 .question-session-notes {
   margin: 0;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   font-style: italic;
-  line-height: 1.45;
+  /* .type-body-sm carries no measure, so this 64ch keeps doing its job. */
   max-width: 64ch;
 }
 
@@ -204,8 +202,6 @@
 .field-live-label__text {
   display: block;
   margin-bottom: 8px;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
 }
 /* The full previous answer, shown beside a thread-follow so the quoted fragment
@@ -216,8 +212,6 @@
   border-left: 3px solid var(--color-primary-line);
   background: var(--color-bg);
   border-radius: var(--radius-input);
-  font-size: var(--type-body-sm);
-  line-height: 1.5;
   color: var(--color-ink-dim);
 }
 .questioning-card .hint--kbd {
@@ -244,10 +238,11 @@
 .brutal + .brutal {
   margin-top: 1.25rem;
 }
+/* Named an eyebrow, but it is not one: no uppercase, no tracking, weight 500. It
+   takes .type-label. Routing it to .type-overline the way phase-3.md asked would
+   have shouted a sentence-case line (P3 recon, section 2). */
 .brutal__eyebrow {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
-  font-weight: 500;
   margin-bottom: 0.35rem;
   display: flex;
   align-items: center;
@@ -284,13 +279,13 @@
 }
 .action-group:last-child { border-bottom: none; }
 .action-when {
-  font-size: var(--type-body-sm);
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   padding: 0.15rem 0.5rem;
   border-radius: var(--sero-radius-full);
-  font-weight: 500;
   justify-self: start;
+  /* Content-shaping, not a type level: the model returns "Today" / "Next 1:1"
+     capitalised and the pill reads better lower-cased. No role carries it. */
   text-transform: lowercase;
 }
 .action-body { color: var(--color-ink); line-height: 1.55; font-size: var(--type-body); }

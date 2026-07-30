@@ -5,25 +5,25 @@
 .g-arc { padding:12px 0; border-bottom:1px solid var(--color-border); }
 .g-arc:last-child { border-bottom:none; }
 .g-arc__head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.g-arc__meta { margin-left:auto; font-size:var(--type-body-sm); color:var(--color-ink-dim); }
+.g-arc__meta { margin-left:auto; color:var(--color-ink-dim); }
 .g-arc__chips { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:8px; }
-.g-arc-chip { font-size:var(--type-body-sm); font-weight:500; padding:3px 9px; border-radius:7px;
+.g-arc-chip { padding:3px 9px; border-radius:7px;
   background:var(--sero-soft-200); color:var(--color-ink); border:1px solid var(--color-border-strong); }
 .g-arc-sep { color:var(--color-ink-dim); }
-.g-arc-edited { font-size:var(--type-body-sm); font-weight:600; padding:2px 8px; border-radius:6px;
+.g-arc-edited { padding:2px 8px; border-radius:6px;
   background:var(--sero-gold-200); color:var(--sero-gold-800); }
-.g-arc-note { font-size:var(--type-body-sm); margin:0 0 12px; }
+.g-arc-note { margin:0 0 12px; }
 .g-arc-note--err { color:var(--color-negative-text); }
 .js-sys-note:empty { display:none; }
-.sys-note { font-size:var(--type-body-sm); }
+.sys-note { /* .type-body-sm */ }
 .sys-note--ok, .sys-note--err { display:inline-block; padding:8px 13px; border-radius:10px;
   border:1px solid var(--color-border); background:var(--color-surface); }
 .sys-note--ok { color:var(--color-ink-dim); }
 .sys-note--err { color:var(--color-negative-text); border-color:var(--color-negative-text); }
 .sys-note--change { border:1px solid var(--color-border-strong); border-radius:10px;
   padding:12px 14px; background:var(--sero-soft-200); color:var(--color-ink); }
-.sys-note__title { font-weight:600; margin-bottom:6px; }
+.sys-note__title { margin-bottom:6px; }
 .sys-note--change ul { margin:0; padding-left:18px; }
 .sys-note--change li { margin:3px 0; }
 .sys-note__meta { color:var(--color-ink-mute); }
-.sys-note code { font-family:ui-monospace, SFMono-Regular, Menlo, monospace; }
+.sys-note code { /* .type-code */ }

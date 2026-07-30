@@ -12,10 +12,10 @@
 .pd-pill--guest { background: var(--color-page); color: var(--color-ink-dim); border: 1px dashed var(--color-border); font-weight: 500; }
 
 /* The reconciliation line under the title — the card's exact number, restated. */
-.pd-count { font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.pd-count { color: var(--color-ink-dim); }
 .pd-count b { color: var(--color-ink); font-variant-numeric: tabular-nums; }
 
-.pd-sub { display: block; font-size: var(--type-body-sm); color: var(--color-ink-dim); }
+.pd-sub { display: block; color: var(--color-ink-dim); }
 .pd-stars { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pd-note { max-width: 26rem; }
 .pd-num { font-variant-numeric: tabular-nums; }
@@ -24,10 +24,10 @@
    5 stars down to 1, above the ratings table. Low scores (≤2) bar in the warm gold so
    attention lands calmly, matching the drop-off chart's warn bar on the dashboard. */
 .pd-hist { display: flex; flex-direction: column; gap: var(--sero-space-1); max-width: 24rem; }
-.pd-hist__row { display: grid; grid-template-columns: 3.25rem 1fr 2rem; align-items: center; gap: var(--sero-space-2); font-size: var(--type-body-sm); }
-.pd-hist__label { display: inline-flex; align-items: center; gap: 4px; color: var(--color-ink-dim); font-weight: 500; white-space: nowrap; }
+.pd-hist__row { display: grid; grid-template-columns: 3.25rem 1fr 2rem; align-items: center; gap: var(--sero-space-2); }
+.pd-hist__label { display: inline-flex; align-items: center; gap: 4px; color: var(--color-ink-dim); white-space: nowrap; }
 .pd-hist__label svg { color: var(--sero-gold-700); }
 .pd-hist__track { background: var(--color-page); border-radius: var(--sero-radius-sm); height: 13px; overflow: hidden; }
 .pd-hist__fill { height: 100%; border-radius: var(--sero-radius-sm); background: var(--color-accent); opacity: 0.85; }
 .pd-hist__fill--low { background: var(--sero-gold-700); }
-.pd-hist__n { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.pd-hist__n { text-align: right; font-variant-numeric: tabular-nums; }

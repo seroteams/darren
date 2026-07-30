@@ -51,7 +51,6 @@
   border-radius: 50%;
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
-  font-weight: var(--type-weight-semibold);
   display: grid;
   place-items: center;
   flex: none;
@@ -69,9 +68,6 @@
   border: 0;
   border-bottom: 2px solid transparent;
   background: none;
-  font: inherit;
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-ink-dim);
   cursor: pointer;
   margin-bottom: -1px;
@@ -90,8 +86,6 @@
   border: 0;
   padding: 0.65rem 1.15rem;
   border-radius: var(--radius-button);
-  font: inherit;
-  font-weight: var(--type-weight-medium);
   color: var(--color-ink-dim);
   cursor: pointer;
 }

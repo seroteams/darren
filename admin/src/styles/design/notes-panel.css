@@ -20,15 +20,12 @@
   border-bottom: 1px solid var(--color-border);
 }
 .ctx-segments {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
-  line-height: 1.45;
   word-break: break-word;
 }
 .ctx-segments.is-empty { display: none; }
 .ctx-segments .is-strong {
   color: var(--color-ink);
-  font-weight: 600;
 }
 .ctx-segments .sep {
   margin: 0 0.35rem;
@@ -49,22 +46,16 @@
   padding: 0.85rem 1rem 1rem;
 }
 .notes-panel__empty {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   opacity: 0.75;
   padding: 0.5rem 0;
-  line-height: 1.5;
 }
 .notes-panel__group {
   margin-bottom: 1.15rem;
 }
 .notes-panel__group-head {
-  font-size: var(--type-body-sm);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--color-ink-mute);
   margin-bottom: 0.5rem;
-  font-weight: 500;
 }
 .notes-panel__item {
   font-size: var(--type-body);
@@ -93,9 +84,11 @@
   margin-bottom: 0.25rem;
 }
 .notes-panel__ts {
+  /* Tabular figures are not part of any 14px role: only .type-metric bakes them
+     in. base.css keeps .num-tabular as the standalone escape hatch, but pairing
+     it means editing markup, so the declaration stays here for now. */
   font-variant-numeric: tabular-nums;
   color: var(--color-ink-mute);
-  font-size: var(--type-body-sm);
   flex-shrink: 0;
 }
 .notes-panel__text {
@@ -130,8 +123,6 @@
   background: transparent;
   border: none;
   color: var(--color-ink-mute);
-  font: inherit;
-  font-size: var(--type-body-sm);
   cursor: pointer;
   padding: 0.25rem 0.4rem;
   text-decoration: underline;
@@ -153,7 +144,6 @@
 }
 .notes-panel__error {
   margin-top: 0.5rem;
-  font-size: var(--type-body-sm);
   color: var(--color-danger);
 }
 .notes-panel__error.is-hidden {
@@ -171,8 +161,6 @@
   border: none;
   border-bottom: 2px solid transparent;
   padding: 0.4rem 0.6rem;
-  font: inherit;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
   cursor: pointer;
   transition: color 120ms ease, border-color 120ms ease;
@@ -181,7 +169,6 @@
 .notes-panel__tab.is-active {
   color: var(--color-ink);
   border-bottom-color: var(--color-accent, var(--sero-primary-700));
-  font-weight: 600;
 }
 
 .notes-panel__tabpane {
@@ -202,28 +189,20 @@
   min-height: 0;
   overflow-y: auto;
   padding: 0.85rem 1rem 1rem;
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
 }
 .stage-io__empty,
 .stage-io__note {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
-  line-height: 1.5;
   padding: 0.4rem 0;
 }
 .stage-io__field { margin-bottom: 0.75rem; }
 .stage-io__label,
 .stage-io__block-title {
-  font-size: var(--type-body-sm);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--color-ink-mute);
   margin-bottom: 0.2rem;
-  font-weight: 500;
 }
 .stage-io__val {
-  line-height: 1.5;
   word-break: break-word;
   white-space: pre-wrap;
 }
@@ -233,9 +212,6 @@
   background: var(--sero-primary-100);
   border: 1px solid var(--color-border);
   border-radius: 6px;
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-  font-size: var(--type-body-sm);
-  line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-word;
   max-height: 360px;
@@ -257,8 +233,6 @@
   border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 0.15rem 0.45rem;
-  font: inherit;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   cursor: pointer;
 }
@@ -268,7 +242,6 @@
 }
 .stage-io__details > .stage-io__summary {
   cursor: pointer;
-  font-size: var(--type-body-sm);
   color: var(--color-accent, var(--sero-primary-700));
   padding: 0.3rem 0;
   list-style: none;
@@ -326,8 +299,6 @@ body.has-notes-panel {
   z-index: 11;
   align-items: center;
   padding: 0.4rem 0.75rem;
-  font-size: var(--type-body-sm);
-  font-weight: 500;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-button);

@@ -239,7 +239,7 @@ const PARITY: { preset: string; src: string; classes: string[] }[] = [
       "field-live-label__text",
       "hint",
       "hint--kbd",
-      "text-xs",
+      "text-sm",
     ],
   },
   {

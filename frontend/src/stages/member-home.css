@@ -24,7 +24,6 @@
   color: var(--color-ink);
 }
 .member-empty__copy {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
   max-width: var(--measure-tight);
 }
@@ -48,7 +47,6 @@
   padding-top: 0;
 }
 .member-req__text {
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
 }
 .member-req__cat {
@@ -66,9 +64,7 @@
   padding-top: 0;
 }
 .member-goal__text {
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
-  font-weight: var(--type-weight-medium);
 }
 .member-goal__meter {
   display: flex;
@@ -93,8 +89,6 @@
   background: var(--color-positive);
 }
 .member-goal__pct {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
   min-width: 2.75rem;
   text-align: right;

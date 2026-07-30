@@ -11,6 +11,15 @@ import { dirname, join } from "node:path";
 const here = dirname(fileURLToPath(import.meta.url));
 const SRC = readFileSync(join(here, "start-core.js"), "utf8");
 const CSS = readFileSync(join(here, "../styles/design/start-stage.css"), "utf8");
+// Type-system P3: size, weight and leading left the component sheets and now live as
+// role recipes in design/type.css, which the component selectors are grouped into. The
+// two type guarantees below are therefore read from there, not from start-stage.css.
+const TYPE = readFileSync(join(here, "../styles/design/type.css"), "utf8");
+const roleSelectors = (role: string): string => {
+  const start = TYPE.indexOf(`.${role},`);
+  const at = start === -1 ? TYPE.indexOf(`.${role} {`) : start;
+  return TYPE.slice(at, TYPE.indexOf("{", at));
+};
 
 test("the expand-in-place accordion is gone", () => {
   assert.ok(!SRC.includes("aria-expanded"), "no expandable row head");
@@ -29,7 +38,7 @@ test("recents render as rich rows: avatar initial, bold name, quiet type-and-tim
   assert.ok(SRC.includes("ds-avatar"), "shared avatar circle");
   assert.ok(SRC.includes("run-list__name"), "bold headline slot");
   assert.ok(SRC.includes("run-list__sub"), "quiet second line slot");
-  assert.ok(/\.run-list__name\s*\{[^}]*semibold/.test(CSS), "name reads bold");
+  assert.ok(roleSelectors("type-label-strong").includes(".run-list__name"), "name reads bold");
   assert.ok(/\.run-list__sub\s*\{[^}]*ink-dim/.test(CSS), "second line reads quiet");
 });
 
@@ -46,7 +55,7 @@ test("an unfinished prep is marked and hoisted, and 5 are fetched to find it", (
   assert.ok(/listRecentRuns\(5\)[\s\S]{0,120}orderForHome\([^)]*3\)/.test(SRC), "fetch 5, render the top 3");
   assert.ok(SRC.includes("Half done"), "the unfinished state is named on the row");
   assert.ok(/statusChip[\s\S]{0,200}status === "open"/.test(SRC), "only unfinished rows get the chip");
-  assert.ok(/\.run-list__status\s*\{[^}]*--type-body-sm/.test(CSS), "the chip respects the 14px floor");
+  assert.ok(roleSelectors("type-label").includes(".run-list__status"), "the chip respects the 14px floor");
 });
 
 test("the internal review chip stays out of the customer view", () => {
@@ -166,7 +175,7 @@ test("the seeded example row says it is an example, to everyone", () => {
   assert.ok(/run-list__side">\$\{exampleChip\(m\)\}/.test(SRC), "it sits in the row's side slot");
   const chip = SRC.slice(SRC.indexOf("function exampleChip"), SRC.indexOf("function render"));
   assert.ok(!chip.includes("isInternalAdmin"), "NOT gated on internal admin: the customer is who needs to see it");
-  assert.ok(/\.run-list__example\s*\{[^}]*--type-body-sm/.test(CSS), "the chip respects the 14px floor");
+  assert.ok(roleSelectors("type-label").includes(".run-list__example"), "the chip respects the 14px floor");
   assert.ok(!/\.run-list__example\s*\{[^}]*--color-accent/.test(CSS), "neutral, not accent: it labels the row, it doesn't sell it");
 });
 

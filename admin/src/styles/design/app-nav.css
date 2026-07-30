@@ -153,10 +153,7 @@ body.app-nav-collapsed .app-nav:focus-within {
   font-weight: var(--type-weight-regular);
   color: rgba(255, 255, 255, 0.7);
 }
-.app-nav__link {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
-}
+.app-nav__link { /* .type-label */ }
 /* Labels + brand word show by default (pinned rail); clipped when the user
    collapses; fade back in while the collapsed rail is hover/focus-expanded. */
 .app-nav__label,
@@ -186,7 +183,6 @@ body.app-nav-collapsed .app-nav:focus-within .app-nav__word {
 .app-nav__link.is-active {
   background: var(--color-nav-active);
   color: var(--color-ink);
-  font-weight: var(--type-weight-semibold);
 }
 /* Section headers — chunk the long admin rail (Sessions · Engine · Admin). The
    hairline stays put when the rail is collapsed so the group breaks read as
@@ -208,10 +204,6 @@ body.app-nav-collapsed .app-nav:focus-within .app-nav__word {
 }
 .app-nav__group-label span {
   display: block;
-  font-size: var(--type-body-sm);          /* 14px — accessibility floor */
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: var(--type-tracking-wide);
-  text-transform: uppercase;
   color: rgba(255, 255, 255, 0.55);
   opacity: 1;
   transition: opacity var(--dur-fast) var(--ease-out-expo);
@@ -316,12 +308,8 @@ body.has-app-nav.has-session-topbar {
   border-radius: 50%;
   background: var(--sero-primary-700);
   color: var(--sero-offwhite-50);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-bold);
-  line-height: 1;
 }
 .profile-badge__email {
-  font-size: var(--type-body-sm);
   color: var(--color-ink);
   white-space: nowrap;
   overflow: hidden;

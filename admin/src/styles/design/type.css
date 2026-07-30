@@ -149,9 +149,71 @@
    its own card. A measure belongs to prose, and .type-body / .type-body-lg carry
    it. The rare 14px block that IS prose takes .type-body--narrow alongside. */
 .type-body-sm,
+/* P2, the Meeting screen */
 .cp-screen .question-drill-hint,
 .cp-privacy,
-.coach-source {
+.coach-source,
+/* P3, the 14px chrome stratum. Grouped by the sheet each selector came from, so
+   the next person can find the component the class belongs to. */
+.caption, .kbd,
+.field__hint, .field__error, .page-header__lede,
+.um-table, .um-trend, .um-menu__item, .person-summary, .since__list li,
+.promise-row__action, .axis-mem, .axis-mem__scale, .list-toolbar__search,
+.list-toolbar__count,
+.profile-badge__email,
+.session-topbar__row, .session-topbar__email,
+.crumbs,
+.row-menu__item,
+.ctx-segments, .notes-panel__empty, .notes-panel__ts, .notes-panel__delete,
+.notes-panel__error, .notes-panel__tab, .stage-io, .stage-io__empty,
+.stage-io__note, .stage-io__val, .stage-io__copy,
+.stage-io__details > .stage-io__summary,
+.el-sub, .el-src, .el-envnote, .el-filter__n, .el-detail__meta, .el-detail__msg,
+.el-ua, .el-pager__at,
+.run-log__disclaimer, .run-log__note-row,
+.bench-flow__meta, .cmp-warn, .cmp-cell, .cmp-axis__read, .cmp-legend, .cmp-input,
+.cmp-verdict, .cmp-verdict-issue, .cmp-a, .cmp-fix-out, .meeting-card__meta,
+.suggest-row,
+.bullet__mark, .copy-snippet-btn__label, .question-source-answer,
+.question-session-notes,
+.run-list__avatar, .run-list__sub, .run-list__empty, .start-welcome__after,
+.btn--sm, .session-topbar__stages, .intake-or,
+.cl-phase-tag, .cl-goal, .cl-count, .cl-means, .cl-meta div,
+.cl-step-no, .cl-tag, .cl-kick__lede, .cl-kick__saved, .cl-kick__preview,
+.brutal__note, .focus-point__reason, .focus-point__evidence, .focus-select-hint,
+.pa-hint, .pa-when, .pa-cap, .pa-empty, .pa-loopnote, .agreed-note,
+.pck-when, .pck-tap,
+.stage-review__tab, .stage-review__close, .stage-review__facts dt,
+.stage-review__row-sub, .run-row__review, .rv-status, .rv-row__label, .rv-row__hint,
+.rv-note, .rv-keys, .rv-ov__btn,
+.about-hero__hint, .about-sec__sub, .about-how__you, .about-alpha, .about-duo__body,
+.axis__offscale,
+.wizard-footer__note,
+.save-pip,
+.bench-turn__who, .bench-turn__text,
+.member-runs__when, .member-runs__meta,
+.rd-tab__n, .rd-when > span,
+.run-step__label, .joblex-error, .guide-toc__status, .guide-toc a, .guide-ref,
+.guide-step__body p, .guide-gaps li,
+.ds-swatch__meta, .ds-ramp__step, .ds-input, .ds-goalcard, .ds-legend,
+.ds-menu__item, .ds-tooltip, .ds-checklist,
+.join-facts, .auth-err, .auth-alert,
+.apm__sub, .apm-field__opt, .apm-field__input, .apm__err, .apm-invite__check,
+.fb-preview, .fb-tab__n, .fb-company, .fb-time, .fb-who__mail, .fb-note,
+.arc-card__meta, .arc-phase__q, .arc-update__time,
+.g-arc__meta, .g-arc-note, .sys-note,
+.lp-tile__delta, .lp-tile__note, .lp-card .lp-hnote, .lp-bar, .lp-who .lp-co,
+.lp-feed__meta, .lp-empty,
+.pd-count, .pd-sub, .pd-hist__row,
+.tg-card__blurb, .tg-card__meta, .tg-tag, .tg-note,
+.lex-selectall,
+.ffm__body .input,
+.team-card__name, .team-card__meta,
+.pv-l__sub,
+.pv-switch__trigger, .pv-switch__label, .pv-b__row p,
+.member-empty__copy, .member-req__text,
+.gd-q__src, .gd-chip, .gd-lastmark, .gd-slider__labels, .gd-block__note input,
+.gd-ainote, .gd-finish-note, .gd-hist, .gd-rec__delta {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-regular);
@@ -162,7 +224,46 @@
 /* Labels and small chrome. All three sit on the 14px floor and separate by
    weight and tracking, not by size, so nothing here can ever be shrunk to
    distinguish it. */
-.type-label {
+/* P3 collapsed four names for one thing into this role: .label (ink-mute, 0.04em),
+   .field__label (full ink, no tracking), .apm-field__label and .caption. They differed
+   only in tracking, leading and ink; the first three now sit here and keep only their
+   ink, and .caption went to body-sm because it carried no weight. */
+.type-label,
+.label, .chip, .um-badge, .pd-pill, .el-pill, .fb-pill, .fb-verdict, .fb-type,
+.cl-badge, .lib-badge, .cmp-verdict-tag, .seg__btn, .el-filter, .rv-seg__btn,
+.conf, .stage-step,
+.field__label, .page-header__step,
+.person-summary__role, .list-toolbar__filter,
+.app-nav__link,
+.session-topbar .is-strong, .session-topbar__stages .stage-step,
+.session-topbar__exit, .session-topbar__count,
+.crumb--link,
+.notes-panel__toggle,
+.el-control__label, .el-detail__meta b,
+.run-log__note-stage,
+.bench-flow__tag, .cmp-axis__label, .meeting-card__badge,
+.brutal__eyebrow, .action-when,
+.run-list__status, .run-list__example, .start-seeall, .start-brief__tag,
+.start-quiet__link, .intake-firstrun__n,
+.pill,
+.pa-add,
+.about-chip,
+.axis__value--baseline,
+.ds-tab, .ds-btn-quiet,
+.bench-status--good,
+.rd-type-badge,
+.ds-rail__link, .ds-swatch__name, .ds-ramp__name, .ds-link, .ds-tag,
+.ds-scorepill, .ds-count, .ds-crumb,
+.apm-field__label,
+.fb-name, .fb-copy,
+.g-arc-chip,
+.lp-range__btn, .lp-tile__label, .lp-viewall,
+.pd-hist__label,
+.team-pill,
+.pv-l__tab,
+.pv-switch__value, .pv-tile__name,
+.member-goal__text,
+.gd-stepper .stage-step {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-medium);
@@ -176,13 +277,56 @@
    read across the room. .cp-seg lost its `font: inherit` in the same move, so
    this rule is the only thing giving that <button> a face: it has to keep
    declaring family, size, weight and leading together. */
+/* The nine state rules that used to bump weight in place live here too. A compound
+   selector like .app-nav__link.is-active carries its own higher specificity into this
+   file, so it still beats the base role it sits beside, and the component sheet keeps
+   only the colour that goes with the state. The two states whose BASE takes no role
+   (.joblex-item.is-active, .fp-chip--changed) kept their local weight instead: taking
+   a 14px role would have shrunk them as well as emboldened them. */
 .type-label-strong,
 .cp-head__turn,
 .cp-seg,
 .coach-pill,
 .coach-row__label,
 .coach-row__delta,
-.coach-meter__thumb {
+.coach-meter__thumb,
+.um-table th, .um-user__open, .um-group__name, .person-summary b, .since__label,
+.since__when, .promise-row__who, .axis-mem__series b, .um-menu__item.is-current,
+.profile-badge__avatar, .app-nav__link.is-active,
+.session-topbar__avatar, .session-topbar__stages .is-current,
+.crumb--current,
+.ctx-segments .is-strong, .notes-panel__tab.is-active,
+.el-table th,
+.run-log__block-label,
+.cmp-id__headline, .cmp-tag, .cmp-act-col__name, .cmp-q,
+.field-live-label__text,
+.run-list__name, .start-brief__who, .start-point__n, .lex-row__num,
+.prep-timeline__num, .prep-timeline__when, .cl-overall__pct, .focus-point__num,
+.brutal__badge,
+.pa-av, .pa-who,
+.pck-action, .pck-tap.is-active,
+.stage-review__num, .stage-review__tab.is-active, .rv-seg__btn.is-pass,
+.rv-seg__btn.is-fail, .rv-ov__btn.is-keep, .rv-ov__btn.is-fix, .rv-ov__btn.is-block,
+.about-how__you b, .about-step__n,
+.axis__label, .axis__thumb, .axis__delta, .axis__caret, .axis__value,
+.ds-avatar,
+.member-runs__type,
+.rd-turn__q,
+.run-step__dot, .joblex-yours, .joblex-hidden__head, .joblex-restore,
+.guide-step__n,
+.ds-crumb__now,
+.join-facts__label,
+.fb-avatar,
+.arc-edited, .arc-phase__id,
+.g-arc-edited, .sys-note__title,
+.lp-delta, .lp-pill, .lp-avatar, .lp-range__btn[aria-pressed="true"],
+.pd-hist__n,
+.tg-card__link,
+.team-link,
+.pv-rate__status,
+.member-goal__pct,
+.gd-done-banner, .gd-owner, .gd-row__cat, .gd-status, .gd-private,
+.gd-field label, .gd-chip[data-selected], .gd-stepper .is-current {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-semibold);
@@ -191,8 +335,29 @@
 /* .cp-eyebrow matches no markup in the tree today (P2, grep). It is grouped in
    rather than left behind so coach-panel.css can hold zero type declarations,
    and so it paints correctly if it is ever wired up. */
+/* The eyebrow family, collapsed (P3). .eyebrow and .type-overline were already
+   byte-identical apart from the leading (21.7px inherited, now 20px), and fifteen
+   rivals differed only in tracking or weight: five landed at 0.04em, two at 0.05em,
+   three at 0.06em, two at 0.02em, one at 0.03em, and four of them rendered 400 or 500
+   rather than 600. They all read as the same object on screen, so they take one
+   recipe. Two that phase-3.md named as rivals are NOT here on purpose:
+   .run-log__block-label and .brutal__eyebrow have no caps and no tracking, and their
+   markup is sentence case, so overline would have shouted them. */
 .type-overline,
-.cp-eyebrow {
+.cp-eyebrow,
+.eyebrow,
+.um-menu__label, .since__title, .person-runs__heading,
+.app-nav__group-label span,
+.notes-panel__group-head, .stage-io__label, .stage-io__block-title,
+.cmp-row__label,
+.run-list__grouphead, .start-point__label,
+.agreed-owner-label,
+.about-cap span,
+.joblex-group,
+.arc-sec, .arc-field > span,
+.pv-l__name,
+.pv-switch__poptitle,
+.gd-sugg__tag {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-semibold);
@@ -201,7 +366,26 @@
   text-transform: uppercase;
 }
 
-.type-code {
+/* Four mono stacks became one (P3). Two of them pointed at --font-mono, whose value
+   was `ui-monospace, monospace`; on Windows ui-monospace does not resolve, so those
+   thirteen sites fell through to generic monospace (Courier New) while the six literal
+   run-log sites picked Consolas. That is why two typewriter faces were visible in one
+   app. --type-family-mono names Consolas explicitly, so those thirteen change face on
+   Windows: intended, and the point of the collapse.
+   Must stay AFTER .type-label: .fb-pill--src carries both (.fb-pill from the chip
+   group, --src here) at the same specificity, and source order is what gives it the
+   mono face and weight 400. */
+.type-code,
+.stage-io__pre,
+.el-route, .el-detail__meta code, .el-stack,
+.run-log__id, .run-log__commands, .run-log__scenario-pill, .run-log__path,
+.run-log__tree, .run-log__tip,
+.script-alias, .cmp-id__meta, .fp-chip,
+.cl-kick__preview pre,
+.guide-ref code, .guide-step__files,
+.ds-rulesgrid code,
+.fb-pill--src,
+.sys-note code {
   font-family: var(--type-family-mono);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-regular);
@@ -247,7 +431,23 @@
    exception lives here and selectors group into it the same way they group into a
    role. It is not a role: it never appears alone, only alongside one.
    ----------------------------------------------------------------------------- */
-.type-flush { line-height: 1; }
+.type-flush,
+.um-trend,
+.profile-badge__avatar,
+.session-topbar__avatar,
+.session-topbar__stages .stage-step,
+.session-topbar__stages .stage-step__label,
+.session-topbar__exit,
+.fb-avatar,
+.run-step__dot,
+.pv-tile__name,
+.gd-stepper .stage-step,
+.stage-review__close,
+.cmp-tag { line-height: 1; }
+/* Three glyph rules could NOT come here and kept a line-height in their own sheet,
+   each with a comment saying why: .ud-chev and .row-menu-btn need line-height 0, not
+   1, so the line box collapses entirely; and .bullet__mark needs `inherit`, because it
+   has to sit on the same baseline as the 16px prose line beside it. */
 
 /* -----------------------------------------------------------------------------
    Layer 3: one composite custom property per role (the Material Web pattern),

@@ -24,7 +24,6 @@
 }
 .about-hero__hint {
   color: var(--color-ink-dim);
-  font-size: var(--type-body-sm);
 }
 
 .about-sec {
@@ -45,8 +44,8 @@
 }
 .about-sec__sub {
   margin: 0;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
+  /* .type-body-sm carries no measure, so this one stays. */
   max-width: var(--measure);
 }
 
@@ -74,10 +73,6 @@
   border-top: 1px solid var(--color-border);
 }
 .about-cap span {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: var(--type-tracking-wider);
-  text-transform: uppercase;
   color: var(--color-ink-mute);
 }
 .about-how__row {
@@ -115,17 +110,12 @@
 }
 .about-how__you {
   margin: 0;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
-  line-height: var(--type-leading-normal);
 }
 .about-how__you b {
   color: var(--color-ink);
-  font-weight: var(--type-weight-semibold);
 }
 .about-chip {
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-medium);
   color: var(--color-ink-mute);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -176,8 +166,6 @@
   border-radius: var(--sero-radius-full);
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
-  font-size: var(--type-body-sm);
-  font-weight: var(--type-weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 /* The alpha note: a quiet left-rule row, not a card. */
@@ -188,7 +176,6 @@
   padding-left: var(--sero-space-4);
   border-left: 3px solid var(--sero-primary-400);
   color: var(--color-ink-dim);
-  font-size: var(--type-body-sm);
 }
 .about-alpha .sero-icon {
   flex: none;
@@ -237,8 +224,6 @@
 .about-duo__body {
   margin: 0;
   color: var(--color-ink-dim);
-  font-size: var(--type-body-sm);
-  line-height: var(--type-leading-normal);
 }
 
 @media (max-width: 34rem) {

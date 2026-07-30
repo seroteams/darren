@@ -267,7 +267,6 @@
   --color-surface-2: rgba(0, 0, 0, 0.05);          /* hover / selected wash */
   --color-backdrop: rgba(31, 42, 55, 0.45);        /* one modal / overlay scrim (Sero ink @ 45%) */
   --color-amber: #b4690e;                          /* fix / partial accent */
-  --font-mono: ui-monospace, monospace;            /* code / meta text */
 
   /* =========================================================================
      Type scale — one name per size. DESIGN.md's ladder is 14 · 16 · 18 · 20 ·
@@ -360,9 +359,11 @@
      rendering as they do today. Retype, reorder or tidy one entry and those
      screens change face.
 
-     --type-family-mono is the mono stack the roles use. --font-mono above
-     still has its own call sites and is deliberately left alone here. The two
-     merge when those sites move onto a role. */
+     --type-family-mono is the one mono stack. The old --font-mono, which resolved
+     to "ui-monospace, monospace", was deleted in P3 once its thirteen call sites
+     took .type-code. On Windows ui-monospace does not resolve, so those thirteen
+     were falling through to generic monospace while six literal stacks elsewhere
+     picked Consolas: one app, two typewriter faces. Naming Consolas here ends it. */
   --type-family-base: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --type-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 

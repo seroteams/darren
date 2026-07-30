@@ -42,7 +42,7 @@ export function createNotesPanel({ store, setState }) {
     <div class="notes-panel__tabpane" data-pane="notes">
       <div class="notes-panel__notes-head">
         <div class="notes-panel__eyebrow eyebrow">Test notes</div>
-        <p class="notes-panel__helper text-ink-dim text-xs">Your QA notes about this run. Manager context is shown in the main flow.</p>
+        <p class="notes-panel__helper text-ink-dim text-sm">Your QA notes about this run. Manager context is shown in the main flow.</p>
         <div class="notes-panel__dev"></div>
       </div>
       <div class="notes-panel__list"></div>
