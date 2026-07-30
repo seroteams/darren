@@ -1810,3 +1810,28 @@ were caught by adversarial review rather than by the suite, which passed through
 in no phase, an acceptance check that could never pass, a phase that would have grown the hero on
 phones, and a deletion that would have silently stripped tracking off six roles with no test
 failing. All four would have been discovered at the last step instead of the first.
+
+**A placement verdict can expire without anyone editing it.** "Card zero at the beginning" was
+decided 2026-07-12 and was correct at the time: the meeting's first screen was the promise list
+because nothing else was competing for that slot. Six weeks later a merging opening question was
+built for a different reason entirely, and the two now fought over the same beat, with the form
+winning by virtue of running first. Nobody changed the decision; the ground under it moved. Worth
+asking of any placement rule: what else has arrived since, and would this still win?
+
+**The clearest argument against a screen came from the product's own data files.** "Agenda-heavy
+openers that read like a HR form" is the first named anti-pattern in the bi-weekly arc definition,
+written to constrain what the MODEL may ask. The interface was breaking it, and nothing checks the
+interface against those rules. The prohibitions written for the engine are usually good design
+rules for the UI beside it.
+
+**Ask what a fence is actually made of before designing around it.** Whether last time's actions
+belong to the person or to the meeting type looked like an open product question; it had already
+been answered in code, by a fence on manager plus person with no meeting type in it. The real work
+was not choosing, it was noticing the consequence: an action agreed in a career conversation can
+open a meeting about someone seeming off.
+
+**When credentials and locked lanes block the usual proof, the cheap route is to rewind real data
+rather than buy a new run.** A finished run cloned to turn 0, with the transcript, briefing and
+promises stripped, lands exactly on the runner's first screen for £0. Every part under test was
+real: the API, the store, the client, the write-back. The only thing borrowed was content the
+change never touches.
