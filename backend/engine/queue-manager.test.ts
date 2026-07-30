@@ -229,3 +229,28 @@ test("planner RESPONSE_SCHEMA: each queued question carries exactly 3 tagged hin
   assert.equal(item.properties.hints.maxItems, 3);
   assert.deepEqual(item.properties.hints.items.properties.kind.enum, ["ask", "listen"]);
 });
+
+// Living plan (no dead wires P3): the grounding corpus is the haystack a
+// planner-written premise must be found in. Extracted as a pure function so the
+// P4 notes wire can be proven here rather than assumed.
+test("buildGroundingCorpus: carries intake context and answers; mid-run notes join only when provided", async () => {
+  const { buildGroundingCorpus } = await import("./queue-manager.ts");
+  const args = {
+    ctx: { name: "Daryl", role: "UX Designer", meetingType: "Bi-weekly check-in", notes: "Odin cutover slipping" },
+    transcript: [
+      { turn: 1, question: { alias: "q_1", name: "How is the fortnight?" }, answer: "Heavy, mostly the cutover.", skipped: false },
+    ],
+    remainingQueue: [{ alias: "q_2", name: "What would help most?" }],
+    prep: { coreIssue: "cutover load" },
+    focusPoints: [{ id: "workload", label: "Workload" }],
+  };
+  const without = buildGroundingCorpus(args as never);
+  assert.ok(without.includes("cutover"), "intake note text grounds the corpus");
+  assert.ok(without.includes("heavy"), "answers ground the corpus");
+  assert.ok(!without.includes("glancing"), "no ghost note text");
+  const withNotes = buildGroundingCorpus({
+    ...args,
+    sessionNotes: [{ text: "He keeps glancing at his phone, seems flat." }],
+  } as never);
+  assert.ok(withNotes.includes("glancing"), "a mid-run note joins the corpus so note-grounded questions survive the gate");
+});

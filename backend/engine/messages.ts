@@ -34,6 +34,26 @@ interface PlannerPrep {
   listenFor?: string[];
 }
 
+// A mid-run note as the planner sees it (a permissive view of SessionNote).
+interface PlannerSessionNote {
+  text?: string;
+  turn?: number | null;
+}
+
+// Living plan (no dead wires P3): the last three mid-run notes, one line each,
+// capped so the per-turn (uncached) half of the prompt stays small.
+function renderSessionNotes(notes: PlannerSessionNote[] | null | undefined): string {
+  const rows = (notes || []).filter((n) => String(n?.text || "").trim()).slice(-3);
+  if (!rows.length) return "(none yet)";
+  return rows
+    .map((n) => {
+      const text = String(n.text).replace(/\s+/g, " ").trim().slice(0, 160);
+      const where = n.turn ? ` (at Q${n.turn})` : "";
+      return `- Manager noted${where}: ${text}`;
+    })
+    .join("\n");
+}
+
 function buildMessages({
   axes,
   focusPoints,
@@ -49,6 +69,7 @@ function buildMessages({
   closerAlias,
   selectedFocus = null,
   prep = null,
+  sessionNotes = null,
 }: {
   axes: unknown;
   focusPoints: unknown;
@@ -64,6 +85,7 @@ function buildMessages({
   closerAlias: string | null | undefined;
   selectedFocus?: { id?: string } | null;
   prep?: PlannerPrep | null;
+  sessionNotes?: PlannerSessionNote[] | null;
 }) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "planTurn"), "utf8");
   const arc = getArc(ctx.meetingType);
@@ -115,6 +137,7 @@ function buildMessages({
     .replaceAll("{{TRANSCRIPT_JSON}}", JSON.stringify(transcriptSummary))
     .replaceAll("{{LAST_QUESTION_JSON}}", JSON.stringify(lastQuestion ? { ...lastQuestion, description: undefined } : lastQuestion))
     .replaceAll("{{LAST_ANSWER}}", lastAnswer || "(skipped)")
+    .replaceAll("{{SESSION_NOTES}}", renderSessionNotes(sessionNotes))
     .replaceAll("{{AXIS_STATE_JSON}}", JSON.stringify(axisState))
     .replaceAll("{{REMAINING_QUEUE_JSON}}", JSON.stringify(queueSummary))
     .replaceAll("{{REMAINING_BUDGET}}", String(remainingBudget))
@@ -152,5 +175,5 @@ function buildMessages({
   return splitSystemUser(filled);
 }
 
-export { buildMessages };
-export type { BuildMessagesCtx, PlannerPrep };
+export { buildMessages, renderSessionNotes };
+export type { BuildMessagesCtx, PlannerPrep, PlannerSessionNote };

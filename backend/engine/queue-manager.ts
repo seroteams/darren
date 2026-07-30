@@ -26,7 +26,7 @@ import { isObjectRecord, asRecord, asString } from "../shared/guards.ts";
 import type { RawQueueItem } from "./queue-constants.ts";
 import { reconcileQueue, normalizeGrounding, toAxisObject, snapToAllowedDelta } from "./reconcile-queue.ts";
 import { buildMessages } from "./messages.ts";
-import type { BuildMessagesCtx, PlannerPrep } from "./messages.ts";
+import type { BuildMessagesCtx, PlannerPrep, PlannerSessionNote } from "./messages.ts";
 import { ALLOWED_DELTAS, MAX_QUEUE, RUNTIME_SUBDIR } from "./queue-constants.ts";
 import type { Arc } from "./queue-constants.ts";
 import {
@@ -346,6 +346,7 @@ async function planTurn({
   selectedFocus = null,
   prep = null,
   sessionBank = null,
+  sessionNotes = null,
 }: {
   focusPoints: unknown;
   ctx: PlanTurnCtx;
@@ -362,6 +363,7 @@ async function planTurn({
   selectedFocus?: { id?: string } | null;
   prep?: PlannerPrep | null;
   sessionBank?: Question[] | null;
+  sessionNotes?: PlannerSessionNote[] | null;
 }) {
   validateAxisState(axisState);
 
@@ -396,6 +398,7 @@ async function planTurn({
     closerAlias,
     selectedFocus,
     prep,
+    sessionNotes,
   });
   const raw = await callOpenAI({ ...msgs, model });
   const parsed = asRecord(parseAIJson(raw, "Queue planner", ["assessment", "new_queue"]));
@@ -441,21 +444,7 @@ async function planTurn({
   const askedAliases = new Set((transcript || []).map((t) => t.question.alias));
   const askedNames = (transcript || []).map((t) => t.question.name);
   const arc = getArc(ctx.meetingType);
-  // Everything this session has actually put on the table — the haystack a
-  // planner-written question's premise must be found in.
-  const groundingCorpus = normalizeGrounding(
-    [
-      ctx.notes,
-      ctx.name,
-      ctx.role,
-      ...(transcript || []).flatMap((t) => [t?.question?.name, t?.answer]),
-      ...(remainingQueue || []).map((q) => q?.name),
-      prep ? JSON.stringify(prep) : "",
-      focusPoints ? JSON.stringify(focusPoints) : "",
-    ]
-      .filter(Boolean)
-      .join("\n")
-  );
+  const groundingCorpus = buildGroundingCorpus({ ctx, transcript, remainingQueue, prep, focusPoints, sessionNotes });
   const newQueueRaw = isRawQueueArray(parsed.new_queue) ? parsed.new_queue : undefined;
   const resolvedCauses = Array.isArray(parsed.resolved_causes)
     ? parsed.resolved_causes.filter((s): s is string => typeof s === "string")
@@ -533,6 +522,41 @@ async function planTurn({
 // planTurn additionally reads ctx.notes/name/role for the grounding corpus.
 type PlanTurnCtx = BuildMessagesCtx;
 
+// Everything this session has actually put on the table — the haystack a
+// planner-written question's premise must be found in. Mid-run notes join the
+// corpus when provided (the P4 wire passes them), so a note-grounded question
+// survives the gate instead of silently reverting to the stale original.
+function buildGroundingCorpus({
+  ctx,
+  transcript,
+  remainingQueue,
+  prep,
+  focusPoints,
+  sessionNotes,
+}: {
+  ctx: PlanTurnCtx;
+  transcript: TranscriptEntry[] | null | undefined;
+  remainingQueue: Question[] | null | undefined;
+  prep?: PlannerPrep | null;
+  focusPoints?: unknown;
+  sessionNotes?: PlannerSessionNote[] | null;
+}): string {
+  return normalizeGrounding(
+    [
+      ctx.notes,
+      ctx.name,
+      ctx.role,
+      ...(transcript || []).flatMap((t) => [t?.question?.name, t?.answer]),
+      ...(remainingQueue || []).map((q) => q?.name),
+      ...(sessionNotes || []).map((n) => n?.text),
+      prep ? JSON.stringify(prep) : "",
+      focusPoints ? JSON.stringify(focusPoints) : "",
+    ]
+      .filter(Boolean)
+      .join("\n")
+  );
+}
+
 // Assemble the exact payload planTurn would send for the next turn — WITHOUT
 // calling the model. Mirrors planTurn's axis validation + skip-shortcut + axes /
 // axisCoverage prelude, so the preview is byte-for-byte what planTurn would log.
@@ -567,6 +591,7 @@ function assemblePlanTurn(
     closerAlias: args.closerAlias,
     selectedFocus: args.selectedFocus,
     prep: args.prep,
+    sessionNotes: args.sessionNotes,
   });
   return { model, prompt: msgs.filled };
 }
@@ -574,6 +599,7 @@ function assemblePlanTurn(
 export {
   planTurn,
   assemblePlanTurn,
+  buildGroundingCorpus,
   buildMessages,
   callOpenAI,
   axisCoverage,

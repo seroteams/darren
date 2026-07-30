@@ -97,6 +97,7 @@ test("everything per-run constant stays byte-identical across turns (cache prefi
     remainingQueue: [],
     remainingBudget: 3,
     turnNumber: 2,
+    sessionNotes: [{ text: "He keeps glancing at his phone.", turn: 2 }],
   }).filled;
   // Anchor on the structural tag at line start; the system prose also mentions
   // `<turn_state>` in backticks, which must not count as the boundary.
@@ -108,4 +109,26 @@ test("everything per-run constant stays byte-identical across turns (cache prefi
   assert.equal(prefixA, prefixB, "the session_context half must not vary turn to turn");
   assert.ok(prefixA.includes("The Odin cutover is slipping"), "the intake note lives inside the stable prefix");
   assert.ok(prefixA.includes("Conversation vocabulary"), "the vocabulary block lives inside the stable prefix");
+});
+
+// Living plan (no dead wires P3): mid-run notes render into the turn_state half.
+// Inert until P4 passes them from the session; the render contract lives here.
+test("session notes render capped and defaulted, and never enter the cached prefix", () => {
+  const none = build().filled;
+  assert.ok(!none.includes("{{SESSION_NOTES}}"), "SESSION_NOTES placeholder must be filled");
+  assert.ok(none.includes("(none yet)"), "no notes renders the default");
+  const longText = "x".repeat(400);
+  const withNotes = build({
+    sessionNotes: [
+      { text: "old note one", turn: 1 },
+      { text: "old note two", turn: 1 },
+      { text: "He keeps glancing at his phone.", turn: 2 },
+      { text: longText, turn: 3 },
+    ],
+  }).filled;
+  assert.ok(withNotes.includes("He keeps glancing at his phone."), "note text reaches the prompt");
+  assert.ok(!withNotes.includes("old note one"), "only the last three notes ride along");
+  assert.ok(!withNotes.includes("x".repeat(200)), "note text is capped");
+  const idx = withNotes.indexOf("\n<turn_state>");
+  assert.ok(withNotes.indexOf("He keeps glancing") > idx, "notes live after the cache boundary");
 });

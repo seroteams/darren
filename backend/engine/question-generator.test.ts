@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { RESPONSE_SCHEMA, isCompoundName, isKnownStage, toHints } from "./question-generator.ts";
+import { RESPONSE_SCHEMA, isCompoundName, isKnownStage, toHints, pinPrepOpenerEarly } from "./question-generator.ts";
+import type { Question } from "../shared/question.types.ts";
 
 // The structured-output schema is the first hard gate on model output. These
 // bounds mirror the prompt's <rules> ("8–12 questions", "axis_effects never
@@ -95,4 +96,36 @@ test("isKnownStage: accepts a real arc stage, rejects a bogus one", () => {
   assert.equal(isKnownStage("support", "something_feels_off"), true);
   assert.equal(isKnownStage("closer", "something_feels_off"), false);
   assert.equal(isKnownStage(null, "something_feels_off"), false);
+});
+
+// Living plan (no dead wires P3): the prep-opener pin exists so the planner
+// cannot bury the one prep-anchored question early on — but after three asked
+// questions the window has passed and the planner owns the order.
+function pinQ(alias: string): Question {
+  return {
+    alias,
+    label: "Test",
+    name: `Question ${alias}?`,
+    description: "d",
+    purpose: "topic",
+    stage: "pulse",
+    axis_effects: { engagement: 1 },
+    source: "generated",
+  } as unknown as Question;
+}
+
+test("pinPrepOpenerEarly: still pins the opener while fewer than three questions have been asked", () => {
+  const opener = { ...pinQ("q_prep"), label: "Prep opener" };
+  const out = pinPrepOpenerEarly([pinQ("q_a"), pinQ("q_b")], opener, new Set(["q_1"]), "Bi-weekly check-in");
+  assert.ok(out.some((q) => q.alias === "q_prep"), "the opener must be re-inserted early in the run");
+});
+
+test("pinPrepOpenerEarly: releases the pin after three asked questions", () => {
+  const opener = { ...pinQ("q_prep"), label: "Prep opener" };
+  const out = pinPrepOpenerEarly([pinQ("q_a"), pinQ("q_b")], opener, new Set(["q_1", "q_2", "q_3"]), "Bi-weekly check-in");
+  assert.deepEqual(
+    out.map((q) => q.alias),
+    ["q_a", "q_b"],
+    "after three asked questions the planner owns the order; no forced re-insert"
+  );
 });

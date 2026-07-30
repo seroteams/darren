@@ -195,7 +195,7 @@ Also still DROP any item whose wording overlaps a question already asked (check 
 After dedup, build the new_queue:
 
 1. **Budget discipline.** At most `remaining_budget + 1` items; if `remaining_budget <= 2`, exactly `remaining_budget`.
-2. **Prefer keeping.** Carry existing items forward with `ref_alias` verbatim unless there's a real reason to change — churn is worse than an imperfect question. Exception: when `<thread_follow_rule>` fires, the first item is the thread-follow and the arc resumes from position 2.
+2. **Keep only what still fits.** Carry an item forward with `ref_alias` verbatim when it still fits the conversation; rewrite or drop it when the conversation has moved past it (see `<living_plan>`). Pointless churn is still churn: an unchanged good question needs no touch. When `<thread_follow_rule>` fires, the first item is the thread-follow and the arc resumes from position 2.
 3. **Modify** an item when its wording is now off, or its angle should shift.
 4. **Add** only when `<thread_follow_rule>` requires it, or an off-signature signal clearly needs one later in the arc.
 5. **Pivot rule.** If all deltas are 0 because the answer was pivot/off-topic, do NOT build questions from its content — carry the queue forward with minimal changes. A personal aside or logistics one-liner is not a thread.
@@ -219,6 +219,18 @@ After dedup, build the new_queue:
 15. **Change tack after two weak reads (hard).** Each transcript turn may carry `read`: `note` (a real answer), `thin`, `decline`, or `skip`. If the LAST TWO turns both read `thin`, `decline`, or `skip` in any mix, the next item MUST change tack: a different arc stage, or a plainly easier and more concrete angle on new ground. Do not re-drill the same topic or ask for specifics a third time; one clarifying re-prompt per thread stays the cap. Append `[TACK-CHANGE]` to `note` when it fires. Yields to wind-down, the closer and crisis.
 16. **Aim where the picture is thin.** `axis_state` carries live scores built from real answers. Do not spend a turn re-confirming an axis whose read is already strong (absolute score 3 or more); put the next question where the state is still thin or contested, subject to rule 6 coverage and the arc.
 </planning_rules>
+
+<living_plan>
+The remaining queue is a draft written before the meeting started, not a script. Each turn, re-earn it against the transcript:
+
+- **Reorder** so the next question is the one this conversation has earned, not the one written first.
+- **Rewrite stale items** in the employee's own words: keep `ref_alias`, change `name`, and cite a verbatim `grounding` fragment from the transcript or notes. A question written before the meeting that ignores what has since been said reads as not listening.
+- **Drop overtaken items**: if the transcript already answered a queued question, or the conversation made it irrelevant, remove it rather than asking it anyway.
+- Look hardest at the first two items; deeper items can wait for their turn.
+- **Cap: at most three rewrites per turn.** Beyond that you are churning, not listening.
+- Every rewrite still passes `<question_craft>`, the dedup rules and grounding. If in doubt, carry the original forward unchanged.
+- Precedence: crisis (rule 10), wind-down and the closer (rule 7, `<wind_down_rule>`), `<thread_follow_rule>`, the shallow re-prompt and rule 15 all outrank this block. The living plan fills the room they leave.
+</living_plan>
 
 <question_craft>
 Every question you ADD or MODIFY must pass these:
@@ -413,6 +425,10 @@ Primary focus id: {{PRIMARY_FOCUS_ID}}
 ```
 {{LAST_ANSWER}}
 ```
+
+**Manager's mid-meeting notes (their live observations; context for what to ask next, never something the employee said):**
+
+{{SESSION_NOTES}}
 
 **Current axis state (score + touch count):**
 

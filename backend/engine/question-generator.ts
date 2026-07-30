@@ -183,6 +183,11 @@ function pinPrepOpenerEarly(
   if (askedAliases && typeof askedAliases.has === "function" && askedAliases.has(prepOpener.alias)) {
     return queue;
   }
+  // Living plan (no dead wires P3): after three asked questions the pin lets
+  // go — the opener's window has passed and the planner owns the order.
+  if (askedAliases && typeof askedAliases.size === "number" && askedAliases.size >= 3) {
+    return queue;
+  }
   return placePrepOpener(queue, prepOpener, meetingType, 0);
 }
 
