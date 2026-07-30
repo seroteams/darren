@@ -88,7 +88,7 @@ function renderNotesMarkdown(session: Session): string {
   const headerLine = [ctx.name, ctx.role, ctx.meetingType]
     .filter((v) => v && String(v).trim())
     .join(" · ");
-  const lines = [`# Notes — ${session.id}`];
+  const lines = [`# Notes: ${session.id}`];
   if (headerLine) lines.push(headerLine);
   lines.push("");
 
@@ -98,8 +98,8 @@ function renderNotesMarkdown(session: Session): string {
     const alias = String(n.question_alias || "").trim();
     const base =
       n.stage === "QUESTIONING" && n.turn
-        ? `${STAGE_LABEL.QUESTIONING} — Q${n.turn}`
-        : STAGE_LABEL[n.stage] || n.stage || "—";
+        ? `${STAGE_LABEL.QUESTIONING}: Q${n.turn}`
+        : STAGE_LABEL[n.stage] || n.stage || "-";
     const head =
       n.stage === "QUESTIONING" && (stem || alias)
         ? [base, stem, alias].filter(Boolean).join(" · ")

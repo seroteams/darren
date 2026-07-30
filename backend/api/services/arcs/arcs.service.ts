@@ -53,7 +53,7 @@ function warningText(diff: DiffResult): string {
   if (diff.intro) parts.push(`${diff.intro} intro`);
   if (diff.openers) parts.push(`${diff.openers} opener`);
   const breakdown = parts.length ? ` (${parts.join(", ")})` : "";
-  return `Removing or renaming ${ids} would orphan ${diff.total} question${diff.total === 1 ? "" : "s"}${breakdown} — they'd no longer route to a phase. Save anyway?`;
+  return `Removing or renaming ${ids} would orphan ${diff.total} question${diff.total === 1 ? "" : "s"}${breakdown}. They'd no longer route to a phase. Save anyway?`;
 }
 
 export function createArcsService(repo: ArcsRepo): ArcsService {

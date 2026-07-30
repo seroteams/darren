@@ -22,7 +22,7 @@ interface RulesView {
 // The always-on planner guardrails, in plain words.
 const ALWAYS_ON: Rule[] = [
   { title: "No repeats", detail: "The planner won't re-ask something you've already covered." },
-  { title: "Grounded questions", detail: "A new question has to connect to what's actually been said — no generic probing." },
+  { title: "Grounded questions", detail: "A new question has to connect to what's actually been said. No generic probing." },
   { title: "Shallow-answer damping", detail: "A vague or one-word answer moves the live scores less than a full one." },
   { title: "Skip shortcut", detail: "If an answer adds no new signal, the planner skips re-planning and moves straight on." },
 ];

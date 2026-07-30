@@ -241,7 +241,7 @@ const PREVIEW_ASSEMBLERS: Record<
     // live "Sending" preview works before submit. Only 409 when there's neither.
     const draft = opts?.draft;
     if (typeof draft !== "string" && !session.pendingAnswer) {
-      throw conflict("No answer submitted yet — nothing queued for the planner");
+      throw conflict("No answer submitted yet. Nothing queued for the planner.");
     }
     const { model, prompt } = assemblePlanTurn(buildPlanTurnInputs(session, draft));
     // prompt === null means the planner would take its skip-shortcut: no model
@@ -253,7 +253,7 @@ const PREVIEW_ASSEMBLERS: Record<
       promptFile: prompt == null ? undefined : promptFileFor(session.ctx.meetingType, "planTurn"),
       prompt:
         prompt ??
-        "(planner bypassed — this answer carries no new signal, so nothing is sent to the AI. The next question comes straight from the queue.)",
+        "(planner bypassed: this answer carries no new signal, so nothing is sent to the AI. The next question comes straight from the queue.)",
     };
   },
 };
@@ -679,7 +679,7 @@ export function createSessionsService(repo: SessionsRepo, deps: SessionsDeps = {
     promises: (id, body) => {
       const session = requireExisting(id);
       if (!Array.isArray(body.promises)) throw badRequest("promises must be a list");
-      if (body.promises.length > 10) throw badRequest("You can lock in up to 10 promises — remove one first.");
+      if (body.promises.length > 10) throw badRequest("You can lock in up to 10 promises. Remove one first.");
       const confirmed: SessionPromise[] = body.promises.map((raw: unknown) => {
         const p = asRecord(raw);
         if (p.owner !== "manager" && p.owner !== "report") throw badRequest("promise owner must be manager or report");

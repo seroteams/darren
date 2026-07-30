@@ -32,7 +32,7 @@ export function createSuggestFixService(repo: SuggestFixRepo, runFix: RunFix): S
       if (!state) throw notFound("unknown run");
 
       const verdict = state.verdict || null;
-      if (!verdict) throw conflict("no verdict on this run — record one first");
+      if (!verdict) throw conflict("No verdict on this run. Record one first.");
 
       const promptText = await repo.readPrompt(runId, stage);
       const responseText = await repo.readResponse(runId, stage);

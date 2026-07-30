@@ -73,13 +73,13 @@ export function createPersonaRunsService(deps: PersonaRunsDeps): PersonaRunsServ
       const personaId = typeof rawPersonaId === "string" ? rawPersonaId : "";
       if (!personaId) throw badRequest("personaId required");
       if (job.status === "running") {
-        throw conflict("a run is already going — wait for it to finish");
+        throw conflict("A run is already going. Wait for it to finish.");
       }
       const persona = deps.loadPersona(personaId);
       if (!persona) throw notFound("no persona with that id");
       if (!persona.script.length) throw badRequest("this persona has no scripted answers");
       if (!deps.hasApiKey()) {
-        throw conflict("OPENAI_API_KEY is not set — the engine can't run");
+        throw conflict("OPENAI_API_KEY is not set. The engine can't run.");
       }
 
       job = { ...IDLE, status: "running", personaId, stageLabel: "Starting", startedAt: now() };
