@@ -31,7 +31,7 @@
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-PLAN CLOSED 2026-07-30 — all 4 phases ✅ GREEN-LIT by Carl the same day the deep dive ran (his "a" four times). Commits: P1 4f85e144 (LIVE in build 4f85e14), P2 4117b5b0, P3 15aa9959, P4 8a8defdf (P2-P4 committed local, ship next go-live). Paid spend: one gate case, $0.196, PASS, cache intact. Every dead wire from the input map is now closed or explicitly parked (see Parked). Board: https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847
+PLAN CLOSED 2026-07-30 — all 4 phases ✅ GREEN-LIT by Carl the same day the deep dive ran (his "a" four times). Commits: P1 4f85e144, P2 4117b5b0, P3 15aa9959, P4 8a8defdf. ✅ ALL LIVE 2026-07-30 on Carl's "go live": build 3798d1d confirmed on sero.team/api/version, deep health db up. Triple-checked before the push (end-to-end prompt assembly, zero unfilled placeholders, 219/219). Paid spend: one gate case, $0.196, PASS, cache intact. Every dead wire from the input map is now closed or explicitly parked (see Parked). Board: https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847
 
 ## Parked
 - Who-the-person-is personalisation and last-run promises into prep: need cross-run data; Carl parked cross-run learning this round.

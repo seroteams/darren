@@ -26,8 +26,12 @@ CLOSED**: a note you jot mid-meeting now shapes the next question and reaches th
 real runs, while QA-labelled runs keep the tester-note strip that once burned the Brian run. All
 four phases signed in one day; every dead wire on the map is closed or parked with a written reason
 (person-level memory and promises-into-prep wait on the cross-run round you scoped out; the
-axis-coverage code gate and mid-run bank refresh wait on evidence they are needed). P1 is already
-live; P2-P4 ship on your next "go live".
+axis-coverage code gate and mid-run bank refresh wait on evidence they are needed). **✅ ALL LIVE
+2026-07-30 on your "go live"** — build `3798d1d` confirmed on `sero.team/api/version` about 90s
+after the push, `/api/v1/health/deep` reports `db: up`. Triple-checked before pushing: both real
+prompts assembled end to end with every new wire present and zero unfilled placeholders, 219/219,
+copy guard clean; the one red typecheck on this machine traced to another chat's uncommitted edits,
+not to anything pushed.
 [Board](https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847) · [plan](docs/plans/done/no-dead-wires/plan.md).
 
 📍 **2026-07-30 — your whole Figma sticky board is fixed, tested and signed off.
