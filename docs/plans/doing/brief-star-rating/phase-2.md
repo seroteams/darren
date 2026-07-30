@@ -1,6 +1,32 @@
 # Phase 2 — Scores in the inbox
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-07-30)
+
+**Landed**
+- **A new row type in the inbox.** `"brief"` added to `FEEDBACK_KINDS` (`Star` icon, label "Brief rating") with one branch in `noteKind()`. The score is checked FIRST, because a brief rating carries a run link too and would otherwise have read as a 1:1 verdict.
+- **The score on the row.** `starsPill()` rendering "brief: 5 / 5" in gold, in the existing pill row. Shown as a number rather than five glyphs: the inbox is scanned down a column, and a number compares at a glance where a row of stars does not.
+- **A readable preview line.** A brief rating carries no message, so the collapsed card would have been blank. It now reads "Rated this brief 5 out of 5."
+- **The link into the 1:1 came free.** The existing "Open the 1:1" button already keys off `runId`.
+- **Tests extended.** Four new cases in `feedback-kinds.test.ts`, including the score-beats-run-link ordering.
+
+**Offline proof**
+- `npm test` 216/216 · `npm run typecheck` clean · `npm run lint:copy` PASS · `npm run lint:tokens` PASS.
+
+**Walked on the real screen** (`local > admin > /admin/admin/feedback`)
+
+| Check | Result |
+|---|---|
+| Brief rating shows as its own row type with the score | ✅ [p2-inbox-row.png](proof/p2-inbox-row.png) |
+| Collapsed preview reads as words, not blank | ✅ "Rated this brief 5 out of 5." |
+| "Open the 1:1" lands on the right run's recap | ✅ opens Darryl's recap |
+| Existing Note and 1:1 verdict rows unchanged | ✅ 5 verdicts, 9 notes, same icons and labels |
+| Both rows for one 1:1 listed separately | ✅ verdict row and rating row side by side |
+| Tab counts include the new row | ✅ New 14 / All 14 |
+
+**Not walked by me**
+- The inbox at phone width. The layout was not changed, only one pill added to a row that already wraps.
 
 ## Goal
 

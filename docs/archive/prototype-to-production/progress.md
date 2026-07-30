@@ -1601,3 +1601,23 @@ extra echo surface for the leak screens.
 run spend with a ~9.8k-token cached prefix; every later phase's additions are placed by the rule
 "per-run constants before </session_context>, per-turn state after, capped". Evaluation runs once
 uncached, so this phase's block cost ~$0.001/run.
+
+## brief-star-rating P1 (2026-07-30)
+
+**A second feedback moment on the same run is a schema question, not a UI one.** The prep brief now
+takes a 1-5 tap, and `feedback_notes` already carried the recap verdict keyed on `run_id`. Its
+upsert matched on `run_id` alone with no unique constraint and no discriminator, so the new rating
+and the existing verdict would have silently overwritten each other. The tell was in the repo's own
+comment: "one row per run" was true only while there was exactly one run-tied moment. Adding a
+`kind` column and scoping both upserts on the pair cost four lines; finding it after the fact would
+have cost a lost validation signal nobody would have noticed was missing. When adding a second
+writer to a table keyed by a shared id, read the existing writer's `where` clause first.
+
+**Re-render is the frontend equivalent of the same bug.** `wireResultHandlers` re-runs on every
+layout switch, and the naive mount would have rebuilt the stars empty each time, discarding a score
+the manager had already given. State that survives an `innerHTML` rebuild has to live above it. The
+file's own comment already warned about this for the CTA listeners; the warning generalised.
+
+**Verifying a paid screen for free.** The prep stream's `getCached` replays a stored brief, so an
+existing run with a `preparationResult` reaches the real screen with no OpenAI call. Worth checking
+for a cached path before assuming a walk costs money: this phase verified end to end at £0.

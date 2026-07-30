@@ -141,6 +141,14 @@
 .fb-verdict--yes { background: var(--sero-mint-300); color: var(--sero-mint-900); }
 .fb-verdict--no  { background: var(--sero-soft-300); color: var(--color-ink-dim); }
 
+/* Prep brief score pill (brief-star-rating): gold, matching the stars the manager
+   actually tapped, so a rating row is findable scanning down the column. */
+.fb-stars {
+  background: var(--sero-gold-200);
+  color: var(--sero-gold-800);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Kind chip (validation-kit Phase 3b): icon + label in the card head, so a 1:1 verdict
    and a plain note read differently at a glance. Muted — the message stays the loudest. */
 .fb-type {
@@ -153,6 +161,10 @@
 .fb-type--verdict {
   background: var(--sero-primary-200);
   color: var(--sero-primary-800);
+}
+.fb-type--brief {
+  background: var(--sero-gold-200);
+  color: var(--sero-gold-800);
 }
 
 /* Delete moved behind the shared ⋯ row menu (ui/row-menu.ts + styles/row-menu.css) with

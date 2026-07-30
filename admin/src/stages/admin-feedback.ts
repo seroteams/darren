@@ -23,7 +23,7 @@ import { escapeHtml } from "../ui/html.js";
 import { initialOf as firstLetterOf } from "../ui/avatar.ts";
 import { relTime } from "../ui/time.ts";
 import { icon } from "../ui/icon.js";
-import { Mail, MessageSquare, ClipboardCheck, MoreHorizontal } from "lucide";
+import { Mail, MessageSquare, ClipboardCheck, MoreHorizontal, Star } from "lucide";
 import { noteKind, FEEDBACK_KINDS } from "../ui/feedback-kinds.ts";
 import type { FeedbackKind } from "../ui/feedback-kinds.ts";
 import { recapHeader } from "../ui/recap-header.ts";
@@ -39,7 +39,7 @@ const confirmAction = confirmJs as unknown as (opts: {
 const alertAction = alertJs as unknown as (opts: { message: string; confirmLabel?: string }) => Promise<void>;
 
 // Resolve the kind map's icon names to the lucide components this stage bundles.
-const KIND_ICONS: Record<FeedbackKind, object> = { note: MessageSquare, verdict: ClipboardCheck };
+const KIND_ICONS: Record<FeedbackKind, object> = { note: MessageSquare, verdict: ClipboardCheck, brief: Star };
 
 type FeedbackNote = {
   id: string;
@@ -50,6 +50,7 @@ type FeedbackNote = {
   message: string;
   runId?: string | null;
   verdict?: string | null;
+  stars?: number | null;
   createdAt: string;
 };
 
@@ -99,6 +100,15 @@ function verdictPill(note: FeedbackNote): string {
     : "";
 }
 
+// The prep brief's score (brief-star-rating). Shown as the number rather than five
+// glyphs: the inbox is scanned down a column, and "4 / 5" compares at a glance where
+// a row of stars does not.
+function starsPill(note: FeedbackNote): string {
+  return typeof note.stars === "number"
+    ? `<span class="fb-stars">brief: ${note.stars} / 5</span>`
+    : "";
+}
+
 // The kind at a glance (validation-kit Phase 3b): icon + label chip in the card head,
 // driven by the FEEDBACK_KINDS map — a future kind adds a map entry, not renderer surgery.
 function typeChip(note: FeedbackNote): string {
@@ -129,18 +139,24 @@ function noteCard(note: FeedbackNote, status: NoteStatus | undefined, open: bool
            <button type="button" class="fb-copy js-copy" data-email="${escapeHtml(note.email)}" title="Copy email">Copy</button>
          </div>`
       : "";
-  const previewText = note.message || (note.verdict ? "(tap only. No comment)" : "");
+  // A brief rating has no message at all, so without this the row's one-line preview
+  // would be blank and the card would read as empty. Say the score instead.
+  const ratingLine = typeof note.stars === "number" ? `Rated this brief ${note.stars} out of 5.` : "";
+  const previewText = note.message || ratingLine || (note.verdict ? "(tap only. No comment)" : "");
   const body = note.message
     ? `<div class="fb-note">${escapeHtml(note.message)}</div>`
-    : note.verdict
-      ? `<div class="fb-note text-ink-dim">(tap only. No comment)</div>`
-      : "";
+    : ratingLine
+      ? `<div class="fb-note">${escapeHtml(ratingLine)}</div>`
+      : note.verdict
+        ? `<div class="fb-note text-ink-dim">(tap only. No comment)</div>`
+        : "";
   const src = sourcePill(note);
   const ver = verdictPill(note);
+  const rating = starsPill(note);
   const openRun = note.runId
     ? button({ label: "Open the 1:1", variant: "ghost", size: "sm", hook: "js-open-run", attrs: { "data-run-id": note.runId } })
     : "";
-  const pills = src || ver || openRun ? `<div class="fb-pills">${src}${ver}${openRun}</div>` : "";
+  const pills = src || ver || rating || openRun ? `<div class="fb-pills">${src}${ver}${rating}${openRun}</div>` : "";
   return `
     <article class="fb-item js-item${open ? " is-open" : ""}" data-id="${escapeHtml(note.id)}">
       <div class="fb-avatar" aria-hidden="true">${escapeHtml(avatarLetter(note))}</div>

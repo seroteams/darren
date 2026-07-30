@@ -1,6 +1,8 @@
 # Phase 1 — Stars on the brief
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl walked the prep brief, tapped the stars, carried on into the questions (commit e21ed525)
 
 ## Built (2026-07-30)
 
