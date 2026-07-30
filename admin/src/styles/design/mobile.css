@@ -54,11 +54,11 @@
     color: var(--color-surface);
     cursor: pointer;
   }
-  .app-nav-mobilebar__brand {
-    font-size: var(--type-h4);
-    font-weight: var(--type-weight-bold);
-    letter-spacing: var(--type-tracking-tight);
-  }
+  /* .app-nav-mobilebar__brand is the phone copy of the Sero wordmark and its type
+     moved to design/type.css in P5, next to the other two. It had to move rather than
+     be grouped from here: a rule inside a media query in the last sheet the app loads
+     beats a role at any specificity, so leaving it would have half-applied the role
+     and left the phone bar the odd one out again. */
   /* Alert dot mirrors a flagged drawer row (e.g. a failing regression check)
      so it's visible while the drawer is closed. Matches .app-nav's dot. */
   .app-nav-mobilebar__menu {
@@ -346,14 +346,12 @@ pre {
    keyboard. Phones get page-title-sized headings and top-aligned stages.
 ============================================================================= */
 @media (max-width: 639.98px) {
-  :root {
-    --type-display: 1.9rem;   /* 30px — was 44px+; heroes ate half the screen */
-    --type-h1: 1.6rem;        /* 26px */
-    --type-h2: 1.35rem;       /* 22px. The stem no longer reads this token (it takes
-                                 .type-heading-xl, which drops a rung in type.css's own
-                                 phone block), but other screens still do, so the value
-                                 stays and only the reason changes. */
-  }
+  /* The three phone type overrides that used to live here went with their tokens in
+     P5. They re-pointed --type-display, --type-h1 and --type-h2 to 30.4 / 25.6 / 21.6px;
+     the same three drops are now the three rules at the foot of design/type.css, which
+     is where responsive type belongs because this sheet loads LAST and a rule here
+     would beat every role in the app. Measured before deleting them: without those
+     three rules the welcome hero grows from 30.4px to 36px on a 390px screen. */
   /* Content starts at the top instead of floating mid-screen, so the question
      and its field are visible together when the keyboard opens. */
   .stage {

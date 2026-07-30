@@ -26,8 +26,13 @@ const SCRIPTS = __dirname;
 /*
  * CEILINGS — nonTokenFont lowered 68 -> 13 by P4 (the 55 on-ladder literals became
  * tokens). Type-system P2 then took it to 7: the Meeting screen's six off-ladder
- * literals (one 32px, one 17px, four 15px) went when coach-panel.css handed all
- * of its type to the roles. radius and spacing measured 2026-07-26 at P1.
+ * literals (one 32px, one 17px, four 15px) went when coach-panel.css handed all of
+ * its type to the roles. P4 took it to 6 and P5 to 5, retiring the last shipped one,
+ * the Pulse KPI's 30px literal, when .lp-tile__value took .type-metric. The five that
+ * remain are ALL in one parked gallery prototype, admin/src/stages/tests/runner-v2.js,
+ * which is the POC the Meeting screen was designed from and is exempt by Carl's call
+ * (plan.md, Parked). Nothing a customer or a manager can reach is in this count any
+ * more. radius and spacing measured 2026-07-26 at P1.
  *
  * LOWER these when a phase removes drift; never raise them. If a raise looks
  * unavoidable, that is a design decision for Carl, not a number to nudge.
@@ -41,7 +46,7 @@ const SCRIPTS = __dirname;
  * guard fails with "did not report" rather than passing quietly.
  */
 const CEILINGS = {
-  nonTokenFont: 6,
+  nonTokenFont: 5,
   literalRadius: 53,
   offGridSpacing: 135,
 
@@ -59,18 +64,23 @@ const CEILINGS = {
    * the edit and not predicted. It moved roughly 300 selectors across 40 sheets onto
    * the roles, which is why unsanctionedSizeToken falls furthest.
    *
-   * P4 (the reading surfaces) lowered six more, re-measured the same way. Every
-   * count below is what `node scripts/lint-design-tokens.js --json` printed on
-   * 2026-07-31 with the migration in place. None of them is a prediction.
+   * P4 (the reading surfaces) lowered six more, re-measured the same way.
+   *
+   * P5 (headings, metrics and the markup sweep) took SEVEN of the nine to zero and
+   * cleared the last shipped literal from an eighth. Every count below is what
+   * `node scripts/lint-design-tokens.js --json` printed on 2026-07-31 with the
+   * migration in place. None of them is a prediction.
    *
    * Read them as the size of the job, not as a list of bugs:
-   *   relativeFontSize        33->8   all var(--x, <fallback>) today. Zero em or %:
+   *   relativeFontSize      33->8->0  all var(--x, <fallback>) today. Zero em or %:
    *                                   P0 cleared the last two. The rule is here so
-   *                                   the next 0.85em cannot hide again. The eight
-   *                                   left are the two runtime-injected style blocks
-   *                                   (account-sheet.ts 6, profile-badge.js 1), which
-   *                                   P6 owns, plus ux-audit-fixes.css 1. P4 took
-   *                                   finish-feedback-modal.css's two.
+   *                                   the next 0.85em cannot hide again. P5 took the
+   *                                   last eight by dropping the fallbacks in the two
+   *                                   runtime-injected style blocks (account-sheet.ts,
+   *                                   profile-badge.js) and ux-audit-fixes.css while
+   *                                   repointing them at the ladder. A fallback on a
+   *                                   token that is always defined only ever hid which
+   *                                   token was being read.
    *   offLadderFont           28->0   sizes off the ladder. P2 took the Meeting
    *                                   screen's six: 32px, 17px and four 15px. P3
    *                                   touched none. P4 took the last 22, and the
@@ -83,56 +93,68 @@ const CEILINGS = {
    *                                   clampOffRung, a different key, which did not
    *                                   move. This one is at ZERO now, so the next
    *                                   off-rung size breaks the build on its own.
-   *   unsanctionedSizeToken 451->68   every font-size still pointing at an old token.
+   *   unsanctionedSizeToken 451->0    every font-size still pointing at an old token.
    *                                   This is the migration itself, counted. It reads
    *                                   the token name through a fallback as well, so
    *                                   dropping a fallback can only ever remove a hit.
    *                                   Counting bare var() only made the two ceilings
    *                                   trade against each other: following the guard's
    *                                   own advice moved 33 sites into this key and
-   *                                   broke a build that had fixed something.
-   *   literalFontSize         18->4   a size written as a literal in any unit rather
+   *                                   broke a build that had fixed something. At zero
+   *                                   because P5 deleted the tokens themselves, so
+   *                                   there is no longer an older token to point at.
+   *   literalFontSize         18->1   a size written as a literal in any unit rather
    *                                   than a token. Without it every counter here
    *                                   could be zeroed by swapping tokens for rem
    *                                   literals on a rung, which reads as a finished
    *                                   migration and is the same debt in a new unit.
-   *                                   The four left are add-person-modal.css (20px),
-   *                                   admin-pulse.css (30px), .input's clamp, and
-   *                                   mobile.css's max(1rem, 1em). The last is the
-   *                                   iOS focus-zoom guard, not drift: it lifts small
-   *                                   controls to 16 and leaves big ones alone, so a
-   *                                   flat token there would SHRINK the front door's
-   *                                   input from 20px. P6 waives it.
+   *                                   P5 took three of the four: add-person-modal's
+   *                                   20px and admin-pulse's 30px joined roles, and
+   *                                   .input's clamp became a flat 24px rung. The one
+   *                                   left is mobile.css's max(1rem, 1em), which is
+   *                                   the iOS focus-zoom guard, not drift: it lifts
+   *                                   small controls to 16 and leaves big ones alone,
+   *                                   so a flat token there would SHRINK the front
+   *                                   door's input. P6 waives it.
    *   undefinedToken               3  an undefined reference. Two are dropped at
    *                                   render (--sero-radius-pill in start-stage.css);
    *                                   the third, --color-ink-subtle in profile-badge.js,
    *                                   carries a working fallback and paints normally.
-   *   clampOffRung            12->10  the fluid heading tokens, endpoints off the rungs.
+   *   clampOffRung         12->10->0  the fluid heading tokens, endpoints off the rungs.
    *                                   P2 retired two --type-h2 sites, the coach split's
-   *                                   phone override and briefing.css's stem. All ten
-   *                                   left are headings, so they are P5's.
-   *   displayFaceBelow20       7->4   Bricolage under 20px, banned by DESIGN.md T6.
+   *                                   phone override and briefing.css's stem. Nine of
+   *                                   the ten P5 inherited were headings on the three
+   *                                   clamp tokens; the tenth was NOT a heading, it was
+   *                                   .input's own clamp(1.25rem, 3.5vw, 1.75rem) in
+   *                                   buttons-inputs.css. Zero now, and with the tokens
+   *                                   deleted there is no fluid font-size left in
+   *                                   either app.
+   *   displayFaceBelow20    7->4->0   Bricolage under 20px, banned by DESIGN.md T6.
    *                                   P4 took three of the seven by moving the object
    *                                   onto a base-family role rather than leaving the
    *                                   face where it was: guided.css's 14px monogram
    *                                   (.type-label-strong) and team-card.css's 15px
-   *                                   avatar and 17px name (.type-heading-sm). The
-   *                                   four left are 18px headings, which is P5's.
-   *   fontFamilyLiteral        8->1  family stacks written out instead of tokenised.
+   *                                   avatar and 17px name (.type-heading-sm). P5 took
+   *                                   the last four the same way, all at 18px:
+   *                                   design-stage, test-gallery, guided and the
+   *                                   session top bar's copy of the Sero wordmark.
+   *   fontFamilyLiteral      8->1->0  family stacks written out instead of tokenised.
    *                                   P3 took seven of the eight: six copies of the
    *                                   run-log mono stack and guide.css's near-copy.
-   *                                   The one left is base.css:24's body stack, which
-   *                                   tokens.css:355 requires to stay byte-identical.
+   *                                   The last was base.css's body stack, which a
+   *                                   comment required to stay byte-identical to
+   *                                   --type-family-base. P5 pointed it at the token
+   *                                   instead, so the two cannot drift.
    *   fontShorthandResetsNumeric   0  none today, and it starts locked at zero.
    */
-  relativeFontSize: 8,
+  relativeFontSize: 0,
   offLadderFont: 0,
-  unsanctionedSizeToken: 68,
-  literalFontSize: 4,
+  unsanctionedSizeToken: 0,
+  literalFontSize: 1,
   undefinedToken: 3,
-  clampOffRung: 10,
-  displayFaceBelow20: 4,
-  fontFamilyLiteral: 1,
+  clampOffRung: 0,
+  displayFaceBelow20: 0,
+  fontFamilyLiteral: 0,
   fontShorthandResetsNumeric: 0,
 };
 

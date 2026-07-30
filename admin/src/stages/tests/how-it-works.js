@@ -27,6 +27,9 @@
 //
 // House rules: UK English, plain words, no em dashes, 14px floor.
 
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 import { STAGE_DISPLAY } from "../../ui/stage-labels.js";
 
 // Ghost-style schematic of each step's screen (Carl, 2026-07-29: "so text heavy" - every

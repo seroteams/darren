@@ -6,11 +6,21 @@ import { dirname, join } from "node:path";
 
 // UI polish P3 collapsed ~15 hand-rolled pill families onto ONE chip recipe and
 // three segmented controls onto one .seg. The whole point is that geometry lives
-// in exactly one place — so this guard fails if a family starts re-declaring its
+// in exactly one place, so this guard fails if a family starts re-declaring its
 // own size/padding/radius again, which is precisely how it fragmented before.
+//
+// A chip now takes its recipe from TWO files, and that split is the reason this
+// test was repointed in type-system P5. base.css keeps the geometry (the pill
+// shape, its padding, its border). design/type.css owns the type, because a chip
+// wears .type-label like every other 14px control in the app. Checking only
+// base.css would therefore have gone half blind at exactly the moment the type
+// moved out of it: a family that gave up its font-size in base.css and never
+// joined .type-label renders at whatever it inherits, which is 16px in most
+// containers, and nothing would say so.
 const here = dirname(fileURLToPath(import.meta.url));
 const read = (p: string) => readFileSync(join(here, p), "utf8");
 const BASE = read("base.css");
+const TYPE = read("type.css");
 
 // The families refitted onto the shared recipe, and the file each one lives in.
 const REFITTED: Array<[string, string]> = [
@@ -25,13 +35,21 @@ const REFITTED: Array<[string, string]> = [
   ["cmp-verdict-tag", "buttons-inputs.css"],
 ];
 
-// A selector in a group ends with a comma, or with " {" if it's the last one.
+// A selector in a group is preceded by the start of a line or by the comma after
+// its neighbour, and followed by a comma or by the opening brace if it is the last
+// one. The old version anchored on the start of a line only, which worked while
+// base.css was the one file being read: it writes the chip group one selector per
+// line. type.css groups the ten chip families INTO an existing role, mid-line
+// ("...  .label, .chip, .um-badge, .pd-pill, ..."), so a line anchor found none of
+// them and the new half of this test would have failed on a correct file.
+// The trailing lookahead is what keeps .fb-pill from matching .fb-pill--src.
 const inGroup = (css: string, sel: string) =>
-  new RegExp(`^\\.${sel}\\s*(,|\\{)`, "m").test(css);
+  new RegExp(`(?:^|,)\\s*\\.${sel}\\s*(?=,|\\{)`, "m").test(css);
 
 test("every refitted family is grouped into the one chip recipe", () => {
   for (const [family] of REFITTED) {
-    assert.ok(inGroup(BASE, family), `.${family} is part of the shared .chip recipe in base.css`);
+    assert.ok(inGroup(BASE, family), `.${family} takes its geometry from the .chip recipe in base.css`);
+    assert.ok(inGroup(TYPE, family), `.${family} takes its type from the .type-label role in type.css`);
   }
 });
 

@@ -29,6 +29,9 @@
 //
 // Design contract: docs/plans/doing/entry-redesign/plan.md.
 
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 import { Eye, EyeOff } from "lucide";
 import { icon } from "../../ui/icon.js";
 import { LOGIN_PHOTOS } from "../login.js";

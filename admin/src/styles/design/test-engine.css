@@ -91,7 +91,7 @@
   display: block;
   width: 100%;
   text-align: left;
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
   color: var(--color-ink);
   background: transparent;
   border: 0;

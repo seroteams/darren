@@ -101,9 +101,10 @@
 }
 /* The person's name is the object of this screen, so it has to outrank the "1:1s"
    section title. Both were landing on --type-h3 (20px), which is not a hierarchy,
-   it is a collision (DESIGN §3 T2). Scoped to .ud-nameline so the shared .rd-name
-   on the run-detail recap keeps its own size. */
-.ud-nameline .rd-name { font-size: var(--type-h2); }
+   it is a collision (DESIGN §3 T2). The scoping to .ud-nameline is what keeps the
+   shared .rd-name on the run-detail recap a rung lower, and it moved into
+   design/type.css with the size in P5: it is .type-heading-lg (24px) there, against
+   .rd-name's .type-heading-md (20px). 36 to 24 on this screen. */
 /* Section title left, its quiet totals right — the second alignment axis. */
 .ud-section-head {
   display: flex;
@@ -150,7 +151,7 @@
   background: none;
   border: 0;
   cursor: pointer;
-  font-size: var(--type-h4);
+  font-size: var(--type-size-lg);
   line-height: 1;
   letter-spacing: 1px;
   padding: 2px 8px;
@@ -352,7 +353,7 @@
 .person-run__type { color: var(--color-ink); }
 .person-run__when { color: var(--color-ink-mute); }
 
-/* Star rating control (PG3) — a radiogroup of five star buttons. The comment here used
+/* Star rating control (PG3): a radiogroup of five star buttons. The comment here used
    to say the 1.75rem font-size was what made the stars 28px and cleared the 14px floor.
    It was not: star-rating.js draws each star with icon(Star, { size: 26 }) and icon.js
    writes real width and height attributes, so the font-size only ever set the button's

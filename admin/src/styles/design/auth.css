@@ -40,18 +40,13 @@
   object-fit: contain;
   display: block;
 }
+/* The display face, same as every in-app heading. Without it the front door, Log in and
+   Create account were the only screens set in the body font (audit F14): the three a new
+   manager meets first were the three that did not look like Sero. The face, the size, the
+   weight and the balanced wrapping all come from .type-heading-xl now (P5), which is also
+   what takes this heading off --type-h1, the one rung that rendered larger than the hero
+   above it. */
 .auth-brand__title {
-  /* The display face, same as every in-app heading. Without it the front door, Log in and
-     Create account were the only screens set in the body font (audit F14) — the three a new
-     manager meets first were the three that did not look like Sero. */
-  font-family: var(--type-family-display);
-  font-size: var(--type-h1);
-  font-weight: var(--type-weight-bold);
-  line-height: var(--type-leading-tight);
-  /* Even the lines instead of letting the last one strand a single word
-     ("prepared." / "minutes." on their own). Same rule .h1/.h2 already carry;
-     this heading was written by hand and missed it. */
-  text-wrap: balance;
   margin: 0;
 }
 .auth-brand__sub {
@@ -111,14 +106,11 @@
   background: var(--color-accent-soft);
   color: var(--color-accent-dark);
   border-radius: var(--radius-card);
-  font-family: var(--type-family-display);
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-semibold);
 }
-.join-hero {
-  font-size: var(--type-h2);
-  font-weight: var(--type-weight-medium);
-}
+/* .join-org-tile and .join-hero take .type-heading-md and .type-heading-lg in
+   design/type.css (P5). The hero drops 36 to 24 and gains a weight step, 500 to 600:
+   the line was set at medium so the NAMES inside it carried the emphasis, and the
+   <strong> below still does that job a weight above whatever the rung is. */
 .join-hero strong {
   font-weight: var(--type-weight-bold);
 }
@@ -169,11 +161,11 @@
   width: 100%;
   justify-content: center;
 }
-/* The brand block sizes down a step inside the card: an h1 clamp overshot the
-   400px box it now lives in. */
-.auth-card .auth-brand__title {
-  font-size: var(--type-h2);
-}
+/* The brand block used to size down a step inside the card, because the --type-h1
+   clamp reached 44px and overshot the 400px box. The rung it lands on now is 30px,
+   which fits, so the override is gone and Log in, Create account and the customer
+   welcome read at the same size as the two password screens instead of 36 against 44
+   (P5). Only the logo still steps down. */
 .auth-card .auth-brand__logo {
   width: 44px;
   height: 44px;
@@ -197,8 +189,8 @@
   width: 100%;
   box-sizing: border-box;
   font: inherit;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
+  font-size: var(--type-size-base);
+  line-height: var(--type-leading-base);
   color: var(--color-ink);
   background: var(--color-surface);
   border: 1px solid var(--color-border-strong);

@@ -568,7 +568,7 @@ function panelHtml() {
     `<div class="ds-panel">
        <div class="ds-panel__body">
          <div style="display:flex; align-items:flex-start; justify-content:space-between"><p class="eyebrow">Upcoming 1:1</p><button class="ds-rowmenu" aria-label="Close">✕</button></div>
-         <div class="ds-row" style="gap: var(--sero-space-4)"><span class="ds-avatar" style="width:3.5rem; height:3.5rem; font-size: var(--type-h4)">JW</span>
+         <div class="ds-row" style="gap: var(--sero-space-4)"><span class="ds-avatar" style="width:3.5rem; height:3.5rem; font-size: var(--type-size-lg)">JW</span>
            <div><p class="h3">James Warren</p><p class="body" style="color: var(--color-ink-dim)">Senior UX Writer</p></div></div>
          <div class="ds-row" style="gap: var(--sero-space-3)"><button class="ds-link">View profile</button><button class="ds-link">Edit</button></div>
          <hr style="border:0; border-top:1px solid var(--color-border); margin:0">
@@ -781,7 +781,7 @@ function loginHtml() {
     "Login card",
     `<div class="ds-loginwrap">
        <div class="card ds-logincard">
-         <div class="ds-row" style="gap: var(--sero-space-3)"><span class="ds-brandbadge" style="width:2.5rem; height:2.5rem; font-size: var(--type-h4)">S</span>
+         <div class="ds-row" style="gap: var(--sero-space-3)"><span class="ds-brandbadge" style="width:2.5rem; height:2.5rem; font-size: var(--type-size-lg)">S</span>
            <div><p class="h3">Welcome back</p><p class="caption">Log in to Sero</p></div></div>
          <div class="field"><label class="field__label" for="ds-email">Email</label><input class="ds-input" id="ds-email" type="email" placeholder="you@company.com"></div>
          <div class="field"><label class="field__label" for="ds-pass">Password</label><input class="ds-input" id="ds-pass" type="password" placeholder="••••••••"></div>

@@ -45,29 +45,29 @@ function injectStyles(): void {
     .acct-back {
       align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
       border: 0; background: transparent; color: var(--color-ink-dim); cursor: pointer;
-      font: inherit; font-size: var(--type-body-sm, 14px); padding: 6px 2px;
+      font: inherit; font-size: var(--type-size-sm); padding: 6px 2px;
     }
     .acct-back:hover, .acct-back:focus-visible { color: var(--color-ink); outline: none; }
     .acct-head { display: flex; flex-direction: column; gap: 4px; }
     .acct-quiet-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .acct-dots { letter-spacing: 3px; color: var(--color-ink-dim); font-size: var(--type-body-sm, 14px); }
+    .acct-dots { letter-spacing: 3px; color: var(--color-ink-dim); font-size: var(--type-size-sm); }
     .acct-card-gap { display: flex; flex-direction: column; gap: 10px; }
     .acct-page .card { padding: 18px; }
     /* The compact boxed field (DESIGN §5 form variant), NOT the big borderless session
        .input — this is a settings form, not the prep flow. Same recipe as .apm-field__input. */
     .acct-input {
       width: 100%; padding: 10px 14px;
-      font-size: var(--type-body-sm, 14px); font-family: inherit; color: var(--color-ink);
+      font-size: var(--type-size-sm); font-family: inherit; color: var(--color-ink);
       background: var(--color-surface); border: 1px solid var(--color-border);
       border-radius: var(--radius-input, 4px);
     }
     .acct-input::placeholder { color: var(--color-ink-mute); }
     .acct-input:focus { outline: none; border-color: var(--color-accent); box-shadow: var(--shadow-focus); }
     .acct-input:disabled { color: var(--color-ink-mute); }
-    .acct-hint { font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim); }
+    .acct-hint { font-size: var(--type-size-sm); color: var(--color-ink-dim); }
     .acct-actions { display: flex; justify-content: flex-end; gap: 8px; }
-    .acct-page .btn { padding: 8px 14px; font-size: var(--type-body-sm, 14px); }
-    .acct-label { font-size: var(--type-body-sm, 14px); color: var(--color-ink-dim); }
+    .acct-page .btn { padding: 8px 14px; font-size: var(--type-size-sm); }
+    .acct-label { font-size: var(--type-size-sm); color: var(--color-ink-dim); }
     /* .l-stack / .acct-quiet-row set display:flex, which outweighs the bare [hidden]
        attribute — restore the hide so the password form + its summary toggle cleanly
        (same trap noted in profile-badge.js). */

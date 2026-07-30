@@ -1,15 +1,13 @@
 /* -----------------------------------------------------------------------------
-   Briefing hero headline — larger, sentence case, tight leading
+   Briefing hero headline: the engine's own headline, sentence case
 ----------------------------------------------------------------------------- */
+/* The size, face, weight, tracking, leading and balanced wrapping all come from
+   .type-display in design/type.css (P5). It was 42px at 1440px and it is 36 now, the
+   top of the one ladder. Only the two things the role does not carry stay here: the
+   ink, and a max-width that is a LAYOUT cap on a hero, not a reading measure. */
 .briefing-headline {
-  /* results hero — the engine's own headline, in the calmed display face */
-  font-size: var(--type-display);
-  line-height: 1.14;
-  letter-spacing: -0.02em;
-  font-weight: 600;
   color: var(--color-ink);
   max-width: 40rem;
-  text-wrap: balance;
 }
 
 .briefing-page {

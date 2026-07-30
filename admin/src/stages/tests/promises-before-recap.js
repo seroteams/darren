@@ -16,6 +16,9 @@
 //                     (the fallback), so both paths are visible.
 // Design contract: docs/plans/doing/promises-before-recap/plan.md.
 
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 import { renderPromiseAgree, draftsFromNextActions } from "../../ui/promise-agree.ts";
 
 // ---- Mock data ---------------------------------------------------------------------------

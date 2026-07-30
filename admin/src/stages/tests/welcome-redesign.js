@@ -28,6 +28,9 @@
 // Copy comes from the shipped modules where it exists (the sample brief and the notes
 // example), so this prototype cannot drift from the real thing.
 
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 import { SAMPLE_BRIEF } from "../start-welcome.ts";
 import { GOOD_NOTES_EXAMPLE } from "../intake-firstrun.ts";
 

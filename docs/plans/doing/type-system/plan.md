@@ -38,7 +38,7 @@ Dug out of the code so the phases don't stall:
 | 2 | The Meeting screen | Carl's screenshot: five sizes become three | ✅ unwalked |
 | 3 | The 14px stratum | ~150 chrome, table and label selectors take a role | 🔨 |
 | 4 | Reading surfaces | 15px and 17px die; prose gets a real line length | ⬜ |
-| 5 | Headings + markup sweep | One heading ladder; old tokens and aliases deleted | ⬜ |
+| 5 | Headings + markup sweep | One heading ladder; old tokens and aliases deleted | 🔨 |
 | 6 | Lock it | Guard rules become errors; PDF and email brought in line | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)

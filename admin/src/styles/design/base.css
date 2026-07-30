@@ -20,19 +20,23 @@ body {
      actually registers. The old "InterVariable" matched nothing, so the bundled
      webfont downloaded and never painted: machines with Inter installed fell
      through to the local copy, everyone else got system-ui (Segoe UI on Windows,
-     ~8% wider text). Verified on screen 2026-07-30 by width-probe. */
-  font-family: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+     ~8% wider text). Verified on screen 2026-07-30 by width-probe.
+     The stack itself moved into --type-family-base in P5. It used to be written
+     out here because the token had to stay byte-identical to it, which is a rule
+     that cannot be checked by anything and was the guard's last font-family-literal
+     hit. Reading the token is the same string by construction. */
+  font-family: var(--type-family-base);
   font-feature-settings: "ss01", "cv11";
   font-variant-ligatures: common-ligatures;
   color: var(--color-ink);
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 
 input, textarea, button, select {
   font-family: inherit;
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
   color: inherit;
 }
 textarea { resize: vertical; }
@@ -52,57 +56,12 @@ textarea { resize: vertical; }
 .pulse-caret { animation: caret-pulse 1800ms ease-in-out infinite; }
 
 /* Section-style heading helpers — sentence case, per style.md.
-   Token-driven; rendered sizes unchanged from prior hardcoded values. */
-.text-display {
-  font-family: var(--type-family-display);
-  font-size: var(--type-display);
-  font-weight: var(--type-weight-semibold); /* 700→600 — calmer display, matches DESIGN.md §3 (UI polish P1) */
-  letter-spacing: var(--type-tracking-tighter);
-  line-height: var(--type-leading-tight);
-  text-wrap: balance;
-  color: var(--color-ink);
-}
-.h1 {
-  /* kept mapped to display size for back-compat */
-  font-family: var(--type-family-display);
-  font-size: var(--type-display);
-  font-weight: var(--type-weight-semibold); /* 700→600 (UI polish P1) */
-  letter-spacing: var(--type-tracking-tighter);
-  line-height: var(--type-leading-tight);
-  text-wrap: balance;
-  color: var(--color-ink);
-}
-.h2 {
-  font-family: var(--type-family-display);
-  font-size: var(--type-h2);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: var(--type-tracking-tight);
-  line-height: 1.2;
-  text-wrap: balance;
-  color: var(--color-ink);
-}
-.h3 {
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-semibold);
-  line-height: 1.35;
-  color: var(--color-ink);
-}
-.h4 {
-  font-size: var(--type-h4);
-  font-weight: var(--type-weight-semibold);
-  line-height: var(--type-leading-normal);
-  color: var(--color-ink);
-}
+   The six heading classes and .body used to declare their own type here. Every one
+   of them is now grouped into a role in design/type.css, which is where the ladder
+   they belong to lives; only .lead keeps a line, and only for its ink. The classes
+   themselves are unchanged and so is every markup site that wears them (P5). */
 .lead {
-  font-size: var(--type-h4);
-  font-weight: var(--type-weight-regular);
-  line-height: var(--type-leading-relaxed);
   color: var(--color-ink-dim);
-}
-.body {
-  font-size: var(--type-body);
-  line-height: var(--type-leading-relaxed);
-  color: var(--color-ink);
 }
 /* Two-tier label system (artifact voice, UI polish P2):
    .eyebrow = SECTION tier (accent-dark, wider tracking) — sits above a title.
@@ -113,13 +72,14 @@ textarea { resize: vertical; }
 .eyebrow {
   color: var(--color-accent-dark);
 }
-/* The slot tier keeps a letter-spacing of its own: it is a narrower eyebrow, not
-   a different role, and .type-overline has no tighter variant. Type-system P3
-   recon, section 2 flagged it as the one tracking declaration the eyebrow
-   collapse leaves behind. */
+/* The slot tier is now ink and nothing else. It used to keep a letter-spacing of
+   its own, 0.06em against the section tier's 0.08em, which is 0.28px per character
+   at 14px: a difference nobody reads, and the last thing standing between P5 and
+   deleting --type-tracking-caps. Same call P2 made on the coach score label and its
+   delta, and P3 on the eighteen eyebrow rivals: separate by ink, not by a rounding
+   error. */
 .eyebrow--slot {
   color: var(--color-ink-dim);
-  letter-spacing: var(--type-tracking-caps);
 }
 /* One chip primitive (artifact detail language, UI polish P3): a pill with the
    tint-triad variants (soft bg + same-hue line border + dark text of that hue).
@@ -246,17 +206,10 @@ textarea { resize: vertical; }
 }
 .conf__dots > i.is-on { background: currentColor; }
 
-/* Identity — a person's name as the hero of their card/header, in the display
-   face. Scaffolding for the eyes-on adoption pass (compact list rows need a
-   layout call first, so this isn't applied yet). */
-.ident-name {
-  font-family: var(--type-family-display);
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-semibold);
-  letter-spacing: var(--type-tracking-tight);
-  line-height: var(--type-leading-snug);
-  color: var(--color-ink);
-}
+/* .ident-name was deleted in P5. It was scaffolding for an eyes-on adoption pass
+   that never happened: its own comment said "isn't applied yet", and a grep of both
+   apps found zero markup wearing it. The person's name IS the hero of their page,
+   and .ud-nameline .rd-name is the rule that actually does it. */
 /* .label, .caption and .field__label were three names for one 14px label, drifting
    apart on tracking, leading and ink. All three now take a role in type.css and keep
    only the ink that told them apart. */

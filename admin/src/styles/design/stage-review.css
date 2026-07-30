@@ -80,9 +80,8 @@
   padding: 1.25rem 1.5rem 1.75rem;
   overflow-y: auto;
 }
+/* .type-heading-md (P5): 20px unchanged, now in the display face. */
 .stage-review__section-title {
-  font-size: var(--type-h3);
-  font-weight: 600;
   color: var(--color-ink);
   margin-bottom: 1rem;
 }
@@ -145,10 +144,8 @@
   margin-right: 0.4rem;
 }
 .stage-review__axis-meaning { color: var(--color-ink-dim); }
+/* .type-heading-sm (P5). */
 .stage-review__headline {
-  font-size: var(--type-h4);
-  font-weight: 600;
-  line-height: 1.4;
   margin: 0 0 1rem;
 }
 .stage-review__empty,

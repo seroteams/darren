@@ -367,7 +367,7 @@ function bodyHtml(a, phases) {
     : "";
 
   const tone = a.tone_register
-    ? `<div class="arc-sec">Tone</div><p class="text-ink-dim" style="font-size:var(--type-body-sm); margin:0;">${esc(a.tone_register)}</p>`
+    ? `<div class="arc-sec">Tone</div><p class="text-ink-dim" style="font-size:var(--type-size-sm); margin:0;">${esc(a.tone_register)}</p>`
     : "";
 
   return `

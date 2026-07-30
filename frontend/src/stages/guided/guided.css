@@ -246,7 +246,8 @@
 
 /* ---- summary + review ---- */
 .gd-sum { margin-bottom: var(--sero-space-4); }
-.gd-sum h3 { font-family: var(--type-family-display); font-size: var(--type-h3); margin: 0 0 var(--sero-space-2); color: var(--color-ink); }
+/* .type-heading-md (P5): 20px unchanged. */
+.gd-sum h3 { margin: 0 0 var(--sero-space-2); color: var(--color-ink); }
 /* .type-body. The drafted summary and its bullets, UP 15 to 16. */
 .gd-sum p,
 .gd-sum li { /* .type-body */ }
@@ -338,7 +339,8 @@
   font-size: var(--type-size-base);
 }
 .gd-panel__body { padding: var(--sero-space-5); overflow-y: auto; display: flex; flex-direction: column; gap: var(--sero-space-4); }
-.gd-panel__title { font-family: var(--type-family-display); font-size: var(--type-h3); font-weight: 700; color: var(--color-ink); line-height: 1.25; }
+/* .type-heading-md (P5): 20px unchanged, weight 700 to 600. */
+.gd-panel__title { color: var(--color-ink); }
 .gd-panel__meta { display: flex; flex-wrap: wrap; gap: var(--sero-space-2); align-items: center; }
 .gd-field label { display: block; color: var(--sero-charcoal-700); margin-bottom: 6px; }
 .gd-field select,
@@ -372,7 +374,8 @@
 .gd-bar span { display: block; height: 100%; border-radius: var(--sero-radius-full); background: var(--sero-primary-700); }
 
 /* ---- finished-1:1 record (Phase 6) ---- */
-.gd-rec__block h3 { font-family: var(--type-family-display); font-size: var(--type-h4); margin: 0 0 10px; color: var(--color-ink); }
+/* .type-heading-sm (P5): 18px unchanged, base face. DESIGN.md T6 bans Bricolage below 20. */
+.gd-rec__block h3 { margin: 0 0 10px; color: var(--color-ink); }
 /* .type-body. The finished-1:1 record body, UP 15 to 16. */
 .gd-rec__block p,
 .gd-rec__block li { /* .type-body */ }

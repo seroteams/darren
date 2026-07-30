@@ -57,7 +57,7 @@ function injectMenuStyles() {
       display: flex; align-items: center; gap: 10px; width: 100%;
       padding: 8px 10px; border: 0; border-radius: var(--sero-radius-sm, 8px);
       background: transparent; color: var(--color-ink); font: inherit;
-      font-size: var(--type-body-sm, 14px); text-align: left; cursor: pointer;
+      font-size: var(--type-size-sm); text-align: left; cursor: pointer;
     }
     .profile-badge__mi:hover, .profile-badge__mi:focus-visible {
       background: var(--color-surface-hover); outline: none;

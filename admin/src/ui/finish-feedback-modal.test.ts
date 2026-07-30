@@ -67,9 +67,18 @@ test("it asks one question, not a form", () => {
   // rule to where it now lives: the question must still be reading size somewhere, and
   // a rule back in this sheet would silently un-apply the role.
   assert.match(TYPE_CSS, /\.ffm__q\b/, "The question needs its reading-size role in type.css.");
-  assert.ok(
-    !/font-size/.test(CSS),
-    "finish-feedback-modal.css declares a size again. It loads after type.css, so that beats the role.",
+  // Every type property, not just the size. The failure this describes ("a rule back
+  // in this sheet would silently un-apply the role") works exactly as well through a
+  // weight, a family or a leading: the local value wins and the role delivers only the
+  // properties the sheet did not name. Banning font-size alone caught a third of it
+  // (P5, after a P4 review).
+  const stray = /(?:^|[;{]|\s)(font-size|font-weight|font-family|line-height|letter-spacing|text-transform|font-variant-numeric|font)\s*:/.exec(
+    CSS.replace(/\/\*[\s\S]*?\*\//g, ""),
+  );
+  assert.equal(
+    stray?.[1],
+    undefined,
+    `finish-feedback-modal.css declares ${stray?.[1]} again. It loads after type.css, so that beats the role and half-applies it.`,
   );
 });
 

@@ -1,0 +1,39 @@
+/* =============================================================================
+   Parked-gallery type tokens (type-system P5).
+
+   The nine prototype screens in this folder are exempt from the type system, by
+   Carl's call: no customer sees them, they are design experiments, and freezing
+   them is the point. They are NOT exempt from the cascade. Between them they read
+   the old type tokens about 180 times, and an undefined var() inside a font-size
+   is dropped at computed-value time, so deleting the tokens from design/tokens.css
+   would have made five prototype screens silently fall back to whatever size they
+   inherited. No lint error, no failing test, and nothing on screen to say why.
+
+   So the tokens moved here instead of dying. The values are copied verbatim from
+   design/tokens.css as of P5, which is what keeps these screens rendering exactly
+   as they render today. Each prototype that reads one imports this file.
+
+   DO NOT use these anywhere else. They are the ladder the app just left: 42px and
+   36px heroes, 15px and 17px body sizes, unitless leadings. The live ladder is
+   --type-size-* / --type-leading-* in design/tokens.css, and design/type.css is
+   the only file allowed to read it.
+   ============================================================================= */
+:root {
+  --type-display: clamp(1.875rem, 5vw, 2.625rem); /* 30 to 42px */
+  --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* 32 to 44px */
+  --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);      /* 28 to 36px */
+  --type-h3: 1.25rem;                             /* 20px */
+  --type-h4: 1.125rem;                            /* 18px */
+  --type-body: 16px;
+  --type-body-lg: 1.0625rem;                      /* 17px */
+  --type-body-md: 15px;
+  --type-body-sm: 14px;
+
+  --type-leading-tight: 1.1;
+  --type-leading-snug: 1.25;
+  --type-leading-normal: 1.5;
+  --type-leading-relaxed: 1.6;
+
+  --type-tracking-wider: 0.04em;
+  --type-tracking-caps: 0.06em;
+}

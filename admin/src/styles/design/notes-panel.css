@@ -63,7 +63,7 @@
   margin-bottom: 0.5rem;
 }
 .notes-panel__item {
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
   color: var(--color-ink);
   line-height: 1.55;
   padding: 0.6rem 0.75rem;
@@ -105,7 +105,7 @@
   width: 100%;
   resize: none;
   font: inherit;
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
   line-height: 1.5;
   color: var(--color-ink);
   background: transparent;
@@ -357,10 +357,8 @@ body.notes-rail-collapsed.notes-panel-open .notes-panel__toggle {
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-overlay);
 }
+/* .type-heading-sm (P5): 18px unchanged, leading 25.2px to 28. */
 .modal__message {
-  font-size: var(--type-h4);
-  font-weight: var(--type-weight-semibold);
-  line-height: 1.4;
   color: var(--color-ink);
 }
 .modal__actions {

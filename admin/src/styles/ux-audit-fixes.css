@@ -23,7 +23,7 @@
   display: block;
   width: 100%;
   padding: 0.9rem 1.25rem;
-  font-size: var(--type-body, 1rem);
+  font-size: var(--type-size-base);
   font-weight: var(--type-weight-semibold, 600);
   text-align: center;
 }

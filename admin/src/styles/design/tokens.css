@@ -269,54 +269,48 @@
   --color-amber: #b4690e;                          /* fix / partial accent */
 
   /* =========================================================================
-     Type scale — one name per size. DESIGN.md's ladder is 14 · 16 · 18 · 20 ·
-     24 · 30 · 40, and a size that renders the same as another size is not a
-     second level (T2), so caption / label / small / lead were folded away:
-     they were four extra names for 14px and a second name for 18px.
+     The old type scale is GONE (type-system P5). It named nine sizes:
+     --type-display / -h1 / -h2 / -h3 / -h4 / -body / -body-lg / -body-md /
+     -body-sm, three of them fluid clamps, plus four unitless leadings. Every
+     live call site in both apps now reads the P1 ladder below instead, through
+     a role in design/type.css.
 
-     Caption and Label are still real TREATMENTS. They are just not sizes:
-     a label is 14px + weight 500 + --type-tracking-wider, set where it's used.
+     Two things it got wrong, kept here because they are the reason the ladder
+     exists rather than history for its own sake:
+       · --type-h1 (32-44px) rendered LARGER than --type-display (30-42px) on any
+         viewport above 1000px. A ladder whose second rung outranks its first.
+       · --type-body-md (15px) and --type-body-lg (17px) sat one pixel from 14, 16
+         and 18. A size that renders almost the same as another size is not a
+         second level (DESIGN.md T2).
+
+     The nine prototype screens under admin/src/stages/tests/ are exempt from the
+     type system, so they still read the old names. Those definitions moved to
+     admin/src/stages/tests/parked-tokens.css, which each of them imports. They
+     could not simply be deleted: an undefined var() inside a font-size is dropped
+     at computed-value time, so those screens would have fallen back to whatever
+     size they inherited with nothing to say why.
 
      Accessibility rule: NO text token may render below 14px. Do not lower these.
      ========================================================================= */
   --type-family-display: "Bricolage Grotesque Variable", "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
-  --type-display: clamp(1.875rem, 5vw, 2.625rem); /* hero — calmed from 44-56px to DESIGN.md's ~40px spec (30-42px) (UI polish P1) */
-  --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* large page title */
-  --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);
-  --type-h3: 1.25rem;                             /* 20px */
-  --type-h4: 1.125rem;                            /* 18px — also the lead-paragraph size */
-  --type-body: 16px;
-  --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
-  /* OFF-LADDER, both banned by DESIGN.md T2/T3. Type-system P4 retired every live
-     call site: nothing a customer or a manager can reach reads either of these any
-     more. They stay defined for ONE reason, which is the nine sites left in the
-     parked gallery prototypes under admin/src/stages/tests/. Those are exempt from
-     the type rules, no customer sees them, and deleting the tokens would break them
-     silently: an undefined var() in a font-size is dropped at computed-value time,
-     so the text would just inherit whatever was above it. P5 deletes both when it
-     retires the gallery or rewrites those nine lines. */
-  --type-body-lg: 1.0625rem;                      /* 17px */
-  --type-body-md: 15px;                           /* 15px */
 
-  /* Line-height (leading) */
-  --type-leading-tight: 1.1;
-  --type-leading-snug: 1.25;
-  --type-leading-normal: 1.5;
-  --type-leading-relaxed: 1.6;
-
-  /* Weight */
+  /* Weight. 700 survived the sweep for one reason: the Sero wordmark and monogram
+     are the logotype, not headings, and the roles top out at 600 on purpose
+     (design/type.css). Every other 700 in the tree lost it to a role. */
   --type-weight-regular: 400;
   --type-weight-medium: 500;
   --type-weight-semibold: 600;
   --type-weight-bold: 700;
 
-  /* Tracking (letter-spacing) */
-  --type-tracking-tighter: -0.02em;
-  --type-tracking-tight: -0.01em;
-  --type-tracking-wide: 0.02em;
-  --type-tracking-wider: 0.04em;
-  --type-tracking-caps: 0.06em;                   /* slot/label uppercase (UI polish P1) */
-  --type-tracking-caps-lg: 0.08em;                /* section eyebrow uppercase (UI polish P1) */
+  /* Tracking (letter-spacing). Four, not six: --type-tracking-wider and
+     --type-tracking-caps went with the old scale in P5. The four left are each read
+     by design/type.css itself, which is why they could not go with it. Deleting one
+     does not fail a lint or a test, it just silently strips the tracking off a role,
+     because an invalid var() on a non-inherited property computes to initial. */
+  --type-tracking-tighter: -0.02em;               /* .type-display */
+  --type-tracking-tight: -0.01em;                 /* .type-heading-xl / -lg, .type-metric */
+  --type-tracking-wide: 0.02em;                   /* .type-label */
+  --type-tracking-caps-lg: 0.08em;                /* .type-overline */
 
   /* =========================================================================
      LAYER 1 of the type system (type-system P1). Purely additive: nothing
@@ -357,13 +351,11 @@
   /* Families. --type-family-display is defined above and is display-only:
      Bricolage is legal at 20px and up (DESIGN.md T6), never below.
 
-     --type-family-base must stay BYTE-IDENTICAL to the stack set on `body` in
-     design/base.css. Two parked prototype screens already ask for this token
-     (stages/tests/welcome-options.js, stages/tests/welcome-lean.js) while it
-     was undefined, so the declaration was dropped and they inherited body's
-     stack. Defining it with the same string is exactly what keeps them
-     rendering as they do today. Retype, reorder or tidy one entry and those
-     screens change face.
+     --type-family-base is now the ONLY place the base stack is written. It used to
+     have to stay byte-identical to a second copy on `body` in design/base.css, which
+     is a rule nothing could check; P5 pointed that rule at this token instead, so the
+     two cannot drift. Two parked prototype screens also read it
+     (stages/tests/welcome-options.js, stages/tests/welcome-lean.js).
 
      --type-family-mono is the one mono stack. The old --font-mono, which resolved
      to "ui-monospace, monospace", was deleted in P3 once its thirteen call sites
@@ -373,21 +365,42 @@
   --type-family-base: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --type-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* A short reading column, for a hint or an aside beside the main text. The
-     three rem measures (--measure, --measure-tight, --measure-lede) are left
-     exactly as they are: roughly 14 call sites read them and moving one moves
-     real screens. */
+  /* A short reading column, for a hint or an aside beside the main text. One call
+     site: the coach half's three prose blocks (design/type.css, .type-body--narrow).
+
+     Recounted in P5, because the note that used to sit here said all three rem
+     measures below were live with "roughly 14 call sites" and that had stopped being
+     true. --measure has 8 CSS sites plus 5 markup ones through Tailwind's
+     max-w-measure. --measure-tight has ZERO anywhere in either app, and
+     --measure-lede has zero outside the parked gallery, which reads it 8 times.
+     Both are left defined for the gallery's sake and for no other reason. */
   --measure-narrow: 46ch;
 
-  /* The reading measure, in characters rather than a length (type-system P4). Every
-     prose role reads this one token, so a paragraph breaks at the same COUNT of
-     characters whether it is set at 16px or 18px. Measured in the running app: 1ch is
-     10px at 16px Inter, so this is 600px there, which is within 8px of --measure's
-     608px page column. That is the point: prose never gets a second width. A length
-     could not do this, because 38rem is 63 characters at 16px and only 56 at 18px.
-     Do NOT point .l-container at it. --measure has 18 plain markup sites plus four
-     more containers, and a character measure is the wrong unit for a page column. */
-  --measure-read: 60ch;
+  /* The reading measure, in characters rather than a length (type-system P4, corrected
+     in P5). Every prose role reads this one token, so a paragraph breaks at the same
+     COUNT of characters whether it is set at 16px or 18px, which is the only thing a
+     measure is for and the one thing a rem length cannot do.
+
+     Re-measured in the running app at 1440px, because the note that used to sit here
+     had every number wrong and made a claim the unit does not support:
+       · 1ch is 10.094px at 16px Inter and 11.359px at 18px.
+       · So this token is 555px on .type-body and 625px on .type-body-lg. It is NOT
+         one width, and it was never going to be: ch scales with the font. The old
+         note argued 60ch was chosen so prose "never gets a second width" and put it
+         "within 8px of --measure's 608px column". Neither holds. What IS constant is
+         the count, and that is the whole argument.
+       · Ordinary English prose in Inter averages 7.455px a character at 16px and
+         8.387px at 18px, so 55ch is 74 characters a line at BOTH rungs.
+
+     55ch, not the 60ch P4 shipped, and DESIGN.md T5 is why: reading content caps at
+     66 characters a line, 75 absolute. 60ch measured 81 characters, which is over the
+     absolute maximum, so it was a rule breach rather than a preference. 55ch is the
+     widest value that clears T5. Tightening further, to T5's stated 66-character
+     target, is about 49ch and is a look decision rather than a compliance one.
+
+     Do NOT point .l-container at it. --measure has 8 CSS sites plus 5 markup ones,
+     and a character measure is the wrong unit for a page column. */
+  --measure-read: 55ch;
 
   /* Layout */
   --measure: 38rem;

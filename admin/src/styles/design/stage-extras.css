@@ -129,7 +129,8 @@
   color: var(--color-positive);
 }
 .cl-phase-title { flex: 1; min-width: 0; }
-.cl-phase-title h3 { margin: 0; font-size: var(--type-h4); font-weight: var(--type-weight-semibold); color: var(--color-ink); }
+/* .type-heading-sm (P5). */
+.cl-phase-title h3 { margin: 0; color: var(--color-ink); }
 .cl-phase-tag { color: var(--color-ink-mute); }
 .cl-goal { color: var(--color-ink-dim); margin-top: 0.25rem; }
 .cl-phase-meter { display: flex; align-items: center; gap: var(--sero-space-2); margin-top: var(--sero-space-2); }

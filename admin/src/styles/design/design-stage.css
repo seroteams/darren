@@ -36,10 +36,9 @@
   background: var(--color-surface);
   border-right: 1px solid var(--color-border);
 }
+/* .type-heading-sm (P5): same 18px, base face. It was one of the four Bricolage
+   sites under 20px that DESIGN.md T6 bans. */
 .ds-rail__title {
-  font-family: var(--type-family-display);
-  font-weight: var(--type-weight-semibold);
-  font-size: var(--type-h4);
   padding: 0 var(--sero-space-3);
   margin-bottom: var(--sero-space-3);
 }
@@ -180,7 +179,7 @@
 
 /* Shared bits */
 .ds-sub {
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
   font-weight: var(--type-weight-regular);
   color: var(--color-ink-dim);
 }
@@ -217,7 +216,7 @@
   padding: var(--sero-space-1) var(--sero-space-2);
   color: var(--color-ink-dim);
   cursor: pointer;
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
 }
 .ds-rowmenu:hover {
   background: var(--color-accent-soft);
@@ -506,7 +505,7 @@
   grid-template-columns: 7rem 1fr 3rem;
   align-items: center;
   gap: var(--sero-space-3);
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
 }
 .ds-axis__track {
   height: 10px;
@@ -755,7 +754,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sero-space-3);
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
 }
 .ds-dl__row {
   display: flex;

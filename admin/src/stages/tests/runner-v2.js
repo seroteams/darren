@@ -12,6 +12,9 @@
 // Questions carry no hints field today (closed contract in question.types.ts), so the
 // hints here are hand-written mock coaching — wiring real data is a later decision.
 
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 import { icon } from "../../ui/icon.js";
 import { MessageCircle, Ear, Check, ChevronLeft, ChevronRight } from "lucide";
 

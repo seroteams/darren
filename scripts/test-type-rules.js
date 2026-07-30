@@ -62,6 +62,11 @@ const TOKENS = new Map([
   ["--type-weight-regular", "400"],
   ["--type-weight-medium", "500"],
   ["--type-weight-semibold", "600"],
+  // The roles top out at semibold, but the real type.css reads bold in one place:
+  // the Sero wordmark and monogram, which are the logotype rather than headings
+  // (type-system P5). Group 13 lints the real file against this map, so a token it
+  // reads and this map has never heard of reads as an undefined-token.
+  ["--type-weight-bold", "700"],
   ["--type-tracking-tighter", "-0.02em"],
   ["--type-tracking-tight", "-0.01em"],
   ["--type-tracking-wide", "0.02em"],

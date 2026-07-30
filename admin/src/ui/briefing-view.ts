@@ -63,9 +63,15 @@ export function renderReadonlyBriefing(b: Briefing | null, name?: string, promis
   const who = (name || "").trim() || "them";
   const out: string[] = [];
   if ((b.summary_bullets || []).length) out.push(card("What stood out", bullets(b.summary_bullets!)));
-  if (b.understanding_paragraph) out.push(card("What we understood", `<p class="text-sm">${escapeHtml(b.understanding_paragraph)}</p>`));
-  if (b.brutal_truth_employee) out.push(card(`Honest read:${who}`, `<p class="text-sm">${escapeHtml(b.brutal_truth_employee)}</p>`));
-  if (b.brutal_truth_manager) out.push(card("Honest read:You", `<p class="text-sm">${escapeHtml(b.brutal_truth_manager)}</p>`));
+  // .briefing-prose and .brutal__body are what stages/briefing.js calls these same
+  // three paragraphs, and type-system P4 put both on .type-body: 16px with a reading
+  // measure. This renderer draws the SAME sentences on the member's re-read and the
+  // superadmin drilldown and was still asking for text-sm, so one recap read at 16px
+  // and the other at 14px across the full card width. Named here rather than left on
+  // a utility, so the next size change reaches both (P5).
+  if (b.understanding_paragraph) out.push(card("What we understood", `<p class="briefing-prose">${escapeHtml(b.understanding_paragraph)}</p>`));
+  if (b.brutal_truth_employee) out.push(card(`Honest read:${who}`, `<p class="brutal__body">${escapeHtml(b.brutal_truth_employee)}</p>`));
+  if (b.brutal_truth_manager) out.push(card("Honest read:You", `<p class="brutal__body">${escapeHtml(b.brutal_truth_manager)}</p>`));
   if ((b.next_actions || []).length) {
     const items = b.next_actions!.map((a) => `<li class="text-sm">${a.when ? escapeHtml(a.when) + ": " : ""}${escapeHtml(a.action || "")}</li>`);
     out.push(card("What to do next", `<ul class="l-stack l-stack--2">${items.join("")}</ul>`));

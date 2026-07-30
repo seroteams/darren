@@ -114,6 +114,21 @@ function floorPx(value: string, seen: ReadonlySet<string> = new Set()): number |
   return null;
 }
 
+// Every selector grouped into a role in type.css. A role is a rule whose selector
+// list contains a .type-* name, so the whole list joins that role.
+const GROUPED = new Set<string>();
+for (const m of stripComments(roleCss).matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+  const selectors = (m[1] || "").split(",").map((s) => s.trim()).filter(Boolean);
+  if (!selectors.some((s) => /^\.type-[a-z-]+$/.test(s))) continue;
+  for (const s of selectors) if (!s.startsWith(".type-")) GROUPED.add(s);
+}
+
+// Every type property, not just the size. The name is what makes this readable:
+// these are the properties a role OWNS, so any one of them left in a component
+// sheet is a half-application.
+const TYPE_PROPS =
+  /(?:^|[;{]|\s)(font-size|font-weight|font-family|line-height|letter-spacing|text-transform|font-variant-numeric|font)\s*:\s*([^;}]+)/g;
+
 test("no reading size survives in the prep sheets. The roles carry them", () => {
   assert.ok(css.length > 0, "stylesheet is non-empty");
   // The assertion used to be the opposite way round ("at least one font-size
@@ -122,28 +137,52 @@ test("no reading size survives in the prep sheets. The roles carry them", () => 
   // code-split sheet BEATS the role it was grouped into, so a survivor is the
   // half-applied failure mode rather than a harmless leftover.
   //
-  // The bar is 20px, not zero, and the gap is deliberate: three display headings
-  // (--type-h2 once, --type-h3 twice) are Phase 5's, not this phase's. Anything BELOW
-  // 20px is reading text, and reading text has left these files.
-  const strays = [...stripComments(css).matchAll(/font-size\s*:\s*([^;]+);/g)]
-    .map((m) => (m[1] || "").trim())
-    .filter((v) => {
-      const px = floorPx(v);
-      return px === null || px < 20;
-    });
+  // The bar was 20px for one phase, because P4 left three display headings behind for
+  // P5. P5 took them, so the bar is zero: not one font-size survives in either sheet.
+  const strays = [...stripComments(css).matchAll(/font-size\s*:\s*([^;]+);/g)].map((m) =>
+    (m[1] || "").trim(),
+  );
   assert.deepEqual(
     strays,
     [],
-    `A reading size is back in preparation.css / preparation-lab.css. Both load after type.css, so it WINS over the role it was grouped into and half-applies it: ${strays.join(", ")}`,
+    `A font-size is back in preparation.css / preparation-lab.css. Both load after type.css, so it WINS over the role it was grouped into and half-applies it: ${strays.join(", ")}`,
   );
   assert.ok(/font-size\s*:/.test(roleCss), "type.css declares the sizes instead");
+});
+
+// The size was only ever half the failure. A selector that joins .type-heading-md
+// and keeps `font-weight: 700` in its own sheet renders at the role's size in the
+// component's weight, and nothing goes red: the size assertion above passes, the
+// design guard counts font-size only, and the screen is wrong in a way a diff hides.
+// P5 added this after a P4 review found exactly that shape, so the guard now names
+// the property AND the selector.
+test("no selector grouped into a role keeps any type property of its own", () => {
+  assert.ok(GROUPED.size > 20, `parsed ${GROUPED.size} grouped selectors, expected the role layer`);
+  const offenders: string[] = [];
+  for (const m of stripComments(css).matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const selectors = (m[1] || "").split(",").map((s) => s.trim()).filter(Boolean);
+    const joined = selectors.filter((s) => GROUPED.has(s));
+    if (!joined.length) continue;
+    TYPE_PROPS.lastIndex = 0;
+    for (const d of (m[2] || "").matchAll(TYPE_PROPS)) {
+      offenders.push(`${joined.join(", ")} { ${d[1]}: ${(d[2] || "").trim()} }`);
+    }
+  }
+  assert.deepEqual(
+    offenders,
+    [],
+    `Half-applied role: these selectors take a role in type.css and still declare their own type. The component sheet loads later, so the local value wins and only the properties it did NOT declare come through:\n${offenders.join("\n")}`,
+  );
 });
 
 test("the token table really came from tokens.css", () => {
   // Without this, a parse that silently returned nothing would show up as every
   // font-size being unresolvable, which sends the reader to the wrong file.
   assert.ok(TOKENS.size > 50, `parsed ${TOKENS.size} tokens, expected the whole file`);
-  assert.ok(TOKENS.has("--type-body-sm"), "the type scale is in the table");
+  // --type-body-sm until P5 deleted the old scale. --type-size-sm is the 14px rung
+  // of the ladder that replaced it, and it is the floor, so if this one parsed the
+  // table is real.
+  assert.ok(TOKENS.has("--type-size-sm"), "the type scale is in the table");
 });
 
 test("every font-size resolves to >= 14px", () => {

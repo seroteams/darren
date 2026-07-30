@@ -71,11 +71,11 @@
 .run-log__stat-label {
   margin: 0;
 }
+/* .type-heading-md (P5). Deliberately NOT .type-metric: that role is 30px display and
+   would have grown this stat by half on an internal QA screen. Its tabular figures come
+   from .num-tabular in ui/run-debrief.js:38 and are unaffected. */
 .run-log__stat-value {
-  font-size: var(--type-h3);
-  font-weight: 600;
   color: var(--color-ink);
-  line-height: 1.2;
 }
 .run-log__stat-sub {
   margin: 0;

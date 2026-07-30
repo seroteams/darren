@@ -20,8 +20,11 @@ button.lp-tile:focus-visible { outline:2px solid var(--color-accent); outline-of
 button.lp-tile--hero:hover { border-color:var(--sero-mint-700); background:linear-gradient(0deg, var(--sero-mint-100), var(--color-surface) 70%); filter:brightness(0.98); }
 /* The one tile anatomy (design-consolidation P6, D7): label / value / delta chip / caption. */
 .lp-tile__label { color:var(--color-ink-dim); }
-.lp-tile__value { font-family:var(--type-family-display); font-size:30px; font-weight:600; line-height:1.15; font-variant-numeric:tabular-nums; }
-.lp-tile__value .lp-den { font-size:var(--type-h4); font-weight:500; color:var(--color-ink-dim); }
+/* .type-metric (P5). Same 30px, same face and weight, and it keeps the tabular figures
+   it already had; it gains -0.01em and 1.5px of leading, and it gives up the last
+   literal font-size on a shipped screen. The denominator stays a rung and a half below
+   on purpose: on the metric role it would read as a second number of equal weight. */
+.lp-tile__value .lp-den { font-size:var(--type-size-lg); font-weight:500; color:var(--color-ink-dim); }
 .lp-tile__delta { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 6px; margin:4px 0 2px; color:var(--color-ink-dim); }
 .lp-delta { display:inline-block; border-radius:9999px; padding:1px 10px; white-space:nowrap; background:var(--color-page); color:var(--color-ink-dim); border:1px solid var(--color-border); }
 .lp-delta--pos { background:var(--sero-mint-100); color:var(--color-positive-text); border-color:transparent; }
@@ -33,7 +36,8 @@ button.lp-tile--hero:hover { border-color:var(--sero-mint-700); background:linea
 @media (max-width: 1100px) { .lp-wide { grid-template-columns:1fr; } }
 .lp-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-card); padding:var(--sero-space-4); }
 .lp-card__head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
-.lp-card h3 { font-size:var(--type-body); font-weight:600; margin:0; }
+/* .type-heading-xs (P5): the 16/600 card heading the role was built for. */
+.lp-card h3 { margin:0; }
 .lp-card .lp-hnote { color:var(--color-ink-dim); margin:2px 0 12px; }
 .lp-viewall { background:none; border:none; cursor:pointer; color:var(--sero-link); white-space:nowrap; padding:0; }
 .lp-viewall:hover { text-decoration:underline; }

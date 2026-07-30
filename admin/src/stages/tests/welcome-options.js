@@ -36,6 +36,9 @@
 // The sample brief quoted here is the real seeded example, imported from start-welcome.ts
 // rather than retyped, so this prototype can never drift from the shipped copy.
 
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 import { SAMPLE_BRIEF, POSITIONING_LINE, TIME_LINE, VIDEO, videoIframeHtml } from "../start-welcome.ts";
 
 // The rough notes that produced the sample brief. Shown in option C so the input is

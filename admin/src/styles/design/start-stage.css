@@ -242,9 +242,9 @@
 }
 .start-point__text {
   margin: 0;
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
   color: var(--color-ink);
-  line-height: var(--type-leading-relaxed);
+  line-height: var(--type-leading-base);
   text-wrap: pretty;
 }
 

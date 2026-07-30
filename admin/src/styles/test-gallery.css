@@ -26,8 +26,8 @@ a.tg-card { text-decoration:none; }
    shrinking mid-heading. */
 .tg-card__ext { color:var(--color-accent); font-weight:400; }
 .tg-card__link { margin-left:auto; color:var(--color-accent-dark); }
-.tg-card__title { font-family:var(--type-family-display); font-size:var(--type-h4); font-weight:600;
-  color:var(--color-ink); }
+/* .type-heading-sm (P5): 18px unchanged, base face. DESIGN.md T6 bans Bricolage below 20. */
+.tg-card__title { color:var(--color-ink); }
 .tg-card__blurb { color:var(--color-ink-dim); }
 .tg-card__meta { display:flex; gap:var(--sero-space-2); align-items:center;
   color:var(--color-ink-mute); margin-top:auto; }

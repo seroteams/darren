@@ -30,6 +30,9 @@
 // this prototype can never drift from shipped copy. House rules: UK English, plain
 // words, no em dashes, 14px floor.
 
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 import { SAMPLE_BRIEF } from "../start-welcome.ts";
 
 // The rough notes that produced that brief. Written the way a hurried manager types:

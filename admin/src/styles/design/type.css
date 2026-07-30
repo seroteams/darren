@@ -59,7 +59,14 @@
 /* Display and headings. The display family, balanced wrapping and negative
    tracking are what make a heading read as one shape rather than a wide line
    of body copy set larger. */
-.type-display {
+/* P5. The hero tier: the biggest thing on a page, one per screen. All three came
+   off --type-display, a clamp that reached 42px at 1440px, so this is a 6px drop
+   at desktop width. .text-display and .briefing-headline join by name; the welcome
+   hero is the one markup edit in this phase, because .h1 could not follow it (see
+   .type-heading-xl below). */
+.type-display,
+.text-display,
+.briefing-headline {
   font-family: var(--type-family-display);
   font-size: var(--type-size-4xl);
   font-weight: var(--type-weight-semibold);
@@ -71,7 +78,21 @@
    join the same role or .question-stem reads two different ways depending on
    which screen you are on. .flow-section matches no markup in the tree today;
    it rides along with its live twin until P5 sweeps the pair out. */
+/* P5. .h1 is THE page-title primitive: ui/page-header.ts builds every admin page
+   title out of it, and 32 markup sites wear it. It could not simply be renamed,
+   because this phase needs two sizes out of one class: the welcome hero at 36 and
+   page titles at 30. The split went the cheap way round. The class stays where the
+   31 page titles are, here at 30, and the ONE hero, stages/start-welcome.ts, changed
+   its markup to .type-display. Renaming the other 31 instead would also have made
+   ui/page-header.test.ts and ui/recap-header.test.ts assert on a class that no longer
+   exists: the first fails loudly, the second passes trivially and quietly stops
+   guarding. Both still bite as they are.
+   .auth-brand__title is the only shipped consumer of --type-h1, the inverted rung
+   that rendered LARGER than --type-display above 1000px of viewport. 44 to 30 here,
+   and weight 700 to 600 with it. */
 .type-heading-xl,
+.h1,
+.auth-brand__title,
 .cp-screen .question-stem,
 .questioning-card .question-stem,
 .flow-section .question-stem {
@@ -82,7 +103,17 @@
   line-height: var(--type-leading-3xl);
   text-wrap: balance;
 }
-.type-heading-lg {
+/* P5. Everything that read --type-h2, a clamp that reached 36px at 1440px. All four
+   drop 12px. .ud-nameline .rd-name is the person's name on their own page and is the
+   loudest of them; it keeps its higher specificity here, so it still beats the plain
+   .rd-name that sits a rung lower in .type-heading-md and it does not matter which of
+   the two groups comes first in this file. .join-hero also loses a weight step the
+   other way: it was 500, and everything on this rung is 600. */
+.type-heading-lg,
+.h2,
+.ud-nameline .rd-name,
+.join-hero,
+.pv-f__opener {
   font-family: var(--type-family-display);
   font-size: var(--type-size-2xl);
   font-weight: var(--type-weight-semibold);
@@ -92,7 +123,30 @@
 }
 /* 20px is the floor for the display face, so this is the last rung that takes
    it. Tracking stops here too: below 24px the tightening reads as a defect. */
-.type-heading-md {
+/* P5, the card and section tier. Everything here was already 20px, so nothing changes
+   SIZE. Two other things do, and they show on screen:
+   - .h3 was the BASE family. This role is Bricolage, so every .h3 in the app changes
+     typeface. That is the point of one ladder, but it is the change a diff hides.
+   - .rd-name and .gd-panel__title were weight 700 and .pv-g__opener was 500. All three
+     land on 600, because a rung that carries three weights is not a rung.
+   .join-org-tile and .run-log__stat-value are not headings. The tile is a 56px
+   brandmark holding one letter and it needs a flat 20px rather than an em size, which
+   would breach the 14px floor rule the moment the tile shrinks. .run-log__stat-value
+   is a stat figure on the internal run-debrief screen: .type-metric would have taken
+   it 20 to 30px and changed its face, a 50% jump on a QA surface, so it stays the size
+   it is. Its tabular figures come from .num-tabular in ui/run-debrief.js:38, which is
+   markup and survives untouched. */
+.type-heading-md,
+.h3,
+.join-org-tile,
+.about-sec__title,
+.rd-name,
+.run-log__stat-value,
+.stage-review__section-title,
+.apm__title,
+.gd-sum h3, .gd-panel__title,
+.pv-g__opener, .pv-j__opener,
+.pv-l__hero-theme {
   font-family: var(--type-family-display);
   font-size: var(--type-size-xl);
   font-weight: var(--type-weight-semibold);
@@ -102,9 +156,27 @@
 /* .team-card__name-btn was 17px in the display face, which breaks DESIGN.md T6 (no
    Bricolage below 20px) and sits off the ladder. This rung fixes both in one move:
    18px, base family. It is a <button>, so the role has to supply all four properties. */
+/* P5 brought in the rest of the 18px tier. Nothing here changes size. Three of them
+   change FACE, which is the whole reason they are here rather than left in place:
+   .ds-rail__title, .tg-card__title and .gd-rec__block h3 were Bricolage at 18px, and
+   DESIGN.md T6 allows the display face at 20px and up only. They were three of the
+   guard's four display-face-below-20 hits.
+   The Sero wordmark is the fourth. It had three definitions (app-nav.css, mobile.css
+   inside a phone media query, session-topbar.css) that agreed on 18/700/-0.01em and
+   disagreed on the face, so the top bar's copy was Bricolage and the rail's was not.
+   One definition now, in the base face. It gives up the -0.01em, which is 0.7px across
+   the whole word, and keeps its 700 through the brand rule below. */
 .type-heading-sm,
+.h4,
 .ffm__title,
-.team-card__name-btn {
+.team-card__name-btn,
+.app-nav__word, .app-nav-mobilebar__brand, .session-topbar__brand-word,
+.modal__message,
+.cl-phase-title h3,
+.stage-review__headline,
+.ds-rail__title,
+.tg-card__title,
+.gd-rec__block h3 {
   font-family: var(--type-family-base);
   font-size: var(--type-size-lg);
   font-weight: var(--type-weight-semibold);
@@ -122,6 +194,10 @@
 .about-how__title, .about-duo__title,
 .focus-point__label,
 .arc-phase__label,
+/* P5. Three 16/600 objects that were already this rung and only needed the leading:
+   .lp-card h3 is a Pulse card heading, .bench-flow__title a flow name, and .cmp-delta
+   the "what moved" figure on the internal compare screen. */
+.lp-card h3, .bench-flow__title, .cmp-delta,
 .rd-turn__q,
 .ffm__q,
 .member-empty__head, .member-goal__text,
@@ -146,6 +222,8 @@
    704px whatever size sat in it. A character measure holds the line COUNT steady
    across the two rungs, which is the only reason a measure exists. */
 .type-body-lg,
+/* P5. .lead is the 18px opening paragraph from base.css. It kept only its ink there. */
+.lead,
 .notes-quote,
 .pv-e__lead,
 .pv-h__opener {
@@ -180,6 +258,9 @@
      foot of this file. A <textarea> does not inherit type, so the role has to supply
      it; the measure has to come back off, or the answer box narrows inside its shell. */
 .type-body,
+/* P5. .body is base.css's plain reading paragraph. Its leading tightens from 25.6px
+   to 24 and it gains the reading measure. */
+.body,
 /* P2, the Meeting screen */
 .cp-screen .question-desc,
 .cp-ready__text,
@@ -443,6 +524,21 @@
   font-weight: var(--type-weight-semibold);
   line-height: var(--type-leading-sm);
 }
+/* The one weight above the ladder, and it is a brand decision rather than a type one.
+   The roles top out at 600 because a heading set at 700 shouts. The Sero wordmark and
+   the monogram in the guided question rail are not headings, they are the logotype.
+   Left to the roles all four would have dropped to 600, which is a change to the mark
+   itself, so it is made explicitly here rather than falling out of a migration.
+   .gd-q__logo is the fix for a P4 miss: it went 700 to 600 in that phase while the
+   hand-decision table recorded it as unchanged.
+   Must sit after BOTH .type-heading-sm and .type-label-strong above, because it is the
+   same specificity as each of them and source order is what decides. */
+.app-nav__word,
+.app-nav-mobilebar__brand,
+.session-topbar__brand-word,
+.gd-q__logo {
+  font-weight: var(--type-weight-bold);
+}
 /* .cp-eyebrow matches no markup in the tree today (P2, grep). It is grouped in
    rather than left behind so coach-panel.css can hold zero type declarations,
    and so it paints correctly if it is ever wired up. */
@@ -510,7 +606,14 @@
    the display face at weight 700 and carried no tabular figures, so the digits shifted
    sideways as the manager dragged. This role is 30/36 display with tabular-nums, which
    is exactly what it needed and lacked (P4). */
+/* .lp-tile__value is the Pulse KPI figure, the other half of the pair. It was a 30px
+   literal in the display face and it ALREADY had tabular figures, so this is the one
+   metric that does not move: same 30px, same face, same weight. It gains -0.01em and
+   1.5px of leading, and it gives up the last literal font-size on a shipped screen.
+   Its .lp-den denominator deliberately stays behind at 18px in admin-pulse.css: on
+   this role it would read as a second number the same size as the first. */
 .type-metric,
+.lp-tile__value,
 .gd-block__score {
   font-family: var(--type-family-display);
   font-size: var(--type-size-3xl);
@@ -638,23 +741,52 @@
    exactly the power this file is positioned to give up.
    ----------------------------------------------------------------------------- */
 @media (max-width: 639.98px) {
-  /* Anything grouped into .type-heading-xl above must be repeated here by hand.
-     A class selector cannot match a descendant selector, so the grouped stems do
-     not follow the drop on their own: measured at 390px, they held 30px until
-     these three lines were added. Carl's phone shot (27 Jul) is what this rule
-     exists for, a stem that ate the screen before the answer box showed.
+  /* Anything grouped into a role above must be repeated here by hand. A class
+     selector cannot match a descendant selector, so the grouped stems do not
+     follow the drop on their own: measured at 390px, they held 30px until these
+     lines were added. Carl's phone shot (27 Jul) is what this rule exists for, a
+     stem that ate the screen before the answer box showed.
 
-     The rung is xl (20/28), not 2xl. The old phone recipe read --type-h2, which
-     design/mobile.css:352 re-points to 1.35rem specifically so "question stems
-     fit beside a keyboard": it computed 21.6px, not the 36px it reads at desktop.
-     Landing on 2xl (24/32) measured BIGGER than the recipe it replaced, wrapping
-     a real stem to four lines and pushing the answer box 50px further down a
-     390px screen. That is the exact failure the rule above exists to prevent, so
-     the drop goes one rung further. */
+     P5 added the top two rungs, and it had to. design/mobile.css:349 used to hold
+     the only phone override in the app, re-pointing --type-display, --type-h1 and
+     --type-h2 to 30.4 / 25.6 / 21.6px. Deleting those tokens deletes that block,
+     and without the three rules below the welcome hero would have GROWN from
+     30.4px to 36px on a 390px screen, .briefing-headline and .text-display with
+     it. That is the failure the phone shot was about, in the same phase that was
+     meant to fix headings. The three rungs below reproduce what mobile.css did to
+     within 1.6px at every level.
+
+     heading-lg and heading-md both land on 20px here. That is not an oversight:
+     mobile.css already had them 1.6px apart (21.6 and 20), which DESIGN.md T2
+     says is not a level. */
+  .type-display,
+  .text-display,
+  .briefing-headline {
+    font-size: var(--type-size-3xl);
+    line-height: var(--type-leading-3xl);
+  }
   .type-heading-xl,
+  .h1,
+  .auth-brand__title {
+    font-size: var(--type-size-2xl);
+    line-height: var(--type-leading-2xl);
+  }
+  /* The stems sit a rung BELOW the page titles they share a role with at desktop
+     width, and that gap is measured, not chosen. The old phone recipe read
+     --type-h2, which design/mobile.css re-pointed to 1.35rem specifically so
+     "question stems fit beside a keyboard": it computed 21.6px, not the 36px it
+     read at desktop. Landing the stems on 2xl (24/32) measured BIGGER than the
+     recipe they replaced, wrapping a real stem to four lines and pushing the
+     answer box 50px further down a 390px screen (P2). A page title does not sit
+     above a keyboard, so it keeps 24. */
   .cp-screen .question-stem,
   .questioning-card .question-stem,
-  .flow-section .question-stem {
+  .flow-section .question-stem,
+  .type-heading-lg,
+  .h2,
+  .ud-nameline .rd-name,
+  .join-hero,
+  .pv-f__opener {
     font-size: var(--type-size-xl);
     line-height: var(--type-leading-xl);
   }

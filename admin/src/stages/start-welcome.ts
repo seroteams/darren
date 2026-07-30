@@ -141,11 +141,16 @@ export function firstVisitHtml(opts: FirstVisitOpts = {}): string {
   // js-start-slot is the hook Home moves its one blue button into (start-core.js), so
   // the screen has exactly one accent object. It sits ABOVE the card: the action is the
   // first thing reachable, and the three points are what a manager reads on the way past.
+  //
+  // The <h1> wears .type-display, and it is the ONLY markup type-system P5 changed.
+  // Every other .h1 in the console is a page title, so that class became the 30px
+  // page-title rung and this one hero takes the 36px display rung by name. Both are
+  // roles in admin/src/styles/design/type.css.
   return `
     <div class="start-welcome">
       <header class="start-welcome__intro">
         <div class="eyebrow">Welcome to Sero</div>
-        <h1 class="h1">${HEADLINE}</h1>
+        <h1 class="type-display">${HEADLINE}</h1>
         <p class="start-welcome__lede">${LEDE}</p>
       </header>
 

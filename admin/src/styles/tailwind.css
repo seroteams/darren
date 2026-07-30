@@ -8,7 +8,7 @@
    A <button> that has to read as a link inside a sentence ("Already using Sero?
    Log in"). It was used at 19 call sites across both apps with NO CSS anywhere
    in the repo, so every one of them fell through to the base.css rule
-   `input, textarea, button, select { font-size: var(--type-body) }` and rendered
+   `input, textarea, button, select { font-size: var(--type-size-base) }` and rendered
    as plain 16px ink: no accent, no underline, and a full 2px larger than the
    14px sentence it sits in (Carl spotted it on the front door, 2026-07-26).
 

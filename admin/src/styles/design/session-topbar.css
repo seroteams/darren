@@ -46,11 +46,11 @@
 .session-topbar__brand-icon {
   display: inline-flex;
 }
+/* The top bar's copy of the Sero wordmark. It was the only one of the three set in
+   Bricolage, at 18px, which DESIGN.md T6 bans below 20px and which made the same word
+   look different depending on whether you were in a 1:1. Its type is in design/type.css
+   now, with the other two (P5). Only the ink is local. */
 .session-topbar__brand-word {
-  font-family: var(--type-family-display, inherit);
-  font-weight: var(--type-weight-bold);
-  font-size: var(--type-h4);
-  letter-spacing: var(--type-tracking-tight);
   color: var(--color-ink);
 }
 .session-topbar__row {

@@ -42,7 +42,7 @@
   align-items: baseline;
   gap: 0.25rem;
   color: var(--color-ink-dim);
-  font-size: var(--type-body);
+  font-size: var(--type-size-base);
 }
 .thinking-label .prefix { color: var(--color-ink-mute); }
 .thinking-label .subline { color: var(--color-ink); font-weight: 500; }

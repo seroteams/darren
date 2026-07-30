@@ -498,13 +498,9 @@
   align-items: center;
   gap: var(--sero-space-4);
 }
+/* .type-heading-lg (P5): 36 to 24. */
 .pv-f__opener {
   margin: 0;
-  font-family: var(--type-family-display);
-  font-size: var(--type-h2);
-  font-weight: var(--type-weight-semibold);
-  line-height: var(--type-leading-snug);
-  letter-spacing: var(--type-tracking-tight);
   color: var(--color-ink);
 }
 /* .type-body: one of the nine. UP 14 to 16, and the role's character measure
@@ -582,13 +578,8 @@
   grid-column: span 3;
   background: var(--color-accent-soft);
 }
-.pv-g__opener {
-  font-family: var(--type-family-display);
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-medium);
-  line-height: var(--type-leading-snug);
-  text-wrap: pretty;
-}
+/* .type-heading-md (P5): 20px unchanged, weight 500 to 600. text-wrap goes from pretty
+   to the role's balance, which is what an opener wants anyway. */
 
 /* Confidence: a quiet filled panel beside the opener. It used to be transparent
    and borderless in prime top-right, which read as a hole rather than a note. */
@@ -785,11 +776,10 @@
 .pv-j__eyebrow {
   color: var(--sero-offwhite-300);
 }
+/* .type-heading-md (P5): 20px unchanged, weight 500 to 600. It keeps its own max-width:
+   the heading roles carry no measure, and this one sits on a dark band that needs it. */
 .pv-j__opener {
   margin: 0;
-  font-size: var(--type-h3);
-  font-weight: var(--type-weight-medium);
-  line-height: var(--type-leading-snug);
   color: var(--sero-offwhite-50);
   max-width: var(--measure);
 }

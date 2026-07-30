@@ -62,18 +62,30 @@ export default {
         // on the running app: text-sm sites were the only 14px text still off the 4px
         // grid once the roles landed, so .type-body-sm and text-sm read a pixel apart on
         // the same screen. The size token is Phase 5's to retire.
-        sm: ["var(--type-body-sm)", { lineHeight: "var(--type-leading-sm)" }], // text-sm ×114
-        display: ["var(--type-display)", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }], // ×2
+        // Repointed at the P1 scale in type-system P5. Same 14px and the same 20px
+        // leading it already had; --type-body-sm was deleted with the rest of the old
+        // ladder, and every one of these nine entries had to be cleared before it could
+        // go. There is no `display` entry any more: it generated a .text-display utility
+        // at weight 700 that COLLIDED with base.css's .text-display at weight 600 (the
+        // stylesheet won on source order, so the utility never painted). .text-display
+        // is a role in design/type.css now, and one definition beats two that disagree.
+        sm: ["var(--type-size-sm)", { lineHeight: "var(--type-leading-sm)" }], // text-sm ×114
       },
       letterSpacing: {
         tight: "var(--type-tracking-tight)", // tracking-tight ×3
         wide: "var(--type-tracking-wide)", // tracking-wide ×2
       },
+      // These four are the RATIOS the deleted --type-leading-tight/snug/normal/relaxed
+      // held, written out. They cannot be repointed at the P1 scale: those leadings are
+      // absolute lengths married to one size, and a utility gets applied to markup at
+      // whatever size it happens to be, so `leading-normal` on a 30px heading would have
+      // become a 24px line box. Ratios keep all 39 markup sites rendering exactly as
+      // they did. The utilities themselves are debt: P6 owns retiring them.
       lineHeight: {
-        tight: "var(--type-leading-tight)", // leading-tight ×3
-        snug: "var(--type-leading-snug)", // leading-snug ×12
-        normal: "var(--type-leading-normal)", // leading-normal ×14
-        relaxed: "var(--type-leading-relaxed)", // leading-relaxed ×10
+        tight: "1.1", // leading-tight ×3
+        snug: "1.25", // leading-snug ×12
+        normal: "1.5", // leading-normal ×14
+        relaxed: "1.6", // leading-relaxed ×10
       },
     },
   },

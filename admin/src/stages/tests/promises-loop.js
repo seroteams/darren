@@ -17,6 +17,9 @@
 // Built with the app's real classes so it inherits the true runner look.
 
 // ---- Mock data ---------------------------------------------------------------------------
+// The old type tokens these prototypes still read (type-system P5).
+import "./parked-tokens.css";
+
 const CTX_SEGMENTS = ["Aisha", "junior", "Product designer", "Onboarding check-in"];
 
 // owner: "you" = the manager's own commitment — always listed FIRST (mutual follow-through).

@@ -27,7 +27,7 @@
   background: var(--color-accent-soft);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
-  font-size: var(--type-body-sm);
+  font-size: var(--type-size-sm);
   color: var(--color-ink-dim);
 }
 .lookback__eye {
