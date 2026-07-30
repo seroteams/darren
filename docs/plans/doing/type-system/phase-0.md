@@ -1,6 +1,8 @@
 # Phase 0 — Font truth and the two floor breaches
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl walked the user list, a briefing and general text; said go (commit 8ba3516b)
 
 ## Built (2026-07-30)
 

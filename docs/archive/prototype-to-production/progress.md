@@ -1652,3 +1652,22 @@ verbatim by the bank prompt and the planner, so the two prompts can never drift 
 A rule that names its evidence ("each turn carries `read`") beats a louder rule: the pacing rule
 points at a field the model can quote, mirroring the house finding that structure fixes prompts,
 volume does not.
+
+## 2026-07-30 — type-system P0: the font that never painted
+
+**A font-family name that matches nothing fails silently and asymmetrically.** `@fontsource-variable/inter`
+registers `'Inter Variable'` with a space; the app asked for `"InterVariable"`. Nothing errored. The
+webfont downloaded on every page load and was discarded, and the fallback chain then resolved
+per-machine: anyone with Inter installed saw Inter and thought it fine, anyone without saw Segoe UI
+at ~8% narrower. The person best placed to catch it was the least able to, because he had the font.
+
+**Prove a font bug by measuring, not by looking.** `document.fonts.check()` is not the test: it
+returned `true` for the name that matched nothing (fallback can render it) and `false` for the real
+name (registered but unloaded, because nothing had requested it). The test that settles it is a width
+probe -- one string, several stacks, compare pixel widths against a `serif` control. Identical width
+to the control means the face never painted.
+
+**A `px`-only lint regex is a floor with a hole in it.** Two live sizes sat under the 14px minimum
+for months because they were written as fractions, not pixels: `0.85em` computed to 11.9px on 37 rows
+of the user list, `0.65em` to 10.4px in briefings. The guard reported PASS the whole time. A rule that
+only understands one unit is not a rule, it is a suggestion -- resolve every unit or state the gap.

@@ -28,8 +28,8 @@ Dug out of the code so the phases don't stall:
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 0 | Font truth + floor breaches | The app renders the font it ships; no text below 14px | ⬜ |
-| 1 | Build the three layers | Scale, fourteen roles and the type layer exist; nothing consumes them yet | ⬜ |
+| 0 | Font truth + floor breaches | The app renders the font it ships; no text below 14px | ✅ |
+| 1 | Build the three layers | Scale, fourteen roles and the type layer exist; nothing consumes them yet | 🔨 |
 | 2 | The Meeting screen | Carl's screenshot: five sizes become three | ⬜ |
 | 3 | The 14px stratum | ~150 chrome, table and label selectors take a role | ⬜ |
 | 4 | Reading surfaces | 15px and 17px die; prose gets a real line length | ⬜ |
@@ -39,7 +39,15 @@ Dug out of the code so the phases don't stall:
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-30. Nothing built yet. **Next: the mockup gate** — Carl approves the type specimen and the Meeting before/after before Phase 0 or 1 touches anything. Baseline not yet run.
+**Phase 0 ✅ green-lit 2026-07-30** (commit `8ba3516b`). Carl approved the specimen mockup first (his "A" on the 36px hero), then walked the user list, a briefing and general text after the build.
+
+What landed: the app now renders the Inter it actually ships. Measured in the running app before touching anything — the bundled webfont stack rendered byte-identical to the `serif` control, all 7 faces `unloaded`, while the app's stack matched Carl's locally installed Inter. So the webfont downloaded and was discarded every page load, and anyone without Inter installed read Sero in Segoe UI, ~8% narrower. Plus two floor breaches the px-only guard could not see: `.um-trend` at `0.85em` computed to 11.9px on 37 rows, `.bullet__mark` at `0.65em` to 10.4px.
+
+Not verified by screenshot — the Browser pane would not composite this session and the headless browser was held by another chat. Every number is a computed-style or width-probe read from the live page: [proof/p0-font-measurements.md](proof/p0-font-measurements.md). Carl's eye was the visual check.
+
+**Baseline (free checks only — this plan needs no paid run):** `npm test` 216/216 before, 217/217 after; typecheck clean; `lint:tokens` PASS with 13 known warnings; `lint:copy` PASS.
+
+**Next: Phase 1** — build the three layers additively. Deliberately invisible; the test is that nothing moved.
 
 **Board:** https://claude.ai/code/artifact/189fce23-69c4-437f-9121-6417d8926f7f (regenerated at every phase-close via `node scripts/plan-board.js type-system`)
 
