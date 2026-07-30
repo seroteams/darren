@@ -359,7 +359,7 @@ function applyAxisConfidence(
     // A not_read axis carries no finding — replace any inferred meaning with a
     // plain "didn't come up" caption so it never reads as a verdict.
     if (read_status === "not_read") {
-      ax.meaning = "This didn't come up in the conversation — not enough signal to read.";
+      ax.meaning = "This didn't come up in the conversation. Not enough signal to read.";
       confidence = "low";
       evidence_basis = "axis_state_only";
     }
@@ -413,7 +413,7 @@ function applyEngagementReadGuard(
     read.read_status = "not_read";
     read.missing_evidence =
       read.missing_evidence ||
-      "The conversation was too thin to read engagement — a fuller next session is needed.";
+      "The conversation was too thin to read engagement. A fuller next session is needed.";
     // A not_read carries no observable content — strip the sub-fields the
     // model wrote under its (now-overruled) read, so the block collapses to
     // read_status + missing_evidence instead of duplicating next_actions /
@@ -745,7 +745,7 @@ function buildFallbackBriefing({
     const q = trim(isObjectRecord(t.question) ? t.question.name : undefined) || "Question";
     const a = trim(t.answer);
     const aShort = a.length > 160 ? a.slice(0, 157) + "…" : a;
-    return `Asked: ${q} — they said: ${aShort}`;
+    return `Asked: ${q}. They said: ${aShort}`;
   });
   if (!summary_bullets.length) {
     summary_bullets.push("No answers were captured in this session.");
@@ -755,13 +755,13 @@ function buildFallbackBriefing({
     ? Object.entries(axisState).map(([id, a]): AxisRead => ({
         id,
         score: typeof (a && a.score) === "number" ? a.score : 0,
-        meaning: "Live score from the conversation — the written read could not be generated.",
+        meaning: "Live score from the conversation. The written read could not be generated.",
         read_status: a && Array.isArray(a.history) && a.history.length ? "read" : "not_read",
       }))
     : [];
   return {
     generation_failed: true,
-    headline: `Briefing generation failed — this is a minimal record of your 1:1 with ${name}, not a written read.`,
+    headline: `Briefing generation failed. This is a minimal record of your 1:1 with ${name}, not a written read.`,
     summary_bullets,
     understanding_paragraph:
       "The written briefing could not be generated this time, so the AI summary is unavailable. Below is a factual record of what you asked and what was said, plus the live scores from the conversation. Nothing here is inferred.",

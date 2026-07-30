@@ -15,7 +15,7 @@
       {
         "id": "wellbeing",
         "score": 0,
-        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "meaning": "This didn't come up in the conversation. Not enough signal to read.",
         "read_status": "not_read",
         "not_read_reason": "zero_score",
         "confidence": "low",
