@@ -13,8 +13,9 @@ and "actually recovering" are locked to the meetings they suit (P3, one gate run
 class never worked on that footer, which is exactly what Machar saw (F7). It is now not rendered at
 all unless internal admin, local, with notes. Proof: real-screen screenshots in the plan's proof/,
 suite 215/215, typecheck + both linters, walkable fixture at Tests → "Recap fixes". Commits
-`205610c4` · `7bdb06e2` · `1ce13d35`, committed local — **ships next "go live"; check the QA button
-is gone from sero.team recaps after that deploy.** [Board](https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3).
+`205610c4` · `7bdb06e2` · `1ce13d35`. **✅ LIVE 2026-07-30 on your "go live"** — build `4f85e14`
+confirmed on `sero.team/api/version` 75s after the push, `/api/v1/health/deep` reports `db: up`.
+One check rides your next real 1:1 there: no "Copy QA prompt" button on the recap. [Board](https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3).
 
 📍 **2026-07-30 — the Support panel now coaches every question, and a nine-day outage came out of the woodwork.**
 [question-support-hints](docs/plans/done/question-support-hints/plan.md) — all 3 phases green-lit in one
@@ -459,4 +460,4 @@ Earlier: [design-stage-native](docs/plans/future/design-stage-native/plan.md) ·
 
 ---
 `⬜ not started` · `🔨 in progress` · `✅ done + you green-lit it` — I never sign off my own work.
-Last updated: 2026-07-30 (user-test-fixes plan closed). Live build `33dfdca7` on sero.team, committed 2026-07-29 09:44 (confirmed on `/api/version`). **Main is ahead of live** — the whole user-test-fixes plan (`205610c4`, `7bdb06e2`, `1ce13d35`) is committed local and ships on your next "go live".
+Last updated: 2026-07-30 (user-test-fixes live on 4f85e14). Live build `33dfdca7` on sero.team, committed 2026-07-29 09:44 (confirmed on `/api/version`). **Main is level with live** — build `4f85e14` (pushed 2026-07-30) carried the whole backlog out, including the full user-test-fixes plan.
