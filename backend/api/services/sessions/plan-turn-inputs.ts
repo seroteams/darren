@@ -47,6 +47,9 @@ function buildPlanTurnInputs(session: Session, draftAnswer?: string) {
     closerAlias: session.closer ? session.closer.alias : null,
     prep: session.preparationResult?.brief || null,
     sessionBank: Array.isArray(session.sessionBank) ? session.sessionBank : [],
+    // No dead wires phase 4: mirror the live planStream's notes wire, so the
+    // preview stays byte-honest with what planTurn actually sends.
+    sessionNotes: session.notes || [],
   };
 }
 

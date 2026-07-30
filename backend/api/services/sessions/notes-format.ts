@@ -125,4 +125,23 @@ function renderNotesMarkdown(session: Session): string {
   return lines.join("\n");
 }
 
-export { renderNotesMarkdown, formatNotesForEvaluation, stripTesterNoteLines };
+// No dead wires P4: one rule for the captured-notes channel. The strip above was
+// built when mid-run notes were tester observations (run-qa-fixes C1, the Brian
+// leak). Real managers now use the notes panel for genuine observations, so a
+// real run passes its notes through; QA runs (a runLabel, or scripted mode) keep
+// the strip so tester lines still never reach a briefing.
+function formatCapturedNotes({
+  notes,
+  mode,
+  runLabel,
+}: {
+  notes: unknown;
+  mode?: string | null;
+  runLabel?: string | null;
+}): string {
+  const formatted = formatNotesForEvaluation(notes);
+  const isQaRun = Boolean(runLabel) || mode === "scripted";
+  return isQaRun ? stripTesterNoteLines(formatted) : formatted;
+}
+
+export { renderNotesMarkdown, formatNotesForEvaluation, stripTesterNoteLines, formatCapturedNotes };

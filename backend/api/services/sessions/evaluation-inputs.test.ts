@@ -75,3 +75,27 @@ test("buildEvaluationInputs: no prep brief projects as null", () => {
   const out = buildEvaluationInputs(sessionWithTaggedNote());
   assert.equal(out.prep, null);
 });
+
+// No dead wires P4: a real run's mid-run notes reach the evaluation notes
+// channel; a QA-labelled run still strips stamped tester lines.
+test("buildEvaluationInputs: real-run mid-run notes reach the notes channel", () => {
+  const session = sessionWithTaggedNote();
+  (session as unknown as { mode: string; runLabel: null }).mode = "manual";
+  (session as unknown as { runLabel: null }).runLabel = null;
+  (session as unknown as { notes: unknown }).notes = [
+    { id: "n1", stage: "QUESTIONING", turn: 1, ts: 0, text: "He keeps glancing at his phone." },
+  ];
+  const out = buildEvaluationInputs(session);
+  assert.ok(out.notes.includes("glancing at his phone"), "a real manager note must reach the evaluation");
+});
+
+test("buildEvaluationInputs: a QA-labelled run still excludes captured notes", () => {
+  const session = sessionWithTaggedNote();
+  (session as unknown as { mode: string }).mode = "manual";
+  (session as unknown as { runLabel: string }).runLabel = "qa-sweep";
+  (session as unknown as { notes: unknown }).notes = [
+    { id: "n1", stage: "QUESTIONING", turn: 1, ts: 0, text: "this question is repeated a lot" },
+  ];
+  const out = buildEvaluationInputs(session);
+  assert.ok(!out.notes.includes("repeated a lot"), "tester notes must stay out of QA-run evaluations");
+});

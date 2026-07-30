@@ -6,17 +6,22 @@
 
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
 import { serialize } from "../../../engine/axes.ts";
-import { formatNotesForEvaluation, stripTesterNoteLines } from "./notes-format.ts";
+import { formatCapturedNotes } from "./notes-format.ts";
 import type { Session } from "../../../shared/session.types.ts";
 
 function buildEvaluationInputs(session: Session) {
   if (!session.focusPointsResult) {
     throw Object.assign(new Error("Focus points not ready"), { status: 409 });
   }
-  // Notes pipeline: intake notes + captured mid-run notes, with timestamped
-  // tester/observation lines stripped (mirrors evaluationStream lines 179-183).
+  // Notes pipeline: intake notes + captured mid-run notes (mirrors
+  // evaluationStream). Real runs pass mid-run notes through; QA runs keep the
+  // tester-line strip (no dead wires P4, one rule in notes-format.ts).
   const intakeNotes = String(session.ctx?.notes || "").trim();
-  const capturedNotes = stripTesterNoteLines(formatNotesForEvaluation(session.notes || []));
+  const capturedNotes = formatCapturedNotes({
+    notes: session.notes || [],
+    mode: session.mode,
+    runLabel: session.runLabel,
+  });
   const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
   return {
     ctx: session.ctx,

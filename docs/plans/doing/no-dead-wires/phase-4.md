@@ -1,6 +1,13 @@
 # Phase 4 — Notes flow everywhere
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨
+
+## Built (2026-07-30)
+- backend/api/services/sessions/session-streams.ts + plan-turn-inputs.ts: the live planner and its byte-honest preview both pass `session.notes` to planTurn, so a jotted observation reaches the next question's prompt AND the grounding corpus (the P3 plumbing this flips on).
+- backend/api/services/sessions/notes-format.ts: new single-rule `formatCapturedNotes` — a REAL run passes mid-run notes through to the evaluation; a QA run (runLabel or scripted mode) keeps the old tester-line strip, so tester observations still never reach a briefing. Both call sites (evaluationStream, evaluation-inputs) use the one rule; the persona QA runner keeps its strip unchanged.
+- Leak safety unchanged: `checkPrivateNoteLeak` still screens every briefing against the manager-notes channel, which now includes mid-run notes, so a note echoed into employee-facing text still blocks the briefing.
+- Tests: NEW plan-turn-inputs.test.ts (+2), notes-format.test.ts (+3: real-run passthrough, QA strip, empty), evaluation-inputs.test.ts (+2: real-run notes reach the channel, QA-labelled runs still exclude). TDD red-first.
+- Offline proof: npm test 219/219 · typecheck clean · lint:copy PASS · replay fixtures: only the 2 known pre-existing prep-validator failures.
 
 ## Goal
 A note you jot mid-meeting shapes the next question and appears in the final brief, on real runs.

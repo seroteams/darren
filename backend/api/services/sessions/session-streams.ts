@@ -33,7 +33,7 @@ import { runStage, abortStage } from "../../handlers/stream-helper.ts";
 import { openStream } from "../../sse.ts";
 import { summarizeAxes } from "./session-views.ts";
 import { buildPreparationInputs } from "./preparation-inputs.ts";
-import { formatNotesForEvaluation, stripTesterNoteLines } from "./notes-format.ts";
+import { formatCapturedNotes } from "./notes-format.ts";
 import { stripEngineTags } from "./note-tags.ts";
 import { finalizeBriefing } from "./finalize-briefing.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
@@ -201,9 +201,13 @@ export async function evaluationStream(c: RequestContext): Promise<void> {
   const { orgId, userId } = await callerFence(c);
   const session = service.require(sessionId(c), orgId, userId);
   const intakeNotes = String(session.ctx?.notes || "").trim();
-  // Drop timestamped mid-run tester/observation lines before they reach the manager-notes
-  // channel (run-qa-fixes C1) — genuine intake notes have no [HH:MM] stamp and survive.
-  const capturedNotes = stripTesterNoteLines(formatNotesForEvaluation(session.notes || []));
+  // Real runs pass mid-run notes through to the evaluation; QA runs (runLabel or
+  // scripted) keep the tester-line strip (no dead wires P4, rule in notes-format.ts).
+  const capturedNotes = formatCapturedNotes({
+    notes: session.notes || [],
+    mode: session.mode,
+    runLabel: session.runLabel,
+  });
   const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
 
   await runStage(c, session, "evaluation", {
@@ -394,6 +398,10 @@ export async function planStream(c: RequestContext): Promise<void> {
       // Always an array: a session without a bank (e.g. rehydrated from before
       // sessionBank existed) gets "seeds only" — never the global-bank fallback.
       sessionBank: Array.isArray(session.sessionBank) ? session.sessionBank : [],
+      // No dead wires phase 4: the manager's mid-meeting notes reach the planner
+      // (prompt block + grounding corpus), so a jotted observation can shape the
+      // next question instead of waiting for the final brief.
+      sessionNotes: session.notes || [],
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
