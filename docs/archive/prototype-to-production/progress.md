@@ -1755,3 +1755,30 @@ hiding a missing width rule for months.
 onto `.type-heading-xl` does not make the media-query block targeting `.type-heading-xl` apply to
 it. Every grouped selector has to be repeated in the breakpoint by hand, or the responsive drop
 silently does not happen.
+
+## coach-hints-live P1 (2026-07-31)
+
+**A content guard only guards the folder it walks.** `questions.test.ts` proved every intro,
+seed and opener question carries three coaching hints, and had done since question-support-hints
+Phase 3. `q_intro_agenda_check` failed that bar for months anyway, because it is built in code
+and the guard reads `_intro`, `_seed` and `_openers` off disk. The test's name promised more
+than its walk delivered. When a rule is worth a guard, enumerate the ways the thing can be built,
+not the one place it usually lives.
+
+**A per-session fallback repeats by design; it just takes a second hole to notice.** The coach
+panel's brief-level cues are computed once and reused, which is correct for a rare safety net
+and obviously wrong the moment two questions in a row land on it. The fallback was not the bug.
+The bug was a question reaching it at all, and the fallback made that failure look like a
+different failure entirely ("the panel repeats") rather than "this question has no coaching".
+
+**Checking `process.env` from the agent's shell says nothing about the dev server's
+environment.** The shell reported no `OPENAI_API_KEY`, so a local walk was treated as free.
+The server started by the preview tooling had a key, and the run spent about 84k input tokens
+across nine calls before the stage logs gave it away. Free-versus-paid has to be established
+from the process that will make the call, and the runs record no usage figures, so the exact
+cost could not be reconstructed afterwards.
+
+**A hand-written literal in the test is the point, not duplication.** The agenda question's three
+lines are written out in full in `sessions.service.test.ts` rather than imported from the source.
+Copy a manager reads mid-meeting should fail a test when it changes, so someone looks at the new
+wording. A test that imports the value it asserts moves silently with the code.

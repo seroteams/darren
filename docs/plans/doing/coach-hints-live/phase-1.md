@@ -1,6 +1,8 @@
 # Phase 1 — The agenda question gets its own coaching
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-31 — Carl walked the agenda question in the runner and confirmed the three lines (commit ef4646cf)
 
 ## Built (2026-07-30)
 

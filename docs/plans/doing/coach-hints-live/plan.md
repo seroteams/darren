@@ -23,13 +23,15 @@ Dug out of the code before phase 1, so neither phase stalls on an unknown:
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | The agenda question gets its own coaching | Three hand-written hints on `q_intro_agenda_check`, plus the guard test extended to code-minted questions so this can't happen again | ⬜ |
-| 2 | Coaching that re-earns itself each turn | `plan-turn.md` rewrites the next question's `listen` lines against the transcript even when the question itself is carried unchanged | ⬜ |
+| 1 | The agenda question gets its own coaching | Three hand-written hints on `q_intro_agenda_check`, plus the guard test extended to code-minted questions so this can't happen again | ✅ |
+| 2 | Coaching that re-earns itself each turn | `plan-turn.md` rewrites the next question's `listen` lines against the transcript even when the question itself is carried unchanged | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Mockup signed off 2026-07-30. Phase 1 built the same day and is waiting on Carl's walk of its scenarios.
+Phase 1 ✅ green-lit by Carl 2026-07-31: he walked the agenda question in the runner and confirmed the three lines replaced the prep-brief fallback (commit ef4646cf). Phase 2 opened the same day.
+
+Mockup signed off 2026-07-30.
 
 Baseline taken before any edit: `npm test` 219/219, `npm run typecheck` clean. `npm run gate` was deliberately NOT run as the baseline: it is a paid OpenAI run and phase 1 changes three lines of static content, so the free suite is the honest bar. The one paid run this plan allows is reserved for phase 2.
 
