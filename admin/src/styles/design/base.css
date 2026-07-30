@@ -16,7 +16,12 @@ html {
   overflow-y: scroll;
 }
 body {
-  font-family: "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* "Inter Variable" WITH the space is the family name @fontsource-variable/inter
+     actually registers. The old "InterVariable" matched nothing, so the bundled
+     webfont downloaded and never painted: machines with Inter installed fell
+     through to the local copy, everyone else got system-ui (Segoe UI on Windows,
+     ~8% wider text). Verified on screen 2026-07-30 by width-probe. */
+  font-family: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   font-feature-settings: "ss01", "cv11";
   font-variant-ligatures: common-ligatures;
   color: var(--color-ink);

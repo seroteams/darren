@@ -39,7 +39,7 @@ export default {
       fontFamily: {
         // Not used as `font-sans` in markup, but Tailwind's preflight sets the html
         // font-family from it. Removing it would change the base face. Keep.
-        sans: ["InterVariable", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Inter Variable", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       maxWidth: {
         measure: "var(--measure)", // max-w-measure ×5

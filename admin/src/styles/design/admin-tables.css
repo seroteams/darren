@@ -45,7 +45,9 @@
 
 /* "Coming back?" trend mark — a shape, not arithmetic. Calm colours: rising reads positive,
    cooling reads warm-muted (attention, not alarm), steady/quiet stay neutral. */
-.um-trend { font-size: 0.85em; line-height: 1; }
+/* Was 0.85em, which resolved to 11.9px inside the 14px row and broke the floor
+   on 37 rows of the user list. The px-only guard could not see a fraction. */
+.um-trend { font-size: var(--type-body-sm); line-height: 1; }
 .um-trend--up     { color: var(--color-positive-text); } /* text-safe mint (a11y) */
 .um-trend--down   { color: var(--color-amber); }
 .um-trend--steady { color: var(--color-ink-dim); }

@@ -81,7 +81,9 @@
 }
 .bullet__mark {
   color: var(--sero-lavender-700);
-  font-size: 0.65em;
+  /* Was 0.65em, which resolved to 10.4px against the 16px bullet and broke the
+     floor. The px-only guard could not see a fraction. */
+  font-size: var(--type-body-sm);
   line-height: inherit;
 }
 

@@ -280,7 +280,7 @@
 
      Accessibility rule: NO text token may render below 14px. Do not lower these.
      ========================================================================= */
-  --type-family-display: "Bricolage Grotesque Variable", "InterVariable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
+  --type-family-display: "Bricolage Grotesque Variable", "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif; /* display headings (DESIGN.md §3, manager-ready P2) */
   --type-display: clamp(1.875rem, 5vw, 2.625rem); /* hero — calmed from 44-56px to DESIGN.md's ~40px spec (30-42px) (UI polish P1) */
   --type-h1: clamp(2rem, 4.2vw, 2.75rem);         /* large page title */
   --type-h2: clamp(1.75rem, 3.5vw, 2.25rem);
