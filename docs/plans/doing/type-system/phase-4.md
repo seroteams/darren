@@ -14,6 +14,18 @@ Kill 15px and 17px from the product, put every reading block at 16px, and give p
 
 **Lane collision:** `frontend/src/stages/preparation.css` is claimed by session `080b9104`. Surface it to Carl before starting; do not edit through it.
 
+## Four traps the recon found (2026-07-31)
+
+1. **The icon-sizing trap, and it is the one that bites.** `guided.css:9-16` sets `.gd svg, .gd-portal svg { width: 1em; height: 1em }` and `guided-icons.ts` emits SVGs with no width or height attributes. **In the whole guided runner, an icon's size IS its font-size.** Six selectors are affected: `.gd-row__chev` (17px), `.gd-block__icon` (17px), `.gd-panel__x` (17px), `.gd-q__clock` (15px), `.gd-block__label svg` (14px), `.gd-stepper .stage-step__check` (16px). A blind 15/17 → 16 sweep enlarges chrome across the customer app; a blind → 14 shrinks the chevron and the close cross by 18%. Neither is a text change and neither shows up in a font-size audit. Treat these as icon sizing, not type.
+2. **Grouping a bold selector into `.type-body` silently un-bolds it.** `.type-body` declares weight 400 and the pattern leaves the component sheet nowhere to keep a weight. Fourteen 16px-semibold selectors would flatten, including `.arc-phase__label` (which sits directly above a 16/400 intent line it is meant to outrank), `.gd-q__stem`, `.gd-block__label`, `.gd-row__text` and `.pv-a__opener`. **`.type-heading-xs` (16/600) is the correct home** and currently matches nothing.
+3. **Do not change `--measure`.** `layout.css:11` `.l-container` reads the same token, so retuning it from `38rem` to a character measure widens every plain page column plus four more sites: 18 screens move. The character measure belongs inside the roles in `type.css`, which is where it already is.
+4. **Three selectors depend on a line-height multiplier for their geometry**, not their type: `.bullet__mark { line-height: inherit }` keeps the dot on the sentence's baseline, `.pv-tile__name { line-height: 1 }` keeps the switcher tiles short, `.gd-stepper .stage-step { line-height: 1 }` sets the stepper pill height. They take `.type-flush` alongside their role.
+
+Also: `mobile.css:298` `input, select, textarea { font-size: max(1rem, 1em) }` looks like a literal to fix and is not. It is the iOS focus-zoom guard that raises small controls to 16px while leaving big ones alone. Leave it; Phase 6 gives it an explicit waiver.
+
+## Two tests break on the clean end state
+`frontend/src/stages/preparation-css.test.ts:111` and `:126` assert that at least one `font-size` survives in `preparation.css` plus `preparation-lab.css`; stripping both sheets fails them. `finish-feedback-modal.test.ts:63` asserts `.ffm__q` exists in `finish-feedback-modal.css`. Both must be changed test-first or the phase ends red.
+
 ## Not in this phase
 - Headings, metrics and KPI values — Phase 5.
 - The markup class sweep — Phase 5.

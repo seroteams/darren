@@ -140,9 +140,14 @@
   max-width: var(--measure);
   text-wrap: pretty;
 }
-/* Quiet supporting lines on the Meeting screen (P2): the drill-down hint under a
-   thread question, the privacy note in the coach header, and the provenance line
-   above brief-level cues. All three were already 14px and stay there. */
+/* The dense role. Quiet supporting lines, table cells, row detail, secondary
+   chrome: anything read at a glance rather than settled into.
+
+   NO max-width, deliberately. It carried one until the Phase 3 recon counted the
+   consumers: 35 of 54 are chrome that must fill its container, so a measure was
+   wrong for two thirds of the role and would have stopped the people table filling
+   its own card. A measure belongs to prose, and .type-body / .type-body-lg carry
+   it. The rare 14px block that IS prose takes .type-body--narrow alongside. */
 .type-body-sm,
 .cp-screen .question-drill-hint,
 .cp-privacy,
@@ -151,7 +156,6 @@
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-regular);
   line-height: var(--type-leading-sm);
-  max-width: var(--measure);
   text-wrap: pretty;
 }
 
@@ -228,6 +232,22 @@
 .coach-row__why,
 .coach-empty { max-width: var(--measure-narrow); }
 .type-body--full { max-width: none; }
+
+/* -----------------------------------------------------------------------------
+   .type-flush — a role WITHOUT its leading.
+
+   Every role pairs its size with an absolute line-height, which is the whole
+   point of the locked pairs. About eighteen chrome selectors need the opposite:
+   a glyph, an avatar initial or a stepper number centred inside a fixed-height
+   circle or pill, where any leading at all pushes the box taller or drifts the
+   mark off centre. They carry `line-height: 1` today for exactly that reason.
+
+   Rather than let those sheets keep a stray line-height, which would put a type
+   property back outside the two sanctioned files and blunt the Phase 6 rule, the
+   exception lives here and selectors group into it the same way they group into a
+   role. It is not a role: it never appears alone, only alongside one.
+   ----------------------------------------------------------------------------- */
+.type-flush { line-height: 1; }
 
 /* -----------------------------------------------------------------------------
    Layer 3: one composite custom property per role (the Material Web pattern),

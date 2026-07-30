@@ -17,8 +17,17 @@ Make it impossible to drift back, and bring the three surfaces a stylesheet swee
 - Radius and spacing. Different request, ceilings untouched.
 - The five gallery prototypes in `admin/src/stages/tests/*.js` — permanently parked with a narrow exemption.
 
+## The headline invariant was unmeasurable as written (2026-07-31)
+"`font-size` appears in exactly two files" cannot be reached, and the recon proved why: **`tokens.css` contains zero occurrences of the string `font-size`** (it defines `--type-size-*` but never uses the property), while about seventeen files legitimately still match — five test files that assert on the string, `design.js`, the eight parked gallery files, `orb.css`, `app-nav.css`, and two where it appears only in a comment. A grep would fail forever on a plan that was actually finished.
+
+**The invariant is therefore the guard's own rule, not a grep:** `type-property-outside-type-layer` reports zero, with the exemption list stating exactly which files are excluded and why. That is checkable, honest, and survives a comment being reworded.
+
+Two rules also cannot reach zero and must be waived explicitly rather than chased:
+- **`literalFontSize`** — `design/mobile.css:298` is `font-size: max(1rem, 1em)`, the iOS focus-zoom guard. There is no token form; the linter's own `max()` branch exists to keep it green. It needs a `lint-tokens-ignore` with a reason.
+- **`relativeFontSize`** — `test-engine.css:16` and `ux-audit-fixes.css:26` hold one each and are in no phase file. Either pull them into Phase 3's widened scope or waive them here with a reason.
+
 ## Done when
-- [ ] `grep -rln "font-size" admin/src frontend/src --include=*.css --include=*.js --include=*.ts` lists **exactly two files**
+- [ ] `npm run lint:tokens` reports **zero** for `type-property-outside-type-layer`, with every exemption listed and reasoned in the linter header
 - [ ] Every new guard rule is an error at zero; `npm run lint:tokens` passes with no warnings
 - [ ] A generated recap PDF and a sent email both match the role table
 - [ ] `DESIGN.md` §3 describes what the code actually does
