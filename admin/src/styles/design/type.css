@@ -1,0 +1,220 @@
+/* =============================================================================
+   Type roles (type-system P1)
+
+   Layers 2 and 3 of the type system: fourteen named roles, built entirely from
+   the size/leading pairs in design/tokens.css. A screen picks a role by what
+   the text IS ("this is a card title", "this is a field label"), never by how
+   big it should be, so the same decision made on two screens lands on the same
+   numbers.
+
+   THIS FILE AND design/tokens.css ARE THE ONLY TWO FILES ALLOWED TO CONTAIN A
+   TYPE PROPERTY. font-size, line-height, font-weight, font-family,
+   letter-spacing, text-transform, font-variant-numeric and the font shorthand
+   belong in one of these two files and nowhere else. Phase 6 turns that into a
+   lint error, so anything declared elsewhere between now and then is debt that
+   has to come back out again.
+
+   Nothing consumes these roles yet. This phase is additive and invisible:
+   every selector is .type- prefixed, no existing class or token is re-pointed,
+   and design.css imports this sheet BEFORE base.css so it loses every
+   specificity tie it could ever be in. That is deliberate. It means Phase 2
+   must REPLACE an old class in markup with a role. Adding a role next to an
+   old class does nothing, because the old class still wins.
+
+   Bricolage (--type-family-display) is legal at 20px and up only (DESIGN.md
+   T6). That is why heading-sm at 18px and heading-xs at 16px take the base
+   family instead of carrying the display ladder further down.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Layer 2: the fourteen roles.
+   ----------------------------------------------------------------------------- */
+
+/* Display and headings. The display family, balanced wrapping and negative
+   tracking are what make a heading read as one shape rather than a wide line
+   of body copy set larger. */
+.type-display {
+  font-family: var(--type-family-display);
+  font-size: var(--type-size-4xl);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tighter);
+  line-height: var(--type-leading-4xl);
+  text-wrap: balance;
+}
+.type-heading-xl {
+  font-family: var(--type-family-display);
+  font-size: var(--type-size-3xl);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tight);
+  line-height: var(--type-leading-3xl);
+  text-wrap: balance;
+}
+.type-heading-lg {
+  font-family: var(--type-family-display);
+  font-size: var(--type-size-2xl);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tight);
+  line-height: var(--type-leading-2xl);
+  text-wrap: balance;
+}
+/* 20px is the floor for the display face, so this is the last rung that takes
+   it. Tracking stops here too: below 24px the tightening reads as a defect. */
+.type-heading-md {
+  font-family: var(--type-family-display);
+  font-size: var(--type-size-xl);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-xl);
+  text-wrap: balance;
+}
+.type-heading-sm {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-lg);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-lg);
+}
+.type-heading-xs {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-base);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-base);
+}
+
+/* Reading text. The measure is part of the role: prose that runs the full width
+   of a wide panel is the single most common readability complaint, and a role
+   that only carried a size would leave that unfixed. Use .type-body--full where
+   a cell or a chip genuinely has to fill its container. */
+.type-body-lg {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-lg);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-lg);
+  max-width: var(--measure-lede);
+  text-wrap: pretty;
+}
+.type-body {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-base);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-base);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+.type-body-sm {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-sm);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-sm);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+/* Labels and small chrome. All three sit on the 14px floor and separate by
+   weight and tracking, not by size, so nothing here can ever be shrunk to
+   distinguish it. */
+.type-label {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-sm);
+  font-weight: var(--type-weight-medium);
+  letter-spacing: var(--type-tracking-wide);
+  line-height: var(--type-leading-sm);
+}
+.type-label-strong {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-sm);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-sm);
+}
+.type-overline {
+  font-family: var(--type-family-base);
+  font-size: var(--type-size-sm);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-caps-lg);
+  line-height: var(--type-leading-sm);
+  text-transform: uppercase;
+}
+
+.type-code {
+  font-family: var(--type-family-mono);
+  font-size: var(--type-size-sm);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-sm);
+}
+
+.type-metric {
+  font-family: var(--type-family-display);
+  font-size: var(--type-size-3xl);
+  font-weight: var(--type-weight-semibold);
+  letter-spacing: var(--type-tracking-tight);
+  line-height: var(--type-leading-3xl);
+  /* Last on purpose. Any font shorthand applied above this line resets it back
+     to normal, and a number whose digits change width as it ticks is unreadable
+     in a column. base.css keeps .num-tabular as the standalone escape hatch. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Measure modifiers. These are not roles: they adjust one property of a body
+   role and mean nothing on their own. */
+.type-body--narrow { max-width: var(--measure-narrow); }
+.type-body--full { max-width: none; }
+
+/* -----------------------------------------------------------------------------
+   Layer 3: one composite custom property per role (the Material Web pattern),
+   for the few places a class is impractical: a canvas, an inline style, a
+   template-literal style block.
+
+   READ THIS BEFORE REACHING FOR ONE. The CSS `font:` shorthand carries exactly
+   four of a role's properties: weight, size, leading, family. It also RESETS
+   every other property in the font group to its initial value, and that costs
+   more than it looks:
+
+   - font-variant-numeric goes back to normal, so a composite cannot deliver
+     .type-metric's tabular figures. Pair it with base.css's .num-tabular.
+   - font-feature-settings and font-variant-ligatures reset too, and base.css
+     sets "ss01", "cv11" and common-ligatures on body. A composite therefore
+     drops Sero's Inter stylistic sets for that whole subtree.
+   - Tracking, text-transform, text-wrap and max-width are outside the shorthand
+     altogether. A composite loses the uppercase on overline, the tracking and
+     balanced wrapping on display and the heading roles, and the measure on the
+     body roles.
+   - The phone breakpoint at the foot of this file targets the CLASS, so a
+     composite is fixed at its desktop size. `font: var(--type-role-heading-xl)`
+     stays 30px on a 375px screen where .type-heading-xl drops to 24px.
+
+   Only heading-sm, heading-xs, label-strong and code are fully expressible this
+   way. Everywhere else, prefer the class and accept the composite as a partial.
+   ----------------------------------------------------------------------------- */
+:root {
+  --type-role-display: var(--type-weight-semibold) var(--type-size-4xl)/var(--type-leading-4xl) var(--type-family-display);
+  --type-role-heading-xl: var(--type-weight-semibold) var(--type-size-3xl)/var(--type-leading-3xl) var(--type-family-display);
+  --type-role-heading-lg: var(--type-weight-semibold) var(--type-size-2xl)/var(--type-leading-2xl) var(--type-family-display);
+  --type-role-heading-md: var(--type-weight-semibold) var(--type-size-xl)/var(--type-leading-xl) var(--type-family-display);
+  --type-role-heading-sm: var(--type-weight-semibold) var(--type-size-lg)/var(--type-leading-lg) var(--type-family-base);
+  --type-role-heading-xs: var(--type-weight-semibold) var(--type-size-base)/var(--type-leading-base) var(--type-family-base);
+  --type-role-body-lg: var(--type-weight-regular) var(--type-size-lg)/var(--type-leading-lg) var(--type-family-base);
+  --type-role-body: var(--type-weight-regular) var(--type-size-base)/var(--type-leading-base) var(--type-family-base);
+  --type-role-body-sm: var(--type-weight-regular) var(--type-size-sm)/var(--type-leading-sm) var(--type-family-base);
+  --type-role-label: var(--type-weight-medium) var(--type-size-sm)/var(--type-leading-sm) var(--type-family-base);
+  --type-role-label-strong: var(--type-weight-semibold) var(--type-size-sm)/var(--type-leading-sm) var(--type-family-base);
+  --type-role-overline: var(--type-weight-semibold) var(--type-size-sm)/var(--type-leading-sm) var(--type-family-base);
+  --type-role-code: var(--type-weight-regular) var(--type-size-sm)/var(--type-leading-sm) var(--type-family-mono);
+  --type-role-metric: var(--type-weight-semibold) var(--type-size-3xl)/var(--type-leading-3xl) var(--type-family-display);
+}
+
+/* -----------------------------------------------------------------------------
+   The only responsive rule in the type system. A 30px page title eats a phone
+   screen, so heading-xl drops one rung there and heading-lg becomes the
+   ceiling. Nothing else moves at any width: the ladder starts at 14px, so
+   shrinking the lower rungs would breach the floor.
+
+   639.98px is the house phone boundary, the same one design/mobile.css uses.
+
+   Responsive type belongs here and only here. mobile.css loads last, so a rule
+   put there would gain override power over every component sheet, which is
+   exactly the power this file is positioned to give up.
+   ----------------------------------------------------------------------------- */
+@media (max-width: 639.98px) {
+  .type-heading-xl {
+    font-size: var(--type-size-2xl);
+    line-height: var(--type-leading-2xl);
+  }
+}

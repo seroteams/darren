@@ -313,6 +313,65 @@
   --type-tracking-caps: 0.06em;                   /* slot/label uppercase (UI polish P1) */
   --type-tracking-caps-lg: 0.08em;                /* section eyebrow uppercase (UI polish P1) */
 
+  /* =========================================================================
+     LAYER 1 of the type system (type-system P1). Purely additive: nothing
+     above this block changes, and nothing outside design/type.css reads these
+     yet, so no screen moves.
+
+     The scale is Tailwind's default, copied verbatim from
+     tailwindcss/defaultTheme rather than invented here. Seven steps, each one
+     a locked size/leading PAIR. Use them in pairs: a size taken without its
+     matching leading is how a heading ends up on a line-height meant for body
+     copy. Every leading lands on the 4px spacing grid (20, 24, 28, 28, 32, 36,
+     40), so type and spacing keep the same rhythm.
+
+     There is no 12px step, on purpose. 14px is Sero's accessibility floor, and
+     a token below it is an invitation to breach it.
+
+     WATCH THE SUFFIX. The four --type-leading-tight/snug/normal/relaxed above
+     are unitless MULTIPLIERS (1.1 to 1.6). The seven --type-leading-sm..4xl
+     below are ABSOLUTE lengths in rem, each married to one size. Swapping one
+     family for the other turns a 24px leading into a 1.5 multiplier with no
+     lint error and no failing test, so read the name before you use it.
+     ========================================================================= */
+  --type-size-sm: 0.875rem;                       /* 14px */
+  --type-leading-sm: 1.25rem;                     /* 20px */
+  --type-size-base: 1rem;                         /* 16px */
+  --type-leading-base: 1.5rem;                    /* 24px */
+  --type-size-lg: 1.125rem;                       /* 18px */
+  --type-leading-lg: 1.75rem;                     /* 28px */
+  --type-size-xl: 1.25rem;                        /* 20px */
+  --type-leading-xl: 1.75rem;                     /* 28px */
+  --type-size-2xl: 1.5rem;                        /* 24px */
+  --type-leading-2xl: 2rem;                       /* 32px */
+  --type-size-3xl: 1.875rem;                      /* 30px */
+  --type-leading-3xl: 2.25rem;                    /* 36px */
+  --type-size-4xl: 2.25rem;                       /* 36px */
+  --type-leading-4xl: 2.5rem;                     /* 40px */
+
+  /* Families. --type-family-display is defined above and is display-only:
+     Bricolage is legal at 20px and up (DESIGN.md T6), never below.
+
+     --type-family-base must stay BYTE-IDENTICAL to the stack set on `body` in
+     design/base.css. Two parked prototype screens already ask for this token
+     (stages/tests/welcome-options.js, stages/tests/welcome-lean.js) while it
+     was undefined, so the declaration was dropped and they inherited body's
+     stack. Defining it with the same string is exactly what keeps them
+     rendering as they do today. Retype, reorder or tidy one entry and those
+     screens change face.
+
+     --type-family-mono is the mono stack the roles use. --font-mono above
+     still has its own call sites and is deliberately left alone here. The two
+     merge when those sites move onto a role. */
+  --type-family-base: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --type-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* A short reading column, for a hint or an aside beside the main text. The
+     three rem measures (--measure, --measure-tight, --measure-lede) are left
+     exactly as they are: roughly 14 call sites read them and moving one moves
+     real screens. */
+  --measure-narrow: 46ch;
+
   /* Layout */
   --measure: 38rem;
   --container-medium: 64rem;   /* 1024px — 12-grid content width */

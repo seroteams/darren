@@ -14,6 +14,13 @@
    admin stage does, import it from that stage instead.
    ============================================================================= */
 @import "./design/tokens.css";
+/* Second, before base.css, on purpose. Every .type- role is a single-class
+   selector, so is every treatment class in base.css and nearly every component
+   class after it. Importing the roles first means they lose every specificity
+   tie, and a half-migrated element carrying both an old class and a role keeps
+   rendering from the old class. The old system stays authoritative until each
+   class is deliberately deleted (type-system P1). */
+@import "./design/type.css";
 @import "./design/base.css";
 @import "./design/layout.css";
 @import "./design/primitives.css";
