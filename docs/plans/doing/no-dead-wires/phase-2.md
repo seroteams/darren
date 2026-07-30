@@ -1,6 +1,8 @@
 # Phase 2 — The planner learns the room
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl chose "a · tested, good" on the scenario hand-off (commit 4117b5b0, committed local, ships next go-live)
 
 ## Built (2026-07-30)
 - backend/engine/messages.ts: fills `{{MANAGER_NOTES}}` (intake note) + the three `{{CONVERSATION_*}}` vocabulary placeholders into the planner prompt's cached section; transcript summary now carries each turn's `read` tag (replay-safe: absent tags stay absent).

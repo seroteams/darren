@@ -24,14 +24,14 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Plan meets reality | Prep brief reaches the final brief; recap says what happened to your plan | ✅ |
-| 2 | The planner learns the room | Intake note, vocabulary guide, answer-quality tags and score levels reach the live planner | 🔨 |
-| 3 | The living plan | The queue rewrites and reorders itself from the conversation; prep-opener pin releases | ⬜ |
+| 2 | The planner learns the room | Intake note, vocabulary guide, answer-quality tags and score levels reach the live planner | ✅ |
+| 3 | The living plan | The queue rewrites and reorders itself from the conversation; prep-opener pin releases | 🔨 |
 | 4 | Notes flow everywhere | Mid-meeting notes reach the next question and the final brief | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ GREEN-LIT by Carl 2026-07-30 ("A"). Built commit 4f85e144, which a parallel chat's "go live" carried to sero.team the same day (build 4f85e14), so the prep-to-brief wire is already live. Offline proof at close: 216/216 tests, typecheck + lint:copy clean; two replay-fixture failures pre-existing (832d63da, chipped separately). Phase 2 (the planner learns the room) building now. Paid gate reserved for end of phase 3 (~$0.35). Board: https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847
+Phases 1 and 2 ✅ GREEN-LIT by Carl 2026-07-30 (his "A" twice). P1 commit 4f85e144 (already live in build 4f85e14); P2 commit 4117b5b0 (committed local, ships next go-live). P2 proof at close: 217/217 tests, typecheck + lint:copy clean, prefix-stability test green; the 2 replay-fixture failures remain pre-existing (832d63da, chipped separately). Phase 3 (the living plan) building now; it ends with the plan's ONE paid gate case, `machar-biweekly-jun11` (~$0.35; the planned case name lin_biweekly_thread does not exist in evals/golden/_index.json). Board: https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847
 
 ## Parked
 - Who-the-person-is personalisation and last-run promises into prep: need cross-run data; Carl parked cross-run learning this round.

@@ -1621,3 +1621,34 @@ file's own comment already warned about this for the CTA listeners; the warning 
 **Verifying a paid screen for free.** The prep stream's `getCached` replays a stored brief, so an
 existing run with a `preparationResult` reaches the real screen with no OpenAI call. Worth checking
 for a cached path before assuming a walk costs money: this phase verified end to end at £0.
+
+## brief-star-rating P2 (2026-07-30)
+
+**A new kind that shares a field with an old kind must be typed first.** `noteKind()` typed a row as
+a verdict on the presence of a run link. A brief rating carries a run link too, so ordering the
+checks the obvious way would have shown every rating in the inbox as a 1:1 verdict, with the score
+sitting silently in a column nobody read. The discriminator has to be checked in specificity order,
+most specific first, not in the order the kinds were added.
+
+**A row with no message needs a written preview, not an empty one.** The inbox's collapsed card is
+the message; a rating has none. Falling back to "Rated this brief 4 out of 5" costs one line and is
+the difference between a readable list and a column of blank cards.
+
+**Show the number, not the picture, in a scanned column.** Five glyphs read well in the moment of
+tapping and badly in a vertical list. The same score gets a different presentation in each place on
+purpose.
+
+## 2026-07-30 — no-dead-wires P2: the planner learns the room
+
+**Place additions by cache boundary, then prove the boundary.** Everything per-run constant (intake
+note, vocabulary guide) went before </session_context> in plan-turn.md, per-turn signals (read tags)
+after it. The prefix-stability unit test builds two turns of one run and asserts byte-identical
+prefixes; anchoring the split on "\n<turn_state>" mattered, because the system prose mentions the
+tag in backticks and the naive split found that first. The boundary is now a tested contract, not a
+convention.
+
+**Reuse the renderer, not the pattern.** The vocabulary blocks moved to lexicon.ts and are shared
+verbatim by the bank prompt and the planner, so the two prompts can never drift apart on formatting.
+A rule that names its evidence ("each turn carries `read`") beats a louder rule: the pacing rule
+points at a field the model can quote, mirroring the house finding that structure fixes prompts,
+volume does not.
