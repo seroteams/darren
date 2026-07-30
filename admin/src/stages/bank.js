@@ -1,16 +1,23 @@
-// The question-bank wait. This screen routes straight into the runner
-// (stages/questioning.js), so it wears the RUNNER'S layout while it waits rather
-// than a centred card: same 50/50 split, same 72px headers, same 560px measure.
-// Carl, 2026-07-30 — the old centred interstitial meant the whole page changed
-// shape the moment the first question landed.
+// The question-bank stage. This screen routes straight into the runner
+// (stages/questioning.js), so it wears the RUNNER'S layout rather than a centred
+// card: same 50/50 split, same 72px headers, same 560px measure. Carl,
+// 2026-07-30 — the old centred interstitial meant the whole page changed shape
+// the moment the first question landed.
 //
-// What that buys, and why each half differs:
+// It leads with the WALK-IN GATE, not a wait (Carl, 2026-07-30). The gate needs
+// nothing from this stream — its two reasons come from the prep brief, which
+// finished a screen ago — so it goes up straight away and the bank generates
+// behind it while the manager reads. Tapping "Start the meeting" hands over
+// instantly if the bank already landed, and only then falls back to the ghost.
+// The gate is marked shown here (sessionStorage), so questioning.js's own
+// showReadyGate skips it and the card is never seen twice.
+//
+// What each half is doing, and why they differ:
 //   • Left  — everything except the question itself is already known (the person,
 //     the meeting type, the step), so it paints for real. Only the question is a
 //     ghost, at the height the real one lands.
-//   • Right — the coaching half needs NOTHING from this stream. Its listen-for
-//     cues come from the prep brief, which finished two screens ago, so the panel
-//     renders in full and can be read during the wait.
+//   • Right — the coaching half needs NOTHING from this stream either. Same prep
+//     brief, so the panel renders in full and can be read while the bank builds.
 //
 // The overlay is appended to <body> for the same reason questioning.js does it:
 // the stage host sits inside animated/contained shell ancestors, which trap
@@ -24,8 +31,9 @@ import { button } from "../ui/button.ts";
 import { createSkeleton } from "../ui/skeleton.js";
 import { createCoachPanel } from "../ui/coach-panel.ts";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
+import { revealOne } from "../ui/reveal.js";
 import { EXIT_LABEL } from "./questioning-actions.ts";
-import { readyAlreadyShown, READY_STEP_LABEL } from "./questioning-ready.ts";
+import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL } from "./questioning-ready.ts";
 
 let unmountFn = null;
 let waitScreen = null;
@@ -42,14 +50,15 @@ export async function mount(root, { store, setState }) {
   // Renders the waiting screen and opens the stream. Also the retry path: the
   // inline error card calls this again to re-open the stream.
   function start() {
-    const mountedAt = Date.now();
     root.innerHTML = "";
     dropWaitScreen();
 
     const name = store.ctx?.name || "";
-    // A fresh 1:1 lands on the walk-in gate, a resumed one on a question. Either
-    // way the step name is known now, so the header doesn't fill in late.
-    const step = readyAlreadyShown(store.sessionId) ? "" : READY_STEP_LABEL;
+    // A fresh 1:1 leads with the walk-in gate; a resumed one has already had it,
+    // so it goes straight to the ghost and back to the question it left off on.
+    // Either way the step name is known now, so the header doesn't fill in late.
+    const gateFirst = !readyAlreadyShown(store.sessionId);
+    const step = gateFirst ? READY_STEP_LABEL : "";
 
     const host = document.createElement("div");
     host.innerHTML = `<div class="cp-screen cp-wait">
@@ -104,29 +113,85 @@ export async function mount(root, { store, setState }) {
         coach.setMode(seg.dataset.mode);
       }));
 
-    // flat: the runner's left column is the POC's bare Typeform look, so the ghost
-    // carries no card chrome either (same call questioning.js makes turn to turn).
-    waitScreen
-      .querySelector(".question-host")
-      .appendChild(createSkeleton({ preset: "question", flat: true, label: "Writing your first question" }));
+    const thinkingHost = waitScreen.querySelector(".thinking-host");
+    const questionHost = waitScreen.querySelector(".question-host");
 
-    // No trailing ellipsis: the orb appends its own animated dots.
-    const orb = createOrb("Building your questions");
-    waitScreen.querySelector(".thinking-host").appendChild(orb.el);
+    let orb = null;
+    let orbLabel = "Building your questions"; // last label the stream sent, for a late orb
+    let bankReady = false;
+    let handedOver = false;
+    let waitShownAt = 0; // when the ghost went up; stays 0 while the gate is on screen
+
+    // The ghost: the loading mark inline above a question-shaped placeholder, at
+    // the height the real one lands. Only reached when the manager taps Start
+    // before the bank has finished — or on a resumed run, which has no gate.
+    function showWait() {
+      waitShownAt = Date.now();
+      questionHost.innerHTML = "";
+      thinkingHost.hidden = false;
+      thinkingHost.innerHTML = "";
+      // flat: the runner's left column is the POC's bare Typeform look, so the ghost
+      // carries no card chrome either (same call questioning.js makes turn to turn).
+      questionHost.appendChild(createSkeleton({ preset: "question", flat: true, label: "Writing your first question" }));
+      // No trailing ellipsis: the orb appends its own animated dots.
+      orb = createOrb(orbLabel);
+      thinkingHost.appendChild(orb.el);
+    }
+
+    // The walk-in gate, rendered from the runner's own module so the card can't
+    // drift between the two stages. Hiding the empty thinking host keeps the
+    // column's gap off a card that has no loading mark above it.
+    function showGate() {
+      thinkingHost.hidden = true;
+      const card = document.createElement("div");
+      card.className = "cp-q cp-ready space-y-4 reveal";
+      card.innerHTML = readyCardHtml({ name, brief: store.preparation });
+      questionHost.appendChild(card);
+      revealOne(card, 40);
+      card.querySelector(".js-wf-continue").addEventListener("click", () => {
+        if (handedOver || waitShownAt) return; // one tap only
+        // Stamped here, so questioning.js's own showReadyGate skips it and the
+        // manager never reads the same card twice.
+        markReadyShown(store.sessionId);
+        if (bankReady) {
+          enterRunner();
+          return;
+        }
+        showWait();
+      });
+    }
+
+    async function enterRunner() {
+      if (handedOver) return;
+      handedOver = true;
+      if (orb) await orb.exit();
+      // Only the ghost carries a minimum on screen — a one-frame flash of it is
+      // worse than never showing it. A tap that lands on an already-built bank
+      // waits for nothing at all, which is the whole point of leading with the gate.
+      const shown = waitShownAt ? Date.now() - waitShownAt : MIN_DISPLAY_MS;
+      if (shown < MIN_DISPLAY_MS) {
+        await new Promise((r) => setTimeout(r, MIN_DISPLAY_MS - shown));
+      }
+      // Drop this overlay BEFORE the runner mounts its own, or the two stack
+      // for a frame and the split paints twice.
+      dropWaitScreen();
+      setState({ stage: STAGES.QUESTIONING, substage: "Q_SHOW", turn: 0 });
+    }
+
+    if (gateFirst) showGate();
+    else showWait();
 
     const sse = openSse(`/api/v1/sessions/${encodeURIComponent(store.sessionId)}/bank/stream`);
     sse
-      .on("thinking", (d) => orb.setLabel(d.label))
-      .on("ready", async () => {
-        await orb.exit();
-        const elapsed = Date.now() - mountedAt;
-        if (elapsed < MIN_DISPLAY_MS) {
-          await new Promise((r) => setTimeout(r, MIN_DISPLAY_MS - elapsed));
-        }
-        // Drop this overlay BEFORE the runner mounts its own, or the two stack
-        // for a frame and the split paints twice.
-        dropWaitScreen();
-        setState({ stage: STAGES.QUESTIONING, substage: "Q_SHOW", turn: 0 });
+      .on("thinking", (d) => {
+        orbLabel = d.label;
+        if (orb) orb.setLabel(d.label);
+      })
+      .on("ready", () => {
+        bankReady = true;
+        // While the gate is still up the manager's tap is the hand-over, not the
+        // stream — landing the bank must never yank the card out from under them.
+        if (waitShownAt) enterRunner();
       })
       .on("error", (d) => showError(d.message || "Couldn't build your questions. Try again."))
       .onError(() => showError("Lost connection while building questions."))
