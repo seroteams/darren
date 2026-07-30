@@ -179,14 +179,11 @@
   flex: 1;
   min-width: 0;
 }
-.questioning-card .question-stem,
-.flow-section .question-stem {
-  font-size: var(--type-h2);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  color: var(--color-ink);
-}
+/* The .question-stem rule that sat here is now design/type.css's heading-xl
+   (type-system P2). It had to travel with the coach split's copy of the same
+   class, or one class read 36px Inter on the promises card and 30px Bricolage in
+   the meeting. Its colour went with it: --color-ink is what the stem inherits
+   from the page anyway, measured on the promises card after the move. */
 .questioning-card .question-desc,
 .flow-section .question-desc {
   font-size: var(--type-body);

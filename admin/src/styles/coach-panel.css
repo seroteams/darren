@@ -3,7 +3,16 @@
    onto the real questioning screen, admin app only. Three datum lines: a 72px
    header row closed by a hairline, a shared content line, a footer line. Paper
    both sides with LAVENDER ACCENTS on the coach half (pills, meter fills, toggle),
-   560px columns, gradient meters (POC design 5). Tokens only; 14px floor. */
+   560px columns, gradient meters (POC design 5). Tokens only; 14px floor.
+
+   NO TYPE LIVES IN THIS FILE (type-system P2). Every size, leading, weight,
+   family, tracking and transform on this screen comes from a role in
+   design/type.css, which lists these component selectors in its own rules. This
+   screen used to render five sizes, four of them within 3px of each other; it
+   renders three now. Vite injects this sheet AFTER the main bundle, so one size
+   declared back in here silently beats its role and only half the recipe lands.
+   If something on this screen needs to look different, change the role or move
+   the element to a different one. */
 
 /* Appended to <body> (portal): the app shell's animated ancestors would trap
    position:fixed. Leaves the nav rail visible (POC look) and sits BELOW the fixed
@@ -44,22 +53,20 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
   height: 72px; align-self: start; min-width: 0; }
 .cp-head__facts { display: flex; align-items: baseline; gap: var(--sero-space-3);
   min-width: 0; flex: 1; white-space: nowrap; }
-.cp-head__turn { font-size: var(--type-body-sm); font-weight: 600; color: var(--color-ink); flex: none; }
+.cp-head__turn { color: var(--color-ink); flex: none; }
 /* display:block so the inline segment spans ellipsize as one line (the global
    .ctx-segments can lay out as flex, which overflows instead of shrinking) */
 .cp-head .ctx-segments { display: block; flex: 1; min-width: 0; overflow: hidden;
   text-overflow: ellipsis; white-space: nowrap; }
 .cp-head__actions { display: flex; gap: var(--sero-space-2); flex: none; }
 .cp-head__actions .btn { white-space: nowrap; }
-.cp-eyebrow { font-size: var(--type-body-sm); font-weight: 600; color: var(--sero-lavender-800);
-  letter-spacing: .08em; text-transform: uppercase; }
-.cp-privacy { font-size: var(--type-body-sm); color: var(--sero-lavender-800); }
+.cp-eyebrow { color: var(--sero-lavender-800); }
+.cp-privacy { color: var(--sero-lavender-800); }
 
 /* The Support / Live-scores toggle (POC) — two segments, pill container */
 .cp-toggle { display: inline-flex; padding: 3px; gap: 2px; border-radius: 9999px;
   background: var(--sero-lavender-200); border: 1px solid var(--sero-lavender-600); }
-.cp-seg { font: inherit; font-size: var(--type-body-sm); font-weight: 600; cursor: pointer;
-  border: 0; border-radius: 9999px; padding: 5px 16px; background: none;
+.cp-seg { cursor: pointer; border: 0; border-radius: 9999px; padding: 5px 16px; background: none;
   color: var(--sero-lavender-800); display: inline-flex; align-items: center;
   gap: var(--sero-space-2); transition: background .12s ease, color .12s ease; }
 .cp-seg[aria-selected="true"] { background: var(--color-surface);
@@ -82,12 +89,9 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 /* Left column — the POC's bare Typeform look (no card chrome) */
 .cp-q { width: 100%; }
 .cp-screen .question-host, .cp-screen .thinking-host, .cp-screen .footer-host { width: 100%; }
-.cp-screen .question-stem { font-family: var(--type-family-display); font-weight: 600;
-  color: var(--color-ink); font-size: 32px; line-height: 1.2; margin: 0; }
-.cp-screen .question-desc { font-size: var(--type-body); color: var(--color-ink-dim);
-  margin: var(--sero-space-2) 0 0; }
-.cp-screen .question-drill-hint { font-size: var(--type-body-sm); color: var(--color-ink-dim);
-  margin: 0 0 var(--sero-space-3); }
+.cp-screen .question-stem { color: var(--color-ink); margin: 0; }
+.cp-screen .question-desc { color: var(--color-ink-dim); margin: var(--sero-space-2) 0 0; }
+.cp-screen .question-drill-hint { color: var(--color-ink-dim); margin: 0 0 var(--sero-space-3); }
 
 /* The walk-in gate (runner-readiness) — the runner's first screen. Same measure
    and stem as a question; the reason to walk in sits under it as labelled
@@ -95,8 +99,7 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 .cp-ready__reasons { display: flex; flex-direction: column; gap: var(--sero-space-5);
   width: 100%; }
 .cp-ready__reason { display: flex; flex-direction: column; gap: var(--sero-space-2); }
-.cp-ready__text { font-size: var(--type-body); line-height: 1.55; color: var(--color-ink);
-  margin: 0; max-width: 62ch; }
+.cp-ready__text { color: var(--color-ink); margin: 0; }
 
 /* Coach half — bare rows on the paper, one left edge, hairline dividers.
    Ink for reading text; lavender reserved for the pills and meters (accents). */
@@ -106,16 +109,16 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 .coach-row:first-child { border-top: 0; padding-top: 0; }
 
 .coach-row__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.coach-row__label { font-size: 15px; font-weight: 600; color: var(--color-ink); }
-.coach-row__delta { font-size: 15px; font-weight: 700; }
+/* The label and the delta are the same size and weight (type-label-strong). Ink
+   is the only thing separating them, and it has to be: 15px/600 beside 15px/700
+   was a distinction nobody could see. Every delta carries a direction class, so
+   the bare .coach-row__delta never has to paint itself. */
+.coach-row__label { color: var(--color-ink); }
 .coach-row__delta--up { color: var(--color-positive-text); }
 .coach-row__delta--down { color: var(--color-negative-text); }
 .coach-row__delta--flat { color: var(--color-ink-dim); }
 
-.coach-row__why {
-  font-size: 15px; line-height: 1.5; color: var(--color-ink);
-  margin: var(--sero-space-2) 0 0; max-width: 60ch;
-}
+.coach-row__why { color: var(--color-ink); margin: var(--sero-space-2) 0 0; }
 .coach-row__why--idle { color: var(--color-ink-dim); }
 
 /* Support view — coaching hints (POC), one left edge, hairline between hints */
@@ -123,15 +126,12 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
   border-top: 1px solid var(--color-border); }
 .coach-hint:first-child { border-top: 0; padding-top: 0; }
 .coach-pill { display: inline-flex; align-items: center; gap: var(--sero-space-2);
-  font-size: var(--type-body-sm); font-weight: 600; border-radius: 9999px; padding: 3px 12px;
-  background: var(--sero-lavender-100); color: var(--sero-lavender-800); }
-.coach-hint__text { font-size: 17px; line-height: 1.55; color: var(--color-ink);
-  margin: var(--sero-space-2) 0 0; max-width: 62ch; }
-.coach-empty { font-size: 15px; line-height: 1.5; color: var(--color-ink-dim);
-  margin: 0; max-width: 60ch; }
+  border-radius: 9999px; padding: 3px 12px; background: var(--sero-lavender-100);
+  color: var(--sero-lavender-800); }
+.coach-hint__text { color: var(--color-ink); margin: var(--sero-space-2) 0 0; }
+.coach-empty { color: var(--color-ink-dim); margin: 0; }
 /* Provenance line above brief-level fallback cues — says where they came from. */
-.coach-source { font-size: var(--type-body-sm); line-height: 1.5; color: var(--color-ink-dim);
-  margin: 0 0 var(--sero-space-5); max-width: 60ch; }
+.coach-source { color: var(--color-ink-dim); margin: 0 0 var(--sero-space-5); }
 
 /* The gradient meter (POC V5): centre-out fill, numbered thumb. */
 .coach-meter {
@@ -151,7 +151,7 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
   min-width: 36px; height: 26px; padding: 0 8px; border-radius: 9999px;
   background: var(--color-surface); border: 1px solid var(--sero-lavender-600);
   box-shadow: var(--shadow-card); display: grid; place-items: center;
-  font-size: var(--type-body-sm); font-weight: 700; color: var(--sero-lavender-900);
+  color: var(--sero-lavender-900);
 }
 
 /* The pre-runner wait (stages/bank.js) wears this same split while the question
@@ -196,8 +196,10 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 @media (max-width: 639.98px) {
   .cp-half { padding: 0 var(--sero-space-5); }
   .cp-half--coach { padding-bottom: calc(var(--sero-space-5) + env(safe-area-inset-bottom)); }
-  /* A 32px stem ate five lines of a 390px screen before the answer box showed. */
-  .cp-screen .question-stem { font-size: var(--type-h2); }
+  /* The stem used to shrink here, because a 32px stem ate five lines of a 390px
+     screen before the answer box showed. That drop now lives with the role, in
+     design/type.css's phone block, which is the only responsive type rule in the
+     app. Measured at 390px after the move: 24px, one rung down from 30px. */
   /* The context line ellipsized to "Darr…", which is noise, not context: the
      step and the person's name are both already on screen. */
   .cp-head .ctx-segments { display: none; }

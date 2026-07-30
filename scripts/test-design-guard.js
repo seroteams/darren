@@ -25,8 +25,9 @@ const SCRIPTS = __dirname;
 
 /*
  * CEILINGS — nonTokenFont lowered 68 -> 13 by P4 (the 55 on-ladder literals became
- * tokens). The 13 left are all OFF-ladder (15px, 17px, 30px, 32px) and belong to the
- * visible type pass. radius and spacing measured 2026-07-26 at P1.
+ * tokens). Type-system P2 then took it to 7: the Meeting screen's six off-ladder
+ * literals (one 32px, one 17px, four 15px) went when coach-panel.css handed all
+ * of its type to the roles. radius and spacing measured 2026-07-26 at P1.
  *
  * LOWER these when a phase removes drift; never raise them. If a raise looks
  * unavoidable, that is a design decision for Carl, not a number to nudge.
@@ -40,7 +41,7 @@ const SCRIPTS = __dirname;
  * guard fails with "did not report" rather than passing quietly.
  */
 const CEILINGS = {
-  nonTokenFont: 13,
+  nonTokenFont: 7,
   literalRadius: 53,
   offGridSpacing: 135,
 
@@ -49,12 +50,18 @@ const CEILINGS = {
    * against the tree that P1 built. They are warnings for now: P6 turns them
    * into errors, once phases 2 to 5 have driven these numbers down.
    *
+   * P2 (the Meeting screen) lowered five of them, re-measured with
+   * `node scripts/lint-design-tokens.js --json` after the edit rather than
+   * predicted: coach-panel.css went from 24 type hits to 0, and briefing.css's
+   * question-stem rule went from 2 to 0.
+   *
    * Read them as the size of the job, not as a list of bugs:
    *   relativeFontSize            33  all var(--x, <fallback>) today. Zero em or %:
    *                                   P0 cleared the last two. The rule is here so
    *                                   the next 0.85em cannot hide again.
-   *   offLadderFont               28  sizes off the ladder. The 15px and 17px stratum.
-   *   unsanctionedSizeToken      451  every font-size still pointing at an old token.
+   *   offLadderFont           28->22  sizes off the ladder. P2 took the Meeting
+   *                                   screen's six: 32px, 17px and four 15px.
+   *   unsanctionedSizeToken  451->439 every font-size still pointing at an old token.
    *                                   This is the migration itself, counted. It reads
    *                                   the token name through a fallback as well, so
    *                                   dropping a fallback can only ever remove a hit.
@@ -62,7 +69,7 @@ const CEILINGS = {
    *                                   trade against each other: following the guard's
    *                                   own advice moved 33 sites into this key and
    *                                   broke a build that had fixed something.
-   *   literalFontSize             18  a size written as a literal in any unit rather
+   *   literalFontSize         18->12  a size written as a literal in any unit rather
    *                                   than a token. Without it every counter here
    *                                   could be zeroed by swapping tokens for rem
    *                                   literals on a rung, which reads as a finished
@@ -71,17 +78,19 @@ const CEILINGS = {
    *                                   render (--sero-radius-pill in start-stage.css);
    *                                   the third, --color-ink-subtle in profile-badge.js,
    *                                   carries a working fallback and paints normally.
-   *   clampOffRung                12  the fluid heading tokens, endpoints off the rungs.
+   *   clampOffRung            12->10  the fluid heading tokens, endpoints off the rungs.
+   *                                   P2 retired two --type-h2 sites, the coach split's
+   *                                   phone override and briefing.css's stem.
    *   displayFaceBelow20           7  Bricolage under 20px, banned by DESIGN.md T6.
    *   fontFamilyLiteral            8  family stacks written out instead of tokenised.
    *   fontShorthandResetsNumeric   0  none today, and it starts locked at zero.
    */
   relativeFontSize: 33,
-  offLadderFont: 28,
-  unsanctionedSizeToken: 451,
-  literalFontSize: 18,
+  offLadderFont: 22,
+  unsanctionedSizeToken: 439,
+  literalFontSize: 12,
   undefinedToken: 3,
-  clampOffRung: 12,
+  clampOffRung: 10,
   displayFaceBelow20: 7,
   fontFamilyLiteral: 8,
   fontShorthandResetsNumeric: 0,

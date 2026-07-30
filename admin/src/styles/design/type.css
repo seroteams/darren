@@ -14,12 +14,13 @@
    lint error, so anything declared elsewhere between now and then is debt that
    has to come back out again.
 
-   Nothing consumes these roles yet. This phase is additive and invisible:
-   every selector is .type- prefixed, no existing class or token is re-pointed,
-   and design.css imports this sheet BEFORE base.css so it loses every
-   specificity tie it could ever be in. That is deliberate. It means Phase 2
-   must REPLACE an old class in markup with a role. Adding a role next to an
-   old class does nothing, because the old class still wins.
+   design.css imports this sheet BEFORE base.css, so a role loses every
+   same-specificity tie it could ever be in. That is deliberate, and it decides
+   how a screen joins a role: adding a .type-* class NEXT TO an old class does
+   nothing, because the old class still wins. A screen joins by having its
+   component selector grouped into a role below, and by that component's own
+   stylesheet giving up every type declaration it had. See the note on the
+   section that follows.
 
    Bricolage (--type-family-display) is legal at 20px and up only (DESIGN.md
    T6). That is why heading-sm at 18px and heading-xs at 16px take the base
@@ -28,6 +29,31 @@
 
 /* -----------------------------------------------------------------------------
    Layer 2: the fourteen roles.
+
+   A screen joins a role by having its component selector GROUPED into that
+   role's selector list here, not by adding a .type-* class to markup. That is
+   the pattern base.css:131 already uses for ten chip families and :188 for
+   three segmented controls: the markup never changes, and one edit in this file
+   re-fits every screen already wearing the class. It also keeps the skeleton
+   loader honest, because motion.css:153 builds its ghosts out of the REAL class
+   and a ghost that missed the role would size differently from the card it
+   stands in for.
+
+   Two conditions make grouping safe. Both were measured in the running app
+   during P2, not reasoned about:
+
+   1. The component's own stylesheet must declare NO type property at all.
+      coach-panel.css is code-split (imported from ui/coach-panel.ts), so Vite
+      injects it AFTER the main bundle and a rule there beats a same-specificity
+      rule here. Grouped in below while coach-panel.css still declared its own
+      font-size, the question stem stayed at 32px and only the letter-spacing,
+      the one property coach-panel never declared, came through. Half-applied is
+      the failure mode, and nothing warns you.
+
+   2. Anything grouped in must ALSO be added to the phone block at the foot of
+      this file. That block matches classes, and .type-heading-xl cannot match
+      .cp-screen .question-stem. Grouped into the desktop rule alone, the stem
+      held 30px on a 390px screen instead of dropping a rung.
    ----------------------------------------------------------------------------- */
 
 /* Display and headings. The display family, balanced wrapping and negative
@@ -41,7 +67,14 @@
   line-height: var(--type-leading-4xl);
   text-wrap: balance;
 }
-.type-heading-xl {
+/* The 1:1 question stem (P2). Both card selectors carry the same class, so they
+   join the same role or .question-stem reads two different ways depending on
+   which screen you are on. .flow-section matches no markup in the tree today;
+   it rides along with its live twin until P5 sweeps the pair out. */
+.type-heading-xl,
+.cp-screen .question-stem,
+.questioning-card .question-stem,
+.flow-section .question-stem {
   font-family: var(--type-family-display);
   font-size: var(--type-size-3xl);
   font-weight: var(--type-weight-semibold);
@@ -91,7 +124,15 @@
   max-width: var(--measure-lede);
   text-wrap: pretty;
 }
-.type-body {
+/* Everything on the Meeting screen a manager actually reads (P2): the question's
+   sub-line, the walk-in reason, and the three coach-half prose blocks. The last
+   three take the narrow measure as well, at the foot of this section. */
+.type-body,
+.cp-screen .question-desc,
+.cp-ready__text,
+.coach-hint__text,
+.coach-row__why,
+.coach-empty {
   font-family: var(--type-family-base);
   font-size: var(--type-size-base);
   font-weight: var(--type-weight-regular);
@@ -99,7 +140,13 @@
   max-width: var(--measure);
   text-wrap: pretty;
 }
-.type-body-sm {
+/* Quiet supporting lines on the Meeting screen (P2): the drill-down hint under a
+   thread question, the privacy note in the coach header, and the provenance line
+   above brief-level cues. All three were already 14px and stay there. */
+.type-body-sm,
+.cp-screen .question-drill-hint,
+.cp-privacy,
+.coach-source {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-regular);
@@ -118,13 +165,30 @@
   letter-spacing: var(--type-tracking-wide);
   line-height: var(--type-leading-sm);
 }
-.type-label-strong {
+/* The Meeting screen's chrome (P2). The score label and its delta both land here
+   on purpose: they used to separate by 15px/600 against 15px/700, which is a
+   difference nobody sees. They now separate by ink instead. The label is
+   --color-ink and the delta is mint, coral or ink-dim, which is a difference you
+   read across the room. .cp-seg lost its `font: inherit` in the same move, so
+   this rule is the only thing giving that <button> a face: it has to keep
+   declaring family, size, weight and leading together. */
+.type-label-strong,
+.cp-head__turn,
+.cp-seg,
+.coach-pill,
+.coach-row__label,
+.coach-row__delta,
+.coach-meter__thumb {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-semibold);
   line-height: var(--type-leading-sm);
 }
-.type-overline {
+/* .cp-eyebrow matches no markup in the tree today (P2, grep). It is grouped in
+   rather than left behind so coach-panel.css can hold zero type declarations,
+   and so it paints correctly if it is ever wired up. */
+.type-overline,
+.cp-eyebrow {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-semibold);
@@ -154,7 +218,15 @@
 
 /* Measure modifiers. These are not roles: they adjust one property of a body
    role and mean nothing on their own. */
-.type-body--narrow { max-width: var(--measure-narrow); }
+/* The coach half's three prose blocks (P2). They sit in a 560px column, and
+   every measure they used to declare (60ch, 62ch) was WIDER than that column, so
+   none of them ever bit and the coaching text ran the full panel width. 46ch is
+   464px at 16px Inter, which is the first measure that actually shortens the
+   line. Must stay after .type-body: same specificity, source order decides. */
+.type-body--narrow,
+.coach-hint__text,
+.coach-row__why,
+.coach-empty { max-width: var(--measure-narrow); }
 .type-body--full { max-width: none; }
 
 /* -----------------------------------------------------------------------------
@@ -213,7 +285,15 @@
    exactly the power this file is positioned to give up.
    ----------------------------------------------------------------------------- */
 @media (max-width: 639.98px) {
-  .type-heading-xl {
+  /* Anything grouped into .type-heading-xl above must be repeated here by hand.
+     A class selector cannot match a descendant selector, so the grouped stems do
+     not follow the drop on their own: measured at 390px, they held 30px until
+     these three lines were added. Carl's phone shot (27 Jul) is what this rule
+     exists for, a stem that ate the screen before the answer box showed. */
+  .type-heading-xl,
+  .cp-screen .question-stem,
+  .questioning-card .question-stem,
+  .flow-section .question-stem {
     font-size: var(--type-size-2xl);
     line-height: var(--type-leading-2xl);
   }

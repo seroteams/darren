@@ -274,7 +274,7 @@ export async function mount(root, { store, setState }) {
       </div>` : ""}
       <div class="question-card-head">
         <div class="question-card-head__text space-y-2">
-          <h1 class="question-stem leading-snug">${escape(q.name)}</h1>
+          <h1 class="question-stem">${escape(q.name)}</h1>
           ${q.description ? `<div class="question-desc">${escape(q.description)}</div>` : ""}
         </div>
         <button type="button" class="copy-snippet-btn js-copy-question" title="Copy question" aria-label="Copy question">
@@ -469,7 +469,7 @@ export async function mount(root, { store, setState }) {
     card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     card.innerHTML = `
       <div class="question-card-head__text space-y-2">
-        <h1 class="question-stem leading-snug">Earlier they wanted to cover ${escape(agenda.summary)}. Did you get to it?</h1>
+        <h1 class="question-stem">Earlier they wanted to cover ${escape(agenda.summary)}. Did you get to it?</h1>
       </div>
       <div class="field__actions">
         <button class="btn js-agenda-yes" type="button">Yes, covered</button>
@@ -637,7 +637,7 @@ export async function mount(root, { store, setState }) {
     const card = document.createElement("div");
     card.className = USE_COACH_SPLIT ? "cp-q space-y-4 reveal" : "card questioning-card space-y-4 reveal";
     const head = document.createElement("h1");
-    head.className = "question-stem leading-snug";
+    head.className = "question-stem";
     head.textContent = "How did last time's agreements go?";
     card.appendChild(head);
     const body = document.createElement("div");
