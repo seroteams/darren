@@ -1,6 +1,8 @@
 # Phase 3 — Engine: stock questions respect the focus
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl ran a Performance & feedback 1:1, questions on-meeting (commit 1ce13d35)
 
 ## Built (2026-07-30)
 - All 8 stock questions in `content/questions/_seed/` now carry `fits_meetings` (which meeting types each suits). Machar's two offenders are locked out of Performance & feedback: "good quarter" and "actually recovering".

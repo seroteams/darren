@@ -1561,3 +1561,23 @@ hints") was wrong — the model had been writing them all along, unprompted, bec
 schema field was enough. Reading a real run log rather than reasoning from the prompt is what found
 the outage. The first count reported to Carl was also wrong (23 runs, actually 3 real meetings);
 runs that never reached the stage prove nothing.
+
+## 2026-07-30 — user-test-fixes P2+P3: the sticky board closed
+
+**A `hidden` class is a claim, not a fact.** The "QA prompt visible to a tester" fix was planned as a
+role/environment gate on the un-hide call — the real bug was that the button rendered for EVERYONE
+and its `hidden` class never hid anything on that footer. The screenshot caught it where the code
+read fine. Fix: don't render what shouldn't exist, instead of hiding it after the fact. When a
+"who sees this" bug is reported, check what is IN the DOM, not what the gate around it says.
+
+**Stock content now declares where it belongs.** The 8 _seed questions carry `fits_meetings`; the
+central eligibility gate rejects an off-fit stock pick on every path (coverage, overflow, serve
+time), fails open on unknown types, and leaves the generated bank untouched. The inert-gate trap
+(field dropped at a narrowed call site) was checked by an end-to-end test through enforceAxisCoverage,
+not assumed. Honest trade recorded: a Performance run with wellbeing untouched now prefers
+"Not rated" over an off-topic wellbeing question.
+
+**Fixture harnesses beat paid walks for UI proof.** The recap is only reachable behind a paid 1:1;
+mounting the REAL stage on Machar-shaped fixture data (Tests → recap-fixes, deep-linkable via
+`/test?t=<id>`) made every defect walkable and screenshotable for free — and the fixture carries
+each defect's trigger (empty bullet, dateless promise, unread axis) so regressions stay visible.

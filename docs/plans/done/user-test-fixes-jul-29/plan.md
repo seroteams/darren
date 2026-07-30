@@ -23,13 +23,13 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Rating panel: kill the code-word leak | Score explanations always read as plain sentences | ✅ |
-| 2 | End-of-meeting screens | Lock-in copy, Final read matches runner, recap tidy, QA button local-only | 🔨 |
-| 3 | Engine: stock questions respect the focus | No more off-focus stock questions | 🔨 |
+| 2 | End-of-meeting screens | Lock-in copy, Final read matches runner, recap tidy, QA button local-only | ✅ |
+| 3 | Engine: stock questions respect the focus | No more off-focus stock questions | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ GREEN-LIT 2026-07-30 (Carl walked a local 1:1, explanations clean; commit 205610c4). Phases 2 + 3 BUILT same day on Carl's "continue and finish this" (commits 7bdb06e2 + P3): screenshots in proof/, suite 215/215, typecheck + both linters clean, one paid gate run PASS ($0.19). Waiting on Carl's walk of the P2+P3 scenarios; not green-lit yet.
+ALL 3 PHASES ✅ — plan CLOSED 2026-07-30. P1 green-lit after Carl's 1:1 walk (205610c4); P2+P3 built on his "continue and finish this" and green-lit after his walk (7bdb06e2, 1ce13d35). Total paid spend: $0.19 (one gate run). Everything committed local; ships on the next "go live" — the QA button's absence on the live site is the one check that rides that deploy.
 Board: https://claude.ai/code/artifact/be9f62dc-b0d6-44d6-885b-496122b21da3
 
 ## Parked

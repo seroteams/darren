@@ -1,6 +1,9 @@
 # Phase 2 — End-of-meeting screens: lock-in + recap
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl walked the recap-fixes test screen + scenarios, "a" (commit 7bdb06e2)
+Live-site check of the QA button's absence still rides the next deploy (scenario 5) — flagged, not blocking.
 
 ## Built (2026-07-30)
 - Lock-in copy: "Do this together, before the meeting ends…" + skip cost line ("Skip and these are gone: Sero will not bring them back next time") — `promise-agree.ts`.
