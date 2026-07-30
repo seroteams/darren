@@ -490,7 +490,10 @@
   background: none;
   border: 0;
   padding: 0;
-  font-size: 1.5rem;
+  /* Glyph geometry: design.js renders a literal star character here, so unlike
+     .star-rating__star the font-size genuinely draws it. Tokenised only, not resized:
+     1.5rem was already the 24px rung. */
+  font-size: var(--type-size-2xl);
   line-height: 1;
   cursor: pointer;
   color: var(--sero-gold-700);

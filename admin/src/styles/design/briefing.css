@@ -37,9 +37,10 @@
 /* The payoff act's ground is a plain .card-flat (cards.css) — Phase 4 (F7)
    converged the bespoke lifted frame onto briefing-view's calmer recipe. */
 .briefing-block { width: 100%; }
+/* .type-body. The recap's paragraphs sit in a full-width .briefing-block inside a
+   1152px card and used to declare no max-width at all, so a line ran about 149
+   characters. The role's measure is the fix and it is the biggest single one in P4. */
 .briefing-prose {
-  font-size: var(--type-body);
-  line-height: 1.65;
   color: var(--color-ink);
   margin: 0;
 }
@@ -71,8 +72,6 @@
    layout rule anywhere, so two block divs stacked and every ● floated alone on
    its own line — the same grid treatment .copyable-row already uses. */
 .bullets-host .bullet {
-  font-size: var(--type-body);
-  line-height: 1.55;
   display: grid;
   grid-template-columns: 1rem 1fr;
   gap: 0.75rem;
@@ -138,10 +137,9 @@
   transition: opacity 0.2s;
 }
 .feedback-confirm.is-shown { opacity: 1; }
+/* .type-body */
 .watch-item__text {
   color: var(--color-ink);
-  line-height: 1.55;
-  font-size: var(--type-body);
 }
 
 /* Questioning — session context above the card */
@@ -161,11 +159,13 @@
 }
 
 /* Questioning — readable stem + answer area */
+/* .type-body-sm. The bare class is the questioning card's copy of the hint the coach
+   panel already renders; type.css had .cp-screen .question-drill-hint alone, so one
+   class read 14/20 in the meeting and 16/23 here. Both are in the group now. */
 .question-drill-hint {
   padding: 0.5rem 0.75rem;
   border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--color-accent-soft) 45%, transparent);
-  line-height: 1.45;
 }
 .question-card-head {
   display: flex;
@@ -182,15 +182,15 @@
    class, or one class read 36px Inter on the promises card and 30px Bricolage in
    the meeting. Its colour went with it: --color-ink is what the stem inherits
    from the page anyway, measured on the promises card after the move. */
+/* .type-body, the same group .cp-screen .question-desc already sat in. One class
+   read two ways depending on which screen you were on until these two joined it. */
 .questioning-card .question-desc,
 .flow-section .question-desc {
-  font-size: var(--type-body);
-  line-height: 1.5;
   color: var(--color-ink-dim);
 }
+/* .type-body + .type-body--full: a textarea inherits no type, and the reading
+   measure would narrow the answer box inside its 832px shell. */
 .textarea--question {
-  font-size: var(--type-body);
-  line-height: 1.55;
   min-height: 7rem;
 }
 /* Live-notes field label — names whose words go in the box, in the moment
@@ -249,9 +249,8 @@
   gap: 0.5rem;
   flex-wrap: wrap;
 }
+/* .type-body. Full-width in the 1152px recap card, same story as .briefing-prose. */
 .brutal__body {
-  font-size: var(--type-body);
-  line-height: 1.55;
   color: var(--color-ink);
 }
 
@@ -288,7 +287,7 @@
      capitalised and the pill reads better lower-cased. No role carries it. */
   text-transform: lowercase;
 }
-.action-body { color: var(--color-ink); line-height: 1.55; font-size: var(--type-body); }
+.action-body { color: var(--color-ink); }  /* .type-body */
 
 .watch-item {
   padding: 0.45rem 0;

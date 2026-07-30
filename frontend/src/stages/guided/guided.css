@@ -31,7 +31,11 @@
   background: transparent;
   color: var(--color-ink-mute);
 }
-.gd-stepper .stage-step__check { display: inline-flex; color: var(--color-accent); font-size: var(--type-body); }
+.gd-stepper .stage-step__check { display: inline-flex; color: var(--color-accent); }
+/* The step itself is .type-label (14px) and .gd svg above sizes every icon at 1em, so
+   without this the tick would have shrunk with the label. It is a picture, not text:
+   an explicit 16px keeps it level with the topbar tick, which icon.js writes at 16. */
+.gd-stepper .stage-step__check svg { width: 16px; height: 16px; }
 .gd-stepper .stage-step__dot { flex: none; width: 7px; height: 7px; border-radius: var(--sero-radius-full); }
 .gd-stepper .is-current {
   color: var(--sero-primary-800);
@@ -78,16 +82,21 @@
   color: var(--sero-offwhite-50);
   display: inline-flex;
   align-items: center;
+  /* .type-label-strong + .type-flush. It was the display face at 14px, which
+     DESIGN.md T6 bans below 20px; the role carries the base family and the weight. */
   justify-content: center;
-  font-family: var(--type-family-display);
-  font-weight: 700;
-  font-size: var(--type-body-sm); /* 14px text floor (audit F15) */
 }
-.gd-q__n { color: var(--sero-charcoal-700); font-size: var(--type-body-md); white-space: nowrap; }
-.gd-q__stem { font-weight: 700; font-size: var(--type-body); color: var(--sero-charcoal-800); flex: 1; min-width: 0; }
+/* .type-body-sm. The question counter is read at a glance, so it comes DOWN from 15
+   rather than up with the coaching line beside it. */
+.gd-q__n { color: var(--sero-charcoal-700); white-space: nowrap; }
+/* .type-heading-xs. NOT heading-xl: several question cards stack down one 608px
+   column here, so the stem is a list item, not the screen. Weight 700 to 600. */
+.gd-q__stem { color: var(--sero-charcoal-800); flex: 1; min-width: 0; }
+/* .type-body-sm. The button holds nothing but the clock icon, and .gd svg sizes it
+   at 1em, so the role is what makes the glyph 14px. The font shorthand went with the
+   role: the role declares family, size, weight and leading together. */
 .gd-q__clock {
   flex: none;
-  font: inherit;
   cursor: pointer;
   width: 28px;
   height: 28px;
@@ -98,12 +107,15 @@
   justify-content: center;
   background: var(--sero-sky-100);
   color: var(--sero-sky-800);
-  font-size: var(--type-body-md);
 }
-.gd-q__coach { margin: 10px 0 0 30px; font-size: var(--type-body-md); line-height: 1.55; color: var(--sero-charcoal-700); }
+/* .type-body. The coaching line under each question is the runner main reading text
+   and was 15px. UP to 16. */
+.gd-q__coach { margin: 10px 0 0 30px; color: var(--sero-charcoal-700); }
 .gd-q__src { margin: var(--sero-space-2) 0 0 30px; color: var(--color-ink-mute); }
 .gd-q--done { margin-bottom: var(--sero-space-3); opacity: 0.75; }
-.gd-q--done .gd-q__stem { font-size: var(--type-body-md); font-weight: 600; }
+/* .type-heading-xs, the same rung as the live stem: a done question stopped being a
+   different size. The affordance is the 0.75 opacity above, not a 1px drop. */
+.gd-q--done .gd-q__stem { /* .type-heading-xs */ }
 .gd-notes { margin-bottom: var(--sero-space-5); }
 .gd-notes textarea {
   width: 100%;
@@ -111,8 +123,8 @@
   outline: none;
   resize: vertical;
   min-height: 120px;
-  font: inherit;
-  font-size: var(--type-body-md);
+  /* .type-body + .type-body--full. A textarea inherits no type, so the role supplies
+     it; 15 to 16 also clears the iOS focus-zoom edge mobile.css:298 patches. */
   color: var(--color-ink);
   background: transparent;
 }
@@ -132,7 +144,7 @@
 .gd-owner { flex: none; border-radius: var(--sero-radius-full); padding: 2px 10px; }
 .gd-owner--you { background: var(--sero-primary-200); color: var(--sero-primary-800); }
 .gd-owner--them { background: var(--sero-lavender-200); color: var(--sero-lavender-800); }
-.gd-prom__text { flex: 1 1 14rem; min-width: 0; font-size: var(--type-body-md); }
+.gd-prom__text { /* .type-body */ flex: 1 1 14rem; min-width: 0; }
 .gd-chips { display: flex; gap: 6px; flex-wrap: wrap; }
 .gd-chip {
   cursor: pointer;
@@ -166,10 +178,15 @@
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
 .gd-row:hover { border-color: var(--sero-primary-500); box-shadow: var(--shadow-card); }
-.gd-row__text { flex: 1; min-width: 0; font-size: var(--type-body-md); font-weight: 500; }
+/* .type-heading-xs, not .type-body: the weight is what separates this title from the
+   14px category chip and the percentage beside it. UP 15 to 16, 500 to 600. */
+.gd-row__text { flex: 1; min-width: 0; }
 .gd-row__cat { flex: none; color: var(--sero-lavender-800); }
-.gd-row__pct { flex: none; font-weight: 700; color: var(--sero-primary-700); font-size: var(--type-body-md); }
-.gd-row__chev { flex: none; color: var(--color-ink-mute); font-size: var(--type-body-lg); }
+.gd-row__pct { /* .type-label-strong */ flex: none; color: var(--sero-primary-700); }
+/* .type-body-sm. This span holds the chevron icon at 1em, so the role is the arrow
+   SIZE, not a text size: a 17px arrow becomes a 14px one, level with the chrome it
+   sits in. Named in phase-4.md as a do-not-sweep case. */
+.gd-row__chev { flex: none; color: var(--color-ink-mute); }
 .gd-status { flex: none; border-radius: var(--sero-radius-full); padding: 2px 10px; }
 .gd-status--new { background: var(--sero-sky-100); color: var(--sero-sky-800); }
 .gd-status--prog { background: var(--sero-primary-200); color: var(--sero-primary-800); }
@@ -188,15 +205,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--type-body-lg);
+  /* Glyph geometry: a 1em icon inside a 38px medallion, so this number is the icon
+     size. 17px was off the ladder; 16 clears it without leaving a small glyph
+     rattling round a big circle, which 14 would have. */
+  font-size: var(--type-size-base);
 }
-.gd-block__label { font-weight: 700; font-size: var(--type-body); display: inline-flex; gap: 6px; align-items: center; }
-.gd-block__label svg { color: var(--color-ink-mute); font-size: var(--type-body-sm); /* 14px text floor (audit F15) */ }
+/* .type-heading-xs: 16/700 today, and .type-body would have un-bolded it. */
+.gd-block__label { display: inline-flex; gap: 6px; align-items: center; }
+/* Stated as geometry rather than as a font-size, so the icon keeps its 14px now that
+   the label beside it takes a role. */
+.gd-block__label svg { color: var(--color-ink-mute); width: 14px; height: 14px; }
 .gd-block__score {
+  /* .type-metric: 30/36 in the display face WITH tabular figures, which this number
+     needed and lacked. The digits used to shift sideways as the slider moved. */
   margin-left: auto;
-  font-family: var(--type-family-display);
-  font-weight: 700;
-  font-size: 30px; /* bespoke display number — no exact type-scale token */
   color: var(--color-ink);
 }
 .gd-slider { position: relative; padding-top: 30px; }
@@ -225,8 +247,9 @@
 /* ---- summary + review ---- */
 .gd-sum { margin-bottom: var(--sero-space-4); }
 .gd-sum h3 { font-family: var(--type-family-display); font-size: var(--type-h3); margin: 0 0 var(--sero-space-2); color: var(--color-ink); }
+/* .type-body. The drafted summary and its bullets, UP 15 to 16. */
 .gd-sum p,
-.gd-sum li { font-size: var(--type-body-md); line-height: 1.6; }
+.gd-sum li { /* .type-body */ }
 .gd-sum ul { margin: var(--sero-space-2) 0 0; padding-left: var(--sero-space-5); }
 .gd-ainote { display: flex; align-items: center; gap: var(--sero-space-2); color: var(--color-ink-mute); margin: 0 0 var(--sero-space-3); }
 .gd-private {
@@ -241,11 +264,12 @@
   width: fit-content;
   margin: 0 0 var(--sero-space-5);
 }
-.gd-eng__ask { font-weight: 600; margin: 0 0 2px; }
+.gd-eng__ask { /* .type-heading-xs */ margin: 0 0 2px; }
 .gd-eng { display: flex; gap: var(--sero-space-2); margin: var(--sero-space-2) 0 var(--sero-space-5); }
+/* .type-body + .type-body--full. A button inherits no type at all, so the role has to
+   give this 1-to-5 digit its whole face; the measure comes back off because the
+   button is a fixed 44px. */
 .gd-eng button {
-  font: inherit;
-  font-size: var(--type-body);
   cursor: pointer;
   width: 44px;
   height: 44px;
@@ -254,8 +278,10 @@
   border: 1px solid var(--sero-charcoal-300);
   color: var(--sero-charcoal-700);
 }
-.gd-eng button[data-selected] { background: var(--sero-primary-700); color: var(--sero-offwhite-50); border-color: var(--sero-primary-700); font-weight: 700; }
-.gd-sugg__row { display: flex; gap: 10px; padding: 10px 0; font-size: var(--type-body-md); line-height: 1.5; border-top: 1px solid var(--color-border); }
+/* .type-heading-xs. Two-part selectors outrank the one-class role above whatever the
+   sheet order, so the chosen digit keeps a weight (600, was 700). */
+.gd-eng button[data-selected] { background: var(--sero-primary-700); color: var(--sero-offwhite-50); border-color: var(--sero-primary-700); }
+.gd-sugg__row { /* .type-body */ display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--color-border); }
 .gd-sugg__row:first-of-type { border-top: 0; }
 .gd-sugg__tag {
   flex: none;
@@ -296,7 +322,6 @@
   border-bottom: 1px solid var(--color-border);
 }
 .gd-panel__x {
-  font: inherit;
   cursor: pointer;
   width: 32px;
   height: 32px;
@@ -307,7 +332,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--type-body-lg);
+  /* Glyph geometry again: the close cross at 1em in a 32px button. 17px was off the
+     ladder. The font shorthand went with it, because with an explicit size a button
+     holding no text has nothing left to inherit. */
+  font-size: var(--type-size-base);
 }
 .gd-panel__body { padding: var(--sero-space-5); overflow-y: auto; display: flex; flex-direction: column; gap: var(--sero-space-4); }
 .gd-panel__title { font-family: var(--type-family-display); font-size: var(--type-h3); font-weight: 700; color: var(--color-ink); line-height: 1.25; }
@@ -316,9 +344,9 @@
 .gd-field select,
 .gd-field input,
 .gd-field textarea {
+  /* .type-body + .type-body--full: fields inherit no type, and the reading measure
+     would stop them filling the panel. UP 15 to 16. */
   width: 100%;
-  font: inherit;
-  font-size: var(--type-body-md);
   padding: 10px 12px;
   border-radius: var(--radius-button);
   border: 1px solid var(--color-border);
@@ -345,17 +373,18 @@
 
 /* ---- finished-1:1 record (Phase 6) ---- */
 .gd-rec__block h3 { font-family: var(--type-family-display); font-size: var(--type-h4); margin: 0 0 10px; color: var(--color-ink); }
+/* .type-body. The finished-1:1 record body, UP 15 to 16. */
 .gd-rec__block p,
-.gd-rec__block li { font-size: var(--type-body-md); line-height: 1.6; }
+.gd-rec__block li { /* .type-body */ }
 .gd-rec__block ul { margin: 6px 0 0; padding-left: var(--sero-space-5); }
 .gd-rec__scorerow,
 .gd-rec__item {
   display: flex;
   align-items: center;
   gap: 10px;
+  /* .type-body */
   padding: 9px 0;
   border-top: 1px solid var(--color-border);
-  font-size: var(--type-body-md);
 }
 .gd-rec__scorerow { justify-content: space-between; }
 .gd-rec__scorerow:first-of-type,

@@ -26,10 +26,13 @@
   border-radius: var(--sero-radius-full);
   display: grid;
   place-items: center;
-  font-family: var(--type-family-display);
+  /* Glyph geometry: an initials monogram in a 44px circle. It was the display face at
+     15px, which is both off the ladder and a DESIGN.md T6 breach, so it moves onto the
+     16px rung in the base family. The -0.01em tracking went with the display face; at
+     16px on one or two letters it was doing nothing visible. */
+  font-family: var(--type-family-base);
   font-weight: var(--type-weight-semibold);
-  font-size: var(--type-body-md);
-  letter-spacing: -0.01em;
+  font-size: var(--type-size-base);
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
 }
@@ -41,11 +44,10 @@
 .team-card__who { min-width: 0; }
 .team-card__name { color: var(--color-ink); }
 /* The name is a button now (audit M8 — keyboard-openable) but reads as the same heading text. */
+/* .type-heading-sm. It was 17px in the display face: off the ladder AND under T6's
+   20px floor for Bricolage. The role is 18/600 in the base family, which fixes both
+   in one move. UP 17 to 18. */
 .team-card__name-btn {
-  font-family: var(--type-family-display);
-  font-weight: var(--type-weight-semibold);
-  font-size: var(--type-body-lg);
-  letter-spacing: -0.01em;
   color: inherit;
   background: none;
   border: 0;

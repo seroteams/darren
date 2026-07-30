@@ -3,16 +3,19 @@
    .modal-backdrop / .card.modal base (notes-panel.css) — only the content layout here. */
 
 .ffm { width: min(440px, 92vw); max-width: 440px; }
+/* .type-heading-sm (18/600). The two var() fallbacks went with the sizes: a fallback
+   makes the guard read the declaration as unresolvable, so it counted as drift while
+   looking migrated. */
 .ffm__title {
-  font-size: var(--type-h4, 18px);
-  font-weight: var(--type-weight-semibold, 600);
   color: var(--color-ink);
   margin-bottom: 14px;
 }
 /* One question, asked at reading size. The old small-caps section labels are what
    made this read as a form rather than as Sero asking (machar-fixes P1). */
 .ffm__body { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
-.ffm__q { font-size: var(--type-body, 16px); color: var(--color-ink); }
+/* .type-heading-xs. The one question in a 440px modal, and the only reading text in
+   it. It gains a weight and reads as the ask, matching the guided runner stem. */
+.ffm__q { color: var(--color-ink); }
 .ffm__body .input { /* .type-body-sm */ }
 .ffm .js-ffm-v.is-active {
   background: var(--sero-active-state-bg);

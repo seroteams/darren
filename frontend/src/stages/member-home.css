@@ -19,13 +19,15 @@
   color: var(--color-ink-mute);
   margin-bottom: 0.25rem;
 }
+/* .type-heading-xs: bold at an inherited 16, so .type-body would have flattened it. */
 .member-empty__head {
-  font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
 }
+/* .type-body. UP 14 to 16: it is the reassurance a member reads on an empty home
+   screen, and it was the smallest text there. The role brings its own measure, so the
+   32rem --measure-tight goes with it. That token now has no consumer left. */
 .member-empty__copy {
   color: var(--color-ink-dim);
-  max-width: var(--measure-tight);
 }
 
 /* Requests — divider rows inside the card (never nested cards). */

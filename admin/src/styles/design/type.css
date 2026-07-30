@@ -99,13 +99,35 @@
   line-height: var(--type-leading-xl);
   text-wrap: balance;
 }
-.type-heading-sm {
+/* .team-card__name-btn was 17px in the display face, which breaks DESIGN.md T6 (no
+   Bricolage below 20px) and sits off the ladder. This rung fixes both in one move:
+   18px, base family. It is a <button>, so the role has to supply all four properties. */
+.type-heading-sm,
+.ffm__title,
+.team-card__name-btn {
   font-family: var(--type-family-base);
   font-size: var(--type-size-lg);
   font-weight: var(--type-weight-semibold);
   line-height: var(--type-leading-lg);
 }
-.type-heading-xs {
+/* Sixteen pixels, semibold. Until P4 this role matched nothing; it is the landing
+   spot for every object that reads at body size but has to outrank the body next to
+   it. Grouping any of these into .type-body instead silently drops it to weight 400,
+   because .type-body declares 400 and the pattern leaves the component sheet nowhere
+   to keep a weight: .arc-phase__label would become indistinguishable from the 16/400
+   intent line directly beneath it, which is the difference the label exists to make.
+   .gd-eng button[data-selected] carries its own higher specificity, so it beats
+   .gd-eng button in .type-body below and the chosen engagement digit stays bold. */
+.type-heading-xs,
+.about-how__title, .about-duo__title,
+.focus-point__label,
+.arc-phase__label,
+.rd-turn__q,
+.ffm__q,
+.member-empty__head, .member-goal__text,
+.pv-rate__q, .pv-a__opener,
+.gd-q__stem, .gd-q--done .gd-q__stem, .gd-block__label, .gd-row__text,
+.gd-eng__ask, .gd-eng button[data-selected] {
   font-family: var(--type-family-base);
   font-size: var(--type-size-base);
   font-weight: var(--type-weight-semibold);
@@ -115,29 +137,81 @@
 /* Reading text. The measure is part of the role: prose that runs the full width
    of a wide panel is the single most common readability complaint, and a role
    that only carried a size would leave that unfixed. Use .type-body--full where
-   a cell or a chip genuinely has to fill its container. */
-.type-body-lg {
+   a cell or a chip genuinely has to fill its container.
+
+   P4 pointed both body roles at --measure-read (60ch) instead of the two rem
+   lengths they used to carry. Two things that were true before and should not be
+   again: the recap's paragraphs declared no max-width at all and ran the full
+   1152px card, about 149 characters a line; and --measure-lede's 44rem was a fixed
+   704px whatever size sat in it. A character measure holds the line COUNT steady
+   across the two rungs, which is the only reason a measure exists. */
+.type-body-lg,
+.notes-quote,
+.pv-e__lead,
+.pv-h__opener {
   font-family: var(--type-family-base);
   font-size: var(--type-size-lg);
   font-weight: var(--type-weight-regular);
   line-height: var(--type-leading-lg);
-  max-width: var(--measure-lede);
+  max-width: var(--measure-read);
   text-wrap: pretty;
 }
 /* Everything on the Meeting screen a manager actually reads (P2): the question's
    sub-line, the walk-in reason, and the three coach-half prose blocks. The last
-   three take the narrow measure as well, at the foot of this section. */
+   three take the narrow measure as well, at the foot of this section.
+
+   P4 brought in every other reading block in both apps. Grouped by the sheet each
+   selector came from, the same way .type-body-sm is grouped below. Three notes the
+   next reader will want:
+
+   - The ones that go UP from 14px are the phase, not an accident: .rd-turn__a is the
+     ANSWER to a past 1:1 question, the most words on that screen and, until now, the
+     smallest text on it. Same for .about-how__you, .about-sec__sub, .about-duo__body,
+     .member-req__text, .member-empty__copy, .question-source-answer, .pv-b__row p and
+     the confidence readouts.
+   - The nine confidence readouts are ONE sentence rendered nine ways. They were 18px
+     in two brief layouts, 16px in one and 14px in six. phase-4.md said they should
+     all take `label`; .type-label is 14/500 with wide caps tracking, built for a
+     field label, and this is a sentence a manager reads to decide how much to trust
+     the brief. They take the body role instead. .pv-e__lead is the one exception and
+     it is up in .type-body-lg: it carries variant E's confidence AND opener AND
+     leave-with, and "the top band reads louder" is that layout's whole premise.
+   - Controls are here too, and every one of them also carries .type-body--full at the
+     foot of this file. A <textarea> does not inherit type, so the role has to supply
+     it; the measure has to come back off, or the answer box narrows inside its shell. */
 .type-body,
+/* P2, the Meeting screen */
 .cp-screen .question-desc,
 .cp-ready__text,
 .coach-hint__text,
 .coach-row__why,
-.coach-empty {
+.coach-empty,
+/* P4, the reading surfaces */
+.briefing-prose, .brutal__body, .bullets-host .bullet, .watch-item__text,
+.action-body, .question-source-answer, .textarea--question,
+.questioning-card .question-desc, .flow-section .question-desc,
+.notes-quote--empty,
+.about-hero__lede, .about-how__line, .about-how__you, .about-sec__sub,
+.about-duo__body,
+.pa-input,
+.rd-digest, .rd-turn__a,
+.arc-phase__intent, .arc-anti, .arc-edit__msg, .arc-update__msg, .arc-edit .input,
+.start-welcome__lede,
+.member-req__text, .member-empty__copy,
+.gd-q__coach, .gd-prom__text, .gd-sum p, .gd-sum li, .gd-sugg__row,
+.gd-rec__block p, .gd-rec__block li, .gd-rec__scorerow, .gd-rec__item,
+.gd-notes textarea, .gd-field select, .gd-field input, .gd-field textarea,
+.gd-eng button,
+.pv-l__mini p, .pv-l__tip p, .pv-l__confidence,
+.pv-a__confidence, .pv-b__confidence, .pv-b__row p, .pv-d__value, .pv-e__low p,
+.pv-f__confidence, .pv-f__col p, .pv-g__cell p, .pv-g__confidence, .pv-g__tick span,
+.pv-h__confidence, .pv-h__section p, .pv-i__confidence, .pv-i__slot p,
+.pv-j__confidence, .pv-j__slot p, .pv-k__body p {
   font-family: var(--type-family-base);
   font-size: var(--type-size-base);
   font-weight: var(--type-weight-regular);
   line-height: var(--type-leading-base);
-  max-width: var(--measure);
+  max-width: var(--measure-read);
   text-wrap: pretty;
 }
 /* The dense role. Quiet supporting lines, table cells, row detail, secondary
@@ -150,7 +224,7 @@
    it. The rare 14px block that IS prose takes .type-body--narrow alongside. */
 .type-body-sm,
 /* P2, the Meeting screen */
-.cp-screen .question-drill-hint,
+.cp-screen .question-drill-hint, .question-drill-hint,
 .cp-privacy,
 .coach-source,
 /* P3, the 14px chrome stratum. Grouped by the sheet each selector came from, so
@@ -174,10 +248,14 @@
 .bench-flow__meta, .cmp-warn, .cmp-cell, .cmp-axis__read, .cmp-legend, .cmp-input,
 .cmp-verdict, .cmp-verdict-issue, .cmp-a, .cmp-fix-out, .meeting-card__meta,
 .suggest-row,
-.bullet__mark, .copy-snippet-btn__label, .question-source-answer,
+.bullet__mark, .copy-snippet-btn__label,
 .question-session-notes,
-.run-list__avatar, .run-list__sub, .run-list__empty, .start-welcome__after,
-.btn--sm, .session-topbar__stages, .intake-or,
+.run-list__sub, .run-list__empty, .start-welcome__after,
+.session-topbar__stages, .intake-or,
+/* Same shape: .hint declares 16px in buttons-inputs.css and Tailwind's utilities load
+   before design.css, so the `text-sm` P3 put in the markup never applied and the
+   keyboard hint stayed the largest thing in its row. */
+.hint.hint--kbd,
 .cl-phase-tag, .cl-goal, .cl-count, .cl-means, .cl-meta div,
 .cl-step-no, .cl-tag, .cl-kick__lede, .cl-kick__saved, .cl-kick__preview,
 .brutal__note, .focus-point__reason, .focus-point__evidence, .focus-select-hint,
@@ -186,7 +264,11 @@
 .stage-review__tab, .stage-review__close, .stage-review__facts dt,
 .stage-review__row-sub, .run-row__review, .rv-status, .rv-row__label, .rv-row__hint,
 .rv-note, .rv-keys, .rv-ov__btn,
-.about-hero__hint, .about-sec__sub, .about-how__you, .about-alpha, .about-duo__body,
+/* .about-alpha stays 14 while its three neighbours go to 16: it is a quiet caveat row
+   deliberately below the page's reading tier, and it carries a link that must not grow
+   with it. Same call on .focus-point__reason and .focus-point__evidence above, which
+   are tier two and three inside a card whose hierarchy is the point. */
+.about-hero__hint, .about-alpha,
 .axis__offscale,
 .wizard-footer__note,
 .save-pip,
@@ -210,10 +292,15 @@
 .ffm__body .input,
 .team-card__name, .team-card__meta,
 .pv-l__sub,
-.pv-switch__trigger, .pv-switch__label, .pv-b__row p,
-.member-empty__copy, .member-req__text,
+.pv-switch__trigger, .pv-switch__label,
 .gd-q__src, .gd-chip, .gd-lastmark, .gd-slider__labels, .gd-block__note input,
-.gd-ainote, .gd-finish-note, .gd-hist, .gd-rec__delta {
+.gd-ainote, .gd-finish-note, .gd-hist, .gd-rec__delta,
+/* P4. Three guided objects that came DOWN from 15px and 17px rather than up with the
+   prose around them. .gd-q__n is a counter read at a glance. The other two hold
+   nothing but an icon, and guided.css sizes every icon at 1em, so for those two this
+   role is the PICTURE's size, not a text size: a 17px chevron becomes 14px and a 15px
+   clock becomes 14px, level with the chrome they sit in. */
+.gd-q__n, .gd-row__chev, .gd-q__clock {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-regular);
@@ -248,7 +335,13 @@
 .pill,
 .pa-add,
 .about-chip,
-.axis__value--baseline,
+/* Two classes, not one. .axis__value--baseline is a modifier and its BASE class
+   .axis__value sits in .type-label-strong further down this same file, so a
+   single-class entry here lost on source order and the baseline value rendered
+   semibold. The lighter weight is the whole signal: it says "this is the baseline,
+   not the live score" (P3 build, fixed here). Every --baseline in the tree carries
+   .axis__value too. */
+.axis__value.axis__value--baseline,
 .ds-tab, .ds-btn-quiet,
 .bench-status--good,
 .rd-type-badge,
@@ -262,7 +355,20 @@
 .team-pill,
 .pv-l__tab,
 .pv-switch__value, .pv-tile__name,
-.member-goal__text,
+/* P3 put .btn--sm in .type-body-sm with a single class, and that was the one
+   half-application in that build: every small button also carries .btn, .btn declares
+   16px in buttons-inputs.css, and design.css imports that sheet twelve lines AFTER
+   this one, so the role lost the tie and every small button GREW to 16px. Two classes
+   beat one whatever the sheet order, the same fix the state rules use above. It lands
+   in .type-label rather than back in .type-body-sm because a small button is a button
+   label, it keeps the medium weight .btn always gave it, and every other small control
+   in the app (.seg__btn, .el-filter, .notes-panel__toggle, .pa-add, .start-seeall) is
+   already here. Measured after: 14px/500, was 16px/500. */
+.btn.btn--sm,
+/* P4. .arc-chip was the only chip in either app set at 16/500; every other chip in
+   the tree is 14. It is a phase-id pill on an internal admin screen, not reading
+   text, so it joins the rest of them. */
+.arc-chip,
 .gd-stepper .stage-step {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
@@ -311,7 +417,6 @@
 .axis__label, .axis__thumb, .axis__delta, .axis__caret, .axis__value,
 .ds-avatar,
 .member-runs__type,
-.rd-turn__q,
 .run-step__dot, .joblex-yours, .joblex-hidden__head, .joblex-restore,
 .guide-step__n,
 .ds-crumb__now,
@@ -326,7 +431,13 @@
 .pv-rate__status,
 .member-goal__pct,
 .gd-done-banner, .gd-owner, .gd-row__cat, .gd-status, .gd-private,
-.gd-field label, .gd-chip[data-selected], .gd-stepper .is-current {
+.gd-field label, .gd-chip[data-selected], .gd-stepper .is-current,
+/* P4. Two guided objects. .gd-row__pct is a percentage read at a glance beside a 14px
+   category chip, so it comes DOWN from 15px rather than up with the prose. .gd-q__logo
+   is the Sero monogram in a 22px square and does NOT change size: it was already 14px
+   and it is here to leave the display face, which DESIGN.md T6 bans below 20px. This
+   is the 14px rung that carries the base family and a weight. */
+.gd-row__pct, .gd-q__logo {
   font-family: var(--type-family-base);
   font-size: var(--type-size-sm);
   font-weight: var(--type-weight-semibold);
@@ -336,11 +447,14 @@
    rather than left behind so coach-panel.css can hold zero type declarations,
    and so it paints correctly if it is ever wired up. */
 /* The eyebrow family, collapsed (P3). .eyebrow and .type-overline were already
-   byte-identical apart from the leading (21.7px inherited, now 20px), and fifteen
-   rivals differed only in tracking or weight: five landed at 0.04em, two at 0.05em,
-   three at 0.06em, two at 0.02em, one at 0.03em, and four of them rendered 400 or 500
-   rather than 600. They all read as the same object on screen, so they take one
-   recipe. Two that phase-3.md named as rivals are NOT here on purpose:
+   byte-identical apart from the leading (21.7px inherited, now 20px), and the
+   EIGHTEEN rivals listed below differed from each other only in tracking (0.02em to
+   0.06em, against this recipe's 0.08em) and weight (four of them rendered 400 or 500
+   rather than 600). None of that is a difference anyone reads on screen, so they take
+   one recipe. The first version of this note broke the tracking down into buckets that
+   summed to thirteen while claiming fifteen, against a list that holds eighteen: the
+   buckets were never recounted after the list grew, so they are gone rather than
+   guessed at again (P4). Two that phase-3.md named as rivals are NOT here on purpose:
    .run-log__block-label and .brutal__eyebrow have no caps and no tracking, and their
    markup is sentence case, so overline would have shouted them. */
 .type-overline,
@@ -392,7 +506,12 @@
   line-height: var(--type-leading-sm);
 }
 
-.type-metric {
+/* .gd-block__score is the rating number the slider drives. It was a 30px literal in
+   the display face at weight 700 and carried no tabular figures, so the digits shifted
+   sideways as the manager dragged. This role is 30/36 display with tabular-nums, which
+   is exactly what it needed and lacked (P4). */
+.type-metric,
+.gd-block__score {
   font-family: var(--type-family-display);
   font-size: var(--type-size-3xl);
   font-weight: var(--type-weight-semibold);
@@ -415,7 +534,17 @@
 .coach-hint__text,
 .coach-row__why,
 .coach-empty { max-width: var(--measure-narrow); }
-.type-body--full { max-width: none; }
+/* The controls that took .type-body above. A field has to fill the column it sits in,
+   and the reading measure would narrow the answer box inside its own shell. Each one
+   needs the role for its FACE (a textarea, an input and a <button> inherit no type at
+   all) and needs the measure off again (P4). */
+.type-body--full,
+.textarea--question,
+.pa-input,
+.arc-edit .input,
+.gd-notes textarea,
+.gd-field select, .gd-field input, .gd-field textarea,
+.gd-eng button { max-width: none; }
 
 /* -----------------------------------------------------------------------------
    .type-flush — a role WITHOUT its leading.
@@ -443,6 +572,10 @@
 .pv-tile__name,
 .gd-stepper .stage-step,
 .stage-review__close,
+/* P4. .gd-q__logo is the Sero monogram in a 22px square; .star-rating__star is a
+   26px star whose button must not gain a text line box around it. */
+.gd-q__logo,
+.star-rating__star,
 .cmp-tag { line-height: 1; }
 /* Three glyph rules could NOT come here and kept a line-height in their own sheet,
    each with a comment saying why: .ud-chev and .row-menu-btn need line-height 0, not

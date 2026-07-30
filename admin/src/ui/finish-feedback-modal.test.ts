@@ -28,6 +28,7 @@ const stripComments = (src: string) =>
 
 const MODAL = stripComments(read("./finish-feedback-modal.js"));
 const CSS = stripComments(read("../styles/finish-feedback-modal.css"));
+const TYPE_CSS = stripComments(read("../styles/design/type.css"));
 
 test("the pass-bar question survives", () => {
   assert.match(
@@ -60,7 +61,16 @@ test("it asks one question, not a form", () => {
     !/ffm__sec/.test(MODAL) && !/\.ffm__sec/.test(CSS),
     "The multi-section rhythm is back. One flex column, one question.",
   );
-  assert.match(CSS, /\.ffm__q\b/, "The question needs its own reading-size rule.");
+  // The question's size used to be declared here. Type-system P4 grouped .ffm__q into
+  // .type-heading-xs in design/type.css instead, because finish-feedback-modal.css is
+  // code-split and a size left in it would beat the role. So the guard follows the
+  // rule to where it now lives: the question must still be reading size somewhere, and
+  // a rule back in this sheet would silently un-apply the role.
+  assert.match(TYPE_CSS, /\.ffm__q\b/, "The question needs its reading-size role in type.css.");
+  assert.ok(
+    !/font-size/.test(CSS),
+    "finish-feedback-modal.css declares a size again. It loads after type.css, so that beats the role.",
+  );
 });
 
 test("no rating is invented from the verdict", () => {

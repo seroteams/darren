@@ -75,15 +75,19 @@
   flex-direction: column;
   gap: var(--sero-space-2);
 }
+/* .type-body. The brief's slot paragraphs sit in a 896px .stage-reading shell with
+   no max-width of their own, so this is the customer-side half of the width fix. */
 .pv-l__mini p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
+/* .type-body. THE shipped confidence readout: variant L is what every guest and
+   member sees. UP 14 to 16, and the eight lab copies of the same sentence come with
+   it. phase-4.md said `label`; .type-label is 14/500 with caps tracking, built for a
+   field label, and this is a sentence a manager reads to decide how far to trust the
+   brief. */
 .pv-l__confidence {
   margin: 0;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
 /* the meeting-style tip — a coaching note that frames the whole read */
@@ -95,10 +99,9 @@
   border-radius: var(--radius-card);
   background: var(--color-accent-soft);
 }
+/* .type-body */
 .pv-l__tip p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
 
@@ -195,9 +198,8 @@
   gap: var(--sero-space-4);
   flex-wrap: wrap;
 }
+/* .type-heading-xs: 16/600 beside the stars. .type-body would have un-bolded it. */
 .pv-rate__q {
-  font-size: var(--type-body);
-  font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
   margin: 0;
 }

@@ -342,10 +342,10 @@
   flex-direction: column;
   gap: var(--sero-space-8);
 }
+/* .type-body. One of the nine confidence readouts, the largest at 18px. DOWN to 16
+   so the same sentence is the same size in every brief layout. */
 .pv-a__confidence {
   margin: 0;
-  font-size: var(--type-h4);
-  line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
 .pv-a__slot {
@@ -358,9 +358,9 @@
   border-left: 3px solid var(--color-accent);
   border-radius: 0;
   padding: var(--sero-space-1) 0 var(--sero-space-1) var(--sero-space-4);
-  font-size: var(--type-body);
-  font-weight: var(--type-weight-medium);
-  line-height: var(--type-leading-relaxed);
+  /* .type-heading-xs. It is a quoted opener at 16/500; .type-body would flatten it to
+     400 and it would stop reading as a quote. 600 rather than 500 is the cost of
+     having the weight live in a role at all. */
   color: var(--color-ink);
 }
 
@@ -371,9 +371,9 @@
   flex-direction: column;
   gap: var(--sero-space-3);
 }
+/* .type-body: one of the nine. UP 14 to 16. */
 .pv-b__confidence {
   margin: 0;
-  font-size: var(--type-body-sm);
   color: var(--color-ink-mute);
 }
 .pv-b__row {
@@ -412,10 +412,9 @@
 .pv-d__row + .pv-d__row {
   border-top: 1px solid var(--color-border);
 }
+/* .type-body */
 .pv-d__value {
-  font-size: var(--type-body);
   color: var(--color-ink);
-  line-height: var(--type-leading-normal);
 }
 .pv-d__value p {
   margin: 0;
@@ -455,10 +454,12 @@
   padding-bottom: var(--sero-space-6);
   border-bottom: 1px solid var(--color-border);
 }
+/* .type-body-lg, the one confidence readout that does NOT collapse to 16. This class
+   carries E's confidence AND opener AND leave-with, and "the top band reads louder"
+   is that layout's whole premise: flattening it to 16 would delete the hierarchy
+   rather than fix it. Everything below it is 16. */
 .pv-e__lead {
   margin: 0;
-  font-size: var(--type-h4);
-  line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
 .pv-e__opener {
@@ -474,11 +475,10 @@
   flex-direction: column;
   gap: var(--sero-space-5);
 }
+/* .type-body */
 .pv-e__low p {
   margin: 0;
-  font-size: var(--type-body);
   color: var(--color-ink-dim);
-  line-height: var(--type-leading-normal);
 }
 
 /* F — Spotlight: poster. The opener carries the page in the display face,
@@ -507,10 +507,10 @@
   letter-spacing: var(--type-tracking-tight);
   color: var(--color-ink);
 }
+/* .type-body: one of the nine. UP 14 to 16, and the role's character measure
+   replaces the 38rem length this one already carried. */
 .pv-f__confidence {
   margin: 0;
-  max-width: var(--measure);
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
 .pv-f__grid {
@@ -526,10 +526,9 @@
   flex-direction: column;
   gap: var(--sero-space-2);
 }
+/* .type-body */
 .pv-f__col p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
 @media (max-width: 768px) {
@@ -562,10 +561,9 @@
   gap: var(--sero-space-3);
   min-width: 0;
 }
+/* .type-body */
 .pv-g__cell p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
 /* Tier: working */
@@ -600,8 +598,8 @@
 .pv-g__cell--conf .conf {
   align-self: flex-start;
 }
+/* .type-body: one of the nine. UP 14 to 16. */
 .pv-g__confidence {
-  font-size: var(--type-body-sm);
   color: var(--color-ink-dim);
 }
 
@@ -678,9 +676,8 @@
   outline: 2px solid var(--color-accent-dark);
   outline-offset: 2px;
 }
+/* .type-body */
 .pv-g__tick span {
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
 .pv-g__tick b {
@@ -729,10 +726,10 @@
   flex-direction: column;
   gap: var(--sero-space-6);
 }
+/* .type-body: one of the nine. UP 14 to 16. It sits in the 1fr context rail of a
+   1fr/2fr split, so it is the one of the nine most likely to wrap harder. */
 .pv-i__confidence {
   margin: 0;
-  font-size: var(--type-body-sm);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink-dim);
 }
 .pv-i__slot {
@@ -740,10 +737,9 @@
   flex-direction: column;
   gap: var(--sero-space-2);
 }
+/* .type-body */
 .pv-i__slot p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
 .pv-i__main {
@@ -772,9 +768,10 @@
   flex-direction: column;
   gap: var(--sero-space-3);
 }
+/* .type-body: one of the nine. UP 14 to 16. Off-white on J's navy band, and that
+   colour is now the only thing this rule carries. */
 .pv-j__confidence {
   margin: 0 0 var(--sero-space-2);
-  font-size: var(--type-body-sm);
   color: var(--sero-offwhite-300);
 }
 /* The dot-meter on J's committed navy band: the light accent pill would fight
@@ -801,10 +798,9 @@
   flex-direction: column;
   gap: var(--sero-space-2);
 }
+/* .type-body */
 .pv-j__slot p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
 
@@ -843,10 +839,9 @@
   gap: var(--sero-space-2);
   min-width: 0;
 }
+/* .type-body */
 .pv-k__body p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-normal);
   color: var(--color-ink);
 }
 @media (max-width: 768px) {
@@ -900,11 +895,10 @@
   display: flex;
   flex-direction: column;
 }
+/* .type-body: one of the nine, and the shape the other eight collapsed onto. It was
+   already 16 and already measured. */
 .pv-h__confidence {
   margin: 0 0 var(--sero-space-6);
-  max-width: var(--measure);
-  font-size: var(--type-body);
-  line-height: var(--type-leading-relaxed);
   color: var(--color-ink-dim);
 }
 .pv-h__section {
@@ -915,17 +909,16 @@
   border-top: 1px solid var(--color-border-tinted);
   max-width: var(--measure);
 }
+/* .type-body */
 .pv-h__section p {
   margin: 0;
-  font-size: var(--type-body);
-  line-height: var(--type-leading-relaxed);
   color: var(--color-ink);
 }
-.pv-h__opener {
-  font-size: var(--type-h4);
-  font-weight: var(--type-weight-medium);
-  line-height: var(--type-leading-normal);
-}
+/* .type-body-lg. An 18/500 lede inside the paper sheet: the role is 18/400, so it
+   loses the medium weight. The size is what makes it the opener here, not the
+   weight, and the alternative (heading-sm, 18/600) would have made it louder than
+   it is today rather than the same. */
+.pv-h__opener { /* .type-body-lg */ }
 @media (max-width: 768px) {
   .pv-h {
     padding: var(--sero-space-6) var(--sero-space-5);

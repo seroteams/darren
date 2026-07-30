@@ -352,12 +352,16 @@
 .person-run__type { color: var(--color-ink); }
 .person-run__when { color: var(--color-ink-mute); }
 
-/* Star rating control (PG3) — a radiogroup of five star buttons. Stars are ~28px, so
-   they clear the 14px floor; the global :focus-visible rule rings the focused star. */
+/* Star rating control (PG3) — a radiogroup of five star buttons. The comment here used
+   to say the 1.75rem font-size was what made the stars 28px and cleared the 14px floor.
+   It was not: star-rating.js draws each star with icon(Star, { size: 26 }) and icon.js
+   writes real width and height attributes, so the font-size only ever set the button's
+   line box. It is gone, and the box is stated as a box (.type-flush keeps the leading
+   at 1). The global :focus-visible rule rings the focused star. */
 .star-rating { display: flex; gap: 0.25rem; }
 .star-rating__star {
-  font-size: 1.75rem;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
   background: none;
   border: 0;
   padding: 0 0.1rem;

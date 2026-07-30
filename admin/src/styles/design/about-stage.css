@@ -10,10 +10,10 @@
   flex-direction: column;
   gap: var(--sero-space-2);
 }
+/* .type-body, whose --measure-read replaces the 38rem length that was here. */
 .about-hero__lede {
   margin: 0;
   color: var(--color-ink-dim);
-  max-width: var(--measure);
 }
 .about-hero__action {
   display: flex;
@@ -42,11 +42,11 @@
   font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
 }
+/* .type-body. UP 14 to 16: it is a section lede under a 20px title, and it now takes
+   the role's character measure instead of the 38rem length. */
 .about-sec__sub {
   margin: 0;
   color: var(--color-ink-dim);
-  /* .type-body-sm carries no measure, so this one stays. */
-  max-width: var(--measure);
 }
 
 /* How Sero works: the six-step walkthrough (shape C of the gallery prototype,
@@ -95,17 +95,19 @@
   align-items: baseline;
   gap: var(--sero-space-2);
 }
+/* .type-heading-xs. It was 17px, off the ladder, sitting under a 20px section title
+   and beside a 14px chip on the same baseline row. 16/600 is the rung that keeps it
+   below the section title; 18 would have tied the two too closely. DOWN 17 to 16. */
 .about-how__title {
   margin: 0;
-  font-size: var(--type-body-lg);
-  font-weight: var(--type-weight-semibold);
-  line-height: var(--type-leading-tight);
   color: var(--color-ink);
 }
+/* .type-body. It already carried a character measure, which is why it reads well
+   today and why it is the model the rest of the phase copies. The 52ch stays: it is
+   tighter than the role's 60ch on purpose, one step in a numbered list. */
 .about-how__line {
   margin: 0;
   color: var(--color-ink-dim);
-  line-height: var(--type-leading-normal);
   max-width: 52ch;
 }
 .about-how__you {
@@ -217,8 +219,8 @@
   gap: var(--sero-space-2);
   color: var(--color-accent-dark);
 }
+/* .type-heading-xs: bold at an inherited 16, so .type-body would have un-bolded it. */
 .about-duo__title {
-  font-weight: var(--type-weight-semibold);
   color: var(--color-ink);
 }
 .about-duo__body {

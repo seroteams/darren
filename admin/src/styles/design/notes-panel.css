@@ -20,7 +20,12 @@
   border-bottom: 1px solid var(--color-border);
 }
 .ctx-segments {
-  color: var(--color-ink-dim);
+  /* ink-mute, not ink-dim. This strip is 14px and sits on the Meeting screen a few
+     centimetres from .question-desc at 16px, and both were ink-dim at weight 400.
+     DESIGN.md T2 calls 14 against 16 the one narrow pair on the ladder and requires
+     those two to differ in weight or ink as well as size. The context strip is the
+     quieter of the two, so the ink moves here (type-system P4, carried in from P2). */
+  color: var(--color-ink-mute);
   word-break: break-word;
 }
 .ctx-segments.is-empty { display: none; }

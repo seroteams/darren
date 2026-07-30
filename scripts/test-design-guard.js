@@ -41,7 +41,7 @@ const SCRIPTS = __dirname;
  * guard fails with "did not report" rather than passing quietly.
  */
 const CEILINGS = {
-  nonTokenFont: 7,
+  nonTokenFont: 6,
   literalRadius: 53,
   offGridSpacing: 135,
 
@@ -59,19 +59,31 @@ const CEILINGS = {
    * the edit and not predicted. It moved roughly 300 selectors across 40 sheets onto
    * the roles, which is why unsanctionedSizeToken falls furthest.
    *
+   * P4 (the reading surfaces) lowered six more, re-measured the same way. Every
+   * count below is what `node scripts/lint-design-tokens.js --json` printed on
+   * 2026-07-31 with the migration in place. None of them is a prediction.
+   *
    * Read them as the size of the job, not as a list of bugs:
-   *   relativeFontSize        33->10  all var(--x, <fallback>) today. Zero em or %:
+   *   relativeFontSize        33->8   all var(--x, <fallback>) today. Zero em or %:
    *                                   P0 cleared the last two. The rule is here so
-   *                                   the next 0.85em cannot hide again. The ten left
-   *                                   are the two runtime-injected style blocks
+   *                                   the next 0.85em cannot hide again. The eight
+   *                                   left are the two runtime-injected style blocks
    *                                   (account-sheet.ts 6, profile-badge.js 1), which
-   *                                   P6 owns, plus finish-feedback-modal.css 2 and
-   *                                   ux-audit-fixes.css 1, none of them 14px.
-   *   offLadderFont           28->22  sizes off the ladder. P2 took the Meeting
+   *                                   P6 owns, plus ux-audit-fixes.css 1. P4 took
+   *                                   finish-feedback-modal.css's two.
+   *   offLadderFont           28->0   sizes off the ladder. P2 took the Meeting
    *                                   screen's six: 32px, 17px and four 15px. P3
-   *                                   touched none: every one of the 22 is a 15px,
-   *                                   17px or clamp site that P4 and P5 own.
-   *   unsanctionedSizeToken 451->138  every font-size still pointing at an old token.
+   *                                   touched none. P4 took the last 22, and the
+   *                                   sentence that used to sit here was wrong about
+   *                                   what they were: NOT ONE of the 22 was a clamp.
+   *                                   Sixteen were guided.css at 15px and 17px, two
+   *                                   were team-card.css, one was about-stage.css,
+   *                                   and three were plain literals off every rung
+   *                                   (28px, 17.6px, 16.8px). Clamp sites belong to
+   *                                   clampOffRung, a different key, which did not
+   *                                   move. This one is at ZERO now, so the next
+   *                                   off-rung size breaks the build on its own.
+   *   unsanctionedSizeToken 451->68   every font-size still pointing at an old token.
    *                                   This is the migration itself, counted. It reads
    *                                   the token name through a fallback as well, so
    *                                   dropping a fallback can only ever remove a hit.
@@ -79,24 +91,33 @@ const CEILINGS = {
    *                                   trade against each other: following the guard's
    *                                   own advice moved 33 sites into this key and
    *                                   broke a build that had fixed something.
-   *   literalFontSize         18->10  a size written as a literal in any unit rather
+   *   literalFontSize         18->4   a size written as a literal in any unit rather
    *                                   than a token. Without it every counter here
    *                                   could be zeroed by swapping tokens for rem
    *                                   literals on a rung, which reads as a finished
    *                                   migration and is the same debt in a new unit.
-   *                                   P3 cleared member-runs.css's two 0.875rem.
+   *                                   The four left are add-person-modal.css (20px),
+   *                                   admin-pulse.css (30px), .input's clamp, and
+   *                                   mobile.css's max(1rem, 1em). The last is the
+   *                                   iOS focus-zoom guard, not drift: it lifts small
+   *                                   controls to 16 and leaves big ones alone, so a
+   *                                   flat token there would SHRINK the front door's
+   *                                   input from 20px. P6 waives it.
    *   undefinedToken               3  an undefined reference. Two are dropped at
    *                                   render (--sero-radius-pill in start-stage.css);
    *                                   the third, --color-ink-subtle in profile-badge.js,
    *                                   carries a working fallback and paints normally.
    *   clampOffRung            12->10  the fluid heading tokens, endpoints off the rungs.
    *                                   P2 retired two --type-h2 sites, the coach split's
-   *                                   phone override and briefing.css's stem.
-   *   displayFaceBelow20           7  Bricolage under 20px, banned by DESIGN.md T6.
-   *                                   Untouched on purpose: all seven are a heading
-   *                                   decision, including guided.css's 14px .gd-q__logo,
-   *                                   which no 14px role can carry because none of them
-   *                                   holds the display face.
+   *                                   phone override and briefing.css's stem. All ten
+   *                                   left are headings, so they are P5's.
+   *   displayFaceBelow20       7->4   Bricolage under 20px, banned by DESIGN.md T6.
+   *                                   P4 took three of the seven by moving the object
+   *                                   onto a base-family role rather than leaving the
+   *                                   face where it was: guided.css's 14px monogram
+   *                                   (.type-label-strong) and team-card.css's 15px
+   *                                   avatar and 17px name (.type-heading-sm). The
+   *                                   four left are 18px headings, which is P5's.
    *   fontFamilyLiteral        8->1  family stacks written out instead of tokenised.
    *                                   P3 took seven of the eight: six copies of the
    *                                   run-log mono stack and guide.css's near-copy.
@@ -104,13 +125,13 @@ const CEILINGS = {
    *                                   tokens.css:355 requires to stay byte-identical.
    *   fontShorthandResetsNumeric   0  none today, and it starts locked at zero.
    */
-  relativeFontSize: 10,
-  offLadderFont: 22,
-  unsanctionedSizeToken: 138,
-  literalFontSize: 10,
+  relativeFontSize: 8,
+  offLadderFont: 0,
+  unsanctionedSizeToken: 68,
+  literalFontSize: 4,
   undefinedToken: 3,
   clampOffRung: 10,
-  displayFaceBelow20: 7,
+  displayFaceBelow20: 4,
   fontFamilyLiteral: 1,
   fontShorthandResetsNumeric: 0,
 };

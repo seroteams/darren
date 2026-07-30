@@ -30,6 +30,13 @@ const stripComments = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, "");
 
 const css = `${read("preparation.css")}\n${read("preparation-lab.css")}`;
 
+// Type-system P4 moved every size out of the two prep sheets and onto the roles in
+// design/type.css, so the floor has to be checked where the sizes now live. Both are
+// read: type.css for the sizes the prep screens actually render at, and the two prep
+// sheets so that a size sneaking back into a component sheet is still caught by the
+// floor check rather than only by the guard.
+const roleCss = read("../../../admin/src/styles/design/type.css");
+
 // The token table, read from the one file that owns it. Both apps load it:
 // frontend/src/main.js imports admin/src/styles/design.css, which imports
 // design/tokens.css first. Comments are stripped before parsing because
@@ -107,9 +114,29 @@ function floorPx(value: string, seen: ReadonlySet<string> = new Set()): number |
   return null;
 }
 
-test("variant CSS exists and declares font sizes", () => {
+test("no reading size survives in the prep sheets. The roles carry them", () => {
   assert.ok(css.length > 0, "stylesheet is non-empty");
-  assert.ok(/font-size\s*:/.test(css), "at least one font-size declared");
+  // The assertion used to be the opposite way round ("at least one font-size
+  // declared"), which was right while these sheets owned their own sizes. P4 grouped
+  // every reading selector into a role in type.css, and a size left behind in a
+  // code-split sheet BEATS the role it was grouped into, so a survivor is the
+  // half-applied failure mode rather than a harmless leftover.
+  //
+  // The bar is 20px, not zero, and the gap is deliberate: three display headings
+  // (--type-h2 once, --type-h3 twice) are Phase 5's, not this phase's. Anything BELOW
+  // 20px is reading text, and reading text has left these files.
+  const strays = [...stripComments(css).matchAll(/font-size\s*:\s*([^;]+);/g)]
+    .map((m) => (m[1] || "").trim())
+    .filter((v) => {
+      const px = floorPx(v);
+      return px === null || px < 20;
+    });
+  assert.deepEqual(
+    strays,
+    [],
+    `A reading size is back in preparation.css / preparation-lab.css. Both load after type.css, so it WINS over the role it was grouped into and half-applies it: ${strays.join(", ")}`,
+  );
+  assert.ok(/font-size\s*:/.test(roleCss), "type.css declares the sizes instead");
 });
 
 test("the token table really came from tokens.css", () => {
@@ -120,9 +147,9 @@ test("the token table really came from tokens.css", () => {
 });
 
 test("every font-size resolves to >= 14px", () => {
-  const declarations = [...stripComments(css).matchAll(/font-size\s*:\s*([^;]+);/g)].map((m) =>
-    (m[1] || "").trim(),
-  );
+  const declarations = [
+    ...stripComments(`${roleCss}\n${css}`).matchAll(/font-size\s*:\s*([^;]+);/g),
+  ].map((m) => (m[1] || "").trim());
   assert.ok(declarations.length > 0);
   for (const value of declarations) {
     const px = floorPx(value);

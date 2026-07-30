@@ -69,6 +69,11 @@ const TOKENS = new Map([
   ["--measure", "38rem"],
   ["--measure-lede", "44rem"],
   ["--measure-narrow", "46ch"],
+  // The reading measure the two body roles took in P4. It has to be in this fixture
+  // for the same reason the roles are: group 13 lints the REAL type.css against this
+  // map, so a token the real file uses and this map has never heard of reads as an
+  // undefined-token rather than as a token the fixture is missing.
+  ["--measure-read", "60ch"],
   ["--color-ink", "#101828"],
   ["--type-role-metric", "600 1.875rem/2.25rem var(--type-family-display)"],
   ["--type-role-body", "400 1rem/1.5rem var(--type-family-base)"],

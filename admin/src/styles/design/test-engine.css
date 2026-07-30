@@ -131,7 +131,10 @@
   background: none;
   cursor: pointer;
   color: var(--color-ink-mute);
-  font-size: 1.05rem;
+  /* Glyph geometry: job-lexicons.js renders a bare remove cross here. 1.05rem was
+     16.8px, off the ladder and a literal; 16 is a 0.8px change nobody sees and it
+     clears both rules. */
+  font-size: var(--type-size-base);
   line-height: 1;
   padding: 0 0.3rem;
   margin-left: 0.2rem;

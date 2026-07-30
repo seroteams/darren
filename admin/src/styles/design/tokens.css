@@ -287,8 +287,14 @@
   --type-h4: 1.125rem;                            /* 18px — also the lead-paragraph size */
   --type-body: 16px;
   --type-body-sm: 14px;                           /* 0.875rem — accessibility floor */
-  /* OFF-LADDER, both banned by DESIGN.md T2/T3. 13 call sites between them plus
-     the 32px and 30px literals. The visible type pass retires all of it. */
+  /* OFF-LADDER, both banned by DESIGN.md T2/T3. Type-system P4 retired every live
+     call site: nothing a customer or a manager can reach reads either of these any
+     more. They stay defined for ONE reason, which is the nine sites left in the
+     parked gallery prototypes under admin/src/stages/tests/. Those are exempt from
+     the type rules, no customer sees them, and deleting the tokens would break them
+     silently: an undefined var() in a font-size is dropped at computed-value time,
+     so the text would just inherit whatever was above it. P5 deletes both when it
+     retires the gallery or rewrites those nine lines. */
   --type-body-lg: 1.0625rem;                      /* 17px */
   --type-body-md: 15px;                           /* 15px */
 
@@ -372,6 +378,16 @@
      exactly as they are: roughly 14 call sites read them and moving one moves
      real screens. */
   --measure-narrow: 46ch;
+
+  /* The reading measure, in characters rather than a length (type-system P4). Every
+     prose role reads this one token, so a paragraph breaks at the same COUNT of
+     characters whether it is set at 16px or 18px. Measured in the running app: 1ch is
+     10px at 16px Inter, so this is 600px there, which is within 8px of --measure's
+     608px page column. That is the point: prose never gets a second width. A length
+     could not do this, because 38rem is 63 characters at 16px and only 56 at 18px.
+     Do NOT point .l-container at it. --measure has 18 plain markup sites plus four
+     more containers, and a character measure is the wrong unit for a page column. */
+  --measure-read: 60ch;
 
   /* Layout */
   --measure: 38rem;

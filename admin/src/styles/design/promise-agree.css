@@ -48,9 +48,6 @@
    contenteditable (not <input>) so long promises WRAP instead of clipping on a phone;
    self-contained font so it never inherits the questioning card's big answer size. */
 .pa-input {
-  font: inherit;
-  font-size: var(--type-body);
-  line-height: 1.35;
   color: var(--color-ink);
   border: 1px solid transparent;
   border-radius: var(--radius-input);
@@ -123,7 +120,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--type-h4);
+  /* Glyph geometry, not type: this is the size of a '+' drawn inside a 32px dashed
+     circle, so no reading role applies. Tokenised onto the ladder; P6 decides whether
+     an icon size can keep living in a component sheet. */
+  font-size: var(--type-size-lg);
   line-height: 1;
   color: var(--color-accent);
 }

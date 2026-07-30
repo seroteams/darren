@@ -7,7 +7,9 @@
 .rd-avatar {
   width: 52px;
   height: 52px;
-  font-size: 1.125rem;
+  /* Glyph geometry: one initial letter inside a 52px circle. Tokenised off the
+     1.125rem literal; it was already on the 18px rung. */
+  font-size: var(--type-size-lg);
 }
 
 .rd-profile {
@@ -56,9 +58,7 @@
   color: var(--color-ink-mute);
 }
 
-.rd-digest {
-  font-size: var(--type-body);
-}
+.rd-digest { /* .type-body */ }
 
 /* Answers tab — one question + its answer per block */
 .rd-turn {
@@ -71,6 +71,9 @@
 .rd-turn--skipped {
   border-left-color: var(--color-border);
 }
+/* .type-heading-xs. The question you are re-reading is now reading size, and its
+   answer below it is .type-body at the same 16px, so the pair separates by weight
+   instead of by size. */
 .rd-turn__q {
   display: flex;
   align-items: baseline;
@@ -82,6 +85,8 @@
   flex: none;
   align-self: flex-start;
 }
-.rd-turn__a {
-  font-size: var(--type-body-sm);
-}
+/* .type-body. The answer is the most words on this screen and was the smallest text
+   on it: 14px under a 14px question. UP to 16. This one selector is the phase's whole
+   argument, and P3 left it declaring its own size after grouping the question above
+   it, which put the two on different leadings. */
+.rd-turn__a { /* .type-body */ }
