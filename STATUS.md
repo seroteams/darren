@@ -16,9 +16,13 @@ the plan found plan-turn is 61% of run spend, so every later phase is budgeted a
 prompt prefix (~+$0.03/run ceiling, no new AI calls). P2 (the planner reads your note, vocabulary,
 answer-quality and score levels) ✅ green-lit the same day (your second "a", commit `4117b5b0`):
 the note and vocabulary ride the cached prompt section at near-zero marginal cost, a prefix-stability
-test guards the cache, and two weak answers in a row now force the planner to change tack. P3 (the
-living plan: the queue rewrites itself from the conversation) building now; it ends with the plan's
-one paid proof run (~$0.35). [Board](https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847).
+test guards the cache, and two weak answers in a row now force the planner to change tack. P3 ✅
+green-lit same day (your third "a", commit `15aa9959`): the question list is now a draft, not a
+script — it reorders, rewrites stale questions in the report's own words with a grounding quote,
+drops overtaken ones, and the prep-opener pin releases after three questions. The plan's one paid
+proof ran: gate case `machar-biweekly-jun11` PASS at $0.196 a run (normal band), cache intact, no
+regressions. P4 (notes flow everywhere: the last phase) building now, free checks only.
+[Board](https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847).
 
 📍 **2026-07-30 — your whole Figma sticky board is fixed, tested and signed off.
 [user-test-fixes CLOSED](docs/plans/done/user-test-fixes-jul-29/plan.md), all 3 phases in two days, $0.19 total spend.**
@@ -434,7 +438,7 @@ green-lit is pushed live — **except** the repeat-question fix green-lit later 
 ## 🔨 Building now
 | Build | State |
 |---|---|
-| [no-dead-wires](docs/plans/doing/no-dead-wires/plan.md) | 4 phases wiring every in-run input to where it matters. P1 ✅ green-lit 2026-07-30 (prep brief reaches the final brief, LIVE in build `4f85e14`). P2 ✅ green-lit 2026-07-30 (planner reads intake note, vocabulary, answer-quality tags, score levels; commit `4117b5b0`). P3 🔨 living plan · P4 ⬜ notes flow everywhere. One paid gate case (~$0.35) rides the end of P3. [Board](https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847). |
+| [no-dead-wires](docs/plans/doing/no-dead-wires/plan.md) | 4 phases wiring every in-run input to where it matters. P1 ✅ (prep brief reaches the final brief, LIVE in `4f85e14`) · P2 ✅ (planner reads note, vocabulary, quality tags, scores; `4117b5b0`) · P3 ✅ (living plan; gate PASS $0.196; `15aa9959`) — all green-lit 2026-07-30. P4 🔨 notes flow everywhere (last phase). [Board](https://claude.ai/code/artifact/39c06832-a4ed-4c65-b091-2c6a75140847). |
 | [type-system](docs/plans/doing/type-system/plan.md) | 7 phases replacing the bespoke type ladder with Tailwind's scale + 14 semantic role tokens. Ends with `font-size` in exactly two files, enforced. P0 ✅ green-lit 2026-07-30 (commit `8ba3516b`): **the bundled Inter never painted** — the app asked for `"InterVariable"`, the font registers as `"Inter Variable"`, so every machine fell back to whatever it had and anyone without Inter read Sero in Segoe UI, ~8% narrower. Plus two live sub-14px sizes the px-only guard could not see. P1 ✅ green-lit the same day (commit `fa8b0762`): the scale, the fourteen roles and nine new guard rules all exist and are inert, verified live. **Three verifiers attacked P1 and found four real defects, fixed before hand-over** — the worst being that the new 14px floor was still px-only and blind to the `font:` shorthand, in the very phase that published composites designed for that syntax. P2 🔨 the Meeting screen Carl screenshotted · P3–P6 ⬜. £0, no paid runs in the whole plan. [Board](https://claude.ai/code/artifact/189fce23-69c4-437f-9121-6417d8926f7f) · [specimen](https://claude.ai/code/artifact/401c7c5c-b460-4711-a8d1-f2f27147abb3). |
 | [audit-fixes-jul-25](docs/plans/doing/audit-fixes-jul-25/plan.md) | 9 phases from the full-app audit. P1 ✅ green-lit 2026-07-25. P2 ✅ closed **unwalked** 2026-07-27 (shell + layout; built 07-25, regression test guards it). P3–P9 ⬜ — nothing built, so this stays open. |
 | [entry-redesign](docs/plans/doing/entry-redesign/plan.md) | P1 ✅ green-lit 2026-07-25, you picked Version A. P2 ⬜ (build A into the real login/register screens) — was blocked behind the google-signin lane, now free to start. |

@@ -1,6 +1,8 @@
 # Phase 3 — The living plan
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl chose "a · tested, good" on the scenario hand-off (commit 15aa9959, committed local, ships next go-live)
 
 ## Built (2026-07-30)
 - content/prompts/plan-turn.md: new `<living_plan>` block (queue is a draft; reorder to what the conversation earned; rewrite stale items in the employee's words with a grounding quote; drop overtaken items; cap three rewrites per turn; crisis/wind-down/closer/thread-follow outrank it) and planning rule 2 rewritten from "prefer keeping" to "keep only what still fits". Mid-meeting notes block added to the turn state (inert until P4 passes notes in).

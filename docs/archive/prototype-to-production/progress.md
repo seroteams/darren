@@ -1699,3 +1699,16 @@ the happy path.
 **A test named after a file it never opens is worse than no test.** The group asserting "the
 Phase 1 type.css shape must land clean" tested a hand-copied excerpt of six of fourteen roles.
 It read as coverage of the real layer and guaranteed nothing about it.
+
+## 2026-07-30 — no-dead-wires P3: the living plan
+
+**A mandate needs its precedence spelled out.** The living_plan block explicitly ranks BELOW crisis,
+wind-down, the closer, thread-follow and the weak-reads rule — the earlier machar-fixes lesson
+(a rule written as a whole-session quota could never fire in a one-question-at-a-time planner)
+applied in reverse: a rule written without precedence would fire in the wrong places. The rewrite
+cap (three per turn) bounds output-token growth, which is the cost lever on an uncached tail.
+
+**Prove the paid claim with the paid run's own logs.** The gate case passed, but the real proof was
+in cost.json: plan-turn prompts 11.2-11.6k tokens, cached 8,960 on every turn after the first, run
+$0.196 against a $0.16-0.20 baseline. The planned gate case name (lin_biweekly_thread) did not exist;
+checking evals/golden/_index.json before running saved a wasted paid call.
