@@ -6,7 +6,9 @@
 **Mockup:** https://claude.ai/code/artifact/401c7c5c-b460-4711-a8d1-f2f27147abb3 — _awaiting approval_ (source: `reference/type-specimen.html`)
 
 ## How this plan runs (changed 2026-07-30)
-Carl: _"as this is a frontend, can you keep going?"_ — so from **Phase 3 onward the one-phase-then-stop gate is lifted**. Phases run back to back and close on evidence in the chat rather than on a walk. Phases 0, 1 and 2 were walked and green-lit normally; every phase after that is recorded as **closed unwalked** in its own file, with its measured proof, so the record never implies he saw something he did not. Anything genuinely ambiguous or irreversible still stops and asks.
+Carl: _"as this is a frontend, can you keep going?"_ then _"lets go!"_ — so **the one-phase-then-stop gate is lifted from Phase 2 onward**. Phases run back to back and close on evidence in the chat rather than on a walk. **Phases 0 and 1 were walked and green-lit by Carl. Phase 2 onward is closed unwalked**, recorded as such in each phase file with its measured proof, so the record never implies he saw something he did not. Anything genuinely ambiguous or irreversible still stops and asks.
+
+**One thing waiting for his eyes, not blocking:** Phase 2 changed the "Lock in what you two agreed" promises card, because it renders the same `.question-stem` class. It went from 36px Inter bold to 30px Bricolage semibold, and it ships to the **customer app** as well as admin. Correct by the system (one class, one look) but outside phase-2.md's stated scope, so it is flagged rather than buried.
 
 ## Done means
 - Nothing on any screen renders at 15px or 17px again. The near-duplicate sizes are gone.
@@ -33,8 +35,8 @@ Dug out of the code so the phases don't stall:
 |---|---|---|---|
 | 0 | Font truth + floor breaches | The app renders the font it ships; no text below 14px | ✅ |
 | 1 | Build the three layers | Scale, fourteen roles and the type layer exist; nothing consumes them yet | ✅ |
-| 2 | The Meeting screen | Carl's screenshot: five sizes become three | 🔨 |
-| 3 | The 14px stratum | ~150 chrome, table and label selectors take a role | ⬜ |
+| 2 | The Meeting screen | Carl's screenshot: five sizes become three | ✅ unwalked |
+| 3 | The 14px stratum | ~150 chrome, table and label selectors take a role | 🔨 |
 | 4 | Reading surfaces | 15px and 17px die; prose gets a real line length | ⬜ |
 | 5 | Headings + markup sweep | One heading ladder; old tokens and aliases deleted | ⬜ |
 | 6 | Lock it | Guard rules become errors; PDF and email brought in line | ⬜ |
@@ -56,7 +58,13 @@ What landed: Tailwind's scale as seven locked size/leading pairs, fourteen seman
 
 Three verifiers attacked the build; four real defects were fixed before hand-over, the worst being that the 14px floor was still px-only and blind to the `font:` shorthand, in the very phase that published composites designed for that syntax. Detail: [proof/p1-invisibility.md](proof/p1-invisibility.md).
 
-**Next: Phase 2** — the Meeting screen Carl screenshotted. Five sizes become three. The first phase he will actually see.
+**Phase 2 ✅ closed unwalked 2026-07-30** (commits `29b9d29f` + `b662b101`). The Meeting screen now renders three sizes, not five, and `coach-panel.css` holds zero type declarations.
+
+The finding worth keeping: the old `max-width: 62ch` on the coach prose **never applied**, because 62ch at 17px is 664.9px inside a 560px column. The cap was wider than the box. That is why the coaching text ran the full panel width, and it is most of what made the screen read badly next to the mockup.
+
+Adversarial review caught two real regressions in the first build, both fixed before close: the phone stem landed *larger* than what it replaced, and the coach column shrank 96px. [proof/p2-meeting-screen.md](proof/p2-meeting-screen.md).
+
+**Next: Phases 3 to 6, running back to back.** Recon for all four is in flight.
 
 **Board:** https://claude.ai/code/artifact/189fce23-69c4-437f-9121-6417d8926f7f (regenerated at every phase-close via `node scripts/plan-board.js type-system`)
 

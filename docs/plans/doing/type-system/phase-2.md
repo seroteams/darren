@@ -1,6 +1,24 @@
 # Phase 2 — The Meeting screen
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ✅ closed UNWALKED
+
+## ✅ CLOSED UNWALKED 2026-07-30 — Carl lifted the walk gate mid-phase ("as this is a frontend, can you keep going?" then "lets go!"). He has NOT seen this screen. Commits `29b9d29f` + `b662b101`.
+
+Proof stands in place of the walk: [proof/p2-meeting-screen.md](proof/p2-meeting-screen.md).
+
+**One item genuinely waiting for his eyes:** the promises card ("Lock in what you two agreed") renders the same `.question-stem` class, so it changed too, from 36px Inter bold to 30px Bricolage semibold. It ships to the customer app as well as admin. Correct by the system, outside this phase's stated scope.
+
+## Built (2026-07-30)
+
+The screen renders **three** sizes where it rendered five. Census on the real running screen: Support tab `[14, 16, 30]`, Live scores tab `[14, 16, 30]`, phone `[14, 16, 20]`. `coach-panel.css` holds **zero** type declarations.
+
+Reached the screen by importing the app's own `questioning.js` and calling its real `mount()` with one stubbed fetch, so the real stage module, real coach panel, real markup and real cascade were all in play. No paid call.
+
+**The finding worth keeping:** the old `max-width: 62ch` on the coach prose **never applied**. 62ch at 17px is 664.9px and the column is 560px, so the cap was wider than the box it sat in. That is why the coaching text ran the full panel width and why the screen read badly. 46ch is the first measure narrower than the column.
+
+**Two regressions caught by adversarial review, both fixed before close:** the phone stem landed on a rung *larger* than the recipe it replaced, because the old override read a token `mobile.css` re-points to 21.6px on phones; and the coach column shrank 96px because `.coach-host` had no width rule and shrink-wrapped to the new 46ch cap, breaking the 50/50 mirror. Details and measurements in the proof file.
+
+**Offline proof:** 219/219, typecheck clean, both linters clean, guard `fonts 7/7` (was 13), `type 534/534` (was 560).
 
 ## Goal
 Turn the screen Carl screenshotted from five text sizes into three, and prove the role pattern works on a real screen before rolling it out.

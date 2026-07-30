@@ -1725,3 +1725,33 @@ what would make the exclusion wrong; this one sat inverted for weeks.
 **The whole plan, in one line each:** trace first (the map made the argument), committee before
 locking, cache boundary as a tested contract, one paid proof at the end ($0.196), every phase walked
 by Carl same day. Four dead wires closed, four parked with written reasons.
+
+## 2026-07-30 — type-system P2: a cap wider than the box it sits in
+
+**A max-width that never applies looks exactly like one that does.** The coach prose carried
+`max-width: 62ch` at 17px, which is 664.9px, inside a 560px column. The cap was wider than the
+box, so it had no effect at any viewport and the text ran the full panel width. Nobody reading
+the CSS would suspect it: the declaration is present, sensible and inert. Measure a measure
+against the thing that actually contains it.
+
+**`ch` is not a character.** 46ch measured 46.00 by definition (box width divided by the width
+of a zero) and set as 58 real characters when a Range walked the actual line breaks. Any
+acceptance criterion written as "breaks at N characters" will read as a failure to whoever
+counts.
+
+**A token can mean two different sizes at two different widths.** The phone stem override read
+`--type-h2`, and mobile.css re-points that token to 1.35rem at phone width. So the rule computed
+36px on a desktop and 21.6px on a phone. Replacing it with the nearest desktop-equivalent rung
+made the phone stem BIGGER and pushed the answer box 50px down. Before swapping a token for a
+value, resolve it at every breakpoint that redefines it.
+
+**Narrowing a child can shrink its parent.** `.coach-host` had no width rule and sat in a flex
+column with `align-items: flex-start`, so it shrink-wrapped to max-content. Capping the prose at
+46ch pulled the whole column in by 96px and took every divider and meter with it. The bug was
+invisible until the measure started biting, which is to say the previous inert cap had been
+hiding a missing width rule for months.
+
+**A class selector cannot match a descendant selector.** Grouping `.cp-screen .question-stem`
+onto `.type-heading-xl` does not make the media-query block targeting `.type-heading-xl` apply to
+it. Every grouped selector has to be repeated in the breakpoint by hand, or the responsive drop
+silently does not happen.
