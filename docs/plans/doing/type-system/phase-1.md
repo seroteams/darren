@@ -1,6 +1,8 @@
 # Phase 1 — Build the three layers
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-30 — Carl walked sign in, Start, Team and a live 1:1 question; nothing had moved (commit fa8b0762)
 
 ## Built (2026-07-30)
 

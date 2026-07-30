@@ -29,8 +29,8 @@ Dug out of the code so the phases don't stall:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 0 | Font truth + floor breaches | The app renders the font it ships; no text below 14px | ✅ |
-| 1 | Build the three layers | Scale, fourteen roles and the type layer exist; nothing consumes them yet | 🔨 |
-| 2 | The Meeting screen | Carl's screenshot: five sizes become three | ⬜ |
+| 1 | Build the three layers | Scale, fourteen roles and the type layer exist; nothing consumes them yet | ✅ |
+| 2 | The Meeting screen | Carl's screenshot: five sizes become three | 🔨 |
 | 3 | The 14px stratum | ~150 chrome, table and label selectors take a role | ⬜ |
 | 4 | Reading surfaces | 15px and 17px die; prose gets a real line length | ⬜ |
 | 5 | Headings + markup sweep | One heading ladder; old tokens and aliases deleted | ⬜ |
@@ -47,7 +47,13 @@ Not verified by screenshot — the Browser pane would not composite this session
 
 **Baseline (free checks only — this plan needs no paid run):** `npm test` 216/216 before, 217/217 after; typecheck clean; `lint:tokens` PASS with 13 known warnings; `lint:copy` PASS.
 
-**Next: Phase 1** — build the three layers additively. Deliberately invisible; the test is that nothing moved.
+**Phase 1 ✅ green-lit 2026-07-30** (commit `fa8b0762`). Carl walked sign in, Start, Team and a live 1:1 question and confirmed nothing had moved.
+
+What landed: Tailwind's scale as seven locked size/leading pairs, fourteen semantic roles in a new `design/type.css`, and nine new guard rules held to frozen ceilings. The roles are inert: measured live, all fourteen role classes match zero elements, and the ten existing treatment classes compute exactly as before. `type.css` imports **before** `base.css` on purpose, so a role loses every same-specificity tie. The consequence for Phase 2: a role must **replace** an old class in markup, never sit beside it.
+
+Three verifiers attacked the build; four real defects were fixed before hand-over, the worst being that the 14px floor was still px-only and blind to the `font:` shorthand, in the very phase that published composites designed for that syntax. Detail: [proof/p1-invisibility.md](proof/p1-invisibility.md).
+
+**Next: Phase 2** — the Meeting screen Carl screenshotted. Five sizes become three. The first phase he will actually see.
 
 **Board:** https://claude.ai/code/artifact/189fce23-69c4-437f-9121-6417d8926f7f (regenerated at every phase-close via `node scripts/plan-board.js type-system`)
 

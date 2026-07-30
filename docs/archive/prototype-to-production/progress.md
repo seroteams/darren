@@ -1671,3 +1671,31 @@ to the control means the face never painted.
 for months because they were written as fractions, not pixels: `0.85em` computed to 11.9px on 37 rows
 of the user list, `0.65em` to 10.4px in briefings. The guard reported PASS the whole time. A rule that
 only understands one unit is not a rule, it is a suggestion -- resolve every unit or state the gap.
+
+## 2026-07-30 — type-system P1: the guard that could not see its own syntax
+
+**A new rule inherits the old rule's blind spot unless you go looking.** Phase 0 proved the
+font-size check was px-only and had hidden two floor breaches for months. Phase 1 built a
+unit-aware resolver to fix exactly that, wired it into eight new warnings, and left the one hard
+error still reading px literals. The same class of bug, in the code written to prevent it.
+Adversarial review caught it, not the test suite: every test passed both before and after.
+
+**Ship a syntax and you must lint that syntax the same day.** Phase 1 published fourteen
+`--type-role-*` composites whose whole purpose is `font: var(--type-role-x)`, while every size
+rule in the linter matched the literal property `font-size`. A 12px shorthand cleared the floor,
+the ladder and the display-face rule at once. The design system was recommending the one form its
+own guard could not read.
+
+**Two counters that trade against each other punish the fix.** `font-size: var(--old, 14px)`
+counted only as relative-font-size, so dropping the fallback, which is what the guard's own hint
+told you to do, moved the site into a different key and broke the build. A ceiling is only honest
+if every sanctioned change makes the number fall.
+
+**A counter that ignores one unit can be zeroed without doing the work.** On-rung rem literals
+fired no rule at all, so the whole migration could be "finished" by swapping tokens for rem
+literals. Progress metrics need to be unfakeable by the cheapest wrong move, not just correct on
+the happy path.
+
+**A test named after a file it never opens is worse than no test.** The group asserting "the
+Phase 1 type.css shape must land clean" tested a hand-copied excerpt of six of fourteen roles.
+It read as coverage of the real layer and guaranteed nothing about it.
