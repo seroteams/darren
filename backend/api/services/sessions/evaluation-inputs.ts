@@ -42,6 +42,8 @@ function buildEvaluationInputs(session: Session) {
       summary: session.agendaInput?.summary ?? null,
       covered: session.agendaCovered ?? null,
     },
+    // No dead wires phase 1: the prep brief flows to the briefing (plan-vs-reality).
+    prep: session.preparationResult?.brief || null,
   };
 }
 

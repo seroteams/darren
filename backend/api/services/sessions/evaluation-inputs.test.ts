@@ -44,3 +44,34 @@ test("buildEvaluationInputs: the transcript projection carries no `note` field",
     assert.ok(!("note" in t), "projected transcript turns must not expose a note field");
   }
 });
+
+// No dead wires Phase 1: the prep brief flows into the evaluation input so the
+// briefing can answer plan-vs-reality. Absent prep must project as null, never
+// undefined-shaped surprises downstream.
+test("buildEvaluationInputs: the prep brief is projected when present", () => {
+  const session = sessionWithTaggedNote();
+  const brief = {
+    coreIssue: "Cutover load",
+    openingQuestion: "How is the cutover?",
+    listenFor: ["whether he names it"],
+    avoid: ["do not lead with the deadline"],
+    goodOutcome: "One owned next step",
+    suggestedAction: "During the 1:1, agree one task",
+    confidence: "Medium",
+    dontAssume: "Silence means disengagement",
+    styleTip: "Keep it light.",
+  };
+  (session as unknown as { preparationResult: unknown }).preparationResult = {
+    brief,
+    runId: "r1",
+    validation: { passed: true, issues: [] },
+    attempts: 1,
+  };
+  const out = buildEvaluationInputs(session);
+  assert.deepEqual(out.prep, brief);
+});
+
+test("buildEvaluationInputs: no prep brief projects as null", () => {
+  const out = buildEvaluationInputs(sessionWithTaggedNote());
+  assert.equal(out.prep, null);
+});

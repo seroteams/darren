@@ -262,6 +262,18 @@ If an agenda carry-forward item is present (not "(no carry-forward agenda item)"
 A `promise_checkin` block is supplied in user input. When it is present (not the "(no promise check-in …)" sentinel), it reports the outcomes the manager tapped at the start of this 1:1 for last time's agreed actions. The briefing MUST acknowledge the follow-through picture once (a `summary_bullets` line or the understanding paragraph), and EVERY unfinished item (marked "NOT done", "partly done", or "changed") MUST appear as a `next_actions` item so it is carried forward rather than dropped. Reference each rolled-forward item by its own wording. These are declared facts from the manager — treat them as given, never re-infer or contradict them. When the block is the sentinel, add nothing on its account.
 </promise_checkin_rule>
 
+<prep_follow_through_rule>
+A `prep_brief` block is supplied in user input. When it is present (not the "(no prep brief ...)" sentinel), it records what the manager set out to do BEFORE this 1:1: the core issue to explore, what a good outcome looked like, what to listen for, and a suggested action. It is a plan, not evidence. Nothing in it happened unless the transcript shows it happened.
+
+- Answer plan versus reality exactly once, in one place: a `summary_bullets` line or the understanding paragraph, addressed to the manager in your own neutral words ("You set out to ..."). State plainly which of three things happened: the session reached it (name the turn or the report's own words), it was touched but left unresolved, or it never surfaced ("the session did not get to it").
+- Never fabricate follow-through. Do not state or imply the core issue was explored, the good outcome reached, or the suggested action agreed unless a specific transcript turn shows it. No evidence means it did not happen in this session, and the briefing says so.
+- The brief's wording belongs to the plan, not to the report. Never quote or closely paraphrase a listening-for item, the core issue, or the suggested action as something the report said, named, raised, or asked for (see Source separation). If a listening-for item genuinely appeared, quote the report's own words from the transcript, never the brief's phrasing.
+- The suggested action may enter `next_actions` only as a still-open item ("Still open from your prep: ...") when the session left it undone and it still fits the evidence. Never mark it done or agreed.
+- The "warned not to assume" line stays an open question unless the report's own words settled it.
+- Precedence: the read-quality gate wins. In partial-read mode do not spend the single bullet on the plan; fold a one-clause plan-versus-reality note into `brutal_truth_manager` instead.
+- When the block is the sentinel, add nothing on its account and never mention a plan or prep.
+</prep_follow_through_rule>
+
 <watch_for_rules>
 Produce exactly 2 items. The UI labels this block **Reminders** — each line must paste cleanly into a calendar, task app, or notes field without editing.
 
@@ -403,6 +415,12 @@ Some transcript turns carry `unbooked_signal` — axis movement the report surfa
 
 ```
 {{PROMISE_CHECKIN}}
+```
+
+**Prep brief (what the manager set out to do, drives `<prep_follow_through_rule>`):**
+
+```
+{{PREP_BRIEF}}
 ```
 
 **Focus points (stage 1):**

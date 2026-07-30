@@ -252,6 +252,9 @@ export async function evaluationStream(c: RequestContext): Promise<void> {
           // time's promises — so the briefing acknowledges follow-through and rolls
           // any unfinished promise into next_actions.
           priorCheckin: session.priorCheckin ?? null,
+          // No dead wires phase 1: what the manager set out to do, so the briefing
+          // can answer plan-vs-reality instead of never seeing the plan.
+          prep: session.preparationResult?.brief || null,
         },
         { session: { id: session.id, dir: session.dir } }
       );

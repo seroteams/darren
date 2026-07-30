@@ -5,10 +5,10 @@ import { renderBriefing } from "../../briefing.ts";
 import { logRunRoot } from "../../session.ts";
 import { bold, dim, yellow, HR, pad, withThinking } from "../../ui.ts";
 
-import type { MeetingContext, AxisState, TranscriptEntry, PriorCheckin } from "../../../shared/session.types.ts";
+import type { MeetingContext, AxisState, TranscriptEntry, PreparationResult, PriorCheckin } from "../../../shared/session.types.ts";
 import type { CostTracker, CostSummary } from "../../../shared/cost.types.ts";
 
-async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, priorCheckin, session, name }: {
+async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, notes, scoring, priorCheckin, prep, session, name }: {
   ctx: MeetingContext;
   focusPoints: unknown;
   transcript: TranscriptEntry[];
@@ -16,6 +16,7 @@ async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, not
   notes?: string;
   scoring?: { failures?: number; scoredTurns?: number };
   priorCheckin?: PriorCheckin | null; // Promises loop phase 3 — usually null in CLI (no card-zero step); kept for parity
+  prep?: PreparationResult["brief"] | null; // No dead wires phase 1 — plan-vs-reality in the briefing
   session: { dir: string };
   name: string;
 }) {
@@ -38,6 +39,7 @@ async function runEvaluationStage({ ctx, focusPoints, transcript, axisState, not
         notes,
         scoring,
         priorCheckin: priorCheckin ?? null,
+        prep: prep ?? null,
       },
       { session }
     )

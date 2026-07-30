@@ -285,6 +285,7 @@ async function main() {
     axisState,
     notes,
     scoring,
+    prep: prepResult?.brief || null,
     session,
     name,
   });

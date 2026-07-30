@@ -15,7 +15,7 @@ import { modelFor } from "./models.ts";
 import { callAI, parseAIJson } from "./ai-client.ts";
 
 import type { Briefing, AxisRead, EngagementRead } from "../shared/briefing.types.ts";
-import type { AxisSlot, MeetingContext, PriorCheckin, TurnRead } from "../shared/session.types.ts";
+import type { AxisSlot, MeetingContext, PreparationResult, PriorCheckin, TurnRead } from "../shared/session.types.ts";
 import { classifyAnswer } from "./read-quality.ts";
 import { formatPromiseCheckin } from "./promise-history.ts";
 import { isObjectRecord } from "../shared/guards.ts";
@@ -484,6 +484,31 @@ function formatScoringStatus(scoring: ScoringInput): string {
   );
 }
 
+// The prep brief enters the evaluation as plan facts only; the plan-vs-reality
+// instruction wording lives in final-evaluation.md (<prep_follow_through_rule>),
+// mirroring the formatPromiseCheckin split. Coaching meta (avoid, styleTip,
+// confidence, the opener) stays out: no plan-vs-reality value, and every extra
+// prep phrase in the prompt is extra echo surface for the leak screens.
+function formatPrepBrief(prep: PreparationResult["brief"] | null | undefined): string {
+  const NONE = "(no prep brief was recorded for this 1:1)";
+  if (!prep || typeof prep !== "object") return NONE;
+  const coreIssue = String(prep.coreIssue || "").trim();
+  const goodOutcome = String(prep.goodOutcome || "").trim();
+  const listenFor = Array.isArray(prep.listenFor)
+    ? prep.listenFor.map((l) => String(l || "").trim()).filter(Boolean)
+    : [];
+  const suggestedAction = String(prep.suggestedAction || "").trim();
+  const dontAssume = String(prep.dontAssume || "").trim();
+  if (!coreIssue && !goodOutcome && listenFor.length === 0 && !suggestedAction && !dontAssume) return NONE;
+  const lines = ["The manager ran this 1:1 with a prep brief. Before the session it said:"];
+  if (coreIssue) lines.push(`- Core issue to explore: ${coreIssue}`);
+  if (goodOutcome) lines.push(`- What a good outcome looked like: ${goodOutcome}`);
+  if (listenFor.length > 0) lines.push(`- Listening for: ${listenFor.join("; ")}`);
+  if (suggestedAction) lines.push(`- Suggested action to leave with: ${suggestedAction}`);
+  if (dontAssume) lines.push(`- Warned not to assume: ${dontAssume}`);
+  return lines.join("\n");
+}
+
 interface BuildMessagesArgs {
   ctx: MeetingContext;
   focusPoints?: unknown;
@@ -494,6 +519,7 @@ interface BuildMessagesArgs {
   agenda?: AgendaInput;
   scoring?: ScoringInput;
   priorCheckin?: PriorCheckin | null;
+  prep?: PreparationResult["brief"] | null;
 }
 
 function buildMessages({
@@ -506,6 +532,7 @@ function buildMessages({
   agenda,
   scoring,
   priorCheckin,
+  prep,
 }: BuildMessagesArgs) {
   const template = fs.readFileSync(promptFor(ctx.meetingType, "evaluation"), "utf8");
   const axes = loadAxes();
@@ -543,6 +570,7 @@ function buildMessages({
     SCORING_STATUS: formatScoringStatus(scoring),
     AGENDA_CARRY_FORWARD: formatAgendaCarryForward(agenda),
     PROMISE_CHECKIN: formatPromiseCheckin(priorCheckin),
+    PREP_BRIEF: formatPrepBrief(prep),
     ROLE_PROFILE_BLOCK: renderRoleProfileBlock(
       loadRoleProfile({ role: ctx.role, seniority: ctx.seniority }),
       { slice: "eval", meetingType: ctx.meetingType }
@@ -575,6 +603,7 @@ function assembleEvaluation(
     agenda: args.agenda,
     scoring: args.scoring,
     priorCheckin: args.priorCheckin,
+    prep: args.prep,
   });
   return { model, prompt: msgs.filled };
 }
@@ -762,10 +791,11 @@ interface EvaluateArgs {
   agenda?: AgendaInput;
   scoring?: ScoringInput;
   priorCheckin?: PriorCheckin | null;
+  prep?: PreparationResult["brief"] | null;
 }
 
 async function evaluate(
-  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring, priorCheckin }: EvaluateArgs,
+  { ctx, focusPoints, transcript, axisState, notes, selectedFocus, agenda, scoring, priorCheckin, prep }: EvaluateArgs,
   { model = getDefaultModel(), session, stage = "05-evaluation" }: { model?: string; session?: SessionArg; stage?: string } = {}
 ): Promise<Briefing> {
   const sf =
@@ -784,6 +814,7 @@ async function evaluate(
     agenda,
     scoring,
     priorCheckin,
+    prep,
   });
   const evalPromptPath = promptFor(ctx.meetingType, "evaluation");
   const logInputs = withPromptVersion(
@@ -795,6 +826,7 @@ async function evaluate(
       notes,
       selectedFocus: sf,
       scoring,
+      prep,
       model,
       roleProfile: roleProfileLogInfo({ role: ctx.role, seniority: ctx.seniority }),
     },
@@ -874,6 +906,7 @@ export {
   buildFallbackBriefing,
   buildMessages,
   callOpenAI,
+  formatPrepBrief,
   fourGramOverlap,
   applyManagerBriefingPostProcess,
   applyAxisScoresFromState,

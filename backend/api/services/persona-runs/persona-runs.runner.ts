@@ -252,6 +252,7 @@ export function createPersonaRunner(deps: PersonaRunnerDeps): PersonaRunner {
           summary: session.agendaInput?.summary ?? null,
           covered: session.agendaCovered ?? null,
         },
+        prep: session.preparationResult?.brief || null,
       },
       stageOpts
     );
