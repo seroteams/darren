@@ -34,8 +34,12 @@ Concentration: `buttons-inputs.css` 32, `design-stage.css` 17, `stage-extras.css
 
 ⬜ not started · 🔨 in progress · ✅ done
 
-## Current state
-Folder set up 2026-07-31. Carl green-lit the sweep after walking the app.
+## Current state — DONE 2026-07-31 (commit `466546ee`)
+`typePropOutsideTypeLayer` went **164 to 0**. All ten type rules are errors at zero; the key is deleted from CEILINGS. 221/221, typecheck clean, both linters clean.
+
+**No component stylesheet in Sero decides its own type any more.** Every size, weight, leading, case and family comes from one of the fourteen roles in `design/type.css`. On a live page, zero elements render off the seven-rung ladder.
+
+**Not adversarially verified.** The build landed on disk but the workflow crashed returning its summary, so the three verifiers never ran. The numbers above are my own independent measurement; nobody went hunting for unlisted changes. That is the one thing this phase is missing against the seven before it, and it is why a walk is worth more here than on the others.
 
 Phase 1 built 2026-07-31. `typePropOutsideTypeLayer` measured 164 → **0**, the rule is an
 error, and its ceiling is deleted. Eight things change on screen, all sub-pixel line spacing

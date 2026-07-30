@@ -12,7 +12,7 @@ stops the edit and surfaces a warning instead of ploughing in.
 | c9200bfa | Nightly database backup (photocopy the notebook) | scripts/backup-db.js, scripts/backup-nightly.ps1, docs/reference/db-backup-restore.md | 2026-07-30 |
 | c91a58a9 | Coach hints that move with the meeting | docs/plans/doing/coach-hints-live/, backend/api/services/sessions/sessions.service.ts, backend/api/services/sessions/sessions.service.test.ts, backend/engine/questions.test.ts, backend/engine/reconcile-queue.test.ts, backend/engine/queue-manager.ts, backend/engine/queue-manager.test.ts, content/prompts/plan-turn.md | 2026-07-31 |
 | 78d09803 | Action review placement (offer, don't gate) | docs/plans/doing/action-review-placement/, admin/src/stages/questioning.js, admin/src/stages/questioning-ready.ts, admin/src/stages/questioning-ready.test.ts, admin/src/stages/bank.js, admin/src/stages/prior-actions.ts, admin/src/ui/promise-checkin.ts, admin/src/ui/promise-checkin.test.ts | 2026-07-31 |
-| 1a2e5006 | Type system 5b (the last 164) | docs/plans/doing/type-system-5b/, admin/src/styles/, frontend/src/styles/, frontend/src/stages/guided/, frontend/src/stages/preparation-lab.css, admin/src/stages/meeting-arcs.js, scripts/lint-design-tokens.js, scripts/test-design-guard.js, scripts/test-type-rules.js, .claude/launch.json | 2026-07-31 |
+| 7cf4af57 | Regression rerun board | docs/plans/doing/regression-rerun-board/, backend/api/services/regression-runs/, backend/api/services/engine-job-slot.ts, backend/api/services/engine-job-slot.test.ts, backend/engine/regression-judge.ts, backend/engine/regression-judge.test.ts, admin/src/stages/regression.js, admin/src/stages/regression-rows.ts, admin/src/stages/regression-rows.test.ts | 2026-07-31 |
 
 
 

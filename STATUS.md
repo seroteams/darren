@@ -16,8 +16,8 @@ column it sat in, which is most of why that screen read badly; `.btn`, the prima
 off the grid on **every screen**; and the notification email was a **fourth type system nobody had
 ever checked**, three of its sizes below the 14px floor, shipping to real managers. Phases 0 and 1
 you walked; 2 to 6 are closed **unwalked** on your "lets go!", each with measured proof.
-**Three things left, all written down, none blocking:** 164 weights and leadings still declared in
-component sheets (a 5b sweep that changes sizes on screens you should see first), prose sets a bit
+**Then you said do the sweep, and that is done too** ([type-system-5b](docs/plans/done/type-system-5b/plan.md), commit `466546ee`): the last 164 left the component sheets, so **no stylesheet in Sero decides its own text any more**, and all ten rules are build errors at zero. A live page census finds nothing off the ladder. One caveat worth knowing: 5b's adversarial pass crashed before it ran, so it carries my measurements but not the three-verifier hunt the other seven phases got, which makes a walk worth more here than on them. **Two things left, neither blocking:** 164 weights and leadings still declared in
+prose sets a bit
 wider than DESIGN.md's own 66-character cap, and the promises card changed look on the customer app
 because it shares the question-stem style. [Board](https://claude.ai/code/artifact/969964a8-67b3-4b80-a2da-156381cfab63)
 · [specimen](https://claude.ai/code/artifact/401c7c5c-b460-4711-a8d1-f2f27147abb3).

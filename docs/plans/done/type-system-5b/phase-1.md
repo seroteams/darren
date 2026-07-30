@@ -1,6 +1,14 @@
 # Phase 1 — The last 164
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting sign-off
+**Part of:** [plan.md](plan.md) · **Status:** ✅ closed UNWALKED
+
+## ✅ CLOSED UNWALKED 2026-07-31 — commit `466546ee`
+
+`typePropOutsideTypeLayer` measured **164 to 0**. All ten type rules are now errors at zero and the key is deleted from CEILINGS: an error needs no ceiling. Verified independently after the build rather than taken on trust: `npm test` 221/221, typecheck clean, `lint:tokens` PASS, `lint:copy` PASS, guard reports "all ten type rules at zero, as errors".
+
+On a live page: **zero elements render off the ladder**. Every primitive measured on-pair: h1 30/36, h2 24/32, h3 20/28, h4 18/28, body 16/24, label and caption and chip and eyebrow 14/20, every button variant, the big input 24/32. The only two off-pair elements on the page are the deliberate `.type-flush` glyph cases, the topbar exit word and the avatar initial.
+
+**This phase did not get the adversarial pass the other seven did.** The workflow's build agent finished its work on disk but crashed returning its summary, so the three verifiers never ran. Everything above is my own measurement. Nobody hunted for changes that are not on a list, which is exactly what those verifiers were for.
 
 ## Goal
 Move every remaining type declaration out of component stylesheets and into a role, so the tenth guard rule can be an error at zero like the other nine.

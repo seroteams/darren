@@ -1,6 +1,10 @@
 # Phase 1 — The offer replaces the gate
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅ GREEN-LIT 2026-07-31
+
+## ✅ GREEN-LIT 2026-07-31
+
+Carl walked the offer on the walk-in card and said go.
 
 ## Built (2026-07-31)
 
