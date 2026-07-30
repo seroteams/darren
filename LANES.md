@@ -9,8 +9,8 @@ stops the edit and surfaces a warning instead of ploughing in.
 | session | area | paths | claimed |
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
-| 20818dd4 | User-test fixes P1 (note tag strip at stream boundary) | backend/api/services/sessions/session-streams.ts, backend/api/services/sessions/session-streams.test.ts | 2026-07-29 |
-
+| 20818dd4 | User-test fixes P2+P3 (recap/lock-in + focus-aware seeds) | docs/plans/doing/user-test-fixes-jul-29/, admin/src/ui/promise-agree.ts, admin/src/ui/axes.js, admin/src/styles/design/axes.css, admin/src/ui/recap-pdf.ts, admin/src/stages/briefing.js, admin/src/styles/design/briefing.css, admin/src/stages/test.js, admin/src/stages/tests/recap-fixes.js, content/questions/_seed/, backend/engine/axis-coverage.ts, backend/engine/axis-coverage.test.ts, backend/engine/closer.ts, backend/engine/closer.test.ts, backend/api/services/sessions/session-streams.ts | 2026-07-30 |
+| fcc85cf6 | Follow-up questions written by the model, not a code template | backend/engine/thread-follow.ts, backend/engine/thread-follow.test.ts, backend/engine/queue-manager.ts, backend/shared/question.types.ts, content/prompts/plan-turn.md, content/prompts/generate-questions.md, scripts/test-question-integrity.js | 2026-07-30 |
 
 
 
