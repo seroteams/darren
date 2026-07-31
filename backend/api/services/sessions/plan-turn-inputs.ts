@@ -7,7 +7,6 @@
 // Sibling of preparation-inputs.ts / bank-inputs.ts / evaluation-inputs.ts.
 
 import { getSessionSelectedFocus } from "../../selected-focus.ts";
-import { capturedNotesForPlanner } from "./notes-format.ts";
 import type { Session, TranscriptEntry } from "../../../shared/session.types.ts";
 
 // draftAnswer (optional): the answer the manager is typing but hasn't submitted.
@@ -48,14 +47,9 @@ function buildPlanTurnInputs(session: Session, draftAnswer?: string) {
     closerAlias: session.closer ? session.closer.alias : null,
     prep: session.preparationResult?.brief || null,
     sessionBank: Array.isArray(session.sessionBank) ? session.sessionBank : [],
-    // No dead wires phase 4: mirror the live planStream's notes wire, so the
-    // preview stays byte-honest with what planTurn actually sends — including
-    // the QA rule, which drops mid-run notes on a labelled or scripted run.
-    sessionNotes: capturedNotesForPlanner({
-      notes: session.notes,
-      mode: session.mode,
-      runLabel: session.runLabel,
-    }),
+    // Deliberately NO sessionNotes, mirroring the live planStream. Mid-run notes
+    // are admin-only QA observations about the run and never reach the planner
+    // (Carl, 2026-07-31), so the preview must not show them either.
   };
 }
 

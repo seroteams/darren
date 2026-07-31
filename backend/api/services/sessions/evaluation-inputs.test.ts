@@ -76,26 +76,29 @@ test("buildEvaluationInputs: no prep brief projects as null", () => {
   assert.equal(out.prep, null);
 });
 
-// No dead wires P4: a real run's mid-run notes reach the evaluation notes
-// channel; a QA-labelled run still strips stamped tester lines.
-test("buildEvaluationInputs: real-run mid-run notes reach the notes channel", () => {
-  const session = sessionWithTaggedNote();
-  (session as unknown as { mode: string; runLabel: null }).mode = "manual";
-  (session as unknown as { runLabel: null }).runLabel = null;
-  (session as unknown as { notes: unknown }).notes = [
-    { id: "n1", stage: "QUESTIONING", turn: 1, ts: 0, text: "He keeps glancing at his phone." },
-  ];
-  const out = buildEvaluationInputs(session);
-  assert.ok(out.notes.includes("glancing at his phone"), "a real manager note must reach the evaluation");
+// Notes are admin-only QA (Carl, 2026-07-31): they assess a run, they are never
+// input to one. P4's real-run carve-out is reverted; the strip has no exceptions.
+test("buildEvaluationInputs: mid-run notes never reach the notes channel", () => {
+  for (const lane of [
+    { mode: "manual", runLabel: null },
+    { mode: "manual", runLabel: "qa-sweep" },
+    { mode: "scripted", runLabel: null },
+  ]) {
+    const session = sessionWithTaggedNote();
+    Object.assign(session as unknown as Record<string, unknown>, lane, {
+      notes: [{ id: "n1", stage: "QUESTIONING", turn: 1, ts: 0, text: "He keeps glancing at his phone." }],
+    });
+    const out = buildEvaluationInputs(session);
+    assert.ok(
+      !out.notes.includes("glancing at his phone"),
+      `an admin QA note must stay out of the evaluation (mode=${lane.mode}, runLabel=${lane.runLabel})`
+    );
+  }
 });
 
-test("buildEvaluationInputs: a QA-labelled run still excludes captured notes", () => {
+test("buildEvaluationInputs: the manager's intake note still reaches the evaluation", () => {
   const session = sessionWithTaggedNote();
-  (session as unknown as { mode: string }).mode = "manual";
-  (session as unknown as { runLabel: string }).runLabel = "qa-sweep";
-  (session as unknown as { notes: unknown }).notes = [
-    { id: "n1", stage: "QUESTIONING", turn: 1, ts: 0, text: "this question is repeated a lot" },
-  ];
+  (session as unknown as { ctx: Record<string, unknown> }).ctx.notes = "The Odin cutover is slipping.";
   const out = buildEvaluationInputs(session);
-  assert.ok(!out.notes.includes("repeated a lot"), "tester notes must stay out of QA-run evaluations");
+  assert.ok(out.notes.includes("Odin cutover"), "intake context is engine input and must survive");
 });

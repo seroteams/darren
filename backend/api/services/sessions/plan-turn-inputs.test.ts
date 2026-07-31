@@ -27,29 +27,20 @@ function baseSession(): Session {
   } as unknown as Session;
 }
 
-test("buildPlanTurnInputs: mid-run notes ride along to the planner", () => {
-  const out = buildPlanTurnInputs(baseSession());
-  assert.ok(Array.isArray(out.sessionNotes), "sessionNotes must be present");
-  assert.equal(out.sessionNotes.length, 1);
-  const first = out.sessionNotes[0] as { text?: string };
-  assert.ok(String(first?.text).includes("glancing"), "the note text reaches the planner inputs");
+// Notes are admin-only QA (Carl, 2026-07-31): they must not steer a question.
+// P4 wired them to the planner (prompt block AND grounding corpus); reverted.
+test("buildPlanTurnInputs: mid-run notes never reach the planner", () => {
+  const out = buildPlanTurnInputs(baseSession()) as Record<string, unknown>;
+  assert.ok(!("sessionNotes" in out), "the planner inputs must carry no notes key at all");
+  assert.ok(
+    !JSON.stringify(out).includes("glancing"),
+    "no note text may reach the planner by any route, prompt block or grounding corpus"
+  );
 });
 
-test("buildPlanTurnInputs: no notes still yields an array (never undefined)", () => {
+test("buildPlanTurnInputs: a session with no notes builds the same inputs", () => {
+  const withNotes = buildPlanTurnInputs(baseSession());
   const s = baseSession();
   (s as unknown as { notes: unknown }).notes = undefined;
-  const out = buildPlanTurnInputs(s);
-  assert.deepEqual(out.sessionNotes, []);
-});
-
-// Audit fix 2026-07-31: the QA rule applies to the planner too, and the preview
-// builder must mirror it or the "Sending" pane lies about what a QA run sends.
-test("buildPlanTurnInputs: a QA run sends the planner no mid-run notes", () => {
-  const labelled = baseSession();
-  (labelled as unknown as { runLabel: string }).runLabel = "qa-sweep";
-  assert.deepEqual(buildPlanTurnInputs(labelled).sessionNotes, []);
-
-  const scripted = baseSession();
-  (scripted as unknown as { mode: string }).mode = "scripted";
-  assert.deepEqual(buildPlanTurnInputs(scripted).sessionNotes, []);
+  assert.deepEqual(buildPlanTurnInputs(s), withNotes, "notes must make no difference to the planner");
 });

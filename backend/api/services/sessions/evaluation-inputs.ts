@@ -13,15 +13,12 @@ function buildEvaluationInputs(session: Session) {
   if (!session.focusPointsResult) {
     throw Object.assign(new Error("Focus points not ready"), { status: 409 });
   }
-  // Notes pipeline: intake notes + captured mid-run notes (mirrors
-  // evaluationStream). Real runs pass mid-run notes through; QA runs keep the
-  // tester-line strip (no dead wires P4, one rule in notes-format.ts).
+  // Notes pipeline: the manager's intake note reaches the evaluation. Mid-run
+  // notes never do — they are admin-only QA observations about the run (Carl,
+  // 2026-07-31), so the stamped lines are stripped on every lane. Mirrors
+  // evaluationStream; the one rule lives in notes-format.ts.
   const intakeNotes = String(session.ctx?.notes || "").trim();
-  const capturedNotes = formatCapturedNotes({
-    notes: session.notes || [],
-    mode: session.mode,
-    runLabel: session.runLabel,
-  });
+  const capturedNotes = formatCapturedNotes(session.notes || []);
   const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
   return {
     ctx: session.ctx,

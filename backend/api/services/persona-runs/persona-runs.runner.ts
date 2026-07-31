@@ -230,14 +230,9 @@ export function createPersonaRunner(deps: PersonaRunnerDeps): PersonaRunner {
     // deliberately skipped (QA runs have no human in the loop).
     hooks.onProgress({ stageLabel: "Final briefing" });
     const intakeNotes = String(session.ctx?.notes || "").trim();
-    // Same one rule as the web lane (audit fix): a persona run always carries a
-    // runLabel, so this still strips stamped tester lines — but through the
-    // shared predicate rather than a third hand-rolled copy of it.
-    const capturedNotes = formatCapturedNotes({
-      notes: session.notes || [],
-      mode: session.mode,
-      runLabel: session.runLabel,
-    });
+    // Same one rule as the web lane: stamped mid-run notes never reach an
+    // evaluation. Shared helper rather than a third hand-rolled copy of it.
+    const capturedNotes = formatCapturedNotes(session.notes || []);
     const notesForEvaluation = [intakeNotes, capturedNotes].filter(Boolean).join("\n\n");
     if (!session.focusPointsResult) throw new Error("focus points not ready");
     const result = await deps.engine.evaluate(
