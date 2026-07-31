@@ -11,6 +11,7 @@
 - Rerun (one case or all 8) runs the real engine with the frozen inputs, adapting to whatever shape the engine is now. Local only; live shows a polite "switched off" state (Carl's call, 2026-07-31).
 - Every rerun shows: free safety-check verdict vs the ratified baseline, an AI reviewer score with better/same/worse vs last time, and a link into the existing /run/:id tool for Carl's own rating.
 - History groups past batches and names the prompt-version fingerprint, so a red batch points at what changed.
+- **No bad result is a dead end:** every red or "worse" row explains itself in plain English, names what changed in the engine since it was last good, and hands over a ready-to-paste fix brief. Fix, rerun that one case, watch the arrow flip.
 
 ## Resolved before we start
 - **Frozen inputs that survive engine restructuring:** `content/scenarios/**` smoke-shape scenarios (positional answers → whatever question the current engine asks). Suite = `evals/golden/_index.json` (8 cases).
@@ -29,11 +30,15 @@
 | 3 | The AI reviewer | Committee column: score /5 + better/same/worse vs last rerun | ⬜ |
 | 4 | Rerun all + history | One-click batch of 8, batch history with prompt fingerprint, compare link | ⬜ |
 | 5 | Live + bless baseline | Live shows the screen honestly (reruns off); local "bless as baseline" | ⬜ |
+| 6 | When it goes red | Plain-English diagnosis, what changed since good, copy-paste fix brief, rerun to verify | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Folder set up 2026-07-31 from the approved plan (committee convened, Carl chose local-only paid reruns + one AI reviewer). Waiting on Carl to read the phases and the mockup before Phase 1 starts.
+Folder set up 2026-07-31 from the approved plan (committee convened, Carl chose local-only paid reruns + one AI reviewer). Phase 6 added the same day on Carl's ask: "what next steps can I take when I see not good results". Waiting on Carl to read the phases and the mockup before Phase 1 starts.
+
+**How a bad result turns into a fix (Phase 6, in plain English):** the board says a case got worse → "What now" explains it without jargon and lists what changed in the engine since that case was last good → Copy fix brief gives a self-contained prompt for a fresh Claude chat (case, evidence, suspect files, and the rule that it proposes options rather than applying them) → after the fix, Rerun this case from the same panel and watch the arrow flip. The other branch is there too: if the new behaviour is actually right, bless it as the new normal.
+Free machinery this leans on, already in the repo: `diffLocks()` in `backend/engine/pipeline-lock.ts` already names changed prompt files in plain English ("Evaluation / briefing"); `FIX_MAP` in `admin/src/ui/review-serialize.js` already maps each failing dimension to the files that own it; `POST /api/v1/suggest-fix` already gives an in-app AI read.
 Baseline note: free checks (`npm test`, `npm run typecheck`) are the baseline for Phases 1; an `npm run gate` baseline (~$3, paid) is deferred to the start of Phase 2 and needs Carl's nod first.
 
 ## Parked

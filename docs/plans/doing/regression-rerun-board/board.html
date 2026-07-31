@@ -67,14 +67,14 @@
 <div class="board">
   <div class="eyebrow"><span class="dot">●</span> SERO · REGRESSION RERUN BOARD</div>
   <h1>Where we are<span class="dot">.</span></h1>
-  <p class="lead">The plan is 5 phases and 25 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
+  <p class="lead">The plan is 6 phases and 31 steps. One phase at a time — you sign it off, then the next begins. This board fills up as we go.</p>
 
   <div class="panel">
     <div class="prog-head">
-      <h2>Phase 1 of 5 — the screen, free parts</h2>
-      <div class="prog-sub">0 of 5 signed off · 0 built</div>
+      <h2>Phase 1 of 6 — the screen, free parts</h2>
+      <div class="prog-sub">0 of 6 signed off · 0 built</div>
     </div>
-    <div class="segs"><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
+    <div class="segs"><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
   </div>
 
   <div class="panel setup">
@@ -151,6 +151,19 @@
       </div>
       <p class="desc">The live admin gets the screen honestly (free check + history + a polite "reruns are switched off here"); locally, Carl can bless a rerun as the new baseline.</p>
       <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>List response gains canRerun</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>NEW route POST /api/v1/regression-runs/:caseId/bless → internalV1(blockOnLive(...))</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Admin: "Bless as baseline" per case</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Live empty-history copy: reruns happen locally; history appears here only if reruns are ever…</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Free tests: env guards</span></li></ul>
+      
+    </div>
+  </div>
+  <div class="row ">
+    <div class="node todo">6</div>
+    <div class="card">
+      <div class="card-head">
+        <h3>When it goes red: the next move</h3>
+        <span class="pill pill-todo">NOT STARTED</span>
+        
+      </div>
+      <p class="desc">No bad result is a dead end. Any red or "worse" row opens a panel that says what went wrong in plain English, what changed in the engine since it was last good, and hands over a ready-to-paste fix brief. The same panel reruns that one case to check the fix worked.</p>
+      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>NEW backend/api/services/regression-runs/regression-diagnosis.ts + .test.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Hard-fail codes to plain English</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>What changed</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Prime suspects</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>NEW backend/api/services/regression-runs/fix-brief.ts + .test.ts</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Anti-drift</span></li></ul>
       
     </div>
   </div>

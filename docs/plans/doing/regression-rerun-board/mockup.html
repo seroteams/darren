@@ -61,6 +61,22 @@
   .bar{height:6px;border-radius:9999px;background:var(--accent-soft);overflow:hidden}
   .bar i{display:block;height:100%;width:62%;background:var(--accent);border-radius:9999px}
   .acts{display:flex;gap:6px;justify-content:flex-end}
+  .btn.alert{background:var(--coral-bg);border-color:#fcc5c0;color:var(--coral)}
+  tr.open td{border-bottom:none}
+  tr.panel td{padding:0 14px 16px;background:var(--surface-hover);white-space:normal}
+  .now{border:1px solid #fcc5c0;border-left:3px solid var(--coral);border-radius:0 var(--radius-card) var(--radius-card) 0;background:var(--surface);padding:16px 18px}
+  .now h3{font-size:15px;font-weight:700;margin-bottom:4px}
+  .now .plain{color:var(--ink-dim);max-width:70ch;margin-bottom:14px}
+  .now .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:14px}
+  @media(max-width:820px){.now .grid{grid-template-columns:1fr}}
+  .now .lab{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:6px}
+  .now ul{list-style:none}
+  .now li{padding:3px 0;color:var(--ink-dim)}
+  .now li b{color:var(--ink)}
+  .now .sus{color:var(--amber);font-weight:600}
+  .quote{border-left:2px solid var(--border-strong);padding:4px 0 4px 12px;margin:6px 0;color:var(--ink-dim);font-style:italic;max-width:60ch}
+  .now .acts2{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-top:12px;border-top:1px solid var(--border)}
+  .now .tiny{color:var(--ink-mute);font-size:14px}
   h2{font-size:17px;font-weight:700;margin:30px 0 10px}
   .hist td:first-child{font-weight:600}
   .fp{font-family:var(--mono);font-size:14px;color:var(--ink-dim)}
@@ -134,14 +150,50 @@
             <td class="muted">Not reviewed</td>
             <td><div class="acts"><button class="btn small ghost">Open run</button><button class="btn small">Rerun</button></div></td>
           </tr>
-          <tr>
+          <tr class="open">
             <td class="case"><b>Thin answers</b><span class="chip">adversarial</span></td>
             <td>1:1</td>
             <td>24 Jul</td>
             <td><span class="pill bad">Regressed</span><span class="flag">QUESTION_INTEGRITY</span></td>
             <td class="judge"><b>2/5</b> <span class="down">▼ worse</span><span class="reason">recap invents a deadline the manager never gave</span></td>
             <td class="muted">Not reviewed</td>
-            <td><div class="acts"><button class="btn small ghost">Open run</button><button class="btn small">Rerun</button></div></td>
+            <td><div class="acts"><button class="btn small ghost">Open run</button><button class="btn small alert">What now</button></div></td>
+          </tr>
+          <tr class="panel">
+            <td colspan="7">
+              <div class="now">
+                <h3>What went wrong</h3>
+                <p class="plain">The manager gave short, vague answers. Instead of staying careful, the recap made up a commitment that was never said. The engine should hold back when it has little to go on.</p>
+
+                <div class="grid">
+                  <div>
+                    <div class="lab">The evidence</div>
+                    <p class="tiny">Asked: "How is the workload feeling at the moment?"</p>
+                    <p class="quote">"Yeah, fine I think."</p>
+                    <p class="tiny">The recap then said:</p>
+                    <p class="quote">"Ana has committed to clearing the backlog by Friday."</p>
+                  </div>
+                  <div>
+                    <div class="lab">Changed since this case was last good</div>
+                    <ul>
+                      <li class="sus">▸ Evaluation / briefing <b>· prime suspect</b></li>
+                      <li>▸ Questioning (planner)</li>
+                    </ul>
+                    <p class="tiny" style="margin-top:8px">Prime suspect means: this part changed <em>and</em> it owns the check that failed.</p>
+                  </div>
+                </div>
+
+                <div class="acts2">
+                  <button class="btn primary">Copy fix brief</button>
+                  <span class="tiny">Free. Paste it into a fresh Claude chat: it carries the case, the evidence and the suspect files.</span>
+                </div>
+                <div class="acts2" style="border-top:none;padding-top:8px">
+                  <button class="btn small">Ask the engine (about 2p)</button>
+                  <button class="btn small">Rerun this case ($0.45)</button>
+                  <button class="btn small ghost">This is the new normal</button>
+                </div>
+              </div>
+            </td>
           </tr>
           <tr>
             <td class="case"><b>Sam · new starter</b></td>
@@ -208,6 +260,6 @@
       </table>
     </div>
 
-    <p class="foot">On the live site this screen shows the cases, the free safety check and past batches. Paid reruns are switched off there and the button says so. Your own rating always happens in the run review tool you already use: press Open run.</p>
+    <p class="foot">Every red row has a "What now" panel like the one above, so a bad result always comes with the next move. On the live site this screen shows the cases, the free safety check and past batches; paid reruns are switched off there and the button says so. Your own rating always happens in the run review tool you already use: press Open run.</p>
   </main>
 </div>
