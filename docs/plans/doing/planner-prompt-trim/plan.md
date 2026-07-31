@@ -54,8 +54,11 @@ Measured from logged prompts + `cost.json` across 7 real runs (all free, no API 
 ## Current state
 **Board:** https://claude.ai/code/artifact/7c211d67-dc8b-43f9-8527-932cc334c6cb
 
-Folder set up 2026-07-31. Nothing built. Phase 1 blocked on the lane clash above.
-Baseline: gate PASS from 30 July (see Resolved above) — no paid run spent yet.
+Folder set up 2026-07-31. Nothing built.
+
+**Baseline recorded 2026-07-31 (free, no API):** `npm test` 221/221 passed · `npm run typecheck` clean · gate PASS from 30 July (see Resolved above). No paid run spent yet.
+
+**Phase 1 is blocked.** The lane hook stopped the first edit to `content/prompts/plan-turn.md`: session `c91a58a9` ("Coach hints that move with the meeting") holds it, phase 2 built and awaiting Carl's walk. Carl chose 2026-07-31 to clear it the clean way — walk and sign off that chat's phase 2 so its lane releases — rather than editing through the claim. Phase 1 starts the moment the lane is free.
 
 ## Parked
 - **The cache fix** (~10% off a run): ~1,700 tokens of unchanging context are billed at full rate every turn instead of the cheap cached rate. Mechanical, no wording touched. Needs a small change to the shared `ai-client` message shape, and one live call to confirm the cache boundary. Carl chose the rule trim over this on 2026-07-31.
