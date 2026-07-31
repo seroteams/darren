@@ -2,17 +2,36 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
-📍 **2026-07-31 — an independent audit of the engine rewiring found four real defects in it, and
-they are fixed and LIVE.** You asked for a fresh chat to check the no-dead-wires work. It did not
+📍 **2026-07-31 — your notes are yours again: they no longer touch a single question or prompt,
+and the audit's own worst fix has been taken back out. LIVE.** Two things happened after the audit
+entry below. **One, your rule:** "the notes should not affect any questions or prompts or anything.
+This is for me as an admin only to assess your outputs." The notes panel is admin-only tooling, so
+no-dead-wires phase 4 was reverted whole: mid-run notes reach neither the next question, nor its
+grounding corpus, nor the final brief, on any lane. Your intake note is untouched and still feeds
+both. Proved end to end offline through the real builders and the real prompts. **Two, I re-audited
+my own audit fixes and one was wrong on two counts.** The private-note leak screen I added could
+never run (notes are stripped before it sees them, so it was dead code) and, when it could, it
+blocked innocent briefings: you jot "the cutover keeps coming up", the brief says "The cutover keeps
+coming up across the conversation", and Sero throws away the real briefing for the canned fallback.
+That was live behaviour on `a07841c`. Removed; the two older leak screens are untouched. Commits
+`cba8004e` and `4d3647ec`. **✅ LIVE 2026-07-31** — build `4d3647e` on `sero.team/api/version`,
+homepage 200. 221/221, typecheck and copy guard clean, replay unchanged. **Left open:** the dead
+`sessionNotes` plumbing in `queue-manager.ts` and the `{{SESSION_NOTES}}` block in `plan-turn.md`
+are being removed in a separate session; nothing feeds them and no placeholder ships unfilled.
+
+📍 **2026-07-31 — an independent audit of the engine rewiring found four real defects in it. Three
+hold and are LIVE; the fourth was mine and is gone (see above).** You asked for a fresh chat to check the no-dead-wires work. It did not
 come back clean, which is the point of asking. **One:** the QA rule only covered half the path, so a
 tester's note still reached the live planner and its grounding corpus on every lane. **Two:** three
 separate copies of "what counts as a QA run" had drifted apart. **Three, the one that matters most:**
 text you type in a note was being filled into the prompt before other keys, so a `{{...}}` hidden in
 a note got expanded by the next pass. Proved offline: a note carrying `{{AXIS_STATE_JSON}}` came back
 holding the engine's full internal axis state. **Four:** the leak screen could not see mid-run notes
-at all, while phase 4 had just started routing them into the briefing. All four fixed with tests
-proven to go red when the fix is removed, plus a tripwire for the evaluation payload being built in
-two places. Commit `ca343851`, re-verified independently before the push (the four fixes hold and
+at all, while phase 4 had just started routing them into the briefing. **That fourth fix was the
+wrong answer and has since been removed** (see the entry above): it was dead code that also blocked
+innocent briefings. The first three hold, each with tests proven to go red when the fix is removed,
+plus a tripwire for the evaluation payload being built in
+two places. Commit `ca343851`, re-verified independently before the push (the fixes hold and
 both features still work). **✅ LIVE 2026-07-31** — build `28e9eb1` on `sero.team/api/version`,
 `/api/v1/health/deep` reports `db: up`, homepage 200. 221/221, typecheck and copy guard clean.
 Riding the same push: type-system-5b closed, action-review-placement P1 (green-lit), and
