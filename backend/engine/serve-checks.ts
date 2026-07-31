@@ -40,10 +40,6 @@ const MARKER_RE = new RegExp(
   "i",
 );
 
-// A mid-run note carries the `[14:26 @ alias]` / `[14:26]` stamp that
-// formatNotesForEvaluation writes. Mirrors TESTER_NOTE_LINE in notes-format.ts.
-const STAMPED_NOTE_RE = /^\s*\[\d{1,2}:\d{2}(:\d{2})?(\s*@\s*[^\]]+)?\]/;
-
 const STOP_WORDS = new Set([
   "a", "an", "the", "and", "or", "but", "of", "in", "on", "to", "for", "with",
   "is", "are", "was", "were", "be", "been", "has", "have", "had", "his", "her", "their", "they",
@@ -178,24 +174,16 @@ export function checkPrivateNoteLeak(managerNotes: unknown, briefing: unknown): 
     }
   }
 
-  // Mid-run notes (stamped `[14:26 @ alias] …` by formatNotesForEvaluation) are the
-  // manager's live private observations. They usually carry no judgment marker
-  // ("keeps glancing at his phone"), so the pass above never sees them — and since
-  // no-dead-wires P4 they reach the evaluation on a real run. Screen them too, at a
-  // longer 3-word run: verbatim reuse of three content words from a private jot is a
-  // leak, while ordinary topic words shared with the transcript stay below the bar.
-  const employeeTriGrams = ngramSet(contentWords(employeeText), 3);
-  if (employeeTriGrams.size) {
-    for (const line of asString(managerNotes).split("\n")) {
-      if (!STAMPED_NOTE_RE.test(line)) continue;
-      const body = line.replace(STAMPED_NOTE_RE, " ");
-      for (const g of ngramSet(contentWords(body), 3)) {
-        if (employeeTriGrams.has(g)) {
-          return { reason: PRIVATE_NOTE_LEAK, detail: `mid-run note reused in employee-facing output: "${g}"` };
-        }
-      }
-    }
-  }
+  // A stamped mid-run-note pass used to sit here. It was added while
+  // no-dead-wires P4 routed mid-run notes into the evaluation, and it is gone for
+  // two measured reasons (self-audit, 2026-07-31). One: mid-run notes are stripped
+  // on every lane now (notes are admin-only QA), so no stamped line can reach this
+  // function - it was dead code. Two: stress-testing it against briefings that
+  // never quoted a note still produced blocks ("cutover keeps coming"), and a
+  // block here throws away the real briefing for the deterministic fallback. A
+  // dead gate that over-blocks is worse than no gate. If mid-run notes ever feed
+  // the engine again, the screen for them gets designed then, with its
+  // false-positive rate measured first.
   return null;
 }
 
