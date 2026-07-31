@@ -1,0 +1,213 @@
+<title>Regression board · preview</title>
+<style>
+  :root{
+    --page:#f5fafd; --surface:#fdfefe; --surface-hover:#fefefe; --border:#e8e8e8;
+    --border-strong:#cccccc; --ink:#1f2a37; --ink-dim:#636363; --ink-mute:#757575;
+    --accent:#5aa9e6; --accent-dark:#1b5d91; --accent-soft:#e9f3fb; --nav-active:#c3ddfd;
+    --mint:#1aa887; --mint-ink:#0c4b3c; --mint-bg:#eefcf9;
+    --coral:#ac1608; --coral-bg:#feeae8; --amber:#b4690e; --amber-bg:#fff6e5;
+    --radius-card:12px; --radius-btn:4px;
+    --shadow-card:0 4px 6px -1px rgb(0 0 0/.1),0 2px 4px -2px rgb(0 0 0/.1);
+    --font:"Inter Variable",Inter,ui-sans-serif,system-ui,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--page);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.5}
+  .ribbon{position:sticky;top:0;z-index:9;background:#1f2a37;color:#f5fafd;font-size:14px;padding:8px 16px;text-align:center;letter-spacing:.02em}
+  .ribbon b{color:#c3ddfd;font-weight:600}
+  .frame{display:flex;min-height:100vh}
+  nav{width:196px;flex:none;background:var(--surface);border-right:1px solid var(--border);padding:20px 12px}
+  .logo{font-weight:700;font-size:18px;letter-spacing:-.01em;padding:0 10px 18px}
+  .logo span{color:var(--accent)}
+  .ngroup{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);padding:14px 10px 6px}
+  .nitem{display:block;padding:7px 10px;border-radius:6px;color:var(--ink-dim);font-size:14px;text-decoration:none}
+  .nitem.on{background:var(--nav-active);color:var(--accent-dark);font-weight:600}
+  main{flex:1;padding:28px 36px 48px;max-width:1040px}
+  h1{font-size:24px;font-weight:700;letter-spacing:-.02em}
+  .sub{color:var(--ink-dim);margin:4px 0 20px;max-width:60ch}
+  .strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--mint-bg);border:1px solid #d0f8ef;border-radius:var(--radius-card);padding:12px 16px;margin-bottom:18px}
+  .strip .dotok{width:9px;height:9px;border-radius:50%;background:var(--mint);flex:none}
+  .strip b{color:var(--mint-ink)}
+  .strip .hint{color:var(--ink-mute)}
+  .btn{font:inherit;font-weight:600;border-radius:var(--radius-btn);border:1px solid var(--border-strong);background:var(--surface);color:var(--ink);padding:7px 14px;cursor:pointer}
+  .btn.primary{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+  .btn.small{padding:4px 10px;font-weight:500}
+  .btn.ghost{border-color:transparent;color:var(--accent-dark)}
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+  .toolbar .cost{color:var(--ink-mute)}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);overflow:hidden}
+  .tablewrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+  thead th{text-align:left;font-size:14px;font-weight:600;color:var(--ink-mute);padding:10px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
+  tbody td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface-hover)}
+  .case b{display:block;font-weight:600}
+  .case .why{color:var(--ink-mute);font-size:14px}
+  .chip{display:inline-block;font-size:14px;font-weight:500;padding:1px 8px;border-radius:9999px;border:1px solid var(--border-strong);color:var(--ink-dim);margin-left:6px;vertical-align:1px}
+  .pill{display:inline-block;font-size:14px;font-weight:600;padding:2px 10px;border-radius:6px}
+  .pill.ok{background:var(--mint-bg);color:var(--mint-ink)}
+  .pill.bad{background:var(--coral-bg);color:var(--coral)}
+  .flag{font-family:var(--mono);font-size:14px;color:var(--coral);display:block;margin-top:2px}
+  .judge b{font-weight:700}
+  .up{color:var(--mint-ink);font-weight:700}
+  .down{color:var(--coral);font-weight:700}
+  .flat{color:var(--ink-mute);font-weight:700}
+  .reason{color:var(--ink-mute);font-size:14px;display:block;white-space:normal;max-width:26ch}
+  .muted{color:var(--ink-mute)}
+  .review-done{color:var(--mint-ink);font-weight:600}
+  .progress{min-width:220px}
+  .progress .lab{font-size:14px;color:var(--accent-dark);font-weight:600;margin-bottom:5px}
+  .bar{height:6px;border-radius:9999px;background:var(--accent-soft);overflow:hidden}
+  .bar i{display:block;height:100%;width:62%;background:var(--accent);border-radius:9999px}
+  .acts{display:flex;gap:6px;justify-content:flex-end}
+  h2{font-size:17px;font-weight:700;margin:30px 0 10px}
+  .hist td:first-child{font-weight:600}
+  .fp{font-family:var(--mono);font-size:14px;color:var(--ink-dim)}
+  .fp .changed{color:var(--amber);font-family:var(--font);font-weight:600;background:var(--amber-bg);border-radius:6px;padding:1px 8px;margin-left:6px}
+  .foot{margin-top:26px;color:var(--ink-mute);max-width:70ch}
+</style>
+
+<div class="ribbon">Preview · <b>not the live app</b> · a mock of the Regression screen for sign-off before building</div>
+<div class="frame">
+  <nav>
+    <div class="logo">Sero<span>.</span></div>
+    <div class="ngroup">Work</div>
+    <a class="nitem" href="#">Team</a>
+    <a class="nitem" href="#">Meetings</a>
+    <div class="ngroup">Engine</div>
+    <a class="nitem" href="#">Test engine</a>
+    <a class="nitem" href="#">Library</a>
+    <div class="ngroup">Build</div>
+    <a class="nitem on" href="#">Regression</a>
+    <a class="nitem" href="#">Compare</a>
+    <div class="ngroup">Operate</div>
+    <a class="nitem" href="#">Pulse</a>
+  </nav>
+
+  <main>
+    <h1>Regression</h1>
+    <p class="sub">Eight frozen test managers, same setup and answers every time. Rerun them through today's engine and see whether it got better.</p>
+
+    <div class="strip">
+      <span class="dotok"></span>
+      <span><b>Free safety check:</b> 7 still good · 0 need a look</span>
+      <button class="btn small">Re-check</button>
+      <span class="hint">Runs in seconds. Costs nothing.</span>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn primary">Rerun all 8 (about $3.60 in AI)</button>
+      <span class="cost">Takes about 10 to 20 minutes · one rerun at a time · hard ceiling $6 per batch</span>
+    </div>
+
+    <div class="card tablewrap">
+      <table>
+        <thead>
+          <tr><th>Case</th><th>Meeting</th><th>Last rerun</th><th>Trust</th><th>Committee</th><th>Your review</th><th></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="case"><b>Priya · quality focus</b><span class="why">steady performer, quality slipping</span></td>
+            <td>Bi-weekly</td>
+            <td>Today, 14:32</td>
+            <td><span class="pill ok">OK</span></td>
+            <td class="judge"><b>4/5</b> <span class="up">▲ better</span><span class="reason">clearer next steps for the manager</span></td>
+            <td class="review-done">Keep · 8 of 8</td>
+            <td><div class="acts"><button class="btn small ghost">Open run</button><button class="btn small">Rerun</button></div></td>
+          </tr>
+          <tr>
+            <td class="case"><b>Toby · growth lead</b><span class="why">wants stretch, patchy delivery</span></td>
+            <td>1:1</td>
+            <td colspan="4" class="progress">
+              <div class="lab">Rerunning now · Interview, question 4 of 6</div>
+              <div class="bar"><i></i></div>
+            </td>
+            <td><div class="acts"><button class="btn small" disabled>Rerun</button></div></td>
+          </tr>
+          <tr>
+            <td class="case"><b>Devon · private worry</b><span class="chip">adversarial</span></td>
+            <td>Feels-off</td>
+            <td>24 Jul</td>
+            <td><span class="pill ok">OK</span></td>
+            <td class="judge"><b>5/5</b> <span class="flat">= same</span><span class="reason">private note stayed private, as before</span></td>
+            <td class="muted">Not reviewed</td>
+            <td><div class="acts"><button class="btn small ghost">Open run</button><button class="btn small">Rerun</button></div></td>
+          </tr>
+          <tr>
+            <td class="case"><b>Thin answers</b><span class="chip">adversarial</span></td>
+            <td>1:1</td>
+            <td>24 Jul</td>
+            <td><span class="pill bad">Regressed</span><span class="flag">QUESTION_INTEGRITY</span></td>
+            <td class="judge"><b>2/5</b> <span class="down">▼ worse</span><span class="reason">recap invents a deadline the manager never gave</span></td>
+            <td class="muted">Not reviewed</td>
+            <td><div class="acts"><button class="btn small ghost">Open run</button><button class="btn small">Rerun</button></div></td>
+          </tr>
+          <tr>
+            <td class="case"><b>Sam · new starter</b></td>
+            <td>First 1:1</td>
+            <td class="muted">Never rerun</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td><div class="acts"><button class="btn small">Rerun ($0.45)</button></div></td>
+          </tr>
+          <tr>
+            <td class="case"><b>Ana · overloaded</b></td>
+            <td>Weekly</td>
+            <td class="muted">Never rerun</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td><div class="acts"><button class="btn small">Rerun ($0.45)</button></div></td>
+          </tr>
+          <tr>
+            <td class="case"><b>Marc · quiet performer</b></td>
+            <td>Bi-weekly</td>
+            <td class="muted">Never rerun</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td><div class="acts"><button class="btn small">Rerun ($0.45)</button></div></td>
+          </tr>
+          <tr>
+            <td class="case"><b>Jo · big promotion</b></td>
+            <td>Career</td>
+            <td class="muted">Never rerun</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td class="muted">·</td>
+            <td><div class="acts"><button class="btn small">Rerun ($0.45)</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Past batches</h2>
+    <div class="card tablewrap">
+      <table class="hist">
+        <thead>
+          <tr><th>When</th><th>Cases</th><th>Result</th><th>Cost</th><th>Engine version</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Today, 14:12</td>
+            <td>8</td>
+            <td><span class="pill ok">7 OK</span> <span class="pill bad">1 regressed</span></td>
+            <td>$3.41</td>
+            <td class="fp">prompts a3f2c19<span class="changed">changed since last batch</span></td>
+          </tr>
+          <tr>
+            <td>24 Jul, 09:40</td>
+            <td>8</td>
+            <td><span class="pill ok">8 OK</span></td>
+            <td>$3.38</td>
+            <td class="fp">prompts 9c41d02</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="foot">On the live site this screen shows the cases, the free safety check and past batches. Paid reruns are switched off there and the button says so. Your own rating always happens in the run review tool you already use: press Open run.</p>
+  </main>
+</div>
