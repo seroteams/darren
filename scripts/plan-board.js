@@ -85,6 +85,22 @@ function bullets(body, max) {
   return out;
 }
 
+// a "**Label:** value" field, continuing over wrapped lines until a blank line,
+// the next field or the next heading
+function field(md, label) {
+  const lines = md.split('\n');
+  const re = new RegExp(`^\\*\\*${label}:\\*\\*\\s*(.*)$`, 'i');
+  const start = lines.findIndex(l => re.test(l));
+  if (start === -1) return '';
+  const out = [lines[start].match(re)[1]];
+  for (let i = start + 1; i < lines.length; i++) {
+    const t = lines[i].trim();
+    if (!t || /^\*\*[^*]+:\*\*/.test(t) || t.startsWith('#')) break;
+    out.push(t);
+  }
+  return clean(out.join(' '));
+}
+
 function firstPara(body) {
   const lines = [];
   for (const raw of body.split('\n')) {
@@ -111,6 +127,14 @@ const plan = fs.readFileSync(planPath, 'utf8');
 
 const planTitle = (plan.match(/^#\s+(.+)$/m) || [, slug])[1].trim();
 const goal = clean((plan.match(/\*\*Goal:\*\*\s*(.+)/) || [, ''])[1]);
+
+// The owner's own words that started this work. Sits at the very top of the board:
+// he runs several chats at once and comes back days later needing to know why this
+// folder exists. Older plans without the line fall back to the goal.
+const askRaw = field(plan, 'You asked for') || field(plan, 'Original ask');
+const ask = askRaw.replace(/^["“”']+|["“”']+$/g, '').trim();
+const askLabel = ask ? 'WHAT YOU ASKED FOR' : 'WHAT THIS PLAN IS FOR';
+const askText = ask || goal;
 
 // "what it lands" one-liners from the plan's Phases table, keyed by phase number
 const lands = {};
@@ -248,6 +272,9 @@ const html = `<meta charset="utf-8">
   .seg-signed{background:var(--green);}
   .seg-built{background:var(--amber);}
   .seg-label{text-align:center;color:var(--mut);font-size:13px;margin-top:9px;}
+  .ask{border-left:3px solid var(--red);}
+  .ask .eyebrow{margin-bottom:12px;}
+  .ask-quote{font-family:Georgia,'Times New Roman',serif;font-size:21px;line-height:1.45;color:var(--ink);margin:0;}
   .setup .eyebrow{margin-bottom:14px;}
   .setup p{margin:0 0 8px;color:#c9c9d2;font-size:15px;}
   .board code{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;
@@ -294,6 +321,11 @@ const html = `<meta charset="utf-8">
   <div class="eyebrow"><span class="dot">●</span> SERO · ${esc(eyebrowTitle)}</div>
   <h1>Where we are<span class="dot">.</span></h1>
   <p class="lead">${esc(intro)}</p>
+
+  ${askText ? `<div class="panel ask">
+    <div class="eyebrow"><span class="dot">●</span> ${askLabel}</div>
+    <p class="ask-quote">${esc(askText)}</p>
+  </div>` : ''}
 
   <div class="panel">
     <div class="prog-head">

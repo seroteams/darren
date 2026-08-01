@@ -38,6 +38,7 @@ docs/plans/doing/<slug>/
 ## Job A — set up the folder (from a plan)
 
 - [ ] Get the plan (a file to read, or the one in this chat). No plan? Ask once.
+- [ ] **Capture the original ask FIRST.** Copy the owner's own words that started this work into plan.md's `**You asked for:**` line, verbatim (trim it, never reword it). He runs several chats at once and will come back to this folder days later with no memory of why it exists. This line is how he re-enters. If the ask came over a few messages, stitch the sentences that carry the intent.
 - [ ] Split into phases. Each one: small, in a sensible order, and testable by a non-technical person.
 - [ ] Fewer big phases beats lots of tiny ones.
 - [ ] Write `plan.md` (template below).
@@ -67,6 +68,7 @@ docs/plans/doing/<slug>/
 ```
 # <Title>
 
+**You asked for:** "<the owner's own words that started this, verbatim — never paraphrased>"
 **Goal:** <one sentence — what's different when this is all done>
 **Driver:** <who>
 **Created:** <date>
@@ -100,6 +102,7 @@ docs/plans/doing/<slug>/
 # Phase N — <name>
 
 **Part of:** [plan.md](plan.md) · **Status:** ⬜
+**You asked for:** "<the same original ask, one line — repeated so a phase file read on its own still explains itself>"
 
 ## Goal
 <one sentence>
@@ -135,6 +138,7 @@ Two sections get ADDED to the phase file as work happens (top of file, newest fi
 
 ## The rules (don't skip these)
 
+- [ ] **The original ask sits at the top of everything.** plan.md, every phase file, and the board all open with the owner's own words. It is the first thing he reads when he comes back to a folder cold, so it never gets summarised into project-speak and never gets dropped.
 - [ ] **The product owner gives the green light — not you.** Your own checks don't count. Show the scenarios, let them test, wait for "tested, good".
 - [ ] **The approved mockup is part of the plan (visual plans).** Once the owner signs off the picture, that's the contract: a visual phase isn't done unless what shipped matches it. If a phase needs to differ from the approved mock, update the mock and get a fresh nod first — don't quietly drift. (This is the *pre-build* design gate; the real-screenshot-before-done rule is still the *post-build* check — different moments, both required.)
 - [ ] **One phase per run.** No starting phase N+1 in the same run unless the user says "keep going".
