@@ -1870,3 +1870,37 @@ five places, which reads like a lot of waste. De-duplicating all six recovered 3
 copies were short restatements while the mass of the file is unique rules. The reason to do it is
 that a model reading the same rule five times follows it less reliably, not the token count. Worth
 saying out loud when the plan implied a bigger number.
+
+## coach-hints-live P2 (2026-08-01)
+
+**A prompt rule can be perfectly written and never reach a screen.** The plan named
+`plan-turn.md`'s "copy the item's hints verbatim" as the cause of stale coaching, and it
+was a real line. It was also not the binding constraint: `reconcileQueue` compares a
+carried question on name, label, description and axis_effects, and on a match pushes the
+ORIGINAL question object, discarding the planner's payload whole. Fresh hints died one
+line before the queue. Changing the prompt alone would have shipped, tested green, and
+altered nothing a manager ever saw. Before editing a prompt to change behaviour, follow
+the field it writes all the way to the render and find what drops it.
+
+**A green gate is not a green feature.** `gate.js --only biweekly-priya` returned PASS with
+no regressions while one question in six still showed pre-meeting coaching. The gate
+measures what it was built to measure. Reading the run's own transcript, turn by turn
+against the planner's raw responses, is what found the hole. The PASS was true and useless.
+
+**The same object can enter a queue by four routes.** The reserved closer is chosen at bank
+time and stashed whole, then put in front by `enforceCloserOnFinalTurn` (two branches), or
+force-inserted by `session-streams.ts` when that gate found it nowhere. Only the last of
+those fires on real runs, and it lived in a different file from the other three. Counting
+the write paths before fixing one is cheaper than proving the fix twice.
+
+**Match on what survives the transform, not on the id.** Reconcile mints a NEW alias every
+time it rebuilds a carried question, so the refreshed copy sits in the queue as
+`q_next_two_weeks_79` while the stashed closer is still `q_next_two_weeks_76`. Any
+alias-based lookup silently finds nothing. The question text is what carries across, so
+that is what the match had to use.
+
+**A recorded paid run keeps paying.** The closer fix was re-proved for free by rebuilding
+the exact turn-5 state out of the run's own `03-question-bank/response.json` and
+`04-dynamic-answers/04-response.json` and passing it through the new helper. Runs that
+write their prompts and raw responses to disk can be replayed against code that did not
+exist when they ran.

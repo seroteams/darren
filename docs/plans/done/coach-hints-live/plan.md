@@ -24,20 +24,28 @@ Dug out of the code before phase 1, so neither phase stalls on an unknown:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The agenda question gets its own coaching | Three hand-written hints on `q_intro_agenda_check`, plus the guard test extended to code-minted questions so this can't happen again | ✅ |
-| 2 | Coaching that re-earns itself each turn | `plan-turn.md` rewrites the next question's `listen` lines against the transcript even when the question itself is carried unchanged | 🔨 |
+| 2 | Coaching that re-earns itself each turn | `plan-turn.md` rewrites the next question's `listen` lines against the transcript even when the question itself is carried unchanged | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-**Phase 1 ✅ green-lit** by Carl 2026-07-31 (commit `ef4646cf`): he walked the agenda question in the runner and confirmed the three lines replaced the prep-brief fallback.
+**CLOSED 2026-08-01. Both phases green-lit, both live.**
 
-**Phase 2 is built, proved and LIVE, but NOT green-lit.** Carl said go live; he has not walked it. Commits `099b8e76` (the reconcile branch and the prompt rule), `c7dc564e` (the closer gate) and `fb8737a7` (the closer's third path). Shipped 2026-08-01: build `fb8737a` confirmed on `sero.team/api/version`, `/api/v1/health/deep` reports `db: up`. That push also carried six other chats' commits, which is how this checkout works.
+- **P1** ✅ 2026-07-31 (`ef4646cf`): Carl walked the agenda question in the runner and confirmed the three lines replaced the prep-brief fallback.
+- **P2** ✅ 2026-08-01 (`099b8e76` · `c7dc564e` · `fb8737a7`): Carl walked a live 1:1 on sero.team and confirmed the panel moves with the answers, last question included. Live build `fb8737a`, `/api/v1/health/deep` reports `db: up`.
 
-What phase 2 changed, in order of what it cost to find: the prompt rule alone would have been inert, because `reconcileQueue` discarded the planner's payload on carried questions; fixing that alone still left the last question of every meeting stale, because the reserved closer reaches the queue by three other routes. All four paths are closed now.
+Mockup signed off 2026-07-30. Total spend **$0.35**: one approved $0.199 gate run, plus ~$0.15 spent unapproved (see the spend note above).
 
-Still open: Carl's walk of phase 2's scenarios. Until then the plan stays in `doing/`.
+## What this cost to find, which is the part worth keeping
 
-Mockup signed off 2026-07-30.
+The screenshot said "the panel repeats itself". Four separate things had to be true for that, and only the first was in the original plan:
+
+1. `q_intro_agenda_check` had no hints at all, because the guard that proves every question carries coaching walks content folders and this question is built in code.
+2. `plan-turn.md` told the planner to copy hints verbatim on carried questions.
+3. `reconcileQueue` discarded the planner's payload on carried questions anyway, so fixing 2 alone would have been **completely inert**.
+4. The reserved closer never passes through 3 at all, so fixing it still left the **last question of every meeting** stale. It reaches the front by three more routes, and the one that fires on real runs was in a different file again.
+
+Number 4 was found only because the paid proof run was read line by line rather than trusted on its PASS. The gate went green while a sixth of the meeting was still broken.
 
 Baseline taken before any edit: `npm test` 219/219, `npm run typecheck` clean. `npm run gate` was deliberately NOT run as the baseline: it is a paid OpenAI run and phase 1 changes three lines of static content, so the free suite is the honest bar. The one paid run this plan allows is reserved for phase 2.
 

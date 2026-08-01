@@ -1,6 +1,8 @@
 # Phase 2 — Coaching that re-earns itself each turn
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built offline, waiting on ONE paid run and Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-08-01 — Carl walked a live 1:1 on sero.team and confirmed the panel moves with the answers, last question included (commits `099b8e76` · `c7dc564e` · `fb8737a7`, live build `fb8737a`)
 
 ## Built (2026-07-31)
 
