@@ -39,7 +39,10 @@ import {
   pgListFinishedRunsAboutPerson,
   pgMemberRunView,
   pgCloneRun,
+  pgReadState,
+  pgReadStageText,
 } from "../../../db/runs-store.ts";
+import { reviewExtras } from "../../../engine/run-projections.ts";
 import { hasDatabaseUrl } from "../../../db/client.ts";
 import { dropSession } from "../../sessions.ts";
 
@@ -119,11 +122,39 @@ function requireDir(id: string, orgId?: string | null, userId?: string | null): 
   return dir;
 }
 
+// The Run Review payload = each store's compare projection PLUS reviewExtras
+// (the agenda, last time's actions, this run's agreed actions, the cached role
+// profile, spend, and the full per-turn record). Enriched here, at the seam,
+// so both lanes read one code path and neither store's compare has to change.
+const STATE_FILE = "session-state.json";
+const ROLE_PROFILE_STAGE = "00b-role-profile";
+
+function parseJsonText(text: string | null): unknown {
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
 export const fileRunsRepo: RunsRepo = {
   listRecent: async (limit, orgId, userId) => listRecentRuns(limit, orgId, userId),
   listFinished: async (orgId, userId) => listFinishedRuns(orgId, userId),
   summarize: async (id, orgId, userId) => summarizeRun(id, orgId, userId),
-  compare: async (id, orgId, userId) => compareRun(id, orgId, userId),
+  compare: async (id, orgId, userId) => {
+    const base = compareRun(id, orgId, userId);
+    const dir = base ? findRunDir(id, orgId, userId) : null;
+    if (!base || !dir) return base;
+    return {
+      ...base,
+      ...reviewExtras(
+        readSidecar(dir, STATE_FILE),
+        readSidecar(dir, path.join(ROLE_PROFILE_STAGE, "inputs.json")),
+        readSidecar(dir, path.join(ROLE_PROFILE_STAGE, "profile.json")),
+      ),
+    };
+  },
   readStages: async (id, orgId, userId) => readRunStages(id, orgId, userId),
   deleteRun: async (id, orgId, userId) => deleteRun(id, orgId, userId),
   dropSession: (id) => {
@@ -155,7 +186,16 @@ export const pgRunsRepo: RunsRepo = {
   listRecent: (limit, orgId, userId) => pgListRecentRuns(limit, orgId, userId),
   listFinished: (orgId, userId) => pgListFinishedRuns(orgId, userId),
   summarize: (id, orgId, userId) => pgSummarizeRun(id, orgId, userId),
-  compare: (id, orgId, userId) => pgCompareRun(id, orgId, userId),
+  compare: async (id, orgId, userId) => {
+    const base = await pgCompareRun(id, orgId, userId);
+    if (!base) return base;
+    const [state, inputs, profile] = await Promise.all([
+      pgReadState(id),
+      pgReadStageText(id, ROLE_PROFILE_STAGE, "inputs.json"),
+      pgReadStageText(id, ROLE_PROFILE_STAGE, "profile.json"),
+    ]);
+    return { ...base, ...reviewExtras(state, parseJsonText(inputs), parseJsonText(profile)) };
+  },
   readStages: (id, orgId, userId) => pgReadRunStages(id, orgId, userId),
   deleteRun: (id, orgId, userId) => pgDeleteRun(id, orgId, userId),
   dropSession: (id) => {

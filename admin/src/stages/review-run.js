@@ -1,5 +1,8 @@
-// In-app Run Review (internal QA tooling). A READ-ONLY view of a finished run
-// (prep brief → questions → final briefing) plus an 8-dimension pass/fail
+// In-app Run Review (internal QA tooling). A READ-ONLY view of a finished run —
+// every input it had, in the order the engine met them: manager notes, agenda,
+// the cached role context, last time's actions, focus points, prep brief, the
+// live turns (with their coach hints and planner reads), the recap, and the
+// actions agreed at the wrap-up — plus an 8-dimension pass/fail
 // verdict, an overall Keep/Fix/Block, and one note. Saves only review.json to
 // the run folder via POST /api/runs/:id/review. Not part of the live manager flow.
 
@@ -54,6 +57,8 @@ function renderManagerSetup(ctx) {
   </div>`;
 }
 
+// The question as the manager met it — the card's coach hints and the planner's
+// read of the answer included, because those are what a reviewer judges.
 function renderQuestions(turns) {
   const list = (turns || []).filter((t) => t && (t.name || t.answer));
   if (!list.length) return `<p class="stage-review__empty caption">No questions recorded.</p>`;
@@ -61,9 +66,73 @@ function renderQuestions(turns) {
     .map((t, i) => {
       const q = t.name ? `${i + 1}. ${t.name}` : `${i + 1}.`;
       const a = t.skipped ? "(skipped)" : t.answer || "(no answer)";
-      return card(esc(q), `<p>${esc(a)}</p>`);
+      const tags = [t.purpose, t.stage, t.source, t.read].map((s) => String(s || "").trim()).filter(Boolean);
+      const meta = tags.length ? `<p class="caption text-ink-mute">${esc(tags.join(" · "))}</p>` : "";
+      const hints = (t.hints || [])
+        .filter((h) => h && h.text)
+        .map((h) => `<li>${esc(h.kind || "hint")}: ${esc(h.text)}</li>`)
+        .join("");
+      const hintList = hints ? `<ul class="stage-review__bullets">${hints}</ul>` : "";
+      const note = t.note ? `<p class="caption text-ink-mute">Planner note: ${esc(t.note)}</p>` : "";
+      return card(esc(q), `${meta}${hintList}<p>${esc(a)}</p>${note}`);
     })
     .join("");
+}
+
+// ——— The inputs behind the run ————————————————————————————————————
+// Each returns "" when the run never had that input, so the section is dropped
+// rather than shown empty.
+
+function renderAgenda(agenda) {
+  if (!agenda) return "";
+  const rows = [
+    ["What the manager typed", agenda.raw],
+    ["Engine's read of it", agenda.summary],
+    ["Used in the question plan", agenda.injected ? "Yes" : "No"],
+    ["Covered by the end", agenda.covered === null ? "Not judged" : agenda.covered ? "Yes" : "No"],
+  ];
+  return rows.filter(([, v]) => String(v || "").trim()).map(([l, v]) => card(l, `<p>${esc(v)}</p>`)).join("");
+}
+
+function renderRoleProfile(rp) {
+  if (!rp) return "";
+  const out = [card("Cached role context", `<p>${esc(rp.key || "(unkeyed)")}${rp.status ? esc(` · ${rp.status}`) : ""}</p>`)];
+  if (rp.summary) out.push(card("Summary", `<p>${esc(rp.summary)}</p>`));
+  if ((rp.listenFor || []).length) out.push(card("Listen for", bullets(rp.listenFor)));
+  if ((rp.avoid || []).length) out.push(card("Avoid", bullets(rp.avoid)));
+  return out.join("");
+}
+
+function renderPriorActions(prior) {
+  if (!prior) return "";
+  if (prior.skipped) return card("Last time's actions", `<p>Skipped by the manager. They stay open.</p>`);
+  const rows = (prior.outcomes || []).map((o) => `${o.owner === "manager" ? "You" : "Them"}: ${o.action} → ${o.outcome}`);
+  return rows.length ? card("Tapped at the check-in", bullets(rows)) : "";
+}
+
+function renderPromises(promises) {
+  if (!promises || !promises.length) return "";
+  const rows = promises.map(
+    (p) => `${p.owner === "manager" ? "You" : "Them"}: ${p.action}${p.when ? ` (${p.when})` : ""}${p.outcome ? ` → ${p.outcome}` : ""}`,
+  );
+  return card("Agreed at the wrap-up", bullets(rows));
+}
+
+function renderFocusPoints(points) {
+  const list = Array.isArray(points) ? points : [];
+  if (!list.length) return "";
+  return list
+    .map((p) => {
+      const tags = [p.category, p.source, p.confidence].filter(Boolean).join(" · ");
+      const meta = tags ? `<p class="caption text-ink-mute">${esc(tags)}</p>` : "";
+      return card(p.label || p.type || p.id || "Focus point", `${meta}${p.reason ? `<p>${esc(p.reason)}</p>` : ""}`);
+    })
+    .join("");
+}
+
+// A section wrapper that vanishes when its body is empty.
+function section(title, body) {
+  return body ? `<section><div class="stage-review__section-title">${esc(title)}</div>${body}</section>` : "";
 }
 
 function renderBriefing(b) {
@@ -79,6 +148,23 @@ function renderBriefing(b) {
     out.push(card("What to do next", `<ul class="stage-review__bullets">${items.map((x) => `<li>${x}</li>`).join("")}</ul>`));
   }
   if ((b.watch_for || []).length) out.push(card("Reminders", bullets(b.watch_for)));
+  if ((b.axes || []).length) {
+    const rows = b.axes.map((a) => {
+      const score = a.read_status === "not_read" ? `not read${a.not_read_reason ? ` (${a.not_read_reason})` : ""}` : a.score;
+      return `${a.id}: ${score}${a.meaning ? `. ${a.meaning}` : ""}`;
+    });
+    out.push(card("Axis reads", bullets(rows)));
+  }
+  const er = b.engagement_read;
+  if (er) {
+    const rows = [`Status: ${er.read_status || "(none)"}`];
+    if (er.observed_shift) rows.push(`Observed shift: ${er.observed_shift}`);
+    for (const e of er.evidence || []) rows.push(`Evidence: ${e}`);
+    if (er.missing_evidence) rows.push(`Missing evidence: ${er.missing_evidence}`);
+    if (er.recommended_action) rows.push(`Recommended action: ${er.recommended_action}`);
+    if (er.watch_next) rows.push(`Watch next: ${er.watch_next}`);
+    out.push(card("Engagement read", bullets(rows)));
+  }
   return out.join("") || `<p class="stage-review__empty caption">No recap recorded.</p>`;
 }
 
@@ -197,9 +283,14 @@ export async function mount(root, { setState }) {
     <div class="run-review l-grid">
       <div class="run-review__run l-stack l-stack--6">
         <section><div class="stage-review__section-title">Manager setup</div>${renderManagerSetup(ctx) || `<p class="stage-review__empty caption">No setup notes.</p>`}</section>
+        ${section("Agenda", renderAgenda(run.agenda))}
+        ${section("Role context the engine was given", renderRoleProfile(run.roleProfile))}
+        ${section("Last time's actions", renderPriorActions(run.priorActions))}
+        ${section("Focus points", renderFocusPoints(run.focusPoints))}
         <section><div class="stage-review__section-title">Prep brief</div>${renderPrep(run.prep)}</section>
         <section><div class="stage-review__section-title">Questions</div>${renderQuestions(run.turns)}</section>
         <section><div class="stage-review__section-title">Recap</div>${renderBriefing(run.briefing)}</section>
+        ${section("Actions agreed in this 1:1", renderPromises(run.promises))}
       </div>
       <aside class="run-review__verdict">
         <div class="card-flat l-stack l-stack--4">
@@ -239,6 +330,7 @@ export async function mount(root, { setState }) {
       `run ${run.id}`,
       dateFromId(run.id),
       engineTag(run.fingerprint) ? `engine ${engineTag(run.fingerprint)}` : "",
+      run.cost ? `$${Number(run.cost.usd).toFixed(4)}` : "",
       `${decided}/${DIMENSIONS.length} judged`,
       status,
     ].filter(Boolean).join(" · ");

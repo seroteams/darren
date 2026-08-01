@@ -243,3 +243,122 @@ export function memberView(f: RunFacts, transcript: unknown[]): Record<string, u
     promises: promiseHistoryOf(f.state),
   };
 }
+
+/* ---------------------------------------------------------------------------
+   Run Review extras (QA tooling) — everything a run now carries beyond
+   notes → prep → Q&A → recap. The reviewer judges the engine on the inputs it
+   actually had, so each block here is READ OFF THE RUN, never re-derived:
+   the agenda the manager typed, last time's actions they tapped, the actions
+   this run agreed, and the cached role profile the prompts were fed.
+   Both stores call these (file + PG), so the two lanes can't drift.
+--------------------------------------------------------------------------- */
+
+// The manager's typed agenda for this 1:1 (agenda.ts): what they wrote, the
+// engine's one-line summary of it, whether it was injected into the question
+// plan, and whether the wrap-up judged it covered. null = no agenda typed.
+export function agendaOf(state: unknown): { raw: string; summary: string; injected: boolean; covered: boolean | null } | null {
+  const s = asRecord(state);
+  const a = asRecord(s.agendaInput);
+  const raw = asString(a.raw).trim();
+  const summary = asString(a.summary).trim();
+  if (!raw && !summary) return null;
+  return {
+    raw,
+    summary,
+    injected: Boolean(s.agendaInjected),
+    covered: typeof s.agendaCovered === "boolean" ? s.agendaCovered : null,
+  };
+}
+
+// Card zero (Promises loop phase 2): what the manager tapped about the PRIOR
+// run's open actions. Declared taps only — a skip is recorded as a skip, never
+// filled in. null = this run never met a prior-actions card.
+export function priorActionsOf(
+  state: unknown,
+): { fromSessionId: string; skipped: boolean; outcomes: Array<{ owner: string; action: string; outcome: string }> } | null {
+  const s = asRecord(state);
+  const pc = asRecord(s.priorCheckin);
+  if (!isObjectRecord(s.priorCheckin)) return null;
+  const outcomes = (Array.isArray(pc.outcomes) ? pc.outcomes : [])
+    .map((o) => asRecord(o))
+    .filter((o) => asString(o.action))
+    .map((o) => ({ owner: asString(o.owner), action: asString(o.action), outcome: asString(o.outcome) }));
+  return { fromSessionId: asString(pc.fromSessionId), skipped: Boolean(pc.skipped), outcomes };
+}
+
+// The cached role context the prompts were fed (role-profile.ts), read off THIS
+// run's 00b-role-profile stage — key + cache status from inputs.json, the
+// profile itself from profile.json. null when the run predates the stage.
+export function roleProfileOf(
+  inputs: unknown,
+  profileFile: unknown,
+): { key: string; status: string; summary: string; listenFor: string[]; avoid: string[]; challenges: number } | null {
+  const i = asRecord(inputs);
+  const p = asRecord(asRecord(profileFile).profile);
+  const key = asString(i.key);
+  const summary = asString(p.summary).trim();
+  if (!key && !summary) return null;
+  const list = (v: unknown): string[] => (Array.isArray(v) ? v.map((x) => asString(x).trim()).filter(Boolean) : []);
+  return {
+    key,
+    status: asString(i.status),
+    summary,
+    listenFor: list(p.listen_for),
+    avoid: list(p.avoid),
+    challenges: Array.isArray(p.known_challenges) ? p.known_challenges.length : 0,
+  };
+}
+
+// The full per-turn record for review: the question AS THE MANAGER SAW IT
+// (name + why + the coach's ask/listen hints), what came back, and the
+// planner's own read of the answer. Internal notes/read tags are fine here —
+// this projection feeds internal QA only, never a manager or member surface.
+export function reviewTurns(transcript: unknown[]): Array<Record<string, unknown>> {
+  return transcript.map((t) => {
+    const entry = asRecord(t);
+    const q = asRecord(entry.question);
+    return {
+      alias: q.alias ?? null,
+      name: q.name ?? null,
+      label: q.label ?? null,
+      description: q.description ?? null,
+      purpose: q.purpose ?? null,
+      stage: q.stage ?? null,
+      source: q.source ?? null,
+      hints: Array.isArray(q.hints)
+        ? q.hints.map((h) => asRecord(h)).map((h) => ({ kind: asString(h.kind), text: asString(h.text) }))
+        : [],
+      answer: entry.answer ?? null,
+      skipped: Boolean(entry.skipped),
+      note: entry.note ?? null,
+      read: entry.read ?? classifyAnswer(entry.answer, entry.note),
+    };
+  });
+}
+
+export interface ReviewExtras {
+  agenda: ReturnType<typeof agendaOf>;
+  priorActions: ReturnType<typeof priorActionsOf>;
+  promises: ReturnType<typeof promiseHistoryOf>;
+  outcomeCheck: string | null;
+  roleProfile: ReturnType<typeof roleProfileOf>;
+  cost: ReturnType<typeof costFromState>;
+  turns: Array<Record<string, unknown>>;
+}
+
+// Everything the Run Review needs on top of compareRun's base shape. `turns`
+// is deliberately included: it REPLACES the base's slim Q&A so the reviewer
+// sees the coach hints and planner read that shaped the next question.
+export function reviewExtras(state: unknown, roleProfileInputs: unknown, roleProfileFile: unknown): ReviewExtras {
+  const s = asRecord(state);
+  return {
+    agenda: agendaOf(state),
+    priorActions: priorActionsOf(state),
+    // The actions this run's wrap-up agreed (Promises loop phase 1).
+    promises: promiseHistoryOf(state),
+    outcomeCheck: typeof s.outcomeCheck === "string" ? s.outcomeCheck : null,
+    roleProfile: roleProfileOf(roleProfileInputs, roleProfileFile),
+    cost: costFromState(state),
+    turns: reviewTurns(Array.isArray(s.transcript) ? s.transcript : []),
+  };
+}
