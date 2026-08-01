@@ -1914,3 +1914,15 @@ the AI judge reading its export. You cannot judge "role-aware" or "does not over
 against inputs you were never shown. The extras are projected once and joined at the repo
 seam, so the file and Postgres lanes cannot drift apart the way the two `compare`
 projections already had.
+
+**The headroom on a budget is what decides whether it catches anything.** The prompt size cap was
+first set at current-plus-2%, and a realistic new rule slipped in 52 characters under it — the guard
+would have passed the exact thing it was built to stop. Tightened to about a third of a paragraph,
+so a wording fix passes and a whole rule does not. A budget is only as good as the size of the
+change it is calibrated against, and the only way to know is to add that change and watch it fail.
+
+**Skipping a phase is a legitimate outcome, and it needs writing down as one.** Phase 2 was dropped
+because it carried the plan's only paid check and the most quality risk for the least return. Marked
+skipped rather than deleted, with the reason and the consequence recorded (the size cap now sits on
+the phase-1 measurement, so restarting phase 2 means re-setting the cap afterwards). A phase quietly
+disappearing from a plan reads later as a phase that was forgotten.

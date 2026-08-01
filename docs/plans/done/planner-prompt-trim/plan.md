@@ -47,7 +47,7 @@ Measured from logged prompts + `cost.json` across 7 real runs (all free, no API 
 |---|---|---|---|
 | 1 | Say each rule once | The six repeats above merged to a single home; no rule removed | ✅ |
 | 2 | Cut the examples down | The two AVOID/PREFER tables and `<worked_examples>` reduced to the rows that earn their place | ⏸️ skipped |
-| 3 | A size budget that holds | A free lint that fails when the rule sheet grows past its cap | 🔨 |
+| 3 | A size budget that holds | A free lint that fails when the rule sheet grows past its cap | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -64,7 +64,17 @@ Folder set up 2026-07-31. Nothing built.
 
 **Phase 2 ⏸️ skipped by Carl 2026-08-02.** It was the weakest of the three: ~10% more off one stage, the plan's only paid check, and the most quality risk of any phase (those examples are what teach the planner to word questions well). Skipping it costs nothing structural. Phase 3 does not depend on it, so the cap simply sits on the phase-1 size. **It is skipped, not deleted** — [phase-2.md](phase-2.md) still holds the full scope if it is ever wanted.
 
-**Phase 3 🔨 built 2026-08-02, awaiting Carl's walk.** `npm run lint:prompt-size`, cap 34,400 characters, proved passing today and failing on one added rule. £0. See [phase-3.md](phase-3.md).
+**Phase 3 ✅ green-lit 2026-08-02** (commit `692ee628`). Carl ran `npm run lint:prompt-size` himself and pasted the PASS. Cap 34,400 characters, proved passing today and failing on one added rule. £0.
+
+## ✅ CLOSED 2026-08-02
+
+Two phases green-lit, one skipped on Carl's call, **£0 across the whole plan — no paid run was ever needed.**
+
+What the plan actually bought: the planner's rule sheet says each rule once instead of four or five times, and it now has a cap that fails the moment it grows by a rule. What it did not buy is a big cost cut, and that is recorded honestly in [phase-1.md](phase-1.md): 3.1%, because the repeats were short restatements while the mass of the file is unique rules.
+
+**The finding worth keeping** is the one that came before any of the phases. The question was "should we change models to save money", and measuring first said no: **86% of spend sits in one stage**, the planner, because it runs about six times a session while every other stage runs once. Per-turn prompt size dominates; the model tier barely moves it. The cheapest measurement reframed the expensive decision.
+
+**Known limitation, parked:** `scripts/plan-board.js` has no concept of a skipped phase, so this plan's board still points "YOU ARE HERE" at phase 2. Shared across every board, so it was left alone.
 
 ## Parked
 - **The cache fix** (~10% off a run): ~1,700 tokens of unchanging context are billed at full rate every turn instead of the cheap cached rate. Mechanical, no wording touched. Needs a small change to the shared `ai-client` message shape, and one live call to confirm the cache boundary. Carl chose the rule trim over this on 2026-07-31.

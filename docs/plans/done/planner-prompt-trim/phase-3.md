@@ -1,6 +1,8 @@
 # Phase 3 — A size budget that holds
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-08-02 — Carl ran `npm run lint:prompt-size` in his own terminal and pasted the result: PASS, 34,063 characters, 337 to spare (commit `692ee628`)
 
 ## Built (2026-08-02)
 
