@@ -1,0 +1,17 @@
+alias: q_flatter_week_22
+label: Flatter week
+name: "What feels flatter this week: the work itself, your energy, or something still open?"
+description: Locate whether the post-launch dip is about energy, motivation, or unresolved work.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Offer the three options, then let Priya choose her angle.
+  - kind: listen
+    text: Whether she names unresolved launch work or keeps it personal.
+  - kind: listen
+    text: Whether she distinguishes energy from interest in the work.
+grounding: feels flatter this week

@@ -1,0 +1,11 @@
+alias: q_beta_date_tension_2
+label: Beta date tension
+name: With the live date coming up, what have you said so far about not committing to one?
+description: Clarify how he is handling pressure for a date while uncertainty remains.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_beta_date_tension"
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_support_handover_3
+label: Support handover
+name: Where did the handover to support get messy?
+description: Pinpoint where the support transition created confusion or delay.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_support_handover_2"
+hints:
+  - kind: ask
+    text: Keep it to the last handover, not handovers in general.
+  - kind: listen
+    text: Whether he names a step, owner, or missing information.
+  - kind: listen
+    text: What that mess changed for release readiness.
+grounding: open

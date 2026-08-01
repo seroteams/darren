@@ -1,0 +1,18 @@
+alias: q_old_assumptions_6
+label: Old assumptions
+name: What assumptions from your last team do you find yourself carrying here?
+description: Test whether old team norms are shaping how he reads principal scope now.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_old_assumptions_5"
+hints:
+  - kind: ask
+    text: Ask for one assumption that no longer fits here.
+  - kind: listen
+    text: Whether he names a concrete team norm or expectation.
+  - kind: listen
+    text: Whether that assumption affects how he chooses work.
+grounding: open

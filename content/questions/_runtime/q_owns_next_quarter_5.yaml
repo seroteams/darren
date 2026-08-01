@@ -1,0 +1,18 @@
+alias: q_owns_next_quarter_5
+label: Owns next quarter
+name: What do you expect to own next quarter that you do not own now?
+description: Move from the mentoring aside to concrete next-quarter scope before the closer.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_owns_next_quarter_4"
+hints:
+  - kind: ask
+    text: Ask for one or two concrete areas or services.
+  - kind: listen
+    text: Whether she names actual ownership or stays on mentoring.
+  - kind: listen
+    text: Whether billing rewrite comes up unprompted.
+grounding: open

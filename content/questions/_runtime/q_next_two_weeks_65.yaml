@@ -1,0 +1,11 @@
+alias: q_next_two_weeks_65
+label: Next two weeks
+name: What would make the next two weeks cleaner for you and the team?
+description: Close by surfacing the support or change that would make the near term easier.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_next_two_weeks_64"
+grounding: open

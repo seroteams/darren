@@ -1,0 +1,18 @@
+alias: q_owns_next_quarter_4
+label: Owns next quarter
+name: "What do you expect to own next quarter that you don't own now?"
+description: Clarify the scope she sees herself stepping into before plans shift.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_owns_next_quarter_3"
+hints:
+  - kind: ask
+    text: Ask for one or two concrete areas, not a broad ambition.
+  - kind: listen
+    text: Whether she names a service, project, or team-facing responsibility.
+  - kind: listen
+    text: Whether billing rewrite comes up on its own.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_mentoring_thread_61
+label: Mentoring thread
+name: What would mentoring actually look like in your week?
+description: Make the mentoring thread concrete and see what kind of support or shape she wants.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_mentoring_thread_60"
+hints:
+  - kind: ask
+    text: Only use this if mentoring comes up or momentum has room for it.
+  - kind: listen
+    text: Whether she names code reviews, pairing, onboarding, or design feedback.
+  - kind: listen
+    text: Whether she describes time, scope, or team setup as the constraint.
+grounding: open

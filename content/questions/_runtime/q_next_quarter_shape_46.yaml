@@ -1,0 +1,18 @@
+alias: q_next_quarter_shape_46
+label: Next-quarter shape
+name: What do you expect to own next quarter?
+description: Surface the specific area, service, or project she sees herself owning next.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_shape_45"
+hints:
+  - kind: ask
+    text: Ask for a concrete area or service, not a broad theme.
+  - kind: listen
+    text: Whether she names a specific project after the migration work.
+  - kind: listen
+    text: Whether billing comes up on its own or she names something else.
+grounding: open

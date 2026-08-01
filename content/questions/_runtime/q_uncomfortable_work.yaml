@@ -1,0 +1,10 @@
+alias: q_uncomfortable_work
+label: Uncomfortable work
+name: "What's a piece of work you've been putting off because it would stretch you?"
+description: Find a concrete area of stretch or avoidance to understand growth edges.
+purpose: topic
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_seed_growth_uncomfortable"
+grounding: open

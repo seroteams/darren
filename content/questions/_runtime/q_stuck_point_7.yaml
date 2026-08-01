@@ -1,0 +1,18 @@
+alias: q_stuck_point_7
+label: Stuck point
+name: Where is the work getting stuck most often for you, Carl?
+description: Surface the main place work is snagging so you can locate the friction.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_stuck_point_6"
+hints:
+  - kind: ask
+    text: Ask for one recent example, not a general pattern.
+  - kind: listen
+    text: Whether he names a handoff, decision, or person.
+  - kind: listen
+    text: Whether the snag sits with product, engineering, or review timing.
+grounding: open

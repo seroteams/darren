@@ -1,0 +1,18 @@
+alias: q_judgment_calls_6
+label: Judgment calls
+name: What is a recent tradeoff you chose to push on instead of just accepting?
+description: Get to a concrete judgment call that shows how he is operating at principal level.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_judgment_calls_5"
+hints:
+  - kind: ask
+    text: Ask for one tradeoff and what he actually did.
+  - kind: listen
+    text: Whether he names the cost of pushing on it.
+  - kind: listen
+    text: Whether he stayed local or thought across teams.
+grounding: open

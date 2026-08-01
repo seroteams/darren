@@ -1,0 +1,17 @@
+alias: q_launch_follow_up
+label: Launch follow-up
+name: What has happened since the cutover, and what did you do about it?
+description: Turns the launch thread into a concrete read on any follow-up work and her actions on it.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+source: planner_added
+hints:
+  - kind: ask
+    text: Keep it on what happened after launch, not the launch itself.
+  - kind: listen
+    text: Whether she names fixes, monitoring, or handoffs after cutover.
+  - kind: listen
+    text: What she says she changed, checked, or followed up herself.
+grounding: cutover was handled

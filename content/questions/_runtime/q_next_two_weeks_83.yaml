@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_83
+label: Next two weeks
+name: What would make the next two weeks steadier for you?
+description: Close by finding the support or focus that would make the near term more manageable.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_next_two_weeks_82"
+hints:
+  - kind: ask
+    text: Keep it practical and near-term.
+  - kind: listen
+    text: Whether she asks for space, clarity, or a tradeoff.
+  - kind: listen
+    text: Whether she names one concrete change for the next two weeks.
+grounding: open

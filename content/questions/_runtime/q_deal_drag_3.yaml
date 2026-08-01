@@ -1,0 +1,18 @@
+alias: q_deal_drag_3
+label: Deal drag
+name: Where is the extra selling slowing a joint plan or deal down?
+description: Locate the work that is being delayed so the cost of the blocker is visible.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_deal_drag_2"
+hints:
+  - kind: ask
+    text: Ask for one partner or deal, not a pattern first.
+  - kind: listen
+    text: Whether he names a joint plan, pipeline review, or co-sell.
+  - kind: listen
+    text: What is not moving because of the extra selling.
+grounding: open

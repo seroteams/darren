@@ -1,0 +1,10 @@
+alias: q_sustainability
+label: Sustainability
+name: Does your current pace feel like something you could keep up for another three months?
+description: Test whether the busier stretch feels sustainable or like a short spike.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  engagement: -1
+source: "reworded_from:q_seed_wellbeing_sustain"
+grounding: open

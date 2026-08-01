@@ -1,0 +1,11 @@
+alias: q_handoff_snag
+label: Handoff snag
+name: On the Checkout Flow Refresh, where did the handoff get stuck from your side?
+description: Drill into the specific handoff snag to locate the friction in the work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: handoff slipped in Figma

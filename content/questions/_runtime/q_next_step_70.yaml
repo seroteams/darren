@@ -1,0 +1,18 @@
+alias: q_next_step_70
+label: Next step
+name: Given this, what should we change first for the next two weeks?
+description: Land on the first change that would make the next stretch lighter or sharper.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_next_step_69"
+hints:
+  - kind: ask
+    text: Keep it to the next two weeks, not a full process redesign.
+  - kind: listen
+    text: Whether she names one concrete change first.
+  - kind: listen
+    text: What support she implies she needs from you.
+grounding: open

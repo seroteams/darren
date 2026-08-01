@@ -1,0 +1,17 @@
+alias: q_what_he_tried_2
+label: What he tried
+name: What have you tried so far to keep the handoff moving, and what happened?
+description: "Surface Carl's actions on the slipped handoff before broadening into other friction."
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Keep it on his moves so far, not the whole history.
+  - kind: listen
+    text: "Whether he names a concrete action or stays on Priya's change."
+  - kind: listen
+    text: What happened after his last step.
+grounding: slipped again

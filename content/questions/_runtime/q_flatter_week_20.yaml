@@ -1,0 +1,18 @@
+alias: q_flatter_week_20
+label: Flatter week
+name: "What's making this week feel flatter than you expected?"
+description: Locate what is behind the post-launch flatness before moving on.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: "Keep it simple: ask what is making it feel flat."
+  - kind: listen
+    text: Whether she names recovery, a gap, or a work snag.
+  - kind: listen
+    text: Whether she points to a person, project, or specific moment.
+grounding: flatter this week

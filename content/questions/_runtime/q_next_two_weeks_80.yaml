@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_80
+label: Next two weeks
+name: What would make the next two weeks feel clearer for you?
+description: Close by surfacing what would sharpen her next steps and where manager support would help.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: "Keep it open: ask what would make the next two weeks clearer."
+  - kind: listen
+    text: Whether she names scope, a project, or a decision she needs.
+  - kind: listen
+    text: Whether she asks for alignment before the billing rewrite.
+grounding: "Unsure what she's owning next quarter"

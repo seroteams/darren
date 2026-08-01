@@ -1,0 +1,18 @@
+alias: q_review_load_9
+label: Review load
+name: Where is the review work crowding into your own delivery most?
+description: Locate the tradeoff between review churn and her own design work.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_review_load_8"
+hints:
+  - kind: ask
+    text: Ask for the work that is getting squeezed, not a general feeling.
+  - kind: listen
+    text: Whether she names a flow, handoff, or sprint slipping.
+  - kind: listen
+    text: Whether she describes her own pace or only the process.
+grounding: open

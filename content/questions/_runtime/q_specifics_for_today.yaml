@@ -1,0 +1,18 @@
+alias: q_specifics_for_today
+label: Specifics for today
+name: You did not name anything for today. What feels most worth getting into right now?
+description: Re-prompt for one concrete topic to focus the check-in.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: If needed, offer examples like a handoff, decision, or review.
+  - kind: listen
+    text: Whether he names one concrete work point or stays broad.
+  - kind: listen
+    text: Whether he returns to the slipped handoff or names something new.
+grounding: he didnt say thahytinig/

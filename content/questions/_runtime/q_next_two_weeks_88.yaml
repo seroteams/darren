@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_88
+label: Next-two-weeks
+name: What would make the next two weeks feel cleaner for you?
+description: Close by surfacing what would make the near term lighter or sharper.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_next_two_weeks_87"
+hints:
+  - kind: ask
+    text: Ask what would make the next stretch cleaner.
+  - kind: listen
+    text: Whether she names a concrete change or stays general.
+  - kind: listen
+    text: Whether the answer points to priorities, support, or cleanup.
+grounding: open

@@ -1,0 +1,11 @@
+alias: q_beta_date_tension
+label: Beta date tension
+name: With the live date coming up, what have you said so far about not committing to one?
+description: Surface how he has handled the beta-first versus live-date pressure and what response that got.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+grounding: I have not committed

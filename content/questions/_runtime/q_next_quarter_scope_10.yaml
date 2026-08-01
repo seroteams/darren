@@ -1,0 +1,18 @@
+alias: q_next_quarter_scope_10
+label: Next quarter scope
+name: What do you expect to own next quarter that you do not own today?
+description: Surface the area or system she expects to take on next quarter.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_scope_9"
+hints:
+  - kind: ask
+    text: Ask for a service, area, or kind of work.
+  - kind: listen
+    text: Whether she names something specific or stays broad.
+  - kind: listen
+    text: Whether billing rewrite changes what she expects to own.
+grounding: open

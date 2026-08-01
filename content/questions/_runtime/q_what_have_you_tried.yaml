@@ -1,0 +1,11 @@
+alias: q_what_have_you_tried
+label: What have you tried
+name: What have you tried with sales and BD so far, and what happened?
+description: Surface what he has already done about the internal understanding gap before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: Lack of understanding

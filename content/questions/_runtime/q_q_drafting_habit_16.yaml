@@ -1,0 +1,11 @@
+alias: q_q_drafting_habit_16
+label: q_drafting_habit
+name: What part of your drafting process most affects how ready the design feels on first pass?
+description: Surface which part of her design process most contributes to first-pass rework.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_drafting_habit"
+grounding: open

@@ -1,0 +1,10 @@
+alias: q_success_definition_2
+label: Success definition
+name: What would a good quarter look like for you from here?
+description: Open a forward-looking view of what good looks like.
+purpose: topic
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_success_definition"
+grounding: open

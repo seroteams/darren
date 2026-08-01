@@ -1,0 +1,11 @@
+alias: q_internal_sell_snag
+label: Internal sell snag
+name: Where is the internal sell getting stuck right now?
+description: Locate the specific point where internal buy-in on partner value is slowing things down.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: internally they may not push

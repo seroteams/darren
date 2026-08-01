@@ -1,0 +1,10 @@
+alias: q_ready_to_share_5
+label: Ready to share
+name: "When you say 'ready to share,' what are you looking for before you bring work in?"
+description: Clarify her own standard for when a design feels ready to show.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: ready to share

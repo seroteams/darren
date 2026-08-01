@@ -1,0 +1,18 @@
+alias: q_feedback_scatter_2
+label: Feedback scatter
+name: When you say the feedback feels scattered, what does that look like in practice?
+description: Make the feedback problem concrete so you can see whether it is timing, volume, or ownership.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_feedback_scatter"
+hints:
+  - kind: ask
+    text: Ask for the last review where this happened.
+  - kind: listen
+    text: Whether feedback came from too many places.
+  - kind: listen
+    text: Whether she names a clear decision owner or not.
+grounding: open

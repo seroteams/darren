@@ -1,0 +1,10 @@
+alias: q_thread_follow_39
+label: Thread follow
+name: "You said \"Turn 1 specifics about the review\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added

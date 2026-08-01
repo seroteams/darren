@@ -1,0 +1,18 @@
+alias: q_owns_next_quarter_3
+label: Owns next quarter
+name: "What do you expect to own next quarter that you don't own now?"
+description: Surface the concrete scope Priya already sees herself taking on next quarter.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_owns_next_quarter_2"
+hints:
+  - kind: ask
+    text: Ask for one or two concrete areas, not a broad ambition.
+  - kind: listen
+    text: Whether she names services, projects, or just bigger scope.
+  - kind: listen
+    text: Whether billing rewrite comes up before you introduce it.
+grounding: open

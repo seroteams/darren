@@ -1,0 +1,18 @@
+alias: q_what_tried_so_far
+label: What tried so far
+name: What have you tried so far when those reviews get moved, and what happened?
+description: Surface what she has already done about the rescheduling pattern before exploring more causes.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Keep it on the moved reviews, not reviews in general.
+  - kind: listen
+    text: Whether she names a specific change she made.
+  - kind: listen
+    text: What happened after she tried it.
+grounding: got moved at short notice

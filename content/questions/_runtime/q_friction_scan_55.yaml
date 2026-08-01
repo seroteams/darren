@@ -1,0 +1,18 @@
+alias: q_friction_scan_55
+label: Friction scan
+name: Where else is work getting snagged right now?
+description: Broaden from the handoff thread into other current friction across work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"
+hints:
+  - kind: ask
+    text: After payments, open the door to any other snag.
+  - kind: listen
+    text: Whether he stays on one issue or names a second one.
+  - kind: listen
+    text: Any place he sounds clear about the tradeoff.
+grounding: open

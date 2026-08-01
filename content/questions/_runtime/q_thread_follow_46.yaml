@@ -1,0 +1,18 @@
+alias: q_thread_follow_46
+label: Thread follow
+name: "You said \"Three different people give feedback and none of them owns the decision\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Ask it as a straight read on the last couple of weeks, then stop.
+  - kind: listen
+    text: Whether she names a specific review, sprint, or partner.
+  - kind: listen
+    text: Whether the mess is timing, ownership, or the feedback itself.
+hints_source: inherited

@@ -1,0 +1,18 @@
+alias: q_name_the_spot
+label: Name the spot
+name: Where is that showing up right now — a flow, screen, or handoff?
+description: Get one concrete place where delivery and improvement time are colliding.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Ask for one example, not the whole pattern.
+  - kind: listen
+    text: Whether he names a flow, screen, or handoff.
+  - kind: listen
+    text: Whether he points to scope, timing, or waiting on someone.
+grounding: wants time to improve things

@@ -1,0 +1,18 @@
+alias: q_next_quarter_shape_41
+label: Next quarter shape
+name: When you think about next quarter, what do you expect to own?
+description: Surface the service, system area, or cross-team work she expects to own next quarter.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_shape_40"
+hints:
+  - kind: ask
+    text: Ask for a concrete area, not a general theme.
+  - kind: listen
+    text: Whether she names a service, system boundary, or cross-team work.
+  - kind: listen
+    text: Whether billing rewrite changes how she frames ownership.
+grounding: open

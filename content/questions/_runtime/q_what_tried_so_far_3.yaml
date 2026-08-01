@@ -1,0 +1,18 @@
+alias: q_what_tried_so_far_3
+label: What tried so far
+name: What have you tried so far when those reviews get moved, and what happened?
+description: Surface what she has already done about the review churn and what result it got.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_what_tried_so_far_2"
+hints:
+  - kind: ask
+    text: Keep it on one recent moved review, not the whole pattern.
+  - kind: listen
+    text: Whether she names a concrete step she took herself.
+  - kind: listen
+    text: "What happened after her step: changed, stalled, or got ignored."
+grounding: open

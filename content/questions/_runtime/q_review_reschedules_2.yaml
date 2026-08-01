@@ -1,0 +1,18 @@
+alias: q_review_reschedules_2
+label: Review reschedules
+name: Which review keeps getting moved, and what usually changes when it does?
+description: Pin down the specific review and the pattern behind the reschedules.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_review_reschedules"
+hints:
+  - kind: ask
+    text: Ask for one review, not a summary of all of them.
+  - kind: listen
+    text: Whether she names a sprint, partner, or meeting.
+  - kind: listen
+    text: What actually changes when it gets moved.
+grounding: open

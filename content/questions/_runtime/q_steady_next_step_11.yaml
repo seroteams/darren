@@ -1,0 +1,18 @@
+alias: q_steady_next_step_11
+label: Steady next step
+name: What would make the next two weeks easier to move through?
+description: Close by surfacing what would lighten the load or sharpen the next stretch.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_steady_next_step_10"
+hints:
+  - kind: ask
+    text: "Keep it practical: support, decisions, or trade-offs."
+  - kind: listen
+    text: Whether he asks for air cover, clarity, or less on his plate.
+  - kind: listen
+    text: Whether he names one change that would help soon.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_launch_follow_through_2
+label: Launch follow-through
+name: "What, if anything, is still hanging around from Monday's launch?"
+description: Surface unresolved cleanup, follow-through, or service health work after the launch.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_launch_follow_through"
+hints:
+  - kind: ask
+    text: "Keep it concrete: cleanup, incidents, handoffs, or follow-through."
+  - kind: listen
+    text: Whether she names a specific loose end from Monday.
+  - kind: listen
+    text: Whether service health or incident follow-up is still taking space.
+grounding: open

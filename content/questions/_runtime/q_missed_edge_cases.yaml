@@ -1,0 +1,10 @@
+alias: q_missed_edge_cases
+label: Missed edge cases
+name: When edge cases or empty states get missed, where in the flow does that usually happen?
+description: Anchor the issue in a specific part of the design flow where rework starts showing up.
+purpose: topic
+stage: self_read
+axis_effects:
+  clarity: +1
+source: planner_added
+grounding: "doesn't check edge cases"

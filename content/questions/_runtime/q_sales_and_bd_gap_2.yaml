@@ -1,0 +1,11 @@
+alias: q_sales_and_bd_gap_2
+label: Sales and BD gap
+name: Where does that lack of understanding show up most with sales and BD?
+description: Locate the specific internal point where the partner-alliance message is breaking down.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+grounding: Lack of understanding

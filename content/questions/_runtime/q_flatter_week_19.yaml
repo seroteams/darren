@@ -1,0 +1,18 @@
+alias: q_flatter_week_19
+label: Flatter week
+name: "What's made this week feel flatter after the launch?"
+description: Locate what is behind the post-launch dip before moving on.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: "Keep it simple: ask what changed after Monday."
+  - kind: listen
+    text: Whether she names loose ends, a lull, or a new concern.
+  - kind: listen
+    text: Whether she talks about her own pace or just project status.
+grounding: feels flatter this week

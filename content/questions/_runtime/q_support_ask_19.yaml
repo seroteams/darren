@@ -1,0 +1,18 @@
+alias: q_support_ask_19
+label: Support ask
+name: What would make the next two weeks easier for you?
+description: Surface practical support that would make the immediate stretch feel lighter or clearer.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_support_ask_18"
+hints:
+  - kind: ask
+    text: Keep it practical and near-term.
+  - kind: listen
+    text: Whether she asks for clarity, cover, or a decision.
+  - kind: listen
+    text: Whether she names one concrete thing or stays broad.
+grounding: open

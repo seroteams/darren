@@ -1,0 +1,11 @@
+alias: q_q_ready_sooner_14
+label: q_ready_sooner
+name: What part of the design usually gets discovered too late for first review?
+description: Surface whether the rework pattern is mainly around edge cases, rationale, constraints, or handoff details.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +1
+  clarity: +3
+source: "reworded_from:q_ready_sooner"
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_68
+label: Next two weeks
+name: What would make the next two weeks smoother for you?
+description: Close by surfacing support or changes that would help in the near term.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_next_two_weeks_67"
+hints:
+  - kind: ask
+    text: "Keep it practical: support, decisions, or ways of working."
+  - kind: listen
+    text: Whether he asks for air cover, a decision, or more time.
+  - kind: listen
+    text: Whether he mentions the night release checks again.
+grounding: open

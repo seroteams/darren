@@ -1,0 +1,18 @@
+alias: q_review_load_7
+label: Review load
+name: Where is the review work crowding into your own delivery most?
+description: See how review work is affecting her own design delivery and planning.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_review_load_6"
+hints:
+  - kind: ask
+    text: Keep it tied to her own delivery this sprint.
+  - kind: listen
+    text: What part of her work gets squeezed first.
+  - kind: listen
+    text: Whether she mentions handoff, flows, or review prep.
+grounding: open

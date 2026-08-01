@@ -1,0 +1,18 @@
+alias: q_sprint_slip_cause_4
+label: Sprint slip cause
+name: What actually caused the last two sprint slips?
+description: Surface the concrete causes behind recent delivery misses.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_sprint_slip_cause_3"
+hints:
+  - kind: ask
+    text: Keep it to the last two slips, not the whole quarter.
+  - kind: listen
+    text: Whether he names one cause per slip or stays broad.
+  - kind: listen
+    text: Whether QA, handover, or something else shows up first.
+grounding: open

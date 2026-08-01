@@ -1,0 +1,10 @@
+alias: q_thread_follow_34
+label: Thread follow
+name: "You said \"Honestly a bit flat\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: wellbeing
+stage: pulse
+axis_effects:
+  wellbeing: +1
+  engagement: +1
+source: planner_added

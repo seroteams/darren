@@ -1,0 +1,18 @@
+alias: q_support_ask_18
+label: Support ask
+name: What would make the next two weeks easier for you?
+description: Close by surfacing the most useful support or adjustment from the manager.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_support_ask_17"
+hints:
+  - kind: ask
+    text: Leave it open so she can ask for support, clarity, or space.
+  - kind: listen
+    text: Whether she asks for a concrete decision, coverage, or context.
+  - kind: listen
+    text: Whether the ask connects to launch follow-up or next quarter ownership.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_launch_leftovers_3
+label: Launch leftovers
+name: "What, if anything, is still hanging around from Monday's launch?"
+description: Check for unresolved follow-on work after the release.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_launch_leftovers_2"
+hints:
+  - kind: ask
+    text: Use this if she points back to launch loose ends.
+  - kind: listen
+    text: Whether she names fixes, cleanup, or support load.
+  - kind: listen
+    text: Whether anything still lacks a clear owner.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_what_feels_new
+label: What feels new
+name: What would make this work feel new again right now?
+description: Probe the flatness thread by locating what kind of stretch or change is missing in the current work.
+purpose: wellbeing
+stage: friction
+axis_effects:
+  wellbeing: +3
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: "Keep it on the work: ask what would add some stretch."
+  - kind: listen
+    text: Whether she names a project, service, or kind of problem.
+  - kind: listen
+    text: Whether she stays with reviews and cleanup or points elsewhere.
+grounding: not much that feels new

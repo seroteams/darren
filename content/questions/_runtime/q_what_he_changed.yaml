@@ -1,0 +1,17 @@
+alias: q_what_he_changed
+label: What he changed
+name: What have you done to help sales and BD see where partner alliance fits, and what happened?
+description: Pushes from the named understanding gap to his actions so far and what result they got.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Ask for one thing he changed or said, not the whole history.
+  - kind: listen
+    text: Whether he names a specific team, meeting, or message.
+  - kind: listen
+    text: What happened after he tried it, if anything.
+grounding: Lack of understanding

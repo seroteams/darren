@@ -1,0 +1,10 @@
+alias: q_success_definition_4
+label: Success definition
+name: What would a good quarter look like for you from here?
+description: Surface what outcomes would define success from their point of view.
+purpose: topic
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_seed_clarity_success"
+grounding: open

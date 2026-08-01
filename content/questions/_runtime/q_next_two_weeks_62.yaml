@@ -1,0 +1,11 @@
+alias: q_next_two_weeks_62
+label: Next two weeks
+name: Given that strain and target pressure, where do you want to focus first in the next two weeks?
+description: Close by turning the named constraint into his near-term focus.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+grounding: strain and target pressure

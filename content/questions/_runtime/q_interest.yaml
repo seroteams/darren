@@ -1,0 +1,10 @@
+alias: q_interest
+label: Interest
+name: "Which part of your work have you been leaning into — and which part you've been avoiding?"
+description: Surface where his energy is going and what he is steering away from.
+purpose: topic
+axis_effects:
+  engagement: +3
+  wellbeing: +1
+source: "reworded_from:q_seed_engagement_interest"
+grounding: open

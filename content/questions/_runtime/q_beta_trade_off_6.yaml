@@ -1,0 +1,18 @@
+alias: q_beta_trade_off_6
+label: Beta trade-off
+name: What are you choosing to protect in beta, and what are you willing to drop?
+description: Surface the sequencing trade-off between beta readiness and the live date.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_beta_trade_off_5"
+hints:
+  - kind: ask
+    text: Keep it on beta choices, not the whole roadmap.
+  - kind: listen
+    text: Whether he names one thing to protect and one thing to drop.
+  - kind: listen
+    text: Whether QA or live-date pressure drives the trade-off.
+grounding: open

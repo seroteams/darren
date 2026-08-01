@@ -1,0 +1,18 @@
+alias: q_agenda_check_10
+label: Agenda check
+name: "I've got a couple of things to cover. What do you want to get out of today?"
+description: Give Carl space to add his own priority before the session moves on.
+purpose: topic
+stage: pulse
+axis_effects:
+  engagement: +1
+  clarity: +1
+source: "reworded_from:q_intro_agenda_check"
+hints:
+  - kind: ask
+    text: Keep it brief so it does not reset the conversation.
+  - kind: listen
+    text: Whether he adds anything beyond the payments handoff.
+  - kind: listen
+    text: If he names a concrete outcome for this chat.
+grounding: open

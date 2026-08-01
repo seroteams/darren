@@ -1,0 +1,18 @@
+alias: q_review_load_8
+label: Review load
+name: Where is the review work crowding into your own delivery most?
+description: Check whether review work is eating into her own design delivery and planning.
+purpose: wellbeing
+stage: momentum
+axis_effects:
+  wellbeing: +3
+  clarity: +1
+source: "reworded_from:q_review_load_7"
+hints:
+  - kind: ask
+    text: Ask where it shows up in her week or sprint.
+  - kind: listen
+    text: Whether she names handoff, flows, QA, or core design work.
+  - kind: listen
+    text: Whether she talks about time lost or priorities getting bumped.
+grounding: open

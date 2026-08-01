@@ -1,0 +1,11 @@
+alias: q_priority_clarity_30
+label: Priority clarity
+name: What are you actually focused on this week, and why those things?
+description: Surface what is moving now and how clear the near-term priorities are.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_priority_clarity_29"
+grounding: open

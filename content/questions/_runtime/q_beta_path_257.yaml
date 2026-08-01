@@ -1,0 +1,17 @@
+alias: q_beta_path_257
+label: Beta path
+name: What has to land before the beta can go out?
+description: Gets the sequence out loud.
+purpose: topic
+stage: explore
+axis_effects:
+  clarity: +3
+source: planner_added
+hints:
+  - kind: ask
+    text: Ask it flat, then leave the pause alone.
+  - kind: listen
+    text: Whether he names the QA environment or something else.
+  - kind: listen
+    text: Whether the trade-off was his call or handed to him.
+grounding: open

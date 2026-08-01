@@ -1,0 +1,9 @@
+alias: q_thread_follow_38
+label: Thread follow
+name: "You said \"Turn 3 answer the review rota\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: topic
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added

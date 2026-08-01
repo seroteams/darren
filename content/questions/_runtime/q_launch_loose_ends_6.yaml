@@ -1,0 +1,18 @@
+alias: q_launch_loose_ends_6
+label: Launch loose ends
+name: What is still open from the cutover, if anything?
+description: Bring the answer back to concrete launch follow-through before moving on.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Keep it narrow to cutover follow-through, not the whole launch.
+  - kind: listen
+    text: Whether she names a specific open item after the cutover.
+  - kind: listen
+    text: Whether she says nothing is open and shifts to reviews or cleanup.
+grounding: cutover was handled

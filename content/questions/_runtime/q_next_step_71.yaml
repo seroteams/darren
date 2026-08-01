@@ -1,0 +1,18 @@
+alias: q_next_step_71
+label: Next step
+name: Given this, what should we change first for the next two weeks?
+description: Turn the discussion into one practical change to make reviews more usable.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_next_step_70"
+hints:
+  - kind: ask
+    text: Ask for one change first, not a full fix.
+  - kind: listen
+    text: Whether she points to owner, timing, or review criteria.
+  - kind: listen
+    text: Whether she names something you can directly change.
+grounding: open

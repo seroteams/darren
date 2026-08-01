@@ -1,0 +1,10 @@
+alias: q_q_standard_check_7
+label: q_standard_check
+name: What would make that consistent rather than case-by-case?
+description: Surface the repeatable mechanism she would use so key handoff details are captured every time.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_standard_check"
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_87
+label: Next-two-weeks
+name: What would make the next two weeks feel cleaner for you?
+description: Close by surfacing what would make the near-term feel lighter or more workable.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_next_two_weeks_86"
+hints:
+  - kind: ask
+    text: Keep it open and practical, not a yes or no.
+  - kind: listen
+    text: Whether she asks for clarity, space, or help from you.
+  - kind: listen
+    text: Whether she names one thing that would change her next fortnight.
+grounding: open

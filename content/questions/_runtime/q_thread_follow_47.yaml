@@ -1,0 +1,18 @@
+alias: q_thread_follow_47
+label: Thread follow
+name: "You said \"ne wants time to improve things\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: topic
+stage: pulse
+axis_effects:
+  clarity: +3
+  growth: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: "Ask it plainly and don't add your view of the trade-off."
+  - kind: listen
+    text: Whether he names one flow, screen, or handoff.
+  - kind: listen
+    text: Whether the squeeze is about scope, timing, or a decision.
+hints_source: inherited

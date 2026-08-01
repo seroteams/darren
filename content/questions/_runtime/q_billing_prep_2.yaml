@@ -1,0 +1,18 @@
+alias: q_billing_prep_2
+label: Billing prep
+name: What would you want settled before billing changes land?
+description: Surface the decisions or support she would need before taking on billing work.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_billing_prep"
+hints:
+  - kind: ask
+    text: Keep it on what needs settling, not whether billing is good.
+  - kind: listen
+    text: Whether she names scope, tradeoffs, or decision owners.
+  - kind: listen
+    text: Whether she asks for air cover or clearer priorities.
+grounding: open

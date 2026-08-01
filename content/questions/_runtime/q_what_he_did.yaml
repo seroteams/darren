@@ -1,0 +1,17 @@
+alias: q_what_he_did
+label: What he did
+name: You said the handoff moved again. What did you do when that date changed?
+description: Get one concrete action he took after the date moved, so the snag is not described twice.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Ask for his move after the date changed.
+  - kind: listen
+    text: Whether he names a specific action or repeats the slip.
+  - kind: listen
+    text: What happened after that step.
+grounding: handoff moved again

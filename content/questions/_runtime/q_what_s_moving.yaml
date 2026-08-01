@@ -1,0 +1,18 @@
+alias: q_what_s_moving
+label: "What's moving"
+name: What is still moving on your side while payments sits on the 14th?
+description: Shift to momentum and surface what he can still advance despite the dependency.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: planner_added
+hints:
+  - kind: ask
+    text: Keep it on his side of the work, not payments.
+  - kind: listen
+    text: Whether he names concrete work still in motion.
+  - kind: listen
+    text: Whether priorities sound chosen or vague.
+grounding: payment step slipped to the 14th

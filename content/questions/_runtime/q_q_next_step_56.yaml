@@ -1,0 +1,11 @@
+alias: q_q_next_step_56
+label: q_next_step
+name: "What's one thing you'll change on the next handoff?"
+description: "Turn the discussion into a concrete change in Nina Patel's next handoff behaviour."
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_step"
+grounding: open

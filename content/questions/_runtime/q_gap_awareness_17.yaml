@@ -1,0 +1,18 @@
+alias: q_gap_awareness_17
+label: Gap awareness
+name: "Where do you think you've fallen short of where you want to be?"
+description: Move from evidence into the specific gap he already partly named in his self-read.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_intro_perf_03_gap"
+hints:
+  - kind: ask
+    text: Keep it on the work gap, not on traits.
+  - kind: listen
+    text: Whether he names a repeated pattern or one isolated moment.
+  - kind: listen
+    text: Whether the gap is leverage, alignment, or judgment.
+grounding: open

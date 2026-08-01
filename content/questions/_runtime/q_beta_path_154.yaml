@@ -1,0 +1,10 @@
+alias: q_beta_path_154
+label: Beta path
+name: What has to land before the beta can go out?
+description: Gets the sequence out loud.
+purpose: topic
+stage: explore
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: open

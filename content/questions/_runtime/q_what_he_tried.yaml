@@ -1,0 +1,17 @@
+alias: q_what_he_tried
+label: What he tried
+name: What have you tried so far to get agreement on co-working, and what happened?
+description: Surface what action he has already taken on the internal alignment snag and what result it got.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Keep it on actions already taken, not the whole backstory.
+  - kind: listen
+    text: Whether he names a specific conversation or decision point.
+  - kind: listen
+    text: What changed after he raised co-working, if anything.
+grounding: agree on co-working

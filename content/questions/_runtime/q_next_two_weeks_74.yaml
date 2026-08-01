@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_74
+label: Next two weeks
+name: What would make the next two weeks lighter or sharper on this handoff?
+description: Surface the most useful support or adjustment for the next handoff window.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_next_two_weeks_73"
+hints:
+  - kind: ask
+    text: Keep it on the next two weeks, not the full history.
+  - kind: listen
+    text: Whether he names a concrete change or stays general.
+  - kind: listen
+    text: Whether he asks for capacity, scope, or a decision.
+grounding: open

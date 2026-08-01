@@ -1,0 +1,18 @@
+alias: q_mentoring_thread_60
+label: Mentoring thread
+name: What would mentoring actually look like in your week?
+description: Test whether mentoring is still part of the work she wants more of.
+purpose: topic
+stage: momentum
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_mentoring_thread_59"
+hints:
+  - kind: ask
+    text: Ask what kind of mentoring she means in practice.
+  - kind: listen
+    text: Whether she mentions reviews, pairing, or onboarding.
+  - kind: listen
+    text: Whether she sees it as real work or an extra.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_friction_scan_56
+label: Friction scan
+name: Where else is work getting snagged right now?
+description: Surface any other current work snags beyond the payments handoff.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_friction_scan_55"
+hints:
+  - kind: ask
+    text: Keep it broad, beyond the payments handoff.
+  - kind: listen
+    text: Whether he names another concrete snag.
+  - kind: listen
+    text: Whether he talks about his team or only himself.
+grounding: open

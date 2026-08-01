@@ -1,0 +1,18 @@
+alias: q_steady_next_step_13
+label: Steady next step
+name: What would make the next two weeks easier to move through?
+description: Surface what would lighten the load or sharpen execution in the near term.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_steady_next_step_12"
+hints:
+  - kind: ask
+    text: Keep it on the next two weeks, not general fixes.
+  - kind: listen
+    text: Whether he asks for air cover, clarity, or capacity changes.
+  - kind: listen
+    text: Whether he names one concrete thing that would help.
+grounding: open

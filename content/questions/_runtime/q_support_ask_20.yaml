@@ -1,0 +1,18 @@
+alias: q_support_ask_20
+label: Support ask
+name: What would make the next two weeks easier for you?
+description: Close by surfacing the support or clarity that would make the immediate stretch lighter.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_support_ask_19"
+hints:
+  - kind: ask
+    text: Keep it on the next two weeks, not the whole quarter.
+  - kind: listen
+    text: Whether she asks for clearer ownership, cover, or fewer loose ends.
+  - kind: listen
+    text: Whether she names one practical change or stays broad.
+grounding: open

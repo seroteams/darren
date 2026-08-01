@@ -1,0 +1,17 @@
+alias: q_what_s_stuck
+label: "What's stuck"
+name: What is fully stuck until that payment step lands?
+description: Map the boundary between work that can continue and work waiting on the dependency.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Ask for the pieces that cannot move yet.
+  - kind: listen
+    text: Whether he names a specific dependency or decision.
+  - kind: listen
+    text: Whether the line between moving and stuck is clear.
+grounding: payment step slipped to the 14th

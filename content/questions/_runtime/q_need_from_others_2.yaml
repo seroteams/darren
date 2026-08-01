@@ -1,0 +1,18 @@
+alias: q_need_from_others_2
+label: Need from others
+name: What do you need earlier from product or engineering to keep moving?
+description: Identify support or inputs that would reduce delays.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_need_from_others"
+hints:
+  - kind: ask
+    text: Ask what would have helped on the last piece of work.
+  - kind: listen
+    text: Whether he asks for faster calls, clearer feedback, or earlier alignment.
+  - kind: listen
+    text: Whether he names one team more than the other.
+grounding: open

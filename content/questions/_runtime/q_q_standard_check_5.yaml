@@ -1,0 +1,10 @@
+alias: q_q_standard_check_5
+label: q_standard_check
+name: What would make that consistent rather than case-by-case?
+description: Move from one-off fixes toward a repeatable handoff approach.
+purpose: topic
+stage: cause
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_standard_check"
+grounding: open

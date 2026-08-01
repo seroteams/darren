@@ -1,0 +1,18 @@
+alias: q_sprint_slip_cause_3
+label: Sprint slip cause
+name: What actually caused the last two sprint slips?
+description: Surface the main delivery blockers behind the recent misses.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_sprint_slip_cause_2"
+hints:
+  - kind: ask
+    text: Ask for the biggest causes, not every detail.
+  - kind: listen
+    text: Whether he names one cause or a pile of symptoms.
+  - kind: listen
+    text: Any link he makes to the QA environment or handover.
+grounding: open

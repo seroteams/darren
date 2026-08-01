@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_79
+label: Next two weeks
+name: What would make the next two weeks steadier for you?
+description: Close by surfacing where she wants support or sharper focus in the near term.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  clarity: +1
+  growth: +1
+source: "reworded_from:q_next_two_weeks_78"
+hints:
+  - kind: ask
+    text: "Keep it open: what would help most over the next two weeks?"
+  - kind: listen
+    text: Whether she asks for scope, time, or a clearer role.
+  - kind: listen
+    text: Whether she names one specific change or stays broad.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_launch_follow_through_3
+label: Launch follow-through
+name: "What, if anything, is still hanging around from Monday's launch?"
+description: Surface whether launch cleanup or follow-through is still taking space after Monday.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  wellbeing: +1
+source: "reworded_from:q_launch_follow_through_2"
+hints:
+  - kind: ask
+    text: "Keep it concrete: ask what is still open, if anything."
+  - kind: listen
+    text: Whether she names a specific cleanup item, bug, or follow-up.
+  - kind: listen
+    text: Whether she says nothing is open and this is just reviews.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_qa_environment_blocker
+label: QA environment blocker
+name: What have you tried so far with the QA environment, and what happened?
+description: Turn the named blocker into action already taken and what it changed.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Keep it on what he tried, not a full postmortem.
+  - kind: listen
+    text: Whether he names a concrete fix attempt or stays at problem level.
+  - kind: listen
+    text: What result each attempt had on beta or live-date planning.
+grounding: QA environment keeps falling over

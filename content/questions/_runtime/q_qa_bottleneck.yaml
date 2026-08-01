@@ -1,0 +1,11 @@
+alias: q_qa_bottleneck
+label: QA bottleneck
+name: What have you tried so far on the QA bottleneck, and what happened?
+description: Surface what action he has already taken on the named snag and where it is still stuck.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+grounding: QA is the bottleneck

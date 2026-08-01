@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_89
+label: Next two weeks
+name: What would make the next two weeks smoother for you, Carl?
+description: Close by surfacing the support or focus that would help next.
+purpose: topic
+stage: lift
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_two_weeks_72"
+hints:
+  - kind: ask
+    text: Ask what would make the biggest difference first.
+  - kind: listen
+    text: Whether he asks for support, a decision, or clearer priorities.
+  - kind: listen
+    text: Whether his answer connects back to earlier friction.
+grounding: open

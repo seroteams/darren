@@ -1,0 +1,18 @@
+alias: q_friction_scan_53
+label: Friction scan
+name: "What's been slower or harder than it should have been?"
+description: Surface current snags affecting the work.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"
+hints:
+  - kind: ask
+    text: Ask for one concrete thing, not a full list.
+  - kind: listen
+    text: Whether she names a specific dependency, handoff, or decision.
+  - kind: listen
+    text: Whether the snag is current or already resolved.
+grounding: open

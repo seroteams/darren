@@ -1,0 +1,18 @@
+alias: q_next_commitment_2
+label: Next commitment
+name: What one thing will you drive differently in the next two weeks?
+description: Close on a concrete change in how he will create more visible principal-level impact.
+purpose: topic
+stage: commit
+axis_effects:
+  growth: +1
+  clarity: +1
+source: "reworded_from:q_next_commitment"
+hints:
+  - kind: ask
+    text: Keep it to one behaviour he can change soon.
+  - kind: listen
+    text: Whether he names a real move, not a vague intention.
+  - kind: listen
+    text: Whether the change connects to leverage, not just output.
+grounding: open

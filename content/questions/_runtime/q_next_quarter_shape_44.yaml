@@ -1,0 +1,18 @@
+alias: q_next_quarter_shape_44
+label: Next-quarter shape
+name: What do you expect to own next quarter?
+description: Get a concrete read on her next-quarter ownership plans.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_shape_43"
+hints:
+  - kind: ask
+    text: Ask for a real area, service, or project.
+  - kind: listen
+    text: Whether she names something specific without prompting.
+  - kind: listen
+    text: Whether billing or mentoring comes up on its own.
+grounding: open

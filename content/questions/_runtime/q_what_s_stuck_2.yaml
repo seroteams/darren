@@ -1,0 +1,17 @@
+alias: q_what_s_stuck_2
+label: "What's stuck"
+name: What is fully stuck until that payment step lands?
+description: Surface the concrete work now blocked so the conversation can move toward the closer next turn.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+source: "reworded_from:q_what_s_stuck"
+hints:
+  - kind: ask
+    text: Ask for the work item, not the history.
+  - kind: listen
+    text: Whether he names a specific deliverable or stays broad.
+  - kind: listen
+    text: Whether the blockage is total or only part of the handoff.
+grounding: open

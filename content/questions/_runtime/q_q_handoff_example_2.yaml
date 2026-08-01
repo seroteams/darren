@@ -1,0 +1,11 @@
+alias: q_q_handoff_example_2
+label: q_handoff_example
+name: Walk me through a recent handoff that came back with questions.
+description: Anchor on a specific recent handoff and what happened.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_handoff_example"
+grounding: open

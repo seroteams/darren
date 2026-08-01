@@ -1,0 +1,18 @@
+alias: q_priority_clarity_32
+label: Priority clarity
+name: What are you actually focused on this week, and why those things?
+description: Clarify current priorities and how he is choosing where to spend time.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_priority_clarity_31"
+hints:
+  - kind: ask
+    text: Get the top two or three things, not the whole list.
+  - kind: listen
+    text: Whether partner work or internal selling is taking the lead.
+  - kind: listen
+    text: Whether he gives a clear reason for each priority.
+grounding: open

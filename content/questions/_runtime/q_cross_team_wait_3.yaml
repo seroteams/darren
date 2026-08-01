@@ -1,0 +1,11 @@
+alias: q_cross_team_wait_3
+label: Cross-team wait
+name: What are you waiting on that could move the beta or live date?
+description: Identify dependencies or decisions that could shift delivery confidence.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_cross_team_wait_2"
+grounding: open

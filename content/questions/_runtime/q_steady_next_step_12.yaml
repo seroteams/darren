@@ -1,0 +1,18 @@
+alias: q_steady_next_step_12
+label: Steady next step
+name: What would make the next two weeks easier to move through?
+description: Brings the conversation to what would lighten the next stretch and where support would help.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_steady_next_step_11"
+hints:
+  - kind: ask
+    text: Keep it on the next two weeks, not general fixes.
+  - kind: listen
+    text: Whether he asks for air cover, decisions, or time.
+  - kind: listen
+    text: What would make the pace more workable.
+grounding: open

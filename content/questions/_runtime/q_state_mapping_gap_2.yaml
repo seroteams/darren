@@ -1,0 +1,10 @@
+alias: q_state_mapping_gap_2
+label: State mapping gap
+name: On that error messaging handoff, where should the state-to-message mapping have been spelled out?
+description: Pin down the exact missing artefact detail in the example before moving up to the broader pattern.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: "didn't note which maps to which state"

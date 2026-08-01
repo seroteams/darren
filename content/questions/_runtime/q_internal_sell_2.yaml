@@ -1,0 +1,18 @@
+alias: q_internal_sell_2
+label: Internal sell
+name: When you have to make the case internally, who are you selling to most often?
+description: Pin down where the internal selling is happening and with whom.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_internal_sell"
+hints:
+  - kind: ask
+    text: Ask for the group or person, not a general answer.
+  - kind: listen
+    text: Whether he names sales, product, leadership, or something else.
+  - kind: listen
+    text: Whether this sounds repeated or tied to one case.
+grounding: open

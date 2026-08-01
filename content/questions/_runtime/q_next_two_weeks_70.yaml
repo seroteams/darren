@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_70
+label: Next two weeks
+name: What would make the next two weeks smoother for you?
+description: Close by surfacing what support or sharper setup would help over the next fortnight.
+purpose: wellbeing
+stage: lift
+axis_effects:
+  wellbeing: +1
+  clarity: +1
+source: "reworded_from:q_next_two_weeks_69"
+hints:
+  - kind: ask
+    text: "Keep it open: smoother can mean support, decisions, or fewer distractions."
+  - kind: listen
+    text: Whether he asks for a decision, a trade-off, or cover with another team.
+  - kind: listen
+    text: Whether he names one concrete change for the next two weeks.
+grounding: open

@@ -1,0 +1,10 @@
+alias: q_late_rationale_5
+label: Late rationale
+name: When rationale is unclear in review, what decision is usually still unresolved when you share?
+description: Pinpoint the specific decision that is still open when work goes into review.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  clarity: +3
+source: planner_added
+grounding: unclear rationale

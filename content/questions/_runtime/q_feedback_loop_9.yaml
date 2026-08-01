@@ -1,0 +1,18 @@
+alias: q_feedback_loop_9
+label: Feedback loop
+name: How is critique landing in the design reviews lately?
+description: Understand whether feedback is helping iteration or muddying it.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_feedback_loop_8"
+hints:
+  - kind: ask
+    text: Ask about the last review, not reviews in general.
+  - kind: listen
+    text: Whether feedback is clear enough to act on.
+  - kind: listen
+    text: Whether extra rounds come from late changes or unclear calls.
+grounding: open

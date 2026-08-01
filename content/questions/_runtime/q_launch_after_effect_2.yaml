@@ -1,0 +1,18 @@
+alias: q_launch_after_effect_2
+label: Launch after-effect
+name: "What has Monday's launch changed in your week, if anything?"
+description: Surface how the launch shifted her workload, focus, or pace.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: "reworded_from:q_launch_after_effect"
+hints:
+  - kind: ask
+    text: Anchor on Monday so the answer stays concrete.
+  - kind: listen
+    text: Whether the change is workload, attention, or team contact.
+  - kind: listen
+    text: "Whether she says 'nothing' or names a real shift."
+grounding: open

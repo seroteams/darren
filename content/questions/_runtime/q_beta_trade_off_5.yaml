@@ -1,0 +1,18 @@
+alias: q_beta_trade_off_5
+label: Beta trade-off
+name: What are you choosing to protect in beta, and what are you willing to drop?
+description: Clarify the trade-offs shaping beta and live-date sequencing.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_beta_trade_off_4"
+hints:
+  - kind: ask
+    text: Ask for one thing he will protect and one he would cut.
+  - kind: listen
+    text: Whether he names quality, scope, or date first.
+  - kind: listen
+    text: Whether the trade-off makes the live date clearer.
+grounding: open

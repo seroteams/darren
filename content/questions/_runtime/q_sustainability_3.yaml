@@ -1,0 +1,10 @@
+alias: q_sustainability_3
+label: Sustainability
+name: Does your current pace feel like something you could keep up for another three months?
+description: Check whether the current workload feels sustainable.
+purpose: wellbeing
+axis_effects:
+  wellbeing: +3
+  engagement: -1
+source: "reworded_from:q_sustainability_2"
+grounding: open

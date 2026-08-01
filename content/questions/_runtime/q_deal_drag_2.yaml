@@ -1,0 +1,18 @@
+alias: q_deal_drag_2
+label: Deal drag
+name: Where is the extra selling slowing a joint plan or deal down?
+description: Locate the work that is being delayed by repeated value-selling.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_deal_drag"
+hints:
+  - kind: ask
+    text: Ask for one live example, not the whole pattern.
+  - kind: listen
+    text: Whether he names a specific partner, deal, or review.
+  - kind: listen
+    text: Whether the slowdown is approval, messaging, or ownership.
+grounding: open

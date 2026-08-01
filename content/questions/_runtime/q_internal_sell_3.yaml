@@ -1,0 +1,18 @@
+alias: q_internal_sell_3
+label: Internal sell
+name: When the referrals do not help their numbers, who inside is hardest to bring with you?
+description: Pin down which internal group is least aligned so the blocker is concrete.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +1
+source: "reworded_from:q_internal_sell_2"
+hints:
+  - kind: ask
+    text: "Ask for the team or role, not a general 'internally' answer."
+  - kind: listen
+    text: Whether he names sales, leadership, or another partner team.
+  - kind: listen
+    text: Whether the issue is incentives, ownership, or message.
+grounding: their numbers

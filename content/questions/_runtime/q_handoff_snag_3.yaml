@@ -1,0 +1,18 @@
+alias: q_handoff_snag_3
+label: Handoff snag
+name: "What's getting lost between your design and engineering handoff?"
+description: Pin down what is dropping in handoff and slowing delivery.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_handoff_snag_2"
+hints:
+  - kind: ask
+    text: Ask what was missing in the last handoff.
+  - kind: listen
+    text: Whether he names specs, edge cases, or design rationale.
+  - kind: listen
+    text: Whether engineering was involved early or only at handoff.
+grounding: open

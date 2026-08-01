@@ -1,0 +1,18 @@
+alias: q_priority_clarity_36
+label: Priority clarity
+name: What are you actually focused on this week, and why those things?
+description: Map current priorities and whether they feel chosen, inherited, or unclear.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: "reworded_from:q_priority_clarity_35"
+hints:
+  - kind: ask
+    text: Ask for the actual work on her plate, not a theme.
+  - kind: listen
+    text: Whether she names clear priorities or a grab-bag of tasks.
+  - kind: listen
+    text: Whether the why is her own choice or just what landed.
+grounding: open

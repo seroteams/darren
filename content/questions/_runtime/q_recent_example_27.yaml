@@ -1,0 +1,11 @@
+alias: q_recent_example_27
+label: Recent example
+name: Take one of those handoffs — what came back missing?
+description: Anchor the conversation in one observable example of a handoff that returned with gaps.
+purpose: topic
+stage: evidence
+axis_effects:
+  clarity: +3
+  engagement: +1
+source: planner_added
+grounding: come back with gaps

@@ -1,0 +1,10 @@
+alias: q_q_empty_states_miss_8
+label: q_empty_states_miss
+name: In those empty states, what did you not see until review?
+description: Pin down what specifically was missed in review on empty states.
+purpose: competency
+stage: evidence
+axis_effects:
+  clarity: +3
+source: "reworded_from:q_empty_states_miss"
+grounding: open

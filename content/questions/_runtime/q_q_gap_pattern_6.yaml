@@ -1,0 +1,11 @@
+alias: q_q_gap_pattern_6
+label: q_gap_pattern
+name: When rationale is unclear in review, what were you still deciding as you shared it?
+description: Explore what was still unresolved when the work was brought into review.
+purpose: topic
+stage: cause
+axis_effects:
+  growth: +1
+  clarity: +3
+source: "reworded_from:q_gap_pattern"
+grounding: open

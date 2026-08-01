@@ -1,0 +1,9 @@
+alias: q_thread_follow_43
+label: Thread follow
+name: "You said \"knew the logic for when each message shows\" — what's behind that for you right now?"
+description: Following up on what they just said.
+purpose: scripted
+stage: cause
+axis_effects:
+  clarity: +3
+source: planner_added

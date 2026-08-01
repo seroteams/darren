@@ -1,0 +1,18 @@
+alias: q_next_quarter_scope_8
+label: Next quarter scope
+name: "What do you expect to own next quarter that you don't own today?"
+description: Clarify the scope Priya expects before roadmap changes reshape it.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_next_quarter_scope_7"
+hints:
+  - kind: ask
+    text: Ask for a real area, service, or system.
+  - kind: listen
+    text: Whether she names ownership clearly or stays broad.
+  - kind: listen
+    text: Whether mentoring or unblocking others shows up in that scope.
+grounding: open

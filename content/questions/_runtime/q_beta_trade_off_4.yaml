@@ -1,0 +1,18 @@
+alias: q_beta_trade_off_4
+label: Beta trade-off
+name: What are you choosing to protect in beta, and what are you willing to drop?
+description: Clarify the trade-offs shaping the beta-to-live sequence.
+purpose: topic
+stage: momentum
+axis_effects:
+  clarity: +3
+  growth: +1
+source: "reworded_from:q_beta_trade_off_3"
+hints:
+  - kind: ask
+    text: Push for one protect and one drop.
+  - kind: listen
+    text: Whether he names quality, scope, or timing as the thing protected.
+  - kind: listen
+    text: Any trade-off he avoids naming directly.
+grounding: open

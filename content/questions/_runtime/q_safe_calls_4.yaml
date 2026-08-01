@@ -1,0 +1,17 @@
+alias: q_safe_calls_4
+label: Safe calls
+name: When you played it safe, what did you choose not to push on?
+description: Turns his own example into a specific gap in principal-level influence and decision-making.
+purpose: topic
+stage: evidence
+axis_effects:
+  growth: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Ask for one decision or discussion he held back on.
+  - kind: listen
+    text: Whether he names a cross-team call, RFC, or trade-off.
+  - kind: listen
+    text: What he avoided doing, not just that he was cautious.
+grounding: being safe

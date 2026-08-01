@@ -1,0 +1,18 @@
+alias: q_next_two_weeks_71
+label: Next two weeks
+name: What would make the next two weeks lighter or sharper for you?
+description: Close by surfacing the support or priority shift that would help most next.
+purpose: topic
+stage: lift
+axis_effects:
+  clarity: +1
+  wellbeing: +1
+source: planner_added
+hints:
+  - kind: ask
+    text: Leave room for support, trade-offs, or a clearer call.
+  - kind: listen
+    text: Whether he asks for a decision, cover, or clearer priority.
+  - kind: listen
+    text: Whether he names one change or stays broad.
+grounding: open

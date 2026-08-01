@@ -1,0 +1,18 @@
+alias: q_gap_awareness_18
+label: Gap awareness
+name: "Where do you think you've fallen short of where you want to be?"
+description: Get his own naming of the main performance gap before exploring causes.
+purpose: topic
+stage: gap_naming
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_gap_awareness_17"
+hints:
+  - kind: ask
+    text: Keep it on the work, not on traits.
+  - kind: listen
+    text: Whether he names a gap in influence, alignment, or judgment.
+  - kind: listen
+    text: Whether he gives a specific pattern or stays broad.
+grounding: open

@@ -1,0 +1,18 @@
+alias: q_friction_scan_54
+label: Friction scan
+name: "What's been slower or harder than it should have been?"
+description: Surface the main snag in the work so the conversation can move from pulse into friction.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_intro_biweekly_friction"
+hints:
+  - kind: ask
+    text: Keep it broad, then let him choose the snag.
+  - kind: listen
+    text: Whether he names a partner, deal, or internal team.
+  - kind: listen
+    text: Whether the drag is inside the business or with customers.
+grounding: open

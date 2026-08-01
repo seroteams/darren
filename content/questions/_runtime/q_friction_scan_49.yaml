@@ -1,0 +1,11 @@
+alias: q_friction_scan_49
+label: Friction scan
+name: Where is the internal sell taking more time than it should right now?
+description: Locate the main internal snag behind repeated explaining and shared-deal progress.
+purpose: topic
+stage: friction
+axis_effects:
+  clarity: +1
+  engagement: +3
+source: "reworded_from:q_friction_scan_48"
+grounding: peel back the layers internally

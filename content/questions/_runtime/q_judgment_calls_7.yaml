@@ -1,0 +1,18 @@
+alias: q_judgment_calls_7
+label: Judgment calls
+name: What is a recent tradeoff you chose to push on instead of just accepting?
+description: Surface how he is exercising principal judgment in live work.
+purpose: competency
+stage: cause
+axis_effects:
+  growth: +3
+  clarity: +1
+source: "reworded_from:q_judgment_calls_6"
+hints:
+  - kind: ask
+    text: Ask for one recent tradeoff, not a general style.
+  - kind: listen
+    text: Whether he names what he pushed for and why.
+  - kind: listen
+    text: Whether he shows judgment beyond his own service.
+grounding: open
