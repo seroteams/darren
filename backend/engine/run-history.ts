@@ -201,6 +201,31 @@ function listRecentRuns(limit = 3, orgId?: string | null, userId?: string | null
   });
 }
 
+// The regression board's reruns (QA tooling): finished runs whose runLabel says
+// "regression:<batchId>:<caseId>", newest first, with the trust-check grade that
+// run recorded. Deliberately UNFENCED by user — a rerun belongs to no person by
+// design (userId null), so a caller fence would hide every one of them.
+function listRegressionRuns(orgId?: string | null) {
+  const out: Record<string, unknown>[] = [];
+  for (const { id, dir, state } of walkRuns(orgId)) {
+    if (!state?.briefing) continue;
+    const parts = String(state.runLabel || "").split(":");
+    if (parts[0] !== "regression" || parts.length < 3) continue;
+    out.push({
+      runId: id,
+      batchId: parts[1],
+      caseId: parts.slice(2).join(":"),
+      finishedAt: asNumber(state.lastSeenAt),
+      grade: readJsonAt(dir, "trust-checks.json"),
+      judge: readJsonAt(dir, "judge.json"), // filled from Phase 3; null until then
+      review: reviewSummaryOf(dir),
+      cost: costFromState(state),
+    });
+  }
+  out.sort((a, b) => asNumber(b.finishedAt) - asNumber(a.finishedAt));
+  return out;
+}
+
 // Library (QA tooling): every FINISHED run (has a briefing), newest first, no
 // limit. Each row carries review badge inputs so the Library can show verdict +
 // failed count without opening the run.
@@ -646,6 +671,7 @@ export {
   walkRuns,
   listRecentRuns,
   listFinishedRuns,
+  listRegressionRuns,
   summarizeRun,
   compareRun,
   readRunStages,

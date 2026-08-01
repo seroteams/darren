@@ -359,8 +359,16 @@ async function main(): Promise<void> {
   router.add("GET", "/api/v1/regression/run", internalV1(regression.run));
   // regression-runs — the PAID rerun board (frozen suite + the reruns it produced).
   // Distinct from /regression/run above, which is the FREE offline replay check.
-  // Read-only in Phase 1; the paid start arrives in Phase 2 behind blockOnLive.
+  // The start is blocked on LIVE for everyone (blockOnLive): it spends OpenAI money
+  // and writes test runs into the live database. Carl's call, 2026-07-31 — flipping
+  // it on later is deleting the wrapper here plus canRerun in the service.
   router.add("GET", "/api/v1/regression-runs", internalV1(regressionRuns.list));
+  router.add("GET", "/api/v1/regression-runs/current", internalV1(regressionRuns.current));
+  router.add(
+    "POST",
+    "/api/v1/regression-runs",
+    internalV1(blockOnLive("Paid reruns are switched off on the live site.", guarded(regressionRuns.start))),
+  );
   // persona-runs — start a scripted full-engine run (paid; the click is the
   // go-ahead) + poll its progress. One at a time, enforced in the service.
   // On LIVE the start is blocked for everyone (blockOnLive): it spends OpenAI money

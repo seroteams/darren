@@ -2,8 +2,21 @@
 // persona and report how it's going. One job at a time — the single active slot
 // is the cost backstop (every run spends real OpenAI money). The runner itself
 // is an injected boundary, so this file never touches the engine or the network.
+//
+// The slot is SHARED with the other paid QA tools (engine-job-slot.ts): a private
+// "one at a time" per tool would still let two tools spend at the same moment,
+// which is the thing the backstop exists to stop.
 
 import { badRequest, notFound, conflict } from "../../middleware/http-error.ts";
+import { acquire, release } from "../engine-job-slot.ts";
+
+const TOOL = "test-engine";
+
+/** Plain-language name for whoever holds the slot, used in the conflict message. */
+const TOOL_LABEL: Record<string, string> = {
+  "test-engine": "the Test engine",
+  regression: "a regression rerun",
+};
 
 export type JobStatus = "idle" | "running" | "done" | "failed";
 
@@ -72,14 +85,18 @@ export function createPersonaRunsService(deps: PersonaRunsDeps): PersonaRunsServ
     start: async (rawPersonaId, orgId) => {
       const personaId = typeof rawPersonaId === "string" ? rawPersonaId : "";
       if (!personaId) throw badRequest("personaId required");
-      if (job.status === "running") {
-        throw conflict("a run is already going — wait for it to finish");
-      }
       const persona = deps.loadPersona(personaId);
       if (!persona) throw notFound("no persona with that id");
       if (!persona.script.length) throw badRequest("this persona has no scripted answers");
       if (!deps.hasApiKey()) {
         throw conflict("OPENAI_API_KEY is not set — the engine can't run");
+      }
+
+      // Validation first, THEN the slot: a rejected request must not hold it.
+      const busy = acquire(TOOL, now);
+      if (busy) {
+        const who = TOOL_LABEL[busy.tool] || busy.tool;
+        throw conflict(`${who} is already running — wait for it to finish`);
       }
 
       job = { ...IDLE, status: "running", personaId, stageLabel: "Starting", startedAt: now() };
@@ -111,7 +128,8 @@ export function createPersonaRunsService(deps: PersonaRunsDeps): PersonaRunsServ
           job.status = "failed";
           job.error = e instanceof Error ? e.message : String(e);
           job.finishedAt = now();
-        });
+        })
+        .finally(() => release(TOOL));
 
       return { personaId };
     },

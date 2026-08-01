@@ -13,6 +13,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT, CONTENT_DIR } from "../../../engine/paths.mts";
+import { hasDatabaseUrl } from "../../../db/client.ts";
+import { listRegressionRuns } from "../../../engine/run-history.ts";
+import { pgListRegressionRuns } from "../../../db/runs-store.ts";
+import type { RunnableScenario } from "./regression-runs.runner.ts";
 
 const GOLDEN_DIR = path.join(ROOT, "evals", "golden");
 
@@ -42,17 +46,26 @@ export interface SuiteCase {
   scenarioPath: string;
 }
 
-/** A finished rerun of one case. Filled in from Phase 2; empty until then. */
+/** A finished rerun of one case, with whatever grades it recorded. */
 export interface RerunRow {
   caseId: string;
   runId: string;
   batchId: string;
-  finishedAt: string | null;
+  finishedAt: number | null;
+  /** The trust-check grade this run wrote, or null when grading failed. */
+  grade: unknown;
+  /** The AI reviewer's verdict. Null until Phase 3 fills it in. */
+  judge: unknown;
+  /** Carl's own review status, straight off the run's review sidecar. */
+  review: unknown;
+  cost: unknown;
 }
 
 export interface RegressionRunsRepo {
   listSuite(): SuiteCase[];
-  listReruns(): Promise<RerunRow[]>;
+  listReruns(orgId?: string | null): Promise<RerunRow[]>;
+  /** The frozen case in the shape the runner drives, or null when unknown. */
+  loadScenario(caseId: string): RunnableScenario | null;
 }
 
 function readJson(file: string): unknown {
@@ -119,10 +132,37 @@ export function createRegressionRunsRepo(): RegressionRunsRepo {
       return cases;
     },
 
-    // Phase 2 fills this in from the sessions store (run_label "regression:<batch>:<case>").
-    // Until then the board honestly shows every case as never rerun.
-    async listReruns() {
-      return [];
+    // Same swap the runs repo makes: Postgres when there is a database (always on
+    // live, where no logs/ dir survives a deploy), the log folders otherwise.
+    async listReruns(orgId) {
+      const rows = hasDatabaseUrl() ? await pgListRegressionRuns(orgId) : listRegressionRuns(orgId);
+      return (Array.isArray(rows) ? rows : []) as RerunRow[];
+    },
+
+    loadScenario(caseId) {
+      const index = readJson(path.join(GOLDEN_DIR, "_index.json"));
+      if (!Array.isArray(index)) return null;
+      const entry = index.map(asRecord).find((e) => asString(e.id) === caseId);
+      if (!entry) return null;
+
+      const defPath = path.join(GOLDEN_DIR, asString(entry.file));
+      if (!fs.existsSync(defPath)) return null;
+      const def = asRecord(readJson(defPath));
+      const scenarioAbs = path.join(CONTENT_DIR, asString(def.scenario));
+      if (!fs.existsSync(scenarioAbs)) return null;
+      const s = asRecord(readJson(scenarioAbs));
+
+      return {
+        caseId,
+        name: asString(s.name, caseId),
+        role: asString(s.role),
+        seniority: asString(s.seniority),
+        meetingType: asString(s.meeting_type),
+        managerNotes: asString(s.manager_notes),
+        answers: Array.isArray(s.answers) ? s.answers.map((a) => asString(a)) : [],
+        kind: asString(def.kind, "happy"),
+        expect: readExpect(def.expect),
+      };
     },
   };
 }

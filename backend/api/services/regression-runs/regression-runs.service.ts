@@ -30,12 +30,12 @@ export interface BoardResult {
 }
 
 export interface RegressionRunsService {
-  list(): Promise<BoardResult>;
+  list(orgId?: string | null): Promise<BoardResult>;
 }
 
 // Newest first, so [0] is the latest rerun of that case.
 function newestFirst(a: RerunRow, b: RerunRow): number {
-  return String(b.finishedAt || "").localeCompare(String(a.finishedAt || ""));
+  return (b.finishedAt || 0) - (a.finishedAt || 0);
 }
 
 function toRow(c: SuiteCase, reruns: RerunRow[]): BoardRow {
@@ -60,9 +60,9 @@ export function createRegressionRunsService(
   canRerun: () => boolean,
 ): RegressionRunsService {
   return {
-    async list() {
+    async list(orgId) {
       const suite = repo.listSuite();
-      const reruns = await repo.listReruns();
+      const reruns = await repo.listReruns(orgId);
       return {
         cases: suite.map((c) => toRow(c, reruns)),
         canRerun: canRerun(),

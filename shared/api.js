@@ -314,6 +314,15 @@ export async function getRegressionSuite() {
   return json(await fetch("/api/v1/regression-runs"));
 }
 
+// Start a paid rerun of one or more frozen cases. No ids means the whole suite.
+export async function startRegressionReruns(caseIds) {
+  return postJson("/api/v1/regression-runs", { caseIds });
+}
+
+export async function getRegressionRerunCurrent() {
+  return json(await fetch("/api/v1/regression-runs/current"));
+}
+
 export async function addRoleLexiconTerm(key, term, meaning) {
   return postJson("/api/v1/role-lexicons/term", { key, term, meaning });
 }

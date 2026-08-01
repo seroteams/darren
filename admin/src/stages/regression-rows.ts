@@ -4,10 +4,22 @@
 // Phase 1 only needs the "never rerun" states; the trust / committee / review
 // cells arrive in Phases 2-4 and slot into the same shape.
 
+/** The trust-check grade a rerun recorded, as the board reads it. */
+export interface RerunGrade {
+  actual?: { verdict?: string; hard_fails?: string[] };
+  expected?: { verdict?: string; hard_fails?: string[] };
+  newHardFails?: string[];
+  regressed?: boolean;
+  answersRanOut?: boolean;
+}
+
 export interface RerunSummary {
   runId: string;
   batchId: string;
-  finishedAt: string | null;
+  finishedAt: number | null;
+  grade?: RerunGrade | null;
+  judge?: unknown;
+  review?: { reviewStatus?: string; reviewOverall?: string } | null;
 }
 
 export interface BoardCase {
@@ -35,37 +47,79 @@ export function kindChip(kind: string): string {
   return kind === "adversarial" ? "adversarial" : "";
 }
 
-/** "Never rerun" until Phase 2 puts a date here. */
-export function lastRerunCell(c: BoardCase, formatDate: (iso: string) => string): CellText {
+/** "Never rerun" until a rerun puts a date here. */
+export function lastRerunCell(c: BoardCase, formatDate: (at: number) => string): CellText {
   const at = c.lastRerun?.finishedAt;
   if (!at) return { label: "Never rerun", tone: "muted" };
   return { label: formatDate(at), tone: "ok" };
 }
 
 /**
- * The trust cell. Phase 1 has no verdicts yet, so an un-rerun case shows a
- * placeholder rather than implying a pass it has not earned.
+ * The trust cell: what the free safety checks said about this rerun, measured
+ * against the baseline the case ratified. A run whose grading failed says so
+ * rather than implying a pass it never earned.
  */
 export function trustCell(c: BoardCase): CellText {
   if (!c.lastRerun) return { label: "·", tone: "muted" };
-  return { label: "Awaiting grading", tone: "muted" };
+  const g = c.lastRerun.grade;
+  if (!g?.actual?.verdict) return { label: "Not graded", tone: "muted" };
+  if (g.regressed) return { label: "Regressed", tone: "bad" };
+  return { label: "OK", tone: "ok" };
 }
 
-/** The AI reviewer cell. Same honesty rule as trustCell until Phase 3. */
+/** The named checks that broke, so a red row is never just a colour. */
+export function trustDetail(c: BoardCase): string[] {
+  const g = c.lastRerun?.grade;
+  if (!g?.regressed) return [];
+  const named = g.newHardFails?.length ? g.newHardFails : g.actual?.hard_fails || [];
+  if (named.length) return named;
+  // Regressed on verdict alone: say what moved, or the row explains nothing.
+  const from = g.expected?.verdict || "?";
+  const to = g.actual?.verdict || "?";
+  return [`verdict went from ${from} to ${to}`];
+}
+
+/** Warn when a case ran out of canned answers, rather than degrading silently. */
+export function thinAnswerNote(c: BoardCase): string {
+  if (!c.lastRerun?.grade?.answersRanOut) return "";
+  return `This case has ${c.answerCount} canned answers but the meeting asked for more, so the last few turns were skipped.`;
+}
+
+/** The AI reviewer cell. Honest placeholder until Phase 3 fills it in. */
 export function committeeCell(c: BoardCase): CellText {
   if (!c.lastRerun) return { label: "·", tone: "muted" };
-  return { label: "Awaiting grading", tone: "muted" };
+  if (!c.lastRerun.judge) return { label: "Not scored yet", tone: "muted" };
+  return { label: "Scored", tone: "ok" };
 }
 
-/** Carl's own review status. Filled from the run's review sidecar in Phase 4. */
+/** Carl's own review status, straight off the run's review sidecar. */
 export function reviewCell(c: BoardCase): CellText {
   if (!c.lastRerun) return { label: "·", tone: "muted" };
-  return { label: "Not reviewed", tone: "muted" };
+  const r = c.lastRerun.review;
+  const status = r?.reviewStatus;
+  if (!status || status === "none") return { label: "Not reviewed", tone: "muted" };
+  if (status === "partial") return { label: "Part-reviewed", tone: "muted" };
+  const overall = r?.reviewOverall;
+  if (overall === "keep") return { label: "Keep", tone: "ok" };
+  if (overall === "fix") return { label: "Fix", tone: "bad" };
+  if (overall === "block") return { label: "Block", tone: "bad" };
+  return { label: "Reviewed", tone: "muted" };
 }
 
 /** What the Rerun button says. Cost is always stated on the control itself. */
 export function rerunLabel(canRerun: boolean): string {
-  return canRerun ? "Rerun ($0.45)" : "Reruns are off here";
+  return canRerun ? "Rerun ($0.35)" : "Reruns are off here";
+}
+
+/** Which of the batch's cases is going, in the words a person would use. */
+export function batchProgressLine(job: {
+  caseId?: string | null;
+  caseIndex?: number | null;
+  caseTotal?: number | null;
+}): string {
+  if (!job.caseId) return "";
+  const many = (job.caseTotal || 1) > 1;
+  return many ? `Case ${job.caseIndex} of ${job.caseTotal}: ${job.caseId}` : job.caseId;
 }
 
 /** One plain line under the heading, so the screen explains itself with no runs on it. */

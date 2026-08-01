@@ -41,6 +41,7 @@ import {
 import {
   aboutPersonRow,
   buildHeadline,
+  costFromState,
   finishedRow,
   memberRow,
   memberView,
@@ -383,6 +384,39 @@ export async function pgListFinishedRuns(orgId?: string | null, userId?: string 
     userId,
   ).filter((r) => Boolean(r.state.briefing));
   return rows.map(toFinishedRow);
+}
+
+// The regression board's reruns (QA tooling) — the DB twin of
+// run-history.listRegressionRuns. Filters on the denormalised run_label column,
+// then reads each run's grade from run_artifacts (root stage, so stage = "").
+// Deliberately UNFENCED by user: a rerun belongs to no person by design, so a
+// caller fence would hide every one of them.
+export async function pgListRegressionRuns(orgId?: string | null): Promise<unknown[]> {
+  const rows = fenceOrgRows(
+    await rowsWhere([
+      eq(sessionsTable.finished, true),
+      sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
+    ]),
+    orgId,
+  ).filter((r) => Boolean(r.state.briefing) && String(r.state.runLabel || "").startsWith("regression:"));
+
+  const out: Record<string, unknown>[] = [];
+  for (const r of rows) {
+    const parts = String(r.state.runLabel || "").split(":");
+    if (parts.length < 3) continue;
+    const arts = await artifactsFor(r.id);
+    out.push({
+      runId: r.id,
+      batchId: parts[1],
+      caseId: parts.slice(2).join(":"),
+      finishedAt: r.lastSeenAt,
+      grade: artifactValue(pick(arts, "", "trust-checks.json")),
+      judge: artifactValue(pick(arts, "", "judge.json")), // filled from Phase 3
+      review: reviewSummaryFromValue(r.review),
+      cost: costFromState(r.state),
+    });
+  }
+  return out;
 }
 
 export async function pgListFinishedRunsForMember(

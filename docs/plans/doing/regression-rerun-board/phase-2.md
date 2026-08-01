@@ -1,6 +1,18 @@
 # Phase 2 — Paid rerun of one case
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+
+## Built (2026-07-31)
+- `backend/api/services/engine-job-slot.ts` (+test) — ONE shared paid-run slot; `persona-runs.service.ts` switched onto it, so Test engine and Regression can never spend at the same moment. Each tool names the other in the conflict message.
+- `backend/api/services/regression-runs/regression-runs.runner.ts` (+test) — the dynamic-lane runner. Real bank generation, planner re-plan adopted, prep-opener pin, agenda carry-forward, closer force-insert, seed overflow. **Positional answers**: answer N goes to whatever question N the engine asks, padding with skips when the list runs dry. Grades with the same `runTrustChecks` the terminal gate uses and writes `trust-checks.json` to the run.
+- `regression-runs.jobs.ts` (+test) — batch job state, sequential, $6 ceiling, one bad case does not kill the batch.
+- Repo: `loadScenario()` + real `listReruns()`; new `listRegressionRuns` (file store, `backend/engine/run-history.ts`) and `pgListRegressionRuns` (Postgres, `backend/db/runs-store.ts`) so local and live read the same shape.
+- Routes: `POST /api/v1/regression-runs` behind `blockOnLive` + origin guard, `GET /api/v1/regression-runs/current`.
+- Admin: per-case Rerun button with cost on the control, staged progress bar with 2s polling, trust badge that names the checks that broke, thin-answer warning, Open run into `/run/:id`.
+
+Offline proof: `npm test` 226/226 (was 223 before the 3 new test files), `npm run typecheck` clean, `npm run lint:copy` clean. 16 runner tests cover the dynamic loop, including agenda carry-forward growing the budget and the answer cursor absorbing it.
+Live proof on the running app (localhost:3000 as admin): both new routes respond; the board reports `canRerun: true` locally; an unknown case id is refused 400 without taking the job slot; the table shows 8 enabled "Rerun ($0.35)" buttons and no Open run links yet; no console errors.
+**Not verified:** no real paid rerun has been done. That single ~$0.35 run is Carl's test click below, so it stays this task's only paid run.
 
 ## Goal
 Press Rerun on one case → the real engine runs the frozen inputs end to end, the safety checks grade it against the baseline, and the run opens in the existing review tool.

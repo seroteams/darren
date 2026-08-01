@@ -20,7 +20,7 @@ function suiteCase(over: Partial<SuiteCase> = {}): SuiteCase {
 }
 
 function fakeRepo(suite: SuiteCase[], reruns: RerunRow[] = []): RegressionRunsRepo {
-  return { listSuite: () => suite, listReruns: async () => reruns };
+  return { listSuite: () => suite, listReruns: async () => reruns, loadScenario: () => null };
 }
 
 test("list returns every suite case with lastRerun null when nothing has been rerun", async () => {
@@ -39,9 +39,9 @@ test("list returns every suite case with lastRerun null when nothing has been re
 
 test("list attaches only this case's newest rerun", async () => {
   const reruns: RerunRow[] = [
-    { caseId: "leak-devon", runId: "run-old", batchId: "b1", finishedAt: "2026-07-24T09:00:00Z" },
-    { caseId: "leak-devon", runId: "run-new", batchId: "b2", finishedAt: "2026-07-31T14:32:00Z" },
-    { caseId: "thin-sam", runId: "other", batchId: "b2", finishedAt: "2026-07-31T15:00:00Z" },
+    { caseId: "leak-devon", runId: "run-old", batchId: "b1", finishedAt: 1_600_000_000, grade: null, judge: null, review: null, cost: null },
+    { caseId: "leak-devon", runId: "run-new", batchId: "b2", finishedAt: 1_700_000_000, grade: null, judge: null, review: null, cost: null },
+    { caseId: "thin-sam", runId: "other", batchId: "b2", finishedAt: 1_700_000_500, grade: null, judge: null, review: null, cost: null },
   ];
   const svc = createRegressionRunsService(fakeRepo([suiteCase(), suiteCase({ id: "thin-sam", name: "Sam" })], reruns), () => true);
   const out = await svc.list();
