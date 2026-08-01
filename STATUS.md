@@ -2,6 +2,20 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-08-02 — the Run Review now shows the whole run, not the old shape of one. Green-lit, committed, not pushed.**
+The review screen (and its "Copy all", which the AI judge also reads) was still built around
+notes → prep → questions → recap. Everything added since was invisible: the typed agenda, the cached
+role context the prompts are fed, last time's actions and how you tapped them, the focus points, each
+question's coach hints and the planner's read of the answer, both honest reads, the reminders, the
+axis reads, the engagement read, the actions agreed at the wrap-up, and the run's spend. You cannot
+mark a run "role-aware" or "does not over-infer" against inputs you were never shown. Extras are
+projected once (`reviewExtras`) and joined at the repo seam, so the file and Postgres lanes cannot
+drift. Commit `3d3d55a9`. 230/230, typecheck and copy lint clean, £0. Walked on two real runs on
+screen; the agenda block is unit-tested only, because no local run has an agenda typed. **It earned
+its keep immediately:** on the feels-off run it showed an agreed action filed as *theirs* that reads
+like yours (tapped that way at the wrap-up, not an engine fault), and a user-facing engine string
+with a banned em dash that the copy guard never sees because it only scans the two front-end folders.
+
 📍 **2026-08-01 — the planner's rule sheet now says each rule once. Committed, not pushed.**
 You asked whether we should change models to save money after OpenAI's price-cut email. The answer
 was no, not yet, and the measurement is why: **86% of every pound goes to one stage**, the planner

@@ -1904,3 +1904,13 @@ the exact turn-5 state out of the run's own `03-question-bank/response.json` and
 `04-dynamic-answers/04-response.json` and passing it through the new helper. Runs that
 write their prompts and raw responses to disk can be replayed against code that did not
 exist when they ran.
+
+**A review tool has to keep up with the thing it reviews.** The Run Review still showed a
+run as notes → prep → questions → recap, the shape a run had months ago. Everything added
+since (the typed agenda, the cached role context, last time's actions and how the manager
+tapped them, the focus points, each turn's coach hints and planner read, the axis and
+engagement reads, the actions agreed at the wrap-up) was invisible to the reviewer and to
+the AI judge reading its export. You cannot judge "role-aware" or "does not over-infer"
+against inputs you were never shown. The extras are projected once and joined at the repo
+seam, so the file and Postgres lanes cannot drift apart the way the two `compare`
+projections already had.
