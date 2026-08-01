@@ -1926,3 +1926,16 @@ because it carried the plan's only paid check and the most quality risk for the 
 skipped rather than deleted, with the reason and the consequence recorded (the size cap now sits on
 the phase-1 measurement, so restarting phase 2 means re-setting the cap afterwards). A phase quietly
 disappearing from a plan reads later as a phase that was forgotten.
+
+**A phase can introduce the bug its own walk then finds, and that is the walk earning its keep.**
+Caching the boot read so a later stage could still see it was correct for the problem in front of
+it. It was also, immediately, wrong for a case nobody had written down: two 1:1s with the same
+person open in one tab, where the second offered actions the first had already closed. No test
+failed. The walk failed, in the ordinary course of checking something else. The fix was to make
+the read always ask the server and the cache write-once, which is a smaller rule than the one it
+replaced.
+
+**Sharing a component beats matching it.** The same four words appear in two places now (the
+walk-in offer and the recap step). Copying the markup would have passed review and drifted within
+a month. Lifting the rows into one function that both hosts call made the second surface smaller
+than the first, and made "the four words can never differ" a fact rather than an intention.

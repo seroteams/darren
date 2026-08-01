@@ -12,6 +12,21 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ CLOSED 2026-08-02: the meeting's first beat belongs to the conversation, not to admin.**
+[action-review-placement](docs/plans/done/action-review-placement/plan.md), both phases green-lit,
+a few pence. Since the promises loop shipped in July, a repeat 1:1 opened on a form listing last
+time's agreements and would not let the manager past until every row was tapped — in front of the
+arc's own opening question, and against the bi-weekly arc's own first written anti-pattern
+("agenda-heavy openers that read like a HR form"). Last time's actions are now **offered** on the
+walk-in card rather than served, and answering some of them is a real answer. The board-level
+decision underneath it: **actions follow the person, not the meeting type** (that fence was already
+in the code), which is precisely why **Something feels off** never opens on them and meets them at
+its recap instead. Committee-backed (5 seats, real clash) with its four open concerns researched
+and parked in [docs/research/2026-07-31-action-review-open-concerns.md](docs/research/2026-07-31-action-review-open-concerns.md).
+Still open from the same territory, parked deliberately: two stores doing one job
+(`session.promises[]` vs the person-scoped `tracker_items` behind the Monthly Check-in's Catch-up
+stage), and the Support panel going stale on every non-question card.
+
 **⚠️ OPEN 2026-07-30: thread-following coverage — the AI drops about one thread in five, and we only
 found out because a self-scoring metric stopped flattering us.** Carl hit a bland follow-up on the
 live meeting screen and asked where it came from. It was not the model: the engine minted its own
