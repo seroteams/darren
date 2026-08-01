@@ -1853,3 +1853,20 @@ has been rebuilt around it. Choosing the cruder mechanism was the design decisio
 already called `regression`; the paid rerun board wanted the same word. Naming the new one
 `regression-runs` cost nothing on the day it was written and prevents an import collision that would
 have been read as a bug much later.
+
+**Measuring where the money actually goes changed the answer to a pricing question.** An OpenAI
+price-cut email made "should we swap models?" look like the question. Reading the logged cost files
+first said no: 86% of spend sits in one stage, because the planner runs about six times a session
+while every other stage runs once, so per-turn prompt size dominates and the model tier barely
+matters. The cheapest measurement reframed the expensive decision.
+
+**A prompt that was trimmed once will grow back unless something stops it.** `plan-turn.md` went
+from 46k to 28k characters on 10 July, then back to 38.6k in three weeks, a third of that in the
+last three days as unrelated features each bolted on a rule. Nobody was careless; there was simply
+no cap. The phase that matters most in a trim plan is the one that makes the trim hold.
+
+**Removing repeats saves less than it looks like it will.** Six rules were each stated in four or
+five places, which reads like a lot of waste. De-duplicating all six recovered 3.1%, because the
+copies were short restatements while the mass of the file is unique rules. The reason to do it is
+that a model reading the same rule five times follows it less reliably, not the token count. Worth
+saying out loud when the plan implied a bigger number.

@@ -1,6 +1,8 @@
 # Phase 1 — Say each rule once
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-08-01 — Carl walked a bi-weekly on sero.team: named a snag, the next question asked what he had done about it, and the session closed on an open forward-looking question (commit 6d86ec58)
 
 ## Built (2026-08-01)
 
