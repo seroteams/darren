@@ -18,7 +18,12 @@
       "Bash(git push origin main)",
       "Bash(curl -s -H \"Authorization: Bearer $KEY\" https://api.render.com/v1/*)",
       "Bash(curl -s -m * -H \"Authorization: Bearer $KEY\" https://api.render.com/v1/*)",
-      "Read(//c/Users/User/.claude/**)"
+      "Read(//c/Users/User/.claude/output-styles/**)",
+      "Read(//c/Users/User/.claude/skills/**)",
+      "Read(//c/Users/User/.claude/projects/**/memory/**)"
+    ],
+    "deny": [
+      "Read(//c/Users/User/.claude/.credentials.json)"
     ]
   },
   "outputStyle": "Carl",
