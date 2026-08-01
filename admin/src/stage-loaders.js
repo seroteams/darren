@@ -38,6 +38,7 @@ export const loaders = {
   ROLE_LEXICONS:   () => import("./stages/job-lexicons.js"),
   MEETING_ARCS:    () => import("./stages/meeting-arcs.js"),
   PERSONAS:        () => import("./stages/personas.js"),
+  REGRESSION:      () => import("./stages/regression.js"),
   REVIEW_RUN:      () => import("./stages/review-run.js"),
   GUIDE:           () => import("./stages/guide.js"),
   ADMIN_PULSE:     () => import("./stages/admin-pulse.ts"),

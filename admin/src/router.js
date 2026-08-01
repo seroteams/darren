@@ -64,6 +64,7 @@ const PATH_FOR = {
   [STAGES.ROLE_LEXICONS]:  () => "/job-lexicons",
   [STAGES.MEETING_ARCS]:   () => "/meeting-arcs",
   [STAGES.PERSONAS]:       () => "/personas",
+  [STAGES.REGRESSION]:     () => "/regression",
   [STAGES.GUIDE]:          () => "/guide",
   [STAGES.DESIGN]:         () => "/design",
   [STAGES.TEST]:           () => "/test",
@@ -91,7 +92,7 @@ const STAGE_FOR = {
   "/evaluate": STAGES.EVAL, "/briefing": STAGES.BRIEFING, "/debrief": STAGES.RUN_DEBRIEF,
   "/lexicon": STAGES.LEXICON_REVIEW, "/compare": STAGES.COMPARE, "/library": STAGES.LIBRARY,
   "/job-lexicons": STAGES.ROLE_LEXICONS, "/meeting-arcs": STAGES.MEETING_ARCS,
-  "/personas": STAGES.PERSONAS, "/guide": STAGES.GUIDE,
+  "/personas": STAGES.PERSONAS, "/regression": STAGES.REGRESSION, "/guide": STAGES.GUIDE,
   "/design": STAGES.DESIGN,
   "/test": STAGES.TEST,
   "/pulse": STAGES.ADMIN_PULSE,
@@ -126,7 +127,7 @@ export const isSuperadminStage = (stage) => SUPERADMIN_ONLY.has(stage);
 // gate is requireAdmin now), so the runner is a manager destination like RUN_DETAIL.
 const INTERNAL_ONLY = new Set([STAGES.LIBRARY, STAGES.COMPARE, STAGES.PERSONAS,
   STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS, STAGES.MEETING_ARCS,
-  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN]);
+  STAGES.GUIDE, STAGES.DESIGN, STAGES.TEST, STAGES.REVIEW_RUN, STAGES.REGRESSION]);
 export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 
 // Internal tools trimmed from the LIVE site (admin-live-deploy Phase 2, widened by the
@@ -137,6 +138,9 @@ export const isInternalStage = (stage) => INTERNAL_ONLY.has(stage);
 // Hidden from the nav and bounced on deep link when appEnv is "live". Cosmetic on top of
 // the backend fence; local dev shows every screen exactly as before.
 // GUIDE stays live-visible: it's the operator handbook, useful wherever you are.
+// REGRESSION stays live-visible too (Carl 2026-07-31): the free safety check and the
+// rerun history are worth reading on live. Only the PAID rerun is fenced there, by the
+// backend and by canRerun on the listing — the screen itself tells you it's switched off.
 const LIVE_HIDDEN = new Set([
   STAGES.PERSONAS,
   STAGES.LIBRARY, STAGES.COMPARE, STAGES.LEXICON_REVIEW, STAGES.ROLE_LEXICONS,

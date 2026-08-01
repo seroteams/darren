@@ -114,6 +114,7 @@ const LINKS = [
   // stays; only its nav rows are gone). The whole Build group, and Engine below it, are
   // local-only: every row here is in the router's LIVE_HIDDEN (live-hide in render()).
   { key: "personas", label: "Test engine", stage: STAGES.PERSONAS, icon: ICON.personas, admin: true, group: "Build" },
+  { key: "regression", label: "Regression", stage: STAGES.REGRESSION, icon: ICON.regression, admin: true, group: "Build" },
   { key: "tests", label: "Tests", stage: STAGES.TEST, icon: ICON.tests, admin: true, group: "Build" },
   { key: "design", label: "Design system", stage: STAGES.DESIGN, icon: ICON.design, admin: true, group: "Build" },
   // OPERATE — running the live service. All superadmin-only (pre-go-live PG7): `admin: true`
@@ -272,6 +273,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     mgruns: () => setState && setState({ stage: STAGES.RUNS }),
     library: () => setState && setState({ stage: STAGES.LIBRARY }),
     personas: () => setState && setState({ stage: STAGES.PERSONAS }),
+    regression: () => setState && setState({ stage: STAGES.REGRESSION }),
     lexicon: () => setState && setState({ stage: STAGES.LEXICON_REVIEW }),
     joblex: () => setState && setState({ stage: STAGES.ROLE_LEXICONS }),
     arcs: () => setState && setState({ stage: STAGES.MEETING_ARCS }),
@@ -317,6 +319,7 @@ export function createAppNav({ setState, resetSession } = {}) {
     [STAGES.LIBRARY]: "library",
     [STAGES.COMPARE]: "personas",
     [STAGES.PERSONAS]: "personas",
+    [STAGES.REGRESSION]: "regression",
     [STAGES.LEXICON_REVIEW]: "lexicon",
     [STAGES.ROLE_LEXICONS]: "joblex",
     [STAGES.MEETING_ARCS]: "arcs",

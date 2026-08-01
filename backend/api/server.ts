@@ -44,6 +44,7 @@ import * as members from "./services/members/members.controller.ts";
 import * as lexiconPromote from "./services/lexicon/lexicon.controller.ts";
 import * as roleLexicons from "./services/role-lexicons/role-lexicons.controller.ts";
 import * as regression from "./services/regression/regression.controller.ts";
+import * as regressionRuns from "./services/regression-runs/regression-runs.controller.ts";
 import * as personaRuns from "./services/persona-runs/persona-runs.controller.ts";
 import * as suggestFix from "./services/suggest-fix/suggest-fix.controller.ts";
 import library from "./services/library/library.controller.ts";
@@ -356,6 +357,10 @@ async function main(): Promise<void> {
   router.add("POST", "/api/v1/role-lexicons/term/hide", guardedInternalV1(roleLexicons.hideTerm));
   router.add("POST", "/api/v1/role-lexicons/term/unhide", guardedInternalV1(roleLexicons.unhideTerm));
   router.add("GET", "/api/v1/regression/run", internalV1(regression.run));
+  // regression-runs — the PAID rerun board (frozen suite + the reruns it produced).
+  // Distinct from /regression/run above, which is the FREE offline replay check.
+  // Read-only in Phase 1; the paid start arrives in Phase 2 behind blockOnLive.
+  router.add("GET", "/api/v1/regression-runs", internalV1(regressionRuns.list));
   // persona-runs — start a scripted full-engine run (paid; the click is the
   // go-ahead) + poll its progress. One at a time, enforced in the service.
   // On LIVE the start is blocked for everyone (blockOnLive): it spends OpenAI money

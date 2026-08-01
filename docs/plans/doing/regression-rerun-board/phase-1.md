@@ -1,6 +1,14 @@
 # Phase 1 — The screen, free parts
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+
+## Built (2026-07-31)
+Backend: `backend/api/services/regression-runs/` (repo reads `evals/golden/_index.json` + each case's `content/scenarios/**`; service merges suite with reruns; controller resolves `canRerun` per request via `resolveAppEnv`). Route `GET /api/v1/regression-runs` → `internalV1` in `backend/api/server.ts`.
+Admin: `admin/src/stages/regression.js` (screen + free safety strip), `admin/src/stages/regression-rows.ts` (pure cell projection). Registered in `state.ts`, `stage-loaders.js`, `router.js` (`/regression`, INTERNAL_ONLY, deliberately NOT LIVE_HIDDEN), `ui/app-nav.js` (Build group). `shared/api.js`: `getRegressionSuite()`.
+
+Offline proof: `npm test` 223/223 (baseline was 221/221 before the 2 new test files), `npm run typecheck` clean, `npm run lint:copy` clean.
+Live proof on the running app (localhost:3000 as admin): `GET /api/v1/regression-runs` returned all 8 cases with real names, roles and meeting types; the table rendered 8 rows, 2 adversarial chips, every row "Never rerun"; the free safety check ran and reported "7 still good"; nav shows Regression under Build; table text measures 14px; no console errors.
+Not verified: no screenshot image. The Browser pane is not displayed in this session so it cannot composite frames. Everything above was read from the live DOM and the real API instead.
 
 ## Goal
 A "Regression" screen in the admin that lists the 8 frozen test cases and runs the existing free safety check — no paid anything yet.

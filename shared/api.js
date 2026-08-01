@@ -308,6 +308,12 @@ export async function runRegression() {
   return json(await fetch("/api/v1/regression/run"));
 }
 
+// The PAID rerun board's suite listing (read-only). Distinct from runRegression
+// above, which is the FREE offline replay check.
+export async function getRegressionSuite() {
+  return json(await fetch("/api/v1/regression-runs"));
+}
+
 export async function addRoleLexiconTerm(key, term, meaning) {
   return postJson("/api/v1/role-lexicons/term", { key, term, meaning });
 }
