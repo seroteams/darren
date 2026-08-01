@@ -54,20 +54,16 @@ export function tappedOutcomes(
     .map((p) => ({ id: p.id, outcome: taps[p.id] as CheckinTap }));
 }
 
-export interface PromiseCheckinOpts {
-  promises: CheckinPromise[];
-  reportName: string; // labels the "them" side ("Priya will…")
-  onDone: (outcomes: Array<{ id: string; outcome: CheckinTap }>) => Promise<void>;
-  onSkip: () => void; // nothing tapped: carry on, write nothing, leave them open
-}
-
-// Renders the check-in card into `host`. Owns its tap state; onDone is awaited so
-// a failed save keeps the card up with a soft retry note (taps intact).
-export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts): void {
-  const promises = orderForCheckin(opts.promises);
-  const them = opts.reportName || "they";
-  const taps: Record<string, CheckinTap> = {};
-
+// The rows and their taps, on their own, so the two places that close last time's
+// actions share one implementation: the walk-in offer (below) and the recap step,
+// which is where a "Something feels off" 1:1 meets them instead (P2). `taps` is
+// owned by the caller and mutated in place, so a host that re-renders around these
+// rows (promise-agree does, on every owner flip) never loses what was tapped.
+export function renderCheckinRows(
+  host: HTMLElement,
+  { promises, reportName, taps }: { promises: CheckinPromise[]; reportName: string; taps: Record<string, CheckinTap> },
+): void {
+  const them = reportName || "they";
   const rowHtml = (p: CheckinPromise) => `
     <div class="pck-row" data-id="${esc(p.id)}">
       <div class="pck-row__head">
@@ -76,20 +72,14 @@ export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts
         ${p.when ? `<span class="pck-when">${esc(p.when)}</span>` : ""}
       </div>
       <div class="pck-taps" role="group" aria-label="How did it go?">
-        ${TAPS.map((t) => `<button type="button" class="pck-tap" data-tap="${t.value}" aria-pressed="false">${t.label}</button>`).join("")}
+        ${TAPS.map(
+          (t) =>
+            `<button type="button" class="pck-tap${taps[p.id] === t.value ? " is-active" : ""}" data-tap="${t.value}" aria-pressed="${taps[p.id] === t.value}">${t.label}</button>`,
+        ).join("")}
       </div>
     </div>`;
 
-  host.innerHTML = `
-    <p class="pck-lead text-ink-dim">Tap what's true. Anything you leave stays open for next time.</p>
-    <div class="pck-rows">${promises.map(rowHtml).join("")}</div>
-    <div class="field__actions pck-actions">
-      ${button({ label: "Start the questions", hook: "js-start" })}
-    </div>
-    <span class="pck-status text-sm text-ink-mute" role="status" aria-live="polite"></span>`;
-
-  const startBtn = host.querySelector<HTMLButtonElement>(".js-start")!;
-  const status = host.querySelector<HTMLElement>(".pck-status")!;
+  host.innerHTML = `<div class="pck-rows">${promises.map(rowHtml).join("")}</div>`;
 
   host.querySelectorAll<HTMLElement>(".pck-row").forEach((row) => {
     const id = row.dataset.id!;
@@ -104,6 +94,37 @@ export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts
       });
     });
   });
+}
+
+export interface PromiseCheckinOpts {
+  promises: CheckinPromise[];
+  reportName: string; // labels the "them" side ("Priya will…")
+  onDone: (outcomes: Array<{ id: string; outcome: CheckinTap }>) => Promise<void>;
+  onSkip: () => void; // nothing tapped: carry on, write nothing, leave them open
+}
+
+// Renders the check-in card into `host`. Owns its tap state; onDone is awaited so
+// a failed save keeps the card up with a soft retry note (taps intact).
+export function renderPromiseCheckin(host: HTMLElement, opts: PromiseCheckinOpts): void {
+  const promises = orderForCheckin(opts.promises);
+  const taps: Record<string, CheckinTap> = {};
+
+  host.innerHTML = `
+    <p class="pck-lead text-ink-dim">Tap what's true. Anything you leave stays open for next time.</p>
+    <div class="pck-host"></div>
+    <div class="field__actions pck-actions">
+      ${button({ label: "Start the questions", hook: "js-start" })}
+    </div>
+    <span class="pck-status text-sm text-ink-mute" role="status" aria-live="polite"></span>`;
+
+  renderCheckinRows(host.querySelector<HTMLElement>(".pck-host")!, {
+    promises,
+    reportName: opts.reportName,
+    taps,
+  });
+
+  const startBtn = host.querySelector<HTMLButtonElement>(".js-start")!;
+  const status = host.querySelector<HTMLElement>(".pck-status")!;
 
   startBtn.addEventListener("click", () => {
     const outcomes = tappedOutcomes(promises, taps);

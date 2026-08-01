@@ -31,7 +31,7 @@ Dug out of the code so no phase stalls:
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The offer replaces the gate | Walk-in card gains a second button when actions are open; "Start the meeting" goes straight to Q1; the check-in stops blocking | ✅ |
-| 2 | The feels-off exception | "Something feels off" never offers the review at the open; it appears at the recap instead | ⬜ |
+| 2 | The feels-off exception | "Something feels off" never offers the review at the open; it appears at the recap instead | 🔨 built, awaiting Carl |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -40,7 +40,11 @@ Dug out of the code so no phase stalls:
 **Phase 1 ✅ GREEN-LIT 2026-07-31** (Carl walked it and said go). The meeting now opens on the
 arc's own question again; last time's actions are a quiet second control on the walk-in card, and
 the check-in no longer blocks. Evidence + build record in [phase-1.md](phase-1.md).
-**Next: phase 2 (the feels-off exception) — Carl's call to start.**
+**Phase 2 built 2026-08-01, waiting on Carl's walk** (his "a"). "Something feels off" no longer
+offers last time's actions at the open; they appear at the recap instead, beside the new ones,
+closed off by the same button. Build record + the defect it caught in
+[phase-2.md](phase-2.md). Spend: one real evaluation call to produce a genuine recap for the
+walk; everything else seeded at £0.
 Board: [board.html](board.html) · [open it](https://claude.ai/code/artifact/8fa125e8-076f-4ac1-90ee-5351b4c07b70).
 Committee record: `logs/committee/2026-07-31-action-review-placement.html`.
 

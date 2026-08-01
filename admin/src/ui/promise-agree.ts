@@ -5,8 +5,14 @@
 // ONE list, no owner groups. Ownership is a tappable avatar — a face for you, an
 // initial for them — so moving a promise is one tap in place, not a jump between
 // boxes. Same layout desktop and mobile. Styles live in styles/design/promise-agree.css.
+//
+// action-review-placement P2 adds an optional section above it: when the walk-in
+// card did not offer last time's actions (the feels-off arc), they are closed off
+// here instead, beside the new ones. Same rows, same four words, one button.
 
 import { button } from "./button.ts";
+import { orderForCheckin, renderCheckinRows, tappedOutcomes } from "./promise-checkin.ts";
+import type { CheckinPromise, CheckinTap } from "./promise-checkin.ts";
 
 export interface PromiseDraft {
   owner: "manager" | "report";
@@ -36,7 +42,11 @@ export interface PromiseAgreeOpts {
   drafts: PromiseDraft[];
   reportName: string; // the roster person's name — labels their group
   ctxSegments?: string[]; // session context line (name · seniority · role · meeting type)
-  onLock: (promises: PromiseDraft[]) => Promise<void>;
+  /** action-review-placement P2: last time's still-open actions, when the walk-in
+   *  card did not offer them (the feels-off arc). Closing them off and agreeing the
+   *  new ones is one moment, one button. Empty or absent = the section never renders. */
+  priorOpen?: CheckinPromise[];
+  onLock: (promises: PromiseDraft[], outcomes: Array<{ id: string; outcome: CheckinTap }>) => Promise<void>;
   onSkip: () => void;
 }
 
@@ -59,6 +69,10 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
   const rows: Row[] = opts.drafts.map((d) => ({ ...d, id: nextId++ }));
   const them = opts.reportName || "them";
   const initial = (them.trim()[0] || "•").toUpperCase();
+  // P2: last time's open actions, manager's own first. `taps` lives out here
+  // because render() runs again on every owner flip and row removal.
+  const prior = orderForCheckin(opts.priorOpen || []);
+  const priorTaps: Record<string, CheckinTap> = {};
 
   const rowHtml = (r: Row) => {
     const you = r.owner === "manager";
@@ -99,6 +113,15 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
           </div>` : ""}
         </div>
       </header>
+      ${prior.length ? `<div class="card questioning-card pa-card pa-prior space-y-4 is-in">
+        <div class="question-card-head">
+          <div class="question-card-head__text space-y-2">
+            <h1 class="question-stem leading-snug">First, how did last time's go?</h1>
+            <div class="question-desc">Tap what's true. Anything you leave stays open for next time.</div>
+          </div>
+        </div>
+        <div class="js-prior-rows"></div>
+      </div>` : ""}
       <div class="card questioning-card pa-card space-y-4 is-in">
         <div class="question-card-head">
           <div class="question-card-head__text space-y-2">
@@ -115,6 +138,8 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
         <div class="pa-skipnote text-sm text-ink-mute">Skip and these are gone: Sero will not bring them back next time.</div>
         <span class="pa-status text-sm text-ink-mute" role="status" aria-live="polite"></span>
       </div>`;
+    const priorHost = host.querySelector<HTMLElement>(".js-prior-rows");
+    if (priorHost) renderCheckinRows(priorHost, { promises: prior, reportName: them, taps: priorTaps });
     wire();
   };
 
@@ -157,7 +182,7 @@ export function renderPromiseAgree(host: HTMLElement, opts: PromiseAgreeOpts): v
       btn.disabled = true;
       void (async () => {
         try {
-          await opts.onLock(confirmed);
+          await opts.onLock(confirmed, tappedOutcomes(prior, priorTaps));
         } catch {
           btn.disabled = false;
           if (status) status.textContent = "Couldn't save. Try again, or skip and move on.";

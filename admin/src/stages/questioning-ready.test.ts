@@ -9,6 +9,8 @@ import {
   readyHeading,
   readyKey,
   reviewActionsLabel,
+  offerActionsFor,
+  FEELS_OFF_LABEL,
   READY_CTA,
   READY_STEP_LABEL,
   READY_NO_BRIEF,
@@ -93,6 +95,28 @@ test("brief text is escaped, so a quote in a brief can't break the card", () => 
 test("the gate is once per 1:1, keyed per session", () => {
   assert.equal(readyKey("abc"), "sero.ready.abc");
   assert.notEqual(readyKey("abc"), readyKey("def"), "two 1:1s never share the flag");
+});
+
+// action-review-placement P2: actions follow the PERSON, not the meeting type, so
+// a "Something feels off" 1:1 can inherit a ledger from a career conversation. That
+// arc, and only that arc, never meets them at the open.
+test("every arc offers the review except the one that must not open on a ledger", () => {
+  const others = ["Bi-weekly check-in", "Performance & feedback", "Growth & career plan", "Onboarding check-in"];
+  for (const arc of others) {
+    assert.equal(offerActionsFor(arc, 3), true, `${arc} offers it`);
+    assert.equal(offerActionsFor(arc, 0), false, `${arc} with nothing open offers nothing`);
+  }
+  assert.equal(offerActionsFor(FEELS_OFF_LABEL, 3), false, "feels-off never offers it at the open");
+  assert.equal(offerActionsFor(FEELS_OFF_LABEL, 0), false);
+  assert.equal(offerActionsFor("  something feels off  ", 3), false, "matched on the label, not on spacing or case");
+  assert.equal(offerActionsFor(null, 3), true, "an unknown arc keeps the default behaviour");
+});
+
+test("both hosts ask the arc before showing the offer", () => {
+  const BANK = fs.readFileSync(path.join(HERE, "bank.js"), "utf8");
+  for (const [name, src] of [["questioning.js", HOST], ["bank.js", BANK]] as const) {
+    assert.match(src, /offerActionsFor\(store\.ctx\?\.meetingType/, `${name} consults the arc`);
+  }
 });
 
 test("the runner shows the gate before anything else, and only when unseen", () => {

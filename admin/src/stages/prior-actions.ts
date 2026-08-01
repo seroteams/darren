@@ -27,17 +27,64 @@ interface PriorActionsStore {
   priorActionsLoaded?: boolean;
 }
 
+// ...and the boot read is mirrored into sessionStorage, keyed per 1:1, the same way
+// the walk-in gate remembers it has been shown. The server stops handing these back
+// the moment the meeting has a transcript, so a stage that needs them LATER (the
+// recap step, in the arc that withholds the offer at the open) cannot re-ask, and a
+// mid-meeting refresh would otherwise drop last time's actions on the floor. Dies
+// with the tab, never leaks between two 1:1s.
+//
+// It is a record of what THIS meeting saw when it started, not a live view. If a
+// second 1:1 with the same person closes one of them off in between, the recap here
+// can still list it; answering it simply overwrites that outcome. Narrow, and the
+// alternative (a stale count on the walk-in card) was the worse of the two.
+export function priorActionsKey(sessionId: string): string {
+  return `sero.prioractions.${sessionId}`;
+}
+
+/** What this 1:1 saw when it started, or undefined if it never got that far. */
+export function cachedPriorActions(sessionId: string): PriorActions | null | undefined {
+  try {
+    const raw = window.sessionStorage.getItem(priorActionsKey(String(sessionId || "")));
+    return raw === null ? undefined : (JSON.parse(raw) as PriorActions | null);
+  } catch {
+    return undefined; // storage blocked or corrupt: nothing to hand on, show nothing
+  }
+}
+
+// Written ONCE per 1:1, at the first read. Never overwritten, because the later
+// read is the one the server refuses (a meeting with a transcript is no longer
+// eligible) and a second write would replace the truth with that refusal.
+function writeCacheOnce(sessionId: string, prior: PriorActions | null): void {
+  try {
+    const key = priorActionsKey(sessionId);
+    if (window.sessionStorage.getItem(key) !== null) return;
+    window.sessionStorage.setItem(key, JSON.stringify(prior));
+  } catch {
+    /* storage blocked — the in-memory store still carries it for this page life */
+  }
+}
+
+// The boot read. Always asks the server rather than trusting the cache: two 1:1s
+// with the same person can be open in one tab, and a cached count would offer the
+// walk-in card actions that the other meeting has already closed off.
 export async function loadPriorActions(store: PriorActionsStore): Promise<PriorActions | null> {
   if (store.priorActionsLoaded) return store.priorActions ?? null;
+  const id = String(store.sessionId || "");
+  if (!id) return null;
+
   let prior: PriorActions | null = null;
   try {
-    const res = await getPriorPromises(store.sessionId);
+    const res = await getPriorPromises(id);
     prior = res?.prior?.promises?.length ? (res.prior as PriorActions) : null;
   } catch (e) {
+    // A failed read is not cached: the next stage gets to try again.
     console.warn("[prior-actions] read failed (continuing with nothing open):", (e as Error)?.message);
+    return null;
   }
   store.priorActionsLoaded = true;
   store.priorActions = prior;
+  writeCacheOnce(id, prior);
   return prior;
 }
 

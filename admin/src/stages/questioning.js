@@ -12,7 +12,7 @@ import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { isTouchScreen } from "../ui/field.js";
 import { escapeCopy as escape } from "../ui/html.js";
 import { actionRowHtml, scriptedControlsHtml, isSubmitShortcut, EXIT_LABEL, KBD_HINT } from "./questioning-actions.ts";
-import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL } from "./questioning-ready.ts";
+import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL, offerActionsFor } from "./questioning-ready.ts";
 import { loadPriorActions, openActionCount } from "./prior-actions.ts";
 import { icon } from "../ui/icon.js";
 import { Copy } from "lucide";
@@ -625,8 +625,10 @@ export async function mount(root, { store, setState }) {
   async function proceedBoot() {
     const gateSeen = readyAlreadyShown(store.sessionId);
     const prior = await loadPriorActions(store);
-    let wantsReview = store.reviewActionsFirst === true;
-    if (!gateSeen) wantsReview = (await showReadyGate(openActionCount(prior))) === "review";
+    // The feels-off arc never offers them here (P2) — the recap step does instead.
+    const offered = offerActionsFor(store.ctx?.meetingType, openActionCount(prior));
+    let wantsReview = offered && store.reviewActionsFirst === true;
+    if (!gateSeen) wantsReview = (await showReadyGate(offered ? openActionCount(prior) : 0)) === "review";
     store.reviewActionsFirst = false;
     if (wantsReview && prior?.promises?.length) {
       showPromiseCheckin(prior);

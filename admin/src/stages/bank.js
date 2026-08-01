@@ -33,7 +33,7 @@ import { createCoachPanel } from "../ui/coach-panel.ts";
 import { renderCtxSegments } from "../ui/notes-panel-utils.js";
 import { revealOne } from "../ui/reveal.js";
 import { EXIT_LABEL } from "./questioning-actions.ts";
-import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL } from "./questioning-ready.ts";
+import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL, offerActionsFor } from "./questioning-ready.ts";
 import { loadPriorActions, openActionCount } from "./prior-actions.ts";
 
 let unmountFn = null;
@@ -215,7 +215,8 @@ export async function mount(root, { store, setState }) {
         // The run may have moved on while this was in flight: handed over, fallen
         // back to the ghost, or errored (which detaches this whole screen).
         if (handedOver || waitShownAt || !questionHost.isConnected) return;
-        showGate(openActionCount(prior));
+        const n = openActionCount(prior);
+        showGate(offerActionsFor(store.ctx?.meetingType, n) ? n : 0);
       });
     }
 

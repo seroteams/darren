@@ -1,8 +1,10 @@
 import { STAGES, isInternalAdmin, isLiveEnv } from "../state.ts";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { revealOne } from "../ui/reveal.js";
-import { postVerdict, submitRunVerdict, savePromises } from "../../../shared/api.js";
+import { postVerdict, submitRunVerdict, savePromises, savePromiseOutcomes } from "../../../shared/api.js";
 import { draftsFromNextActions, renderPromiseAgree } from "../ui/promise-agree.ts";
+import { offerActionsFor } from "./questioning-ready.ts";
+import { cachedPriorActions, openActionCount } from "./prior-actions.ts";
 import { showFinishFeedbackModal } from "../ui/finish-feedback-modal.js";
 import { markRunForClaim } from "../guest.ts";
 import { finishDestination } from "./finish-destination.ts";
@@ -53,12 +55,31 @@ export async function mount(root, deps) {
   const showPromises = Boolean(store.sessionId && !store.scripted
     && !store.promisesConfirmSkip && !store.promisesConfirmed);
   if (showPromises) {
+    // action-review-placement P2: in the one arc that never offers last time's
+    // actions at the open, they are closed off here instead. Read from what THIS
+    // 1:1 saw when it started (the runner cached it at boot), because the server
+    // stops handing these back the moment the meeting has a transcript. An arc that
+    // DID offer them at the open shows nothing here.
+    const cached = cachedPriorActions(store.sessionId) ?? store.priorActions ?? null;
+    const priorOpen = offerActionsFor(store.ctx?.meetingType, openActionCount(cached))
+      ? []
+      : (cached?.promises || []);
     root.innerHTML = `<div class="stage-questioning l-stack l-stack--6"></div>`;
     renderPromiseAgree(root.firstElementChild, {
       drafts: draftsFromNextActions(b.next_actions || []),
       reportName: store.ctx?.name || "them",
       ctxSegments: [store.ctx?.name, store.ctx?.seniority, store.ctx?.role, store.ctx?.meetingType],
-      onLock: async (promises) => {
+      priorOpen,
+      onLock: async (promises, outcomes) => {
+        // Last time's taps go back onto the PRIOR run. Best-effort and separate:
+        // a failure here must not cost the manager the new promises they just agreed.
+        if (outcomes.length) {
+          try {
+            await savePromiseOutcomes(store.sessionId, { outcomes });
+          } catch (e) {
+            console.warn("[briefing] prior-action outcomes save failed:", e);
+          }
+        }
         // Keep the locked list on-device first — the recap and PDF must show what
         // was agreed even if the save can't reach the server (fail soft, never lose it).
         store.promises = promises;

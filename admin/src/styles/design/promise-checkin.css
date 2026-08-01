@@ -1,8 +1,10 @@
 /* -----------------------------------------------------------------------------
-   Promise check-in card — card zero, "Before question 1" (Promises loop phase 2).
-   Last time's promises with one tap each (Yes / Partly / Not yet / Things
-   changed). Tokens only; 14px floor holds. The owner chip rides the shared
-   .chip recipe (colour only here — geometry stays in base.css).
+   Last time's actions — the rows and their four taps (Done / Partly / Not done /
+   Changed, the one set, VOICE.md rule 12). Used in two places since
+   action-review-placement: the offer taken from the walk-in card, and the recap
+   step in the one arc that withholds that offer. Tokens only; 14px floor holds.
+   The owner chip rides the shared .chip recipe (colour only here — geometry
+   stays in base.css).
 ----------------------------------------------------------------------------- */
 .pck-lead { margin-bottom: var(--sero-space-3); }
 .pck-rows { display: flex; flex-direction: column; }

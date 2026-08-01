@@ -36,6 +36,19 @@ export function reviewActionsLabel(openActions: number): string {
   return n === 1 ? "Check off last time's one thing first" : `Check off last time's ${n} things first`;
 }
 
+// The one arc that never meets last time's actions at the open (P2). "Something
+// feels off" exists to understand a shift before assuming anything, and actions
+// follow the PERSON rather than the meeting type — so the list waiting here may
+// have been agreed in a career conversation months ago. Opening that meeting on
+// a ledger of what they owe you is the worst first move available. They are
+// offered at the recap instead, beside the new ones.
+export const FEELS_OFF_LABEL = "Something feels off";
+
+export function offerActionsFor(meetingType: unknown, openActions: number): boolean {
+  if (String(meetingType ?? "").trim().toLowerCase() === FEELS_OFF_LABEL.toLowerCase()) return false;
+  return reviewActionsLabel(openActions) !== "";
+}
+
 export type ReadyReason = { label: string; text: string };
 
 const clean = (v: unknown): string => String(v ?? "").trim();

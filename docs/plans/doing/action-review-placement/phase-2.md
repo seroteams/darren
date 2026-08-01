@@ -1,6 +1,45 @@
 # Phase 2 — The feels-off exception
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-08-01)
+
+- **The rule, as one testable predicate.** `offerActionsFor(meetingType, openActions)` in
+  [questioning-ready.ts](../../../../admin/src/stages/questioning-ready.ts); both hosts
+  ([questioning.js](../../../../admin/src/stages/questioning.js),
+  [bank.js](../../../../admin/src/stages/bank.js)) ask it before showing the offer.
+- **The recap half reuses the rows, it does not copy them.** `renderCheckinRows` was lifted out
+  of [promise-checkin.ts](../../../../admin/src/ui/promise-checkin.ts) and is now used by both the
+  walk-in offer and a new section above "Lock in what you two agreed" in
+  [promise-agree.ts](../../../../admin/src/ui/promise-agree.ts). One press closes last time's and
+  agrees this time's. No new CSS: the section rides the card the step already uses.
+- **The hand-off is a per-1:1 record, written once at boot**
+  ([prior-actions.ts](../../../../admin/src/stages/prior-actions.ts)). The server stops handing
+  these back the moment a meeting has a transcript, so the recap cannot re-ask.
+
+**A real defect this phase introduced and then closed.** The first version read that record at
+boot as well as writing it, and the walk was what caught it: with two 1:1s for the same person
+open in one tab, the second offered "3 things" that the first had already closed off. The boot
+read now always asks the server and the record is written once and never overwritten. Stated,
+not hidden: the recap lists what THAT meeting saw when it started, so if another 1:1 closes one
+off in between, answering it here overwrites that outcome.
+
+**Offline:** 228/228 tests (baseline 226/226), typecheck clean, both linters pass.
+
+**Walked on the real running app:**
+1. A "Something feels off" 1:1 with three actions open: the walk-in card shows **one button only**, and the three are still carried (nothing is dropped).
+2. A bi-weekly with the same person, same tab: the offer is there.
+3. That feels-off meeting's recap shows **"First, how did last time's go?"** above "Lock in what you two agreed", with the three actions and the same four words.
+4. Tapped Done and Changed, then flipped an owner on the new list (which re-renders the whole step): **the taps survived**.
+5. Pressed "Lock these in" once. The prior run reads back `wp-1 → "yes"`, `wp-2 → null`, `wp-3 → "changed"`, roll-up `"partly"` — and the two new promises are now what the next 1:1 with her will offer.
+
+**Cost: one real evaluation call** (~a few pence; no per-stage figure is logged for that
+stage) to produce a genuine recap for the walk. Everything else was seeded from finished runs
+at £0. Not screenshotted: the browser pane still would not composite frames, so the evidence is
+read out of the live DOM and the stored run.
+
+---
+
 
 ## Goal
 
@@ -38,7 +77,8 @@ ledger from a completely different conversation. That is the worst available fir
 
 ## Test scenarios — for the product owner
 
-`local > admin > /interview`, same person as phase 1, with actions still open from a previous 1:1.
+`local > admin > Start 1:1 > Recent 1:1s`. Priya Sharma has open actions waiting; seed more with
+`node scripts/seed-walkin.ts` (add `SEED_MEETING_TYPE="Something feels off"` for a feels-off one).
 
 1. **The difficult meeting opens clean.** Start a 1:1 and choose **Something feels off**. ✅ **Pass:** the walk-in card has one button only — no mention of last time's actions. ❌ **Fail:** the offer appears anyway.
 2. **The other arcs still offer it.** Start a 1:1 with the same person, this time a **Bi-weekly check-in**. ✅ **Pass:** the second button is back. ❌ **Fail:** it has gone missing everywhere.
