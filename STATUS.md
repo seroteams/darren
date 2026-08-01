@@ -22,7 +22,7 @@ the code: the person fence was already there, so keep it. Committee record:
 researched and parked in [docs/research/2026-07-31-action-review-open-concerns.md](docs/research/2026-07-31-action-review-open-concerns.md).
 [Board](https://claude.ai/code/artifact/8fa125e8-076f-4ac1-90ee-5351b4c07b70) · [mockup](https://claude.ai/code/artifact/c71c8cae-9f16-402f-889b-e48b93a109e8).
 
-📍 **2026-08-02 — the Run Review now shows the whole run, not the old shape of one. Green-lit, committed, not pushed.**
+📍 **2026-08-02 — the Run Review now shows the whole run, not the old shape of one. Green-lit, committed, live.**
 The review screen (and its "Copy all", which the AI judge also reads) was still built around
 notes → prep → questions → recap. Everything added since was invisible: the typed agenda, the cached
 role context the prompts are fed, last time's actions and how you tapped them, the focus points, each
@@ -36,7 +36,7 @@ its keep immediately:** on the feels-off run it showed an agreed action filed as
 like yours (tapped that way at the wrap-up, not an engine fault), and a user-facing engine string
 with a banned em dash that the copy guard never sees because it only scans the two front-end folders.
 
-📍 **2026-08-01 — the planner's rule sheet now says each rule once. Committed, not pushed.**
+📍 **2026-08-01 — the planner's rule sheet now says each rule once. Committed, live.**
 You asked whether we should change models to save money after OpenAI's price-cut email. The answer
 was no, not yet, and the measurement is why: **86% of every pound goes to one stage**, the planner
 that re-plans the queue after each answer, because it runs about six times a session while every
