@@ -1835,3 +1835,21 @@ rather than buy a new run.** A finished run cloned to turn 0, with the transcrip
 promises stripped, lands exactly on the runner's first screen for £0. Every part under test was
 real: the API, the store, the client, the write-back. The only thing borrowed was content the
 change never touches.
+
+**A regression suite was already in the repo, in five separate pieces, and none of them was a
+screen.** Frozen scenarios, a paid gate runner, an offline replay check wired to a live endpoint, a
+human 8-dimension review tool and a two-run compare view all existed and had never been introduced
+to each other. The build that answered "let me see whether the engine got better" turned out to be
+composition, not construction. Worth checking before designing any tool: how much of it is already
+here under a different name.
+
+**The thing that survives an engine restructure is a positional list of answers, not a script keyed
+to question ids.** The persona lane pins answers to question aliases, which is precise and breaks
+the moment a stage is renamed or an action moves. The old CLI smoke test pipes answers positionally
+and pads the tail with skips, which looks cruder and is the reason it still runs after the engine
+has been rebuilt around it. Choosing the cruder mechanism was the design decision.
+
+**Two services can want the same name and mean opposite things.** A free offline replay check was
+already called `regression`; the paid rerun board wanted the same word. Naming the new one
+`regression-runs` cost nothing on the day it was written and prevents an import collision that would
+have been read as a bug much later.

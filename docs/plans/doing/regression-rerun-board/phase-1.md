@@ -1,6 +1,8 @@
 # Phase 1 — The screen, free parts
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-31 — Carl walked the screen: 8 cases listed, adversarial chips, free safety check re-ran (commit 2365e7b0)
 
 ## Built (2026-07-31)
 Backend: `backend/api/services/regression-runs/` (repo reads `evals/golden/_index.json` + each case's `content/scenarios/**`; service merges suite with reruns; controller resolves `canRerun` per request via `resolveAppEnv`). Route `GET /api/v1/regression-runs` → `internalV1` in `backend/api/server.ts`.
