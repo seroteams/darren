@@ -32,7 +32,7 @@ evidence-backed briefing afterwards.
 **Who's who on the project:**
 - **Carl** (carl@seroteams.com) — founder, product owner, sole driver. Not deeply technical; all
   communication with him is plain language, no jargon. He green-lights every phase personally.
-- **The AI agent (Claude Code)** — does the building, in the repo nicknamed "darren", under
+- **The AI agent (Claude Code)** — does the building, in the repo `serolocal` (formerly "darren"), under
   strict working rules (section 8).
 
 **Stage of life:** pre-alpha, not hosted. The plan is a small **alpha with 2–3 friendly

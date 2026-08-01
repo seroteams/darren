@@ -3,7 +3,7 @@
 # Sero — Feature Inventory
 
 > **Snapshot date:** 2026-06-01
-> **Repo:** `darren` (private, Node.js)
+> **Repo:** `serolocal` (private, Node.js)
 > **Scope of this doc:** Every shipped feature, content asset, and code module of Sero — a 1:1 prep assistant for managers. CLI + web app, shared core. Written to be readable by an LLM (Gemini, etc.) reasoning about the system end-to-end.
 
 ---
