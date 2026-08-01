@@ -1,6 +1,8 @@
 # Phase 2 — Cut the examples down
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** ⏸️ SKIPPED 2026-08-02 (Carl's call)
+
+> **Skipped, not deleted.** Carl chose to go straight to phase 3. This phase was the weakest of the three: ~10% more off one stage, the plan's only paid check (~$0.35), and the most quality risk of any phase, because these examples are what teach the planner to word questions well. The scope below is intact if it is ever wanted. Note that phase 3's cap now sits on the phase-1 size, so starting this later means re-setting the cap afterwards.
 
 ## Goal
 The example tables teach the planner how to word a question. Keep the ones that change its behaviour, drop the ones that just restate a rule already written above them.
