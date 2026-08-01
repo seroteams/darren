@@ -35,13 +35,19 @@ There are **three** places the reserved closer can be put in front, not one:
 
 **Done:** a pure `withFreshestHints(closer, pool)` in `backend/engine/queue-manager.ts`, wired into all three of that function's outcomes, with 5 tests in `queue-manager.test.ts` (3 watched red first). It matches the refreshed copy on question TEXT, not alias, because reconcile mints a new alias each rebuild: the stashed closer stays `q_next_two_weeks_76` while its refreshed twin is `q_next_two_weeks_79`. Wording, alias and order are untouched; only the coaching moves. No usable twin leaves it alone, and the copy means `session.closer`, reused every turn, is never mutated.
 
-**Blocked:** path 3 is the one the proof run actually took (turn 5 logged `closer gate: reserved closer q_next_two_weeks_76 not found in queue or remaining — could not enforce`, then the stream force-inserted it). The one-line change there is written and ready but `backend/api/services/sessions/session-streams.ts` is claimed in LANES.md by session `4946b27d` ("No-dead-wires audit fixes"). The lane hook stopped the edit and it was NOT made. **So the closer on the observed run is still stale.** Surfaced to Carl rather than edited through.
+Path 3 was blocked for a while: `session-streams.ts` was claimed in LANES.md by session `4946b27d` and the lane hook stopped the edit, so it was surfaced to Carl rather than forced. That chat has since finished, committed (`ca343851`, `cba8004e`) and cleared its row, so the lane was re-claimed and the change made. It matters most of the three: turn 5 of the proof run logged `closer gate: reserved closer q_next_two_weeks_76 not found in queue or remaining — could not enforce` before landing here, so fixing the gate alone would have left real runs unchanged.
 
-Suite state while this was built: my four relevant test files are 144/144, `node scripts/test-design-guard.js` clean. The whole-suite figure flickers between 218 and 220 run to run because three other chats are mid-edit in this checkout; stashing my two files and re-running showed the failures move with THEIR files, not mine.
+**Re-proved free, on the paid run's own recorded data.** Rebuilding turn 5's exact state (the bank's stashed closer plus the planner's rebuilt twin from `04-response.json`) and running it through the helper the stream now calls:
+
+- before: "Land it on the next two weeks and keep it concrete." / "Whether she asks for a change in scope, timing, or support." / "Whether the answer points to one thing to do first."
+- after: "Keep it open: what would help most over the next two weeks?" / "Whether she asks for scope, time, or a clearer role." / "Whether she names one specific change or stays broad."
+- alias unchanged, wording unchanged, stashed closer not mutated.
+
+Worth saying plainly: on THIS run the refreshed closer lines are only modestly different from the stale ones. What changed is that they are now the set the planner wrote on the final turn rather than one written before the meeting, so they move when the conversation gives them something to move on. This run's last answer was thin.
+
+Full suite after the change: **227/227**, typecheck 0 errors, copy guard PASS, design guard clean.
 
 ## Still owed before this can be green-lit
-- The one-line `session-streams.ts` change, once that lane clears or Carl says go.
-- A re-proof after that. Probably free: the model side is already demonstrated, so the closer injection can be covered offline.
 - Carl's walk of the scenarios below.
 
 ## Goal

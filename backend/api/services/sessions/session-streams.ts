@@ -19,7 +19,7 @@ import { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener, 
 import { selectReservedCloser, isForbiddenCloser, pickSeedOverflow } from "../../../engine/closer.ts";
 import { evaluate } from "../../../engine/reviewer.ts";
 import { applyDeltas, serialize } from "../../../engine/axes.ts";
-import { planTurn } from "../../../engine/queue-manager.ts";
+import { planTurn, withFreshestHints } from "../../../engine/queue-manager.ts";
 import { classifyAnswer } from "../../../engine/read-quality.ts";
 import { appendEligibilityLog } from "../../../engine/question-eligibility.ts";
 import { summarizeAgenda, buildCarryForwardQuestion, shouldCarryAgendaForward } from "../../../engine/agenda.ts";
@@ -480,8 +480,17 @@ export async function planStream(c: RequestContext): Promise<void> {
     !isForbiddenCloser(closer)
   ) {
     if (session.queueRef[0]?.alias !== closer.alias) {
+      // The stashed closer still carries the coaching it was written with at bank
+      // time. If the planner rebuilt this same question this turn (new alias, same
+      // wording), take that copy's hints, so the last question of the meeting stops
+      // being the one place still showing pre-meeting coaching (coach-hints-live
+      // Phase 2). Wording, alias and order are untouched. This is the path the
+      // biweekly-priya proof run actually took: the queue-manager gate had already
+      // logged "not found in queue or remaining, could not enforce" before landing
+      // here, so fixing that gate alone left the real runs unchanged.
+      const fresh = withFreshestHints(closer, session.queueRef);
       session.queueRef = session.queueRef.filter((x) => x.alias !== closer.alias);
-      session.queueRef.unshift(closer);
+      session.queueRef.unshift(fresh);
       planResult.issues = [
         ...(planResult.issues || []),
         `closer force-inserted: ${closer.alias}`,
