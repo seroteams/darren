@@ -20,7 +20,7 @@
 }
 .auth-panel {
   width: 100%;
-  max-width: 380px;
+  max-width: 420px;
 }
 /* The submit button stretches to the panel width, so center its label
    (base .btn is inline-flex with no justify-content → text hugs the left). */
