@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1785429080901,
+  "role_title_raw": "Engineering Manager",
+  "role_slug": "engineering-manager",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A mid-level Engineering Manager usually leads one engineering team, owning delivery, people management, hiring input, and day-to-day execution. They translate product goals into workable plans, unblock engineers, improve team health, and partner closely with product, design, and adjacent engineering teams. They are often still close to technical decisions without being the main hands-on implementer.",
+    "role_confidence": "high",
+    "known_challenges": [
+      {
+        "text": "Balancing delivery pressure with coaching, feedback, and people support.",
+        "category": "topic"
+      },
+      {
+        "text": "Switching from solving technical problems directly to enabling the team to solve them.",
+        "category": "competency"
+      },
+      {
+        "text": "Managing team morale and energy during shifting priorities or heavy delivery periods.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Handling performance issues and uneven seniority across the team.",
+        "category": "competency"
+      },
+      {
+        "text": "Negotiating scope, timelines, and tradeoffs with product and other stakeholders.",
+        "category": "topic"
+      },
+      {
+        "text": "Staying credible in technical discussions without becoming a bottleneck.",
+        "category": "competency"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Team capacity and delivery pressure",
+        "why": "This role is accountable for output, so sustained overload or unclear commitments quickly becomes a management problem.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Coaching and people development",
+        "why": "A mid-level Engineering Manager is expected to grow engineers, not just coordinate work.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional alignment",
+        "why": "Much of their effectiveness depends on working well with product, design, and peer managers.",
+        "category": "topic"
+      },
+      {
+        "theme": "Decision ownership versus delegation",
+        "why": "Managers at this level often need support finding the right line between staying close and stepping back.",
+        "category": "competency"
+      },
+      {
+        "theme": "Technical context and team architecture health",
+        "why": "They need enough technical grip to spot risk, support good decisions, and protect long-term quality.",
+        "category": "topic"
+      },
+      {
+        "theme": "Manager load and emotional strain",
+        "why": "People issues, delivery pressure, and constant context switching can quietly wear this role down.",
+        "category": "wellbeing"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Sprint planning",
+        "meaning": "Choosing and sizing work for the next iteration.",
+        "group": "engineering-management"
+      },
+      {
+        "term": "Backlog grooming",
+        "meaning": "Keeping upcoming work clear, sized, and prioritized.",
+        "group": "engineering-management"
+      },
+      {
+        "term": "Roadmap",
+        "meaning": "Planned sequence of larger outcomes over time.",
+        "group": "engineering-management"
+      },
+      {
+        "term": "Tech debt",
+        "meaning": "Past shortcuts that slow future development.",
+        "group": "engineering-management"
+      },
+      {
+        "term": "Incident",
+        "meaning": "Service problem needing coordinated response and communication.",
+        "group": "engineering-management"
+      },
+      {
+        "term": "Retrospective",
+        "meaning": "Team review of what to improve next cycle.",
+        "group": "engineering-management"
+      },
+      {
+        "term": "1:1",
+        "meaning": "Regular private check-in with a direct report.",
+        "group": "people-management"
+      },
+      {
+        "term": "Career ladder",
+        "meaning": "Shared expectations for growth at each level.",
+        "group": "people-management"
+      },
+      {
+        "term": "Performance review",
+        "meaning": "Periodic assessment of impact, growth, and expectations.",
+        "group": "people-management"
+      },
+      {
+        "term": "Feedback",
+        "meaning": "Specific observations meant to reinforce or improve behavior.",
+        "group": "people-management"
+      },
+      {
+        "term": "Delegation",
+        "meaning": "Handing off ownership, not just tasks.",
+        "group": "people-management"
+      },
+      {
+        "term": "Psychological safety",
+        "meaning": "People feel safe speaking up and taking risks.",
+        "group": "people-management"
+      },
+      {
+        "term": "Stakeholder management",
+        "meaning": "Aligning expectations across partners with different goals.",
+        "group": "cross-functional-leadership"
+      },
+      {
+        "term": "Tradeoff",
+        "meaning": "Choice between competing benefits, costs, or risks.",
+        "group": "cross-functional-leadership"
+      },
+      {
+        "term": "Dependency",
+        "meaning": "Work blocked by another team or system.",
+        "group": "cross-functional-leadership"
+      },
+      {
+        "term": "Escalation",
+        "meaning": "Raising an issue when normal paths are stuck.",
+        "group": "cross-functional-leadership"
+      },
+      {
+        "term": "Execution risk",
+        "meaning": "Chance that plans slip due to uncertainty or constraints.",
+        "group": "cross-functional-leadership"
+      },
+      {
+        "term": "Headcount",
+        "meaning": "Available or planned staffing for the team.",
+        "group": "cross-functional-leadership"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "engineering-management",
+        "label": "Engineering delivery"
+      },
+      {
+        "key": "people-management",
+        "label": "People management"
+      },
+      {
+        "key": "cross-functional-leadership",
+        "label": "Cross-functional leadership"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about team outcomes or keep reverting to their own technical output.",
+      "How clearly they describe tradeoffs, not just deadlines.",
+      "Signs they are absorbing too many escalations personally.",
+      "Whether they can name growth plans for individuals on the team.",
+      "Shifts from concrete delivery language to vague optimism when discussing risks."
+    ],
+    "avoid": [
+      "Treating them like a senior individual contributor who should personally solve the hardest technical problems.",
+      "Assuming missed delivery is only a planning failure rather than a staffing, scope, or dependency issue.",
+      "Pushing people issues aside because delivery feels more urgent.",
+      "Judging their impact only by visible output instead of team health, clarity, and execution."
+    ]
+  }
+}

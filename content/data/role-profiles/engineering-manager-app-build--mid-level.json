@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "prompt_version": "bda3c52f",
+  "model": "gpt-5.4",
+  "generated_at": 1785342444930,
+  "role_title_raw": "Engineering manager, app build",
+  "role_slug": "engineering-manager-app-build",
+  "seniority_raw": "Mid-level",
+  "seniority_key": "mid-level",
+  "role_family": "engineering",
+  "profile": {
+    "summary": "A mid-level Engineering Manager for app build typically leads one or more teams shipping application features and services. They own delivery, team health, hiring input, execution quality, and day-to-day engineering practices. They work closely with product, design, QA, platform, and senior engineering leaders, balancing people management with planning, technical trade-offs, and cross-team coordination.",
+    "role_confidence": "medium",
+    "known_challenges": [
+      {
+        "text": "Balancing delivery pressure with coaching, feedback, and team development.",
+        "category": "topic"
+      },
+      {
+        "text": "Managing dependencies with product, design, QA, and platform teams that can block app delivery.",
+        "category": "topic"
+      },
+      {
+        "text": "Switching from solving problems personally to creating clarity and accountability through others.",
+        "category": "competency"
+      },
+      {
+        "text": "Protecting team morale when roadmap churn, incidents, or deadlines disrupt planned work.",
+        "category": "wellbeing"
+      },
+      {
+        "text": "Maintaining engineering quality while being pushed for faster feature output.",
+        "category": "topic"
+      }
+    ],
+    "recommended_question_themes": [
+      {
+        "theme": "Delivery predictability and execution risks",
+        "why": "This role is judged heavily on whether teams can ship reliably despite changing priorities and dependencies.",
+        "category": "topic"
+      },
+      {
+        "theme": "Team health, motivation, and sustainable pace",
+        "why": "Managers at this level often absorb delivery pressure, and team strain shows up before it becomes attrition or burnout.",
+        "category": "wellbeing"
+      },
+      {
+        "theme": "Coaching and performance management",
+        "why": "Their impact increasingly comes from growing engineers, handling uneven performance, and building stronger day-to-day ownership.",
+        "category": "competency"
+      },
+      {
+        "theme": "Cross-functional alignment",
+        "why": "App build work depends on tight coordination with product, design, QA, and adjacent engineering teams.",
+        "category": "topic"
+      },
+      {
+        "theme": "Technical quality and trade-off decisions",
+        "why": "They need to keep standards high while making pragmatic calls on speed, scope, and technical debt.",
+        "category": "competency"
+      }
+    ],
+    "terminology": [
+      {
+        "term": "Sprint planning",
+        "meaning": "Choosing work for the next delivery cycle.",
+        "group": "delivery"
+      },
+      {
+        "term": "Backlog grooming",
+        "meaning": "Refining upcoming work so it is ready to build.",
+        "group": "delivery"
+      },
+      {
+        "term": "Release train",
+        "meaning": "A regular cadence for shipping changes.",
+        "group": "delivery"
+      },
+      {
+        "term": "Dependency management",
+        "meaning": "Tracking work blocked by other teams or systems.",
+        "group": "delivery"
+      },
+      {
+        "term": "Scope trade-off",
+        "meaning": "Changing what ships to protect time or quality.",
+        "group": "delivery"
+      },
+      {
+        "term": "1:1s",
+        "meaning": "Regular manager-report conversations about work and support.",
+        "group": "people-management"
+      },
+      {
+        "term": "Career growth",
+        "meaning": "Progress in skills, scope, and level expectations.",
+        "group": "people-management"
+      },
+      {
+        "term": "Performance feedback",
+        "meaning": "Clear input on strengths, gaps, and impact.",
+        "group": "people-management"
+      },
+      {
+        "term": "Delegation",
+        "meaning": "Handing off ownership, not just tasks.",
+        "group": "people-management"
+      },
+      {
+        "term": "Hiring loop",
+        "meaning": "The interview process used to assess candidates.",
+        "group": "people-management"
+      },
+      {
+        "term": "Technical debt",
+        "meaning": "Past shortcuts that slow future development.",
+        "group": "app-build"
+      },
+      {
+        "term": "CI/CD",
+        "meaning": "Automated build, test, and release pipeline.",
+        "group": "app-build"
+      },
+      {
+        "term": "Code review",
+        "meaning": "Peer checking of changes before merge.",
+        "group": "app-build"
+      },
+      {
+        "term": "Incident",
+        "meaning": "A production problem affecting users or systems.",
+        "group": "app-build"
+      },
+      {
+        "term": "Observability",
+        "meaning": "Logs, metrics, and traces used to understand systems.",
+        "group": "app-build"
+      }
+    ],
+    "terminology_groups": [
+      {
+        "key": "delivery",
+        "label": "Delivery and planning"
+      },
+      {
+        "key": "people-management",
+        "label": "People management"
+      },
+      {
+        "key": "app-build",
+        "label": "Application engineering"
+      }
+    ],
+    "listen_for": [
+      "Whether they talk about outcomes through the team or keep reverting to their own hands-on fixes.",
+      "How clearly they name delivery risks, blockers, and dependency patterns.",
+      "Whether quality issues are framed as isolated mistakes or system-level process problems.",
+      "Shifts in tone around roadmap changes, interrupts, or repeated deadline pressure.",
+      "How specifically they talk about developing engineers versus just assigning work."
+    ],
+    "avoid": [
+      "Assuming they should still be the main technical problem-solver on the team.",
+      "Treating missed dates as purely an execution failure without examining dependency and scope churn.",
+      "Pushing people topics aside because delivery feels more urgent.",
+      "Using generic leadership advice that ignores the realities of shipping app work across functions."
+    ]
+  }
+}
