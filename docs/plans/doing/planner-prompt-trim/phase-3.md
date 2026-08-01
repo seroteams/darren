@@ -1,13 +1,34 @@
 # Phase 3 — A size budget that holds
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-08-02)
+
+- **`scripts/lint-prompt-size.js`** (new) — measures the `## System` block of every prompt listed in its `BUDGETS` table and fails when one is over cap. Pure Node, no deps, no network, always free. Matches `lint-copy.js`'s shape.
+- **`package.json`** — `npm run lint:prompt-size`.
+- **`CLAUDE.md`** — added to the free-commands list, with the rule that raising a cap is its own deliberate commit.
+
+**The cap: 34,400 characters.** Carl chose on 2026-08-02 to skip phase 2, so the cap is set on today's size (34,063) rather than a smaller post-phase-2 one, plus **337 characters of headroom** — about a third of a paragraph. A wording fix or an added sentence passes; a whole new rule does not. That is the exact growth pattern this guard exists to catch: the rule sheet grew 40% one rule at a time.
+
+**Proof, both directions (free):**
+
+| Check | Result |
+|---|---|
+| Today's file | ✓ PASS — 34,063 chars, ~8,243 tokens, 337 to spare (99.0% of budget) |
+| One realistic rule added (585 chars) | ✗ FAIL — 34,648 chars, 248 over (100.7% of budget), then restored clean |
+
+The failure message names the size, the cap, the overage, and gives two honest ways out: make room by cutting a repeat or a spent example, or raise the cap on purpose in its own commit.
+
+**Offline proof:** `npm test` 228/228 · `npm run typecheck` clean · `npm run lint:copy` PASS · **£0, no paid run.**
+
+**Status:** ⬜ → 🔨
 
 ## Goal
 The rule sheet cannot quietly re-bloat. This prompt was already trimmed once on 10 July and grew back 40% in three weeks. Without a cap, phase 1 and 2 buy a few weeks and nothing more.
 
 ## Changes
 - A free check (no API calls) that measures the `## System` block of `content/prompts/plan-turn.md` and fails when it exceeds its cap.
-- Cap set to the post-phase-2 size plus a small headroom, so today's prompt passes and the next unnoticed addition does not.
+- Cap set to today's size plus a small headroom, so the current prompt passes and the next unnoticed addition does not. (Originally "post-phase-2 size" — Carl skipped phase 2 on 2026-08-02, so the cap sits on the phase-1 size instead.)
 - Wired into the existing free lint run so it fires with the other checks, and named in `CLAUDE.md`'s command list alongside `lint:copy`.
 - The failure message says the size, the cap, and what to do: make room by cutting, or raise the cap deliberately.
 

@@ -46,8 +46,8 @@ Measured from logged prompts + `cost.json` across 7 real runs (all free, no API 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | Say each rule once | The six repeats above merged to a single home; no rule removed | ✅ |
-| 2 | Cut the examples down | The two AVOID/PREFER tables and `<worked_examples>` reduced to the rows that earn their place | ⬜ |
-| 3 | A size budget that holds | A free lint that fails when the rule sheet grows past its cap | ⬜ |
+| 2 | Cut the examples down | The two AVOID/PREFER tables and `<worked_examples>` reduced to the rows that earn their place | ⏸️ skipped |
+| 3 | A size budget that holds | A free lint that fails when the rule sheet grows past its cap | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -62,7 +62,9 @@ Folder set up 2026-07-31. Nothing built.
 
 **Phase 1 ✅ green-lit by Carl 2026-08-01** (commit 6d86ec58). He walked a bi-weekly on sero.team: a named snag drew an agency follow-up, and the session closed on an open question. Saved 3.1% of the system block. See [phase-1.md](phase-1.md) for the edits and offline proof.
 
-**Next: phase 2 (cut the examples down) — not started.** Carl chose to stop after phase 1 rather than continue straight on. Before it starts, note the honest ceiling recorded in phase-1.md: phases 1 and 2 together land nearer 13% than 30%, because most of the prompt is unique rules rather than repeats. A bigger cut means removing rules, which is a separate call for Carl.
+**Phase 2 ⏸️ skipped by Carl 2026-08-02.** It was the weakest of the three: ~10% more off one stage, the plan's only paid check, and the most quality risk of any phase (those examples are what teach the planner to word questions well). Skipping it costs nothing structural. Phase 3 does not depend on it, so the cap simply sits on the phase-1 size. **It is skipped, not deleted** — [phase-2.md](phase-2.md) still holds the full scope if it is ever wanted.
+
+**Phase 3 🔨 built 2026-08-02, awaiting Carl's walk.** `npm run lint:prompt-size`, cap 34,400 characters, proved passing today and failing on one added rule. £0. See [phase-3.md](phase-3.md).
 
 ## Parked
 - **The cache fix** (~10% off a run): ~1,700 tokens of unchanging context are billed at full rate every turn instead of the cheap cached rate. Mechanical, no wording touched. Needs a small change to the shared `ai-client` message shape, and one live call to confirm the cache boundary. Carl chose the rule trim over this on 2026-07-31.

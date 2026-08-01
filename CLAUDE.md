@@ -7,6 +7,7 @@ Detail lives in the skills, the memories, and the Carl output style — this fil
 - `npm test` — full unit suite (free)
 - `npm run typecheck` — strict TS (free)
 - `node scripts/replay-scenario.js <id> --fixtures-only` — engine replay (free)
+- `npm run lint:prompt-size` — the planner rule sheet's size cap (free). Raising a cap is a deliberate commit, never a side effect.
 - PAID (hits OpenAI — see Cost): `npm run gate` (~$3 full; smallest proof: `node scripts/gate.js --only <case>` ~$0.35), `npm run smoke`, `npm run eval`
 - Never `require()`/`import` scripts/gate.js — it executes on import. Read/grep it only.
 
