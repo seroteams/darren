@@ -45,7 +45,7 @@ Measured from logged prompts + `cost.json` across 7 real runs (all free, no API 
 ## Phases
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Say each rule once | The six repeats above merged to a single home; no rule removed | ⬜ |
+| 1 | Say each rule once | The six repeats above merged to a single home; no rule removed | 🔨 |
 | 2 | Cut the examples down | The two AVOID/PREFER tables and `<worked_examples>` reduced to the rows that earn their place | ⬜ |
 | 3 | A size budget that holds | A free lint that fails when the rule sheet grows past its cap | ⬜ |
 
@@ -58,7 +58,9 @@ Folder set up 2026-07-31. Nothing built.
 
 **Baseline recorded 2026-07-31 (free, no API):** `npm test` 221/221 passed · `npm run typecheck` clean · gate PASS from 30 July (see Resolved above). No paid run spent yet.
 
-**Phase 1 is blocked.** The lane hook stopped the first edit to `content/prompts/plan-turn.md`: session `c91a58a9` ("Coach hints that move with the meeting") holds it, phase 2 built and awaiting Carl's walk. Carl chose 2026-07-31 to clear it the clean way — walk and sign off that chat's phase 2 so its lane releases — rather than editing through the claim. Phase 1 starts the moment the lane is free.
+**Lane:** Carl authorised taking `content/prompts/plan-turn.md` from session `c91a58a9` on 2026-08-01 after its phase 2 stayed open. The path moved to this plan's row in LANES.md. That chat's phase 2 touched the same file, so if it resumes, check for contention before editing.
+
+**Phase 1 built 2026-08-01, awaiting Carl's walk.** Saved 3.1% of the system block. See [phase-1.md](phase-1.md) for the edits, the offline proof, and an honest note: phases 1 and 2 together will land nearer 13% than 30%, because most of the prompt is unique rules rather than repeats.
 
 ## Parked
 - **The cache fix** (~10% off a run): ~1,700 tokens of unchanging context are billed at full rate every turn instead of the cheap cached rate. Mechanical, no wording touched. Needs a small change to the shared `ai-client` message shape, and one live call to confirm the cache boundary. Carl chose the rule trim over this on 2026-07-31.

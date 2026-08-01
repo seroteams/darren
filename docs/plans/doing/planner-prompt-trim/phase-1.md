@@ -1,6 +1,27 @@
 # Phase 1 — Say each rule once
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl's walk
+
+## Built (2026-08-01)
+
+`content/prompts/plan-turn.md`, system half only. Eight edits, all de-duplication:
+
+| Repeat | What changed |
+|---|---|
+| Wind-down | `<thread_follow_rule>` limit → pointer. Planning rule 7's bullet → pointer; its closer-alias mechanics moved into `<wind_down_rule>`, which now states the final turn once and in full. |
+| Agency after a snag | Planning rule 14 → pointer at `<question_craft>` THE TRIGGER. Its echo in the "Distilled" line removed. |
+| Shallow gate | `<thread_follow_rule>` override now points at STEP 0. Planning rule 15's duplicate re-prompt cap removed. |
+| No-inference | `<rules>` "Thin-notes floor" and "evasive answer is an event" deleted — both verbatim restatements of `<no_inference_rules>` 3 and 1. CALIBRATION's dangling reference re-pointed at `THIN_INPUT_CAUTION`. |
+| Dedup | `<rules>` overlap line and `<output_contract>`'s "never include anything already asked" deleted; both now point at `<dedup_rules>`. |
+| Closer | Covered by the wind-down consolidation above. |
+
+**Size:** system block 35,136 → 34,063 chars, ~8,503 → ~8,243 tokens. **Saved 3.1%.**
+
+**Honest note on the size.** Less than this plan implied. The six repeats were real but they were short restatements, not big blocks. The mass of the prompt is unique rules (`question_craft` 20%, `planning_rules` 18%, `assessment_rules` 15%) plus the examples phase 2 targets. Phases 1 and 2 together will land nearer 13% than 30%. A bigger cut means removing rules, which is a separate call for Carl.
+
+**Offline proof:** `npm test` 227/227 · `npm run typecheck` clean · `npm run lint:copy` PASS · fixtures-only replay of `priya_biweekly_qspec` unchanged (its one FAIL, a preparation-stage `listenFor` capitalisation fixture, reproduces identically on HEAD without this change — pre-existing, not this work).
+
+**Status:** ⬜ → 🔨
 
 ## Goal
 Every rule in the planner's rule sheet lives in exactly one place, with the other copies replaced by a short pointer. No rule loses its meaning.

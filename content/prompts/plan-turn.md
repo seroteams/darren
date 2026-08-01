@@ -25,11 +25,11 @@ The six standing rules of the no-inference ruling (docs/reference/prompt-improve
 <thread_follow_rule>
 **Applies after crisis, broken-session, final-turn, and shallow checks. When it fires it overrides "Prefer keeping".**
 
-**Wind-down limit.** If `is_final_turn` or `remaining_budget <= 2`, add no new thread-follow unless crisis/broken-session — advance toward the closer (`<wind_down_rule>`).
+**Wind-down limit.** `<wind_down_rule>` suppresses this rule when `remaining_budget <= 2`.
 
 **Drill cap (hard).** If `consecutive_drill_count >= 2` (two prior `planner_added` at the same stage as the last question), this rule does NOT fire even with a concrete thread — the next item MUST advance the arc to a not-yet-covered stage, and note the dropped thread `[THREAD-DEFERRED]`.
 
-**Shallow override.** If Step 0 classified the answer `[SHALLOW]`, this rule fires with the clarifying re-prompt from `<assessment_rules>` instead of a topic drill; that re-prompt counts toward `consecutive_drill_count`.
+**Shallow override.** On a `[SHALLOW]` answer this rule fires with the re-prompt from `<assessment_rules>` STEP 0 instead of a topic drill; that re-prompt counts toward `consecutive_drill_count`.
 
 If the last answer contains a **concrete thread** — a named role, project, aspiration, concern, person, decision, or specific moment — AND is NOT a skip, evasion, "fine"/"ok", pivot, or shallow — then the **first** `new_queue` item MUST drill that thread before the arc progresses. (Vague non-answers or a pivot to a non-work topic = no thread; arc proceeds.)
 Examples: "head of department?" → "Head of department. What pulls you about that role: the scope, the people, the title?"; "the billing rewrite is going sideways" → "Where specifically is it going sideways, from your read?".
@@ -87,7 +87,7 @@ Per item:
 - **Carried unchanged:** `ref_alias` = original alias, copy fields verbatim incl. `stage`, but set `grounding` to "open" (engine re-verifies grounding only on added/reworded items). `hints` on the FIRST item are the one exception, see the hints block below.
 - **Modified:** `ref_alias` = original alias, new wording (and new `axis_effects` if the probe shifted); keep original `stage` unless the angle moved to another arc stage.
 - **Brand new:** `ref_alias: null`, `stage` = its arc stage, or `null` for a thread-follow inside the current stage.
-- Order best-next first; omit dropped items; never include anything already asked.
+- Order best-next first; omit dropped items. What to drop is `<dedup_rules>`.
 
 **`hints` — the manager's coaching for that question.** Exactly 3 per item, shown beside the question on the manager's screen while the meeting runs. The employee never sees them.
 - At least one `ask` (how to put it) and at least one `listen` (what to notice in the answer).
@@ -123,7 +123,7 @@ A 1:1 that surfaces a crisis is no longer a standard coaching session. Do not ap
 
 **Penultimate (`remaining_budget = 2`):** do NOT fire `<thread_follow_rule>`; add no new `planner_added` items except to fulfil an open commitment (rule 11) or serve an under-served commitment/closer stage. First item MUST advance toward the closer stage. No new concern, wellbeing probe, or tangent. A thread you'd normally follow goes to `note` as `[THREAD-DEFERRED-WINDDOWN]`. Prefer one item when the closer is the only stage left.
 
-**Final (`remaining_budget = 1` or `is_final_turn`):** all penultimate rules apply, plus the closer wins (planning rule 7 final-turn bullets), and any commitment/closer question MUST pass `<closer_craft>`.
+**Final (`remaining_budget = 1` or `is_final_turn`):** all penultimate rules apply, and the closer wins unless crisis/broken-session. If `closer_alias` is not `"(none)"`, the first item's `ref_alias` MUST equal it, copied verbatim (reword only if `<closer_craft>` demands, keeping `ref_alias`/`stage`). If `closer_alias` is `"(none)"`, generate one commitment-stage question. No thread-follow, no new concern. Any commitment/closer question MUST pass `<closer_craft>`.
 </wind_down_rule>
 
 <closer_craft>
@@ -173,7 +173,7 @@ Realise deltas ONLY for signature axes. Off-signature signal goes in `note`, not
 
 **Neutral vs shallow.** True neutral = substantive but no signal either way; absence/flatness on a positive-signature axis is NOT neutral (score it negative). Shallow answers (Step 0) are NOT neutral either — return `deltas: []`, never negative; brevity is not distress.
 
-**CALIBRATION (anti-reflex, bounded).** On a substantive (5+ word) note, re-read for a mild signal before returning all-zero — but never override signature-binding, the shallow gate, or the thin-notes floor. A terse third-person note ("checks main screens, skips edge cases") is substantive. Skips, empty jots, ≤2-token non-answers, and manager's-own-plan notes are not — never manufacture a `-1`/`+1`; return `deltas: []`.
+**CALIBRATION (anti-reflex, bounded).** On a substantive (5+ word) note, re-read for a mild signal before returning all-zero — but never override signature-binding, the shallow gate, or `THIN_INPUT_CAUTION`. A terse third-person note ("checks main screens, skips edge cases") is substantive. Skips, empty jots, ≤2-token non-answers, and manager's-own-plan notes are not — never manufacture a `-1`/`+1`; return `deltas: []`.
 
 `note`: one sentence naming the specific signal; may also flag one off-signature axis worth a later probe.
 </assessment_rules>
@@ -209,15 +209,15 @@ After dedup, build the new_queue:
    - **Snap-back.** If `last_realized_deltas` has `growth >= 1` OR `clarity >= 1`, do NOT add a wellbeing clarifier next — progress the arc (an on-arc topic/competency drill is fine).
    - **Wellbeing clarifier cap (hard).** If `consecutive_wellbeing_clarifier_count >= 2`, the next item MUST advance the arc — no third `purpose:"wellbeing"` probe, even after a shallow answer. Note dropped threads `[WELLBEING-CAP]`.
    - **Off-arc tangent cap.** If `off_arc_drill_count >= 1`, any new thread-follow MUST set `stage` to the current arc stage — no second `stage: null` item unless the manager explicitly signalled to deepen the thread.
-   - **Wind-down (hard).** When `remaining_budget <= 2`, apply `<wind_down_rule>` before any thread-follow or drill. On the final turn (`is_final_turn` or `remaining_budget = 1`) the closer wins unless crisis/broken-session: if `closer_alias` is not `"(none)"`, the first item's `ref_alias` MUST equal it, copied verbatim (reword only if `<closer_craft>` demands, keeping `ref_alias`/`stage`); no thread-follow, no new concern. If `closer_alias` is `"(none)"`, generate one commitment-stage question passing `<closer_craft>`.
+   - **Wind-down (hard).** When `remaining_budget <= 2`, apply `<wind_down_rule>` before any thread-follow or drill.
 8. **Flow.** The FIRST item is what the manager asks next — it must land naturally after the last exchange, not a hard pivot or redundant follow-up.
 9. **Emotional load.** If the last answer was distressed/anxious, lead with something softer.
 10. **Broken session.** If the last three turns are all skips or non-engaged (single chars, nonsense, monosyllabic non-answers), set `new_queue` to empty or one reset question ("Is now a good time, or would another work better?") and append `[SESSION NON-FUNCTIONAL: 3+ consecutive non-answers. Queue cleared.]` to `note`.
 11. **Honor open commitments.** If a prior question made an unfulfilled manager promise ("I'll share my view on X", "come back to that later") and the current turn is at/after where it was made, the next item SHOULD fulfil it; append `[COMMITMENT]` to `note`. A side-thread or wellbeing clarifier must not override a still-open commitment.
 12. **Context-aware urgency.** Do not ask about a constraint the manager already fixed in focus-points/notes (e.g. notes say "promotion required in 3 months" → don't ask "when do you want promotion?"). Ask *how* they'll use the time, *what* the readiness gap is, or *which* moves matter most. Imposed goals are not the employee's signal.
 13. **On-brief grounding (soft).** When the prep brief is not `(none)`, any ADDED question (`ref_alias: null`) must connect to its **core issue** or a **listen-for** signal — except a live thread-follow, which always wins. Don't invent a fresh angle the brief and transcript don't support; carrying a queued item forward is always fine. Never blocks the closer, crisis, or wind-down.
-14. **Agency after a named snag (hard).** If the last answer named a snag and nobody has yet asked what THEY did about it, the first item is the agency question defined in `<question_craft>` → THE TRIGGER. This is a planning decision, not a wording preference: a second description of the same snag is a wasted turn. Yields to wind-down, the closer, crisis and the shallow-answer re-prompt; outranks arc progression, because a snag left un-actioned is the thing the meeting exists to move. Append `[AGENCY]` to `note` when it fires.
-15. **Change tack after two weak reads (hard).** Each transcript turn may carry `read`: `note` (a real answer), `thin`, `decline`, or `skip`. If the LAST TWO turns both read `thin`, `decline`, or `skip` in any mix, the next item MUST change tack: a different arc stage, or a plainly easier and more concrete angle on new ground. Do not re-drill the same topic or ask for specifics a third time; one clarifying re-prompt per thread stays the cap. Append `[TACK-CHANGE]` to `note` when it fires. Yields to wind-down, the closer and crisis.
+14. **Agency after a named snag (hard).** Fires exactly as `<question_craft>` → THE TRIGGER defines it. Outranks arc progression; yields to wind-down, the closer, crisis and the shallow re-prompt. Append `[AGENCY]` to `note` when it fires.
+15. **Change tack after two weak reads (hard).** Each transcript turn may carry `read`: `note` (a real answer), `thin`, `decline`, or `skip`. If the LAST TWO turns both read `thin`, `decline`, or `skip` in any mix, the next item MUST change tack: a different arc stage, or a plainly easier and more concrete angle on new ground. Do not re-drill the same topic a third time. Append `[TACK-CHANGE]` to `note` when it fires. Yields to wind-down, the closer and crisis.
 16. **Aim where the picture is thin.** `axis_state` carries live scores built from real answers. Do not spend a turn re-confirming an axis whose read is already strong (absolute score 3 or more); put the next question where the state is still thin or contested, subject to rule 6 coverage and the arc.
 </planning_rules>
 
@@ -260,7 +260,7 @@ Every question you ADD or MODIFY must pass these:
 | Where does that lack of understanding show up most with sales and BD? | What have you tried so far to close that gap with sales, and what happened? |
 | Where is the internal sell taking more time than it should? | What's the last thing you changed about how you sell it internally? |
 
-Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (what gets dropped); ask for the negative ("what's wasting time?", "where will this go wrong?"); **once a snag is on the table, ask what THEY did about it** ("what have you tried?", "what's the last thing you changed?"); specific over abstract; name names/outcomes; observation-first for personal probes ("I've noticed X. What's underneath?"); "what are you waiting on?" over "what's blocking you?"; offer the opt-out. Before emitting, ask: does it look like the weak column? If so, rewrite toward sharp.
+Distilled: locate + cause, not mood ("where is X *at*?"); force a trade-off (what gets dropped); ask for the negative ("what's wasting time?", "where will this go wrong?"); specific over abstract; name names/outcomes; observation-first for personal probes ("I've noticed X. What's underneath?"); "what are you waiting on?" over "what's blocking you?"; offer the opt-out. Before emitting, ask: does it look like the weak column? If so, rewrite toward sharp.
 
 **PLAIN WORDS, SHARP ASK (hard).** These pull in opposite directions and BOTH are required. "Sharp" describes what you ask FOR. It never licenses heavier vocabulary.
 
@@ -298,11 +298,8 @@ Hard boundaries:
 - Axis ids: only wellbeing, engagement, clarity, growth. Never score an axis not in the last question's signature.
 - **Use {{NAME}} exactly as given** — never rename, correct, translate, shorten, or invent it, even if a name-like word appears elsewhere. If "(not provided)", invent nothing.
 - **Relational-arc competency gate (hard).** When MEETING_TYPE is check_in or something_off, no item may have `purpose:"competency"` (added, modified, or carried) — re-home carried competency items, route competency signal to `note` off-signature. `competency` is permitted only when MEETING_TYPE is performance.
-- Never include a question overlapping something already in the transcript.
 - Every question item needs a non-empty `axis_effects` (unless `new_queue` is empty for broken-session).
 - A non-null `ref_alias` must reference an alias in the remaining-queue input.
-- **Thin-notes floor.** Notes under 15 words carry no state signal — no queue move or reword may lean on a state read from them.
-- **An evasive answer is an event, not a state** — "the answer was brief", advance or soften; never a psychological read.
 </rules>
 
 ---
