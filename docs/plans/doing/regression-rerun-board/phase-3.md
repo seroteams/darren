@@ -2,8 +2,13 @@
 
 **Part of:** [plan.md](plan.md) · **Status:** ✅
 
-## ✅ GREEN-LIT 2026-08-01 — closed UNWALKED on Carl's "a" (commit 0fb425bf)
-No second rerun was pressed, so `judge.json` exists on no run and **the AI reviewer has still never made a real model call**. Everything around it is proven offline (228/228, 10 judge tests + 4 runner tests) and the column renders correctly on the real screen, showing "Not scored" for the one pre-judge run rather than inventing a verdict. The first real proof will be the next rerun anyone presses.
+## ✅ GREEN-LIT 2026-08-01 — and PROVEN on a real reviewer call 2026-08-02 (commit 0fb425bf)
+Correction to the note written at sign-off: at that moment no rerun had been pressed, so this was recorded as closed unwalked. Carl then pressed Rerun. Batch `2026Aug02-0140`, case `biweekly-priya`:
+- trust **PASS, not regressed** (unchanged against the ratified baseline)
+- reviewer **4/5, overall "improved"**, all eight dimensions scored, one marked fail (`grounded`), three moved up (`evidence`, `no_overreach`, `briefing_usable`), no flags
+- its reason quoted the actual transcript: *"adds explicit evidence in places the previous run left blank, especially the engagement read quoting 'flatter this week' and 'stuck doing similar work for months'"*
+
+So the head-to-head works against a genuine earlier run, and the reasons are specific rather than generic. The reviewer is proven.
 
 ## Built (2026-08-01)
 - `backend/engine/regression-judge.ts` (+test) — one strong-tier call per rerun (`modelFor("judge")`, schema-constrained, `costLabel: "regression-judge"`). Rubric is the eight `REVIEW_DIM_KEYS` with the same hints the review tool shows, plus the calibration lines borrowed from `scripts/eval-judge.js` so both judges score on one curve: trust and honesty failures score 2 or below, minor nits do not drop the score, length is never rewarded. Head-to-head against the previous rerun of the same case, with a one-line reason.

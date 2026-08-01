@@ -39,9 +39,11 @@
 
 **Phase 2 ✅ green-lit 2026-07-31, PROVEN on a real run 2026-08-01** (commit 212f7346). Carl pressed Rerun on Priya: the run completed end to end and came back **PASS with no hard fails, matching the ratified baseline exactly**, at **$0.11** over 6 model calls. That also settles Risks #2 (calibration): the in-app dynamic lane agrees with a baseline ratified on the CLI lane, at least for this case. No `npm run gate` baseline was run (~$3, paid) and none is needed.
 
-**Phase 3 ✅ green-lit 2026-08-01, closed UNWALKED** (commit 0fb425bf). No rerun was pressed after it landed, so **the AI reviewer has never made a real model call** — `judge.json` exists on no run. Proven offline only: 228/228 with 10 judge tests and 4 runner tests, including that a glowing reviewer cannot rescue a failed trust check. The column renders correctly and honestly reports "Not scored" for the one pre-judge run.
+**Phase 3 ✅ green-lit 2026-08-01, PROVEN on a real reviewer call 2026-08-02** (commit 0fb425bf). Batch `2026Aug02-0140` on Priya: trust PASS unchanged, reviewer **4/5 "improved"**, eight dimensions scored, three moved up, and the reason quoted the real transcript. The head-to-head against the earlier run works.
 
-**Phase 4 🔨 next** — Rerun all, batches and history.
+**Phase 4 🔨 built, awaiting Carl.** Rerun all + batch history. The Rerun-all button is verified on screen; the history section needs the API process restarted before it appears (the running one predates the commit). **A real defect was found and fixed while checking this:** every stage except the planner was missing from a run's cost tracker, so the board under-reported spend by about half and the $6 batch ceiling could not see it. Now the whole run is billed through `cost.runWithTracker`, guarded by a test proven to go red without the fix.
+
+**Phase 5 next** — live behaviour + bless baseline.
 
 **How a bad result turns into a fix (Phase 6, in plain English):** the board says a case got worse → "What now" explains it without jargon and lists what changed in the engine since that case was last good → Copy fix brief gives a self-contained prompt for a fresh Claude chat (case, evidence, suspect files, and the rule that it proposes options rather than applying them) → after the fix, Rerun this case from the same panel and watch the arrow flip. The other branch is there too: if the new behaviour is actually right, bless it as the new normal.
 Free machinery this leans on, already in the repo: `diffLocks()` in `backend/engine/pipeline-lock.ts` already names changed prompt files in plain English ("Evaluation / briefing"); `FIX_MAP` in `admin/src/ui/review-serialize.js` already maps each failing dimension to the files that own it; `POST /api/v1/suggest-fix` already gives an in-app AI read.

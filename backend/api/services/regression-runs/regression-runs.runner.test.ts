@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createRegressionRunner, judgeAgainstBaseline, meetingTypeIndexFor } from "./regression-runs.runner.ts";
 import type { RegressionRunnerDeps, RunnableScenario, RunnerHooks } from "./regression-runs.runner.ts";
 import { initState } from "../../../engine/axes.ts";
+import * as cost from "../../../engine/cost.ts";
 import type { Session } from "../../../shared/session.types.ts";
 import type { Question } from "../../../shared/question.types.ts";
 
@@ -296,6 +297,40 @@ test("the reviewer cannot change the safety verdict", async () => {
   assert.equal(out.judge?.score, 5);
   assert.equal(out.grade?.regressed, true, "a glowing reviewer must not rescue a failed trust check");
   assert.deepEqual(out.grade?.newHardFails, ["PRIVATE_NOTE_LEAK"]);
+});
+
+test("every paid stage is billed to THIS run, not just the planner turns", async () => {
+  // Regression guard: cost.json once held only the plan-turn calls, so a run
+  // looked half its real price and the batch ceiling could not see the rest.
+  const billed: string[] = [];
+  const tracker = {
+    record: (stage: string) => {
+      billed.push(stage);
+    },
+    summary: () => ({ usd_total: 0.34, calls: [] }),
+  };
+  const h = harness({ budget: 2 });
+  (h.session as unknown as { tracker: unknown }).tracker = tracker;
+
+  // Each fake stage bills through the engine's own recorder, exactly as a real
+  // model call does — so this proves the tracker is active around all of them.
+  const bill = (stage: string) => cost.record(stage, "gpt-test", undefined, 0);
+  h.deps.engine.ensureRoleProfile = async () => (bill("00b-role-profile"), null);
+  h.deps.engine.generateFocusPoints = async () => (bill("01-focus-points"), { focus_points: [{ id: "f1" }] }) as never;
+  h.deps.engine.generatePreparation = async () => (bill("01b-preparation"), { brief: {} }) as never;
+  h.deps.engine.generateBank = async () => (bill("03-question-bank"), [q("b1"), q("b2")]);
+  h.deps.engine.planTurn = async (input) => {
+    bill("04-plan-turn");
+    return { assessment: { deltas: {}, note: "n" }, newQueue: (input.remainingQueue as Question[]) ?? [] };
+  };
+  h.deps.engine.evaluate = async () => (bill("05-evaluation"), { summary: "b" }) as never;
+  h.deps.judge = async () => (bill("regression-judge"), { score: 4, dimensions: [], head_to_head: null, flags: [] });
+
+  await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
+
+  for (const stage of ["00b-role-profile", "01-focus-points", "01b-preparation", "03-question-bank", "04-plan-turn", "05-evaluation", "regression-judge"]) {
+    assert.ok(billed.includes(stage), `${stage} should be billed to the run`);
+  }
 });
 
 // --- the baseline rule, kept identical to scripts/gate.js -------------------

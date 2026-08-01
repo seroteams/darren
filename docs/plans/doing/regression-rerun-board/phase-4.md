@@ -10,7 +10,13 @@
 
 Offline proof: `npm test` 230/230, typecheck clean, copy and token lints clean. 6 new batch tests, including that a missing prompt version never claims a change it cannot prove.
 Real-data proof: ran the real repo and service against the actual run folders. Output: 8 cases, `canRerun: true`, one batch reading **"2026Aug01-1800 | 1 case · 1 OK · $0.11 | prompts: 7929fd12 | changed: false"**, Priya's trust cell "OK" and committee "Not scored". So the history path works on real runs, not just fakes.
-**Not verified:** the rendered screen. All five dev-server slots for this folder were taken by other chats, so the new Rerun-all button and history table have not been seen in a browser. The data behind them is proven above; the DOM is not.
+On-screen verification (2026-08-02, localhost:3000): the **"Rerun all 8 (about $1.20 to $3.20)"** button renders, and Priya's row reads `Sun 2 Aug 2026 · OK · 4/5 better · Not reviewed` with Open run and Rerun. **The history section did NOT render** — not a code fault: the API process Carl is running was started before this phase was committed, so its response carries no `batches` field and `historyHtml` correctly renders nothing. Restarting the app shows it. The history data itself is proven by 6 unit tests plus a direct run of the real repo and service against the real run folders.
+
+## Defect found and fixed here (2026-08-02)
+The first two reruns' `cost.json` held **only the six planner calls**. Focus points, preparation, the question bank, the evaluation and the AI reviewer were all missing, because only `planTurn` ran inside `cost.setActive(session.tracker)` — a shape inherited from the persona runner. A comparable web run of the same length records 10 calls at $0.199; the regression runs recorded 6 at $0.11.
+That made two user-facing numbers wrong: the per-run cost shown on the board, and the **$6 batch ceiling**, which could not see roughly half the spend it exists to cap.
+Fixed by wrapping the whole run in `cost.runWithTracker(session.tracker, ...)` (the AsyncLocalStorage helper the engine already provides, and which its own comment names as the race-free replacement for the setActive dance). The per-turn setActive/restore is now redundant and removed. A new test bills every stage through the engine's real `cost.record` and asserts all seven land on the run's tracker; it was confirmed to go RED without the fix.
+Note: the two runs already taken keep their under-counted totals. Only runs from here on are accurate. The same shape likely affects `persona-runs.runner.ts` (the Test engine's "$0.35" line) — parked, not touched, since it is another feature's lane.
 
 ## Goal
 One click reruns all 8 cases as a batch; history shows every past batch with cost, verdicts and the prompt-version fingerprint, so a red batch names what changed.

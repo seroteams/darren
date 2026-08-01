@@ -187,8 +187,6 @@ export function createRegressionRunner(deps: RegressionRunnerDeps): RegressionRu
     const remainingBudget = Math.max(0, session.totalBudget - turn);
 
     let planResult: PlanResult;
-    const prevTracker = cost.getActive();
-    cost.setActive(session.tracker);
     try {
       if (!session.focusPointsResult) throw new Error("focus points not ready");
       planResult = await deps.engine.planTurn({
@@ -218,8 +216,6 @@ export function createRegressionRunner(deps: RegressionRunnerDeps): RegressionRu
         prompt: "",
         response: "",
       };
-    } finally {
-      cost.setActive(prevTracker);
     }
 
     applyDeltas(session.axisState, {
@@ -328,6 +324,13 @@ export function createRegressionRunner(deps: RegressionRunnerDeps): RegressionRu
     const session = deps.sessions.require(sessionId);
     const stageOpts: StageOpts = { session: { id: session.id, dir: session.dir } };
 
+    // EVERY paid call in this run — role profile, focus, prep, bank, each planner
+    // turn, the evaluation and the AI reviewer — is billed to THIS run's tracker.
+    // Without this only the planner turns were counted, so cost.json understated a
+    // run by about half and the batch ceiling could not see the rest. runWithTracker
+    // (AsyncLocalStorage) rather than setActive: it survives concurrency and needs
+    // no restore dance.
+    return cost.runWithTracker(session.tracker, async () => {
     // Same tolerance as the live pre-warm: a missing role profile degrades, not dies.
     hooks.onProgress({ stageLabel: "Role profile" });
     await deps.engine.ensureRoleProfile(session.ctx, stageOpts).catch((e: unknown) => {
@@ -502,5 +505,6 @@ export function createRegressionRunner(deps: RegressionRunnerDeps): RegressionRu
     }
 
     return { sessionId, costUsd: summary.usd_total, grade, judge: null };
+    });
   };
 }
