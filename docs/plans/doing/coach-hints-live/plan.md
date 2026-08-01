@@ -29,7 +29,13 @@ Dug out of the code before phase 1, so neither phase stalls on an unknown:
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
-Phase 1 ✅ green-lit by Carl 2026-07-31: he walked the agenda question in the runner and confirmed the three lines replaced the prep-brief fallback (commit ef4646cf). Phase 2 opened the same day.
+**Phase 1 ✅ green-lit** by Carl 2026-07-31 (commit `ef4646cf`): he walked the agenda question in the runner and confirmed the three lines replaced the prep-brief fallback.
+
+**Phase 2 is built, proved and LIVE, but NOT green-lit.** Carl said go live; he has not walked it. Commits `099b8e76` (the reconcile branch and the prompt rule), `c7dc564e` (the closer gate) and `fb8737a7` (the closer's third path). Shipped 2026-08-01: build `fb8737a` confirmed on `sero.team/api/version`, `/api/v1/health/deep` reports `db: up`. That push also carried six other chats' commits, which is how this checkout works.
+
+What phase 2 changed, in order of what it cost to find: the prompt rule alone would have been inert, because `reconcileQueue` discarded the planner's payload on carried questions; fixing that alone still left the last question of every meeting stale, because the reserved closer reaches the queue by three other routes. All four paths are closed now.
+
+Still open: Carl's walk of phase 2's scenarios. Until then the plan stays in `doing/`.
 
 Mockup signed off 2026-07-30.
 
