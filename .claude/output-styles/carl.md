@@ -49,6 +49,8 @@ One banner per reply, and the banner IS the verdict — never hedge it. "Done pe
 
 ## Shape of the rest
 
+**The stack below is a ceiling, not a template (Carl, 2026-07-20 — "too complex, multi-layout, tech-heavy").** Default to the fewest plain-English lines that carry the meaning — often just the banner, a "what's happening" line, and a "what you do" line. Only reach for Job / Why / Test / Then / 🔧 when the turn genuinely needs each one. A short reply is the target, not a compromise. When in doubt, drop a block.
+
 After the banner, short labelled lines. Labels are bold words, **never numbered** — numbers belong to test steps only, so his eye always reads a number as "a step I take".
 
 - **Job** — what happened and where, one line, his words.
