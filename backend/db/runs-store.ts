@@ -411,9 +411,10 @@ export async function pgListRegressionRuns(orgId?: string | null): Promise<unkno
       caseId: parts.slice(2).join(":"),
       finishedAt: r.lastSeenAt,
       grade: artifactValue(pick(arts, "", "trust-checks.json")),
-      judge: artifactValue(pick(arts, "", "judge.json")), // filled from Phase 3
+      judge: artifactValue(pick(arts, "", "judge.json")),
       review: reviewSummaryFromValue(r.review),
       cost: costFromState(r.state),
+      fingerprint: r.state.fingerprint ?? null,
     });
   }
   return out;

@@ -7,6 +7,8 @@ import {
   kindChip,
   lastRerunCell,
   batchProgressLine,
+  batchLine,
+  rerunAllLabel,
   rerunLabel,
   reviewCell,
   thinAnswerNote,
@@ -153,6 +155,21 @@ test("adversarial cases are chipped, happy ones are not", () => {
 test("the rerun control states its cost, or says reruns are off", () => {
   assert.match(rerunLabel(true), /\$0\.25/);
   assert.equal(rerunLabel(false), "Reruns are off here");
+});
+
+test("Rerun all states the whole-suite cost on the control", () => {
+  const label = rerunAllLabel(8);
+  assert.match(label, /Rerun all 8/);
+  assert.match(label, /\$1\.20 to \$3\.20/);
+});
+
+test("a history row reads as a sentence, and hides counts that are zero", () => {
+  assert.equal(batchLine({ caseCount: 8, ok: 8, regressed: 0, ungraded: 0, costUsd: 1.6 }), "8 cases · 8 OK · $1.60");
+  assert.equal(
+    batchLine({ caseCount: 8, ok: 6, regressed: 1, ungraded: 1, costUsd: 1.6 }),
+    "8 cases · 6 OK · 1 regressed · 1 not graded · $1.60",
+  );
+  assert.match(batchLine({ caseCount: 1, ok: 1, regressed: 0, ungraded: 0, costUsd: 0.11 }), /^1 case /);
 });
 
 test("the summary line counts what has not been rerun", () => {

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createRegressionRunsService } from "./regression-runs.service.ts";
+import { buildBatches, createRegressionRunsService } from "./regression-runs.service.ts";
 import type { RegressionRunsRepo, RerunRow, SuiteCase } from "./regression-runs.repo.ts";
 
 function suiteCase(over: Partial<SuiteCase> = {}): SuiteCase {
@@ -59,4 +59,77 @@ test("canRerun comes from the injected policy, so live can switch paid reruns of
 test("an empty suite yields an empty board rather than throwing", async () => {
   const out = await createRegressionRunsService(fakeRepo([]), () => true).list();
   assert.deepEqual(out.cases, []);
+});
+
+// --- batch history ----------------------------------------------------------
+
+function rerunRow(over: Partial<RerunRow> = {}): RerunRow {
+  return {
+    caseId: "biweekly-priya",
+    runId: "r1",
+    batchId: "2026Aug01-1800",
+    finishedAt: 1_700_000_000,
+    grade: { actual: { verdict: "PASS" }, regressed: false },
+    judge: null,
+    review: null,
+    cost: { usd: 0.11 },
+    fingerprint: { promptVersion: "aaaa1111" },
+    ...over,
+  };
+}
+
+test("a batch counts its cases, its verdicts and what it cost", () => {
+  const batches = buildBatches([
+    rerunRow({ caseId: "a", runId: "r1" }),
+    rerunRow({ caseId: "b", runId: "r2", grade: { actual: { verdict: "FAIL" }, regressed: true } }),
+    rerunRow({ caseId: "c", runId: "r3", grade: null }),
+  ]);
+
+  assert.equal(batches.length, 1);
+  assert.equal(batches[0]!.caseCount, 3);
+  assert.equal(batches[0]!.ok, 1);
+  assert.equal(batches[0]!.regressed, 1);
+  assert.equal(batches[0]!.ungraded, 1);
+  assert.ok(Math.abs(batches[0]!.costUsd - 0.33) < 1e-9);
+});
+
+test("batches come back newest first", () => {
+  const batches = buildBatches([
+    rerunRow({ batchId: "older", finishedAt: 1_000 }),
+    rerunRow({ batchId: "newer", finishedAt: 9_000 }),
+  ]);
+  assert.deepEqual(batches.map((b) => b.batchId), ["newer", "older"]);
+});
+
+test("a batch whose prompts differ from the one before it is flagged", () => {
+  const batches = buildBatches([
+    rerunRow({ batchId: "newer", finishedAt: 9_000, fingerprint: { promptVersion: "bbbb2222" } }),
+    rerunRow({ batchId: "older", finishedAt: 1_000, fingerprint: { promptVersion: "aaaa1111" } }),
+  ]);
+  assert.equal(batches[0]!.promptsChanged, true, "the newer batch ran on changed prompts");
+  assert.equal(batches[1]!.promptsChanged, false, "the oldest batch has nothing to compare with");
+});
+
+test("identical prompts across batches are not flagged as a change", () => {
+  const batches = buildBatches([
+    rerunRow({ batchId: "newer", finishedAt: 9_000 }),
+    rerunRow({ batchId: "older", finishedAt: 1_000 }),
+  ]);
+  assert.equal(batches[0]!.promptsChanged, false);
+});
+
+test("a missing prompt version never claims a change it cannot prove", () => {
+  const batches = buildBatches([
+    rerunRow({ batchId: "newer", finishedAt: 9_000, fingerprint: {} }),
+    rerunRow({ batchId: "older", finishedAt: 1_000 }),
+  ]);
+  assert.equal(batches[0]!.promptsChanged, false);
+  assert.equal(batches[0]!.promptVersion, null);
+});
+
+test("the board carries its batches alongside the cases", async () => {
+  const svc = createRegressionRunsService(fakeRepo([suiteCase()], [rerunRow({ caseId: "leak-devon" })]), () => true);
+  const out = await svc.list();
+  assert.equal(out.batches.length, 1);
+  assert.equal(out.batches[0]!.batchId, "2026Aug01-1800");
 });

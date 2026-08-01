@@ -24,12 +24,14 @@ import { createSkeleton } from "../ui/skeleton.js";
 import { button } from "../ui/button.ts";
 import { X, Check, Sparkles } from "lucide";
 import {
+  batchLine,
   batchProgressLine,
   boardSummary,
   committeeCell,
   committeeDetail,
   kindChip,
   lastRerunCell,
+  rerunAllLabel,
   rerunLabel,
   reviewCell,
   thinAnswerNote,
@@ -66,6 +68,36 @@ export function unmount() {
 
 function cell(c) {
   return `<span class="${TONE_CLASS[c.tone] || ""}">${esc(c.label)}</span>`;
+}
+
+// Past batches: what each press of Rerun produced, newest first, with the engine
+// version so a red batch points at what moved.
+function historyHtml(batches) {
+  if (!batches.length) return "";
+  return `
+    <div class="l-stack l-stack--2">
+      <h2 class="h3">Past reruns</h2>
+      <div class="um-table-wrap">
+        <table class="um-table">
+          <thead><tr><th>When</th><th>Result</th><th>Engine version</th></tr></thead>
+          <tbody>
+            ${batches
+              .map(
+                (b) => `
+              <tr>
+                <td>${esc(b.finishedAt ? formatDate(b.finishedAt) : b.batchId)}</td>
+                <td>${esc(batchLine(b))}</td>
+                <td>
+                  <span class="text-sm text-ink-mute">${esc(b.promptVersion ? b.promptVersion.slice(0, 8) : "unknown")}</span>
+                  ${b.promptsChanged ? ` <span class="chip chip--gold">prompts changed</span>` : ""}
+                </td>
+              </tr>`,
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
 }
 
 function rowHtml(c, canRerun) {
@@ -167,6 +199,7 @@ export async function mount(root, opts = {}) {
         </div>
       </header>
       <div class="safety-strip-host"></div>
+      <div class="rerun-all-host"></div>
       <div class="run-host"></div>
       <div class="thinking-host min-h-[60px]"></div>
       <div class="result-host"></div>
@@ -186,6 +219,7 @@ export async function mount(root, opts = {}) {
   );
   const resultHost = root.querySelector(".result-host");
   const runHost = root.querySelector(".run-host");
+  const rerunAllHost = root.querySelector(".rerun-all-host");
 
   let canRerun = true;
 
@@ -208,6 +242,14 @@ export async function mount(root, opts = {}) {
       return;
     }
 
+    rerunAllHost.innerHTML = canRerun
+      ? `<div class="l-row l-row--3 items-center">
+           ${button({ label: rerunAllLabel(cases.length), hook: "js-rerun-all" })}
+           <span class="text-sm text-ink-mute">Runs them one at a time, about 10 to 20 minutes. Stops itself at $6.</span>
+         </div>`
+      : "";
+    rerunAllHost.querySelector(".js-rerun-all")?.addEventListener("click", () => void startRerun(null));
+
     resultHost.innerHTML = `
       <div class="l-stack l-stack--3">
         <p class="text-sm text-ink-mute">${esc(boardSummary(cases))}</p>
@@ -225,6 +267,7 @@ export async function mount(root, opts = {}) {
             </tbody>
           </table>
         </div>
+        ${historyHtml(Array.isArray(board?.batches) ? board.batches : [])}
         <p class="text-sm text-ink-mute">
           ${
             canRerun
@@ -249,10 +292,11 @@ export async function mount(root, opts = {}) {
     });
   }
 
+  // caseId null means the whole suite — that is the Rerun all button.
   async function startRerun(caseId) {
     runHost.innerHTML = `<div class="card">Starting…</div>`;
     try {
-      await startRegressionReruns([caseId]);
+      await startRegressionReruns(caseId ? [caseId] : []);
     } catch (e) {
       runHost.innerHTML = `<div class="card"><span class="bench-status--bad">${esc(e?.message || "Couldn't start the rerun.")}</span></div>`;
       return;

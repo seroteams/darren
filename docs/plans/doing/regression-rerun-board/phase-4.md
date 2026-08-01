@@ -1,6 +1,16 @@
 # Phase 4 — Rerun all, batches, history
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+
+## Built (2026-08-01)
+- Service: `buildBatches()` groups reruns by batchId, newest first, counting OK / regressed / not-graded and summing real cost. Each batch carries the engine's `promptVersion`, and `promptsChanged` is set when it differs from the batch before it. That flag is Majors' ask: a red batch points at the fact the prompts moved.
+- Stores: `fingerprint` now rides the rerun row on both lanes (`run-history.ts` and `runs-store.ts`).
+- Admin: "Rerun all 8 (about $1.20 to $3.20)" above the table with the ceiling stated, batch progress reading "Case 3 of 8: thin-sam", and a "Past reruns" table (when, result, engine version, plus a "prompts changed" chip).
+- The batch machinery itself (sequential, one bad case does not stop it, $6 ceiling) landed in Phase 2 and is unchanged.
+
+Offline proof: `npm test` 230/230, typecheck clean, copy and token lints clean. 6 new batch tests, including that a missing prompt version never claims a change it cannot prove.
+Real-data proof: ran the real repo and service against the actual run folders. Output: 8 cases, `canRerun: true`, one batch reading **"2026Aug01-1800 | 1 case · 1 OK · $0.11 | prompts: 7929fd12 | changed: false"**, Priya's trust cell "OK" and committee "Not scored". So the history path works on real runs, not just fakes.
+**Not verified:** the rendered screen. All five dev-server slots for this folder were taken by other chats, so the new Rerun-all button and history table have not been seen in a browser. The data behind them is proven above; the DOM is not.
 
 ## Goal
 One click reruns all 8 cases as a batch; history shows every past batch with cost, verdicts and the prompt-version fingerprint, so a red batch names what changed.

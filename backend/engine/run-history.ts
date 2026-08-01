@@ -217,9 +217,13 @@ function listRegressionRuns(orgId?: string | null) {
       caseId: parts.slice(2).join(":"),
       finishedAt: asNumber(state.lastSeenAt),
       grade: readJsonAt(dir, "trust-checks.json"),
-      judge: readJsonAt(dir, "judge.json"), // filled from Phase 3; null until then
+      judge: readJsonAt(dir, "judge.json"),
       review: reviewSummaryOf(dir),
       cost: costFromState(state),
+      // The engine's own version stamp. Two batches with different prompt
+      // versions mean the prompts moved between them — that is what turns a red
+      // batch into "here is what changed".
+      fingerprint: asRecord(state.fingerprint),
     });
   }
   out.sort((a, b) => asNumber(b.finishedAt) - asNumber(a.finishedAt));

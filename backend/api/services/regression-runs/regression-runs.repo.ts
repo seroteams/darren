@@ -60,6 +60,8 @@ export interface RerunRow {
   /** Carl's own review status, straight off the run's review sidecar. */
   review: unknown;
   cost: unknown;
+  /** The engine's version stamp at the time of the run (promptVersion et al). */
+  fingerprint?: unknown;
 }
 
 export interface RegressionRunsRepo {

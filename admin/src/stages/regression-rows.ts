@@ -148,6 +148,28 @@ export function batchProgressLine(job: {
   return many ? `Case ${job.caseIndex} of ${job.caseTotal}: ${job.caseId}` : job.caseId;
 }
 
+/** What "Rerun all" says, with the whole-suite cost on the control itself. */
+export function rerunAllLabel(caseCount: number): string {
+  const low = (caseCount * 0.15).toFixed(2);
+  const high = (caseCount * 0.4).toFixed(2);
+  return `Rerun all ${caseCount} (about $${low} to $${high})`;
+}
+
+/** One history row, in the words a person would read. */
+export function batchLine(b: {
+  caseCount: number;
+  ok: number;
+  regressed: number;
+  ungraded: number;
+  costUsd: number;
+}): string {
+  const bits = [`${b.caseCount} case${b.caseCount === 1 ? "" : "s"}`, `${b.ok} OK`];
+  if (b.regressed) bits.push(`${b.regressed} regressed`);
+  if (b.ungraded) bits.push(`${b.ungraded} not graded`);
+  bits.push(`$${b.costUsd.toFixed(2)}`);
+  return bits.join(" · ");
+}
+
 /** One plain line under the heading, so the screen explains itself with no runs on it. */
 export function boardSummary(cases: BoardCase[]): string {
   if (!cases.length) return "No test cases found.";

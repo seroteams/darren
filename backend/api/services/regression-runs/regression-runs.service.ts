@@ -23,8 +23,24 @@ export interface BoardRow {
   lastRerun: RerunRow | null;
 }
 
+/** One press of Rerun all (or of a single Rerun), summarised for the history list. */
+export interface BatchRow {
+  batchId: string;
+  finishedAt: number | null;
+  caseCount: number;
+  ok: number;
+  regressed: number;
+  ungraded: number;
+  costUsd: number;
+  /** The engine's prompt version for this batch, short enough to read. */
+  promptVersion: string | null;
+  /** True when the prompts differ from the batch before it — the "what changed" cue. */
+  promptsChanged: boolean;
+}
+
 export interface BoardResult {
   cases: BoardRow[];
+  batches: BatchRow[];
   /** False on the live site: paid reruns are local-only until Carl flips it (Phase 5). */
   canRerun: boolean;
 }
@@ -55,6 +71,73 @@ function toRow(c: SuiteCase, reruns: RerunRow[]): BoardRow {
   };
 }
 
+function asRecord(v: unknown): Record<string, unknown> {
+  return v && typeof v === "object" && !Array.isArray(v) ? (v as Record<string, unknown>) : {};
+}
+
+function usdOf(cost: unknown): number {
+  const c = asRecord(cost);
+  const n = typeof c.usd === "number" ? c.usd : typeof c.usd_total === "number" ? c.usd_total : 0;
+  return n;
+}
+
+/**
+ * Group reruns into the batches that produced them, newest first, and mark the
+ * batches where the prompts moved. That last flag is what turns a red batch from
+ * "something broke" into "something changed, and here is roughly where".
+ */
+export function buildBatches(reruns: RerunRow[]): BatchRow[] {
+  const byBatch = new Map<string, RerunRow[]>();
+  for (const r of reruns) {
+    if (!r.batchId) continue;
+    const list = byBatch.get(r.batchId);
+    if (list) list.push(r);
+    else byBatch.set(r.batchId, [r]);
+  }
+
+  const rows: BatchRow[] = [];
+  for (const [batchId, list] of byBatch) {
+    let ok = 0;
+    let regressed = 0;
+    let ungraded = 0;
+    let costUsd = 0;
+    let finishedAt: number | null = null;
+    let promptVersion: string | null = null;
+
+    for (const r of list) {
+      const grade = asRecord(r.grade);
+      if (!asRecord(grade.actual).verdict) ungraded += 1;
+      else if (grade.regressed) regressed += 1;
+      else ok += 1;
+      costUsd += usdOf(r.cost);
+      if (r.finishedAt && (!finishedAt || r.finishedAt > finishedAt)) finishedAt = r.finishedAt;
+      const pv = asRecord(r.fingerprint).promptVersion;
+      if (!promptVersion && typeof pv === "string") promptVersion = pv;
+    }
+
+    rows.push({
+      batchId,
+      finishedAt,
+      caseCount: list.length,
+      ok,
+      regressed,
+      ungraded,
+      costUsd,
+      promptVersion,
+      promptsChanged: false, // set below, once the batches are in order
+    });
+  }
+
+  rows.sort((a, b) => (b.finishedAt || 0) - (a.finishedAt || 0));
+  // Newest first, so each batch compares against the one AFTER it in the list.
+  for (let i = 0; i < rows.length - 1; i += 1) {
+    const mine = rows[i]!;
+    const older = rows[i + 1]!;
+    mine.promptsChanged = Boolean(mine.promptVersion && older.promptVersion && mine.promptVersion !== older.promptVersion);
+  }
+  return rows;
+}
+
 export function createRegressionRunsService(
   repo: RegressionRunsRepo,
   canRerun: () => boolean,
@@ -65,6 +148,7 @@ export function createRegressionRunsService(
       const reruns = await repo.listReruns(orgId);
       return {
         cases: suite.map((c) => toRow(c, reruns)),
+        batches: buildBatches(reruns),
         canRerun: canRerun(),
       };
     },
