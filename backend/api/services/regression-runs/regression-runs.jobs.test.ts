@@ -26,6 +26,7 @@ function deps(over: Partial<RegressionJobsDeps> = {}): RegressionJobsDeps {
     sessionId: `sess-${caseId}`,
     costUsd: 0.4,
     grade: grade(false),
+    judge: null,
   });
   return { knownCaseIds: () => KNOWN, hasApiKey: () => true, runner, now: () => 1_700_000_000_000, ...over };
 }
@@ -71,7 +72,7 @@ test("the happy path: every case runs in order and the batch reports done", asyn
     deps({
       runner: async ({ caseId }) => {
         seen.push(caseId);
-        return { sessionId: `sess-${caseId}`, costUsd: 0.4, grade: grade(false) };
+        return { sessionId: `sess-${caseId}`, costUsd: 0.4, grade: grade(false), judge: null };
       },
     })
   );
@@ -91,7 +92,7 @@ test("one bad case does not kill the batch", async () => {
     deps({
       runner: async ({ caseId }) => {
         if (caseId === "leak-devon") throw new Error("engine exploded");
-        return { sessionId: `sess-${caseId}`, costUsd: 0.4, grade: grade(false) };
+        return { sessionId: `sess-${caseId}`, costUsd: 0.4, grade: grade(false), judge: null };
       },
     })
   );
@@ -109,7 +110,7 @@ test("the batch stops itself at the cost ceiling instead of finishing the list",
   const svc = createRegressionJobsService(
     deps({
       knownCaseIds: () => ["a", "b", "c", "d"],
-      runner: async ({ caseId }) => ({ sessionId: `s-${caseId}`, costUsd: BATCH_CEILING_USD, grade: grade(false) }),
+      runner: async ({ caseId }) => ({ sessionId: `s-${caseId}`, costUsd: BATCH_CEILING_USD, grade: grade(false), judge: null }),
     })
   );
   await svc.start(["a", "b", "c", "d"], null);
@@ -126,7 +127,7 @@ test("progress names the case and its place in the batch", async () => {
       runner: async ({ caseId }, hooks) => {
         hooks.onSession(`sess-${caseId}`);
         hooks.onProgress({ stageLabel: "Questions", turn: 4, total: 6 });
-        return { sessionId: `sess-${caseId}`, costUsd: 0.4, grade: grade(true) };
+        return { sessionId: `sess-${caseId}`, costUsd: 0.4, grade: grade(true), judge: null };
       },
     })
   );

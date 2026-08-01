@@ -226,6 +226,20 @@ function listRegressionRuns(orgId?: string | null) {
   return out;
 }
 
+// One rerun's conversation + recap, for the AI reviewer's head-to-head. Kept OUT
+// of listRegressionRuns because the board loads every case and a full transcript
+// per row would be pure weight.
+function regressionRunDetail(id: string, orgId?: string | null) {
+  const dir = findRunDir(id, orgId);
+  if (!dir) return null;
+  const state = readState(path.join(dir, STATE_FILE));
+  if (!isObjectRecord(state)) return null;
+  return {
+    transcript: Array.isArray(state.transcript) ? state.transcript : [],
+    briefing: state.briefing ?? null,
+  };
+}
+
 // Library (QA tooling): every FINISHED run (has a briefing), newest first, no
 // limit. Each row carries review badge inputs so the Library can show verdict +
 // failed count without opening the run.
@@ -672,6 +686,7 @@ export {
   listRecentRuns,
   listFinishedRuns,
   listRegressionRuns,
+  regressionRunDetail,
   summarizeRun,
   compareRun,
   readRunStages,

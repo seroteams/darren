@@ -27,6 +27,7 @@ import {
   batchProgressLine,
   boardSummary,
   committeeCell,
+  committeeDetail,
   kindChip,
   lastRerunCell,
   rerunLabel,
@@ -42,10 +43,11 @@ const TONE_CLASS = { muted: "text-ink-mute", ok: "", bad: "text-negative" };
 
 // The engine stages, in the order the runner drives them. Plain language, not
 // the internal stage names.
-const RUN_STEPS = ["Setup", "Focus", "Prep", "Interview", "Recap"];
+const RUN_STEPS = ["Setup", "Focus", "Prep", "Interview", "Recap", "Review"];
 
 function runStageIndex(label) {
   const l = String(label || "").toLowerCase();
+  if (l.includes("review")) return 5;
   if (l.includes("brief")) return 4;
   if (l.includes("question")) return 3;
   if (l.includes("prep")) return 2;
@@ -85,7 +87,10 @@ function rowHtml(c, canRerun) {
         ${cell(trustCell(c))}
         ${fails.length ? `<div class="text-sm text-negative">${fails.map((f) => esc(f)).join("<br>")}</div>` : ""}
       </td>
-      <td>${cell(committeeCell(c))}</td>
+      <td>
+        ${cell(committeeCell(c))}
+        ${(() => { const d = committeeDetail(c); return d ? `<div class="text-sm text-ink-mute reg-reason">${esc(d)}</div>` : ""; })()}
+      </td>
       <td>${cell(reviewCell(c))}</td>
       <td class="um-actions-td">
         <div class="l-row l-row--2">
@@ -223,7 +228,7 @@ export async function mount(root, opts = {}) {
         <p class="text-sm text-ink-mute">
           ${
             canRerun
-              ? "A rerun costs about $0.35 in AI and takes 1 to 2 minutes. One at a time."
+              ? "A rerun costs roughly $0.15 to $0.40 in AI (the engine plus one AI reviewer), depending on how long the meeting runs, and takes 1 to 2 minutes. One at a time."
               : "Paid reruns are switched off on the live site. The safety check above still runs here."
           }
         </p>

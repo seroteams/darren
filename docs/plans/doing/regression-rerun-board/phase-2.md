@@ -1,6 +1,10 @@
 # Phase 2 — Paid rerun of one case
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+**Part of:** [plan.md](plan.md) · **Status:** ✅
+
+## ✅ GREEN-LIT 2026-07-31 — and PROVEN on a real run 2026-08-01 (commit 212f7346)
+Correction to the note written at sign-off: at the time of closing no rerun had been pressed, so this was recorded as closed unwalked. Carl then pressed Rerun. Run `2026_Aug01_18-00-1317dfc05f304e65a800ac6610bf2d6a` (batch `2026Aug01-1800`, case `biweekly-priya`) completed end to end: trust verdict **PASS with no hard fails, exactly matching the ratified baseline, so not regressed**; `answersRanOut` false; 6 model calls; **$0.11**. The paid path is proven.
+Cost note: $0.11 for a bi-weekly is well under the $0.35 the button claimed (that figure was borrowed from the Test engine's persona line). Corrected in Phase 3 to "~$0.25" on the control and "roughly $0.15 to $0.40 depending on how long the meeting runs" underneath.
 
 ## Built (2026-07-31)
 - `backend/api/services/engine-job-slot.ts` (+test) — ONE shared paid-run slot; `persona-runs.service.ts` switched onto it, so Test engine and Regression can never spend at the same moment. Each tool names the other in the conflict message.

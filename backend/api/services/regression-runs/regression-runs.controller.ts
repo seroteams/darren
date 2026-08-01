@@ -20,6 +20,7 @@ import { generateBankWithFallback } from "../../../engine/question-generator.ts"
 import { planTurn } from "../../../engine/queue-manager.ts";
 import { evaluate } from "../../../engine/reviewer.ts";
 import { runTrustChecks } from "../../../../evals/trust-checks.ts";
+import { judgeRerun } from "../../../engine/regression-judge.ts";
 import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin } from "../../middleware/require-auth.ts";
 import { asRecord } from "../../../shared/guards.ts";
@@ -50,6 +51,9 @@ const runner = createRegressionRunner({
   // The SAME deterministic checks scripts/gate.js runs — one source of truth for
   // what "the engine broke trust" means, in the terminal and in the app.
   runTrustChecks: (input) => runTrustChecks(input as Parameters<typeof runTrustChecks>[0]),
+  // The AI reviewer. Advisory only — it can never change a trust verdict.
+  judge: (input) => judgeRerun(input),
+  loadBaselineRun: (caseId) => repo.loadPreviousRun(caseId),
 });
 
 const board = createRegressionRunsService(repo, () => resolveAppEnv() !== "live");

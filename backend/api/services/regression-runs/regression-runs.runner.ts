@@ -39,6 +39,7 @@ import type { Session, TranscriptEntry } from "../../../shared/session.types.ts"
 import type { Question } from "../../../shared/question.types.ts";
 import type { Briefing } from "../../../shared/briefing.types.ts";
 import type { CaseExpect } from "./regression-runs.repo.ts";
+import type { JudgeInput, JudgeResult, JudgeRunInput } from "../../../engine/regression-judge.ts";
 
 type StageOpts = { session: { id: string; dir: string } };
 
@@ -91,7 +92,7 @@ export interface RunnerHooks {
 export type RegressionRunner = (
   input: { caseId: string; batchId: string; orgId: string | null },
   hooks: RunnerHooks
-) => Promise<{ sessionId: string | null; costUsd: number | null; grade: RunGrade | null }>;
+) => Promise<{ sessionId: string | null; costUsd: number | null; grade: RunGrade | null; judge: JudgeResult | null }>;
 
 /** The trust-check boundary: the same deterministic checks scripts/gate.js runs. */
 export type TrustCheck = (input: {
@@ -124,6 +125,12 @@ export interface RegressionRunnerDeps {
     evaluate(input: unknown, opts: StageOpts): Promise<Briefing>;
   };
   runTrustChecks: TrustCheck;
+  /** The AI reviewer. Advisory only: it can never change a trust verdict, and a
+   *  failure here must not lose the paid run. */
+  judge?: (input: JudgeInput) => Promise<JudgeResult>;
+  /** The previous completed rerun of this case, for the head-to-head. Null on a
+   *  case's first-ever rerun. */
+  loadBaselineRun?: (caseId: string) => Promise<JudgeRunInput | null>;
   /** The run-log funnel. Injected so tests prove the loop without a run store;
    *  production always gets the real dual-write (Postgres + disk echo). */
   log?: {
@@ -453,6 +460,47 @@ export function createRegressionRunner(deps: RegressionRunnerDeps): RegressionRu
       console.warn("[regression-run] trust checks failed:", e instanceof Error ? e.message : String(e));
     }
 
-    return { sessionId, costUsd: summary.usd_total, grade };
+    // The AI reviewer. Runs AFTER grading so it can see the safety verdict, and
+    // is wrapped so a judge failure costs the run nothing: an ungraded rerun is
+    // still a rerun, and the money is already spent. Same tolerance gate.js gives
+    // its own judge.
+    let judged: JudgeResult | null = null;
+    if (deps.judge) {
+      hooks.onProgress({ stageLabel: "Reviewing" });
+      try {
+        const baseline = deps.loadBaselineRun ? await deps.loadBaselineRun(caseId) : null;
+        judged = await deps.judge({
+          scenario: {
+            name: scenario.name,
+            role: scenario.role,
+            seniority: scenario.seniority,
+            meetingType: scenario.meetingType,
+            managerNotes: scenario.managerNotes,
+          },
+          current: {
+            transcript: session.transcript.map((t) => ({
+              question: t.question.name,
+              answer: t.answer,
+              skipped: t.skipped,
+            })),
+            briefing: result,
+            trust: grade ? { verdict: grade.actual.verdict, hard_fails: grade.actual.hard_fails } : null,
+          },
+          baseline,
+        });
+        log.runRoot(session, "judge.json", judged);
+      } catch (e) {
+        console.warn("[regression-run] AI reviewer failed:", e instanceof Error ? e.message : String(e));
+        log.runRoot(session, "judge.json", { unavailable: true });
+      }
+      // The judge's own spend lands in the same tracker, so re-read the total.
+      const withJudge = session.tracker.summary();
+      session.briefing = { ...session.briefing, cost: withJudge };
+      log.runRoot(session, "cost.json", withJudge);
+      deps.sessions.persist(session);
+      return { sessionId, costUsd: withJudge.usd_total, grade, judge: judged };
+    }
+
+    return { sessionId, costUsd: summary.usd_total, grade, judge: null };
   };
 }

@@ -14,9 +14,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { ROOT, CONTENT_DIR } from "../../../engine/paths.mts";
 import { hasDatabaseUrl } from "../../../db/client.ts";
-import { listRegressionRuns } from "../../../engine/run-history.ts";
-import { pgListRegressionRuns } from "../../../db/runs-store.ts";
+import { listRegressionRuns, regressionRunDetail } from "../../../engine/run-history.ts";
+import { pgListRegressionRuns, pgRegressionRunDetail } from "../../../db/runs-store.ts";
 import type { RunnableScenario } from "./regression-runs.runner.ts";
+import type { JudgeRunInput } from "../../../engine/regression-judge.ts";
 
 const GOLDEN_DIR = path.join(ROOT, "evals", "golden");
 
@@ -66,6 +67,9 @@ export interface RegressionRunsRepo {
   listReruns(orgId?: string | null): Promise<RerunRow[]>;
   /** The frozen case in the shape the runner drives, or null when unknown. */
   loadScenario(caseId: string): RunnableScenario | null;
+  /** The previous completed rerun of this case, for the AI reviewer's head-to-head.
+   *  Null on a case's first-ever rerun. */
+  loadPreviousRun(caseId: string, orgId?: string | null): Promise<JudgeRunInput | null>;
 }
 
 function readJson(file: string): unknown {
@@ -137,6 +141,42 @@ export function createRegressionRunsRepo(): RegressionRunsRepo {
     async listReruns(orgId) {
       const rows = hasDatabaseUrl() ? await pgListRegressionRuns(orgId) : listRegressionRuns(orgId);
       return (Array.isArray(rows) ? rows : []) as RerunRow[];
+    },
+
+    // The newest EXISTING rerun of this case. Called before the current run is
+    // persisted, so "newest" is genuinely the previous one.
+    async loadPreviousRun(caseId, orgId) {
+      const rows = hasDatabaseUrl() ? await pgListRegressionRuns(orgId) : listRegressionRuns(orgId);
+      const mine = (Array.isArray(rows) ? (rows as RerunRow[]) : [])
+        .filter((r) => r.caseId === caseId)
+        .sort((a, b) => (b.finishedAt || 0) - (a.finishedAt || 0));
+      const previous = mine[0];
+      if (!previous) return null;
+
+      const detail = (
+        hasDatabaseUrl() ? await pgRegressionRunDetail(previous.runId, orgId) : regressionRunDetail(previous.runId, orgId)
+      ) as { transcript?: unknown[]; briefing?: unknown } | null;
+      if (!detail) return null;
+
+      const grade = asRecord(previous.grade);
+      const actual = asRecord(grade.actual);
+      return {
+        transcript: (Array.isArray(detail.transcript) ? detail.transcript : []).map((t) => {
+          const turn = asRecord(t);
+          return {
+            question: asString(asRecord(turn.question).name),
+            answer: asString(turn.answer),
+            skipped: Boolean(turn.skipped),
+          };
+        }),
+        briefing: detail.briefing ?? null,
+        trust: actual.verdict
+          ? {
+              verdict: asString(actual.verdict),
+              hard_fails: Array.isArray(actual.hard_fails) ? actual.hard_fails.map((f) => asString(f)) : [],
+            }
+          : null,
+      };
     },
 
     loadScenario(caseId) {

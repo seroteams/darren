@@ -1446,6 +1446,65 @@
       "port": 3903
     },
     {
+      "name": "type-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3941",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3945",
+        "--strictPort"
+      ],
+      "port": 3945
+    },
+    {
+      "name": "type-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3941",
+        "DEV_AUTOLOGIN=1",
+        "SUPERADMIN_EMAILS=dev@seroteams.com",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3941
+    },
+    {
+      "name": "type-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3941",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3943",
+        "--strictPort"
+      ],
+      "port": 3943
+    },
+    {
+      "name": "type-customer",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3941",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--config",
+        "frontend/vite.config.js",
+        "--port",
+        "3945",
+        "--strictPort"
+      ],
+      "port": 3945
+    },
+    {
       "name": "stars-api",
       "runtimeExecutable": "npx",
       "runtimeArgs": [
@@ -1471,6 +1530,31 @@
         "--strictPort"
       ],
       "port": 3923
+    },
+    {
+      "name": "regboard-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3811",
+        "node",
+        "backend/api/server.ts"
+      ],
+      "port": 3811
+    },
+    {
+      "name": "regboard-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "cross-env",
+        "API_PORT=3811",
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "--port",
+        "3813",
+        "--strictPort"
+      ],
+      "port": 3813
     }
   ]
 }

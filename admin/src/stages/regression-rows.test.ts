@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   boardSummary,
   committeeCell,
+  committeeDetail,
   kindChip,
   lastRerunCell,
   batchProgressLine,
@@ -105,13 +106,52 @@ test("the batch line names the case, and only counts when there are several", ()
   assert.equal(batchProgressLine({ caseId: null }), "");
 });
 
+test("the AI reviewer's score and direction read as one plain cell", () => {
+  const judged = (judge: Record<string, unknown>) => boardCase({ lastRerun: rerun({ judge }) });
+
+  assert.deepEqual(committeeCell(judged({ score: 4, head_to_head: { overall: "improved", reason: "clearer actions" } })), {
+    label: "4/5 better",
+    tone: "ok",
+  });
+  assert.deepEqual(committeeCell(judged({ score: 2, head_to_head: { overall: "worse", reason: "invented a deadline" } })), {
+    label: "2/5 worse",
+    tone: "bad",
+  });
+  assert.deepEqual(committeeCell(judged({ score: 5, head_to_head: { overall: "same", reason: "no real change" } })), {
+    label: "5/5 same",
+    tone: "muted",
+  });
+});
+
+test("a first rerun shows its score with no direction, and says why", () => {
+  const c = boardCase({ lastRerun: rerun({ judge: { score: 3, head_to_head: null } }) });
+  assert.deepEqual(committeeCell(c), { label: "3/5", tone: "muted" });
+  assert.match(committeeDetail(c), /nothing to compare/i);
+});
+
+test("a reviewer that could not run says so instead of showing a score", () => {
+  const c = boardCase({ lastRerun: rerun({ judge: { unavailable: true } }) });
+  assert.deepEqual(committeeCell(c), { label: "Not scored", tone: "muted" });
+  assert.equal(committeeDetail(c), "");
+  assert.deepEqual(committeeCell(boardCase({ lastRerun: rerun() })), { label: "Not scored", tone: "muted" });
+});
+
+test("the reviewer's reason and flags reach the row", () => {
+  const c = boardCase({
+    lastRerun: rerun({
+      judge: { score: 2, head_to_head: { overall: "worse", reason: "invented a deadline" }, flags: ["private note echoed"] },
+    }),
+  });
+  assert.equal(committeeDetail(c), "invented a deadline. private note echoed");
+});
+
 test("adversarial cases are chipped, happy ones are not", () => {
   assert.equal(kindChip("adversarial"), "adversarial");
   assert.equal(kindChip("happy"), "");
 });
 
 test("the rerun control states its cost, or says reruns are off", () => {
-  assert.match(rerunLabel(true), /\$0\.35/);
+  assert.match(rerunLabel(true), /\$0\.25/);
   assert.equal(rerunLabel(false), "Reruns are off here");
 });
 

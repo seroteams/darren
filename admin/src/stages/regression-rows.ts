@@ -13,12 +13,21 @@ export interface RerunGrade {
   answersRanOut?: boolean;
 }
 
+/** What the AI reviewer recorded on a rerun. */
+export interface RerunJudge {
+  score?: number;
+  head_to_head?: { overall?: "improved" | "same" | "worse"; reason?: string } | null;
+  flags?: string[];
+  /** Set instead of a verdict when the reviewer could not run. */
+  unavailable?: boolean;
+}
+
 export interface RerunSummary {
   runId: string;
   batchId: string;
   finishedAt: number | null;
   grade?: RerunGrade | null;
-  judge?: unknown;
+  judge?: RerunJudge | null;
   review?: { reviewStatus?: string; reviewOverall?: string } | null;
 }
 
@@ -85,11 +94,26 @@ export function thinAnswerNote(c: BoardCase): string {
   return `This case has ${c.answerCount} canned answers but the meeting asked for more, so the last few turns were skipped.`;
 }
 
-/** The AI reviewer cell. Honest placeholder until Phase 3 fills it in. */
+/** What the AI reviewer said: a score out of 5, and whether it moved. */
 export function committeeCell(c: BoardCase): CellText {
   if (!c.lastRerun) return { label: "·", tone: "muted" };
-  if (!c.lastRerun.judge) return { label: "Not scored yet", tone: "muted" };
-  return { label: "Scored", tone: "ok" };
+  const j = c.lastRerun.judge;
+  if (!j || j.unavailable) return { label: "Not scored", tone: "muted" };
+  if (typeof j.score !== "number") return { label: "Not scored", tone: "muted" };
+
+  const overall = j.head_to_head?.overall;
+  if (!overall) return { label: `${j.score}/5`, tone: "muted" };
+  const arrow = overall === "improved" ? "better" : overall === "worse" ? "worse" : "same";
+  const tone = overall === "improved" ? "ok" : overall === "worse" ? "bad" : "muted";
+  return { label: `${j.score}/5 ${arrow}`, tone };
+}
+
+/** The reviewer's one-line reason, plus anything it flagged. */
+export function committeeDetail(c: BoardCase): string {
+  const j = c.lastRerun?.judge;
+  if (!j || j.unavailable) return "";
+  if (!j.head_to_head) return j.flags?.length ? j.flags.join(". ") : "First rerun, nothing to compare with yet.";
+  return [j.head_to_head.reason, ...(j.flags || [])].filter(Boolean).join(". ");
 }
 
 /** Carl's own review status, straight off the run's review sidecar. */
@@ -106,9 +130,11 @@ export function reviewCell(c: BoardCase): CellText {
   return { label: "Reviewed", tone: "muted" };
 }
 
-/** What the Rerun button says. Cost is always stated on the control itself. */
+/** What the Rerun button says. Cost is always stated on the control itself.
+ *  Grounded in a real measurement: the first rerun (a bi-weekly, 6 calls) cost
+ *  $0.11; the judge adds roughly $0.04, and the longest arcs run further. */
 export function rerunLabel(canRerun: boolean): string {
-  return canRerun ? "Rerun ($0.35)" : "Reruns are off here";
+  return canRerun ? "Rerun (~$0.25)" : "Reruns are off here";
 }
 
 /** Which of the batch's cases is going, in the words a person would use. */

@@ -20,7 +20,7 @@ function suiteCase(over: Partial<SuiteCase> = {}): SuiteCase {
 }
 
 function fakeRepo(suite: SuiteCase[], reruns: RerunRow[] = []): RegressionRunsRepo {
-  return { listSuite: () => suite, listReruns: async () => reruns, loadScenario: () => null };
+  return { listSuite: () => suite, listReruns: async () => reruns, loadScenario: () => null, loadPreviousRun: async () => null };
 }
 
 test("list returns every suite case with lastRerun null when nothing has been rerun", async () => {

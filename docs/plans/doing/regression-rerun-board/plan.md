@@ -26,7 +26,7 @@
 | # | Phase | What it lands | Status |
 |---|---|---|---|
 | 1 | The screen, free parts | /regression lists the 8 cases + free safety strip; no paid anything | ✅ |
-| 2 | Paid rerun of one case | Rerun button → real engine run → trust verdict → open in /run/:id | ⬜ |
+| 2 | Paid rerun of one case | Rerun button → real engine run → trust verdict → open in /run/:id | ✅ |
 | 3 | The AI reviewer | Committee column: score /5 + better/same/worse vs last rerun | ⬜ |
 | 4 | Rerun all + history | One-click batch of 8, batch history with prompt fingerprint, compare link | ⬜ |
 | 5 | Live + bless baseline | Live shows the screen honestly (reruns off); local "bless as baseline" | ⬜ |
@@ -37,7 +37,9 @@
 ## Current state
 **Phase 1 ✅ green-lit 2026-07-31** (commit 2365e7b0). Carl walked `/regression`: 8 frozen cases listed with meeting types, adversarial chips on Devon and Sam, every row "Never rerun", and the free safety check re-ran clean ("7 still good"). Offline proof at the time: `npm test` 223/223, typecheck clean, `lint:copy` clean.
 
-**Phase 2 🔨 next** — the paid rerun of one case. Cost note: Phase 2's single QA rerun (~$0.35) IS this task's one paid run, so the `npm run gate` baseline (~$3) is deliberately NOT run; the first rerun doubles as the calibration read (see Risks #2 in the approved plan).
+**Phase 2 ✅ green-lit 2026-07-31, PROVEN on a real run 2026-08-01** (commit 212f7346). Carl pressed Rerun on Priya: the run completed end to end and came back **PASS with no hard fails, matching the ratified baseline exactly**, at **$0.11** over 6 model calls. That also settles Risks #2 (calibration): the in-app dynamic lane agrees with a baseline ratified on the CLI lane, at least for this case. No `npm run gate` baseline was run (~$3, paid) and none is needed.
+
+**Phase 3 🔨 built, awaiting Carl** — the AI reviewer column.
 
 **How a bad result turns into a fix (Phase 6, in plain English):** the board says a case got worse → "What now" explains it without jargon and lists what changed in the engine since that case was last good → Copy fix brief gives a self-contained prompt for a fresh Claude chat (case, evidence, suspect files, and the rule that it proposes options rather than applying them) → after the fix, Rerun this case from the same panel and watch the arrow flip. The other branch is there too: if the new behaviour is actually right, bless it as the new normal.
 Free machinery this leans on, already in the repo: `diffLocks()` in `backend/engine/pipeline-lock.ts` already names changed prompt files in plain English ("Evaluation / briefing"); `FIX_MAP` in `admin/src/ui/review-serialize.js` already maps each failing dimension to the files that own it; `POST /api/v1/suggest-fix` already gives an in-app AI read.

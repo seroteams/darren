@@ -69,3 +69,10 @@
   gap: var(--sero-space-1);
   color: var(--color-negative-text);
 }
+
+/* Regression board: the AI reviewer's one-line reason sits under its score and
+   must wrap rather than stretch the table (Phase 3). */
+.reg-reason {
+  white-space: normal;
+  max-width: 30ch;
+}

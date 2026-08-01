@@ -419,6 +419,19 @@ export async function pgListRegressionRuns(orgId?: string | null): Promise<unkno
   return out;
 }
 
+// One rerun's conversation + recap, for the AI reviewer's head-to-head. The DB
+// twin of run-history.regressionRunDetail — kept out of the list read so the
+// board never carries eight full transcripts it does not show.
+export async function pgRegressionRunDetail(id: string, orgId?: string | null): Promise<unknown> {
+  const row = await rowByKey(id);
+  if (!row) return null;
+  if (orgId && !runOwnedByOrg(row.state, orgId)) return null;
+  return {
+    transcript: Array.isArray(row.state.transcript) ? row.state.transcript : [],
+    briefing: row.state.briefing ?? null,
+  };
+}
+
 export async function pgListFinishedRunsForMember(
   orgId: string | null | undefined,
   userId: string | null | undefined,

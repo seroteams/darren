@@ -243,6 +243,61 @@ test("a trust-check failure loses the grade but never the paid run", async () =>
   assert.equal(out.costUsd, 0.34); // the money was spent; the run still counts
 });
 
+test("the AI reviewer sees this run and the previous one, and its verdict is stored", async () => {
+  const h = harness({ budget: 1 });
+  let seen: Record<string, unknown> = {};
+  h.deps.loadBaselineRun = async () => ({ transcript: [{ question: "old q", answer: "old a" }], briefing: { summary: "older" }, trust: null });
+  h.deps.judge = async (input) => {
+    seen = input as unknown as Record<string, unknown>;
+    return { score: 4, dimensions: [], head_to_head: { overall: "improved", dimensions: [], reason: "clearer actions" }, flags: [] };
+  };
+  const out = await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
+
+  assert.equal(out.judge?.head_to_head?.overall, "improved");
+  assert.deepEqual(h.logged["judge.json"], out.judge);
+  // It judges the run it just did, against the previous one.
+  const current = seen.current as { transcript: unknown[] };
+  assert.equal(current.transcript.length, 1);
+  assert.ok(seen.baseline, "the previous run should be handed over for comparison");
+});
+
+test("a first-ever rerun judges with no baseline", async () => {
+  const h = harness({ budget: 1 });
+  let baselineSeen: unknown = "unset";
+  h.deps.loadBaselineRun = async () => null;
+  h.deps.judge = async (input) => {
+    baselineSeen = (input as unknown as Record<string, unknown>).baseline;
+    return { score: 3, dimensions: [], head_to_head: null, flags: [] };
+  };
+  const out = await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
+
+  assert.equal(baselineSeen, null);
+  assert.equal(out.judge?.head_to_head, null);
+});
+
+test("a reviewer failure costs the run nothing — the money is already spent", async () => {
+  const h = harness({ budget: 1 });
+  h.deps.judge = async () => {
+    throw new Error("judge model down");
+  };
+  const out = await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
+
+  assert.equal(out.judge, null);
+  assert.equal(out.sessionId, "sess-1");
+  assert.equal(out.grade?.regressed, false, "the safety verdict must survive a reviewer failure");
+  assert.deepEqual(h.logged["judge.json"], { unavailable: true });
+});
+
+test("the reviewer cannot change the safety verdict", async () => {
+  const h = harness({ budget: 1, trust: { verdict: "FAIL", hard_fails: ["PRIVATE_NOTE_LEAK"] } });
+  h.deps.judge = async () => ({ score: 5, dimensions: [], head_to_head: null, flags: [] });
+  const out = await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
+
+  assert.equal(out.judge?.score, 5);
+  assert.equal(out.grade?.regressed, true, "a glowing reviewer must not rescue a failed trust check");
+  assert.deepEqual(out.grade?.newHardFails, ["PRIVATE_NOTE_LEAK"]);
+});
+
 // --- the baseline rule, kept identical to scripts/gate.js -------------------
 
 test("a hard fail the baseline never ratified is a regression", () => {

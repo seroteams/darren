@@ -1,6 +1,18 @@
 # Phase 3 — The AI reviewer (the committee column)
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting Carl
+
+## Built (2026-08-01)
+- `backend/engine/regression-judge.ts` (+test) — one strong-tier call per rerun (`modelFor("judge")`, schema-constrained, `costLabel: "regression-judge"`). Rubric is the eight `REVIEW_DIM_KEYS` with the same hints the review tool shows, plus the calibration lines borrowed from `scripts/eval-judge.js` so both judges score on one curve: trust and honesty failures score 2 or below, minor nits do not drop the score, length is never rewarded. Head-to-head against the previous rerun of the same case, with a one-line reason.
+- Runner: judges AFTER grading (so it sees the safety verdict), writes `judge.json`, and is wrapped so a reviewer failure records `{unavailable: true}` and costs the run nothing.
+- Repo: `loadPreviousRun()` plus `regressionRunDetail` / `pgRegressionRunDetail` so the head-to-head works on both storage lanes without carrying transcripts in the list read.
+- Admin: Committee column reads "4/5 better" / "2/5 worse" / "5/5 same" with the reviewer's reason underneath; a first rerun shows the score with no direction and says why; a reviewer that could not run says "Not scored" rather than inventing one.
+
+Offline proof: `npm test` 228/228, typecheck clean, copy and token lints clean. 10 judge tests plus 4 new runner tests, including **"a glowing reviewer cannot rescue a failed trust check"** and "a first-ever rerun gets no comparison even if the model invents one".
+Live proof: the board renders the new column on the real screen; Priya's existing rerun (which predates the judge) correctly reads "Not scored" instead of faking a verdict. No console errors.
+**Not verified:** the judge has never made a real model call. That needs one paid rerun, which is Carl's test click below.
+
+Cost correction landed here: the first real rerun cost **$0.11**, not the $0.35 the button claimed (that number was borrowed from the Test engine's persona line). The control now says "~$0.25" and the line underneath gives the honest range.
 
 ## Goal
 Every rerun gets one AI reviewer verdict: a score out of 5 on the same 8 checks Carl's review tool uses, plus better/same/worse than the previous rerun with a one-line reason.
