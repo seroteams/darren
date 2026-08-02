@@ -30,11 +30,13 @@ tracker. Measured, not guessed: every run start blocks the server for **1.7 seco
 6,268 question files to write a 1.2MB record **nothing renders**. Full list, with what is
 genuinely fine recorded so it is not re-audited, in `~/.claude/plans/sero-should-fix-review.md`.
 You picked Move A, fix the questions, now [sharper-questions](docs/plans/doing/sharper-questions/plan.md).
-**Phase 1 is built, $0, awaiting your test** (`16effc1f`): question quality is now a number.
+**Phase 1 ✅ green-lit 2026-08-02, $0** (`16effc1f`): question quality is now a number.
 The baseline over all 76 saved runs says **94 of 483 asked questions moved nothing (19.5%)**, and
 the agency rule that was meant to fix Machar's one real criticism **fired on 2 turns, in 2 runs,
 both dated 29 July, the day it shipped**, with nothing anywhere enforcing it. That is the bar
 Phase 2 has to beat. 231/231, three typechecks, replay 7/7, copy lint clean.
+**🔨 Phase 2 in progress:** the five rule-sheet contradictions get explicit tiebreaks and the
+agency rule gets a gate plus a registry row, so it cannot silently stop firing again.
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**

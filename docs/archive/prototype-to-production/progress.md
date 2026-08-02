@@ -1939,3 +1939,17 @@ replaced.
 walk-in offer and the recap step). Copying the markup would have passed review and drifted within
 a month. Lifting the rows into one function that both hosts call made the second surface smaller
 than the first, and made "the four words can never differ" a fact rather than an intention.
+
+**Measure the thing before you try to fix it, and keep the before-number and the live number in one
+piece of code.** The complaint was that the sharp question landed in the briefing instead of in the
+room, and every quality gate we owned graded the briefing. Phase 1 of sharper-questions added the
+counters and a judge dimension for the questions themselves, and the offline baseline script imports
+`buildRunHealth` rather than counting again, so the 19.5% we are trying to beat and the number a live
+run reports cannot drift apart. The counters were deliberately kept out of `degraded`: a weak question
+is a quality problem, not an engine failure, and folding it in would have made the alarm useless.
+
+**A rule with no gate has a half-life.** The agency rule shipped on 29 July, fired on two turns that
+same day, and never fired again. Nothing anywhere asserted it should. That is not a model failure, it
+is a missing coupling: `rule-registry.ts` already exists to bind a prompt rule to the check that
+proves it, and eight rules use it. Anything added to a prompt without a registry row should be assumed
+to be on its way to silently dying.

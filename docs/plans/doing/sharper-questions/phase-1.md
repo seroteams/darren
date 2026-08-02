@@ -1,5 +1,10 @@
 # Phase 1 — Count what is happening
 
+## ✅ GREEN-LIT 2026-08-02
+
+Carl green-lit this phase on the evidence in chat (baseline table, destination proof
+against a real saved transcript, the free proof ring). No paid run was spent on it.
+
 ## Built (2026-08-02)
 
 **The baseline, measured over all 76 saved runs** (`node scripts/question-quality-baseline.js`, offline, $0):
@@ -49,7 +54,7 @@ Both new test groups were confirmed **red before the implementation**.
 
 ---
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit 2026-08-02
 **You asked for:** "can you go deeper now ot SHOULD change." → "a" (Move A: fix the questions)
 
 ## Goal
