@@ -68,7 +68,13 @@ Dug out of the code so no phase stalls on an unknown.
 
 ## Current state
 
-**Phases 1, 2 and 3 ✅ green-lit 2026-08-02. Phase 4, the last one, in progress.**
+**Phases 1, 2 and 3 ✅ green-lit 2026-08-02. Phase 4 built the same day, $0, awaiting Carl's test.**
+
+Phase 4 let the briefing's three counts flex 1 to 3 and fixed the reminder openers at the
+structure (the examples), not with a louder rule. Both briefing renderers screenshot-proven
+at 1 and 3 items. The one thing it cannot prove offline is whether real briefings now come
+back varied: that needs two runs at about $0.40, unspent and waiting on Carl.
+Detail in [phase-4.md](phase-4.md).
 
 Phase 3 widened the axis-coverage window. Measured, not argued: the old wording could fire
 on **one** turn of a 6-turn session and on **no turn at all** of a 5-turn one. It now opens

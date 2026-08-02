@@ -59,6 +59,20 @@ changed one file, the planner rule sheet, which never mentions it. So a conversa
 goes near wellbeing still says so. 232/232, three typechecks, replay 7/7, copy lint clean, and
 the prompt cap passed **without being raised** for the second phase running, but headroom is now
 **33 characters**, which makes it effectively full.
+**🔨 Phase 4 built the same day, $0, awaiting your test:** every briefing had the same skeleton
+because the prompt contradicted itself. One block said "exactly 2" bullets, actions and reminders;
+another two screens later said "1 sharp bullet is better than 2 padded ones". The model followed
+the number, which is why 55 of 57 briefings had exactly two actions. All three counts now flex
+**1 to 3, set independently and by evidence**, with an explicit ban on inventing an item to reach
+two or welding two real threads together to stay at two. The reminder openers were fixed at the
+**structure** rather than with a louder rule: 54 of 57 opened "Before next" because both worked
+examples did, so the examples were replaced with four that each open differently, plus a hard rule
+that no two reminders in one briefing may share a cue. **Screenshot-proven at 1 and 3 items on
+both briefing screens**, in
+[docs/plans/doing/sharper-questions/screenshots/](docs/plans/doing/sharper-questions/screenshots/).
+232/232, three typechecks, replay 7/7, copy lint clean. **What is not proven: whether real
+briefings now come back varied.** That needs the model, so it needs two runs at about $0.40, which
+are unspent and waiting on your word.
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**

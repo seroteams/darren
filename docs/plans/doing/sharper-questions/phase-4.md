@@ -1,6 +1,62 @@
 # Phase 4 — Stop every briefing reading the same
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+## Built (2026-08-02)
+
+**The shape was contradicted, not just fixed.** `<length_limits>` said "exactly 2" for all
+three lists while `<summary_bullets_rule>` two screens later said *"1 sharp bullet is
+better than 2 padded ones"*. The model followed the number, which is why 55 of 57
+briefings had exactly 2 actions. Same family of fault as Phase 2: a rule that lost to a
+harder-sounding one and nothing said which won.
+
+**What landed** — all in `content/prompts/final-evaluation.md`:
+
+- `summary_bullets`, `next_actions` and `watch_for` are now **1 to 3**, with the count
+  set by evidence and stated once as a hard rule: **1** when a second item would be
+  filler, **2** when two threads each stand on their own evidence, **3** only when a
+  third is genuinely distinct. Never invent an item to reach 2, never weld two real
+  threads together to stay at 2. The three counts are set **independently**, so a
+  session can honestly earn one bullet and three actions.
+- The `output_contract` schema comment said "exactly 2 synthesis lines" and would have
+  quietly re-imposed the old shape. Fixed.
+- **The reminder openers were fixed at the structure, not with a louder rule.** 54 of 57
+  opened "Before next..." because both worked examples opened that way, first with
+  `Before next 1:1:` and second with `Within two weeks:`. The model was copying the
+  examples, exactly as it should. So: the cue list widened to seven shapes, a hard rule
+  that **no two items in one briefing may open with the same cue**, `Before next 1:1:`
+  named explicitly as not the default, and four replacement examples that **each open
+  differently**.
+
+**Render proof: screenshots of the real screens, not the template.**
+
+| Surface | 1 item | 3 items |
+|---|---|---|
+| The live end-of-meeting briefing (`stages/briefing.js`) | ✅ | ✅ |
+| The read-only re-read, shared by the member and the superadmin drilldown (`ui/briefing-view.ts`) | ✅ | ✅ |
+
+Both render clean: no stray marks, no gaps, no broken spacing, and the two-column
+`briefing-grid--pair` holds when one column has three items and the other has one.
+Screenshots in [screenshots/](screenshots/). The 3-item case was also shot at full width
+on its own, to rule out the side-by-side harness flattering or breaking it.
+
+**One surface NOT screenshotted, stated plainly:** the customer app's "Since last time"
+strip (`frontend/src/stages/person-detail.ts:122`). Reaching it needs a person with a
+saved past run, which needs a paid run. It maps over both arrays with no count or index
+logic and hides the block when empty, so it is count-agnostic by construction, but that
+is a code read and not a screenshot. Your test scenario 3 covers it on real data.
+
+**Offline proof:** `npm test` 232/232 · `typecheck` + `typecheck:admin` +
+`typecheck:customer` clean · `npm run replay` 7/7 still good · `lint:copy` clean ·
+`lint:prompt-size` PASS. No count constraint exists in code or in any JSON schema, so the
+prompt was the only thing enforcing 2.
+
+**Cost: $0 so far.** What cannot be proven offline: whether real briefings now come back
+with a spread of counts and varied openers. Briefings need the model, and the replay
+suite reads saved ones. **Two runs at roughly $0.40 total would show it before you walk
+it yourself.** Say the word and I will run them; I have not spent it.
+
+---
+
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
 **You asked for:** "can you go deeper now ot SHOULD change." → "a" (Move A: fix the questions)
 
 ## Goal
@@ -51,12 +107,13 @@ a manager actually sees in a week.
 ## Done when
 
 - [ ] Replaying saved transcripts produces a spread of counts, not 2 every time
-- [ ] Reminder openers vary across a sample of replayed runs
-- [ ] A briefing with 1 action and a briefing with 3 both render correctly in the
-      customer app, **verified by screenshot of the real screen**, not by reading the
-      template
-- [ ] `npm run lint:copy` passes (no banned dashes in any new prompt copy)
-- [ ] `npm test`, `npm run typecheck`, `npm run replay` green
+      — **not provable offline**: briefings need the model, and replay reads saved ones
+- [ ] Reminder openers vary across a sample of replayed runs — same, needs runs
+- [x] A briefing with 1 action and a briefing with 3 both render correctly, **verified by
+      screenshot of the real screen**, on both briefing renderers. The customer app's
+      "Since last time" strip is code-verified only, and that is flagged above
+- [x] `npm run lint:copy` passes (no banned dashes in any new prompt copy)
+- [x] `npm test`, `npm run typecheck`, `npm run replay` green
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Cost

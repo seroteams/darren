@@ -72,7 +72,7 @@ Return strict JSON only. No prose, no markdown fences.
 ```json
 {
   "headline": "<one sentence — the story of this 1:1 in a single line>",
-  "summary_bullets": [ "<exactly 2 synthesis lines, each naming one important pattern / gap / contradiction>" ],
+  "summary_bullets": [ "<1 to 3 synthesis lines, each naming one important pattern / gap / contradiction>" ],
   "understanding_paragraph": "<2 sentences max: what we understood about this person that we didn't know before>",
   "axes": [
     { "id": "wellbeing",  "score": <int>, "meaning": "<one short sentence>" },
@@ -103,15 +103,22 @@ Return strict JSON only. No prose, no markdown fences.
 
 <length_limits>
 - headline: max 22 words
-- summary_bullets: exactly 2 items
+- summary_bullets: 1 to 3 items
 - understanding_paragraph: max 45 words
 - axes[].meaning: max 22 words each
 - brutal_truth_employee: max 40 words
 - brutal_truth_manager: max 40 words
-- next_actions: exactly 2 actions
+- next_actions: 1 to 3 actions
 - next_actions[].action: max 24 words
-- watch_for: exactly 2 items
+- watch_for: 1 to 3 items
 - watch_for[]: max 20 words
+
+**The three counts are outcomes, not targets (hard).** Each is set by what this session actually gave you:
+- **1** when the session gave one real thing and a second would be filler.
+- **2** when two separate threads each stand on their own evidence.
+- **3** only when a third thread is genuinely distinct and carries its own evidence, not a slice of the first two.
+
+Never invent an item to reach 2, and never weld two real threads together to stay at 2. The three counts are set independently: a session can honestly earn one bullet and three actions. A manager reading four briefings in a week should be able to tell from the shape alone that four different conversations happened.
 
 **Partial-read mode (from `<read_quality_gate>`) tightens these further:** `summary_bullets` → exactly 1; `understanding_paragraph` → max 40 words and spent on what we did NOT learn. A thin read earns a shorter briefing — do not pad length the evidence can't support.
 
@@ -130,15 +137,15 @@ Bad: "Mixed signals across multiple axes." (vague)
 </headline_rule>
 
 <summary_bullets_rule>
-Exactly 2 bullets (1 in partial-read mode). Each must name one of:
+1 to 3 bullets, by the count rule in `<length_limits>` (exactly 1 in partial-read mode). Each must name one of:
 - A pattern across multiple answers.
 - A gap between what they said and what the manager's notes flagged.
 - A contradiction inside their own answers.
 - Something unspoken — a silence or deflection that carries signal.
 
-**One thread per bullet.** A bullet carries one subject. Never weld two unrelated threads into one line ("the beta test is on track, and there's friction in the team") — the reader has to unpick it, and the two halves need different responses. If the session had two threads worth naming, that is what the two bullets are for; if one thread deserves both, give it both. The same holds for `understanding_paragraph`: one thread, per its own rules.
+**One thread per bullet.** A bullet carries one subject. Never weld two unrelated threads into one line ("the beta test is on track, and there's friction in the team") — the reader has to unpick it, and the two halves need different responses. If the session had three threads worth naming, use three bullets; if it had one, use one. The same holds for `understanding_paragraph`: one thread, per its own rules.
 
-**Restatement test**: could a reader produce this bullet by reading a single answer in the transcript? If yes, it's a restatement — remove it. Fewer real bullets beats more hollow ones. 1 sharp bullet is better than 2 padded ones.
+**Restatement test**: could a reader produce this bullet by reading a single answer in the transcript? If yes, it's a restatement — remove it. Fewer real bullets beats more hollow ones. 1 sharp bullet is better than 2 padded ones, and 2 sharp ones beat 3.
 
 **4-gram overlap hard rule**: no bullet may share 4 or more consecutive content words (stop words excluded) with `headline`. If enforcing this leaves only 1 valid bullet, emit only 1 — fewer real bullets beats restatement of the headline.
 
@@ -234,7 +241,7 @@ Rules:
 </shallow_answer_handling>
 
 <next_actions_rules>
-Produce exactly 2 actions — the two that matter most. Each must be:
+Produce 1 to 3 actions, by the count rule in `<length_limits>` — the ones that matter most, and no filler to make up a number. Each must be:
 - **A concrete imperative** — starts with a verb (`Loop`, `Schedule`, `Email`, `Set up`, `Remove`, `Confirm`).
 - **Specific to this person** — if you could paste the action into any other 1:1's briefing, rewrite it.
 - **Something the manager controls** — don't output "Priya needs to push harder" or "The team should communicate better". Those aren't manager actions.
@@ -275,17 +282,23 @@ A `prep_brief` block is supplied in user input. When it is present (not the "(no
 </prep_follow_through_rule>
 
 <watch_for_rules>
-Produce exactly 2 items. The UI labels this block **Reminders** — each line must paste cleanly into a calendar, task app, or notes field without editing.
+Produce 1 to 3 items, by the count rule in `<length_limits>`. The UI labels this block **Reminders** — each line must paste cleanly into a calendar, task app, or notes field without editing.
 
 **Format (copy-paste contract):**
 - One self-contained line per item. No semicolon chains, no bullet sub-points.
-- Open with a timing cue when useful: `Before next 1:1:`, `Within two weeks:`, `If … then …`
 - Write as an imperative check or trigger the manager can schedule or notice — not vague advice.
 - Must be observable — confirms or denies a read from this session.
 
-Good reminders (paste-ready):
-- `Before next 1:1: ask Priya whether mentoring moved — silence twice means she's given up.`
-- `Within two weeks: if Carl cancels or no-shows, treat disengagement as deeper than he said.`
+**Openers (hard).** The cue is chosen by when the tell will actually show, never by habit. `Before next 1:1:` is not the default opener and must not be the reflex. Some tells only appear over a fortnight, some are triggers with no date at all, some are tied to a named event this session raised.
+- Pick from, or write in the shape of: `Before next 1:1:`, `Within two weeks:`, `By the end of the month:`, `At the next <named event>:`, `If … then …`, `The first time …`, `When … happens:`.
+- **No two items in the same briefing may open with the same cue.** If two tells genuinely share a timeframe, one of them is not a separate tell — merge or drop it.
+- The examples below are shapes, not a template. Reusing their exact opening words across briefings is the failure this rule exists to stop.
+
+Good reminders (paste-ready, note that no two share an opener):
+- `If Priya raises mentoring a fourth time unprompted, treat it as the ask she has given up making.`
+- `At the next sprint review: check whether anyone has told Carl he is on the billing rewrite.`
+- `By the end of the month: if the handover drops a third thing, the owner question is unsettled, not the process.`
+- `Within two weeks: if she cancels or no-shows, the disengagement is deeper than she said.`
 
 Bad reminders (rewrite):
 - `Watch her engagement levels.` (not observable, not pasteable)
