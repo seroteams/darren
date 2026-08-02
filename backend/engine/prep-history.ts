@@ -23,6 +23,7 @@ export interface PrepHistoryEntry {
   meetingType: string;
   coreIssue: string;
   openingQuestion: string;
+  confidence?: string; // the brief's own confidence sentence — provenance, never dropped (audit D16)
 }
 
 export interface PrepHistoryQuery {
@@ -46,6 +47,7 @@ export function prepHistoryFromState(state: unknown): PrepHistoryEntry | null {
     meetingType: asString(asRecord(s.ctx).meetingType),
     coreIssue,
     openingQuestion,
+    confidence: asString(brief.confidence).trim(),
   };
 }
 
@@ -61,10 +63,13 @@ export function filterPrepHistoryForArc(entries: PrepHistoryEntry[], currentMeet
 export function renderPrepHistoryBlock(entry: PrepHistoryEntry | null | undefined): string {
   if (!entry) return "(first prep for this person — no prior brief)";
   const when = entry.when ? new Date(entry.when).toISOString().slice(0, 10) : "unknown date";
+  // Provenance: the prior brief was the engine's inference, at a stated confidence.
+  // Render it as that — never as flat fact the next model can treat as settled ground.
+  const level = /^(low|medium|high)\b/i.exec(entry.confidence || "")?.[1]?.toLowerCase() ?? "unstated";
   return [
-    `Last brief (${when}, ${entry.meetingType || "unknown type"}):`,
-    `- Core issue then: ${entry.coreIssue || "(none)"}`,
-    `- Opener then: ${entry.openingQuestion || "(none)"}`,
+    `Last brief (${when}, ${entry.meetingType || "unknown type"}) — the engine's hypothesis then, not established fact:`,
+    `- Core issue it proposed (confidence: ${level}): ${entry.coreIssue || "(none)"}`,
+    `- Opener it suggested: ${entry.openingQuestion || "(none)"}`,
   ].join("\n");
 }
 

@@ -190,9 +190,12 @@ test("assemblePreparation: prior brief renders in the prompt's User half; sentin
   const base = { name: "A", role: "UX Lead", seniority: "Lead", meetingType: "Bi-weekly check-in", notes: "steady fortnight" };
   const without = assemblePreparation(base as never).prompt;
   assert.ok(without.includes("(first prep for this person — no prior brief)"));
-  const withHistory = assemblePreparation({ ...base, prepHistory: relPrior } as never).prompt;
-  assert.ok(withHistory.includes("Core issue then: perf framing"));
-  assert.ok(withHistory.includes("Opener then: perf opener"));
+  const withHistory = assemblePreparation({ ...base, prepHistory: { ...relPrior, confidence: "Low — defaults only." } } as never).prompt;
+  // Provenance (audit D16): the prior brief arrives labelled as the engine's
+  // hypothesis at its recorded confidence — never as flat fact.
+  assert.ok(withHistory.includes("the engine's hypothesis then, not established fact"));
+  assert.ok(withHistory.includes("Core issue it proposed (confidence: low): perf framing"));
+  assert.ok(withHistory.includes("Opener it suggested: perf opener"));
   // Cache safety: the System half must be byte-identical either way — the
   // block lives in the User half only.
   const sys = (p: string) => p.split(/\n## User/)[0];

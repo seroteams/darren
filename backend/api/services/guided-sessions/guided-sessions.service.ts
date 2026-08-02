@@ -284,12 +284,19 @@ export function createGuidedSessionsService(
     const prev = prior[0];
     let previous: Record<string, unknown> | null = null;
     if (prev) {
-      const prevSummary =
-        asStr(asObj(prev.state.summary).edited) || asStr(asObj(asObj(prev.state.summary).draft).headline);
+      const edited = asStr(asObj(prev.state.summary).edited);
+      const draftHeadline = asStr(asObj(asObj(prev.state.summary).draft).headline);
+      const prevSummary = edited || draftHeadline;
       const prevScores = blockRows
         .filter((b) => b.guidedSessionId === prev.id)
         .map((b) => ({ block: b.block, score: b.score }));
-      previous = { summary: prevSummary || null, scores: prevScores };
+      // Provenance (audit D17): an unedited AI draft must reach the model labelled as
+      // such — never unmarked, or the engine grounds next month's deltas in its own guess.
+      previous = {
+        summary: prevSummary || null,
+        source: edited ? "manager_edited" : prevSummary ? "ai_draft_unreviewed" : null,
+        scores: prevScores,
+      };
     }
 
     return {

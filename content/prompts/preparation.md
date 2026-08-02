@@ -150,7 +150,7 @@ Every strong claim must be grounded in one of:
 - role and seniority defaults
 - meeting type expectations
 
-If evidence is weak, use cautious language such as "may", "could", "worth testing", or "the risk is".
+If evidence is weak, use cautious language such as "may", "could", "worth testing", or "the risk is" — but at most ONE cautious marker per field. Hedge the claim once, then write the rest of the sentence plainly; stacked hedges read as mush.
 Do not turn sparse notes into confident diagnosis.
 If notes are empty, say what the conversation should test, not what is true.
 
@@ -207,11 +207,11 @@ The role context block is generated guidance about the job title + seniority, no
 {{OBSERVED_SHIFT}}
 ```
 
-**Last time's brief (same person — shown so this one opens NEW ground):**
+**Last time's brief (same person — the engine's hypothesis then, NOT established fact; shown so this one opens NEW ground):**
 
 {{PREP_HISTORY_BLOCK}}
 
-If a prior brief is shown above: do not repeat or lightly reword its core issue or opener — approach from a different angle unless the manager's notes explicitly re-raise the same theme (then name it as continuing, don't rediscover it). All other field rules are unchanged.
+If a prior brief is shown above: it is what the engine guessed last time, at the confidence shown — treat it as a hypothesis to re-open, never as settled ground. Do not repeat or lightly reword its core issue or opener — approach from a different angle. If the manager's notes explicitly re-raise the same theme, carry it as an open question to check ("worth checking whether that thread is still live"), never as an established or continuing fact. All other field rules are unchanged.
 
 **Focus points for this meeting:**
 

@@ -42,16 +42,17 @@ function finishedState(overrides: Record<string, unknown> = {}): Record<string, 
 
 // --- prepHistoryFromState ---------------------------------------------------
 
-test("maps a finished state to when/meetingType/coreIssue/openingQuestion only", () => {
+test("maps a finished state to when/meetingType/coreIssue/openingQuestion/confidence only", () => {
   const e = prepHistoryFromState(finishedState());
   assert.deepEqual(e, {
     when: 1750000000000,
     meetingType: "Bi-weekly check-in",
     coreIssue: "Workload is drowning the mentoring thread.",
     openingQuestion: "What's been eating the mentoring time?",
+    confidence: "Medium — single-source notes.",
   });
-  // Privacy: nothing else rides along.
-  assert.deepEqual(Object.keys(e!).sort(), ["coreIssue", "meetingType", "openingQuestion", "when"]);
+  // Privacy: nothing else rides along (confidence is a brief field, not notes text).
+  assert.deepEqual(Object.keys(e!).sort(), ["confidence", "coreIssue", "meetingType", "openingQuestion", "when"]);
 });
 
 test("state without a prep brief maps to null", () => {
@@ -100,6 +101,27 @@ test("renders at most 4 lines, carrying core issue + opener", () => {
   assert.ok(lines.length <= 4, `expected <=4 lines, got ${lines.length}`);
   assert.ok(block.includes("x"));
   assert.ok(block.includes("y"));
+});
+
+// Provenance (audit D16): the block must present the prior brief as the engine's
+// hypothesis at its recorded confidence — never as flat fact.
+test("render block labels the prior brief a hypothesis, not established fact", () => {
+  const e = prepHistoryFromState(finishedState());
+  const block = renderPrepHistoryBlock(e);
+  assert.ok(block.includes("hypothesis"), `missing hypothesis framing: ${block}`);
+  assert.ok(block.includes("not established fact"), `missing fact disclaimer: ${block}`);
+});
+
+test("render block carries the prior brief's confidence level", () => {
+  const e = prepHistoryFromState(finishedState());
+  assert.ok(renderPrepHistoryBlock(e).includes("(confidence: medium)"));
+});
+
+test("render block says unstated when the prior brief has no readable confidence", () => {
+  const noConf = { ...relEntry };
+  assert.ok(renderPrepHistoryBlock(noConf).includes("(confidence: unstated)"));
+  const garbled: PrepHistoryEntry = { ...relEntry, confidence: "quite sure probably" };
+  assert.ok(renderPrepHistoryBlock(garbled).includes("(confidence: unstated)"));
 });
 
 test("render block never contains notes text", () => {

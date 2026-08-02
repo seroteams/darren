@@ -4,6 +4,7 @@ import { createGuidedSessionsService } from "./guided-sessions.service.ts";
 import type { GuidedPeopleGateway } from "./guided-sessions.service.ts";
 import type { GuidedSessionsRepo, GuidedSessionRow } from "./guided-sessions.repo.ts";
 import type { BlockScoresRepo, ScoreBlock } from "./block-scores.repo.ts";
+import type { GuidedWrapupInput } from "../../../engine/guided/wrapup.ts";
 
 function fakeBlockScores(): BlockScoresRepo & {
   rows: { guidedSessionId: string; personId: string; block: string; score: number; note: string | null }[];
@@ -295,6 +296,48 @@ test("wrapupDraft caches (no double spend) and regenerate bypasses it", async ()
   assert.equal(called, 1);
   assert.equal(regen.cached, false);
   assert.equal(regen.summary?.headline, "Fresh");
+});
+
+// Provenance (audit D17): the previous check-in fed to the wrap-up model must say
+// whether its summary was manager-edited or an unreviewed AI draft — never unmarked.
+test("wrapup input tags an unedited previous summary as ai_draft_unreviewed", async () => {
+  let captured: GuidedWrapupInput | null = null;
+  const fakeWrapup = async (input: GuidedWrapupInput) => {
+    captured = input;
+    return { summary: { headline: "h", bullets: [] }, suggestions: { individual: [], team: [], company: [] }, runId: "r" };
+  };
+  const repo = fakeRepo();
+  const svc = createGuidedSessionsService(repo, fakePeople(AISHA), fakeTrackerGateway(), fakeBlockScores(), fakeWrapup);
+  const prior = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  await repo.update(prior.id, {
+    completedAt: new Date(1750000000000),
+    state: { v: 1, arc: "monthly_check_in", step: 6, visited: [0], summary: { draft: { headline: "AI's own guess", bullets: [] } } },
+  });
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  await svc.wrapupDraft(gs.id, CALLER.orgId, CALLER.managerId);
+  const previous = (captured as GuidedWrapupInput | null)!.previous as Record<string, unknown>;
+  assert.equal(previous.summary, "AI's own guess");
+  assert.equal(previous.source, "ai_draft_unreviewed");
+});
+
+test("wrapup input tags a manager-edited previous summary as manager_edited", async () => {
+  let captured: GuidedWrapupInput | null = null;
+  const fakeWrapup = async (input: GuidedWrapupInput) => {
+    captured = input;
+    return { summary: { headline: "h", bullets: [] }, suggestions: { individual: [], team: [], company: [] }, runId: "r" };
+  };
+  const repo = fakeRepo();
+  const svc = createGuidedSessionsService(repo, fakePeople(AISHA), fakeTrackerGateway(), fakeBlockScores(), fakeWrapup);
+  const prior = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  await repo.update(prior.id, {
+    completedAt: new Date(1750000000000),
+    state: { v: 1, arc: "monthly_check_in", step: 6, visited: [0], summary: { edited: "Manager's own words", draft: { headline: "AI's own guess", bullets: [] } } },
+  });
+  const gs = await svc.create(CALLER.orgId, CALLER.managerId, { personId: "p1" });
+  await svc.wrapupDraft(gs.id, CALLER.orgId, CALLER.managerId);
+  const previous = (captured as GuidedWrapupInput | null)!.previous as Record<string, unknown>;
+  assert.equal(previous.summary, "Manager's own words");
+  assert.equal(previous.source, "manager_edited");
 });
 
 test("wrapupDraft surfaces an honest failure (no hidden rewrite)", async () => {
