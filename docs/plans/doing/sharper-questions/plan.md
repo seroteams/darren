@@ -60,21 +60,24 @@ Dug out of the code so no phase stalls on an unknown.
 | # | Phase | What it lands | Status |
 |---|-------|---------------|--------|
 | 1 | Count what is happening | Question quality becomes a number: a judge dimension that grades the questions, plus a zero-signal and agency counter per run, with a baseline over the 76 saved runs | ✅ |
-| 2 | Make the sharp question get asked | The five rule-sheet contradictions get explicit tiebreaks, and the agency rule gets a gate + registry row so it cannot silently stop firing again | 🔨 |
-| 3 | Make sure wellbeing gets asked | Widen the axis-coverage window so a wellbeing question can land before wind-down closes the session | ⬜ |
+| 2 | Make the sharp question get asked | The five rule-sheet contradictions get explicit tiebreaks, and the agency rule gets a gate + registry row so it cannot silently stop firing again | ✅ |
+| 3 | Make sure wellbeing gets asked | Widen the axis-coverage window so a wellbeing question can land before wind-down closes the session | 🔨 |
 | 4 | Stop every briefing reading the same | Let the briefing's counts and openers flex, so four reports in a week do not produce four identical forms | ⬜ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 
-**Phase 1 ✅ green-lit 2026-08-02. Phase 2 built the same day, $0, awaiting Carl's test.**
+**Phases 1 and 2 ✅ green-lit 2026-08-02. Phase 3 in progress.**
 
 Phase 2 landed the five tiebreaks and the gate the agency rule never had. Proven over all
 76 saved transcripts: it flags **24 runs / 39 turns** where a report named a snag and the
 next question changed the subject, and it passes the one saved run where the snag was
-actually followed up. Detail in [phase-2.md](phase-2.md). The size cap now has **66
-characters of headroom**, down from 337.
+actually followed up. Detail in [phase-2.md](phase-2.md).
+
+**The size cap is now the binding constraint for the rest of this plan: 66 characters of
+headroom, down from 337.** Phase 3 also edits `plan-turn.md`, so it has to trim before it
+can add. Raising the cap is a deliberate commit and Carl's call, never a side effect.
 
 The before-numbers are now measured, not estimated: across 76 saved runs, **94 of 483
 asked questions moved nothing (19.5%)**, and the agency rule fired on **2 turns in 2

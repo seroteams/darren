@@ -1953,3 +1953,18 @@ same day, and never fired again. Nothing anywhere asserted it should. That is no
 is a missing coupling: `rule-registry.ts` already exists to bind a prompt rule to the check that
 proves it, and eight rules use it. Anything added to a prompt without a registry row should be assumed
 to be on its way to silently dying.
+
+**Grade the evidence, not the claim.** The agency gate's first design skipped any turn whose
+planner note carried the `[AGENCY]` marker, on the reasoning that the planner knows when its own
+rule fired. One of the two historical firings in the whole back catalogue killed that: the note
+said `[AGENCY]` and the question it produced was another description question. A self-certified
+marker is a claim; the artefact it supposedly produced is the evidence. The gate now grades the
+question text and reports the mismatch loudly, because a rule that reports itself as firing while
+not firing is worse than one that plainly never fired.
+
+**A size cap turns "add a rule" into "find a duplicate first", and that is the point.** Five
+tiebreak sentences would not fit in 337 characters of headroom. Paying for them meant collapsing
+five restatements, which the rule sheet had accumulated exactly as the cap predicted: wind-down
+stated in three places, the closer-craft pointer in three, and a precedence list in `<living_plan>`
+that duplicated `<decision_order>`. No rule was removed and the sheet got clearer. The cost is that
+headroom is now 66 characters, so the next phase has to trim before it can add.

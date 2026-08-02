@@ -35,7 +35,7 @@ The baseline over all 76 saved runs says **94 of 483 asked questions moved nothi
 the agency rule that was meant to fix Machar's one real criticism **fired on 2 turns, in 2 runs,
 both dated 29 July, the day it shipped**, with nothing anywhere enforcing it. That is the bar
 Phase 2 has to beat. 231/231, three typechecks, replay 7/7, copy lint clean.
-**🔨 Phase 2 built the same day, $0, awaiting your test** (`aff3df22`): the five contradictions
+**Phase 2 ✅ green-lit 2026-08-02, $0** (`aff3df22`): the five contradictions
 each got a tiebreak, and the agency rule finally has a gate. Two of the five were named in the
 review; three were found by reading every "MUST" claim against the priority list. The sharpest:
 thread-follow and the agency rule both claimed the first question and nothing said which won, so
@@ -45,7 +45,9 @@ asked another description question. Over all 76 saved runs it flags **24 runs, 3
 report named something stalled and the next question changed the subject, and it passes the one
 saved run where the snag was actually followed up. The rule sheet stayed inside its size cap by
 collapsing five restatements rather than raising it, but headroom is now **66 characters, down
-from 337**. 232/232, three typechecks, replay 7/7, copy lint clean.
+from 337**, which makes the cap the binding constraint for the rest of the plan. 232/232, three
+typechecks, replay 7/7, copy lint clean. **🔨 Phase 3 in progress:** make sure a wellbeing
+question actually gets asked, without touching the rule that honestly leaves the dial blank.
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**

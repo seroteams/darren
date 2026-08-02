@@ -1,5 +1,11 @@
 # Phase 2 — Make the sharp question get asked
 
+## ✅ GREEN-LIT 2026-08-02
+
+Carl green-lit this phase on the evidence in chat: the five tiebreaks, the gate proven
+red-then-green, the registry link proven to break on purpose, and the run of the gate
+over all 76 saved transcripts. No paid run was spent on it.
+
 ## Built (2026-08-02)
 
 **The five contradictions, and the tiebreak each one got.** Only two were named in the
@@ -71,7 +77,7 @@ deliberate commit and your call, not a side effect.
 
 ---
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit 2026-08-02
 **You asked for:** "can you go deeper now ot SHOULD change." → "a" (Move A: fix the questions)
 
 ## Goal
