@@ -46,8 +46,19 @@ report named something stalled and the next question changed the subject, and it
 saved run where the snag was actually followed up. The rule sheet stayed inside its size cap by
 collapsing five restatements rather than raising it, but headroom is now **66 characters, down
 from 337**, which makes the cap the binding constraint for the rest of the plan. 232/232, three
-typechecks, replay 7/7, copy lint clean. **🔨 Phase 3 in progress:** make sure a wellbeing
-question actually gets asked, without touching the rule that honestly leaves the dial blank.
+typechecks, replay 7/7, copy lint clean.
+**🔨 Phase 3 built the same day, $0, awaiting your test:** the wellbeing question now has room
+to be asked. The rule that was meant to guarantee an untouched dial gets picked up could only
+fire on **one turn** of a 6-turn session, and on **no turn at all** of a 5-turn one, because it
+opened at the same moment the wind-down rule started forbidding new probes. It now opens a turn
+earlier, names the last chance out loud, and yields to the Phase 2 agency rule when both want
+the same slot. Measured over the 76 saved runs, **62 have a wider window**
+(`node scripts/coverage-window-check.js`, free). **The honesty rule was not touched and the
+diff proves it:** "not read" lives in the briefing prompt and the reviewer, and this phase
+changed one file, the planner rule sheet, which never mentions it. So a conversation that never
+goes near wellbeing still says so. 232/232, three typechecks, replay 7/7, copy lint clean, and
+the prompt cap passed **without being raised** for the second phase running, but headroom is now
+**33 characters**, which makes it effectively full.
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**

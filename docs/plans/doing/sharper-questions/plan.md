@@ -68,16 +68,24 @@ Dug out of the code so no phase stalls on an unknown.
 
 ## Current state
 
-**Phases 1 and 2 ✅ green-lit 2026-08-02. Phase 3 in progress.**
+**Phases 1 and 2 ✅ green-lit 2026-08-02. Phase 3 built the same day, $0, awaiting Carl's test.**
+
+Phase 3 widened the axis-coverage window. Measured, not argued: the old wording could fire
+on **one** turn of a 6-turn session and on **no turn at all** of a 5-turn one. It now opens
+a turn earlier, names the last chance explicitly, and yields to the Phase 2 agency rule.
+**62 of 76 saved runs have a wider window.** The honesty rule is untouched and the diff
+proves it. Detail in [phase-3.md](phase-3.md).
 
 Phase 2 landed the five tiebreaks and the gate the agency rule never had. Proven over all
 76 saved transcripts: it flags **24 runs / 39 turns** where a report named a snag and the
 next question changed the subject, and it passes the one saved run where the snag was
 actually followed up. Detail in [phase-2.md](phase-2.md).
 
-**The size cap is now the binding constraint for the rest of this plan: 66 characters of
-headroom, down from 337.** Phase 3 also edits `plan-turn.md`, so it has to trim before it
-can add. Raising the cap is a deliberate commit and Carl's call, never a side effect.
+**The size cap is now effectively full: 33 characters of headroom, down from 337.** Both
+phases paid for their additions by collapsing restatements rather than raising it. Phase 4
+edits `final-evaluation.md`, which is not under this cap, so the plan can finish; but
+nothing further can be added to the planner rule sheet without trimming first. Raising the
+cap is a deliberate commit and Carl's call, never a side effect.
 
 The before-numbers are now measured, not estimated: across 76 saved runs, **94 of 483
 asked questions moved nothing (19.5%)**, and the agency rule fired on **2 turns in 2

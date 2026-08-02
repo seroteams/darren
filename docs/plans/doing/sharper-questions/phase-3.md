@@ -1,6 +1,64 @@
 # Phase 3 — Make sure wellbeing gets asked
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+## Built (2026-08-02)
+
+**The window was narrower than the plan said, and for 21 runs it did not exist at all.**
+
+Coverage can only fire on a turn where enough turns have happened AND wind-down has not
+started. Wind-down applies at `remaining_budget <= 2` and forbids a wellbeing probe by
+name, so with `remaining_budget = N - T` the window is `[opensAfter, N-3]`. The old
+wording opened it after 3 completed turns. Measured over all 76 saved runs
+(`node scripts/coverage-window-check.js`, offline, $0):
+
+| Session | Runs | Before | After |
+|---|---|---|---|
+| 5 turns | 7 | **never** | turn 2 |
+| 6 turns | 13 | turn 3 | turn 2, 3 |
+| 7 turns | 10 | turn 3, 4 | turn 2, 3, 4 |
+| 8 turns | 8 | turn 3, 4, 5 | turn 2, 3, 4, 5 |
+| 9 turns | 24 | turn 3, 4, 5, 6 | turn 2, 3, 4, 5, 6 |
+| 4 turns or fewer | 14 | never | never |
+
+**62 of 76 runs now have a wider window.** The honest part: the 14 runs of four turns or
+fewer are abandoned or trivial sessions and nothing here reaches them, so "21 runs where
+it could never fire" is really **7 real 5-turn sessions plus 14 stubs**.
+
+**What landed**
+
+- `content/prompts/plan-turn.md` planning rule 6, rewritten three ways:
+  - The window **opens after 2 completed turns**, not 3.
+  - The turn at `remaining_budget = 3` is named as **the last chance**, so the closing
+    edge is explicit rather than an interaction the model has to derive.
+  - It **yields to THE TRIGGER** in as many words: a stalled commitment beats a coverage
+    tick. Phase 2 made agency rank 8 and arc planning rank 10, so `<decision_order>`
+    already decided this; rule 6 now says so where it is read.
+- `scripts/coverage-window-check.js` — the measurement above, so the claim is a number
+  anyone can re-run rather than an argument about how two rules interact.
+
+**The honesty rule was not touched, and that is checkable rather than promised.** The
+`not_read` behaviour lives in `content/prompts/final-evaluation.md` (line 342, *"too
+little real signal to read anything... when in doubt, this is the answer"*),
+`backend/engine/briefing.ts` and `backend/engine/reviewer.ts`. This phase's whole diff is
+`plan-turn.md`, which contains **zero** occurrences of `read_status` or `not_read`. A
+conversation that never touches wellbeing still reports it as not read, because nothing
+in the path that decides that changed.
+
+**Offline proof:** `npm test` 232/232 · `typecheck` + `typecheck:admin` +
+`typecheck:customer` clean · `npm run replay` 7/7 still good · `lint:copy` clean ·
+`lint:prompt-size` **PASS with 33 characters to spare, cap not raised**. Paid for by
+trimming two restatements: the worked example's classification tail, which the
+deficiency-as-request rule already states, and the output contract's field list, which
+restates the JSON shape printed directly above it.
+
+**Cost: $0.** No OpenAI call was made.
+
+**The cap is now effectively full.** 33 characters. Nothing else can be added to the
+planner rule sheet without trimming first, and Phase 4 edits `final-evaluation.md`, which
+is not under this cap. Raising it is a deliberate commit and your call.
+
+---
+
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
 **You asked for:** "can you go deeper now ot SHOULD change." → "a" (Move A: fix the questions)
 
 ## Goal
@@ -41,14 +99,16 @@ rule's window is exactly one turn wide, and anything else in the queue closes it
 
 ## Done when
 
-- [ ] Replaying the saved transcripts shows the axis-coverage rule reachable in more
-      than one turn of a 6-turn session, proven offline
+- [x] Replaying the saved transcripts shows the axis-coverage rule reachable in more
+      than one turn of a 6-turn session, proven offline — turns 2 and 3, was turn 3 only
 - [ ] Phase 1's counters show wellbeing being read more often than the 23-of-56 baseline
-      across new runs
-- [ ] A conversation that genuinely never touches wellbeing **still** shows "not read".
-      This is the one that matters most. Proven with a saved transcript
-- [ ] `npm run lint:prompt-size` passes without raising the cap
-- [ ] `npm test`, `npm run typecheck`, `npm run replay` green
+      across new runs — **needs live runs, cannot be proven offline**
+- [x] A conversation that genuinely never touches wellbeing **still** shows "not read".
+      This is the one that matters most. Proven by the diff: the rule lives in
+      `final-evaluation.md` / `briefing.ts` / `reviewer.ts`, none of them touched, and
+      `plan-turn.md` has zero mentions of `read_status`
+- [x] `npm run lint:prompt-size` passes without raising the cap
+- [x] `npm test`, `npm run typecheck`, `npm run replay` green
 - [ ] Product owner has tested the scenarios below and said go
 
 ## Cost

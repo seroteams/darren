@@ -81,7 +81,7 @@ Output shape:
   ]
 }
 
-Every item carries all of: ref_alias, label (2–5 words), name, description, purpose, stage, axis_effects, grounding, probes_cause, new_layer, hints. Construction rules (thread-follow, shallow, crisis, generated closer) override only the fields they name. For thread-follow, shallow, and crisis items, `purpose` is "wellbeing" or "topic", never "competency".
+Every item carries every field in the shape above, `label` 2–5 words. Construction rules (thread-follow, shallow, crisis, generated closer) override only the fields they name. For thread-follow, shallow, and crisis items, `purpose` is "wellbeing" or "topic", never "competency".
 
 Per item:
 - **Carried unchanged:** `ref_alias` = original alias, copy fields verbatim incl. `stage`, but set `grounding` to "open" (engine re-verifies grounding only on added/reworded items). `hints` on the FIRST item are the one exception, see the hints block below.
@@ -202,7 +202,7 @@ After dedup, build the new_queue:
 3. **Modify** an item when its wording is now off, or its angle should shift.
 4. **Add** only when a hard rule requires it (THE TRIGGER, thread-follow, the shallow re-prompt, crisis, a generated closer), or an off-signature signal clearly needs one later in the arc.
 5. **Pivot rule.** If all deltas are 0 because the answer was pivot/off-topic, do NOT build questions from its content — carry the queue forward with minimal changes. A personal aside or logistics one-liner is not a thread.
-6. **Coverage (hard at turn 4+).** If an axis has 0 touches after 3+ turns, the next non-drill item MUST include it at magnitude ≥ 1. Priority when several are untouched: clarity → engagement → wellbeing → growth. Boss/employee-alignment probes MUST include `clarity`. Wind-down outranks this: coverage is never served at the cost of the closer.
+6. **Coverage (hard).** The window opens once 2+ turns are done and closes when wind-down starts. Inside it, an axis with 0 touches MUST be included at magnitude ≥ 1 in the next non-drill item. Priority when several are untouched: clarity → engagement → wellbeing → growth. Boss/employee-alignment probes MUST include `clarity`. **The turn where `remaining_budget = 3` is the last chance.** After that wind-down outranks this and coverage is never served at the cost of the closer; an axis still untouched is simply not read, and the briefing says so. Yields to THE TRIGGER: a stalled commitment beats a coverage tick.
 7. **Meeting arc.** The session follows the meeting-type arc, tone register, and anti-patterns in `<session_context>` (static). Read per-turn state from `<turn_state>`: `current_stage_hint`, `arc_progress` (turns per stage vs each stage's `target_questions`), `consecutive_drill_count` (drill cap at 2), `remaining_stages` (below-target stages in arc order, closer last), `last_realized_deltas`, `consecutive_wellbeing_clarifier_count`, `off_arc_drill_count`.
    - After dedup + thread-follow, the queue progresses through stages in arc order. **Under-served stages are first-class:** a stage with `target_questions >= 1` and `arc_progress = 0` must be served by the next non-drill item, in arc order. The session MUST reach the closer before the budget runs out.
    - Skip a stage only if the employee already covered it unprompted (point to it in the transcript). Double on a stage only if a thread justifies it AND the drill cap permits.
@@ -288,7 +288,7 @@ Do not stack it: agency question and description question are one probe each, ne
 </question_craft>
 
 <worked_examples>
-**Deficiency-as-request.** Turn 8, Q "What would push your growth, and what would need to change?", sig `{growth:3}`, answer (note) "Wants more scope clarity, and to hear about big projects before they're locked in." → `deltas:[{growth:-3}]`, note names the two absences. Classify as deficiency-as-request (named what's missing = negative at full magnitude), NOT "constructive tone → positive" and NOT "asked for changes → neutral".
+**Deficiency-as-request.** Turn 8, Q "What would push your growth, and what would need to change?", sig `{growth:3}`, answer (note) "Wants more scope clarity, and to hear about big projects before they're locked in." → `deltas:[{growth:-3}]`, note names the two absences.
 
 **Flat/absent.** Turn 2, Q "Where is your energy at?", sig `{wellbeing:3}`, answer "cleanup and docs, reviewing PRs — nothing stretching right now." → `wellbeing:-1` (mild negative: describes absence of stretch), NOT `0`.
 </worked_examples>
