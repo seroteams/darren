@@ -330,9 +330,17 @@ const AGENCY_ASK =
 function runAgencyFollowGate(transcript: GateTranscript): string[] {
   const turns = (transcript || []).filter((t) => !t?.skipped);
   const failures: string[] = [];
-  // Stop one short: the final turn's answer is followed by the briefing, not a
-  // question, and the turn before it is answered by the closer, which is exempt.
-  for (let i = 0; i < turns.length - 2; i++) {
+  // Stop where wind-down starts. `<wind_down_rule>` applies at remaining_budget <= 2 and
+  // outranks THE TRIGGER, so a snag named in the last two turns CANNOT be followed by an
+  // agency question: the closer has the slot by design. With remaining_budget = N - T,
+  // the last turn where the rule can fire is T = N-3, i.e. index N-4.
+  //
+  // The first version stopped one turn later and immediately cried wolf: the paid gate run
+  // on 2026-08-02 flagged biweekly-priya turn 4 of 6, where the planner had correctly noted
+  // [BUDGET-STARVED] and handed the slot to the arc's remaining stages. A gate that fires on
+  // rule-following behaviour is worse than no gate. NOTE: a snag named this late therefore
+  // never gets its agency question at all, which is a live product question, not a gate one.
+  for (let i = 0; i < turns.length - 3; i++) {
     const t = turns[i];
     const answer = typeof t?.answer === "string" ? t.answer : "";
     if (answer.trim().split(/\s+/).filter(Boolean).length < 5) continue;

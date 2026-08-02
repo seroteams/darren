@@ -15,18 +15,16 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { runAgencyFollowGate } from "./golden-checks.ts";
 
-const turn = (n: number, answer: string, nextQuestionName: string, note?: string) => ({
-  turn: n,
-  answer,
-  question: { name: nextQuestionName },
-  ...(note === undefined ? {} : { note }),
-});
-
-// A session is read in pairs: turn N's answer, then turn N+1's question.
+// A session is read in pairs: turn N's answer, then turn N+1's question. Sessions here are
+// six turns so the snag at turn 1 sits well inside the window: wind-down starts at
+// remaining_budget <= 2, so only turns 1 to 3 of a 6-turn session can carry an agency ask.
 const pair = (answer: string, nextQuestion: string, note?: string) => [
   { turn: 1, answer, question: { name: "opening question" }, ...(note === undefined ? {} : { note }) },
   { turn: 2, answer: "a follow-up answer with enough words to be substantive", question: { name: nextQuestion } },
-  { turn: 3, answer: "and a third so neither pair is the closer", question: { name: "and a closing question" } },
+  { turn: 3, answer: "a third answer, everything moving along nicely", question: { name: "and what else is on?" } },
+  { turn: 4, answer: "a fourth answer, also perfectly clear", question: { name: "how is the team finding it?" } },
+  { turn: 5, answer: "a fifth answer with nothing snagged", question: { name: "anything you want from me?" } },
+  { turn: 6, answer: "a final answer", question: { name: "where do you want to focus first?" } },
 ];
 
 test("a named snag followed by a new topic is flagged", () => {
@@ -107,21 +105,29 @@ test("thin answers cannot name a snag", () => {
   assert.deepEqual(runAgencyFollowGate(pair("bit unclear", "What are you working on?")), []);
 });
 
-test("the closer is exempt", () => {
-  // THE TRIGGER yields to the closer. A snag named on the second-to-last turn is
-  // followed by the closer by design, and that is not a miss.
-  assert.deepEqual(
-    runAgencyFollowGate([
-      { turn: 1, answer: "opening answer with enough words to count", question: { name: "how are things?" } },
-      {
-        turn: 2,
-        answer: "the beta date keeps slipping and the two squads both think the other owns it",
-        question: { name: "and how has the month been overall?" },
-      },
-      { turn: 3, answer: "final answer", question: { name: "Given what we covered, where do you want to focus first?" } },
-    ]),
-    [],
-  );
+test("a snag named inside wind-down is exempt", () => {
+  // The case that made this rule: the paid gate run on 2026-08-02 flagged biweekly-priya
+  // turn 4 of 6, where the planner had noted [BUDGET-STARVED] and handed the slot to the
+  // arc's remaining stages. Wind-down applies at remaining_budget <= 2 and outranks THE
+  // TRIGGER, so turns 4, 5 and 6 of a 6-turn session cannot carry the agency ask and the
+  // gate must not report rule-following behaviour as a miss.
+  const late = [
+    { turn: 1, answer: "opening answer with enough words to count", question: { name: "how are things?" } },
+    { turn: 2, answer: "a second answer, nothing snagged in it", question: { name: "what are you working on?" } },
+    { turn: 3, answer: "a third answer, all clear", question: { name: "and next quarter?" } },
+    {
+      turn: 4,
+      answer: "mentioned mentoring before, still wants it, but stopped pushing",
+      question: { name: "What are you actually focused on this week?" },
+      note: "named an unadvanced mentoring thread [BUDGET-STARVED]",
+    },
+    { turn: 5, answer: "a fifth answer", question: { name: "anything from me?" } },
+    { turn: 6, answer: "a final answer", question: { name: "where do you want to focus first?" } },
+  ];
+  assert.deepEqual(runAgencyFollowGate(late), []);
+  // Move the same snag to turn 2, inside the window, and it flags.
+  const early = late.map((t, i) => (i === 1 ? { ...t, answer: late[3]!.answer } : t));
+  assert.equal(runAgencyFollowGate(early).length, 1);
 });
 
 test("skipped turns are not read as snags", () => {
@@ -130,18 +136,22 @@ test("skipped turns are not read as snags", () => {
       { turn: 1, answer: "the rollout is blocked and has been for three weeks", skipped: true, question: { name: "q1" } },
       { turn: 2, answer: "a substantive answer here", question: { name: "What is on your plate?" } },
       { turn: 3, answer: "another one", question: { name: "And after that?" } },
+      { turn: 4, answer: "and another", question: { name: "And then?" } },
+      { turn: 5, answer: "final answer", question: { name: "Where do you want to focus first?" } },
     ]),
     [],
   );
 });
 
-test("every unanswered snag in a session is counted, not just the first", () => {
+test("every unanswered snag inside the window is counted, not just the first", () => {
   const fails = runAgencyFollowGate([
     { turn: 1, answer: "the billing rewrite is going sideways and has been for a while", question: { name: "q1" } },
     { turn: 2, answer: "the handover between the squads keeps dropping things", question: { name: "What is next for the roadmap?" } },
     { turn: 3, answer: "recruitment has stalled since March and nobody has picked it up", question: { name: "How is the new starter settling in?" } },
     { turn: 4, answer: "a fourth substantive answer", question: { name: "And what about the roadmap?" } },
-    { turn: 5, answer: "final answer", question: { name: "Where do you want to focus first?" } },
+    { turn: 5, answer: "a fifth substantive answer", question: { name: "Anything from me?" } },
+    { turn: 6, answer: "final answer", question: { name: "Where do you want to focus first?" } },
+    { turn: 7, answer: "a seventh so turn 3 is still inside the window", question: { name: "last one" } },
   ]);
   assert.equal(fails.length, 3);
 });
@@ -157,6 +167,8 @@ test("null-safe on missing transcript, turns and fields", () => {
       { turn: 1, answer: "the release is stuck behind an unowned dependency" },
       { turn: 2 },
       { turn: 3 },
+      { turn: 4 },
+      { turn: 5 },
     ]),
     // A snag followed by a turn with no question recorded still flags: unverifiable
     // is not clean, the same call the wellbeing gate makes.

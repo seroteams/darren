@@ -70,9 +70,21 @@ examples did, so the examples were replaced with four that each open differently
 that no two reminders in one briefing may share a cue. **Screenshot-proven at 1 and 3 items on
 both briefing screens**, in
 [docs/plans/doing/sharper-questions/screenshots/](docs/plans/doing/sharper-questions/screenshots/).
-232/232, three typechecks, replay 7/7, copy lint clean. **What is not proven: whether real
-briefings now come back varied.** That needs the model, so it needs two runs at about $0.40, which
-are unspent and waiting on your word.
+232/232, three typechecks, replay 7/7, copy lint clean.
+**The two paid runs you authorised are done ($0.437) and they split the result.** The openers
+are fixed: six reminders across two different people, six different opening cues, not one of them
+"Before next", against a prior of 54 of 57. **The counts are not fixed:** both briefings came back
+with three of everything, so the shape moved from "always 2" to "always 3" rather than following
+the evidence, and two briefings with identical shape is exactly what Phase 4 set out to stop. So
+Phase 4 is **not signed off**. The same runs found two things that were not on the list. First,
+the agency rule did not fire on the mentoring snag and was **right** not to: it was named at turn 4
+of 6, inside the wind-down window where the rule yields to the closer by design, and the planner
+logged `[BUDGET-STARVED]`. That means **a snag named in the last third of a meeting never gets its
+"what will you do about it" question**, which is Machar's original complaint arriving after the
+meeting, and it is a live product decision for you. Second, the Phase 2 gate was reporting that
+rule-following behaviour as a miss; fixed, and the honest count is **19 runs / 30 turns, not 24 /
+39**. Separately, `growth-ahmed` hard-failed a focus-point wording rule that this plan never
+touched (`generate-focus-points.md`, last changed 11 July) and that needs its own look.
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**

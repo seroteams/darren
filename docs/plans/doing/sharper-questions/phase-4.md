@@ -49,10 +49,61 @@ is a code read and not a screenshot. Your test scenario 3 covers it on real data
 `lint:prompt-size` PASS. No count constraint exists in code or in any JSON schema, so the
 prompt was the only thing enforcing 2.
 
-**Cost: $0 so far.** What cannot be proven offline: whether real briefings now come back
-with a spread of counts and varied openers. Briefings need the model, and the replay
-suite reads saved ones. **Two runs at roughly $0.40 total would show it before you walk
-it yourself.** Say the word and I will run them; I have not spent it.
+## The two paid runs (2026-08-02, $0.437 total)
+
+Carl authorised two runs. `node scripts/gate.js --only biweekly-priya` ($0.2053) and
+`--only growth-ahmed` ($0.2318). Two different people, two different meeting types.
+
+**The result splits. The openers are fixed. The counts are not, and saying otherwise
+would be the exact kind of claim this plan exists to stop.**
+
+| | Before (57 briefings) | Priya, fresh | Ahmed, fresh |
+|---|---|---|---|
+| `summary_bullets` | 2 in 53 of 57 | **3** | **3** |
+| `next_actions` | 2 in 55 of 57 | **3** | **3** |
+| `watch_for` | 2 in 55 of 57 | **3** | **3** |
+| opens "Before next..." | 54 of 57 | **0 of 3** | **0 of 3** |
+
+**Openers: working.** Six reminders across the two briefings, six different cues, none of
+them "Before next 1:1". Priya's: *Within two weeks* / *If mentoring comes up again* / *At
+the next planning discussion*. Ahmed's: *At the next senior forum* / *Within two weeks* /
+*The first time a cross-org issue turns political*. No repeat inside either briefing. The
+structural fix (replace the examples) did what the louder-rule approach would not have.
+
+**Counts: moved off 2, but both landed on 3/3/3.** That is not the goal. The goal was
+"four briefings that feel like four different people", and two briefings with identical
+shape do not show that. The likely reading is that the anchor moved from 2 to 3 rather
+than the count becoming genuinely evidence-led. Both sessions were rich, so 3 may be
+honestly right for both, but two samples that agree cannot tell those apart. **Phase 4's
+count half is unproven, and a third run on a deliberately thin session would not settle it
+either, because a thin session trips partial-read mode, which forces 1 by a different
+rule.**
+
+## What the paid runs found that was not on the list
+
+**1. The agency rule did not fire on the mentoring snag, and it was right not to.**
+`AGENCY_NOT_ASKED` flagged Priya turn 4, the exact example in [phase-2.md](phase-2.md).
+The planner's own note reads `[BUDGET-STARVED]`: turn 4 of 6 leaves `remaining_budget = 2`,
+which is wind-down, and Phase 2's own precedence says agency yields to wind-down and the
+closer. The engine followed the rule.
+
+**The gate was wrong, and it is fixed** (`golden-checks.ts`, free): it stopped one turn too
+late and so reported rule-following behaviour as a miss. Re-measured over the saved runs,
+the honest number is **19 runs / 30 turns**, down from the 24 / 39 reported at Phase 2.
+
+**But the product question underneath is real and is yours.** A snag named in the last
+third of a meeting can never get its agency question, because wind-down owns the slot. On
+this run the mentoring thread went to the briefing as *"Reopen the mentoring thread and
+agree one concrete mentoring responsibility"* — which is Machar's original complaint,
+arriving after the meeting, in the case built to demonstrate the fix.
+
+**2. `growth-ahmed` hard-failed `FOCUS_SHAPE_LEAK`, and it is not this plan's doing.** A
+focus-point `reason` opened "Where he is still stepping in..." instead of
+Whether/How they're/What/If. That rule lives in `generate-focus-points.md`, last changed
+2026-07-11, untouched here, and focus points are generated at stage 01 before any prompt
+this plan edits. Found, not caused. It needs its own look.
+
+**Cost: $0.437 of the ~$0.40 authorised.** No further paid run without your yes.
 
 ---
 
@@ -107,8 +158,9 @@ a manager actually sees in a week.
 ## Done when
 
 - [ ] Replaying saved transcripts produces a spread of counts, not 2 every time
-      — **not provable offline**: briefings need the model, and replay reads saved ones
-- [ ] Reminder openers vary across a sample of replayed runs — same, needs runs
+      — **NOT MET.** Two paid runs both came back 3/3/3. Off 2, but not a spread
+- [x] Reminder openers vary across a sample of replayed runs — **met**, 6 cues in 6
+      reminders across two people, none of them "Before next"
 - [x] A briefing with 1 action and a briefing with 3 both render correctly, **verified by
       screenshot of the real screen**, on both briefing renderers. The customer app's
       "Since last time" strip is code-verified only, and that is flagged above

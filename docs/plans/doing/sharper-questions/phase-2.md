@@ -50,10 +50,20 @@ mismatch** when a note claims a firing that the question does not show.
 
 | | |
 |---|---|
-| Runs flagged | **24 of 76**, 39 turns in total |
-| Runs clean | 52 |
+| Runs flagged | **19 of 76**, 30 turns in total (corrected 2026-08-02, see below) |
+| Runs clean | 59 |
 | Fails on a real unanswered snag | ✅ `2026_Aug02_01-40` turn 4, the exact example above |
 | Passes on a real followed-up snag | ✅ `2026_Jul29_13-24` turn 3, answered by *"What have you tried with sales and BD so far, and what happened?"* |
+
+**Corrected 2026-08-02 by the Phase 4 paid run.** The gate originally stopped one turn too
+late and flagged snags named inside wind-down, where Phase 2's own precedence says agency
+correctly yields. It fired on `biweekly-priya` turn 4 of 6, where the planner had noted
+`[BUDGET-STARVED]` and handed the slot to the arc's remaining stages. Fixed in
+`golden-checks.ts` (loop now stops at `N-4`, the last index whose next turn is outside
+wind-down); the honest count is 19 runs / 30 turns, not 24 / 39. **The product question it
+exposed is open and is Carl's:** a snag named in the last third of a meeting can never get
+its agency question, which is the original complaint arriving late. See
+[phase-4.md](phase-4.md).
 
 **Not inert.** Driven through the real `runTrustChecks` entry point on a saved run, the
 warning comes out the other side: `AGENCY_NOT_ASKED: turn 4 named a snag...`. That check

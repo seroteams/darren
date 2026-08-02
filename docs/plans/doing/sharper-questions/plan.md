@@ -72,9 +72,18 @@ Dug out of the code so no phase stalls on an unknown.
 
 Phase 4 let the briefing's three counts flex 1 to 3 and fixed the reminder openers at the
 structure (the examples), not with a louder rule. Both briefing renderers screenshot-proven
-at 1 and 3 items. The one thing it cannot prove offline is whether real briefings now come
-back varied: that needs two runs at about $0.40, unspent and waiting on Carl.
-Detail in [phase-4.md](phase-4.md).
+at 1 and 3 items.
+
+**Two paid runs ($0.437) split the result. Openers fixed: 6 different cues in 6 reminders
+across two people, none of them "Before next", against a prior of 54 of 57. Counts NOT
+fixed: both briefings came back 3/3/3, so the anchor moved from 2 to 3 rather than becoming
+evidence-led.** Phase 4's count half is unproven and Phase 4 is not signed off.
+
+The runs also found two things not on the list: the agency rule correctly yields to
+wind-down, which means **a snag named in the last third of a meeting never gets its agency
+question** (open, Carl's call), and the Phase 2 gate was flagging that rule-following
+behaviour as a miss (fixed; honest count is 19 runs / 30 turns, not 24 / 39). Detail in
+[phase-4.md](phase-4.md).
 
 Phase 3 widened the axis-coverage window. Measured, not argued: the old wording could fire
 on **one** turn of a 6-turn session and on **no turn at all** of a 5-turn one. It now opens
