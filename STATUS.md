@@ -2,6 +2,41 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
+📍 **2026-08-02 — checkpoint: a hostile review of the whole repo. Four code MUSTs fixed and
+committed; three jobs are yours and still open; sharper-questions Phase 1 is built and waiting
+on your test.**
+You asked for a sceptical new-CTO read, then QA and dev review, MUST only, and said you would
+reward "nothing needs changing" over invented work. **The honest headline: the code is good.**
+Authorization fencing, SQL, session tokens, CSRF, environment separation and PII handling in the
+running product were all probed hard and came back clean, as did the live security headers.
+What is exposed is **operations**. Six MUSTs: no live database backup has ever been taken (the
+nightly job has logged `SKIP live` every night since it was installed, and the only live snapshot
+is six days old and will not restore); the GitHub repo is **public** and its history holds a live
+Google API key plus, by its own de-identification commit's admission, a real employee health note;
+the Monthly Check-in showed "Saved" when the save had failed and then retried twice a second
+forever; a person's name could inject markup into another manager's check-in; every deploy could
+drop writes the browser was already told had succeeded; and nothing typechecked the two apps
+customers actually use. **Four of those were code and are fixed** (`db7aaf04`): honest save pip
+with backoff, `esc()` on the one unescaped sink, awaited shutdown flushes, and both frontend
+typechecks added to CI — which immediately found two real type errors that had been sitting
+unseen. **Three are yours and cannot be done from here:** rotate the Gemini key, flip the repo
+private, and create `.secrets/live-database-url` then prove a restore.
+Then you asked to go deeper on SHOULD. Three more sweeps found the same shape of problem
+repeatedly: **guards that exist but do not cover what you would assume.** The linter reads 0 of
+508 TypeScript files, `npm run lint` and `lint:components` are both red and in no CI, the
+customer-bundle fence is a stale denylist that already leaks an admin nav string, and the $5
+per-run cost ceiling cannot see about 40% of the spend because only the plan turn is wrapped in a
+tracker. Measured, not guessed: every run start blocks the server for **1.7 seconds** hashing
+6,268 question files to write a 1.2MB record **nothing renders**. Full list, with what is
+genuinely fine recorded so it is not re-audited, in `~/.claude/plans/sero-should-fix-review.md`.
+You picked Move A, fix the questions, now [sharper-questions](docs/plans/doing/sharper-questions/plan.md).
+**Phase 1 is built, $0, awaiting your test** (`16effc1f`): question quality is now a number.
+The baseline over all 76 saved runs says **94 of 483 asked questions moved nothing (19.5%)**, and
+the agency rule that was meant to fix Machar's one real criticism **fired on 2 turns, in 2 runs,
+both dated 29 July, the day it shipped**, with nothing anywhere enforcing it. That is the bar
+Phase 2 has to beat. 231/231, three typechecks, replay 7/7, copy lint clean.
+[Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
+
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**
 You met "How did last time's agreements go?" as the first thing after the walk-in card and called
 it wrong-place and a difficult design. It was three things at once: the card **blocked** (you could
