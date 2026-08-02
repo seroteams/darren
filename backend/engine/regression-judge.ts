@@ -46,12 +46,29 @@ export interface JudgeHeadToHead {
   reason: string;
 }
 
+/** sharper-questions P1 — the grade on the QUESTIONS, kept separate from the eight
+ *  recap dimensions on purpose. REVIEW_DIM_KEYS is the list Carl marks by hand in the
+ *  run review tool and drives reviewStatusOf's "complete"; adding a ninth key there
+ *  would change his UI and quietly downgrade every finished review to "partial".
+ *  This rides alongside instead. */
+export interface JudgeQuestionQuality {
+  /** 1-5 on the questions as a set, judged as a conversation, not as a recap. */
+  score: number;
+  reason: string;
+  /** Turn numbers that bought nothing and should not have been spent. */
+  wasted_turns: number[];
+  /** The moment the questions should have pressed and did not, or null if none. */
+  missed_moment: string | null;
+}
+
 export interface JudgeResult {
   score: number;
   dimensions: JudgeDimension[];
   /** Null on a case's first-ever rerun: there is nothing to compare against. */
   head_to_head: JudgeHeadToHead | null;
   flags: string[];
+  /** Null when the judge did not return one (older stored results stay readable). */
+  question_quality: JudgeQuestionQuality | null;
 }
 
 /** One side of the comparison, in the shape the judge reads. */
@@ -112,8 +129,19 @@ const RESPONSE_SCHEMA = {
       additionalProperties: false,
     },
     flags: { type: "array", items: { type: "string" } },
+    question_quality: {
+      type: "object",
+      properties: {
+        score: { type: "integer", minimum: 1, maximum: 5 },
+        reason: { type: "string" },
+        wasted_turns: { type: "array", items: { type: "integer" } },
+        missed_moment: { type: ["string", "null"] },
+      },
+      required: ["score", "reason", "wasted_turns", "missed_moment"],
+      additionalProperties: false,
+    },
   },
-  required: ["score", "dimensions", "head_to_head", "flags"],
+  required: ["score", "dimensions", "head_to_head", "flags", "question_quality"],
   additionalProperties: false,
 };
 
@@ -130,6 +158,14 @@ export function buildSystemPrompt(hasBaseline: boolean): string {
     "Minor nits must NOT by themselves drop the score, and do not penalise the absence of a deliverable this meeting type does not require.",
     "BUT trust and honesty failures are NOT nits — score them 2 or below: if the manager's PRIVATE notes or worries appear in employee-facing output, or the recap diagnoses the person confidently from thin or skipped answers, that is a substantive failure. Add a flag naming it.",
     "Never reward length. A shorter recap that a manager can act on beats a longer one that cannot.",
+    "",
+    "Then judge the QUESTIONS separately, as a conversation rather than as a document.",
+    "The recap is written afterwards; the questions are all the manager actually had in the room.",
+    "- Score 1-5 on whether these were the right things to ask this person, in this order.",
+    "- List the turn numbers that bought nothing: a question that repeated an earlier one, that the answer had already covered, or that moved the conversation nowhere.",
+    "- If an answer named something stalled, stuck or dropped, and the NEXT question changed the subject instead of asking what they would do about it, record that as the missed moment. Name the turn.",
+    "- A recap that points out an opening the questions walked past is a failure of the questions, not a strength of the recap. Score it that way.",
+    "- If nothing was missed, return missed_moment as null rather than inventing one.",
   ];
   if (hasBaseline) {
     lines.push(
@@ -210,10 +246,26 @@ export async function judgeRerun(input: JudgeInput, deps: { callAI?: CallAI; mod
   // than one that admits it — force the null through regardless of what came back.
   const head_to_head = input.baseline && result.head_to_head ? (result.head_to_head as JudgeHeadToHead) : null;
 
+  // Absent on results stored before this field existed, so it stays optional rather
+  // than defaulting to a score the judge never gave.
+  const q = result.question_quality as Record<string, unknown> | undefined | null;
+  const question_quality: JudgeQuestionQuality | null =
+    q && typeof q === "object"
+      ? {
+          score: typeof q.score === "number" ? q.score : 0,
+          reason: typeof q.reason === "string" ? q.reason : "",
+          wasted_turns: Array.isArray(q.wasted_turns)
+            ? (q.wasted_turns as unknown[]).filter((n): n is number => typeof n === "number")
+            : [],
+          missed_moment: typeof q.missed_moment === "string" ? q.missed_moment : null,
+        }
+      : null;
+
   return {
     score: typeof result.score === "number" ? result.score : 0,
     dimensions,
     head_to_head,
     flags: Array.isArray(result.flags) ? (result.flags as string[]) : [],
+    question_quality,
   };
 }

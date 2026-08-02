@@ -27,6 +27,32 @@ export interface RunHealth {
   leak_reasons: string[];
   // Any degradation at all — the single field a monitor can alarm on.
   degraded: boolean;
+
+  // --- sharper-questions P1: question quality -------------------------------------
+  // These are QUALITY figures, deliberately kept OUT of `degraded`. A weak question is
+  // not an engine failure, and folding it into the degradation alarm would make that
+  // alarm fire constantly and stop meaning anything.
+  //
+  // Turns that were actually asked and scored (skipped turns excluded).
+  scored_turns: number;
+  // Of those, how many moved no axis at all — the manager spent one of six questions
+  // and learned nothing scorable. Measured at ~1 in 5 across the 76 runs logged to date.
+  zero_signal_turns: number;
+  // Turns carrying the [AGENCY] marker, i.e. where the planner pressed on a stalled
+  // commitment instead of moving on. The rule exists (plan-turn.md "THE TRIGGER") but
+  // fired in only 2 runs, both on the day it shipped, because nothing counted it.
+  agency_fired: number;
+}
+
+/** The marker the planner appends to its note when the agency rule fires. */
+export const AGENCY_MARKER = "[AGENCY]";
+
+/** A turn bought nothing if it moved no axis: no deltas, empty deltas, or all zeroes. */
+function isZeroSignal(deltas: unknown): boolean {
+  if (!deltas || typeof deltas !== "object") return true;
+  const values = Object.values(deltas as Record<string, unknown>);
+  if (values.length === 0) return true;
+  return values.every((v) => typeof v !== "number" || v === 0);
 }
 
 // Scoring health for the reviewer, rebuilt from the finished transcript. The CLI
@@ -50,13 +76,23 @@ export function scoringFromTranscript(
 // back, and any serve-time leak reasons that forced a block. Reads only `note`,
 // so any turn-shaped object works.
 export function buildRunHealth(
-  transcript: ReadonlyArray<{ note?: string | null }> | null | undefined,
+  transcript:
+    | ReadonlyArray<{
+        note?: string | null;
+        skipped?: boolean;
+        realized_deltas?: Record<string, number> | null;
+      }>
+    | null
+    | undefined,
   evaluationDegraded: boolean,
   leakReasons: ReadonlyArray<string> = [],
 ): RunHealth {
   const turns = Array.isArray(transcript) ? transcript : [];
   const plannerFailedTurns = turns.filter((t) => t?.note === PLANNER_FAILED_NOTE).length;
   const leaks = Array.isArray(leakReasons) ? [...leakReasons] : [];
+  // Quality figures count only turns that were actually asked, mirroring
+  // scoringFromTranscript — a skipped turn bought nothing because it never happened.
+  const scored = turns.filter((t) => !t?.skipped);
   return {
     evaluation_degraded: evaluationDegraded,
     planner_failed_turns: plannerFailedTurns,
@@ -64,5 +100,8 @@ export function buildRunHealth(
     leak_blocked: leaks.length > 0,
     leak_reasons: leaks,
     degraded: evaluationDegraded || plannerFailedTurns > 0 || leaks.length > 0,
+    scored_turns: scored.length,
+    zero_signal_turns: scored.filter((t) => isZeroSignal(t?.realized_deltas)).length,
+    agency_fired: scored.filter((t) => String(t?.note ?? "").includes(AGENCY_MARKER)).length,
   };
 }

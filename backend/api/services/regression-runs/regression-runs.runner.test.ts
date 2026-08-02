@@ -250,7 +250,13 @@ test("the AI reviewer sees this run and the previous one, and its verdict is sto
   h.deps.loadBaselineRun = async () => ({ transcript: [{ question: "old q", answer: "old a" }], briefing: { summary: "older" }, trust: null });
   h.deps.judge = async (input) => {
     seen = input as unknown as Record<string, unknown>;
-    return { score: 4, dimensions: [], head_to_head: { overall: "improved", dimensions: [], reason: "clearer actions" }, flags: [] };
+    return {
+      score: 4,
+      dimensions: [],
+      head_to_head: { overall: "improved", dimensions: [], reason: "clearer actions" },
+      flags: [],
+      question_quality: null,
+    };
   };
   const out = await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
 
@@ -268,7 +274,7 @@ test("a first-ever rerun judges with no baseline", async () => {
   h.deps.loadBaselineRun = async () => null;
   h.deps.judge = async (input) => {
     baselineSeen = (input as unknown as Record<string, unknown>).baseline;
-    return { score: 3, dimensions: [], head_to_head: null, flags: [] };
+    return { score: 3, dimensions: [], head_to_head: null, flags: [], question_quality: null };
   };
   const out = await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
 
@@ -291,7 +297,7 @@ test("a reviewer failure costs the run nothing — the money is already spent", 
 
 test("the reviewer cannot change the safety verdict", async () => {
   const h = harness({ budget: 1, trust: { verdict: "FAIL", hard_fails: ["PRIVATE_NOTE_LEAK"] } });
-  h.deps.judge = async () => ({ score: 5, dimensions: [], head_to_head: null, flags: [] });
+  h.deps.judge = async () => ({ score: 5, dimensions: [], head_to_head: null, flags: [], question_quality: null });
   const out = await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
 
   assert.equal(out.judge?.score, 5);
@@ -324,7 +330,9 @@ test("every paid stage is billed to THIS run, not just the planner turns", async
     return { assessment: { deltas: {}, note: "n" }, newQueue: (input.remainingQueue as Question[]) ?? [] };
   };
   h.deps.engine.evaluate = async () => (bill("05-evaluation"), { summary: "b" }) as never;
-  h.deps.judge = async () => (bill("regression-judge"), { score: 4, dimensions: [], head_to_head: null, flags: [] });
+  h.deps.judge = async () => (
+    bill("regression-judge"), { score: 4, dimensions: [], head_to_head: null, flags: [], question_quality: null }
+  );
 
   await createRegressionRunner(h.deps)({ caseId: "leak-devon", batchId: "b1", orgId: null }, hooks(h.progress));
 

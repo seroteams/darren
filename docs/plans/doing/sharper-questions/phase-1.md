@@ -1,6 +1,55 @@
 # Phase 1 — Count what is happening
 
-**Part of:** [plan.md](plan.md) · **Status:** ⬜
+## Built (2026-08-02)
+
+**The baseline, measured over all 76 saved runs** (`node scripts/question-quality-baseline.js`, offline, $0):
+
+| | |
+|---|---|
+| Runs read | 76 |
+| Questions actually asked | 483 |
+| **Bought nothing** | **94 (19.5%)** |
+| **Agency rule fired** | **2 turns, in 2 runs** |
+| Both firings dated | 29 July, the day the rule shipped |
+
+Worst runs were 7 of 7 questions moving nothing (a cluster on 1 July).
+
+This lines up with the figures in plan.md (~100 of 489). The small difference is that
+this counter **excludes skipped turns** on purpose, mirroring `scoringFromTranscript`:
+a question that was never asked cannot have bought nothing. 483 asked vs 489 total.
+
+**What landed**
+
+- `backend/engine/run-health.ts` — three new fields on `RunHealth`: `scored_turns`,
+  `zero_signal_turns`, `agency_fired`, plus an exported `AGENCY_MARKER`. Deliberately
+  kept **out** of `degraded`: a weak question is a quality problem, not an engine
+  failure, and folding it in would make the degradation alarm fire constantly.
+- `backend/engine/regression-judge.ts` — a ninth grade, `question_quality`
+  (`score`, `reason`, `wasted_turns`, `missed_moment`), with the rubric that carries it.
+  **Kept off `REVIEW_DIM_KEYS` on purpose:** that list drives Carl's hand-marked review
+  UI and `reviewStatusOf`, so a ninth key there would add a checkbox to his tool and
+  silently downgrade every finished review from "complete" to "partial".
+- `backend/engine/reviewer.ts` — `ReadTurn` now declares `realized_deltas`, which every
+  lane already stamps (`shared/session.types.ts:108`).
+- `scripts/question-quality-baseline.js` — the offline baseline, which imports
+  `buildRunHealth` rather than re-counting, so the before-number and the live number
+  cannot drift apart.
+- Test fixtures in `regression-runs.runner.test.ts` updated for the new required field.
+
+**Destination proof** (not code-reading): fed the real saved transcript from
+`2026_Aug01_18-00-...` through the same `buildRunHealth` the reviewer calls. The
+`health.json` on disk today has 6 fields; the same transcript now produces those 6 plus
+`scored_turns: 6, zero_signal_turns: 1, agency_fired: 0`.
+
+**Offline proof:** `npm test` 231/231 · `typecheck` + `typecheck:admin` +
+`typecheck:customer` clean · `npm run replay` 7/7 still good · `lint:copy` clean.
+Both new test groups were confirmed **red before the implementation**.
+
+**Cost: $0.** No OpenAI call was made.
+
+---
+
+**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
 **You asked for:** "can you go deeper now ot SHOULD change." → "a" (Move A: fix the questions)
 
 ## Goal

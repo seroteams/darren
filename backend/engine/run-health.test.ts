@@ -66,6 +66,61 @@ test("no leak reasons: leak_blocked is false", () => {
   assert.deepEqual(h.leak_reasons, []);
 });
 
+// sharper-questions P1 — question quality. A turn that produced no axis movement
+// bought nothing: the manager spent one of six questions and learned nothing scorable.
+// Counting it is the whole point of the phase; nothing graded the questions before.
+test("zero_signal_turns counts turns whose deltas are empty or all zero", () => {
+  const h = buildRunHealth(
+    [
+      { note: "moved", realized_deltas: { clarity: -1 } },
+      { note: "nothing", realized_deltas: {} }, // empty
+      { note: "nothing", realized_deltas: { growth: 0, clarity: 0 } }, // all zero
+      { note: "no field at all" }, // missing
+      { note: "moved", realized_deltas: { wellbeing: 2 } },
+    ],
+    false,
+  );
+  assert.equal(h.zero_signal_turns, 3);
+  assert.equal(h.scored_turns, 5);
+});
+
+test("a skipped turn is not counted as zero-signal — it was never asked", () => {
+  const h = buildRunHealth(
+    [
+      { note: "moved", realized_deltas: { clarity: 1 } },
+      { note: "skipped", realized_deltas: {}, skipped: true },
+    ],
+    false,
+  );
+  assert.equal(h.zero_signal_turns, 0);
+  assert.equal(h.scored_turns, 1);
+});
+
+// The agency rule (plan-turn.md "THE TRIGGER") marks its turns with [AGENCY]. It fired
+// in 2 runs on the day it shipped and never since, and nothing noticed. This counter is
+// what makes that visible without reading transcripts by hand.
+test("agency_fired counts the turns carrying the [AGENCY] marker", () => {
+  const h = buildRunHealth(
+    [
+      { note: "ordinary follow-up" },
+      { note: "[AGENCY] pressed on the stalled mentoring ask" },
+      { note: "ordinary" },
+      { note: "chased the commitment [AGENCY]" },
+    ],
+    false,
+  );
+  assert.equal(h.agency_fired, 2);
+});
+
+test("zero signal and no agency do NOT mark the run degraded", () => {
+  // Degraded means the engine broke. A weak question is a quality problem, not a
+  // failure, and conflating them would make the degradation alarm useless.
+  const h = buildRunHealth([{ note: "flat", realized_deltas: {} }], false);
+  assert.equal(h.zero_signal_turns, 1);
+  assert.equal(h.agency_fired, 0);
+  assert.equal(h.degraded, false);
+});
+
 test("empty / missing transcript is safe", () => {
   const h = buildRunHealth([], false);
   assert.equal(h.total_turns, 0);

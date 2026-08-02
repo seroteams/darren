@@ -50,6 +50,10 @@ interface ReadTurn {
   note?: string;
   read?: TurnRead | null;
   turn?: number;
+  // Stamped after planning on every lane (shared/session.types.ts). Declared here so
+  // buildRunHealth's question-quality counters read a field the type admits exists,
+  // rather than one that only happens to be there at runtime.
+  realized_deltas?: Record<string, number>;
   // The CLI eval stage passes question as the name *string*; the fallback test
   // passes it as a {name} object. buildFallbackBriefing narrows both.
   question?: unknown;

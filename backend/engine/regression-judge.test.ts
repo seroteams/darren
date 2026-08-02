@@ -52,6 +52,45 @@ test("the rubric names all eight dimensions the review tool uses", () => {
   assert.equal(REVIEW_DIM_KEYS.length, 8);
 });
 
+// sharper-questions P1 — all eight dimensions above grade the RECAP. The only real
+// manager to use Sero complained about the QUESTIONS, and nothing scored those. These
+// pin the ninth grade, which is deliberately kept off REVIEW_DIM_KEYS so Carl's manual
+// eight-mark review stays exactly as it is.
+test("the rubric asks the judge to grade the questions, not just the recap", () => {
+  const system = buildSystemPrompt(false);
+  assert.match(system, /question/i);
+  assert.match(system, /in the room|during the meeting|asked at the time/i);
+});
+
+test("question quality comes back as its own grade", async () => {
+  const { call } = fakeCall({
+    score: 4,
+    dimensions: eightPasses,
+    head_to_head: null,
+    flags: [],
+    question_quality: {
+      score: 2,
+      reason: "Two of six questions moved nothing, and the stalled mentoring ask was never chased.",
+      wasted_turns: [3, 4],
+      missed_moment: "Turn 4 named a stalled commitment and the next question changed subject.",
+    },
+  });
+  const out = await judgeRerun(input(), { callAI: call, model: "test-model" });
+  assert.equal(out.question_quality?.score, 2);
+  assert.deepEqual(out.question_quality?.wasted_turns, [3, 4]);
+  assert.match(String(out.question_quality?.missed_moment), /stalled commitment/);
+  // The recap grade is untouched by the question grade: they are separate judgements.
+  assert.equal(out.score, 4);
+  assert.equal(out.dimensions.length, 8);
+});
+
+test("an old judge reply with no question grade does not break the result", async () => {
+  const { call } = fakeCall({ score: 4, dimensions: eightPasses, head_to_head: null, flags: [] });
+  const out = await judgeRerun(input(), { callAI: call, model: "test-model" });
+  assert.equal(out.question_quality, null);
+  assert.equal(out.score, 4);
+});
+
 test("trust failures are explicitly scored down, not treated as nits", () => {
   const system = buildSystemPrompt(false);
   assert.match(system, /PRIVATE/);

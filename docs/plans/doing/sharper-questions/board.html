@@ -80,9 +80,9 @@
   <div class="panel">
     <div class="prog-head">
       <h2>Phase 1 of 4 — count what is happening</h2>
-      <div class="prog-sub">0 of 4 signed off · 0 built</div>
+      <div class="prog-sub">0 of 4 signed off · 1 built</div>
     </div>
-    <div class="segs"><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Now</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
+    <div class="segs"><div class="seg"><div class="seg-bar seg-built"></div><div class="seg-label">Built</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">Next</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div><div class="seg"><div class="seg-bar seg-todo"></div><div class="seg-label">—</div></div></div>
   </div>
 
   <div class="panel setup">
@@ -98,16 +98,16 @@
 
   <div class="rows">
   <div class="row row-here">
-    <div class="node todo">1</div>
+    <div class="node built">1</div>
     <div class="card">
       <div class="card-head">
         <h3>Count what is happening</h3>
-        <span class="pill pill-todo">NOT STARTED</span>
+        <span class="pill pill-built">BUILT · AWAITING YOUR WALK</span>
         <span class="here">● YOU ARE HERE</span>
       </div>
       <p class="desc">Make question quality a number before we try to change it, so Phase 2 and Phase 3 can be judged on evidence rather than on how the output feels.</p>
-      <ul class="items"><li class="item-todo"><span class="tick tick-todo">○</span><span>A question-quality dimension on the judge</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Two counters per run</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Zero_signal_turns</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>Agency_fired</span></li><li class="item-todo"><span class="tick tick-todo">○</span><span>A baseline over the 76 saved runs</span></li></ul>
-      
+      <ul class="items"><li class=""><span class="tick tick-built">✓</span><span>Backend/engine/run-health.ts</span></li><li class=""><span class="tick tick-built">✓</span><span>Backend/engine/regression-judge.ts</span></li><li class=""><span class="tick tick-built">✓</span><span>Backend/engine/reviewer.ts</span></li><li class=""><span class="tick tick-built">✓</span><span>Scripts/question-quality-baseline.js</span></li><li class=""><span class="tick tick-built">✓</span><span>Test fixtures in regression-runs.runner.test.ts updated for the new required field</span></li></ul>
+      <div class="testit"><span class="testit-tag">TEST IT</span> <span class="role">The baseline reads true.</span> · <span class="role">A run reports its own numbers.</span> · <span class="role">The judge now says something about the questions.</span> · <span class="role">Nothing else moved.</span></div>
     </div>
   </div>
   <div class="row ">
