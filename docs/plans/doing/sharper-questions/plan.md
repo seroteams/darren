@@ -68,7 +68,13 @@ Dug out of the code so no phase stalls on an unknown.
 
 ## Current state
 
-**Phase 1 ✅ green-lit 2026-08-02. Phase 2 in progress.**
+**Phase 1 ✅ green-lit 2026-08-02. Phase 2 built the same day, $0, awaiting Carl's test.**
+
+Phase 2 landed the five tiebreaks and the gate the agency rule never had. Proven over all
+76 saved transcripts: it flags **24 runs / 39 turns** where a report named a snag and the
+next question changed the subject, and it passes the one saved run where the snag was
+actually followed up. Detail in [phase-2.md](phase-2.md). The size cap now has **66
+characters of headroom**, down from 337.
 
 The before-numbers are now measured, not estimated: across 76 saved runs, **94 of 483
 asked questions moved nothing (19.5%)**, and the agency rule fired on **2 turns in 2

@@ -38,6 +38,14 @@ const RULE_REGISTRY: readonly RuleCoupling[] = [
     provenBy: ["*"],
   },
   {
+    rule: "agency after a named snag: ask what they did about it, in the room",
+    promptFile: "plan-turn.md",
+    promptAnchor: "**THE TRIGGER (check this every turn).**",
+    gateFile: "backend/engine/golden-checks.ts",
+    gateIdentifier: "runAgencyFollowGate",
+    provenBy: ["*"],
+  },
+  {
     rule: "focus reason opener (Whether/How they're/What/If)",
     promptFile: "generate-focus-points.md",
     promptAnchor: "the `reason` MUST start with one of: `Whether `, `How they're `, `What `, `If `",

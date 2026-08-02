@@ -25,6 +25,7 @@ import {
   runRoleProfileArcGate,
   runRationaleArcGate,
   runWellbeingSituationGate,
+  runAgencyFollowGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
 } from "../backend/engine/golden-checks.ts";
@@ -516,6 +517,19 @@ function runTrustChecks({ briefing, transcript = [], managerNotes = "", bankQues
   // honestly; promote it to a hard fail once new runs stop tripping it.
   for (const w of runWellbeingSituationGate(turns)) {
     warnings.push(`WELLBEING_SITUATION_LEAK: ${w}`);
+  }
+
+  // Agency-follow gate (sharper-questions P2): the report named a snag and the next
+  // question changed the subject, so the "what are you going to do about it" move
+  // landed in the briefing after the meeting instead of in the room. Machar's one
+  // substantive criticism (docs/validation/machar-2026-07-29.md, F1). Detect-only.
+  //
+  // WARNING, not a hard fail, for the same reason as the gate above: the rule this
+  // enforces fired on 2 turns in the whole 76-run back catalogue, so hard-failing
+  // would make the replay suite permanently red and bury the signal. Promote it once
+  // new runs stop tripping it.
+  for (const w of runAgencyFollowGate(turns)) {
+    warnings.push(`AGENCY_NOT_ASKED: ${w}`);
   }
 
   // Warning, not a hard fail: a signal-free session is legitimately silent,

@@ -10,6 +10,7 @@ import { FOCUS_POINTS_FILE } from "./paths.mts";
 import { renderRoleProfileBlock } from "./role-profile.ts";
 import { loadDir, QUESTIONS_ROOT } from "./questions.ts";
 import { listTypes, listStageIds } from "./one-on-one-types/index.ts";
+import { AGENCY_MARKER } from "./run-health.ts";
 
 import type { Briefing } from "../shared/briefing.types.ts";
 import type { AxisState } from "../shared/session.types.ts";
@@ -287,6 +288,61 @@ function runWellbeingSituationGate(transcript: GateTranscript): string[] {
     if (WELLBEING_PERSONAL_STATE.test(answer)) continue;
     failures.push(
       `turn ${t?.turn ?? "?"} booked wellbeing ${booked} with no strain stated by the report: "${answer.slice(0, 80)}"`
+    );
+  }
+  return failures;
+}
+
+// A snag named in an answer: something not working, slow, unclear, stuck, missing,
+// or someone else not delivering — the trigger condition in plan-turn.md
+// <question_craft> THE TRIGGER. Deliberately narrower than that prose: every term
+// here names an event, never a state, so NO_INFERRED_STATES is not smuggled in
+// through the gate. Grows from observed misses only, like JARGON_PATTERNS.
+const SNAG_NAMED =
+  /\b(stalled|stalling|stuck|slipped|slipping|slippage|slid|sliding|blocked|blocker|bottleneck|overdue|delayed|derailed|going sideways|going nowhere|no progress|not working|isn't working|doesn't work|hasn't happened|hasn't landed|hasn't moved|hasn't started|hasn't delivered|haven't delivered|never happened|still waiting|still hasn't|still haven't|keeps dropping|kept dropping|keeps slipping|dropped the ball|stopped pushing|stopped chasing|gave up on|let it slide|fallen over|falling over|nobody owns|no one owns|unowned|unclear|confusing)\b/i;
+
+// The agency ask: a question that puts the next move back on them. Mirrors the
+// "Puts it back on them" column of the same prompt block.
+const AGENCY_ASK =
+  /\b(what have you (tried|done|changed|said|chosen)|what did you (do|try|change|say|choose)|what would you (change|do|drop|stop|need|try)|what will you do|what are you going to do|what's your next|what is your next|what's the next (thing|move|step)|who have you (spoken|talked)|who's next|where would you start|what would it take|what would you stop doing)\b/i;
+
+// runAgencyFollowGate — sharper-questions P2. The gate the agency rule never had.
+//
+// THE TRIGGER shipped on 2026-07-29, fired on 2 turns in 2 runs that same day, and
+// never fired again across the 76 saved runs. Nothing asserted it should: no golden
+// check, no run-health field, no eval. A prompt rule with no gate has a half-life.
+//
+// Reads the session in pairs — turn N's answer, then turn N+1's question. If the
+// answer named a snag and the next question did not ask what they did about it, the
+// insight moved to the briefing, which is exactly the complaint this plan exists to
+// fix. DETECT ONLY: it flags so the prompt gets fixed, it never rewrites a question.
+//
+// Conservative on purpose (a warning that nags is a warning people scroll past):
+// thin answers cannot name a snag, skipped turns are not read, and the closer slot is
+// exempt because THE TRIGGER yields to it.
+//
+// It grades the QUESTION, never the planner's own [AGENCY] marker. Trusting the marker
+// was the first design and one of the two historical firings killed it: run
+// 2026_Jul29_23-54 tagged `[AGENCY]` and then asked "What has made design reviews feel
+// messy?", which is another description question. A self-certified marker is a claim;
+// the question text is the evidence. Where the two disagree the failure says so, since
+// a rule that reports itself as firing while not firing is the worse fault.
+function runAgencyFollowGate(transcript: GateTranscript): string[] {
+  const turns = (transcript || []).filter((t) => !t?.skipped);
+  const failures: string[] = [];
+  // Stop one short: the final turn's answer is followed by the briefing, not a
+  // question, and the turn before it is answered by the closer, which is exempt.
+  for (let i = 0; i < turns.length - 2; i++) {
+    const t = turns[i];
+    const answer = typeof t?.answer === "string" ? t.answer : "";
+    if (answer.trim().split(/\s+/).filter(Boolean).length < 5) continue;
+    if (!SNAG_NAMED.test(answer)) continue;
+    if (AGENCY_ASK.test(turns[i + 1]?.question?.name ?? "")) continue;
+    const claimed = String(t?.note ?? "").includes(AGENCY_MARKER)
+      ? ` (note claims ${AGENCY_MARKER})`
+      : "";
+    failures.push(
+      `turn ${t?.turn ?? "?"} named a snag and the next question did not ask what they did about it${claimed}: "${answer.slice(0, 80)}"`
     );
   }
   return failures;
@@ -817,6 +873,7 @@ export {
   runRoleProfileArcGate,
   runRationaleArcGate,
   runWellbeingSituationGate,
+  runAgencyFollowGate,
   runRoleProfileVocabLeak,
   runEvalIntegrityChecks,
   runQuestionStemChecks,
