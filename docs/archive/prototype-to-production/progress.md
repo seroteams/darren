@@ -1968,3 +1968,12 @@ five restatements, which the rule sheet had accumulated exactly as the cap predi
 stated in three places, the closer-craft pointer in three, and a precedence list in `<living_plan>`
 that duplicated `<decision_order>`. No rule was removed and the sheet got clearer. The cost is that
 headroom is now 66 characters, so the next phase has to trim before it can add.
+
+**A rule with a window has to be checked against the rules that close it.** Axis coverage was
+written as "hard at turn 4+" and read like a guarantee. It was not: wind-down starts at
+`remaining_budget <= 2` and forbids a wellbeing probe by name, so the real window was
+`[opensAfter, N-3]`. In a six-question meeting that is one turn, and in a five-question meeting it
+is no turn at all, which is why the wellbeing dial came back blank in 59% of briefings while every
+individual rule looked correct. The fix was one turn of widening plus naming the closing edge out
+loud, and the useful artefact was `scripts/coverage-window-check.js`: a rule interaction argued
+about in prose stays an argument, and the same thing computed over 76 real runs is a table.

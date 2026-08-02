@@ -47,7 +47,7 @@ saved run where the snag was actually followed up. The rule sheet stayed inside 
 collapsing five restatements rather than raising it, but headroom is now **66 characters, down
 from 337**, which makes the cap the binding constraint for the rest of the plan. 232/232, three
 typechecks, replay 7/7, copy lint clean.
-**🔨 Phase 3 built the same day, $0, awaiting your test:** the wellbeing question now has room
+**Phase 3 ✅ green-lit 2026-08-02, $0:** the wellbeing question now has room
 to be asked. The rule that was meant to guarantee an untouched dial gets picked up could only
 fire on **one turn** of a 6-turn session, and on **no turn at all** of a 5-turn one, because it
 opened at the same moment the wind-down rule started forbidding new probes. It now opens a turn

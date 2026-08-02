@@ -1,5 +1,11 @@
 # Phase 3 — Make sure wellbeing gets asked
 
+## ✅ GREEN-LIT 2026-08-02
+
+Carl green-lit this phase on the evidence in chat: the measured window table over all 76
+saved runs, and the diff-level proof that the honesty rule was not touched. No paid run
+was spent on it.
+
 ## Built (2026-08-02)
 
 **The window was narrower than the plan said, and for 21 runs it did not exist at all.**
@@ -58,7 +64,7 @@ is not under this cap. Raising it is a deliberate commit and your call.
 
 ---
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit 2026-08-02
 **You asked for:** "can you go deeper now ot SHOULD change." → "a" (Move A: fix the questions)
 
 ## Goal

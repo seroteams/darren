@@ -61,14 +61,14 @@ Dug out of the code so no phase stalls on an unknown.
 |---|-------|---------------|--------|
 | 1 | Count what is happening | Question quality becomes a number: a judge dimension that grades the questions, plus a zero-signal and agency counter per run, with a baseline over the 76 saved runs | ✅ |
 | 2 | Make the sharp question get asked | The five rule-sheet contradictions get explicit tiebreaks, and the agency rule gets a gate + registry row so it cannot silently stop firing again | ✅ |
-| 3 | Make sure wellbeing gets asked | Widen the axis-coverage window so a wellbeing question can land before wind-down closes the session | 🔨 |
-| 4 | Stop every briefing reading the same | Let the briefing's counts and openers flex, so four reports in a week do not produce four identical forms | ⬜ |
+| 3 | Make sure wellbeing gets asked | Widen the axis-coverage window so a wellbeing question can land before wind-down closes the session | ✅ |
+| 4 | Stop every briefing reading the same | Let the briefing's counts and openers flex, so four reports in a week do not produce four identical forms | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
 ## Current state
 
-**Phases 1 and 2 ✅ green-lit 2026-08-02. Phase 3 built the same day, $0, awaiting Carl's test.**
+**Phases 1, 2 and 3 ✅ green-lit 2026-08-02. Phase 4, the last one, in progress.**
 
 Phase 3 widened the axis-coverage window. Measured, not argued: the old wording could fire
 on **one** turn of a 6-turn session and on **no turn at all** of a 5-turn one. It now opens
