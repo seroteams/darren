@@ -606,15 +606,21 @@ async function main(): Promise<void> {
 
   const shutdown = (signal: string) => {
     console.log(`\n[${signal}] graceful shutdown (5s) ...`);
-    // Drain queued run-artifact + question + session-mirror writes before exit
-    // so nothing in flight is lost.
-    void flushArtifactWrites();
-    void flushQuestionWrites();
-    void flushArcOverlayWrites();
-    void flushRoleProfileWrites();
-    void flushTraceWrites();
-    void flushSessionWrites();
-    server.close(() => process.exit(0));
+    // Drain queued run-artifact + question + session-mirror writes before exit so nothing in
+    // flight is lost. These MUST be awaited: session mirroring is fire-and-forget, so a write
+    // the browser was already told succeeded is only in the queue at this point. Exiting while
+    // they settle drops it silently (the queue never gets to fail, so nothing escalates).
+    // Stop accepting new connections first, then let the queues finish.
+    server.close();
+    void Promise.allSettled([
+      flushArtifactWrites(),
+      flushQuestionWrites(),
+      flushArcOverlayWrites(),
+      flushRoleProfileWrites(),
+      flushTraceWrites(),
+      flushSessionWrites(),
+    ]).then(() => process.exit(0));
+    // Backstop: a wedged queue must not hold the deploy open forever.
     setTimeout(() => process.exit(0), 5000).unref?.();
   };
   process.on("SIGINT", () => shutdown("SIGINT"));

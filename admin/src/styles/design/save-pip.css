@@ -1,7 +1,7 @@
 /* -----------------------------------------------------------------------------
-   Save pip — the shared "Saved / Saving…" autosave indicator (ui/save-pip.ts).
+   Save pip — the shared "Saved / Saving… / Not saved" autosave indicator (ui/save-pip.ts).
    One quiet status chip any autosaving screen can mount; state flips via
-   data-state="idle|saving".
+   data-state="idle|saving|failed".
 ----------------------------------------------------------------------------- */
 .save-pip {
   display: inline-flex;
@@ -19,4 +19,12 @@
 }
 .save-pip[data-state="saving"] .save-pip__dot {
   background: var(--sero-gold-700);
+}
+/* Failed is the one state that must not stay quiet: the label carries the colour too,
+   because a manager glancing at a grey chip would read it as fine. */
+.save-pip[data-state="failed"] {
+  color: var(--color-danger);
+}
+.save-pip[data-state="failed"] .save-pip__dot {
+  background: var(--color-danger);
 }

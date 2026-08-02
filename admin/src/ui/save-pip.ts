@@ -3,11 +3,14 @@
 // with the host); this owns only the markup and label. Styles live in
 // admin/src/styles/design/save-pip.css (class namespace `save-pip`).
 
-export type SavePipState = "idle" | "saving";
+export type SavePipState = "idle" | "saving" | "failed";
 
 /** The pip's visible label per state — exported for tests and string renderers. */
 export function savePipLabel(state: SavePipState): string {
-  return state === "saving" ? "Saving…" : "Saved";
+  if (state === "saving") return "Saving…";
+  // "failed" must never read as saved: the host still holds the edit, the server does not.
+  if (state === "failed") return "Not saved";
+  return "Saved";
 }
 
 export interface SavePip {

@@ -28,8 +28,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck
+      - name: Typecheck (backend)
         run: npm run typecheck
+
+      # The root tsconfig is Node/back-end only, and `vite build` transpiles without
+      # typechecking — so without these two steps a type error in the code customers
+      # actually run cannot fail any check, or the production build.
+      - name: Typecheck (admin console)
+        run: npm run typecheck:admin
+
+      - name: Typecheck (customer app)
+        run: npm run typecheck:customer
 
       - name: Tests (offline)
         run: npm test

@@ -47,7 +47,9 @@ test("the topbar labels ARE the shared display names, not a parallel list", () =
 });
 
 test("the old long forms are gone from the vocabulary", () => {
-  const labels = Object.values(STAGE_DISPLAY);
+  // Widened deliberately: the point of the check is that these strings are absent from the
+  // vocabulary, so it must compare against any string, not just the current label union.
+  const labels: string[] = Object.values(STAGE_DISPLAY);
   for (const gone of ["Focus areas", "Prep brief", "During the meeting", "Pulling it together"]) {
     assert.ok(!labels.includes(gone), `"${gone}" should no longer be a stage name`);
   }

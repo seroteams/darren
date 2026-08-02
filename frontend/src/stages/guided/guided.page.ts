@@ -10,7 +10,7 @@
 import type { Mount } from "../../../../admin/src/stages/stage.types.ts";
 import { STAGES } from "../../../../admin/src/state.ts";
 import { breadcrumb } from "../../../../admin/src/ui/breadcrumb.ts";
-import { createSavePip } from "../../../../admin/src/ui/save-pip.ts";
+import { createSavePip, type SavePipState } from "../../../../admin/src/ui/save-pip.ts";
 import { loadingHtml } from "../../../../admin/src/ui/screen-scaffold.ts";
 import {
   getGuidedSession,
@@ -39,6 +39,11 @@ import { panelHtml, type Panel } from "./side-panel.component.ts";
 import { renderRecord } from "./record.component.ts";
 import { esc } from "./guided-util.ts";
 import "./guided.css";
+
+/** Quiet debounce on a healthy save. */
+const SAVE_DEBOUNCE_MS = 600;
+/** Ceiling on the backoff after repeated failures, so a dead API costs 2 requests a minute. */
+const SAVE_RETRY_MAX_MS = 30_000;
 
 function normalizeState(raw: unknown, arc: GuidedArc): GuidedState {
   const s = (raw && typeof raw === "object" ? raw : {}) as Partial<GuidedState>;
@@ -152,6 +157,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   let saving = false;
   let completed = dto.completedAt != null;
   let saveTimer: ReturnType<typeof setTimeout> | undefined;
+  let saveFailures = 0;
 
   // Body portal for the side panel only (independent of any transformed ancestor).
   document.querySelectorAll(".gd-portal").forEach((n) => n.remove());
@@ -191,7 +197,7 @@ export const mount: Mount = async (root, { store, setState }) => {
   // ---- auto-save ----------------------------------------------------------------------------
   const currentStageId = (): string => stages[state.step] ?? stages[0]!;
 
-  function setSavePip(s: "idle" | "saving"): void {
+  function setSavePip(s: SavePipState): void {
     pip.set(s);
   }
 
@@ -202,19 +208,29 @@ export const mount: Mount = async (root, { store, setState }) => {
     setSavePip("saving");
     try {
       await patchGuidedSession(id, { stage: currentStageId(), state });
+      saveFailures = 0;
+      setSavePip("idle"); // only a resolved write may say "Saved"
     } catch {
       dirty = true; // keep dirty so the next change retries
+      saveFailures += 1;
+      setSavePip("failed");
     } finally {
       saving = false;
-      setSavePip("idle");
       if (dirty) scheduleSave();
     }
+  }
+
+  // Retry delay doubles per consecutive failure, capped. Without this a dead API turns
+  // every keystroke into a permanent ~2-requests-a-second loop for as long as the tab is open.
+  function saveDelay(): number {
+    if (saveFailures === 0) return SAVE_DEBOUNCE_MS;
+    return Math.min(SAVE_DEBOUNCE_MS * 2 ** saveFailures, SAVE_RETRY_MAX_MS);
   }
 
   function scheduleSave(): void {
     dirty = true;
     if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => void flush(), 600);
+    saveTimer = setTimeout(() => void flush(), saveDelay());
   }
 
   function flushNow(): void {

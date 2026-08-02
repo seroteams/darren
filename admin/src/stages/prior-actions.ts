@@ -75,8 +75,8 @@ export async function loadPriorActions(store: PriorActionsStore): Promise<PriorA
 
   let prior: PriorActions | null = null;
   try {
-    const res = await getPriorPromises(id);
-    prior = res?.prior?.promises?.length ? (res.prior as PriorActions) : null;
+    const res = (await getPriorPromises(id)) as { prior?: PriorActions } | null;
+    prior = res?.prior?.promises?.length ? res.prior : null;
   } catch (e) {
     // A failed read is not cached: the next stage gets to try again.
     console.warn("[prior-actions] read failed (continuing with nothing open):", (e as Error)?.message);

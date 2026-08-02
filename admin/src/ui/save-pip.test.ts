@@ -33,6 +33,19 @@ function stubDocument(): { el: FakeEl; label: FakeLabel } {
 test("savePipLabel maps each state to its copy", () => {
   assert.equal(savePipLabel("idle"), "Saved");
   assert.equal(savePipLabel("saving"), "Saving…");
+  assert.equal(savePipLabel("failed"), "Not saved");
+});
+
+// The defect this pins: a failed save used to fall through to the idle label, so the
+// manager read "Saved" while nothing had reached the server.
+test("a failed save never reads as saved", () => {
+  const { el, label } = stubDocument();
+  const pip = createSavePip();
+  pip.set("saving");
+  pip.set("failed");
+  assert.equal(el.dataset.state, "failed");
+  assert.equal(label.textContent, "Not saved");
+  assert.notEqual(label.textContent, savePipLabel("idle"));
 });
 
 test("createSavePip renders the pip idle, with dot + label markup", () => {

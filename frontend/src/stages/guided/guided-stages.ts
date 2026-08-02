@@ -54,10 +54,10 @@ const qCard = ({
     <div class="gd-q__head">
       <span class="gd-q__logo">S</span>
       <span class="gd-q__n">(${n}/${of})</span>
-      <span class="gd-q__stem">${stem}</span>
+      <span class="gd-q__stem">${esc(stem)}</span>
       <button type="button" class="gd-q__clock" aria-label="View history" title="View history">${ICONS.clock}</button>
     </div>
-    <p class="gd-q__coach">${coach}</p>
+    <p class="gd-q__coach">${esc(coach)}</p>
     ${src ? `<p class="gd-q__src">${src}</p>` : ""}
   </div>`;
 
