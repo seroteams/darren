@@ -82,9 +82,21 @@ of 6, inside the wind-down window where the rule yields to the closer by design,
 logged `[BUDGET-STARVED]`. That means **a snag named in the last third of a meeting never gets its
 "what will you do about it" question**, which is Machar's original complaint arriving after the
 meeting, and it is a live product decision for you. Second, the Phase 2 gate was reporting that
-rule-following behaviour as a miss; fixed, and the honest count is **19 runs / 30 turns, not 24 /
-39**. Separately, `growth-ahmed` hard-failed a focus-point wording rule that this plan never
-touched (`generate-focus-points.md`, last changed 11 July) and that needs its own look.
+rule-following behaviour as a miss. Separately, `growth-ahmed` hard-failed a focus-point wording
+rule that this plan never touched (`generate-focus-points.md`, last changed 11 July) and that
+needs its own look.
+**🔨 Phase 5 built the same day, $0, awaiting your test:** you picked the late-problem gap over
+finishing the counts, and it is fixed. A problem raised near the end now becomes **what the
+closing question asks about**, so it gets its "what's your first move and what do you need"
+inside the meeting instead of turning up in the recap afterwards. It adds no extra question: it
+aims the one Sero was already going to ask, so the meeting still lands on time. The gate had been
+wrong about that same window twice, first crying wolf on it and then going silent on it, and both
+mistakes are written down so a third version cannot repeat either. It now checks early problems
+against the next question and late ones against the closer: **30 early misses and 14 late ones**
+across the saved runs, where the late 14 were invisible until now. 232/232, three typechecks,
+replay 7/7, copy lint clean, and the prompt cap passed **without being raised** for the third
+phase running, with 53 characters to spare. **Still open and not started: the Phase 4 counts,
+which anchor at three of everything rather than following the evidence.**
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**

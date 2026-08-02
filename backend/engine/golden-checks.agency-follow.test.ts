@@ -105,29 +105,54 @@ test("thin answers cannot name a snag", () => {
   assert.deepEqual(runAgencyFollowGate(pair("bit unclear", "What are you working on?")), []);
 });
 
-test("a snag named inside wind-down is exempt", () => {
-  // The case that made this rule: the paid gate run on 2026-08-02 flagged biweekly-priya
-  // turn 4 of 6, where the planner had noted [BUDGET-STARVED] and handed the slot to the
-  // arc's remaining stages. Wind-down applies at remaining_budget <= 2 and outranks THE
-  // TRIGGER, so turns 4, 5 and 6 of a 6-turn session cannot carry the agency ask and the
-  // gate must not report rule-following behaviour as a miss.
-  const late = [
-    { turn: 1, answer: "opening answer with enough words to count", question: { name: "how are things?" } },
-    { turn: 2, answer: "a second answer, nothing snagged in it", question: { name: "what are you working on?" } },
-    { turn: 3, answer: "a third answer, all clear", question: { name: "and next quarter?" } },
-    {
-      turn: 4,
-      answer: "mentioned mentoring before, still wants it, but stopped pushing",
-      question: { name: "What are you actually focused on this week?" },
-      note: "named an unadvanced mentoring thread [BUDGET-STARVED]",
-    },
-    { turn: 5, answer: "a fifth answer", question: { name: "anything from me?" } },
-    { turn: 6, answer: "a final answer", question: { name: "where do you want to focus first?" } },
-  ];
-  assert.deepEqual(runAgencyFollowGate(late), []);
-  // Move the same snag to turn 2, inside the window, and it flags.
-  const early = late.map((t, i) => (i === 1 ? { ...t, answer: late[3]!.answer } : t));
-  assert.equal(runAgencyFollowGate(early).length, 1);
+// The real case, from the paid gate run on 2026-08-02: biweekly-priya named the mentoring
+// snag at turn 4 of 6, inside wind-down, where the closer owns the slot. The planner noted
+// [BUDGET-STARVED] and moved on, and the ask landed in the briefing after the meeting.
+const lateSnagSession = (closerName: string) => [
+  { turn: 1, answer: "opening answer with enough words to count", question: { name: "how are things?" } },
+  { turn: 2, answer: "a second answer, nothing snagged in it", question: { name: "what are you working on?" } },
+  { turn: 3, answer: "a third answer, all clear", question: { name: "and next quarter?" } },
+  {
+    turn: 4,
+    answer: "mentioned mentoring before, still wants it, but stopped pushing",
+    question: { name: "What are you actually focused on this week?" },
+    note: "named an unadvanced mentoring thread [BUDGET-STARVED]",
+  },
+  { turn: 5, answer: "a fifth answer", question: { name: "anything from me?" } },
+  { turn: 6, answer: "a final answer", question: { name: closerName } },
+];
+
+test("a late snag the closer ignores is flagged, and named as a late one", () => {
+  const fails = runAgencyFollowGate(lateSnagSession("Where do you want to focus first?"));
+  assert.equal(fails.length, 1);
+  assert.match(fails[0]!, /turn 4/);
+  assert.match(fails[0]!, /inside wind-down and the closer did not pick it up/);
+});
+
+test("a late snag the closer picks up is clean", () => {
+  // <wind_down_rule> Late snag: the closer is aimed at the snag instead of being generic.
+  assert.deepEqual(
+    runAgencyFollowGate(lateSnagSession("On the mentoring, what's your first move and what do you need?")),
+    [],
+  );
+});
+
+test("an in-window snag is judged on the next question, not the closer", () => {
+  // Same snag moved to turn 2. The closer being an agency ask must NOT excuse it.
+  const early = lateSnagSession("On the mentoring, what's your first move and what do you need?").map((t, i) =>
+    i === 1 ? { ...t, answer: "mentioned mentoring before, still wants it, but stopped pushing" } : t,
+  );
+  const fails = runAgencyFollowGate(early);
+  assert.equal(fails.length, 1);
+  assert.match(fails[0]!, /turn 2/);
+  assert.match(fails[0]!, /the next question did not ask/);
+});
+
+test("only one late-snag failure per session, because there is only one closer", () => {
+  const two = lateSnagSession("Where do you want to focus first?").map((t, i) =>
+    i === 4 ? { ...t, answer: "the handover keeps dropping things and nobody owns it" } : t,
+  );
+  assert.equal(runAgencyFollowGate(two).length, 1);
 });
 
 test("skipped turns are not read as snags", () => {

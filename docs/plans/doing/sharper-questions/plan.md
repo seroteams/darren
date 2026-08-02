@@ -63,6 +63,7 @@ Dug out of the code so no phase stalls on an unknown.
 | 2 | Make the sharp question get asked | The five rule-sheet contradictions get explicit tiebreaks, and the agency rule gets a gate + registry row so it cannot silently stop firing again | ✅ |
 | 3 | Make sure wellbeing gets asked | Widen the axis-coverage window so a wellbeing question can land before wind-down closes the session | ✅ |
 | 4 | Stop every briefing reading the same | Let the briefing's counts and openers flex, so four reports in a week do not produce four identical forms | 🔨 |
+| 5 | The late snag gets its question too | A problem raised near the end becomes what the closing question asks about, instead of going to the briefing | 🔨 |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 
@@ -79,11 +80,15 @@ across two people, none of them "Before next", against a prior of 54 of 57. Coun
 fixed: both briefings came back 3/3/3, so the anchor moved from 2 to 3 rather than becoming
 evidence-led.** Phase 4's count half is unproven and Phase 4 is not signed off.
 
-The runs also found two things not on the list: the agency rule correctly yields to
-wind-down, which means **a snag named in the last third of a meeting never gets its agency
-question** (open, Carl's call), and the Phase 2 gate was flagging that rule-following
-behaviour as a miss (fixed; honest count is 19 runs / 30 turns, not 24 / 39). Detail in
-[phase-4.md](phase-4.md).
+The runs also found the gap that became **Phase 5**: the agency rule correctly yields to
+wind-down, so a snag named in the last third of a meeting never got its agency question and
+went to the briefing instead. Carl picked that over finishing the counts. Phase 5 is built:
+a late snag now becomes what the **closer** asks about, adding no turn. **14 previously
+invisible turns** across the saved runs sit in that gap. Detail in
+[phase-4.md](phase-4.md) and [phase-5.md](phase-5.md).
+
+**Still open on Phase 4:** the counts anchor at 3/3/3 rather than following the evidence.
+Not started, not signed off.
 
 Phase 3 widened the axis-coverage window. Measured, not argued: the old wording could fire
 on **one** turn of a 6-turn session and on **no turn at all** of a 5-turn one. It now opens

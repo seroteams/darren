@@ -304,7 +304,7 @@ const SNAG_NAMED =
 // The agency ask: a question that puts the next move back on them. Mirrors the
 // "Puts it back on them" column of the same prompt block.
 const AGENCY_ASK =
-  /\b(what have you (tried|done|changed|said|chosen)|what did you (do|try|change|say|choose)|what would you (change|do|drop|stop|need|try)|what will you do|what are you going to do|what's your next|what is your next|what's the next (thing|move|step)|who have you (spoken|talked)|who's next|where would you start|what would it take|what would you stop doing)\b/i;
+  /\b(what have you (tried|done|changed|said|chosen)|what did you (do|try|change|say|choose)|what would you (change|do|drop|stop|need|try)|what will you do|what are you going to do|what('s| is) your (next|first move)|what('s| is) the (next (thing|move|step)|first move)|who have you (spoken|talked)|who's next|where would you start|what would it take|what would you stop doing)\b/i;
 
 // runAgencyFollowGate — sharper-questions P2. The gate the agency rule never had.
 //
@@ -327,34 +327,66 @@ const AGENCY_ASK =
 // messy?", which is another description question. A self-certified marker is a claim;
 // the question text is the evidence. Where the two disagree the failure says so, since
 // a rule that reports itself as firing while not firing is the worse fault.
+// Where wind-down starts. `<wind_down_rule>` applies at remaining_budget <= 2, and with
+// remaining_budget = N - T the last turn OUTSIDE it is T = N-3, i.e. index N-4.
+const lastInWindowIndex = (n: number): number => n - 4;
+
+function isSnag(t: GateTurn | undefined): boolean {
+  const answer = typeof t?.answer === "string" ? t.answer : "";
+  if (answer.trim().split(/\s+/).filter(Boolean).length < 5) return false;
+  return SNAG_NAMED.test(answer);
+}
+
 function runAgencyFollowGate(transcript: GateTranscript): string[] {
   const turns = (transcript || []).filter((t) => !t?.skipped);
   const failures: string[] = [];
-  // Stop where wind-down starts. `<wind_down_rule>` applies at remaining_budget <= 2 and
-  // outranks THE TRIGGER, so a snag named in the last two turns CANNOT be followed by an
-  // agency question: the closer has the slot by design. With remaining_budget = N - T,
-  // the last turn where the rule can fire is T = N-3, i.e. index N-4.
+  const lastInWindow = lastInWindowIndex(turns.length);
+
+  // In-window: the next question must be the agency ask.
   //
-  // The first version stopped one turn later and immediately cried wolf: the paid gate run
-  // on 2026-08-02 flagged biweekly-priya turn 4 of 6, where the planner had correctly noted
-  // [BUDGET-STARVED] and handed the slot to the arc's remaining stages. A gate that fires on
-  // rule-following behaviour is worse than no gate. NOTE: a snag named this late therefore
-  // never gets its agency question at all, which is a live product question, not a gate one.
-  for (let i = 0; i < turns.length - 3; i++) {
+  // It grades the QUESTION, never the planner's own [AGENCY] marker. Trusting the marker
+  // was the first design and one of the two historical firings killed it: run
+  // 2026_Jul29_23-54 tagged `[AGENCY]` and then asked "What has made design reviews feel
+  // messy?", another description question. A self-certified marker is a claim; the question
+  // text is the evidence. Where the two disagree the failure says so, since a rule that
+  // reports itself as firing while not firing is the worse fault.
+  for (let i = 0; i <= lastInWindow; i++) {
     const t = turns[i];
-    const answer = typeof t?.answer === "string" ? t.answer : "";
-    if (answer.trim().split(/\s+/).filter(Boolean).length < 5) continue;
-    if (!SNAG_NAMED.test(answer)) continue;
+    if (!isSnag(t)) continue;
     if (AGENCY_ASK.test(turns[i + 1]?.question?.name ?? "")) continue;
     const claimed = String(t?.note ?? "").includes(AGENCY_MARKER)
       ? ` (note claims ${AGENCY_MARKER})`
       : "";
     failures.push(
-      `turn ${t?.turn ?? "?"} named a snag and the next question did not ask what they did about it${claimed}: "${answer.slice(0, 80)}"`
+      `turn ${t?.turn ?? "?"} named a snag and the next question did not ask what they did about it${claimed}: "${answer0(t)}"`
     );
+  }
+
+  // Inside wind-down the closer owns the slot, so the agency ask has nowhere else to go:
+  // `<wind_down_rule>` → Late snag routes it INTO the closer. This is the half the first
+  // version got wrong in both directions. It flagged these turns as ordinary misses, which
+  // reported rule-following behaviour as a fault (biweekly-priya turn 4 of 6, planner note
+  // [BUDGET-STARVED], found by the paid run on 2026-08-02). Exempting them outright then
+  // hid a real gap: the snag simply never got asked about, and landed in the briefing after
+  // the meeting, which is the complaint this whole plan exists to answer. So: not exempt,
+  // checked against the closer instead. One failure per session, because there is only one
+  // closer to carry them.
+  const closer = turns[turns.length - 1]?.question?.name ?? "";
+  if (!AGENCY_ASK.test(closer)) {
+    for (let i = Math.max(0, lastInWindow + 1); i < turns.length - 1; i++) {
+      const t = turns[i];
+      if (!isSnag(t)) continue;
+      failures.push(
+        `turn ${t?.turn ?? "?"} named a snag inside wind-down and the closer did not pick it up: "${answer0(t)}"`
+      );
+      break;
+    }
   }
   return failures;
 }
+
+const answer0 = (t: GateTurn | undefined): string =>
+  (typeof t?.answer === "string" ? t.answer : "").slice(0, 80);
 
 // Role-profile scaffolding is engine vocabulary — it must never surface in
 // briefing prose (same spirit as MANAGER_BRIEFING_BANS).
