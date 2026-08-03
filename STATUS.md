@@ -2,9 +2,10 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
-📍 **2026-08-02 — checkpoint: a hostile review of the whole repo. Four code MUSTs fixed and
-committed; three jobs are yours and still open; sharper-questions Phase 1 is built and waiting
-on your test.**
+📍 **2026-08-03 — sharper-questions is CLOSED, all five phases, $0.64. Three jobs from the
+hostile review are still yours and still open.**
+▶ **Your move:** rotate the Gemini key, flip the GitHub repo private, and create
+`.secrets/live-database-url` then prove a restore. Nothing else is waiting on you.
 You asked for a sceptical new-CTO read, then QA and dev review, MUST only, and said you would
 reward "nothing needs changing" over invented work. **The honest headline: the code is good.**
 Authorization fencing, SQL, session tokens, CSRF, environment separation and PII handling in the
@@ -29,7 +30,7 @@ per-run cost ceiling cannot see about 40% of the spend because only the plan tur
 tracker. Measured, not guessed: every run start blocks the server for **1.7 seconds** hashing
 6,268 question files to write a 1.2MB record **nothing renders**. Full list, with what is
 genuinely fine recorded so it is not re-audited, in `~/.claude/plans/sero-should-fix-review.md`.
-You picked Move A, fix the questions, now [sharper-questions](docs/plans/doing/sharper-questions/plan.md).
+You picked Move A, fix the questions, now [sharper-questions](docs/plans/done/sharper-questions/plan.md).
 **Phase 1 ✅ green-lit 2026-08-02, $0** (`16effc1f`): question quality is now a number.
 The baseline over all 76 saved runs says **94 of 483 asked questions moved nothing (19.5%)**, and
 the agency rule that was meant to fix Machar's one real criticism **fired on 2 turns, in 2 runs,
@@ -69,7 +70,7 @@ two or welding two real threads together to stay at two. The reminder openers we
 examples did, so the examples were replaced with four that each open differently, plus a hard rule
 that no two reminders in one briefing may share a cue. **Screenshot-proven at 1 and 3 items on
 both briefing screens**, in
-[docs/plans/doing/sharper-questions/screenshots/](docs/plans/doing/sharper-questions/screenshots/).
+[docs/plans/done/sharper-questions/screenshots/](docs/plans/done/sharper-questions/screenshots/).
 232/232, three typechecks, replay 7/7, copy lint clean.
 **The two paid runs you authorised are done ($0.437) and they split the result.** The openers
 are fixed: six reminders across two different people, six different opening cues, not one of them

@@ -1,5 +1,12 @@
 # Phase 4 — Stop every briefing reading the same
 
+## ✅ GREEN-LIT 2026-08-03
+
+Carl green-lit this phase on the second attempt's paid run, with the honest residue recorded
+rather than smoothed over: the anchor moves when the prompt moves, but all three counts have
+moved together every time observed, so per-field flex is unproven. He declined a further run
+to test it and closed the plan.
+
 ## Built (2026-08-02)
 
 **The shape was contradicted, not just fixed.** `<length_limits>` said "exactly 2" for all
@@ -162,7 +169,7 @@ none is authorised.
 
 ---
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit 2026-08-03
 **You asked for:** "can you go deeper now ot SHOULD change." → "a" (Move A: fix the questions)
 
 ## Goal

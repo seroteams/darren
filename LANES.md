@@ -10,7 +10,6 @@ stops the edit and surfaces a warning instead of ploughing in.
 |---------|------|-------|---------|
 | a6878b4e | Stage look-back (kill the review popup) | admin/src/stages/stage-lookback.js, admin/src/ui/stage-recap-sections.js, admin/src/ui/stage-lookback.test.ts, admin/src/styles/design/stage-lookback.css, admin/src/ui/stage-review.js, admin/src/state.ts, admin/src/stage-loaders.js, admin/src/router.js | 2026-07-27 |
 | c9200bfa | Nightly database backup (photocopy the notebook) | scripts/backup-db.js, scripts/backup-nightly.ps1, docs/reference/db-backup-restore.md | 2026-07-30 |
-| 26ae0dd2 | Sharper questions P2 (agency rule + tiebreaks) | content/prompts/plan-turn.md, content/prompts/rule-registry.ts, backend/engine/golden-checks.ts, backend/engine/golden-checks.agency-follow.test.ts, evals/trust-checks.ts, scripts/coverage-window-check.js, content/prompts/final-evaluation.md, docs/plans/doing/sharper-questions/ | 2026-08-02 |
 
 
 **Rules (for Claude sessions — Carl never has to touch this file):**

@@ -27,6 +27,31 @@ Still open from the same territory, parked deliberately: two stores doing one jo
 (`session.promises[]` vs the person-scoped `tracker_items` behind the Monthly Check-in's Catch-up
 stage), and the Support panel going stale on every non-question card.
 
+**✅ CLOSED 2026-08-03: [sharper-questions](docs/plans/done/sharper-questions/plan.md) — Sero asks
+the sharp question in the meeting instead of pointing it out in the recap, and question quality is
+now a number we can watch (all 5 phases green-lit, $0.64 total, from the hostile repo review's
+"Move A: fix the questions").** Machar's one substantive criticism was that the best insight landed
+on the summary page rather than being asked in the room. **The measurement came first and it was
+worse than the complaint:** across 76 saved runs, 94 of 483 asked questions moved nothing (19.5%),
+and the agency rule written to fix exactly this had fired on **2 turns, in 2 runs, both dated 29
+July, the day it shipped**, with no gate, no counter and no eval asserting it ever should. The rest
+followed from that: five contradictions in the planner rule sheet each got an explicit tiebreak (two
+rules both claimed the first question, so a snag-naming answer was a coin flip); the rule got a gate
+plus a `rule-registry` row so it cannot silently die again; the axis-coverage window turned out to be
+one turn wide in a 6-turn session and **zero turns wide in a 5-turn one**; and the briefing's shape
+stopped being hardcoded at two of everything. **The findings worth keeping are all about how we
+verify, not what we shipped.** A prompt rule with no gate has a half-life, and eight rules already
+had the mechanism. A gate can be wrong in two opposite directions, and the second one, going quiet
+about a real gap, reads as health. Two paid runs bought to confirm the briefing work instead broke
+the story: they showed the agency rule correctly yielding to wind-down, which meant a snag named in
+the last third of a meeting could never get its question at all, and that became a fifth phase Carl
+chose over finishing the fourth. Reminder openers were fixed by changing the **examples**, not the
+rule's volume, and the same lever then explained why the counts anchored at 3/3/3 on the first
+attempt. The planner rule sheet absorbed three phases of new rules **without its size cap being
+raised once**. **Honest residue:** all three briefing counts have moved together every time
+observed (2/2/2, then 3/3/3, then 2/2/2), so the shape follows the prompt and not yet the
+conversation; and `growth-ahmed` hard-fails a focus-point wording rule this plan never touched.
+
 **⚠️ OPEN 2026-07-30: thread-following coverage — the AI drops about one thread in five, and we only
 found out because a self-scoring metric stopped flattering us.** Carl hit a bland follow-up on the
 live meeting screen and asked where it came from. It was not the model: the engine minted its own

@@ -62,10 +62,35 @@ Dug out of the code so no phase stalls on an unknown.
 | 1 | Count what is happening | Question quality becomes a number: a judge dimension that grades the questions, plus a zero-signal and agency counter per run, with a baseline over the 76 saved runs | ✅ |
 | 2 | Make the sharp question get asked | The five rule-sheet contradictions get explicit tiebreaks, and the agency rule gets a gate + registry row so it cannot silently stop firing again | ✅ |
 | 3 | Make sure wellbeing gets asked | Widen the axis-coverage window so a wellbeing question can land before wind-down closes the session | ✅ |
-| 4 | Stop every briefing reading the same | Let the briefing's counts and openers flex, so four reports in a week do not produce four identical forms | 🔨 |
+| 4 | Stop every briefing reading the same | Let the briefing's counts and openers flex, so four reports in a week do not produce four identical forms | ✅ |
 | 5 | The late snag gets its question too | A problem raised near the end becomes what the closing question asks about, instead of going to the briefing | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
+
+## ✅ CLOSED 2026-08-03
+
+All five phases green-lit. **Total spend: $0.64** across three paid runs, every one authorised
+first. Everything else was proven offline for nothing.
+
+**What moved.** Question quality is a number that lives in `run-health.json` and in the judge.
+The agency rule has a gate and a registry row, so it cannot silently stop firing again; on the
+final run its marker fired **twice in one meeting**, against twice in the entire 76-run back
+catalogue before this plan. Five rule-sheet contradictions have explicit tiebreaks. The
+axis-coverage window is wider in 62 of 76 runs and non-zero in the 5-turn sessions where it
+could never fire at all. The briefing's shape follows a rule instead of a hardcoded 2, and its
+reminders open on when the thing will actually show.
+
+**Honest residue, carried out of the plan rather than buried in it:**
+
+- **The three briefing counts have moved together every time observed** (2/2/2, then 3/3/3,
+  then 2/2/2). The anchor follows the prompt; per-field flex is unproven and needs runs on
+  sessions of genuinely different richness.
+- **`growth-ahmed` hard-fails `FOCUS_SHAPE_LEAK`** on a focus-point wording rule this plan
+  never touched (`generate-focus-points.md`, last changed 2026-07-11). Found, not caused.
+- **The planner rule sheet's size cap is full**, 34,392 of 34,400 characters at close. The
+  next rule needs a trim or a deliberate cap decision, which is Carl's and never a side effect.
+- **`content/prompts/**` is outside the em-dash copy guard**, so the prompts still teach the
+  model example copy containing banned dashes. Spawned as its own task.
 
 ## Current state
 

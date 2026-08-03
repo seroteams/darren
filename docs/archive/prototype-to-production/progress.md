@@ -1991,3 +1991,18 @@ demonstrate Phase 4 showed the openers fixed and the counts not: both briefings 
 which is the old "always 2" problem wearing a new number. They also surfaced the late-snag gap and
 a gate bug in work that had already been signed off. The temptation with a half-good result is to
 report the good half; the number that mattered was the one that did not move.
+
+**Changing the examples beats changing the rule, twice in one plan.** 54 of 57 reminders opened with
+"Before next..." because both worked examples did. Replacing them with four that each open
+differently fixed it on the first paid run, where a louder rule would not have. The same lever then
+explained the counts: the option list ran 1, 2, 3 and ended on 3; the length rule offered a bare
+range, which invites its top; and the good-example lists happened to hold three and four entries. A
+model copies the shape of what it is shown far more reliably than it obeys an instruction about it,
+so when a rule is not landing, look at what the prompt is demonstrating before writing another
+sentence.
+
+**Delete your own line when it is the problem.** The first count fix included "a manager reading four
+briefings in a week should be able to tell from the shape alone that four different conversations
+happened". That is an instruction to be DIFFERENT, and the cheapest way to differ from a remembered
+2 is 3, which is exactly what both runs did. Variety was the outcome we wanted, not an instruction
+the briefing should be following. The fix was removing it and giving a third item a real cost.
