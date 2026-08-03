@@ -27,7 +27,7 @@ const GUIDED_CARD: CatalogMeetingType = {
   badge: "New",
   duration: "30 to 45 min",
   description:
-    "A guided monthly 1:1 — catch up on last month, talk requests, rate the building blocks, swap feedback, review goals, and agree a summary.",
+    "A guided monthly 1:1: catch up on last month, talk requests, rate the building blocks, swap feedback, review goals, and agree a summary.",
   kind: "guided",
 };
 

@@ -97,7 +97,7 @@ test("save with orphaned questions and no confirm returns needsConfirm (no write
   assert.deepEqual(out, {
     needsConfirm: true,
     warning:
-      'Removing or renaming "old" would orphan 3 questions (2 intro, 1 opener) — they\'d no longer route to a phase. Save anyway?',
+      'Removing or renaming "old" would orphan 3 questions (2 intro, 1 opener). They\'d no longer route to a phase. Save anyway?',
     orphans: diff,
   });
   assert.equal(calls.write.length, 0);

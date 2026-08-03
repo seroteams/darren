@@ -89,14 +89,14 @@ export function createPersonaRunsService(deps: PersonaRunsDeps): PersonaRunsServ
       if (!persona) throw notFound("no persona with that id");
       if (!persona.script.length) throw badRequest("this persona has no scripted answers");
       if (!deps.hasApiKey()) {
-        throw conflict("OPENAI_API_KEY is not set — the engine can't run");
+        throw conflict("OPENAI_API_KEY is not set. The engine can't run.");
       }
 
       // Validation first, THEN the slot: a rejected request must not hold it.
       const busy = acquire(TOOL, now);
       if (busy) {
         const who = TOOL_LABEL[busy.tool] || busy.tool;
-        throw conflict(`${who} is already running — wait for it to finish`);
+        throw conflict(`${who} is already running. Wait for it to finish.`);
       }
 
       job = { ...IDLE, status: "running", personaId, stageLabel: "Starting", startedAt: now() };

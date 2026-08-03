@@ -49,7 +49,7 @@ export async function focusPointsStream(c: RequestContext): Promise<void> {
     session.focusPointsResult = null;
     // Throw away the in-flight run — but tell anyone already waiting on it
     // first. Dropping it silently strands every attached screen forever.
-    abortStage(session, "focus-points", "Suggesting different topics — start again from this step.");
+    abortStage(session, "focus-points", "Suggesting different topics. Start again from this step.");
   }
 
   await runStage(c, session, "focus-points", {
@@ -409,7 +409,7 @@ export async function planStream(c: RequestContext): Promise<void> {
       prompt: "",
       response: "",
     };
-    stream.write("note", { note: "The model hiccuped — continuing." });
+    stream.write("note", { note: "The model hiccuped. Continuing." });
   }
   });
 

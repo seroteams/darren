@@ -22,7 +22,7 @@ function buildPlanTurnInputs(session: Session, draftAnswer?: string) {
       ? { raw: draftAnswer, text: draftAnswer, skipped: false }
       : session.pendingAnswer;
   if (!pending) {
-    throw Object.assign(new Error("No answer submitted yet — nothing queued for the planner"), { status: 409 });
+    throw Object.assign(new Error("No answer submitted yet. Nothing queued for the planner."), { status: 409 });
   }
   const q = session.queueRef[0];
   if (!q) {

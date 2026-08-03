@@ -14,7 +14,7 @@ import { badRequest, notFound } from "../../middleware/http-error.ts";
 
 const INVITE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const MIN_PASSWORD = 8; // same floor as auth.service
-const INVALID = "That invite link isn't valid anymore — ask your manager for a fresh one.";
+const INVALID = "That invite link isn't valid anymore. Ask your manager for a fresh one.";
 
 export interface PasswordHasher {
   hash(password: string): Promise<string>;
@@ -33,7 +33,7 @@ function cleanEmail(v: unknown): string {
 const ORG_INVITE_ROLES = new Set(["manager", "member"]);
 function cleanRole(v: unknown): string {
   const role = String(v ?? "").trim().toLowerCase();
-  if (!ORG_INVITE_ROLES.has(role)) throw badRequest("Choose a role — manager or member.");
+  if (!ORG_INVITE_ROLES.has(role)) throw badRequest("Choose a role: manager or member.");
   return role;
 }
 
@@ -52,7 +52,7 @@ export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: 
      *  once — the caller composes the /join link; nothing else ever sees it. */
     async create(orgId: string, managerId: string, personId: string, emailRaw: unknown) {
       const person = await repo.findPersonForManager(personId, orgId, managerId);
-      if (!person) throw notFound("We couldn't find that person — refresh and try again.");
+      if (!person) throw notFound("We couldn't find that person. Refresh and try again.");
       const email = cleanEmail(emailRaw);
       const token = randomBytes(32).toString("hex");
       const expiresAt = new Date(Date.now() + INVITE_TTL_MS);
@@ -112,7 +112,7 @@ export function createInvitesService(repo: InvitesRepo = pgInvitesRepo, hasher: 
       const password = String(input.password ?? "");
       if (password.length < MIN_PASSWORD) throw badRequest(`Password must be at least ${MIN_PASSWORD} characters`);
       if (await repo.findUserByEmail(inv.email)) {
-        throw badRequest("That email already has an account — log in instead");
+        throw badRequest("That email already has an account. Log in instead.");
       }
       const name = String(input.name ?? "").trim().slice(0, 80) || inv.email.split("@")[0]!;
       const user = await repo.createMemberUser({

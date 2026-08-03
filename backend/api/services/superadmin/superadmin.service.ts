@@ -257,7 +257,7 @@ function bucketPulseRuns(runs: PulseRunRow[], externalUserIds: Set<string>, nowM
     const type = (r.meetingType && r.meetingType.trim()) || "Other";
     typeMix.set(type, (typeMix.get(type) ?? 0) + 1);
     if (!r.finished) {
-      const stage = (r.stage && r.stage.trim()) || "—";
+      const stage = (r.stage && r.stage.trim()) || "-";
       dropOffs.set(stage, (dropOffs.get(stage) ?? 0) + 1);
     }
   }
@@ -478,7 +478,7 @@ export function createSuperadminService(
         if (leads.length <= 1) {
           await rec("blocked", `last manager/admin of the company (was ${target.role})`);
           throw conflict(
-            "This is the company's only manager or admin — promote someone else first, then change this one.",
+            "This is the company's only manager or admin. Promote someone else first, then change this one.",
           );
         }
       }
@@ -513,7 +513,7 @@ export function createSuperadminService(
         if (activeLeads.length <= 1) {
           await rec("blocked", "last active manager/admin of the company");
           throw conflict(
-            "This is the company's only active manager or admin — activate or promote someone else first.",
+            "This is the company's only active manager or admin. Activate or promote someone else first.",
           );
         }
       }
@@ -574,7 +574,7 @@ export function createSuperadminService(
         if (activeLeads.length <= 1) {
           await rec("blocked", "last active manager/admin of the company");
           throw conflict(
-            "This is the company's only active manager or admin — activate or promote someone else first.",
+            "This is the company's only active manager or admin. Activate or promote someone else first.",
           );
         }
       }
@@ -584,7 +584,7 @@ export function createSuperadminService(
       if (roster > 0) {
         await rec("blocked", `still manages ${roster} roster ${roster === 1 ? "person" : "people"}`);
         throw conflict(
-          `This person still manages ${roster} ${roster === 1 ? "person" : "people"} — move or remove their team first.`,
+          `This person still manages ${roster} ${roster === 1 ? "person" : "people"}. Move or remove their team first.`,
         );
       }
       await repo.deleteUser(userId);

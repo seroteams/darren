@@ -82,7 +82,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
       if (!SETTABLE_ROLES.has(role)) throw badRequest("Role must be manager or member.");
       const users = await repo.listOrgUsers(orgId);
       const target = users.find((u) => u.id === targetId);
-      if (!target) throw notFound("We couldn't find that person — refresh and try again.");
+      if (!target) throw notFound("We couldn't find that person. Refresh and try again.");
       // Rank check (audit F16). The route is requireAdmin, which lets managers through too,
       // so without this a plain manager could demote the admin account that runs the
       // workspace. The actor's role is read from the same org list, so an unresolvable
@@ -92,7 +92,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
       }
       // Never leave the workspace with no active manager: block demoting its last active lead.
       if (isActiveLead(target) && role === "member" && users.filter(isActiveLead).length <= 1) {
-        throw conflict("This is the workspace's only manager — make someone else a manager first.");
+        throw conflict("This is the workspace's only manager. Make someone else a manager first.");
       }
       await repo.updateRole(targetId, role);
       await repo.writeAudit(actor.userId, "members.setRole", { target: targetId, from: target.role, to: role });
@@ -102,7 +102,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
     async deactivate(orgId, actor, targetId) {
       const users = await repo.listOrgUsers(orgId);
       const target = users.find((u) => u.id === targetId);
-      if (!target) throw notFound("We couldn't find that person — refresh and try again.");
+      if (!target) throw notFound("We couldn't find that person. Refresh and try again.");
       if (actor.userId && actor.userId === targetId) throw conflict("You can't switch off your own account.");
       // The same rank hole as setRole (audit F16): the superadmin-email guard below only
       // covers Sero's own accounts, so a plain manager could still switch off a customer
@@ -112,7 +112,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
       }
       if (isSuperadminEmail(target.email)) throw conflict("This account can't be deactivated.");
       if (isActiveLead(target) && users.filter(isActiveLead).length <= 1) {
-        throw conflict("This is the workspace's only active manager — activate or promote someone else first.");
+        throw conflict("This is the workspace's only active manager. Activate or promote someone else first.");
       }
       await repo.setDeactivated(targetId, new Date());
       await repo.revokeSessions(targetId); // kick them now
@@ -123,7 +123,7 @@ export function createMembersService(repo: MembersRepo = pgMembersRepo): Members
     async reactivate(orgId, actor, targetId) {
       const users = await repo.listOrgUsers(orgId);
       const target = users.find((u) => u.id === targetId);
-      if (!target) throw notFound("We couldn't find that person — refresh and try again.");
+      if (!target) throw notFound("We couldn't find that person. Refresh and try again.");
       await repo.setDeactivated(targetId, null);
       await repo.writeAudit(actor.userId, "members.reactivate", { target: targetId });
       return { id: targetId, deactivated: false };
