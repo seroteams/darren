@@ -383,6 +383,13 @@ export async function savePromiseOutcomes(sessionId, payload) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/promise-outcomes`, payload);
 }
 
+// last-one-to-one phase 2 — the walk-in glance. The previous FINISHED 1:1 with
+// the same person, projected to a headline, what was agreed with how it landed,
+// and that run's four reads ({ prior: null } when there is no last time).
+export async function getPriorRecap(sessionId) {
+  return json(await fetch(`/api/v1/sessions/${encodeURIComponent(sessionId)}/prior-recap`));
+}
+
 export async function setSelectedFocus(sessionId, focusPointIds) {
   return postJson(`/api/v1/sessions/${encodeURIComponent(sessionId)}/focus-points/select`, { focusPointIds });
 }

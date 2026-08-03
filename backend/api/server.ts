@@ -400,6 +400,9 @@ async function main(): Promise<void> {
   // write the manager's taps back onto that run (or record a skip).
   router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/prior-promises$/, v1Route(sessions.priorPromises));
   router.add("POST", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/promise-outcomes$/, guardedV1(sessions.promiseOutcomes));
+  // last-one-to-one phase 2 — the walk-in glance: the previous finished 1:1 with
+  // this person, projected to a headline, what was agreed, and its four reads.
+  router.add("GET", /^\/api\/v1\/sessions\/(?<id>[^/]+)\/prior-recap$/, v1Route(sessions.priorRecap));
   // suggest-fix — the prompt-fix suggester (controller → service → repo + an
   // injected AI boundary; the one runs route that calls the model). v1 mirrors
   // today's path (runId stays in the body; the contract's id-in-path

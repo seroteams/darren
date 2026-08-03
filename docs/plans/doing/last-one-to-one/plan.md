@@ -29,9 +29,9 @@ manager has to leave the runner and open the person page to see any of it.
 
 | # | Phase | What it lands | Status |
 |---|---|---|---|
-| 1 | Test screen | Walkable prototype in the Tests gallery, two arrangements to choose between, plus the first-1:1 and meeting-started states | 🔨 built, awaiting Carl's walk |
-| 2 | The read | `GET /api/v1/sessions/:id/prior-recap`, cloned from the proven `prior-promises` pair | ⬜ |
-| 3 | The real screen | The panel gains a "last" mode; segment label and hand-over in questioning.js AND bank.js | ⬜ |
+| 1 | Test screen | Walkable prototype in the Tests gallery. Round 1 rejected, round 2 is the glance | ✅ closed 2026-08-03 ("go with this") |
+| 2 | The read | `GET /api/v1/sessions/:id/prior-recap`, cloned from the proven `prior-promises` pair | 🔨 built, awaiting the walk |
+| 3 | The real screen | The panel gains a "last" mode; segment label and hand-over in questioning.js AND bank.js | 🔨 built, awaiting the walk |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 

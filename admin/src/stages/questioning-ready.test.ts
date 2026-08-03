@@ -132,7 +132,10 @@ test("the runner shows the gate before anything else, and only when unseen", () 
 test("the runner reads what's open before the gate, and only shows the check-in on request", () => {
   assert.match(
     HOST,
-    /async function proceedBoot\(\)[\s\S]{0,400}loadPriorActions\([\s\S]{0,400}showReadyGate\(/,
+    // The window widened in last-one-to-one P3: the glance is read in the same
+    // Promise.all, so there is more between proceedBoot and the gate than there
+    // was. The ORDER is what this guards, and it is unchanged.
+    /async function proceedBoot\(\)[\s\S]{0,600}loadPriorActions\([\s\S]{0,600}showReadyGate\(/,
     "what's open is known before the gate renders"
   );
   assert.match(
@@ -144,4 +147,30 @@ test("the runner reads what's open before the gate, and only shows the check-in 
     !/showReadyGate\(\)[\s\S]{0,200}getPriorPromises/.test(HOST),
     "the old gate-then-fetch order is gone"
   );
+});
+
+// last-one-to-one P3. The two hosts of the coach header are copies of one another,
+// so the glance has to be wired in BOTH or the panel repaints on hand-over. Source
+// checks rather than DOM ones, for the same reason the arc check above is: what
+// matters is that neither host was left behind.
+test("both hosts read the glance and hand it to the panel", () => {
+  const BANK = fs.readFileSync(path.join(HERE, "bank.js"), "utf8");
+  for (const [name, src] of [["questioning.js", HOST], ["bank.js", BANK]] as const) {
+    assert.match(src, /getPriorRecap\(store\.sessionId\)/, `${name} reads the glance`);
+    assert.match(src, /showGlance\(recap\)/, `${name} hands it to the panel`);
+    assert.match(src, /segmentOneLabel\(true\)/, `${name} renames the first segment`);
+    // A failed read must never block a 1:1 — same rule the open-actions read keeps.
+    assert.match(src, /getPriorRecap[\s\S]{0,120}catch\(\(\) => null\)/, `${name} degrades to no glance`);
+  }
+});
+
+test("only the runner stands the glance down, and it does it at question 1", () => {
+  const BANK = fs.readFileSync(path.join(HERE, "bank.js"), "utf8");
+  assert.match(
+    HOST,
+    /turnLabel\.textContent = `Question \$\{res\.turn\} of \$\{res\.total\}`;[\s\S]{0,400}endGlance\(\)/,
+    "the runner ends it as the first question paints",
+  );
+  // The bank stage never runs a question, so it must not carry an end path at all.
+  assert.doesNotMatch(BANK, /endGlance/, "bank.js only ever turns the glance on");
 });

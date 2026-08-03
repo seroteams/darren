@@ -13,6 +13,8 @@ import { icon } from "./icon.js";
 import { MessageCircle, Ear } from "lucide";
 import { AXIS_ORDER } from "./axes.js";
 import { escapeCopy as escape } from "./html.js";
+import { renderPromiseList } from "./briefing-view.ts";
+import { whenLabel } from "./time.ts";
 import {
   createNoteAttacher,
   rowStateFor,
@@ -20,9 +22,11 @@ import {
   parseStoredWhys,
   cleanHints,
   cleanBriefCues,
+  cleanRecap,
   type AxisRead,
   type WhyMap,
   type Hint,
+  type PriorRecap,
 } from "./coach-panel-state.ts";
 
 const AXIS_LABELS: Record<string, string> = {
@@ -65,7 +69,8 @@ export function createCoachPanel({
   el.innerHTML = `<div class="coach-panel__rows"></div>`;
   const rowsHost = el.querySelector(".coach-panel__rows") as HTMLElement;
 
-  let mode: "support" | "scores" = "support"; // POC default: coaching first
+  let mode: "support" | "scores" | "last" = "support"; // POC default: coaching first
+  let recap: PriorRecap | null = null; // the previous 1:1, before this one starts
   let questionHints: Hint[] = [];
   let hintsInherited = false; // lines written for the question this one follows up on
   const fallbackCues = cleanBriefCues(briefCues); // brief-level, only when the question has none
@@ -151,8 +156,56 @@ export function createCoachPanel({
     return `<p class="coach-empty">No coaching hints for this question yet. The Live scores tab still updates as you go.</p>`;
   }
 
+  // The walk-in glance (last-one-to-one Phase 3). Everything here is quoted from the
+  // previous finished 1:1: the briefing's own headline, the agreements the manager
+  // confirmed at that wrap-up with the outcome they were later tapped, and the four
+  // reads that run ended on. Deliberately NOT the whole record — the first prototype
+  // put the transcript here and it ran past 2,200px of scroll, which is a reading
+  // task and not the 20-second glance this screen has to be.
+  //
+  // Last meeting's reads ride as chips rather than the meters below, because those
+  // meters are a per-answer DELTA on a plus/minus 3 scale and these are a whole-meeting
+  // SCORE on plus/minus 10. Drawing them the same way would say they are the same
+  // number. An axis that meeting never read says so and shows none.
+  function scoreChip(a: PriorRecap["axes"][number]): string {
+    const label = AXIS_LABELS[a.id] || a.id;
+    if (!a.read || a.score === null) return `<span class="chip chip--plain">${escape(label)} not read</span>`;
+    const tone = a.score > 0 ? "chip--mint" : a.score < 0 ? "chip--coral" : "chip--plain";
+    const n = a.score > 0 ? `+${a.score}` : String(a.score);
+    return `<span class="chip ${tone}">${escape(label)} ${escape(n)}</span>`;
+  }
+
+  function lastHtml(): string {
+    if (!recap) return supportHtml();
+    const when = whenLabel(recap.when);
+    const stamp = [recap.meetingType || "Last 1:1", when].filter(Boolean).join(" · ");
+    // "You agreed" is only honest about manager-confirmed promises. A run that armed
+    // no loop falls back to what the briefing SUGGESTED, which nobody signed off, so
+    // it is labelled as a suggestion rather than passed off as an agreement.
+    const agreed = recap.agreed.length
+      ? `<div class="coach-last__sep">
+          <span class="eyebrow">${recap.agreedSource === "promises" ? "You agreed" : "Sero suggested"}</span>
+          ${renderPromiseList(
+            recap.agreed.map((a, i) => ({ id: String(i), owner: a.owner, action: a.action, outcome: a.outcome })),
+            personName,
+          )}
+        </div>`
+      : "";
+    const scores = recap.axes.length
+      ? `<div class="coach-last__sep"><div class="coach-last__scores">${recap.axes.map(scoreChip).join("")}</div></div>`
+      : "";
+    return `<div class="coach-last">
+      <div>
+        <p class="coach-source">${escape(stamp)}</p>
+        <p class="coach-hint__text">${escape(recap.headline)}</p>
+      </div>
+      ${agreed}${scores}
+    </div>`;
+  }
+
   function render(): void {
-    rowsHost.innerHTML = mode === "scores" ? lastAxes.map(rowHtml).join("") : supportHtml();
+    rowsHost.innerHTML =
+      mode === "scores" ? lastAxes.map(rowHtml).join("") : mode === "last" ? lastHtml() : supportHtml();
   }
 
   // Same duck-type surface as createAxesPanel, plus the Phase-2 methods.
@@ -176,9 +229,28 @@ export function createCoachPanel({
     render();
   }
 
-  function setMode(next: "support" | "scores"): void {
+  function setMode(next: "support" | "scores" | "last"): void {
     if (next === mode) return;
     mode = next;
+    render();
+  }
+
+  // Called once, before the gate, with the wire payload from /prior-recap. A recap
+  // takes the first segment over from Support until the meeting starts; no recap
+  // (a first 1:1, a guest run, an unfinished last time) leaves the panel exactly as
+  // it is today, which is why this never renders an empty "nothing here yet" card.
+  function setPriorRecap(raw: unknown): boolean {
+    recap = cleanRecap(raw);
+    if (recap && mode === "support") mode = "last";
+    render();
+    return Boolean(recap);
+  }
+
+  // The meeting has started: the glance is done and the panel goes back to coaching
+  // for the question in front of you. Idempotent, so a resumed session is safe.
+  function endGlance(): void {
+    recap = null;
+    if (mode === "last") mode = "support";
     render();
   }
 
@@ -192,5 +264,5 @@ export function createCoachPanel({
   }
 
   render();
-  return { el, renderInitial, update, setNote, setMode, setQuestionHints };
+  return { el, renderInitial, update, setNote, setMode, setQuestionHints, setPriorRecap, endGlance };
 }

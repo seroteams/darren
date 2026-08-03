@@ -17,6 +17,7 @@ import { buildIdentity } from "../../middleware/request-context.ts";
 import { requireAdmin, requireAuth } from "../../middleware/require-auth.ts";
 import { unauthenticated } from "../../middleware/http-error.ts";
 import { priorPromisesForSession, recordPromiseOutcomes } from "./promise-checkin.ts";
+import { priorRecapForSession } from "./prior-recap.ts";
 import { asRecord, asString } from "../../../shared/guards.ts";
 import { peopleService } from "../team/people.service.ts";
 import { hasDatabaseUrl } from "../../../db/client.ts";
@@ -184,6 +185,18 @@ export async function priorPromises(c: RequestContext): Promise<void> {
   await assertOwner(c, id);
   const session = service.get(id);
   c.json(200, { prior: session ? await priorPromisesForSession(session) : null });
+}
+
+// GET /api/v1/sessions/:id/prior-recap — the walk-in glance (last-one-to-one
+// phase 2): the previous FINISHED 1:1 with the same person, projected to a
+// headline, what was agreed with how it landed, and that run's four reads.
+// { prior: null } for a fresh person, a scripted run, or past question 1 — the
+// client renders today's panel then.
+export async function priorRecap(c: RequestContext): Promise<void> {
+  const id = sessionId(c);
+  await assertOwner(c, id);
+  const session = service.get(id);
+  c.json(200, { prior: session ? await priorRecapForSession(session) : null });
 }
 
 // POST /api/v1/sessions/:id/promise-outcomes — card zero's write (Promises loop

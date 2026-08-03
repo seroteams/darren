@@ -7,6 +7,8 @@ import {
   parseStoredWhys,
   cleanHints,
   cleanBriefCues,
+  cleanRecap,
+  segmentOneLabel,
   type AxisRead,
   type WhyMap,
 } from "./coach-panel-state.ts";
@@ -143,4 +145,67 @@ test("parseStoredWhys survives junk from sessionStorage", () => {
   assert.deepEqual(parseStoredWhys('{"clarity":{"delta":"x","why":2}}'), {});
   const good = '{"clarity":{"delta":1,"why":"ok"}}';
   assert.deepEqual(parseStoredWhys(good), { clarity: { delta: 1, why: "ok" } });
+});
+
+// --- The walk-in glance (last-one-to-one Phase 3) -------------------------------------------
+
+const RECAP = {
+  sessionId: "run-2",
+  when: 1700,
+  meetingType: "Bi-weekly 1:1",
+  headline: "Flat because the review cycle eats two days a sprint with nobody owning it.",
+  agreedSource: "promises",
+  agreed: [
+    { owner: "report", action: "Draft the rota", outcome: "no" },
+    { owner: "manager", action: "Early context on the rewrite", outcome: "yes" },
+  ],
+  axes: [
+    { id: "wellbeing", score: -4, read: true },
+    { id: "growth", score: 0, read: false },
+  ],
+};
+
+test("cleanRecap keeps the glance and puts the manager's own agreement first", () => {
+  const r = cleanRecap(RECAP)!;
+  assert.equal(r.headline, RECAP.headline);
+  assert.equal(r.meetingType, "Bi-weekly 1:1");
+  assert.equal(r.agreedSource, "promises");
+  assert.deepEqual(r.agreed.map((a) => a.owner), ["manager", "report"]);
+  assert.deepEqual(r.axes, [
+    { id: "wellbeing", score: -4, read: true },
+    { id: "growth", score: null, read: false },
+  ]);
+});
+
+test("cleanRecap: no headline means no card, rather than a half-empty one", () => {
+  assert.equal(cleanRecap(null), null);
+  assert.equal(cleanRecap({}), null);
+  assert.equal(cleanRecap({ ...RECAP, headline: "   " }), null);
+  assert.equal(cleanRecap("nope"), null);
+});
+
+test("cleanRecap drops malformed rows instead of drawing them", () => {
+  const r = cleanRecap({
+    ...RECAP,
+    agreed: [
+      { owner: "nobody", action: "ignored", outcome: "yes" },
+      { owner: "manager", action: "   ", outcome: "yes" },
+      { owner: "manager", action: "Kept", outcome: "invented" },
+    ],
+    axes: [{ score: 3, read: true }, { id: "clarity", score: 3, read: false }],
+  })!;
+  assert.deepEqual(r.agreed, [{ owner: "manager", action: "Kept", outcome: null }]);
+  assert.deepEqual(r.axes, [{ id: "clarity", score: null, read: false }]);
+});
+
+test("cleanRecap never lets a suggestion pass as an agreement", () => {
+  assert.equal(cleanRecap({ ...RECAP, agreedSource: "suggested" })!.agreedSource, "suggested");
+  // Anything unrecognised falls back to the confirmed reading of the label, which
+  // is what the backend only ever sends alongside real promises.
+  assert.equal(cleanRecap({ ...RECAP, agreedSource: "made up" })!.agreedSource, "promises");
+});
+
+test("segmentOneLabel names the first segment for what it is holding", () => {
+  assert.equal(segmentOneLabel(true), "Last 1:1");
+  assert.equal(segmentOneLabel(false), "Support");
 });

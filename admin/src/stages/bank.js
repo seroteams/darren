@@ -35,6 +35,8 @@ import { revealOne } from "../ui/reveal.js";
 import { EXIT_LABEL } from "./questioning-actions.ts";
 import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL, offerActionsFor } from "./questioning-ready.ts";
 import { loadPriorActions, openActionCount } from "./prior-actions.ts";
+import { segmentOneLabel } from "../ui/coach-panel-state.ts";
+import { getPriorRecap } from "../../../shared/api.js";
 
 let unmountFn = null;
 let waitScreen = null;
@@ -113,6 +115,19 @@ export async function mount(root, { store, setState }) {
           s.setAttribute("aria-selected", String(s === seg)));
         coach.setMode(seg.dataset.mode);
       }));
+
+    // The walk-in glance (last-one-to-one P3). This stage never runs a question,
+    // so it only ever turns the glance ON; the runner stands it down at question 1.
+    // The label lives in coach-panel-state.ts because questioning.js draws the same
+    // header and the two must not drift.
+    const seg1 = waitScreen.querySelector('.js-coach-seg[data-mode="support"]');
+    function showGlance(prior) {
+      if (!seg1 || !coach.setPriorRecap || !coach.setPriorRecap(prior)) return;
+      seg1.textContent = segmentOneLabel(true);
+      seg1.dataset.mode = "last";
+      seg1.setAttribute("aria-selected", "true");
+      waitScreen.querySelector('.js-coach-seg[data-mode="scores"]')?.setAttribute("aria-selected", "false");
+    }
 
     const thinkingHost = waitScreen.querySelector(".thinking-host");
     const questionHost = waitScreen.querySelector(".question-host");
@@ -211,10 +226,17 @@ export async function mount(root, { store, setState }) {
     // the empty column while this one small GET lands. It degrades to zero, so
     // the card always arrives — with the offer if there is one, without if not.
     if (gateFirst) {
-      loadPriorActions(store).then((prior) => {
+      // Both reads together, so the panel is never a Support view that swaps under
+      // the manager mid-read (last-one-to-one P3). Each degrades to nothing on its
+      // own, so the card always arrives.
+      Promise.all([
+        loadPriorActions(store),
+        getPriorRecap(store.sessionId).then((r) => r?.prior ?? null).catch(() => null),
+      ]).then(([prior, recap]) => {
         // The run may have moved on while this was in flight: handed over, fallen
         // back to the ghost, or errored (which detaches this whole screen).
         if (handedOver || waitShownAt || !questionHost.isConnected) return;
+        showGlance(recap);
         const n = openActionCount(prior);
         showGate(offerActionsFor(store.ctx?.meetingType, n) ? n : 0);
       });
