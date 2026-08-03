@@ -2,8 +2,16 @@
 
 Your at-a-glance tracker. Big picture: [SERO_BOARD.md](SERO_BOARD.md). Finished work: [docs/plans/done/](docs/plans/done/).
 
-📍 **2026-08-03 — sharper-questions is CLOSED, all five phases, $0.64. Three jobs from the
-hostile review are still yours and still open.**
+📍 **2026-08-04 — the prep brief is now told what HAPPENED in the last 1:1, not only what it
+guessed. Walked, green-lit, and LIVE (`c17bfd30`, $0 to build).** The brief had been fed the
+previous 1:1 all along, but only the core issue and opener the engine *proposed*, under an
+instruction to avoid repeating them. It had never seen the record: last time's headline, what
+the pair agreed, whether it got done, or the axis reads. It sees them now, in a second block
+that labels its three tiers of claim separately, so the model can obey "avoid the guess" and
+"use the facts" at the same time. Carl's own words that started it: *"all this stuff should be
+on the brief already."* Walked on a repeat 1:1 with Priya Sharma and confirmed working.
+**Not proved against a live model in the harness** — the one scenario built for that
+(`lin_biweekly_prior_outcome`, about $0.03) has never been run.
 ▶ **Your move:** rotate the Gemini key, flip the GitHub repo private, and create
 `.secrets/live-database-url` then prove a restore. Nothing else is waiting on you.
 You asked for a sceptical new-CTO read, then QA and dev review, MUST only, and said you would

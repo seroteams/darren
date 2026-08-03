@@ -12,6 +12,26 @@ Standing constraints (from CLAUDE.md):
 
 ## 1. Now — open work
 
+**✅ CLOSED 2026-08-04: the prep brief hears what happened last time, not only what it guessed.**
+Green-lit and live (`c17bfd30`), $0 to build. The board-level decision underneath it: **a repeat
+1:1 prepares from the record, not from a fresh guess.** The brief was already fed the previous
+1:1, but only as something to avoid repeating: the core issue and opener the engine *proposed*
+last time, with an instruction to open new ground. It had never been shown what actually
+happened. It now gets a second block carrying last time's headline, what the pair agreed, how
+each item landed, and the four axis reads, with **three tiers of claim labelled separately** so
+the two instructions cannot collide: manager-confirmed agreements are fact, the briefing's own
+next_actions are proposed and unowned, the headline and scores are inference. "Never checked
+off" is never hardened into "not done".
+The arc fence is deliberately **split**, following the precedent already in the code: facts
+cross meeting types (promise-history has no arc fence, and the walk-in card already shows last
+time's actions across arcs), the engine's own framing does not (a performance review must not
+seed a check-in). When they differ the block says what it is withholding rather than going quiet.
+This replaced a walk-in side panel built the day before and removed whole (`5923b8fb`) once Carl
+saw the gap was in the brief, not the layout: *"all this stuff should be on the brief already."*
+Still open from the same territory: it has **never been proved against a live model** — the
+scenario built for exactly that, `lin_biweekly_prior_outcome`, costs about $0.03 and has not
+been run. Origin note: [docs/research/2026-08-03-brief-never-hears-what-happened.md](docs/research/2026-08-03-brief-never-hears-what-happened.md).
+
 **✅ CLOSED 2026-08-02: the meeting's first beat belongs to the conversation, not to admin.**
 [action-review-placement](docs/plans/done/action-review-placement/plan.md), both phases green-lit,
 a few pence. Since the promises loop shipped in July, a repeat 1:1 opened on a form listing last

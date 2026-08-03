@@ -2006,3 +2006,29 @@ briefings in a week should be able to tell from the shape alone that four differ
 happened". That is an instruction to be DIFFERENT, and the cheapest way to differ from a remembered
 2 is 3, which is exactly what both runs did. Variety was the outcome we wanted, not an instruction
 the briefing should be following. The fix was removing it and giving a third item a real cost.
+
+**A wire can be connected and still be one-way.** The prep brief was fed the previous 1:1 from the
+day prep-history shipped, so every audit that asked "does the brief know about last time?" answered
+yes and moved on. It did know: it was handed the core issue and opener the engine had *proposed*,
+under an instruction to avoid repeating them. What it had never seen was the record of what
+happened. The wire was live, carrying real data, in the wrong direction, and reading the call site
+would never have shown it. Only reading the *instruction beside the placeholder* did. When checking
+whether a stage has some context, do not stop at whether the data arrives; read what the prompt is
+told to do with it.
+
+**Two blocks, opposite instructions, one model.** Telling a model both "do not repeat this" and
+"use this" only works if it can tell the two apart without judgement. The fix was not careful
+prose, it was labelling the tiers in the data itself: agreements confirmed by the manager are
+marked fact, the briefing's own next_actions are marked proposed and unowned, the headline and
+scores are marked inference. The prompt then points at the labels rather than describing the
+distinction. The same move covers the honesty edge that matters most here: "never checked off"
+means no outcome was recorded, and the block says exactly that rather than letting it collapse
+into "not done", which would have the brief accusing someone of something the run never observed.
+
+**Facts and framing deserve different fences.** The relational-arc rule stops a performance
+review's framing from seeding a bi-weekly check-in. Applying it to the whole of last time would
+also have hidden what the pair *agreed* in that review, which is fact and is exactly what the
+manager needs. The precedent was already in the tree and pointing the right way: promise-history
+has no arc fence, and the walk-in card already showed last time's actions across meeting types.
+So the fence was split rather than copied, and when it withholds something the block says so
+instead of quietly shrinking.

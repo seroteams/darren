@@ -3,6 +3,17 @@
 **2026-08-03.** One finding, kept because the work it belongs to is moving elsewhere.
 Everything built around it was removed on Carl's word; this note is the only thing left.
 
+> **✅ RESOLVED 2026-08-04 (`c17bfd30`, live).** Carl picked "feed the brief the facts". The
+> prep prompt now carries a second block, `{{PRIOR_OUTCOME_BLOCK}}`, rendered by
+> `renderPriorOutcomeBlock` in `backend/engine/prior-recap.ts`: last time's headline, what the
+> pair agreed, how each item landed, and the four axis reads. Three tiers of claim are labelled
+> separately (confirmed = fact, the briefing's own next_actions = proposed and unowned, headline
+> and scores = inference) so the model can obey "avoid the guess" and "use the facts" at once.
+> The arc fence is split: facts cross meeting types, the engine's framing does not.
+> Still open: it has never been proved against a live model. `lin_biweekly_prior_outcome` was
+> built for exactly that and costs about $0.03.
+> The note below is kept as the original diagnosis.
+
 ## The finding
 
 `content/prompts/preparation.md:211` feeds the brief a `{{PREP_HISTORY_BLOCK}}`, built by
