@@ -5,7 +5,6 @@ import { createOrb } from "../ui/orb.js";
 import { createSkeleton } from "../ui/skeleton.js";
 import { createAxesPanel, AXIS_ORDER, AXIS_SEED } from "../ui/axes.js";
 import { createCoachPanel } from "../ui/coach-panel.ts";
-import { segmentOneLabel } from "../ui/coach-panel-state.ts";
 import { openSse } from "../../../shared/sse.js";
 import { revealOne, sleep } from "../ui/reveal.js";
 import { confirmAction } from "../ui/confirm.js";
@@ -15,7 +14,6 @@ import { escapeCopy as escape } from "../ui/html.js";
 import { actionRowHtml, scriptedControlsHtml, isSubmitShortcut, EXIT_LABEL, KBD_HINT } from "./questioning-actions.ts";
 import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL, offerActionsFor } from "./questioning-ready.ts";
 import { loadPriorActions, openActionCount } from "./prior-actions.ts";
-import { loadPriorRecap } from "./prior-recap-read.ts";
 import { icon } from "../ui/icon.js";
 import { Copy } from "lucide";
 
@@ -149,7 +147,6 @@ export async function mount(root, { store, setState }) {
 
   // Coach panel (Phase 2): the Support / Live-scores toggle drives the panel view.
   // Admin app only (createCoachPanel provides setMode / setQuestionHints).
-  const seg1 = ui.querySelector('.js-coach-seg[data-mode="support"]');
   if (USE_COACH_SPLIT && axes.setMode) {
     ui.querySelectorAll(".js-coach-seg").forEach((seg) =>
       seg.addEventListener("click", () => {
@@ -158,29 +155,6 @@ export async function mount(root, { store, setState }) {
           s.setAttribute("aria-selected", String(s.dataset.mode === next)));
         axes.setMode(next);
       }));
-  }
-
-  // The walk-in glance (last-one-to-one P3). Segment one is last time's 1:1 until
-  // the meeting starts, then it goes back to being Support. Both hosts of this
-  // header (here and stages/bank.js) do the same two things, so the label itself
-  // lives in coach-panel-state.ts rather than being written out twice.
-  function showGlance(prior) {
-    if (!seg1 || !axes.setPriorRecap) return;
-    if (!axes.setPriorRecap(prior)) return;
-    seg1.textContent = segmentOneLabel(true);
-    seg1.dataset.mode = "last";
-    seg1.setAttribute("aria-selected", "true");
-    ui.querySelector('.js-coach-seg[data-mode="scores"]')?.setAttribute("aria-selected", "false");
-  }
-
-  function endGlance() {
-    if (!seg1 || !axes.endGlance) return;
-    if (seg1.dataset.mode !== "last") return;
-    axes.endGlance();
-    seg1.textContent = segmentOneLabel(false);
-    seg1.dataset.mode = "support";
-    seg1.setAttribute("aria-selected", "true");
-    ui.querySelector('.js-coach-seg[data-mode="scores"]')?.setAttribute("aria-selected", "false");
   }
 
   let activeSse = null;
@@ -246,10 +220,6 @@ export async function mount(root, { store, setState }) {
     }
 
     turnLabel.textContent = `Question ${res.turn} of ${res.total}`;
-    // The meeting is under way, so last time's glance stands down and segment one
-    // goes back to being Support (last-one-to-one P3). Idempotent: a resumed
-    // session lands here with no glance up and this does nothing.
-    endGlance();
     const q = res.question;
     store.currentQuestion = q;
     // Feed this question's manager-only hints to the coach panel's Support view.
@@ -654,16 +624,7 @@ export async function mount(root, { store, setState }) {
   // this can never block a 1:1.
   async function proceedBoot() {
     const gateSeen = readyAlreadyShown(store.sessionId);
-    // Read the glance alongside the open actions, before the gate paints, so the
-    // panel is never a Support view that swaps under the manager mid-read. Only
-    // when the gate is actually going up: past it, the glance is over and the
-    // request would be asking the server a question it already refuses. The read
-    // times out rather than holding the card (prior-recap-read.ts).
-    const [prior, recap] = await Promise.all([
-      loadPriorActions(store),
-      gateSeen ? Promise.resolve(null) : loadPriorRecap(store.sessionId),
-    ]);
-    if (!gateSeen) showGlance(recap);
+    const prior = await loadPriorActions(store);
     // The feels-off arc never offers them here (P2) — the recap step does instead.
     const offered = offerActionsFor(store.ctx?.meetingType, openActionCount(prior));
     let wantsReview = offered && store.reviewActionsFirst === true;

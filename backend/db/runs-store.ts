@@ -56,8 +56,6 @@ import { historyRunMatches, historySessionFromState } from "../engine/focus-hist
 import type { FocusHistorySession } from "../engine/focus-history.ts";
 import { priorPromiseRunFromState, applyPromiseOutcomes } from "../engine/promise-history.ts";
 import type { PriorPromiseRun, PriorPromiseQuery, OutcomeTap } from "../engine/promise-history.ts";
-import { priorRecapFromState } from "../engine/prior-recap.ts";
-import type { PriorRecap, PriorRecapQuery } from "../engine/prior-recap.ts";
 import { prepHistoryFromState, filterPrepHistoryForArc } from "../engine/prep-history.ts";
 import type { PrepHistoryEntry, PrepHistoryQuery } from "../engine/prep-history.ts";
 import { createSession, monthFolderFor, LOGS_ROOT } from "../engine/session.ts";
@@ -515,29 +513,6 @@ export async function pgPriorPromiseRun({ orgId, userId, personId, excludeId }: 
   for (const r of candidates) {
     const prior = priorPromiseRunFromState(r.state);
     if (prior) return prior;
-  }
-  return null;
-}
-
-// last-one-to-one Phase 2 — the pg twin of filePriorRecap. Same double fence as
-// pgPriorPromiseRun: SQL narrows on the denormalized columns, then the engine's
-// own historyRunMatches re-checks every row against the authoritative state.
-export async function pgPriorRecap({ orgId, userId, personId, excludeId }: PriorRecapQuery): Promise<PriorRecap | null> {
-  if (!userId || !personId) return null;
-  const rows = fenceOrgRows(
-    await rowsWhere([
-      sqlSafeId(orgId) ? eq(sessionsTable.orgId, sqlSafeId(orgId)!) : undefined,
-      sqlSafeId(userId) ? eq(sessionsTable.userId, sqlSafeId(userId)!) : undefined,
-      sqlSafeId(personId) ? eq(sessionsTable.personId, sqlSafeId(personId)!) : undefined,
-    ]),
-    orgId,
-  );
-  const candidates = rows
-    .filter((r) => r.id !== excludeId && historyRunMatches(r.state, { userId, personId }))
-    .sort((a, b) => b.lastSeenAt - a.lastSeenAt);
-  for (const r of candidates) {
-    const recap = priorRecapFromState(r.state);
-    if (recap) return recap;
   }
   return null;
 }

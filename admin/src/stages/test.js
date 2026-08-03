@@ -14,7 +14,6 @@ import { mount as welcomeOptions } from "./tests/welcome-options.js";
 import { mount as welcomeLean } from "./tests/welcome-lean.js";
 import { mount as howItWorks } from "./tests/how-it-works.js";
 import { mount as recapFixes } from "./tests/recap-fixes.js";
-import { mount as lastOneToOne } from "./tests/last-one-to-one.js";
 import { breadcrumb } from "../ui/breadcrumb.ts";
 
 // Simple schematic thumbnails — a mini-mockup of each screen so a card is
@@ -201,18 +200,6 @@ const THUMB_RECAPFIX = `
   </svg>`;
 
 const TESTS = [
-  {
-    id: "last-one-to-one",
-    title: "The last 1:1, on the walk-in screen",
-    blurb:
-      "On a repeat 1:1, the right half of \"Before you walk in\" stops being three generic cues and four \"Not rated\" rows, and becomes a review of last time: the headline and what stood out, every question with the note you typed against it, and what you agreed with how each one landed. Live scores shows last meeting's reads. Two arrangements to choose between, plus the first-1:1 and meeting-started states.",
-    date: "3 Aug 2026",
-    tag: "runner",
-    thumb: THUMB_SPLIT,
-    mount: lastOneToOne,
-    bare: true,
-    wide: true,
-  },
   {
     id: "recap-fixes",
     title: "Recap fixes. Machar board, P2",

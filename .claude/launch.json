@@ -1639,33 +1639,6 @@
       "port": 3983
     },
     {
-      "name": "l11-api",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "cross-env",
-        "API_PORT=3991",
-        "DEV_AUTOLOGIN=1",
-        "SUPERADMIN_EMAILS=dev@seroteams.com",
-        "node",
-        "backend/api/server.ts"
-      ],
-      "port": 3991
-    },
-    {
-      "name": "l11-web",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "cross-env",
-        "API_PORT=3991",
-        "node",
-        "node_modules/vite/bin/vite.js",
-        "--port",
-        "3993",
-        "--strictPort"
-      ],
-      "port": 3993
-    },
-    {
       "name": "sq-customer",
       "runtimeExecutable": "npx",
       "runtimeArgs": [

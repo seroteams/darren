@@ -140,18 +140,6 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 /* Provenance line above brief-level fallback cues — says where they came from. */
 .coach-source { color: var(--color-ink-dim); margin: 0 0 var(--sero-space-5); }
 
-/* The walk-in glance (last-one-to-one) — last time in one card, no tabs and no
-   scroll: a line on what it was, what was agreed with its follow-through chip,
-   and that meeting's four reads as chips. Layout only; every face here is a role
-   already listed in design/type.css (.coach-source, .coach-hint__text, .eyebrow,
-   .promise-row__*, .chip), which is why this block declares no type. */
-.coach-last { width: 100%; display: flex; flex-direction: column;
-  gap: var(--sero-space-5); }
-.coach-last__sep { border-top: 1px solid var(--color-border);
-  padding-top: var(--sero-space-5); }
-.coach-last__sep .eyebrow { display: block; margin-bottom: var(--sero-space-3); }
-.coach-last__scores { display: flex; flex-wrap: wrap; gap: var(--sero-space-2); }
-
 /* The gradient meter (POC V5): centre-out fill, numbered thumb. */
 .coach-meter {
   position: relative; height: 14px; border-radius: 9999px;
