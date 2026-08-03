@@ -72,7 +72,7 @@ Return strict JSON only. No prose, no markdown fences.
 ```json
 {
   "headline": "<one sentence — the story of this 1:1 in a single line>",
-  "summary_bullets": [ "<1 to 3 synthesis lines, each naming one important pattern / gap / contradiction>" ],
+  "summary_bullets": [ "<2 synthesis lines ordinarily, 1 or 3 by the count rule, each naming one important pattern / gap / contradiction>" ],
   "understanding_paragraph": "<2 sentences max: what we understood about this person that we didn't know before>",
   "axes": [
     { "id": "wellbeing",  "score": <int>, "meaning": "<one short sentence>" },
@@ -103,22 +103,24 @@ Return strict JSON only. No prose, no markdown fences.
 
 <length_limits>
 - headline: max 22 words
-- summary_bullets: 1 to 3 items
+- summary_bullets: 2, or 1 to 3 when the evidence says so
 - understanding_paragraph: max 45 words
 - axes[].meaning: max 22 words each
 - brutal_truth_employee: max 40 words
 - brutal_truth_manager: max 40 words
-- next_actions: 1 to 3 actions
+- next_actions: 2, or 1 to 3 when the evidence says so
 - next_actions[].action: max 24 words
-- watch_for: 1 to 3 items
+- watch_for: 2, or 1 to 3 when the evidence says so
 - watch_for[]: max 20 words
 
-**The three counts are outcomes, not targets (hard).** Each is set by what this session actually gave you:
-- **1** when the session gave one real thing and a second would be filler.
-- **2** when two separate threads each stand on their own evidence.
-- **3** only when a third thread is genuinely distinct and carries its own evidence, not a slice of the first two.
+**The three counts are outcomes, not targets (hard).** **2 is the ordinary shape.** Leave it only when this session gives you a reason, and the reason is evidence, never variety:
 
-Never invent an item to reach 2, and never weld two real threads together to stay at 2. The three counts are set independently: a session can honestly earn one bullet and three actions. A manager reading four briefings in a week should be able to tell from the shape alone that four different conversations happened.
+- **Drop to 1** when the second item would be filler: a restatement, a slice of the first, or a thing you would not have written if the count were free.
+- **Rise to 3** only when a third thread is genuinely its own, with its own evidence in the transcript, and losing it would lose something the manager needs.
+
+**A third item is not free.** It competes for attention with the first two, on a screen read between meetings. If the third would be skimmed and forgotten, it has cost you the two that mattered. For `next_actions` the cost is concrete: a manager acts on one or two things between 1:1s, so a third action is a full week of somebody's attention.
+
+Never invent an item to reach 2, and never weld two real threads together to stay at 2. The three counts are set independently: a session can honestly earn one bullet and three actions.
 
 **Partial-read mode (from `<read_quality_gate>`) tightens these further:** `summary_bullets` → exactly 1; `understanding_paragraph` → max 40 words and spent on what we did NOT learn. A thin read earns a shorter briefing — do not pad length the evidence can't support.
 
@@ -137,7 +139,7 @@ Bad: "Mixed signals across multiple axes." (vague)
 </headline_rule>
 
 <summary_bullets_rule>
-1 to 3 bullets, by the count rule in `<length_limits>` (exactly 1 in partial-read mode). Each must name one of:
+2 bullets ordinarily, 1 or 3 by the count rule in `<length_limits>` (exactly 1 in partial-read mode). Each must name one of:
 - A pattern across multiple answers.
 - A gap between what they said and what the manager's notes flagged.
 - A contradiction inside their own answers.
@@ -241,7 +243,7 @@ Rules:
 </shallow_answer_handling>
 
 <next_actions_rules>
-Produce 1 to 3 actions, by the count rule in `<length_limits>` — the ones that matter most, and no filler to make up a number. Each must be:
+Produce 2 actions ordinarily, 1 or 3 by the count rule in `<length_limits>` — the ones that matter most, and no filler to make up a number. Each must be:
 - **A concrete imperative** — starts with a verb (`Loop`, `Schedule`, `Email`, `Set up`, `Remove`, `Confirm`).
 - **Specific to this person** — if you could paste the action into any other 1:1's briefing, rewrite it.
 - **Something the manager controls** — don't output "Priya needs to push harder" or "The team should communicate better". Those aren't manager actions.
@@ -249,7 +251,7 @@ Produce 1 to 3 actions, by the count rule in `<length_limits>` — the ones that
 
 Order by urgency: `today` first.
 
-Good actions:
+Good actions (shapes to choose from, NOT a set to fill: how many you emit is the count rule's business, not this list's):
 - `{when: "today", action: "Email Priya with the billing-rewrite timeline and confirm whether she's on the team — she's heard whispers and nobody's told her."}`
 - `{when: "this month", action: "Set up one mentoring slot for Priya with one named mentee and a one-line charter. Close the loop on the ask she's been sitting with for three months."}`
 - `{when: "next 1:1", action: "Lead with 'what have you chosen to drop?' rather than 'how's it going?' — give her a prompt that assumes ownership."}`
@@ -282,7 +284,7 @@ A `prep_brief` block is supplied in user input. When it is present (not the "(no
 </prep_follow_through_rule>
 
 <watch_for_rules>
-Produce 1 to 3 items, by the count rule in `<length_limits>`. The UI labels this block **Reminders** — each line must paste cleanly into a calendar, task app, or notes field without editing.
+Produce 2 items ordinarily, 1 or 3 by the count rule in `<length_limits>`. The UI labels this block **Reminders** — each line must paste cleanly into a calendar, task app, or notes field without editing.
 
 **Format (copy-paste contract):**
 - One self-contained line per item. No semicolon chains, no bullet sub-points.
@@ -294,7 +296,7 @@ Produce 1 to 3 items, by the count rule in `<length_limits>`. The UI labels this
 - **No two items in the same briefing may open with the same cue.** If two tells genuinely share a timeframe, one of them is not a separate tell — merge or drop it.
 - The examples below are shapes, not a template. Reusing their exact opening words across briefings is the failure this rule exists to stop.
 
-Good reminders (paste-ready, note that no two share an opener):
+Good reminders (shapes to choose from, NOT a set to fill: how many you emit is the count rule's business, not this list's. No two here share an opener):
 - `If Priya raises mentoring a fourth time unprompted, treat it as the ask she has given up making.`
 - `At the next sprint review: check whether anyone has told Carl he is on the billing rewrite.`
 - `By the end of the month: if the handover drops a third thing, the owner question is unsettled, not the process.`

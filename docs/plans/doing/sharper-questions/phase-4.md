@@ -105,6 +105,39 @@ this plan edits. Found, not caused. It needs its own look.
 
 **Cost: $0.437 of the ~$0.40 authorised.** No further paid run without your yes.
 
+## Second attempt at the counts (2026-08-02, $0)
+
+Diagnosing the structure before writing a louder rule, the way the openers were fixed.
+**Four things in the prompt were pushing the count up, and none of them was the rule being
+too quiet:**
+
+1. **The ladder ended on 3.** The rule listed 1, then 2, then 3. The last number read is
+   the one that sticks. **Now 2 is stated first as the ordinary shape**, with 1 and 3 as
+   two named exits from it.
+2. **`<length_limits>` said "1 to 3 items".** A bare range invites the top of it. Now
+   "2, or 1 to 3 when the evidence says so", and the three rules that point at it lead
+   with 2 as well, so the anchor is re-stated at the point of use rather than the range.
+3. **A third item had no cost, while a second one did.** "Filler" only bit when going from
+   1 to 2. Now: a third item competes for attention with the first two on a screen read
+   between meetings, and for `next_actions` the cost is concrete, because a manager acts on
+   one or two things between 1:1s.
+4. **The good-example lists have three and four entries, and both runs emitted exactly
+   three.** The openers fix worked precisely because the examples were the lever, so the
+   same suspicion applies here. Both lists are now labelled shapes to choose from, not a
+   set to fill, with the count explicitly not their business.
+
+**And one line was deleted rather than added:** *"A manager reading four briefings in a week
+should be able to tell from the shape alone that four different conversations happened."*
+That was mine, from the first attempt, and it is an instruction to be **different**, which
+the model can satisfy most cheaply by moving off the remembered 2. Variety is the outcome
+we want, not an instruction the briefing should be following. The evidence rule is the
+mechanism; that sentence was competing with it.
+
+**Free ring:** 232/232 · typecheck clean · replay 7/7 still good · `lint:copy` clean.
+
+**Not verified.** Counts only move on real model output, and the two runs you authorised are
+spent. **One run at roughly $0.21 would show whether the anchor moved back.** Not spent.
+
 ---
 
 **Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test

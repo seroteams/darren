@@ -95,8 +95,18 @@ mistakes are written down so a third version cannot repeat either. It now checks
 against the next question and late ones against the closer: **30 early misses and 14 late ones**
 across the saved runs, where the late 14 were invisible until now. 232/232, three typechecks,
 replay 7/7, copy lint clean, and the prompt cap passed **without being raised** for the third
-phase running, with 53 characters to spare. **Still open and not started: the Phase 4 counts,
-which anchor at three of everything rather than following the evidence.**
+phase running, with 53 characters to spare. **Back on the Phase 4 counts, second attempt, $0 and not yet
+verified:** rather than writing the rule louder, four things in the prompt were found pushing the
+number up. The list of options ended on "3", so that is the one that stuck; the length rule said
+"1 to 3", and a bare range invites its top; a third item carried no stated cost while a second one
+did; and the good-example lists happen to hold three and four entries, which is exactly the lever
+that fixed the openers. Two is now stated first as the ordinary shape, with one and three as named
+exits, a third item is given a real cost (a manager acts on one or two things between 1:1s), and
+the example lists are labelled shapes to choose from rather than sets to fill. **One line was
+deleted rather than added:** my own "a manager reading four briefings should be able to tell four
+different conversations happened", which is an instruction to be *different*, and the cheapest way
+to be different from a remembered two is three. Counts only move on real model output, so this
+needs **one run at about $0.21** to know whether it worked.
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**
