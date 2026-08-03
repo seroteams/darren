@@ -223,10 +223,10 @@ function renderSynthesis(synthesis: Synthesis | null, runCount: number): string[
   if (!synthesis) {
     if (runCount < 2) {
       return [
-        `Not enough history yet — only ${runCount} finished run. Synthesis appears after the second finished run.`,
+        `Not enough history yet: only ${runCount} finished run. Synthesis appears after the second finished run.`,
       ];
     }
-    return ["Not enough yet — this section is written from run evidence in a later phase."];
+    return ["Not enough yet. This section is written from run evidence in a later phase."];
   }
   const lines = ["_Synthesized from the runs above. Every line cites the run(s) it comes from._"];
   for (const [title, key] of SYNTHESIS_SECTIONS) {
@@ -251,10 +251,10 @@ function renderProfileMarkdown(person: Person, synthesis: Synthesis | null = nul
   if (!latest) return "";
   const who = [latest.ctx.role, latest.ctx.seniority].filter(Boolean).join(" · ");
   const lines = [
-    `# ${name} — running profile`,
+    `# ${name} · running profile`,
     "",
     `> Derived from ${runs.length} finished run${runs.length === 1 ? "" : "s"}, latest ${fmtDate(latest.completedAt)}.`,
-    "> Regenerated from run evidence — edits here are overwritten.",
+    "> Regenerated from run evidence. Edits here are overwritten.",
     "",
     "## Who",
     `- Name: ${name}`,
@@ -269,10 +269,10 @@ function renderProfileMarkdown(person: Person, synthesis: Synthesis | null = nul
   ];
   for (const run of runs) {
     lines.push(
-      `| ${fmtDate(run.completedAt)} | ${run.id} | ${run.ctx.meetingType || "(none)"} | ${run.mode} | ${run.review.overall || "—"} | ${run.axes.map(fmtScore).join(" | ")} |`
+      `| ${fmtDate(run.completedAt)} | ${run.id} | ${run.ctx.meetingType || "(none)"} | ${run.mode} | ${run.review.overall || "(none)"} | ${run.axes.map(fmtScore).join(" | ")} |`
     );
   }
-  lines.push("", 'n.r. = axis not read in that session (no signal — not a zero).', "", "## Axis trends (oldest → newest, read sessions only)");
+  lines.push("", 'n.r. = axis not read in that session (no signal, not a zero).', "", "## Axis trends (oldest → newest, read sessions only)");
   for (const axisId of AXIS_ORDER) {
     const label = axisId.charAt(0).toUpperCase() + axisId.slice(1);
     const readRuns = [...runs].reverse().filter((r) => {

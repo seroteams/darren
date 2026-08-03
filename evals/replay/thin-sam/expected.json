@@ -13,7 +13,7 @@
       {
         "id": "wellbeing",
         "score": -1,
-        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "meaning": "This didn't come up in the conversation. Not enough signal to read.",
         "read_status": "not_read",
         "not_read_reason": "no_history",
         "confidence": "low",
@@ -22,7 +22,7 @@
       {
         "id": "engagement",
         "score": -1,
-        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "meaning": "This didn't come up in the conversation. Not enough signal to read.",
         "read_status": "not_read",
         "not_read_reason": "no_history",
         "confidence": "low",
@@ -31,7 +31,7 @@
       {
         "id": "clarity",
         "score": 0,
-        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "meaning": "This didn't come up in the conversation. Not enough signal to read.",
         "read_status": "not_read",
         "not_read_reason": "no_history",
         "confidence": "low",
@@ -40,7 +40,7 @@
       {
         "id": "growth",
         "score": 0,
-        "meaning": "This didn't come up in the conversation — not enough signal to read.",
+        "meaning": "This didn't come up in the conversation. Not enough signal to read.",
         "read_status": "not_read",
         "not_read_reason": "no_history",
         "confidence": "low",

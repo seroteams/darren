@@ -26,8 +26,11 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const SCAN_DIRS = ["admin/src", "frontend/src"];
+const SCAN_DIRS = ["admin/src", "frontend/src", "backend/api"];
 const EXTS = new Set([".js", ".ts", ".css"]);
+
+// Test files are skipped: test titles print to the terminal, never to a screen.
+const TEST_FILE = /\.test\.(js|ts)$/;
 
 const ALLOWLIST = [
   /(^|[\\/])dev-badge\.js$/,
@@ -49,7 +52,7 @@ function walk(dir, out) {
     if (e.isDirectory()) {
       if (e.name === "node_modules" || e.name === "dist" || e.name === "build") continue;
       walk(full, out);
-    } else if (EXTS.has(path.extname(e.name))) {
+    } else if (EXTS.has(path.extname(e.name)) && !TEST_FILE.test(e.name)) {
       out.push(full);
     }
   }

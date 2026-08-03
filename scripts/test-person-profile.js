@@ -75,7 +75,7 @@ const twoRuns = {
 // 4. No synthesis yet: the help section is an honest stub, not a guess.
 {
   const md = renderProfileMarkdown(twoRuns, null);
-  assert.match(md, /## How to help them\nNot enough yet — this section is written from run evidence in a later phase\./);
+  assert.match(md, /## How to help them\nNot enough yet\. This section is written from run evidence in a later phase\./);
 }
 
 // 5. Fewer than 2 runs: the stub says exactly why.

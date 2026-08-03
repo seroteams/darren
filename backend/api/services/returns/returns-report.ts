@@ -88,7 +88,7 @@ export function buildReturnsReport(input: {
 }
 
 function fmtDate(ms: number | null): string {
-  if (ms == null) return "—";
+  if (ms == null) return "-";
   const d = new Date(ms);
   const day = String(d.getUTCDate()).padStart(2, "0");
   const mon = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getUTCMonth()];
@@ -106,7 +106,7 @@ export function formatReturnsTable(rows: ManagerReturns[]): string {
     String(r.runsFinished),
     fmtDate(r.firstSeen),
     fmtDate(r.lastSeen),
-    r.medianPrepMinutes == null ? "—" : String(r.medianPrepMinutes),
+    r.medianPrepMinutes == null ? "-" : String(r.medianPrepMinutes),
     r.returnedUnprompted ? "yes ✓" : "not yet",
   ]);
   const widths = header.map((h, i) => Math.max(h.length, ...body.map((row) => row[i]!.length)));

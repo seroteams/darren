@@ -36,6 +36,6 @@ export const MEETING_TYPES: MeetingType[] = [
     badge: null,
     duration: "15 to 20 min",
     description:
-      "First few weeks of a new joiner — how they're settling, what's still unclear, and where they need unblocking.",
+      "First few weeks of a new joiner: how they're settling, what's still unclear, and where they need unblocking.",
   },
 ];

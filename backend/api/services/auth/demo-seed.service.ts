@@ -103,7 +103,7 @@ export async function seedDemoWorkspace(
 
     const fixture = deps.loadFixture();
     if (!fixture || !isObjectRecord(fixture.state) || !fixture.state.briefing) {
-      console.error("[demo-seed] fixture missing or unfinished — seeding skipped");
+      console.error("[demo-seed] fixture missing or unfinished: seeding skipped");
       return;
     }
 

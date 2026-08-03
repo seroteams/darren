@@ -36,7 +36,7 @@ check("paragraph says nothing is inferred", () =>
 
 check("bullets are transcript-derived (answered turns only, skipped excluded)", () => {
   assert.strictEqual(b.summary_bullets.length, 2, `got ${b.summary_bullets.length}`);
-  assert.ok(b.summary_bullets.every((s) => /^Asked: .+ — they said: /.test(s)), JSON.stringify(b.summary_bullets));
+  assert.ok(b.summary_bullets.every((s) => /^Asked: .+\. They said: /.test(s)), JSON.stringify(b.summary_bullets));
   assert.ok(!b.summary_bullets.some((s) => /skipped/i.test(s)), "skipped turn leaked into bullets");
 });
 
