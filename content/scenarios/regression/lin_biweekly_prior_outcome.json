@@ -1,0 +1,86 @@
+{
+  "id": "lin_biweekly_prior_outcome",
+  "description": "Lin · Head of Product · Bi-weekly — the brief is told what HAPPENED last time, not only what it guessed. Repeat-session replay for {{PRIOR_OUTCOME_BLOCK}}.",
+  "notes_for_reader": [
+    "This scenario exists to be run LIVE (it costs one prep call). --fixtures-only will report no fixtures and pass, which proves nothing about this change: the whole point is what the model does with the record.",
+    "Same person and notes as lin_biweekly_thread, plus a prep.priorRecap. Kept as its own file so the live meaning of lin_biweekly_thread does not shift under anyone else.",
+    "prep.priorRecap mirrors backend/engine/prior-recap.ts PriorRecap exactly. In a real run it comes from the previous stored 1:1; here it is a fixture so a repeat-session brief can be replayed with no database behind it.",
+    "What a good result looks like: the brief engages with the delegation map that came back NOT done (it is the live thread, and the notes point straight at it), while its coreIssue and openingQuestion are NOT a reword of last time's hypothesis. What a bad result looks like: it re-runs last time's core issue, or it scolds Lin for the undone item."
+  ],
+  "prep": {
+    "name": "Lin",
+    "role": "Head of Product",
+    "seniority": "Senior",
+    "meetingType": "Bi-weekly check-in",
+    "notes": "Lin has delivered two major features ahead of schedule but has worked late for about three weeks. I need to understand whether this pace was a temporary push or is becoming a default. Because Lin tends to brush off concern, I should ask directly what is driving the load now that those launches are done. I also want clarity on what work only Lin should own versus what could be delegated, since sustained late nights at this level can hide a distribution or autonomy problem.",
+    "focusPoints": [
+      {
+        "id": "energy",
+        "label": "Three weeks of late nights, pace and what's driving it.",
+        "reason": "Notes flag consistent late nights alongside two ahead-of-schedule deliveries. Could be a personal push through a meaningful stretch, an unsustainable baseline forming, or something outside work bleeding in. Lin brushes off concern, which makes it worth naming plainly rather than asking indirectly.",
+        "source": "signal"
+      },
+      {
+        "id": "priorities",
+        "label": "What's actually in flight now that those two features shipped.",
+        "reason": "The launches are done, so the load should have dropped and has not. Worth establishing what is still on Lin's plate and why it is there.",
+        "source": "signal"
+      }
+    ],
+    "prepHistory": {
+      "when": 1752969600000,
+      "meetingType": "Bi-weekly check-in",
+      "coreIssue": "Lin may be absorbing work that should sit with the team, which shows up as hours rather than as a staffing conversation.",
+      "openingQuestion": "What did you take on yourself this fortnight that you would rather someone else had owned?",
+      "confidence": "Medium. The notes describe hours clearly but say little about how the work is distributed."
+    },
+    "priorRecap": {
+      "sessionId": "lin-prior-1",
+      "when": 1752969600000,
+      "meetingType": "Bi-weekly check-in",
+      "headline": "Lin is holding the roadmap together by absorbing the gaps, and the late nights are the cost of that rather than a workload spike.",
+      "summaryMissing": false,
+      "agreedSource": "promises",
+      "agreed": [
+        {
+          "owner": "manager",
+          "action": "Get Lin a second senior on the payments track so the reviews are not all hers",
+          "outcome": "yes"
+        },
+        {
+          "owner": "report",
+          "action": "Write down which parts of the roadmap only Lin can own, and hand the rest to the team",
+          "outcome": "no"
+        },
+        {
+          "owner": "report",
+          "action": "Take the Friday after the launch off",
+          "outcome": "partly"
+        }
+      ],
+      "axes": [
+        { "id": "wellbeing", "score": -3, "read": true },
+        { "id": "engagement", "score": 6, "read": true },
+        { "id": "clarity", "score": -2, "read": true },
+        { "id": "growth", "score": null, "read": false }
+      ]
+    }
+  },
+  "live": {
+    "openingQuestion": {
+      "mustNotMatch": [
+        "would rather someone else had owned"
+      ],
+      "mustNotContain": [
+        "failed to",
+        "you didn't do",
+        "did not complete"
+      ]
+    },
+    "coreIssue": {
+      "mustNotContain": [
+        "holding the roadmap together by absorbing the gaps"
+      ]
+    }
+  }
+}

@@ -212,7 +212,20 @@ The role context block is generated guidance about the job title + seniority, no
 
 {{PREP_HISTORY_BLOCK}}
 
-If a prior brief is shown above: it is what the engine guessed last time, at the confidence shown — treat it as a hypothesis to re-open, never as settled ground. Do not repeat or lightly reword its core issue or opener — approach from a different angle. If the manager's notes explicitly re-raise the same theme, carry it as an open question to check ("worth checking whether that thread is still live"), never as an established or continuing fact. All other field rules are unchanged.
+If a prior brief is shown above: it is what the engine guessed last time, at the confidence shown — treat it as a hypothesis to re-open, never as settled ground. Do not repeat or lightly reword its core issue or opener — approach from a different angle. If the manager's notes explicitly re-raise the same theme, carry it as an open question to check ("worth checking whether that thread is still live"), never as an established or continuing fact. All other field rules are unchanged. **That avoid-rule covers the prior brief only.** The record of what actually happened, immediately below, is a different kind of thing and carries its own instruction.
+
+**What actually happened last time (same person — the record of that meeting, not a guess about it):**
+
+{{PRIOR_OUTCOME_BLOCK}}
+
+The block above this one is what the engine *guessed* last time. This block is what *happened*. The "do not repeat it" rule applies to the guess, never to the record. Use this block.
+
+- Anything the block labels as **fact** (agreed at the wrap-up and confirmed by the manager) is established ground. You may name it, and you may build `coreIssue`, `openingQuestion` or `goodOutcome` on it.
+- An agreed item that came back "not done", "partly done" or "never checked off" is the live thread, not a failure to scold the person for. If nothing in the manager's notes is more urgent, that thread is the strongest opening this brief has. **If the notes point somewhere else, the notes win** — this meeting is about what is happening now, not an audit of last month.
+- Never harden what the block did not say. "never checked off" means no outcome was recorded, not that the thing went undone. Do not report it as failed and do not guess which it was.
+- Items the block calls *suggested by the engine* were never confirmed by anyone and nobody owned them. At most they are a thread worth checking ("worth asking whether the rota idea went anywhere"). Never write "you agreed" about one.
+- The written read and the four scores are the engine's inference from that conversation, not fact. Use them for tone and pitch. Never quote a score to the manager, and never present that read as what was actually said.
+- If the block says nothing carried across because the meeting types differ, respect it: do not reach for the missing read, and do not speculate about what it might have been.
 
 **Focus points for this meeting:**
 

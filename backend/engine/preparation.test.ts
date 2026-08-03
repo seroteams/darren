@@ -163,9 +163,8 @@ test("validateBrief: a styleTip that just restates coreIssue is flagged", () => 
 });
 
 // --- prep freshness threading (better-reads Phase 3) ------------------------
-// The prompt placeholder isn't in preparation.md yet (that edit waits on the
-// content/prompts lane), so today the block must be a no-op on the assembled
-// prompt — and the arc fence must already hold in buildPrepInput.
+// The prior brief rides in the prompt's User half, and the arc fence holds in
+// buildPrepInput before it ever gets there.
 import { buildPrepInput, assemblePreparation } from "./preparation.ts";
 
 const perfPrior = {
@@ -394,4 +393,82 @@ test("validateBrief: performance brief naming delivery and expectations passes t
     ),
     [],
   );
+});
+
+// ---- {{PRIOR_OUTCOME_BLOCK}} reaches the prompt ---------------------------------------
+//
+// A gate can be correct and completely inert. renderPriorOutcomeBlock is tested
+// hard in prior-recap.test.ts; what these prove is that its output actually rides
+// into the assembled prompt, and that the placeholder never survives unfilled.
+
+const prepInputsWith = (priorRecap: unknown) => ({
+  name: "Priya",
+  roleTitle: "Product Designer",
+  seniority: "Mid",
+  meetingType: "Bi-weekly check-in",
+  notes: "Quieter than usual in the last two stand-ups.",
+  focusPoints: [],
+  selectedFocus: null,
+  priorRecap,
+});
+
+const RECAP = {
+  sessionId: "run-1",
+  when: Date.UTC(2026, 6, 20),
+  meetingType: "Bi-weekly check-in",
+  headline: "Flat because the review cycle eats two days a sprint with nobody owning it.",
+  summaryMissing: false,
+  agreedSource: "promises",
+  agreed: [
+    { owner: "manager", action: "Early context on the billing rewrite", outcome: "yes" },
+    { owner: "report", action: "Draft the rota", outcome: "no" },
+  ],
+  axes: [
+    { id: "wellbeing", score: -4, read: true },
+    { id: "growth", score: null, read: false },
+  ],
+};
+
+test("the assembled prep prompt carries what happened last time", () => {
+  const { prompt } = assemblePreparation(prepInputsWith(RECAP) as never);
+  assert.doesNotMatch(prompt, /\{\{PRIOR_OUTCOME_BLOCK\}\}/, "the placeholder was filled, not left raw");
+  assert.match(prompt, /2026-07-20/);
+  assert.match(prompt, /Flat because the review cycle/);
+  assert.match(prompt, /you: Early context on the billing rewrite: done/);
+  assert.match(prompt, /they: Draft the rota: not done/);
+  assert.match(prompt, /wellbeing: -4, growth: not read/);
+});
+
+test("the prompt keeps the guess and the record apart, with opposite instructions", () => {
+  const { prompt } = assemblePreparation(prepInputsWith(RECAP) as never);
+  // The avoid-rule is scoped to the hypothesis block, and the record is told to be used.
+  assert.match(prompt, /That avoid-rule covers the prior brief only/);
+  assert.match(prompt, /The "do not repeat it" rule applies to the guess, never to the record/);
+  // And the record block comes after the hypothesis block, so the scoping sentence reads forward.
+  assert.ok(
+    prompt.indexOf("{{PREP_HISTORY_BLOCK}}") === -1 &&
+      prompt.indexOf("What actually happened last time") > prompt.indexOf("Last time's brief"),
+  );
+});
+
+test("no prior run fills the sentinel rather than leaving a hole", () => {
+  const { prompt } = assemblePreparation(prepInputsWith(null) as never);
+  assert.doesNotMatch(prompt, /\{\{PRIOR_OUTCOME_BLOCK\}\}/);
+  assert.match(prompt, /\(no finished 1:1 with this person yet\)/);
+});
+
+test("the record rides in the User half only, so the cached prefix never moves", () => {
+  const sys = (p: string) => p.split(/\n## User/)[0];
+  const withRecap = assemblePreparation(prepInputsWith(RECAP) as never).prompt;
+  const without = assemblePreparation(prepInputsWith(null) as never).prompt;
+  assert.equal(sys(withRecap), sys(without));
+});
+
+test("a relational meeting after a performance review keeps the facts, drops the framing", () => {
+  const { prompt } = assemblePreparation(
+    prepInputsWith({ ...RECAP, meetingType: "Performance & feedback" }) as never,
+  );
+  assert.doesNotMatch(prompt, /Flat because the review cycle/);
+  assert.doesNotMatch(prompt, /wellbeing: -4/);
+  assert.match(prompt, /you: Early context on the billing rewrite: done/);
 });

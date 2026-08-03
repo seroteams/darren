@@ -12,6 +12,8 @@ import { loadRoleProfile, renderRoleProfileBlock, roleProfileLogInfo } from "./r
 import { findJargon, isCompetencyFocus } from "./golden-checks.ts";
 import { isRelationalArc } from "./relational-arcs.ts";
 import { renderPrepHistoryBlock, filterPrepHistoryForArc } from "./prep-history.ts";
+import { renderPriorOutcomeBlock } from "./prior-recap.ts";
+import type { PriorRecap } from "./prior-recap.ts";
 import type { PrepHistoryEntry } from "./prep-history.ts";
 
 import type { PreparationResult } from "../shared/session.types.ts";
@@ -48,6 +50,7 @@ interface RawPrepInput {
   selectedFocus?: { id?: string; label?: string } | null;
   primaryFocusId?: string;
   prepHistory?: PrepHistoryEntry | null; // last brief for this manager+person (prep freshness, better-reads P3); absent → first-prep sentinel
+  priorRecap?: PriorRecap | null; // what actually HAPPENED last time, beside what was guessed; absent → no-prior sentinel
 }
 
 // The normalised input buildMessages / validateBrief consume (output of buildPrepInput).
@@ -61,6 +64,7 @@ interface PrepInput {
   selectedFocus: { id?: string; label?: string } | null;
   primaryFocusId?: string;
   prepHistory: PrepHistoryEntry | null;
+  priorRecap: PriorRecap | null;
 }
 
 // The eval wire is schema-constrained (RESPONSE_SCHEMA, additionalProperties
@@ -174,6 +178,7 @@ function buildMessages({
   focusPoints,
   selectedFocus,
   prepHistory,
+  priorRecap,
 }: PrepInput) {
   const template = fs.readFileSync(promptFor(meetingType, "preparation"), "utf8");
   const arc = getArc(meetingType);
@@ -192,9 +197,11 @@ function buildMessages({
     SELECTED_FOCUS_JSON: JSON.stringify(sf || {}, null, 2),
     PRIMARY_FOCUS_ID: sf?.id || "(none)",
     ROLE_PROFILE_BLOCK: renderRoleProfileBlock(loadRoleProfile({ role: roleTitle, seniority }), { slice: "full", meetingType }),
-    // No-op until preparation.md carries the placeholder (that edit waits on
-    // the content/prompts lane) — fillPlaceholders skips unknown keys.
     PREP_HISTORY_BLOCK: renderPrepHistoryBlock(prepHistory),
+    // What HAPPENED last time, beside what was guessed. The renderer owns its own
+    // arc fence (facts cross meeting types, the engine's framing does not), so it
+    // needs the current meeting type rather than a pre-filtered value.
+    PRIOR_OUTCOME_BLOCK: renderPriorOutcomeBlock(priorRecap, meetingType),
   });
 
   return splitSystemUser(filled);
@@ -242,6 +249,10 @@ function buildPrepInput(inputs: RawPrepInput): PrepInput {
     // Arc-fenced here too (belt to prep-history's braces): a relational meeting
     // never carries a non-relational prior brief into the prompt.
     prepHistory: filterPrepHistoryForArc(inputs.prepHistory ? [inputs.prepHistory] : [], inputs.meetingType)[0] ?? null,
+    // Not arc-filtered here: what was agreed is fact and crosses meeting types.
+    // Only the engine's own framing is fenced, and renderPriorOutcomeBlock does
+    // that itself so it can say what it is withholding instead of going quiet.
+    priorRecap: inputs.priorRecap ?? null,
   };
 }
 

@@ -13,6 +13,7 @@ import { generateFocusPoints } from "../../../engine/generate.ts";
 import { PLANNER_FAILED_NOTE, scoringFromTranscript } from "../../../engine/run-health.ts";
 import { focusHistoryFor } from "../../../engine/focus-history.ts";
 import { prepHistoryFor } from "../../../engine/prep-history.ts";
+import { priorRecapFor } from "../../../engine/prior-recap.ts";
 import { generatePreparation } from "../../../engine/preparation.ts";
 import { generateSuggestions, shouldReview } from "../../../engine/lexicon-reviewer.ts";
 import { generateBankWithFallback, assembleQueueWithPrepOpener, findPrepOpener, pinPrepOpenerEarly } from "../../../engine/question-generator.ts";
@@ -88,18 +89,22 @@ export async function preparationStream(c: RequestContext): Promise<void> {
     thinkingLabel: "Preparing your briefing",
     getCached: () => session.preparationResult,
     setCached: (r) => { session.preparationResult = r; },
-    produce: async () => generatePreparation(
-      {
-        ...buildPreparationInputs(session),
-        // Prep freshness (better-reads P3): last brief for this manager+person,
-        // arc-fenced; null (→ first-prep sentinel) for guests/unlinked runs.
-        prepHistory: await prepHistoryFor(
-          { orgId: session.orgId, userId: session.userId, personId: session.personId, excludeId: session.id },
-          session.ctx.meetingType,
-        ),
-      },
-      { session: { id: session.id, dir: session.dir } }
-    ),
+    produce: async () => {
+      const fence = { orgId: session.orgId, userId: session.userId, personId: session.personId, excludeId: session.id };
+      // Two reads of the same history, for two different jobs: what the engine
+      // GUESSED last time (so this brief opens new ground) and what actually
+      // HAPPENED (so it prepares the manager). Both already degrade to null on a
+      // store error, and both sit on the prep critical path, so they run together
+      // rather than one after the other.
+      const [prepHistory, priorRecap] = await Promise.all([
+        prepHistoryFor(fence, session.ctx.meetingType),
+        priorRecapFor(fence),
+      ]);
+      return generatePreparation(
+        { ...buildPreparationInputs(session), prepHistory, priorRecap },
+        { session: { id: session.id, dir: session.dir } }
+      );
+    },
     resultEvent: "result",
     buildPayload: (r) => IS_DEV
       ? { brief: r.brief, runId: r.runId, validation: r.validation }

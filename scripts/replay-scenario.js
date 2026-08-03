@@ -217,6 +217,13 @@ function prepInputs(scenario) {
     focusPoints,
     selectedFocus,
     primaryFocusId: selectedFocus?.id,
+    // Repeat-session replay. Both halves of "last time" are optional fixtures, so
+    // a scenario carrying them reproduces the real two-block situation with no
+    // database behind it: what the engine GUESSED last time (prepHistory, which
+    // the prompt is told to avoid repeating) and what actually HAPPENED
+    // (priorRecap, which it is told to use).
+    prepHistory: p.prepHistory || null,
+    priorRecap: p.priorRecap || null,
   };
 }
 
@@ -351,6 +358,9 @@ function runLiveChecks(brief, scenario) {
   const failures = [];
   if (live.openingQuestion) {
     failures.push(...checkField("openingQuestion", brief.openingQuestion, live.openingQuestion));
+  }
+  if (live.coreIssue) {
+    failures.push(...checkField("coreIssue", brief.coreIssue, live.coreIssue));
   }
   if (live.goodOutcome) {
     failures.push(...checkField("goodOutcome", brief.goodOutcome, live.goodOutcome));
