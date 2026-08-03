@@ -108,15 +108,6 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 .cp-ready__reason { display: flex; flex-direction: column; gap: var(--sero-space-2); }
 .cp-ready__text { color: var(--color-ink); margin: 0; }
 
-/* The walk-in gate (runner-readiness) — the runner's first screen. Same measure
-   and stem as a question; the reason to walk in sits under it as labelled
-   blocks, so the manager reads WHY before they read the first question. */
-.cp-ready__reasons { display: flex; flex-direction: column; gap: var(--sero-space-5);
-  width: 100%; }
-.cp-ready__reason { display: flex; flex-direction: column; gap: var(--sero-space-2); }
-.cp-ready__text { font-size: var(--type-body); line-height: 1.55; color: var(--color-ink);
-  margin: 0; max-width: 62ch; }
-
 /* Coach half — bare rows on the paper, one left edge, hairline dividers.
    Ink for reading text; lavender reserved for the pills and meters (accents). */
 .coach-panel { width: 100%; }
@@ -259,8 +250,8 @@ body.notes-rail-collapsed .cp-screen { right: 0; }
 @media (max-width: 639.98px) {
   .cp-half { padding: 0 var(--sero-space-5); }
   .cp-half--coach { padding-bottom: calc(var(--sero-space-5) + env(safe-area-inset-bottom)); }
-  /* A 32px stem ate five lines of a 390px screen before the answer box showed. */
-  .cp-screen .question-stem { font-size: var(--type-h2); }
+  /* The phone stem drop lives in design/type.css's phone block, measured there.
+     The rule that sat here read --type-h2 and fought it. */
   /* The context line ellipsized to "Darr…", which is noise, not context: the
      step and the person's name are both already on screen. */
   .cp-head .ctx-segments { display: none; }

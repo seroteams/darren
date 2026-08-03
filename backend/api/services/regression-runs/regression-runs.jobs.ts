@@ -111,13 +111,13 @@ export function createRegressionJobsService(deps: RegressionJobsDeps): Regressio
       if (!caseIds.length) throw badRequest("no cases to rerun");
       const unknown = caseIds.filter((c) => !known.includes(c));
       if (unknown.length) throw badRequest(`unknown case: ${unknown.join(", ")}`);
-      if (!deps.hasApiKey()) throw conflict("OPENAI_API_KEY is not set — the engine can't run");
+      if (!deps.hasApiKey()) throw conflict("OPENAI_API_KEY is not set. The engine can't run.");
 
       // Validation first, THEN the slot: a rejected request must not hold it.
       const busy = acquire(TOOL, now);
       if (busy) {
         const who = TOOL_LABEL[busy.tool] || busy.tool;
-        throw conflict(`${who} is already running — wait for it to finish`);
+        throw conflict(`${who} is already running. Wait for it to finish.`);
       }
 
       const startedAt = now();
