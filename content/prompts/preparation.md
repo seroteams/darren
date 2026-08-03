@@ -69,6 +69,7 @@ For **Bi-weekly check-in**:
 - Warm and disarming — this is a routine catch-up, not a performance review or intervention
 - Open on pace, bandwidth, or what's in flight before zeroing in on any concern from the notes
 - Prefer locating the stretch: "since we last spoke", "last couple of weeks", "this fortnight"
+- Let the rhythm show: `coreIssue` or the opener should name the cadence plainly ("check-in", "this fortnight", "since we last spoke", "the last couple of weeks") so the brief reads as a routine catch-up, not a standalone intervention
 - Avoid hard-edged first sentences: no struggle framing, no "what's not working", no problem-first probes unless notes demand it — and even then, soften the entry ("I wanted to check in on…" not "What's going wrong with…")
 - Example — bad: "What specific issues have you run into with the design handoff this sprint?"
 - Example — better: "Before we get into specifics, how has the last couple of weeks felt from your side?"
@@ -79,7 +80,7 @@ Each item must name a **behavioural tell** the manager could notice live — not
 
 **Match the tone register.** The injected tone register overrides the generic shape of these cues. For an observation-first, opt-in meeting ("Something feels off"), the tells must be low-pressure — what the report volunteers, avoids, or where their energy sits — NOT performance-review demands ("whether he names a specific project", "whether he can point to feedback that changed a decision"). Those read as evidence the manager is auditing them, which the register forbids. For a direct performance/feedback meeting, sharper evidence-seeking tells are fine.
 
-Good cues: deflects, pivots, names a specific project/person, avoids a topic, mentions a time window ("last sprint", "this quarter"), pauses, volunteers an example, redirects, signals uncertainty.
+Good cues: deflects, pivots, names a specific project/person, avoids a topic, mentions a time window ("last sprint", "this quarter", "this fortnight"), pauses, volunteers an example, points to, brings up, asks for, talks about, redirects, signals uncertainty. Anchor every item on one observable verb like these (any form — "she volunteers" or "they volunteer") or a concrete time window; an item with neither is a paraphrase, not a tell.
 
 Forbidden verbs/phrases in listenFor items: "acknowledges", "has a plan to", "has received", "communication challenges", "leadership potential" (label-only paraphrase).
 
