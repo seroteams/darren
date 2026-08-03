@@ -7,7 +7,7 @@
 
 .bench {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 24rem;
+  grid-template-columns: minmax(0, 1fr) 20rem;
   gap: var(--sero-space-6);
   align-items: start;
 }
@@ -17,12 +17,26 @@
   .bench__panel { position: static; }
 }
 
+/* Fixed column shares, so the detail panel can't squeeze the persona and scenario
+   cells down to three-word ribbons (rows were 116px tall, now ~70px). Auto layout
+   let the widest cell in any column dictate the split. Only above the stacking
+   breakpoint: on a phone the table keeps auto sizing so Run isn't squeezed. */
+@media (min-width: 961px) {
+  .bench .um-table { table-layout: fixed; }
+  .bench .um-table th:nth-child(1), .bench .um-table td:nth-child(1) { width: 34%; }
+  .bench .um-table th:nth-child(2), .bench .um-table td:nth-child(2) { width: 36%; }
+  .bench .um-table th:nth-child(3), .bench .um-table td:nth-child(3) { width: 18%; }
+  .bench .um-table th:nth-child(4), .bench .um-table td:nth-child(4) { width: 12%; }
+}
+
 /* Selected row = the accent tint (same signal as the review screen's rows). */
 .bench-row.is-selected td { background: var(--color-accent-soft); }
 .bench-row .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
 
 .bench-suite { margin-left: var(--sero-space-2); }
-.bench-last { display: inline-flex; align-items: center; gap: var(--sero-space-2); white-space: nowrap; }
+/* Date and verdict badge sit side by side, dropping the badge under the date in
+   the narrower fixed column rather than overflowing it. */
+.bench-last { display: inline-flex; align-items: center; gap: var(--sero-space-2); white-space: nowrap; flex-wrap: wrap; }
 
 /* Panel: last-run line + its actions. */
 .bench-hist { display: flex; align-items: center; gap: var(--sero-space-2); flex-wrap: wrap; }

@@ -55,7 +55,7 @@ export function unmount() {
 
 export async function mount(root, opts = {}) {
   root.innerHTML = `
-    <div class="stage-medium l-stack l-stack--8">
+    <div class="stage-wide l-stack l-stack--8">
       <header class="page-header">
         <div class="eyebrow">Build</div>
         <h1 class="h1">Test engine</h1>
