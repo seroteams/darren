@@ -63,7 +63,7 @@ Dug out of the code so no phase stalls on an unknown.
 | 2 | Make the sharp question get asked | The five rule-sheet contradictions get explicit tiebreaks, and the agency rule gets a gate + registry row so it cannot silently stop firing again | ✅ |
 | 3 | Make sure wellbeing gets asked | Widen the axis-coverage window so a wellbeing question can land before wind-down closes the session | ✅ |
 | 4 | Stop every briefing reading the same | Let the briefing's counts and openers flex, so four reports in a week do not produce four identical forms | 🔨 |
-| 5 | The late snag gets its question too | A problem raised near the end becomes what the closing question asks about, instead of going to the briefing | 🔨 |
+| 5 | The late snag gets its question too | A problem raised near the end becomes what the closing question asks about, instead of going to the briefing | ✅ |
 
 ⬜ not started · 🔨 in progress · ✅ done (tested)
 

@@ -1977,3 +1977,17 @@ is no turn at all, which is why the wellbeing dial came back blank in 59% of bri
 individual rule looked correct. The fix was one turn of widening plus naming the closing edge out
 loud, and the useful artefact was `scripts/coverage-window-check.js`: a rule interaction argued
 about in prose stays an argument, and the same thing computed over 76 real runs is a table.
+
+**A gate can be wrong in two opposite directions, and the second mistake is the dangerous one.**
+The agency gate first flagged snags named inside wind-down, where the prompt says agency correctly
+yields to the closer. That was crying wolf, and a paid run caught it. The obvious fix, exempting
+that window, was worse: it made the gate quiet about a case where the question genuinely never got
+asked and the insight landed in the briefing after the meeting. Silence reads as health. The third
+version judges early snags against the next question and late ones against the closer, and both
+earlier mistakes are written into the code comment so a fourth version cannot repeat either.
+
+**Paid runs earn their keep by breaking your story, not confirming it.** Two runs bought to
+demonstrate Phase 4 showed the openers fixed and the counts not: both briefings came back 3/3/3,
+which is the old "always 2" problem wearing a new number. They also surfaced the late-snag gap and
+a gate bug in work that had already been signed off. The temptation with a half-good result is to
+report the good half; the number that mattered was the one that did not move.

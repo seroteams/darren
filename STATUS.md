@@ -85,7 +85,7 @@ meeting, and it is a live product decision for you. Second, the Phase 2 gate was
 rule-following behaviour as a miss. Separately, `growth-ahmed` hard-failed a focus-point wording
 rule that this plan never touched (`generate-focus-points.md`, last changed 11 July) and that
 needs its own look.
-**🔨 Phase 5 built the same day, $0, awaiting your test:** you picked the late-problem gap over
+**Phase 5 ✅ green-lit 2026-08-02, $0:** you picked the late-problem gap over
 finishing the counts, and it is fixed. A problem raised near the end now becomes **what the
 closing question asks about**, so it gets its "what's your first move and what do you need"
 inside the meeting instead of turning up in the recap afterwards. It adds no extra question: it

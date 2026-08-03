@@ -1,8 +1,13 @@
 # Phase 5 — The late snag gets its question too
 
+## ✅ GREEN-LIT 2026-08-02
+
+Carl green-lit this phase on the evidence in chat and chose to go back to the Phase 4
+counts next. No paid run was spent on it.
+
 ## Built (2026-08-02)
 
-**Part of:** [plan.md](plan.md) · **Status:** 🔨 built, awaiting your test
+**Part of:** [plan.md](plan.md) · **Status:** ✅ green-lit 2026-08-02
 **You asked for:** "a" (fix the late-snag gap first, it's the actual complaint)
 
 ## The gap, in the case built to prove the fix
