@@ -209,3 +209,23 @@ test("segmentOneLabel names the first segment for what it is holding", () => {
   assert.equal(segmentOneLabel(true), "Last 1:1");
   assert.equal(segmentOneLabel(false), "Support");
 });
+
+test("cleanRecap keeps a failed briefing, and it arrives with no sentence to quote", () => {
+  const r = cleanRecap({ ...RECAP, headline: "", summaryMissing: true })!;
+  assert.equal(r.summaryMissing, true);
+  assert.equal(r.headline, "");
+  assert.equal(r.agreed.length, 2, "what it agreed is still real");
+  // No headline AND no reason for its absence is a payload we cannot draw honestly.
+  assert.equal(cleanRecap({ ...RECAP, headline: "" }), null);
+});
+
+test("cleanRecap keeps an ownerless suggestion ownerless", () => {
+  const r = cleanRecap({
+    ...RECAP,
+    agreedSource: "suggested",
+    agreed: [{ owner: null, action: "Back the rota at the guild", outcome: null }],
+  })!;
+  assert.deepEqual(r.agreed, [{ owner: null, action: "Back the rota at the guild", outcome: null }]);
+  // ...but a junk owner is still dropped, rather than nulled into a suggestion.
+  assert.deepEqual(cleanRecap({ ...RECAP, agreed: [{ owner: "nobody", action: "x", outcome: null }] })!.agreed, []);
+});

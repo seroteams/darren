@@ -36,7 +36,7 @@ import { EXIT_LABEL } from "./questioning-actions.ts";
 import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL, offerActionsFor } from "./questioning-ready.ts";
 import { loadPriorActions, openActionCount } from "./prior-actions.ts";
 import { segmentOneLabel } from "../ui/coach-panel-state.ts";
-import { getPriorRecap } from "../../../shared/api.js";
+import { loadPriorRecap } from "./prior-recap-read.ts";
 
 let unmountFn = null;
 let waitScreen = null;
@@ -231,7 +231,7 @@ export async function mount(root, { store, setState }) {
       // own, so the card always arrives.
       Promise.all([
         loadPriorActions(store),
-        getPriorRecap(store.sessionId).then((r) => r?.prior ?? null).catch(() => null),
+        loadPriorRecap(store.sessionId),
       ]).then(([prior, recap]) => {
         // The run may have moved on while this was in flight: handed over, fallen
         // back to the ghost, or errored (which detaches this whole screen).

@@ -180,24 +180,40 @@ export function createCoachPanel({
     const when = whenLabel(recap.when);
     const stamp = [recap.meetingType || "Last 1:1", when].filter(Boolean).join(" · ");
     // "You agreed" is only honest about manager-confirmed promises. A run that armed
-    // no loop falls back to what the briefing SUGGESTED, which nobody signed off, so
-    // it is labelled as a suggestion rather than passed off as an agreement.
+    // no loop falls back to what the briefing SUGGESTED, which nobody signed off and
+    // nobody owns. Those render as a plain list: no owner column (picking one would
+    // invent a fact) and no outcome chip, because "Open" against a suggestion reads
+    // as an agreement somebody failed to keep.
+    const suggested = recap.agreedSource === "suggested";
     const agreed = recap.agreed.length
       ? `<div class="coach-last__sep">
-          <span class="eyebrow">${recap.agreedSource === "promises" ? "You agreed" : "Sero suggested"}</span>
-          ${renderPromiseList(
-            recap.agreed.map((a, i) => ({ id: String(i), owner: a.owner, action: a.action, outcome: a.outcome })),
-            personName,
-          )}
+          <span class="eyebrow">${suggested ? "Sero suggested, never agreed" : "You agreed"}</span>
+          ${
+            suggested
+              ? `<ul class="promise-list">${recap.agreed
+                  .map((a) => `<li class="promise-row"><span class="promise-row__action">${escape(a.action)}</span></li>`)
+                  .join("")}</ul>`
+              : renderPromiseList(
+                  recap.agreed.map((a, i) => ({ id: String(i), owner: a.owner ?? "manager", action: a.action, outcome: a.outcome })),
+                  personName,
+                )
+          }
         </div>`
       : "";
     const scores = recap.axes.length
       ? `<div class="coach-last__sep"><div class="coach-last__scores">${recap.axes.map(scoreChip).join("")}</div></div>`
       : "";
+    // A meeting whose briefing never generated has no sentence to quote. Say that,
+    // rather than quoting the fallback's own "Briefing generation failed" line as
+    // what the conversation was about. What it agreed and how it scored are real
+    // and still show.
+    const line = recap.summaryMissing
+      ? `<p class="coach-row__why coach-row__why--idle">No written summary was generated for that 1:1, so there is no line to carry in. What you agreed and how it scored are below.</p>`
+      : `<p class="coach-hint__text">${escape(recap.headline)}</p>`;
     return `<div class="coach-last">
       <div>
         <p class="coach-source">${escape(stamp)}</p>
-        <p class="coach-hint__text">${escape(recap.headline)}</p>
+        ${line}
       </div>
       ${agreed}${scores}
     </div>`;

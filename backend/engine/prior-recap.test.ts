@@ -43,7 +43,7 @@ test("priorRecapFromState projects the glance and nothing else", () => {
   // The transcript, the notes and the summary bullets must not travel: this is a
   // glance, and the panel is the one surface that never needed the whole record.
   const keys = Object.keys(r).sort();
-  assert.deepEqual(keys, ["agreed", "agreedSource", "axes", "headline", "meetingType", "sessionId", "when"]);
+  assert.deepEqual(keys, ["agreed", "agreedSource", "axes", "headline", "meetingType", "sessionId", "summaryMissing", "when"]);
 });
 
 test("priorRecapFromState: the headline is quoted whole, never shortened", () => {
@@ -55,7 +55,8 @@ test("priorRecapFromState: the headline is quoted whole, never shortened", () =>
 test("priorRecapFromState: an unfinished run has nothing to say about last time", () => {
   assert.equal(priorRecapFromState({ ...FINISHED, briefing: undefined }), null);
   assert.equal(priorRecapFromState({ ...FINISHED, briefing: {} }), null);
-  // A briefing with no headline is a fallback briefing; there is no line to show.
+  // A briefing that generated but wrote no headline has nothing to say and does not
+  // claim a reason for it. The fallback case is separate, and covered below.
   assert.equal(priorRecapFromState({ ...FINISHED, briefing: { ...FINISHED.briefing, headline: "  " } }), null);
   assert.equal(priorRecapFromState({ ...FINISHED, id: "" }), null);
   assert.equal(priorRecapFromState(null), null);
@@ -64,7 +65,35 @@ test("priorRecapFromState: an unfinished run has nothing to say about last time"
 test("priorRecapFromState falls back to the briefing's suggestions, and says so", () => {
   const r = priorRecapFromState({ ...FINISHED, promises: [] })!;
   assert.equal(r.agreedSource, "suggested");
-  assert.deepEqual(r.agreed, [{ owner: "manager", action: "Back the rota at the guild", outcome: null }]);
+  // No owner: the briefing proposes an action without saying whose it is, and
+  // filing it under the manager would be inventing a fact the run never held.
+  assert.deepEqual(r.agreed, [{ owner: null, action: "Back the rota at the guild", outcome: null }]);
+});
+
+// A run whose briefing generation FAILED still counts as last time: its agreements
+// and its live scores are real, and skipping it would silently show the meeting
+// before it as "last time". What must never happen is the fallback's own
+// "Briefing generation failed" line being quoted as what the conversation was.
+test("a failed briefing is still last time, but its failure line is never the summary", () => {
+  const failed = {
+    ...FINISHED,
+    briefing: {
+      generation_failed: true,
+      headline: "Briefing generation failed. This is a minimal record of your 1:1 with Priya, not a written read.",
+      axes: AXES,
+      next_actions: [],
+    },
+  };
+  const r = priorRecapFromState(failed)!;
+  assert.equal(r.summaryMissing, true);
+  assert.equal(r.headline, "", "the failure notice is not the headline");
+  assert.doesNotMatch(JSON.stringify(r), /generation failed/i, "and it travels nowhere else either");
+  assert.equal(r.agreed.length, 2, "the agreements it did hold are real and still come");
+  assert.equal(r.axes.length, 3, "so are the live scores");
+});
+
+test("summaryMissing is false on every ordinary run", () => {
+  assert.equal(priorRecapFromState(FINISHED)!.summaryMissing, false);
 });
 
 test("priorRecapFromState caps the agreed list at six", () => {

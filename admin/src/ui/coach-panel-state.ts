@@ -125,9 +125,9 @@ export function cleanBriefCues(raw: unknown): Hint[] {
 
 // --- The walk-in glance (last-one-to-one Phase 3) -------------------------------------------
 
-/** One agreed item as the wire sends it (backend PriorRecapItem). */
+/** One agreed item as the wire sends it (backend PriorRecapItem). `owner` is null on a suggestion. */
 export interface RecapItem {
-  owner: "manager" | "report";
+  owner: "manager" | "report" | null;
   action: string;
   outcome: "yes" | "partly" | "no" | "changed" | null;
 }
@@ -145,6 +145,8 @@ export interface PriorRecap {
   when: number;
   meetingType: string;
   headline: string;
+  /** That 1:1 finished on a fallback briefing: real agreements and scores, no written read. */
+  summaryMissing: boolean;
   agreedSource: "promises" | "suggested";
   agreed: RecapItem[];
   axes: RecapAxis[];
@@ -173,16 +175,19 @@ export function cleanRecap(raw: unknown): PriorRecap | null {
   const r = raw as Partial<PriorRecap> | null | undefined;
   if (!r || typeof r !== "object") return null;
   const headline = typeof r.headline === "string" ? r.headline.trim() : "";
-  if (!headline) return null;
+  const summaryMissing = r.summaryMissing === true;
+  // No sentence and no reason for its absence is a payload we cannot draw honestly.
+  if (!headline && !summaryMissing) return null;
 
   const agreed: RecapItem[] = [];
   for (const item of Array.isArray(r.agreed) ? r.agreed : []) {
     const owner = (item as RecapItem)?.owner;
     const action = (item as RecapItem)?.action;
     const outcome = (item as RecapItem)?.outcome;
-    if ((owner !== "manager" && owner !== "report") || typeof action !== "string" || !action.trim()) continue;
+    if (typeof action !== "string" || !action.trim()) continue;
+    if (owner !== "manager" && owner !== "report" && owner != null) continue;
     agreed.push({
-      owner,
+      owner: owner ?? null,
       action: action.trim(),
       outcome: typeof outcome === "string" && OUTCOMES.has(outcome) ? (outcome as RecapItem["outcome"]) : null,
     });
@@ -202,6 +207,7 @@ export function cleanRecap(raw: unknown): PriorRecap | null {
     when: typeof r.when === "number" ? r.when : 0,
     meetingType: typeof r.meetingType === "string" ? r.meetingType.trim() : "",
     headline,
+    summaryMissing,
     agreedSource: r.agreedSource === "suggested" ? "suggested" : "promises",
     agreed,
     axes,

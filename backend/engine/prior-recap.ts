@@ -23,9 +23,13 @@ import { historyRunMatches } from "./focus-history.ts";
 import { promisesFromState } from "./promise-history.ts";
 import { asRecord, asString } from "../shared/guards.ts";
 
-/** One agreed item as the glance shows it. `outcome` is null when it was never checked off. */
+/**
+ * One agreed item as the glance shows it. `outcome` is null when it was never
+ * checked off. `owner` is null for a SUGGESTED item: the briefing proposes an
+ * action without saying whose it is, and picking one would be inventing a fact.
+ */
 export interface PriorRecapItem {
-  owner: "manager" | "report";
+  owner: "manager" | "report" | null;
   action: string;
   outcome: "yes" | "partly" | "no" | "changed" | null;
 }
@@ -41,7 +45,15 @@ export interface PriorRecap {
   sessionId: string;
   when: number; // epoch ms of that run's last activity
   meetingType: string;
+  /** The briefing's own headline, verbatim. "" when the briefing never generated. */
   headline: string;
+  /**
+   * That 1:1 finished on a FALLBACK briefing, so there is no written read to
+   * quote. The agreements and the live scores from it are still real, so the run
+   * is still last time; only the sentence is missing, and the panel says so
+   * rather than quoting "Briefing generation failed" as what the meeting was.
+   */
+  summaryMissing: boolean;
   /** "promises" = manager-confirmed at the wrap-up · "suggested" = the briefing's own next_actions, never confirmed. */
   agreedSource: "promises" | "suggested";
   agreed: PriorRecapItem[];
@@ -63,15 +75,14 @@ function briefingOf(state: unknown): Record<string, unknown> | null {
 }
 
 // The briefing's suggested actions, for runs that predate the promise loop or
-// skipped the confirm card. They carry no owner and no outcome, and saying they
-// are the manager's would be inventing a fact, so they ride as manager-side with
-// a null outcome and the payload's agreedSource names them for what they are.
+// skipped the confirm card. Nobody confirmed them and nobody owns them, so both
+// owner and outcome stay null and agreedSource names them for what they are.
 function itemsFromNextActions(briefing: Record<string, unknown>): PriorRecapItem[] {
   const raw: unknown[] = Array.isArray(briefing.next_actions) ? briefing.next_actions : [];
   const out: PriorRecapItem[] = [];
   for (const entry of raw) {
     const action = asString(asRecord(entry).action).trim();
-    if (action) out.push({ owner: "manager", action, outcome: null });
+    if (action) out.push({ owner: null, action, outcome: null });
   }
   return out;
 }
@@ -93,16 +104,24 @@ export function axesFromBriefing(briefing: Record<string, unknown>): PriorRecapA
 
 /**
  * One run's state as a glance payload. Null unless the run actually FINISHED
- * (a briefing is what `finished` is derived from, session-persistence.ts) and
- * has a headline to show — an abandoned prep has nothing to say about last time.
+ * (a briefing is what `finished` is derived from, session-persistence.ts) — an
+ * abandoned prep has nothing to say about last time.
+ *
+ * A run that finished on a FALLBACK briefing still counts as last time: its
+ * agreements and its live scores are real, and skipping it would silently show
+ * the meeting BEFORE it as "last time", which is worse than a missing sentence.
+ * What it must not do is quote the fallback's own "Briefing generation failed…"
+ * line as the summary of the conversation, so that headline is dropped and
+ * summaryMissing carries the fact instead.
  */
 export function priorRecapFromState(state: unknown): PriorRecap | null {
   const s = asRecord(state);
   const id = asString(s.id);
   const briefing = briefingOf(state);
   if (!id || !briefing) return null;
-  const headline = asString(briefing.headline).trim();
-  if (!headline) return null;
+  const summaryMissing = briefing.generation_failed === true;
+  const headline = summaryMissing ? "" : asString(briefing.headline).trim();
+  if (!headline && !summaryMissing) return null;
 
   const confirmed = promisesFromState(state);
   const agreedSource: PriorRecap["agreedSource"] = confirmed.length ? "promises" : "suggested";
@@ -117,6 +136,7 @@ export function priorRecapFromState(state: unknown): PriorRecap | null {
     when: typeof s.lastSeenAt === "number" ? s.lastSeenAt : 0,
     meetingType: asString(asRecord(s.ctx).meetingType).trim(),
     headline,
+    summaryMissing,
     agreedSource,
     agreed,
     axes: axesFromBriefing(briefing),

@@ -1,5 +1,5 @@
 import { STAGES } from "../state.ts";
-import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession, savePromiseOutcomes, getPriorRecap } from "../../../shared/api.js";
+import { getQuestion, submitAnswer, suggestAnswers, setAgendaCovered, goBack, wrapUpSession, savePromiseOutcomes } from "../../../shared/api.js";
 import { renderPromiseCheckin } from "../ui/promise-checkin.ts";
 import { createOrb } from "../ui/orb.js";
 import { createSkeleton } from "../ui/skeleton.js";
@@ -15,6 +15,7 @@ import { escapeCopy as escape } from "../ui/html.js";
 import { actionRowHtml, scriptedControlsHtml, isSubmitShortcut, EXIT_LABEL, KBD_HINT } from "./questioning-actions.ts";
 import { readyCardHtml, readyAlreadyShown, markReadyShown, READY_STEP_LABEL, offerActionsFor } from "./questioning-ready.ts";
 import { loadPriorActions, openActionCount } from "./prior-actions.ts";
+import { loadPriorRecap } from "./prior-recap-read.ts";
 import { icon } from "../ui/icon.js";
 import { Copy } from "lucide";
 
@@ -654,11 +655,13 @@ export async function mount(root, { store, setState }) {
   async function proceedBoot() {
     const gateSeen = readyAlreadyShown(store.sessionId);
     // Read the glance alongside the open actions, before the gate paints, so the
-    // panel is never a Support view that swaps under the manager mid-read. Both
-    // reads degrade to nothing on failure and neither can block a 1:1.
+    // panel is never a Support view that swaps under the manager mid-read. Only
+    // when the gate is actually going up: past it, the glance is over and the
+    // request would be asking the server a question it already refuses. The read
+    // times out rather than holding the card (prior-recap-read.ts).
     const [prior, recap] = await Promise.all([
       loadPriorActions(store),
-      getPriorRecap(store.sessionId).then((r) => r?.prior ?? null).catch(() => null),
+      gateSeen ? Promise.resolve(null) : loadPriorRecap(store.sessionId),
     ]);
     if (!gateSeen) showGlance(recap);
     // The feels-off arc never offers them here (P2) — the recap step does instead.

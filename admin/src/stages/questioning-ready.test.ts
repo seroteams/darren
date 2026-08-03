@@ -156,11 +156,13 @@ test("the runner reads what's open before the gate, and only shows the check-in 
 test("both hosts read the glance and hand it to the panel", () => {
   const BANK = fs.readFileSync(path.join(HERE, "bank.js"), "utf8");
   for (const [name, src] of [["questioning.js", HOST], ["bank.js", BANK]] as const) {
-    assert.match(src, /getPriorRecap\(store\.sessionId\)/, `${name} reads the glance`);
+    // Both go through the guarded read, never the bare endpoint: that module is
+    // what makes a failure or a hang end at "no glance" instead of an empty
+    // walk-in card (prior-recap-read.test.ts holds it to that).
+    assert.match(src, /loadPriorRecap\(store\.sessionId\)/, `${name} reads the glance`);
+    assert.doesNotMatch(src, /getPriorRecap\(/, `${name} does not call the endpoint unguarded`);
     assert.match(src, /showGlance\(recap\)/, `${name} hands it to the panel`);
     assert.match(src, /segmentOneLabel\(true\)/, `${name} renames the first segment`);
-    // A failed read must never block a 1:1 — same rule the open-actions read keeps.
-    assert.match(src, /getPriorRecap[\s\S]{0,120}catch\(\(\) => null\)/, `${name} degrades to no glance`);
   }
 });
 
