@@ -135,8 +135,30 @@ mechanism; that sentence was competing with it.
 
 **Free ring:** 232/232 · typecheck clean · replay 7/7 still good · `lint:copy` clean.
 
-**Not verified.** Counts only move on real model output, and the two runs you authorised are
-spent. **One run at roughly $0.21 would show whether the anchor moved back.** Not spent.
+### Verified, $0.1983 (2026-08-03)
+
+`node scripts/gate.js --only biweekly-priya`, deliberately the **same case** as the first
+paid run, so it is a direct before/after on identical input.
+
+| | Original | 1st attempt | 2nd attempt |
+|---|---|---|---|
+| `summary_bullets` | 2 (53 of 57) | 3 | **2** |
+| `next_actions` | 2 (55 of 57) | 3 | **2** |
+| `watch_for` | 2 (55 of 57) | 3 | **2** |
+| Opens "Before next" | 54 of 57 | no | **no** |
+| Gate verdict | — | WARN | **PASS, zero warnings** |
+
+The 3/3/3 anchor is gone on the same input that produced it. Reminder openers held: *At the
+next planning discussion* and *Within two weeks*, two different cues, neither of them "Before
+next".
+
+**The honest limit of this evidence.** All three counts moved together, again. Across every
+briefing observed in this plan the three numbers have been identical to each other: 2/2/2,
+then 3/3/3, then 2/2/2. **The rule's claim that "a session can honestly earn one bullet and
+three actions" has never once been seen happening.** So what is proven is that the anchor
+moves when the prompt moves, not that the count follows the evidence per field. Proving that
+needs briefings from sessions of genuinely different richness, which is more paid runs, and
+none is authorised.
 
 ---
 

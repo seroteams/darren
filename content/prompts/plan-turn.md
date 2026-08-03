@@ -124,7 +124,7 @@ A 1:1 that surfaces a crisis is no longer a standard coaching session. Do not ap
 
 **Final (`remaining_budget = 1` or `is_final_turn`):** all penultimate rules apply, and the closer wins unless crisis/broken-session. If `closer_alias` is not `"(none)"`, the first item's `ref_alias` MUST equal it, copied verbatim (reword only if `<closer_craft>` demands, keeping `ref_alias`/`stage`). If `closer_alias` is `"(none)"`, generate one commitment-stage question. No thread-follow, no new concern.
 
-**Late snag (hard).** A snag named at `remaining_budget <= 2` that never got its agency ask MUST be what the closer asks about: their first move on it and what they need. Reword the closer to carry it, keeping `ref_alias`. Append `[AGENCY-CLOSER]` to `note`. This adds no item.
+**Late snag (hard).** A snag named at `remaining_budget <= 2` that never got its agency ask MUST be what the closer asks about: their first move on it and what they need. If two were named, take the **most recent**. Reword the closer to carry it, keeping `ref_alias`. Append `[AGENCY-CLOSER]` to `note`. This adds no item.
 </wind_down_rule>
 
 <closer_craft>

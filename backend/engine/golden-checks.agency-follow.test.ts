@@ -148,11 +148,17 @@ test("an in-window snag is judged on the next question, not the closer", () => {
   assert.match(fails[0]!, /the next question did not ask/);
 });
 
-test("only one late-snag failure per session, because there is only one closer", () => {
+test("two late snags: the MOST RECENT is the one the closer owed", () => {
+  // The 2026-08-03 paid run named one at turn 4 and another at turn 5, and the model closed
+  // on the turn-5 one. <wind_down_rule> now says most recent, and the gate must agree or the
+  // two drift apart on exactly the sessions that matter.
   const two = lateSnagSession("Where do you want to focus first?").map((t, i) =>
     i === 4 ? { ...t, answer: "the handover keeps dropping things and nobody owns it" } : t,
   );
-  assert.equal(runAgencyFollowGate(two).length, 1);
+  const fails = runAgencyFollowGate(two);
+  assert.equal(fails.length, 1);
+  assert.match(fails[0]!, /turn 5/);
+  assert.match(fails[0]!, /handover/);
 });
 
 test("skipped turns are not read as snags", () => {

@@ -373,7 +373,11 @@ function runAgencyFollowGate(transcript: GateTranscript): string[] {
   // closer to carry them.
   const closer = turns[turns.length - 1]?.question?.name ?? "";
   if (!AGENCY_ASK.test(closer)) {
-    for (let i = Math.max(0, lastInWindow + 1); i < turns.length - 1; i++) {
+    // The MOST RECENT late snag, matching `<wind_down_rule>` → Late snag. The first version
+    // took the earliest and would have disagreed with the prompt whenever a session named
+    // two: the 2026-08-03 run named one at turn 4 and another at turn 5, and the model
+    // correctly closed on the turn-5 one.
+    for (let i = turns.length - 2; i > lastInWindow; i--) {
       const t = turns[i];
       if (!isSnag(t)) continue;
       failures.push(

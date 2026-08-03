@@ -105,8 +105,18 @@ exits, a third item is given a real cost (a manager acts on one or two things be
 the example lists are labelled shapes to choose from rather than sets to fill. **One line was
 deleted rather than added:** my own "a manager reading four briefings should be able to tell four
 different conversations happened", which is an instruction to be *different*, and the cheapest way
-to be different from a remembered two is three. Counts only move on real model output, so this
-needs **one run at about $0.21** to know whether it worked.
+to be different from a remembered two is three. **Verified on one run ($0.1983), deliberately the
+same conversation that had produced three of everything: it now comes back with two of
+everything, the openers still vary, and the case passes the trust gate with no warnings at all,
+where before it warned.** The honest limit: all three numbers have moved together every single
+time we have looked, 2/2/2 then 3/3/3 then 2/2/2, so what is proven is that the shape follows the
+prompt, not yet that it follows the conversation. **The same run also proved Phase 5 live:** Priya
+named unclear next-quarter ownership near the end, and the closing question was "On next quarter
+ownership, where would you start, and what support from me would help most?", with the planner
+logging `[AGENCY-CLOSER]`. That marker had fired twice in the entire back catalogue before this
+plan and fired twice in this one run. It also exposed one last ambiguity, now closed for free:
+two problems were raised near the end and nothing said which the closing question owed, so the
+rule now says the most recent and the check agrees with it.
 [Board](https://claude.ai/code/artifact/5e5231b9-e326-492a-b3d1-342beb00cefb).
 
 📍 **2026-08-02 — a repeat 1:1 opens on a question again. [action-review-placement CLOSED](docs/plans/done/action-review-placement/plan.md), both phases, a few pence.**

@@ -100,7 +100,18 @@ No rule was removed.
 - [x] The gate no longer reports rule-following behaviour as a miss
 - [x] `npm run lint:prompt-size` passes without raising the cap
 - [x] `npm test`, `npm run typecheck`, `npm run replay` green
-- [ ] A real run shows the closer picking up a late snag — **needs a paid run or your walk**
+- [x] A real run shows the closer picking up a late snag — **confirmed on the 2026-08-03 run
+      that was bought for the Phase 4 counts.** Priya named unclear next-quarter ownership at
+      turn 5 of 6, inside wind-down. The planner's note reads *"late snag should drive the
+      closer. [AGENCY-CLOSER]"* and the closer it produced was *"On next quarter ownership,
+      where would you start, and what support from me would help most?"*, the exact shape
+      `<closer_craft>` now carries. The marker fired twice in one run, having fired **twice in
+      the entire 76-run back catalogue** before this plan
+- [x] **Ambiguity found by that run and closed, $0:** the session named a snag at turn 4 AND
+      another at turn 5, and nothing said which one the closer owed. The model took the most
+      recent; the gate was checking the earliest. `<wind_down_rule>` now says **most recent**
+      and the gate matches. Left alone, prompt and gate would have disagreed on exactly the
+      sessions this rule exists for
 - [ ] Product owner has tested the scenario below and said go
 
 ## Cost
